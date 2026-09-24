@@ -67,10 +67,21 @@ public enum DeveloperCaches {
     struct Folder {
         let path: String
         let kind: DeveloperEnvironment.ContentKind
+        /// A store the tool can turn on inside the folder, which projects then link into. While an entry by that
+        /// name is there, a link included, the folder is listed without a checkmark: moving it breaks them.
+        let storeInside: String?
 
-        init(_ path: String, _ kind: DeveloperEnvironment.ContentKind) {
+        init(_ path: String, _ kind: DeveloperEnvironment.ContentKind, storeInside: String? = nil) {
             self.path = path
             self.kind = kind
+            self.storeInside = storeInside
+        }
+
+        /// What the folder at `url` holds now: installed packages once its store is there, `kind` otherwise.
+        func kind(at url: URL) -> DeveloperEnvironment.ContentKind {
+            guard let storeInside else { return kind }
+            let store = url.appending(path: storeInside).path(percentEncoded: false)
+            return (try? FileManager.default.attributesOfItem(atPath: store)) != nil ? .environments : kind
         }
     }
 
@@ -136,7 +147,9 @@ public enum DeveloperCaches {
             Folder("Library/Caches/pnpm", .cache),
         ]),
         Definition(id: "bun", name: "Bun", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder(".bun/install/cache", .downloads),
+            // Bun's global virtual store, once turned on, is `links`, and every project's `node_modules` then points
+            // into it (Bun's documentation, "Global virtual store").
+            Folder(".bun/install/cache", .downloads, storeInside: "links"),
         ]),
         Definition(id: "deno", name: "Deno", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/deno", .downloads),
@@ -476,7 +489,7 @@ public enum DeveloperCaches {
                             let contents = await measure(url)
                             locations.append(DeveloperEnvironment.Location(
                                 url: url,
-                                kind: folder.kind,
+                                kind: folder.kind(at: url),
                                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                                 couldNotBeRead: contents?.couldNotBeRead == true
                             ))

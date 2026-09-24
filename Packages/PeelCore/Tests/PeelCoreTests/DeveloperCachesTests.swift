@@ -284,6 +284,28 @@ struct DeveloperCachesTests {
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
+    /// Bun's cache is a plain download cache until its global store is turned on: then `links` inside it is what
+    /// every project's `node_modules` points into, and the whole folder is listed without a checkmark. A store
+    /// moved to another disk leaves `links` as a link, which projects still reach through the cache.
+    @Test func bunsCacheIsSelectedOnlyWhileNoProjectLinksIntoIt() async throws {
+        for (hasStore, storeIsALink) in [(false, false), (true, false), (true, true)] {
+            let directory = try TemporaryDirectory()
+            try directory.file(".bun/install/cache/react@18.3.1@@@1/package.json", bytes: 400_000)
+            if storeIsALink {
+                let elsewhere = try directory.directory("Volumes/Fast/bun-links")
+                try FileManager.default.createSymbolicLink(at: directory.url.appending(path: ".bun/install/cache/links"), withDestinationURL: elsewhere)
+            } else if hasStore {
+                try directory.file(".bun/install/cache/links/react@18.3.1-5664d3cd670b3205/node_modules/react/index.js", bytes: 4_096)
+            }
+
+            let bun = try #require(await DeveloperCaches.scan(homeDirectory: directory.url).first { $0.id == "bun" })
+
+            #expect(bun.locations.count == 1)
+            #expect(bun.locations.first?.isRecommended == !hasStore, "links inside: \(hasStore)")
+            #expect(bun.locations.first?.kind == (hasStore ? .environments : .downloads))
+        }
+    }
+
     @Test func aScanOnlyEverReturnsFoldersInsideTheHomeItIsGiven() async throws {
         let directory = try TemporaryDirectory()
         let outside = try TemporaryDirectory()
