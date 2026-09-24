@@ -212,13 +212,26 @@ public enum FileSize {
 
     static let repositoryMarkers: Set<String> = [".git", ".hg", ".svn", ".jj", ".pijul", "_darcs"]
 
-    /// True for the names wallets and signing keys go by: `wallet.dat` (Bitcoin, Litecoin and their forks), a
-    /// `wallets` folder (Electrum, Sparrow, Wasabi, Bitcoin Core from 0.21), `*.wallet` (Monero), and
-    /// `keystore` (Ethereum, and the key an Android app is signed with).
+    /// True for the names wallets and their keys go by, as each project's own documentation or source gives them:
+    /// `wallet.dat` and names ending in it (Bitcoin, Litecoin and their forks, Zcash's Zingo), a `wallets` or
+    /// `wallets2` folder (Electrum, Sparrow, Wasabi, Bitcoin Core, Green), `keystore` and `keystores` (Ethereum,
+    /// Foundry, and the key an Android app is signed with), `*.wallet` (Bisq, Exodus, Kaspa), `*.keys` (Monero),
+    /// `*.mmdbdoc_v1` (MyMonero), `hsm_secret`, `emergency.recover`, and `channel.backup` (Lightning nodes),
+    /// `seed.dat` (phoenixd), `wallet.seed` (Grin), `mnemonics` (Liana), `keyring-file`, `keyring-test`, and
+    /// `priv_validator_key.json` (Cosmos), `sui.keystore`, `sqlite_wallets` (Algorand), `encryption-identity.txt`
+    /// (Zallet), and `.aptos`.
     static func isWallet(_ name: String) -> Bool {
         let name = name.lowercased()
-        return name == "wallet.dat" || name == "wallets" || name == "keystore" || name.hasSuffix(".wallet")
+        return walletNames.contains(name) || walletSuffixes.contains { name.hasSuffix($0) }
     }
+
+    private static let walletNames: Set<String> = [
+        "wallets", "wallets2", "keystore", "keystores", "hsm_secret", "emergency.recover", "channel.backup",
+        "seed.dat", "wallet.seed", "mnemonics", "keyring-file", "keyring-test", "priv_validator_key.json",
+        "sui.keystore", "sqlite_wallets", "encryption-identity.txt", ".aptos",
+    ]
+
+    private static let walletSuffixes = ["wallet.dat", ".wallet", ".keys", ".mmdbdoc_v1"]
 }
 
 /// What is known about the folders being walked.

@@ -244,14 +244,31 @@ struct FileSizeTests {
         try directory.file("core/wallet.dat", bytes: 64)
         let electrum = try directory.directory("electrum")
         try directory.file("electrum/wallets/default_wallet")
-        let monero = try directory.directory("monero")
-        try directory.file("monero/a/mine.wallet")
+        let bisq = try directory.directory("bisq")
+        try directory.file("bisq/btc_mainnet/wallet/bisq_BTC.wallet")
         let android = try directory.directory("android")
         try directory.file("android/keystore/release")
 
         #expect(await FileSize.contents(of: plain)?.holdsWallet == false)
-        for folder in [core, electrum, monero, android] {
+        for folder in [core, electrum, bisq, android] {
             #expect(await FileSize.contents(of: folder)?.holdsWallet == true, "\(folder.lastPathComponent) reads as holding no wallet")
+        }
+    }
+
+    /// The names wallets and their keys go by, as each project's documentation or source gives them, and names
+    /// that only look close.
+    @Test func knowsTheNamesWalletsAndTheirKeysGoBy() {
+        let wallets = [
+            "wallet.dat", "zingo-wallet.dat", "wallets", "wallets2", "keystore", "keystores", "bisq_BTC.wallet",
+            "exodus.wallet", "mine.keys", "account.mmdbdoc_v1", "hsm_secret", "emergency.recover", "channel.backup",
+            "seed.dat", "wallet.seed", "mnemonics", "keyring-file", "keyring-test", "priv_validator_key.json",
+            "sui.keystore", "sqlite_wallets", "encryption-identity.txt", ".aptos", "Wallet.DAT",
+        ]
+        for name in wallets {
+            #expect(FileSize.isWallet(name), "\(name) was not read as a wallet")
+        }
+        for name in ["notes.txt", "keys", "wallet.datx", "seed.txt", "keystore.txt", "Wallets.app", ".bitmonero"] {
+            #expect(!FileSize.isWallet(name), "\(name) was read as a wallet")
         }
     }
 
