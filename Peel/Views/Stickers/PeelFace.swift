@@ -4,10 +4,12 @@ import SwiftUI
 
 /// Peel's logo with a face. Its motion is ported from blobatar (MIT, blobatar.dev): breathing, bobbing,
 /// glancing, blinking, following the pointer, and a `happy` pose while the pointer is on the face. With the
-/// pointer outside the window, it looks around by itself (`LookAround`).
+/// pointer outside the window, it looks around by itself (`LookAround`), and it smiles once when a removal
+/// finishes (`Cheer`).
 struct PeelFace: View {
     var size: CGFloat
 
+    @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Lets the face rest while no window is open. A closed window keeps its views, and no occlusion change
     /// reaches them, but the scene phase turns to `.background`, and back to active when the window returns.
@@ -19,6 +21,9 @@ struct PeelFace: View {
             // It is the logo, so it opts out of color inversion to keep its orange rather than turn blue.
             .accessibilityIgnoresInvertColors()
             .accessibilityHidden(true)
+            .onChange(of: history.justMoved) { _, moved in
+                if moved != nil { Self.follow.cheer() }
+            }
     }
 
     /// Where the face is looking. It is shared rather than kept in the view because the sidebar is rebuilt
@@ -64,7 +69,7 @@ private final class FaceLayerView: NSView {
     private var observers: [any NSObjectProtocol] = []
     private var pointerSeen: CGPoint?
     private var pointerMovedAt = -Double.infinity
-    private var isFollowing = false
+    private var isQuick = false
     /// Decides whether a frame is worth sending. Each frame costs WindowServer about the same however little
     /// moved, so a frame goes out only once a corner of the head or an eye has moved a tenth of a pixel since the
     /// last frame sent.
@@ -170,7 +175,7 @@ private final class FaceLayerView: NSView {
     /// The frame rate while no pointer is moving in the window. Breathing, blinking, and looking around are slow
     /// enough for 30 frames a second, and each frame costs about the same however little moves in it. A pointer
     /// moving in the window is followed at the display's full rate, and for half a second after, while the look
-    /// settles on it.
+    /// settles on it, and so is the smile after a removal, from start to finish.
     private static let calm = CAFrameRateRange(minimum: 24, maximum: 30, preferred: 30)
 
     private func draw(at time: CFTimeInterval) {
@@ -181,12 +186,12 @@ private final class FaceLayerView: NSView {
         } else {
             pointerSeen = nil
         }
-        let follows = time - pointerMovedAt < 0.5
-        if follows != isFollowing {
-            isFollowing = follows
-            link?.preferredFrameRateRange = follows ? .default : Self.calm
-        }
         let look = PeelFace.follow.step(toward: seen, at: time, still: isStill)
+        let quick = time - pointerMovedAt < 0.5 || PeelFace.follow.isCheering
+        if quick != isQuick {
+            isQuick = quick
+            link?.preferredFrameRateRange = quick ? .default : Self.calm
+        }
         let pose = Pose(Idle(at: time * 1000, amplitude: isStill ? 0 : 1), look, size: size)
         guard motion.isWorthAFrame(pose.corners, pixelsPerPoint: Double(window?.backingScaleFactor ?? 2)) else { return }
         CATransaction.begin()
@@ -306,7 +311,8 @@ private struct Look {
 }
 
 /// The face's look, stepped once a frame: blobatar's pursuit of the pointer, and its two reactions (a smile and
-/// a lift) while the pointer is on the face. With the pointer outside the window, the look follows `LookAround`.
+/// a lift) while the pointer is on the face, or while a finished removal's `Cheer` asks for them. With the
+/// pointer outside the window, the look follows `LookAround`.
 ///
 /// The aim eases toward its target with a time constant of `Face.settle`, and jumps to a target more than 1.6
 /// away (blobatar's `SNAP`). Near the face's middle the aim eases back to center (blobatar's `DEADZONE`), so a
@@ -316,6 +322,10 @@ private final class Follow {
     private var smiling = 0.0
     private var lifting = 0.0
     private var holding = 0.0
+    private var cheering: Cheer?
+    /// How long the smile takes to arrive, and to leave.
+    private static let smileRise = 0.3
+    private static let smileFall = 0.4
     /// The look-around under way while the pointer is outside the window, and how long it has run. Time is
     /// counted in steps rather than by the clock, so a face that was paused goes on from where it stopped.
     private var lookingAround: (plan: LookAround, elapsed: TimeInterval)?
@@ -325,12 +335,23 @@ private final class Follow {
     /// carries on from where it was instead of jumping.
     private var frame = 1.0 / 60
 
+    /// Smiles once, holding the smile for one `Motion.settle` once it has arrived.
+    func cheer() {
+        cheering = Cheer(rise: Self.smileRise, hold: Motion.settle.duration, fall: Self.smileFall)
+    }
+
+    var isCheering: Bool { cheering != nil }
+
     func step(toward seen: Pointer, at time: TimeInterval, still: Bool) -> Look {
         let elapsed = last.map { time - $0 } ?? 0
         last = time
         if elapsed > 0, elapsed < 0.1 { frame += (elapsed - frame) / 10 }
         let step = max(0, min(elapsed, 2 * frame))
-        guard !still else { return Look() }
+        guard !still else {
+            // Under Reduce Motion the face holds still, and a smile it could not give is not given later.
+            cheering = nil
+            return Look()
+        }
         let pointer: CGPoint?
         switch seen {
         case .unknown: return look
@@ -362,12 +383,15 @@ private final class Follow {
                           height: look.aim.height + (target.height - look.aim.height) * rate)
 
         let onFace = pointer.map { hypot($0.x - 50, $0.y - 50) <= Face.radius * 100 } ?? false
+        cheering?.advance(by: step)
+        if cheering?.isOver == true { cheering = nil }
+        let happy = onFace || cheering?.wantsHappyPose == true
         holding = Self.ramp(holding, to: held, by: step / 0.25)
-        smiling = Self.ramp(smiling, to: onFace ? 1 : 0, by: step / (onFace ? 0.3 : 0.4))
-        lifting = Self.ramp(lifting, to: onFace ? 1 : 0, by: step / (onFace ? 0.22 : 0.16))
+        smiling = Self.ramp(smiling, to: happy ? 1 : 0, by: step / (happy ? Self.smileRise : Self.smileFall))
+        lifting = Self.ramp(lifting, to: happy ? 1 : 0, by: step / (happy ? 0.22 : 0.16))
 
         look.hold = Curve.easeInOut(holding)
-        look.smile = onFace ? Curve.morph(smiling) : Curve.easeInOut(smiling)
+        look.smile = happy ? Curve.morph(smiling) : Curve.easeInOut(smiling)
         look.lift = Curve.lift(lifting)
         return look
     }
