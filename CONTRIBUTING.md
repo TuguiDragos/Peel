@@ -72,7 +72,7 @@ PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter Sugges
 - `Scripts/`: `sync_localizations.py`, which keeps the catalogs in step with the code, and `release.sh`, which
   builds, signs, notarizes, and checks a release.
 - `readme-assets/`: the screenshots the README shows.
-- `.github/`: the manual test workflow, the issue forms, and the pull request template.
+- `.github/`: the test workflow, the issue forms, and the pull request template.
 
 ## The rules a change must not break
 

@@ -1,24 +1,29 @@
 name: Checks
 
-# Runs only when started by hand. Peel needs Swift 6.4 (Xcode 27), and GitHub's standard macOS image has Xcode 26,
-# so a run on every push would fail. Xcode 27 is only on a preview image for larger runners. Once the toolchain
-# check below passes on the standard image, add `push:` and `pull_request:` here.
+# Runs on every push and pull request while the repository is public, where GitHub's standard runners are free.
+# While it is private, only a run started by hand does anything.
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
-    runs-on: macos-latest
+    if: github.event_name == 'workflow_dispatch' || !github.event.repository.private
+    # Peel needs Swift 6.4, which comes with Xcode 27.
+    runs-on: xcode-27
     steps:
       - uses: actions/checkout@v7
 
-      - name: Use the newest Xcode on the runner
+      - name: Show the toolchain
         run: |
-          newest=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
-          [ -n "$newest" ] && sudo xcode-select -s "$newest"
           xcodebuild -version
           swift --version
 
