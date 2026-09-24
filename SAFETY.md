@@ -178,6 +178,13 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
 - **A folder Peel could not finish reading is treated the same way.** A coin's data folder, with its blockchain,
   is the one most likely to be too big to read in time, and its wallet may be inside.
 
+What this cannot cover, said plainly. Peel looks for a browser profile at most two levels inside a folder, as it
+does for a photo library, so a profile kept deeper in a folder you move yourself is not seen. A wallet kept where no
+list here names it, with none of the file names above, cannot be recognized at all. Wallet extensions for Safari
+were not studied: Safari's own folders are refused whole, but what such an extension keeps outside them is not
+known. Whatever Peel protects, the recovery phrase, written down away from the Mac, is the one copy nothing on the
+Mac can take.
+
 ## What you can exclude
 
 Anything you add to Exclusions is passed to every scanner, so it never appears in the first place: it is
