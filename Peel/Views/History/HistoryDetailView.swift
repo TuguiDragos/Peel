@@ -74,7 +74,6 @@ struct HistoryDetailView: View {
                 records(in: standing)
             }
         }
-        .fadesInColumn(on: standing == nil)
         .safeAreaBar(edge: .bottom) {
             RestoreBar(
                 count: selected.count,

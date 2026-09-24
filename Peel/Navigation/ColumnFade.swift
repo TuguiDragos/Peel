@@ -2,11 +2,6 @@ import AppKit
 import SwiftUI
 
 extension View {
-    /// Fades in this page's column when the page enters the window.
-    func fadesInOnArrival() -> some View {
-        background(ColumnFade(value: nil))
-    }
-
     /// Fades the column in again when `value` changes while the column is on screen. The first value never
     /// fades, and a change while a fade is running does not start another.
     func fadesInColumn(on value: some Hashable) -> some View {
@@ -23,15 +18,14 @@ extension View {
 }
 
 private struct ColumnFade: NSViewRepresentable {
-    /// Nil for a page that fades only as it arrives.
-    let value: AnyHashable?
+    let value: AnyHashable
 
     func makeNSView(context: Context) -> Anchor {
-        Anchor(fadesOnArrival: value == nil)
+        Anchor()
     }
 
     func updateNSView(_ anchor: Anchor, context: Context) {
-        guard let value, anchor.value != value else { return }
+        guard anchor.value != value else { return }
         if anchor.value != nil, anchor.window != nil, !anchor.isFading {
             anchor.fadeIn()
         }
@@ -39,24 +33,7 @@ private struct ColumnFade: NSViewRepresentable {
     }
 
     final class Anchor: NSView {
-        let fadesOnArrival: Bool
         var value: AnyHashable?
-
-        init(fadesOnArrival: Bool) {
-            self.fadesOnArrival = fadesOnArrival
-            super.init(frame: .zero)
-        }
-
-        required init?(coder: NSCoder) {
-            nil
-        }
-
-        override func viewDidMoveToWindow() {
-            super.viewDidMoveToWindow()
-            if window != nil, fadesOnArrival {
-                fadeIn()
-            }
-        }
 
         var isFading: Bool {
             column?.layer?.animation(forKey: "fade") != nil

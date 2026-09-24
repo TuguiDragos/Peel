@@ -90,9 +90,7 @@ struct ContentView: View {
                 NavigationSplitView(columnVisibility: $columns) {
                     sidebar
                 } detail: {
-                    // Modifiers on a `Group` apply to each view inside it, so each page fades in on its own.
-                    Group { wholePage }
-                        .fadesInOnArrival()
+                    wholePage
                 }
             } else {
                 tools
@@ -282,7 +280,6 @@ struct ContentView: View {
             // `ContentUnavailableView` is the visible case, drawing a lighter slab whose top edge reads as a
             // line under the title bar. Hidden, the window's own material shows through instead.
             .scrollContentBackground(.hidden)
-            .fadesInOnArrival()
         } detail: {
             Group {
                 switch drawn.tool {
@@ -326,7 +323,6 @@ struct ContentView: View {
             }
             .frame(minWidth: 480)
             .scrollContentBackground(.hidden)
-            .fadesInOnArrival()
             // Claims a title bar section for this column. SwiftUI only inserts its
             // `NSTrackingSeparatorToolbarItem` once both columns carry a toolbar item, and that separator is
             // what lets the divider run up through the title bar the way Notes and Mail do. An `EmptyView`
