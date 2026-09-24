@@ -43,7 +43,7 @@ struct FileCommandTests {
             systemImage: "hammer",
             appBundleIdentifiers: [],
             locations: try locations.map { path, kind in
-                DeveloperEnvironment.Location(url: try directory.file("home/\(path)/blob", bytes: 30).deletingLastPathComponent(), kind: kind, size: 30)
+                DeveloperEnvironment.Location(url: try directory.file("home/\(path)/blob", bytes: 30).deletingLastPathComponent(), kind: kind, size: 30, source: "https://example.com/\(path)")
             }
         )
     }
@@ -374,6 +374,16 @@ struct FileCommandTests {
             ["10 bytes", Output.path(group.items[1].url), "stays: holds a wallet or a signing key"],
             ["10 bytes", Output.path(group.items[2].url), "stays: holds a photo, music, or video library"],
         ])
+    }
+
+    /// A script reading `peel caches --json` gets, for each folder, where its tool documents it.
+    @Test func tellsWhereEachCacheIsDocumented() throws {
+        let directory = try TemporaryDirectory()
+        let tool = try environment("Rust", id: "rust", locations: [("Library/Caches/cargo", .cache)], in: directory)
+
+        let json = try Output.jsonText(CachesCommand.records(for: [tool]))
+
+        #expect(json.contains("\"source\" : \"https://example.com/Library/Caches/cargo\""))
     }
 
     @Test func saysEveryCacheLocationWithItsKind() throws {

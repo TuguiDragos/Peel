@@ -141,7 +141,7 @@ struct CachesCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    private struct Record: Encodable {
+    struct Record: Encodable {
         let tool: String
         let size: MeasuredSize
         let locations: [Location]
@@ -150,6 +150,7 @@ struct CachesCommand: AsyncParsableCommand {
             let path: String
             let size: MeasuredSize
             let kind: String
+            let source: String
         }
     }
 
@@ -165,11 +166,7 @@ struct CachesCommand: AsyncParsableCommand {
         }
 
         if output.json {
-            try Output.json(environments.map { environment in
-                Record(tool: environment.name, size: MeasuredSize(environment.total), locations: environment.locations.map {
-                    Record.Location(path: Output.path($0.url), size: MeasuredSize($0.size), kind: $0.kind.rawValue)
-                })
-            })
+            try Output.json(Self.records(for: environments))
         } else if environments.isEmpty {
             Output.line("No developer caches found.")
         } else {
@@ -182,6 +179,14 @@ struct CachesCommand: AsyncParsableCommand {
 
     static func rows(for environment: DeveloperEnvironment) -> [[String]] {
         environment.locations.map { [Output.size($0.size), Output.path($0.url), $0.kind.summary] }
+    }
+
+    static func records(for environments: [DeveloperEnvironment]) -> [Record] {
+        environments.map { environment in
+            Record(tool: environment.name, size: MeasuredSize(environment.total), locations: environment.locations.map {
+                Record.Location(path: Output.path($0.url), size: MeasuredSize($0.size), kind: $0.kind.rawValue, source: $0.source)
+            })
+        }
     }
 
     /// Returns the environments named in `tools`, by the name the listing shows or by its identifier, ignoring

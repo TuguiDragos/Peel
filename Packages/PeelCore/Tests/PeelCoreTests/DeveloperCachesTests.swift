@@ -10,7 +10,7 @@ struct DeveloperCachesTests {
         for path in paths {
             try directory.directory(path)
         }
-        let tool = DeveloperCaches.Definition(id: "tool", name: "Tool", systemImage: "hammer", appBundleIdentifiers: [], folders: paths.map { DeveloperCaches.Folder($0, .cache) })
+        let tool = DeveloperCaches.Definition(id: "tool", name: "Tool", systemImage: "hammer", appBundleIdentifiers: [], folders: paths.map { DeveloperCaches.Folder($0, .cache, source: "https://example.com") })
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
@@ -163,6 +163,17 @@ struct DeveloperCachesTests {
                     #expect(!path.lowercased().contains(pattern.lowercased()), "\(definition.id) lists \(path)")
                 }
                 #expect(!onlyInParts.contains(path), "\(definition.id) lists the whole of \(path)")
+            }
+        }
+    }
+
+    /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names
+    /// it, for the folders Apple documents nowhere else.
+    @Test func everyFolderNamesItsSource() {
+        for definition in DeveloperCaches.definitions {
+            for folder in definition.folders {
+                let isAPage = folder.source.hasPrefix("https://") && URL(string: folder.source)?.host() != nil
+                #expect(isAPage || folder.source.hasPrefix("Xcode 27: "), "\(definition.id)'s \(folder.path) names \(folder.source)")
             }
         }
     }
