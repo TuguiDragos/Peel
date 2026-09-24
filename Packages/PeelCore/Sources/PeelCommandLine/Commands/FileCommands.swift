@@ -6,7 +6,7 @@ struct OrphansCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "orphans",
         abstract: "List files left by apps that are no longer installed, and move a group to the Trash.",
-        discussion: "Nothing here is ever suggested, so --remove takes the identifier of one group. What Peel refuses to move, and what needs administrator access, stays."
+        discussion: "Nothing here is ever suggested, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays."
     )
 
     @Argument(help: "The group to move, as `peel orphans` names it in its first column.")
@@ -74,7 +74,9 @@ struct OrphansCommand: AsyncParsableCommand {
     }
 
     static func rows(for group: OrphanGroup) -> [[String]] {
-        group.items.map { [Output.size($0.size), Output.path($0.url)] }
+        group.items.map { item in
+            [Output.size(item.size), Output.path(item.url)] + (item.heldBack.map { ["stays: \($0.summary)"] } ?? [])
+        }
     }
 
     func clean(
@@ -90,9 +92,12 @@ struct OrphansCommand: AsyncParsableCommand {
         guard let group = wanted.first else {
             throw CommandFailure("Nothing orphaned is called \(Output.quoted(identifier)). See `peel orphans`.")
         }
-        let items = group.items.filter { $0.leftAlone == nil }
+        let items = group.items.filter { $0.heldBack == nil }
+        // Nobody asked for a held back file on its own, so it is said here and never recorded as refused.
+        let staying = group.items.compactMap { item in item.heldBack.map { "\(Output.path(item.url)) stays: \($0.summary)" } }
         guard !items.isEmpty else {
             Output.line("Every file of \(group.identifier) is one Peel leaves alone. See `peel orphans`.")
+            staying.forEach(Output.note)
             return
         }
         let cleanup = Cleanup.of(
@@ -104,6 +109,7 @@ struct OrphansCommand: AsyncParsableCommand {
         )
         try await cleanup.run(
             question: "Move \(Output.count(cleanup.moving.count, "item", "items")) of \(group.title) to the Trash?",
+            notes: staying,
             dryRun: removal.dryRun,
             yes: removal.yes,
             using: service,

@@ -81,7 +81,7 @@ public struct OrphanScanner: Sendable {
         .map { entry in
             guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else { return entry }
             var item = entry.item
-            item.leftAlone = .beyondTheHelper
+            item.heldBack = .beyondTheHelper
             return (entry.identifier, item)
         }
         let teams = Set(installedApps.compactMap(\.teamIdentifier))
@@ -239,6 +239,15 @@ public struct OrphanScanner: Sendable {
         return identifier
     }
 
+    /// Why what the walk saw leaves an item to be chosen by hand: a wallet, a signing key, or a repository inside
+    /// may exist nowhere else, and a folder the walk could not see into is not known to be empty.
+    private static func heldBack(by contents: FolderContents?) -> HoldBack? {
+        guard let contents else { return .notMeasured }
+        if contents.couldNotBeRead { return .couldNotBeRead }
+        if contents.holdsWallet { return .holdsAWallet }
+        return contents.holdsRepository ? .holdsRepository : nil
+    }
+
     private enum LocationResult: Sendable {
         case found([(identifier: String, item: OrphanItem)])
         case unreadable(SearchLocation)
@@ -275,12 +284,14 @@ public struct OrphanScanner: Sendable {
             let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
             let contents = await walk(url)
             let path = url.path(percentEncoded: false)
-            let leftAlone: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
+            let heldBack: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
                 .holdsDocuments
             } else if ProtectedData.holds(path, home: home) {
                 .holdsKeys
+            } else if ProtectedData.holdsALibrary(path) {
+                .holdsALibrary
             } else {
-                ProtectedData.holdsALibrary(path) ? .holdsALibrary : nil
+                Self.heldBack(by: contents)
             }
             let item = OrphanItem(
                 url: url,
@@ -288,7 +299,7 @@ public struct OrphanScanner: Sendable {
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
                 requiresPrivileges: parent.requiresPrivileges(toRemove: url),
-                leftAlone: leftAlone
+                heldBack: heldBack
             )
             found.append((identifier, item))
         }

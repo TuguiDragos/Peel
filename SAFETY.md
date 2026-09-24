@@ -144,6 +144,10 @@ last two are shown with their size as "Unknown", never as zero, in every tool an
 moved: a folder too big to read quickly may be exactly the one with work inside, and nothing is selected for you
 without saying how much it is. A total that leaves such a folder out reads "Over" what is known.
 
+Orphaned Files selects nothing for you, and its Select All and `peel orphans --remove` leave these folders out as
+well: one with a repository, a wallet, or a signing key inside, or one Peel could not read or measure in time,
+moves only when you select it yourself.
+
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused.
 
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine

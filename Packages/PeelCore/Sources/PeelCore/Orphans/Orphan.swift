@@ -8,9 +8,14 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// When the item or anything inside it was last modified. Only its own date if it was not measured in time.
     public let modificationDate: Date?
     public let requiresPrivileges: Bool
-    /// Why the item cannot be moved, when `RemovalGuard` or the helper would refuse it. The item is still listed,
-    /// with this reason, but cannot be selected.
-    public var leftAlone: HoldBack?
+    /// Why the item is left for the user to choose by hand, or nil. Select All passes it by, and `peel orphans
+    /// --remove` leaves it where it is.
+    public var heldBack: HoldBack?
+
+    /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
+    public var leftAlone: HoldBack? {
+        heldBack?.cannotBeMoved == true ? heldBack : nil
+    }
 
     public var id: URL { url }
 }

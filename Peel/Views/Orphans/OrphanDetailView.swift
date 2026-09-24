@@ -31,7 +31,7 @@ struct OrphanDetailView: View {
                         icon: .symbol(item.kind.symbolName),
                         detail: item.modificationDate.map { "Modified \($0, format: .relative(presentation: .named))" },
                         kind: item.kind.title,
-                        warning: item.leftAlone.map { String(localized: $0.explanation) },
+                        warning: item.heldBack.map { String(localized: $0.explanation) },
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
                         isLocked: item.requiresPrivileges && !helper.canAct,
@@ -74,7 +74,7 @@ struct OrphanDetailView: View {
     }
 
     private var hasNoteColumn: Bool {
-        group.items.contains { $0.modificationDate != nil || $0.leftAlone != nil }
+        group.items.contains { $0.modificationDate != nil || $0.heldBack != nil }
     }
 
     /// The total size that can be moved to the Trash. Items Peel leaves alone are listed but not counted, as
@@ -118,8 +118,10 @@ struct OrphanDetailView: View {
         SizeTotal(orphans.selected(in: group).map(\.size))
     }
 
+    /// What Select All selects. A row held back waits to be chosen by hand, as Review Before Removing does on an
+    /// app's page.
     private var selectableURLs: [URL] {
-        group.items.filter { $0.leftAlone == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
+        group.items.filter { $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
     }
 
     private func remove() async {

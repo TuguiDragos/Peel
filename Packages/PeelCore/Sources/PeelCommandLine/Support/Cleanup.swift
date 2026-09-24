@@ -52,10 +52,11 @@ struct Cleanup {
         throw ValidationError("--json lists what is there. Leave --remove off to get the list, or leave --json off to move it.")
     }
 
-    /// Prints the list and, unless `dryRun` is set, asks, moves what can go, and records it in History. A declined
-    /// answer exits 2, and a failed move exits 1.
+    /// Prints the list, with `notes` under it, and, unless `dryRun` is set, asks, moves what can go, and records it
+    /// in History. A declined answer exits 2, and a failed move exits 1.
     func run(
         question: String,
+        notes: [String] = [],
         dryRun: Bool,
         yes: Bool,
         using service: TrashService,
@@ -69,6 +70,7 @@ struct Cleanup {
             [Output.size(item.size), Output.path(item.url)] + (saysWhyItStays ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
         })
         Output.line("Total: \(Output.size(total))")
+        notes.forEach(Output.note)
 
         guard !dryRun else {
             Output.line(moving.isEmpty ? "Nothing here can be moved." : "Dry run: nothing was moved.")

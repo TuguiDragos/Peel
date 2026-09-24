@@ -60,7 +60,8 @@ struct OrphanScannerTests {
     }
 
     /// What an app left behind can be the biggest folder in the Library. A folder that did not answer in time
-    /// is listed first with an unknown size, and the group's total says it is incomplete.
+    /// is listed first with an unknown size, and the group's total says it is incomplete. It may hold a wallet
+    /// all the same, so it is left to be chosen by hand.
     @Test func anItemThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/com.gone.app/library.db", bytes: 400_000)
@@ -79,6 +80,7 @@ struct OrphanScannerTests {
         #expect(group.items.first?.size == nil)
         #expect(!group.total.isComplete)
         #expect(group.total.known >= 50_000)
+        #expect(group.items.map(\.heldBack) == [.notMeasured, nil])
     }
 
     /// A crash reporter keeps a folder for each app inside its own. When macOS will not let Peel list that folder,
@@ -100,6 +102,7 @@ struct OrphanScannerTests {
         let directory = try TemporaryDirectory()
         let served = try directory.directory("root/Library/Application Support/com.gone.app")
         let beyond = try directory.directory("root/Users/Shared/com.gone.app")
+        try directory.file("root/Users/Shared/com.gone.app/wallet.dat")
         for folder in [served, beyond] {
             try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
         }
@@ -118,6 +121,55 @@ struct OrphanScannerTests {
         #expect(try item(served).leftAlone == nil)
         #expect(try item(beyond).requiresPrivileges)
         #expect(try item(beyond).leftAlone == .beyondTheHelper)
+    }
+
+    /// What the walk saw inside may exist nowhere else. A folder with a wallet, a signing key, or a repository
+    /// in it says so and is moved only when chosen by hand: Select All and `peel orphans --remove` pass it by.
+    @Test func aFolderWithAWalletOrARepositoryInsideIsChosenOnlyByHand() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.gone.coin/wallet.dat")
+        try directory.file("home/Library/Application Support/com.gone.code/work/.git/HEAD")
+        try directory.file("home/Library/Application Support/com.gone.cache/cache.db")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+        func item(_ name: String) throws -> OrphanItem {
+            try #require(items.first { $0.url.lastPathComponent == name })
+        }
+
+        #expect(try item("com.gone.coin").heldBack == .holdsAWallet)
+        #expect(try item("com.gone.code").heldBack == .holdsRepository)
+        #expect(try item("com.gone.cache").heldBack == nil)
+        #expect(items.allSatisfy { $0.leftAlone == nil })
+    }
+
+    /// A folder macOS would not open is not known to be empty either.
+    @Test func aFolderMacOSWouldNotOpenIsChosenOnlyByHand() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.gone.app/blob")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scanner = OrphanScanner(environment: environment, isRegisteredApp: { _ in false }) { _ in
+            FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true)
+        }
+
+        let item = try #require(await scanner.scan(installedApps: installed).groups.first?.items.first)
+
+        #expect(item.heldBack == .couldNotBeRead)
+        #expect(item.leftAlone == nil)
+        #expect(item.size == nil)
+    }
+
+    /// A reason that keeps a folder where it is outranks what the walk saw, which only leaves it to be chosen.
+    @Test func whatKeepsAFolderInPlaceOutranksWhatTheWalkSaw() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.gone.photos/Main.photoslibrary/database/Photos.sqlite")
+        try directory.file("home/Library/Application Support/com.gone.photos/.git/HEAD")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.map(\.leftAlone) == [.holdsALibrary])
     }
 
     /// An agent writes to a log two folders down, while the folder's own date is from the day of the install.

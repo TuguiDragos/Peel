@@ -161,14 +161,14 @@ struct FileCommandTests {
 
     // MARK: Orphaned files
 
-    private func orphan(_ name: String, in directory: borrowing TemporaryDirectory, leftAlone: HoldBack? = nil, requiresPrivileges: Bool = false) throws -> OrphanItem {
+    private func orphan(_ name: String, in directory: borrowing TemporaryDirectory, heldBack: HoldBack? = nil, requiresPrivileges: Bool = false) throws -> OrphanItem {
         OrphanItem(
             url: try directory.file("home/Library/Application Support/\(name)/blob", bytes: 10).deletingLastPathComponent(),
             kind: .applicationSupport,
             size: 10,
             modificationDate: .now,
             requiresPrivileges: requiresPrivileges,
-            leftAlone: leftAlone
+            heldBack: heldBack
         )
     }
 
@@ -198,7 +198,7 @@ struct FileCommandTests {
         let logs = logs(in: directory)
         let wanted = OrphanGroup(identifier: "com.example.gone", items: [
             try orphan("com.example.gone", in: directory),
-            try orphan("com.example.gone.documents", in: directory, leftAlone: .holdsDocuments),
+            try orphan("com.example.gone.documents", in: directory, heldBack: .holdsDocuments),
         ])
         let other = OrphanGroup(identifier: "com.example.other", items: [try orphan("com.example.other", in: directory)])
         let scan = OrphanScan(groups: [wanted, other], unreadableLocations: [])
@@ -234,16 +234,43 @@ struct FileCommandTests {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let group = OrphanGroup(identifier: "com.example.gone", items: [
-            try orphan("com.example.gone", in: directory, leftAlone: .holdsALibrary),
+            try orphan("com.example.gone", in: directory, heldBack: .holdsALibrary),
         ])
         let scan = OrphanScan(groups: [group], unreadableLocations: [])
+        let collected = Output.Collected()
 
-        try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-            .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        try await Output.$collected.withValue(collected) {
+            try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
+                .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
 
         #expect(await moved(logs).isEmpty)
         #expect(await logs.refusals.load().isEmpty)
         #expect(FileManager.default.fileExists(atPath: group.items[0].url.path(percentEncoded: false)))
+        #expect(collected.notes == "\(Output.path(group.items[0].url)) stays: holds a photo, music, or video library\n")
+    }
+
+    /// A folder with a wallet or a repository inside is moved only when chosen by hand in the app, so naming its
+    /// group moves the rest, says why it stays, and records no refusal, since nobody asked for it on its own.
+    @Test func leavesWhatIsHeldBackAndSaysWhy() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let group = OrphanGroup(identifier: "com.example.gone", items: [
+            try orphan("com.example.gone", in: directory),
+            try orphan("com.example.gone.wallet", in: directory, heldBack: .holdsAWallet),
+        ])
+        let scan = OrphanScan(groups: [group], unreadableLocations: [])
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
+                .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
+
+        #expect(await moved(logs) == ["com.example.gone"])
+        #expect(await logs.refusals.load().isEmpty)
+        #expect(FileManager.default.fileExists(atPath: group.items[1].url.path(percentEncoded: false)))
+        #expect(collected.notes == "\(Output.path(group.items[1].url)) stays: holds a wallet or a signing key\n")
     }
 
     // MARK: What the listings say
@@ -331,6 +358,22 @@ struct FileCommandTests {
 
         #expect(OrphansCommand.heading(for: group).hasPrefix("com.example.gone  10 bytes  certain: "))
         #expect(OrphansCommand.rows(for: group) == [["10 bytes", Output.path(group.items[0].url)]])
+    }
+
+    /// The list says which files `--remove` leaves where they are, and why.
+    @Test func saysWhichOrphanedFilesStayAndWhy() throws {
+        let directory = try TemporaryDirectory()
+        let group = OrphanGroup(identifier: "com.example.gone", items: [
+            try orphan("com.example.gone", in: directory),
+            try orphan("com.example.gone.wallet", in: directory, heldBack: .holdsAWallet),
+            try orphan("com.example.gone.photos", in: directory, heldBack: .holdsALibrary),
+        ])
+
+        #expect(OrphansCommand.rows(for: group) == [
+            ["10 bytes", Output.path(group.items[0].url)],
+            ["10 bytes", Output.path(group.items[1].url), "stays: holds a wallet or a signing key"],
+            ["10 bytes", Output.path(group.items[2].url), "stays: holds a photo, music, or video library"],
+        ])
     }
 
     @Test func saysEveryCacheLocationWithItsKind() throws {
