@@ -120,7 +120,7 @@ public enum PathPattern {
         // (`App [Beta]`) is not read as a character class.
         let isPattern = path.contains("*") || path.contains("?")
         if !isPattern, FileManager.default.fileExists(atPath: path) {
-            let url = URL(filePath: path)
+            let url = entry(named: path)
             return isIrreplaceable(url, home: root) ? [] : [url]
         }
         guard isPattern || path.contains("[") else { return [] }
@@ -135,8 +135,14 @@ public enum PathPattern {
         guard code == 0 || code == GLOB_NOSPACE, results.gl_pathv != nil else { return [] }
         return (0..<Int(results.gl_pathc)).prefix(maximum).compactMap { index in
             guard let pointer = results.gl_pathv[index] else { return nil }
-            let url = URL(filePath: String(cString: pointer))
+            let url = entry(named: String(cString: pointer))
             return isIrreplaceable(url, home: root) ? nil : url
         }
+    }
+
+    /// The entry `path` names. A path that ends in `/` names folders only, and the kernel follows a link to what it
+    /// leads to when the slash is kept, so the entry is named without it.
+    private static func entry(named path: String) -> URL {
+        URL(filePath: path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path)
     }
 }

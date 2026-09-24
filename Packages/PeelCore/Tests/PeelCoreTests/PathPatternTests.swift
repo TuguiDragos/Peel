@@ -12,6 +12,22 @@ struct PathPatternTests {
         #expect(PathPattern.expand("Library/Caches/missing", home: directory.url).isEmpty)
     }
 
+    /// A pattern that ends in `/` matches folders only, and each comes back named as the entry itself, without the
+    /// slash, so a link among them is a link and not the folder it leads to.
+    @Test func aPatternEndingInASlashMatchesFoldersByTheirOwnNames() throws {
+        let directory = try TemporaryDirectory()
+        let web = try directory.directory(".virtualenvs/web")
+        try directory.file(".virtualenvs/postactivate")
+        let elsewhere = try directory.directory("Volumes/Fast/env")
+        let link = directory.url.appending(path: ".virtualenvs/fast")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: elsewhere)
+
+        let matches = PathPattern.expand(".virtualenvs/*/", home: directory.url).map { $0.path(percentEncoded: false) }
+
+        #expect(Set(matches) == Set([web, link].map(PathPattern.comparablePath(of:))))
+        #expect(PathPattern.expand(".virtualenvs/web/", home: directory.url).map { $0.path(percentEncoded: false) } == [PathPattern.comparablePath(of: web)])
+    }
+
     @Test func expandsWildcardsIntoEveryFolderThatExists() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Library/Caches/Google/AndroidStudio2026.1")
