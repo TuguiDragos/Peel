@@ -98067,6 +98067,112 @@
         }
       }
     },
+    "Start a new scan?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zahájit nové prohledání?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuen Scan starten?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Empezar un nuevo análisis?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer une nouvelle analyse ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi iniziare una nuova analisi?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規スキャンを開始しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 스캔을 시작하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuwe scan beginnen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozpocząć nowe skanowanie?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar uma nova análise?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Începeți o scanare nouă?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать новое сканирование?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du starta en ny skanning?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir tarama başlatılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почати нове сканування?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要开始新扫描吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要開始新的掃描嗎？"
+          }
+        }
+      }
+    },
     "Starts Peel when you log in. “Watch the Trash” works only while Peel is running." : {
       "localizations" : {
         "cs" : {
@@ -105802,6 +105908,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法儲存列表。"
+          }
+        }
+      }
+    },
+    "The list of duplicates and your selection are cleared. No files are moved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam nalezených duplikátů se vymaže a váš výběr se zruší. Žádné soubory se nepřesunou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste der gefundenen Duplikate und deine Auswahl werden verworfen. Es werden keine Dateien verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se vacía la lista de duplicados y se anula tu selección. No se traslada ningún archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste des doublons et votre sélection sont effacées. Aucun fichier n’est déplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’elenco dei duplicati viene svuotato e la tua selezione viene annullata. Nessun file viene spostato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "見つかった重複項目のリストが消去され、選択もすべて解除されます。ファイルが移動されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중복된 항목 목록이 지워지고 선택이 해제됩니다. 어떤 파일도 이동되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst met dubbele onderdelen wordt gewist en je selectie opgeheven. Er worden geen bestanden verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista duplikatów i Twoje zaznaczenie zostaną wyczyszczone. Żaden plik nie zostanie przeniesiony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lista de duplicatas e a sua seleção são limpas. Nenhum arquivo é movido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista duplicatelor este golită, iar selecția dvs. este anulată. Niciun fișier nu este mutat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список найденных дубликатов очищается, а Ваш выбор отменяется. Файлы никуда не перемещаются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listan över hittade dubbletter rensas, och det du har markerat avmarkeras. Inga filer flyttas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yinelenenlerin listesi ve seçiminiz temizlenir. Hiçbir dosya taşınmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список знайдених дублікатів буде очищено, а ваш вибір знято. Жодних файлів не буде переміщено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复项列表会被清除，你所选的项目也会被取消选择。不会移动任何文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找到的重複項目列表會清除，你所做的選取也會一併取消。不會移動任何檔案。"
           }
         }
       }

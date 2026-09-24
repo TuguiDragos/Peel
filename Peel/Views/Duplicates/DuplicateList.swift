@@ -6,6 +6,7 @@ struct DuplicateList: View {
     @Environment(HomeModel.self) private var home
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var searchText = ""
+    @State private var isConfirmingNewScan = false
 
     var body: some View {
         @Bindable var duplicates = duplicates
@@ -69,10 +70,20 @@ struct DuplicateList: View {
         .toolbar {
             ToolbarItem {
                 Button("New Scan", systemImage: "arrow.uturn.backward") {
-                    duplicates.clearResults()
+                    if let scan = duplicates.scan, !scan.groups.isEmpty || !scan.folderGroups.isEmpty {
+                        isConfirmingNewScan = true
+                    } else {
+                        duplicates.clearResults()
+                    }
                 }
                 .disabled(duplicates.scan == nil || duplicates.isRemoving)
             }
+        }
+        .confirmationDialog("Start a new scan?", isPresented: $isConfirmingNewScan) {
+            Button("New Scan") { duplicates.clearResults() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The list of duplicates and your selection are cleared. No files are moved.")
         }
         .fadesInColumn(whenRowsChange: duplicates.scan.map { $0.groups.map(\.id) + $0.folderGroups.map(\.id) })
         .navigationTitle(Text(Tool.duplicates.title))
