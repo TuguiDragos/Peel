@@ -100,7 +100,7 @@ struct HomeContent: View {
                 }
                 Text(verbatim: device.model)
                     .font(.system(size: 17, weight: .bold, design: .rounded))
-                    .foregroundStyle(isPointingAtDevice ? Album.orange : Album.ink)
+                    .foregroundStyle(isPointingAtDevice ? Album.orangeInk : Album.ink)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
@@ -117,7 +117,7 @@ struct HomeContent: View {
     /// removal is shown only in the menu bar panel, since a fourth sticker doesn't fit the column.
     private var totals: some View {
         HStack(spacing: 10) {
-            DeviceSticker(value: stats.bytesFreed.text, amount: Double(stats.bytesFreed.known), label: "Moved to Trash", fill: Album.orange, ink: .white, width: 86, radius: 16, angle: -3)
+            DeviceSticker(value: stats.bytesFreed.text, amount: Double(stats.bytesFreed.known), label: "Moved to Trash", fill: Album.orange, ink: Album.onOrange, labelOpacity: 1, width: 86, radius: 16, angle: -3)
             DeviceSticker(
                 value: stats.appsRemoved.shortCount,
                 amount: Double(stats.appsRemoved),

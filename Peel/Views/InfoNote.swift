@@ -108,7 +108,7 @@ struct NoteCard: View {
 
 /// Home keeps the album's orange; everywhere else a note takes the accent color the user chose.
 private func noteTint(isAlbum: Bool) -> Color {
-    isAlbum ? Album.orange : .accentColor
+    isAlbum ? Album.orangeInk : .accentColor
 }
 
 /// A section's heading, with a note beside it holding what would otherwise be a paragraph under it.

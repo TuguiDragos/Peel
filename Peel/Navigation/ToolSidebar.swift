@@ -232,10 +232,11 @@ struct ToolSidebar: View {
 /// The red badge that marks a missing required permission, beside Home in the sidebar and on Home itself.
 struct AttentionBadge: View {
     var size: CGFloat = 16
+    var fill: Color = .red
 
     var body: some View {
         RoundedRectangle(cornerRadius: size / 4, style: .continuous)
-            .fill(.red)
+            .fill(fill)
             .frame(width: size, height: size)
             .overlay(
                 Image(systemName: "exclamationmark")

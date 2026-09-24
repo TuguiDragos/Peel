@@ -49,7 +49,7 @@ struct HomePermissionsContent: View {
         named title: LocalizedStringResource,
         tapedAt corner: Alignment,
         fill: Color = Album.orange,
-        ink: Color = .white
+        ink: Color = Album.onOrange
     ) -> some View {
         Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 0) {
             ForEach(Array(permissions.enumerated()), id: \.element.id) { index, permission in
@@ -91,7 +91,7 @@ struct HomePermissionsContent: View {
                     }
                     Text(home.status(of: permission))
                         .font(.system(size: 11.5, weight: .medium))
-                        .foregroundStyle(state.isMissing ? Color.red : .secondary)
+                        .foregroundStyle(state.isMissing ? Album.red : .secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -111,7 +111,7 @@ struct HomePermissionsContent: View {
             let isPointedAt = pointingAt == permission
             Button { reveal(permission) } label: {
                 title
-                    .foregroundStyle(state.isMissing ? Color.red : isPointedAt ? Album.orange : Album.ink)
+                    .foregroundStyle(state.isMissing ? Album.red : isPointedAt ? Album.orangeInk : Album.ink)
                     .underline(isPointedAt, pattern: .solid)
                     .minimumTarget()
             }
@@ -121,7 +121,7 @@ struct HomePermissionsContent: View {
             .onHover { pointingAt = $0 ? permission : nil }
             .help(Text("Show \(String(localized: permission.title)) in System Settings"))
         } else {
-            title.foregroundStyle(state.isMissing ? Color.red : Album.ink)
+            title.foregroundStyle(state.isMissing ? Album.red : Album.ink)
         }
     }
 
@@ -151,7 +151,7 @@ struct HomePermissionsContent: View {
                     Text(action)
                         .keepsWordsWhole(String(localized: action))
                 }
-                .buttonStyle(state.isMissing ? .sticker(fill: .red, size: 11.5) : .stickerQuiet)
+                .buttonStyle(state.isMissing ? .sticker(fill: Album.redFill, size: 11.5) : .stickerQuiet)
                 .accessibilityLabel(Text("\(String(localized: action)): \(String(localized: permission.title))", comment: "What VoiceOver reads for a button. The first %@ is the action, such as Install. The second is what it acts on, such as Helper."))
             }
         } else {
@@ -173,15 +173,15 @@ struct HomePermissionsContent: View {
                 // Any state but on is a flat, filled circle, not a dashed ring, which would look unfinished.
                 // On is a raised sticker with an edge and a shadow, so the two stay easy to tell apart.
                 Circle()
-                    .fill(state.isMissing ? Color.red.opacity(0.16) : Album.slot)
+                    .fill(state.isMissing ? Album.red.opacity(0.16) : Album.slot)
                     .overlay(
                         Image(systemName: permission.symbol)
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(state.isMissing ? Color.red : Color.secondary)
+                            .foregroundStyle(state.isMissing ? Album.red : Color.secondary)
                     )
             }
             if state.isMissing {
-                AttentionBadge().offset(x: 3, y: -3)
+                AttentionBadge(fill: Album.redFill).offset(x: 3, y: -3)
             }
         }
         .frame(width: Self.markSize, height: Self.markSize)
@@ -199,7 +199,7 @@ struct HomePermissionsContent: View {
             ) {
                 if home.needsRelaunchForFullDiskAccess {
                     Button("Reopen Peel") { home.relaunch() }
-                        .buttonStyle(.sticker(fill: .red, size: 11.5))
+                        .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
                 }
             }
         } else if exclusions.exclusions.isUnreadable {
@@ -211,7 +211,7 @@ struct HomePermissionsContent: View {
                 SettingsLink {
                     Text("Open Peel Settings")
                 }
-                .buttonStyle(.sticker(fill: .red, size: 11.5))
+                .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
         } else if !home.waitingRequired.isEmpty, home.hasChecked {
             // A required permission that is still pending is not set up. For example, a helper waiting for
@@ -249,7 +249,7 @@ struct HomePermissionsContent: View {
     private func colors(for permission: HomeModel.Permission) -> (fill: Color, ink: Color) {
         switch permission {
         case .fullDiskAccess: (Album.charcoal, .white)
-        case .helper: (Album.orange, .white)
+        case .helper: (Album.orange, Album.onOrange)
         case .appManagement: (Album.cream, Album.orange)
         default: (Album.cream, Album.charcoal)
         }

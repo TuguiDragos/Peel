@@ -145,7 +145,7 @@ struct MenuBarPanel: View {
         HStack(spacing: Self.iconSpacing) {
             Image(systemName: symbol)
                 .font(.system(size: 15))
-                .foregroundStyle(Album.orange)
+                .foregroundStyle(Album.orangeInk)
                 .frame(width: Self.iconWidth)
             label
                 .font(.system(size: 13.5, weight: .semibold, design: .rounded))
@@ -155,7 +155,7 @@ struct MenuBarPanel: View {
                 .monospacedDigit()
                 .contentTransition(.numericText(value: Double(amount)))
                 .motion(value: value)
-                .foregroundStyle(isAccented ? Album.orange : .primary)
+                .foregroundStyle(isAccented ? Album.orangeInk : .primary)
             if leadsSomewhere {
                 Image(systemName: "chevron.right")
                     .font(.subheadline.weight(.semibold))

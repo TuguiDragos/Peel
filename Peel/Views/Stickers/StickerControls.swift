@@ -4,7 +4,7 @@ import SwiftUI
 struct TapeHeader: View {
     let title: Text
     var fill: Color = Album.orange
-    var ink: Color = .white
+    var ink: Color = Album.onOrange
     var angle: Double = 0
 
     var body: some View {

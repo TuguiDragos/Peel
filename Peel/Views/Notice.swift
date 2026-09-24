@@ -75,7 +75,7 @@ struct Notice<Actions: View>: View {
     /// Only a problem gets a colored title, in red. Orange text is too faint to read, and gray would look
     /// like the detail line under it.
     private var titleColor: Color {
-        guard kind != .problem else { return .red }
+        guard kind != .problem else { return isAlbum ? Album.red : .red }
         return isAlbum ? Album.ink : .primary
     }
 
@@ -94,7 +94,7 @@ struct Notice<Actions: View>: View {
             // for problems.
             let isQuiet = kind != .problem
             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .fill(isQuiet ? Album.slot : .red)
+                .fill(isQuiet ? Album.slot : Album.redFill)
                 .frame(width: 26, height: 26)
                 .overlay(
                     Image(systemName: isQuiet ? "info" : "exclamationmark")

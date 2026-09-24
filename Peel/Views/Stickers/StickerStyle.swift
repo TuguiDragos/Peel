@@ -17,6 +17,14 @@ enum Album {
     static let slot = Color(.slot)
     static let shadow = Color(.stickerShadow)
     static let quietFill = Color(.quietFill)
+    /// The red of words and marks for what is missing, readable on a sticker in every appearance, which the system
+    /// red is not. A red sticker under white ink takes `redFill`: in dark, no one red serves both.
+    static let red = Color(.peelRed)
+    static let redFill = Color(.peelRedFill)
+    /// Orange for words and marks on the paper, where the brand orange is too light to read. The logo keeps `orange`.
+    static let orangeInk = Color(.peelOrangeInk)
+    /// Words and marks drawn on `orange`: dark, and white where Increase Contrast darkens the orange.
+    static let onOrange = Color(.inkOnOrange)
 }
 
 /// Draws content as a sticker: a body, a die-cut edge, and a short shadow. In the light appearance the white edge

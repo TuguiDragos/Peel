@@ -10,6 +10,8 @@ struct DeviceSticker: View {
     let label: LocalizedStringResource
     let fill: Color
     let ink: Color
+    /// The label is quieter than the value, except on the orange sticker, where it would be too faint to read.
+    var labelOpacity = 0.7
     let width: CGFloat
     let radius: CGFloat
     let angle: Double
@@ -51,7 +53,7 @@ struct DeviceSticker: View {
                     (proxy.bounds(of: .named(Self.space))?.height ?? 0) - proxy.frame(in: .named(Self.space)).maxY
                 } action: { labelRise = $0 }
                 .padding(.horizontal, 5 + curveRoom / 2)
-                .opacity(0.7)
+                .opacity(labelOpacity)
                 .background { LongestWord(text: String(localized: label), width: $longestWord).font(Self.labelFont) }
         }
         .foregroundStyle(ink)
