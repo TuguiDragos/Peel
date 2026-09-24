@@ -71,7 +71,7 @@ struct TrashServiceTests {
         let folder = try directory.directory("home/Library/Caches/com.example.app")
         let inside = try directory.file("home/Library/Caches/com.example.app/\u{301}cache.db")
 
-        let result = await try service(in: directory).trash([folder, inside])
+        let result = try await service(in: directory).trash([folder, inside])
 
         #expect(result.trashed.map(\.originalURL) == [folder])
         #expect(result.failures.isEmpty, "the item inside the folder was moved again: \(result.failures)")
