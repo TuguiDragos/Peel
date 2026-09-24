@@ -244,6 +244,7 @@ struct PeelApp: App {
                 .environment(trashMonitor)
                 .environment(exclusions)
                 .environment(library)
+                .environment(homebrew)
                 .environment(history)
                 .environment(home)
         }

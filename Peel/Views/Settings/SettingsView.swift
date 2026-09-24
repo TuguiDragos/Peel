@@ -82,6 +82,7 @@ private struct GeneralSettingsView: View {
     @Environment(TrashMonitor.self) private var trashMonitor
     @Environment(\.scenePhase) private var scenePhase
     @Environment(AppLibrary.self) private var library
+    @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(HelperModel.self) private var helper
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HomeModel.self) private var home
@@ -244,22 +245,42 @@ private struct GeneralSettingsView: View {
             SavedSettingsSection()
 
             Section {
-                // The button is taller than a row, and `LabeledContent` would align the title with its top
-                // edge. An `HStack` centers the title and the button vertically.
-                HStack {
-                    titled("Remove Peel",
-                           "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. The Finder extension goes with the app.")
-                    Spacer(minLength: 8)
-                    Button("Remove Peel", systemImage: "trash") {
-                        isConfirmingSelfRemoval = true
+                // Homebrew lists the copy it installed until `brew uninstall` removes it.
+                if let cask = ownCask {
+                    let command = "brew uninstall --zap --cask \(cask.name)"
+                    LabeledContent {
+                        CopyButton(text: command)
+                    } label: {
+                        titled("Remove Peel",
+                               "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, and Saved Settings.")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.red)
-                    // Disabled until the app list has loaded: without it, a file Peel shares with another app
-                    // would look like Peel's alone.
-                    .disabled(selfUninstall.isRunning || !library.hasLoaded)
+                    Text(verbatim: command)
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                } else {
+                    // The button is taller than a row, and `LabeledContent` would align the title with its top
+                    // edge. An `HStack` centers the title and the button vertically.
+                    HStack {
+                        titled("Remove Peel",
+                               "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. The Finder extension goes with the app.")
+                        Spacer(minLength: 8)
+                        Button("Remove Peel", systemImage: "trash") {
+                            isConfirmingSelfRemoval = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                        // Disabled until the app list and Homebrew's have loaded: without the first, a file Peel
+                        // shares with another app would look like Peel's alone, and without the second, a copy
+                        // Homebrew installed would look like one it didn't.
+                        .disabled(
+                            selfUninstall.isRunning || !library.hasLoaded
+                                || (homebrew.isInstalled && homebrew.packages == nil)
+                        )
+                    }
                 }
-                if selfUninstall.hasCommandLineTool {
+                // Homebrew removes the links its cask made, and no other.
+                if selfUninstall.hasCommandLineTool, ownCask?.commandLinks.contains(CommandLineTool.path) != true {
                     Text("Removing Peel leaves the peel command in place. To remove it too, run: \(Text(verbatim: SelfUninstall.removeCommand).font(.caption.monospaced()))")
                         .font(.callout)
                         .foregroundStyle(.secondary)
@@ -385,6 +406,13 @@ extension GeneralSettingsView {
             get: { selfUninstall.failure != nil },
             set: { if !$0 { selfUninstall.failure = nil } }
         )
+    }
+
+    /// The cask Homebrew installed this copy of Peel from, found by the rule the Applications list follows.
+    fileprivate var ownCask: HomebrewPackage? {
+        let own = PathPattern.comparablePath(of: Bundle.main.bundleURL)
+        guard let app = library.apps.first(where: { PathPattern.comparablePath(of: $0.url) == own }) else { return nil }
+        return CaskEvidence.installedCask(for: app, in: (homebrew.packages ?? []).filter { $0.kind == .cask })
     }
 }
 

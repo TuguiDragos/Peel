@@ -36265,6 +36265,112 @@
         }
       }
     },
+    "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, and Saved Settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuto kopii Peelu nainstaloval Homebrew, proto ji odstraňte pomocí Homebrew, jinak ji Homebrew bude dál uvádět jako nainstalovanou. Spusťte příkaz v Terminálu: Homebrew aplikaci smaže, místo aby ji přesunul do koše, a soubory Peelu přesune do koše, včetně jeho složky v Application Support. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da Homebrew diese Peel-Kopie installiert hat, entferne sie mit Homebrew, sonst führt Homebrew sie weiterhin als installiert. Führe den Befehl im Terminal aus: Homebrew löscht die App, statt sie in den Papierkorb zu legen, und legt die Dateien von Peel in den Papierkorb, darunter den Peel-Ordner in Application Support. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew instaló esta copia de Peel, así que elimínala con Homebrew, o Homebrew la seguirá mostrando como instalada. Ejecuta el comando en Terminal: Homebrew borra la app en vez de trasladarla a la papelera, y traslada a la papelera los archivos de Peel, incluida su carpeta de Application Support. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a installé cette copie de Peel : supprimez-la donc avec Homebrew, sinon Homebrew continuera de la considérer comme installée. Exécutez la commande dans Terminal : Homebrew supprime définitivement l’app au lieu de la placer dans la corbeille, et place dans la corbeille les fichiers de Peel, dont son dossier dans Application Support. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa copia di Peel è stata installata da Homebrew, quindi rimuovila con Homebrew, altrimenti Homebrew continuerà a elencarla come installata. Esegui il comando in Terminale: Homebrew elimina l’app anziché spostarla nel Cestino, e sposta nel Cestino i file di Peel, compresa la sua cartella in Application Support. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このPeelはHomebrewでインストールされたため、Homebrewでアンインストールしてください。そうしないと、Homebrewでは引き続きインストール済みとして表示されます。ターミナルでコマンドを実行してください。Homebrewはアプリをゴミ箱に入れずに削除し、Peelのファイルは、Application SupportにあるPeelのフォルダも含めてゴミ箱に入れます。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 이 Peel 복사본을 설치했으므로 Homebrew로 제거하십시오. 그렇지 않으면 Homebrew는 이 복사본을 계속 설치된 것으로 표시합니다. 터미널에서 이 명령을 실행하십시오. 그러면 Homebrew가 앱을 휴지통으로 이동하지 않고 삭제하며, Application Support에 있는 Peel의 폴더를 포함한 Peel의 파일은 휴지통으로 이동합니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft deze kopie van Peel geïnstalleerd, dus verwijder die met Homebrew, anders blijft Homebrew die als geïnstalleerd vermelden. Voer het commando uit in Terminal: Homebrew verwijdert de app definitief in plaats van die naar de prullenmand te verplaatsen, en verplaatst de bestanden van Peel, waaronder de map in Application Support, naar de prullenmand. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tę kopię Peel zainstalował Homebrew, więc odinstaluj ją za pomocą Homebrew, w przeciwnym razie Homebrew nadal będzie ją wymieniał jako zainstalowaną. Uruchom polecenie w Terminalu: Homebrew usuwa aplikację trwale, zamiast przenosić ją do Kosza, a pliki Peel, w tym jego folder w Application Support, przenosi do Kosza. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew instalou esta cópia do Peel, então remova-a com o Homebrew, senão o Homebrew vai continuar listando-a como instalada. Execute o comando no Terminal: o Homebrew apaga o app em vez de movê-lo para o Lixo, e move para o Lixo os arquivos do Peel, inclusive a pasta dele em Application Support. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a instalat această copie Peel, așa că eliminați‑o cu Homebrew, altfel Homebrew o va lista în continuare ca instalată. Rulați comanda în Terminal: Homebrew șterge aplicația, în loc să o mute în Coș, și mută în Coș fișierele Peel, inclusiv dosarul său din Application Support. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту копию Peel установил Homebrew, поэтому удалите ее с помощью Homebrew, иначе Homebrew будет по-прежнему считать ее установленной. Выполните команду в Терминале: Homebrew удаляет приложение безвозвратно, не перемещая его в Корзину, а файлы Peel, в том числе его папку в Application Support, перемещает в Корзину. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew installerade den här kopian av Peel, så ta bort den med Homebrew, annars fortsätter Homebrew att lista den som installerad. Kör kommandot i Terminal: Homebrew raderar appen i stället för att flytta den till papperskorgen, men flyttar Peels filer, däribland dess mapp i Application Support, till papperskorgen. Den mappen innehåller Historik, dina undantag och Sparade inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in bu kopyasını Homebrew yükledi, bu yüzden onu Homebrew ile kaldırın, yoksa Homebrew onu yüklü olarak listelemeye devam eder. Komutu Terminal’de çalıştırın: Homebrew uygulamayı Çöp Sepeti’ne taşımak yerine siler, Peel’in dosyalarını ise, Application Support içindeki klasörü de dahil, Çöp Sepeti’ne taşır. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю копію Peel інсталював Homebrew, тож вилучіть її через Homebrew, інакше він надалі показуватиме її у своєму списку інстальованого. Виконайте команду в Терміналі: Homebrew видалить саму програму, не переміщуючи її в Смітник, а файли Peel, зокрема її папку в Application Support, перемістить у Смітник. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此Peel副本由Homebrew安装，因此请使用Homebrew移除它，否则Homebrew会继续将它列为已安装。请在“终端”中运行该命令：Homebrew会删除该App，而不是将它移到废纸篓，并会将Peel的文件移到废纸篓，其中包括它在Application Support中的文件夹。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份Peel副本是由Homebrew安裝的，因此請使用Homebrew移除它，否則Homebrew會繼續將它列為已安裝。請在「終端機」中執行此指令：Homebrew會刪除此App，而不是將它丟到「垃圾桶」，並會將Peel的檔案丟到「垃圾桶」，其中包括它在Application Support中的檔案夾。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。"
+          }
+        }
+      }
+    },
     "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel only runs Homebrew’s own commands and reads what they report." : {
       "localizations" : {
         "cs" : {

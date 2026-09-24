@@ -336,13 +336,16 @@ In Settings > General, choose Remove Peel. It removes its helper and its login i
 are certainly its own, and its folder in Application Support to the Trash, clears its settings, and quits. That
 folder holds History, your exclusions, and the settings Peel saved when you reset an app.
 
-If you installed Peel with Homebrew, run this instead, which also removes Peel's files:
+If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
+in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the
+Trash, and moves Peel's files to the Trash.
 
 ```bash
 brew uninstall --zap --cask peel
 ```
 
-If you put the `peel` command on your path from Settings, remove it too:
+If you put the `peel` command on your path from Settings, remove that link too. Homebrew removes only the one it
+made.
 
 ```bash
 sudo rm -f /usr/local/bin/peel

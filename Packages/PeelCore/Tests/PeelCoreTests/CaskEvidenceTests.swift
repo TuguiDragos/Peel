@@ -48,6 +48,18 @@ struct CaskEvidenceTests {
         return packages
     }
 
+    /// An installed cask says where Homebrew linked each command it put on the path, which are the links
+    /// `brew uninstall` removes. A cask that is not installed has linked nothing.
+    @Test func readsWhereHomebrewLinkedACasksCommands() throws {
+        let cask = try #require(try casks().first { $0.kind == .cask })
+        #expect(cask.commandLinks == ["/opt/homebrew/bin/pearcleaner"])
+        #expect(cask.appTargets == ["/Applications/Pearcleaner.app"], "a command's link was read as the app's place")
+
+        let notInstalled = #"{"binary": ["$APPDIR/Pearcleaner.app/Contents/MacOS/Pearcleaner", {"target": "pearcleaner"}]}"#
+        let known = try JSONDecoder().decode(CaskArtifact.self, from: Data(notInstalled.utf8))
+        #expect(known.commandLinks.isEmpty)
+    }
+
     @Test func readsAppsAndLeftoverPathsFromACask() throws {
         let cask = try #require(try casks().first { $0.kind == .cask })
         #expect(cask.name == "pearcleaner")

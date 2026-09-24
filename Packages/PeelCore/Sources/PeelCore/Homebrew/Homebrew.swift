@@ -24,6 +24,9 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public let appNames: [String]
     /// Where Homebrew put them, for a cask that is installed: "/Applications/Pearcleaner.app".
     public let appTargets: [String]
+    /// Where Homebrew linked the commands an installed cask puts on the path: "/opt/homebrew/bin/pearcleaner".
+    /// `brew uninstall` removes these links.
+    public let commandLinks: [String]
     /// Bundle identifiers the cask tells macOS to quit, which prove a cask really is a given app.
     public let quitIdentifiers: [String]
     /// Installer receipts the cask forgets, which can prove the cask for an app installed from a `.pkg`.
@@ -63,6 +66,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         dependencies: [String] = [],
         appNames: [String] = [],
         appTargets: [String] = [],
+        commandLinks: [String] = [],
         leftoverPatterns: [String] = [],
         emptyFolderPatterns: [String] = [],
         quitIdentifiers: [String] = [],
@@ -82,6 +86,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         self.dependencies = dependencies
         self.appNames = appNames
         self.appTargets = appTargets
+        self.commandLinks = commandLinks
         self.leftoverPatterns = leftoverPatterns
         self.emptyFolderPatterns = emptyFolderPatterns
         self.quitIdentifiers = quitIdentifiers
@@ -201,6 +206,7 @@ public struct HomebrewVulnerabilityReport: Sendable, Hashable {
 struct CaskArtifact: Decodable, Sendable {
     let appNames: [String]
     let appTargets: [String]
+    let commandLinks: [String]
     let leftoverPatterns: [String]
     let emptyFolderPatterns: [String]
     /// Bundle identifiers the cask tells macOS to quit. The surest sign a cask really is a given app.
@@ -220,6 +226,8 @@ struct CaskArtifact: Decodable, Sendable {
             .filter { !$0.isEmpty }
         // An installed cask also says where the app went: `{"app": [...], "target": "/Applications/Krita.app"}`.
         appTargets = app == nil ? [] : (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") }
+        // A command's link is written the same way: `{"binary": [...], "target": "/opt/homebrew/bin/studio"}`.
+        commandLinks = raw["binary"] == nil ? [] : (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") }
 
         var patterns: [String] = []
         var emptyFolders: [String] = []
@@ -520,6 +528,7 @@ public enum Homebrew {
                 dependencies: [],
                 appNames: cask.artifacts?.flatMap(\.appNames) ?? [],
                 appTargets: cask.artifacts?.flatMap(\.appTargets) ?? [],
+                commandLinks: cask.artifacts?.flatMap(\.commandLinks) ?? [],
                 leftoverPatterns: cask.artifacts?.flatMap(\.leftoverPatterns) ?? [],
                 emptyFolderPatterns: cask.artifacts?.flatMap(\.emptyFolderPatterns) ?? [],
                 quitIdentifiers: cask.artifacts?.flatMap(\.quitIdentifiers) ?? [],
