@@ -81,7 +81,7 @@ final class BulkRemovalPlan {
     }
 
     var sizes: [URL: Int64] {
-        Dictionary(items.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
+        [URL: Int64](measured: items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
     }
 
     /// The source History records: up to three app names, or a count in English that History shows in the

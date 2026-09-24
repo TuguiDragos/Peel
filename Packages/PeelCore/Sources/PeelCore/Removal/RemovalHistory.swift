@@ -7,7 +7,8 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     public let originalURL: URL
     public let trashedURL: URL
     public let date: Date
-    public let size: Int64
+    /// Nil when Peel could not measure the item. It is never read as zero.
+    public let size: Int64?
     /// What the items belonged to: an app, an orphan group, a file name.
     public let source: String
     public let tool: String
@@ -15,7 +16,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
 
-    public init(id: UUID = UUID(), batch: UUID, item: TrashedItem, size: Int64, source: String, sourceKey: String? = nil, tool: String) {
+    public init(id: UUID = UUID(), batch: UUID, item: TrashedItem, size: Int64?, source: String, sourceKey: String? = nil, tool: String) {
         self.id = id
         self.batch = batch
         originalURL = item.originalURL
@@ -35,7 +36,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         originalURL = try container.decode(URL.self, forKey: .originalURL)
         trashedURL = try container.decode(URL.self, forKey: .trashedURL)
         date = try container.decode(Date.self, forKey: .date)
-        size = max(0, try container.decode(Int64.self, forKey: .size))
+        size = try container.decodeIfPresent(Int64.self, forKey: .size).map { max(0, $0) }
         source = try container.decode(String.self, forKey: .source)
         tool = try container.decode(String.self, forKey: .tool)
         sourceKey = try container.decodeIfPresent(String.self, forKey: .sourceKey)
@@ -58,10 +59,18 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     }
 }
 
+extension [URL: Int64] {
+    /// The sizes History records, by item: those that were measured. An item whose size is not known is left out,
+    /// and is recorded as unknown rather than as zero.
+    public init(measured sizes: some Sequence<(URL, Int64?)>) {
+        self.init(sizes.compactMap { url, size in size.map { (url, $0) } }, uniquingKeysWith: { first, _ in first })
+    }
+}
+
 extension Sequence<RemovalRecord> {
-    /// The sum of the sizes, capped at `Int64.max` rather than crashing on overflow: the sizes come from a file.
-    public var totalSize: Int64 {
-        reduce(0) { $0.addingCapped($1.size) }
+    /// The sum of the sizes, incomplete when one of them is not known.
+    public var totalSize: SizeTotal {
+        SizeTotal(map(\.size))
     }
 }
 

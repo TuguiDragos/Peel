@@ -299,7 +299,7 @@ struct UninstallCommand: AsyncParsableCommand {
         // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
         let privacy = resetPrivacy ? Self.privacyOutcome(await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier), app: target) : nil
         let result = await plan.move(using: service)
-        let sizes = Dictionary(plan.items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+        let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
         let recorded = await Removals.record(result, from: target.name, sizes: sizes, tool: "applications")
         signal(SIGINT, SIG_DFL)
         signal(SIGTERM, SIG_DFL)

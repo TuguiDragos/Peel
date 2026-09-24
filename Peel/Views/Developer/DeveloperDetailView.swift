@@ -57,7 +57,7 @@ struct DeveloperDetailView: View {
                             result,
                             tool: .developer,
                             source: environment.name,
-                            sizes: Dictionary(environment.locations.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+                            sizes: [URL: Int64](measured: environment.locations.map { ($0.url, $0.size) })
                         )
                     }
                     // A nil result means nothing moved: one of the environment's apps was opened in the meantime.

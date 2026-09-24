@@ -126,7 +126,7 @@ struct OrphanDetailView: View {
         let result = await orphans.removeSelected(in: group, installedApps: library.apps)
         outcome.report(result)
         // History is written before the rescan, which can take a while: it is how the user puts back what just moved.
-        await history.record(result, tool: .orphans, source: group.identifier, sizes: Dictionary(group.items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first }))
+        await history.record(result, tool: .orphans, source: group.identifier, sizes: [URL: Int64](measured: group.items.map { ($0.url, $0.size) }))
         await orphans.refresh(from: library)
     }
 }

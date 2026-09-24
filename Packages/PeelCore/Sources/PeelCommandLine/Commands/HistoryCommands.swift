@@ -10,7 +10,7 @@ struct Batch {
     var date: Date { records.map(\.date).max() ?? .distantPast }
     var source: String { records.first?.source ?? "" }
     var tool: String { records.first?.tool ?? "" }
-    var size: Int64 { records.totalSize }
+    var size: SizeTotal { records.totalSize }
     /// The records whose items are still in the Trash. An item emptied from the Trash can't be put back.
     var restorable: [RemovalRecord] { records.filter(\.isStillInTrash) }
 
@@ -53,7 +53,7 @@ struct HistoryCommand: AsyncParsableCommand {
         let date: Date
         let source: String
         let tool: String
-        let size: Int64
+        let size: MeasuredSize
         let itemCount: Int
         let restorableCount: Int
         let files: [FileRecord]
@@ -83,7 +83,7 @@ struct HistoryCommand: AsyncParsableCommand {
                     date: batch.date,
                     source: batch.source,
                     tool: batch.tool,
-                    size: batch.size,
+                    size: MeasuredSize(batch.size),
                     itemCount: batch.records.count,
                     restorableCount: batch.restorable.count,
                     files: batch.records.map { FileRecord(path: Output.path($0.originalURL), size: MeasuredSize($0.size)) }

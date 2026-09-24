@@ -21,7 +21,11 @@ struct ForgetReceiptDialog: ViewModifier {
                         if !result.failures.isEmpty {
                             failure = result.failures.map { $0.url.abbreviatedPath }.joined(separator: "\n")
                         }
-                        await history.record(result, tool: .packages, source: receipt.identifier, sizes: [:])
+                        var sizes: [URL: Int64] = [:]
+                        for item in result.trashed {
+                            sizes[item.originalURL] = await FileSize.allocatedSize(of: item.trashedURL)
+                        }
+                        await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
                         await rescan()
                     }
                 }

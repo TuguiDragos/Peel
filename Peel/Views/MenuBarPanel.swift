@@ -65,10 +65,10 @@ struct MenuBarPanel: View {
 
     private var hero: some View {
         VStack(spacing: 8) {
-            Text(stats.bytesFreed.byteCount)
+            Text(stats.bytesFreed.text)
                 .font(.system(size: 50, weight: .bold, design: .rounded))
                 .monospacedDigit()
-                .contentTransition(.numericText(value: Double(stats.bytesFreed)))
+                .contentTransition(.numericText(value: Double(stats.bytesFreed.known)))
                 .motion(value: stats.bytesFreed)
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
@@ -88,7 +88,7 @@ struct MenuBarPanel: View {
         row("doc.on.doc", stats.itemsRemoved == 1 ? "File removed" : "Files removed", stats.itemsRemoved.shortCount, amount: stats.itemsRemoved)
         if stats.hasABiggestCleanUp {
             Divider().padding(.leading, Self.wordsInset)
-            row("internaldrive", "Biggest removal", stats.biggestCleanUp.byteCount, amount: stats.biggestCleanUp)
+            row("internaldrive", "Biggest removal", stats.biggestCleanUp.text, amount: stats.biggestCleanUp.known)
         }
         updates
     }

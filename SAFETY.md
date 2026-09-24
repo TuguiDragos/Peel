@@ -136,9 +136,9 @@ move, or one that needs the helper while it cannot act.
 Never selected for you, even when found: model weights, virtual environments, `/Users/Shared` (it belongs to
 every account, not just yours), a project you worked on this week, a folder with a repository, a wallet, or a
 signing key inside, a folder macOS would not let Peel read, and a folder Peel could not measure in time. Those
-last two are shown with their size as "Unknown", never as zero, in every tool: a folder too big to read quickly
-may be exactly the one with work inside, and nothing is selected for you without saying how much it is. A total
-that leaves such a folder out reads "Over" what is known.
+last two are shown with their size as "Unknown", never as zero, in every tool and in History once they are
+moved: a folder too big to read quickly may be exactly the one with work inside, and nothing is selected for you
+without saying how much it is. A total that leaves such a folder out reads "Over" what is known.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused.
 

@@ -1,7 +1,8 @@
 public import Foundation
 
-/// One removal as History shows it: the records that moved together, largest first. `grouped` lists the
-/// removals newest first, and lives here rather than in the app so the rule can be tested.
+/// One removal as History shows it: the records that moved together, largest first, and one Peel could not
+/// measure before them. `grouped` lists the removals newest first, and lives here rather than in the app so the
+/// rule can be tested.
 public struct RemovalGroup: Sendable, Hashable, Identifiable {
     public let id: UUID
     public let source: String
@@ -11,14 +12,17 @@ public struct RemovalGroup: Sendable, Hashable, Identifiable {
     public let date: Date
     public let records: [RemovalRecord]
 
-    public var size: Int64 { records.totalSize }
+    public var size: SizeTotal { records.totalSize }
 }
 
 extension RemovalRecord {
     public static func grouped(_ records: [RemovalRecord]) -> [RemovalGroup] {
         Dictionary(grouping: records, by: \.batch)
             .map { batch, records in
-                let sorted = records.sorted { $0.size != $1.size ? $0.size > $1.size : $0.originalURL.path(percentEncoded: false) < $1.originalURL.path(percentEncoded: false) }
+                let sorted = records.sorted {
+                    let (lhs, rhs) = (SizeTotal([$0.size]), SizeTotal([$1.size]))
+                    return lhs != rhs ? lhs > rhs : $0.originalURL.path(percentEncoded: false) < $1.originalURL.path(percentEncoded: false)
+                }
                 return RemovalGroup(
                     id: batch,
                     source: sorted.first?.source ?? "",

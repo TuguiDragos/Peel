@@ -620,7 +620,7 @@ struct CommandLineTests {
 
         #expect(batches.map(\.id) == [recent, old])
         #expect(batches[1].records.count == 2)
-        #expect(batches[1].size == 20)
+        #expect(batches[1].size == SizeTotal(known: 20, isComplete: true))
         #expect(batches[0].shortID == String(recent.uuidString.prefix(8)).lowercased())
     }
 

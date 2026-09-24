@@ -90,7 +90,30 @@ struct RemovalHistoryTests {
         let records = try decoder.decode([RemovalRecord].self, from: Data(stored.utf8))
 
         #expect(records.map(\.size) == [Int64.max, 0, 1], "a size below zero is no size")
-        #expect(records.totalSize == Int64.max, "the sum stops at the largest number there is instead of trapping")
+        #expect(records.totalSize == SizeTotal(known: .max, isComplete: true), "the sum stops at the largest number there is instead of trapping")
+    }
+
+    /// What Peel could not measure is recorded as not known, so History never shows it as zero and a total with
+    /// it in says "over". A record written without a size, or with `null`, reads the same way.
+    @Test func aSizeNobodyMeasuredStaysUnknown() throws {
+        let stored = """
+        [{"id":"\(UUID())","batch":"\(UUID())","originalURL":"file:///Applications/A.app","trashedURL":"file:///Users/x/.Trash/A.app",
+          "date":"2026-09-20T10:00:00Z","size":null,"source":"A","tool":"applications"},
+         {"id":"\(UUID())","batch":"\(UUID())","originalURL":"file:///Applications/B.app","trashedURL":"file:///Users/x/.Trash/B.app",
+          "date":"2026-09-20T10:00:00Z","source":"B","tool":"applications"},
+         {"id":"\(UUID())","batch":"\(UUID())","originalURL":"file:///Applications/C.app","trashedURL":"file:///Users/x/.Trash/C.app",
+          "date":"2026-09-20T10:00:00Z","size":7,"source":"C","tool":"applications"}]
+        """
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let records = try decoder.decode([RemovalRecord].self, from: Data(stored.utf8))
+
+        #expect(records.map(\.size) == [nil, nil, 7])
+        #expect(records.totalSize == SizeTotal(known: 7, isComplete: false))
+
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        #expect(try decoder.decode([RemovalRecord].self, from: encoder.encode(records)).map(\.size) == [nil, nil, 7])
     }
 
     @Test func tellsWhenAnItemIsNoLongerInTheTrash() throws {

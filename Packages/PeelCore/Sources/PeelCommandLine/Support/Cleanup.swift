@@ -91,7 +91,7 @@ struct Cleanup {
         signal(SIGINT, SIG_IGN)
         signal(SIGTERM, SIG_IGN)
         let result = await move(service, moving.map(\.url))
-        let sizes = Dictionary(items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+        let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
         let recorded = await Removals.record(
             TrashResult(trashed: result.trashed, failures: result.failures + refused),
             from: source,

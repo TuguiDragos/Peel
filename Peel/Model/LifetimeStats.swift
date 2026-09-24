@@ -12,28 +12,31 @@ final class LifetimeStats {
     private enum Key {
         static let installed = "statsInstalledOn"
         static let bytes = "statsBytesFreed"
+        static let bytesIncomplete = "statsBytesFreedIsIncomplete"
         static let items = "statsItemsRemoved"
         static let apps = "statsAppsRemoved"
         static let biggest = "statsBiggestCleanUp"
+        static let biggestIncomplete = "statsBiggestCleanUpIsIncomplete"
     }
 
     private let defaults: UserDefaults
 
     private(set) var installedOn: Date
-    private(set) var bytesFreed: Int64
+    /// Incomplete once a removal held something Peel could not measure: the total is then only the least it can be.
+    private(set) var bytesFreed: SizeTotal
     private(set) var itemsRemoved: Int
     private(set) var appsRemoved: Int
-    private(set) var biggestCleanUp: Int64
+    private(set) var biggestCleanUp: SizeTotal
 
     init(defaults: UserDefaults = .standard, bundle: URL = Bundle.main.bundleURL) {
         self.defaults = defaults
         installedOn = defaults.object(forKey: Key.installed) as? Date ?? Self.arrival(of: bundle)
         // Any process can write these preferences, so a total below zero is read as none, and every sum below
         // is capped rather than allowed to trap.
-        bytesFreed = max(0, Int64(defaults.integer(forKey: Key.bytes)))
+        bytesFreed = SizeTotal(known: max(0, Int64(defaults.integer(forKey: Key.bytes))), isComplete: !defaults.bool(forKey: Key.bytesIncomplete))
         itemsRemoved = max(0, defaults.integer(forKey: Key.items))
         appsRemoved = max(0, defaults.integer(forKey: Key.apps))
-        biggestCleanUp = max(0, Int64(defaults.integer(forKey: Key.biggest)))
+        biggestCleanUp = SizeTotal(known: max(0, Int64(defaults.integer(forKey: Key.biggest))), isComplete: !defaults.bool(forKey: Key.biggestIncomplete))
         defaults.set(installedOn, forKey: Key.installed)
     }
 
@@ -43,7 +46,7 @@ final class LifetimeStats {
 
     /// True when the biggest cleanup differs from the total. While the two are equal, as after the first
     /// cleanup, showing both would say the same thing twice.
-    var hasABiggestCleanUp: Bool { biggestCleanUp > 0 && biggestCleanUp != bytesFreed }
+    var hasABiggestCleanUp: Bool { biggestCleanUp.known > 0 && biggestCleanUp != bytesFreed }
 
     /// The date `bundle` was installed, which is the date it was added to its folder.
     ///
@@ -56,19 +59,22 @@ final class LifetimeStats {
     }
 
     /// Adds a removal to the totals. Apps are counted by the bundles that moved, not by batch: five apps
-    /// removed together count as five, and an app reset, which moves settings but no bundle, counts as none.
+    /// removed together count as five, and an app reset, which moves settings but no bundle, counts as none. An
+    /// item missing from `sizes` was not measured.
     func add(_ result: TrashResult, sizes: [URL: Int64]) {
         guard !result.trashed.isEmpty else { return }
-        let freed = result.trashed.reduce(Int64(0)) { $0.addingCapped(sizes[$1.originalURL] ?? 0) }
-        bytesFreed = bytesFreed.addingCapped(freed)
+        let freed = SizeTotal(result.trashed.map { sizes[$0.originalURL] })
+        bytesFreed = SizeTotal(known: bytesFreed.known.addingCapped(freed.known), isComplete: bytesFreed.isComplete && freed.isComplete)
         itemsRemoved = itemsRemoved.addingCapped(result.trashed.count)
         // A helper app kept under a Library folder is a leftover, not an app the user removed.
         appsRemoved = appsRemoved.addingCapped(result.trashed.count { $0.originalURL.pathExtension.lowercased() == "app" && !$0.originalURL.pathComponents.contains("Library") })
-        biggestCleanUp = max(biggestCleanUp, freed)
+        if freed.known > biggestCleanUp.known { biggestCleanUp = freed }
 
-        defaults.set(Int(bytesFreed), forKey: Key.bytes)
+        defaults.set(Int(bytesFreed.known), forKey: Key.bytes)
+        defaults.set(!bytesFreed.isComplete, forKey: Key.bytesIncomplete)
         defaults.set(itemsRemoved, forKey: Key.items)
         defaults.set(appsRemoved, forKey: Key.apps)
-        defaults.set(Int(biggestCleanUp), forKey: Key.biggest)
+        defaults.set(Int(biggestCleanUp.known), forKey: Key.biggest)
+        defaults.set(!biggestCleanUp.isComplete, forKey: Key.biggestIncomplete)
     }
 }

@@ -130,6 +130,42 @@ struct HistoryCommandTests {
         #expect(Batch.all(in: try #require(await logs.removals.load().records)).count == 3, "listing forgot nothing")
     }
 
+    /// What Peel could not measure is never printed as zero: the table says "over" while part of a removal is
+    /// known, and `--json` writes `null`, for the removal and for the file alike.
+    @Test func aSizeNobodyMeasuredIsNeverPrintedAsZero() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let known = try removal(in: directory).record
+        let unknown = RemovalRecord(
+            batch: known.batch,
+            item: TrashedItem(originalURL: directory.url.appending(path: "home/Documents/notes.txt"), trashedURL: try directory.file("home/.Trash/notes.txt", bytes: 3), date: .now),
+            size: nil,
+            source: "Editor",
+            tool: "applications"
+        )
+        _ = await logs.removals.add([known, unknown])
+
+        #expect(HistoryCommand.rows(for: Batch.all(in: [known, unknown]))[1][4] == "over 40 bytes")
+
+        let listing = try #require(try listed(try await printed(["history", "--json"], from: logs)).first as? [String: Any])
+        #expect(listing["size"] is NSNull)
+        let files = try #require(listing["files"] as? [[String: Any]])
+        #expect(Set(files.map { ($0["size"] as? Int).map(String.init) ?? "null" }) == ["40", "null"])
+    }
+
+    /// A caller passes the sizes it measured; an item it could not measure is left out and recorded as unknown.
+    @Test func anItemLeftOutOfTheSizesIsRecordedAsUnknown() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let measured = TrashedItem(originalURL: URL(filePath: "/Users/me/a.txt"), trashedURL: URL(filePath: "/Users/me/.Trash/a.txt"), date: .now)
+        let unmeasured = TrashedItem(originalURL: URL(filePath: "/Users/me/b"), trashedURL: URL(filePath: "/Users/me/.Trash/b"), date: .now)
+
+        #expect(await Removals.record(TrashResult(trashed: [measured, unmeasured]), from: "Editor", sizes: [measured.originalURL: 5], tool: "applications", in: logs.removals, refusals: logs.refusals))
+
+        let records = try #require(await logs.removals.load().records)
+        #expect(Dictionary(uniqueKeysWithValues: records.map { ($0.originalURL.lastPathComponent, $0.size) }) == ["a.txt": 5, "b": nil])
+    }
+
     @Test func forgetsTheRefusalsWhenAsked() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

@@ -571,10 +571,8 @@ struct AppDetailView: View {
         if let state = AppManagement.state(after: result, appBundles: [plan.app.url], movedByTheHelper: plan.privilegedURLs) {
             home.record(appManagement: state)
         }
-        var sizes = [plan.app.url: plan.appSize]
-        for leftover in plan.scan?.leftovers ?? [] {
-            sizes[leftover.url] = leftover.size
-        }
+        let sizes = [URL: Int64](measured: [(plan.app.url, plan.isAppMeasured ? plan.appSize : nil)]
+            + (plan.scan?.leftovers ?? []).map { ($0.url, $0.isMeasured ? $0.size : nil) })
         await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {

@@ -86,7 +86,7 @@ struct ProjectDetailView: View {
                             result,
                             tool: .projects,
                             source: group.project.lastPathComponent,
-                            sizes: Dictionary(group.artifacts.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+                            sizes: [URL: Int64](measured: group.artifacts.map { ($0.url, $0.size) })
                         )
                     }
                     outcome.report(result)

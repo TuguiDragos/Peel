@@ -34,7 +34,7 @@ struct RemovalBar: View {
                 Text(notice.words)
                     .foregroundStyle(.secondary)
             } else if let moved {
-                Text(moved.size > 0 ? moved.size.byteCount : String(inflecting: "^[\(moved.records.count) item](inflect: true)"))
+                Text(moved.size.known > 0 ? moved.size.text : String(inflecting: "^[\(moved.records.count) item](inflect: true)"))
                     .font(.barFigure)
                     .monospacedDigit()
                 Text("Moved")

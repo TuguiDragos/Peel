@@ -10,12 +10,13 @@ public struct SizeTotal: Sendable, Hashable, Comparable {
         self.isComplete = isComplete
     }
 
-    /// Reads `sizes` once, so a sequence that can be read only once is summed whole.
+    /// Reads `sizes` once, so a sequence that can be read only once is summed whole. The sum stops at `Int64.max`
+    /// rather than trapping, since some sizes come from a file any process can rewrite.
     public init(_ sizes: some Sequence<Int64?>) {
         var known: Int64 = 0
         var isComplete = true
         for size in sizes {
-            if let size { known += size } else { isComplete = false }
+            if let size { known = known.addingCapped(size) } else { isComplete = false }
         }
         self.init(known: known, isComplete: isComplete)
     }

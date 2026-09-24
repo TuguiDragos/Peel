@@ -316,6 +316,6 @@ struct ResetSheet: View {
     }
 
     private var sizes: [URL: Int64] {
-        Dictionary(plan.items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+        [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
     }
 }

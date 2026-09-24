@@ -105,7 +105,7 @@ private struct HistoryBatchRow: View {
         } details: {
             HStack(spacing: 6) {
                 Text("^[\(batch.records.count) item](inflect: true)")
-                Text(verbatim: batch.size.byteCount)
+                Text(verbatim: batch.size.text)
                     .monospacedDigit()
                 Text(batch.date, format: .relative(presentation: .named))
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))

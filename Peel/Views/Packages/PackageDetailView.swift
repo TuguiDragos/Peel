@@ -92,7 +92,7 @@ struct PackageDetailView: View {
                             result,
                             tool: .packages,
                             source: receipt.identifier,
-                            sizes: Dictionary(receipt.items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+                            sizes: [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
                         )
                     }
                     outcome.report(result)

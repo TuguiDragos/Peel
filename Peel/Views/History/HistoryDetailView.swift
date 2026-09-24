@@ -48,7 +48,7 @@ struct HistoryDetailView: View {
     }
 
     /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
-    private var restorableSize: Int64 {
+    private var restorableSize: SizeTotal {
         standing == nil ? batch.size : restorable.totalSize
     }
 
@@ -167,7 +167,7 @@ struct HistoryDetailView: View {
         } trailing: {
             // VoiceOver reads the figure and its caption as one element, since `TotalLabel` combines them.
             TotalLabel(
-                bytes: restorableSize,
+                total: restorableSize,
                 caption: standing == nil ? Text("moved") : Text("to put back")
             )
         }

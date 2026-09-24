@@ -15,23 +15,34 @@ struct DeviceSticker: View {
     let angle: Double
     /// The width of the label's longest word. A sticker narrower than this would break the word in two.
     @State private var longestWord: CGFloat = 0
+    /// The width of `value` at its full size, such as "Over 12.3 GB", which a narrower sticker would shrink or cut.
+    @State private var valueWidth: CGFloat = 0
     /// How far the label's last line sits above the sticker's bottom edge.
     @State private var labelRise: CGFloat = .infinity
 
     private static let labelFont = Font.system(.caption, design: .rounded, weight: .semibold)
+    private static let valueFont = Font.system(size: 16, weight: .bold, design: .rounded)
 
     /// At least 62 points tall, and taller when the words need it. In a row, every sticker stretches to the
-    /// height of the tallest one. As wide as `width`, or wider when the words need it.
+    /// height of the tallest one. As wide as `width`, or wider when the words or the figure need it.
     var body: some View {
         VStack(spacing: 0) {
             Text(value)
-                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .font(Self.valueFont)
                 .monospacedDigit()
                 .contentTransition(.numericText(value: amount ?? 0))
                 .motion(value: value)
                 .lineLimit(1)
                 .minimumScaleFactor(0.65)
                 .padding(.horizontal, 5)
+                .background {
+                    Text(value)
+                        .font(Self.valueFont)
+                        .monospacedDigit()
+                        .fixedSize()
+                        .hidden()
+                        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { valueWidth = $0 }
+                }
             Text(label)
                 .font(Self.labelFont)
                 .multilineTextAlignment(.center)
@@ -55,9 +66,10 @@ struct DeviceSticker: View {
 
     private nonisolated static let space = "sticker"
 
-    /// The width before `curveRoom`: `width`, or the longest word with 5 points on each side if that is wider.
+    /// The width before `curveRoom`: `width`, or the longest word or the figure with 5 points on each side if
+    /// that is wider.
     private var wordsWidth: CGFloat {
-        max(width, ceil(longestWord) + 10)
+        max(width, ceil(longestWord) + 10, ceil(valueWidth) + 10)
     }
 
     /// Extra width that keeps the clipping curve of a round sticker 3 points clear of the longest word on the

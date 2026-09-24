@@ -96,7 +96,7 @@ struct InstallerDetailView: View {
             Button("Move to Trash") {
                 Task {
                     // Sizes are read before the move: the rescan after it does not list the items that moved.
-                    let sizes = Dictionary(items.map { ($0.url, $0.size ?? 0) }, uniquingKeysWith: { first, _ in first })
+                    let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
                     let result = await installers.removeSelected(in: kind, installedApps: library.apps) { result in
                         await history.record(result, tool: .installers, source: kind.title.inEnglish, sourceKey: "installers.\(kind.rawValue)", sizes: sizes)
                     }

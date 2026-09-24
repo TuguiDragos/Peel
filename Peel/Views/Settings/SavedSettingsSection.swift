@@ -121,11 +121,13 @@ struct SavedSettingsSection: View {
     private func moveToTrash(_ copy: PreferenceBackup.Copy, named name: String) async {
         workingOn = copy.id
         defer { workingOn = nil }
+        // Measured before the move, since nothing is left at that path after it.
+        let size = await FileSize.allocatedSize(of: copy.folder)
         let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([copy.folder])
         if let reason = result.failures.first?.reason {
             failure = Failure(title: String(localized: "The copy couldn’t be moved to the Trash."), message: reason.explanation)
         }
-        await history.record(result, tool: .applications, source: name, sizes: [:])
+        await history.record(result, tool: .applications, source: name, sizes: [URL: Int64](measured: [(copy.folder, size)]))
         reload()
     }
 

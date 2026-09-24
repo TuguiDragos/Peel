@@ -39,11 +39,11 @@ struct RemovalBatch: Identifiable, Hashable {
         return source
     }
 
-    var size: Int64 { records.totalSize }
+    var size: SizeTotal { records.totalSize }
 
     var movedAnnouncement: AttributedString {
-        size > 0
-            ? AttributedString(localized: "Moved ^[\(records.count) item](inflect: true) to the Trash, \(size.byteCount).")
+        size.isComplete && size.known > 0
+            ? AttributedString(localized: "Moved ^[\(records.count) item](inflect: true) to the Trash, \(size.known.byteCount).")
             : AttributedString(localized: "Moved ^[\(records.count) item](inflect: true) to the Trash.")
     }
 }
@@ -100,7 +100,8 @@ final class RemovalHistoryStore {
     }
 
     /// Records a removal in History. When Peel wrote the source itself, pass it in English along with a
-    /// `sourceKey`, so History can show it in the user's language (see `RemovalRecord.sourceKey`).
+    /// `sourceKey`, so History can show it in the user's language (see `RemovalRecord.sourceKey`). An item missing
+    /// from `sizes` is recorded as unknown.
     func record(_ result: TrashResult, tool: Tool, source: String, sourceKey: String? = nil, sizes: [URL: Int64]) async {
         // Refusals are logged before the early return below: a removal where nothing moved is the one most
         // worth a record.
@@ -108,7 +109,7 @@ final class RemovalHistoryStore {
         guard !result.trashed.isEmpty else { return }
         let batch = UUID()
         let new = result.trashed.map {
-            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL] ?? 0, source: source, sourceKey: sourceKey, tool: tool.rawValue)
+            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool.rawValue)
         }
         let moved = RemovalBatch(id: batch, source: source, sourceKey: sourceKey, tool: tool, date: .now, records: new)
         justMoved = moved
