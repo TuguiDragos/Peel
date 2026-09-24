@@ -507,6 +507,7 @@ public enum DeveloperCaches {
         Definition(id: "azure", name: "Azure CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".azure/logs", .logs, source: "https://github.com/microsoft/knack/blob/dev/knack/log.py#L182-L184"),
             Folder(".azure/telemetry", .cache, source: "https://github.com/Azure/azure-cli/blob/dev/src/azure-cli-telemetry/azure/cli/telemetry/util.py#L30"),
+            Folder(".azure/commands", .logs, source: "https://github.com/Azure/azure-cli/blob/dev/src/azure-cli-core/azure/cli/core/azlogging.py#L61"),
         ]),
         Definition(id: "kubectl", name: "kubectl", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".kube/cache/discovery", .cache, source: "https://github.com/kubernetes/cli-runtime/blob/master/pkg/genericclioptions/config_flags.go#L317-L331"),
@@ -534,6 +535,18 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "firebase", name: "Firebase CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".cache/firebase", .downloads, source: "https://github.com/firebase/firebase-tools/blob/main/src/emulator/downloadableEmulators.ts#L29-L30"),
+        ]),
+        // Virtual machines
+        Definition(id: "lima", name: "Lima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/lima", .downloads, source: "https://github.com/lima-vm/lima/blob/master/website/content/en/docs/dev/internals.md#L137-L145"),
+        ]),
+        Definition(id: "minikube", name: "minikube", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
+            Folder(".minikube/cache/iso", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
+            Folder(".minikube/cache/kic", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
+            Folder(".minikube/cache/preloaded-tarball", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
+        ]),
+        Definition(id: "vagrant", name: "Vagrant", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
+            Folder(".vagrant.d/tmp", .cache, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L143"),
         ]),
         // Build systems and media
         Definition(id: "ccache", name: "ccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
@@ -565,6 +578,10 @@ public enum DeveloperCaches {
             // `Library/Caches/Unity/upm` from Unity 6 (docs.unity3d.com, Manual/upm-cache.html for each version).
             Folder("Library/Caches/Unity/upm", .downloads, source: "https://docs.unity3d.com/Manual/upm-cache.html"),
             Folder("Library/Unity/cache", .downloads, source: "https://docs.unity3d.com/2022.3/Documentation/Manual/upm-cache.html"),
+            Folder("Library/Logs/Unity", .logs, source: "https://docs.unity3d.com/Manual/log-files.html"),
+        ]),
+        Definition(id: "godot", name: "Godot", systemImage: "cube.transparent", appBundleIdentifiers: ["org.godotengine.godot"], folders: [
+            Folder("Library/Caches/Godot", .cache, source: "https://github.com/godotengine/godot-docs/blob/master/tutorials/io/data_paths.rst#L157-L166"),
         ]),
         Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], folders: [
             Folder("Library/Caches/Blender", .cache, source: "https://projects.blender.org/blender/blender/src/branch/main/source/blender/blenkernel/intern/appdir.cc#L228"),
@@ -589,6 +606,7 @@ public enum DeveloperCaches {
         Definition(id: "ollama", name: "Ollama", systemImage: "brain", appBundleIdentifiers: ["com.electron.ollama"], folders: [
             Folder(".ollama/models", .models, source: "https://github.com/ollama/ollama/blob/main/docs/faq.mdx#L233-L236"),
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/main/docs/macos.mdx#L26-L28"),
+            Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/main/app/updater/updater_darwin.go#L88-L96"),
         ]),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model"),
@@ -624,6 +642,20 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "nltk", name: "NLTK Data", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder("nltk_data", .models, source: "https://github.com/nltk/nltk/blob/develop/nltk/downloader.py#L1399-L1402"),
+        ]),
+        Definition(id: "llamacpp", name: "llama.cpp", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/llama.cpp", .models, source: "https://github.com/ggml-org/llama.cpp/blob/master/common/common.cpp#L1051-L1068"),
+        ]),
+        Definition(id: "modelscope", name: "ModelScope", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/modelscope/hub", .models, source: "https://github.com/modelscope/modelscope/blob/master/modelscope/utils/file_utils.py#L41-L46"),
+        ]),
+        Definition(id: "kagglehub", name: "Kaggle Hub", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/kagglehub", .models, source: "https://github.com/Kaggle/kagglehub/blob/main/src/kagglehub/config.py#L17"),
+        ]),
+        Definition(id: "jan", name: "Jan", systemImage: "brain", appBundleIdentifiers: ["jan.ai.app"], folders: [
+            Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
+            Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
+            Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),
     ]
 

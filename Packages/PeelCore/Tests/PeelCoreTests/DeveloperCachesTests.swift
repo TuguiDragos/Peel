@@ -169,6 +169,9 @@ struct DeveloperCachesTests {
             // Neovim its swap and undo files.
             "Library/Application Support/Code", "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
             "Library/Application Support/Zed", ".local/state/nvim",
+            // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
+            // Jan its chat history; Ollama a copy of its app while it updates.
+            ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
