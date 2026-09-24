@@ -91,38 +91,43 @@ public enum FileSearch {
     }
 
     /// Turns the paths Spotlight found into results: checked on disk, sorted, and cut to `maximumResults`. It is
-    /// separate from the query so a test can pass its own paths instead of relying on the Spotlight index.
+    /// separate from the query so a test can pass its own paths, and its own answer in place of the guard's.
     static func results(
         from paths: [String],
         environment: SearchEnvironment = .current,
-        exclusions: Exclusions = .none
+        exclusions: Exclusions = .none,
+        allows: ((URL) -> Bool)? = nil
     ) -> FileSearchResults {
-        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
-        var results = FileSearchResults()
+        let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
+        var candidates: [(url: URL, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
             var info = stat()
             guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { continue }
             let url = URL(filePath: path)
-            guard removalGuard.allowsRemoval(of: url) else { continue }
-            results.files.append(FoundFile(
-                url: url,
-                size: Int64(info.st_size),
-                modificationDate: Date(timeIntervalSince1970: TimeInterval(info.st_mtimespec.tv_sec)),
-                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                belongsToAnApp: isAppData(url, home: environment.homeDirectory),
-                identity: FileIdentity(info)
-            ))
+            candidates.append((url, info, isAppData(url, home: environment.homeDirectory)))
         }
+        // In the list's order before the guard is asked, so it is asked only about files that can make the list.
         // What an app keeps for itself goes last: the tool is for finding what the user made.
-        results.files.sort {
+        candidates.sort {
             if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
-            return $0.size != $1.size ? $0.size > $1.size : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            return $0.info.st_size != $1.info.st_size
+                ? $0.info.st_size > $1.info.st_size
+                : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
-        // Cut after the sort: `MDQuery.h` promises no order, so cutting first would keep an arbitrary set of
-        // files rather than the largest.
-        if results.files.count > maximumResults {
-            results.files = Array(results.files.prefix(maximumResults))
-            results.isTruncated = true
+        var results = FileSearchResults()
+        for candidate in candidates where allows(candidate.url) {
+            guard results.files.count < maximumResults else {
+                results.isTruncated = true
+                break
+            }
+            results.files.append(FoundFile(
+                url: candidate.url,
+                size: Int64(candidate.info.st_size),
+                modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
+                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(candidate.url),
+                belongsToAnApp: candidate.belongsToAnApp,
+                identity: FileIdentity(candidate.info)
+            ))
         }
         return results
     }

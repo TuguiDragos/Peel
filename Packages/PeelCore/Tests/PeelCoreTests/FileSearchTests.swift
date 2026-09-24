@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 @testable import PeelCore
 import Testing
 import UniformTypeIdentifiers
@@ -125,6 +126,32 @@ struct FileSearchTests {
         #expect(results.files.count == FileSearch.maximumResults)
         #expect(results.files.first?.url == biggest)
         #expect(results.isTruncated)
+    }
+
+    /// The guard is asked only about the files that can make the list: the largest first, and no further once
+    /// the list is full and one more file shows it had to be cut.
+    @Test func asksTheGuardOnlyAboutFilesThatCanMakeTheList() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        var paths: [String] = []
+        for index in 0..<(FileSearch.maximumResults + 50) {
+            paths.append(try directory.file("home/Documents/file\(index).png", bytes: index + 1).path(percentEncoded: false))
+        }
+        let asked = Mutex(0)
+
+        let results = FileSearch.results(
+            from: paths,
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            allows: { _ in
+                asked.withLock { $0 += 1 }
+                return true
+            }
+        )
+
+        #expect(results.files.count == FileSearch.maximumResults)
+        #expect(results.isTruncated)
+        #expect(results.files.first?.size == Int64(FileSearch.maximumResults + 50))
+        #expect(asked.withLock { $0 } == FileSearch.maximumResults + 1)
     }
 
     /// An excluded file is never listed, whatever Spotlight says about it.
