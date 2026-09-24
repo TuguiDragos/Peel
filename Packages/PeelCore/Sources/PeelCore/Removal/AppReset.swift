@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// The files a reset can clear for an app, so the app starts fresh without being uninstalled. The app itself,
 /// its launch agents and its helper tools are never part of a reset: removing them would break the app.
@@ -120,13 +121,15 @@ public struct AppReset: Sendable {
         }
         let scan = await LeftoverScanner(environment: environment, exclusions: exclusions).scan(app, installedApps: installedApps)
         let keepsAppData = dataIsNeverOffered.contains(app.bundleIdentifier)
-        // A container held back because of the documents inside it is still looked into: a reset never touches
-        // `Documents`, and the settings next to them are what a reset is for.
+        // A container held back because of the documents or a wallet's keys inside it is still looked into: a reset
+        // never touches `Documents`, never offers a folder that holds keys, and the settings beside them are what a
+        // reset is for.
         let usable = scan.leftovers.filter { leftover in
             // Only `certain`, never `likely`: a reset ends in `defaults delete`, and a display name or an unlisted
             // prefix may also belong to something else (an app called Yarn, and the Yarn command-line tool).
             let isCertainlyTheApps = leftover.match.confidence == .certain && !leftover.match.isShared
-            let isOffered = leftover.match.heldBack == nil || (leftover.kind == .containers && leftover.match.heldBack == .holdsDocuments)
+            let isOffered = leftover.match.heldBack == nil
+                || (leftover.kind == .containers && [.holdsDocuments, .holdsKeys].contains(leftover.match.heldBack))
             return isCertainlyTheApps && isOffered && !leftover.requiresPrivileges
         }
 
@@ -146,7 +149,7 @@ public struct AppReset: Sendable {
                 needsFullDiskAccess = needsFullDiskAccess || access == .missing
                 continue
             }
-            items += await itemsInside(container.url, of: app, exclusions: exclusions, measure: measure)
+            items += await itemsInside(container.url, of: app, exclusions: exclusions, home: environment.homeDirectory, measure: measure)
         }
 
         return AppReset(
@@ -161,12 +164,13 @@ public struct AppReset: Sendable {
         _ container: URL,
         of app: InstalledApp,
         exclusions: Exclusions,
+        home: URL,
         measure: FileSize.Measure
     ) async -> [Item] {
         var items: [Item] = []
         for folder in containerFolders {
             let url = container.appending(path: folder.path, directoryHint: .isDirectory)
-            guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+            guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url), !holdsKeys(url, home: home) else { continue }
             items.append(Item(url: url, kind: folder.kind, group: folder.group, size: await measure(url)))
         }
         let preferences = container.appending(path: containerPreferenceFolder, directoryHint: .isDirectory)
@@ -180,5 +184,13 @@ public struct AppReset: Sendable {
             items.append(Item(url: file, kind: .preferences, group: .settings, size: await measure(file)))
         }
         return items
+    }
+
+    /// True for a folder that holds a wallet's or a key's file `ProtectedData` names, or a browser profile with a
+    /// wallet in it, which `RemovalGuard` would refuse to move.
+    private static func holdsKeys(_ url: URL, home: URL) -> Bool {
+        let path = url.path(percentEncoded: false)
+        let home = home.path(percentEncoded: false)
+        return ProtectedData.refuses(path, home: home) || ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path)
     }
 }

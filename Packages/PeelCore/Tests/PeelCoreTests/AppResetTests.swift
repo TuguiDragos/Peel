@@ -143,6 +143,26 @@ struct AppResetTests {
         #expect(!reset.needsFullDiskAccess)
     }
 
+    /// A wallet can keep its keys in its container's `Caches`, as BlueWallet does. A reset still clears the settings
+    /// beside them, with documents in the container or without, and never offers the folder that holds the keys.
+    @Test func neverOffersAFolderInAContainerThatHoldsAWallet() async throws {
+        for hasDocuments in [false, true] {
+            let directory = try TemporaryDirectory()
+            let blueWallet = app("io.bluewallet.bluewallet", name: "BlueWallet")
+            try directory.file("Library/Containers/io.bluewallet.bluewallet/Data/Library/Caches/keyvalue.realm", bytes: 4096)
+            try directory.file("Library/Containers/io.bluewallet.bluewallet/Data/Library/Cookies/jar", bytes: 4096)
+            if hasDocuments {
+                try directory.file("Library/Containers/io.bluewallet.bluewallet/Data/Documents/export.pdf", bytes: 4096)
+            }
+
+            let reset = await AppReset.prepare(blueWallet, installedApps: [blueWallet], environment: home(directory))
+            let names = Set(reset.items.map(\.url.lastPathComponent))
+
+            #expect(names.contains("Cookies"), "the settings beside the wallet were not offered")
+            #expect(!names.contains("Caches"), "the folder holding the wallet was offered")
+        }
+    }
+
     @Test func keepsTheDataInsideAContainerWhenTheAppIsOneOfTheFour() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Containers/com.apple.Notes/Data/Library/Preferences/com.apple.Notes.plist", bytes: 4096)

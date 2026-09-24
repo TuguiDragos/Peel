@@ -217,15 +217,16 @@ public struct LeftoverScanner: Sendable {
         // A folder that did not answer in time is unknown, not empty: it may hold a repository, and the largest
         // folders are the ones that run out of time.
         let contents = await measure(url)
-        // A folder macOS refuses to open would read as empty, and an empty folder of the app's own would be
-        // selected. From macOS 27, another team's container is refused outright rather than prompted for.
-        let heldBack: HoldBack? = if contents?.couldNotBeRead == true {
+        // Where a protected key lies is known from the path alone, so that reason comes first. A folder macOS
+        // refuses to open would read as empty, and an empty folder of the app's own would be selected. From
+        // macOS 27, another team's container is refused outright rather than prompted for.
+        let heldBack: HoldBack? = if ProtectedData.holds(url.path(percentEncoded: false), home: home)
+            || ProtectedData.holdsABrowserWallet(url.path(percentEncoded: false)) {
+            .holdsKeys
+        } else if contents?.couldNotBeRead == true {
             .couldNotBeRead
         } else if kind == .containers, ProtectedData.holdsAContainersDocuments(url.path(percentEncoded: false)) {
             .holdsDocuments
-        } else if ProtectedData.holds(url.path(percentEncoded: false), home: home)
-            || ProtectedData.holdsABrowserWallet(url.path(percentEncoded: false)) {
-            .holdsKeys
         } else if ProtectedData.holdsALibrary(url.path(percentEncoded: false)) {
             .holdsALibrary
         } else if let contents {

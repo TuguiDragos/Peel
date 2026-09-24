@@ -561,6 +561,24 @@ struct LeftoverScannerTests {
         #expect(folder.match.heldBack?.cannotBeMoved == true)
     }
 
+    /// Where a key Peel protects lies is known from the path alone, so a folder macOS will not let Peel read, but
+    /// that holds such a key, is shown as one that cannot be selected, not merely as one that was not read.
+    @Test func aFolderThatCannotBeReadButHoldsAProtectedKeyCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("home/Library/Application Support/Litecoin")
+
+        let leftover = await LeftoverScanner.leftover(
+            at: folder,
+            kind: .applicationSupport,
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+            parent: ParentAccess(folder.deletingLastPathComponent()),
+            home: directory.url.appending(path: "home").path(percentEncoded: false),
+            measure: { _ in FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
+        )
+
+        #expect(leftover.match.heldBack == .holdsKeys)
+    }
+
     /// A browser's folder that holds a profile with a wallet extension cannot be selected either.
     @Test func aBrowsersFolderHoldingAWalletCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
