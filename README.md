@@ -63,9 +63,10 @@ Peel is free and open source, and it speaks English and 17 other languages.
   containers and group containers, preferences, saved state, logs, launch agents and daemons, plug-in folders, and
   more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
-- **Only the sure things are selected.** Files that certainly belong to the app are selected for you. A file
-  another installed app also uses is shown but never selected, and anything Peel is less sure of waits under
-  Review Before Removing.
+- **Only the sure things are selected.** Files that certainly belong to the app are selected for you, unless
+  Peel sees something inside that may exist nowhere else, such as a crypto wallet, a signing key, or a
+  repository. A file another installed app also uses is shown but never selected, and anything Peel is less sure
+  of waits under Review Before Removing.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel. With Watch the Trash on, Peel notices when you
   drag an app to the Trash yourself and offers to clear what it left behind.
@@ -151,6 +152,9 @@ A cleaner should never cost you something you wanted. Peel is built around that.
 - **Protected places stay protected.** Peel refuses to move iCloud Drive, keychains, your SSH and signing keys, the
   keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and
   iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.
+- **Crypto wallets are never selected for you.** Beyond the places wallets keep their keys, a folder an uninstall
+  or Orphaned Files finds a wallet or a signing key in is shown with that reason and moves only if you select it
+  yourself. [SAFETY.md](SAFETY.md#crypto-wallets) says how Peel knows one.
 - **Checked again at the last moment.** Peel looks at each item once more right before it moves, so something
   swapped in the meantime stays where it is.
 - **Nothing shared, nothing unknown.** A file another app also uses is never selected for you. A folder Peel

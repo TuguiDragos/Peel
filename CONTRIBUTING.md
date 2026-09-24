@@ -80,8 +80,9 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 
 - **`RemovalGuard` refuses what nothing can bring back**, in every account on the Mac:
   - iCloud Drive and other cloud storage folders, and the Trash itself;
-  - keychains, `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.password-store`, and the signing keys, credentials, and
-    wallets that `ProtectedData.homeKeys` names one by one;
+  - keychains, `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.password-store`, the signing keys and credentials that
+    `ProtectedData.homeKeys` names one by one, and the wallet keys that `ProtectedData.walletKeys` names, each
+    read from the wallet's own documentation or source;
   - Mail, Messages, Safari, Contacts, Calendars, Reminders, Shortcuts, HomeKit, Accounts, Finance,
     IdentityServices, FaceTime and call history, Freeform, Journal, Stickies, the passes in Wallet, and every
     group container of Apple's own, where macOS keeps notes and other data;
@@ -102,6 +103,9 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   sits in. Every "is this inside that folder" question goes through `PathComponents`.
 - **Only `certain` and `likely` matches that no other installed app claims are selected for the user.**
   Anything shared is shown and left unselected, and nothing is selected for an app that would stay.
+- **What may exist nowhere else is never selected for the user.** A folder with a wallet, a signing key, or a
+  repository inside, or one Peel could not finish reading, is shown with its reason and moves only when the user
+  selects it: Select All, `peel uninstall`, and `peel orphans --remove` pass it by.
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
 - **Resetting an app clears its settings, never the app.** It takes the app's own data only when the user
   selects it, needs the app to be quit, and inside a sandboxed app's container never touches `Documents`,

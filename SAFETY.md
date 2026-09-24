@@ -2,8 +2,8 @@
 
 Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can
 take something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what
-it selects for you and what it leaves to you, how a reset stays within an app's settings, and what its helper,
-which runs as root, may do.
+it selects for you and what it leaves to you, how it keeps crypto wallets, how a reset stays within an app's
+settings, and what its helper, which runs as root, may do.
 
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
@@ -152,6 +152,23 @@ In Duplicates, one copy of every group always stays, and a file that changed sin
 
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine
 snapshots are explained, never deleted.
+
+## Crypto wallets
+
+A wallet's keys can be the only way to what they hold, so Peel keeps them in three ways.
+
+- **Where wallets keep their keys is never removed.** The 58 places in the table at the top of this page, each
+  read from the wallet's own documentation or source, are refused outright by the app, the `peel` tool, and the
+  helper, and so is any folder that holds one. What comes back on its own beside a key, such as a downloaded
+  blockchain, can still go.
+- **A wallet found anywhere else is never selected for you.** When an uninstall or Orphaned Files measures a
+  folder, it also looks inside for the names wallets and key tools give their files: anything called
+  `wallet.dat`, `wallets`, `keystore`, `seed.dat`, `hsm_secret`, or `channel.backup`, anything ending in `.wallet`
+  or `.keys`, and the others `FileSize.isWallet` lists. A folder with one inside is shown with that reason and
+  never selected for you, not even by Select All in Orphaned Files, `peel uninstall`, or `peel orphans --remove`.
+  You can still select it yourself, because a name can mislead: a Java project keeps a `keystore` too.
+- **A folder Peel could not finish reading is treated the same way.** A coin's data folder, with its blockchain,
+  is the one most likely to be too big to read in time, and its wallet may be inside.
 
 ## What you can exclude
 
