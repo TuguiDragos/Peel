@@ -42011,112 +42011,6 @@
         }
       }
     },
-    "It comes with no warranty, to the extent the law allows." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je poskytován bez záruky v rozsahu, který zákon povoluje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Software wird ohne jede Gewährleistung bereitgestellt, soweit gesetzlich zulässig."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se ofrece sin ninguna garantía, en la medida en que lo permita la ley."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce logiciel est fourni sans aucune garantie, dans la mesure permise par la loi."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non è fornito con alcuna garanzia, nei limiti consentiti dalla legge."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "法律で認められる範囲で、一切の保証はありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "법이 허용하는 범위 내에서 어떠한 보증도 제공되지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het wordt geleverd zonder garantie, voor zover de wet dat toestaat."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jest dostarczany bez żadnej gwarancji, w zakresie dozwolonym przez prawo."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ele vem sem nenhuma garantia, na medida permitida pela lei."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este oferit fără nicio garanție, în măsura permisă de lege."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Предоставляется без каких-либо гарантий в пределах, допустимых законом."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel levereras utan garanti, i den omfattning som lagen tillåter."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yasaların izin verdiği ölçüde, hiçbir garanti olmaksızın sunulur."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Постачається без жодних гарантій у межах, дозволених законом."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在法律允许的范围内，本软件不提供任何担保。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在法律允許的範圍內，本軟體不提供任何擔保。"
-          }
-        }
-      }
-    },
     "It doesn’t pass Gatekeeper, the check macOS makes before it opens an app." : {
       "localizations" : {
         "cs" : {
@@ -75659,6 +75553,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel最多列出%lld個檔案：你的檔案優先，並由大到小排列。請縮小搜尋範圍以查看其餘檔案。"
+          }
+        }
+      }
+    },
+    "Peel moves what it removes to the Trash, and History can put it back. As the GPL states, it comes with no warranty, to the extent the law allows." : {
+      "comment" : "Under the license's name. History is Peel's page of everything it moved to the Trash.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel přesouvá do koše vše, co odstraní, a Historie to může vrátit zpět. Jak uvádí GPL, je Peel poskytován bez záruky v rozsahu, který zákon povoluje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles, was Peel entfernt, wird in den Papierkorb gelegt, und im Verlauf kannst du es zurücklegen. Wie die GPL festhält, wird Peel ohne jede Gewährleistung bereitgestellt, soweit gesetzlich zulässig."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel traslada a la papelera lo que elimina, e Historial puede restaurarlo. Como establece la GPL, se ofrece sin ninguna garantía, en la medida en que lo permita la ley."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel place dans la corbeille ce qu’il supprime, et l’Historique peut le remettre en place. Comme l’indique la GPL, ce logiciel est fourni sans aucune garantie, dans la mesure permise par la loi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sposta nel Cestino ciò che rimuove, e la Cronologia può ripristinarlo. Come stabilisce la GPL, non è fornito con alcuna garanzia, nei limiti consentiti dalla legge."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは取り除くものをゴミ箱に入れ、履歴から戻すことができます。GPLに記載されているとおり、法律で認められる範囲で、一切の保証はありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 제거하는 항목을 휴지통으로 이동하며, 기록에서 되돌려 놓을 수 있습니다. GPL에 명시된 바와 같이, 법이 허용하는 범위 내에서 어떠한 보증도 제공되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst wat het verwijdert naar de prullenmand, en Geschiedenis kan het terugzetten. Zoals de GPL vermeldt, wordt Peel geleverd zonder garantie, voor zover de wet dat toestaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przenosi do Kosza wszystko, co usuwa, a Historia może to przywrócić. Jak stanowi licencja GPL, jest dostarczany bez żadnej gwarancji, w zakresie dozwolonym przez prawo."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel move para o Lixo o que remove, e o Histórico pode colocá-lo de volta. Como declara a GPL, o Peel vem sem nenhuma garantia, na medida permitida pela lei."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mută în Coș ce elimină și îl puteți pune înapoi din Istoric. Așa cum se precizează în GPL, Peel este oferit fără nicio garanție, în măsura permisă de lege."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel перемещает в Корзину все, что удаляет, и История может это восстановить. Как указано в GPL, Peel предоставляется без каких-либо гарантий в пределах, допустимых законом."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som Peel tar bort flyttas till papperskorgen, och Historik kan lägga tillbaka det. Som GPL anger levereras Peel utan garanti, i den omfattning som lagen tillåter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kaldırdıklarını Çöp Sepeti’ne taşır ve Geçmiş onları yerine koyabilir. GPL’de belirtildiği gibi, yasaların izin verdiği ölçüde hiçbir garanti olmaksızın sunulur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel переміщує в Смітник усе, що вилучає, і Історія може це повернути. Як зазначено в GPL, Peel постачається без жодних гарантій у межах, дозволених законом."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel移除的内容都会移到废纸篓，“历史记录”可以将其放回原处。如GPL所述，在法律允许的范围内，本软件不提供任何担保。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel移除的項目都會丟到「垃圾桶」，「歷史記錄」可以將它們還原。如GPL所述，在法律允許的範圍內，本軟體不提供任何擔保。"
           }
         }
       }

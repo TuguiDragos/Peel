@@ -65,8 +65,12 @@ struct AboutContent: View {
             }
             .buttonStyle(.link)
             .padding(.vertical, -Self.creditReach)
-            Text("It comes with no warranty, to the extent the law allows.")
-                .foregroundStyle(.tertiary)
+            Text(
+                "Peel moves what it removes to the Trash, and History can put it back. As the GPL states, it comes with no warranty, to the extent the law allows.",
+                comment: "Under the license's name. History is Peel's page of everything it moved to the Trash."
+            )
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.tertiary)
             // Apache 2.0 asks that the notice travel with anything that ships the code, and the `peel` command does.
             // One sentence with the link inside, so a language can put it where its grammar wants it.
             Text("The peel command uses [swift-argument-parser](peel-license:swift-argument-parser-LICENSE)", comment: "Keep the link as it is.")
