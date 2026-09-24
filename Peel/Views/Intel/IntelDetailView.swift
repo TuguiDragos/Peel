@@ -24,23 +24,29 @@ struct IntelDetailView: View {
                     Text("On an Apple silicon Mac it would need Rosetta.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                } else if Rosetta.isInstalled {
-                    // After macOS 27, Apple keeps Rosetta only for older games, which is why this says "most"
-                    // rather than "all" (developer.apple.com/news, Rosetta).
-                    Text("macOS 27 is the last release that runs most Intel software through Rosetta. Apple keeps it for older games.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+                } else {
+                    if Rosetta.isInstalled {
+                        // After macOS 27, Apple keeps Rosetta only for older games, which is why this says "most"
+                        // rather than "all" (developer.apple.com/news, Rosetta).
+                        Text("macOS 27 is the last release that runs most Intel software through Rosetta. Apple keeps it for older games.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        // A Mac that had Rosetta does not get it back after upgrading to macOS 27. Without it, Intel
+                        // software does not run at all, so the text must not say it runs through Rosetta.
+                        Text("Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    }
+                    // The list also names Intel apps that are only installed, so it matters without Rosetta too.
                     if #available(macOS 27, *) {
                         Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                        Button("Open System Settings") {
+                            NSWorkspace.shared.open(DeviceInfo.aboutURL)
+                        }
                     }
-                } else {
-                    // A Mac that had Rosetta does not get it back after upgrading to macOS 27. Without it, Intel
-                    // software does not run at all, so the text must not say it runs through Rosetta.
-                    Text("Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
                 }
             } header: {
                 Text("Why It Matters")
