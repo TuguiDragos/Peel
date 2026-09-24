@@ -88,8 +88,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
 - **Installers and Backups:** installers of apps you already have, macOS installers, device firmware, and what your
   iPhone backups hold. Nothing is selected for you.
-- **iCloud Drive:** files already safe in iCloud that still take room on this Mac. Freeing one keeps it in iCloud
-  and removes only the copy on this Mac.
+- **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
+  Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
 - **Space:** what's taking up room, and which app it belongs to.
 - **File Search:** large or old files, found through Spotlight.
 

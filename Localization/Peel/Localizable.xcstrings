@@ -28067,6 +28067,112 @@
         }
       }
     },
+    "Files in iCloud that are also downloaded to this Mac. Remove Downloads takes away only the copy here, just as it does in Finder: each file stays in iCloud and downloads again when you open it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory na iCloudu, které jsou zároveň stažené do tohoto Macu. Příkaz „Odstranit stažené“ odstraní jen kopii v tomto Macu, stejně jako ve Finderu: každý soubor zůstane na iCloudu a znovu se stáhne, až ho otevřete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dateien in iCloud, die auch auf diesen Mac geladen wurden. „Downloads entfernen“ entfernt, genau wie im Finder, nur die Kopie hier: Jede Datei bleibt in iCloud und wird wieder geladen, wenn du sie öffnest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos de iCloud que también están descargados en este Mac. “Eliminar descargas” solo quita la copia que hay aquí, igual que en el Finder: cada archivo sigue en iCloud y se vuelve a descargar cuando lo abres."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers stockés dans iCloud qui sont aussi téléchargés sur ce Mac. « Retirer les téléchargements » n’enlève que la copie présente ici, tout comme dans le Finder : chaque fichier reste dans iCloud et est à nouveau téléchargé lorsque vous l’ouvrez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File su iCloud scaricati anche su questo Mac. “Rimuovi i download” toglie solo la copia che si trova qui, proprio come nel Finder: ogni file resta su iCloud e viene scaricato di nuovo quando lo apri."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudにあり、このMacにもダウンロードされているファイルです。“ダウンロードしたものを削除”は、Finderと同じように、このMacにあるコピーだけを取り除きます。どのファイルもiCloudに残り、開くと再びダウンロードされます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud에 있으면서 이 Mac에도 다운로드되어 있는 파일입니다. ‘다운로드 제거’는 Finder에서와 마찬가지로 이 Mac에 있는 복사본만 제거합니다. 각 파일은 iCloud에 그대로 있으며 열면 다시 다운로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestanden in iCloud die ook naar deze Mac zijn gedownload. 'Verwijder downloads' haalt alleen de kopie hier weg, net als in Finder: elk bestand blijft in iCloud en wordt opnieuw gedownload wanneer je het opent."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki w iCloud, które są też pobrane na tego Maca. „Usuń pobrane rzeczy” usuwa tylko kopię na tym Macu, tak samo jak w Finderze: każdy plik pozostaje w iCloud i pobierze się ponownie, gdy go otworzysz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivos do iCloud que também foram baixados para este Mac. Remover Downloads retira apenas a cópia que está aqui, exatamente como no Finder: cada arquivo continua no iCloud e é baixado de novo quando você o abre."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișiere de pe iCloud care sunt descărcate și pe acest Mac. „Eliminați descărcările” elimină doar copia de aici, la fel ca în Finder: fiecare fișier rămâne pe iCloud și se descarcă din nou când îl deschideți."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы, которые хранятся в iCloud и также загружены на этот Mac. Как и в Finder, команда «Удалить загрузки» убирает только копию на этом Mac: каждый файл остается в iCloud и снова загружается, когда Вы его открываете."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filer i iCloud som också har hämtats till den här datorn. ”Ta bort hämtningarna” tar bara bort kopian här, precis som i Finder: varje fil finns kvar i iCloud och hämtas igen när du öppnar den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud’da olan ve bu Mac’e de indirilmiş dosyalar. İndirilenleri Sil, tıpkı Finder’da olduğu gibi yalnızca buradaki kopyayı kaldırır: her dosya iCloud’da kalır ve onu açtığınızda yeniden indirilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли в iCloud, які також викачано на цей Mac. Команда «Вилучити викачування» прибирає лише копію на цьому Mac, так само як у Finder: кожен файл лишається в iCloud і знову викачується, коли ви його відкриваєте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既在iCloud中、也已下载到这台Mac上的文件。与在“访达”中一样，“移除下载”只会移除这台Mac上的副本：每个文件都仍保留在iCloud中，并会在你打开时重新下载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存放在iCloud中、也已下載到這部Mac上的檔案。「移除下載項目」只會移除這部Mac上的副本，就和在Finder中一樣：每個檔案都會保留在iCloud中，你打開時會重新下載。"
+          }
+        }
+      }
+    },
     "Files named with an app’s identifier that no installed app claims will appear here." : {
       "localizations" : {
         "cs" : {
@@ -28382,112 +28488,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dropbox、Google Drive、OneDrive和其他供應商保留在這部Mac上的檔案。"
-          }
-        }
-      }
-    },
-    "Files that are in iCloud and also taking up room here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Soubory, které jsou na iCloudu a zároveň zabírají místo tady."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dateien, die in iCloud liegen und auch hier Speicherplatz belegen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivos que están en iCloud y que además ocupan espacio aquí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les fichiers stockés dans iCloud qui occupent aussi de l’espace ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File che sono su iCloud e occupano spazio anche qui."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloudにあり、このMacでも領域を使っているファイルです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud에 있으면서 이 Mac의 공간도 차지하는 파일입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestanden die in iCloud staan en hier ook ruimte innemen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pliki, które są w iCloud i zajmują też miejsce na tym Macu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivos que estão no iCloud e também ocupam espaço aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișiere care sunt pe iCloud și ocupă spațiu și aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файлы, которые хранятся в iCloud и при этом занимают место здесь."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filer som finns i iCloud och som också tar upp utrymme här."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud’da olan ve burada da yer kaplayan dosyalar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файли, які є в iCloud і водночас займають місце тут."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "存储在iCloud中，同时也占用这台Mac空间的文件。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "存放在iCloud中、同時也佔用此處空間的檔案。"
           }
         }
       }
@@ -30620,218 +30620,6 @@
       "comment" : "Homebrew's own name for one of its two kinds of package, in the plural. It heads a section of the Homebrew page and labels a count there. Homebrew prints it in English whatever language the Mac uses, so it stays in English.",
       "shouldTranslate" : false
     },
-    "Free Up Space" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uvolnit místo"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speicherplatz freigeben"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liberar espacio"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Libérer de l’espace"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Libera spazio"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "領域を解放"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공간 확보"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maak ruimte vrij"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwolnij miejsce"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liberar Espaço"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliberați spațiu"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Освободить место"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frigör utrymme"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yer Boşalt"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Звільнити місце"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "释放空间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "釋放空間"
-          }
-        }
-      }
-    },
-    "Free up %@ on this Mac?" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uvolnit %@ v tomto Macu?"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ auf diesem Mac freigeben?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Liberar %@ en este Mac?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Libérer %@ sur ce Mac ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vuoi liberare %@ su questo Mac?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacの%@を解放しますか?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac에서 %@의 공간을 확보하겠습니까?"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ vrijmaken op deze Mac?"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwolnić %@ na tym Macu?"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liberar %@ neste Mac?"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliberați %@ pe acest Mac?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Освободить %@ на этом Mac?"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vill du frigöra %@ på den här datorn?"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu Mac’te %@ yer boşaltılsın mı?"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Звільнити %@ на цьому Mac?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要在这台Mac上释放%@吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要在這部Mac上釋放%@嗎？"
-          }
-        }
-      }
-    },
     "Free up space from inside the provider’s app" : {
       "localizations" : {
         "cs" : {
@@ -31146,112 +30934,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已在這部Mac上釋放%@。"
-          }
-        }
-      }
-    },
-    "Freeing these takes back the room they use here. They stay in iCloud, Finder still shows them, and they download again the moment you open one." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jejich uvolněním získáte zpět místo, které tu zabírají. Zůstanou na iCloudu, Finder je bude dál zobrazovat a znovu se stáhnou, jakmile některý z nich otevřete."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenn du diese Dateien freigibst, bekommst du den Speicherplatz zurück, den sie hier belegen. Sie bleiben in iCloud, der Finder zeigt sie weiterhin an, und sie werden wieder geladen, sobald du eine davon öffnest."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al liberarlos, recuperas el espacio que ocupan aquí. Siguen en iCloud, el Finder los sigue mostrando y se vuelven a descargar en cuanto abres uno."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les libérer permet de récupérer l’espace qu’ils occupent ici. Ils restent dans iCloud, le Finder les affiche toujours, et ils sont à nouveau téléchargés dès que vous en ouvrez un."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liberandoli recuperi lo spazio che occupano qui. Restano su iCloud, il Finder continua a mostrarli e vengono scaricati di nuovo appena ne apri uno."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "解放すると、これらがこのMacで使っている領域が空きます。iCloudには残り、Finderにも引き続き表示され、開いた時点で再びダウンロードされます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공간을 확보하면 이 파일들이 이 Mac에서 차지하던 공간이 돌아옵니다. 파일은 iCloud에 그대로 있고 Finder에도 계속 표시되며, 파일을 여는 즉시 다시 다운로드됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Als je deze vrijmaakt, krijg je de ruimte terug die ze hier innemen. Ze blijven in iCloud, Finder toont ze nog steeds en ze worden opnieuw gedownload zodra je er een opent."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gdy je zwolnisz, odzyskasz miejsce, które zajmują na tym Macu. Pozostaną w iCloud, Finder nadal będzie je pokazywać, a każdy z nich pobierze się ponownie, gdy tylko go otworzysz."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ao liberar estes arquivos, você recupera o espaço que eles ocupam aqui. Eles continuam no iCloud, o Finder ainda os mostra, e eles são baixados de novo assim que você abre um deles."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dacă le eliberați, recuperați spațiul pe care îl ocupă aici. Rămân pe iCloud, Finder le afișează în continuare și se descarcă din nou imediat ce deschideți unul dintre ele."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Если освободить эти файлы, занимаемое ими здесь место станет свободным. Они остаются в iCloud, Finder по-прежнему их показывает, а файл снова загружается, как только Вы его открываете."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Om du frigör de här får du tillbaka utrymmet som de tar upp här. De finns kvar i iCloud, Finder visar dem fortfarande och de hämtas igen så fort du öppnar en av dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunları boşalttığınızda burada kapladıkları yeri geri kazanırsınız. iCloud’da kalırlar, Finder onları göstermeye devam eder ve birini açtığınız anda yeniden indirilirler."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Звільнивши ці файли, ви повернете місце, яке вони тут займають. Вони лишаються в iCloud, Finder і далі їх показує, а щойно ви відкриєте файл, його буде знову викачано."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "释放这些文件会收回它们在这台Mac上占用的空间。它们仍保留在iCloud中，“访达”也仍会显示它们，你一打开其中某个文件，它就会重新下载。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "釋放這些檔案會收回它們在這裡佔用的空間。它們仍會保留在iCloud中，Finder也仍會顯示它們，而你一打開其中一個，它就會重新下載。"
           }
         }
       }
@@ -65226,112 +64908,6 @@
         }
       }
     },
-    "Nothing is deleted. The files stay in iCloud and download again when you open them." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nic se nesmaže. Soubory zůstanou na iCloudu a znovu se stáhnou, až je otevřete."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es wird nichts gelöscht. Die Dateien bleiben in iCloud und werden wieder geladen, wenn du sie öffnest."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se borra nada. Los archivos siguen en iCloud y se vuelven a descargar cuando los abres."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rien n’est supprimé. Les fichiers restent dans iCloud et sont à nouveau téléchargés lorsque vous les ouvrez."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non viene eliminato nulla. I file restano su iCloud e vengono scaricati di nuovo quando li apri."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "何も削除されません。ファイルはiCloudに残り、開くと再びダウンロードされます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아무것도 삭제되지 않습니다. 파일은 iCloud에 그대로 있으며 열면 다시 다운로드됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er wordt niets verwijderd. De bestanden blijven in iCloud en worden opnieuw gedownload wanneer je ze opent."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nic nie zostanie usunięte. Pliki pozostaną w iCloud i pobiorą się ponownie, gdy je otworzysz."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nada é apagado. Os arquivos continuam no iCloud e são baixados de novo quando você os abre."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu se șterge nimic. Fișierele rămân pe iCloud și se descarcă din nou când le deschideți."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ничего не удаляется. Файлы остаются в iCloud и снова загружаются, когда Вы их открываете."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inget raderas. Filerna finns kvar i iCloud och hämtas igen när du öppnar dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hiçbir şey silinmez. Dosyalar iCloud’da kalır ve onları açtığınızda yeniden indirilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нічого не видаляється. Файли лишаються в iCloud і знову викачуються, коли ви їх відкриваєте."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不会删除任何内容。文件仍保留在iCloud中，打开时会重新下载。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不會刪除任何檔案。這些檔案會保留在iCloud中，你打開時會重新下載。"
-          }
-        }
-      }
-    },
     "Nothing is installed with Homebrew yet. Tools and apps you install with it will appear here." : {
       "localizations" : {
         "cs" : {
@@ -67130,6 +66706,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "檔案丟到「垃圾桶」後，此項目就會停止。"
+          }
+        }
+      }
+    },
+    "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po odstranění stažených kopií Finder tyto soubory dál zobrazuje, s obláčkem vedle každého názvu. Smazat soubor je něco jiného: tím ho odstraníte z iCloudu i z vašich ostatních zařízení a Peel to tady nikdy nedělá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ihre Downloads entfernt sind, führt der Finder diese Dateien weiterhin auf, jeweils mit einem Wolkensymbol neben dem Namen. Eine Datei zu löschen ist etwas anderes: Dadurch wird sie aus iCloud und von deinen anderen Geräten entfernt, und das tut Peel hier nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una vez eliminadas las descargas de estos archivos, el Finder los sigue mostrando, con una nube junto a cada nombre. Borrar un archivo es distinto: lo elimina de iCloud y de tus otros dispositivos, y Peel nunca lo hace aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois leurs téléchargements retirés, ces fichiers restent affichés dans le Finder, avec un nuage à côté de chaque nom. Supprimer un fichier est tout autre chose : il disparaît alors d’iCloud et de vos autres appareils, et Peel ne le fait jamais ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta rimossi i download, il Finder continua a elencare questi file, con una nuvola accanto a ogni nome. Eliminare un file è un’altra cosa: lo rimuove da iCloud e dagli altri tuoi dispositivi, e qui Peel non lo fa mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものを削除しても、これらのファイルはFinderに引き続き表示され、名前の横に雲のアイコンが付きます。これに対し、ファイル自体を削除すると、iCloudからも、ほかのデバイスからも削除されます。Peelがこのページでファイル自体を削除することは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다운로드를 제거한 후에도 Finder에는 이 파일들이 계속 표시되며, 각 파일 이름 옆에 구름 아이콘이 나타납니다. 파일 삭제는 이와 다릅니다. 파일을 삭제하면 iCloud는 물론 다른 기기에서도 삭제되며, Peel은 여기에서 파일을 절대 삭제하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als hun downloads zijn verwijderd, toont Finder deze bestanden nog steeds, met een wolkje naast elke naam. Het bestand zelf verwijderen is iets anders: dan verdwijnt het uit iCloud en van je andere apparaten, en dat doet Peel hier nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po usunięciu pobranych rzeczy Finder nadal pokazuje te pliki, z ikoną chmury obok każdej nazwy. Usunięcie samego pliku to co innego: zostaje on wtedy usunięty z iCloud i z Twoich pozostałych urządzeń, a Peel nigdy tego tutaj nie robi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depois que os downloads são removidos, o Finder continua listando estes arquivos, com uma nuvem ao lado de cada nome. Apagar um arquivo é diferente: ele é removido do iCloud e dos seus outros dispositivos, e o Peel nunca faz isso aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După eliminarea descărcărilor, aceste fișiere apar în continuare în Finder, fiecare cu un nor lângă nume. Ștergerea unui fișier este altceva: îl elimină de pe iCloud și de pe celelalte dispozitive ale dvs., iar Peel nu face niciodată acest lucru aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После удаления загрузок Finder по-прежнему показывает эти файлы со значком облака рядом с каждым именем. Если же удалить сам файл, он будет удален из iCloud и с других Ваших устройств, а здесь Peel никогда этого не делает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När hämtningarna har tagits bort visar Finder fortfarande de här filerna, med en molnsymbol bredvid varje namn. Att radera en fil är något annat: då tas den bort från iCloud och från dina andra enheter, och det gör Peel aldrig här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu dosyalar, indirilenleri kaldırıldıktan sonra da Finder’da adlarının yanında birer bulut simgesiyle listelenmeye devam eder. Bir dosyayı silmek ise farklıdır: dosya iCloud’dan ve diğer aygıtlarınızdan silinir ve Peel bunu burada hiçbir zaman yapmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли викачування цих файлів вилучено, Finder і далі їх показує, а біля кожної назви стоїть хмарка. Видалення файлу діє інакше: воно прибирає файл з iCloud і з інших ваших пристроїв, і тут Peel ніколи цього не робить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除下载后，“访达”仍会列出这些文件，并在每个文件名旁边显示一个云朵图标。删除文件则不同：文件会从iCloud和你的其他设备中删除，Peel在这里绝不会这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除下載項目後，Finder仍會列出這些檔案，並在每個檔案名稱旁顯示雲朵圖像。刪除檔案則不同：這會將檔案從iCloud和你的其他裝置上移除，而Peel絕不會在此處這麼做。"
           }
         }
       }
@@ -84389,6 +84071,112 @@
         }
       }
     },
+    "Remove Downloads" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit stažené"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar descargas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer les téléchargements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi i download"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものを削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다운로드 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder downloads"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń pobrane rzeczy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover Downloads"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați descărcările"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить загрузки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort hämtningarna"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirilenleri Sil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити викачування"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除下载"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除下載項目"
+          }
+        }
+      }
+    },
     "Remove Peel" : {
       "localizations" : {
         "cs" : {
@@ -84809,6 +84597,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除App及其留下的檔案。"
+          }
+        }
+      }
+    },
+    "Remove the downloads from this Mac?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit stažené z tohoto Macu?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Downloads von diesem Mac entfernen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar las descargas de este Mac?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer les téléchargements de ce Mac ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi rimuovere i download da questo Mac?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものをこのMacから削除しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서 다운로드를 제거하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De downloads van deze Mac verwijderen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usunąć pobrane rzeczy z tego Maca?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover os downloads deste Mac?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați descărcările de pe acest Mac?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить загрузки с этого Mac?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du ta bort hämtningarna från den här datorn?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirilenler bu Mac’ten kaldırılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити викачування з цього Mac?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要从这台Mac上移除下载吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要從這部Mac上移除下載項目嗎？"
           }
         }
       }
@@ -112163,6 +112057,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此驅動程式僅支援Intel。若沒有Rosetta，它所服務的裝置可能會停止運作。"
+          }
+        }
+      }
+    },
+    "This frees %@. Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tím se uvolní %@. Z iCloudu se nic nesmaže: soubory tam zůstanou, Finder je bude dál zobrazovat a znovu se stáhnou, až je otevřete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das gibt %@ frei. Es wird nichts aus iCloud gelöscht: Die Dateien bleiben dort, der Finder führt sie weiterhin auf, und sie werden wieder geladen, wenn du sie öffnest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto libera %@. No se borra nada de iCloud: los archivos siguen ahí, el Finder los sigue mostrando y se vuelven a descargar cuando los abres."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela libère %@. Rien n’est supprimé d’iCloud : les fichiers y restent, le Finder continue de les afficher, et ils sont à nouveau téléchargés lorsque vous les ouvrez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In questo modo liberi %@. Non viene eliminato nulla da iCloud: i file restano lì, il Finder continua a elencarli e vengono scaricati di nuovo quando li apri."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この操作で%@が解放されます。iCloudからは何も削除されません。ファイルはそのままiCloudに残り、Finderにも引き続き表示され、開くと再びダウンロードされます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 공간이 확보됩니다. iCloud에서는 아무것도 삭제되지 않습니다. 파일은 iCloud에 그대로 있고 Finder에도 계속 표시되며, 열면 다시 다운로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiermee komt %@ vrij. Er wordt niets uit iCloud verwijderd: de bestanden blijven daar, Finder toont ze nog steeds en ze worden opnieuw gedownload wanneer je ze opent."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwolni to %@. Nic nie zostanie usunięte z iCloud: pliki tam pozostaną, Finder nadal będzie je pokazywać, a gdy je otworzysz, pobiorą się ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isso libera %@. Nada é apagado do iCloud: os arquivos continuam lá, o Finder ainda os lista, e eles são baixados de novo quando você os abre."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astfel se eliberează %@. Nu se șterge nimic de pe iCloud: fișierele rămân acolo, apar în continuare în Finder și se descarcă din nou când le deschideți."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это освободит %@. Из iCloud ничего не удаляется: файлы остаются там, Finder по-прежнему их показывает, и они снова загружаются, когда Вы их открываете."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här frigör %@. Inget raderas från iCloud: filerna finns kvar där, Finder visar dem fortfarande och de hämtas igen när du öppnar dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işlem %@ yer boşaltır. iCloud’dan hiçbir şey silinmez: dosyalar orada kalır, Finder’da listelenmeye devam eder ve onları açtığınızda yeniden indirilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це звільнить %@. З iCloud нічого не видаляється: файли лишаються там, Finder і далі їх показує, і вони знову викачуються, коли ви їх відкриваєте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会释放%@。不会从iCloud删除任何内容：文件仍保留在那里，“访达”也仍会列出它们，你打开时它们会重新下载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會釋放%@。不會從iCloud刪除任何檔案：這些檔案會保留在iCloud中，Finder仍會列出它們，你打開時會重新下載。"
           }
         }
       }

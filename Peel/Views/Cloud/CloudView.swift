@@ -41,7 +41,7 @@ struct CloudView: View {
                     SectionHeaderLine {
                         heading(
                             "On This Mac and in iCloud",
-                            "Freeing these takes back the room they use here. They stay in iCloud, Finder still shows them, and they download again the moment you open one."
+                            "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
                         )
                     } actions: {
                         SelectAllButton(selectable: listed.map(\.url), selection: Bindable(cloud).selectedURLs)
@@ -109,7 +109,7 @@ struct CloudView: View {
                     scan: cloud.scanRun,
                     isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing && !cloud.isScanning,
                     onRemove: { isConfirming = true },
-                    title: "Free Up Space",
+                    title: "Remove Downloads",
                     systemImage: "icloud.and.arrow.down",
                     notice: freed
                 )
@@ -124,8 +124,8 @@ struct CloudView: View {
                 }
             }
         }
-        .confirmationDialog(Text("Free up \(cloud.selectedSize.byteCount) on this Mac?"), isPresented: $isConfirming) {
-            Button("Free Up Space") {
+        .confirmationDialog(Text("Remove the downloads from this Mac?"), isPresented: $isConfirming) {
+            Button("Remove Downloads") {
                 Task {
                     let bytes = await cloud.freeSelected()
                     guard bytes > 0 else { return }
@@ -135,7 +135,7 @@ struct CloudView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Nothing is deleted. The files stay in iCloud and download again when you open them.")
+            Text("This frees \(cloud.selectedSize.byteCount). Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them.")
         }
         .task {
             guard cloud.files == nil, !cloud.isScanning, !cloud.scanRun.wasStopped else { return }
@@ -163,7 +163,7 @@ struct CloudView: View {
             Text("iCloud Drive")
                 .pageTitle()
         } details: {
-            Text("Files that are in iCloud and also taking up room here.")
+            Text("Files in iCloud that are also downloaded to this Mac. Remove Downloads takes away only the copy here, just as it does in Finder: each file stays in iCloud and downloads again when you open it.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
         } trailing: {
