@@ -579,6 +579,31 @@ struct LeftoverScannerTests {
         #expect(leftover.match.heldBack == .holdsKeys)
     }
 
+    /// A reason the guard will refuse the move for comes before the walk's, so a container with documents inside,
+    /// or a folder around a library, reads as one that cannot be selected even when macOS would not let Peel read
+    /// the folder.
+    @Test func whatTheGuardWillRefuseComesBeforeAFolderThatCouldNotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let container = try directory.directory("home/Library/Containers/com.example.notes")
+        try directory.file("home/Library/Containers/com.example.notes/Data/Documents/novel.txt")
+        let photos = try directory.directory("home/Library/Application Support/Example")
+        try directory.file("home/Library/Application Support/Example/2024/Trip.photoslibrary/database/Photos.sqlite")
+        let unread: LeftoverScanner.Measure = { _ in FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
+        func leftover(_ url: URL, _ kind: SearchLocation.Kind) async -> Leftover {
+            await LeftoverScanner.leftover(
+                at: url,
+                kind: kind,
+                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+                parent: ParentAccess(url.deletingLastPathComponent()),
+                home: directory.url.appending(path: "home").path(percentEncoded: false),
+                measure: unread
+            )
+        }
+
+        #expect(await leftover(container, .containers).match.heldBack == .holdsDocuments)
+        #expect(await leftover(photos, .applicationSupport).match.heldBack == .holdsALibrary)
+    }
+
     /// A browser's folder that holds a profile with a wallet extension cannot be selected either.
     @Test func aBrowsersFolderHoldingAWalletCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
