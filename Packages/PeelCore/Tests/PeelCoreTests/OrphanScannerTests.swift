@@ -222,6 +222,17 @@ struct OrphanScannerTests {
         #expect(items.first?.leftAlone == .holdsALibrary)
     }
 
+    /// An app that is gone can leave its wallet behind in its container, and `RemovalGuard` refuses the
+    /// container around it.
+    @Test func anOrphanedFolderThatHoldsAProtectedWalletSaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Containers/io.bluewallet.bluewallet/Data/Library/Caches/keyvalue.realm")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.first?.leftAlone == .holdsKeys)
+    }
+
     /// The apps macOS ships claim their folders like any other app, and none of them is in the list Peel scans.
     @Test func ignoresGroupsDeclaredBySystemApps() async throws {
         let directory = try TemporaryDirectory()

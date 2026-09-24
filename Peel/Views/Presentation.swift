@@ -192,6 +192,8 @@ extension HoldBack {
             "Left alone: a photo, music, or video library is inside, so Peel leaves this folder where it is."
         case .holdsAWallet:
             "Not selected: a wallet or a signing key is inside. Once the Trash is emptied, what it opens is gone for good unless you have a backup."
+        case .holdsKeys:
+            "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .insideAnotherAppsFolder:
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
         case .beyondTheHelper:

@@ -75,7 +75,8 @@ public struct Uninstallation: Sendable {
                     at: url,
                     kind: .receipts,
                     match: LeftoverMatch(reason: .installerReceipt, confidence: .certain, sharedWith: []),
-                    parent: ParentAccess(url.deletingLastPathComponent())
+                    parent: ParentAccess(url.deletingLastPathComponent()),
+                    home: environment.homeDirectory.path(percentEncoded: false)
                 ))
             }
         }
@@ -111,7 +112,8 @@ public struct Uninstallation: Sendable {
                     confidence: item.isInLibrary && own != nil ? .likely : .possible,
                     sharedWith: rivals.union(own?.sharedWith ?? []).sorted()
                 ),
-                parent: ParentAccess(item.url.deletingLastPathComponent())
+                parent: ParentAccess(item.url.deletingLastPathComponent()),
+                home: environment.homeDirectory.path(percentEncoded: false)
             )
             leftovers.append(exclusions.holds(item.url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
         }

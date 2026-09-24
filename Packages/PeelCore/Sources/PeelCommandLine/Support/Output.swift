@@ -239,6 +239,7 @@ extension HoldBack {
         case .holdsDocuments: "holds the app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsAWallet: "holds a wallet or a signing key"
+        case .holdsKeys: "holds a wallet or a key Peel protects"
         case .insideAnotherAppsFolder: "inside another app's folder"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
         }

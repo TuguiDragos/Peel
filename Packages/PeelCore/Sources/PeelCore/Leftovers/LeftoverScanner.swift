@@ -149,7 +149,7 @@ public struct LeftoverScanner: Sendable {
             let url = location.url.appending(path: name)
             guard !isIrreplaceable(url, home: home) else { continue }
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle), !isSharedWithTheWholeMac(url, home: home) {
-                leftovers.append(await leftover(at: url, kind: location.kind, match: match, parent: parent, measure: measure))
+                leftovers.append(await leftover(at: url, kind: location.kind, match: match, parent: parent, home: home, measure: measure))
             } else if nestedKinds.contains(location.kind), url.isRealFolder {
                 // Not this app's. Whether it is somebody else's decides what a name inside it is worth.
                 nobodysFolders.append((url, isSomebodyElses(name, kind: location.kind, matcher: matcher)))
@@ -189,7 +189,7 @@ public struct LeftoverScanner: Sendable {
                     guard !isIrreplaceable(url, home: home) else { continue }
                     if let match = matcher.match(fileName: name, kind: kind), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
-                        found.append(await leftover(at: url, kind: kind, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps, measure: measure))
+                        found.append(await leftover(at: url, kind: kind, match: match, parent: parent, home: home, isInsideAnotherAppsFolder: isAnotherApps, measure: measure))
                     } else if depth + 1 < nestedDepth, url.isRealFolder {
                         deeper.append((url, isAnotherApps || isSomebodyElses(name, kind: kind, matcher: matcher)))
                     }
@@ -207,6 +207,7 @@ public struct LeftoverScanner: Sendable {
         kind: SearchLocation.Kind,
         match: LeftoverMatch,
         parent: ParentAccess,
+        home: String,
         isInsideAnotherAppsFolder: Bool = false,
         measure: Measure = LeftoverScanner.walk
     ) async -> Leftover {
@@ -222,6 +223,8 @@ public struct LeftoverScanner: Sendable {
             .couldNotBeRead
         } else if kind == .containers, ProtectedData.holdsAContainersDocuments(url.path(percentEncoded: false)) {
             .holdsDocuments
+        } else if ProtectedData.holds(url.path(percentEncoded: false), home: home) {
+            .holdsKeys
         } else if ProtectedData.holdsALibrary(url.path(percentEncoded: false)) {
             .holdsALibrary
         } else if let contents {

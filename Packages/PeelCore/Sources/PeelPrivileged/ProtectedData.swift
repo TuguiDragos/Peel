@@ -60,16 +60,78 @@ public enum ProtectedData: Sendable {
     ///   `settings.xml`.
     /// - `gradle.properties` is where Gradle's signing documentation says to keep `signing.keyId`,
     ///   `signing.password`, and `signing.secretKeyRingFile`, rather than in a project.
-    /// - `wallets` holds Electrum's wallets. Unless the user kept the seed phrase, losing the file loses the
-    ///   money.
     /// - `.git-credentials` is git's credential store, which keeps passwords in plain text
     ///   (`man git-credential-store`).
     public static let homeKeys = [
         ".android/debug.keystore",
         ".m2/settings-security.xml",
         ".gradle/gradle.properties",
-        ".electrum/wallets",
         ".git-credentials",
+    ]
+
+    /// Where desktop wallets and key tools keep their keys, as each project's own documentation or source says.
+    /// Losing one loses what it holds unless its seed phrase was kept somewhere else, so each is refused, and so
+    /// is every folder holding one, while what sits beside it and comes back on its own, such as a downloaded
+    /// blockchain, can still go. A whole folder is named where the keys lie at its top among everything else.
+    public static let walletKeys = [
+        "Library/Application Support/Bitcoin/wallets",
+        "Library/Application Support/Bitcoin/wallet.dat",
+        "Library/Application Support/Litecoin/wallets",
+        "Library/Application Support/Litecoin/wallet.dat",
+        "Library/Application Support/Dogecoin/wallet.dat",
+        "Library/Application Support/DashCore/wallets",
+        "Library/Application Support/DashCore/wallet.dat",
+        "Library/Application Support/Zcash/wallet.dat",
+        "Library/Application Support/Zcash/zingo-wallet.dat",
+        ".zallet/wallet.db",
+        ".zallet/encryption-identity.txt",
+        "Library/Containers/me.hanh.ywallet.ywallet/Data/Library/Application Support/me.hanh.ywallet.ywallet/databases",
+        "Monero/wallets",
+        "Library/Application Support/MyMonero",
+        ".electrum/wallets",
+        ".electrum-ltc/wallets",
+        ".electrum-grs/wallets",
+        ".electron-cash/wallets",
+        ".electrum-dash/wallets",
+        ".sparrow/wallets",
+        ".local/share/sparrow/wallets",
+        ".walletwasabi/client/Wallets",
+        ".specter/wallets",
+        ".specter/devices",
+        "Library/Application Support/Bisq/btc_mainnet/wallet",
+        "Library/Application Support/Bisq/btc_mainnet/keys",
+        "Library/Application Support/Liana/bitcoin",
+        "Library/Application Support/Nunchuk",
+        "Library/Application Support/Blockstream/Green/wallets2",
+        "Library/Containers/io.bluewallet.bluewallet/Data/Library/Caches/keyvalue.realm",
+        "Library/Application Support/Exodus/exodus.wallet",
+        "Library/Application Support/Exodus/Backups",
+        "Library/Application Support/atomic",
+        "Library/Application Support/@onekeyhq/desktop",
+        "Library/Application Support/Frame/signers",
+        "Library/Application Support/rabby-desktop",
+        "Library/Ethereum/keystore",
+        ".foundry/keystores",
+        "Library/Preferences/hardhat-nodejs/keystore.json",
+        ".phoenix/seed.dat",
+        "Library/Application Support/Lnd/data",
+        ".lightning/bitcoin/hsm_secret",
+        ".lightning/bitcoin/lightningd.sqlite3",
+        ".lightning/bitcoin/emergency.recover",
+        "Library/Application Support/albyhub",
+        ".config/solana/id.json",
+        ".sui/sui_config/sui.keystore",
+        ".aptos/config.yaml",
+        ".near-credentials",
+        ".tezos-client/secret_keys",
+        ".gaia/keyring-file",
+        ".gaia/keyring-test",
+        ".gaia/config/priv_validator_key.json",
+        "Library/Application Support/Daedalus Mainnet/wallets",
+        "Library/Application Support/decrediton/wallets",
+        ".chia_keys",
+        ".grin/main/wallet_data",
+        ".kaspa",
     ]
 
     /// Hidden items in the home folder that belong to no single app: shells, git, and the folders many tools
@@ -207,7 +269,7 @@ public enum ProtectedData: Sendable {
     private static func trees(under home: String) -> [[String]] {
         treesByHome.withLock { cache in
             if let trees = cache[home] { return trees }
-            let trees = (homeFolders + homeKeys).map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) }
+            let trees = (homeFolders + homeKeys + walletKeys).map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) }
             if cache.count >= 32 { cache.removeAll() }
             cache[home] = trees
             return trees

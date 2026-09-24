@@ -46887,6 +46887,112 @@
         }
       }
     },
+    "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: uvnitř je peněženka nebo klíč, které Peel chrání, a proto Peel tuto složku ponechá, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Darin liegt eine von Peel geschützte Wallet oder ein von Peel geschützter Schlüssel, daher lässt Peel diesen Ordner, wo er ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: dentro hay un monedero digital o una clave que Peel protege, así que Peel deja esta carpeta donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : il contient un portefeuille ou une clé que Peel protège, et Peel laisse donc ce dossier là où il est."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: all’interno c’è un wallet o una chiave che Peel protegge, quindi Peel non sposta questa cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: Peelが保護しているウォレットまたは鍵が中にあるため、Peelはこのフォルダをそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: Peel이 보호하는 지갑이나 키가 안에 있으므로 Peel은 이 폴더를 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: er zit een wallet of een sleutel in die Peel beschermt, dus Peel laat deze map staan waar die staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: w środku jest portfel lub klucz chroniony przez Peel, więc Peel zostawia ten folder na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: há dentro uma carteira ou uma chave que o Peel protege, então o Peel deixa esta pasta onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: înăuntru se află un portofel sau o cheie pe care Peel le protejează, așa că Peel lasă acest dosar unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: внутри находится кошелек или ключ, который защищает Peel, поэтому Peel оставляет эту папку там, где она находится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: en plånbok eller en nyckel som Peel skyddar ligger i den, så Peel lämnar mappen där den är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: içinde Peel’in koruduğu bir cüzdan veya anahtar var, bu yüzden Peel bu klasörü yerinde bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: усередині є гаманець або ключ, які захищає Peel, тож Peel не переміщує цю папку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：其中有受Peel保护的钱包或密钥，因此Peel会将此文件夹保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：其中有受Peel保護的錢包或密鑰，因此Peel會讓此檔案夾留在原處。"
+          }
+        }
+      }
+    },
     "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here." : {
       "localizations" : {
         "cs" : {

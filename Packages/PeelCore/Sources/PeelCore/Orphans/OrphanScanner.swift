@@ -56,9 +56,10 @@ public struct OrphanScanner: Sendable {
         )
 
         let results = await withTaskGroup(of: LocationResult.self) { group in
+            let home = environment.homeDirectory.path(percentEncoded: false)
             for location in environment.locations {
                 _ = group.addTaskUnlessCancelled { [walk] in
-                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, walk: walk)
+                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, home: home, walk: walk)
                 }
             }
             return await group.reduce(into: [LocationResult]()) { $0.append($1) }
@@ -248,6 +249,7 @@ public struct OrphanScanner: Sendable {
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
         goneBundles: [String: String],
+        home: String,
         walk: LeftoverScanner.Measure
     ) async -> LocationResult {
         let entries: [String]
@@ -275,6 +277,8 @@ public struct OrphanScanner: Sendable {
             let path = url.path(percentEncoded: false)
             let leftAlone: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
                 .holdsDocuments
+            } else if ProtectedData.holds(path, home: home) {
+                .holdsKeys
             } else {
                 ProtectedData.holdsALibrary(path) ? .holdsALibrary : nil
             }

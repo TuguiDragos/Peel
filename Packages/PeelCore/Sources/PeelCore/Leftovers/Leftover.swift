@@ -51,6 +51,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsALibrary
     /// A cryptocurrency wallet or a signing key is inside, which may exist nowhere else.
     case holdsAWallet
+    /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
+    case holdsKeys
     /// Claimed on the app's name (or an identifier that is only a word), inside a folder that belongs to another
     /// installed app or to Apple. It is probably the other app's data about this one, as a documentation browser
     /// or a controller app keeps.
@@ -60,7 +62,7 @@ public enum HoldBack: String, Sendable, Hashable {
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {
-        self == .holdsDocuments || self == .holdsALibrary || self == .beyondTheHelper
+        self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .beyondTheHelper
     }
 
 }

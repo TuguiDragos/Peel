@@ -546,6 +546,21 @@ struct LeftoverScannerTests {
         #expect(folder.match.heldBack == .holdsAWallet)
     }
 
+    /// A folder that holds a wallet Peel protects is listed, and cannot be selected: `RemovalGuard` refuses to
+    /// move it, so offering it would only end in a refusal.
+    @Test func aLeftoverHoldingAProtectedWalletCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let coin = InstalledApp(url: URL(filePath: "/Applications/Litecoin.app"), bundleIdentifier: "org.litecoin.Litecoin", name: "Litecoin")
+        try directory.file("home/Library/Application Support/Litecoin/wallets/wallet.dat", bytes: 64)
+        try directory.file("home/Library/Application Support/Litecoin/blocks/blk0000.dat", bytes: 64_000)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(coin, installedApps: [coin])
+        let folder = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Litecoin" })
+
+        #expect(folder.match.heldBack == .holdsKeys)
+        #expect(folder.match.heldBack?.cannotBeMoved == true)
+    }
+
     /// Plug-ins are found in the user's Library and the system's, including inside a vendor's own folder.
     @Test func findsThePlugInsAnAppInstalled() async throws {
         let directory = try TemporaryDirectory()

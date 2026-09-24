@@ -232,10 +232,12 @@ struct AttackRemovalGuardTests {
         try directory.file("home/.gradle/caches/modules-2/thing.jar")
         try directory.file("home/.electrum/wallets/default_wallet")
         try directory.file("home/.electrum/blockchain_headers", bytes: 4_096)
+        try directory.file("home/Library/Application Support/Bitcoin/wallets/wallet.dat")
+        try directory.file("home/Library/Application Support/Bitcoin/blocks/blk00000.dat", bytes: 4_096)
         let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
         let homePath = home.path(percentEncoded: false)
 
-        for key in ProtectedData.homeKeys {
+        for key in ProtectedData.homeKeys + ProtectedData.walletKeys {
             let url = home.appending(path: key)
             #expect(!guardian.allowsRemoval(of: url), "\(key) may be removed")
             #expect(ProtectedData.refuses(url.path(percentEncoded: false), home: homePath))
@@ -245,7 +247,7 @@ struct AttackRemovalGuardTests {
         }
 
         // What comes back on its own is still cleanable, which is the whole point of naming the key alone.
-        for cache in [".android/avd", ".m2/repository", ".gradle/caches", ".electrum/blockchain_headers"] {
+        for cache in [".android/avd", ".m2/repository", ".gradle/caches", ".electrum/blockchain_headers", "Library/Application Support/Bitcoin/blocks"] {
             #expect(guardian.allowsRemoval(of: home.appending(path: cache)), "\(cache) is refused")
         }
     }
