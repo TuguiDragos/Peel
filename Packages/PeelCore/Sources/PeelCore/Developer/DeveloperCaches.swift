@@ -116,7 +116,9 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], paths: [
             ("Library/Caches/Yarn", .downloads),
-            (".yarn/berry/cache", .downloads),
+            // Yarn's Plug'n'Play projects load every package from this cache, so it is listed and never selected:
+            // moving it breaks each such project until `yarn install` runs in it again.
+            (".yarn/berry/cache", .environments),
         ]),
         Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], paths: [
             ("Library/pnpm/store", .environments),

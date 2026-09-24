@@ -268,17 +268,19 @@ struct DeveloperCachesTests {
     }
 
     /// A store that installed packages link into is not a download cache. In setups that conda, uv, and pnpm
-    /// document, clearing it leaves every installed package linking to nothing.
+    /// document, clearing it leaves every installed package linking to nothing, and Yarn's Plug'n'Play projects
+    /// load every package from its global cache.
     @Test func neverSelectsAStoreInstalledPackagesLinkInto() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("miniconda3/pkgs/numpy/info.json", bytes: 400_000)
         try directory.file(".cache/uv/archive-v0/wheel", bytes: 400_000)
         try directory.file("Library/pnpm/store/v10/files/00/abc", bytes: 400_000)
         try directory.file("Library/Caches/pnpm/metadata/registry.json", bytes: 400_000)
+        try directory.file(".yarn/berry/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip", bytes: 400_000)
 
         let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
         let suggested = locations.filter(\.isRecommended).map(\.url).map { $0.lastPathComponent }
-        #expect(locations.count == 4)
+        #expect(locations.count == 5)
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
