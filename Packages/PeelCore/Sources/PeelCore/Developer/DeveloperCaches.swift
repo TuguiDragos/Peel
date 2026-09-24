@@ -351,6 +351,8 @@ public enum DeveloperCaches {
         // Other languages
         Definition(id: "dart", name: "Dart & Flutter", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder(".pub-cache/hosted", .downloads, source: "https://github.com/dart-lang/site-www/blob/main/src/content/tools/pub/cmd/pub-get.md#L99-L100"),
+            Folder(".pub-cache/git", .downloads, source: "https://github.com/dart-lang/pub/blob/main/lib/src/system_cache.dart#L48"),
+            Folder(".dartServer/.analysis-driver", .cache, source: "https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/lib/src/analysis_server.dart#L737-L741"),
         ]),
         Definition(id: "composer", name: "Composer", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/composer", .downloads, source: "https://github.com/composer/composer/blob/main/doc/06-config.md#L1105-L1108"),
@@ -362,6 +364,7 @@ public enum DeveloperCaches {
             Folder(".cache/gem/gems", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L151-L158"),
             Folder(".cache/gem/specs", .cache, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L26-L28"),
             Folder(".bundle/cache", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/bundler.rb#L284-L303"),
+            Folder(".local/share/gem/ruby/*/cache", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L103-L109"),
         ]),
         Definition(id: "nuget", name: "NuGet", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".nuget/packages", .downloads, source: "https://github.com/NuGet/docs.microsoft.com-nuget/blob/main/docs/consume-packages/managing-the-global-packages-and-cache-folders.md#L17"),
@@ -376,6 +379,41 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "nix", name: "Nix", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".cache/nix", .cache, source: "https://github.com/NixOS/nix/blob/master/src/libutil/include/nix/util/users.hh#L28-L30"),
+        ]),
+        Definition(id: "rubocop", name: "RuboCop", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".cache/rubocop_cache", .cache, source: "https://github.com/rubocop/rubocop/blob/master/lib/rubocop/cache_config.rb#L23-L26"),
+        ]),
+        Definition(id: "hex", name: "Hex", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".hex/packages", .downloads, source: "https://github.com/hexpm/hex/blob/main/lib/hex/scm.ex#L8"),
+        ]),
+        Definition(id: "rebar3", name: "rebar3", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".cache/rebar3/hex", .downloads, source: "https://github.com/erlang/rebar3/blob/main/apps/rebar/src/rebar_packages.erl#L159-L160"),
+        ]),
+        Definition(id: "gleam", name: "Gleam", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/gleam/hex/hexpm/packages", .downloads, source: "https://github.com/gleam-lang/gleam/blob/main/compiler-core/src/paths.rs#L171-L183"),
+        ]),
+        Definition(id: "cabal", name: "Cabal", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".cache/cabal", .downloads, source: "https://github.com/haskell/cabal/blob/master/doc/config.rst#L112-L115"),
+        ]),
+        Definition(id: "stack", name: "Haskell Stack", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".stack/pantry/hackage", .downloads, source: "https://github.com/commercialhaskell/stack/blob/master/doc/topics/stack_root.md#L228-L232"),
+            Folder(".stack/setup-exe-cache", .buildData, source: "https://github.com/commercialhaskell/stack/blob/master/doc/topics/stack_root.md#L279-L285"),
+        ]),
+        Definition(id: "opam", name: "opam", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".opam/download-cache", .downloads, source: "https://github.com/ocaml/opam/blob/master/doc/pages/Manual.md#L41"),
+        ]),
+        Definition(id: "luarocks", name: "LuaRocks", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".cache/luarocks", .downloads, source: "https://github.com/luarocks/luarocks/blob/main/src/luarocks/core/cfg.lua#L411-L412"),
+        ]),
+        Definition(id: "renv", name: "renv", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            // renv links each project's library into this cache, so it is never selected.
+            Folder("Library/Caches/org.R-project.R/R/renv/cache", .environments, source: "https://github.com/rstudio/renv/blob/main/vignettes/package-install.Rmd#L56"),
+        ]),
+        Definition(id: "clojure", name: "Clojure", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".gitlibs", .downloads, source: "https://github.com/clojure/tools.gitlibs/blob/master/README.md#L44"),
+        ]),
+        Definition(id: "mise", name: "mise", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/mise", .cache, source: "https://github.com/jdx/mise/blob/main/docs/directories.md#L34-L41"),
         ]),
         // Editors
         // A JetBrains IDE keeps `LocalHistory` beside its caches: the edits it recorded while a project was

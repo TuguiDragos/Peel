@@ -125,7 +125,9 @@ struct DeveloperCachesTests {
             ".local", ".local/share", "go", ".vscode", ".ollama", ".lmstudio", ".cache/huggingface",
         ]
         // The only top-level folders in the table, each owned outright by the one tool that made it.
-        let ownedOutright: Set<String> = [".ccache", ".electron-gyp", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets"]
+        let ownedOutright: Set<String> = [
+            ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
+        ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
                 #expect(!risky.contains(path), "\(definition.id) points at \(path)")
@@ -144,13 +146,13 @@ struct DeveloperCachesTests {
         let forbidden = [
             ".rustup", ".pyenv", ".sdkman", ".rbenv", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
             "conda/envs", "miniconda3/envs", "anaconda3/envs", ".local/pipx",
-            "Library/Android/sdk", "flutter/bin",
+            "Library/Android/sdk", "flutter/bin", ".stack/programs",
             ".aws", ".ssh", ".gnupg", ".netrc", ".docker/config", ".kube/config", ".npmrc",
             "qiskit-ibm.json", "qiskitrc", "dwave.conf", ".qcs", "xanadu-cloud", "pytket", ".qnx", "qbraidrc",
             "credentials", "token",
         ]
-        // Folders that hold an account or the user's own work beside something cache-like.
-        // Only their subfolders may ever be listed.
+        // Folders that hold an account, the user's own work, or an installation beside something cache-like. Only
+        // what is inside them may ever be listed, never they or a folder around them.
         let onlyInParts: Set<String> = [
             ".kube/cache", ".azure", ".config/gcloud", ".pulumi", ".qiskit", ".qbraid", ".expo", ".lmstudio",
             "Library/Preferences/netlify", "Library/Application Support/com.vercel.cli",
@@ -159,6 +161,10 @@ struct DeveloperCachesTests {
             "Library/Caches/Coursier", ".ccache",
             // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
             ".cache/node/corepack",
+            // Hex and Gleam keep a Hex account's key beside their packages; pub, RubyGems, rebar3, Stack, and opam
+            // what they installed; renv each project's library; the Dart analysis server each plug-in's state.
+            ".hex", "Library/Caches/gleam/hex/hexpm", ".pub-cache", ".local/share/gem", ".cache/rebar3", ".stack", ".opam",
+            "Library/Caches/org.R-project.R/R/renv", ".dartServer",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
@@ -169,7 +175,9 @@ struct DeveloperCachesTests {
                 for pattern in forbidden {
                     #expect(!path.lowercased().contains(pattern.lowercased()), "\(definition.id) lists \(path)")
                 }
-                #expect(!onlyInParts.contains(path), "\(definition.id) lists the whole of \(path)")
+                for folder in onlyInParts {
+                    #expect(!PathComponents.isPath(folder, atOrInside: path), "\(definition.id) lists the whole of \(folder)")
+                }
                 for (folder, part) in onlyThisPart where PathComponents.isPath(path, atOrInside: folder) {
                     #expect(path == part, "\(definition.id) lists \(path)")
                 }
