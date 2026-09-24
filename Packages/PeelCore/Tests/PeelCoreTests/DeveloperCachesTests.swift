@@ -193,17 +193,23 @@ struct DeveloperCachesTests {
         }
     }
 
-    /// `~/Library/Caches/deno` is Deno's `DENO_DIR`. Besides downloads, it holds `location_data`, with
-    /// `localStorage` and the database behind `Deno.openKv()`. Once a script has kept state there, the folder is
-    /// more than a cache and is not offered.
-    @Test func leavesDenosFolderOnceAScriptHasKeptStateInIt() async throws {
+    /// `~/Library/Caches/deno` is Deno's `DENO_DIR`. Beside its caches it keeps the REPL history
+    /// (`deno_history.txt`) and what scripts store (`location_data`, with `localStorage` and the database behind
+    /// `Deno.openKv()`), so only the caches are offered, whatever else is there.
+    @Test func offersDenosCachesAndNeverItsHistoryOrWhatScriptsKept() async throws {
         let directory = try TemporaryDirectory()
-        try directory.file("Library/Caches/deno/deps/https/x.ts", bytes: 400_000)
+        for cache in ["remote/https/deno.land/x.ts", "npm/registry.npmjs.org/chalk/5.3.0/index.js", "deps/https/x.ts",
+                      "gen/file/x.js", "registries/deno.land.json", "dl/deno-2.0.0.zip", "check_cache_v2", "dep_analysis_cache_v1"] {
+            try directory.file("Library/Caches/deno/\(cache)", bytes: 400_000)
+        }
+        try directory.file("Library/Caches/deno/deno_history.txt", bytes: 4_096)
+        try directory.file("Library/Caches/deno/location_data/abc/kv.sqlite3", bytes: 4_096)
+        try directory.file("Library/Caches/deno/latest.txt", bytes: 64)
         let deno = DeveloperCaches.definitions.filter { $0.id == "deno" }
 
-        #expect(await DeveloperCaches.scan(deno, homeDirectory: directory.url).flatMap(\.locations).count == 1)
-        try directory.file("Library/Caches/deno/location_data/abc/kv.sqlite3")
-        #expect(await DeveloperCaches.scan(deno, homeDirectory: directory.url).isEmpty)
+        let offered = Set(await DeveloperCaches.scan(deno, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent))
+
+        #expect(offered == ["remote", "npm", "deps", "gen", "registries", "dl", "check_cache_v2", "dep_analysis_cache_v1"])
     }
 
     /// The whole table at once: every folder is found, at its own size, and nothing beside it is.

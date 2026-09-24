@@ -152,7 +152,17 @@ public enum DeveloperCaches {
             Folder(".bun/install/cache", .downloads, storeInside: "links"),
         ]),
         Definition(id: "deno", name: "Deno", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/deno", .downloads),
+            // `DENO_DIR` keeps the REPL history (`deno_history.txt`) and what scripts store (`location_data`)
+            // beside its caches, so the caches are named one by one, as Deno's `deno_dir.rs` names them. `deps` and
+            // the `_v1` databases are Deno 1's names.
+            Folder("Library/Caches/deno/remote", .downloads),
+            Folder("Library/Caches/deno/deps", .downloads),
+            Folder("Library/Caches/deno/npm", .downloads),
+            Folder("Library/Caches/deno/dl", .downloads),
+            Folder("Library/Caches/deno/gen", .buildData),
+            Folder("Library/Caches/deno/registries", .cache),
+            Folder("Library/Caches/deno/*_cache_v1", .cache),
+            Folder("Library/Caches/deno/*_cache_v2", .cache),
         ]),
         Definition(id: "reactnative", name: "React Native CLI", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/react-native-cli", .cache),
