@@ -286,7 +286,7 @@ public struct OrphanScanner: Sendable {
             let path = url.path(percentEncoded: false)
             let heldBack: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
                 .holdsDocuments
-            } else if ProtectedData.holds(path, home: home) {
+            } else if ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path) {
                 .holdsKeys
             } else if ProtectedData.holdsALibrary(path) {
                 .holdsALibrary

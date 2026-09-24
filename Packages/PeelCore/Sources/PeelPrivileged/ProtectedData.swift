@@ -326,15 +326,16 @@ public enum ProtectedData: Sendable {
         return [path]
     }
 
-    /// True for a path at or inside anything protected here: the home and system folders, the keys, a media
-    /// library, a global preferences file, or one of Apple's group containers. Running as root, the helper
-    /// can see every account on the Mac, so a home folder is any folder directly inside `/Users`, as well as
-    /// the one given.
+    /// True for a path at or inside anything protected here: the home and system folders, the keys, a wallet
+    /// extension's storage, a media library, a global preferences file, or one of Apple's group containers.
+    /// Running as root, the helper can see every account on the Mac, so a home folder is any folder directly
+    /// inside `/Users`, as well as the one given.
     public static func refuses(_ path: String, home: String) -> Bool {
         spellings(of: path).contains { spelling in
             let names = PathComponents.of(spelling)
             if names.contains(where: { name in extensions.contains { name.hasSuffix("." + $0) } }) { return true }
             if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(spelling) { return true }
+            if isInsideAWalletExtension(names) { return true }
 
             for home in homes(of: spelling, given: home) where trees(under: home).contains(where: names.starts(with:)) {
                 return true

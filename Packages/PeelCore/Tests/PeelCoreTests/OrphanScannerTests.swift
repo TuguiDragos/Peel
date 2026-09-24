@@ -285,6 +285,16 @@ struct OrphanScannerTests {
         #expect(items.first?.leftAlone == .holdsKeys)
     }
 
+    /// A browser that is gone can leave its profile behind, and a wallet extension's vault in it.
+    @Test func anOrphanedBrowserFolderHoldingAWalletIsLeftAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.operasoftware.Opera/Local Extension Settings/\(WalletIDs.metaMask)/000003.log")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.map(\.leftAlone) == [.holdsKeys])
+    }
+
     /// The apps macOS ships claim their folders like any other app, and none of them is in the list Peel scans.
     @Test func ignoresGroupsDeclaredBySystemApps() async throws {
         let directory = try TemporaryDirectory()

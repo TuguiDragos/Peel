@@ -83,6 +83,8 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   - keychains, `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.password-store`, the signing keys and credentials that
     `ProtectedData.homeKeys` names one by one, and the wallet keys that `ProtectedData.walletKeys` names, each
     read from the wallet's own documentation or source;
+  - a browser profile that holds a wallet extension's vault or Brave's own wallet, and a folder holding one a
+    level or two down (`ProtectedData.holdsABrowserWallet`);
   - Mail, Messages, Safari, Contacts, Calendars, Reminders, Shortcuts, HomeKit, Accounts, Finance,
     IdentityServices, FaceTime and call history, Freeform, Journal, Stickies, the passes in Wallet, and every
     group container of Apple's own, where macOS keeps notes and other data;
@@ -117,6 +119,10 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 ## Changes that need a particular test
 
 - **Matching**: `LeftoverMatcherTests`. A new rule needs the case it catches and a case it must not catch.
+- **A wallet extension**: its ID goes into `BrowserWallets.swift` only in the comment above its SHA-256, never as
+  text the compiler keeps. XProtect, the malware scanner in macOS, takes a binary that carries a few wallet IDs for
+  a program that steals them and moves it to the Trash, a test binary included, so tests read the IDs from those
+  comments (`WalletIDs`). `BrowserWalletTests` checks every fingerprint against the ID above it.
 - **The privileged helper**: `PrivilegedPathPolicyTests`, and for a new operation a bump of
   `HelperIdentity.protocolVersion`.
 - **`DeveloperCaches.definitions`**: a source showing the folder is a cache, and a `DeveloperCachesTests` run.

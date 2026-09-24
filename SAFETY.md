@@ -48,7 +48,9 @@ moved whole. Anything System Integrity Protection guards, which macOS marks as r
 Everywhere on the Mac: `/Library/Keychains`, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,
 `.musiclibrary`, `.tvlibrary`, `.imovielibrary`, `.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or
 video collection. A folder with one of them a level or two inside stays too, since moving the folder would take the
-library along, and the row says so instead of failing when you press the button.
+library along, and the row says so instead of failing when you press the button. A browser profile with a
+wallet in it stays the same way, and so does a folder that holds one a level or two down: see
+[Crypto wallets](#crypto-wallets).
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android
 Studio record your unsaved edits in `LocalHistory`, beside their caches, and Deno keeps `localStorage` and its
@@ -155,12 +157,18 @@ snapshots are explained, never deleted.
 
 ## Crypto wallets
 
-A wallet's keys can be the only way to what they hold, so Peel keeps them in three ways.
+A wallet's keys can be the only way to what they hold, so Peel keeps them in four ways.
 
 - **Where wallets keep their keys is never removed.** The 58 places in the table at the top of this page, each
   read from the wallet's own documentation or source, are refused outright by the app, the `peel` tool, and the
   helper, and so is any folder that holds one. What comes back on its own beside a key, such as a downloaded
   blockchain, can still go.
+- **A browser profile with a wallet stays.** A wallet extension such as MetaMask or Phantom keeps its vault in the
+  browser's profile, beside `Local Storage`, which every extension shares. So a profile that holds one of the
+  wallet extensions Peel knows (those of more than 60 wallets, for Chrome, Brave, Edge, Arc, Opera, Vivaldi, and
+  Firefox) or Brave's own wallet stays, and so does a folder that holds it a level or two down, which is where a
+  browser keeps its profiles (`Google/Chrome/Default`): uninstalling a browser never takes its wallet. The rest of
+  what a browser keeps, such as its caches, can still go.
 - **A wallet found anywhere else is never selected for you.** When an uninstall or Orphaned Files measures a
   folder, it also looks inside for the names wallets and key tools give their files: anything called
   `wallet.dat`, `wallets`, `keystore`, `seed.dat`, `hsm_secret`, or `channel.backup`, anything ending in `.wallet`

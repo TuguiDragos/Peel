@@ -122,7 +122,8 @@ public struct PrivilegedPathPolicy: Sendable {
             !ProtectedData.holds(resolved, home: homeDirectory),
             !ProtectedData.holdsAContainersDocuments(resolved),
             !ProtectedData.holdsWorkKeptInACache(resolved),
-            !ProtectedData.holdsALibrary(resolved)
+            !ProtectedData.holdsALibrary(resolved),
+            !ProtectedData.holdsABrowserWallet(resolved)
         else { return .failure(.irreplaceable) }
 
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {

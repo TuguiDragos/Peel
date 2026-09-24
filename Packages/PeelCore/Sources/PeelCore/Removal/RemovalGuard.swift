@@ -55,7 +55,8 @@ struct RemovalGuard: Sendable {
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
             guard !ProtectedData.holdsAContainersDocuments(name), !ProtectedData.holdsWorkKeptInACache(name) else { return false }
-            guard !ProtectedData.holdsALibrary(name), protectedObjects.allows(name) else { return false }
+            guard !ProtectedData.holdsALibrary(name), !ProtectedData.holdsABrowserWallet(name) else { return false }
+            guard protectedObjects.allows(name) else { return false }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.
             guard !ProtectedData.refuses(name, home: home), !ProtectedData.holds(name, home: home) else { return false }

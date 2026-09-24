@@ -152,9 +152,10 @@ A cleaner should never cost you something you wanted. Peel is built around that.
 - **Protected places stay protected.** Peel refuses to move iCloud Drive, keychains, your SSH and signing keys, the
   keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and
   iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.
-- **Crypto wallets are never selected for you.** Beyond the places wallets keep their keys, a folder an uninstall
-  or Orphaned Files finds a wallet or a signing key in is shown with that reason and moves only if you select it
-  yourself. [SAFETY.md](SAFETY.md#crypto-wallets) says how Peel knows one.
+- **Crypto wallets are never selected for you.** Beyond the places wallets keep their keys, a browser profile with
+  a wallet extension such as MetaMask stays where it is, so uninstalling a browser never takes a wallet with it.
+  A folder an uninstall or Orphaned Files finds a wallet or a signing key in is shown with that reason and moves
+  only if you select it yourself. [SAFETY.md](SAFETY.md#crypto-wallets) says how Peel knows one.
 - **Checked again at the last moment.** Peel looks at each item once more right before it moves, so something
   swapped in the meantime stays where it is.
 - **Nothing shared, nothing unknown.** A file another app also uses is never selected for you. A folder Peel

@@ -561,6 +561,18 @@ struct LeftoverScannerTests {
         #expect(folder.match.heldBack?.cannotBeMoved == true)
     }
 
+    /// A browser's folder that holds a profile with a wallet extension cannot be selected either.
+    @Test func aBrowsersFolderHoldingAWalletCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let opera = InstalledApp(url: URL(filePath: "/Applications/Opera.app"), bundleIdentifier: "com.operasoftware.Opera", name: "Opera")
+        try directory.file("home/Library/Application Support/com.operasoftware.Opera/Local Extension Settings/\(WalletIDs.metaMask)/000003.log")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(opera, installedApps: [opera])
+        let folder = try #require(scan.leftovers.first { $0.url.lastPathComponent == "com.operasoftware.Opera" })
+
+        #expect(folder.match.heldBack == .holdsKeys)
+    }
+
     /// Plug-ins are found in the user's Library and the system's, including inside a vendor's own folder.
     @Test func findsThePlugInsAnAppInstalled() async throws {
         let directory = try TemporaryDirectory()

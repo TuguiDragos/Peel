@@ -223,7 +223,8 @@ public struct LeftoverScanner: Sendable {
             .couldNotBeRead
         } else if kind == .containers, ProtectedData.holdsAContainersDocuments(url.path(percentEncoded: false)) {
             .holdsDocuments
-        } else if ProtectedData.holds(url.path(percentEncoded: false), home: home) {
+        } else if ProtectedData.holds(url.path(percentEncoded: false), home: home)
+            || ProtectedData.holdsABrowserWallet(url.path(percentEncoded: false)) {
             .holdsKeys
         } else if ProtectedData.holdsALibrary(url.path(percentEncoded: false)) {
             .holdsALibrary

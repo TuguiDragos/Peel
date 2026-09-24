@@ -45,6 +45,21 @@ struct PrivilegedPathPolicyTests {
         }
     }
 
+    /// A browser profile with a wallet extension's vault stays, and so does every folder around it, while the rest
+    /// of the profile can still go.
+    @Test func refusesAFolderHoldingABrowserWallet() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let profile = "root/Library/Caches/Vendor/Browser/Default"
+        try directory.file("\(profile)/Local Extension Settings/\(WalletIDs.metaMask)/000003.log")
+        try directory.file("\(profile)/Cache/data_0")
+
+        #expect(policy.refusal(of: path("root/Library/Caches/Vendor", in: directory)) == .irreplaceable)
+        #expect(policy.refusal(of: path(profile, in: directory)) == .irreplaceable)
+        #expect(policy.refusal(of: path("\(profile)/Local Extension Settings/\(WalletIDs.metaMask)", in: directory)) == .irreplaceable)
+        #expect(policy.refusal(of: path("\(profile)/Cache", in: directory)) == nil)
+    }
+
     /// Peel calls `refusal(of:)` before it offers the helper anything, so it must give the same answer as `open`.
     @Test func saysBeforeOpeningAnythingWhatOpeningWouldRefuse() throws {
         let directory = try TemporaryDirectory()
