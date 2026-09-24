@@ -10196,25 +10196,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "it" : {
@@ -10232,19 +10232,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "pt" : {
@@ -10262,7 +10262,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "sv" : {
@@ -10280,7 +10280,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "zh-Hans" : {
@@ -12432,25 +12432,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Když zdroj, kterému dáváte přednost, za aplikaci odpovědět nemůže, odpoví její vlastní kanál."
+            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Když zdroj, kterému dáváte přednost, za aplikaci odpovědět nemůže, odpoví její vlastní kanál."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Wenn die bevorzugte Quelle für eine App keine Antwort geben kann, antwortet stattdessen der eigene Feed der App."
+            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Wenn die bevorzugte Quelle für eine App keine Antwort geben kann, antwortet stattdessen der eigene Feed der App."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cuando el origen que prefieres no puede responder por una app, responde su propio canal."
+            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cuando el origen que prefieres no puede responder por una app, responde su propio canal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Lorsque la source que vous préférez ne peut pas répondre pour une app, c’est le flux propre à l’app qui répond."
+            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Lorsque la source que vous préférez ne peut pas répondre pour une app, c’est le flux propre à l’app qui répond."
           }
         },
         "it" : {
@@ -12468,19 +12468,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 선호하는 출처가 어떤 앱에 대해 응답할 수 없으면 그 앱의 자체 피드가 응답합니다."
+            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 선호하는 출처가 어떤 앱에 대해 응답할 수 없으면 그 앱의 자체 피드가 응답합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Als de bron van je voorkeur geen antwoord kan geven voor een app, doet de eigen feed van die app dat."
+            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Als de bron van je voorkeur geen antwoord kan geven voor een app, doet de eigen feed van die app dat."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Gdy preferowane źródło nie może odpowiedzieć w sprawie aplikacji, odpowiada jej własny kanał."
+            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Gdy preferowane źródło nie może odpowiedzieć w sprawie aplikacji, odpowiada jej własny kanał."
           }
         },
         "pt" : {
@@ -12498,7 +12498,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. Если предпочитаемый источник не может ответить о приложении, отвечает его собственная лента."
+            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. Если предпочитаемый источник не может ответить о приложении, отвечает его собственная лента."
           }
         },
         "sv" : {
@@ -12516,7 +12516,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Коли вибране вами джерело не може відповісти щодо програми, відповідає її власна стрічка."
+            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Коли вибране вами джерело не може відповісти щодо програми, відповідає її власна стрічка."
           }
         },
         "zh-Hans" : {
@@ -44772,25 +44772,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Výrobce ho nyní nabízí jen v App Storu."
+            "value" : "Výrobce ho nyní nabízí jen v App Storu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Hersteller bietet es jetzt nur noch im App Store an."
+            "value" : "Der Hersteller bietet es jetzt nur noch im App Store an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su fabricante ahora solo lo ofrece en App Store."
+            "value" : "Su fabricante ahora solo lo ofrece en App Store."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son éditeur ne le propose plus que sur l’App Store."
+            "value" : "Son éditeur ne le propose plus que sur l’App Store."
           }
         },
         "it" : {
@@ -44808,19 +44808,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제작자가 이제 App Store에서만 제공합니다."
+            "value" : "제작자가 이제 App Store에서만 제공합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De maker biedt het nu alleen nog in de App Store aan."
+            "value" : "De maker biedt het nu alleen nog in de App Store aan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Producent udostępnia go teraz tylko w App Store."
+            "value" : "Producent udostępnia go teraz tylko w App Store."
           }
         },
         "pt" : {
@@ -44838,7 +44838,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Теперь производитель предлагает его только в App Store."
+            "value" : "Теперь производитель предлагает его только в App Store."
           }
         },
         "sv" : {
@@ -44856,7 +44856,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тепер виробник пропонує його лише в App Store."
+            "value" : "Тепер виробник пропонує його лише в App Store."
           }
         },
         "zh-Hans" : {
@@ -67563,25 +67563,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřít App Store"
+            "value" : "Otevřít App Store"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store öffnen"
+            "value" : "App Store öffnen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir App Store"
+            "value" : "Abrir App Store"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir l’App Store"
+            "value" : "Ouvrir l’App Store"
           }
         },
         "it" : {
@@ -67599,19 +67599,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store 열기"
+            "value" : "App Store 열기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open App Store"
+            "value" : "Open App Store"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otwórz App Store"
+            "value" : "Otwórz App Store"
           }
         },
         "pt" : {
@@ -67629,7 +67629,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть App Store"
+            "value" : "Открыть App Store"
           }
         },
         "sv" : {
@@ -67647,7 +67647,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити App Store"
+            "value" : "Відкрити App Store"
           }
         },
         "zh-Hans" : {
@@ -71808,25 +71808,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se na nejnovější verzi ptá kanálu aktualizací dané aplikace, App Storu nebo Homebrew. Sám od sebe nikdy nic neinstaluje."
+            "value" : "Peel se na nejnovější verzi ptá kanálu aktualizací dané aplikace, App Storu nebo Homebrew. Sám od sebe nikdy nic neinstaluje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel fragt den Update-Feed jeder App, den App Store oder Homebrew nach der neuesten Version. Peel installiert nie etwas von sich aus."
+            "value" : "Peel fragt den Update-Feed jeder App, den App Store oder Homebrew nach der neuesten Version. Peel installiert nie etwas von sich aus."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel pregunta la versión más reciente al canal de actualizaciones de cada app, a App Store o a Homebrew. Nunca instala nada por su cuenta."
+            "value" : "Peel pregunta la versión más reciente al canal de actualizaciones de cada app, a App Store o a Homebrew. Nunca instala nada por su cuenta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel demande la dernière version au flux de mises à jour de chaque app, à l’App Store ou à Homebrew. Il n’installe jamais rien de lui-même."
+            "value" : "Peel demande la dernière version au flux de mises à jour de chaque app, à l’App Store ou à Homebrew. Il n’installe jamais rien de lui-même."
           }
         },
         "it" : {
@@ -71844,19 +71844,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 각 앱의 업데이트 피드, App Store 또는 Homebrew에 최신 버전을 묻습니다. 스스로 무언가를 설치하는 일은 절대 없습니다."
+            "value" : "Peel은 각 앱의 업데이트 피드, App Store 또는 Homebrew에 최신 버전을 묻습니다. 스스로 무언가를 설치하는 일은 절대 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vraagt de updatefeed van elke app, de App Store of Homebrew naar de nieuwste versie. Peel installeert nooit iets uit zichzelf."
+            "value" : "Peel vraagt de updatefeed van elke app, de App Store of Homebrew naar de nieuwste versie. Peel installeert nooit iets uit zichzelf."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel pyta kanał uaktualnień każdej aplikacji, App Store lub Homebrew o najnowszą wersję. Nigdy niczego nie instaluje samodzielnie."
+            "value" : "Peel pyta kanał uaktualnień każdej aplikacji, App Store lub Homebrew o najnowszą wersję. Nigdy niczego nie instaluje samodzielnie."
           }
         },
         "pt" : {
@@ -71874,7 +71874,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запрашивает последнюю версию у ленты обновлений каждого приложения, App Store или Homebrew. Сам он никогда ничего не устанавливает."
+            "value" : "Peel запрашивает последнюю версию у ленты обновлений каждого приложения, App Store или Homebrew. Сам он никогда ничего не устанавливает."
           }
         },
         "sv" : {
@@ -71892,7 +71892,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel дізнається найновішу версію зі стрічки оновлень кожної програми, з App Store або від Homebrew. Peel ніколи нічого не інсталює самостійно."
+            "value" : "Peel дізнається найновішу версію зі стрічки оновлень кожної програми, з App Store або від Homebrew. Peel ніколи нічого не інсталює самостійно."
           }
         },
         "zh-Hans" : {
@@ -77258,25 +77258,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel neodesílá žádné údaje o používání a nepoužívá žádný účet. Při kontrole aktualizací se Peel na každou aplikaci ptá zvlášť, a to jejího vlastního kanálu, nebo App Storu, pokud jste ji koupili tam. Seznam toho, co je nainstalováno, odesílá jen jedna věc a tu spouštíte sami: kontrola zranitelností Homebrew odešle na api.osv.dev zdroj a verzi všech nainstalovaných formulae."
+            "value" : "Peel neodesílá žádné údaje o používání a nepoužívá žádný účet. Při kontrole aktualizací se Peel na každou aplikaci ptá zvlášť, a to jejího vlastního kanálu, nebo App Storu, pokud jste ji koupili tam. Seznam toho, co je nainstalováno, odesílá jen jedna věc a tu spouštíte sami: kontrola zranitelností Homebrew odešle na api.osv.dev zdroj a verzi všech nainstalovaných formulae."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sendet keine Nutzungsdaten und legt keinen Account an. Update-Prüfungen fragen den eigenen Feed jeder App oder, bei einer dort gekauften App, den App Store, und zwar nur nach dieser App. Nur eine Sache sendet eine Liste dessen, was installiert ist, und die startest du selbst: Der Sicherheitslücken-Scan von Homebrew sendet Quelle und Version jeder installierten Formula an api.osv.dev."
+            "value" : "Peel sendet keine Nutzungsdaten und legt keinen Account an. Update-Prüfungen fragen den eigenen Feed jeder App oder, bei einer dort gekauften App, den App Store, und zwar nur nach dieser App. Nur eine Sache sendet eine Liste dessen, was installiert ist, und die startest du selbst: Der Sicherheitslücken-Scan von Homebrew sendet Quelle und Version jeder installierten Formula an api.osv.dev."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no envía datos de uso ni usa cuentas. Las comprobaciones de actualizaciones preguntan al propio canal de cada app, o a App Store en el caso de una app comprada allí, solo por esa app. Solo una cosa envía una lista de lo que hay instalado, y la inicias tú: el análisis de vulnerabilidades de Homebrew envía el origen y la versión de cada formula instalada a api.osv.dev."
+            "value" : "Peel no envía datos de uso ni usa cuentas. Las comprobaciones de actualizaciones preguntan al propio canal de cada app, o a App Store en el caso de una app comprada allí, solo por esa app. Solo una cosa envía una lista de lo que hay instalado, y la inicias tú: el análisis de vulnerabilidades de Homebrew envía el origen y la versión de cada formula instalada a api.osv.dev."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’envoie aucune donnée d’utilisation et ne gère aucun compte. Les recherches de mises à jour interrogent le flux propre à chaque app, ou l’App Store pour une app achetée sur celui-ci, au sujet de cette seule app. Une seule fonction envoie une liste de ce qui est installé, et c’est vous qui la lancez : la recherche de vulnérabilités de Homebrew envoie la source et la version de chaque formula installée à api.osv.dev."
+            "value" : "Peel n’envoie aucune donnée d’utilisation et ne gère aucun compte. Les recherches de mises à jour interrogent le flux propre à chaque app, ou l’App Store pour une app achetée sur celui-ci, au sujet de cette seule app. Une seule fonction envoie une liste de ce qui est installé, et c’est vous qui la lancez : la recherche de vulnérabilités de Homebrew envoie la source et la version de chaque formula installée à api.osv.dev."
           }
         },
         "it" : {
@@ -77294,19 +77294,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 사용 데이터를 보내지 않으며 계정도 사용하지 않습니다. 업데이트 확인은 각 앱의 자체 피드에, App Store에서 구입한 앱이면 App Store에 해당 앱에 대해서만 묻습니다. 설치된 항목의 목록을 보내는 기능은 단 하나이며, 사용자가 직접 시작합니다. Homebrew의 취약점 스캔은 설치된 각 formula의 소스와 버전을 api.osv.dev로 보냅니다."
+            "value" : "Peel은 사용 데이터를 보내지 않으며 계정도 사용하지 않습니다. 업데이트 확인은 각 앱의 자체 피드에, App Store에서 구입한 앱이면 App Store에 해당 앱에 대해서만 묻습니다. 설치된 항목의 목록을 보내는 기능은 단 하나이며, 사용자가 직접 시작합니다. Homebrew의 취약점 스캔은 설치된 각 formula의 소스와 버전을 api.osv.dev로 보냅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verstuurt geen gebruiksgegevens en gebruikt geen account. Bij een updatecontrole wordt alleen naar die ene app gevraagd, bij de eigen feed van de app, of bij de App Store als de app daar is gekocht. Maar één ding verstuurt een lijst van wat er is geïnstalleerd, en dat start je zelf: de kwetsbaarheidsscan van Homebrew stuurt de bron en versie van elke geïnstalleerde formula naar api.osv.dev."
+            "value" : "Peel verstuurt geen gebruiksgegevens en gebruikt geen account. Bij een updatecontrole wordt alleen naar die ene app gevraagd, bij de eigen feed van de app, of bij de App Store als de app daar is gekocht. Maar één ding verstuurt een lijst van wat er is geïnstalleerd, en dat start je zelf: de kwetsbaarheidsscan van Homebrew stuurt de bron en versie van elke geïnstalleerde formula naar api.osv.dev."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie wysyła żadnych danych o użytkowaniu i nie używa żadnego konta. Przy sprawdzaniu uaktualnień Peel pyta własny kanał każdej aplikacji, a w przypadku aplikacji kupionej w App Store sam App Store, wyłącznie o tę jedną aplikację. Listę tego, co jest zainstalowane, wysyła tylko jedna funkcja, którą uruchamiasz samodzielnie: skanowanie luk w zabezpieczeniach Homebrew wysyła do api.osv.dev źródło i wersję wszystkich zainstalowanych formulae."
+            "value" : "Peel nie wysyła żadnych danych o użytkowaniu i nie używa żadnego konta. Przy sprawdzaniu uaktualnień Peel pyta własny kanał każdej aplikacji, a w przypadku aplikacji kupionej w App Store sam App Store, wyłącznie o tę jedną aplikację. Listę tego, co jest zainstalowane, wysyła tylko jedna funkcja, którą uruchamiasz samodzielnie: skanowanie luk w zabezpieczeniach Homebrew wysyła do api.osv.dev źródło i wersję wszystkich zainstalowanych formulae."
           }
         },
         "pt" : {
@@ -77324,7 +77324,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не отправляет данные об использовании и не требует учетной записи. При проверке обновлений запрашивается собственная лента каждого приложения или App Store для купленного там приложения, и только об этом приложении. Список установленного отправляет лишь одна функция, и запускаете ее Вы сами: поиск уязвимостей Homebrew отправляет источник и версию всех установленных formulae на api.osv.dev."
+            "value" : "Peel не отправляет данные об использовании и не требует учетной записи. При проверке обновлений запрашивается собственная лента каждого приложения или App Store для купленного там приложения, и только об этом приложении. Список установленного отправляет лишь одна функция, и запускаете ее Вы сами: поиск уязвимостей Homebrew отправляет источник и версию всех установленных formulae на api.osv.dev."
           }
         },
         "sv" : {
@@ -77342,7 +77342,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не надсилає даних про використання і не заводить облікових записів. Перевірка оновлень запитує власну стрічку кожної програми (або App Store, якщо програму куплено там) лише про цю програму. Список інстальованого надсилає лише одна дія, і ви запускаєте її самі: сканування вразливостей Homebrew надсилає джерело й версію кожної інстальованої formula на api.osv.dev."
+            "value" : "Peel не надсилає даних про використання і не заводить облікових записів. Перевірка оновлень запитує власну стрічку кожної програми (або App Store, якщо програму куплено там) лише про цю програму. Список інстальованого надсилає лише одна дія, і ви запускаєте її самі: сканування вразливостей Homebrew надсилає джерело й версію кожної інстальованої formula на api.osv.dev."
           }
         },
         "zh-Hans" : {
@@ -101675,25 +101675,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’App Store"
+            "value" : "L’App Store"
           }
         },
         "it" : {
@@ -101711,19 +101711,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De App Store"
+            "value" : "De App Store"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "pt" : {
@@ -101741,7 +101741,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "sv" : {
@@ -101759,7 +101759,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store"
+            "value" : "App Store"
           }
         },
         "zh-Hans" : {
@@ -101781,25 +101781,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U aplikace %@ neudává App Store žádnou verzi pro Mac, kterou by Peel dokázal porovnat. App Store uvádí některé aplikace pod jednou položkou pro všechna zařízení, na kterých běží, s verzí pro iPhone a u aplikace, kterou v této oblasti neprodává, neuvádí nic. Kdy je k dispozici aktualizace, ví sama aplikace App Store."
+            "value" : "U aplikace %@ neudává App Store žádnou verzi pro Mac, kterou by Peel dokázal porovnat. App Store uvádí některé aplikace pod jednou položkou pro všechna zařízení, na kterých běží, s verzí pro iPhone a u aplikace, kterou v této oblasti neprodává, neuvádí nic. Kdy je k dispozici aktualizace, ví sama aplikace App Store."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der App Store gibt keine Mac-Version von „%@“ an, mit der Peel vergleichen kann. Er führt einige Apps mit der Version des iPhone unter einem Eintrag für alle Geräte, auf denen sie laufen, und eine App, die er in dieser Region nicht verkauft, führt er gar nicht. Die App „App Store“ selbst weiß, wann es ein Update gibt."
+            "value" : "Der App Store gibt keine Mac-Version von „%@“ an, mit der Peel vergleichen kann. Er führt einige Apps mit der Version des iPhone unter einem Eintrag für alle Geräte, auf denen sie laufen, und eine App, die er in dieser Region nicht verkauft, führt er gar nicht. Die App „App Store“ selbst weiß, wann es ein Update gibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store no indica una versión de %@ para Mac que Peel pueda comparar. Muestra algunas apps en una sola ficha para todos los dispositivos en los que funcionan, con la versión del iPhone, y no muestra nada de una app que no vende en esta región. La propia app App Store sabe cuándo hay una actualización."
+            "value" : "App Store no indica una versión de %@ para Mac que Peel pueda comparar. Muestra algunas apps en una sola ficha para todos los dispositivos en los que funcionan, con la versión del iPhone, y no muestra nada de una app que no vende en esta región. La propia app App Store sabe cuándo hay una actualización."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’App Store n’indique pas de version Mac de %@ que Peel puisse comparer. Il répertorie certaines apps sous une seule fiche pour tous les appareils sur lesquels elles fonctionnent, avec la version de l’iPhone, et n’a aucune fiche pour une app qu’il ne vend pas dans cette région. L’app App Store elle-même sait quand une mise à jour est disponible."
+            "value" : "L’App Store n’indique pas de version Mac de %@ que Peel puisse comparer. Il répertorie certaines apps sous une seule fiche pour tous les appareils sur lesquels elles fonctionnent, avec la version de l’iPhone, et n’a aucune fiche pour une app qu’il ne vend pas dans cette région. L’app App Store elle-même sait quand une mise à jour est disponible."
           }
         },
         "it" : {
@@ -101817,19 +101817,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store는 ‘%@’에 대해 Peel이 비교할 수 있는 Mac용 버전을 알려 주지 않습니다. 일부 앱을 실행되는 모든 기기에 대해 하나의 항목으로 표시하면서 iPhone용 버전을 알려 주고, 이 지역에서 판매하지 않는 앱에 대해서는 아무것도 표시하지 않습니다. 업데이트가 있는지는 App Store 앱이 알고 있습니다."
+            "value" : "App Store는 ‘%@’에 대해 Peel이 비교할 수 있는 Mac용 버전을 알려 주지 않습니다. 일부 앱을 실행되는 모든 기기에 대해 하나의 항목으로 표시하면서 iPhone용 버전을 알려 주고, 이 지역에서 판매하지 않는 앱에 대해서는 아무것도 표시하지 않습니다. 업데이트가 있는지는 App Store 앱이 알고 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voor %@ vermeldt de App Store geen Mac-versie die Peel kan vergelijken. De App Store toont sommige apps als één onderdeel voor alle apparaten waarop ze werken, met de versie voor de iPhone, en niets voor een app die hij in deze regio niet verkoopt. De App Store-app zelf weet wanneer er een update is."
+            "value" : "Voor %@ vermeldt de App Store geen Mac-versie die Peel kan vergelijken. De App Store toont sommige apps als één onderdeel voor alle apparaten waarop ze werken, met de versie voor de iPhone, en niets voor een app die hij in deze regio niet verkoopt. De App Store-app zelf weet wanneer er een update is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store nie podaje wersji aplikacji %@ dla Maca, którą Peel mógłby porównać z zainstalowaną. Wyświetla niektóre aplikacje jako jedną pozycję dla wszystkich urządzeń, na których działają, podając wersję dla iPhone’a, a dla aplikacji, której nie sprzedaje w tym regionie, nie wyświetla nic. Sama aplikacja App Store wie, kiedy jest dostępne uaktualnienie."
+            "value" : "App Store nie podaje wersji aplikacji %@ dla Maca, którą Peel mógłby porównać z zainstalowaną. Wyświetla niektóre aplikacje jako jedną pozycję dla wszystkich urządzeń, na których działają, podając wersję dla iPhone’a, a dla aplikacji, której nie sprzedaje w tym regionie, nie wyświetla nic. Sama aplikacja App Store wie, kiedy jest dostępne uaktualnienie."
           }
         },
         "pt" : {
@@ -101847,7 +101847,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store не сообщает версию приложения «%@» для Mac, которую Peel мог бы сравнить с установленной. Некоторые приложения указаны там одной записью для всех устройств, на которых они работают, и версия в ней относится к iPhone, а для приложения, которое не продается в этом регионе, нет никакой записи. Само приложение App Store знает, когда выходит обновление."
+            "value" : "App Store не сообщает версию приложения «%@» для Mac, которую Peel мог бы сравнить с установленной. Некоторые приложения указаны там одной записью для всех устройств, на которых они работают, и версия в ней относится к iPhone, а для приложения, которое не продается в этом регионе, нет никакой записи. Само приложение App Store знает, когда выходит обновление."
           }
         },
         "sv" : {
@@ -101865,7 +101865,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Для програми «%@» App Store не повідомляє версії для Mac, яку Peel може порівняти. App Store показує деякі програми одним записом для всіх пристроїв, на яких вони працюють, і повідомляє версію для iPhone, а для програми, яку не продає в цьому регіоні, не показує нічого. Про наявність оновлення знає сама програма App Store."
+            "value" : "Для програми «%@» App Store не повідомляє версії для Mac, яку Peel може порівняти. App Store показує деякі програми одним записом для всіх пристроїв, на яких вони працюють, і повідомляє версію для iPhone, а для програми, яку не продає в цьому регіоні, не показує нічого. Про наявність оновлення знає сама програма App Store."
           }
         },
         "zh-Hans" : {
@@ -101887,25 +101887,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktualizaci nabízí App Store. Aktualizujte v aplikaci App Store."
+            "value" : "Aktualizaci nabízí App Store. Aktualizujte v aplikaci App Store."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Update gibt es im App Store. Aktualisiere über den App Store."
+            "value" : "Das Update gibt es im App Store. Aktualisiere über den App Store."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store tiene la actualización. Actualiza desde App Store."
+            "value" : "App Store tiene la actualización. Actualiza desde App Store."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’App Store la propose. Mettez à jour depuis l’App Store."
+            "value" : "L’App Store la propose. Mettez à jour depuis l’App Store."
           }
         },
         "it" : {
@@ -101923,19 +101923,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store에 업데이트가 있습니다. App Store에서 업데이트하십시오."
+            "value" : "App Store에 업데이트가 있습니다. App Store에서 업데이트하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De App Store biedt deze update aan. Werk bij via de App Store."
+            "value" : "De App Store biedt deze update aan. Werk bij via de App Store."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uaktualnienie jest dostępne w App Store. Uaktualnij aplikację w App Store."
+            "value" : "Uaktualnienie jest dostępne w App Store. Uaktualnij aplikację w App Store."
           }
         },
         "pt" : {
@@ -101953,7 +101953,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обновление есть в App Store. Обновите приложение из App Store."
+            "value" : "Обновление есть в App Store. Обновите приложение из App Store."
           }
         },
         "sv" : {
@@ -101971,7 +101971,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оновлення є в App Store. Оновіть програму з App Store."
+            "value" : "Оновлення є в App Store. Оновіть програму з App Store."
           }
         },
         "zh-Hans" : {
@@ -105492,25 +105492,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nejnovější verze aplikací, které jste nainstalovali přes App Store."
+            "value" : "Nejnovější verze aplikací, které jste nainstalovali přes App Store."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die neueste Version von Apps, die aus dem App Store installiert wurden."
+            "value" : "Die neueste Version von Apps, die aus dem App Store installiert wurden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La versión más reciente de las apps instaladas desde App Store."
+            "value" : "La versión más reciente de las apps instaladas desde App Store."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La dernière version des apps installées depuis l’App Store."
+            "value" : "La dernière version des apps installées depuis l’App Store."
           }
         },
         "it" : {
@@ -105528,19 +105528,19 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store에서 설치한 앱의 최신 버전 정보입니다."
+            "value" : "App Store에서 설치한 앱의 최신 버전 정보입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De nieuwste versie van apps die uit de App Store zijn geïnstalleerd."
+            "value" : "De nieuwste versie van apps die uit de App Store zijn geïnstalleerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Najnowsza wersja aplikacji zainstalowanych z App Store."
+            "value" : "Najnowsza wersja aplikacji zainstalowanych z App Store."
           }
         },
         "pt" : {
@@ -105558,7 +105558,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Последняя версия приложений, установленных из App Store."
+            "value" : "Последняя версия приложений, установленных из App Store."
           }
         },
         "sv" : {
@@ -105576,7 +105576,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Найновіша версія програм, інстальованих з App Store."
+            "value" : "Найновіша версія програм, інстальованих з App Store."
           }
         },
         "zh-Hans" : {
