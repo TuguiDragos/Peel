@@ -336,7 +336,6 @@ public enum DeveloperCaches {
         Definition(id: "sublime", name: "Sublime Text", systemImage: "curlybraces", appBundleIdentifiers: ["com.sublimetext.4", "com.sublimetext.3"], folders: [
             Folder("Library/Caches/Sublime Text", .cache),
             Folder("Library/Caches/com.sublimetext.4", .cache),
-            Folder("Library/Caches/Sublime Text 3", .cache),
             Folder("Library/Caches/com.sublimetext.3", .cache),
         ]),
         Definition(id: "androidstudio", name: "Android Studio", systemImage: "curlybraces", appBundleIdentifiers: ["com.google.android.studio"], folders: [
@@ -354,7 +353,6 @@ public enum DeveloperCaches {
         ]),
         // Cloud tools
         Definition(id: "gcloud", name: "Google Cloud CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
-            Folder(".config/gcloud/cache", .cache),
             Folder(".config/gcloud/logs", .logs),
         ]),
         Definition(id: "azure", name: "Azure CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
@@ -378,7 +376,6 @@ public enum DeveloperCaches {
             Folder(".pulumi/plugins", .downloads),
         ]),
         Definition(id: "vercel", name: "Vercel CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/com.vercel", .cache),
             Folder("Library/Caches/com.vercel.cli", .cache),
         ]),
         // Netlify keeps its token in `config.json` in the same folder, so only these two subfolders are listed.
@@ -406,10 +403,6 @@ public enum DeveloperCaches {
             // `Library/Caches/Unity/upm` from Unity 6 (docs.unity3d.com, Manual/upm-cache.html for each version).
             Folder("Library/Caches/Unity/upm", .downloads),
             Folder("Library/Unity/cache", .downloads),
-        ]),
-        Definition(id: "unreal", name: "Unreal Engine", systemImage: "cube.transparent", appBundleIdentifiers: [], folders: [
-            Folder("Library/Application Support/Epic/Zen/Data", .buildData),
-            Folder("Library/Application Support/Epic/UnrealEngine/Common/DerivedDataCache", .buildData),
         ]),
         Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], folders: [
             Folder("Library/Caches/Blender", .cache),
