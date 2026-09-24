@@ -107,7 +107,7 @@ public enum DeveloperCaches {
         // Apple
         Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
             Folder("Library/Developer/Xcode/DerivedData", .buildData),
-            Folder("Library/Developer/Xcode/UserData/Previews", .buildData),
+            Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData),
             Folder("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport),
             Folder("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport),
             Folder("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport),

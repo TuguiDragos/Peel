@@ -293,6 +293,19 @@ struct DeveloperCachesTests {
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
+    /// Of what Xcode keeps for previews, only the simulator devices it makes for them are offered: Xcode itself lists
+    /// that folder among the simulator device sets it removes.
+    @Test func offersOnlyTheSimulatorDevicesXcodeMakesForPreviews() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Developer/Xcode/UserData/Previews/Simulator Devices/device_set.plist", bytes: 400_000)
+        try directory.file("Library/Developer/Xcode/UserData/Previews/other/state", bytes: 400_000)
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let offered = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+
+        #expect(offered == ["Simulator Devices"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
