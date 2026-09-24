@@ -21,11 +21,13 @@ public struct BulkUninstallation: Sendable {
         public var isMeasured = true
         /// Needs administrator rights, and the helper may not move it. Shown, never selected, never moved.
         public var isBeyondTheHelper = false
+        /// Peel or a file of Peel's: Peel is removed only from its own Settings. Shown, never selected, never moved.
+        public var isPeels = false
 
         public var id: URL { url }
         public var isApplication: Bool { match == nil }
         public var isRecommended: Bool {
-            guard !isExcluded, !isKeptByMacOS, !isBeyondTheHelper else { return false }
+            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper else { return false }
             guard let match else { return true }
             return sharedWithOthers.isEmpty && match.confidence >= .likely && match.heldBack == nil
         }
@@ -40,7 +42,7 @@ public struct BulkUninstallation: Sendable {
     /// as zero: it makes the total incomplete.
     public var total: SizeTotal {
         SizeTotal(items
-            .filter { !$0.isExcluded && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && $0.match?.heldBack?.cannotBeMoved != true }
+            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && $0.match?.heldBack?.cannotBeMoved != true }
             .map { $0.isMeasured ? $0.size : nil })
     }
     public var unreadableLocations: [SearchLocation] {
@@ -78,12 +80,13 @@ public struct BulkUninstallation: Sendable {
     }
 
     public var privilegedURLs: Set<URL> {
-        Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isBeyondTheHelper && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
+        Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
     }
 
-    /// Returns the selection in the order it is moved: leftovers first, then the apps. Excluded items are left out.
+    /// Returns the selection in the order it is moved: leftovers first, then the apps. Excluded items and Peel's
+    /// are left out.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
-        let movable = items.filter { !$0.isExcluded && selection.contains($0.url) }
+        let movable = items.filter { !$0.isExcluded && !$0.isPeels && selection.contains($0.url) }
         return movable.filter { !$0.isApplication }.map(\.url) + movable.filter(\.isApplication).map(\.url)
     }
 
@@ -105,7 +108,8 @@ public struct BulkUninstallation: Sendable {
                     isExcluded: existing.isExcluded || item.isExcluded,
                     isKeptByMacOS: existing.isKeptByMacOS || item.isKeptByMacOS,
                     isMeasured: existing.isMeasured || item.isMeasured,
-                    isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper
+                    isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
+                    isPeels: existing.isPeels || item.isPeels
                 )
             } else {
                 byURL[item.url] = item
@@ -127,7 +131,8 @@ public struct BulkUninstallation: Sendable {
                     isExcluded: leftover.match.heldBack == .holdsAnExclusion,
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,
-                    isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper
+                    isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper,
+                    isPeels: uninstallation.isPeel
                 ))
             }
             add(Item(
@@ -141,7 +146,8 @@ public struct BulkUninstallation: Sendable {
                 isExcluded: uninstallation.isExcluded,
                 isKeptByMacOS: uninstallation.app.isSystemProtected,
                 isMeasured: uninstallation.isAppMeasured,
-                isBeyondTheHelper: uninstallation.isAppBeyondTheHelper
+                isBeyondTheHelper: uninstallation.isAppBeyondTheHelper,
+                isPeels: uninstallation.isPeel
             ))
         }
 

@@ -58,6 +58,11 @@ final class RemovalPlan {
         uninstallation?.isAppBeyondTheHelper ?? false
     }
 
+    /// Known before the scan, so the page says from the start that Peel removes itself in Settings.
+    var isPeel: Bool {
+        app.isPeelItself
+    }
+
     /// False when the size of something selected is unknown, so the bar shows the sum as "Over" that amount.
     var isSelectionMeasured: Bool {
         (!selectedURLs.contains(app.url) || isAppMeasured) && selectedURLs.allSatisfy { leftoverSizes[$0]?.isMeasured ?? true }

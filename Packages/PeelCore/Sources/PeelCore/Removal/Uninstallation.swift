@@ -14,6 +14,9 @@ public struct Uninstallation: Sendable {
     /// True when the app needs administrator rights and the helper may not move it. The app is then never
     /// selected: its leftovers would move first, and the app would stay without them.
     public var isAppBeyondTheHelper = false
+    /// True for Peel, which is removed only from its own Settings, where its helper and login item go first. Its
+    /// files are listed, and nothing of it is selected or moved anywhere else: `unreviewedSelection` is that way.
+    public var isPeel: Bool { app.isPeelItself }
 
     @concurrent
     public static func prepare(
@@ -144,11 +147,11 @@ public struct Uninstallation: Sendable {
         return (inside.kind, components)
     }
 
-    /// True when the app itself would stay: excluded, kept by macOS, beyond the helper, or needing the helper
-    /// while it is not there. Nothing of it is then selected for the user: what it left behind would go first,
-    /// and it would stay without its settings. For an app macOS keeps, what it holds is data in use.
+    /// True when the app itself would stay: excluded, Peel, kept by macOS, beyond the helper, or needing the
+    /// helper while it is not there. Nothing of it is then selected for the user: what it left behind would go
+    /// first, and it would stay without its settings. For an app macOS keeps, what it holds is data in use.
     public func appStays(canUseHelper: Bool) -> Bool {
-        isExcluded || app.isSystemProtected || isAppBeyondTheHelper || (appRequiresPrivileges && !canUseHelper)
+        isExcluded || isPeel || app.isSystemProtected || isAppBeyondTheHelper || (appRequiresPrivileges && !canUseHelper)
     }
 
     /// What is selected for the user at first: the app and the recommended leftovers that can move. Empty for
@@ -171,12 +174,13 @@ public struct Uninstallation: Sendable {
             leftover.match.isRecommended && !leftover.requiresPrivileges
                 && (leftover.match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
         }
-        return removalOrder(of: Set(own.map(\.url)).union([app.url]))
+        return order(of: Set(own.map(\.url)).union([app.url]))
     }
 
     /// How many items could move once selected, and their total size: what a section header shows and the
     /// page's total adds up. Rows Peel leaves alone are not counted.
     public func movable(among leftovers: [Leftover], withApp: Bool) -> (count: Int, size: SizeTotal) {
+        guard !isPeel else { return (0, SizeTotal([])) }
         var sizes: [Int64?] = leftovers
             .filter { $0.match.heldBack?.cannotBeMoved != true && $0.match.heldBack != .holdsAnExclusion }
             .map { $0.isMeasured ? $0.size : nil }
@@ -187,7 +191,7 @@ public struct Uninstallation: Sendable {
     }
 
     public var privilegedURLs: Set<URL> {
-        guard !isExcluded else { return [] }
+        guard !isExcluded, !isPeel else { return [] }
         var urls = Set(scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url))
         if appRequiresPrivileges, !app.isSystemProtected, !isAppBeyondTheHelper {
             urls.insert(app.url)
@@ -197,7 +201,11 @@ public struct Uninstallation: Sendable {
 
     /// The selected leftovers, then the app itself.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
-        guard !isExcluded else { return [] }
-        return scan.leftovers.map(\.url).filter(selection.contains) + (selection.contains(app.url) ? [app.url] : [])
+        guard !isExcluded, !isPeel else { return [] }
+        return order(of: selection)
+    }
+
+    private func order(of selection: Set<URL>) -> [URL] {
+        scan.leftovers.map(\.url).filter(selection.contains) + (selection.contains(app.url) ? [app.url] : [])
     }
 }

@@ -133,6 +133,9 @@ this one; so is something matched by name alone at the top of your home folder o
 only a guess. And nothing at all is selected for an app that would stay: one macOS keeps, one the helper may not
 move, or one that needs the helper while it cannot act.
 
+Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
+apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.
+
 Never selected for you, even when found: model weights, virtual environments, `/Users/Shared` (it belongs to
 every account, not just yours), a project you worked on this week, a folder with a repository, a wallet, or a
 signing key inside, a folder macOS would not let Peel read, and a folder Peel could not measure in time. Those

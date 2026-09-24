@@ -46887,6 +46887,112 @@
         }
       }
     },
+    "Left alone: Peel removes itself only from Settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: Peel se odstraňuje jen v Nastavení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Peel entfernt sich selbst nur in den Einstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: Peel solo se elimina desde Ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : Peel ne se supprime que depuis les Réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: Peel si rimuove solo nelle Impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: Peel自身のアンインストールは“設定”からのみ行えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: Peel은 설정에서만 자신을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: Peel verwijdert zichzelf alleen vanuit Instellingen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: Peel odinstalowuje się tylko w Ustawieniach."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o Peel só se remove nos Ajustes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: Peel se elimină doar din Configurări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: Peel удаляет себя только в Настройках."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: Peel tar bort sig själv bara i Inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: Peel kendini yalnızca Ayarlar’dan kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: Peel вилучає себе лише в Параметрах."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：Peel只会在“设置”中移除自己。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：Peel只會在「設定」中移除自己。"
+          }
+        }
+      }
+    },
     "Left alone: Peel won’t move this, because of where it sits or what is inside it." : {
       "localizations" : {
         "cs" : {
@@ -77042,6 +77148,112 @@
         }
       }
     },
+    "Peel removes itself in Settings" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se odstraňuje v Nastavení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt sich selbst in den Einstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se elimina en Ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se supprime dans les Réglages"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si rimuove nelle Impostazioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel自身のアンインストールは“設定”で行います"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 설정에서 자신을 제거함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert zichzelf in Instellingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odinstalowuje się w Ustawieniach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel se remove nos Ajustes"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se elimină din Configurări"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel удаляет себя в Настройках"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar bort sig själv i Inställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini Ayarlar’da kaldırır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel вилучає себе в Параметрах"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在“设置”中移除自己"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在「設定」中移除自己"
+          }
+        }
+      }
+    },
     "Peel removes nothing and puts nothing back until you start the list over in Settings." : {
       "localizations" : {
         "cs" : {
@@ -84385,6 +84597,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要從這部Mac移除Peel嗎？"
+          }
+        }
+      }
+    },
+    "Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volba „Odstranit Peel“ v Nastavení > Obecné odstraní také pomocníka Peelu a jeho položku přihlášení. Kdyby byl Peel odtud přesunut do koše, zanechal by je po sobě."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit „Peel entfernen“ unter „Einstellungen“ > „Allgemein“ werden auch das Hilfsprogramm und das Anmeldeobjekt von Peel entfernt. Von hier aus verschoben, würde Peel beide hinterlassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Eliminar Peel”, en Ajustes > General, también elimina su asistente y su ítem de inicio. Si se trasladara desde aquí, Peel los dejaría atrás."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Réglages > Général, « Supprimer Peel » supprime aussi son utilitaire et son élément d’ouverture. Placé dans la corbeille depuis cette page, Peel les laisserait derrière lui."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Rimuovi Peel”, in Impostazioni > Generali, rimuove anche l’assistente e l’elemento login di Peel. Spostato da qui, Peel se li lascerebbe dietro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“設定”＞“一般”にある“Peelをアンインストール”を使うと、ヘルパーとログイン項目も一緒に取り除かれます。ここからゴミ箱に入れた場合、Peelはそれらを残していくことになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 > 일반에 있는 ‘Peel 제거’는 보조 프로그램과 로그인 항목도 함께 제거합니다. 여기에서 휴지통으로 이동하면 Peel이 이 두 가지를 남기게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met 'Verwijder Peel' in Instellingen > Algemeen worden ook het hulpprogramma en het inlogonderdeel van Peel verwijderd. Als Peel hier naar de prullenmand werd verplaatst, zou Peel ze achterlaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Odinstaluj Peel” w Ustawieniach > Ogólne odinstalowuje także pomocnika Peel i usuwa rzecz otwieraną podczas logowania. Przeniesiony stąd do Kosza, Peel pozostawiłby po sobie jedno i drugie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Remover o Peel”, em Ajustes > Geral, também remove o auxiliar e o item de início de sessão. Se fosse movido daqui, o Peel os deixaria para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Eliminați Peel”, din Configurări > General, elimină și instrumentul de ajutor și articolul de lansat la login. Dacă ar fi mutat în Coș de aici, Peel le‑ar lăsa în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пункт «Удалить Peel» в разделе «Настройки» > «Основные» удаляет также помощника Peel и объект входа. Если бы Peel переместили отсюда, он оставил бы их после себя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”Ta bort Peel” i Inställningar > Allmänt tar även bort Peels hjälpprogram och startobjekt. Om Peel flyttades härifrån skulle de lämnas kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar > Genel’deki “Peel’i Kaldır”, Peel’in yardımcısını ve oturum açma öğesini de kaldırır. Peel buradan Çöp Sepeti’ne taşınsaydı, bunları geride bırakırdı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда «Вилучити Peel» у розділі Параметри > Загальні вилучає також помічника й елемент автозапуску Peel. Якби Peel перемістили звідси, вона залишила б їх по собі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“设置”>“通用”中的“移除Peel”还会一并移除Peel的帮助程序和登录项。如果从此处移走，Peel会将它们留下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「設定」>「一般」中的「移除Peel」也會一併移除Peel的輔助程式和登入項目。若從這裡移動Peel，就會留下它們。"
           }
         }
       }

@@ -89,6 +89,29 @@ struct UninstallationTests {
         #expect(bulk.suggestedSelection(canUseHelper: true).isSuperset(of: [app.url, own.url, shared.url, other.url]))
     }
 
+    /// Peel is removed only from its own Settings, where its helper and login item go first. Its page lists its
+    /// files, but nothing of it can be selected or moved there, alone or among other apps. Remove Peel still takes
+    /// what is certainly its own.
+    @Test func peelIsRemovedOnlyFromItsOwnSettings() {
+        let peel = InstalledApp(url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel")
+        let own = leftover("com.tuguidragos.Peel")
+        let plan = uninstallation(app: peel, leftovers: [own])
+
+        #expect(plan.isPeel)
+        #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(plan.removalOrder(of: [peel.url, own.url]).isEmpty)
+        #expect(plan.movable(among: [own], withApp: true).count == 0)
+        #expect(plan.privilegedURLs.isEmpty)
+        #expect(plan.unreviewedSelection == [own.url, peel.url], "Remove Peel no longer takes what is Peel's")
+
+        let example = leftover("com.example.app")
+        let bulk = BulkUninstallation(uninstallations: [plan, uninstallation(leftovers: [example])])
+        #expect(bulk.suggestedSelection(canUseHelper: true) == [app.url, example.url])
+        #expect(bulk.removalOrder(of: [peel.url, own.url, app.url, example.url]) == [example.url, app.url])
+        #expect(Set(bulk.items.filter(\.isPeels).map(\.url)) == [peel.url, own.url])
+        #expect(bulk.total.known == 11_000, "Peel's files were counted as something to remove")
+    }
+
     /// Leftovers move before the app. If the helper then refused the app, it would stay without them, so an app
     /// the helper may not move is never offered. Neither is an app macOS keeps, wherever it sits.
     @Test func anAppTheHelperMayNotMoveIsNeverOffered() async throws {

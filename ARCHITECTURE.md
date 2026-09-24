@@ -162,7 +162,9 @@ prints goes through `Output`, in plain ASCII, so scripts can read it.
 | Peel's preferences | Settings, the totals Home shows, and the last answer of each update check. |
 
 Remove Peel, in Settings, takes all of it to the Trash except the helper's ledger, which only the helper could
-move, and it unregisters the helper first.
+move, and it unregisters the helper first. It is the only way Peel is removed: Peel's own page in Applications, and
+Peel among several chosen apps, list it and select nothing of it (`Uninstallation.isPeel`), and `peel uninstall`
+refuses it.
 
 ## Testing
 

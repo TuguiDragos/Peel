@@ -157,7 +157,8 @@ struct MultipleAppsView: View {
             isMeasured: item.isMeasured,
             isLocked: item.requiresPrivileges && !helper.canAct,
             isExcluded: item.isExcluded,
-            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS),
+            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS)
+                || item.isPeels,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
             selection: plan, isSelected: plan.isSelected(item.url)
@@ -177,6 +178,9 @@ struct MultipleAppsView: View {
         }
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
+        }
+        if item.isPeels {
+            lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
         }
         if item.isKeptByMacOS {
             // Two literals, so the string catalog finds both.

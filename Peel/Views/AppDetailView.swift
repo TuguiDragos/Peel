@@ -108,6 +108,18 @@ struct AppDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             }
+            if plan.isPeel {
+                Notice(
+                    title: Text("Peel removes itself in Settings"),
+                    detail: Text("Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind."),
+                    kind: .note
+                ) {
+                    SettingsLink {
+                        Text("Open Peel Settings")
+                    }
+                }
+                .listRowSeparator(.hidden)
+            }
             if let scan = plan.scan {
                 if !scan.unreadableLocations.isEmpty {
                     FullDiskAccessBanner()
@@ -225,7 +237,7 @@ struct AppDetailView: View {
                 isMeasured: plan.isAppMeasured,
                 isLocked: plan.appRequiresPrivileges && !helper.canAct,
                 isExcluded: plan.isExcluded,
-                isLeftAlone: plan.app.isSystemProtected || plan.isAppBeyondTheHelper,
+                isLeftAlone: plan.app.isSystemProtected || plan.isAppBeyondTheHelper || plan.isPeel,
                 appIdentifier: plan.app.bundleIdentifier,
                 selection: plan, isSelected: plan.isSelected(plan.app.url)
             )
@@ -249,7 +261,7 @@ struct AppDetailView: View {
     /// The Recommended rows a checkbox can select, for its Select All. Review Before Removing has no Select All,
     /// because nothing there should be selected without being read.
     private var recommendedSelectable: [URL] {
-        let isAppSelectable = !(plan.appRequiresPrivileges && !helper.canAct) && !plan.isExcluded
+        let isAppSelectable = !(plan.appRequiresPrivileges && !helper.canAct) && !plan.isExcluded && !plan.isPeel
             && !plan.app.isSystemProtected && !plan.isAppBeyondTheHelper
         return (isAppSelectable ? [plan.app.url] : []) + plan.recommended.filter(canSelect).map(\.url)
     }
@@ -276,6 +288,9 @@ struct AppDetailView: View {
     }
 
     private var appWarning: String? {
+        if plan.isPeel {
+            return String(localized: "Left alone: Peel removes itself only from Settings.")
+        }
         if plan.app.isSystemProtected {
             return String(localized: "macOS keeps this app, so it stays where it is.")
         }
@@ -505,14 +520,14 @@ struct AppDetailView: View {
             isMeasured: leftover.isMeasured,
             isLocked: leftover.requiresPrivileges && !helper.canAct,
             isExcluded: leftover.match.heldBack == .holdsAnExclusion,
-            isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true,
+            isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.isPeel,
             selection: plan, isSelected: plan.isSelected(leftover.url)
         )
     }
 
     private func canSelect(_ leftover: Leftover) -> Bool {
         !(leftover.requiresPrivileges && !helper.canAct) && leftover.match.heldBack != .holdsAnExclusion
-            && leftover.match.heldBack?.cannotBeMoved != true
+            && leftover.match.heldBack?.cannotBeMoved != true && !plan.isPeel
     }
 
     /// What the row has to say for itself beyond the match: who else uses it, and why Peel left the checkmark off.
@@ -524,6 +539,9 @@ struct AppDetailView: View {
         }
         if let heldBack = leftover.match.heldBack {
             lines.append(String(localized: heldBack.explanation))
+        }
+        if plan.isPeel {
+            lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
         }
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
