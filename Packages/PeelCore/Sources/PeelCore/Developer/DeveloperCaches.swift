@@ -60,7 +60,18 @@ public enum DeveloperCaches {
         let name: String
         let systemImage: String
         let appBundleIdentifiers: [String]
-        let paths: [(String, DeveloperEnvironment.ContentKind)]
+        let folders: [Folder]
+    }
+
+    /// A folder a tool keeps, relative to the home folder, and what it holds.
+    struct Folder {
+        let path: String
+        let kind: DeveloperEnvironment.ContentKind
+
+        init(_ path: String, _ kind: DeveloperEnvironment.ContentKind) {
+            self.path = path
+            self.kind = kind
+        }
     }
 
     /// Returns the names of the children of `folder` that this table lists, or lists something inside, as
@@ -71,8 +82,8 @@ public enum DeveloperCaches {
         // paths in the table don't.
         let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
         let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
-        let names = definitions.flatMap(\.paths).compactMap { path, _ -> String? in
-            let full = home + PathComponents.of(path)
+        let names = definitions.flatMap(\.folders).compactMap { folder -> String? in
+            let full = home + PathComponents.of(folder.path)
             guard full.count > base.count, full.starts(with: base) else { return nil }
             return full[base.count]
         }
@@ -83,176 +94,176 @@ public enum DeveloperCaches {
     /// belong here: no toolchain or installation, nothing holding an account or a token, no path inside another.
     static let definitions: [Definition] = [
         // Apple
-        Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], paths: [
-            ("Library/Developer/Xcode/DerivedData", .buildData),
-            ("Library/Developer/Xcode/UserData/Previews", .buildData),
-            ("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport),
-            ("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport),
-            ("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport),
-            ("Library/Developer/Xcode/visionOS DeviceSupport", .deviceSupport),
-            ("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport),
-            ("Library/Developer/CoreSimulator/Caches", .cache),
-            ("Library/Caches/com.apple.dt.Xcode", .cache),
-            ("Library/Developer/Xcode/Archives", .archives),
+        Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
+            Folder("Library/Developer/Xcode/DerivedData", .buildData),
+            Folder("Library/Developer/Xcode/UserData/Previews", .buildData),
+            Folder("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport),
+            Folder("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport),
+            Folder("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport),
+            Folder("Library/Developer/Xcode/visionOS DeviceSupport", .deviceSupport),
+            Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport),
+            Folder("Library/Developer/CoreSimulator/Caches", .cache),
+            Folder("Library/Caches/com.apple.dt.Xcode", .cache),
+            Folder("Library/Developer/Xcode/Archives", .archives),
         ]),
-        Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/org.swift.swiftpm", .downloads),
+        Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/org.swift.swiftpm", .downloads),
         ]),
-        Definition(id: "cocoapods", name: "CocoaPods", systemImage: "shippingbox", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/CocoaPods", .downloads),
+        Definition(id: "cocoapods", name: "CocoaPods", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/CocoaPods", .downloads),
         ]),
-        Definition(id: "carthage", name: "Carthage", systemImage: "shippingbox", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/org.carthage.CarthageKit", .downloads),
+        Definition(id: "carthage", name: "Carthage", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/org.carthage.CarthageKit", .downloads),
         ]),
-        Definition(id: "homebrew", name: "Homebrew", systemImage: "mug", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/Homebrew/downloads", .downloads),
-            ("Library/Caches/Homebrew/Cask", .downloads),
-            ("Library/Caches/Homebrew/bootsnap", .cache),
+        Definition(id: "homebrew", name: "Homebrew", systemImage: "mug", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/Homebrew/downloads", .downloads),
+            Folder("Library/Caches/Homebrew/Cask", .downloads),
+            Folder("Library/Caches/Homebrew/bootsnap", .cache),
         ]),
         // JavaScript
-        Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            (".npm/_cacache", .downloads),
-            (".npm/_npx", .downloads),
+        Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".npm/_cacache", .downloads),
+            Folder(".npm/_npx", .downloads),
         ]),
-        Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/Yarn", .downloads),
+        Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/Yarn", .downloads),
             // Yarn's Plug'n'Play projects load every package from this cache, so it is listed and never selected:
             // moving it breaks each such project until `yarn install` runs in it again.
-            (".yarn/berry/cache", .environments),
+            Folder(".yarn/berry/cache", .environments),
         ]),
-        Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/pnpm/store", .environments),
-            ("Library/Caches/pnpm", .cache),
+        Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/pnpm/store", .environments),
+            Folder("Library/Caches/pnpm", .cache),
         ]),
-        Definition(id: "bun", name: "Bun", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            (".bun/install/cache", .downloads),
+        Definition(id: "bun", name: "Bun", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".bun/install/cache", .downloads),
         ]),
-        Definition(id: "deno", name: "Deno", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/deno", .downloads),
+        Definition(id: "deno", name: "Deno", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/deno", .downloads),
         ]),
-        Definition(id: "reactnative", name: "React Native CLI", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/react-native-cli", .cache),
+        Definition(id: "reactnative", name: "React Native CLI", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/react-native-cli", .cache),
         ]),
-        Definition(id: "expo", name: "Expo", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            (".expo/expo-go", .downloads),
-            (".expo/versions-cache", .cache),
-            (".expo/ios-simulator-app-cache", .downloads),
-            (".expo/android-apk-cache", .downloads),
+        Definition(id: "expo", name: "Expo", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".expo/expo-go", .downloads),
+            Folder(".expo/versions-cache", .cache),
+            Folder(".expo/ios-simulator-app-cache", .downloads),
+            Folder(".expo/android-apk-cache", .downloads),
         ]),
-        Definition(id: "nx", name: "Nx", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            (".nx/*/cache", .buildData),
-            (".nx/*/databases", .cache),
+        Definition(id: "nx", name: "Nx", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".nx/*/cache", .buildData),
+            Folder(".nx/*/databases", .cache),
         ]),
-        Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/ms-playwright", .downloads),
+        Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/ms-playwright", .downloads),
         ]),
-        Definition(id: "cypress", name: "Cypress", systemImage: "globe", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/Cypress", .downloads),
+        Definition(id: "cypress", name: "Cypress", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/Cypress", .downloads),
         ]),
-        Definition(id: "puppeteer", name: "Puppeteer", systemImage: "globe", appBundleIdentifiers: [], paths: [
-            (".cache/puppeteer", .downloads),
+        Definition(id: "puppeteer", name: "Puppeteer", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder(".cache/puppeteer", .downloads),
         ]),
-        Definition(id: "electron", name: "Electron", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/electron", .downloads),
-            ("Library/Caches/electron-builder", .downloads),
-            (".electron-gyp", .downloads),
+        Definition(id: "electron", name: "Electron", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/electron", .downloads),
+            Folder("Library/Caches/electron-builder", .downloads),
+            Folder(".electron-gyp", .downloads),
         ]),
-        Definition(id: "nodegyp", name: "node-gyp", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/node-gyp", .downloads),
-            (".node-gyp", .downloads),
+        Definition(id: "nodegyp", name: "node-gyp", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/node-gyp", .downloads),
+            Folder(".node-gyp", .downloads),
         ]),
-        Definition(id: "typescript", name: "TypeScript", systemImage: "cube", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/typescript", .downloads),
+        Definition(id: "typescript", name: "TypeScript", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/typescript", .downloads),
         ]),
         // Python
-        Definition(id: "pip", name: "pip", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/pip", .downloads),
+        Definition(id: "pip", name: "pip", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pip", .downloads),
         ]),
-        Definition(id: "poetry", name: "Poetry", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/pypoetry/cache", .downloads),
-            ("Library/Caches/pypoetry/artifacts", .downloads),
-            ("Library/Caches/pypoetry/virtualenvs", .environments),
+        Definition(id: "poetry", name: "Poetry", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pypoetry/cache", .downloads),
+            Folder("Library/Caches/pypoetry/artifacts", .downloads),
+            Folder("Library/Caches/pypoetry/virtualenvs", .environments),
         ]),
-        Definition(id: "uv", name: "uv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            (".cache/uv", .environments),
+        Definition(id: "uv", name: "uv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".cache/uv", .environments),
         ]),
-        Definition(id: "precommit", name: "pre-commit", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            (".cache/pre-commit", .cache),
+        Definition(id: "precommit", name: "pre-commit", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".cache/pre-commit", .cache),
         ]),
-        Definition(id: "pipenv", name: "Pipenv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/pipenv", .downloads),
-            (".local/share/virtualenvs", .environments),
+        Definition(id: "pipenv", name: "Pipenv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pipenv", .downloads),
+            Folder(".local/share/virtualenvs", .environments),
         ]),
-        Definition(id: "virtualenvwrapper", name: "virtualenvwrapper", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            (".virtualenvs", .environments),
+        Definition(id: "virtualenvwrapper", name: "virtualenvwrapper", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".virtualenvs", .environments),
         ]),
-        Definition(id: "conda", name: "Conda", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("miniconda3/pkgs", .environments),
-            ("anaconda3/pkgs", .environments),
-            (".conda/pkgs", .environments),
+        Definition(id: "conda", name: "Conda", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("miniconda3/pkgs", .environments),
+            Folder("anaconda3/pkgs", .environments),
+            Folder(".conda/pkgs", .environments),
         ]),
         // Rust and Go
-        Definition(id: "cargo", name: "Cargo", systemImage: "gearshape.2", appBundleIdentifiers: [], paths: [
-            (".cargo/registry/cache", .downloads),
-            (".cargo/registry/index", .downloads),
-            (".cargo/registry/src", .downloads),
-            (".cargo/git/checkouts", .downloads),
+        Definition(id: "cargo", name: "Cargo", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cargo/registry/cache", .downloads),
+            Folder(".cargo/registry/index", .downloads),
+            Folder(".cargo/registry/src", .downloads),
+            Folder(".cargo/git/checkouts", .downloads),
         ]),
-        Definition(id: "go", name: "Go", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/go-build", .buildData),
-            ("go/pkg/mod/cache/download", .downloads),
+        Definition(id: "go", name: "Go", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/go-build", .buildData),
+            Folder("go/pkg/mod/cache/download", .downloads),
         ]),
-        Definition(id: "sccache", name: "sccache", systemImage: "gearshape.2", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/Mozilla.sccache", .buildData),
+        Definition(id: "sccache", name: "sccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/Mozilla.sccache", .buildData),
         ]),
         // JVM and Android
-        Definition(id: "gradle", name: "Gradle", systemImage: "cup.and.saucer", appBundleIdentifiers: [], paths: [
-            (".gradle/caches", .downloads),
-            (".gradle/wrapper/dists", .downloads),
-            (".gradle/daemon", .cache),
+        Definition(id: "gradle", name: "Gradle", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder(".gradle/caches", .downloads),
+            Folder(".gradle/wrapper/dists", .downloads),
+            Folder(".gradle/daemon", .cache),
         ]),
-        Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], paths: [
-            (".m2/repository", .environments),
+        Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder(".m2/repository", .environments),
         ]),
-        Definition(id: "sbt", name: "sbt & Coursier", systemImage: "cup.and.saucer", appBundleIdentifiers: [], paths: [
-            (".sbt/boot", .downloads),
-            (".ivy2/cache", .downloads),
+        Definition(id: "sbt", name: "sbt & Coursier", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder(".sbt/boot", .downloads),
+            Folder(".ivy2/cache", .downloads),
             // Only the cache. `Coursier/jvm` beside it holds the JVMs `cs java` installed, which `JAVA_HOME`
             // points at (https://get-coursier.io/docs/cache and https://get-coursier.io/docs/cli-java).
-            ("Library/Caches/Coursier/v1", .downloads),
+            Folder("Library/Caches/Coursier/v1", .downloads),
         ]),
-        Definition(id: "konan", name: "Kotlin/Native", systemImage: "cup.and.saucer", appBundleIdentifiers: [], paths: [
-            (".konan/dependencies", .downloads),
-            (".konan/cache", .buildData),
+        Definition(id: "konan", name: "Kotlin/Native", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder(".konan/dependencies", .downloads),
+            Folder(".konan/cache", .buildData),
         ]),
         // Other languages
-        Definition(id: "dart", name: "Dart & Flutter", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            (".pub-cache/hosted", .downloads),
+        Definition(id: "dart", name: "Dart & Flutter", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".pub-cache/hosted", .downloads),
         ]),
-        Definition(id: "composer", name: "Composer", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/composer", .downloads),
-            (".composer/cache", .downloads),
+        Definition(id: "composer", name: "Composer", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/composer", .downloads),
+            Folder(".composer/cache", .downloads),
         ]),
-        Definition(id: "rubygems", name: "RubyGems & Bundler", systemImage: "shippingbox", appBundleIdentifiers: [], paths: [
-            (".gem/ruby/*/cache", .downloads),
-            (".gem/specs", .cache),
-            (".cache/gem/gems", .downloads),
-            (".cache/gem/specs", .cache),
-            (".bundle/cache", .downloads),
+        Definition(id: "rubygems", name: "RubyGems & Bundler", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".gem/ruby/*/cache", .downloads),
+            Folder(".gem/specs", .cache),
+            Folder(".cache/gem/gems", .downloads),
+            Folder(".cache/gem/specs", .cache),
+            Folder(".bundle/cache", .downloads),
         ]),
-        Definition(id: "nuget", name: "NuGet", systemImage: "shippingbox", appBundleIdentifiers: [], paths: [
-            (".nuget/packages", .downloads),
-            (".local/share/NuGet/v3-cache", .cache),
-            (".local/share/NuGet/plugins-cache", .cache),
+        Definition(id: "nuget", name: "NuGet", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".nuget/packages", .downloads),
+            Folder(".local/share/NuGet/v3-cache", .cache),
+            Folder(".local/share/NuGet/plugins-cache", .cache),
         ]),
-        Definition(id: "julia", name: "Julia", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], paths: [
-            (".julia/artifacts", .downloads),
-            (".julia/clones", .downloads),
-            (".julia/compiled", .buildData),
-            (".julia/scratchspaces", .cache),
+        Definition(id: "julia", name: "Julia", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".julia/artifacts", .downloads),
+            Folder(".julia/clones", .downloads),
+            Folder(".julia/compiled", .buildData),
+            Folder(".julia/scratchspaces", .cache),
         ]),
-        Definition(id: "nix", name: "Nix", systemImage: "shippingbox", appBundleIdentifiers: [], paths: [
-            (".cache/nix", .cache),
+        Definition(id: "nix", name: "Nix", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".cache/nix", .cache),
         ]),
         // Editors
         // A JetBrains IDE keeps `LocalHistory` beside its caches: the edits it recorded while a project was
@@ -263,175 +274,175 @@ public enum DeveloperCaches {
             "com.jetbrains.WebStorm", "com.jetbrains.PhpStorm", "com.jetbrains.goland", "com.jetbrains.rubymine",
             "com.jetbrains.CLion", "com.jetbrains.rider", "com.jetbrains.datagrip", "com.jetbrains.AppCode",
             "com.jetbrains.rustrover", "com.google.android.studio",
-        ], paths: [
-            ("Library/Caches/JetBrains/*/caches", .cache),
-            ("Library/Caches/JetBrains/*/index", .cache),
-            ("Library/Caches/JetBrains/*/tmp", .cache),
-            ("Library/Logs/JetBrains", .logs),
+        ], folders: [
+            Folder("Library/Caches/JetBrains/*/caches", .cache),
+            Folder("Library/Caches/JetBrains/*/index", .cache),
+            Folder("Library/Caches/JetBrains/*/tmp", .cache),
+            Folder("Library/Logs/JetBrains", .logs),
         ]),
-        Definition(id: "vscode", name: "Visual Studio Code", systemImage: "curlybraces", appBundleIdentifiers: ["com.microsoft.VSCode"], paths: [
-            ("Library/Application Support/Code/Cache", .cache),
-            ("Library/Application Support/Code/CachedData", .cache),
-            ("Library/Application Support/Code/CachedExtensionVSIXs", .downloads),
+        Definition(id: "vscode", name: "Visual Studio Code", systemImage: "curlybraces", appBundleIdentifiers: ["com.microsoft.VSCode"], folders: [
+            Folder("Library/Application Support/Code/Cache", .cache),
+            Folder("Library/Application Support/Code/CachedData", .cache),
+            Folder("Library/Application Support/Code/CachedExtensionVSIXs", .downloads),
         ]),
-        Definition(id: "vscodium", name: "VSCodium", systemImage: "curlybraces", appBundleIdentifiers: ["com.vscodium"], paths: [
-            ("Library/Application Support/VSCodium/Cache", .cache),
-            ("Library/Application Support/VSCodium/CachedData", .cache),
-            ("Library/Application Support/VSCodium/CachedExtensionVSIXs", .downloads),
-            ("Library/Caches/com.vscodium", .cache),
+        Definition(id: "vscodium", name: "VSCodium", systemImage: "curlybraces", appBundleIdentifiers: ["com.vscodium"], folders: [
+            Folder("Library/Application Support/VSCodium/Cache", .cache),
+            Folder("Library/Application Support/VSCodium/CachedData", .cache),
+            Folder("Library/Application Support/VSCodium/CachedExtensionVSIXs", .downloads),
+            Folder("Library/Caches/com.vscodium", .cache),
         ]),
-        Definition(id: "cursor", name: "Cursor", systemImage: "curlybraces", appBundleIdentifiers: ["com.todesktop.230313mzl4w4u92"], paths: [
-            ("Library/Application Support/Cursor/Cache", .cache),
-            ("Library/Application Support/Cursor/CachedData", .cache),
-            ("Library/Application Support/Caches/cursor-updater", .downloads),
+        Definition(id: "cursor", name: "Cursor", systemImage: "curlybraces", appBundleIdentifiers: ["com.todesktop.230313mzl4w4u92"], folders: [
+            Folder("Library/Application Support/Cursor/Cache", .cache),
+            Folder("Library/Application Support/Cursor/CachedData", .cache),
+            Folder("Library/Application Support/Caches/cursor-updater", .downloads),
         ]),
-        Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], paths: [
-            ("Library/Application Support/Devin/Cache", .cache),
-            ("Library/Application Support/Devin/CachedData", .cache),
-            ("Library/Application Support/Windsurf/Cache", .cache),
-            ("Library/Application Support/Windsurf/CachedData", .cache),
+        Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
+            Folder("Library/Application Support/Devin/Cache", .cache),
+            Folder("Library/Application Support/Devin/CachedData", .cache),
+            Folder("Library/Application Support/Windsurf/Cache", .cache),
+            Folder("Library/Application Support/Windsurf/CachedData", .cache),
         ]),
-        Definition(id: "nova", name: "Nova", systemImage: "curlybraces", appBundleIdentifiers: ["com.panic.Nova"], paths: [
-            ("Library/Caches/com.panic.Nova", .cache),
+        Definition(id: "nova", name: "Nova", systemImage: "curlybraces", appBundleIdentifiers: ["com.panic.Nova"], folders: [
+            Folder("Library/Caches/com.panic.Nova", .cache),
         ]),
-        Definition(id: "zed", name: "Zed", systemImage: "curlybraces", appBundleIdentifiers: ["dev.zed.Zed"], paths: [
-            ("Library/Caches/Zed", .cache),
+        Definition(id: "zed", name: "Zed", systemImage: "curlybraces", appBundleIdentifiers: ["dev.zed.Zed"], folders: [
+            Folder("Library/Caches/Zed", .cache),
         ]),
-        Definition(id: "sublime", name: "Sublime Text", systemImage: "curlybraces", appBundleIdentifiers: ["com.sublimetext.4", "com.sublimetext.3"], paths: [
-            ("Library/Caches/Sublime Text", .cache),
-            ("Library/Caches/com.sublimetext.4", .cache),
-            ("Library/Caches/Sublime Text 3", .cache),
-            ("Library/Caches/com.sublimetext.3", .cache),
+        Definition(id: "sublime", name: "Sublime Text", systemImage: "curlybraces", appBundleIdentifiers: ["com.sublimetext.4", "com.sublimetext.3"], folders: [
+            Folder("Library/Caches/Sublime Text", .cache),
+            Folder("Library/Caches/com.sublimetext.4", .cache),
+            Folder("Library/Caches/Sublime Text 3", .cache),
+            Folder("Library/Caches/com.sublimetext.3", .cache),
         ]),
-        Definition(id: "androidstudio", name: "Android Studio", systemImage: "curlybraces", appBundleIdentifiers: ["com.google.android.studio"], paths: [
-            ("Library/Caches/Google/AndroidStudio*/caches", .cache),
-            ("Library/Caches/Google/AndroidStudio*/index", .cache),
-            ("Library/Caches/Google/AndroidStudio*/tmp", .cache),
-            ("Library/Logs/Google/AndroidStudio*", .logs),
+        Definition(id: "androidstudio", name: "Android Studio", systemImage: "curlybraces", appBundleIdentifiers: ["com.google.android.studio"], folders: [
+            Folder("Library/Caches/Google/AndroidStudio*/caches", .cache),
+            Folder("Library/Caches/Google/AndroidStudio*/index", .cache),
+            Folder("Library/Caches/Google/AndroidStudio*/tmp", .cache),
+            Folder("Library/Logs/Google/AndroidStudio*", .logs),
         ]),
-        Definition(id: "neovim", name: "Neovim", systemImage: "curlybraces", appBundleIdentifiers: [], paths: [
-            (".cache/nvim", .cache),
-            (".local/share/nvim/lazy", .environments),
-            (".local/share/nvim/lazy-rocks", .environments),
-            (".local/share/nvim/mason", .environments),
-            (".local/state/nvim/lazy", .cache),
+        Definition(id: "neovim", name: "Neovim", systemImage: "curlybraces", appBundleIdentifiers: [], folders: [
+            Folder(".cache/nvim", .cache),
+            Folder(".local/share/nvim/lazy", .environments),
+            Folder(".local/share/nvim/lazy-rocks", .environments),
+            Folder(".local/share/nvim/mason", .environments),
+            Folder(".local/state/nvim/lazy", .cache),
         ]),
         // Cloud tools
-        Definition(id: "gcloud", name: "Google Cloud CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".config/gcloud/cache", .cache),
-            (".config/gcloud/logs", .logs),
+        Definition(id: "gcloud", name: "Google Cloud CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".config/gcloud/cache", .cache),
+            Folder(".config/gcloud/logs", .logs),
         ]),
-        Definition(id: "azure", name: "Azure CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".azure/logs", .logs),
-            (".azure/telemetry", .cache),
+        Definition(id: "azure", name: "Azure CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".azure/logs", .logs),
+            Folder(".azure/telemetry", .cache),
         ]),
-        Definition(id: "kubectl", name: "kubectl", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".kube/cache/discovery", .cache),
-            (".kube/cache/http", .cache),
+        Definition(id: "kubectl", name: "kubectl", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".kube/cache/discovery", .cache),
+            Folder(".kube/cache/http", .cache),
         ]),
-        Definition(id: "helm", name: "Helm", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/helm", .cache),
+        Definition(id: "helm", name: "Helm", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/helm", .cache),
         ]),
-        Definition(id: "githubcli", name: "GitHub CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".cache/gh", .cache),
+        Definition(id: "githubcli", name: "GitHub CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".cache/gh", .cache),
         ]),
-        Definition(id: "terraform", name: "Terraform", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".terraform.d/plugin-cache", .environments),
+        Definition(id: "terraform", name: "Terraform", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".terraform.d/plugin-cache", .environments),
         ]),
-        Definition(id: "pulumi", name: "Pulumi", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".pulumi/plugins", .downloads),
+        Definition(id: "pulumi", name: "Pulumi", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".pulumi/plugins", .downloads),
         ]),
-        Definition(id: "vercel", name: "Vercel CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/com.vercel", .cache),
-            ("Library/Caches/com.vercel.cli", .cache),
+        Definition(id: "vercel", name: "Vercel CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/com.vercel", .cache),
+            Folder("Library/Caches/com.vercel.cli", .cache),
         ]),
         // Netlify keeps its token in `config.json` in the same folder, so only these two subfolders are listed.
-        Definition(id: "netlify", name: "Netlify CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            ("Library/Preferences/netlify/deno-cli", .downloads),
-            ("Library/Preferences/netlify/tunnel", .downloads),
+        Definition(id: "netlify", name: "Netlify CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder("Library/Preferences/netlify/deno-cli", .downloads),
+            Folder("Library/Preferences/netlify/tunnel", .downloads),
         ]),
-        Definition(id: "firebase", name: "Firebase CLI", systemImage: "cloud", appBundleIdentifiers: [], paths: [
-            (".cache/firebase", .downloads),
+        Definition(id: "firebase", name: "Firebase CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
+            Folder(".cache/firebase", .downloads),
         ]),
         // Build systems and media
-        Definition(id: "ccache", name: "ccache", systemImage: "gearshape.2", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/ccache", .buildData),
+        Definition(id: "ccache", name: "ccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/ccache", .buildData),
             // A legacy `~/.ccache` also holds `ccache.conf` (https://ccache.dev/manual/latest.html), so only
             // the cache's own shards and its temporary folder are named.
-            (".ccache/[0-9a-f]", .buildData),
-            (".ccache/tmp", .buildData),
+            Folder(".ccache/[0-9a-f]", .buildData),
+            Folder(".ccache/tmp", .buildData),
         ]),
-        Definition(id: "bazel", name: "Bazel", systemImage: "gearshape.2", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/bazel", .buildData),
-            ("Library/Caches/bazelisk", .downloads),
+        Definition(id: "bazel", name: "Bazel", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/bazel", .buildData),
+            Folder("Library/Caches/bazelisk", .downloads),
         ]),
-        Definition(id: "unity", name: "Unity", systemImage: "cube.transparent", appBundleIdentifiers: [], paths: [
+        Definition(id: "unity", name: "Unity", systemImage: "cube.transparent", appBundleIdentifiers: [], folders: [
             // The Package Manager's cache of downloaded packages: `Library/Unity/cache` up to Unity 2022.3, and
             // `Library/Caches/Unity/upm` from Unity 6 (docs.unity3d.com, Manual/upm-cache.html for each version).
-            ("Library/Caches/Unity/upm", .downloads),
-            ("Library/Unity/cache", .downloads),
+            Folder("Library/Caches/Unity/upm", .downloads),
+            Folder("Library/Unity/cache", .downloads),
         ]),
-        Definition(id: "unreal", name: "Unreal Engine", systemImage: "cube.transparent", appBundleIdentifiers: [], paths: [
-            ("Library/Application Support/Epic/Zen/Data", .buildData),
-            ("Library/Application Support/Epic/UnrealEngine/Common/DerivedDataCache", .buildData),
+        Definition(id: "unreal", name: "Unreal Engine", systemImage: "cube.transparent", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/Epic/Zen/Data", .buildData),
+            Folder("Library/Application Support/Epic/UnrealEngine/Common/DerivedDataCache", .buildData),
         ]),
-        Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], paths: [
-            ("Library/Caches/Blender", .cache),
+        Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], folders: [
+            Folder("Library/Caches/Blender", .cache),
         ]),
-        Definition(id: "adobe", name: "Adobe Media Cache", systemImage: "play.rectangle", appBundleIdentifiers: [], paths: [
-            ("Library/Application Support/Adobe/Common/Media Cache Files", .cache),
-            ("Library/Application Support/Adobe/Common/Media Cache", .cache),
+        Definition(id: "adobe", name: "Adobe Media Cache", systemImage: "play.rectangle", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/Adobe/Common/Media Cache Files", .cache),
+            Folder("Library/Application Support/Adobe/Common/Media Cache", .cache),
         ]),
         // Quantum computing. Everything else these SDKs write in the home folder is settings or an account
         // token, so only these three folders are listed.
-        Definition(id: "dwave", name: "D-Wave Ocean", systemImage: "atom", appBundleIdentifiers: [], paths: [
-            ("Library/Caches/dwave-cloud-client", .cache),
+        Definition(id: "dwave", name: "D-Wave Ocean", systemImage: "atom", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/dwave-cloud-client", .cache),
         ]),
-        Definition(id: "qutip", name: "QuTiP", systemImage: "atom", appBundleIdentifiers: [], paths: [
-            (".qutip/qutip_coeffs_*", .buildData),
+        Definition(id: "qutip", name: "QuTiP", systemImage: "atom", appBundleIdentifiers: [], folders: [
+            Folder(".qutip/qutip_coeffs_*", .buildData),
         ]),
-        Definition(id: "qbraid", name: "qBraid", systemImage: "atom", appBundleIdentifiers: [], paths: [
-            (".qbraid/environments", .environments),
+        Definition(id: "qbraid", name: "qBraid", systemImage: "atom", appBundleIdentifiers: [], folders: [
+            Folder(".qbraid/environments", .environments),
         ]),
 
         // Models and datasets
-        Definition(id: "ollama", name: "Ollama", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".ollama/models", .models),
-            (".ollama/logs", .logs),
+        Definition(id: "ollama", name: "Ollama", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".ollama/models", .models),
+            Folder(".ollama/logs", .logs),
         ]),
-        Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".lmstudio/models", .models),
-            (".cache/lm-studio/models", .models),
+        Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".lmstudio/models", .models),
+            Folder(".cache/lm-studio/models", .models),
         ]),
-        Definition(id: "huggingface", name: "Hugging Face", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".cache/huggingface/hub", .models),
-            (".cache/huggingface/datasets", .models),
-            (".cache/huggingface/xet", .cache),
-            (".cache/huggingface/assets", .cache),
-            (".cache/huggingface/transformers", .models),
+        Definition(id: "huggingface", name: "Hugging Face", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/huggingface/hub", .models),
+            Folder(".cache/huggingface/datasets", .models),
+            Folder(".cache/huggingface/xet", .cache),
+            Folder(".cache/huggingface/assets", .cache),
+            Folder(".cache/huggingface/transformers", .models),
         ]),
-        Definition(id: "torch", name: "PyTorch", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".cache/torch/hub", .models),
-            (".cache/torch/transformers", .models),
+        Definition(id: "torch", name: "PyTorch", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/torch/hub", .models),
+            Folder(".cache/torch/transformers", .models),
         ]),
-        Definition(id: "mlxdata", name: "MLX Data", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".cache/mlx.data", .models),
+        Definition(id: "mlxdata", name: "MLX Data", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/mlx.data", .models),
         ]),
-        Definition(id: "whisper", name: "Whisper", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".cache/whisper", .models),
+        Definition(id: "whisper", name: "Whisper", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/whisper", .models),
         ]),
-        Definition(id: "gpt4all", name: "GPT4All", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".cache/gpt4all", .models),
+        Definition(id: "gpt4all", name: "GPT4All", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/gpt4all", .models),
         ]),
-        Definition(id: "tensorflow", name: "TensorFlow Datasets", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            ("tensorflow_datasets", .models),
+        Definition(id: "tensorflow", name: "TensorFlow Datasets", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("tensorflow_datasets", .models),
         ]),
-        Definition(id: "keras", name: "Keras", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            (".keras/datasets", .models),
-            (".keras/models", .models),
+        Definition(id: "keras", name: "Keras", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".keras/datasets", .models),
+            Folder(".keras/models", .models),
         ]),
-        Definition(id: "nltk", name: "NLTK Data", systemImage: "brain", appBundleIdentifiers: [], paths: [
-            ("nltk_data", .models),
+        Definition(id: "nltk", name: "NLTK Data", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("nltk_data", .models),
         ]),
     ]
 
@@ -450,8 +461,8 @@ public enum DeveloperCaches {
             for definition in definitions {
                 _ = group.addTaskUnlessCancelled {
                     var locations: [DeveloperEnvironment.Location] = []
-                    for (path, kind) in definition.paths {
-                        for url in PathPattern.expand(path, home: homeDirectory) {
+                    for folder in definition.folders {
+                        for url in PathPattern.expand(folder.path, home: homeDirectory) {
                             guard !Task.isCancelled else { return nil }
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
@@ -465,7 +476,7 @@ public enum DeveloperCaches {
                             let contents = await measure(url)
                             locations.append(DeveloperEnvironment.Location(
                                 url: url,
-                                kind: kind,
+                                kind: folder.kind,
                                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                                 couldNotBeRead: contents?.couldNotBeRead == true
                             ))

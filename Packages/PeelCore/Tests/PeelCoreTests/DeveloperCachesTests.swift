@@ -10,7 +10,7 @@ struct DeveloperCachesTests {
         for path in paths {
             try directory.directory(path)
         }
-        let tool = DeveloperCaches.Definition(id: "tool", name: "Tool", systemImage: "hammer", appBundleIdentifiers: [], paths: paths.map { ($0, .cache) })
+        let tool = DeveloperCaches.Definition(id: "tool", name: "Tool", systemImage: "hammer", appBundleIdentifiers: [], folders: paths.map { DeveloperCaches.Folder($0, .cache) })
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
@@ -126,7 +126,7 @@ struct DeveloperCachesTests {
         // The only top-level folders in the table, each owned outright by the one tool that made it.
         let ownedOutright: Set<String> = [".ccache", ".electron-gyp", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets"]
         for definition in DeveloperCaches.definitions {
-            for (path, _) in definition.paths {
+            for path in definition.folders.map(\.path) {
                 #expect(!risky.contains(path), "\(definition.id) points at \(path)")
                 #expect(!path.hasPrefix("/"), "\(definition.id) points outside the home folder")
                 #expect(!path.contains(".."), "\(definition.id) climbs out of its folder")
@@ -158,7 +158,7 @@ struct DeveloperCachesTests {
             "Library/Caches/Coursier", ".ccache",
         ]
         for definition in DeveloperCaches.definitions {
-            for (path, _) in definition.paths {
+            for path in definition.folders.map(\.path) {
                 for pattern in forbidden {
                     #expect(!path.lowercased().contains(pattern.lowercased()), "\(definition.id) lists \(path)")
                 }
@@ -175,8 +175,8 @@ struct DeveloperCachesTests {
         var seen: [String: String] = [:]
         for definition in DeveloperCaches.definitions {
             #expect(!definition.name.isEmpty)
-            #expect(!definition.paths.isEmpty, "\(definition.id) has no paths")
-            for (path, _) in definition.paths {
+            #expect(!definition.folders.isEmpty, "\(definition.id) has no folders")
+            for path in definition.folders.map(\.path) {
                 #expect(seen[path] == nil, "\(path) is listed by both \(seen[path] ?? "") and \(definition.id)")
                 seen[path] = definition.id
             }
@@ -185,7 +185,7 @@ struct DeveloperCachesTests {
 
     /// A path inside another would count the same bytes twice, and moving the outer folder would take the inner.
     @Test func noPathIsInsideAnother() {
-        let paths = DeveloperCaches.definitions.flatMap { definition in definition.paths.map { ($0.0, definition.id) } }
+        let paths = DeveloperCaches.definitions.flatMap { definition in definition.folders.map { ($0.path, definition.id) } }
         for (path, owner) in paths {
             for (other, otherOwner) in paths where other != path {
                 #expect(!path.hasPrefix(other + "/"), "\(owner) lists \(path) inside \(otherOwner)'s \(other)")
@@ -211,7 +211,7 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         var expected: Set<String> = []
         for definition in DeveloperCaches.definitions {
-            for (path, _) in definition.paths {
+            for path in definition.folders.map(\.path) {
                 // A wildcard becomes a name it matches: `*` any folder, `[0-9a-f]` one of ccache's shards.
                 let concrete = path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
                 try directory.file("\(concrete)/content", bytes: 400_000)
@@ -236,7 +236,7 @@ struct DeveloperCachesTests {
         let guardian = RemovalGuard(environment: environment)
 
         for definition in DeveloperCaches.definitions {
-            for (path, _) in definition.paths {
+            for path in definition.folders.map(\.path) {
                 let url = home.appending(path: path.replacingOccurrences(of: "*", with: "match"), directoryHint: .isDirectory)
                 #expect(guardian.allowsRemoval(of: url), "the guard refuses \(definition.id)'s \(path)")
             }
