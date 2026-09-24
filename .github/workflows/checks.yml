@@ -1,0 +1,47 @@
+name: Checks
+
+# Runs only when started by hand. Peel needs Swift 6.4 (Xcode 27), and GitHub's standard macOS image has Xcode 26,
+# so a run on every push would fail. Xcode 27 is only on a preview image for larger runners. Once the toolchain
+# check below passes on the standard image, add `push:` and `pull_request:` here.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Use the newest Xcode on the runner
+        run: |
+          newest=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$newest" ] && sudo xcode-select -s "$newest"
+          xcodebuild -version
+          swift --version
+
+      # An older toolchain cannot read a manifest with a newer `swift-tools-version`, so this step fails first,
+      # with an error that names both versions.
+      - name: Require the toolchain the package asks for
+        run: |
+          needed=$(sed -n 's|^// swift-tools-version: *||p' Packages/PeelCore/Package.swift)
+          have=$(swift --version | sed -n 's/.*Swift version \([0-9.]*\).*/\1/p' | head -1)
+          if [ "$(printf '%s\n%s\n' "$needed" "$have" | sort -V | tail -1)" != "$have" ]; then
+            echo "::error::This runner has Swift $have; Packages/PeelCore asks for $needed."
+            exit 1
+          fi
+
+      - name: Test PeelCore
+        run: swift test --package-path Packages/PeelCore
+
+      - name: Build the app
+        run: |
+          xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
+            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+
+      # The string catalogs are synced by running `Scripts/sync_localizations.py` by hand. This step fails when a
+      # catalog is out of date. It reads the strings from the Debug build above, in `build/DerivedData`.
+      - name: The string catalogs are in step with the code
+        run: python3 Scripts/sync_localizations.py --check

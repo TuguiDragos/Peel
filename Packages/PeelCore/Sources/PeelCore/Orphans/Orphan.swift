@@ -1,0 +1,46 @@
+public import Foundation
+
+public struct OrphanItem: Sendable, Hashable, Identifiable {
+    public let url: URL
+    public let kind: SearchLocation.Kind
+    /// The space the item takes on disk, or nil when it could not be measured in time. Nil does not mean empty.
+    public let size: Int64?
+    /// When the item or anything inside it was last modified. Only its own date if it was not measured in time.
+    public let modificationDate: Date?
+    public let requiresPrivileges: Bool
+    /// Why the item cannot be moved, when `RemovalGuard` or the helper would refuse it. The item is still listed,
+    /// with this reason, but cannot be selected.
+    public var leftAlone: HoldBack?
+
+    public var id: URL { url }
+}
+
+public struct OrphanGroup: Sendable, Hashable, Identifiable {
+    public let identifier: String
+    public let items: [OrphanItem]
+    /// The app these files belonged to, when Peel saw it installed before it went away.
+    public var rememberedApp: RememberedApp?
+    /// How sure Peel is that nothing uses these files anymore. It changes how the row reads and where it is
+    /// listed, never what is selected: orphaned files are never selected for the user.
+    public var confidence = OrphanConfidence(level: .likely, reasons: [.nothingClaimsIt])
+
+    public var id: String { identifier }
+
+    /// The app's name if Peel remembers it, and the identifier otherwise.
+    public var title: String {
+        rememberedApp?.name ?? identifier
+    }
+
+    public var total: SizeTotal {
+        SizeTotal(items.map(\.size))
+    }
+
+    public var lastModified: Date? {
+        items.compactMap(\.modificationDate).max()
+    }
+}
+
+public struct OrphanScan: Sendable {
+    public let groups: [OrphanGroup]
+    public let unreadableLocations: [SearchLocation]
+}

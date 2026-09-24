@@ -1,0 +1,57 @@
+name: Report a problem
+description: Something in Peel doesn't work as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting this. One problem per report makes it easier to fix. Please leave out anything
+        personal, such as file names you would rather not share. A security problem goes by email instead, as
+        [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md) describes.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What went wrong, and what Peel showed on screen. A screenshot helps.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+  - type: input
+    id: where
+    attributes:
+      label: Where in Peel
+      description: The page or tool, for example Applications, Duplicates, or Settings, or the `peel` command you ran.
+  - type: input
+    id: version
+    attributes:
+      label: Peel version
+      description: From About Peel.
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      description: From About This Mac.
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: Mac
+      description: Apple silicon or Intel.
+  - type: textarea
+    id: anything-else
+    attributes:
+      label: Anything else

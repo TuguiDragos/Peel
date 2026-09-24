@@ -1,0 +1,81 @@
+public import Foundation
+internal import PeelPrivileged
+
+/// Makes macOS forget the privacy permissions given to an app, so a reinstalled app asks again. Peel only
+/// runs Apple's `tccutil` and never writes the privacy database itself.
+///
+/// It must run while the app is still in place: `tccutil` finds the app through Launch Services
+/// (`LSCopyApplicationURLsForBundleIdentifier`), which answers -10814 for an app whose only copy is in the
+/// Trash. So it is never offered for the files an app left behind.
+public enum PrivacyReset {
+    public enum Result: Sendable, Hashable {
+        case reset
+        case notKnownToTheSystem
+        /// Peel refused the identifier (see `isAllowed`), so `tccutil` never ran.
+        case refused
+        /// `tccutil` ran and did not reset. Carries what it printed, or an empty string.
+        case failed(String)
+        /// `tccutil` could not be started or did not finish. Carries Peel's own explanation, not words from macOS.
+        case couldNotAsk(String)
+    }
+
+    @concurrent
+    public static func reset(bundleIdentifier: String) async -> Result {
+        guard isAllowed(bundleIdentifier: bundleIdentifier) else { return .refused }
+
+        switch await Subprocess.run("/usr/bin/tccutil", ["reset", "All", bundleIdentifier], timeout: 10) {
+        case .success(let output):
+            return result(status: output.status, output: (output.text + output.errorText).trimmingCharacters(in: .whitespacesAndNewlines))
+        case .failure(let failure):
+            return .couldNotAsk(failure.explanation)
+        }
+    }
+
+    /// Resets each app in turn. Call it just before the removal moves them: `tccutil` only finds an app still in place.
+    @concurrent
+    public static func reset(_ apps: [InstalledApp]) async -> [(app: InstalledApp, result: Result)] {
+        var results: [(app: InstalledApp, result: Result)] = []
+        for app in apps {
+            results.append((app, await reset(bundleIdentifier: app.bundleIdentifier)))
+        }
+        return results
+    }
+
+    /// Returns the resets worth reporting once the removal is over: those that did not happen, and those that did
+    /// for an app that then stayed. A reset whose app was moved is what the user asked for.
+    public static func worthTelling(
+        _ resets: [(app: InstalledApp, result: Result)],
+        after removal: TrashResult
+    ) -> [(app: InstalledApp, result: Result)] {
+        let stayed = Set(removal.failures.map(\.url))
+        return resets.filter { $0.result != .reset || stayed.contains($0.app.url) }
+    }
+
+    /// Returns the apps a removal resets: those whose own bundle is selected and that `isAllowed` accepts. An app
+    /// whose leftovers alone are removed stays installed, and nobody asked to reset it.
+    public static func apps(among apps: [InstalledApp], moving selected: Set<URL>) -> [InstalledApp] {
+        apps.filter { selected.contains($0.url) && isAllowed(bundleIdentifier: $0.bundleIdentifier) }
+    }
+
+    /// Interprets `tccutil`'s exit status and output. Kept apart from running it so it can be tested.
+    static func result(status: Int32, output: String) -> Result {
+        if status == 0 { return .reset }
+        if output.contains("No such bundle identifier") { return .notKnownToTheSystem }
+        return .failed(output)
+    }
+
+    /// True when `bundleIdentifier` may be handed to `tccutil`. Apple's own apps and every part of Peel are
+    /// refused. Any other identifier must read as exactly one app's: two components or more (Obsidian's is
+    /// `md.obsidian`), none empty, only ASCII letters, digits, `-` and `_`, and no leading `-`. This matters
+    /// because `tccutil reset All` with no identifier resets every app.
+    public static func isAllowed(bundleIdentifier: String) -> Bool {
+        let identifier = bundleIdentifier.lowercased()
+        let own = HelperIdentity.appIdentifier.lowercased()
+        guard !identifier.hasPrefix("com.apple."), identifier != own, !identifier.hasPrefix(own + ".") else { return false }
+        let components = bundleIdentifier.split(separator: ".", omittingEmptySubsequences: false)
+        guard components.count >= 2, !bundleIdentifier.hasPrefix("-") else { return false }
+        return components.allSatisfy { component in
+            !component.isEmpty && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
+        }
+    }
+}

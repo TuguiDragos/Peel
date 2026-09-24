@@ -1,0 +1,291 @@
+import AppKit
+import PeelCore
+import SwiftUI
+
+struct HistoryDetailView: View {
+    @Environment(RemovalHistoryStore.self) private var history
+    @Environment(HelperModel.self) private var helper
+    @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(\.controlActiveState) private var controlActiveState
+    /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
+    /// moment, and offer to forget records that are still there.
+    @State private var standing: Standing?
+    let batch: RemovalBatch
+
+    /// Which records are still in the Trash, and which are in the Trash of a disk that isn't connected. Any
+    /// other record has left the Trash. It is read off the main actor, so drawing the page never touches the disk.
+    private struct Standing {
+        var inTrash: Set<RemovalRecord.ID> = []
+        var away: Set<RemovalRecord.ID> = []
+
+        @concurrent
+        static func of(_ records: [RemovalRecord]) async -> Standing {
+            var standing = Standing()
+            for record in records {
+                if record.isStillInTrash {
+                    standing.inTrash.insert(record.id)
+                } else if !record.isOnAConnectedDisk {
+                    standing.away.insert(record.id)
+                }
+            }
+            return standing
+        }
+    }
+
+    /// The id of the page's task: the batch, and whether the window is key. When either changes, the page reads
+    /// the disk again, since the Trash may have been emptied in the meantime.
+    private struct Look: Hashable {
+        let batch: RemovalBatch
+        let isActive: Bool
+    }
+
+    private var restorable: [RemovalRecord] {
+        batch.records.filter { standing?.inTrash.contains($0.id) == true }
+    }
+
+    private var selected: [RemovalRecord] {
+        restorable.filter { history.selectedIDs.contains($0.id) }
+    }
+
+    /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
+    private var restorableSize: Int64 {
+        standing == nil ? batch.size : restorable.totalSize
+    }
+
+    private var missing: [RemovalRecord] {
+        guard let standing else { return [] }
+        return batch.records.filter { !standing.inTrash.contains($0.id) && !standing.away.contains($0.id) }
+    }
+
+    /// Records in the Trash of a disk that isn't connected. They may still be there, so the page never offers
+    /// to forget them.
+    private var away: [RemovalRecord] {
+        batch.records.filter { standing?.away.contains($0.id) == true }
+    }
+
+    var body: some View {
+        List {
+            header
+                .listRowSeparator(.hidden)
+            ExclusionsUnreadableBanner()
+
+            // The records appear only once the disk has answered, so no row changes after it is drawn.
+            if let standing {
+                records(in: standing)
+            }
+        }
+        .fadesInColumn(on: standing == nil)
+        .safeAreaBar(edge: .bottom) {
+            RestoreBar(
+                count: selected.count,
+                isRestoring: history.isRestoring,
+                isEnabled: !selected.isEmpty && !history.isRestoring && !exclusions.exclusions.isUnreadable
+            ) {
+                Task { await history.restore(selected, canUseHelper: helper.canAct) }
+            }
+        }
+        .navigationTitle(Text(verbatim: batch.title))
+        .toolbar(removing: .title)
+        .task(id: Look(batch: batch, isActive: controlActiveState == .key)) {
+            standing = await Standing.of(batch.records)
+        }
+        .task(id: batch.id) {
+            // Failures belong to the batch they happened in, so another batch's page starts without them. Keyed to
+            // the batch alone: a Put Back that partly worked changes the batch's records, and the alert that
+            // reports the rest must stay.
+            history.failures = [:]
+        }
+        .alert("Some items couldn’t be put back.", isPresented: isShowingFailures) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            failureMessage
+        }
+    }
+
+    @ViewBuilder
+    private func records(in standing: Standing) -> some View {
+        if !missing.isEmpty {
+            Notice(
+                title: Text("^[\(missing.count) item](inflect: true) left the Trash"),
+                detail: Text("Peel can only put back what is still there.")
+            ) {
+                Button("Forget") {
+                    Task { await history.forget(missing) }
+                }
+                .tint(.red)
+            }
+            .listRowSeparator(.hidden)
+        }
+
+        if !away.isEmpty {
+            Notice(
+                title: Text("^[\(away.count) item](inflect: true) on a disk that isn’t connected"),
+                detail: Text("Connect the disk to put them back from its Trash."),
+                kind: .note
+            ) {}
+            .listRowSeparator(.hidden)
+        }
+
+        Section {
+            ForEach(Array(batch.records.enumerated()), id: \.element.id) { index, record in
+                HistoryRecordRow(
+                    history: history,
+                    record: record,
+                    place: place(of: record, in: standing),
+                    isSelected: history.isSelected(record),
+                    isFirst: index == 0
+                )
+            }
+            .listRowSeparator(.hidden)
+        } header: {
+            SectionHeaderLine {
+                Text("Items")
+            } actions: {
+                SelectAllButton(selectable: restorable.map(\.id), selection: Bindable(history).selectedIDs)
+            }
+        }
+        .disabled(history.isRestoring)
+    }
+
+    private var header: some View {
+        PageHeader(systemImage: batch.tool?.systemImage ?? "clock.arrow.circlepath") {
+            Text(verbatim: batch.title)
+                .pageTitle()
+                .textSelection(.enabled)
+                .help(Text(verbatim: batch.title))
+        } details: {
+            Text("Moved to the Trash \(batch.date, format: .relative(presentation: .named)), on \(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()).")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            FlowLayout {
+                if let tool = batch.tool {
+                    Badge(title: Text(tool.title), systemImage: tool.systemImage)
+                }
+                Badge(title: Text("^[\(batch.records.count) item](inflect: true)"), systemImage: "doc.on.doc")
+            }
+            .padding(.top, 2)
+        } trailing: {
+            // VoiceOver reads the figure and its caption as one element, since `TotalLabel` combines them.
+            TotalLabel(
+                bytes: restorableSize,
+                caption: standing == nil ? Text("moved") : Text("to put back")
+            )
+        }
+    }
+
+    private func place(of record: RemovalRecord, in standing: Standing) -> RecordPlace {
+        if standing.inTrash.contains(record.id) { return .inTrash }
+        if standing.away.contains(record.id) { return .onADiskThatIsAway }
+        return .gone
+    }
+
+    private var isShowingFailures: Binding<Bool> {
+        Binding(
+            get: { batch.records.contains { history.failures[$0.id] != nil } },
+            set: { if !$0 { history.failures = [:] } }
+        )
+    }
+
+    /// The alert's message: each item that couldn't be put back, with its own reason, since items can fail
+    /// for different reasons.
+    private var failureMessage: Text {
+        let lines = history.failures.compactMap { id, failure -> String? in
+            guard let record = batch.records.first(where: { $0.id == id }) else { return nil }
+            return "\(record.originalURL.abbreviatedPath)\n\(failure.explanation)"
+        }
+        return Text(verbatim: lines.sorted().joined(separator: "\n\n"))
+    }
+}
+
+private struct RestoreBar: View {
+    let count: Int
+    let isRestoring: Bool
+    let isEnabled: Bool
+    let onRestore: () -> Void
+
+    var body: some View {
+        FloatingBar {
+            if isRestoring {
+                ProgressView()
+                    .controlSize(.small)
+                Text("Putting back…")
+                    .foregroundStyle(.secondary)
+            } else {
+                Text("^[\(count) item](inflect: true)")
+                    .font(.barFigure)
+                    .monospacedDigit()
+                    .contentTransition(.numericText(value: Double(count)))
+                Text("Selected")
+                    .foregroundStyle(.secondary)
+            }
+        } action: {
+            // No Command-Z shortcut: the Edit menu's Undo already uses that key, and someone undoing a typo in
+            // the list's search field is not asking to put the selected files back.
+            Button("Put Back", systemImage: "arrow.uturn.backward", action: onRestore)
+                .disabled(!isEnabled)
+        }
+        .motion(value: count)
+        .motion(value: isRestoring)
+    }
+}
+
+/// Where a removed item is, as read from the disk.
+private enum RecordPlace {
+    case inTrash
+    case onADiskThatIsAway
+    case gone
+
+    var symbolName: String { self == .inTrash ? "trash" : "questionmark.circle" }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .gone: "No longer in the Trash"
+        case .inTrash: "In the Trash"
+        case .onADiskThatIsAway: "On a disk that isn’t connected"
+        }
+    }
+}
+
+/// One record's row. It is a view of its own and takes the store rather than a `Binding`, so a change redraws
+/// only the row it affects, not the whole batch (see `RowSelection`).
+private struct HistoryRecordRow: View {
+    let history: RemovalHistoryStore
+    let record: RemovalRecord
+    let place: RecordPlace
+    let isSelected: Bool
+    var isFirst = false
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Toggle(isOn: Binding(get: { isSelected }, set: { history.setSelected($0, record) })) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Image(systemName: place.symbolName)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 20)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(record.originalURL.abbreviatedPath)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        Text(place.title)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer(minLength: 12)
+                    Text(record.size.byteCount)
+                        .monospacedDigit()
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .toggleStyle(.checkbox)
+            .disabled(place != .inTrash)
+        }
+        .tableRow(isFirst: isFirst)
+        .contextMenu {
+            if place == .inTrash {
+                Button("Show in Finder", systemImage: "folder") {
+                    NSWorkspace.shared.activateFileViewerSelecting([record.trashedURL])
+                }
+            }
+        }
+    }
+}

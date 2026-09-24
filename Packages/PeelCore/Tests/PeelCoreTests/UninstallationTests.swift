@@ -1,0 +1,378 @@
+import Foundation
+@testable import PeelCore
+import Testing
+
+struct UninstallationTests {
+    private let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
+
+    private func leftover(_ name: String, confidence: MatchConfidence = .certain, sharedWith: [String] = [], requiresPrivileges: Bool = false) -> Leftover {
+        Leftover(
+            url: URL(filePath: "/Users/me/Library/Caches/\(name)"),
+            kind: .caches,
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith),
+            size: 1_000,
+            isMeasured: true,
+            requiresPrivileges: requiresPrivileges
+        )
+    }
+
+    private func uninstallation(app: InstalledApp? = nil, appRequiresPrivileges: Bool = false, leftovers: [Leftover]) -> Uninstallation {
+        Uninstallation(
+            app: app ?? self.app,
+            appSize: 10_000,
+            appRequiresPrivileges: appRequiresPrivileges,
+            scan: LeftoverScan(leftovers: leftovers, unreadableLocations: [])
+        )
+    }
+
+    /// When an app removes itself, nobody reviews a list first, so a match on its name is not enough. Only what
+    /// is certainly its own or named inside its own identifier goes, and nothing that needs the helper. If the
+    /// app itself needs the helper, nothing goes at all.
+    @Test func takesOnlyWhatIsCertainWhenNobodyReviewsTheList() {
+        let own = leftover("com.example.app")
+        let named = leftover("Example", confidence: .likely)
+        let shared = leftover("shared", sharedWith: ["com.example.other"])
+        let rootOwned = leftover("daemon.plist", requiresPrivileges: true)
+        let tool = leftover("com.example.App.CLI", confidence: .likely)
+        let sharedTool = leftover("com.example.app.Sync", confidence: .likely, sharedWith: ["com.example.other"])
+        let plan = uninstallation(leftovers: [own, named, shared, rootOwned, tool, sharedTool])
+
+        #expect(plan.unreviewedSelection == [own.url, tool.url, app.url])
+        #expect(uninstallation(appRequiresPrivileges: true, leftovers: [own]).unreviewedSelection.isEmpty)
+    }
+
+    @Test func selectsTheAppAndRecommendedLeftovers() {
+        let recommended = leftover("recommended")
+        let shared = leftover("shared", sharedWith: ["com.example.other"])
+        let possible = leftover("possible", confidence: .possible)
+        let privileged = leftover("privileged", requiresPrivileges: true)
+        let plan = uninstallation(leftovers: [recommended, shared, possible, privileged])
+
+        #expect(plan.suggestedSelection(canUseHelper: false) == [app.url, recommended.url])
+        #expect(plan.suggestedSelection(canUseHelper: true) == [app.url, recommended.url, privileged.url])
+        #expect(plan.privilegedURLs == [privileged.url])
+    }
+
+    @Test func leavesProtectedAndPrivilegedAppsAlone() {
+        let protectedApp = InstalledApp(url: URL(filePath: "/System/Applications/Chess.app"), bundleIdentifier: "com.apple.Chess", name: "Chess", isSystemProtected: true)
+
+        #expect(uninstallation(app: protectedApp, leftovers: []).suggestedSelection(canUseHelper: true).isEmpty)
+        // An app macOS keeps stays, so what it holds is data in use, not a leftover. For Notes, that is every note.
+        #expect(uninstallation(app: protectedApp, leftovers: [leftover("com.apple.Chess")]).suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: false).isEmpty)
+        #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: true) == [app.url])
+        #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).privilegedURLs == [app.url])
+    }
+
+    /// An app that would stay gets nothing selected, as an app macOS keeps does: its leftovers would go first
+    /// and leave it without its settings. It stays when the helper may not move it, or when it needs the helper
+    /// and the helper is not there. In a batch, what such an app shares with another chosen app stays too.
+    @Test func anAppThatWouldStayGetsNothingSelected() {
+        let own = leftover("com.example.app")
+        let needsHelper = uninstallation(appRequiresPrivileges: true, leftovers: [own])
+        var beyond = needsHelper
+        beyond.isAppBeyondTheHelper = true
+
+        #expect(needsHelper.suggestedSelection(canUseHelper: false).isEmpty, "the helper is not there to move the app")
+        #expect(needsHelper.suggestedSelection(canUseHelper: true) == [app.url, own.url])
+        #expect(beyond.suggestedSelection(canUseHelper: true).isEmpty, "the helper may not move the app")
+
+        let other = InstalledApp(url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "com.example.other", name: "Other")
+        let shared = leftover("shared", sharedWith: [other.bundleIdentifier])
+        let otherPlan = Uninstallation(
+            app: other, appSize: 10_000, appRequiresPrivileges: false,
+            scan: LeftoverScan(leftovers: [leftover("com.example.other"), leftover("shared", sharedWith: [app.bundleIdentifier])], unreadableLocations: [])
+        )
+        let bulk = BulkUninstallation(uninstallations: [uninstallation(appRequiresPrivileges: true, leftovers: [own, shared]), otherPlan])
+
+        #expect(bulk.suggestedSelection(canUseHelper: false) == [other.url, URL(filePath: "/Users/me/Library/Caches/com.example.other")])
+        #expect(bulk.suggestedSelection(canUseHelper: true).isSuperset(of: [app.url, own.url, shared.url, other.url]))
+    }
+
+    /// Leftovers move before the app. If the helper then refused the app, it would stay without them, so an app
+    /// the helper may not move is never offered. Neither is an app macOS keeps, wherever it sits.
+    @Test func anAppTheHelperMayNotMoveIsNeverOffered() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Applications/Scribbler.app/Contents/Info.plist", bytes: 4_096)
+        try directory.file("root/Volumes/Other/Applications/Scribbler.app/Contents/Info.plist", bytes: 4_096)
+        let inReach = directory.url.appending(path: "root/Applications/Scribbler.app")
+        let beyond = directory.url.appending(path: "root/Volumes/Other/Applications/Scribbler.app")
+        for bundle in [inReach, beyond] {
+            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bundle.path(percentEncoded: false))
+        }
+        defer {
+            for bundle in [inReach, beyond] {
+                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bundle.path(percentEncoded: false))
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+
+        for (bundle, isBeyond) in [(inReach, false), (beyond, true)] {
+            for isKept in [false, true] {
+                let app = InstalledApp(url: bundle, bundleIdentifier: "com.example.scribbler", name: "Scribbler", isSystemProtected: isKept)
+                let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+                let bulk = BulkUninstallation(uninstallations: [plan])
+                let item = try #require(bulk.items.first { $0.isApplication })
+                let isOffered = !isBeyond && !isKept
+
+                #expect(plan.appRequiresPrivileges)
+                #expect(plan.isAppBeyondTheHelper == (isBeyond && !isKept))
+                #expect(plan.suggestedSelection(canUseHelper: true).contains(app.url) == isOffered)
+                #expect(plan.privilegedURLs.contains(app.url) == isOffered)
+                #expect(plan.movable(among: [], withApp: true).count == (isOffered ? 1 : 0))
+                #expect(item.isBeyondTheHelper == (isBeyond && !isKept))
+                #expect(bulk.suggestedSelection(canUseHelper: true).contains(app.url) == isOffered)
+                #expect(bulk.privilegedURLs.contains(app.url) == isOffered)
+                #expect((bulk.total.known > 0) == isOffered)
+            }
+        }
+    }
+
+    /// Section headers count by the same rule as the page's total, so they add up to it. A row Peel leaves
+    /// alone is listed but not counted.
+    @Test func aHeaderCountsWhatCouldGoAsTheTotalDoes() {
+        let own = leftover("com.example.app")
+        let named = leftover("Example").heldBack(.namedLikeTheApp)
+        let slow = Leftover(
+            url: URL(filePath: "/Users/me/Library/Caches/slow"),
+            kind: .caches,
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []).forReview(.notMeasured),
+            size: 0,
+            isMeasured: false,
+            requiresPrivileges: false
+        )
+        let beyond = leftover("vendor", requiresPrivileges: true).heldBack(.beyondTheHelper)
+        let excluded = leftover("kept").heldBack(.holdsAnExclusion)
+        let documents = leftover("container").heldBack(.holdsDocuments)
+        let plan = uninstallation(leftovers: [own, named, slow, beyond, excluded, documents])
+
+        let recommended = plan.movable(among: plan.scan.leftovers.filter(\.match.isRecommended), withApp: true)
+        let review = plan.movable(among: plan.scan.leftovers.filter { !$0.match.isRecommended }, withApp: false)
+        let total = plan.movable(among: plan.scan.leftovers, withApp: true)
+
+        #expect(recommended.count == 2)
+        #expect(recommended.size == SizeTotal(known: 11_000, isComplete: true))
+        #expect(review.count == 2, "a row that cannot go was counted")
+        #expect(review.size == SizeTotal(known: 1_000, isComplete: false))
+        #expect(total.count == recommended.count + review.count)
+        #expect(total.size == SizeTotal(known: recommended.size.known + review.size.known, isComplete: false))
+    }
+
+    /// An app bundle macOS will not let Peel read has no known size: its row reads "Unknown", never zero.
+    @Test func anAppBundleThatCannotBeReadIsNotMeasured() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let bundle = try directory.directory("home/Applications/Example.app")
+        try directory.file("home/Applications/Example.app/Contents/Info.plist", bytes: 4_096)
+        try directory.setPermissions(0, of: "home/Applications/Example.app")
+        defer { try? directory.setPermissions(0o755, of: "home/Applications/Example.app") }
+        let installed = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+
+        #expect(!plan.isAppMeasured, "an app that could not be read counted as measured, at zero bytes")
+    }
+
+    /// Excluded by identifier or by path, the app and everything the scan would find are left alone.
+    @Test func leavesAnExcludedAppAndItsFilesAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let bundle = try directory.directory("home/Applications/Example.app")
+        try directory.file("home/Library/Preferences/com.example.app.plist")
+        let installed = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let free = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+        #expect(free.suggestedSelection(canUseHelper: true).count == 2)
+
+        for exclusions in [Exclusions(bundleIdentifiers: ["com.example.app"]), Exclusions(paths: [bundle])] {
+            let plan = await Uninstallation.prepare(installed, installedApps: [installed], exclusions: exclusions, environment: environment)
+            #expect(plan.isExcluded)
+            #expect(plan.scan.leftovers.isEmpty)
+            #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
+            #expect(plan.privilegedURLs.isEmpty)
+            #expect(plan.removalOrder(of: free.suggestedSelection(canUseHelper: true)).isEmpty)
+        }
+    }
+
+    /// A folder the helper would refuse to move, such as root's `/Library/Developer` matched on the name of an
+    /// app called Developer, is held back and cannot be selected, so it never reaches the helper to be refused.
+    @Test func whatTheHelperMayNotMoveIsNeverOffered() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Scribbler.app"), bundleIdentifier: "com.example.scribbler", name: "Scribbler")
+        let served = try directory.directory("root/Library/Application Support/com.example.scribbler")
+        let named = try directory.directory("root/Library/Scribbler")
+        let identified = try directory.directory("root/Library/com.example.scribbler")
+        for folder in [served, named, identified] {
+            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
+        }
+        defer {
+            for folder in [served, named, identified] {
+                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false))
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+        func leftover(_ url: URL) throws -> Leftover {
+            try #require(plan.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url) })
+        }
+        let suggested = plan.suggestedSelection(canUseHelper: true)
+        let bulk = BulkUninstallation(uninstallations: [plan])
+
+        let inReach = try leftover(served)
+        #expect(inReach.requiresPrivileges)
+        #expect(inReach.match.heldBack == nil)
+        #expect(suggested.contains(inReach.url))
+        #expect(plan.privilegedURLs.contains(inReach.url))
+        #expect(bulk.privilegedURLs.contains(inReach.url))
+
+        for url in [named, identified] {
+            let beyond = try leftover(url)
+            #expect(beyond.requiresPrivileges)
+            #expect(beyond.match.heldBack == .beyondTheHelper, "\(url.lastPathComponent) is \(String(describing: beyond.match.heldBack))")
+            #expect(beyond.match.heldBack?.cannotBeMoved == true)
+            #expect(!suggested.contains(beyond.url))
+            #expect(!plan.privilegedURLs.contains(beyond.url))
+            #expect(!bulk.privilegedURLs.contains(beyond.url))
+            #expect(!bulk.suggestedSelection(canUseHelper: true).contains(beyond.url))
+        }
+    }
+
+    /// Many casks name `/Applications/<Name>.app` among what they delete. The app's URL ends in a slash and the
+    /// cask's path does not, so they are compared as paths, and the app is never listed as its own leftover.
+    @Test func doesNotListTheAppAsItsOwnLeftover() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let bundle = try directory.directory("home/Applications/Example.app")
+        let cache = try directory.directory("home/Library/Caches/com.example.app")
+        let installed = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
+        let path = PathPattern.comparablePath(of: bundle)
+        let cask = HomebrewPackage(name: "example", kind: .cask, appNames: ["Example.app"], leftoverPatterns: [path, path + "/", PathPattern.comparablePath(of: cache) + "/"])
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], casks: [cask], environment: environment)
+
+        #expect(!plan.scan.leftovers.contains { PathPattern.comparablePath(of: $0.url) == path }, "the app is listed as its own leftover")
+        #expect(plan.scan.leftovers.count { $0.url.lastPathComponent == "com.example.app" } == 1, "one folder, two rows")
+    }
+
+    /// Two locations share the home folder, one for hidden items and one for plain ones. A path belongs to the
+    /// location whose rule would have found it, not to whichever comes first in the table: no single order gets
+    /// both of the first two checks right.
+    @Test func readsAPathByTheLocationThatWouldHaveFoundIt() {
+        let home = URL(filePath: "/Users/me", directoryHint: .isDirectory)
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: URL(filePath: "/", directoryHint: .isDirectory))
+
+        func place(_ path: String) -> SearchLocation.Kind {
+            Uninstallation.place(of: URL(filePath: path), in: environment).kind
+        }
+
+        #expect(place("/Users/me/Postman") == .homeFolder)
+        #expect(place("/Users/me/.spotify") == .hiddenHomeFiles)
+        #expect(place("/Users/me/Documents/Foo") == .elsewhere)
+        #expect(place("/Users/me/Postman/files") == .elsewhere)
+        #expect(place("/Users/me/Library/Preferences/com.example.app.plist") == .preferences)
+        #expect(place("/Users/me/Library/Thunderbird/profile") == .library)
+    }
+
+    @Test func movesLeftoversBeforeTheApp() {
+        let first = leftover("first")
+        let second = leftover("second")
+        let plan = uninstallation(leftovers: [first, second])
+
+        #expect(plan.removalOrder(of: [app.url, second.url, first.url]) == [first.url, second.url, app.url])
+        #expect(plan.removalOrder(of: [second.url]) == [second.url])
+    }
+
+    /// The receipt is what keeps macOS counting the package as installed, so it goes with the app. A receipt
+    /// proves an app only up to a separator: `com.example.app2.pkg` is another package's.
+    @Test func offersTheInstallerReceiptWithTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        for name in ["com.example.app.pkg", "com.example.app2.pkg", "com.other.thing"] {
+            try directory.file("root/private/var/db/receipts/\(name).bom", bytes: 32)
+            try directory.file("root/private/var/db/receipts/\(name).plist", bytes: 32)
+        }
+
+        let found = await Uninstallation.receiptLeftovers(
+            for: app,
+            receipts: ["com.example.app.pkg", "com.example.app2.pkg", "com.other.thing"],
+            exclusions: .none,
+            environment: environment
+        )
+
+        #expect(found.map(\.url.lastPathComponent) == ["com.example.app.pkg.bom", "com.example.app.pkg.plist"])
+        #expect(found.map(\.match.reason) == [.installerReceipt, .installerReceipt])
+        #expect(found.map(\.match.confidence) == [.certain, .certain])
+        #expect(found.map(\.match.isRecommended) == [true, true])
+        #expect(found.map(\.kind) == [.receipts, .receipts])
+    }
+
+    @Test func offersNoReceiptWhenNoneNamesTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        try directory.file("root/private/var/db/receipts/com.example.appointments.bom", bytes: 32)
+
+        let found = await Uninstallation.receiptLeftovers(
+            for: app,
+            receipts: ["com.example.appointments"],
+            exclusions: .none,
+            environment: environment
+        )
+
+        #expect(found.isEmpty)
+    }
+}
+
+/// Anything Peel selects on its own has to pass the guard, and the helper when it needs one, or it would be
+/// offered and then refused at the last step. This suite scans every app installed on the Mac running the
+/// tests, which takes minutes, so it runs only when `PEEL_TEST_THIS_MAC=1` is set. It fails when it finds no
+/// app, since then nothing was checked.
+@Suite(.enabled(if: ProcessInfo.processInfo.environment["PEEL_TEST_THIS_MAC"] != nil))
+struct SuggestedSelectionOnThisMacTests {
+    /// Every app is scanned once, and both tests share the result.
+    private static let uninstallations = Task {
+        let apps = await AppCatalog.installedApps()
+        var plans: [Uninstallation] = []
+        for app in apps {
+            plans.append(await Uninstallation.prepare(app, installedApps: apps))
+        }
+        return plans
+    }
+
+    @Test func everythingSelectedOnThisMacMayActuallyBeRemoved() async {
+        let guardian = RemovalGuard(environment: .current)
+        let plans = await Self.uninstallations.value
+        #expect(!plans.isEmpty, "no app was found, so nothing was checked")
+
+        let reach = HelperReach(environment: .current)
+        for uninstallation in plans {
+            let app = uninstallation.app
+            let needsTheHelper = Set(uninstallation.scan.leftovers.filter(\.requiresPrivileges).map(\.url))
+            for url in uninstallation.suggestedSelection(canUseHelper: true) where url != app.url {
+                #expect(guardian.allowsRemoval(of: url), "\(app.name): the guard refuses \(url.path(percentEncoded: false))")
+                #expect(!needsTheHelper.contains(url) || !reach.isBeyond(url), "\(app.name): the helper refuses \(url.path(percentEncoded: false))")
+            }
+        }
+    }
+
+    /// The other half of the same rule: nothing shared with another installed app is ever selected.
+    @Test func nothingSharedWithAnotherAppIsSelected() async {
+        for uninstallation in await Self.uninstallations.value {
+            let app = uninstallation.app
+            let suggested = uninstallation.suggestedSelection(canUseHelper: true)
+            for leftover in uninstallation.scan.leftovers where suggested.contains(leftover.url) {
+                #expect(!leftover.match.isShared, "\(app.name): \(leftover.url.lastPathComponent) is shared with \(leftover.match.sharedWith)")
+                #expect(leftover.match.confidence >= .likely, "\(app.name): \(leftover.url.lastPathComponent) is only a guess")
+            }
+        }
+    }
+}

@@ -1,0 +1,293 @@
+import Foundation
+internal import PeelPrivileged
+
+public struct OrphanScanner: Sendable {
+    private static let systemPrefixes = [
+        "com.apple.", "group.com.apple.", "systemgroup.", "homebrew.", "org.cups.", "org.openssh.", "org.ntp.",
+        "org.python.", "org.swift.", "org.llvm.",
+    ]
+
+    public let environment: SearchEnvironment
+    public let exclusions: Exclusions
+    private let isRegisteredApp: @Sendable (String) -> Bool
+    /// The apps that come with macOS, which can claim files like any other app. Nil means `AppCatalog.systemApps`.
+    private let systemApps: [InstalledApp]?
+    private let walk: LeftoverScanner.Measure
+
+    public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
+        self.init(environment: environment, exclusions: exclusions, isRegisteredApp: AppOwnership.launchServicesKnowsApp(withBundleIdentifier:))
+    }
+
+    init(
+        environment: SearchEnvironment,
+        exclusions: Exclusions = .none,
+        isRegisteredApp: @escaping @Sendable (String) -> Bool,
+        systemApps: [InstalledApp]? = nil,
+        walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
+    ) {
+        self.environment = environment
+        self.exclusions = exclusions
+        self.isRegisteredApp = isRegisteredApp
+        self.systemApps = systemApps
+        self.walk = walk
+    }
+
+    /// Finds the items that no app claims, in every location, grouped by identifier.
+    ///
+    /// `installedApps` must be the complete list: anything it does not claim can be reported as orphaned.
+    /// `remembered` holds the apps Peel has seen installed before, so a group can be named after the app that
+    /// left it. `running` holds the bundle identifiers of what is running now: a helper or an agent can keep a
+    /// folder that no app bundle claims, and while it runs, its group is marked unsure.
+    @concurrent
+    public func scan(
+        installedApps: [InstalledApp],
+        remembered: [RememberedApp] = [],
+        running: Set<String> = []
+    ) async -> OrphanScan {
+        let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
+        let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
+        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
+        // `remembered` also holds the apps installed now, and only an app that is gone can have left files behind.
+        let here = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let gone = remembered.filter { !here.contains($0.bundleIdentifier.lowercased()) }
+        let goneBundles = Dictionary(
+            gone.map { (PathPattern.comparablePath(of: URL(filePath: $0.lastPath, directoryHint: .isDirectory)), $0.bundleIdentifier) },
+            uniquingKeysWith: { first, _ in first }
+        )
+
+        let results = await withTaskGroup(of: LocationResult.self) { group in
+            for location in environment.locations {
+                _ = group.addTaskUnlessCancelled { [walk] in
+                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, walk: walk)
+                }
+            }
+            return await group.reduce(into: [LocationResult]()) { $0.append($1) }
+        }
+
+        var found: [(identifier: String, item: OrphanItem)] = []
+        var unreadableLocations: [SearchLocation] = []
+        for result in results {
+            switch result {
+            case .found(let items): found += items
+            case .unreadable(let location): unreadableLocations.append(location)
+            }
+        }
+
+        let reach = HelperReach(environment: environment)
+        let kept = found.filter {
+            !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url) && !exclusions.excludes(bundleIdentifier: $0.identifier)
+        }
+        .map { entry in
+            guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else { return entry }
+            var item = entry.item
+            item.leftAlone = .beyondTheHelper
+            return (entry.identifier, item)
+        }
+        let teams = Set(installedApps.compactMap(\.teamIdentifier))
+        return OrphanScan(
+            groups: Self.group(kept, remembered: gone, installedTeams: teams, running: running),
+            unreadableLocations: unreadableLocations.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+        )
+    }
+
+    /// Checks `items` again against `installedApps` and returns the ones that are still orphaned.
+    @concurrent
+    public func stillOrphaned(_ items: [OrphanItem], installedApps: [InstalledApp]) async -> [OrphanItem] {
+        let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
+        let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
+        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
+        var kept: [OrphanItem] = []
+        for item in items where await Self.orphanIdentifier(of: item.url, kind: item.kind, ownership: ownership, jobs: jobs) != nil {
+            kept.append(item)
+        }
+        return kept
+    }
+
+    /// Files that hold a paid license, or a game library worth hundreds of gigabytes, are never reported.
+    static func isSensitive(fileName: String) -> Bool {
+        let name = fileName.lowercased()
+        if name.contains("license") || name.contains("licence") || name.hasSuffix(".lic") { return true }
+        return ["steam", "steamlibrary", "epic games", "epicgameslauncher", "battle.net"].contains { name == $0 || name.hasPrefix($0 + ".") }
+    }
+
+    static func orphanIdentifier(forKey key: String, kind: SearchLocation.Kind) -> String? {
+        var identifier = key
+        if kind == .groupContainers || kind == .applicationScripts, identifier.hasPrefix("group.") {
+            identifier.removeFirst("group.".count)
+        }
+        let lowercased = identifier.lowercased()
+        guard !systemPrefixes.contains(where: lowercased.hasPrefix), !lowercased.contains("com.apple.") else { return nil }
+
+        if Identifier.isReverseDNS(identifier) {
+            return identifier
+        }
+        if kind == .groupContainers, Identifier.teamScoped(identifier) != nil {
+            return identifier
+        }
+        return nil
+    }
+
+    static func group(
+        _ found: [(identifier: String, item: OrphanItem)],
+        remembered: [RememberedApp] = [],
+        installedTeams: Set<String> = [],
+        running: Set<String> = [],
+        now: Date = .now
+    ) -> [OrphanGroup] {
+        let roots = Set(found.map { groupingKey(for: $0.identifier).lowercased() }).sorted { $0.count < $1.count }
+        let grouped = Dictionary(grouping: found) { entry in
+            let key = groupingKey(for: entry.identifier).lowercased()
+            return roots.first { key == $0 || key.hasPrefix($0 + ".") } ?? key
+        }
+
+        return grouped.map { root, entries in
+            let identifier = entries.map { groupingKey(for: $0.identifier) }.first { $0.lowercased() == root } ?? root
+            let items = entries.map(\.item).sorted {
+                $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            }
+            var group = OrphanGroup(
+                identifier: identifier,
+                items: items,
+                rememberedApp: AppMemory.app(for: identifier, in: remembered)
+            )
+            group.confidence = OrphanConfidence.judge(group, installedTeams: installedTeams, running: running, now: now)
+            return group
+        }
+        // The groups Peel is surest about come first, the largest first within each level. A big group that the
+        // user cannot act on with confidence does not belong at the top of the list.
+        .sorted {
+            if $0.confidence.level != $1.confidence.level { return $0.confidence.level > $1.confidence.level }
+            if $0.total != $1.total { return $0.total > $1.total }
+            return $0.identifier < $1.identifier
+        }
+    }
+
+    /// The identifier without a team ID or `group.` in front, when what is left is reverse DNS. For example,
+    /// "S8EX82NJP6.group.com.example.app" and "group.com.example.app" both group under "com.example.app".
+    static func groupingKey(for identifier: String) -> String {
+        var key = Identifier.teamScoped(identifier)?.remainder ?? identifier
+        if key.hasPrefix("group.") {
+            key.removeFirst("group.".count)
+        }
+        return Identifier.isReverseDNS(key) ? key : identifier
+    }
+
+    /// Whether the folder holds an item that an installed app claims. Crash reporters and other shared libraries
+    /// keep one folder per app inside their own, so a folder named after nobody can still hold an app's files.
+    /// A folder that did not answer in time, or that macOS will not list, counts as holding one, so it is never
+    /// reported as nobody's.
+    static func holdsFilesOfAnInstalledApp(_ url: URL, kind: SearchLocation.Kind, ownership: AppOwnership) async -> Bool {
+        guard let names = await SlowRead.names(in: url) else { return true }
+        return names.contains { name in
+            let key = LeftoverMatcher.key(from: name, kind: kind)
+            guard let identifier = orphanIdentifier(forKey: key, kind: kind) else { return false }
+            return ownership.isClaimed(fileName: name, kind: kind, identifier: identifier)
+        }
+    }
+
+    /// Whether the item is a file, a folder, or a link. A socket, a pipe, or a device holds nothing to free, and
+    /// a live one belongs to whatever is running.
+    static func isAFileAFolderOrALink(_ url: URL) -> Bool {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+        return [S_IFDIR, S_IFREG, S_IFLNK].contains(info.st_mode & S_IFMT)
+    }
+
+    /// Whether a launchd job file still belongs to something. A job belongs to whatever it runs, which is often
+    /// no app (Nix, Tailscale), so `BackgroundItemOwnership` decides, as it does for Background Items. A file
+    /// that cannot be read is left alone, while a plist that is not a job can still be reported.
+    static func isStillAJob(_ url: URL, kind: SearchLocation.Kind, jobs: BackgroundItemOwnership) -> Bool {
+        guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist" else { return false }
+        guard let data = BoundedRead.data(at: url) else { return true }
+        guard let job = BoundedRead.propertyList(in: data).flatMap(JobDefinition.init) else { return false }
+        return !jobs.isOrphan(job)
+    }
+
+    /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
+    /// there, or into no app at all.
+    static func goneApp(behind link: URL) -> URL? {
+        guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: link.path(percentEncoded: false)) else { return nil }
+        let components = URL(filePath: destination, relativeTo: link.deletingLastPathComponent()).standardizedFileURL.pathComponents
+        guard let app = components.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
+        let bundle = URL(filePath: NSString.path(withComponents: Array(components[...app])), directoryHint: .isDirectory)
+        return FileManager.default.fileExists(atPath: bundle.path(percentEncoded: false)) ? nil : bundle
+    }
+
+    /// The identifier an item is listed under, or nil when it must not be listed. A link is named for its tool,
+    /// so it is listed under the app it leads into: the identifier Peel remembers for that path, or the app's name.
+    private static func orphanIdentifier(
+        of url: URL,
+        kind: SearchLocation.Kind,
+        ownership: AppOwnership,
+        jobs: BackgroundItemOwnership,
+        goneBundles: [String: String] = [:]
+    ) async -> String? {
+        if kind == .commandLineTools {
+            guard let bundle = goneApp(behind: url) else { return nil }
+            return goneBundles[PathPattern.comparablePath(of: bundle)] ?? bundle.deletingPathExtension().lastPathComponent
+        }
+        let name = url.lastPathComponent
+        guard
+            !isSensitive(fileName: name),
+            let identifier = orphanIdentifier(forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind)
+                ?? DeclaredIdentifier.of(url, kind: kind).flatMap({ orphanIdentifier(forKey: $0, kind: kind) }),
+            !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
+            await !holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership),
+            !isStillAJob(url, kind: kind, jobs: jobs)
+        else { return nil }
+        return identifier
+    }
+
+    private enum LocationResult: Sendable {
+        case found([(identifier: String, item: OrphanItem)])
+        case unreadable(SearchLocation)
+    }
+
+    private static func scan(
+        _ location: SearchLocation,
+        ownership: AppOwnership,
+        jobs: BackgroundItemOwnership,
+        goneBundles: [String: String],
+        walk: LeftoverScanner.Measure
+    ) async -> LocationResult {
+        let entries: [String]
+        do {
+            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
+            ScanCount.current?.add(entries.count)
+        } catch CocoaError.fileReadNoSuchFile {
+            return .found([])
+        } catch {
+            return .unreadable(location)
+        }
+
+        let parent = ParentAccess(location.url)
+        var found: [(identifier: String, item: OrphanItem)] = []
+        for name in entries where location.kind.considers(fileName: name) {
+            guard !Task.isCancelled else { break }
+            let url = location.url.appending(path: name)
+            guard isAFileAFolderOrALink(url) else { continue }
+            guard let identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles) else { continue }
+
+            // The item's own date changes when something is taken out of it, but not when a file inside is
+            // rewritten in place, so the newest date inside comes from the walk.
+            let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+            let contents = await walk(url)
+            let path = url.path(percentEncoded: false)
+            let leftAlone: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
+                .holdsDocuments
+            } else {
+                ProtectedData.holdsALibrary(path) ? .holdsALibrary : nil
+            }
+            let item = OrphanItem(
+                url: url,
+                kind: location.kind,
+                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+                modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
+                requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+                leftAlone: leftAlone
+            )
+            found.append((identifier, item))
+        }
+        return .found(found)
+    }
+}

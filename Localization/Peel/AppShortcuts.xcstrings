@@ -1,0 +1,340 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Show ${place} in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Zobrazit stránku ${place} v aplikaci ${applicationName}",
+              "Otevřít stránku ${place} v aplikaci ${applicationName}"
+            ]
+          }
+        },
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Zeige ${place} in ${applicationName}",
+              "Öffne ${place} in ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Show ${place} in ${applicationName}",
+              "Open ${place} in ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostrar ${place} en ${applicationName}",
+              "Abrir ${place} en ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Afficher ${place} dans ${applicationName}",
+              "Ouvrir ${place} dans ${applicationName}"
+            ]
+          }
+        },
+        "it" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostra ${place} in ${applicationName}",
+              "Apri ${place} in ${applicationName}"
+            ]
+          }
+        },
+        "ja" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}で${place}を表示",
+              "${applicationName}で${place}を開く"
+            ]
+          }
+        },
+        "ko" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에서 ${place} 보여줘",
+              "${applicationName}에서 ${place} 열어줘"
+            ]
+          }
+        },
+        "nl" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Toon ${place} in ${applicationName}",
+              "Open ${place} in ${applicationName}"
+            ]
+          }
+        },
+        "pl" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Pokaż ${place} w ${applicationName}",
+              "Otwórz ${place} w ${applicationName}"
+            ]
+          }
+        },
+        "pt" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostrar ${place} no ${applicationName}",
+              "Abrir ${place} no ${applicationName}"
+            ]
+          }
+        },
+        "ro" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Afișați ${place} în ${applicationName}",
+              "Deschideți ${place} în ${applicationName}"
+            ]
+          }
+        },
+        "ru" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Показать ${place} в ${applicationName}",
+              "Открыть ${place} в ${applicationName}"
+            ]
+          }
+        },
+        "sv" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Visa ${place} i ${applicationName}",
+              "Öppna ${place} i ${applicationName}"
+            ]
+          }
+        },
+        "tr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} uygulamasında ${place} sayfasını göster",
+              "${applicationName} uygulamasında ${place} sayfasını aç"
+            ]
+          }
+        },
+        "uk" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Показати розділ ${place} у ${applicationName}",
+              "Відкрити розділ ${place} у ${applicationName}"
+            ]
+          }
+        },
+        "zh-Hans" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中显示${place}",
+              "在${applicationName}中打开${place}"
+            ]
+          }
+        },
+        "zh-Hant" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中顯示${place}",
+              "在${applicationName}中打開${place}"
+            ]
+          }
+        }
+      }
+    },
+    "Show what an app leaves behind with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Zobrazit pomocí ${applicationName}, co po sobě aplikace zanechá",
+              "Najít zbytky pomocí ${applicationName}"
+            ]
+          }
+        },
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Zeige mit ${applicationName}, was eine App hinterlässt",
+              "Finde Überreste mit ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Show what an app leaves behind with ${applicationName}",
+              "Find leftovers with ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostrar lo que deja una app con ${applicationName}",
+              "Buscar restos con ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Afficher ce qu’une app laisse derrière elle avec ${applicationName}",
+              "Trouver les fichiers résiduels avec ${applicationName}"
+            ]
+          }
+        },
+        "it" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostra cosa si lascia dietro un’app con ${applicationName}",
+              "Trova i residui con ${applicationName}"
+            ]
+          }
+        },
+        "ja" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}でアプリが残すものを表示",
+              "${applicationName}で残存ファイルを探す"
+            ]
+          }
+        },
+        "ko" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에서 앱이 남기는 항목 보여줘",
+              "${applicationName}에서 잔여 파일 찾아줘"
+            ]
+          }
+        },
+        "nl" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Toon met ${applicationName} wat een app achterlaat",
+              "Zoek restbestanden met ${applicationName}"
+            ]
+          }
+        },
+        "pl" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Pokaż w ${applicationName}, co pozostawia aplikacja",
+              "Znajdź pozostałości w ${applicationName}"
+            ]
+          }
+        },
+        "pt" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Mostrar o que um app deixa para trás com o ${applicationName}",
+              "Encontrar sobras com o ${applicationName}"
+            ]
+          }
+        },
+        "ro" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Afișați cu ${applicationName} ce lasă în urmă o aplicație",
+              "Găsiți fișierele rămase cu ${applicationName}"
+            ]
+          }
+        },
+        "ru" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Показать, что остается после приложения, с помощью ${applicationName}",
+              "Найти остатки с помощью ${applicationName}"
+            ]
+          }
+        },
+        "sv" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Visa vad en app lämnar kvar med ${applicationName}",
+              "Hitta kvarlämnade filer med ${applicationName}"
+            ]
+          }
+        },
+        "tr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} ile bir uygulamanın geride bıraktıklarını göster",
+              "${applicationName} ile kalıntıları bul"
+            ]
+          }
+        },
+        "uk" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Показати в ${applicationName}, що програма залишає по собі",
+              "Знайти залишки в ${applicationName}"
+            ]
+          }
+        },
+        "zh-Hans" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "用${applicationName}显示App留下的文件",
+              "用${applicationName}查找残留文件"
+            ]
+          }
+        },
+        "zh-Hant" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "用${applicationName}顯示App留下的檔案",
+              "用${applicationName}尋找殘留檔案"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

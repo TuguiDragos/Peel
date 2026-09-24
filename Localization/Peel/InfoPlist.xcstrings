@@ -1,0 +1,577 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "shouldTranslate" : false
+    },
+    "CFBundleName" : {
+      "shouldTranslate" : false
+    },
+    "NSAppDataUsageDescription" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nahlíží do vlastního kontejneru aplikace, aby zjistil, co by po sobě zanechala. Dokud k tomu nedáte pokyn, nic se neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sieht in den eigenen Container einer App, um aufzulisten, was sie hinterlassen würde. Nichts wird entfernt, bevor du es sagst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel looks inside an app’s own container to list what it would leave behind. Nothing is removed until you say so."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mira dentro del propio contenedor de una app para mostrar lo que dejaría. No se elimina nada hasta que tú lo digas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel examine le conteneur propre à une app pour lister ce qu’elle laisserait derrière elle. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel guarda nel contenitore di un’app per elencare ciò che si lascerebbe dietro. Non viene rimosso nulla finché non lo dici tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、アプリが残すものを一覧表示するために、そのアプリのコンテナ内を調べます。指示するまで、何もゴミ箱に入れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 앱이 남기게 될 항목을 나열하기 위해 앱 자체의 컨테이너 안을 살펴봅니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kijkt in de eigen container van een app om te tonen wat die zou achterlaten. Er wordt niets verwijderd totdat jij dat zegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zagląda do własnego kontenera aplikacji, aby wyświetlić, co by po sobie pozostawiła. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel examina o próprio contêiner de um app para listar o que ele deixaria para trás. Nada é removido até você pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută în containerul propriu al unei aplicații pentru a lista ce ar lăsa în urmă. Nu se elimină nimic până nu cereți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel заглядывает в собственный контейнер приложения, чтобы показать, что после него останется. Ничего не удаляется без Вашего решения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tittar i en apps egen behållare för att lista vad appen skulle lämna kvar. Inget tas bort förrän du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bir uygulamanın geride bırakacaklarını listelemek için o uygulamanın kendi kapsayıcısının içine bakar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зазирає у власний контейнер програми, щоб показати, що вона залишила б по собі. Нічого не вилучається, доки ви не скажете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会查看App自己的容器，以列出它会留下的文件。在你确认之前，不会移除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會查看App自己的容器，以列出它會留下的檔案。在你下達指示之前，不會移除任何項目。"
+          }
+        }
+      }
+    },
+    "NSDesktopFolderUsageDescription" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tu hledá instalátory a duplicitní soubory. Dokud k tomu nedáte pokyn, nic se neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Nichts wird entfernt, bevor du es sagst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel looks here for installers and duplicate files. Nothing is removed until you say so."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel busca aquí instaladores y archivos duplicados. No se elimina nada hasta que tú lo digas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel recherche ici des programmes d’installation et des fichiers en double. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cerca qui installer e file duplicati. Non viene rimosso nulla finché non lo dici tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでインストーラや重複ファイルを探します。指示するまで、何もゴミ箱に入れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이곳에서 설치 프로그램과 중복된 파일을 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt hier naar installatieprogramma's en dubbele bestanden. Er wordt niets verwijderd totdat jij dat zegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel szuka tutaj instalatorów i zduplikowanych plików. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel procura aqui instaladores e arquivos duplicados. Nada é removido até você pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută aici programe de instalare și fișiere duplicate. Nu se elimină nimic până nu cereți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ищет здесь установщики и дубликаты файлов. Ничего не удаляется без Вашего решения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar här efter installerare och dubblettfiler. Inget tas bort förrän du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yükleyicileri ve yinelenen dosyaları arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel шукає тут інсталятори й файли-дублікати. Нічого не вилучається, доки ви не скажете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在这里查找安装器和重复文件。在你确认之前，不会移除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在這裡尋找安裝程式和重複的檔案。在你下達指示之前，不會移除任何項目。"
+          }
+        }
+      }
+    },
+    "NSDocumentsFolderUsageDescription" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tu hledá instalátory, duplicitní soubory a to, co zbylo po sestavení. Dokud k tomu nedáte pokyn, nic se neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht hier nach Installern, doppelten Dateien und dem, was Builds hinterlassen haben. Nichts wird entfernt, bevor du es sagst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel looks here for installers, duplicate files, and what builds left behind. Nothing is removed until you say so."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel busca aquí instaladores, archivos duplicados y lo que dejaron las compilaciones. No se elimina nada hasta que tú lo digas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel recherche ici des programmes d’installation, des fichiers en double et ce que les compilations ont laissé derrière elles. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cerca qui installer, file duplicati e ciò che le build si sono lasciate dietro. Non viene rimosso nulla finché non lo dici tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでインストーラ、重複ファイル、ビルドが残したものを探します。指示するまで、何もゴミ箱に入れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이곳에서 설치 프로그램, 중복된 파일, 빌드가 남긴 항목을 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt hier naar installatieprogramma's, dubbele bestanden en wat builds hebben achtergelaten. Er wordt niets verwijderd totdat jij dat zegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel szuka tutaj instalatorów, zduplikowanych plików i tego, co pozostawiły kompilacje. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel procura aqui instaladores, arquivos duplicados e o que as compilações deixaram para trás. Nada é removido até você pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută aici programe de instalare, fișiere duplicate și ce au lăsat în urmă compilările. Nu se elimină nimic până nu cereți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ищет здесь установщики, дубликаты файлов и то, что осталось после сборок. Ничего не удаляется без Вашего решения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar här efter installerare, dubblettfiler och det som byggen har lämnat kvar. Inget tas bort förrän du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yükleyicileri, yinelenen dosyaları ve derlemelerin geride bıraktıklarını arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel шукає тут інсталятори, файли-дублікати й те, що залишили по собі збірки. Нічого не вилучається, доки ви не скажете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在这里查找安装器、重复文件以及构建留下的内容。在你确认之前，不会移除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在這裡尋找安裝程式、重複的檔案，以及建置留下的項目。在你下達指示之前，不會移除任何項目。"
+          }
+        }
+      }
+    },
+    "NSDownloadsFolderUsageDescription" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tu hledá instalátory a duplicitní soubory. Dokud k tomu nedáte pokyn, nic se neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Nichts wird entfernt, bevor du es sagst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel looks here for installers and duplicate files. Nothing is removed until you say so."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel busca aquí instaladores y archivos duplicados. No se elimina nada hasta que tú lo digas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel recherche ici des programmes d’installation et des fichiers en double. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cerca qui installer e file duplicati. Non viene rimosso nulla finché non lo dici tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでインストーラや重複ファイルを探します。指示するまで、何もゴミ箱に入れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이곳에서 설치 프로그램과 중복된 파일을 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt hier naar installatieprogramma's en dubbele bestanden. Er wordt niets verwijderd totdat jij dat zegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel szuka tutaj instalatorów i zduplikowanych plików. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel procura aqui instaladores e arquivos duplicados. Nada é removido até você pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută aici programe de instalare și fișiere duplicate. Nu se elimină nimic până nu cereți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ищет здесь установщики и дубликаты файлов. Ничего не удаляется без Вашего решения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar här efter installerare och dubblettfiler. Inget tas bort förrän du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yükleyicileri ve yinelenen dosyaları arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel шукає тут інсталятори й файли-дублікати. Нічого не вилучається, доки ви не скажете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在这里查找安装器和重复文件。在你确认之前，不会移除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在這裡尋找安裝程式和重複的檔案。在你下達指示之前，不會移除任何項目。"
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Svobodný software pod licencí GNU GPL verze 3 nebo novější."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Freie Software unter der GNU GPL, Version 3 oder neuer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Free software under the GNU GPL, version 3 or later."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software libre bajo la GNU GPL, versión 3 o posterior."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Logiciel libre sous licence GNU GPL, version 3 ou ultérieure."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software libero con licenza GNU GPL, versione 3 o successiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPLバージョン3以降のもとで提供されるフリーソフトウェアです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPL 버전 3 또는 그 이후 버전에 따른 자유 소프트웨어입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Vrije software onder de GNU GPL, versie 3 of later."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Wolne oprogramowanie na licencji GNU GPL w wersji 3 lub nowszej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software livre sob a GNU GPL, versão 3 ou posterior."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software liber sub licența GNU GPL, versiunea 3 sau ulterioară."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Свободное ПО на условиях лицензии GNU GPL версии 3 или более поздней."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Fri programvara under GNU GPL, version 3 eller senare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPL sürüm 3 veya sonrası kapsamında özgür yazılım."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Țugui Dragoș-Constantin. Вільне програмне забезпечення за ліцензією GNU GPL версії 3 або новішої."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin。本软件为自由软件，依据GNU GPL第3版或更高版本授权。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin。依據GNU GPL第3版或更新版本授權的自由軟體。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

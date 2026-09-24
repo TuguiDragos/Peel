@@ -1,0 +1,378 @@
+public import Foundation
+internal import PeelPrivileged
+
+public struct TrashedItem: Sendable, Hashable {
+    public let originalURL: URL
+    public let trashedURL: URL
+    public let date: Date
+}
+
+public struct TrashFailure: Sendable, Hashable {
+    public enum Reason: Sendable, Hashable {
+        case protectedLocation
+        case changedSinceScan
+        /// Listed as an orphan, but an app installed since the scan claims it.
+        case claimedSinceScan
+        case lastCopy
+        case notPermitted
+        /// It needs administrator rights, and the helper that has them is not installed or not allowed.
+        case needsHelper
+        /// It is in the Trash, but macOS did not say where and Peel could not find it, so only Finder can put it back.
+        case movedWithoutATrace
+        /// What moved by name was not the item the guard checked. It is in the Trash under this name.
+        case somethingElseMoved(named: String)
+        case failed(String)
+    }
+
+    public let url: URL
+    public let reason: Reason
+
+    public init(url: URL, reason: Reason) {
+        self.url = url
+        self.reason = reason
+    }
+}
+
+extension TrashFailure.Reason {
+    /// A fixed word for the reason, which the refusal log stores. It does not change with the text on screen, so
+    /// an old record still reads.
+    public var name: String {
+        switch self {
+        case .protectedLocation: "protected-location"
+        case .changedSinceScan: "changed-since-scan"
+        case .claimedSinceScan: "claimed-since-scan"
+        case .lastCopy: "last-copy"
+        case .notPermitted: "not-permitted"
+        case .needsHelper: "needs-helper"
+        case .movedWithoutATrace: "moved-without-a-trace"
+        case .somethingElseMoved: "something-else-moved"
+        case .failed: "failed"
+        }
+    }
+
+    public var detail: String? {
+        switch self {
+        case .failed(let message): message
+        case .somethingElseMoved(let name): name
+        default: nil
+        }
+    }
+}
+
+public enum RestoreFailure: Sendable, Hashable {
+    case missingFromTrash
+    case alreadyThere
+    case needsHelper
+    case notAllowed
+    case failed(String)
+}
+
+public struct TrashResult: Sendable {
+    public var trashed: [TrashedItem] = []
+    public var failures: [TrashFailure] = []
+
+    public init(trashed: [TrashedItem] = [], failures: [TrashFailure] = []) {
+        self.trashed = trashed
+        self.failures = failures
+    }
+}
+
+public struct TrashService: Sendable {
+    typealias StopJobs = @Sendable ([LaunchdCleanup.Job], _ canUseHelper: Bool) async -> Void
+    typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
+    typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
+
+    private let environment: SearchEnvironment
+    private let removalGuard: RemovalGuard
+    private let stopJobs: StopJobs
+    private let forgetDomains: ForgetDomains
+    private let moveThroughHelper: MoveThroughHelper
+    private let moveToTrash: @Sendable (URL) throws -> URL
+    private let ownMoves: OwnTrashMoves
+
+    public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
+        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        self.init(
+            environment: environment,
+            removalGuard: removalGuard,
+            stopJobs: LaunchdCleanup.stop,
+            forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
+            moveThroughHelper: Self.moveThroughTheHelper,
+            moveToTrash: { try Self.moveToSystemTrash($0, isAllowed: removalGuard.allowsRemoval(of:)) },
+            ownMoves: .shared
+        )
+    }
+
+    /// For tests. Unless a test passes its own, it stops no launchd job, forgets no preference domain, and acts
+    /// as if there were no helper.
+    init(
+        environment: SearchEnvironment,
+        exclusions: Exclusions = .none,
+        stopJobs: @escaping StopJobs = { _, _ in },
+        forgetDomains: @escaping ForgetDomains = { _, _ in },
+        moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
+        ownMoves: OwnTrashMoves = OwnTrashMoves(),
+        moveToTrash: @escaping @Sendable (URL) throws -> URL
+    ) {
+        self.init(
+            environment: environment,
+            removalGuard: RemovalGuard(environment: environment, exclusions: exclusions),
+            stopJobs: stopJobs,
+            forgetDomains: forgetDomains,
+            moveThroughHelper: moveThroughHelper,
+            moveToTrash: moveToTrash,
+            ownMoves: ownMoves
+        )
+    }
+
+    private init(
+        environment: SearchEnvironment,
+        removalGuard: RemovalGuard,
+        stopJobs: @escaping StopJobs,
+        forgetDomains: @escaping ForgetDomains,
+        moveThroughHelper: @escaping MoveThroughHelper,
+        moveToTrash: @escaping @Sendable (URL) throws -> URL,
+        ownMoves: OwnTrashMoves
+    ) {
+        self.environment = environment
+        self.removalGuard = removalGuard
+        self.stopJobs = stopJobs
+        self.forgetDomains = forgetDomains
+        self.moveThroughHelper = moveThroughHelper
+        self.moveToTrash = moveToTrash
+        self.ownMoves = ownMoves
+    }
+
+    /// Why the guard would refuse to move `url`, or nil when it would move. A plan can show this before anything
+    /// moves, since the move asks the same guard.
+    public func refusal(of url: URL) -> TrashFailure.Reason? {
+        removalGuard.allowsRemoval(of: url) ? nil : .protectedLocation
+    }
+
+    /// Moves `urls` to the Trash as the current user, then stops the launchd jobs and forgets the preference
+    /// domains of what moved. `owner` is the bundle identifier of the app being reset: its own preference domain
+    /// is forgotten even when Apple wrote the app.
+    @concurrent
+    public func trash(_ urls: [URL], ownedBy owner: String? = nil) async -> TrashResult {
+        // The guard reads the disk, so it is asked once for each item.
+        let allowed = urls.filter(removalGuard.allowsRemoval(of:))
+        let isAllowed = Set(allowed)
+        // Read before the move, while the files are still there to say which jobs they declare.
+        let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
+
+        var result = TrashResult()
+        var moved: [String] = []
+        ownMoves.began()
+        for url in urls {
+            guard isAllowed.contains(url) else {
+                result.failures.append(TrashFailure(url: url, reason: .protectedLocation))
+                continue
+            }
+            // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
+            let path = PathPattern.comparablePath(of: url)
+            guard !moved.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            do {
+                let trashedURL = try moveToTrash(url)
+                result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now))
+                moved.append(path)
+            } catch {
+                result.failures.append(TrashFailure(url: url, reason: Self.reason(for: error)))
+            }
+        }
+        ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
+        await finish(result, stopping: jobs, canUseHelper: false, owner: owner)
+        return result
+    }
+
+    /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
+    @concurrent
+    public func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>) async -> TrashResult {
+        var result = await trash(urls.filter { !privilegedURLs.contains($0) })
+        let helperURLs = urls.filter(privilegedURLs.contains)
+        guard !helperURLs.isEmpty else { return result }
+
+        let permitted = helperURLs.filter(removalGuard.allowsRemoval(of:))
+        let isPermitted = Set(permitted)
+        result.failures += helperURLs.filter { !isPermitted.contains($0) }.map { TrashFailure(url: $0, reason: .protectedLocation) }
+        // An item inside another folder of this request goes with that folder. Sent on its own, the helper would
+        // find it gone and report a failure.
+        let paths = permitted.map(PathPattern.comparablePath)
+        let allowed = permitted.filter { url in
+            let path = PathPattern.comparablePath(of: url)
+            return !paths.contains { PathComponents.isPath(path, inside: $0) }
+        }
+        let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
+        ownMoves.began()
+        let helperResult = await moveThroughHelper(allowed)
+        ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
+        result.trashed += helperResult.trashed
+        result.failures += helperResult.failures
+        await finish(helperResult, stopping: jobs, canUseHelper: true, owner: nil)
+        return result
+    }
+
+    /// Stops the jobs and forgets the preference domains of what really moved. It runs after the move: a job
+    /// stopped before a move that fails would stay stopped with its file in place, and cfprefsd would forget
+    /// settings that are still on disk.
+    private func finish(_ result: TrashResult, stopping jobs: [LaunchdCleanup.Job], canUseHelper: Bool, owner: String?) async {
+        let moved = result.trashed.map(\.originalURL)
+        await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
+        await forgetDomains(moved, owner)
+    }
+
+    /// Moves `urls` through the helper. When the helper is not enabled, nothing moves and every item fails with
+    /// `.needsHelper`.
+    private static func moveThroughTheHelper(_ urls: [URL]) async -> TrashResult {
+        guard PrivilegedHelper.status == .enabled else { return await asIfThereWereNoHelper(urls) }
+        return await PrivilegedHelper.moveToTrash(urls)
+    }
+
+    private static func asIfThereWereNoHelper(_ urls: [URL]) async -> TrashResult {
+        TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .needsHelper) })
+    }
+
+    /// Moves an item from the Trash back where it came from, through the helper when the folder needs
+    /// administrator rights.
+    @concurrent
+    public func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
+        // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
+        // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
+        guard removalGuard.allowsRemoval(of: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }
+
+        let fileManager = FileManager.default
+        guard item.trashedURL.isThere else { return .missingFromTrash }
+        guard !item.originalURL.isThere else { return .alreadyThere }
+
+        let parent = item.originalURL.deletingLastPathComponent()
+        // Missing folders are created again, so write access is checked on the nearest folder that exists.
+        var ancestor = parent.path(percentEncoded: false)
+        while !fileManager.fileExists(atPath: ancestor), ancestor != "/" {
+            ancestor = (ancestor as NSString).deletingLastPathComponent
+        }
+        if fileManager.isWritableFile(atPath: ancestor) {
+            do {
+                try fileManager.createDirectory(at: parent, withIntermediateDirectories: true)
+                try Self.putBack(item, isAllowed: removalGuard.allowsRemoval(of:))
+                return nil
+            } catch is RefusedOnceHeld {
+                return .notAllowed
+            } catch POSIXError.EEXIST {
+                return .alreadyThere
+            } catch {
+                guard Self.reason(for: error) == .notPermitted else { return .failed(error.localizedDescription) }
+            }
+        }
+        guard canUseHelper, PrivilegedHelper.status == .enabled else { return .needsHelper }
+        guard let failure = await PrivilegedHelper.restore(item) else { return nil }
+        return .failed(failure)
+    }
+
+    /// Moves `item` back from the Trash through a descriptor for its folder, which must already exist. The guard
+    /// is asked again about the destination as the kernel names it, and the move never replaces an item there.
+    static func putBack(_ item: TrashedItem, isAllowed: (URL) -> Bool) throws {
+        let trashed = try OpenItem.at(item.trashedURL.path(percentEncoded: false)).get()
+        let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false)).get()
+        guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
+        let name = item.originalURL.lastPathComponent
+        guard isAllowed(URL(filePath: held, directoryHint: .isDirectory).appending(path: name)) else { throw RefusedOnceHeld() }
+        try TrashMover.rename(trashed, to: name, in: folder).get()
+    }
+
+    /// Whether `url` sits directly in a Trash: `~/.Trash`, or `.Trashes/<uid>` at the root of its volume. The
+    /// folder is compared with links resolved, since one that is only called `.Trash` can be a link into
+    /// Messages. `FileManager` is not asked: for a folder in iCloud Drive it names iCloud's Trash, not Peel's.
+    public func isInATrash(_ url: URL) -> Bool {
+        guard
+            !url.pathComponents.contains(where: { $0 == "." || $0 == ".." }),
+            let folder = PrivilegedPathPolicy.resolvedPath(url.deletingLastPathComponent().path(percentEncoded: false))
+        else { return false }
+        var trashes = [URL.homeDirectory, environment.homeDirectory].map { $0.appending(path: ".Trash", directoryHint: .isDirectory) }
+        if let volume = try? URL(filePath: folder).resourceValues(forKeys: [.volumeURLKey]).volume {
+            trashes.append(volume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory))
+        }
+        return trashes.contains { PrivilegedPathPolicy.resolvedPath($0.path(percentEncoded: false)) == folder }
+    }
+
+    /// The failure reason for an error a move threw. macOS does not say which permission is missing, so any
+    /// refusal is `.notPermitted`, and the caller decides what it means.
+    static func reason(for error: any Error) -> TrashFailure.Reason {
+        if error is RefusedOnceHeld { return .protectedLocation }
+        if error is MovedWithoutATrace { return .movedWithoutATrace }
+        if let moved = error as? SomethingElseMoved { return .somethingElseMoved(named: moved.trashedURL.lastPathComponent) }
+        let error = error as NSError
+        if error.domain == NSCocoaErrorDomain, [NSFileWriteNoPermissionError, NSFileReadNoPermissionError].contains(error.code) { return .notPermitted }
+        let codes = ([error] + error.underlyingErrors.map { $0 as NSError }).filter { $0.domain == NSPOSIXErrorDomain }.map(\.code)
+        if codes.contains(Int(EPERM)) || codes.contains(Int(EACCES)) { return .notPermitted }
+        return .failed(error.localizedDescription)
+    }
+
+    /// The item moved, but macOS did not say where and Peel could not find it.
+    struct MovedWithoutATrace: Error {}
+
+    /// The guard refused the item once its folder was held open and named by the kernel.
+    struct RefusedOnceHeld: Error {}
+
+    /// A move by name put something other than the checked item in the Trash.
+    struct SomethingElseMoved: Error {
+        let trashedURL: URL
+    }
+
+    /// Moves `url` to the Trash, making sure the item that moves is the one the guard allowed. Checked by name and
+    /// then moved by name, its folder could be swapped for a link into Messages between the two steps. So the
+    /// folder is held open, the guard is asked about the kernel's own path for it, and the move goes through the
+    /// descriptor, as the helper's does.
+    static func moveToSystemTrash(
+        _ url: URL,
+        trash: (URL) throws -> URL = Self.trashMacOSNames,
+        byName: (URL) throws -> URL = Self.moveByName,
+        isAllowed: (URL) -> Bool
+    ) throws -> URL {
+        let item = try OpenItem.at(url.path(percentEncoded: false)).get()
+        guard let folder = item.parent.currentPath else { throw POSIXError(.ENOENT) }
+        let held = URL(filePath: folder, directoryHint: .isDirectory).appending(path: item.name)
+        guard isAllowed(held) else { throw RefusedOnceHeld() }
+
+        guard let named = try? trash(held) else {
+            // A volume where nothing was ever trashed has no Trash yet, and only `FileManager.trashItem` creates
+            // one. That call moves by name, so the item it moved is checked against the one the guard allowed.
+            let trashedURL = try byName(held)
+            guard ItemIdentity(ofItemAt: trashedURL.path(percentEncoded: false)) == item.identity else {
+                throw SomethingElseMoved(trashedURL: trashedURL)
+            }
+            return trashedURL
+        }
+        // Another account can make `.Trashes/<uid>` on a shared disk before its owner does, and read what lands there.
+        let bin = try DirectoryHandle.at(named.path(percentEncoded: false)).get()
+        guard bin.ownerIdentifier() == getuid() else { throw POSIXError(.EACCES) }
+        return URL(filePath: try TrashMover.move(item, into: bin).get())
+    }
+
+    private static func trashMacOSNames(for url: URL) throws -> URL {
+        try FileManager.default.url(for: .trashDirectory, in: .userDomainMask, appropriateFor: url, create: true)
+    }
+
+    private static func moveByName(_ url: URL) throws -> URL {
+        // Taken before the move, in case macOS does not say where the item went.
+        let link = FileIdentity.Link.of(url)
+        var resultingURL: NSURL?
+        try FileManager.default.trashItem(at: url, resultingItemURL: &resultingURL)
+        if let trashedURL = resultingURL as URL? { return trashedURL }
+        // The item has already moved, and History needs to know where to. The folder it left is still there
+        // to say which volume's Trash took it; the item itself is not.
+        let folder = url.deletingLastPathComponent()
+        guard
+            let link,
+            let trash = try? FileManager.default.url(for: .trashDirectory, in: .userDomainMask, appropriateFor: folder, create: false),
+            let trashedURL = item(link, in: trash)
+        else { throw MovedWithoutATrace() }
+        return trashedURL
+    }
+
+    /// The item in `trash` with the device and inode in `link`. A move within a volume keeps the inode, while the
+    /// name proves nothing: macOS renames an item whose name is taken, so an older item of the same name could be
+    /// found instead.
+    static func item(_ link: FileIdentity.Link, in trash: URL) -> URL? {
+        let contents = (try? FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil)) ?? []
+        return contents.first { FileIdentity.Link.of($0) == link }
+    }
+}

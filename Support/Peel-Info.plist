@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSAppDataUsageDescription</key>
+	<string>Peel looks inside an app’s own container to list what it would leave behind. Nothing is removed until you say so.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Peel looks here for installers and duplicate files. Nothing is removed until you say so.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Peel looks here for installers, duplicate files, and what builds left behind. Nothing is removed until you say so.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Peel looks here for installers and duplicate files. Nothing is removed until you say so.</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 Țugui Dragoș-Constantin. Free software under the GNU GPL, version 3 or later.</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Application</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.application-bundle</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.tuguidragos.Peel</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>peel</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

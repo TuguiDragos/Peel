@@ -1,0 +1,110 @@
+import Foundation
+
+/// A tool in the sidebar. The order of the cases is the order within each group, in the sidebar and in the View
+/// menu, where the first nine tools get ⌘1 to ⌘9. The `.home` group (Home, Tweaks, History) comes first.
+enum Tool: String, CaseIterable, Identifiable {
+    case home
+
+    // Apps: what is installed, where it came from, and what it left behind.
+    case applications
+    case orphans
+    case intel
+    case packages
+    case homebrew
+
+    // Storage: finding and freeing room, from the whole disk down to one kind of file.
+    case space
+    case developer
+    case projects
+    case installers
+    case duplicates
+    case cloud
+    case fileSearch
+
+    // System: what runs and what extends macOS.
+    case backgroundItems
+    case extensions
+    case plugins
+
+    case tweaks
+    case history
+
+    enum Group: CaseIterable {
+        case home
+        case apps
+        case storage
+        case system
+    }
+
+    var id: Self { self }
+
+    var group: Group {
+        switch self {
+        case .home, .tweaks, .history: .home
+        case .applications, .orphans, .intel, .packages, .homebrew: .apps
+        case .space, .developer, .projects, .installers, .duplicates, .cloud, .fileSearch: .storage
+        case .backgroundItems, .extensions, .plugins: .system
+        }
+    }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .home: "Home"
+        case .applications: "Applications"
+        case .orphans: "Orphaned Files"
+        case .intel: "Intel Software"
+        case .packages: "Package Receipts"
+        case .homebrew: "Homebrew"
+        case .space: "Space"
+        case .developer: "Developer"
+        case .projects: "Build Artifacts"
+        case .installers: "Installers and Backups"
+        case .duplicates: "Duplicates"
+        case .cloud: "iCloud Drive"
+        case .fileSearch: "File Search"
+        case .backgroundItems: "Background Items"
+        case .extensions: "Extensions"
+        case .plugins: "Plug-ins"
+        case .tweaks: "Tweaks"
+        case .history: "History"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .home: "house"
+        case .applications: "square.grid.2x2"
+        case .orphans: "questionmark.folder"
+        case .intel: "cpu"
+        case .packages: "shippingbox"
+        case .homebrew: "mug"
+        case .space: "internaldrive"
+        case .developer: "hammer"
+        case .projects: "folder.badge.gearshape"
+        case .installers: "arrow.down.app"
+        case .duplicates: "doc.on.doc"
+        case .cloud: "icloud"
+        case .fileSearch: "doc.text.magnifyingglass"
+        case .backgroundItems: "gearshape.2"
+        case .extensions: "puzzlepiece.extension"
+        case .plugins: "powerplug"
+        case .tweaks: "slider.horizontal.3"
+        case .history: "clock.arrow.circlepath"
+        }
+    }
+}
+
+extension Tool.Group {
+    var title: LocalizedStringResource? {
+        switch self {
+        case .home: nil
+        case .apps: "Apps"
+        case .storage: "Storage"
+        case .system: "System"
+        }
+    }
+
+    var tools: [Tool] {
+        Tool.allCases.filter { $0.group == self }
+    }
+}

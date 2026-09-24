@@ -1,0 +1,157 @@
+public import Foundation
+
+/// A problem reading or writing the log, for History to show.
+public enum RemovalLogProblem: Sendable, Equatable {
+    /// The file could not be decoded. It was set aside under this name, and a new log was started with the rows
+    /// that could be read.
+    case damaged(setAside: URL)
+    /// The file could not be read or set aside, so nothing new is being recorded.
+    case unreadable
+    /// The log could not be written, so the last removal is not recorded.
+    case couldNotRecord
+    /// The log could not be written after a Put Back or a Forget, so it still lists those records.
+    case couldNotUpdate
+}
+
+/// The result of reading or changing the log. `records` is nil when the file was left
+/// untouched, so the caller keeps whatever it already has on screen.
+public struct RemovalLogOutcome: Sendable {
+    public let records: [RemovalRecord]?
+    public let problem: RemovalLogProblem?
+}
+
+/// The record of everything Peel moved to the Trash, so History can put it back.
+///
+/// An actor because every change is a read-modify-write of one file: two removals at once
+/// would otherwise overwrite each other. None of its methods suspend once they start, so
+/// actor reentrancy cannot interleave two of them.
+public actor RemovalLog {
+    /// The most records the file keeps. Past this, the oldest batches are dropped whole, never in part.
+    static let maximumRecords = 20_000
+
+    public let url: URL
+    public private(set) var problem: RemovalLogProblem?
+
+    public init(url: URL = RemovalHistory.defaultURL) {
+        self.url = url
+    }
+
+    /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
+    /// the rows that could be read.
+    public func load() -> RemovalLogOutcome {
+        whileNoOtherProcessWrites { RemovalLogOutcome(records: current(), problem: problem) }
+    }
+
+    public func add(_ records: [RemovalRecord]) -> RemovalLogOutcome {
+        whileNoOtherProcessWrites {
+            guard !records.isEmpty else { return RemovalLogOutcome(records: current(), problem: problem) }
+            guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
+            let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
+            guard write(updated, orNote: .couldNotRecord) else { return RemovalLogOutcome(records: nil, problem: problem) }
+            // A removal that is recorded clears an earlier `.couldNotRecord`.
+            if problem == .couldNotRecord { problem = nil }
+            return RemovalLogOutcome(records: updated, problem: problem)
+        }
+    }
+
+    public func remove(_ ids: Set<UUID>) -> RemovalLogOutcome {
+        whileNoOtherProcessWrites {
+            guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
+            let updated = existing.filter { !ids.contains($0.id) }
+            return RemovalLogOutcome(records: write(updated, orNote: .couldNotUpdate) ? updated : nil, problem: problem)
+        }
+    }
+
+    /// Runs `change` under a file lock. The app and `peel` both write this log, and the actor keeps order only
+    /// inside one process.
+    private func whileNoOtherProcessWrites<T>(_ change: () -> T) -> T {
+        FileLock.whileHeld(beside: url, change)
+    }
+
+    /// Sets `problem`, or clears it when a read went well (nil). A good read leaves two problems in place. A
+    /// damaged file stays reported, because the copy set aside is the only trace of it. `.couldNotRecord` stays
+    /// until a removal is recorded: History opens by reading the older, healthy file, and that read would
+    /// otherwise clear the notice before the user sees it.
+    private func note(_ problem: RemovalLogProblem?) {
+        if problem == nil {
+            if case .damaged = self.problem { return }
+            if self.problem == .couldNotRecord { return }
+        }
+        self.problem = problem
+    }
+
+    /// The records on disk, or nil when the file must not be replaced because it could not be read.
+    private func current() -> [RemovalRecord]? {
+        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else {
+            note(nil)
+            return []
+        }
+        // Bounded like every other read: the file is Peel's, but any process of the user can rewrite it. The
+        // limit leaves plenty of room, since 20,000 records take about 6 MB.
+        guard let data = BoundedRead.data(at: url, maximum: 64 * 1_024 * 1_024) else {
+            note(.unreadable)
+            return nil
+        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        if let records = try? decoder.decode([RemovalRecord].self, from: data) {
+            note(nil)
+            return records
+        }
+        // A row this version cannot read (written by a later version, or broken by hand) must not cost the rest.
+        let readable = (try? decoder.decode([Row].self, from: data))?.compactMap(\.record) ?? []
+        guard let setAside = DamagedFile.setAside(url) else {
+            note(.unreadable)
+            return nil
+        }
+        note(.damaged(setAside: setAside))
+        guard !readable.isEmpty, write(readable, orNote: .damaged(setAside: setAside)) else { return [] }
+        return readable
+    }
+
+    /// A row of the file. `record` is nil when the row does not decode.
+    private struct Row: Decodable {
+        let record: RemovalRecord?
+
+        init(from decoder: any Decoder) {
+            record = try? RemovalRecord(from: decoder)
+        }
+    }
+
+    private func write(_ records: [RemovalRecord], orNote failure: RemovalLogProblem) -> Bool {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        do {
+            let data = try encoder.encode(records)
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            // `.atomic` writes a temporary file and renames it, so a crash leaves either the old log or the new one.
+            try data.write(to: url, options: .atomic)
+            return true
+        } catch {
+            // An unrecorded removal is the most serious problem, so a later failure never replaces it.
+            if problem != .couldNotRecord { note(failure) }
+            return false
+        }
+    }
+
+    /// Sorts `records` newest first and drops the oldest batches beyond `maximumRecords`, so the file stays quick
+    /// to read. A batch is dropped whole, and never one in `protected`: a removal is recorded completely or not
+    /// at all, because a half-recorded one looks complete to the user.
+    static func trimmed(_ records: [RemovalRecord], keeping protected: Set<UUID>) -> [RemovalRecord] {
+        let sorted = records.sorted { $0.date > $1.date }
+        guard sorted.count > maximumRecords else { return sorted }
+
+        let batches = Dictionary(grouping: sorted, by: \.batch)
+        // Oldest first, by the date History shows for a batch.
+        let dates = batches.mapValues { $0.map(\.date).min() ?? .distantPast }
+        var total = sorted.count
+        var dropped: Set<UUID> = []
+        for batch in batches.keys.sorted(by: { dates[$0] ?? .distantPast < dates[$1] ?? .distantPast }) where total > maximumRecords {
+            guard !protected.contains(batch) else { continue }
+            dropped.insert(batch)
+            total -= batches[batch]?.count ?? 0
+        }
+        return sorted.filter { !dropped.contains($0.batch) }
+    }
+}
