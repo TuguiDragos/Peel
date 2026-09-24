@@ -174,8 +174,9 @@ public enum DeveloperCaches {
             Folder(".expo/android-apk-cache", .downloads),
         ]),
         Definition(id: "nx", name: "Nx", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder(".nx/*/cache", .buildData),
-            Folder(".nx/*/databases", .cache),
+            // One workspace's `cache` and `databases`, named by 16 hex digits of a hash. They go together: Nx
+            // answers a cache hit from the database alone, and a database without its cache restores nothing.
+            Folder(".nx/" + String(repeating: "[0-9a-f]", count: 16), .buildData),
         ]),
         Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ms-playwright", .downloads),

@@ -290,6 +290,20 @@ struct DeveloperCachesTests {
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
+    /// Nx answers a cache hit from its database alone, so a workspace's `cache` and `databases` go together: the
+    /// folder that holds both is offered as one, and nothing else in `~/.nx` is.
+    @Test func offersNxsCacheAndDatabaseOnlyTogether() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".nx/5d41402abc4b2a76/cache/12345/outputs/dist.js", bytes: 400_000)
+        try directory.file(".nx/5d41402abc4b2a76/databases/workspace.db", bytes: 400_000)
+        try directory.file(".nx/sockets/daemon", bytes: 16)
+        let nx = DeveloperCaches.definitions.filter { $0.id == "nx" }
+
+        let offered = await DeveloperCaches.scan(nx, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+
+        #expect(offered == ["5d41402abc4b2a76"])
+    }
+
     /// Bun's cache is a plain download cache until its global store is turned on: then `links` inside it is what
     /// every project's `node_modules` points into, and the whole folder is listed without a checkmark. A store
     /// moved to another disk leaves `links` as a link, which projects still reach through the cache.
