@@ -127,6 +127,8 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "cocoapods", name: "CocoaPods", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/CocoaPods", .downloads, source: "https://github.com/CocoaPods/CocoaPods/blob/master/lib/cocoapods/config.rb#L23"),
+            // The CDN copy of the public spec index. The spec repositories a person added sit beside it and stay.
+            Folder(".cocoapods/repos/trunk", .cache, source: "https://github.com/CocoaPods/Core/blob/master/lib/cocoapods-core/trunk_source.rb#L2-L7"),
         ]),
         Definition(id: "carthage", name: "Carthage", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/org.carthage.CarthageKit", .downloads, source: "https://github.com/Carthage/Carthage/blob/master/Source/CarthageKit/Constants.swift#L31"),
@@ -135,6 +137,14 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Homebrew/downloads", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/download_strategy/abstract_file_download_strategy.rb#L42"),
             Folder("Library/Caches/Homebrew/Cask", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/cask/cache.rb#L9"),
             Folder("Library/Caches/Homebrew/bootsnap", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/startup/bootsnap.rb#L45"),
+            Folder("Library/Caches/Homebrew/*_cache", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/package_manager_cache.rb#L5-L27"),
+            Folder("Library/Logs/Homebrew", .logs, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/utils/os.sh#L55-L56"),
+        ]),
+        Definition(id: "swiftlint", name: "SwiftLint", systemImage: "swift", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/SwiftLint", .cache, source: "https://github.com/realm/SwiftLint/blob/main/Source/SwiftLintFramework/Configuration/Configuration+Cache.swift#L80-L85"),
+        ]),
+        Definition(id: "tuist", name: "Tuist", systemImage: "hammer", appBundleIdentifiers: [], folders: [
+            Folder(".cache/tuist", .buildData, source: "https://github.com/tuist/tuist/blob/main/server/priv/docs/en/cli/directories.md"),
         ]),
         // JavaScript
         Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], folders: [

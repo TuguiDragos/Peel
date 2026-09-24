@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
@@ -143,7 +144,7 @@ struct DeveloperCachesTests {
         let forbidden = [
             ".rustup", ".pyenv", ".nvm", ".sdkman", ".rbenv", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
             "conda/envs", "miniconda3/envs", "anaconda3/envs", ".local/pipx",
-            "Library/Android/sdk", "flutter/bin", ".cocoapods/repos",
+            "Library/Android/sdk", "flutter/bin",
             ".aws", ".ssh", ".gnupg", ".netrc", ".docker/config", ".kube/config", ".npmrc",
             "qiskit-ibm.json", "qiskitrc", "dwave.conf", ".qcs", "xanadu-cloud", "pytket", ".qnx", "qbraidrc",
             "credentials", "token",
@@ -157,12 +158,18 @@ struct DeveloperCachesTests {
             // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`.
             "Library/Caches/Coursier", ".ccache",
         ]
+        // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
+        // of the public index, `trunk`, is a cache.
+        let onlyThisPart = [".cocoapods/repos": ".cocoapods/repos/trunk"]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
                 for pattern in forbidden {
                     #expect(!path.lowercased().contains(pattern.lowercased()), "\(definition.id) lists \(path)")
                 }
                 #expect(!onlyInParts.contains(path), "\(definition.id) lists the whole of \(path)")
+                for (folder, part) in onlyThisPart where PathComponents.isPath(path, atOrInside: folder) {
+                    #expect(path == part, "\(definition.id) lists \(path)")
+                }
             }
         }
     }
