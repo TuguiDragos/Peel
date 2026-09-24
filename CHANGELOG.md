@@ -18,7 +18,8 @@ The first public release, for macOS 26 and later, on Apple silicon and Intel Mac
 - Lists background items, extensions, plug-ins, installer receipts, Homebrew packages, and software that still
   needs Rosetta.
 - Changes settings macOS has but doesn't show, and puts back what was there when you turn one off.
-- Moves what it removes to the Trash instead of deleting it, and keeps a History that puts it back.
+- Moves what it removes to the Trash instead of deleting it, and keeps a History that puts it back and lists
+  what it didn't move, with the reason.
 - Leaves alone the files, folders, and apps you exclude.
 - Checks your apps for updates, and watches the Trash for apps you remove yourself.
 - Exports what is installed and where each app came from, as JSON, CSV, plain text, or a Brewfile.

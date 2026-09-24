@@ -13,7 +13,7 @@ enum Removals {
         in log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async -> Bool {
-        await refusals.add(result.failures, source: source, tool: tool)
+        await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool)
         guard !result.trashed.isEmpty else { return true }
         let batch = UUID()
         let records = result.trashed.map {

@@ -35,3 +35,32 @@ extension RemovalRecord {
             .sorted { $0.date != $1.date ? $0.date > $1.date : $0.id.uuidString < $1.id.uuidString }
     }
 }
+
+/// What Peel was asked to move in one removal and did not, as History shows it.
+public struct RefusalGroup: Sendable, Hashable, Identifiable {
+    public let id: UUID
+    public let source: String
+    public let sourceKey: String?
+    public let tool: String
+    public let date: Date
+    public let records: [RefusalRecord]
+}
+
+extension RefusalRecord {
+    /// The refusals one removal to an entry, newest first, each entry's records by path.
+    public static func grouped(_ records: [RefusalRecord]) -> [RefusalGroup] {
+        Dictionary(grouping: records, by: { $0.batch ?? $0.id })
+            .map { batch, records in
+                let sorted = records.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+                return RefusalGroup(
+                    id: batch,
+                    source: sorted.first?.source ?? "",
+                    sourceKey: sorted.first?.sourceKey,
+                    tool: sorted.first?.tool ?? "",
+                    date: sorted.map(\.date).min() ?? .now,
+                    records: sorted
+                )
+            }
+            .sorted { $0.date != $1.date ? $0.date > $1.date : $0.id.uuidString < $1.id.uuidString }
+    }
+}

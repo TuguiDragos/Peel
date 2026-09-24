@@ -77,7 +77,7 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    forget the preference domains whose files went.
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
    from and where it went, so it can be put back; History keeps the most recent 20,000 items. What Peel refused to
-   move is recorded too (`refusals.json`).
+   move is recorded too (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, and, through the helper, only if the helper's own ledger says
    it moved that very item from that very place.

@@ -57,6 +57,22 @@ extension TrashFailure.Reason {
         default: nil
         }
     }
+
+    /// The reason a refusal log stored as `name` and `detail`, or nil for a word this version doesn't know.
+    public init?(name: String, detail: String?) {
+        switch name {
+        case "protected-location": self = .protectedLocation
+        case "changed-since-scan": self = .changedSinceScan
+        case "claimed-since-scan": self = .claimedSinceScan
+        case "last-copy": self = .lastCopy
+        case "not-permitted": self = .notPermitted
+        case "needs-helper": self = .needsHelper
+        case "moved-without-a-trace": self = .movedWithoutATrace
+        case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
+        case "failed": self = .failed(detail ?? "")
+        default: return nil
+        }
+    }
 }
 
 public enum RestoreFailure: Sendable, Hashable {

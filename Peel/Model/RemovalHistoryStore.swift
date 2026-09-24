@@ -48,6 +48,24 @@ struct RemovalBatch: Identifiable, Hashable {
     }
 }
 
+/// What Peel was asked to move in one removal and did not.
+struct RefusalBatch: Identifiable, Hashable {
+    let id: UUID
+    let tool: Tool?
+    let date: Date
+    let records: [RefusalRecord]
+    /// The source in the user's language, as `RemovalBatch.title` gives it.
+    let title: String
+
+    init(_ group: RefusalGroup) {
+        id = group.id
+        tool = Tool(rawValue: group.tool)
+        date = group.date
+        records = group.records
+        title = RemovalBatch.title(source: group.source, key: group.sourceKey, tool: tool)
+    }
+}
+
 @Observable
 final class RemovalHistoryStore {
     private let log = RemovalLog()
@@ -69,6 +87,9 @@ final class RemovalHistoryStore {
     private(set) var hasLoaded = false
     /// What a search looks through, built once with the batches rather than walked on every keystroke.
     private(set) var searchKeys: [RemovalBatch.ID: String] = [:]
+    /// What Peel was asked to move and did not, one removal to an entry, newest first.
+    private(set) var refusalBatches: [RefusalBatch] = []
+    private(set) var refusalSearchKeys: [RefusalBatch.ID: String] = [:]
     private(set) var problem: RemovalLogProblem?
     private(set) var isRestoring = false
     var selection: RemovalBatch.ID?
@@ -95,8 +116,20 @@ final class RemovalHistoryStore {
         batches.first { $0.id == selection }
     }
 
+    var selectedRefusals: RefusalBatch? {
+        refusalBatches.first { $0.id == selection }
+    }
+
     func load() async {
         apply(await log.load())
+        await loadRefusals()
+    }
+
+    private func loadRefusals() async {
+        refusalBatches = RefusalRecord.grouped(await refusals.load()).map(RefusalBatch.init)
+        refusalSearchKeys = Dictionary(uniqueKeysWithValues: refusalBatches.map {
+            ($0.id, Self.searchKey(title: $0.title, names: $0.records.map(\.url.lastPathComponent)))
+        })
     }
 
     /// Records a removal in History. When Peel wrote the source itself, pass it in English along with a
@@ -105,7 +138,10 @@ final class RemovalHistoryStore {
     func record(_ result: TrashResult, tool: Tool, source: String, sourceKey: String? = nil, sizes: [URL: Int64]) async {
         // Refusals are logged before the early return below: a removal where nothing moved is the one most
         // worth a record.
-        await refusals.add(result.failures, source: source, tool: tool.rawValue)
+        await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool.rawValue)
+        if !result.failures.isEmpty {
+            await loadRefusals()
+        }
         guard !result.trashed.isEmpty else { return }
         let batch = UUID()
         let new = result.trashed.map {
@@ -141,7 +177,9 @@ final class RemovalHistoryStore {
         if let records = outcome.records {
             self.records = records
             batches = Self.batches(of: records)
-            searchKeys = Dictionary(uniqueKeysWithValues: batches.map { ($0.id, Self.searchKey(of: $0)) })
+            searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
+                ($0.id, Self.searchKey(title: $0.title, names: $0.records.map(\.originalURL.lastPathComponent)))
+            })
         }
         problem = outcome.problem
         hasLoaded = true
@@ -191,10 +229,10 @@ final class RemovalHistoryStore {
     }
 
 
-    /// The batch's title and the name of each item in it, joined into one string, so a search makes one call
+    /// A batch's title and the name of each item in it, joined into one string, so a search makes one call
     /// per batch rather than one per record.
-    private static func searchKey(of batch: RemovalBatch) -> String {
-        ([batch.title] + batch.records.map { $0.originalURL.lastPathComponent }).joined(separator: "\n")
+    private static func searchKey(title: String, names: [String]) -> String {
+        ([title] + names).joined(separator: "\n")
     }
 
 }

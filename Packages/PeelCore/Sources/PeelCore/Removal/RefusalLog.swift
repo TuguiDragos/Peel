@@ -2,21 +2,28 @@ public import Foundation
 
 public struct RefusalRecord: Sendable, Codable, Hashable, Identifiable {
     public let id: UUID
+    /// What one removal refused shares a batch, so History shows it as one entry. A record without one is an entry
+    /// of its own.
+    public let batch: UUID?
     public let url: URL
     /// `TrashFailure.Reason.name`: a word, not the sentence shown on screen, so later versions can still read it.
     public let reason: String
     public let detail: String?
     public let date: Date
     public let source: String
+    /// A key for a source Peel names itself, as in `RemovalRecord.sourceKey`.
+    public let sourceKey: String?
     public let tool: String
 
-    public init(failure: TrashFailure, date: Date = .now, source: String, tool: String) {
+    public init(failure: TrashFailure, date: Date = .now, source: String, sourceKey: String? = nil, tool: String, batch: UUID? = nil) {
         id = UUID()
+        self.batch = batch
         url = failure.url
         reason = failure.reason.name
         detail = failure.reason.detail
         self.date = date
         self.source = source
+        self.sourceKey = sourceKey
         self.tool = tool
     }
 }
@@ -37,8 +44,10 @@ public actor RefusalLog {
         FileLock.whileHeld(beside: url) { current() ?? [] }
     }
 
-    public func add(_ failures: [TrashFailure], source: String, tool: String) {
-        let records = failures.map { RefusalRecord(failure: $0, source: source, tool: tool) }
+    public func add(_ failures: [TrashFailure], source: String, sourceKey: String? = nil, tool: String) {
+        let batch = UUID()
+        let date = Date.now
+        let records = failures.map { RefusalRecord(failure: $0, date: date, source: source, sourceKey: sourceKey, tool: tool, batch: batch) }
         guard !records.isEmpty else { return }
         FileLock.whileHeld(beside: url) {
             guard let existing = current() else { return }

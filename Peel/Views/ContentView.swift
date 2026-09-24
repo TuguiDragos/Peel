@@ -403,6 +403,9 @@ struct ContentView: View {
         if let batch = history.selectedBatch {
             HistoryDetailView(batch: batch)
                 .id(batch.id)
+        } else if let refusals = history.selectedRefusals {
+            RefusalDetailView(batch: refusals)
+                .id(refusals.id)
         } else {
             DetailPlaceholder(tool: .history, summary: history.summary, instruction: "Choose a removal to put any of it back.")
         }

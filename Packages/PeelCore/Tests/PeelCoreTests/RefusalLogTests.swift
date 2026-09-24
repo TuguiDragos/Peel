@@ -103,14 +103,66 @@ struct RefusalLogTests {
         #expect(await log.clear(), "forgetting what is already forgotten is no failure")
     }
 
+    private static let everyReason: [TrashFailure.Reason] = [
+        .protectedLocation, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
+        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .failed("x"),
+    ]
+
     /// A record stores its reason as a word, not a sentence, so a later version of Peel can still read it.
     @Test func everyReasonHasAWordOfItsOwn() {
-        let reasons: [TrashFailure.Reason] = [
-            .protectedLocation, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper, .failed("x"),
-        ]
+        let reasons = Self.everyReason
 
         #expect(Set(reasons.map(\.name)).count == reasons.count)
         #expect(reasons.allSatisfy { !$0.name.contains(" ") })
-        #expect(reasons.filter { $0.detail != nil }.count == 1)
+        #expect(reasons.filter { $0.detail != nil }.count == 2)
+    }
+
+    /// History words a refusal from the reason it stored, so every word leads back to its reason, and a word a
+    /// later version wrote is read as none rather than guessed at.
+    @Test func everyReasonReadsBackFromItsWord() {
+        for reason in Self.everyReason {
+            #expect(TrashFailure.Reason(name: reason.name, detail: reason.detail) == reason)
+        }
+        #expect(TrashFailure.Reason(name: "a-word-from-later", detail: nil) == nil)
+    }
+
+    /// What one removal refused shares a batch and its source, so History shows it as one entry, in the words of
+    /// the source Peel named.
+    @Test func oneRemovalsRefusalsShareABatch() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+
+        await log.add([failure("/Users/me/a", .lastCopy), failure("/Users/me/b", .lastCopy)], source: "Duplicates", sourceKey: "tool", tool: "duplicates")
+        await log.add([failure("/Users/me/c", .notPermitted)], source: "Editor", tool: "applications")
+
+        let records = await log.load()
+        let first = records.filter { $0.source == "Duplicates" }
+        #expect(first.count == 2)
+        #expect(Set(first.map(\.batch)).count == 1)
+        #expect(first.allSatisfy { $0.batch != nil && $0.sourceKey == "tool" })
+        #expect(records.first { $0.source == "Editor" }?.batch != first.first?.batch)
+        #expect(records.first { $0.source == "Editor" }?.sourceKey == nil)
+    }
+
+    /// History lists what was refused one removal to an entry, newest first. A record kept without a batch is an
+    /// entry of its own.
+    @Test func historyShowsEachRemovalsRefusalsAsOneEntry() throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let batch = UUID()
+        let stored = """
+            [{"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/b","reason":"last-copy","date":"2026-09-20T10:00:00Z","source":"Duplicates","sourceKey":"tool","tool":"duplicates"},
+             {"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/a","reason":"last-copy","date":"2026-09-20T10:00:01Z","source":"Duplicates","sourceKey":"tool","tool":"duplicates"},
+             {"id":"\(UUID())","url":"file:///Users/me/old","reason":"not-permitted","date":"2026-09-19T10:00:00Z","source":"Editor","tool":"applications"}]
+            """
+        let groups = RefusalRecord.grouped(try decoder.decode([RefusalRecord].self, from: Data(stored.utf8)))
+
+        #expect(groups.map(\.source) == ["Duplicates", "Editor"])
+        #expect(groups.first?.id == batch)
+        #expect(groups.first?.sourceKey == "tool")
+        #expect(groups.first?.records.map(\.url.lastPathComponent) == ["a", "b"])
+        #expect(groups.first?.date == ISO8601DateFormatter().date(from: "2026-09-20T10:00:00Z"))
+        #expect(groups.last?.records.count == 1)
+        #expect(groups.last?.sourceKey == nil)
     }
 }

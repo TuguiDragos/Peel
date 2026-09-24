@@ -125,7 +125,8 @@ before, or leaves it to macOS.
 
 ### Stay in control
 
-- **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike.
+- **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and
+  what it was asked to move and wouldn't, with the reason for each item.
 - **Exclusions:** files, folders, and apps Peel must never touch.
 
 ### Work your way

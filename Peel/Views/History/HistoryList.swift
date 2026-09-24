@@ -14,15 +14,34 @@ struct HistoryList: View {
         return history.batches.filter { batch in history.searchKeys[batch.id].map { SearchText.matches($0, searchText) } == true }
     }
 
+    private var refusals: [RefusalBatch] {
+        guard !searchText.isEmpty else { return history.refusalBatches }
+        return history.refusalBatches.filter { batch in history.refusalSearchKeys[batch.id].map { SearchText.matches($0, searchText) } == true }
+    }
+
     var body: some View {
         @Bindable var history = history
         // Filtered once per body, since the list and the overlay both use the result.
         let listed = batches
+        let refused = refusals
 
-        List(listed, selection: $history.selection) { batch in
-            HistoryBatchRow(batch: batch)
+        List(selection: $history.selection) {
+            ForEach(listed) { batch in
+                HistoryBatchRow(batch: batch)
+            }
+            // No heading when the list would start with it: a list that begins with a heading and fills all at
+            // once keeps its rows at the table's default height.
+            if listed.isEmpty {
+                ForEach(refused) { RefusalBatchRow(batch: $0) }
+            } else if !refused.isEmpty {
+                Section {
+                    ForEach(refused) { RefusalBatchRow(batch: $0) }
+                } header: {
+                    Text("Not Moved")
+                }
+            }
         }
-        .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty)
+        .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .safeAreaBar(edge: .top) {
             Group {
                 if let problem = history.problem {
@@ -35,17 +54,17 @@ struct HistoryList: View {
             .motion(.settle, .movement, value: history.problem != nil)
         }
         .overlay {
-            if history.batches.isEmpty, history.hasLoaded {
+            if history.batches.isEmpty, history.refusalBatches.isEmpty, history.hasLoaded {
                 ContentUnavailableView(
                     "Nothing Removed Yet",
                     systemImage: "clock.arrow.circlepath",
                     description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
                 )
-            } else if listed.isEmpty {
+            } else if listed.isEmpty, refused.isEmpty {
                 ContentUnavailableView.search(text: searchText)
             }
         }
-        .fadesInColumn(whenRowsChange: history.batches.map(\.id))
+        .fadesInColumn(whenRowsChange: history.batches.map(\.id) + history.refusalBatches.map(\.id))
         .navigationTitle(Text(Tool.history.title))
         // Every tool has a button in the toolbar, so the window keeps one height from page to page.
         .toolbar {
@@ -107,6 +126,26 @@ private struct HistoryBatchRow: View {
                 Text("^[\(batch.records.count) item](inflect: true)")
                 Text(verbatim: batch.size.text)
                     .monospacedDigit()
+                Text(batch.date, format: .relative(presentation: .named))
+                    .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
+            }
+            .lineLimit(1)
+        }
+    }
+}
+
+/// One removal's refusals: what Peel was asked to move and did not.
+private struct RefusalBatchRow: View {
+    let batch: RefusalBatch
+
+    var body: some View {
+        ToolRow(systemImage: "nosign") {
+            Text(verbatim: batch.title)
+                .lineLimit(1)
+                .truncationMode(.middle)
+        } details: {
+            HStack(spacing: 6) {
+                Text("^[\(batch.records.count) item](inflect: true) not moved")
                 Text(batch.date, format: .relative(presentation: .named))
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
             }
