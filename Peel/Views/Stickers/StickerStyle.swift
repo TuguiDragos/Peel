@@ -15,6 +15,10 @@ enum Album {
     static let stickerEdge = Color(.stickerEdge)
     static let ink = Color(.ink)
     static let slot = Color(.slot)
+    /// The dashed edge of a slot, such as the storage bar's track. Increase Contrast darkens it to 3:1, as it does
+    /// `cutLine`, the dashed line between a sheet's rows.
+    static let slotEdge = Color(.slotEdge)
+    static let cutLine = Color(.cutLine)
     static let shadow = Color(.stickerShadow)
     static let quietFill = Color(.quietFill)
     /// The red of words and marks for what is missing, readable on a sticker in every appearance, which the system
@@ -100,7 +104,7 @@ struct DieCut: View {
 struct Perforation: View {
     var body: some View {
         Line()
-            .stroke(Color.primary.opacity(0.13), style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
+            .stroke(Album.cutLine, style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
             .frame(height: 1)
     }
 

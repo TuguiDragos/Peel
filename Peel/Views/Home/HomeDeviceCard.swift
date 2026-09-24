@@ -110,7 +110,7 @@ struct StorageStrip: View {
                         .fill(isAlbum ? AnyShapeStyle(Album.slot) : AnyShapeStyle(.quaternary))
                     if isAlbum {
                         RoundedRectangle(cornerRadius: 7, style: .continuous)
-                            .strokeBorder(Color.primary.opacity(0.28), style: StrokeStyle(lineWidth: 1.2, dash: [4, 3]))
+                            .strokeBorder(Album.slotEdge, style: StrokeStyle(lineWidth: 1.2, dash: [4, 3]))
                     }
                     RoundedRectangle(cornerRadius: 5, style: .continuous)
                         .fill(isAlbum ? Album.orange : Color.accentColor)
