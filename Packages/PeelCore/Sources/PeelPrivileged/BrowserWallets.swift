@@ -235,6 +235,9 @@ extension ProtectedData {
     public static func holdsABrowserWallet(_ path: String) -> Bool {
         let components = PathComponents.of(path)
         if let profile = profile(sharedBy: components), isAProfileWithAWallet(profile) { return true }
+        // Only a folder can be a profile or hold one.
+        var info = stat()
+        guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
         if isAProfileWithAWallet(path) { return true }
 
         let folder = components.last?.lowercased() ?? ""

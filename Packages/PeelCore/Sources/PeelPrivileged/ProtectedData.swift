@@ -255,21 +255,44 @@ public enum ProtectedData: Sendable {
         spellings(of: path).contains { spelling in
             let names = PathComponents.of(spelling)
             let holdsIt = { (tree: [String]) in tree.count > names.count && tree.starts(with: names) }
-            for home in homes(of: spelling, given: home) where trees(under: home).contains(where: holdsIt) {
+            for home in homes(of: spelling, given: home) where trees(under: home).sitInside(names) {
                 return true
             }
             return systemFolders.contains { holdsIt(PathComponents.of($0.lowercased())) }
         }
     }
 
-    /// The protected paths for each home, built once, since `refuses` is asked of every entry a scan looks at.
-    /// A path can name any home under `/Users`, so the cache is capped rather than left to grow.
-    private static let treesByHome = Mutex<[String: [[String]]]>([:])
+    /// The protected trees under one home, looked up by a path's own names rather than compared with each tree.
+    /// Names compare as strings, so a composed letter still matches its decomposed spelling.
+    private struct Trees {
+        let trees: Set<[String]>
+        /// Every folder a tree sits in, from the root down.
+        let ancestors: Set<[String]>
 
-    private static func trees(under home: String) -> [[String]] {
+        init(_ trees: [[String]]) {
+            self.trees = Set(trees)
+            ancestors = Set(trees.flatMap { tree in (0..<tree.count).map { Array(tree[..<$0]) } })
+        }
+
+        /// True when `names` is a tree or sits inside one.
+        func contain(_ names: [String]) -> Bool {
+            names.indices.contains { trees.contains(Array(names[...$0])) }
+        }
+
+        /// True when a tree sits inside `names`.
+        func sitInside(_ names: [String]) -> Bool {
+            ancestors.contains(names)
+        }
+    }
+
+    /// The protected trees for each home, built once, since `refuses` is asked of every entry a scan looks at.
+    /// A path can name any home under `/Users`, so the cache is capped rather than left to grow.
+    private static let treesByHome = Mutex<[String: Trees]>([:])
+
+    private static func trees(under home: String) -> Trees {
         treesByHome.withLock { cache in
             if let trees = cache[home] { return trees }
-            let trees = (homeFolders + homeKeys + walletKeys).map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) }
+            let trees = Trees((homeFolders + homeKeys + walletKeys).map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) })
             if cache.count >= 32 { cache.removeAll() }
             cache[home] = trees
             return trees
@@ -337,7 +360,7 @@ public enum ProtectedData: Sendable {
             if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(spelling) { return true }
             if isInsideAWalletExtension(names) { return true }
 
-            for home in homes(of: spelling, given: home) where trees(under: home).contains(where: names.starts(with:)) {
+            for home in homes(of: spelling, given: home) where trees(under: home).contain(names) {
                 return true
             }
             return systemFolders.contains { names.starts(with: PathComponents.of($0.lowercased())) }
