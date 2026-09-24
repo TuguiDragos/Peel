@@ -264,6 +264,40 @@ public enum DeveloperCaches {
             Folder("miniconda3/pkgs", .environments, source: "https://www.anaconda.com/docs/getting-started/miniconda/install/mac-cli-install"),
             Folder("anaconda3/pkgs", .environments, source: "https://www.anaconda.com/docs/getting-started/anaconda/install/mac-cli-install"),
             Folder(".conda/pkgs", .environments, source: "https://github.com/conda/conda/blob/main/conda/base/context.py#L834-L847"),
+            Folder("miniforge3/pkgs", .environments, source: "https://github.com/conda-forge/miniforge/blob/main/README.md#L53"),
+        ]),
+        Definition(id: "mamba", name: "mamba & micromamba", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("micromamba/pkgs", .environments, source: "https://github.com/mamba-org/mamba/blob/main/libmamba/src/api/configuration.cpp#L1011-L1015"),
+            Folder(".mamba/pkgs", .environments, source: "https://github.com/mamba-org/mamba/blob/main/libmamba/src/api/configuration.cpp#L1015"),
+        ]),
+        Definition(id: "pixi", name: "pixi", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/rattler", .downloads, source: "https://github.com/prefix-dev/pixi/blob/main/docs/workspace/environment.md#L171-L179"),
+        ]),
+        // PDM's `packages` is the store projects link their installed packages into, so it is never selected.
+        Definition(id: "pdm", name: "PDM", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pdm/http", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/environments/base.py#L140"),
+            Folder("Library/Caches/pdm/wheels", .downloads, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
+            Folder("Library/Caches/pdm/metadata", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
+            Folder("Library/Caches/pdm/hashes", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
+            Folder("Library/Caches/pdm/packages", .environments, source: "https://github.com/pdm-project/pdm/blob/main/docs/usage/config.md#L252"),
+            Folder("Library/Logs/pdm", .logs, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/config.py#L116-L120"),
+        ]),
+        Definition(id: "hatch", name: "Hatch", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/hatch", .cache, source: "https://github.com/pypa/hatch/blob/master/docs/config/hatch.md#L140-L146"),
+        ]),
+        Definition(id: "pipx", name: "pipx", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pipx", .cache, source: "https://github.com/pypa/pipx/blob/main/src/pipx/paths.py#L76-L77"),
+            Folder("Library/Logs/pipx", .logs, source: "https://github.com/pypa/pipx/blob/main/src/pipx/paths.py#L126"),
+        ]),
+        Definition(id: "piptools", name: "pip-tools", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/pip-tools", .cache, source: "https://github.com/jazzband/pip-tools/blob/main/piptools/locations.py#L5-L6"),
+        ]),
+        Definition(id: "black", name: "Black", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/black", .cache, source: "https://github.com/psf/black/blob/main/src/black/cache.py#L42-L43"),
+        ]),
+        Definition(id: "jedi", name: "Jedi & Parso", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/Jedi", .cache, source: "https://github.com/davidhalter/jedi/blob/master/jedi/settings.py#L77-L78"),
+            Folder("Library/Caches/Parso", .cache, source: "https://github.com/davidhalter/parso/blob/master/parso/cache.py#L69-L70"),
         ]),
         // Rust and Go
         Definition(id: "cargo", name: "Cargo", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
@@ -475,6 +509,7 @@ public enum DeveloperCaches {
             Folder(".cache/huggingface/xet", .cache, source: "https://github.com/huggingface/huggingface_hub/blob/main/docs/source/en/package_reference/environment_variables.md#L44-L48"),
             Folder(".cache/huggingface/assets", .cache, source: "https://github.com/huggingface/huggingface_hub/blob/main/docs/source/en/package_reference/environment_variables.md#L50-L56"),
             Folder(".cache/huggingface/transformers", .models, source: "https://github.com/huggingface/transformers/blob/v4.21.3/src/transformers/utils/hub.py#L70"),
+            Folder(".cache/huggingface/modules", .cache, source: "https://github.com/huggingface/transformers/blob/main/src/transformers/utils/hub.py#L108"),
         ]),
         Definition(id: "torch", name: "PyTorch", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/torch/hub", .models, source: "https://github.com/pytorch/pytorch/blob/main/docs/source/hub.md#L122-L124"),
