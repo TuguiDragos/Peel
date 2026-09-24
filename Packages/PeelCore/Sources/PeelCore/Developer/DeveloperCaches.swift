@@ -560,7 +560,7 @@ public enum DeveloperCaches {
             Folder(".cache/pants/lmdb_store", .buildData, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L159"),
             Folder(".cache/pants/named_caches", .downloads, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L160"),
         ]),
-        Definition(id: "unity", name: "Unity", systemImage: "cube.transparent", appBundleIdentifiers: [], folders: [
+        Definition(id: "unity", name: "Unity", systemImage: "cube.transparent", appBundleIdentifiers: ["com.unity3d.UnityEditor5.x"], folders: [
             // The Package Manager's cache of downloaded packages: `Library/Unity/cache` up to Unity 2022.3, and
             // `Library/Caches/Unity/upm` from Unity 6 (docs.unity3d.com, Manual/upm-cache.html for each version).
             Folder("Library/Caches/Unity/upm", .downloads, source: "https://docs.unity3d.com/Manual/upm-cache.html"),
@@ -586,7 +586,7 @@ public enum DeveloperCaches {
         ]),
 
         // Models and datasets
-        Definition(id: "ollama", name: "Ollama", systemImage: "brain", appBundleIdentifiers: [], folders: [
+        Definition(id: "ollama", name: "Ollama", systemImage: "brain", appBundleIdentifiers: ["com.electron.ollama"], folders: [
             Folder(".ollama/models", .models, source: "https://github.com/ollama/ollama/blob/main/docs/faq.mdx#L233-L236"),
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/main/docs/macos.mdx#L26-L28"),
         ]),
