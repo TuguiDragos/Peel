@@ -540,6 +540,9 @@ public enum DeveloperCaches {
         Definition(id: "lima", name: "Lima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/lima", .downloads, source: "https://github.com/lima-vm/lima/blob/master/website/content/en/docs/dev/internals.md#L137-L145"),
         ]),
+        Definition(id: "colima", name: "Colima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/colima", .downloads, source: "https://github.com/abiosoft/colima/blob/main/cmd/prune.go#L25-L41"),
+        ]),
         Definition(id: "minikube", name: "minikube", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder(".minikube/cache/iso", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
             Folder(".minikube/cache/kic", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
