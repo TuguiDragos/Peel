@@ -16,6 +16,9 @@ struct ToolSidebar: View {
     @AppStorage("sidebar.apps.expanded") private var isAppsExpanded = true
     @AppStorage("sidebar.storage.expanded") private var isStorageExpanded = true
     @AppStorage("sidebar.system.expanded") private var isSystemExpanded = true
+    /// Tools the user turned off in Settings. They leave the sidebar only: the View menu, Shortcuts, and links
+    /// still open them, as Finder's Go menu opens a place its sidebar hides.
+    @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
     @Binding var tool: Tool
     @Binding var page: SidebarDestination?
     /// The column's width, set by the widest label, because in some languages the longer tool names need more
@@ -58,7 +61,7 @@ struct ToolSidebar: View {
     var body: some View {
         List(selection: selection) {
             Section {
-                ForEach(Tool.Group.home.tools, content: row)
+                ForEach(shown(Tool.Group.home.tools), content: row)
                 Label { Text("Settings") } icon: { icon("gearshape") }
                     .tag(SidebarDestination.settings)
             }
@@ -122,12 +125,20 @@ struct ToolSidebar: View {
     /// restores a section's expanded state on its own and would decide whether a group starts open.
     @ViewBuilder
     private func group(_ group: Tool.Group, isExpanded: Binding<Bool>) -> some View {
-        Section {
-            heading(group, isExpanded: isExpanded)
-            if isExpanded.wrappedValue {
-                rows(in: group)
+        let tools = shown(group.tools)
+        if !tools.isEmpty {
+            Section {
+                heading(group, isExpanded: isExpanded)
+                if isExpanded.wrappedValue {
+                    ForEach(tools, content: row)
+                }
             }
         }
+    }
+
+    private func shown(_ tools: [Tool]) -> [Tool] {
+        let hidden = Tool.hidden(in: hiddenTools)
+        return tools.filter { !hidden.contains($0) }
     }
 
     private func heading(_ group: Tool.Group, isExpanded: Binding<Bool>) -> some View {
@@ -164,12 +175,6 @@ struct ToolSidebar: View {
             .fontWeight(.semibold)
     }
 
-    private func rows(in group: Tool.Group) -> some View {
-        ForEach(group.tools) { tool in
-            row(for: tool)
-        }
-    }
-
     private func row(for tool: Tool) -> some View {
         HStack(spacing: 0) {
             Label {
@@ -192,8 +197,8 @@ struct ToolSidebar: View {
     }
 
     /// Every label the column can show, laid out in the rows' font but never drawn, to measure the widest one. The
-    /// width then follows the language, the text size, and Bold Text. It sits behind the Home row, which is shown
-    /// whichever groups are collapsed.
+    /// width then follows the language, the text size, Bold Text, and the tools left out. It sits behind the Home
+    /// row, which is shown whichever groups are collapsed and whatever is hidden.
     private var ruler: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 8) {
@@ -201,12 +206,12 @@ struct ToolSidebar: View {
                 // Stands in for the attention badge that can appear beside Home.
                 Color.clear.frame(width: 16, height: 1)
             }
-            ForEach(Tool.allCases.filter { $0 != .home }) { tool in
+            ForEach(shown(Tool.allCases.filter { $0 != .home })) { tool in
                 Label { Text(tool.title) } icon: { icon(tool.systemImage) }
             }
             Label { Text("Settings") } icon: { icon("gearshape") }
             ForEach(Tool.Group.allCases, id: \.self) { group in
-                if let title = group.title {
+                if let title = group.title, !shown(group.tools).isEmpty {
                     HStack(spacing: 6) {
                         Text(title)
                             .font(.subheadline.weight(.semibold))

@@ -46,6 +46,8 @@ struct SettingsView: View {
 enum SettingsKey {
     static let checksForAppUpdates = "checksForAppUpdates"
     static let watchesTrash = "watchesTrash"
+    /// The tools the sidebar leaves out (`Tool.hidden(in:)`).
+    static let hiddenTools = "sidebar.hiddenTools"
     /// The `peel` tool reads these three keys too, so they are defined once, in PeelCore.
     static let updateSource = UpdatePreferences.Key.source
     static let ignoredUpdateApps = UpdatePreferences.Key.ignoredApps
@@ -79,6 +81,7 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
+    @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
     @Environment(\.scenePhase) private var scenePhase
     @Environment(AppLibrary.self) private var library
@@ -192,6 +195,17 @@ private struct GeneralSettingsView: View {
                         .foregroundStyle(.orange)
                         .textSelection(.enabled)
                 }
+            }
+
+            Section {
+                // In the sidebar's own order.
+                ForEach(Tool.Group.allCases.flatMap(\.tools).filter(\.canBeHidden)) { tool in
+                    Toggle(isOn: showsInSidebar(tool)) {
+                        Label { Text(tool.title) } icon: { Image(systemName: tool.systemImage) }
+                    }
+                }
+            } header: {
+                titled("Sidebar", "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it.")
             }
 
             Section("Elsewhere on This Mac") {
@@ -401,6 +415,17 @@ extension GeneralSettingsView {
 }
 
 extension GeneralSettingsView {
+    fileprivate func showsInSidebar(_ tool: Tool) -> Binding<Bool> {
+        Binding(
+            get: { !Tool.hidden(in: hiddenTools).contains(tool) },
+            set: { shows in
+                var hidden = Tool.hidden(in: hiddenTools)
+                if shows { hidden.remove(tool) } else { hidden.insert(tool) }
+                hiddenTools = Tool.storing(hidden: hidden)
+            }
+        )
+    }
+
     fileprivate var isShowingSelfRemovalFailure: Binding<Bool> {
         Binding(
             get: { selfUninstall.failure != nil },

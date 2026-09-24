@@ -94,6 +94,27 @@ enum Tool: String, CaseIterable, Identifiable {
     }
 }
 
+extension Tool {
+    /// Whether the sidebar may leave this tool out. Home, Applications, and History always stay: Applications is
+    /// where the Finder extension, `peel://open`, and the update notices lead, and History is the way back.
+    var canBeHidden: Bool {
+        switch self {
+        case .home, .applications, .history: false
+        default: true
+        }
+    }
+
+    /// The tools the sidebar leaves out, read from their names joined by commas. A name this version doesn't
+    /// know, and a tool that can't be hidden, are ignored.
+    static func hidden(in stored: String) -> Set<Tool> {
+        Set(stored.split(separator: ",").compactMap { Tool(rawValue: String($0)) }.filter(\.canBeHidden))
+    }
+
+    static func storing(hidden tools: Set<Tool>) -> String {
+        tools.map(\.rawValue).sorted().joined(separator: ",")
+    }
+}
+
 extension Tool.Group {
     var title: LocalizedStringResource? {
         switch self {

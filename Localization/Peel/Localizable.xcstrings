@@ -94463,6 +94463,112 @@
         }
       }
     },
+    "Sidebar" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boční panel"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seitenleiste"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra lateral"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barre latérale"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra laterale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サイドバー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사이드바"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigatiekolom"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasek boczny"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra Lateral"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bară laterală"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Боковое меню"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidofält"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бічна панель"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "边栏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "側邊欄"
+          }
+        }
+      }
+    },
     "Signed by" : {
       "localizations" : {
         "cs" : {
@@ -113647,6 +113753,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟"
+          }
+        }
+      }
+    },
+    "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li nástroj z bočního panelu vynechat, vypněte ho. Otevřít ho můžete dál z nabídky Zobrazení i v aplikaci Zkratky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deaktiviere ein Tool, damit es nicht in der Seitenleiste angezeigt wird. Über das Menü „Darstellung“ und die App „Kurzbefehle“ kannst du es weiterhin öffnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactiva una herramienta para dejarla fuera de la barra lateral. Podrás seguir abriéndola desde el menú Visualización o desde la app Atajos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivez un outil pour ne plus l’afficher dans la barre latérale. Le menu Présentation et l’app Raccourcis permettent toujours de l’ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva uno strumento per toglierlo dalla barra laterale. Puoi comunque aprirlo dal menu Vista o tramite Comandi Rapidi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ツールをオフにすると、サイドバーに表示されなくなります。“表示”メニューと“ショートカット”からは引き続き開くことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도구를 끄면 사이드바에 표시되지 않습니다. 보기 메뉴와 단축어 앱에서는 여전히 열 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schakel een tool uit om hem niet in de navigatiekolom te tonen. Via het Weergave-menu en de Opdrachten-app kun je hem nog steeds openen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz narzędzie, aby nie pokazywać go na pasku bocznym. Nadal możesz je otworzyć z menu Widok lub za pomocą aplikacji Skróty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative uma ferramenta para deixá-la de fora da barra lateral. O menu Visualizar e o app Atalhos ainda podem abri-la."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivați un instrument ca să nu mai apară în bara laterală. Meniul Vizualizare și aplicația Scurtături îl pot deschide în continuare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите раздел, чтобы убрать его из бокового меню. Его по-прежнему можно открыть из меню «Вид» и с помощью приложения «Команды»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng av ett verktyg så visas det inte i sidofältet. Du kan fortfarande öppna det från menyn Innehåll och i Genvägar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir aracın kenar çubuğunda görünmemesi için onu kapatın. Görüntü menüsünden ve Kestirmeler ile yine de açılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкніть розділ, щоб не показувати його на бічній панелі. Його все одно можна відкрити з меню «Перегляд» і за допомогою Швидких команд."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭某个工具，它就不会出现在边栏中。仍可通过“显示”菜单和“快捷指令”打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉某個工具即可讓它不顯示在側邊欄中。仍可從「顯示方式」選單和「捷徑」打開它。"
           }
         }
       }

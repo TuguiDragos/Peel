@@ -133,6 +133,8 @@ before, or leaves it to macOS.
 
 - **Export:** what's installed and where each app came from, as JSON, a spreadsheet, plain text, or a Brewfile.
 - **Shortcuts:** actions that open a page in Peel for you to look at. None of them removes anything.
+- **Sidebar:** turn off the tools you don't use in Settings, and they leave the sidebar. The View menu and
+  Shortcuts still open them.
 - **The `peel` command:** most of the above, from Terminal.
 
 ## Safe by design
