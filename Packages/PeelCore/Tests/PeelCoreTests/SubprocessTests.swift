@@ -54,6 +54,18 @@ struct SubprocessTests {
         #expect(await task.value == .failure(.canceled))
     }
 
+    /// A task that was already canceled starts no tool at all: a scan stopped between two steps must not launch
+    /// the next one only to kill it, which on a busy Mac takes longer than a Stop is allowed. Asked for a tool
+    /// that is not there, such a task answers that it was canceled, since it never tried to start one.
+    @Test func aCanceledTaskStartsNothing() async {
+        let task = Task { () -> Result<Subprocess.Output, Subprocess.Failure> in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return await Subprocess.run("/no/such/tool", [], timeout: 30)
+        }
+
+        #expect(await task.value == .failure(.canceled))
+    }
+
     /// A process the tool starts can outlive it and keep its pipe open. `run` returns without waiting for it.
     @Test func doesNotWaitForWhatTheToolLeftRunning() async throws {
         let started = ContinuousClock.now

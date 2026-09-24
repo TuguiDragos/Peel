@@ -47,6 +47,9 @@ public enum Subprocess {
         environment: [String: String]? = nil,
         timeout: TimeInterval
     ) async -> Result<Output, Failure> {
+        // A task stopped before this step starts nothing: launching the tool only to kill it would hold the Stop
+        // for as long as the kill takes.
+        guard !Task.isCancelled else { return .failure(.canceled) }
         let process = Process()
         process.executableURL = URL(filePath: executable)
         process.arguments = arguments
