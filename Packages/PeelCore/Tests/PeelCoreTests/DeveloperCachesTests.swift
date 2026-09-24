@@ -165,6 +165,10 @@ struct DeveloperCachesTests {
             // what they installed; renv each project's library; the Dart analysis server each plug-in's state.
             ".hex", "Library/Caches/gleam/hex/hexpm", ".pub-cache", ".local/share/gem", ".cache/rebar3", ".stack", ".opam",
             "Library/Caches/org.R-project.R/R/renv", ".dartServer",
+            // VS Code and the editors built on it keep unsaved files in `Backups`; Zed its database and threads;
+            // Neovim its swap and undo files.
+            "Library/Application Support/Code", "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
+            "Library/Application Support/Zed", ".local/state/nvim",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
