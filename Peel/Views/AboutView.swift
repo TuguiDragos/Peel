@@ -2,6 +2,10 @@ import AppKit
 import SwiftUI
 
 struct AboutContent: View {
+    /// The width About is laid out for, in its window and on its page in the main window alike, so a long line
+    /// breaks the same way in both rather than running across the whole column.
+    static let width: CGFloat = 380
+
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
@@ -119,7 +123,7 @@ struct AboutView: View {
 
     var body: some View {
         AboutContent()
-            .frame(width: 380)
+            .frame(width: AboutContent.width)
             .fixedSize(horizontal: false, vertical: true)
             .background(Album.sheet)
     }

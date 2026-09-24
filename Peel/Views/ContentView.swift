@@ -71,6 +71,7 @@ struct ContentView: View {
         case .about:
             // No title over it: the page says what it is, in larger type than a title bar could.
             AboutContent()
+                .frame(width: AboutContent.width)
                 .centeredOnColumn()
                 .toolbar(removing: .title)
         case .tool, nil:
