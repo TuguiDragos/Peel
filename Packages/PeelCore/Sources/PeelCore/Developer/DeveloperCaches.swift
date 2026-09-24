@@ -305,13 +305,37 @@ public enum DeveloperCaches {
             Folder(".cargo/registry/index", .downloads, source: "https://github.com/rust-lang/cargo/blob/master/doc/book/src/guide/cargo-home.md#L44-L45"),
             Folder(".cargo/registry/src", .downloads, source: "https://github.com/rust-lang/cargo/blob/master/doc/book/src/guide/cargo-home.md#L50-L51"),
             Folder(".cargo/git/checkouts", .downloads, source: "https://github.com/rust-lang/cargo/blob/master/doc/book/src/guide/cargo-home.md#L36-L37"),
+            Folder(".cargo/git/db", .downloads, source: "https://github.com/rust-lang/cargo/blob/master/doc/book/src/guide/cargo-home.md#L33-L34"),
         ]),
         Definition(id: "go", name: "Go", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/go-build", .buildData, source: "https://github.com/golang/go/blob/master/src/cmd/go/alldocs.go#L2372-L2373"),
             Folder("go/pkg/mod/cache/download", .downloads, source: "https://github.com/golang/website/blob/master/_content/ref/mod.md#L4020-L4028"),
+            Folder("go/pkg/mod/cache/vcs", .downloads, source: "https://github.com/golang/website/blob/master/_content/ref/mod.md#L4088-L4095"),
         ]),
         Definition(id: "sccache", name: "sccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Mozilla.sccache", .buildData, source: "https://github.com/mozilla/sccache/blob/main/docs/Local.md#L3"),
+        ]),
+        Definition(id: "gopls", name: "gopls", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/gopls", .cache, source: "https://github.com/golang/tools/blob/master/gopls/internal/filecache/filecache.go#L430-L438"),
+        ]),
+        Definition(id: "golangcilint", name: "golangci-lint", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/golangci-lint", .cache, source: "https://github.com/golangci/golangci-lint/blob/main/docs/content/docs/configuration/cli.md#L63"),
+        ]),
+        Definition(id: "staticcheck", name: "Staticcheck", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/staticcheck", .cache, source: "https://github.com/dominikh/go-tools/blob/master/lintcmd/cache/default.go#L80-L85"),
+        ]),
+        Definition(id: "zig", name: "Zig", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/zig", .buildData, source: "https://codeberg.org/ziglang/zig/src/branch/master/lib/std/zig.zig#L1586-L1610"),
+        ]),
+        Definition(id: "vcpkg", name: "vcpkg", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/vcpkg/archives", .buildData, source: "https://github.com/microsoft/vcpkg-tool/blob/main/src/vcpkg/binarycaching.cpp#L1742-L1746"),
+        ]),
+        Definition(id: "conan", name: "Conan", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".conan2/p", .environments, source: "https://github.com/conan-io/conan/blob/develop2/conan/internal/cache/cache.py#L27-L28"),
+        ]),
+        Definition(id: "pants", name: "Pants", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/pants/lmdb_store", .buildData, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L159"),
+            Folder(".cache/pants/named_caches", .downloads, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L160"),
         ]),
         // JVM and Android
         Definition(id: "gradle", name: "Gradle", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
@@ -321,6 +345,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".m2/repository", .environments, source: "https://github.com/apache/maven/blob/master/api/maven-api-settings/src/main/mdo/settings.mdo#L110"),
+            Folder(".m2/wrapper/dists", .downloads, source: "https://github.com/apache/maven-wrapper/blob/master/maven-wrapper/src/site/markdown/index.md#L29"),
         ]),
         Definition(id: "sbt", name: "sbt & Coursier", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".sbt/boot", .downloads, source: "https://github.com/sbt/website/blob/develop/src/reference/01-Faq/00.md#L283-L284"),
@@ -328,6 +353,8 @@ public enum DeveloperCaches {
             // Only the cache. `Coursier/jvm` beside it holds the JVMs `cs java` installed, which `JAVA_HOME`
             // points at (https://get-coursier.io/docs/cache and https://get-coursier.io/docs/cli-java).
             Folder("Library/Caches/Coursier/v1", .downloads, source: "https://github.com/coursier/coursier/blob/main/doc/docs/cache.md#L30"),
+            Folder(".coursier/cache/v1", .downloads, source: "https://github.com/coursier/coursier/blob/main/doc/docs/cache.md#L48-L54"),
+            Folder("Library/Caches/sbt", .buildData, source: "https://github.com/sbt/sbt/blob/develop/main/src/main/scala/sbt/internal/SysProp.scala#L231-L245"),
         ]),
         Definition(id: "konan", name: "Kotlin/Native", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".konan/dependencies", .downloads, source: "https://github.com/JetBrains/kotlin/blob/master/native/utils/src/org/jetbrains/kotlin/konan/util/DependencyDirectories.kt#L12-L32"),
