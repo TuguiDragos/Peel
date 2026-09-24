@@ -198,7 +198,8 @@ public enum DeveloperCaches {
             // answers a cache hit from the database alone, and a database without its cache restores nothing.
             Folder(".nx/" + String(repeating: "[0-9a-f]", count: 16), .buildData, source: "https://github.com/nrwl/nx/blob/master/packages/nx/src/utils/cache-directory.ts"),
         ]),
-        // The package manager versions Corepack downloaded. `lastKnownGood.json` beside them holds the ones a person chose.
+        // The package manager versions Corepack downloaded, and not `lastKnownGood.json` beside them, which holds
+        // the ones a person chose.
         Definition(id: "corepack", name: "Corepack", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".cache/node/corepack/v1", .downloads, source: "https://github.com/nodejs/corepack/blob/main/sources/folderUtils.ts"),
         ]),
@@ -273,12 +274,12 @@ public enum DeveloperCaches {
         Definition(id: "pixi", name: "pixi", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/rattler", .downloads, source: "https://github.com/prefix-dev/pixi/blob/main/docs/workspace/environment.md#L171-L179"),
         ]),
-        // PDM's `packages` is the store projects link their installed packages into, so it is never selected.
         Definition(id: "pdm", name: "PDM", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/pdm/http", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/environments/base.py#L140"),
             Folder("Library/Caches/pdm/wheels", .downloads, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
             Folder("Library/Caches/pdm/metadata", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
             Folder("Library/Caches/pdm/hashes", .cache, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/core.py#L912-L944"),
+            // PDM's `packages` is the store projects link their installed packages into, so it is never selected.
             Folder("Library/Caches/pdm/packages", .environments, source: "https://github.com/pdm-project/pdm/blob/main/docs/usage/config.md#L252"),
             Folder("Library/Logs/pdm", .logs, source: "https://github.com/pdm-project/pdm/blob/main/src/pdm/project/config.py#L116-L120"),
         ]),
@@ -323,19 +324,6 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "staticcheck", name: "Staticcheck", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/staticcheck", .cache, source: "https://github.com/dominikh/go-tools/blob/master/lintcmd/cache/default.go#L80-L85"),
-        ]),
-        Definition(id: "zig", name: "Zig", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
-            Folder(".cache/zig", .buildData, source: "https://codeberg.org/ziglang/zig/src/branch/master/lib/std/zig.zig#L1586-L1610"),
-        ]),
-        Definition(id: "vcpkg", name: "vcpkg", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
-            Folder(".cache/vcpkg/archives", .buildData, source: "https://github.com/microsoft/vcpkg-tool/blob/main/src/vcpkg/binarycaching.cpp#L1742-L1746"),
-        ]),
-        Definition(id: "conan", name: "Conan", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
-            Folder(".conan2/p", .environments, source: "https://github.com/conan-io/conan/blob/develop2/conan/internal/cache/cache.py#L27-L28"),
-        ]),
-        Definition(id: "pants", name: "Pants", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
-            Folder(".cache/pants/lmdb_store", .buildData, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L159"),
-            Folder(".cache/pants/named_caches", .downloads, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L160"),
         ]),
         // JVM and Android
         Definition(id: "gradle", name: "Gradle", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
@@ -495,6 +483,19 @@ public enum DeveloperCaches {
         Definition(id: "bazel", name: "Bazel", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/bazel", .buildData, source: "https://github.com/bazelbuild/bazel/blob/master/docs/remote/output-directories.mdx#L32-L41"),
             Folder("Library/Caches/bazelisk", .downloads, source: "https://github.com/bazelbuild/bazelisk/blob/master/README.md#L312"),
+        ]),
+        Definition(id: "zig", name: "Zig", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/zig", .buildData, source: "https://codeberg.org/ziglang/zig/src/branch/master/lib/std/zig.zig#L1586-L1610"),
+        ]),
+        Definition(id: "vcpkg", name: "vcpkg", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/vcpkg/archives", .buildData, source: "https://github.com/microsoft/vcpkg-tool/blob/main/src/vcpkg/binarycaching.cpp#L1742-L1746"),
+        ]),
+        Definition(id: "conan", name: "Conan", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".conan2/p", .environments, source: "https://github.com/conan-io/conan/blob/develop2/conan/internal/cache/cache.py#L27-L28"),
+        ]),
+        Definition(id: "pants", name: "Pants", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
+            Folder(".cache/pants/lmdb_store", .buildData, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L159"),
+            Folder(".cache/pants/named_caches", .downloads, source: "https://github.com/pantsbuild/pants/blob/main/docs/docs/using-pants/troubleshooting-common-issues.mdx#L160"),
         ]),
         Definition(id: "unity", name: "Unity", systemImage: "cube.transparent", appBundleIdentifiers: [], folders: [
             // The Package Manager's cache of downloaded packages: `Library/Unity/cache` up to Unity 2022.3, and
