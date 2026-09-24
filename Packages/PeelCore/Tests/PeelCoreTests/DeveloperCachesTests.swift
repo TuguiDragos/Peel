@@ -218,11 +218,14 @@ struct DeveloperCachesTests {
         var expected: Set<String> = []
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
-                // A wildcard becomes a name it matches: `*` any folder, `[0-9a-f]` one of ccache's shards.
+                // A wildcard becomes a name it matches: `*` any folder, `[0-9a-f]` one of ccache's shards. A pattern
+                // that ends in `/` matches every folder beside, so what sits beside its match is a file.
                 let concrete = path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
-                try directory.file("\(concrete)/content", bytes: 400_000)
-                expected.insert(concrete)
-                try directory.file("\(concrete)/../elsewhere-\(definition.id)/content", bytes: 400_000)
+                let foldersOnly = concrete.hasSuffix("/")
+                let entry = foldersOnly ? String(concrete.dropLast()) : concrete
+                try directory.file("\(entry)/content", bytes: 400_000)
+                expected.insert(entry)
+                try directory.file("\(entry)/../elsewhere-\(definition.id)" + (foldersOnly ? "" : "/content"), bytes: 400_000)
             }
         }
 
@@ -288,6 +291,23 @@ struct DeveloperCachesTests {
         let suggested = locations.filter(\.isRecommended).map(\.url).map { $0.lastPathComponent }
         #expect(locations.count == 5)
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
+    }
+
+    /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
+    /// environments are offered, and a link among them is left where it is, never followed.
+    @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".virtualenvs/web/bin/python", bytes: 400_000)
+        try directory.file(".virtualenvs/postactivate", bytes: 64)
+        try directory.file(".virtualenvs/hook.log", bytes: 64)
+        let elsewhere = try directory.directory("Volumes/Fast/env")
+        try directory.file("Volumes/Fast/env/bin/python", bytes: 400_000)
+        try FileManager.default.createSymbolicLink(at: directory.url.appending(path: ".virtualenvs/fast"), withDestinationURL: elsewhere)
+        let wrapper = DeveloperCaches.definitions.filter { $0.id == "virtualenvwrapper" }
+
+        let offered = await DeveloperCaches.scan(wrapper, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+
+        #expect(offered == ["web"])
     }
 
     /// Nx answers a cache hit from its database alone, so a workspace's `cache` and `databases` go together: the

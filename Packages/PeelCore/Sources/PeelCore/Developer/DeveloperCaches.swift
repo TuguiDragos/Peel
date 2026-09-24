@@ -219,7 +219,9 @@ public enum DeveloperCaches {
             Folder(".local/share/virtualenvs", .environments),
         ]),
         Definition(id: "virtualenvwrapper", name: "virtualenvwrapper", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder(".virtualenvs", .environments),
+            // The environments, not the hook scripts virtualenvwrapper keeps beside them: a pattern that ends in `/`
+            // matches folders only.
+            Folder(".virtualenvs/*/", .environments),
         ]),
         Definition(id: "conda", name: "Conda", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("miniconda3/pkgs", .environments),
