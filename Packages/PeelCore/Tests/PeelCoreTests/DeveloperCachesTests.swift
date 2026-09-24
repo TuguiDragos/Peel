@@ -142,7 +142,7 @@ struct DeveloperCachesTests {
     /// Toolchains, environments, and anything holding an account are installations or secrets, not caches.
     @Test func neverListsToolchainsOrCredentials() {
         let forbidden = [
-            ".rustup", ".pyenv", ".nvm", ".sdkman", ".rbenv", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
+            ".rustup", ".pyenv", ".sdkman", ".rbenv", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
             "conda/envs", "miniconda3/envs", "anaconda3/envs", ".local/pipx",
             "Library/Android/sdk", "flutter/bin",
             ".aws", ".ssh", ".gnupg", ".netrc", ".docker/config", ".kube/config", ".npmrc",
@@ -157,10 +157,13 @@ struct DeveloperCachesTests {
             "Library/Application Support/nomic.ai/GPT4All", "Library/Application Support/Adobe/Common",
             // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`.
             "Library/Caches/Coursier", ".ccache",
+            // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
+            ".cache/node/corepack",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
-        // of the public index, `trunk`, is a cache.
-        let onlyThisPart = [".cocoapods/repos": ".cocoapods/repos/trunk"]
+        // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
+        // cache is one.
+        let onlyThisPart = [".cocoapods/repos": ".cocoapods/repos/trunk", ".nvm": ".nvm/.cache"]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
                 for pattern in forbidden {

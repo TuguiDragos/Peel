@@ -150,12 +150,14 @@ public enum DeveloperCaches {
         Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".npm/_cacache", .downloads, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L443"),
             Folder(".npm/_npx", .downloads, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L444"),
+            Folder(".npm/_logs", .logs, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L1481-L1486"),
         ]),
         Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Yarn", .downloads, source: "https://github.com/yarnpkg/yarn/blob/master/src/util/user-dirs.js#L32-L33"),
             // Yarn's Plug'n'Play projects load every package from this cache, so it is listed and never selected:
             // moving it breaks each such project until `yarn install` runs in it again.
             Folder(".yarn/berry/cache", .environments, source: "https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-core/sources/Configuration.ts"),
+            Folder(".yarn/berry/metadata", .cache, source: "https://github.com/yarnpkg/berry/blob/master/packages/plugin-npm/sources/npmHttpUtils.ts#L317"),
         ]),
         Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/pnpm/store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/main/docs/settings/store.md#L15"),
@@ -165,6 +167,7 @@ public enum DeveloperCaches {
             // Bun's global virtual store, once turned on, is `links`, and every project's `node_modules` then points
             // into it (Bun's documentation, "Global virtual store").
             Folder(".bun/install/cache", .downloads, source: "https://github.com/oven-sh/bun/blob/main/docs/pm/global-store.mdx", storeInside: "links"),
+            Folder("Library/Caches/bun", .cache, source: "https://github.com/oven-sh/bun/blob/main/src/jsc/RuntimeTranspilerCache.rs#L657-L660"),
         ]),
         Definition(id: "deno", name: "Deno", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             // `DENO_DIR` keeps the REPL history (`deno_history.txt`) and what scripts store (`location_data`)
@@ -187,14 +190,33 @@ public enum DeveloperCaches {
             Folder(".expo/versions-cache", .cache, source: "https://github.com/expo/expo/blob/main/packages/@expo/cli/src/api/getVersions.ts#L47"),
             Folder(".expo/ios-simulator-app-cache", .downloads, source: "https://github.com/expo/expo/blob/main/packages/@expo/cli/src/utils/downloadExpoGoAsync.ts#L21"),
             Folder(".expo/android-apk-cache", .downloads, source: "https://github.com/expo/expo/blob/main/packages/@expo/cli/src/utils/downloadExpoGoAsync.ts#L27"),
+            Folder(".expo/schema-cache", .cache, source: "https://github.com/expo/expo/blob/main/packages/@expo/cli/src/api/getExpoSchema.ts#L83"),
+            Folder(".expo/native-modules-cache", .cache, source: "https://github.com/expo/expo/blob/main/packages/@expo/cli/src/api/getNativeModuleVersions.ts#L35"),
         ]),
         Definition(id: "nx", name: "Nx", systemImage: "cube", appBundleIdentifiers: [], folders: [
             // One workspace's `cache` and `databases`, named by 16 hex digits of a hash. They go together: Nx
             // answers a cache hit from the database alone, and a database without its cache restores nothing.
             Folder(".nx/" + String(repeating: "[0-9a-f]", count: 16), .buildData, source: "https://github.com/nrwl/nx/blob/master/packages/nx/src/utils/cache-directory.ts"),
         ]),
+        // The package manager versions Corepack downloaded. `lastKnownGood.json` beside them holds the ones a person chose.
+        Definition(id: "corepack", name: "Corepack", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".cache/node/corepack/v1", .downloads, source: "https://github.com/nodejs/corepack/blob/main/sources/folderUtils.ts"),
+        ]),
+        Definition(id: "nvm", name: "nvm", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".nvm/.cache", .downloads, source: "https://github.com/nvm-sh/nvm/blob/master/nvm.sh#L3337-L3338"),
+        ]),
+        Definition(id: "prisma", name: "Prisma", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(".cache/prisma", .downloads, source: "https://github.com/prisma/prisma/blob/7.10.0/packages/fetch-engine/src/utils.ts#L38-L40"),
+        ]),
         Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ms-playwright", .downloads, source: "https://github.com/microsoft/playwright/blob/main/docs/src/browsers.md#L958"),
+        ]),
+        Definition(id: "playwrightgo", name: "Playwright for Go", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/ms-playwright-go", .downloads, source: "https://github.com/playwright-community/playwright-go/blob/main/run.go#L370-L372"),
+        ]),
+        // The drivers and browsers Selenium Manager keeps, and not `se-config.toml`, its settings, beside them.
+        Definition(id: "selenium", name: "Selenium Manager", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder(".cache/selenium/*/", .downloads, source: "https://github.com/SeleniumHQ/seleniumhq.github.io/blob/trunk/website_and_docs/content/documentation/selenium_manager.en.md#L34"),
         ]),
         Definition(id: "cypress", name: "Cypress", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Cypress", .downloads, source: "https://github.com/cypress-io/cypress-documentation/blob/main/docs/app/get-started/advanced-installation.mdx#L615"),
