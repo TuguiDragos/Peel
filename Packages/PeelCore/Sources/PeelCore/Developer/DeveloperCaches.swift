@@ -320,7 +320,6 @@ public enum DeveloperCaches {
         Definition(id: "cursor", name: "Cursor", systemImage: "curlybraces", appBundleIdentifiers: ["com.todesktop.230313mzl4w4u92"], folders: [
             Folder("Library/Application Support/Cursor/Cache", .cache),
             Folder("Library/Application Support/Cursor/CachedData", .cache),
-            Folder("Library/Application Support/Caches/cursor-updater", .downloads),
         ]),
         Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
             Folder("Library/Application Support/Devin/Cache", .cache),
