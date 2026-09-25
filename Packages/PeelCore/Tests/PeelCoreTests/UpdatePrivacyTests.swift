@@ -1,5 +1,5 @@
 import Foundation
-import PeelCore
+@testable import PeelCore
 import Synchronization
 import Testing
 
@@ -36,5 +36,14 @@ private final class RecordingProtocol: URLProtocol, @unchecked Sendable {
 
         #expect(await checker.status(for: sold, preference: .appStore) == .failed)
         #expect(RecordingProtocol.hosts.withLock { $0 } == ["itunes.apple.com"])
+    }
+
+    /// A feed server can make an `ETag` or a date unique to one Mac and read it back in the next request (RFC 9110,
+    /// section 17.14), so the session keeps no cache that would send one back.
+    @Test func keepsNothingAFeedServerCouldReadBack() {
+        let configuration = UpdateChecker.configuration
+        #expect(configuration.urlCache == nil)
+        #expect(configuration.requestCachePolicy == .reloadIgnoringLocalCacheData)
+        #expect(configuration.httpCookieStorage == nil)
     }
 }

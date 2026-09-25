@@ -6,8 +6,9 @@ public struct UpdateChecker: Sendable {
     private static let maximumFeedBytes = 4 * 1_024 * 1_024
 
     /// Settings for Peel's own session, used instead of the shared one: no cookies, no cache, and time limits.
-    /// A feed server should not set a cookie, read one left by another app's check, or hold a connection open.
-    private static var configuration: URLSessionConfiguration {
+    /// A feed server should not set a cookie, read one left by another app's check, get back a validator it could
+    /// make unique to this Mac, or hold a connection open.
+    static var configuration: URLSessionConfiguration {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = 15
         configuration.timeoutIntervalForResource = 30
