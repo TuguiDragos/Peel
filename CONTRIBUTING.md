@@ -22,9 +22,9 @@ exports the domain first, so putting the file back undoes it. Every `brew` call 
 - macOS 26 or later. Peel is built with the macOS 27 SDK for macOS 26 and later.
 - Xcode 27 or later, with Swift 6.4.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
-  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team for the four targets under
-  Signing & Capabilities in Xcode and leave that change out of your commits. The helper accepts only an app signed
-  by the same team as itself, so the app and the helper you build work together. The tests need no signing.
+  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team for the targets under Signing &
+  Capabilities in Xcode and leave that change out of your commits. The helper accepts only an app signed by the
+  same team as itself, so the app and the helper you build work together. The package's tests need no signing.
 - Nothing else. The only dependency is Apple's swift-argument-parser, which Xcode fetches.
 
 ```bash
@@ -41,7 +41,7 @@ without build output rather than empty the catalogs. After changing a command of
 `python3 Scripts/generate_manual.py` as well, which writes its manual page, `Support/peel.1`, from the tool just
 built.
 
-The app's four targets build with warnings as errors, and that is the bar a change has to clear. The package's
+The project's targets build with warnings as errors, and that is the bar a change has to clear. The package's
 manifest doesn't set it, so ask for it on the command line to hold the package to the same bar:
 
 ```bash
@@ -57,6 +57,16 @@ runs only when asked for, and it is worth running before a release:
 PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter SuggestedSelectionOnThisMacTests
 ```
 
+Before a release, run Xcode's accessibility audit on every page, About, Settings, and the menu bar panel, in the
+light appearance and the dark one. It moves the pointer, types, and quits a Peel that is open, so it has a scheme
+of its own and runs only when asked for, on a Mac nobody is using. macOS asks once to give the test runner
+Accessibility, and for an administrator's password when Automation Mode turns on. Each result comes with a picture
+of the screen, in the test report:
+
+```bash
+xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID
+```
+
 [ARCHITECTURE.md](ARCHITECTURE.md) explains how the parts fit together.
 
 ## Where things live
@@ -65,6 +75,7 @@ PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter Sugges
 - `PeelHelper/`: the privileged helper. Read its section below before touching it.
 - `PeelFinder/`: the sandboxed Finder Sync extension.
 - `PeelCLI/`: the `peel` command line tool, a thin entry point.
+- `PeelUITests/`: the accessibility audit, run by hand before a release.
 - `Packages/PeelCore/`: everything that decides and acts, with the tests. `PeelCore` scans, matches, and removes;
   `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands.
 - `Localization/`: every translation, and nothing else: the string catalogs of the app and the Finder extension.

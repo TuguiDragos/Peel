@@ -46,6 +46,12 @@ jobs:
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
             -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
 
+      # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
+      - name: Build the accessibility audit
+        run: |
+          xcodebuild -project Peel.xcodeproj -scheme PeelUITests -configuration Debug \
+            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build-for-testing
+
       # The string catalogs are synced by running `Scripts/sync_localizations.py` by hand. This step fails when a
       # catalog is out of date. It reads the strings from the Debug build above, in `build/DerivedData`.
       - name: The string catalogs are in step with the code

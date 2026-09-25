@@ -42,6 +42,13 @@
 			remoteGlobalIDString = AA0000000000000000000042;
 			remoteInfo = PeelCLI;
 		};
+		AA0000000000000000000060 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA0000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000006;
+			remoteInfo = Peel;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +108,7 @@
 		AA0000000000000000000043 /* peel */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = peel; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000000000000000000050 /* Peel.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Peel.icon; sourceTree = "<group>"; };
 		AA0000000000000000000051 /* Logo.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Logo.xcassets; sourceTree = "<group>"; };
+		AA000000000000000000005B /* PeelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -132,6 +140,11 @@
 		AA0000000000000000000058 /* PeelFinder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PeelFinder;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000005A /* PeelUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PeelUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -168,6 +181,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000000000000000000005E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -178,6 +198,7 @@
 				AA0000000000000000000020 /* PeelHelper */,
 				AA0000000000000000000033 /* PeelFinder */,
 				AA0000000000000000000041 /* PeelCLI */,
+				AA000000000000000000005A /* PeelUITests */,
 				AA0000000000000000000056 /* Localization */,
 				AA000000000000000000004F /* Logo */,
 				AA0000000000000000000031 /* Support */,
@@ -192,6 +213,7 @@
 				AA0000000000000000000022 /* PeelHelper */,
 				AA0000000000000000000035 /* PeelFinder.appex */,
 				AA0000000000000000000043 /* peel */,
+				AA000000000000000000005B /* PeelUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -324,6 +346,26 @@
 			productReference = AA0000000000000000000004 /* Peel.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AA000000000000000000005C /* PeelUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000062 /* Build configuration list for PBXNativeTarget "PeelUITests" */;
+			buildPhases = (
+				AA000000000000000000005D /* Sources */,
+				AA000000000000000000005E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA0000000000000000000061 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AA000000000000000000005A /* PeelUITests */,
+			);
+			name = PeelUITests;
+			productName = PeelUITests;
+			productReference = AA000000000000000000005B /* PeelUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -345,6 +387,10 @@
 					};
 					AA0000000000000000000042 = {
 						CreatedOnToolsVersion = 27.0;
+					};
+					AA000000000000000000005C = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = AA0000000000000000000006;
 					};
 				};
 			};
@@ -386,6 +432,7 @@
 				AA0000000000000000000021 /* PeelHelper */,
 				AA0000000000000000000034 /* PeelFinder */,
 				AA0000000000000000000042 /* PeelCLI */,
+				AA000000000000000000005C /* PeelUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -467,6 +514,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000000000000000000005D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -484,6 +538,11 @@
 			isa = PBXTargetDependency;
 			target = AA0000000000000000000042 /* PeelCLI */;
 			targetProxy = AA000000000000000000004B /* PBXContainerItemProxy */;
+		};
+		AA0000000000000000000061 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000006 /* Peel */;
+			targetProxy = AA0000000000000000000060 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -833,6 +892,46 @@
 			};
 			name = Release;
 		};
+		AA0000000000000000000063 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 261001;
+				DEVELOPMENT_TEAM = 6R6J264YA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = Peel;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000064 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 261001;
+				DEVELOPMENT_TEAM = 6R6J264YA2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = Peel;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -877,6 +976,15 @@
 			buildConfigurations = (
 				AA000000000000000000000E /* Debug */,
 				AA000000000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000062 /* Build configuration list for PBXNativeTarget "PeelUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000063 /* Debug */,
+				AA0000000000000000000064 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
