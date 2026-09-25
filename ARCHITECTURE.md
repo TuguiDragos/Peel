@@ -186,5 +186,6 @@ refuses it.
 ## Releases
 
 `Scripts/release.sh` builds a Release copy, signs it with a Developer ID, has Apple notarize it, staples the
-ticket, checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<version>.zip`. It refuses a
-build in which any of the four programs can be debugged, or in which a language is missing.
+ticket, checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<version>.dmg`, for people,
+and of `Peel-<version>.zip`, for Homebrew. The disk image is signed, notarized, and stapled too. It refuses a build
+in which any of the four programs can be debugged, or in which a language is missing.

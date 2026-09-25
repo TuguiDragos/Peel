@@ -1,5 +1,6 @@
 #!/bin/zsh
-# Builds, signs, notarizes, and checks a release of Peel, then prints the path and SHA-256 checksum of the final zip.
+# Builds, signs, notarizes, and checks a release of Peel, then prints the paths and SHA-256 checksums of its disk
+# image, for people, and its zip, for Homebrew.
 #
 # Signing uses Xcode's `archive` and `exportArchive`, which do what notarization requires: they add a secure
 # timestamp and remove the `com.apple.security.get-task-allow` entitlement. Nothing is sent to Apple's notary
@@ -114,13 +115,32 @@ if command -v syspolicy_check > /dev/null; then
     syspolicy_check distribution "$app" || true
 fi
 
-echo "== Made"
 version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")"
 build_number="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Contents/Info.plist")"
 # Zip the app again after stapling, so the download carries its notarization ticket.
 final="$build/Peel-$version.zip"
 rm -f "$final"
 ditto -c -k --keepParent "$app" "$final"
+
+echo "== Disk image"
+# Signed with the identity that signed the app, then notarized and stapled itself, so it opens without a warning.
+identity="$(codesign -d --verbose=2 "$app" 2>&1 | sed -n 's/^Authority=\(Developer ID Application: .*\)$/\1/p' | head -1)"
+[ -n "$identity" ] || { echo "REFUSED: the app's Developer ID identity could not be read"; exit 1; }
+staging="$build/disk-image"
+mkdir -p "$staging"
+ditto "$app" "$staging/Peel.app"
+ln -s /Applications "$staging/Applications"
+image="$build/Peel-$version.dmg"
+hdiutil create -volname Peel -srcfolder "$staging" -format ULFO -ov "$image"
+codesign --sign "$identity" --timestamp "$image"
+xcrun notarytool submit "$image" --keychain-profile "$profile" --wait
+xcrun stapler staple "$image"
+xcrun stapler validate "$image"
+spctl -a -vvv -t open --context context:primary-signature "$image"
+
+echo "== Made"
 echo "Peel $version ($build_number)"
-echo "$final"
-shasum -a 256 "$final"
+for made in "$image" "$final"; do
+    echo "$made"
+    shasum -a 256 "$made"
+done

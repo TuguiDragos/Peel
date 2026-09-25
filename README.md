@@ -22,8 +22,8 @@
 
 ### Download
 
-1. Download `Peel-<version>.zip` from the [latest release](https://github.com/TuguiDragos/Peel/releases/latest).
-2. Open the zip and drag Peel into your Applications folder.
+1. Download `Peel-<version>.dmg` from the [latest release](https://github.com/TuguiDragos/Peel/releases/latest).
+2. Open it and drag Peel into your Applications folder.
 3. Open Peel. It's signed by its developer and notarized by Apple, so it opens like any app you download from
    the web.
 
