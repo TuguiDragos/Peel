@@ -14,6 +14,8 @@ public struct PrivilegedPathPolicy: Sendable {
         case protectedByFlags
         case irreplaceable
         case loadsCode
+        case notALink
+        case leadsSomewhere
 
         /// What the helper sends back when it refuses. The app recognizes it and says it in the reader's language.
         public var explanation: String {
@@ -29,6 +31,8 @@ public struct PrivilegedPathPolicy: Sendable {
             case .protectedByFlags: "macOS marks it as protected."
             case .irreplaceable: "It holds something nothing could bring back, so Peel never moves it."
             case .loadsCode: "Code is loaded from that folder, so only what Peel’s helper took from it can go back."
+            case .notALink: "Peel removes only links from that folder."
+            case .leadsSomewhere: "It still leads to something on this Mac."
             }
         }
     }
@@ -73,11 +77,16 @@ public struct PrivilegedPathPolicy: Sendable {
         "/private/var/db/receipts",
     ]
 
+    /// The folders command-line tools are linked into. The helper takes only a link from them, and only one that
+    /// leads nowhere: what an app's tool leaves there once the app is gone.
+    public static let linkLocations = ["/usr/local/bin", "/usr/local/sbin"]
+
     private static let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_IMMUTABLE) | UInt32(SF_NOUNLINK)
 
     private let locations: [String]
     private let restorable: [String]
     private let applicationLocations: [String]
+    private let links: [String]
     private let homeDirectory: String
     private let trustedOwner: uid_t
 
@@ -86,13 +95,21 @@ public struct PrivilegedPathPolicy: Sendable {
         systemLocations: [String] = Self.systemLocations,
         applicationLocations: [String] = ["/Applications"],
         restoreLocations: [String] = Self.restoreLocations,
+        linkLocations: [String] = Self.linkLocations,
         trustedOwner: uid_t = 0
     ) {
         self.homeDirectory = homeDirectory
         self.trustedOwner = trustedOwner
-        locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
+        links = linkLocations.compactMap(Self.realPath)
+        locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
+    }
+
+    /// True for a path directly in one of the folders the helper takes only a link from.
+    public func takesOnlyALink(at path: String) -> Bool {
+        guard let parent = Self.realPath((path as NSString).deletingLastPathComponent) else { return false }
+        return links.contains(parent)
     }
 
     private struct Resolved {
@@ -129,6 +146,10 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {
             return .failure(.outsideAllowedLocations)
         }
+        // A tool's link sits directly in its folder, never deeper.
+        if links.contains(location), resolvedParent != location {
+            return .failure(.outsideAllowedLocations)
+        }
         if applicationLocations.contains(location), !name.hasSuffix(".app") {
             return .failure(.notAnApplication)
         }
@@ -155,6 +176,14 @@ public struct PrivilegedPathPolicy: Sendable {
                 return .failure(.missing)
             }
             guard info.st_flags & Self.protectedFlags == 0 else { return .failure(.protectedByFlags) }
+            if links.contains(item.parent) {
+                guard info.st_mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
+                // Followed this time: nothing there, or a chain that loops, is a link that leads nowhere.
+                var target = stat()
+                let leads = item.name.withCString { fstatat(parent.descriptor, $0, &target, 0) } == 0
+                let error = errno
+                guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else { return .failure(.leadsSomewhere) }
+            }
             return .success(OpenItem(path: item.path, name: item.name, parent: parent, status: info))
         }
     }
@@ -167,6 +196,9 @@ public struct PrivilegedPathPolicy: Sendable {
         case .failure(let rejection):
             return .failure(rejection)
         case .success(let item):
+            if links.contains(item.parent) {
+                guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
+            }
             if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
                 guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else { return .failure(.loadsCode) }
             }

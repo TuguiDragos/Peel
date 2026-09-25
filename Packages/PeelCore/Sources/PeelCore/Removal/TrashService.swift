@@ -218,8 +218,17 @@ public struct TrashService: Sendable {
             return !paths.contains { PathComponents.isPath(path, inside: $0) }
         }
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
+        // A command-line tool's link leads into its app until the app has moved, and the helper takes such a link
+        // only once it leads nowhere, so the links go after everything else.
+        let reach = HelperReach(environment: environment)
+        let links = Set(allowed.filter(reach.takesOnlyALink))
         ownMoves.began()
-        let helperResult = await moveThroughHelper(allowed)
+        var helperResult = TrashResult()
+        for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] where !batch.isEmpty {
+            let moved = await moveThroughHelper(batch)
+            helperResult.trashed += moved.trashed
+            helperResult.failures += moved.failures
+        }
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
         result.trashed += helperResult.trashed
         result.failures += helperResult.failures
@@ -253,7 +262,7 @@ public struct TrashService: Sendable {
     public func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
         // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
-        guard removalGuard.allowsRemoval(of: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }
+        guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }
 
         let fileManager = FileManager.default
         guard item.trashedURL.isThere else { return .missingFromTrash }
@@ -268,7 +277,7 @@ public struct TrashService: Sendable {
         if fileManager.isWritableFile(atPath: ancestor) {
             do {
                 try fileManager.createDirectory(at: parent, withIntermediateDirectories: true)
-                try Self.putBack(item, isAllowed: removalGuard.allowsRemoval(of:))
+                try Self.putBack(item) { removalGuard.allowsPuttingBack(item.trashedURL, at: $0) }
                 return nil
             } catch is RefusedOnceHeld {
                 return .notAllowed

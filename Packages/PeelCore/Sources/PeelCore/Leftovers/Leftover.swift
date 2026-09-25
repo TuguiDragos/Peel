@@ -155,16 +155,17 @@ public struct LeftoverScan: Sendable {
     /// Locations where the search inside other folders hit its limit, so some of the app's files may be missed.
     public var cutShortLocations: [SearchLocation] = []
 
-    /// Holds back, as `beyondTheHelper`, each item that needs an administrator and that the helper would refuse.
-    /// An item already held back by `holdsAnExclusion`, or by a reason that blocks the move, keeps its reason.
-    func holdingBack(beyond reach: HelperReach) -> LeftoverScan {
+    /// Holds back, as `beyondTheHelper`, each item that needs an administrator and that the helper would refuse
+    /// once `app` has moved. An item already held back by `holdsAnExclusion`, or by a reason that blocks the move,
+    /// keeps its reason.
+    func holdingBack(beyond reach: HelperReach, leaving app: URL) -> LeftoverScan {
         LeftoverScan(
             leftovers: leftovers.map { leftover in
                 let heldBack = leftover.match.heldBack
                 guard
                     leftover.requiresPrivileges,
                     heldBack?.cannotBeMoved != true, heldBack != .holdsAnExclusion,
-                    reach.isBeyond(leftover.url)
+                    reach.isBeyond(leftover.url, leaving: app)
                 else { return leftover }
                 return leftover.heldBack(.beyondTheHelper)
             },

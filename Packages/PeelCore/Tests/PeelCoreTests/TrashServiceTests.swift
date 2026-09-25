@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 @testable import PeelCore
 import Testing
 
@@ -61,6 +62,31 @@ struct TrashServiceTests {
             },
             moveToTrash: move
         )
+    }
+
+    /// A command-line tool's link leads into its app until the app has moved, and the helper takes such a link only
+    /// once it leads nowhere, so the links go to the helper after everything else, in whatever order they came.
+    @Test func sendsAToolsLinkToTheHelperAfterTheAppItLeadsInto() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("root/Applications/Tool.app")
+        try directory.directory("root/usr/local/bin")
+        let link = directory.url.appending(path: "root/usr/local/bin/tool")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: app.appending(path: "Contents/MacOS/tool"))
+        let batches = Mutex<[[String]]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            moveThroughHelper: { urls in
+                batches.withLock { $0.append(urls.map(\.lastPathComponent)) }
+                return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        _ = await service.trash([link, app], usingHelperFor: [link, app])
+        #expect(batches.withLock { $0 } == [["Tool.app"], ["tool"]])
     }
 
     /// An item inside a folder that just moved went with it, whatever its name begins with: it is neither moved

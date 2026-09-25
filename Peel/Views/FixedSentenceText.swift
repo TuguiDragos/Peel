@@ -16,6 +16,8 @@ extension FixedSentence {
         case .protectedByMacOS: "macOS marks it as protected."
         case .irreplaceable: "It holds something nothing could bring back, so Peel never moves it."
         case .codeFolder: "Code is loaded from that folder, so only what Peel’s helper took from it can go back."
+        case .onlyLinksThere: "Peel removes only links from that folder."
+        case .leadsSomewhere: "It still leads to something on this Mac."
         case .helperOutOfDate: "Peel’s helper is out of date. Reinstall it in Settings."
         case .accountNotAllowed: "This account isn’t allowed to use Peel’s helper."
         case .tooManyItems: "Too many items in one request."

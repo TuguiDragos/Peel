@@ -6,6 +6,9 @@ struct RemovalGuard: Sendable {
     /// Nothing inside these may be removed. `/Library/Updates` is where Software Update stages macOS updates.
     /// Lower-cased, because the spellings they are compared against are.
     private static let protectedPrefixes = ["/system", "/usr", "/bin", "/sbin", "/library/updates"]
+    /// The folders command-line tools are linked into. A link directly in one is the one thing under `/usr` that may
+    /// go: what an app's tool leaves there, which Peel's helper takes only once it leads nowhere.
+    private static let toolLinkFolders = PrivilegedPathPolicy.linkLocations.map { PathComponents.of($0.lowercased()) }
 
     private let protectedPaths: Set<String>
     private let protectedTrees: [[String]]
@@ -41,11 +44,32 @@ struct RemovalGuard: Sendable {
     }
 
     func allowsRemoval(of url: URL) -> Bool {
+        allows(url, isALink: nil)
+    }
+
+    /// Whether `trashed` may go back to `destination`, which is judged as a removal from there would be, for the
+    /// kind of item `trashed` is: nothing is there yet to tell.
+    func allowsPuttingBack(_ trashed: URL, at destination: URL) -> Bool {
+        allows(destination, isALink: Self.isALink(trashed.path(percentEncoded: false)))
+    }
+
+    /// True for the lower-cased spelling of a link directly in a folder command-line tools are linked into.
+    static func isAToolsLink(_ spelling: String, isALink: Bool) -> Bool {
+        isALink && toolLinkFolders.contains(Array(PathComponents.of(spelling).dropLast()))
+    }
+
+    private static func isALink(_ path: String) -> Bool {
+        var info = stat()
+        return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFLNK
+    }
+
+    private func allows(_ url: URL, isALink known: Bool?) -> Bool {
         guard url.isFileURL, !exclusions.isUnreadable else { return false }
         let path = Self.normalized(url.path(percentEncoded: false))
         // A path can be written several ways (`/var` for `/private/var`, a different case), and a Put Back
         // destination does not exist yet. `located` names the part that exists the way the kernel does.
         guard let located = PathPattern.located(path) else { return false }
+        let isALink = known ?? Self.isALink(located)
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.
         let names = Set([path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self))
@@ -59,7 +83,8 @@ struct RemovalGuard: Sendable {
         }
 
         for spelling in names.reduce(into: Set<String>(), { $0.formUnion(PathPattern.spellings(of: $1)) }) {
-            guard !protectedPaths.contains(spelling), !Self.protectedPrefixes.contains(where: { PathComponents.isPath(spelling, inside: $0) }) else {
+            let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
+            guard !protectedPaths.contains(spelling), !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else {
                 return false
             }
 

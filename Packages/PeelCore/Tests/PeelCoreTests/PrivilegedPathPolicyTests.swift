@@ -10,12 +10,14 @@ struct PrivilegedPathPolicyTests {
         try directory.directory("root/Applications")
         try directory.directory("root/Library/Caches")
         try directory.directory("home/Library")
+        try directory.directory("root/usr/local/bin")
         let root = directory.url.path(percentEncoded: false)
         return PrivilegedPathPolicy(
             homeDirectory: root + "home",
             systemLocations: [root + "root/Library/LaunchDaemons", root + "root/Applications", root + "root/Library/Caches"],
             applicationLocations: [root + "root/Applications"],
             restoreLocations: [root + "root/Applications", root + "root/Library/Caches"],
+            linkLocations: [root + "root/usr/local/bin"],
             trustedOwner: trustedOwner
         )
     }
@@ -43,6 +45,41 @@ struct PrivilegedPathPolicyTests {
             let expected = try #require(PrivilegedPathPolicy.resolvedPath(path(item, in: directory)))
             #expect(policy.open(path(item, in: directory)).map(\.path) == .success(expected))
         }
+    }
+
+    /// From the folders command-line tools are linked into, the helper takes a link and never a file, and only one
+    /// that leads nowhere: Peel sends a tool's link once the app it leads into is gone, and a link that still leads
+    /// somewhere stays. Only a link goes back there.
+    @Test func takesOnlyALinkThatLeadsNowhereFromTheToolFolders() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory, trustedOwner: getuid())
+        try directory.file("root/Applications/Tool.app/Contents/MacOS/tool")
+        try directory.file("root/usr/local/bin/real")
+        try directory.directory("root/usr/local/bin/folder")
+        func link(_ name: String, to destination: String) throws {
+            try FileManager.default.createSymbolicLink(atPath: path("root/usr/local/bin/\(name)", in: directory), withDestinationPath: destination)
+        }
+        try link("gone", to: path("root/Applications/Gone.app/Contents/MacOS/gone", in: directory))
+        try link("relative", to: "../../../Applications/Gone.app/Contents/MacOS/gone")
+        try link("loop", to: "loop")
+        try link("tool", to: path("root/Applications/Tool.app/Contents/MacOS/tool", in: directory))
+        try link("folder/deeper", to: "nowhere")
+
+        for name in ["gone", "relative", "loop"] {
+            #expect(policy.refusal(of: path("root/usr/local/bin/\(name)", in: directory)) == nil)
+            #expect((try? policy.open(path("root/usr/local/bin/\(name)", in: directory)).get()) != nil, "\(name) was refused")
+        }
+        #expect(policy.open(path("root/usr/local/bin/tool", in: directory)).map(\.name) == .failure(.leadsSomewhere))
+        #expect(policy.open(path("root/usr/local/bin/real", in: directory)).map(\.name) == .failure(.notALink))
+        #expect(policy.open(path("root/usr/local/bin/folder", in: directory)).map(\.name) == .failure(.notALink))
+        #expect(policy.refusal(of: path("root/usr/local/bin/folder/deeper", in: directory)) == .outsideAllowedLocations)
+
+        let file = try trashed("gone", in: directory, by: policy)
+        #expect(policy.openDestination(path("root/usr/local/bin/gone2", in: directory), for: file).map(\.name) == .failure(.notALink))
+        try FileManager.default.createSymbolicLink(atPath: path("home/.Trash/link", in: directory), withDestinationPath: "nowhere")
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let trashedLink = try #require(policy.openInTrash(path("home/.Trash/link", in: directory), trash: trash))
+        #expect(policy.openDestination(path("root/usr/local/bin/gone2", in: directory), for: trashedLink).map(\.name) == .success("gone2"))
     }
 
     /// A browser profile with a wallet extension's vault stays, and so does every folder around it, while the rest

@@ -297,18 +297,23 @@ struct PackageReceiptsTests {
     }
 
     /// An item that needs an administrator is left alone when the helper would refuse it. The helper refuses
-    /// items outside the folders it serves, and anything in `/Applications` that is not an app.
+    /// items outside the folders it serves, anything in `/Applications` that is not an app, and, in a folder
+    /// command-line tools are linked into, anything but a link that leads nowhere.
     @Test func leavesAloneWhatTheHelperWouldRefuse() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
         let served = PathPattern.canonical(try directory.directory("root/Library/Application Support/Example"))
         let vendor = PathPattern.canonical(try directory.directory("root/Library/Example"))
         let tools = PathPattern.canonical(try directory.directory("root/Applications/Example Tools"))
-        for folder in [served, vendor, tools] {
+        let bin = PathPattern.canonical(try directory.directory("root/usr/local/bin"))
+        try directory.file("root/usr/local/bin/tool")
+        try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "linked").path(percentEncoded: false), withDestinationPath: "tool")
+        try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "gone").path(percentEncoded: false), withDestinationPath: "/Applications/Gone.app/Contents/MacOS/gone")
+        for folder in [served, vendor, tools, bin] {
             try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
         }
         defer {
-            for folder in [served, vendor, tools] {
+            for folder in [served, vendor, tools, bin] {
                 try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false))
             }
         }
@@ -320,7 +325,7 @@ struct PackageReceiptsTests {
             switch arguments.first {
             case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
-            case "--files": "root/Library/Application Support/Example\nroot/Library/Example\nroot/Applications/Example Tools\n"
+            case "--files": "root/Library/Application Support/Example\nroot/Library/Example\nroot/Applications/Example Tools\nroot/usr/local/bin/tool\nroot/usr/local/bin/linked\nroot/usr/local/bin/gone\n"
             default: ""
             }
         }
@@ -335,5 +340,11 @@ struct PackageReceiptsTests {
         #expect(try item(served).isLeftAlone == false)
         #expect(try item(vendor).isLeftAlone == true)
         #expect(try item(tools).isLeftAlone == true)
+        func tool(_ name: String) throws -> PackageReceipt.Item {
+            try #require(receipt.items.first { $0.url.deletingLastPathComponent().lastPathComponent == "bin" && $0.url.lastPathComponent == name })
+        }
+        #expect(try tool("tool").isLeftAlone == true, "a file in a folder only links leave was offered")
+        #expect(try tool("linked").isLeftAlone == true, "a link that leads somewhere was offered")
+        #expect(try tool("gone").isLeftAlone == false)
     }
 }

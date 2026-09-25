@@ -46,7 +46,7 @@ public struct Uninstallation: Sendable {
         }
         scan = scan.adding(await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment))
         let reach = HelperReach(environment: environment)
-        scan = scan.holdingBack(beyond: reach)
+        scan = scan.holdingBack(beyond: reach, leaving: app.url)
         let appRequiresPrivileges = FileAccess.requiresPrivilegesToRemove(app.url)
         return Uninstallation(
             app: app,

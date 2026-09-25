@@ -219,6 +219,27 @@ struct UninstallationTests {
         }
     }
 
+    /// A command-line tool's link in root's `/usr/local/bin` that leads into the app goes with it, through the
+    /// helper, which takes it once the app has moved and the link leads nowhere.
+    @Test func aToolsLinkInRootsFolderGoesWithTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Scribbler.app"), bundleIdentifier: "com.example.scribbler", name: "Scribbler")
+        try directory.file("root/Applications/Scribbler.app/Contents/MacOS/scribble")
+        let bin = try directory.directory("root/usr/local/bin")
+        let link = bin.appending(path: "scribble")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: app.url.appending(path: "Contents/MacOS/scribble"))
+        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bin.path(percentEncoded: false))
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
+        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+        let leftover = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "scribble" })
+        #expect(leftover.requiresPrivileges)
+        #expect(leftover.match.heldBack == nil, "held back: \(String(describing: leftover.match.heldBack))")
+        #expect(plan.suggestedSelection(canUseHelper: true).contains(leftover.url))
+        #expect(plan.privilegedURLs.contains(leftover.url))
+    }
+
     /// A folder the helper would refuse to move, such as root's `/Library/Developer` matched on the name of an
     /// app called Developer, is held back and cannot be selected, so it never reaches the helper to be refused.
     @Test func whatTheHelperMayNotMoveIsNeverOffered() async throws {

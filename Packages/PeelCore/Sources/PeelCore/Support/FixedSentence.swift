@@ -7,7 +7,7 @@ internal import PeelPrivileged
 /// wrote) is not one of these.
 public enum FixedSentence: CaseIterable, Sendable {
     case notAFullPath, dotInPath, controlCharacter, folderNotFound, outsideHelpersFolders, onlyAppsThere
-    case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder
+    case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder, onlyLinksThere, leadsSomewhere
     case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, notInTrash
     case notMovedByHelper, invalidRequest, configurationMissing
     case toolTimedOut, toolStopped
@@ -32,6 +32,8 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .protectedByMacOS: PrivilegedPathPolicy.Rejection.protectedByFlags.explanation
         case .irreplaceable: PrivilegedPathPolicy.Rejection.irreplaceable.explanation
         case .codeFolder: PrivilegedPathPolicy.Rejection.loadsCode.explanation
+        case .onlyLinksThere: PrivilegedPathPolicy.Rejection.notALink.explanation
+        case .leadsSomewhere: PrivilegedPathPolicy.Rejection.leadsSomewhere.explanation
         case .helperOutOfDate: HelperRefusal.outOfDate.rawValue
         case .accountNotAllowed: HelperRefusal.notAllowed.rawValue
         case .tooManyItems: HelperRefusal.tooManyItems.rawValue

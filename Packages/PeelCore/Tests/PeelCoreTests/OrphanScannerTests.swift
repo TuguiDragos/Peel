@@ -440,6 +440,22 @@ struct OrphanScannerTests {
         #expect(Set(try #require(groups["com.remembered.app"]).items.map(\.url.lastPathComponent)) == ["rem", "com.remembered.app"])
     }
 
+    /// In root's `/usr/local/bin`, a link into an app that is gone leads nowhere, which is the one kind of item the
+    /// helper takes from there, so it is offered like anything else the helper can move.
+    @Test func aLinkIntoAnAppThatIsGoneIsWithinTheHelpersReach() async throws {
+        let directory = try TemporaryDirectory()
+        let bin = try directory.directory("root/usr/local/bin")
+        let link = bin.appending(path: "docker")
+        try FileManager.default.createSymbolicLink(atPath: link.path(percentEncoded: false), withDestinationPath: "../../../Applications/Gone.app/Contents/MacOS/docker")
+        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bin.path(percentEncoded: false))
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+        let item = try #require(items.first { $0.url.lastPathComponent == "docker" })
+        #expect(item.requiresPrivileges)
+        #expect(item.leftAlone == nil, "left alone: \(String(describing: item.leftAlone))")
+    }
+
     /// A socket or a pipe holds nothing, and a live one belongs to something running. A name such as JetBrains
     /// Toolbox's `jb.station.<user>.sock` reads as reverse DNS, so the item's type is checked before its name.
     @Test func aSocketOrAPipeIsNobodysLeftover() async throws {

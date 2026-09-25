@@ -37,6 +37,32 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Downloads/something.txt")))
     }
 
+    /// Under `/usr` only a link directly in a folder command-line tools are linked into may go, and only a link may
+    /// go back there. A file, a name with nothing under it yet, and anything deeper stay refused.
+    @Test func underUsrOnlyAToolsLinkMayGoOrComeBack() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        let trash = try directory.directory("home/.Trash")
+        let trashedLink = trash.appending(path: "tool")
+        try link("/Applications/Gone.app/Contents/MacOS/tool", at: trashedLink.path(percentEncoded: false))
+        let trashedFile = try directory.file("home/.Trash/file")
+        let name = "peel-test-\(UUID().uuidString)"
+
+        for folder in ["/usr/local/bin", "/usr/local/sbin"] {
+            let destination = URL(filePath: "\(folder)/\(name)")
+            #expect(guardian.allowsPuttingBack(trashedLink, at: destination), "a link can't go back to \(folder)")
+            #expect(!guardian.allowsPuttingBack(trashedFile, at: destination), "ATTACK SUCCEEDED: a file can go to \(folder)")
+            #expect(!guardian.allowsRemoval(of: destination), "a name with nothing there was allowed in \(folder)")
+        }
+        for path in ["/usr/bin/\(name)", "/usr/local/bin/deeper/\(name)", "/usr/local/\(name)"] {
+            #expect(!guardian.allowsPuttingBack(trashedLink, at: URL(filePath: path)), "ATTACK SUCCEEDED: a link can go to \(path)")
+        }
+        #expect(!guardian.allowsRemoval(of: URL(filePath: "/usr/bin/true")))
+    }
+
     /// Attack 1: write the protected folder in a different case. APFS is case-insensitive by default, so the
     /// path still names the same file, and comparing strings must not miss it.
     @Test func caseSpellingOfAProtectedTree() throws {
