@@ -105,15 +105,25 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.state == .unknown {
+                Section {
+                    Notice(
+                        title: Text("Peel can’t tell whether this runs"),
+                        detail: Text("Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if needsHelper {
                 Section {
                     HelperRequiredBanner()
                 }
             }
 
-            // Leaves out the section when it would be empty: Peel's helper has no Start, Stop, Enable, or Disable
+            // Leaves out the section when it would be empty: some jobs have no Start, Stop, Enable, or Disable
             // buttons, and a job macOS registered for an app has no file to show.
-            if !item.isPeelsHelper || finderURL != nil {
+            if hasOwnControls || finderURL != nil {
                 Section {
                     if item.canMoveToTrash {
                         ExclusionsUnreadableBanner()
@@ -230,22 +240,25 @@ struct BackgroundItemDetailView: View {
     /// The item's state, as one badge whose text, symbol, and color change with it. A badge per state would swap
     /// without a fade, because a form row shows a newly inserted view at once.
     private var stateBadge: some View {
-        let (title, symbol, tint): (Text, String, Color) = if item.isDisabled {
-            (Text("Disabled"), "minus.circle", .orange)
-        } else {
-            switch item.state {
-            case .running(let pid): (Text("Running · PID \(String(pid))"), "circle.fill", .green)
-            case .loaded: (Text("Not running"), "circle", .secondary)
-            case .notLoaded: (Text("Not loaded"), "circle.dashed", .secondary)
-            }
+        let (title, symbol, tint): (Text, String, Color) = switch item.state {
+        case .unknown: (Text(.unknownBackgroundItemState), "questionmark.circle.dashed", .secondary)
+        case _ where item.isDisabled: (Text("Disabled"), "minus.circle", .orange)
+        case .running(let pid): (Text("Running · PID \(String(pid))"), "circle.fill", .green)
+        case .loaded: (Text("Not running"), "circle", .secondary)
+        case .notLoaded: (Text("Not loaded"), "circle.dashed", .secondary)
         }
         // The state changes right after the user presses a button here, so the text and symbol crossfade.
         return Badge(title: title, systemImage: symbol, tint: tint)
             .contentTransition(.opacity)
     }
 
+    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of Apple's names, and a job whose
+    /// state Peel could not read don't have.
+    private var hasOwnControls: Bool {
+        !item.isPeelsHelper && !item.declaresAnAppleLabel && item.state != .unknown
+    }
+
     private var controls: some View {
-        let hasOwnControls = !item.isPeelsHelper && !item.declaresAnAppleLabel
         let hasFileControls = finderURL != nil || item.canMoveToTrash
         // With controls on one side only, there is no spacer, so the row is only as wide as its buttons and is
         // centered. When the buttons don't fit on one line, `FlowLayout` wraps them onto the next.

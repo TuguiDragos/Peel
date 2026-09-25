@@ -20,53 +20,56 @@ enum Launchctl {
         }
     }
 
-    /// Parses `launchctl list`: "PID\tStatus\tLabel", where PID is "-" for jobs that aren't running.
-    static func parseList(_ output: String) -> [String: Int32?] {
+    /// Parses `launchctl list`: "PID\tStatus\tLabel", where PID is "-" for jobs that aren't running. Nil when the
+    /// output does not start with that header: `launchctl`'s output can change, and another form says nothing.
+    static func parseList(_ output: String) -> [String: Int32?]? {
+        let lines = output.split(whereSeparator: \.isNewline)
+        guard lines.first == "PID\tStatus\tLabel" else { return nil }
         var jobs: [String: Int32?] = [:]
-        for line in output.split(whereSeparator: \.isNewline) {
+        for line in lines.dropFirst() {
             let columns = line.split(separator: "\t", omittingEmptySubsequences: false)
-            guard columns.count == 3, columns[0] != "PID" else { continue }
+            guard columns.count == 3 else { continue }
             jobs[String(columns[2])] = Int32(columns[0])
         }
         return jobs
     }
 
-    /// Parses the "services = { … }" block of `launchctl print system`: "pid exit-status label".
-    static func parseSystemServices(_ output: String) -> [String: Int32?] {
-        var jobs: [String: Int32?] = [:]
-        var isInServices = false
+    /// Parses the "services = { … }" block of `launchctl print system`: "pid exit-status label". Nil when there is
+    /// no such block.
+    static func parseSystemServices(_ output: String) -> [String: Int32?]? {
+        var jobs: [String: Int32?]?
         for line in output.split(whereSeparator: \.isNewline) {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             if trimmed == "services = {" {
-                isInServices = true
+                jobs = [:]
                 continue
             }
-            guard isInServices else { continue }
+            guard jobs != nil else { continue }
             if trimmed == "}" { break }
             let columns = trimmed.split(whereSeparator: \.isWhitespace)
             guard columns.count >= 3 else { continue }
-            jobs[columns[2...].joined(separator: " ")] = Int32(columns[0]).flatMap { $0 > 0 ? $0 : nil }
+            jobs?[columns[2...].joined(separator: " ")] = Int32(columns[0]).flatMap { $0 > 0 ? $0 : nil }
         }
         return jobs
     }
 
-    /// Parses the `"label" => disabled|enabled` lines of a "disabled services = { … }" block.
-    static func parseDisabled(_ output: String) -> [String: Bool] {
-        var overrides: [String: Bool] = [:]
-        var isInBlock = false
+    /// Parses the `"label" => disabled|enabled` lines of a "disabled services = { … }" block. Nil when there is no
+    /// such block.
+    static func parseDisabled(_ output: String) -> [String: Bool]? {
+        var overrides: [String: Bool]?
         for line in output.split(whereSeparator: \.isNewline) {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             if trimmed == "disabled services = {" {
-                isInBlock = true
+                overrides = [:]
                 continue
             }
-            guard isInBlock else { continue }
+            guard overrides != nil else { continue }
             if trimmed == "}" { break }
             // Finds the last arrow after the opening quote, because a label can contain an arrow of its own.
             let afterQuote = trimmed.index(after: trimmed.startIndex)..<trimmed.endIndex
             guard trimmed.hasPrefix("\""), let arrow = trimmed.range(of: "\" => ", options: .backwards, range: afterQuote) else { continue }
             let label = String(trimmed[trimmed.index(after: trimmed.startIndex)..<arrow.lowerBound])
-            overrides[label] = trimmed[arrow.upperBound...].hasPrefix("disabled")
+            overrides?[label] = trimmed[arrow.upperBound...].hasPrefix("disabled")
         }
         return overrides
     }

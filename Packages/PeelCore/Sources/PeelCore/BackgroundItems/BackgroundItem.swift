@@ -17,6 +17,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         case running(pid: Int32)
         case loaded
         case notLoaded
+        case unknown
     }
 
     public let label: String

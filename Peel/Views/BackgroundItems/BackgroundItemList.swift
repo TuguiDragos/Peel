@@ -161,9 +161,11 @@ struct BackgroundItemStateIndicator: View {
             .accessibilityLabel(label)
     }
 
+    // A state Peel could not read comes first, since whether the job is disabled may not have been read either.
     private var symbol: String {
-        if item.isDisabled { return "minus.circle.fill" }
-        return switch item.state {
+        switch item.state {
+        case .unknown: "questionmark.circle.dashed"
+        case _ where item.isDisabled: "minus.circle.fill"
         case .running: "circle.fill"
         case .loaded: "circle"
         case .notLoaded: "circle.dashed"
@@ -171,17 +173,29 @@ struct BackgroundItemStateIndicator: View {
     }
 
     private var color: Color {
-        if item.isDisabled { return .orange }
-        if case .running = item.state { return .green }
-        return .secondary
+        switch item.state {
+        case .unknown: .secondary
+        case _ where item.isDisabled: .orange
+        case .running: .green
+        case .loaded, .notLoaded: .secondary
+        }
     }
 
     private var label: Text {
-        if item.isDisabled { return Text("Disabled") }
-        return switch item.state {
+        switch item.state {
+        case .unknown: Text(.unknownBackgroundItemState)
+        case _ where item.isDisabled: Text("Disabled")
         case .running: Text("Running")
         case .loaded: Text("Not running")
         case .notLoaded: Text("Not loaded")
         }
     }
+}
+
+extension LocalizedStringResource {
+    /// The state of a background item when `launchctl` did not say it in a form Peel can read.
+    static let unknownBackgroundItemState = LocalizedStringResource(
+        "Unknown (background item state)",
+        defaultValue: "Unknown"
+    )
 }

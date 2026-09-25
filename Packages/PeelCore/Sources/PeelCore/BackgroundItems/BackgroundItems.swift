@@ -51,8 +51,6 @@ public enum BackgroundItems {
             .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
     }
 
-    /// What `launchctl` reports right now: the loaded jobs, with the process ID of each one running, and the
-    /// jobs marked disabled or enabled.
     /// The loaded jobs no file in the three folders declares, which an app may have submitted and `appSubmittedItem`
     /// then asks about. Apple's own are left out.
     static func undeclared(
@@ -63,17 +61,40 @@ public enum BackgroundItems {
         // By kind and label: an item's `id` also holds its file's path, which a loaded job does not report.
         let known = Set(items.map { "\($0.kind.rawValue)/\($0.label)" })
         let candidates: [(label: String, kind: BackgroundItem.Kind, target: String)] =
-            loaded.user.keys.map { ($0, .agent, "\(userDomain)/\($0)") } + loaded.system.keys.map { ($0, .daemon, "system/\($0)") }
+            (loaded.user ?? [:]).keys.map { ($0, .agent, "\(userDomain)/\($0)") }
+            + (loaded.system ?? [:]).keys.map { ($0, .daemon, "system/\($0)") }
         return candidates.filter { label, kind, _ in
             !label.hasPrefix("com.apple.") && !label.hasPrefix("application.") && !known.contains("\(kind.rawValue)/\(label)")
         }.sorted { $0.label < $1.label }
     }
 
+    /// What `launchctl` reports right now: the loaded jobs, with the process ID of each one running, and the
+    /// jobs marked disabled or enabled. Each is nil when `launchctl` answered in a form Peel cannot read.
     struct Loaded {
-        var user: [String: Int32?] = [:]
-        var system: [String: Int32?] = [:]
-        var userDisabled: [String: Bool] = [:]
-        var systemDisabled: [String: Bool] = [:]
+        var user: [String: Int32?]? = [:]
+        var system: [String: Int32?]? = [:]
+        var userDisabled: [String: Bool]? = [:]
+        var systemDisabled: [String: Bool]? = [:]
+
+        /// The state of the job `label` of `kind`, known only when what `launchctl` said about both the jobs and
+        /// the overrides of its domain could be read.
+        func state(of label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem.State {
+            guard let jobs = kind == .agent ? user : system, overrides(kind) != nil else { return .unknown }
+            return switch jobs[label] {
+            case .none: .notLoaded
+            case .some(.none): .loaded
+            case .some(.some(let pid)): .running(pid: pid)
+            }
+        }
+
+        /// Whether `launchctl` marks the job `label` of `kind` disabled, or nil when it says nothing of it.
+        func override(of label: String, _ kind: BackgroundItem.Kind) -> Bool? {
+            overrides(kind)?[label]
+        }
+
+        private func overrides(_ kind: BackgroundItem.Kind) -> [String: Bool]? {
+            kind == .agent ? userDisabled : systemDisabled
+        }
     }
 
     /// Returns the jobs declared in `~/Library/LaunchAgents`, `/Library/LaunchAgents`, and `/Library/LaunchDaemons`.
@@ -98,8 +119,6 @@ public enum BackgroundItems {
                 // Skips a job with the label of one of macOS's own daemons. Any other `com.apple.` label is kept
                 // and shown, because a made-up Apple label is a common way to disguise a job.
                 guard let job = JobDefinition(contentsOf: plist), !SystemDaemons.shipped.contains(job.label), !SystemAgents.shipped.contains(job.label) else { continue }
-                let jobs = kind == .agent ? loaded.user : loaded.system
-                let disabled = kind == .agent ? loaded.userDisabled : loaded.systemDisabled
                 let owner = ownership.owner(label: job.label, associated: job.associated, program: job.program)
                 items.append(BackgroundItem(
                     label: job.label,
@@ -113,8 +132,8 @@ public enum BackgroundItems {
                     ownerName: owner?.name,
                     isOwnerInstalled: owner?.isInstalled ?? false,
                     isOrphan: ownership.isOrphan(label: job.label, program: job.program, owner: owner),
-                    state: state(of: jobs[job.label]),
-                    isDisabled: disabled[job.label] ?? job.isDisabled
+                    state: loaded.state(of: job.label, kind),
+                    isDisabled: loaded.override(of: job.label, kind) ?? job.isDisabled
                 ))
             }
         }
@@ -130,7 +149,6 @@ public enum BackgroundItems {
         let isSubmittedByApp = details.path?.hasPrefix("(submitted by") == true
             && details.program.map { !PathComponents.isPath($0, inside: "/System") } == true
         guard details.managedBy == serviceManagement || isSubmittedByApp else { return nil }
-        let isAgent = candidate.kind == .agent
         let path = details.path.flatMap { $0.hasPrefix("/") ? URL(filePath: $0) : nil }
         let job = path.flatMap(JobDefinition.init(contentsOf:))
         let program = details.program ?? job?.program
@@ -153,17 +171,9 @@ public enum BackgroundItems {
             ownerName: owner.name,
             isOwnerInstalled: owner.isInstalled,
             isOrphan: ownership.isOrphan(label: candidate.label, program: program, owner: owner),
-            state: state(of: (isAgent ? loaded.user : loaded.system)[candidate.label]),
-            isDisabled: (isAgent ? loaded.userDisabled : loaded.systemDisabled)[candidate.label] ?? false
+            state: loaded.state(of: candidate.label, candidate.kind),
+            isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false
         )
-    }
-
-    private static func state(of job: Int32??) -> BackgroundItem.State {
-        switch job {
-        case .none: .notLoaded
-        case .some(.none): .loaded
-        case .some(.some(let pid)): .running(pid: pid)
-        }
     }
 
     private static func plists(in folder: URL) -> [URL] {

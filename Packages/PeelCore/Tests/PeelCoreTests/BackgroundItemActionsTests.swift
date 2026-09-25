@@ -189,6 +189,22 @@ struct DeclaredBackgroundItemsTests {
         #expect(items.first?.isDisabled == true)
     }
 
+    /// Where `launchctl` answered in a form Peel cannot read, a job's state is not known, never "not loaded",
+    /// whether its list of jobs or its overrides could not be read. Its loaded jobs are not asked about either.
+    @Test func aJobWhoseStateCouldNotBeReadIsNotKnown() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/LaunchAgents/agent.plist", contents: job("com.example.agent"))
+        try directory.file("root/Library/LaunchDaemons/daemon.plist", contents: job("com.example.daemon"))
+        let loaded = BackgroundItems.Loaded(user: nil, system: ["com.example.daemon": 12], systemDisabled: nil)
+        let ownership = BackgroundItemOwnership(installedApps: [])
+
+        let items = BackgroundItems.declared(in: environment(directory), ownership: ownership, loaded: loaded)
+
+        #expect(items.first { $0.label == "com.example.agent" }?.state == .unknown)
+        #expect(items.first { $0.label == "com.example.daemon" }?.state == .unknown)
+        #expect(BackgroundItems.undeclared(in: loaded, declared: items, userDomain: "gui/501").isEmpty)
+    }
+
     /// A loaded job is asked about as one an app submitted only when no file in the three folders declares it, so
     /// a job with a file is never asked about again, nor listed a second time. Apple's own are never asked about.
     @Test func asksOnlyAboutLoadedJobsNoFileDeclares() throws {
