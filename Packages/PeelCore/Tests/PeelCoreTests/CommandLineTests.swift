@@ -199,6 +199,18 @@ struct CommandLineTests {
         #expect(Set(records[0].keys) == Set(records[1].keys))
     }
 
+    /// `peel leftovers --json` names the folders macOS kept Peel out of, where the app may have left more.
+    @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
+        let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
+        let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
+
+        let report = LeftoversCommand.Report(app: app, appSize: nil, leftovers: [], unreadableLocations: [unread])
+
+        let json = try #require(JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any])
+        #expect(json["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
+        #expect(json["appSize"] is NSNull)
+    }
+
     /// A script adds sizes up, so an unknown size is `null` under the same key: never zero, and never a missing
     /// key. In JSON a total with an unknown part is `null` too, and in text it reads "over" the known part.
     @Test func writesASizeNobodyKnowsAsNull() throws {

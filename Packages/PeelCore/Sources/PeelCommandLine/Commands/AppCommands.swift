@@ -79,17 +79,27 @@ struct LeftoversCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    private struct Report: Encodable {
+    struct Report: Encodable {
         let app: AppRecord
         /// Nil when the app bundle couldn't be measured. Written as `null`, never left out, so a script always
         /// finds the key.
         let appSize: Int64?
         let leftovers: [LeftoverRecord]
+        /// The folders macOS kept Peel out of, where the app may have left more.
+        let unreadableLocations: [String]
+
+        init(app: InstalledApp, appSize: Int64?, leftovers: [Leftover], unreadableLocations: [SearchLocation]) {
+            self.app = AppRecord(app)
+            self.appSize = appSize
+            self.leftovers = leftovers.map(LeftoverRecord.init)
+            self.unreadableLocations = unreadableLocations.map { Output.path($0.url) }
+        }
 
         private enum CodingKeys: String, CodingKey {
             case app
             case appSize
             case leftovers
+            case unreadableLocations
         }
 
         func encode(to encoder: any Encoder) throws {
@@ -97,6 +107,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             try container.encode(app, forKey: .app)
             try container.encode(appSize, forKey: .appSize)
             try container.encode(leftovers, forKey: .leftovers)
+            try container.encode(unreadableLocations, forKey: .unreadableLocations)
         }
     }
 
@@ -120,7 +131,8 @@ struct LeftoversCommand: AsyncParsableCommand {
         Self.notes(uninstallation, homebrew: homebrew, hidden: uninstallation.scan.leftovers.count - leftovers.count)
         if output.json {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
-            try Output.json(Report(app: AppRecord(target), appSize: appSize, leftovers: leftovers.map(LeftoverRecord.init)))
+            let unread = uninstallation.scan.unreadableLocations
+            try Output.json(Report(app: target, appSize: appSize, leftovers: leftovers, unreadableLocations: unread))
             return
         }
         let appSize = uninstallation.isAppMeasured ? Output.size(uninstallation.appSize) : "unknown"

@@ -376,6 +376,41 @@ struct FileCommandTests {
         ])
     }
 
+    /// `peel orphans --json` says for each file whether `--remove` leaves it and why, and which folders macOS kept
+    /// Peel out of, so a script can tell an empty list from one that could not look everywhere.
+    @Test func theOrphansListSaysWhatStaysAndWhereItCouldNotLook() throws {
+        let directory = try TemporaryDirectory()
+        let group = OrphanGroup(identifier: "com.example.gone", items: [
+            try orphan("com.example.gone", in: directory),
+            try orphan("com.example.gone.wallet", in: directory, heldBack: .holdsAWallet),
+        ])
+        let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
+
+        let json = try Output.jsonText(OrphansCommand.report(for: OrphanScan(groups: [group], unreadableLocations: [unread])))
+
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let files = try #require((report["groups"] as? [[String: Any]])?.first?["files"] as? [[String: Any]])
+        #expect(files[0]["heldBack"] is NSNull)
+        #expect(files[1]["heldBack"] as? String == "holdsAWallet")
+        #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
+    }
+
+    /// `peel caches --json` says which folders `--remove` would take.
+    @Test func theCachesListSaysWhatRemoveWouldTake() throws {
+        let directory = try TemporaryDirectory()
+        let tool = try environment("Rust", id: "rust", locations: [
+            ("Library/Caches/cargo", .cache),
+            ("Library/Models/llama", .models),
+        ], in: directory)
+
+        let json = try Output.jsonText(CachesCommand.records(for: [tool]))
+
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+        let locations = try #require(records.first?["locations"] as? [[String: Any]])
+        #expect(locations[0]["suggested"] as? Bool == true)
+        #expect(locations[1]["suggested"] as? Bool == false)
+    }
+
     /// A script reading `peel caches --json` gets, for each folder, where its tool documents it.
     @Test func tellsWhereEachCacheIsDocumented() throws {
         let directory = try TemporaryDirectory()

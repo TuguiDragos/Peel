@@ -16,12 +16,39 @@ struct OrphansCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    private struct Record: Encodable {
-        let identifier: String
-        let size: MeasuredSize
-        let confidence: String
-        let why: String
-        let files: [FileRecord]
+    /// What `--json` writes: the groups, and the folders macOS kept Peel out of, where there may be more.
+    struct Report: Encodable {
+        let groups: [Group]
+        let unreadableLocations: [String]
+
+        struct Group: Encodable {
+            let identifier: String
+            let size: MeasuredSize
+            let confidence: String
+            let why: String
+            let files: [File]
+        }
+
+        struct File: Encodable {
+            let path: String
+            let size: MeasuredSize
+            /// Why `--remove` leaves the file where it is, or `null` when it would move it.
+            let heldBack: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case path
+                case size
+                case heldBack
+            }
+
+            /// Encodes a missing `heldBack` as `null`, for the reason `AppRecord` gives.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(size, forKey: .size)
+                try container.encode(heldBack, forKey: .heldBack)
+            }
+        }
     }
 
     func validate() throws {
@@ -47,15 +74,7 @@ struct OrphansCommand: AsyncParsableCommand {
         }
 
         if output.json {
-            try Output.json(scan.groups.map { group in
-                Record(
-                    identifier: group.identifier,
-                    size: MeasuredSize(group.total),
-                    confidence: group.confidence.levelName,
-                    why: group.confidence.summary,
-                    files: group.items.map { FileRecord(path: Output.path($0.url), size: MeasuredSize($0.size)) }
-                )
-            })
+            try Output.json(Self.report(for: scan))
         } else if scan.groups.isEmpty {
             Output.line("No orphaned files found.")
         } else {
@@ -67,6 +86,24 @@ struct OrphansCommand: AsyncParsableCommand {
         if !scan.unreadableLocations.isEmpty {
             Output.note(Output.fullDiskAccessNote)
         }
+    }
+
+    static func report(for scan: OrphanScan) -> Report {
+        Report(
+            groups: scan.groups.map { group in
+                Report.Group(
+                    identifier: group.identifier,
+                    size: MeasuredSize(group.total),
+                    confidence: group.confidence.levelName,
+                    why: group.confidence.summary,
+                    files: group.items.map { item in
+                        let size = MeasuredSize(item.size)
+                        return Report.File(path: Output.path(item.url), size: size, heldBack: item.heldBack?.rawValue)
+                    }
+                )
+            },
+            unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) }
+        )
     }
 
     static func heading(for group: OrphanGroup) -> String {
@@ -151,6 +188,8 @@ struct CachesCommand: AsyncParsableCommand {
             let size: MeasuredSize
             let kind: String
             let source: String
+            /// Whether `--remove` would move it.
+            let suggested: Bool
         }
     }
 
@@ -184,7 +223,13 @@ struct CachesCommand: AsyncParsableCommand {
     static func records(for environments: [DeveloperEnvironment]) -> [Record] {
         environments.map { environment in
             Record(tool: environment.name, size: MeasuredSize(environment.total), locations: environment.locations.map {
-                Record.Location(path: Output.path($0.url), size: MeasuredSize($0.size), kind: $0.kind.rawValue, source: $0.source)
+                Record.Location(
+                    path: Output.path($0.url),
+                    size: MeasuredSize($0.size),
+                    kind: $0.kind.rawValue,
+                    source: $0.source,
+                    suggested: $0.isRecommended
+                )
             })
         }
     }
