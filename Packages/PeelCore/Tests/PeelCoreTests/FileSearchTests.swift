@@ -108,7 +108,8 @@ struct FileSearchTests {
     }
 
     /// `MDQuery.h` promises no order, so the results are sorted before the cap applies. Cutting first would keep
-    /// an arbitrary set of files and call them the largest.
+    /// an arbitrary set of files and call them the largest. The guard allows every file here, since the order is
+    /// what is checked; `listsOnlyRegularFilesOutsideProtectedLocations` asks the real one.
     @Test func keepsTheLargestFilesWhenThereAreMoreThanTheCap() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -120,7 +121,8 @@ struct FileSearchTests {
 
         let results = FileSearch.results(
             from: paths + [biggest.path(percentEncoded: false)],
-            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            allows: { _ in true }
         )
 
         #expect(results.files.count == FileSearch.maximumResults)
