@@ -17,7 +17,9 @@ public final class HelperLedger: @unchecked Sendable {
 
     private let url: URL
     private let maximumEntries: Int
-    private let lock = NSLock()
+    /// One lock for every ledger in the process: the helper serves each connection on a queue of its own, and each
+    /// request opens the ledger afresh, so a lock of each instance's own would let two requests overwrite each other.
+    private static let lock = NSLock()
 
     /// Returns nil when the folder cannot be made private to the helper. Nothing should be moved then either,
     /// because an item moved without a record cannot be put back.
@@ -36,7 +38,7 @@ public final class HelperLedger: @unchecked Sendable {
     /// Records `items` in one write, before any of them moves. Returns false when the write fails, and then
     /// nothing may move. Items are looked up later by identity, so their names in the Trash are not needed.
     public func record(_ items: [OpenItem], movedBy user: uid_t) -> Bool {
-        lock.withLock {
+        Self.lock.withLock {
             let added = items.compactMap { item in
                 item.identity.map { Entry(path: item.path, identity: $0, user: user, date: .now) }
             }
@@ -47,7 +49,7 @@ public final class HelperLedger: @unchecked Sendable {
 
     /// Removes `items` from the ledger: those that did not move after all, and those that were put back.
     public func forget(_ items: [OpenItem]) {
-        lock.withLock {
+        Self.lock.withLock {
             let gone = Set(items.compactMap(\.identity))
             guard !gone.isEmpty else { return }
             _ = write(read().filter { !gone.contains($0.identity) })
@@ -56,7 +58,7 @@ public final class HelperLedger: @unchecked Sendable {
 
     /// The place `item` was taken from, when this helper took it on behalf of `user`.
     public func origin(of item: OpenItem, movedBy user: uid_t) -> String? {
-        lock.withLock {
+        Self.lock.withLock {
             guard let identity = item.identity else { return nil }
             return read().last { $0.identity == identity && $0.user == user }?.path
         }

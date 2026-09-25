@@ -96,6 +96,23 @@ struct HelperLedgerTests {
         #expect(ledger.origin(of: swapped, movedBy: getuid()) == nil, "ATTACK SUCCEEDED: a file swapped in under the same name is believed")
     }
 
+    /// The helper serves each connection on a queue of its own, and each request opens the ledger afresh, so two
+    /// moves at once must not lose each other's record: an item the ledger forgot can never be put back.
+    @Test func movesAtOnceKeepEveryRecord() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let items = try (0..<200).map { index in
+            try directory.file("root/Library/Caches/item \(index).plist")
+            return try policy.open(path("root/Library/Caches/item \(index).plist", in: directory)).get()
+        }
+        let url = directory.url.appending(path: "private/moved.plist")
+        DispatchQueue.concurrentPerform(iterations: items.count) { index in
+            _ = HelperLedger(at: url)?.record([items[index]], movedBy: getuid())
+        }
+        let ledger = try ledger(in: directory)
+        #expect(items.filter { ledger.origin(of: $0, movedBy: getuid()) == nil }.isEmpty, "a record was lost")
+    }
+
     @Test func keepsTheNewestEntriesAndOnlyInAFolderOfItsOwn() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)
