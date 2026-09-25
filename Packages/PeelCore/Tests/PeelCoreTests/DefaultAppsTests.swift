@@ -2,6 +2,7 @@ import AppKit
 import Foundation
 @testable import PeelCore
 import Testing
+import UniformTypeIdentifiers
 
 struct DefaultAppsTests {
     private func app(_ path: String = "/Applications/Example.app") -> InstalledApp {
@@ -73,6 +74,33 @@ struct DefaultAppsTests {
             ["LSItemContentTypes": ["public.png"], "CFBundleTypeExtensions": ["png"]],
         ]]
 
-        #expect(DefaultApps.declaredTypes(in: info) == ["com.adobe.pdf", "public.png"])
+        #expect(DefaultApps.declaredTypes(in: info).map(\.identifier) == ["com.adobe.pdf", "public.png"])
+    }
+
+    /// macOS has no description for a type it made up from an extension no app registers, and Finder calls such a
+    /// file by the name the app that opens it gives that kind of document, in the app's own translation.
+    @Test func namesAKindMacOSCannotDescribeAsTheAppDoes() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Example.app")
+        let info: [String: Any] = [
+            "CFBundleIdentifier": "com.example.app",
+            "CFBundleDocumentTypes": [
+                ["CFBundleTypeExtensions": ["peelsamplekind"], "CFBundleTypeName": "Sample Kind"],
+            ],
+        ]
+        let plist = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        try directory.file("Example.app/Contents/Info.plist", contents: plist)
+        let strings = Data("\"Sample Kind\" = \"Translated Sample Kind\";".utf8)
+        try directory.file("Example.app/Contents/Resources/en.lproj/InfoPlist.strings", contents: strings)
+        let bundle = Bundle(url: app)
+        let type = try #require(UTType(filenameExtension: "peelsamplekind"))
+        let declared = try #require(DefaultApps.declaredTypes(in: info).first)
+
+        #expect(type.isDynamic)
+        #expect(declared.identifier == type.identifier)
+        #expect(DefaultApps.name(of: type, calledByTheApp: declared.appName, in: bundle) == "Translated Sample Kind")
+        #expect(DefaultApps.name(of: type, calledByTheApp: nil, in: bundle) == ".peelsamplekind")
+        let pdf = DefaultApps.name(of: .pdf, calledByTheApp: "Sample Kind", in: bundle)
+        #expect(pdf == UTType.pdf.localizedDescription)
     }
 }

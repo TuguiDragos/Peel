@@ -13,8 +13,8 @@ public struct DefaultRole: Sendable, Hashable, Identifiable {
     public let kind: Kind
     /// The uniform type identifier, or the scheme without its colon.
     public let identifier: String
-    /// What a kind of file is called, such as "PDF document". For a link, the scheme and its colon, which the
-    /// app replaces with its own words.
+    /// What a kind of file is called, such as "PDF document", or what the app calls it when macOS has no name for
+    /// it. For a link, the scheme and its colon, which the app replaces with its own words.
     public let name: String
     /// The apps that could take over, best first, without this one.
     public let others: [String]
@@ -32,30 +32,51 @@ public enum DefaultApps {
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
+    /// A type an app declares it opens, with the name the app gives that kind of document (`CFBundleTypeName`).
+    struct DeclaredType {
+        let identifier: String
+        let appName: String?
+    }
+
     /// Returns the types a bundle declares it opens. An older app lists file extensions instead
     /// (`CFBundleTypeExtensions`), and each one is turned into the type it stands for.
-    static func declaredTypes(in info: [String: Any]) -> [String] {
-        (info["CFBundleDocumentTypes"] as? [[String: Any]] ?? []).flatMap { document -> [String] in
-            if let types = document["LSItemContentTypes"] as? [String], !types.isEmpty { return types }
-            return (document["CFBundleTypeExtensions"] as? [String] ?? [])
+    static func declaredTypes(in info: [String: Any]) -> [DeclaredType] {
+        (info["CFBundleDocumentTypes"] as? [[String: Any]] ?? []).flatMap { document -> [DeclaredType] in
+            let appName = document["CFBundleTypeName"] as? String
+            let types = document["LSItemContentTypes"] as? [String] ?? []
+            let identifiers = !types.isEmpty ? types : (document["CFBundleTypeExtensions"] as? [String] ?? [])
                 .filter { $0 != "*" }
                 .compactMap { UTType(filenameExtension: $0.lowercased())?.identifier }
+            return identifiers.map { DeclaredType(identifier: $0, appName: appName) }
         }
     }
 
     static func fileKinds(declaredIn info: [String: Any], app: InstalledApp) -> [DefaultRole] {
         var seen: Set<String> = []
+        let bundle = Bundle(url: app.url)
 
-        return declaredTypes(in: info).compactMap { identifier -> DefaultRole? in
-            guard seen.insert(identifier).inserted, let type = UTType(identifier) else { return nil }
+        return declaredTypes(in: info).compactMap { declared -> DefaultRole? in
+            guard seen.insert(declared.identifier).inserted, let type = UTType(declared.identifier) else { return nil }
             guard isDefault(app, for: NSWorkspace.shared.urlForApplication(toOpen: type)) else { return nil }
             return DefaultRole(
                 kind: .fileKind,
-                identifier: identifier,
-                name: type.localizedDescription ?? identifier,
+                identifier: declared.identifier,
+                name: name(of: type, calledByTheApp: declared.appName, in: bundle),
                 others: names(of: NSWorkspace.shared.urlsForApplications(toOpen: type), without: app)
             )
         }
+    }
+
+    /// What a kind of file is called. A type macOS made up from an extension that no app registers has no
+    /// description, and Finder calls such a file by the name the app that opens it gives that kind of document, in
+    /// the app's own translation. Without one, the extension says more than Finder's "Document".
+    static func name(of type: UTType, calledByTheApp appName: String?, in bundle: Bundle?) -> String {
+        if let description = type.localizedDescription { return description }
+        if let appName {
+            return bundle?.localizedString(forKey: appName, value: appName, table: "InfoPlist") ?? appName
+        }
+        if let fileExtension = type.preferredFilenameExtension { return "." + fileExtension }
+        return type.identifier
     }
 
     static func links(declaredIn info: [String: Any], app: InstalledApp) -> [DefaultRole] {
