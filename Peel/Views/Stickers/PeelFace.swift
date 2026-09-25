@@ -4,12 +4,13 @@ import SwiftUI
 
 /// Peel's logo with a face. Its motion is ported from blobatar (MIT, blobatar.dev): breathing, bobbing,
 /// glancing, blinking, following the pointer, and a `happy` pose while the pointer is on the face. With the
-/// pointer outside the window, it looks around by itself (`LookAround`), and it smiles once when a removal
-/// finishes (`Cheer`).
+/// pointer outside the window, it looks around by itself (`LookAround`), it smiles once when a removal
+/// finishes (`Cheer`), and it is surprised once when a new version of Peel is out (`Surprise`).
 struct PeelFace: View {
     var size: CGFloat
 
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(AppLibrary.self) private var library
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Lets the face rest while no window is open. A closed window keeps its views, and no occlusion change
     /// reaches them, but the scene phase turns to `.background`, and back to active when the window returns.
@@ -23,6 +24,9 @@ struct PeelFace: View {
             .accessibilityHidden(true)
             .onChange(of: history.justMoved) { _, moved in
                 if moved != nil { Self.follow.cheer() }
+            }
+            .task(id: library.newerPeel?.version) {
+                if let version = library.newerPeel?.version { Self.follow.surprise(for: version) }
             }
     }
 
@@ -65,6 +69,8 @@ private final class FaceLayerView: NSView {
     private let peel = CAShapeLayer()
     private let flap = CAShapeLayer()
     private let eyes = [CAShapeLayer(), CAShapeLayer()]
+    /// The red dot of `Surprise`, beside the head rather than on it, so it stays put while the head moves.
+    private let dot = CAShapeLayer()
     private var link: CADisplayLink?
     private var observers: [any NSObjectProtocol] = []
     private var pointerSeen: CGPoint?
@@ -99,6 +105,12 @@ private final class FaceLayerView: NSView {
         }
         head.sublayers = [peel, flap] + eyes
         canvas.addSublayer(head)
+        let dotSize = 2 * Face.dot.radius * size / 100
+        dot.bounds = CGRect(x: 0, y: 0, width: dotSize, height: dotSize)
+        dot.path = CGPath(ellipseIn: dot.bounds, transform: nil)
+        dot.position = CGPoint(x: Face.dot.x * size / 100, y: Face.dot.y * size / 100)
+        dot.isHidden = true
+        canvas.addSublayer(dot)
         layer?.addSublayer(canvas)
         recolor()
         draw(at: CACurrentMediaTime())
@@ -137,7 +149,7 @@ private final class FaceLayerView: NSView {
     override func viewDidChangeBackingProperties() {
         super.viewDidChangeBackingProperties()
         let scale = window?.backingScaleFactor ?? 2
-        for layer in [canvas, head, peel, flap] + eyes {
+        for layer in [canvas, head, peel, flap, dot] + eyes {
             layer.contentsScale = scale
         }
     }
@@ -187,7 +199,7 @@ private final class FaceLayerView: NSView {
             pointerSeen = nil
         }
         let look = PeelFace.follow.step(toward: seen, at: time, still: isStill)
-        let quick = time - pointerMovedAt < 0.5 || PeelFace.follow.isCheering
+        let quick = time - pointerMovedAt < 0.5 || PeelFace.follow.isReacting
         if quick != isQuick {
             isQuick = quick
             link?.preferredFrameRateRange = quick ? .default : Self.calm
@@ -202,6 +214,8 @@ private final class FaceLayerView: NSView {
             eye.transform = placed.transform
             eye.position = placed.position
         }
+        dot.isHidden = pose.dot <= 0
+        dot.transform = CATransform3DMakeScale(max(pose.dot, 0.001), max(pose.dot, 0.001), 1)
         CATransaction.commit()
     }
 
@@ -212,6 +226,7 @@ private final class FaceLayerView: NSView {
             peel.fillColor = NSColor(resource: .peelOrange).cgColor
             flap.fillColor = NSColor(resource: .peelCream).cgColor
             flap.shadowColor = NSColor(resource: .stickerShadow).cgColor
+            dot.fillColor = NSColor.systemRed.cgColor
             for eye in eyes {
                 eye.fillColor = NSColor(resource: .faceInk).cgColor
             }
@@ -239,14 +254,17 @@ private struct Pose {
     let size: CGFloat
     var head: Placed
     var eyes: [Placed] = []
+    /// The size of `Surprise`'s dot, from 0 to 1.
+    var dot: Double
 
     init(_ idle: Idle, _ look: Look, size: CGFloat) {
         self.size = size
+        dot = look.dot
         let unit = size / 100
         // The head turns with the eyes, which is what keeps a glance readable at sidebar size.
         let turn = CGSize(width: look.aim.width * look.hold * Face.turn.x * unit,
                           height: look.aim.height * look.hold * Face.turn.y * unit)
-        let rise = idle.bob * unit - 1.5 * look.lift * unit
+        let rise = idle.bob * unit - 1.5 * look.lift * unit - look.startle * unit
         let lift = 1 + 0.04 * look.lift
         head = Placed(transform: CATransform3DMakeScale(idle.breathe.width, idle.breathe.height, 1)
                           .then(CATransform3DMakeRotation(look.aim.width * look.hold * Face.lean * .pi / 180, 0, 0, 1))
@@ -263,7 +281,8 @@ private struct Pose {
         let tilt = idle.wrap.tilt + 4.1 * look.aim.width * look.aim.height * look.hold
         for side in [-1.0, 1.0] {
             let scale = smile.scale(side)
-            eyes.append(Placed(transform: CATransform3DMakeScale(1, idle.blink, 1)
+            eyes.append(Placed(transform: CATransform3DMakeScale(1, min(idle.blink, look.openness), 1)
+                                   .then(CATransform3DMakeScale(1 + look.widen, 1 + look.widen, 1))
                                    .then(CATransform3DMakeScale(1 + across + idle.wrap.leading * side, 1 + down, 1))
                                    .then(CATransform3DMakeRotation(tilt * side * .pi / 180, 0, 0, 1))
                                    .then(CATransform3DMakeScale(scale.width, scale.height, 1))
@@ -291,6 +310,9 @@ private struct Pose {
                 points.append(onCanvas(CGPoint(x: eye.position.x + offset.x, y: eye.position.y + offset.y)))
             }
         }
+        let reach = Face.dot.radius * dot * size / 100
+        let middle = SIMD2(Face.dot.x * size / 100, Face.dot.y * size / 100)
+        points += [middle + [-reach, -reach], middle + [reach, -reach], middle + [reach, reach], middle + [-reach, reach]]
         return points
     }
 }
@@ -302,12 +324,17 @@ private extension CATransform3D {
     }
 }
 
-/// Where the face is aimed, and how far into each reaction it is.
+/// Where the face is aimed, and how far into each reaction it is. `widen`, `startle`, `openness`, and `dot` are
+/// `Surprise`'s: how much wider the eyes are, how far the head rises, in units, how open the eyes are, and the dot.
 private struct Look {
     var aim = CGSize.zero
     var hold = 0.0
     var smile = 0.0
     var lift = 0.0
+    var widen = 0.0
+    var startle = 0.0
+    var openness = 1.0
+    var dot = 0.0
 }
 
 /// The face's look, stepped once a frame: blobatar's pursuit of the pointer, and its two reactions (a smile and
@@ -323,6 +350,10 @@ private final class Follow {
     private var lifting = 0.0
     private var holding = 0.0
     private var cheering: Cheer?
+    private var surprising: Surprise?
+    /// The version the face was last surprised by, so a face built again, or a version found again, does not
+    /// surprise twice.
+    private var surprisedBy: String?
     /// How long the smile takes to arrive, and to leave.
     private static let smileRise = 0.3
     private static let smileFall = 0.4
@@ -340,7 +371,15 @@ private final class Follow {
         cheering = Cheer(rise: Self.smileRise, hold: Motion.settle.duration, fall: Self.smileFall)
     }
 
-    var isCheering: Bool { cheering != nil }
+    /// Starts the surprise, once for each new version of Peel.
+    func surprise(for version: String) {
+        guard version != surprisedBy else { return }
+        surprisedBy = version
+        surprising = Surprise()
+    }
+
+    /// Whether a reaction is under way, which the face follows at the display's full frame rate.
+    var isReacting: Bool { cheering != nil || surprising != nil }
 
     func step(toward seen: Pointer, at time: TimeInterval, still: Bool) -> Look {
         let elapsed = last.map { time - $0 } ?? 0
@@ -348,8 +387,9 @@ private final class Follow {
         if elapsed > 0, elapsed < 0.1 { frame += (elapsed - frame) / 10 }
         let step = max(0, min(elapsed, 2 * frame))
         guard !still else {
-            // Under Reduce Motion the face holds still, and a smile it could not give is not given later.
+            // Under Reduce Motion the face holds still, and a reaction it could not give is not given later.
             cheering = nil
+            surprising = nil
             return Look()
         }
         let pointer: CGPoint?
@@ -359,8 +399,8 @@ private final class Follow {
         case .at(let point): pointer = point
         }
 
-        let target: CGSize
-        let held: Double
+        var target: CGSize
+        var held: Double
         if let pointer {
             lookingAround = nil
             let toward = CGSize(width: pointer.x - Face.center.x, height: pointer.y - Face.center.y)
@@ -377,6 +417,14 @@ private final class Follow {
             held = moment.hold
         }
 
+        surprising?.advance(by: step)
+        if surprising?.isOver == true { surprising = nil }
+        // While the surprise looks at its dot, that is where the face looks, wherever the pointer is.
+        if let surprising, surprising.look > 0 {
+            target = CGSize(width: Surprise.aim.x, height: Surprise.aim.y)
+            held = surprising.look
+        }
+
         let pursuit = step > 0 ? 1 - exp(-step * 1000 / Face.settle) : 1
         let rate = hypot(target.width - look.aim.width, target.height - look.aim.height) > 1.6 ? 1 : pursuit
         look.aim = CGSize(width: look.aim.width + (target.width - look.aim.width) * rate,
@@ -385,7 +433,7 @@ private final class Follow {
         let onFace = pointer.map { hypot($0.x - 50, $0.y - 50) <= Face.radius * 100 } ?? false
         cheering?.advance(by: step)
         if cheering?.isOver == true { cheering = nil }
-        let happy = onFace || cheering?.wantsHappyPose == true
+        let happy = onFace || cheering?.wantsHappyPose == true || surprising?.wantsHappyPose == true
         holding = Self.ramp(holding, to: held, by: step / 0.25)
         smiling = Self.ramp(smiling, to: happy ? 1 : 0, by: step / (happy ? Self.smileRise : Self.smileFall))
         lifting = Self.ramp(lifting, to: happy ? 1 : 0, by: step / (happy ? 0.22 : 0.16))
@@ -393,6 +441,10 @@ private final class Follow {
         look.hold = Curve.easeInOut(holding)
         look.smile = happy ? Curve.morph(smiling) : Curve.easeInOut(smiling)
         look.lift = Curve.lift(lifting)
+        look.widen = surprising?.widen ?? 0
+        look.startle = surprising?.rise ?? 0
+        look.openness = surprising?.openness ?? 1
+        look.dot = surprising?.dot ?? 0
         return look
     }
 
@@ -624,6 +676,8 @@ nonisolated private enum Face {
     /// The time constant of the look's pursuit, in milliseconds. blobatar uses 110 for a face that fills a page,
     /// but at sidebar size that reads as lag, and what matters here is where the eyes point, not the glide.
     static let settle = 60.0
+    /// Where `Surprise`'s dot sits, beyond the top right of the circle where the look goes, and its radius.
+    static let dot = (x: 96.0, y: 4.0, radius: 6.0)
 
     /// How far the eyes go toward `aim`: as far from the circle's middle as looking down takes them, or to
     /// `peelClearance` from the cut, whichever comes first. The eyes rest below and left of that middle, so one
