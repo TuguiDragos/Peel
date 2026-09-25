@@ -211,11 +211,7 @@ private struct AppRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Toggle(isOn: pick) {}
-                .toggleStyle(.checkbox)
-                .labelsHidden()
-                .help(Text("Select this app to remove it with others"))
-                .accessibilityLabel(Text(verbatim: app.name))
+            NativeCheckbox(isOn: pick, label: app.name, help: String(localized: "Select this app to remove it with others"))
             AppIcon(url: app.url)
                 .frame(width: 32, height: 32)
             VStack(alignment: .leading, spacing: 1) {
