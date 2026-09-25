@@ -189,8 +189,8 @@ struct DeclaredBackgroundItemsTests {
         #expect(items.first?.isDisabled == true)
     }
 
-    /// Where `launchctl` answered in a form Peel cannot read, a job's state is not known, never "not loaded",
-    /// whether its list of jobs or its overrides could not be read. Its loaded jobs are not asked about either.
+    /// Where `launchctl` answered its jobs or its overrides in a form Peel cannot read, a job's state is not known,
+    /// never "not loaded".
     @Test func aJobWhoseStateCouldNotBeReadIsNotKnown() throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/agent.plist", contents: job("com.example.agent"))

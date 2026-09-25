@@ -66,9 +66,8 @@ struct LeftoverScannerTests {
         )
     }
 
-    /// The guard reads every spelling of a path from the disk, and a location holds thousands of entries that are
-    /// nobody's business: files named after no app, and files inside a folder the scan looks into. It is asked
-    /// only about what the scan would take or walk into, and what it refuses stays out as before.
+    /// The guard, which reads every spelling of a path from the disk, is asked only about what the scan would take
+    /// or walk into, and what it refuses stays out.
     @Test func asksTheGuardOnlyAboutWhatItWouldTakeOrWalkInto() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...200 {

@@ -68,8 +68,7 @@ public enum BackgroundItems {
         }.sorted { $0.label < $1.label }
     }
 
-    /// What `launchctl` reports right now: the loaded jobs, with the process ID of each one running, and the
-    /// jobs marked disabled or enabled. Each is nil when `launchctl` answered in a form Peel cannot read.
+    /// What `launchctl` reports right now. Each part is nil when `launchctl` answered in a form Peel cannot read.
     struct Loaded {
         var user: [String: Int32?]? = [:]
         var system: [String: Int32?]? = [:]

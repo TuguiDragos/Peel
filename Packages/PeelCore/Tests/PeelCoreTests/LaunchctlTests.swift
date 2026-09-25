@@ -29,8 +29,7 @@ struct LaunchctlTests {
         #expect(jobs["application.com.example.jotter.22249290.22249296"] == .some(22251))
     }
 
-    /// `launchctl`'s output is not an interface and can change. An answer in a form Peel does not recognize says
-    /// nothing about which jobs are loaded, so it is read as not known rather than as no jobs at all.
+    /// An answer in a form Peel does not recognize is read as not known, never as no jobs at all.
     @Test func anAnswerInAnotherFormIsNotKnown() {
         #expect(Launchctl.parseList("Label\tPID\ncom.example.agent\t-\n") == nil)
         #expect(Launchctl.parseList("Could not connect to the domain.\n") == nil)

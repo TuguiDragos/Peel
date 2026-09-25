@@ -1,9 +1,7 @@
 public import Foundation
 
-/// What each tool found the last time it looked, kept so Home can say it after Peel is opened again.
-///
-/// A tool is named by the app. A finding is how many things the tool found, their size when the tool measures
-/// them, and when it looked. A tool that finds nothing leaves the list.
+/// What each tool found the last time it looked, kept so Home can say it after Peel is opened again. The app names
+/// the tools.
 public struct FoundLastTime: Sendable, Equatable {
     public struct Finding: Sendable, Equatable {
         public let count: Int
@@ -22,8 +20,7 @@ public struct FoundLastTime: Sendable, Equatable {
 
     public init() {}
 
-    /// Reads what `data` holds. Any process can write an app's preferences, so an entry that makes no sense
-    /// is left out, and the others are kept.
+    /// Reads what `data` holds, leaving out an entry that makes no sense: any process can write an app's preferences.
     public init(data: Data?) {
         guard let data, let entries = try? JSONDecoder().decode([String: Entry].self, from: data) else { return }
         for (tool, entry) in entries {

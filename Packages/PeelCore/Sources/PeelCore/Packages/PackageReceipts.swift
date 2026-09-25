@@ -85,10 +85,10 @@ public enum PackageReceipts {
         await receipts(installing: url, exclusions: exclusions, pkgutil: pkgutil)
     }
 
-    /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which is relative to the package's
-    /// install location. With the install location `Applications`, an app is found as `/Example.app`, not as
-    /// `/Applications/Example.app`. So the leading folders are dropped one at a time until a package answers,
-    /// and the answer counts only if that package really installed this path.
+    /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which is relative to the
+    /// package's install location: with the install location `Applications`, an app is found as `/Example.app`. So
+    /// the leading folders are dropped one at a time until a package answers, and the answer counts only if that
+    /// package really installed this path.
     @concurrent
     static func receipts(installing url: URL, exclusions: Exclusions, pkgutil: @escaping Pkgutil) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))

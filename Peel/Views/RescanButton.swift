@@ -6,9 +6,9 @@ struct RescanButton: View {
     @Binding var isRunning: Bool
     var isDisabled = false
     var title: LocalizedStringResource = "Rescan"
-    /// The page's scan. While it runs, the button turns into Stop, as Safari's Reload does. Nil where the work
-    /// can't be stopped halfway, such as reading one file. Stop is not offered while the button is disabled: the
-    /// scan after a move to the Trash takes the moved rows off the list, and stopping it would leave them listed.
+    /// The page's scan: while it runs, the button turns into Stop, as Safari's Reload does. Nil where the work can't
+    /// be stopped halfway. A disabled button offers no Stop: stopping the scan after a move to the Trash would leave
+    /// the moved rows listed.
     var scan: (any StoppableWork)?
     let action: () async -> Void
 

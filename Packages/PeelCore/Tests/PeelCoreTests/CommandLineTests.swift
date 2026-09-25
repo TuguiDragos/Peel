@@ -32,8 +32,7 @@ struct CommandLineTests {
         ])
     }
 
-    /// The app ships `Support/peel.1`, which `Scripts/generate_manual.py` writes from the tool. A command added to
-    /// the tool without the page being written again would be missing from `man peel`.
+    /// `man peel` reads `Support/peel.1`, which `Scripts/generate_manual.py` writes again when a command is added.
     @Test func theManualPageNamesEveryCommand() throws {
         let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "Support/peel.1"), encoding: .utf8)
         func names(of command: any ParsableCommand.Type) -> [String] {
@@ -224,8 +223,7 @@ struct CommandLineTests {
         #expect(json["appSize"] is NSNull)
     }
 
-    /// `peel uninstall --json` says, once it is done, what was to move and what stayed and why, what moved, and
-    /// what failed and why, with every key in every record.
+    /// `peel uninstall --json` says what stays and why, what moved and what failed, with every key in every record.
     @Test func theUninstallReportSaysWhatMovedWhatStayedAndWhy() throws {
         let app = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
         let support = URL(filePath: "/Users/me/Library/Application Support/Editor", directoryHint: .isDirectory)

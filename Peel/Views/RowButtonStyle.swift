@@ -1,20 +1,14 @@
 import SwiftUI
 
-/// The style of a button in a List row. It looks like `.plain`, which draws the label at three quarters while it is
-/// pressed and at half while it is disabled, and it tracks the press with a gesture of its own.
-///
-/// A List takes keyboard focus as a whole, so a button in one of its rows is only ever pressed with the pointer or
-/// through accessibility. A standard style still makes each such button a place keyboard focus could go, and the
-/// window's list of those changes as rows scroll in and out, which updates the window's focus, its toolbar and the
-/// app's scenes at every step of a scroll. A button with this style costs none of that.
+/// The style of a button in a List row: it looks like `.plain` but is no place keyboard focus could go, which a List
+/// never sends to a row's button anyway. With a standard style, rows scrolling in and out change the window's places
+/// for focus, which updates its toolbar and the app's scenes at every step of a scroll.
 struct RowButtonStyle: PrimitiveButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         PressableLabel(configuration: configuration)
     }
 }
 
-/// Pressed while the pointer is down inside the label, and pressed for real only when it comes up there, as a
-/// button is.
 private struct PressableLabel: View {
     let configuration: RowButtonStyle.Configuration
     @Environment(\.isEnabled) private var isEnabled

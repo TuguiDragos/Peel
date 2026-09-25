@@ -2,8 +2,7 @@ import PeelCore
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// What a scan looks at, in a popover from the toolbar, so the settings can change without costing the results:
-/// they apply to the next scan.
+/// What a scan looks at, in a popover from the toolbar: a change applies to the next scan and costs no results.
 struct DuplicateScanForm: View {
     private static let sizes: [Int64] = [100_000, 1_000_000, 10_000_000, 100_000_000]
 

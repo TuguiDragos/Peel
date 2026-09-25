@@ -1,7 +1,7 @@
 import PeelCore
 import SwiftUI
 
-/// The files a search found, with every state of the search, in the list column as every tool keeps its items.
+/// The files a search found, and every state of the search, in the list column.
 struct FileSearchList: View {
     @Environment(FileSearchLibrary.self) private var search
     @Environment(ExclusionsStore.self) private var exclusions
@@ -88,8 +88,7 @@ struct FileSearchList: View {
             couldNotLook: search.results?.didRun == false ? "Spotlight Didn’t Answer" : nil,
             wasStopped: search.scanRun.wasStopped || !search.criteria.isSearchable
         )
-        // The name is typed in the search field at the top of the column, where other pages filter their lists.
-        // Here the field is part of the search, so it is always shown.
+        // Here the column's search field is part of the search, so it is always shown.
         .columnSearch(text: $search.criteria.name, prompt: "Search Files", when: true)
         .navigationTitle(Text(Tool.fileSearch.title))
         .toolbar {

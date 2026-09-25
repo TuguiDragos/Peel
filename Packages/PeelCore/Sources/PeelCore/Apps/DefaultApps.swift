@@ -13,8 +13,8 @@ public struct DefaultRole: Sendable, Hashable, Identifiable {
     public let kind: Kind
     /// The uniform type identifier, or the scheme without its colon.
     public let identifier: String
-    /// What a kind of file is called, such as "PDF document", or what the app calls it when macOS has no name for
-    /// it. For a link, the scheme and its colon, which the app replaces with its own words.
+    /// What a kind of file is called, such as "PDF document". For a link, the scheme and its colon, which the app
+    /// replaces with its own words.
     public let name: String
     /// The apps that could take over, best first, without this one.
     public let others: [String]
@@ -67,9 +67,8 @@ public enum DefaultApps {
         }
     }
 
-    /// What a kind of file is called. A type macOS made up from an extension that no app registers has no
-    /// description, and Finder calls such a file by the name the app that opens it gives that kind of document, in
-    /// the app's own translation. Without one, the extension says more than Finder's "Document".
+    /// What a kind of file is called: macOS's description, or, for a type no app registers, the name the app that
+    /// opens it gives that kind of document, as Finder does, or else its extension.
     static func name(of type: UTType, calledByTheApp appName: String?, in bundle: Bundle?) -> String {
         if let description = type.localizedDescription { return description }
         if let appName {

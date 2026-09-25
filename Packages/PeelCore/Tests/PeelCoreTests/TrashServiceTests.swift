@@ -504,8 +504,8 @@ struct TrashServiceTests {
         }
     }
 
-    /// A folder refused by its name is refused before anything inside it is read. The checks for a library, a
-    /// browser wallet and work kept in a cache look a level or two down, which costs a read of every folder there.
+    /// A folder refused by its name is refused before anything inside it is read, since the checks that look a
+    /// level or two down cost a read of every folder there.
     @Test func refusesByNameBeforeReadingWhatIsInside() throws {
         let directory = try TemporaryDirectory()
         for index in 0..<300 {

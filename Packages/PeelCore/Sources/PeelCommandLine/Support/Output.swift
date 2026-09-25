@@ -106,8 +106,7 @@ enum Output {
         write(paddedCells(rows).map { indent + $0 + "\n" }.joined())
     }
 
-    /// Returns each row as one line, every cell made `plain` and every cell but the last padded to its column's
-    /// width in terminal cells.
+    /// The rows of `table`, one line each, padded in terminal cells.
     static func paddedCells(_ rows: [[String]]) -> [String] {
         let rows = rows.map { $0.map(plain) }
         let locale = newlocale(LC_CTYPE_MASK, "UTF-8", nil)
@@ -123,8 +122,7 @@ enum Output {
         }
     }
 
-    /// The terminal cells `text` takes: two for a character drawn as an emoji or as a wide East Asian one, none
-    /// for a mark that combines with the character before it, and one for anything else.
+    /// The terminal cells `text` takes: two for an emoji or a wide East Asian character, none for a combining mark.
     static func cells(_ text: String, in locale: locale_t?) -> Int {
         text.reduce(0) { total, character in
             let scalars = character.unicodeScalars

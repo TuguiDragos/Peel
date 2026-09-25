@@ -89,8 +89,8 @@ struct PeelApp: App {
         }
     }
 
-    /// Records what each tool finds whenever it finds it, with its page open or not, so Home can list it. Each tool
-    /// is followed on its own, so one that looks again leaves the others' dates as they were.
+    /// Records what each tool finds, its page open or not, so Home can list it. Each tool is followed on its own, so
+    /// one that looks again leaves the others' dates as they were.
     private func followFindings() async {
         let tools: [(Tool, @MainActor @Sendable () -> Looked?)] = [
             (.applications, { [library] in library.looked }),
@@ -138,10 +138,8 @@ struct PeelApp: App {
         notifications.notify(updatesAvailable: found.count, firstName: found[0].name, firstApp: found[0].url)
     }
 
-    /// Whether the menu bar item shows, which is whether Peel watches the Trash. `MenuBarExtra` writes the item's
-    /// visibility back into this binding each time the app's scenes update, which a scrolling list can make happen
-    /// at every step, even when nothing changed. Every write to `AppStorage` makes each `AppStorage` in the app read
-    /// again and redraw what shows it, so writing the value already held is left out.
+    /// Whether the menu bar item shows. `MenuBarExtra` writes it back at every scene update, and each write to an
+    /// `AppStorage` makes every `AppStorage` in the app read again, so a write of the value it holds is left out.
     private var menuBarItemIsInserted: Binding<Bool> {
         Binding {
             watchesTrash

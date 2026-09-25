@@ -121,8 +121,6 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            // Leaves out the section when it would be empty: some jobs have no Start, Stop, Enable, or Disable
-            // buttons, and a job macOS registered for an app has no file to show.
             if hasOwnControls || finderURL != nil {
                 Section {
                     if item.canMoveToTrash {

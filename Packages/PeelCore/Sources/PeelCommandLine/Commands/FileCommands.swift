@@ -16,7 +16,7 @@ struct OrphansCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    /// What `--json` writes: the groups, and the folders macOS kept Peel out of, where there may be more.
+    /// What `--json` writes.
     struct Report: Encodable {
         let groups: [Group]
         let unreadableLocations: [String]
@@ -336,15 +336,14 @@ struct ProjectsCommand: AsyncParsableCommand {
         Self.notes(for: scan).forEach(Output.note)
     }
 
-    /// What `--json` writes: the build output, and the chosen folders macOS kept Peel out of, where there may be
-    /// more.
+    /// What `--json` writes.
     struct Report: Encodable {
         let artifacts: [Record]
         let unreadableLocations: [String]
     }
 
-    /// What the scan couldn't look at, said on standard error whatever the output, so that "Nothing built was
-    /// found" or an empty list is not read as folders with nothing built in them.
+    /// What the scan couldn't look at, said on standard error whatever the output, so that an empty answer is not
+    /// read as nothing being there.
     static func notes(for scan: ProjectArtifacts.Scan) -> [String] {
         var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
@@ -453,8 +452,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
     struct Found: Encodable {
         let folders: [FolderRecord]
         let files: [Record]
-        /// Folders macOS kept Peel out of, and chosen folders it didn't look in: there may be duplicates there.
         let unreadableLocations: [String]
+        /// Chosen folders the scan didn't look in.
         let skippedLocations: [String]
     }
 
@@ -506,8 +505,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
         Self.notes(for: scan).forEach(Output.note)
     }
 
-    /// What the scan didn't look at, said on standard error whatever the output, so that "No duplicates found."
-    /// or an empty list is not read as a folder without any.
+    /// What the scan didn't look at, said on standard error whatever the output, so that an empty answer is not
+    /// read as nothing being there.
     static func notes(for scan: DuplicateScan) -> [String] {
         var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {

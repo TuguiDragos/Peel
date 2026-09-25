@@ -70,9 +70,8 @@ struct PackageReceiptsTests {
         #expect(PackageReceipts.topLevel(files: files, installLocation: "/", exists: { _ in true }).offered.isEmpty)
     }
 
-    /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which leaves out the
-    /// package's install prefix (such as `Applications`). So the path is asked about again without its leading
-    /// folders, and the answer is believed only if the receipt really installed that path.
+    /// A receipt's file list leaves out the install prefix, such as `Applications`, so the path is asked about again
+    /// without its leading folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
@@ -206,8 +205,7 @@ struct PackageReceiptsTests {
         #expect(empty.receipts.isEmpty)
     }
 
-    /// An answer that is not the property list `pkgutil` prints says nothing about what is installed, so it is
-    /// no answer, rather than a list of packages read from whatever text came back.
+    /// An answer that is not the property list `pkgutil` prints says nothing about what is installed.
     @Test func anAnswerInAnotherFormIsNoAnswer() async {
         let error: PackageReceipts.Pkgutil = { _ in "Error: the receipts could not be read.\n" }
         let scan = await PackageReceipts.list(exclusions: .none, pkgutil: error)

@@ -1,18 +1,12 @@
 import AppKit
 import SwiftUI
 
-/// A checkbox for a list's rows: AppKit's own button, at the size AppKit gives it.
-///
-/// SwiftUI's checkbox `Toggle` is the same button, but SwiftUI asks the button for its size every time the list
-/// measures a row, and a list measures each row as it scrolls into view, so a list of them drops frames while it
-/// scrolls. This one answers the size from a table read once for each control size.
+/// AppKit's checkbox, for the rows of a list. A checkbox `Toggle` is the same button, but SwiftUI asks it for its size
+/// each time the list measures a row, which drops frames while a long list scrolls. This one reads its size once.
 struct NativeCheckbox: NSViewRepresentable {
     @Binding var isOn: Bool
-    /// What VoiceOver reads, since the checkbox has no title of its own.
     let label: String
-    /// The help tag, which VoiceOver also reads unless there is a hint.
     var help: String?
-    /// What VoiceOver reads after the label, in place of the help tag.
     var hint: String?
 
     func makeCoordinator() -> Coordinator {
@@ -47,8 +41,7 @@ struct NativeCheckbox: NSViewRepresentable {
         if button.accessibilityHelp() != hint ?? help { button.setAccessibilityHelp(hint ?? help) }
     }
 
-    /// AppKit's standard checkbox with no title. `init(checkboxWithTitle:target:action:)` makes the same button but
-    /// sizes it to its title twice on the way, and a list makes one for every row that scrolls into view.
+    /// Not `init(checkboxWithTitle:target:action:)`, which sizes the button to its title twice on the way.
     private static func checkbox() -> NSButton {
         let button = NSButton(frame: .zero)
         button.setButtonType(.switch)
@@ -81,8 +74,7 @@ struct NativeCheckbox: NSViewRepresentable {
 }
 
 extension VerticalAlignment {
-    /// The middle of the first line of a checkbox's title, which the checkbox is centered on. A checkbox's own is
-    /// its center; its title's is set by `checkboxTitleLine()`.
+    /// The middle of the first line of a checkbox's title, which the checkbox is centered on.
     nonisolated static let checkboxTitleLine = VerticalAlignment(CheckboxTitleLine.self)
 
     private nonisolated enum CheckboxTitleLine: AlignmentID {
@@ -93,14 +85,13 @@ extension VerticalAlignment {
 }
 
 extension View {
-    /// Draws this view as a checkbox's title, which a disabled checkbox dims two levels, primary content to tertiary,
-    /// secondary to quaternary and tertiary to quinary, as SwiftUI's own checkbox toggle draws its label.
+    /// Draws this view as a checkbox's title, dimmed two levels when disabled, as SwiftUI dims its checkbox's label.
     func checkboxTitle() -> some View {
         modifier(CheckboxTitleStyle())
     }
 
-    /// Marks this text as the first line of a checkbox's title. Its middle is its baseline less half the height of
-    /// its capitals, where AppKit and SwiftUI center their own checkbox beside a title.
+    /// Marks this text as the first line of a checkbox's title, whose middle is its baseline less half its cap height,
+    /// where AppKit centers a checkbox beside its title.
     func checkboxTitleLine() -> some View {
         modifier(CheckboxTitleLineGuide())
     }

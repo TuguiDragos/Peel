@@ -21,9 +21,8 @@ public struct LeftoverScanner: Sendable {
 
     static let walk: Measure = { await FileSize.contents(of: $0) }
 
-    /// For tests, which say how each folder answers instead of waiting out the budget, and can count what the
-    /// guard is asked. They leave out Launch Services, whose answers depend on what is installed on the Mac
-    /// running them.
+    /// For tests, which say how each folder answers and can count what the guard is asked. They leave out Launch
+    /// Services, whose answers depend on what is installed on the Mac running them.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -267,9 +266,9 @@ public struct LeftoverScanner: Sendable {
     ///
     /// In the home folder and at the top of a Library, the app's name alone is weak evidence: a hidden `~/.jotter`
     /// can belong to a command-line tool of the same name rather than to the Jotter app, and hold work that exists
-    /// nowhere else. This is decided here and not
-    /// in the matcher, because `nested(in:)` takes an item only on strong evidence, and weaker evidence would
-    /// drop items such as `~/.config/zed` from the scan instead of showing them unselected.
+    /// nowhere else. This is decided here and not in the matcher, because `nested(in:)` takes an item only on strong
+    /// evidence, and weaker evidence would drop items such as `~/.config/zed` from the scan instead of showing them
+    /// unselected.
     private static func heldBack(
         _ match: LeftoverMatch,
         in kind: SearchLocation.Kind,

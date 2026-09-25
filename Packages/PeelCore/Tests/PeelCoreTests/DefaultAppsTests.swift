@@ -77,8 +77,7 @@ struct DefaultAppsTests {
         #expect(DefaultApps.declaredTypes(in: info).map(\.identifier) == ["com.adobe.pdf", "public.png"])
     }
 
-    /// macOS has no description for a type it made up from an extension no app registers, and Finder calls such a
-    /// file by the name the app that opens it gives that kind of document, in the app's own translation.
+    /// A type no app registers is called what the app that opens it calls that kind of document, as Finder does.
     @Test func namesAKindMacOSCannotDescribeAsTheAppDoes() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Example.app")

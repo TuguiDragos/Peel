@@ -21,7 +21,7 @@ enum Launchctl {
     }
 
     /// Parses `launchctl list`: "PID\tStatus\tLabel", where PID is "-" for jobs that aren't running. Nil when the
-    /// output does not start with that header: `launchctl`'s output can change, and another form says nothing.
+    /// output does not start with that header, since another form says nothing.
     static func parseList(_ output: String) -> [String: Int32?]? {
         let lines = output.split(whereSeparator: \.isNewline)
         guard lines.first == "PID\tStatus\tLabel" else { return nil }

@@ -261,12 +261,11 @@ private struct HistoryRecordRow: View {
                 label: [record.originalURL.abbreviatedPath, String(localized: place.title), record.size.byteCount]
                     .joined(separator: ", ")
             )
-            // A click on the record selects it, as a click on a checkbox's title does. VoiceOver hears the record
-            // as the checkbox's name.
             item
                 .contentShape(.rect)
                 .onTapGesture { history.setSelected(!isSelected, record) }
                 .checkboxTitle()
+                // The checkbox's label already reads the record.
                 .accessibilityHidden(true)
         }
         .disabled(place != .inTrash)

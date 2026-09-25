@@ -15,8 +15,7 @@ struct FileSearchTests {
         #expect(!FileSearch.isAppData(URL(filePath: "/Users/x/Libraryish/cache.db"), home: home))
     }
 
-    /// A Spotlight query over the whole Mac can take seconds, so a search is stopped like any scan: it comes back
-    /// at once and reads nothing more.
+    /// A search is stopped like any scan: it comes back at once and reads nothing more.
     @Test func aStoppedSearchStops() async throws {
         let unanswered = Unanswered()
         var search = FileSearchCriteria()

@@ -302,9 +302,8 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.kind)) == [.models, .environments])
     }
 
-    /// What a tool keeps for the person to install again: Xcode's hardware support installers, which Apple
-    /// suggests copying to other Macs, the Asset Store packages Unity downloaded, and Vagrant's boxes, some added
-    /// from a file that is gone.
+    /// Xcode's hardware support installers, Unity's Asset Store packages and Vagrant's boxes are kept for the person
+    /// to install again.
     @Test func downloadsKeptToInstallAgainAreListedButNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Developer/Packages/HardwareSupport.pkg", bytes: 400_000)

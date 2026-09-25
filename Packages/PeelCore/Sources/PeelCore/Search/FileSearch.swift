@@ -108,7 +108,6 @@ public enum FileSearch {
         let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
         var candidates: [(url: URL, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
-            // A stopped search reads nothing more; nobody will look at what it would have found.
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
             guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { continue }
@@ -208,9 +207,8 @@ public enum FileSearch {
     }
 }
 
-/// One Spotlight query, run without blocking a thread and stopped when the task that waits for it is. Everything
-/// about the query happens on its own serial queue, where Spotlight delivers its results and notifications, so
-/// the query is never touched from two threads at once.
+/// One Spotlight query, run without blocking a thread and stopped with the task that waits for it. It is only ever
+/// touched on its own serial queue, where Spotlight also delivers its results.
 private final class SpotlightGathering: @unchecked Sendable {
     private let query: MDQuery
     private let queue = DispatchQueue(label: "com.tuguidragos.Peel.FileSearch")
@@ -223,7 +221,6 @@ private final class SpotlightGathering: @unchecked Sendable {
         self.query = query
     }
 
-    /// The paths the query found, or nil when it could not run or the task was canceled.
     func paths() async -> [String]? {
         await withTaskCancellationHandler {
             await withCheckedContinuation { continuation in
@@ -250,8 +247,7 @@ private final class SpotlightGathering: @unchecked Sendable {
         }
     }
 
-    /// Reads each result's path from the result itself: Spotlight does not carry `kMDItemPath` in a query's value
-    /// lists, which `MDQueryGetAttributeValueOfResultAtIndex` reads, so a query built to gather it finds no paths.
+    /// Reads each result's path from the result itself, since a query's value lists never carry `kMDItemPath`.
     private func foundPaths() -> [String] {
         MDQueryDisableUpdates(query)
         return (0..<MDQueryGetResultCount(query)).compactMap { index in

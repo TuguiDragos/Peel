@@ -376,8 +376,7 @@ struct FileCommandTests {
         ])
     }
 
-    /// `peel orphans --json` says for each file whether `--remove` leaves it and why, and which folders macOS kept
-    /// Peel out of, so a script can tell an empty list from one that could not look everywhere.
+    /// `peel orphans --json` says why `--remove` leaves each file it leaves, and which folders macOS kept Peel out of.
     @Test func theOrphansListSaysWhatStaysAndWhereItCouldNotLook() throws {
         let directory = try TemporaryDirectory()
         let group = OrphanGroup(identifier: "com.example.gone", items: [
@@ -395,8 +394,7 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
     }
 
-    /// A chosen folder Peel didn't look in, such as a repository, is said, so "No duplicates found." is not read
-    /// as a folder without any.
+    /// A chosen folder Peel didn't look in, such as a repository, is said, so an empty answer is not read as none.
     @Test func saysWhichFoldersItDidNotLookIn() {
         let skipped = URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)
         let scan = DuplicateScan(groups: [], unreadableLocations: [], skippedLocations: [skipped])
@@ -421,8 +419,7 @@ struct FileCommandTests {
         #expect(found["skippedLocations"] as? [String] == ["/Users/me/Projects/app"])
     }
 
-    /// A chosen folder macOS kept Peel out of is said whatever the output, so "Nothing built was found" is not
-    /// read as a folder with nothing built in it.
+    /// A chosen folder macOS kept Peel out of is said whatever the output, so an empty answer is not read as none.
     @Test func saysWhenItCouldNotLookInAChosenFolder() throws {
         let locked = URL(filePath: "/Users/me/Library/Safari", directoryHint: .isDirectory)
         let scan = ProjectArtifacts.Scan(artifacts: [], wasCutShort: true, unreadableLocations: [locked])

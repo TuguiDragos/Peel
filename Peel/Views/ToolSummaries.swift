@@ -2,8 +2,7 @@ import Accessibility
 import PeelCore
 import SwiftUI
 
-// What each tool found, in numbers: the summary its detail pane shows before anything is chosen, and what
-// VoiceOver reads when a scan ends.
+// What each tool found: the summary its pane shows, and what VoiceOver reads when a scan ends.
 //
 // Each sentence is one localized string with its numbers inside, so a translation can put the parts in any
 // order, as Japanese or Turkish need. The sentences avoid verbs that would have to agree with a number, and the
@@ -150,9 +149,8 @@ extension RemovalHistoryStore {
 }
 
 extension View {
-    /// Tells VoiceOver what a scan found when it ends, since a scan can take minutes and the list fills in
-    /// silently. A stopped scan is announced as stopped. `couldNotLook` is the title of the page's message for a
-    /// scan that could not look, which is read in place of "Nothing found." when nothing was found.
+    /// Tells VoiceOver how a scan ended, since the list fills in silently: what it found, that it was stopped, or
+    /// `couldNotLook`, the title of the page's message, in place of "Nothing found." when it could not look.
     func announcesScan(
         _ isScanning: Bool,
         found summary: AttributedString?,

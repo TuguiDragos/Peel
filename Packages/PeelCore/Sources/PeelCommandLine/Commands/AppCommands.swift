@@ -85,7 +85,6 @@ struct LeftoversCommand: AsyncParsableCommand {
         /// finds the key.
         let appSize: Int64?
         let leftovers: [LeftoverRecord]
-        /// The folders macOS kept Peel out of, where the app may have left more.
         let unreadableLocations: [String]
 
         init(app: InstalledApp, appSize: Int64?, leftovers: [Leftover], unreadableLocations: [SearchLocation]) {
@@ -213,13 +212,12 @@ struct UninstallCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    /// What `--json` writes once the command is done: each item and why it stays when it does, then, unless it
-    /// was a dry run, what moved and what failed, and why.
+    /// What `--json` writes once the command is done.
     struct Report: Encodable {
         struct Item: Encodable {
             let path: String
             let size: MeasuredSize
-            /// Why the item stays where it is, in the words `peel history --refused` uses, or `null` when it moves.
+            /// Why the item stays, in the words `peel history --refused` uses, or `null` when it moves.
             let stays: String?
 
             private enum CodingKeys: String, CodingKey {
@@ -260,12 +258,10 @@ struct UninstallCommand: AsyncParsableCommand {
         let items: [Item]
         let moved: [String]
         let failed: [Failure]
-        /// Whether the privacy permissions were reset, or `null` when that wasn't done: not asked for, or a dry run.
+        /// Whether the privacy permissions were reset, or `null` when that wasn't asked for or it was a dry run.
         let privacyReset: Bool?
-        /// The leftovers that stay because they need administrator access, and those left for review.
         let needsAdministrator: Int
         let needsReview: Int
-        /// The folders macOS kept Peel out of, where the app may have left more.
         let unreadableLocations: [String]
 
         private enum CodingKeys: String, CodingKey {

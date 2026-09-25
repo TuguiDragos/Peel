@@ -2,8 +2,7 @@ import Foundation
 import Observation
 import PeelCore
 
-/// What each tool found the last time it looked, as Home lists it. It is kept in the app's user defaults, beside
-/// `LifetimeStats`, so Home can say it again after Peel is opened.
+/// What each tool found the last time it looked, kept in the app's user defaults so Home can list it.
 @Observable
 final class FoundLastTimeStore {
     private static let key = "home.foundLastTime"
@@ -26,7 +25,7 @@ final class FoundLastTimeStore {
     }
 }
 
-/// How many things a tool found when it last looked, and their size when the tool measures what it finds.
+/// What a tool found when it looked, with no size for what has none, such as updates.
 struct Looked: Equatable {
     let count: Int
     let size: SizeTotal?
@@ -55,7 +54,6 @@ extension IntelLibrary {
 }
 
 extension HomebrewLibrary {
-    /// The packages with a newer version waiting.
     var looked: Looked? {
         packages.map { Looked(count: $0.count(where: \.isOutdated), size: nil) }
     }
@@ -86,7 +84,6 @@ extension InstallerLibrary {
 }
 
 extension DuplicateLibrary {
-    /// The groups of copies, and what moving every copy but one of each would free.
     var looked: Looked? {
         scan.map { scan in
             let reclaimable = scan.groups.reduce(0) { $0 + $1.reclaimableSize } + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
