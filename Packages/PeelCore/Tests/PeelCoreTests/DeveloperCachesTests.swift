@@ -172,6 +172,8 @@ struct DeveloperCachesTests {
             // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
             // Jan its chat history; Ollama a copy of its app while it updates.
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
+            // Unity keeps its licenses beside its caches.
+            "Library/Unity",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
@@ -298,6 +300,21 @@ struct DeveloperCachesTests {
         #expect(locations.count == 2)
         #expect(locations.allSatisfy { !$0.isRecommended })
         #expect(Set(locations.map(\.kind)) == [.models, .environments])
+    }
+
+    /// What a tool keeps for the person to install again: Xcode's hardware support installers, which Apple
+    /// suggests copying to other Macs, the Asset Store packages Unity downloaded, and Vagrant's boxes, some added
+    /// from a file that is gone.
+    @Test func downloadsKeptToInstallAgainAreListedButNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Developer/Packages/HardwareSupport.pkg", bytes: 400_000)
+        try directory.file("Library/Unity/Asset Store-5.x/Publisher/Tools/Package.unitypackage", bytes: 400_000)
+        try directory.file(".vagrant.d/boxes/hashicorp-VAGRANTSLASH-bionic64/0/virtualbox/box-disk001.vmdk", bytes: 400_000)
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.count == 3)
+        #expect(locations.allSatisfy { $0.kind == .keptDownloads && !$0.isRecommended })
     }
 
     /// Peel reads cask definitions from Homebrew's `api` folder, which `brew cleanup` leaves alone too. It is

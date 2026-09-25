@@ -11473,108 +11473,108 @@
         }
       }
     },
-    "Archives, model weights, installed environments, and anything Peel couldn’t measure are listed but never selected for you." : {
+    "Archives, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivy, váhy modelů, nainstalovaná prostředí a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
+            "value" : "Archivy, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive, Modellgewichte, installierte Umgebungen und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
+            "value" : "Archive, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los pesos de modelos, los entornos instalados y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
+            "value" : "Las copias archivadas, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les archives, les poids de modèles, les environnements installés et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
+            "value" : "Les archives, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivi, pesi dei modelli, ambienti installati e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
+            "value" : "Archivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ、モデルの重み、インストール済みの環境、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "アーカイブ、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브, 모델 가중치, 설치된 환경 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "아카이브, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archieven, modelgewichten, geïnstalleerde omgevingen en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
+            "value" : "Archieven, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiwa, wagi modeli, zainstalowane środowiska i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
+            "value" : "Archiwa, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos comprimidos, pesos de modelos, ambientes instalados e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
+            "value" : "Arquivos comprimidos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arhivele, ponderile modelelor, mediile instalate și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
+            "value" : "Arhivele, ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архивы, веса моделей, установленные окружения и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
+            "value" : "Архивы, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arkiv, modellvikter, installerade miljöer och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
+            "value" : "Arkiv, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arşivler, model ağırlıkları, yüklü ortamlar ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Arşivler, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архіви, ваги моделей, інстальовані середовища й усе, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
+            "value" : "Архіви, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "归档、模型权重、已安装的环境，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
+            "value" : "归档、模型权重、已安装的环境、为重新安装而保留的下载文件，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "封存檔、模型權重、已安裝的環境，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
+            "value" : "封存檔、模型權重、已安裝的環境、保留供重新安裝的下載檔案，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
           }
         }
       }
@@ -24556,6 +24556,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已下載"
+          }
+        }
+      }
+    },
+    "Downloads kept so you can install them again" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stažené soubory uchované, abyste je mohli znovu nainstalovat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads, die aufbewahrt werden, damit du sie erneut installieren kannst"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargas que se conservan para que puedas volver a instalarlas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Téléchargements conservés pour que vous puissiez les réinstaller"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download conservati, così puoi reinstallarli"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再インストールできるように保管されているダウンロード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다운로드 파일, 다시 설치할 수 있도록 보관됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads, bewaard zodat je ze opnieuw kunt installeren"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pobrane pliki zachowane do ponownej instalacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads guardados para que você possa instalá-los de novo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descărcări păstrate ca să le puteți instala din nou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузки, которые хранятся, чтобы Вы могли установить их снова"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtningar som sparas så att du kan installera dem igen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden yükleyebilmeniz için saklanan indirmeler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Викачані файли, які зберігаються, щоб ви могли інсталювати їх знову"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载文件，保留下来以便你重新安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下載檔案，保留供你重新安裝"
           }
         }
       }

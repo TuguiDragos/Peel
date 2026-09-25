@@ -14,6 +14,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         case models
         /// Installed sets of packages: virtual environments, editor plug-ins, language servers.
         case environments
+        /// What a tool keeps for the person to install again: installers, store packages, virtual machine boxes.
+        case keptDownloads
     }
 
     public struct Location: Sendable, Hashable, Identifiable {
@@ -33,7 +35,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public var isRecommended: Bool {
             switch kind {
             case .buildData, .downloads, .cache, .deviceSupport, .logs: size != nil
-            case .archives, .models, .environments: false
+            case .archives, .models, .environments, .keptDownloads: false
             }
         }
     }
@@ -120,6 +122,7 @@ public enum DeveloperCaches {
             Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py"),
             Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_3-release-notes"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
+            Folder("Library/Developer/Packages", .keptDownloads, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-16_2-release-notes"),
             Folder("Library/Developer/Xcode/Archives", .archives, source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]"),
         ]),
         Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
@@ -549,6 +552,7 @@ public enum DeveloperCaches {
             Folder(".minikube/cache/preloaded-tarball", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
         ]),
         Definition(id: "vagrant", name: "Vagrant", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
+            Folder(".vagrant.d/boxes", .keptDownloads, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L140"),
             Folder(".vagrant.d/tmp", .cache, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L143"),
         ]),
         // Build systems and media
@@ -581,6 +585,7 @@ public enum DeveloperCaches {
             // `Library/Caches/Unity/upm` from Unity 6 (docs.unity3d.com, Manual/upm-cache.html for each version).
             Folder("Library/Caches/Unity/upm", .downloads, source: "https://docs.unity3d.com/Manual/upm-cache.html"),
             Folder("Library/Unity/cache", .downloads, source: "https://docs.unity3d.com/2022.3/Documentation/Manual/upm-cache.html"),
+            Folder("Library/Unity/Asset Store-5.x", .keptDownloads, source: "https://docs.unity.com/asset-store/downloads/asset-store-packages"),
             Folder("Library/Logs/Unity", .logs, source: "https://docs.unity3d.com/Manual/log-files.html"),
         ]),
         Definition(id: "godot", name: "Godot", systemImage: "cube.transparent", appBundleIdentifiers: ["org.godotengine.godot"], folders: [
