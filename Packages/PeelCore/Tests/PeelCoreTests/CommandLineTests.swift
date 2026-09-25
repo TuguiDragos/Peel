@@ -24,8 +24,23 @@ struct CommandLineTests {
         #expect(ByteSize(argument: "MB") == nil)
     }
 
-    @Test func alignsColumnsByCharacters() {
-        #expect(Output.paddedCells([["📷 Photos", "1 kB", "x"], ["Café", "10 kB", "y"]]) == ["📷 Photos  1 kB   x", "Café      10 kB  y"])
+    /// A terminal gives an emoji and a wide East Asian character two cells, and a combining mark none.
+    @Test func alignsColumnsByTerminalCells() {
+        #expect(Output.paddedCells([["📷 Photos", "1 kB", "x"], ["Café", "10 kB", "y"]]) == ["📷 Photos  1 kB   x", "Café       10 kB  y"])
+        #expect(Output.paddedCells([["日本語", "a"], ["abc", "b"], ["e\u{301}", "c"], ["🇷🇴❤️", "d"]]) == [
+            "日本語  a", "abc     b", "e\u{301}       c", "🇷🇴❤️    d",
+        ])
+    }
+
+    /// A table is written at once, rather than a row at a time: a search lists up to 2,000 rows.
+    @Test func writesATableAtOnce() {
+        let collected = Output.Collected()
+        Output.$collected.withValue(collected) {
+            Output.table([["1 kB", "/a"], ["2 kB", "/b"], ["3 kB", "/c"]], indent: "  ")
+        }
+
+        #expect(collected.writes == 1)
+        #expect(collected.output == "  1 kB  /a\n  2 kB  /b\n  3 kB  /c\n")
     }
 
     /// `peel uninstall /applications/example.app`, or a link to the app, finds the installed app itself: never

@@ -3,6 +3,9 @@ import Darwin
 import Foundation
 import PeelCore
 import Synchronization
+// `wcwidth_l`, which Swift imports when both are imported, as the SDK's module map says.
+import wchar_h
+import xlocale
 
 struct CommandFailure: Error, CustomStringConvertible {
     let description: String
@@ -20,12 +23,19 @@ enum Output {
     /// What a command printed, kept in place of standard output and standard error while a test runs it inside
     /// `Output.$collected.withValue`, so the test can read what a person or a script would have read.
     final class Collected: Sendable {
-        private let printed = Mutex((output: "", notes: ""))
+        private let printed = Mutex((output: "", notes: "", writes: 0))
 
         var output: String { printed.withLock { $0.output } }
         var notes: String { printed.withLock { $0.notes } }
+        /// How many times standard output was written to.
+        var writes: Int { printed.withLock { $0.writes } }
 
-        fileprivate func add(output text: String) { printed.withLock { $0.output += text } }
+        fileprivate func add(output text: String) {
+            printed.withLock {
+                $0.output += text
+                $0.writes += 1
+            }
+        }
         fileprivate func add(note text: String) { printed.withLock { $0.notes += text } }
     }
 
@@ -91,21 +101,38 @@ enum Output {
         return String(decoding: try encoder.encode(value), as: UTF8.self) + "\n"
     }
 
-    /// Prints rows as a table, padding every column but the last to the width of its widest cell.
+    /// Prints rows as a table, padding every column but the last to the width of its widest cell, in one write.
     static func table(_ rows: [[String]], indent: String = "") {
-        for row in paddedCells(rows) {
-            line(indent + row)
+        write(paddedCells(rows).map { indent + $0 + "\n" }.joined())
+    }
+
+    /// Returns each row as one line, every cell made `plain` and every cell but the last padded to its column's
+    /// width in terminal cells.
+    static func paddedCells(_ rows: [[String]]) -> [String] {
+        let rows = rows.map { $0.map(plain) }
+        let locale = newlocale(LC_CTYPE_MASK, "UTF-8", nil)
+        defer { if let locale { freelocale(locale) } }
+        let widths = rows.map { $0.map { cells($0, in: locale) } }
+        let columns = rows.map(\.count).max() ?? 0
+        let columnWidths = (0..<columns).map { column in widths.map { column < $0.count ? $0[column] : 0 }.max() ?? 0 }
+        return zip(rows, widths).map { row, width in
+            row.enumerated().map { index, cell in
+                index == row.count - 1 ? cell : cell + String(repeating: " ", count: columnWidths[index] - width[index])
+            }
+            .joined(separator: "  ")
         }
     }
 
-    static func paddedCells(_ rows: [[String]]) -> [String] {
-        let columns = rows.map(\.count).max() ?? 0
-        let widths = (0..<columns).map { column in rows.map { column < $0.count ? $0[column].count : 0 }.max() ?? 0 }
-        return rows.map { row in
-            row.enumerated().map { index, cell in
-                index == row.count - 1 ? cell : cell + String(repeating: " ", count: widths[index] - cell.count)
-            }
-            .joined(separator: "  ")
+    /// The terminal cells `text` takes: two for a character drawn as an emoji or as a wide East Asian one, none
+    /// for a mark that combines with the character before it, and one for anything else.
+    static func cells(_ text: String, in locale: locale_t?) -> Int {
+        text.reduce(0) { total, character in
+            let scalars = character.unicodeScalars
+            // A flag, and a character followed by U+FE0F, which asks for its emoji form, are drawn as an emoji.
+            if scalars.contains(where: { $0.properties.isEmojiPresentation || $0.value == 0xFE0F }) { return total + 2 }
+            let width = scalars.map { Int(wcwidth_l(wchar_t(bitPattern: $0.value), locale)) }.max() ?? 0
+            // -1 is a character `wcwidth_l` can't print, which a terminal draws as a box.
+            return total + (width < 0 ? 1 : width)
         }
     }
 
