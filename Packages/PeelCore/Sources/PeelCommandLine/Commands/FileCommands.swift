@@ -414,22 +414,25 @@ struct DuplicatesCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    private struct Record: Encodable {
+    struct Record: Encodable {
         let size: Int64
         let reclaimableSize: Int64
         let files: [String]
     }
 
-    private struct FolderRecord: Encodable {
+    struct FolderRecord: Encodable {
         let size: Int64
         let reclaimableSize: Int64
         let fileCount: Int
         let folders: [String]
     }
 
-    private struct Found: Encodable {
+    struct Found: Encodable {
         let folders: [FolderRecord]
         let files: [Record]
+        /// Folders macOS kept Peel out of, and chosen folders it didn't look in: there may be duplicates there.
+        let unreadableLocations: [String]
+        let skippedLocations: [String]
     }
 
     /// Checks the folders here rather than in `run()`: only while it parses does ArgumentParser know which
@@ -457,24 +460,12 @@ struct DuplicatesCommand: AsyncParsableCommand {
         options.minimumSize = minimumSize?.bytes ?? 1
         let scan = try await finder.scan(options)
         if removal.remove {
-            if !scan.unreadableLocations.isEmpty {
-                Output.note(Output.fullDiskAccessNote)
-            }
+            Self.notes(for: scan).forEach(Output.note)
             return try await clean(scan, using: TrashService(exclusions: await ExclusionStore().load()))
         }
 
         if output.json {
-            try Output.json(Found(
-                folders: scan.folderGroups.map { group in
-                    FolderRecord(
-                        size: group.size,
-                        reclaimableSize: group.reclaimableSize,
-                        fileCount: group.fileCount,
-                        folders: group.folders.map { Output.path($0.url) }
-                    )
-                },
-                files: scan.groups.map { Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) }) }
-            ))
+            try Output.json(Self.found(in: scan))
         } else if scan.groups.isEmpty, scan.folderGroups.isEmpty {
             Output.line("No duplicates found.")
         } else {
@@ -489,9 +480,37 @@ struct DuplicatesCommand: AsyncParsableCommand {
             let total = scan.groups.reduce(0) { $0 + $1.reclaimableSize } + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
             Output.line("Total to free: \(Output.size(total))")
         }
+        Self.notes(for: scan).forEach(Output.note)
+    }
+
+    /// What the scan didn't look at, said on standard error whatever the output, so that "No duplicates found."
+    /// or an empty list is not read as a folder without any.
+    static func notes(for scan: DuplicateScan) -> [String] {
+        var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
-            Output.note(Output.fullDiskAccessNote)
+            notes.append(Output.fullDiskAccessNote)
         }
+        if !scan.skippedLocations.isEmpty {
+            let folders = scan.skippedLocations.map(Output.path).joined(separator: ", ")
+            notes.append("Peel didn't look in \(folders), so there may be duplicates there. It leaves repositories alone, and doesn't scan iCloud Drive, app data, or system folders.")
+        }
+        return notes
+    }
+
+    static func found(in scan: DuplicateScan) -> Found {
+        Found(
+            folders: scan.folderGroups.map { group in
+                FolderRecord(
+                    size: group.size,
+                    reclaimableSize: group.reclaimableSize,
+                    fileCount: group.fileCount,
+                    folders: group.folders.map { Output.path($0.url) }
+                )
+            },
+            files: scan.groups.map { Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) }) },
+            unreadableLocations: scan.unreadableLocations.map(Output.path),
+            skippedLocations: scan.skippedLocations.map(Output.path)
+        )
     }
 
     static func heading(for group: DuplicateFolderGroup) -> String {

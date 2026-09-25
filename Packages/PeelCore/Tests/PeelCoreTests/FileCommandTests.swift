@@ -395,6 +395,32 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
     }
 
+    /// A chosen folder Peel didn't look in, such as a repository, is said, so "No duplicates found." is not read
+    /// as a folder without any.
+    @Test func saysWhichFoldersItDidNotLookIn() {
+        let skipped = URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)
+        let scan = DuplicateScan(groups: [], unreadableLocations: [], skippedLocations: [skipped])
+
+        let notes = DuplicatesCommand.notes(for: scan)
+
+        #expect(notes.contains { $0.hasPrefix("Peel didn't look in /Users/me/Projects/app, so there may be duplicates there.") })
+    }
+
+    /// `peel duplicates --json` names the folders it couldn't read and the chosen folders it didn't look in.
+    @Test func theDuplicatesReportSaysWhereItCouldNotLook() throws {
+        let scan = DuplicateScan(
+            groups: [],
+            unreadableLocations: [URL(filePath: "/Users/me/Locked", directoryHint: .isDirectory)],
+            skippedLocations: [URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)]
+        )
+
+        let json = try Output.jsonText(DuplicatesCommand.found(in: scan))
+
+        let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        #expect(found["unreadableLocations"] as? [String] == ["/Users/me/Locked"])
+        #expect(found["skippedLocations"] as? [String] == ["/Users/me/Projects/app"])
+    }
+
     /// `peel caches --json` says which folders `--remove` would take.
     @Test func theCachesListSaysWhatRemoveWouldTake() throws {
         let directory = try TemporaryDirectory()
