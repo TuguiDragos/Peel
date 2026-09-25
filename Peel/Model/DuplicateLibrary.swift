@@ -11,7 +11,9 @@ enum DuplicateRow: Hashable {
 final class DuplicateLibrary {
     private static let foldersKey = "duplicateFolders"
 
-    var folders: [URL] = [] {
+    /// The folders to scan. It has no initial value, so what `init` reads is not saved again: only a change is,
+    /// and the default folders stay a default until the user changes the list.
+    var folders: [URL] {
         didSet {
             UserDefaults.standard.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
         }
@@ -48,7 +50,7 @@ final class DuplicateLibrary {
         if let paths = UserDefaults.standard.stringArray(forKey: Self.foldersKey) {
             folders = paths.map { URL(filePath: $0, directoryHint: .isDirectory) }
         } else {
-            folders = finder.defaultFolders
+            folders = DuplicateFinder().defaultFolders
         }
     }
 
