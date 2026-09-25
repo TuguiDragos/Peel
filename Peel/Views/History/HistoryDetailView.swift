@@ -157,7 +157,7 @@ struct HistoryDetailView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
             FlowLayout {
-                if let tool = batch.tool {
+                ForEach(batch.tools, id: \.self) { tool in
                     Badge(title: Text(tool.title), systemImage: tool.systemImage)
                 }
                 Badge(title: Text("^[\(batch.records.count) item](inflect: true)"), systemImage: "doc.on.doc")

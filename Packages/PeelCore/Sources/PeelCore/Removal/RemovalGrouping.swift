@@ -5,9 +5,7 @@ public import Foundation
 /// rule can be tested.
 public struct RemovalGroup: Sendable, Hashable, Identifiable {
     public let id: UUID
-    public let source: String
-    public let sourceKey: String?
-    public let tool: String
+    public let parts: [RemovalPart]
     /// When the batch was moved: the earliest of its records' dates, since each item is stamped as it moves.
     public let date: Date
     public let records: [RemovalRecord]
@@ -25,9 +23,7 @@ extension RemovalRecord {
                 }
                 return RemovalGroup(
                     id: batch,
-                    source: sorted.first?.source ?? "",
-                    sourceKey: sorted.first?.sourceKey,
-                    tool: sorted.first?.tool ?? "",
+                    parts: RemovalPart.of(sorted.map { ($0.date, $0.part) }),
                     date: sorted.map(\.date).min() ?? .now,
                     records: sorted
                 )
@@ -39,9 +35,7 @@ extension RemovalRecord {
 /// What Peel was asked to move in one removal and did not, as History shows it.
 public struct RefusalGroup: Sendable, Hashable, Identifiable {
     public let id: UUID
-    public let source: String
-    public let sourceKey: String?
-    public let tool: String
+    public let parts: [RemovalPart]
     public let date: Date
     public let records: [RefusalRecord]
 }
@@ -54,13 +48,47 @@ extension RefusalRecord {
                 let sorted = records.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
                 return RefusalGroup(
                     id: batch,
-                    source: sorted.first?.source ?? "",
-                    sourceKey: sorted.first?.sourceKey,
-                    tool: sorted.first?.tool ?? "",
+                    parts: RemovalPart.of(sorted.map { ($0.date, $0.part) }),
                     date: sorted.map(\.date).min() ?? .now,
                     records: sorted
                 )
             }
             .sorted { $0.date != $1.date ? $0.date > $1.date : $0.id.uuidString < $1.id.uuidString }
     }
+}
+
+/// Where some of a removal's records came from: the tool, and the source it names, such as an app or a group of
+/// orphaned files. A removal from one page has one part, and one that moved what was selected in several tools
+/// has one for each, in the order they moved.
+public struct RemovalPart: Sendable, Hashable {
+    public let source: String
+    /// The key of a source Peel names itself, so History can show it in the user's language.
+    public let sourceKey: String?
+    public let tool: String
+
+    public init(source: String, sourceKey: String?, tool: String) {
+        self.source = source
+        self.sourceKey = sourceKey
+        self.tool = tool
+    }
+
+    /// The parts of one removal, each once, in the order its first record moved. Two parts that moved at the same
+    /// moment keep one order, by tool and then by source.
+    public static func of(_ records: some Sequence<(date: Date, part: RemovalPart)>) -> [RemovalPart] {
+        var first: [RemovalPart: Date] = [:]
+        for (date, part) in records {
+            first[part] = min(first[part] ?? date, date)
+        }
+        return first
+            .sorted { $0.value != $1.value ? $0.value < $1.value : ($0.key.tool, $0.key.source) < ($1.key.tool, $1.key.source) }
+            .map(\.key)
+    }
+}
+
+extension RemovalRecord {
+    public var part: RemovalPart { RemovalPart(source: source, sourceKey: sourceKey, tool: tool) }
+}
+
+extension RefusalRecord {
+    public var part: RemovalPart { RemovalPart(source: source, sourceKey: sourceKey, tool: tool) }
 }

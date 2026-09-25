@@ -154,6 +154,16 @@ enum Output {
         PathPattern.comparablePath(of: url)
     }
 
+    /// Names joined as an English list: "A", "A and B", "A, B, and C".
+    static func list(_ names: [String]) -> String {
+        switch names.count {
+        case 0: ""
+        case 1: names[0]
+        case 2: "\(names[0]) and \(names[1])"
+        default: names.dropLast().joined(separator: ", ") + ", and " + names[names.count - 1]
+        }
+    }
+
     static func number(_ value: Int) -> String {
         value.formatted(.number.locale(locale))
     }

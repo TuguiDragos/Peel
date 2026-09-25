@@ -104,6 +104,39 @@ struct HistoryCommandTests {
         try #require(try JSONSerialization.jsonObject(with: Data(json.utf8)) as? [Any])
     }
 
+    /// A removal of what was selected in several tools is named by each of their sources, in the order they
+    /// moved, in the table and in `--json`, where it names no one tool and lists each part.
+    @Test func namesEveryPartOfARemovalFromSeveralTools() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let batch = UUID()
+        let now = Date.now
+        let parts = [("Xcode", "developer", "DerivedData"), ("Peel", "projects", "node_modules"), ("Duplicates", "duplicates", "copy.bin")]
+        let records = parts.enumerated().map { index, part in
+            RemovalRecord(
+                batch: batch,
+                item: TrashedItem(
+                    originalURL: directory.url.appending(path: "home/\(part.2)"),
+                    trashedURL: directory.url.appending(path: "home/.Trash/\(part.2)"),
+                    date: now.addingTimeInterval(Double(index))
+                ),
+                size: 10,
+                source: part.0,
+                tool: part.1
+            )
+        }
+        _ = await logs.removals.add(records)
+
+        #expect(HistoryCommand.rows(for: Batch.all(in: records))[1][2] == "Xcode, Peel, and Duplicates")
+        #expect(HistoryCommand.rows(for: Batch.all(in: Array(records.prefix(2))))[1][2] == "Xcode and Peel")
+
+        let removal = try #require(try listed(try await printed(["history", "--json"], from: logs)).first as? [String: Any])
+        #expect(removal["tool"] is NSNull)
+        let listedParts = try #require(removal["parts"] as? [[String: Any]])
+        #expect(listedParts.compactMap { $0["source"] as? String } == ["Xcode", "Peel", "Duplicates"])
+        #expect(listedParts.compactMap { $0["tool"] as? String } == ["developer", "projects", "duplicates"])
+    }
+
     /// With nothing recorded, the command prints a sentence rather than an empty table, and `--json` prints an
     /// empty list.
     @Test func saysSoWhenThereIsNothingToList() async throws {

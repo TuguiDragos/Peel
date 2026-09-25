@@ -5,23 +5,36 @@ import PeelCore
 
 struct RemovalBatch: Identifiable, Hashable {
     let id: UUID
-    let source: String
-    let sourceKey: String?
-    let tool: Tool?
+    /// Every tool the batch moved from, in the order they moved: one, or several for a batch that moved what was
+    /// selected in more than one tool.
+    let tools: [Tool]
     let date: Date
     let records: [RemovalRecord]
-    /// The title the row shows. A source Peel stored with a key is shown in the user's language, any other
-    /// source as stored.
+    /// The title the row shows: each part's source, in the order they moved. A source Peel stored with a key is
+    /// shown in the user's language, any other source as stored.
     let title: String
 
-    init(id: UUID, source: String, sourceKey: String?, tool: Tool?, date: Date, records: [RemovalRecord]) {
+    init(id: UUID, parts: [RemovalPart], date: Date, records: [RemovalRecord]) {
         self.id = id
-        self.source = source
-        self.sourceKey = sourceKey
-        self.tool = tool
+        tools = Self.tools(of: parts)
         self.date = date
         self.records = records
-        title = Self.title(source: source, key: sourceKey, tool: tool)
+        title = Self.title(of: parts)
+    }
+
+    /// The one tool the batch moved from, or nil for a batch from several.
+    var tool: Tool? { tools.count == 1 ? tools[0] : nil }
+
+    static func tools(of parts: [RemovalPart]) -> [Tool] {
+        var tools: [Tool] = []
+        for tool in parts.compactMap({ Tool(rawValue: $0.tool) }) where !tools.contains(tool) {
+            tools.append(tool)
+        }
+        return tools
+    }
+
+    static func title(of parts: [RemovalPart]) -> String {
+        parts.map { title(source: $0.source, key: $0.sourceKey, tool: Tool(rawValue: $0.tool)) }.formatted(.list(type: .and))
     }
 
     static func title(source: String, key: String?, tool: Tool?) -> String {
@@ -51,18 +64,16 @@ struct RemovalBatch: Identifiable, Hashable {
 /// What Peel was asked to move in one removal and did not.
 struct RefusalBatch: Identifiable, Hashable {
     let id: UUID
-    let tool: Tool?
     let date: Date
     let records: [RefusalRecord]
-    /// The source in the user's language, as `RemovalBatch.title` gives it.
+    /// The sources in the user's language, as `RemovalBatch.title(of:)` gives them.
     let title: String
 
     init(_ group: RefusalGroup) {
         id = group.id
-        tool = Tool(rawValue: group.tool)
         date = group.date
         records = group.records
-        title = RemovalBatch.title(source: group.source, key: group.sourceKey, tool: tool)
+        title = RemovalBatch.title(of: group.parts)
     }
 }
 
@@ -101,14 +112,7 @@ final class RemovalHistoryStore {
     /// Groups `records` into batches. The rule lives in `RemovalRecord.grouped`, where it is tested.
     private static func batches(of records: [RemovalRecord]) -> [RemovalBatch] {
         RemovalRecord.grouped(records).map { group in
-            RemovalBatch(
-                id: group.id,
-                source: group.source,
-                sourceKey: group.sourceKey,
-                tool: Tool(rawValue: group.tool),
-                date: group.date,
-                records: group.records
-            )
+            RemovalBatch(id: group.id, parts: group.parts, date: group.date, records: group.records)
         }
     }
 
@@ -147,7 +151,12 @@ final class RemovalHistoryStore {
         let new = result.trashed.map {
             RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool.rawValue)
         }
-        let moved = RemovalBatch(id: batch, source: source, sourceKey: sourceKey, tool: tool, date: .now, records: new)
+        let moved = RemovalBatch(
+            id: batch,
+            parts: [RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue)],
+            date: .now,
+            records: new
+        )
         justMoved = moved
         AccessibilityNotification.Announcement(moved.movedAnnouncement).post()
         // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.

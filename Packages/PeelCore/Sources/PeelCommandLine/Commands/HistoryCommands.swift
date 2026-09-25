@@ -8,8 +8,11 @@ struct Batch {
     let records: [RemovalRecord]
 
     var date: Date { records.map(\.date).max() ?? .distantPast }
-    var source: String { records.first?.source ?? "" }
-    var tool: String { records.first?.tool ?? "" }
+    /// Where the removal moved from: one part, or one for each tool whose selection it moved.
+    var parts: [RemovalPart] { RemovalPart.of(records.map { ($0.date, $0.part) }) }
+    var source: String { Output.list(parts.map(\.source)) }
+    /// The tool the removal moved from, or nil for one that moved from several.
+    var tool: String? { parts.count == 1 ? parts[0].tool : nil }
     var size: SizeTotal { records.totalSize }
     /// The records whose items are still in the Trash. An item emptied from the Trash can't be put back.
     var restorable: [RemovalRecord] { records.filter(\.isStillInTrash) }
@@ -49,14 +52,38 @@ struct HistoryCommand: AsyncParsableCommand {
     @OptionGroup var output: OutputOptions
 
     private struct Record: Encodable {
+        struct Part: Encodable {
+            let source: String
+            let tool: String
+        }
+
         let batch: String
         let date: Date
         let source: String
-        let tool: String
+        let tool: String?
+        let parts: [Part]
         let size: MeasuredSize
         let itemCount: Int
         let restorableCount: Int
         let files: [FileRecord]
+
+        private enum CodingKeys: String, CodingKey {
+            case batch, date, source, tool, parts, size, itemCount, restorableCount, files
+        }
+
+        /// Written by hand so a removal from several tools says `"tool": null` rather than leaving the key out.
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(batch, forKey: .batch)
+            try container.encode(date, forKey: .date)
+            try container.encode(source, forKey: .source)
+            try container.encode(tool, forKey: .tool)
+            try container.encode(parts, forKey: .parts)
+            try container.encode(size, forKey: .size)
+            try container.encode(itemCount, forKey: .itemCount)
+            try container.encode(restorableCount, forKey: .restorableCount)
+            try container.encode(files, forKey: .files)
+        }
     }
 
     func validate() throws {
@@ -83,6 +110,7 @@ struct HistoryCommand: AsyncParsableCommand {
                     date: batch.date,
                     source: batch.source,
                     tool: batch.tool,
+                    parts: batch.parts.map { Record.Part(source: $0.source, tool: $0.tool) },
                     size: MeasuredSize(batch.size),
                     itemCount: batch.records.count,
                     restorableCount: batch.restorable.count,

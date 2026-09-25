@@ -25,7 +25,7 @@ struct RemovalGroupingTests {
         let keyed = RemovalRecord(batch: UUID(), item: item, size: 1, source: "Duplicates", sourceKey: "tool", tool: "duplicates")
         let copy = try JSONDecoder().decode(RemovalRecord.self, from: JSONEncoder().encode(keyed))
         #expect(copy.sourceKey == "tool")
-        #expect(RemovalRecord.grouped([copy]).first?.sourceKey == "tool")
+        #expect(RemovalRecord.grouped([copy]).first?.parts.first?.sourceKey == "tool")
 
         var old = try JSONSerialization.jsonObject(with: JSONEncoder().encode(keyed)) as! [String: Any]
         old.removeValue(forKey: "sourceKey")
@@ -51,8 +51,27 @@ struct RemovalGroupingTests {
         // The batch's own time is the first record written, not the last.
         #expect(groups.last?.date == now.addingTimeInterval(-60))
         #expect(groups.last?.size == SizeTotal(known: 110, isComplete: true))
-        #expect(groups.first?.source == "Caches")
-        #expect(groups.first?.tool == "space")
+        #expect(groups.first?.parts == [RemovalPart(source: "Caches", sourceKey: nil, tool: "space")])
+    }
+
+    /// A removal that moved what was selected in several tools has a part for each, in the order they moved, so
+    /// History names it by all of them rather than by its largest item. A removal from one page has one part.
+    @Test func aRemovalFromSeveralToolsHasAPartForEach() {
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let batch = UUID()
+        let groups = RemovalRecord.grouped([
+            record(batch, "copy.bin", size: 2_000, at: now.addingTimeInterval(2), source: "Duplicates", tool: "duplicates"),
+            record(batch, "DerivedData", size: 900, at: now, source: "Xcode", tool: "developer"),
+            record(batch, "node_modules", size: 300, at: now.addingTimeInterval(1), source: "Peel", tool: "projects"),
+            record(batch, "ModuleCache", size: 50, at: now.addingTimeInterval(0.5), source: "Xcode", tool: "developer"),
+        ])
+
+        #expect(groups.count == 1)
+        #expect(groups.first?.parts.map(\.source) == ["Xcode", "Peel", "Duplicates"])
+        #expect(groups.first?.parts.map(\.tool) == ["developer", "projects", "duplicates"])
+
+        let single = RemovalRecord.grouped([record(UUID(), "one.bin", size: 5, at: now, source: "Caches", tool: "space")])
+        #expect(single.first?.parts == [RemovalPart(source: "Caches", sourceKey: nil, tool: "space")])
     }
 
     /// An item whose size is not known comes first, since what could not be measured is most likely the biggest,

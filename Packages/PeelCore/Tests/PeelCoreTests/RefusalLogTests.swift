@@ -144,6 +144,25 @@ struct RefusalLogTests {
         #expect(records.first { $0.source == "Editor" }?.sourceKey == nil)
     }
 
+    /// What one removal of several tools' selections refused is one entry with a part for each tool, in the order
+    /// they were refused.
+    @Test func aRemovalFromSeveralToolsHasARefusalPartForEach() throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let batch = UUID()
+        let stored = """
+            [{"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/b","reason":"last-copy","date":"2026-09-20T10:00:02Z","source":"Duplicates","sourceKey":"tool","tool":"duplicates"},
+             {"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/a","reason":"not-permitted","date":"2026-09-20T10:00:00Z","source":"Xcode","tool":"developer"}]
+            """
+        let groups = RefusalRecord.grouped(try decoder.decode([RefusalRecord].self, from: Data(stored.utf8)))
+
+        #expect(groups.count == 1)
+        #expect(groups.first?.parts == [
+            RemovalPart(source: "Xcode", sourceKey: nil, tool: "developer"),
+            RemovalPart(source: "Duplicates", sourceKey: "tool", tool: "duplicates"),
+        ])
+    }
+
     /// History lists what was refused one removal to an entry, newest first. A record kept without a batch is an
     /// entry of its own.
     @Test func historyShowsEachRemovalsRefusalsAsOneEntry() throws {
@@ -157,12 +176,12 @@ struct RefusalLogTests {
             """
         let groups = RefusalRecord.grouped(try decoder.decode([RefusalRecord].self, from: Data(stored.utf8)))
 
-        #expect(groups.map(\.source) == ["Duplicates", "Editor"])
+        #expect(groups.map { $0.parts.map(\.source) } == [["Duplicates"], ["Editor"]])
         #expect(groups.first?.id == batch)
-        #expect(groups.first?.sourceKey == "tool")
+        #expect(groups.first?.parts.first?.sourceKey == "tool")
         #expect(groups.first?.records.map(\.url.lastPathComponent) == ["a", "b"])
         #expect(groups.first?.date == ISO8601DateFormatter().date(from: "2026-09-20T10:00:00Z"))
         #expect(groups.last?.records.count == 1)
-        #expect(groups.last?.sourceKey == nil)
+        #expect(groups.last?.parts == [RemovalPart(source: "Editor", sourceKey: nil, tool: "applications")])
     }
 }
