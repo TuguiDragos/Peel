@@ -1,4 +1,5 @@
 import Foundation
+import PeelPrivileged
 import Synchronization
 @testable import PeelCore
 import Testing
@@ -63,6 +64,35 @@ struct LeftoverScannerTests {
             userCacheDirectory: directory.url.appending(path: "var/C", directoryHint: .isDirectory),
             userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
         )
+    }
+
+    /// The guard reads every spelling of a path from the disk, and a location holds thousands of entries that are
+    /// nobody's business: files named after no app, and files inside a folder the scan looks into. It is asked
+    /// only about what the scan would take or walk into, and what it refuses stays out as before.
+    @Test func asksTheGuardOnlyAboutWhatItWouldTakeOrWalkInto() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 1...200 {
+            try directory.file("home/Library/Preferences/com.example.other\(index).plist", bytes: 1)
+        }
+        for index in 1...300 {
+            try directory.file("home/Library/Caches/com.example.other/cache \(index).db", bytes: 1)
+        }
+        try directory.directory("home/Library/Caches/com.spotify.client")
+        let asked = Mutex<[String]>([])
+        let scanner = LeftoverScanner(
+            environment: environment(in: directory),
+            measure: { _ in FolderContents(size: 1, holdsRepository: false) },
+            refuses: { path, home in
+                asked.withLock { $0.append(URL(filePath: path).lastPathComponent) }
+                return ProtectedData.refuses(path, home: home)
+            }
+        )
+        let spotify = spotify
+
+        let scan = await scanner.scan(spotify, installedApps: [spotify])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["com.spotify.client"])
+        #expect(asked.withLock { $0.sorted() } == ["com.example.other", "com.spotify.client"])
     }
 
     @Test func findsMatchingItemsAcrossLocations() async throws {
