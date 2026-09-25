@@ -13,6 +13,14 @@ struct LaunchctlTests {
         #expect(parsed?["com.example.agent"] == false)
     }
 
+    /// A label can hold a line break, so a line inside the block can hold nothing but tabs.
+    @Test func aLineOfOnlyTabsInsideTheBlockDoesNotCrashTheParser() {
+        let output = "\tdisabled services = {\n\t\t\"com.example.x\n\t\t\n\" => disabled\n\t\t\"com.example.agent\" => enabled\n\t}"
+        let parsed = Launchctl.parseDisabled(output)
+
+        #expect(parsed?["com.example.agent"] == false)
+    }
+
     @Test func parsesUserJobList() throws {
         let output = "PID\tStatus\tLabel\n-\t0\tcom.adguard.mac.adguard.loginhelper\n22251\t0\tapplication.com.example.jotter.22249290.22249296\n"
         let jobs = try #require(Launchctl.parseList(output))

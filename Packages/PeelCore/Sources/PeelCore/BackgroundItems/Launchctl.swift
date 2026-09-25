@@ -65,9 +65,11 @@ enum Launchctl {
             }
             guard overrides != nil else { continue }
             if trimmed == "}" { break }
-            // Finds the last arrow after the opening quote, because a label can contain an arrow of its own.
+            // Finds the last arrow after the opening quote, because a label can contain an arrow of its own. The
+            // quote is checked first: a label can hold a line break, which leaves a line with nothing after the tabs.
+            guard trimmed.hasPrefix("\"") else { continue }
             let afterQuote = trimmed.index(after: trimmed.startIndex)..<trimmed.endIndex
-            guard trimmed.hasPrefix("\""), let arrow = trimmed.range(of: "\" => ", options: .backwards, range: afterQuote) else { continue }
+            guard let arrow = trimmed.range(of: "\" => ", options: .backwards, range: afterQuote) else { continue }
             let label = String(trimmed[trimmed.index(after: trimmed.startIndex)..<arrow.lowerBound])
             overrides?[label] = trimmed[arrow.upperBound...].hasPrefix("disabled")
         }
