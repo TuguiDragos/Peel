@@ -4,30 +4,32 @@ import PeelCore
 import ServiceManagement
 import SwiftUI
 
+/// The tabs of Settings. The one open is remembered under `SettingsKey.pane`, which is also how another page
+/// opens Settings at a tab of its choosing.
+enum SettingsPane: String {
+    case general
+    case exclusions
+    case privacy
+    case helper
+}
+
 /// The Settings tabs, shared by the Settings window (Command-Comma) and the Settings page in Peel's sidebar.
 /// The last open tab is remembered, as the Human Interface Guidelines ask of a settings window.
 struct SettingsTabs: View {
-    private enum Pane: String {
-        case general
-        case exclusions
-        case privacy
-        case helper
-    }
-
-    @AppStorage("settingsPane") private var pane = Pane.general.rawValue
+    @AppStorage(SettingsKey.pane) private var pane = SettingsPane.general.rawValue
 
     var body: some View {
         TabView(selection: $pane) {
-            Tab("General", systemImage: "gearshape", value: Pane.general.rawValue) {
+            Tab("General", systemImage: "gearshape", value: SettingsPane.general.rawValue) {
                 GeneralSettingsView()
             }
-            Tab("Exclusions", systemImage: "hand.raised", value: Pane.exclusions.rawValue) {
+            Tab("Exclusions", systemImage: "hand.raised", value: SettingsPane.exclusions.rawValue) {
                 ExclusionsSettingsView()
             }
-            Tab("Privacy", systemImage: "network", value: Pane.privacy.rawValue) {
+            Tab("Privacy", systemImage: "network", value: SettingsPane.privacy.rawValue) {
                 PrivacySettingsView()
             }
-            Tab("Helper", systemImage: "lock.shield", value: Pane.helper.rawValue) {
+            Tab("Helper", systemImage: "lock.shield", value: SettingsPane.helper.rawValue) {
                 HelperSettingsView()
             }
         }
@@ -44,6 +46,7 @@ struct SettingsView: View {
 }
 
 enum SettingsKey {
+    static let pane = "settingsPane"
     static let checksForAppUpdates = "checksForAppUpdates"
     static let watchesTrash = "watchesTrash"
     /// The tools the sidebar leaves out (`Tool.hidden(in:)`).

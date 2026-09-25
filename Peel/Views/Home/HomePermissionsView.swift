@@ -6,6 +6,8 @@ struct HomePermissionsContent: View {
     @Environment(HomeModel.self) private var home
     @Environment(HelperModel.self) private var helper
     @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(\.openSettings) private var openSettings
+    @AppStorage(SettingsKey.pane) private var settingsPane = SettingsPane.general.rawValue
     @State private var pointingAt: HomeModel.Permission?
 
     static let markSize: CGFloat = 36
@@ -79,7 +81,18 @@ struct HomePermissionsContent: View {
             // The state sits under the name, as in System Settings, and a long name wraps instead of
             // shrinking. A column of its own for the state would leave a translated name almost no room.
             HStack(spacing: 12) {
-                mark(permission, state: state)
+                // The mark opens the same place as the name beside it, and lights up with it. VoiceOver and the
+                // keyboard reach that place through the name, so the mark is one more way in for the pointer only.
+                Button { show(permission) } label: {
+                    mark(permission, state: state)
+                        .scaleEffect(pointingAt == permission ? 1.07 : 1)
+                }
+                .buttonStyle(.plain)
+                .focusable(false)
+                .pointerStyle(.link)
+                .motion(.touch, .movement, value: pointingAt == permission)
+                .onHover { pointingAt = $0 ? permission : nil }
+                .help(help(for: permission))
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(spacing: 5) {
                         name(permission, state: state)
@@ -103,26 +116,38 @@ struct HomePermissionsContent: View {
         .padding(.vertical, 6)
     }
 
-    @ViewBuilder
     private func name(_ permission: HomeModel.Permission, state: HomeModel.State) -> some View {
-        let title = Text(permission.title)
-            .font(.system(.body, design: .rounded, weight: .bold))
-            .fixedSize(horizontal: false, vertical: true)
+        let isPointedAt = pointingAt == permission
+        return Button { show(permission) } label: {
+            // The name swells a little under the pointer, and the mark beside it with it.
+            Text(permission.title)
+                .font(.system(.body, design: .rounded, weight: .bold))
+                .fixedSize(horizontal: false, vertical: true)
+                .foregroundStyle(state.isMissing ? Album.red : isPointedAt ? Album.orangeInk : Album.ink)
+                .scaleEffect(isPointedAt ? 1.04 : 1, anchor: .leading)
+                .minimumTarget()
+        }
+        .buttonStyle(.plain)
+        .pointerStyle(.link)
+        .motion(.touch, .movement, value: isPointedAt)
+        .onHover { pointingAt = $0 ? permission : nil }
+        .help(help(for: permission))
+    }
+
+    private func help(for permission: HomeModel.Permission) -> Text {
+        permission.isInSystemSettings
+            ? Text("Show \(String(localized: permission.title)) in System Settings")
+            : Text("Open Peel Settings")
+    }
+
+    /// Opens where the setting is kept: its place in System Settings, or, for the command, which Peel puts on the
+    /// path itself, the General tab of Peel's own Settings.
+    private func show(_ permission: HomeModel.Permission) {
         if permission.isInSystemSettings {
-            let isPointedAt = pointingAt == permission
-            Button { reveal(permission) } label: {
-                title
-                    .foregroundStyle(state.isMissing ? Album.red : isPointedAt ? Album.orangeInk : Album.ink)
-                    .underline(isPointedAt, pattern: .solid)
-                    .minimumTarget()
-            }
-            .buttonStyle(.plain)
-            .pointerStyle(.link)
-            .motion(.touch, value: isPointedAt)
-            .onHover { pointingAt = $0 ? permission : nil }
-            .help(Text("Show \(String(localized: permission.title)) in System Settings"))
+            reveal(permission)
         } else {
-            title.foregroundStyle(state.isMissing ? Album.red : Album.ink)
+            settingsPane = SettingsPane.general.rawValue
+            openSettings()
         }
     }
 
