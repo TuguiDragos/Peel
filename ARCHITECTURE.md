@@ -165,8 +165,8 @@ where a Homebrew install takes them from.
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
 | Peel's preferences | Settings, the totals Home shows, what each tool found the last time it looked, and the last answer of each update check. |
 
-Remove Peel, in Settings, takes all of it to the Trash except the helper's ledger, which only the helper could
-move, and it unregisters the helper first. It is the only way Peel is removed: Peel's own page in Applications, and
+Remove Peel, in Settings, takes all of it to the Trash. The helper moves its own ledger there, since nothing else
+can, just before Peel unregisters it. It is the only way Peel is removed: Peel's own page in Applications, and
 Peel among several chosen apps, list it and select nothing of it (`Uninstallation.isPeel`), and `peel uninstall`
 refuses it.
 

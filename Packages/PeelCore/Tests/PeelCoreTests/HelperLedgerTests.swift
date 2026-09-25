@@ -113,6 +113,35 @@ struct HelperLedgerTests {
         #expect(items.filter { ledger.origin(of: $0, movedBy: getuid()) == nil }.isEmpty, "a record was lost")
     }
 
+    /// Remove Peel has the helper move its ledger to the Trash before it goes, since nothing else can move it. It
+    /// moves only the ledger's own folder, private to the helper, and nothing when there is none.
+    @Test func movesItsOwnFolderToTheTrashAndNothingElse() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let folder = path("private", in: directory)
+
+        #expect(try HelperLedger.moveFolder(folder, into: trash).get() == nil, "there was no folder to move")
+
+        let ledger = try ledger(in: directory)
+        _ = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
+        let moved = try #require(try HelperLedger.moveFolder(folder, into: trash).get())
+        #expect(moved.hasSuffix("/home/.Trash/private"))
+        #expect(FileManager.default.fileExists(atPath: moved + "/moved.plist"))
+        #expect(!FileManager.default.fileExists(atPath: folder))
+
+        try directory.directory("shared")
+        try directory.setPermissions(0o755, of: "shared")
+        #expect(throws: POSIXError.self, "a folder others can read into was moved") {
+            try HelperLedger.moveFolder(path("shared", in: directory), into: trash).get()
+        }
+        try FileManager.default.createSymbolicLink(atPath: folder, withDestinationPath: path("root/Library/Caches", in: directory))
+        #expect(throws: POSIXError.self, "a link in the ledger's place was followed") {
+            try HelperLedger.moveFolder(folder, into: trash).get()
+        }
+        #expect(FileManager.default.fileExists(atPath: path("root/Library/Caches", in: directory)))
+    }
+
     @Test func keepsTheNewestEntriesAndOnlyInAFolderOfItsOwn() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

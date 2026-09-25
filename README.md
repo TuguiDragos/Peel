@@ -345,8 +345,9 @@ too.
 
 ## Uninstall Peel
 
-In Settings > General, choose Remove Peel. It removes its helper and its login item, moves itself, the files that
-are certainly its own, and its folder in Application Support to the Trash, clears its settings, and quits. That
+In Settings > General, choose Remove Peel. It has its helper move its record of what it moved to the Trash, removes
+its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application
+Support to the Trash, clears its settings, and quits. That
 folder holds History, your exclusions, and the settings Peel saved when you reset an app.
 
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it

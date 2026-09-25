@@ -13,7 +13,8 @@ public final class HelperLedger: @unchecked Sendable {
         let date: Date
     }
 
-    public static let defaultURL = URL(filePath: "/private/var/db/\(HelperIdentity.helperIdentifier)/moved.plist")
+    public static let defaultFolder = "/private/var/db/\(HelperIdentity.helperIdentifier)"
+    public static let defaultURL = URL(filePath: defaultFolder + "/moved.plist")
 
     private let url: URL
     private let maximumEntries: Int
@@ -53,6 +54,23 @@ public final class HelperLedger: @unchecked Sendable {
             let gone = Set(items.compactMap(\.identity))
             guard !gone.isEmpty else { return }
             _ = write(read().filter { !gone.contains($0.identity) })
+        }
+    }
+
+    /// Moves the folder the ledger lives in to `trash` and returns where it went, or nil when there is none. It is
+    /// for Remove Peel, just before the helper goes, since nothing else can move it, and it moves only a folder that
+    /// is the helper's own and closed to everyone else, as the ledger keeps its folder.
+    public static func moveFolder(_ folder: String = defaultFolder, into trash: DirectoryHandle) -> Result<String?, POSIXError> {
+        lock.withLock {
+            switch OpenItem.at(folder) {
+            case .failure(let error):
+                return error.code == .ENOENT ? .success(nil) : .failure(error)
+            case .success(let item):
+                guard let mode = item.mode, mode & S_IFMT == S_IFDIR, mode & 0o077 == 0, item.owner == geteuid() else {
+                    return .failure(POSIXError(.EPERM))
+                }
+                return TrashMover.move(item, into: trash).map { $0 }
+            }
         }
     }
 

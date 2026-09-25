@@ -118,6 +118,20 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
     }
 
+    func moveLedgerToTrash(version: Int, withReply finish: @escaping @Sendable (String?) -> Void) {
+        lifetime.requestStarted()
+        let reply = tracked(finish)
+        guard Self.speaksThisVersion(version) else { return reply(HelperRefusal.outOfDate.rawValue) }
+        guard let caller = Self.caller() else { return reply(HelperRefusal.notAllowed.rawValue) }
+        guard let trash = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory).openTrash(ownedBy: caller.user) else {
+            return reply(HelperRefusal.noTrash.rawValue)
+        }
+        switch HelperLedger.moveFolder(into: trash) {
+        case .success: reply(nil)
+        case .failure(let error): reply(error.localizedDescription)
+        }
+    }
+
     func runDaemonCommand(version: Int, command: String, label: String, withReply finish: @escaping @Sendable (String?) -> Void) {
         lifetime.requestStarted()
         let reply = tracked(finish)

@@ -6,7 +6,7 @@ public enum HelperIdentity {
     public static let machServiceName = "com.tuguidragos.Peel.Helper"
     public static let launchdPlistName = "com.tuguidragos.Peel.Helper.plist"
     /// Raise it whenever `PeelHelperProtocol` changes. The helper refuses requests that carry any other version.
-    public static let protocolVersion = 5
+    public static let protocolVersion = 6
 }
 
 /// The complete set of privileged operations. The helper validates every argument itself.
@@ -28,6 +28,10 @@ public enum HelperIdentity {
     /// Moves an item back from the user's Trash, when the helper's own ledger says it moved that item from
     /// exactly there. Replies with nil on success, or a failure description.
     func restoreItem(version: Int, fromTrashPath trashPath: String, toPath destination: String, withReply reply: @escaping @Sendable (String?) -> Void)
+
+    /// Moves the helper's own ledger to the user's Trash, for Remove Peel just before it unregisters the helper.
+    /// Replies with nil once it is there or when there is none, or a failure description.
+    func moveLedgerToTrash(version: Int, withReply reply: @escaping @Sendable (String?) -> Void)
 }
 
 public enum DaemonCommand: String, Sendable {

@@ -42,7 +42,9 @@ final class SelfUninstall {
         }
 
         let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
+        var ledgerStayed: TrashFailure?
         if isRegistered() {
+            ledgerStayed = await PrivilegedHelper.moveLedgerToTrash()
             await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {
@@ -57,8 +59,9 @@ final class SelfUninstall {
             failure = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
             return
         }
-        guard result.failures.isEmpty else {
-            leftBehind = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
+        let stayed = result.failures + [ledgerStayed].compactMap(\.self)
+        guard stayed.isEmpty else {
+            leftBehind = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
             return
         }
         quit()
