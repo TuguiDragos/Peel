@@ -70,9 +70,9 @@ struct PackageReceiptsTests {
         #expect(PackageReceipts.topLevel(files: files, installLocation: "/", exists: { _ in true }).offered.isEmpty)
     }
 
-    /// `pkgutil --file-info` matches a path against the receipt's file list, which leaves out the package's
-    /// install prefix (such as `Applications`). So the path is asked about again without its leading folders,
-    /// and the answer is believed only if the receipt really installed that path.
+    /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which leaves out the
+    /// package's install prefix (such as `Applications`). So the path is asked about again without its leading
+    /// folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
@@ -83,10 +83,12 @@ struct PackageReceiptsTests {
         ))
         let asked = Mutex<[String]>([])
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
-            if arguments.first == "--file-info" {
+            if arguments.first == "--file-info-plist" {
                 asked.withLock { $0.append(arguments[1]) }
                 // Answers only for the path as the receipt lists it: the app without the install prefix.
-                return arguments[1] == "/Example.app" ? "volume: /\npkgid: com.example.pkg\n" : "volume: /\n"
+                return arguments[1] == "/Example.app"
+                    ? PkgutilAnswer.fileInfo(arguments[1], packages: "com.example.pkg")
+                    : PkgutilAnswer.fileInfo(arguments[1])
             }
             return switch arguments.first {
             case "--pkg-info-plist": info
@@ -122,7 +124,7 @@ struct PackageReceiptsTests {
     @Test func aPackageKnownOnlyByNameStaysListedAndUnknown() async throws {
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.quiet\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.quiet")
             default: nil
             }
         }
@@ -148,7 +150,9 @@ struct PackageReceiptsTests {
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
             // The package installed an app of the same name elsewhere, not the one asked about.
-            case "--file-info": arguments[1] == "/Example.app" ? "pkgid: com.example.pkg\n" : ""
+            case "--file-info-plist": arguments[1] == "/Example.app"
+                ? PkgutilAnswer.fileInfo(arguments[1], packages: "com.example.pkg")
+                : PkgutilAnswer.fileInfo(arguments[1])
             case "--pkg-info-plist": info
             case "--files": "Example.app\n"
             default: ""
@@ -176,7 +180,7 @@ struct PackageReceiptsTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "usr/local/bin/tool\nusr/local/bin/tool3\n"
             default: ""
@@ -197,9 +201,21 @@ struct PackageReceiptsTests {
         #expect(silent.couldNotAsk)
         #expect(silent.receipts.isEmpty)
 
-        let empty = await PackageReceipts.list(exclusions: .none, pkgutil: { _ in "" })
+        let empty = await PackageReceipts.list(exclusions: .none, pkgutil: { _ in PkgutilAnswer.packages() })
         #expect(!empty.couldNotAsk)
         #expect(empty.receipts.isEmpty)
+    }
+
+    /// An answer that is not the property list `pkgutil` prints says nothing about what is installed, so it is
+    /// no answer, rather than a list of packages read from whatever text came back.
+    @Test func anAnswerInAnotherFormIsNoAnswer() async {
+        let error: PackageReceipts.Pkgutil = { _ in "Error: the receipts could not be read.\n" }
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: error)
+
+        #expect(scan.couldNotAsk)
+        #expect(scan.receipts.isEmpty)
+        #expect(PackageReceipts.packageList(in: "com.example.pkg\n") == nil)
+        #expect(PackageReceipts.packageList(in: PkgutilAnswer.packages("com.example.pkg")) == ["com.example.pkg"])
     }
 
     /// "Receipt only" is a fact about the disk. Hiding an item behind an exclusion does not make it true.
@@ -213,7 +229,7 @@ struct PackageReceiptsTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "Applications/Example.app\n"
             default: ""
@@ -241,7 +257,7 @@ struct PackageReceiptsTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             default: nil
             }
@@ -268,7 +284,7 @@ struct PackageReceiptsTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "Applications/Example.app\nhome/Library/Mail/Bundles/Example.mailbundle\n"
             default: ""
@@ -304,7 +320,7 @@ struct PackageReceiptsTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "root/Library/Application Support/Example\nroot/Library/Example\nroot/Applications/Example Tools\n"
             default: ""

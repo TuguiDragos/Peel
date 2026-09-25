@@ -230,7 +230,7 @@ struct ExclusionsReachEveryScannerTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--file-info": "pkgid: com.example.pkg\n"
+            case "--file-info-plist": PkgutilAnswer.fileInfo(arguments[1], packages: "com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "Applications/Example.app\n"
             default: ""
@@ -323,7 +323,7 @@ struct ExclusionsReachEveryScannerTests {
         ))
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
-            case "--pkgs": "com.example.pkg\n"
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
             case "--files": "Applications/Example.app\nLibrary/Application Support/Example\n"
             default: ""

@@ -32,7 +32,14 @@ public enum PackageReceipts {
     /// enough to find an app's own receipt and to tell whether a cask really belongs to an app.
     @concurrent
     public static func identifiers() async -> Set<String> {
-        Set((await pkgutil(["--pkgs"]) ?? "").split(whereSeparator: \.isNewline).map { String($0).lowercased() })
+        Set((packageList(in: await pkgutil(["--pkgs-plist"])) ?? []).map { $0.lowercased() })
+    }
+
+    /// Reads what `pkgutil --pkgs-plist` prints: an array of package identifiers. Nil for no answer, or an answer
+    /// in any other form, which says nothing about what is installed.
+    static func packageList(in answer: String?) -> [String]? {
+        guard let answer else { return nil }
+        return (try? PropertyListSerialization.propertyList(from: Data(answer.utf8), format: nil)) as? [String]
     }
 
     /// Nil when the tool could not be run, failed, or timed out: no answer is not "nothing installed".
@@ -48,11 +55,10 @@ public enum PackageReceipts {
     static func list(exclusions: Exclusions, pkgutil: @escaping Pkgutil, environment: SearchEnvironment = .current) async -> PackageScan {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let reach = HelperReach(environment: environment)
-        guard let answer = await pkgutil(["--pkgs"]) else { return PackageScan(receipts: [], couldNotAsk: true) }
-        let identifiers = answer
-            .split(whereSeparator: \.isNewline)
-            .map(String.init)
-            .filter { !$0.hasPrefix("com.apple.") }
+        guard let packages = packageList(in: await pkgutil(["--pkgs-plist"])) else {
+            return PackageScan(receipts: [], couldNotAsk: true)
+        }
+        let identifiers = packages.filter { !$0.hasPrefix("com.apple.") }
 
         let receipts = await withTaskGroup(of: PackageReceipt.self) { group in
             var pending = identifiers.makeIterator()
@@ -79,7 +85,7 @@ public enum PackageReceipts {
         await receipts(installing: url, exclusions: exclusions, pkgutil: pkgutil)
     }
 
-    /// `pkgutil --file-info` matches a path against the receipt's file list, which is relative to the package's
+    /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which is relative to the package's
     /// install location. With the install location `Applications`, an app is found as `/Example.app`, not as
     /// `/Applications/Example.app`. So the leading folders are dropped one at a time until a package answers,
     /// and the answer counts only if that package really installed this path.
@@ -88,7 +94,7 @@ public enum PackageReceipts {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
         var identifiers: Set<String> = []
         for path in Self.spellings(of: wanted) where identifiers.isEmpty && !Task.isCancelled {
-            identifiers = Set(Self.packageIdentifiers(in: await pkgutil(["--file-info", path]) ?? ""))
+            identifiers = Set(Self.packageIdentifiers(in: await pkgutil(["--file-info-plist", path])))
         }
 
         var receipts: [PackageReceipt] = []
@@ -110,14 +116,13 @@ public enum PackageReceipts {
         return (0..<max(1, components.count)).map { "/" + components.dropFirst($0).joined(separator: "/") }
     }
 
-    static func packageIdentifiers(in output: String) -> [String] {
-        output
-            .split(whereSeparator: \.isNewline)
-            .compactMap { line -> String? in
-                guard line.hasPrefix("pkgid: ") else { return nil }
-                return String(line.dropFirst("pkgid: ".count)).trimmingCharacters(in: .whitespaces)
-            }
-            .filter { !$0.hasPrefix("com.apple.") }
+    /// Reads what `pkgutil --file-info-plist` prints: a `path-info` array with the `pkgid` of each package that
+    /// lists the path. Apple's own packages are left out.
+    static func packageIdentifiers(in answer: String?) -> [String] {
+        guard let answer,
+              let plist = try? PropertyListSerialization.propertyList(from: Data(answer.utf8), format: nil),
+              let packages = (plist as? [String: Any])?["path-info"] as? [[String: Any]] else { return [] }
+        return packages.compactMap { $0["pkgid"] as? String }.filter { !$0.hasPrefix("com.apple.") }
     }
 
     /// A receipt and the full paths of everything it lists, so `installs(_:)` can tell whether it installed a path.
