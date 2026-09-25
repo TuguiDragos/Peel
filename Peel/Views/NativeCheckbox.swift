@@ -10,7 +10,10 @@ struct NativeCheckbox: NSViewRepresentable {
     @Binding var isOn: Bool
     /// What VoiceOver reads, since the checkbox has no title of its own.
     let label: String
+    /// The help tag, which VoiceOver also reads unless there is a hint.
     var help: String?
+    /// What VoiceOver reads after the label, in place of the help tag.
+    var hint: String?
 
     func makeCoordinator() -> Coordinator {
         Coordinator(isOn: $isOn)
@@ -41,6 +44,7 @@ struct NativeCheckbox: NSViewRepresentable {
         if button.isEnabled != context.environment.isEnabled { button.isEnabled = context.environment.isEnabled }
         if button.accessibilityLabel() != label { button.setAccessibilityLabel(label) }
         if button.toolTip != help { button.toolTip = help }
+        if button.accessibilityHelp() != hint ?? help { button.setAccessibilityHelp(hint ?? help) }
     }
 
     /// AppKit's standard checkbox with no title. `init(checkboxWithTitle:target:action:)` makes the same button but
@@ -73,5 +77,53 @@ struct NativeCheckbox: NSViewRepresentable {
         @objc func toggle(_ button: NSButton) {
             isOn.wrappedValue = button.state == .on
         }
+    }
+}
+
+extension VerticalAlignment {
+    /// The middle of the first line of a checkbox's title, which the checkbox is centered on. A checkbox's own is
+    /// its center; its title's is set by `checkboxTitleLine()`.
+    nonisolated static let checkboxTitleLine = VerticalAlignment(CheckboxTitleLine.self)
+
+    private nonisolated enum CheckboxTitleLine: AlignmentID {
+        static func defaultValue(in dimensions: ViewDimensions) -> CGFloat {
+            dimensions[VerticalAlignment.center]
+        }
+    }
+}
+
+extension View {
+    /// Draws this view as a checkbox's title, which a disabled checkbox dims two levels, primary content to tertiary,
+    /// secondary to quaternary and tertiary to quinary, as SwiftUI's own checkbox toggle draws its label.
+    func checkboxTitle() -> some View {
+        modifier(CheckboxTitleStyle())
+    }
+
+    /// Marks this text as the first line of a checkbox's title. Its middle is its baseline less half the height of
+    /// its capitals, where AppKit and SwiftUI center their own checkbox beside a title.
+    func checkboxTitleLine() -> some View {
+        modifier(CheckboxTitleLineGuide())
+    }
+}
+
+private struct CheckboxTitleStyle: ViewModifier {
+    @Environment(\.isEnabled) private var isEnabled
+
+    func body(content: Content) -> some View {
+        if isEnabled {
+            content
+        } else {
+            content.foregroundStyle(.tertiary, .quaternary, .quinary)
+        }
+    }
+}
+
+private struct CheckboxTitleLineGuide: ViewModifier {
+    @Environment(\.font) private var font
+    @Environment(\.fontResolutionContext) private var fontContext
+
+    func body(content: Content) -> some View {
+        let capHeight = CTFontGetCapHeight((font ?? .body).resolve(in: fontContext).ctFont)
+        content.alignmentGuide(.checkboxTitleLine) { $0[.firstTextBaseline] - capHeight / 2 }
     }
 }

@@ -48,7 +48,7 @@ struct RemovalRow: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            toggle
+            checkboxAndItem
             if hasNoteColumn {
                 note
             }
@@ -62,51 +62,75 @@ struct RemovalRow: View {
         }
     }
 
-    private var toggle: some View {
-        Toggle(isOn: Binding(get: { isSelected }, set: { selection.setSelected($0, for: url) })) {
-            if isCompact {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    iconView
-                        .frame(width: 20)
-                    VStack(alignment: .leading, spacing: 2) {
-                        pathAndBadge
-                        HStack(spacing: 8) {
-                            if let kind {
-                                Text(kind)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(1)
-                            }
-                            Spacer(minLength: 8)
-                            sizeText
+    /// The checkbox, and beside it the item it selects. VoiceOver hears the two as one checkbox, as it would a
+    /// checkbox's title, so the item itself is hidden from it.
+    private var checkboxAndItem: some View {
+        HStack(alignment: .checkboxTitleLine, spacing: 5) {
+            NativeCheckbox(
+                isOn: Binding(get: { isSelected }, set: { selection.setSelected($0, for: url) }),
+                label: spokenItem,
+                // The label reads every column, so the hint adds only the warning from the note.
+                hint: warning.map { String(Self.commandsMarked($0).characters) }
+            )
+            item
+                .contentShape(.rect)
+                // A click on the item selects it, as a click on a checkbox's title does.
+                .onTapGesture { selection.setSelected(!isSelected, for: url) }
+                .checkboxTitle()
+                .accessibilityHidden(true)
+        }
+        .disabled(isLocked || isExcluded || isLeftAlone)
+    }
+
+    /// The item as the checkbox's title reads it: its path, its badge, its kind and its size.
+    private var spokenItem: String {
+        let badge = badgeKind.map { String(localized: $0.title) }
+        let size = isMeasured ? size.byteCount : String(localized: "Unknown")
+        return [url.abbreviatedPath, badge, kind.map { String(localized: $0) }, size]
+            .compactMap(\.self)
+            .joined(separator: ", ")
+    }
+
+    @ViewBuilder
+    private var item: some View {
+        if isCompact {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                iconView
+                    .frame(width: 20)
+                VStack(alignment: .leading, spacing: 2) {
+                    pathAndBadge
+                    HStack(spacing: 8) {
+                        if let kind {
+                            Text(kind)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
+                                .lineLimit(1)
                         }
-                    }
-                }
-            } else {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    iconView
-                        .frame(width: 20)
-                    pathAndBadge
-                    if let kind {
-                        Text(kind)
+                        Spacer(minLength: 8)
+                        sizeText
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                            .frame(width: RowColumns.kind, alignment: .leading)
-                            .help(Text(kind))
                     }
-                    sizeText
-                        .foregroundStyle(.secondary)
-                        .frame(width: RowColumns.size, alignment: .trailing)
                 }
             }
+        } else {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                iconView
+                    .frame(width: 20)
+                pathAndBadge
+                if let kind {
+                    Text(kind)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .frame(width: RowColumns.kind, alignment: .leading)
+                        .help(Text(kind))
+                }
+                sizeText
+                    .foregroundStyle(.secondary)
+                    .frame(width: RowColumns.size, alignment: .trailing)
+            }
         }
-        .toggleStyle(.checkbox)
-        .disabled(isLocked || isExcluded || isLeftAlone)
-        // VoiceOver reads every column from the label, so the hint adds only the warning from the note.
-        .accessibilityHint(warning.map { Text(Self.commandsMarked($0)) } ?? Text(verbatim: ""))
     }
 
     private var path: some View {
@@ -114,6 +138,7 @@ struct RemovalRow: View {
             .lineLimit(1)
             .truncationMode(.middle)
             .help(Text(verbatim: url.path(percentEncoded: false)))
+            .checkboxTitleLine()
     }
 
     /// The path with its badge beside it, or under it when the path would get less than `pathFloor`.
@@ -138,17 +163,24 @@ struct RemovalRow: View {
         }
     }
 
+    /// Why the row's checkbox can't be selected, which would otherwise look like a fault, as its badge says it.
+    private var badgeKind: (title: LocalizedStringResource, symbol: String)? {
+        if isExcluded { return ("Excluded in Settings", "hand.raised.fill") }
+        if isLeftAlone { return ("Left alone", "hand.raised") }
+        if isLocked { return ("Helper", "lock.fill") }
+        return nil
+    }
+
     /// Never cut, so the path is what gets shortened instead.
     private var badge: some View {
         Group {
-            if isExcluded {
-                Badge(title: Text("Excluded in Settings"), systemImage: "hand.raised.fill")
-            } else if isLeftAlone {
-                // Says why the checkbox can't be selected, which would otherwise look like a fault.
-                Badge(title: Text("Left alone"), systemImage: "hand.raised")
-            } else if isLocked {
-                Badge(title: Text("Helper"), systemImage: "lock.fill")
-                    .help(Text("Needs administrator access"))
+            if let badgeKind {
+                if isLocked, !isExcluded, !isLeftAlone {
+                    Badge(title: Text(badgeKind.title), systemImage: badgeKind.symbol)
+                        .help(Text("Needs administrator access"))
+                } else {
+                    Badge(title: Text(badgeKind.title), systemImage: badgeKind.symbol)
+                }
             }
         }
         .fixedSize()
