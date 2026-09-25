@@ -101,8 +101,10 @@ public enum ProjectArtifacts {
     public struct Scan: Sendable {
         public var artifacts: [ProjectArtifact] = []
         public var wasCutShort = false
-        /// True when macOS refused a chosen folder, which Full Disk Access would open.
-        public var needsFullDiskAccess = false
+        /// The chosen folders macOS refused, which Full Disk Access would open.
+        public var unreadableLocations: [URL] = []
+
+        public var needsFullDiskAccess: Bool { !unreadableLocations.isEmpty }
     }
 
     @concurrent
@@ -128,7 +130,7 @@ public enum ProjectArtifacts {
             return Scan(
                 artifacts: found.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
-                needsFullDiskAccess: roots.contains { isSearchable($0) && FullDiskAccess.canList($0) == .missing }
+                unreadableLocations: roots.filter { isSearchable($0) && FullDiskAccess.canList($0) == .missing }
             )
         }
     }

@@ -290,7 +290,7 @@ struct ProjectsCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
-    private struct Record: Encodable {
+    struct Record: Encodable {
         let path: String
         let project: String
         let tool: String
@@ -322,14 +322,43 @@ struct ProjectsCommand: AsyncParsableCommand {
         let scan = await ProjectArtifacts.scan(roots: roots, exclusions: UnreadableExclusions.load())
         let artifacts = scan.artifacts
         if removal.remove {
-            if scan.wasCutShort {
-                Output.note("There were more folders than Peel looks at in one go, so this isn't all of them.")
-            }
+            Self.notes(for: scan).forEach(Output.note)
             return try await clean(artifacts, using: TrashService(exclusions: await ExclusionStore().load()))
         }
 
         if output.json {
-            try Output.json(artifacts.map {
+            try Output.json(Self.report(for: scan))
+        } else if artifacts.isEmpty {
+            Output.line("Nothing built was found in those folders.")
+        } else {
+            Output.table(Self.rows(for: artifacts))
+        }
+        Self.notes(for: scan).forEach(Output.note)
+    }
+
+    /// What `--json` writes: the build output, and the chosen folders macOS kept Peel out of, where there may be
+    /// more.
+    struct Report: Encodable {
+        let artifacts: [Record]
+        let unreadableLocations: [String]
+    }
+
+    /// What the scan couldn't look at, said on standard error whatever the output, so that "Nothing built was
+    /// found" or an empty list is not read as folders with nothing built in them.
+    static func notes(for scan: ProjectArtifacts.Scan) -> [String] {
+        var notes: [String] = []
+        if !scan.unreadableLocations.isEmpty {
+            notes.append(Output.fullDiskAccessNote)
+        }
+        if scan.wasCutShort {
+            notes.append("There were more folders than Peel looks at in one go, so this list isn't all of them.")
+        }
+        return notes
+    }
+
+    static func report(for scan: ProjectArtifacts.Scan) -> Report {
+        Report(
+            artifacts: scan.artifacts.map {
                 Record(
                     path: Output.path($0.url),
                     project: Output.path($0.project),
@@ -338,15 +367,9 @@ struct ProjectsCommand: AsyncParsableCommand {
                     suggested: $0.isRecommended,
                     recentlyActive: $0.isRecentlyActive
                 )
-            })
-        } else if artifacts.isEmpty {
-            Output.line("Nothing built was found in those folders.")
-        } else {
-            Output.table(Self.rows(for: artifacts))
-        }
-        if scan.wasCutShort, !output.json {
-            Output.note("There were more folders than Peel looks at in one go, so this list isn't all of them.")
-        }
+            },
+            unreadableLocations: scan.unreadableLocations.map(Output.path)
+        )
     }
 
     func clean(

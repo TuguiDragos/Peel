@@ -421,6 +421,21 @@ struct FileCommandTests {
         #expect(found["skippedLocations"] as? [String] == ["/Users/me/Projects/app"])
     }
 
+    /// A chosen folder macOS kept Peel out of is said whatever the output, so "Nothing built was found" is not
+    /// read as a folder with nothing built in it.
+    @Test func saysWhenItCouldNotLookInAChosenFolder() throws {
+        let locked = URL(filePath: "/Users/me/Library/Safari", directoryHint: .isDirectory)
+        let scan = ProjectArtifacts.Scan(artifacts: [], wasCutShort: true, unreadableLocations: [locked])
+
+        #expect(ProjectsCommand.notes(for: scan) == [
+            Output.fullDiskAccessNote,
+            "There were more folders than Peel looks at in one go, so this list isn't all of them.",
+        ])
+        let json = try Output.jsonText(ProjectsCommand.report(for: scan))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Safari"])
+    }
+
     /// `peel caches --json` says which folders `--remove` would take.
     @Test func theCachesListSaysWhatRemoveWouldTake() throws {
         let directory = try TemporaryDirectory()
