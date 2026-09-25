@@ -50,3 +50,7 @@ jobs:
       # catalog is out of date. It reads the strings from the Debug build above, in `build/DerivedData`.
       - name: The string catalogs are in step with the code
         run: python3 Scripts/sync_localizations.py --check
+
+      # The manual page of `peel` is written by `Scripts/generate_manual.py` from the tool the build above made.
+      - name: The manual page is in step with the tool
+        run: python3 Scripts/generate_manual.py --check

@@ -37,7 +37,9 @@ swift test --package-path Packages/PeelCore
 
 Build and test after every change, not only at the end. After a Debug build, run
 `python3 Scripts/sync_localizations.py` so the string catalogs match the strings in the code. It refuses to run
-without build output rather than empty the catalogs.
+without build output rather than empty the catalogs. After changing a command of `peel`, run
+`python3 Scripts/generate_manual.py` as well, which writes its manual page, `Support/peel.1`, from the tool just
+built.
 
 The app's four targets build with warnings as errors, and that is the bar a change has to clear. The package's
 manifest doesn't set it, so ask for it on the command line to hold the package to the same bar:
@@ -66,11 +68,12 @@ PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter Sugges
 - `Packages/PeelCore/`: everything that decides and acts, with the tests. `PeelCore` scans, matches, and removes;
   `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands.
 - `Localization/`: every translation, and nothing else: the string catalogs of the app and the Finder extension.
-- `Support/`: the Info.plists and the helper's launchd property list.
+- `Support/`: the Info.plists, the helper's launchd property list, and the manual page of `peel`.
 - `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the menu bar glyph, and `export.sh`, which
   renders the PNGs the README shows.
-- `Scripts/`: `sync_localizations.py`, which keeps the catalogs in step with the code, and `release.sh`, which
-  builds, signs, notarizes, and checks a release.
+- `Scripts/`: `sync_localizations.py`, which keeps the catalogs in step with the code, `generate_manual.py`,
+  which keeps the manual page in step with `peel`, and `release.sh`, which builds, signs, notarizes, and checks a
+  release.
 - `readme-assets/`: the screenshots the README shows.
 - `.github/`: the test workflow, the issue forms, and the pull request template.
 

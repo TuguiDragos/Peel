@@ -303,6 +303,7 @@
 				AA000000000000000000002E /* Embed Launch Daemon */,
 				AA000000000000000000003E /* Embed Foundation Extensions */,
 				AA000000000000000000004D /* Embed Command Line Tool */,
+				AA0000000000000000000059 /* Command Line Documentation */,
 			);
 			buildRules = (
 			);
@@ -409,6 +410,33 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA0000000000000000000059 /* Command Line Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/peel",
+				"$(SRCROOT)/Support/peel.1",
+			);
+			name = "Command Line Documentation";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/completions/_peel",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/completions/peel.bash",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/completions/peel.fish",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/man/peel.1",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# The shell completions and the manual page of the `peel` tool, which Homebrew installs from the app. The\n# completions come from the tool just built; the manual page is Support/peel.1, which\n# Scripts/generate_manual.py keeps in step with the tool.\nset -eu\ntool=\"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Helpers/peel\"\nresources=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\nmkdir -p \"$resources/completions\" \"$resources/man\"\n\"$tool\" --generate-completion-script zsh > \"$resources/completions/_peel\"\n\"$tool\" --generate-completion-script bash > \"$resources/completions/peel.bash\"\n\"$tool\" --generate-completion-script fish > \"$resources/completions/peel.fish\"\ncp \"$SRCROOT/Support/peel.1\" \"$resources/man/peel.1\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AA0000000000000000000023 /* Sources */ = {

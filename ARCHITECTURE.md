@@ -148,6 +148,10 @@ beside each item, stop there with `--dry-run`, ask unless given `-y`, exit 2 whe
 removal couldn't finish, and write the same History the app shows. The tool never uses the helper. Everything it
 prints goes through `Output`, in plain ASCII, so scripts can read it.
 
+The app's build puts the tool's shell completions, written by the tool it just built, and its manual page,
+`Support/peel.1`, in `Peel.app/Contents/Resources/completions` and `man` (the Command Line Documentation phase),
+where a Homebrew install takes them from.
+
 ## What Peel writes on disk
 
 | Where | What |
@@ -176,7 +180,8 @@ refuses it.
   folder swapped between the check and the move.
 - A few tests read this Mac instead of a fixture, and the slowest ones run only when asked for
   (`PEEL_TEST_THIS_MAC=1`).
-- `Scripts/sync_localizations.py --check` fails when a string catalog is behind the code.
+- `Scripts/sync_localizations.py --check` fails when a string catalog is behind the code, and
+  `Scripts/generate_manual.py --check` when the manual page of `peel` is behind the tool.
 
 ## Releases
 

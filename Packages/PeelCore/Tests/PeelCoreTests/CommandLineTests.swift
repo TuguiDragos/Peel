@@ -32,6 +32,19 @@ struct CommandLineTests {
         ])
     }
 
+    /// The app ships `Support/peel.1`, which `Scripts/generate_manual.py` writes from the tool. A command added to
+    /// the tool without the page being written again would be missing from `man peel`.
+    @Test func theManualPageNamesEveryCommand() throws {
+        let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "Support/peel.1"), encoding: .utf8)
+        func names(of command: any ParsableCommand.Type) -> [String] {
+            command.configuration.subcommands.flatMap { [$0.configuration.commandName ?? ""] + names(of: $0) }
+        }
+
+        let missing = names(of: PeelCommand.self).filter { !page.contains(".It Em \($0)\n") }
+
+        #expect(missing.isEmpty, "Missing from Support/peel.1: \(missing). Run Scripts/generate_manual.py after a Debug build.")
+    }
+
     /// A table is written at once, rather than a row at a time: a search lists up to 2,000 rows.
     @Test func writesATableAtOnce() {
         let collected = Output.Collected()
