@@ -11,6 +11,7 @@ struct ContentView: View {
     @Environment(PackageLibrary.self) private var packages
     @Environment(DeveloperLibrary.self) private var developer
     @Environment(DuplicateLibrary.self) private var duplicates
+    @Environment(FileSearchLibrary.self) private var fileSearch
     @Environment(PluginLibrary.self) private var plugins
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(RemovalHistoryStore.self) private var history
@@ -246,7 +247,7 @@ struct ContentView: View {
             case .cloud:
                 EmptyView()
             case .fileSearch:
-                FileSearchForm()
+                FileSearchList()
                     .listColumn()
             case .backgroundItems:
                 BackgroundItemList()
@@ -301,7 +302,7 @@ struct ContentView: View {
                 case .cloud:
                     EmptyView()
                 case .fileSearch:
-                    FileSearchResultsView()
+                    fileSearchDetail
                 case .backgroundItems:
                     backgroundItemDetail
                 case .packages:
@@ -356,9 +357,7 @@ struct ContentView: View {
 
     @ViewBuilder
     private var duplicateDetail: some View {
-        if duplicates.isScanning {
-            DuplicateScanProgressView()
-        } else if let group = duplicates.selectedFolderGroup {
+        if let group = duplicates.selectedFolderGroup {
             DuplicateFolderGroupView(group: group)
                 .id(group.id)
         } else if let group = duplicates.selectedGroup {
@@ -367,11 +366,17 @@ struct ContentView: View {
         } else if let scan = duplicates.scan, !(scan.groups.isEmpty && scan.folderGroups.isEmpty) {
             DuplicateSummaryView(scan: scan)
         } else {
-            DetailPlaceholder(
-                        title: "Find Duplicate Files",
-                        systemImage: "doc.on.doc",
-                        description: "Choose folders and scan. Peel compares contents, so only exact copies are found, folders included."
-                    )
+            DetailPlaceholder(title: Tool.duplicates.title, systemImage: Tool.duplicates.systemImage, description: nil)
+        }
+    }
+
+    @ViewBuilder
+    private var fileSearchDetail: some View {
+        if let file = fileSearch.chosenFile {
+            FileSearchFileView(file: file)
+                .id(file.id)
+        } else {
+            DetailPlaceholder(tool: .fileSearch, summary: fileSearch.summary, instruction: "Choose a file to see where it is.")
         }
     }
 

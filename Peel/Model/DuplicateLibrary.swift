@@ -102,7 +102,7 @@ final class DuplicateLibrary {
         scanTask = Task { await runScan(current) }
     }
 
-    func stopScan() {
+    func stop() {
         scanTask?.cancel()
     }
 
@@ -223,4 +223,8 @@ private extension DuplicateScan {
         case .file(let id): groups.contains { $0.id == id }
         }
     }
+}
+
+extension DuplicateLibrary: StoppableWork {
+    var isRunning: Bool { isScanning }
 }

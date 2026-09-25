@@ -10,7 +10,7 @@ struct RescanButton: View {
     /// can't be stopped halfway, such as a Spotlight query or reading one file. Stop is not offered while the
     /// button is disabled: the scan after a move to the Trash takes the moved rows off the list, and stopping
     /// it would leave them listed.
-    var scan: ScanRun?
+    var scan: (any StoppableWork)?
     let action: () async -> Void
 
     /// Set as soon as the work starts, so the button can't be pressed twice. `isRunning` is what the button shows.
@@ -75,3 +75,11 @@ struct RescanButton: View {
         isWorking = false
     }
 }
+
+/// Work a page can stop from its toolbar and from View > Stop: a page's scan, or Duplicates' own.
+protocol StoppableWork: AnyObject {
+    var isRunning: Bool { get }
+    func stop()
+}
+
+extension ScanRun: StoppableWork {}

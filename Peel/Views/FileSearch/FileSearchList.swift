@@ -1,15 +1,20 @@
 import PeelCore
 import SwiftUI
 
-struct FileSearchResultsView: View {
+/// The files a search found, with every state of the search, in the list column as every tool keeps its items.
+struct FileSearchList: View {
     @Environment(FileSearchLibrary.self) private var search
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(RemovalHistoryStore.self) private var history
     @State private var isConfirmingRemoval = false
+    @State private var isShowingFilters = false
+    @State private var isRescanning = false
     @Environment(RemovalOutcome.self) private var outcome
 
     var body: some View {
-        List {
+        @Bindable var search = search
+
+        List(selection: $search.chosen) {
             ExclusionsUnreadableBanner()
             // Says the limit rather than counting the rows, since exclusions added after the search take files
             // out of the list, and can empty it, while the rest stays unlisted.
@@ -33,6 +38,7 @@ struct FileSearchResultsView: View {
                             isFirst: file.id == results.files.first?.id,
                             selection: search, isSelected: search.isSelected(file.url)
                         )
+                        .tag(file.url)
                     }
                     .listRowSeparator(.hidden)
                 } header: {
@@ -74,8 +80,30 @@ struct FileSearchResultsView: View {
             }
         }
         .fadesInColumn(whenRowsChange: search.results?.files.map(\.id))
+        // The name is typed in the search field at the top of the column, where other pages filter their lists.
+        // Here the field is part of the search, so it is always shown.
+        .columnSearch(text: $search.criteria.name, prompt: "Search Files", when: true)
         .navigationTitle(Text(Tool.fileSearch.title))
-        .toolbar(removing: .title)
+        .toolbar {
+            ToolbarItem {
+                Button("Filters", systemImage: "line.3.horizontal.decrease.circle") { isShowingFilters = true }
+                    .help(Text("Filters"))
+                    .popover(isPresented: $isShowingFilters, arrowEdge: .bottom) {
+                        FileSearchForm()
+                    }
+            }
+            ToolbarItem {
+                RescanButton(isRunning: $isRescanning, isDisabled: !search.criteria.isSearchable || search.isSearching || search.isRemoving) {
+                    await search.search()
+                }
+            }
+        }
+        .task(id: search.criteria) {
+            guard search.criteria != search.searchedCriteria else { return }
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            await search.search()
+        }
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
         }

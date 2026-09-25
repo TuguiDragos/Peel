@@ -10,6 +10,8 @@ final class FileSearchLibrary {
     private(set) var isSearching = false
     private(set) var isRemoving = false
     var selectedURLs: Set<URL> = []
+    /// The file the detail shows, chosen in the list. Checking a file for the Trash is `selectedURLs`, apart.
+    var chosen: URL?
     /// The files Select All selects: not the ones that need an administrator, and not the ones an app keeps
     /// for itself, which stay listed with the reason beside them.
     private(set) var selectableURLs: Set<URL> = []
@@ -20,6 +22,10 @@ final class FileSearchLibrary {
 
     var selectedSize: Int64 {
         selectedURLs.reduce(0) { $0 + (sizes[$1] ?? 0) }
+    }
+
+    var chosenFile: FoundFile? {
+        results?.files.first { $0.url == chosen }
     }
 
     func search() async {

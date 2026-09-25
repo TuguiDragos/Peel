@@ -2,76 +2,66 @@ import PeelCore
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// What a scan looks at, in a popover from the toolbar, so the settings can change without costing the results:
+/// they apply to the next scan.
 struct DuplicateScanForm: View {
     private static let sizes: [Int64] = [100_000, 1_000_000, 10_000_000, 100_000_000]
 
     @Environment(DuplicateLibrary.self) private var duplicates
     @State private var isChoosingFolders = false
     @State private var rejectedFolders: [URL] = []
+    let onScan: () -> Void
 
     var body: some View {
         @Bindable var duplicates = duplicates
 
-        Form {
-            Section {
-                // Only the rows are disabled, so the note beside the Folders heading still opens during a scan.
-                Group {
-                    ForEach(duplicates.folders, id: \.self) { folder in
-                        FolderRow(folder: folder)
+        VStack(spacing: 0) {
+            Form {
+                Section {
+                    // Only the rows are disabled, so the note beside the Folders heading still opens during a scan.
+                    Group {
+                        ForEach(duplicates.folders, id: \.self) { folder in
+                            FolderRow(folder: folder)
+                        }
+                        Button {
+                            isChoosingFolders = true
+                        } label: {
+                            Label("Add Folder…", systemImage: "plus")
+                                .minimumTarget()
+                        }
+                        .buttonStyle(.borderless)
                     }
-                    Button {
-                        isChoosingFolders = true
-                    } label: {
-                        Label("Add Folder…", systemImage: "plus")
-                            .minimumTarget()
+                    .disabled(duplicates.isScanning)
+                } header: {
+                    heading("Folders", "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project.")
+                }
+
+                Section {
+                    Picker("Kind", selection: $duplicates.kind) {
+                        ForEach(FileKind.allCases, id: \.self) { kind in
+                            Text(kind.title).tag(kind)
+                        }
                     }
-                    .buttonStyle(.borderless)
+                    Picker("Size", selection: $duplicates.minimumSize) {
+                        Text("Any size").tag(Int64(1))
+                        ForEach(Self.sizes, id: \.self) { size in
+                            Text("At least \(size.byteCount)").tag(size)
+                        }
+                    }
                 }
                 .disabled(duplicates.isScanning)
-            } header: {
-                heading("Folders", "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project.")
             }
-
-            Section {
-                Picker("Kind", selection: $duplicates.kind) {
-                    ForEach(FileKind.allCases, id: \.self) { kind in
-                        Text(kind.title).tag(kind)
-                    }
-                }
-                Picker("Size", selection: $duplicates.minimumSize) {
-                    Text("Any size").tag(Int64(1))
-                    ForEach(Self.sizes, id: \.self) { size in
-                        Text("At least \(size.byteCount)").tag(size)
-                    }
-                }
+            .formStyle(.grouped)
+            HStack {
+                Spacer()
+                Button("Scan", action: onScan)
+                    .buttonStyle(.borderedProminent)
+                    .keyboardShortcut(.defaultAction)
+                    .disabled(duplicates.folders.isEmpty || duplicates.isScanning)
             }
-            .disabled(duplicates.isScanning)
+            .padding([.horizontal, .bottom], 20)
         }
-        .formStyle(.grouped)
-        .safeAreaBar(edge: .bottom) {
-            // Scan is disabled as soon as scanning starts, so a second click can't start another scan. The
-            // switch to Stop follows the `Busy` timing.
-            BusyShown(isBusy: duplicates.isScanning) { isShown in
-                Group {
-                    if isShown {
-                        Button("Stop", systemImage: "stop.fill") {
-                            duplicates.stopScan()
-                        }
-                        .buttonStyle(.glass)
-                        .controlSize(.extraLarge)
-                    } else {
-                        Button("Scan", systemImage: "magnifyingglass") {
-                            duplicates.startScan()
-                        }
-                        .buttonStyle(.glassProminent)
-                        .controlSize(.extraLarge)
-                        .disabled(duplicates.folders.isEmpty || duplicates.isScanning)
-                    }
-                }
-                .motion(value: isShown)
-            }
-            .padding(.bottom, 16)
-        }
+        .frame(width: 420, height: 460)
         .fileImporter(isPresented: $isChoosingFolders, allowedContentTypes: [.folder], allowsMultipleSelection: true) { result in
             guard case .success(let urls) = result else { return }
             rejectedFolders = duplicates.add(urls)

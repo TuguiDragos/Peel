@@ -17,7 +17,7 @@ extension SizeTotal {
 }
 
 extension Tool {
-    /// What the tool found, as its pane and Home both say it, or nil for a tool Home doesn't list.
+    /// What the tool found, as its pane says it and Home repeats it, or nil for a tool with no such sentence.
     func sentence(for looked: Looked) -> AttributedString? {
         let count = looked.count
         let total = looked.size.flatMap { $0.known > 0 ? $0.text : nil }
@@ -36,12 +36,12 @@ extension Tool {
         case .space:
             return total.map { AttributedString(localized: "\($0) in ^[\(count) area](inflect: true).") }
                 ?? AttributedString(localized: "^[\(count) area](inflect: true).")
-        case .installers, .cloud:
+        case .installers, .cloud, .fileSearch:
             return total.map { AttributedString(localized: "\($0) in ^[\(count) item](inflect: true).") }
                 ?? AttributedString(localized: "^[\(count) item](inflect: true).")
         case .intel:
             return AttributedString(localized: "^[\(count) item](inflect: true) built for Intel.")
-        case .home, .packages, .fileSearch, .backgroundItems, .extensions, .plugins, .tweaks, .history:
+        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .history:
             return nil
         }
     }
@@ -91,6 +91,14 @@ extension HomebrewLibrary {
         let count = AttributedString(localized: "^[\(packages.count) package](inflect: true).")
         guard let updates = Tool.homebrew.summary(of: looked) else { return count }
         return count + AttributedString("\n") + updates
+    }
+}
+
+extension FileSearchLibrary {
+    var summary: AttributedString? {
+        results.flatMap { results in
+            Tool.fileSearch.summary(of: Looked(count: results.files.count, size: SizeTotal(known: results.files.reduce(0) { $0 + $1.size }, isComplete: true)))
+        }
     }
 }
 

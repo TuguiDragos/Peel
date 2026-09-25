@@ -1,11 +1,11 @@
 import PeelCore
 import SwiftUI
 
+/// The filters of a search, in a popover from the toolbar. The name is typed in the list's search field.
 struct FileSearchForm: View {
     private static let sizes: [Int64] = [10_000_000, 100_000_000, 500_000_000, 1_000_000_000, 5_000_000_000]
 
     @Environment(FileSearchLibrary.self) private var search
-    @State private var isRescanning = false
 
     var body: some View {
         @Bindable var search = search
@@ -40,22 +40,6 @@ struct FileSearchForm: View {
             }
         }
         .formStyle(.grouped)
-        // The name is typed in the search field at the top of the column, where other pages filter their lists.
-        // Here the field is part of the search, so it is always shown.
-        .columnSearch(text: $search.criteria.name, prompt: "Search Files", when: true)
-        .navigationTitle(Text(Tool.fileSearch.title))
-        .toolbar {
-            ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !search.criteria.isSearchable || search.isSearching || search.isRemoving) {
-                    await search.search()
-                }
-            }
-        }
-        .task(id: search.criteria) {
-            guard search.criteria != search.searchedCriteria else { return }
-            try? await Task.sleep(for: .milliseconds(300))
-            guard !Task.isCancelled else { return }
-            await search.search()
-        }
+        .frame(width: 400, height: 280)
     }
 }
