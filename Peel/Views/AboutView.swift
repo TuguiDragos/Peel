@@ -7,6 +7,7 @@ struct AboutContent: View {
     static let width: CGFloat = 380
 
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(AppLibrary.self) private var library
 
     var body: some View {
         VStack(spacing: 12) {
@@ -25,6 +26,9 @@ struct AboutContent: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .textSelection(.enabled)
+            if let update = library.newerPeel {
+                PeelUpdateNotice(update: update)
+            }
             Text("Remove apps and the files they leave behind.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
@@ -104,6 +108,37 @@ struct AboutContent: View {
             open(license: url.absoluteString.replacingOccurrences(of: "peel-license:", with: ""))
             return .handled
         })
+    }
+}
+
+/// A newer Peel than this copy, and where to get it. Peel downloads and installs nothing itself.
+private struct PeelUpdateNotice: View {
+    let update: AppLibrary.PeelUpdate
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Text("Version \(update.version) is out.")
+                .font(.system(.callout, design: .rounded, weight: .bold))
+                .foregroundStyle(Album.orangeInk)
+            if let command = update.homebrewCommand {
+                Text("Homebrew installed this copy, so upgrade it by running the command in Terminal.")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+                Text(verbatim: command)
+                    .font(.callout.monospaced())
+                    .textSelection(.enabled)
+                CopyButton(text: command, title: "Copy Command")
+                    .buttonStyle(StickerButtonStyle(fill: Album.orange, size: 12, ink: Album.onOrange))
+            } else {
+                Text("Download it, then replace this copy in Applications.")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+                Button("Download") { NSWorkspace.shared.open(update.page ?? Links.latestRelease) }
+                    .buttonStyle(StickerButtonStyle(fill: Album.orange, size: 12, ink: Album.onOrange))
+            }
+        }
+        .font(.callout)
+        .padding(.vertical, 4)
     }
 }
 

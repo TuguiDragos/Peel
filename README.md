@@ -215,6 +215,7 @@ Settings > Privacy lists the same places.
 |---|---|
 | `itunes.apple.com` | The latest version of an app bought from the App Store. No other app is ever asked about. |
 | `github.com` | Release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself from here when you ask it to. |
+| `api.github.com` | The latest release of Peel itself. Peel says when a new one is out and downloads nothing. |
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades. A cask comes from its maker's own address. |
 | `api.osv.dev` | The database of known vulnerabilities that Homebrew's scan checks your formulae against. |

@@ -294,6 +294,7 @@ struct PeelApp: App {
 
         Window(Text(AboutView.title), id: AboutView.windowID) {
             AboutView()
+                .environment(library)
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)

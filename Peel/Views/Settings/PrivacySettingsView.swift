@@ -12,6 +12,7 @@ struct PrivacySettingsView: View {
     private let hosts = [
         Host(address: "itunes.apple.com", purpose: "The latest version of apps installed from the App Store."),
         Host(address: "github.com", purpose: "The release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself from here when you ask it to update or upgrade."),
+        Host(address: "api.github.com", purpose: "The latest release of Peel itself. Peel says when a new one is out and downloads nothing."),
         Host(address: "formulae.brew.sh", purpose: "Homebrew’s own package list, downloaded when you ask Homebrew to update or upgrade."),
         Host(address: "ghcr.io", purpose: "Where Homebrew downloads the packages it upgrades. A cask comes from its maker’s own address."),
         Host(address: "api.osv.dev", purpose: "The list of known vulnerabilities Homebrew checks formulae against."),

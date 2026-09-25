@@ -100,12 +100,12 @@ public struct Inventory: Sendable {
         if app.isFromSetapp {
             return ("Setapp", nil)
         }
-        // `.appStore` only means Peel asks the App Store's lookup API about updates. The receipt inside the
-        // bundle is the only thing that says an app was installed from there.
+        // `.appStore` and `.gitHubRelease` only say where Peel asks about updates. The receipt inside the bundle
+        // is the only thing that says an app was installed from the App Store.
         return switch app.updateFeed {
         case .sparkle(let url): ("Sparkle", url.absoluteString)
         case .electron(let url): ("Electron", url.absoluteString)
-        case .appStore, nil: origins?.address(of: app.url).map { ("Downloaded", $0.absoluteString) } ?? ("Unknown", nil)
+        case .appStore, .gitHubRelease, nil: origins?.address(of: app.url).map { ("Downloaded", $0.absoluteString) } ?? ("Unknown", nil)
         }
     }
 

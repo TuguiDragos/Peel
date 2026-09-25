@@ -12,6 +12,7 @@ enum SidebarDestination: Hashable {
 
 struct ToolSidebar: View {
     @Environment(HomeModel.self) private var home
+    @Environment(AppLibrary.self) private var library
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("sidebar.apps.expanded") private var isAppsExpanded = true
     @AppStorage("sidebar.storage.expanded") private var isStorageExpanded = true
@@ -100,9 +101,15 @@ struct ToolSidebar: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(verbatim: "Peel")
                         .font(.callout.weight(.semibold))
-                    Text(verbatim: AppVersion.display)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    if let update = library.newerPeel {
+                        Text("\(update.version) is out")
+                            .font(.caption)
+                            .foregroundStyle(.tint)
+                    } else {
+                        Text(verbatim: AppVersion.display)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .lineLimit(1)
                 Spacer(minLength: 0)
@@ -118,7 +125,7 @@ struct ToolSidebar: View {
         .padding(.top, -8)
         .padding(.bottom, 8)
         .accessibilityLabel(Text(AboutView.title))
-        .accessibilityValue(Text(verbatim: AppVersion.display))
+        .accessibilityValue(library.newerPeel.map { Text("Version \($0.version) is out.") } ?? Text(verbatim: AppVersion.display))
     }
 
     /// A group whose rows are added and removed here rather than by a collapsible `Section`, because SwiftUI

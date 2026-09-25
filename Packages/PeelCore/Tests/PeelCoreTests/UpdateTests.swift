@@ -233,6 +233,16 @@ struct UpdateFeedDetectionTests {
         #expect(UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: true) == nil)
         #expect(UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: false) == .sparkle(try #require(URL(string: "https://example.com/appcast.xml"))))
     }
+
+    /// Peel's own copy is checked against its releases on GitHub. No other app says where it is released, so no
+    /// other app is asked about there.
+    @Test func onlyPeelAsksGitHubForItsLatestRelease() throws {
+        let directory = try TemporaryDirectory()
+        let contents = try directory.directory("Peel.app/Contents")
+        let peel = UpdateFeed.detect(info: ["CFBundleIdentifier": "com.tuguidragos.Peel"], contents: contents, isFromAppStore: false, isSystemProtected: false)
+        #expect(peel == .gitHubRelease(GitHubRelease.peel))
+        #expect(UpdateFeed.detect(info: ["CFBundleIdentifier": "com.example.editor"], contents: contents, isFromAppStore: false, isSystemProtected: false) == nil)
+    }
 }
 
 struct TeamRegistryTests {

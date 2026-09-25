@@ -123,6 +123,30 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: fed, preference: .automatic, casks: [current]) == .upToDate)
     }
 
+    /// Peel asks GitHub for its own latest release, the newest that is neither a draft nor a prerelease, and says a
+    /// newer one is out with the release's page, where it is downloaded. A page anywhere but GitHub is not believed,
+    /// and an answer in another form, or none, is a failed check.
+    @Test func peelLearnsOfItsOwnNewReleaseFromGitHub() async {
+        let peel = InstalledApp(url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel", version: "1.0.1", updateFeed: .gitHubRelease(GitHubRelease.peel))
+        let page = "https://github.com/TuguiDragos/Peel/releases/tag/v1.0.2"
+
+        reply("api.github.com", #"{"tag_name":"v1.0.2","html_url":"\#(page)","draft":false,"prerelease":false}"#)
+        #expect(await checker.status(for: peel) == .updateAvailable(version: "1.0.2", source: .developer, releaseNotes: URL(string: page)))
+        #expect(CannedProtocol.asked.withLock { $0 } == ["api.github.com"])
+
+        reply("api.github.com", #"{"tag_name":"v1.0.2","html_url":"https://example.com/peel.dmg"}"#)
+        #expect(await checker.status(for: peel) == .updateAvailable(version: "1.0.2", source: .developer, releaseNotes: nil))
+
+        reply("api.github.com", #"{"tag_name":"v1.0.1","html_url":"https://github.com/TuguiDragos/Peel/releases/tag/v1.0.1"}"#)
+        #expect(await checker.status(for: peel) == .upToDate)
+
+        reply("api.github.com", status: 404, #"{"message":"Not Found"}"#)
+        #expect(await checker.status(for: peel) == .failed)
+
+        reply("api.github.com", "<html>")
+        #expect(await checker.status(for: peel) == .failed)
+    }
+
     /// An app sold once for iPhone, iPad, and Mac has one record, of kind "software", whose version is the
     /// iPhone's. For an app the store doesn't sell in this region, or anymore, Apple answers with no record at
     /// all. Neither is a failed check: there is no Mac version to read, so the app is `.unsupported` and is asked

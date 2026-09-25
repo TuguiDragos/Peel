@@ -89,6 +89,7 @@ public struct UpdateChecker: Sendable {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): UpdateAnswer(status: await sparkleStatus(for: app, at: url))
         case .electron(let url): UpdateAnswer(status: await electronStatus(for: app, at: url))
+        case .gitHubRelease(let url): UpdateAnswer(status: await gitHubReleaseStatus(for: app, at: url))
         case .appStore: await appStoreAnswer(for: app)
         }
     }
@@ -117,6 +118,13 @@ public struct UpdateChecker: Sendable {
         else { return .failed }
         return VersionComparison.isNewer(latest, than: app.version ?? "")
             ? .updateAvailable(version: latest, source: .developer, releaseNotes: nil)
+            : .upToDate
+    }
+
+    private func gitHubReleaseStatus(for app: InstalledApp, at url: URL) async -> UpdateStatus {
+        guard let data = await fetch(url), let release = GitHubRelease.latest(in: data) else { return .failed }
+        return VersionComparison.isNewer(release.version, than: app.version ?? "")
+            ? .updateAvailable(version: release.version, source: .developer, releaseNotes: release.page)
             : .upToDate
     }
 

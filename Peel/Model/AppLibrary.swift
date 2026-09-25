@@ -474,13 +474,33 @@ final class AppLibrary {
 
     /// Whether an update is waiting for `app`. An ignored app has none, and neither has one whose waiting
     /// version was skipped. The list, the menu bar, and the notification all ask this, so they always agree.
+    /// Peel's own is told by About instead (`newerPeel`).
     func hasUpdate(_ app: InstalledApp) -> Bool {
-        updatePreferences.isWaiting(updateStatuses[app.id], for: app)
+        !app.isPeelItself && updatePreferences.isWaiting(updateStatuses[app.id], for: app)
     }
 
     /// The answer about `app`'s updates that its page shows: an update the user muted is not announced again.
     func shownUpdateStatus(of app: InstalledApp) -> UpdateStatus? {
-        updatePreferences.shownStatus(updateStatuses[app.id], for: app)
+        app.isPeelItself ? nil : updatePreferences.shownStatus(updateStatuses[app.id], for: app)
+    }
+
+    /// A newer release of the copy of Peel that is running, which About tells and never installs.
+    struct PeelUpdate: Equatable {
+        let version: String
+        /// The release's page on GitHub, where it is downloaded.
+        let page: URL?
+        /// The command that upgrades a copy Homebrew installed, which Peel never runs on itself.
+        let homebrewCommand: String?
+    }
+
+    var newerPeel: PeelUpdate? {
+        let running = PathPattern.comparablePath(of: Bundle.main.bundleURL)
+        guard
+            let peel = apps.first(where: { PathPattern.comparablePath(of: $0.url) == running }),
+            let status = updateStatuses[peel.id], let version = status.displayVersion
+        else { return nil }
+        let command = status.source == .homebrew ? cask(for: peel).map { "brew upgrade --cask \($0.name)" } : nil
+        return PeelUpdate(version: version, page: status.releaseNotes, homebrewCommand: command)
     }
 
     var appsWithUpdates: [InstalledApp] { apps.filter(hasUpdate) }
