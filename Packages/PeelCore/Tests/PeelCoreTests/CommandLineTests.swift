@@ -211,6 +211,43 @@ struct CommandLineTests {
         #expect(json["appSize"] is NSNull)
     }
 
+    /// `peel uninstall --json` says, once it is done, what was to move and what stayed and why, what moved, and
+    /// what failed and why, with every key in every record.
+    @Test func theUninstallReportSaysWhatMovedWhatStayedAndWhy() throws {
+        let app = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
+        let support = URL(filePath: "/Users/me/Library/Application Support/Editor", directoryHint: .isDirectory)
+        let caches = URL(filePath: "/Users/me/Library/Caches/com.example.editor", directoryHint: .isDirectory)
+        let plan = UninstallPlan(app: app, items: [
+            UninstallPlan.Item(url: app, size: 4_096, refusal: nil),
+            UninstallPlan.Item(url: support, size: nil, refusal: nil),
+            UninstallPlan.Item(url: caches, size: 10, refusal: .protectedLocation),
+        ], needsAdministrator: 1, needsReview: 2)
+        let result = TrashResult(trashed: [], failures: [TrashFailure(url: support, reason: .failed("disk full"))])
+        let editor = InstalledApp(url: app, bundleIdentifier: "com.example.editor", name: "Editor")
+
+        let json = try Output.jsonText(UninstallCommand.report(app: editor, plan: plan, result: result, privacy: .reset, unreadable: []))
+
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let items = try #require(report["items"] as? [[String: Any]])
+        #expect(items.map { $0["stays"] as? String } == [nil, nil, "protected-location"])
+        #expect(items[0]["stays"] is NSNull)
+        #expect(items[1]["size"] is NSNull)
+        let failed = try #require(report["failed"] as? [[String: Any]])
+        #expect(failed.first?["reason"] as? String == "failed")
+        #expect(failed.first?["detail"] as? String == "disk full")
+        #expect(report["dryRun"] as? Bool == false)
+        #expect(report["privacyReset"] as? Bool == true)
+        #expect(report["needsAdministrator"] as? Int == 1)
+        #expect(report["needsReview"] as? Int == 2)
+        #expect(report["unreadableLocations"] as? [String] == [])
+
+        let dryRun = try Output.jsonText(UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, unreadable: []))
+        let planned = try #require(JSONSerialization.jsonObject(with: Data(dryRun.utf8)) as? [String: Any])
+        #expect(planned["dryRun"] as? Bool == true)
+        #expect(planned["moved"] as? [String] == [])
+        #expect(planned["privacyReset"] is NSNull)
+    }
+
     /// A script adds sizes up, so an unknown size is `null` under the same key: never zero, and never a missing
     /// key. In JSON a total with an unknown part is `null` too, and in text it reads "over" the known part.
     @Test func writesASizeNobodyKnowsAsNull() throws {
@@ -622,6 +659,8 @@ struct CommandLineTests {
 
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["search", "--older-than", "30"]) }
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["uninstall"]) }
+        let uninstall = try #require(try PeelCommand.parseAsRoot(["uninstall", "Editor", "--json", "--dry-run"]) as? UninstallCommand)
+        #expect(uninstall.output.json)
     }
 
     private func record(_ batch: UUID, _ path: String, at date: Date) -> RemovalRecord {

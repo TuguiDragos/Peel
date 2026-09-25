@@ -211,6 +211,115 @@ struct UninstallCommand: AsyncParsableCommand {
     @Flag(name: .shortAndLong, help: "Don't ask for confirmation.")
     var yes = false
 
+    @OptionGroup var output: OutputOptions
+
+    /// What `--json` writes once the command is done: each item and why it stays when it does, then, unless it
+    /// was a dry run, what moved and what failed, and why.
+    struct Report: Encodable {
+        struct Item: Encodable {
+            let path: String
+            let size: MeasuredSize
+            /// Why the item stays where it is, in the words `peel history --refused` uses, or `null` when it moves.
+            let stays: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case path
+                case size
+                case stays
+            }
+
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(size, forKey: .size)
+                try container.encode(stays, forKey: .stays)
+            }
+        }
+
+        struct Failure: Encodable {
+            let path: String
+            let reason: String
+            let detail: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case path
+                case reason
+                case detail
+            }
+
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(reason, forKey: .reason)
+                try container.encode(detail, forKey: .detail)
+            }
+        }
+
+        let app: AppRecord
+        let dryRun: Bool
+        let items: [Item]
+        let moved: [String]
+        let failed: [Failure]
+        /// Whether the privacy permissions were reset, or `null` when that wasn't done: not asked for, or a dry run.
+        let privacyReset: Bool?
+        /// The leftovers that stay because they need administrator access, and those left for review.
+        let needsAdministrator: Int
+        let needsReview: Int
+        /// The folders macOS kept Peel out of, where the app may have left more.
+        let unreadableLocations: [String]
+
+        private enum CodingKeys: String, CodingKey {
+            case app
+            case dryRun
+            case items
+            case moved
+            case failed
+            case privacyReset
+            case needsAdministrator
+            case needsReview
+            case unreadableLocations
+        }
+
+        /// Encodes an unknown `privacyReset` as `null`, for the reason `AppRecord` gives.
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(app, forKey: .app)
+            try container.encode(dryRun, forKey: .dryRun)
+            try container.encode(items, forKey: .items)
+            try container.encode(moved, forKey: .moved)
+            try container.encode(failed, forKey: .failed)
+            try container.encode(privacyReset, forKey: .privacyReset)
+            try container.encode(needsAdministrator, forKey: .needsAdministrator)
+            try container.encode(needsReview, forKey: .needsReview)
+            try container.encode(unreadableLocations, forKey: .unreadableLocations)
+        }
+    }
+
+    /// The report `--json` writes. `result` is nil for a dry run, which moved nothing.
+    static func report(
+        app: InstalledApp,
+        plan: UninstallPlan,
+        result: TrashResult?,
+        privacy: PrivacyReset.Result?,
+        unreadable: [SearchLocation]
+    ) -> Report {
+        Report(
+            app: AppRecord(app),
+            dryRun: result == nil,
+            items: plan.items.map { item in
+                Report.Item(path: Output.path(item.url), size: MeasuredSize(item.size), stays: item.refusal?.name)
+            },
+            moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },
+            failed: (result?.failures ?? []).map {
+                Report.Failure(path: Output.path($0.url), reason: $0.reason.name, detail: $0.reason.detail)
+            },
+            privacyReset: privacy.map { $0 == .reset },
+            needsAdministrator: plan.needsAdministrator,
+            needsReview: plan.needsReview,
+            unreadableLocations: unreadable.map { Output.path($0.url) }
+        )
+    }
+
     func validate() throws {
         if !yes, !dryRun {
             try Output.requireConfirmable()
@@ -282,19 +391,26 @@ struct UninstallCommand: AsyncParsableCommand {
         if let refusal = plan.appStays {
             throw CommandFailure("Peel won't move \(Output.path(target.url)): \(refusal.summary). Nothing of \(target.name) was touched.")
         }
-        // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
-        let staying = !plan.staying.isEmpty
-        Output.table(plan.items.map { item in
-            [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
-        })
-        Output.line("Total: \(Output.size(plan.total))")
-        if resetPrivacy {
-            Output.line("Peel resets \(target.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
+        let unreadable = uninstallation.scan.unreadableLocations
+        if !output.json {
+            // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
+            let staying = !plan.staying.isEmpty
+            Output.table(plan.items.map { item in
+                [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
+            })
+            Output.line("Total: \(Output.size(plan.total))")
+            if resetPrivacy {
+                Output.line("Peel resets \(target.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
+            }
         }
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 
         guard !dryRun else {
-            Output.line(resetPrivacy ? "Dry run: nothing was moved or reset." : "Dry run: nothing was moved.")
+            if output.json {
+                try Output.json(Self.report(app: target, plan: plan, result: nil, privacy: nil, unreadable: unreadable))
+            } else {
+                Output.line(resetPrivacy ? "Dry run: nothing was moved or reset." : "Dry run: nothing was moved.")
+            }
             return
         }
         if !yes {
@@ -309,16 +425,25 @@ struct UninstallCommand: AsyncParsableCommand {
         signal(SIGINT, SIG_IGN)
         signal(SIGTERM, SIG_IGN)
         // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
-        let privacy = resetPrivacy ? Self.privacyOutcome(await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier), app: target) : nil
+        let reset = resetPrivacy ? await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier) : nil
+        let privacy = reset.map { Self.privacyOutcome($0, app: target) }
         let result = await plan.move(using: service)
         let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
         let recorded = await Removals.record(result, from: target.name, sizes: sizes, tool: "applications")
         signal(SIGINT, SIG_DFL)
         signal(SIGTERM, SIG_DFL)
 
-        Output.line("Moved \(Output.count(result.trashed.count, "item", "items")) to the Trash.")
-        if let privacy {
-            privacy.failed ? Output.note(privacy.line) : Output.line(privacy.line)
+        if output.json {
+            let report = Self.report(app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable)
+            try Output.json(report)
+            if let privacy, privacy.failed {
+                Output.note(privacy.line)
+            }
+        } else {
+            Output.line("Moved \(Output.count(result.trashed.count, "item", "items")) to the Trash.")
+            if let privacy {
+                privacy.failed ? Output.note(privacy.line) : Output.line(privacy.line)
+            }
         }
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")
