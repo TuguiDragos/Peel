@@ -45,6 +45,23 @@ extension Tool {
         }
     }
 
+    /// What the tool found in a word or two, for the menu bar panel's Found list: the size when it is known, and
+    /// otherwise the count.
+    func figure(for looked: Looked) -> String? {
+        if let size = looked.size, size.known > 0 { return size.text }
+        let count = looked.count
+        let words: AttributedString? = switch self {
+        case .applications, .homebrew: AttributedString(localized: "^[\(count) update](inflect: true)")
+        case .orphans, .duplicates: AttributedString(localized: "^[\(count) group](inflect: true)")
+        case .developer: AttributedString(localized: "^[\(count) tool](inflect: true)")
+        case .projects: AttributedString(localized: "^[\(count) project](inflect: true)")
+        case .space: AttributedString(localized: "^[\(count) area](inflect: true)")
+        case .installers, .cloud, .fileSearch, .intel: AttributedString(localized: "^[\(count) item](inflect: true)")
+        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .history: nil
+        }
+        return words.map { String($0.characters) }
+    }
+
     /// The sentence for what `looked` holds, or nil while the tool hasn't looked or found nothing.
     func summary(of looked: Looked?) -> AttributedString? {
         guard let looked, looked.count > 0 else { return nil }

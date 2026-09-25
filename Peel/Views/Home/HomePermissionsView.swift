@@ -20,7 +20,6 @@ struct HomePermissionsContent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             banner
-            HomeFoundCard()
             // The tape is rotated, so it reaches above the card it sits on. The gap leaves room for it under
             // the banner, so the tape and the banner don't look stuck together.
             card(HomeModel.Permission.allCases.filter(\.isRequired), named: "Required", tapedAt: .topTrailing)

@@ -2,18 +2,18 @@ import PeelCore
 import SwiftUI
 
 /// What the menu bar shows when the user clicks Peel's glyph: what Peel has moved to the Trash and since when,
-/// and any app updates waiting.
+/// any app updates waiting, and what each tool found the last time it looked.
 struct MenuBarPanel: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(AppLibrary.self) private var library
     @Environment(LifetimeStats.self) private var stats
     @State private var isPointingAtUpdates = false
 
-    private static let rowPadding: CGFloat = 18
-    private static let iconWidth: CGFloat = 20
-    private static let iconSpacing: CGFloat = 13
+    static let rowPadding: CGFloat = 18
+    static let iconWidth: CGFloat = 20
+    static let iconSpacing: CGFloat = 13
     /// Where a row's words start, so a divider between rows begins under them.
-    private static let wordsInset = rowPadding + iconWidth + iconSpacing
+    static let wordsInset = rowPadding + iconWidth + iconSpacing
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +26,7 @@ struct MenuBarPanel: View {
                 .padding(.bottom, 18)
             Divider()
             rows
+            MenuBarFound { open(at: $0) }
             Divider()
             footer
         }
