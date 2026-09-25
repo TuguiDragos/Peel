@@ -138,6 +138,18 @@ struct PeelApp: App {
         notifications.notify(updatesAvailable: found.count, firstName: found[0].name, firstApp: found[0].url)
     }
 
+    /// Whether the menu bar item shows, which is whether Peel watches the Trash. `MenuBarExtra` writes the item's
+    /// visibility back into this binding each time the app's scenes update, which a scrolling list can make happen
+    /// at every step, even when nothing changed. Every write to `AppStorage` makes each `AppStorage` in the app read
+    /// again and redraw what shows it, so writing the value already held is left out.
+    private var menuBarItemIsInserted: Binding<Bool> {
+        Binding {
+            watchesTrash
+        } set: { isInserted in
+            if isInserted != watchesTrash { watchesTrash = isInserted }
+        }
+    }
+
     var body: some Scene {
         Window("Peel", id: Self.mainWindowID) {
             ContentView()
@@ -248,7 +260,7 @@ struct PeelApp: App {
             }
         }
 
-        MenuBarExtra(isInserted: $watchesTrash) {
+        MenuBarExtra(isInserted: menuBarItemIsInserted) {
             MenuBarPanel()
                 .environment(library)
                 .environment(stats)
