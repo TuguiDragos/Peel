@@ -175,7 +175,8 @@ struct RemovalRow: View {
                 name: url.lastPathComponent,
                 detail: Text(explanation),
                 footnote: Text(verbatim: url.path(percentEncoded: false)),
-                isMarked: warning != nil
+                isMarked: warning != nil,
+                isInRow: true
             )
         } else {
             blank

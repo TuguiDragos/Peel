@@ -13,6 +13,8 @@ struct InfoNote: View {
     var isMarked = false
     /// Only Home passes this; see `noteTint`.
     var isAlbum = false
+    /// True for the note in each row of a list of items, whose button takes `RowButtonStyle`.
+    var isInRow = false
 
     @State private var isOpen = false
 
@@ -22,7 +24,8 @@ struct InfoNote: View {
         symbol: String? = nil,
         footnote: Text? = nil,
         isMarked: Bool = false,
-        isAlbum: Bool = false
+        isAlbum: Bool = false,
+        isInRow: Bool = false
     ) {
         self.name = name
         self.detail = detail
@@ -30,6 +33,7 @@ struct InfoNote: View {
         self.footnote = footnote
         self.isMarked = isMarked
         self.isAlbum = isAlbum
+        self.isInRow = isInRow
     }
 
     /// A marked note says so in its shape as well: by color alone it is the fainter of the two in light mode.
@@ -45,7 +49,7 @@ struct InfoNote: View {
                 .padding(4)
                 .contentShape(.rect)
         }
-        .buttonStyle(.plain)
+        .noteButtonStyle(isInRow: isInRow)
         // The button takes clicks across its own frame, 4 points around the glyph; the layout keeps the glyph's.
         .padding(-4)
         .accessibilityLabel(isMarked ? Text("A caution about \(name)") : Text("What \(name) is for"))
@@ -103,6 +107,17 @@ struct NoteCard: View {
         // Only the album's note is papered; a system popover brings its own material.
         .background(isAlbum ? Album.sheet : Color.clear)
         .accessibilityElement(children: .combine)
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func noteButtonStyle(isInRow: Bool) -> some View {
+        if isInRow {
+            buttonStyle(RowButtonStyle())
+        } else {
+            buttonStyle(.plain)
+        }
     }
 }
 
