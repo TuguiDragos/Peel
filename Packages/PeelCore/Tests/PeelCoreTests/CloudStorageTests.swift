@@ -62,6 +62,39 @@ struct CloudStorageTests {
         #expect(Set(scan.files.map(\.id)).count == scan.files.count)
     }
 
+    /// A row's size is what removing the download frees, never the length the file claims: a file stored
+    /// compressed takes fewer blocks than its length, and a clone shares its blocks, so removing it frees nothing.
+    /// Only iCloud can say a file is safely there, so the test says it for these.
+    @Test func aFilesSizeIsWhatRemovingItsDownloadFrees() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        let plain = try directory.file("\(drive)/plain.bin", bytes: 3_000_000)
+        let compressed = try directory.compressedTextFile("\(drive)/compressed.txt")
+        let original = try directory.file("\(drive)/original.bin", bytes: 2_000_000)
+        let clone = original.deletingLastPathComponent().appending(path: "clone.bin")
+        #expect(clonefile(original.path(percentEncoded: false), clone.path(percentEncoded: false), 0) == 0)
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url,
+            minimumSize: 1,
+            exclusions: .none,
+            into: collector,
+            deadline: .now + .seconds(20),
+            countingFor: nil,
+            isSafe: { _ in true },
+            unless: { false }
+        )
+        let sizes = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.size) })
+
+        #expect(sizes["plain.bin"] == ReclaimableSpace.of(plain))
+        #expect((sizes["plain.bin"] ?? 0) >= 3_000_000)
+        #expect(sizes["compressed.txt"] == ReclaimableSpace.of(compressed))
+        #expect((sizes["compressed.txt"] ?? .max) < 240_000, "the compressed file was weighed by its length")
+        #expect(sizes["original.bin"] == nil, "a file whose blocks a clone shares frees nothing")
+        #expect(sizes["clone.bin"] == nil, "a clone frees nothing")
+    }
+
     @Test func leavesAFolderWithoutICloudAlone() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/plain.txt", bytes: 4_000_000)

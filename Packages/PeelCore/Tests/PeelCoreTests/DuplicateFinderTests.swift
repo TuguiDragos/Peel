@@ -390,7 +390,7 @@ struct DuplicateFinderTests {
     @Test func aCompressedFileIsWeighedByItsLength() async throws {
         let directory = try TemporaryDirectory()
         for name in ["home/Documents/notes.txt", "home/Desktop/notes.txt"] {
-            let copy = try compressedText(at: directory.url.appending(path: name))
+            let copy = try directory.compressedTextFile(name)
             #expect(ReclaimableSpace.allocated(copy) < 100_000)
         }
 
@@ -404,7 +404,7 @@ struct DuplicateFinderTests {
     /// is counted as freeing nothing.
     @Test func aCompressedCopyFreesItsBlocksUntilItIsCloned() throws {
         let directory = try TemporaryDirectory()
-        let compressed = try compressedText(at: directory.url.appending(path: "compressed.txt"))
+        let compressed = try directory.compressedTextFile("compressed.txt")
         #expect(ReclaimableSpace.allocated(compressed) > 0)
         #expect(ReclaimableSpace.of(compressed) == ReclaimableSpace.allocated(compressed))
 
@@ -412,19 +412,6 @@ struct DuplicateFinderTests {
         #expect(clonefile(compressed.path(percentEncoded: false), clone.path(percentEncoded: false), 0) == 0)
         #expect(ReclaimableSpace.of(compressed) == 0)
         #expect(ReclaimableSpace.of(clone) == 0)
-    }
-
-    /// Writes 240 KB of text to `url`, compressed into its resource fork by `ditto`, and returns `url`.
-    private func compressedText(at url: URL) throws -> URL {
-        let source = url.deletingLastPathComponent().appending(path: ".source-\(url.lastPathComponent)")
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try Data(String(repeating: "hello world ", count: 20_000).utf8).write(to: source)
-        let ditto = try Process.run(URL(filePath: "/usr/bin/ditto"), arguments: ["--hfsCompression", source.path, url.path])
-        ditto.waitUntilExit()
-        try FileManager.default.removeItem(at: source)
-        var info = stat()
-        #expect(lstat(url.path(percentEncoded: false), &info) == 0 && info.st_flags & UInt32(UF_COMPRESSED) != 0)
-        return url
     }
 }
 

@@ -10,6 +10,8 @@ public struct CloudFile: Sendable, Hashable, Identifiable {
     public let name: String
     /// The folder under `Mobile Documents` it belongs to, in readable form: "iCloud Drive", "Pages".
     public let container: String
+    /// What removing the local copy frees: less than the file's length when it is stored compressed, and nothing
+    /// when a clone shares its blocks.
     public let size: Int64
     public let modified: Date?
 
@@ -41,7 +43,7 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
 }
 
 public enum CloudStorage {
-    /// Below this a file isn't worth a row in a list about space.
+    /// A file that frees less than this isn't worth a row in a list about space.
     public static let minimumSize: Int64 = 1_000_000
     /// The most files listed. The cap counts listed files, not every entry walked, so a walk through many small
     /// files still reaches the big ones after them.
@@ -66,7 +68,7 @@ public enum CloudStorage {
 
     /// The resource keys read for each file, by the scan and again by `free(_:)`.
     static let keys: Set<URLResourceKey> = [
-        .isRegularFileKey, .fileSizeKey, .contentModificationDateKey, .ubiquitousItemDownloadingStatusKey,
+        .isRegularFileKey, .contentModificationDateKey, .ubiquitousItemDownloadingStatusKey,
         .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey, .ubiquitousItemHasUnresolvedConflictsKey,
         .ubiquitousItemIsSyncPausedKey, .ubiquitousItemUploadingErrorKey,
     ]
@@ -144,7 +146,7 @@ public enum CloudStorage {
 
     /// Walks iCloud Drive and adds each file worth freeing to `collector`. Stops at `deadline` as well as when
     /// `isGivenUp` says so, because the timer behind `isGivenUp` runs on another thread and can fire late on a
-    /// busy Mac.
+    /// busy Mac. Only iCloud can say a file is safely there, so a test says it through `isSafe`.
     static func collect(
         home: URL,
         minimumSize: Int64,
@@ -152,6 +154,7 @@ public enum CloudStorage {
         into collector: Collector,
         deadline: ContinuousClock.Instant,
         countingFor scan: ScanCount?,
+        isSafe: (URLResourceValues) -> Bool = isSafeToFree(_:),
         unless isGivenUp: () -> Bool
     ) {
         let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
@@ -180,9 +183,14 @@ public enum CloudStorage {
                 return
             }
             scan?.add(1)
-            guard let values = try? url.resourceValues(forKeys: keys), values.isRegularFile == true else { continue }
-            let size = Int64(values.fileSize ?? 0)
-            guard size >= minimumSize, !exclusions.excludes(url), isSafeToFree(values) else { continue }
+            guard
+                let values = try? url.resourceValues(forKeys: keys),
+                values.isRegularFile == true,
+                !exclusions.excludes(url),
+                isSafe(values)
+            else { continue }
+            let size = ReclaimableSpace.of(url)
+            guard size >= minimumSize else { continue }
 
             let file = CloudFile(
                 url: url,
