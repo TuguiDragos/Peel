@@ -255,29 +255,21 @@ private struct HistoryRecordRow: View {
     var isFirst = false
 
     var body: some View {
-        HStack(spacing: 0) {
-            Toggle(isOn: Binding(get: { isSelected }, set: { history.setSelected($0, record) })) {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Image(systemName: place.symbolName)
-                        .foregroundStyle(.secondary)
-                        .frame(width: 20)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(record.originalURL.abbreviatedPath)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                        Text(place.title)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer(minLength: 12)
-                    Text(record.size.byteCount)
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .toggleStyle(.checkbox)
-            .disabled(place != .inTrash)
+        HStack(alignment: .checkboxTitleLine, spacing: 5) {
+            NativeCheckbox(
+                isOn: Binding(get: { isSelected }, set: { history.setSelected($0, record) }),
+                label: [record.originalURL.abbreviatedPath, String(localized: place.title), record.size.byteCount]
+                    .joined(separator: ", ")
+            )
+            // A click on the record selects it, as a click on a checkbox's title does. VoiceOver hears the record
+            // as the checkbox's name.
+            item
+                .contentShape(.rect)
+                .onTapGesture { history.setSelected(!isSelected, record) }
+                .checkboxTitle()
+                .accessibilityHidden(true)
         }
+        .disabled(place != .inTrash)
         .tableRow(isFirst: isFirst)
         .contextMenu {
             if place == .inTrash {
@@ -285,6 +277,27 @@ private struct HistoryRecordRow: View {
                     NSWorkspace.shared.activateFileViewerSelecting([record.trashedURL])
                 }
             }
+        }
+    }
+
+    private var item: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Image(systemName: place.symbolName)
+                .foregroundStyle(.secondary)
+                .frame(width: 20)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(record.originalURL.abbreviatedPath)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .checkboxTitleLine()
+                Text(place.title)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 12)
+            Text(record.size.byteCount)
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
         }
     }
 }
