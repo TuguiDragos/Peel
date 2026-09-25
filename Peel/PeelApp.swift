@@ -25,6 +25,7 @@ struct PeelApp: App {
     @State private var trashMonitor = TrashMonitor()
     @State private var notifications: PeelNotifications
     @State private var stats = LifetimeStats()
+    @State private var found = FoundLastTimeStore()
     @State private var library = AppLibrary()
     @State private var orphans = OrphanLibrary()
     @State private var projects = ProjectLibrary()
@@ -88,6 +89,36 @@ struct PeelApp: App {
         }
     }
 
+    /// Records what each tool finds whenever it finds it, with its page open or not, so Home can list it. Each tool
+    /// is followed on its own, so one that looks again leaves the others' dates as they were.
+    private func followFindings() async {
+        let tools: [(Tool, @MainActor @Sendable () -> Looked?)] = [
+            (.applications, { [library] in library.looked }),
+            (.orphans, { [orphans] in orphans.looked }),
+            (.intel, { [intel] in intel.looked }),
+            (.homebrew, { [homebrew] in homebrew.looked }),
+            (.space, { [space] in space.looked }),
+            (.developer, { [developer] in developer.looked }),
+            (.projects, { [projects] in projects.looked }),
+            (.installers, { [installers] in installers.looked }),
+            (.duplicates, { [duplicates] in duplicates.looked }),
+            (.cloud, { [cloud] in cloud.looked }),
+        ]
+        await withDiscardingTaskGroup { group in
+            for (tool, looked) in tools {
+                group.addTask { await follow(tool, looked) }
+            }
+        }
+    }
+
+    private func follow(_ tool: Tool, _ looked: @escaping @MainActor @Sendable () -> Looked?) async {
+        for await value in Observations(looked) {
+            if let value {
+                found.record(value, for: tool)
+            }
+        }
+    }
+
     /// Runs the update round every hour while update checks are on. Each app's schedule decides whether the round
     /// checks it.
     private func askWhenDue() async {
@@ -116,6 +147,7 @@ struct PeelApp: App {
                 .buttonBorderShape(.capsule)
                 .environment(outcome)
                 .environment(stats)
+                .environment(found)
                 .environment(library)
                 .environment(orphans)
                 .environment(projects)
@@ -178,7 +210,7 @@ struct PeelApp: App {
                 .task {
                     // Started once, and not as a child of this view's task, so the work goes on in the menu bar
                     // after the window closes.
-                    background.start([followFolders, askWhenDue])
+                    background.start([followFolders, askWhenDue, followFindings])
                 }
         }
         .defaultSize(width: 1120, height: 764)

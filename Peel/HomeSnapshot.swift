@@ -12,6 +12,7 @@ enum HomeSnapshot {
         let home = HomeModel()
         let helper = HelperModel()
         let stats = LifetimeStats()
+        let found = FoundLastTimeStore()
         await home.refresh(helper: helper)
         await ExclusionsStore.shared.load()
         let window = Color(nsColor: .windowBackgroundColor)
@@ -24,8 +25,8 @@ enum HomeSnapshot {
                     render(HomeContent().environment(home).environment(helper).environment(stats).environment(\._accessibilityShowButtonShapes, true), width: 360, height: 760, on: window, scheme: scheme, to: "\(directory)/home-content-borders-\(name).png")
                 }
                 // The permissions at their widest, and at their narrowest, where Home puts its two halves side by side.
-                render(HomePermissionsContent().environment(home).environment(helper).environment(ExclusionsStore.shared), width: 720, height: 680, on: window, scheme: scheme, contrast: contrast, to: "\(directory)/home-detail-\(name).png")
-                render(HomePermissionsContent().environment(home).environment(helper).environment(ExclusionsStore.shared), width: 480, height: 700, on: window, scheme: scheme, contrast: contrast, to: "\(directory)/detail-narrow-\(name).png")
+                render(HomePermissionsContent().environment(home).environment(helper).environment(ExclusionsStore.shared).environment(found), width: 720, on: window, scheme: scheme, contrast: contrast, to: "\(directory)/home-detail-\(name).png")
+                render(HomePermissionsContent().environment(home).environment(helper).environment(ExclusionsStore.shared).environment(found), width: 480, on: window, scheme: scheme, contrast: contrast, to: "\(directory)/detail-narrow-\(name).png")
                 render(AboutContent().fixedSize(horizontal: false, vertical: true), width: AboutContent.width, on: Album.sheet, scheme: scheme, contrast: contrast, to: "\(directory)/about-\(name).png")
                 render(MenuBarPanel().environment(AppLibrary()).environment(stats), width: 320, scheme: scheme, contrast: contrast, to: "\(directory)/menu-bar-\(name).png")
             }

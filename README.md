@@ -49,6 +49,9 @@ files scattered across your Library, sometimes gigabytes of them. Peel finds wha
 file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing is deleted, and History can
 put all of it back.
 
+When you open it, Home lists what each tool found the last time it looked, a line per tool that takes you there. It
+never adds them up into one figure and never selects anything for you.
+
 Peel is free and open source, and it speaks English and 17 other languages.
 
 ## What Peel does

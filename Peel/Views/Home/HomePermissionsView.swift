@@ -8,16 +8,17 @@ struct HomePermissionsContent: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var pointingAt: HomeModel.Permission?
 
-    private static let markSize: CGFloat = 36
+    static let markSize: CGFloat = 36
     /// A whole number of points, so the mark's body (30) and edge (3 on each side) fall on whole pixels at
     /// any scale. With a half-point edge, one side of the circle looks thicker on a screen that is not Retina.
-    private static let markEdge: CGFloat = 3
-    private static let markBody: CGFloat = markSize - markEdge * 2
-    private static let tapeAngle: Double = 28
+    static let markEdge: CGFloat = 3
+    static let markBody: CGFloat = markSize - markEdge * 2
+    static let tapeAngle: Double = 28
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             banner
+            HomeFoundCard()
             // The tape is rotated, so it reaches above the card it sits on. The gap leaves room for it under
             // the banner, so the tape and the banner don't look stuck together.
             card(HomeModel.Permission.allCases.filter(\.isRequired), named: "Required", tapedAt: .topTrailing)

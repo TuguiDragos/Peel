@@ -1,0 +1,102 @@
+import Foundation
+import Observation
+import PeelCore
+
+/// What each tool found the last time it looked, as Home lists it. It is kept in the app's user defaults, beside
+/// `LifetimeStats`, so Home can say it again after Peel is opened.
+@Observable
+final class FoundLastTimeStore {
+    private static let key = "home.foundLastTime"
+    private let defaults: UserDefaults
+    private(set) var found: FoundLastTime
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        found = FoundLastTime(data: defaults.data(forKey: Self.key))
+    }
+
+    /// The tools that found something, in the sidebar's order.
+    var findings: [(tool: Tool, finding: FoundLastTime.Finding)] {
+        Tool.allCases.compactMap { tool in found.findings[tool.rawValue].map { (tool, $0) } }
+    }
+
+    func record(_ looked: Looked, for tool: Tool) {
+        found.record(count: looked.count, size: looked.size, for: tool.rawValue)
+        defaults.set(found.data, forKey: Self.key)
+    }
+}
+
+/// How many things a tool found when it last looked, and their size when the tool measures what it finds.
+struct Looked: Equatable {
+    let count: Int
+    let size: SizeTotal?
+}
+
+// What counts as found for each tool Home lists. Each is nil until the tool has looked since Peel opened, so
+// what an earlier look found stays until the tool looks again.
+
+extension AppLibrary {
+    /// The apps with an update waiting, as the menu bar counts them, once a round of checks is over.
+    var looked: Looked? {
+        hasLoaded && appsCheckingForUpdates.isEmpty ? Looked(count: menuBarUpdateCount, size: nil) : nil
+    }
+}
+
+extension OrphanLibrary {
+    var looked: Looked? {
+        scan.map { Looked(count: $0.groups.count, size: SizeTotal(combining: $0.groups.map(\.total))) }
+    }
+}
+
+extension IntelLibrary {
+    var looked: Looked? {
+        scan.map { Looked(count: $0.findings.count, size: nil) }
+    }
+}
+
+extension HomebrewLibrary {
+    /// The packages with a newer version waiting.
+    var looked: Looked? {
+        packages.map { Looked(count: $0.count(where: \.isOutdated), size: nil) }
+    }
+}
+
+extension SpaceLibrary {
+    var looked: Looked? {
+        report.map { Looked(count: $0.items.count, size: SizeTotal($0.items.map(\.size))) }
+    }
+}
+
+extension DeveloperLibrary {
+    var looked: Looked? {
+        environments.map { Looked(count: $0.count, size: SizeTotal(combining: $0.map(\.total))) }
+    }
+}
+
+extension ProjectLibrary {
+    var looked: Looked? {
+        groups.map { Looked(count: $0.count, size: SizeTotal(combining: $0.map(\.total))) }
+    }
+}
+
+extension InstallerLibrary {
+    var looked: Looked? {
+        scan.map { Looked(count: $0.items.count, size: SizeTotal($0.items.map(\.size))) }
+    }
+}
+
+extension DuplicateLibrary {
+    /// The groups of copies, and what moving every copy but one of each would free.
+    var looked: Looked? {
+        scan.map { scan in
+            let reclaimable = scan.groups.reduce(0) { $0 + $1.reclaimableSize } + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
+            return Looked(count: scan.groups.count + scan.folderGroups.count, size: SizeTotal(known: reclaimable, isComplete: true))
+        }
+    }
+}
+
+extension CloudLibrary {
+    var looked: Looked? {
+        files.map { Looked(count: $0.count, size: SizeTotal(known: totalSize, isComplete: true)) }
+    }
+}

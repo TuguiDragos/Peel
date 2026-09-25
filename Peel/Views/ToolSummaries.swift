@@ -16,6 +16,43 @@ extension SizeTotal {
     }
 }
 
+extension Tool {
+    /// What the tool found, as its pane and Home both say it, or nil for a tool Home doesn't list.
+    func sentence(for looked: Looked) -> AttributedString? {
+        let count = looked.count
+        let total = looked.size.flatMap { $0.known > 0 ? $0.text : nil }
+        switch self {
+        case .applications, .homebrew:
+            return AttributedString(localized: "^[\(count) update](inflect: true) waiting.")
+        case .orphans, .duplicates:
+            return total.map { AttributedString(localized: "\($0) in ^[\(count) group](inflect: true).") }
+                ?? AttributedString(localized: "^[\(count) group](inflect: true).")
+        case .developer:
+            return total.map { AttributedString(localized: "\($0) in ^[\(count) tool](inflect: true).") }
+                ?? AttributedString(localized: "^[\(count) tool](inflect: true).")
+        case .projects:
+            return total.map { AttributedString(localized: "\($0) in ^[\(count) project](inflect: true).") }
+                ?? AttributedString(localized: "^[\(count) project](inflect: true).")
+        case .space:
+            return total.map { AttributedString(localized: "\($0) in ^[\(count) area](inflect: true).") }
+                ?? AttributedString(localized: "^[\(count) area](inflect: true).")
+        case .installers, .cloud:
+            return total.map { AttributedString(localized: "\($0) in ^[\(count) item](inflect: true).") }
+                ?? AttributedString(localized: "^[\(count) item](inflect: true).")
+        case .intel:
+            return AttributedString(localized: "^[\(count) item](inflect: true) built for Intel.")
+        case .home, .packages, .fileSearch, .backgroundItems, .extensions, .plugins, .tweaks, .history:
+            return nil
+        }
+    }
+
+    /// The sentence for what `looked` holds, or nil while the tool hasn't looked or found nothing.
+    func summary(of looked: Looked?) -> AttributedString? {
+        guard let looked, looked.count > 0 else { return nil }
+        return sentence(for: looked)
+    }
+}
+
 extension AppLibrary {
     var summary: AttributedString? {
         guard hasLoaded else { return nil }
@@ -23,69 +60,37 @@ extension AppLibrary {
         let known = sizes.values.reduce(0, +)
         let total = SizeTotal(known: known, isComplete: sizes.count >= count)
         let size = known > 0 ? AttributedString(localized: "\(total.text) in ^[\(count) app](inflect: true).") : AttributedString(localized: "^[\(count) app](inflect: true).")
-        let waiting = appsWithUpdates.count
-        guard waiting > 0 else { return size }
-        return size + AttributedString("\n") + AttributedString(localized: "^[\(waiting) update](inflect: true) waiting.")
+        guard let updates = Tool.applications.summary(of: Looked(count: appsWithUpdates.count, size: nil)) else { return size }
+        return size + AttributedString("\n") + updates
     }
 }
 
 extension OrphanLibrary {
-    var summary: AttributedString? {
-        guard let groups = scan?.groups, !groups.isEmpty else { return nil }
-        let total = SizeTotal(combining: groups.map(\.total))
-        return total.known > 0
-            ? AttributedString(localized: "\(total.text) in ^[\(groups.count) group](inflect: true).")
-            : AttributedString(localized: "^[\(groups.count) group](inflect: true).")
-    }
+    var summary: AttributedString? { Tool.orphans.summary(of: looked) }
 }
 
 extension DeveloperLibrary {
-    var summary: AttributedString? {
-        guard let environments, !environments.isEmpty else { return nil }
-        let total = SizeTotal(combining: environments.map(\.total))
-        return total.known > 0
-            ? AttributedString(localized: "\(total.text) in ^[\(environments.count) tool](inflect: true).")
-            : AttributedString(localized: "^[\(environments.count) tool](inflect: true).")
-    }
+    var summary: AttributedString? { Tool.developer.summary(of: looked) }
 }
 
 extension ProjectLibrary {
-    var summary: AttributedString? {
-        guard let groups, !groups.isEmpty else { return nil }
-        let total = SizeTotal(combining: groups.map(\.total))
-        return total.known > 0
-            ? AttributedString(localized: "\(total.text) in ^[\(groups.count) project](inflect: true).")
-            : AttributedString(localized: "^[\(groups.count) project](inflect: true).")
-    }
+    var summary: AttributedString? { Tool.projects.summary(of: looked) }
 }
 
 extension SpaceLibrary {
-    var summary: AttributedString? {
-        guard let items = report?.items, !items.isEmpty else { return nil }
-        let total = SizeTotal(items.map(\.size))
-        return total.known > 0
-            ? AttributedString(localized: "\(total.text) in ^[\(items.count) area](inflect: true).")
-            : AttributedString(localized: "^[\(items.count) area](inflect: true).")
-    }
+    var summary: AttributedString? { Tool.space.summary(of: looked) }
 }
 
 extension InstallerLibrary {
-    var summary: AttributedString? {
-        guard let items = scan?.items, !items.isEmpty else { return nil }
-        let total = SizeTotal(items.map(\.size))
-        return total.known > 0
-            ? AttributedString(localized: "\(total.text) in ^[\(items.count) item](inflect: true).")
-            : AttributedString(localized: "^[\(items.count) item](inflect: true).")
-    }
+    var summary: AttributedString? { Tool.installers.summary(of: looked) }
 }
 
 extension HomebrewLibrary {
     var summary: AttributedString? {
         guard let packages, !packages.isEmpty else { return nil }
         let count = AttributedString(localized: "^[\(packages.count) package](inflect: true).")
-        let outdated = packages.count(where: \.isOutdated)
-        guard outdated > 0 else { return count }
-        return count + AttributedString("\n") + AttributedString(localized: "^[\(outdated) update](inflect: true) waiting.")
+        guard let updates = Tool.homebrew.summary(of: looked) else { return count }
+        return count + AttributedString("\n") + updates
     }
 }
 
@@ -118,10 +123,7 @@ extension BackgroundItemLibrary {
 }
 
 extension IntelLibrary {
-    var summary: AttributedString? {
-        guard let findings = scan?.findings, !findings.isEmpty else { return nil }
-        return AttributedString(localized: "^[\(findings.count) item](inflect: true) built for Intel.")
-    }
+    var summary: AttributedString? { Tool.intel.summary(of: looked) }
 }
 
 extension RemovalHistoryStore {
