@@ -3,34 +3,57 @@ import Foundation
 import Testing
 
 struct LocalSnapshotsTests {
+    /// The property list `diskutil apfs listSnapshots -plist` prints, in the shape it has on macOS 26.
     @Test func readsWhatDiskutilSaysAboutEachSnapshot() throws {
         let output = """
-        Snapshot for disk3s3s1 (2 found)
-        |
-        +-- 2DF28783-92EA-4CF6-B83E-3F6F19539397
-            Name:        com.apple.os.update-5F71F8535097458C988F984E152FFCD5
-            XID:         4361058
-            Purgeable:   No
-            NOTE:        This snapshot limits the minimum size of APFS Container disk3
-        |
-        +-- A1B2C3D4-0000-0000-0000-000000000000
-            Name:        com.apple.TimeMachine.2026-09-17-120000.local
-            XID:         4361059
-            Purgeable:   Yes
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>Snapshots</key>
+            <array>
+                <dict>
+                    <key>LimitingContainerShrink</key>
+                    <true/>
+                    <key>Purgeable</key>
+                    <false/>
+                    <key>SnapshotName</key>
+                    <string>com.apple.os.update-5F71F8535097458C988F984E152FFCD5</string>
+                    <key>SnapshotUUID</key>
+                    <string>2DF28783-92EA-4CF6-B83E-3F6F19539397</string>
+                    <key>SnapshotXID</key>
+                    <integer>4361058</integer>
+                </dict>
+                <dict>
+                    <key>Purgeable</key>
+                    <true/>
+                    <key>SnapshotName</key>
+                    <string>com.apple.TimeMachine.2026-09-17-120000.local</string>
+                </dict>
+                <dict>
+                    <key>SnapshotName</key>
+                    <string>com.example.snapshot</string>
+                </dict>
+            </array>
+        </dict>
+        </plist>
         """
 
-        let snapshots = LocalSnapshots.parse(output)
-        #expect(snapshots.count == 2)
+        let snapshots = LocalSnapshots.parse(Data(output.utf8))
+        #expect(snapshots.count == 3)
 
         let update = try #require(snapshots.first)
         #expect(update.kind == .systemUpdate)
         #expect(update.isPurgeable == false)
         #expect(update.date == nil)
 
-        let backup = snapshots.last
-        #expect(backup?.kind == .timeMachine)
-        #expect(backup?.isPurgeable == true)
-        #expect(backup?.date != nil)
+        let backup = snapshots[1]
+        #expect(backup.kind == .timeMachine)
+        #expect(backup.isPurgeable == true)
+        #expect(backup.date != nil)
+
+        // `diskutil` does not always say whether a snapshot is purgeable, and not saying is not "no".
+        #expect(snapshots.last?.isPurgeable == nil)
     }
 
     @Test func readsTheMomentATimeMachineSnapshotWasTaken() throws {
@@ -55,8 +78,13 @@ struct LocalSnapshotsTests {
     }
 
     @Test func answersWithoutComplainingWhenThereAreNone() {
-        #expect(LocalSnapshots.parse("Snapshot for disk3s3s1 (0 found)").isEmpty)
-        #expect(LocalSnapshots.parse("").isEmpty)
+        let none = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>Snapshots</key><array/></dict></plist>
+        """
+        #expect(LocalSnapshots.parse(Data(none.utf8)).isEmpty)
+        #expect(LocalSnapshots.parse(Data()).isEmpty)
+        #expect(LocalSnapshots.parse(Data("No snapshots for disk3s1".utf8)).isEmpty)
     }
 
     /// Lists the snapshots of the machine running the test. Listing reads and changes nothing.

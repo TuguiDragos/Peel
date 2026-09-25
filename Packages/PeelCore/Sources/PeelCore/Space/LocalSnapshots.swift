@@ -36,34 +36,22 @@ public enum LocalSnapshots {
 
     @concurrent
     public static func list(volume: String = LocalSnapshots.volume) async -> [LocalSnapshot] {
-        guard let output = await run(["apfs", "listSnapshots", volume]) else { return [] }
-        return parse(output)
+        let arguments = ["apfs", "listSnapshots", "-plist", volume]
+        guard case .success(let output) = await Subprocess.run("/usr/sbin/diskutil", arguments, timeout: 30),
+              output.status == 0 else { return [] }
+        return parse(output.standardOutput)
     }
 
-    static func parse(_ output: String) -> [LocalSnapshot] {
-        var snapshots: [LocalSnapshot] = []
-        var name: String?
-        var isPurgeable: Bool?
-
-        func finish() {
-            guard let name else { return }
-            snapshots.append(LocalSnapshot(name: name, kind: kind(of: name), date: date(in: name), isPurgeable: isPurgeable))
+    /// Reads what `diskutil apfs listSnapshots -plist` prints: a `Snapshots` array whose entries carry
+    /// `SnapshotName` and, when `diskutil` knows it, `Purgeable`.
+    static func parse(_ data: Data) -> [LocalSnapshot] {
+        guard let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+              let entries = plist["Snapshots"] as? [[String: Any]] else { return [] }
+        return entries.compactMap { entry in
+            guard let name = entry["SnapshotName"] as? String else { return nil }
+            let isPurgeable = entry["Purgeable"] as? Bool
+            return LocalSnapshot(name: name, kind: kind(of: name), date: date(in: name), isPurgeable: isPurgeable)
         }
-
-        for line in output.split(whereSeparator: \.isNewline) {
-            let trimmed = line.trimmingCharacters(in: .whitespaces)
-            if trimmed.hasPrefix("+--") {
-                finish()
-                name = nil
-                isPurgeable = nil
-            } else if let value = value(after: "Name:", in: trimmed) {
-                name = value
-            } else if let value = value(after: "Purgeable:", in: trimmed) {
-                isPurgeable = value.lowercased() == "yes"
-            }
-        }
-        finish()
-        return snapshots
     }
 
     static func kind(of name: String) -> LocalSnapshot.Kind {
@@ -88,16 +76,5 @@ public enum LocalSnapshots {
         (components.year, components.month, components.day) = (year, month, day)
         (components.hour, components.minute, components.second) = (hour, minute, second)
         return Calendar(identifier: .gregorian).date(from: components)
-    }
-
-    private static func value(after label: String, in line: String) -> String? {
-        guard line.hasPrefix(label) else { return nil }
-        let value = line.dropFirst(label.count).trimmingCharacters(in: .whitespaces)
-        return value.isEmpty ? nil : value
-    }
-
-    private static func run(_ arguments: [String]) async -> String? {
-        guard case .success(let output) = await Subprocess.run("/usr/sbin/diskutil", arguments, timeout: 30), output.status == 0 else { return nil }
-        return output.text
     }
 }
