@@ -53,7 +53,7 @@ struct FileSearchList: View {
                 .disabled(search.isSearching || search.isRemoving)
             }
         }
-        .scanState(phase, isRescanning: search.isSearching) {
+        .scanState(phase, isRescanning: search.isSearching, scan: search.scanRun) {
             if search.results == nil {
                 ContentUnavailableView(
                     "Search for Files",
@@ -94,7 +94,11 @@ struct FileSearchList: View {
                     }
             }
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !search.criteria.isSearchable || search.isSearching || search.isRemoving) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: !search.criteria.isSearchable || search.isRemoving,
+                    scan: search.scanRun
+                ) {
                     await search.search()
                 }
             }
@@ -133,6 +137,8 @@ struct FileSearchList: View {
 
     private var phase: ScanPhase {
         if search.isSearching, search.results?.files.isEmpty ?? true { return .scanning(.spotlight) }
+        // A first search stopped before it answered says so; one left behind by words since cleared does not.
+        if search.results == nil, search.scanRun.wasStopped, search.criteria.isSearchable { return .stopped }
         if search.results == nil { return .message }
         if search.results?.files.isEmpty == true { return .message }
         return .content

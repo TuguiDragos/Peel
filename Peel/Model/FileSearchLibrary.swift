@@ -7,7 +7,9 @@ final class FileSearchLibrary {
     var criteria = FileSearchCriteria()
     private(set) var results: FileSearchResults?
     private(set) var searchedCriteria: FileSearchCriteria?
-    private(set) var isSearching = false
+    /// The search this page runs, which a newer one or the Stop button ends.
+    let scanRun = ScanRun()
+    var isSearching: Bool { scanRun.isRunning }
     private(set) var isRemoving = false
     var selectedURLs: Set<URL> = []
     /// The file the detail shows, chosen in the list. Checking a file for the Trash is `selectedURLs`, apart.
@@ -34,23 +36,26 @@ final class FileSearchLibrary {
         let criteria = criteria
         searchedCriteria = criteria
         guard criteria.isSearchable else {
+            // Nothing is asked of Spotlight anymore, so a search still running for the old words is stopped.
+            scanRun.stop()
             results = nil
             selectedURLs = []
             selectableURLs = []
             sizes = [:]
-            isSearching = false
             return
         }
-        isSearching = true
         let exclusions = ExclusionsStore.shared.exclusions
-        let found = await FileSearch.run(criteria, exclusions: exclusions)
-        guard current == generation else { return }
+        guard let found = await scanRun.run({ await FileSearch.run(criteria, exclusions: exclusions) }) else {
+            // Canceled with the task that asked for it, as when the page goes away, the search answered nothing,
+            // so the page asks again when it comes back. Stopped or replaced by a newer search, it counts as asked.
+            if !scanRun.wasStopped, current == generation { searchedCriteria = nil }
+            return
+        }
         results = found
         filteredBy = exclusions
         selectableURLs = Set(found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp }.map(\.url))
         sizes = Dictionary(found.files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
         selectedURLs.formIntersection(found.files.filter { !$0.requiresPrivileges }.map(\.url))
-        isSearching = false
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
         await leaveOut(ExclusionsStore.shared.exclusions)
     }

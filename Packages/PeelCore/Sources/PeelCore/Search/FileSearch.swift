@@ -55,6 +55,9 @@ public struct FileSearchResults: Sendable {
 public enum FileSearch {
     public static let maximumResults = 2_000
 
+    /// Runs a Spotlight query and returns the paths it found, or nil when it could not run or was stopped.
+    typealias Gather = @concurrent @Sendable (sending MDQuery) async -> [String]?
+
     /// Moves `files` to the Trash. A file written again under the same name after it was listed is a different
     /// file, so it fails with `changedSinceScan` instead.
     @concurrent
@@ -74,19 +77,23 @@ public enum FileSearch {
 
     /// Returns up to `maximumResults` regular files from the Spotlight index that match `criteria` and that the
     /// removal guard allows. Files in a Library folder come after the rest, and each part is sorted largest first.
+    /// Stopping the task stops the query.
     @concurrent
     public static func run(_ criteria: FileSearchCriteria, environment: SearchEnvironment = .current, exclusions: Exclusions = .none) async -> FileSearchResults {
+        await run(criteria, environment: environment, exclusions: exclusions) { await SpotlightGathering($0).paths() }
+    }
+
+    /// The same, with the query run by `gather`, so a test can stand in for one that never finishes.
+    static func run(
+        _ criteria: FileSearchCriteria,
+        environment: SearchEnvironment = .current,
+        exclusions: Exclusions = .none,
+        gather: Gather
+    ) async -> FileSearchResults {
         guard criteria.isSearchable, let query = makeQuery(for: criteria) else { return FileSearchResults(didRun: false) }
         let scope = criteria.scope == .home ? kMDQueryScopeHome : kMDQueryScopeComputer
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
-
-        guard MDQueryExecute(query, CFOptionFlags(kMDQuerySynchronous.rawValue)) else { return FileSearchResults(didRun: false) }
-
-        let count = MDQueryGetResultCount(query)
-        let paths = (0..<count).compactMap { index -> String? in
-            guard let pointer = MDQueryGetResultAtIndex(query, index) else { return nil }
-            return MDItemCopyAttribute(Unmanaged<MDItem>.fromOpaque(pointer).takeUnretainedValue(), kMDItemPath) as? String
-        }
+        guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
         return results(from: paths, environment: environment, exclusions: exclusions)
     }
 
@@ -101,6 +108,8 @@ public enum FileSearch {
         let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
         var candidates: [(url: URL, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
+            // A stopped search reads nothing more; nobody will look at what it would have found.
+            guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
             guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { continue }
             let url = URL(filePath: path)
@@ -196,5 +205,71 @@ public enum FileSearch {
             clause = "(\(clause))" + kind.excludedTypes.map { " && kMDItemContentTypeTree != \"\($0.identifier)\"" }.joined()
         }
         return "(\(clause))"
+    }
+}
+
+/// One Spotlight query, run without blocking a thread and stopped when the task that waits for it is. Everything
+/// about the query happens on its own serial queue, where Spotlight delivers its results and notifications, so
+/// the query is never touched from two threads at once.
+private final class SpotlightGathering: @unchecked Sendable {
+    private let query: MDQuery
+    private let queue = DispatchQueue(label: "com.tuguidragos.Peel.FileSearch")
+    // Touched only on `queue`.
+    private var continuation: CheckedContinuation<[String]?, Never>?
+    private var observer: (any NSObjectProtocol)?
+    private var isOver = false
+
+    init(_ query: MDQuery) {
+        self.query = query
+    }
+
+    /// The paths the query found, or nil when it could not run or the task was canceled.
+    func paths() async -> [String]? {
+        await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                queue.async { self.start(continuation) }
+            }
+        } onCancel: {
+            queue.async { self.end(with: nil) }
+        }
+    }
+
+    private func start(_ continuation: CheckedContinuation<[String]?, Never>) {
+        // Canceled before it started.
+        guard !isOver else { return continuation.resume(returning: nil) }
+        self.continuation = continuation
+        MDQuerySetDispatchQueue(query, queue)
+        observer = NotificationCenter.default.addObserver(
+            forName: Notification.Name(kMDQueryDidFinishNotification as String), object: query, queue: nil
+        ) { [weak self] _ in
+            guard let self else { return }
+            end(with: foundPaths())
+        }
+        if !MDQueryExecute(query, 0) {
+            end(with: nil)
+        }
+    }
+
+    /// Reads each result's path from the result itself: Spotlight does not carry `kMDItemPath` in a query's value
+    /// lists, which `MDQueryGetAttributeValueOfResultAtIndex` reads, so a query built to gather it finds no paths.
+    private func foundPaths() -> [String] {
+        MDQueryDisableUpdates(query)
+        return (0..<MDQueryGetResultCount(query)).compactMap { index in
+            guard let pointer = MDQueryGetResultAtIndex(query, index) else { return nil }
+            let item = Unmanaged<MDItem>.fromOpaque(pointer).takeUnretainedValue()
+            return MDItemCopyAttribute(item, kMDItemPath) as? String
+        }
+    }
+
+    /// Stops the query and answers the waiting task, once.
+    private func end(with paths: [String]?) {
+        guard !isOver else { return }
+        isOver = true
+        MDQueryStop(query)
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        continuation?.resume(returning: paths)
+        continuation = nil
     }
 }
