@@ -9,7 +9,12 @@ final class FileSearchLibrary {
     private(set) var searchedCriteria: FileSearchCriteria?
     /// The search this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
-    var isSearching: Bool { scanRun.isRunning }
+    /// True while a search runs, and while one is due because the words changed since the last one was asked.
+    /// Typing cancels the running search at once and starts the next a moment later, and the page stays busy
+    /// between the two.
+    var isSearching: Bool {
+        scanRun.isRunning || (criteria.isSearchable && criteria != searchedCriteria)
+    }
     private(set) var isRemoving = false
     var selectedURLs: Set<URL> = []
     /// The file the detail shows, chosen in the list. Checking a file for the Trash is `selectedURLs`, apart.
