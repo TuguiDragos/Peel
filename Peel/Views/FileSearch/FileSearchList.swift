@@ -36,6 +36,7 @@ struct FileSearchList: View {
                             size: file.size,
                             isLocked: file.requiresPrivileges,
                             isFirst: file.id == results.files.first?.id,
+                            isChoosable: true,
                             selection: search, isSelected: search.isSelected(file.url)
                         )
                         .tag(file.url)

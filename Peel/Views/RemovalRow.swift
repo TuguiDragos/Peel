@@ -28,6 +28,9 @@ struct RemovalRow: View {
     /// False when no row of the table has a note. The note column is then left out, so the sizes end at the
     /// same edge as the page's totals and Select All.
     var hasNoteColumn = true
+    /// True in a list whose rows are chosen to show them in the detail column. A click on such a row chooses it,
+    /// and only its checkbox selects the item.
+    var isChoosable = false
     /// The object the checkbox writes to. A `Binding` here would rebuild every row in the list: see `RowSelection`.
     let selection: any RowSelection
     let isSelected: Bool
@@ -72,14 +75,23 @@ struct RemovalRow: View {
                 // The label reads every column, so the hint adds only the warning from the note.
                 hint: warning.map { String(Self.commandsMarked($0).characters) }
             )
-            item
-                .contentShape(.rect)
-                // A click on the item selects it, as a click on a checkbox's title does.
-                .onTapGesture { selection.setSelected(!isSelected, for: url) }
+            clickableItem
                 .checkboxTitle()
                 .accessibilityHidden(true)
         }
         .disabled(isLocked || isExcluded || isLeftAlone)
+    }
+
+    @ViewBuilder
+    private var clickableItem: some View {
+        if isChoosable {
+            item
+        } else {
+            // A click on the item selects it, as a click on a checkbox's title does.
+            item
+                .contentShape(.rect)
+                .onTapGesture { selection.setSelected(!isSelected, for: url) }
+        }
     }
 
     /// The item as the checkbox's title reads it: its path, its badge, its kind and its size.
