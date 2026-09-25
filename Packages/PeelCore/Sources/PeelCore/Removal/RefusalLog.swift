@@ -44,8 +44,9 @@ public actor RefusalLog {
         FileLock.whileHeld(beside: url) { current() ?? [] }
     }
 
-    public func add(_ failures: [TrashFailure], source: String, sourceKey: String? = nil, tool: String) {
-        let batch = UUID()
+    /// Writes down what one removal refused. The parts of one pass through several tools share its `batch`, so
+    /// History shows them as one entry.
+    public func add(_ failures: [TrashFailure], source: String, sourceKey: String? = nil, tool: String, batch: UUID = UUID()) {
         let date = Date.now
         let records = failures.map { RefusalRecord(failure: $0, date: date, source: source, sourceKey: sourceKey, tool: tool, batch: batch) }
         guard !records.isEmpty else { return }
