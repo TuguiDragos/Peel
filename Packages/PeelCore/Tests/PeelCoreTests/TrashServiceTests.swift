@@ -504,6 +504,26 @@ struct TrashServiceTests {
         }
     }
 
+    /// A folder refused by its name is refused before anything inside it is read. The checks for a library, a
+    /// browser wallet and work kept in a cache look a level or two down, which costs a read of every folder there.
+    @Test func refusesByNameBeforeReadingWhatIsInside() throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<300 {
+            try directory.directory("home/Library/Keychains/\(index)/inner")
+        }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let keychains = home.appending(path: "Library/Keychains", directoryHint: .isDirectory)
+
+        let took = ContinuousClock().measure {
+            for _ in 0..<10 {
+                #expect(!guardian.allowsRemoval(of: keychains))
+            }
+        }
+
+        #expect(took < .milliseconds(250))
+    }
+
     /// These hold work nothing can bring back. A file removed from iCloud Drive, for example, is removed from
     /// every device the user owns.
     @Test func refusesTheFoldersThatHoldWorkNothingCanBringBack() throws {

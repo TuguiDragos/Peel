@@ -52,10 +52,6 @@ struct RemovalGuard: Sendable {
         for name in names {
             let named = URL(filePath: name)
             guard !exclusions.excludes(named), !exclusions.holds(named) else { return false }
-            // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
-            // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
-            guard !ProtectedData.holdsAContainersDocuments(name), !ProtectedData.holdsWorkKeptInACache(name) else { return false }
-            guard !ProtectedData.holdsALibrary(name), !ProtectedData.holdsABrowserWallet(name) else { return false }
             guard protectedObjects.allows(name) else { return false }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.
@@ -77,7 +73,16 @@ struct RemovalGuard: Sendable {
             guard !ProtectedData.isInAContainersDocuments(spelling) else { return false }
         }
         var info = stat()
-        return lstat(path, &info) != 0 || info.st_flags & UInt32(SF_RESTRICTED) == 0
+        guard lstat(path, &info) != 0 || info.st_flags & UInt32(SF_RESTRICTED) == 0 else { return false }
+
+        // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
+        for name in names {
+            // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
+            // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
+            guard !ProtectedData.holdsAContainersDocuments(name), !ProtectedData.holdsWorkKeptInACache(name) else { return false }
+            guard !ProtectedData.holdsALibrary(name), !ProtectedData.holdsABrowserWallet(name) else { return false }
+        }
+        return true
     }
 
     /// True for anything at or inside a photo, music or video library package. The path arrives lower-cased.
