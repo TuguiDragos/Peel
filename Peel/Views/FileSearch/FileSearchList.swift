@@ -81,6 +81,13 @@ struct FileSearchList: View {
             }
         }
         .fadesInColumn(whenRowsChange: search.results?.files.map(\.id))
+        // Clearing the words stops the search too.
+        .announcesScan(
+            search.isSearching,
+            found: search.summary,
+            couldNotLook: search.results?.didRun == false ? "Spotlight Didn’t Answer" : nil,
+            wasStopped: search.scanRun.wasStopped || !search.criteria.isSearchable
+        )
         // The name is typed in the search field at the top of the column, where other pages filter their lists.
         // Here the field is part of the search, so it is always shown.
         .columnSearch(text: $search.criteria.name, prompt: "Search Files", when: true)

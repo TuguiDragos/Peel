@@ -2,8 +2,8 @@ import Accessibility
 import PeelCore
 import SwiftUI
 
-// The summary each tool's detail pane shows before anything is chosen, which VoiceOver also reads when a scan
-// ends: what the tool found, in numbers.
+// What each tool found, in numbers: the summary its detail pane shows before anything is chosen, and what
+// VoiceOver reads when a scan ends.
 //
 // Each sentence is one localized string with its numbers inside, so a translation can put the parts in any
 // order, as Japanese or Turkish need. The sentences avoid verbs that would have to agree with a number, and the
@@ -102,6 +102,14 @@ extension FileSearchLibrary {
     }
 }
 
+extension DuplicateLibrary {
+    var summary: AttributedString? { Tool.duplicates.summary(of: looked) }
+}
+
+extension CloudLibrary {
+    var summary: AttributedString? { Tool.cloud.summary(of: looked) }
+}
+
 extension PackageLibrary {
     var summary: AttributedString? {
         guard let receipts, !receipts.isEmpty else { return nil }
@@ -143,11 +151,19 @@ extension RemovalHistoryStore {
 
 extension View {
     /// Tells VoiceOver what a scan found when it ends, since a scan can take minutes and the list fills in
-    /// silently. A stopped scan is announced as stopped.
-    func announcesScan(_ isScanning: Bool, found summary: AttributedString?, wasStopped: Bool = false) -> some View {
+    /// silently. A stopped scan is announced as stopped. `couldNotLook` is the title of the page's message for a
+    /// scan that could not look, which is read in place of "Nothing found." when nothing was found.
+    func announcesScan(
+        _ isScanning: Bool,
+        found summary: AttributedString?,
+        couldNotLook: LocalizedStringResource? = nil,
+        wasStopped: Bool = false
+    ) -> some View {
         onChange(of: isScanning) { wasScanning, scanning in
             guard wasScanning, !scanning else { return }
-            let words = wasStopped ? AttributedString(localized: "Scan stopped.") : summary ?? AttributedString(localized: "Nothing found.")
+            let nothing = couldNotLook.map { AttributedString(localized: $0) }
+                ?? AttributedString(localized: "Nothing found.")
+            let words = wasStopped ? AttributedString(localized: "Scan stopped.") : summary ?? nothing
             AccessibilityNotification.Announcement(words).post()
         }
     }

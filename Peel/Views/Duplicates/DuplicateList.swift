@@ -108,6 +108,13 @@ struct DuplicateList: View {
             Text("The list of duplicates and your selection are cleared. No files are moved.")
         }
         .fadesInColumn(whenRowsChange: duplicates.scan.map { $0.groups.map(\.id) + $0.folderGroups.map(\.id) })
+        // A scan ends without a result only when it was stopped.
+        .announcesScan(
+            duplicates.isScanning,
+            found: duplicates.summary,
+            couldNotLook: duplicates.scan?.readNothing == true ? "Not Everything Could Be Read" : nil,
+            wasStopped: duplicates.scan == nil
+        )
         .navigationTitle(Text(Tool.duplicates.title))
     }
 

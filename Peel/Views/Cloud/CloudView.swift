@@ -116,6 +116,12 @@ struct CloudView: View {
             }
         }
         .fadesInColumn(whenRowsChange: cloud.files?.map(\.id))
+        .announcesScan(
+            cloud.isScanning,
+            found: cloud.summary,
+            couldNotLook: cloud.couldNotRead ? "iCloud Drive Couldn’t Be Read" : nil,
+            wasStopped: cloud.scanRun.wasStopped
+        )
         .navigationTitle(Text(Tool.cloud.title))
         .toolbar {
             ToolbarItem {
