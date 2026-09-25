@@ -57,7 +57,12 @@ struct PackageList: View {
         .columnSearch(text: $searchText, prompt: "Search Package Receipts", when: packages.receipts?.isEmpty == false)
         .fadesInColumn(whenRowsChange: packages.receipts?.map(\.id))
         .navigationTitle(Text(Tool.packages.title))
-        .announcesScan(packages.isScanning, found: packages.summary, wasStopped: packages.scanRun.wasStopped)
+        .announcesScan(
+            packages.isScanning,
+            found: packages.summary,
+            couldNotLook: packages.couldNotAsk ? "macOS Didn’t Answer" : nil,
+            wasStopped: packages.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: packages.isWorking, scan: packages.scanRun) {

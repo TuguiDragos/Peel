@@ -35,7 +35,13 @@ struct HomebrewList: View {
         .columnSearch(text: $searchText, prompt: "Search Homebrew", when: homebrew.packages?.isEmpty == false)
         .fadesInColumn(whenRowsChange: homebrew.packages?.map(\.id))
         .navigationTitle(Text(Tool.homebrew.title))
-        .announcesScan(homebrew.isScanning, found: homebrew.summary, wasStopped: homebrew.scanRun.wasStopped)
+        .announcesScan(
+            homebrew.isScanning,
+            found: homebrew.summary,
+            couldNotLook: !homebrew.isInstalled ? "Homebrew Isn’t Installed"
+                : homebrew.needsDefinitions ? "Homebrew Has to Update First" : nil,
+            wasStopped: homebrew.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: !homebrew.isInstalled || homebrew.runningCommand != nil, scan: homebrew.scanRun) {

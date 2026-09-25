@@ -52,7 +52,12 @@ struct ExtensionList: View {
         }
         .fadesInColumn(whenRowsChange: extensions.extensions?.map(\.id))
         .navigationTitle(Text(Tool.extensions.title))
-        .announcesScan(extensions.isScanning, found: extensions.summary, wasStopped: extensions.scanRun.wasStopped)
+        .announcesScan(
+            extensions.isScanning,
+            found: extensions.summary,
+            couldNotLook: extensions.unanswered.isEmpty ? nil : "macOS Didn’t Answer",
+            wasStopped: extensions.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, scan: extensions.scanRun) {

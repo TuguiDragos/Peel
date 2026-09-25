@@ -37,7 +37,12 @@ struct OrphanList: View {
         .columnSearch(text: $searchText, prompt: "Search Orphaned Files", when: orphans.scan?.groups.isEmpty == false)
         .fadesInColumn(whenRowsChange: orphans.scan?.groups.map(\.id))
         .navigationTitle(Text(Tool.orphans.title))
-        .announcesScan(orphans.isScanning, found: orphans.summary, wasStopped: orphans.scanRun.wasStopped)
+        .announcesScan(
+            orphans.isScanning,
+            found: orphans.summary,
+            couldNotLook: orphans.scan?.unreadableLocations.isEmpty == false ? "Not Everything Could Be Read" : nil,
+            wasStopped: orphans.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded || orphans.isRemoving, scan: orphans.scanRun) {

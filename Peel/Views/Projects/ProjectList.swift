@@ -86,7 +86,13 @@ struct ProjectList: View {
         }
         .fadesInColumn(whenRowsChange: projects.groups?.map(\.id))
         .navigationTitle(Text(Tool.projects.title))
-        .announcesScan(projects.isScanning, found: projects.summary, wasStopped: projects.scanRun.wasStopped)
+        .announcesScan(
+            projects.isScanning,
+            found: projects.summary,
+            couldNotLook: projects.folders.isEmpty ? "No Folders Yet"
+                : projects.needsFullDiskAccess ? "Not Everything Could Be Read" : nil,
+            wasStopped: projects.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 Menu {
