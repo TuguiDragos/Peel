@@ -189,27 +189,31 @@ struct SpaceRemovalTests {
 
     /// An area's plan is made again when the disk changes, and what the person chose in it stays chosen: a child
     /// that was already there keeps its checkbox as it was, one new to the area is selected when its size is
-    /// known, as every child is in the area's first plan, and one that went is no longer selected.
+    /// known, as every child is in the area's first plan, and one that went is no longer selected. A child Peel
+    /// selected whose size can no longer be measured is no longer selected either.
     @Test func aPlanMadeAgainKeepsWhatThePersonChose() {
         let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
-        let (kept, deselected, chosenByHand, unmeasured, new, gone) = (
+        let (kept, deselected, chosenByHand, unmeasured, new, gone, noLongerMeasured) = (
             caches.appending(path: "com.a"), caches.appending(path: "com.b"), caches.appending(path: "com.c"),
-            caches.appending(path: "com.d"), caches.appending(path: "com.e"), caches.appending(path: "com.f")
+            caches.appending(path: "com.d"), caches.appending(path: "com.e"), caches.appending(path: "com.f"),
+            caches.appending(path: "com.g")
         )
         let first = SpaceRemoval.Plan(
-            removable: [kept, deselected, chosenByHand, unmeasured, gone],
+            removable: [kept, deselected, chosenByHand, unmeasured, gone, noLongerMeasured],
             inUse: [],
             leftToDeveloper: [],
-            sizes: [kept: 1, deselected: 2, gone: 5]
+            sizes: [kept: 1, deselected: 2, gone: 5, noLongerMeasured: 7]
         )
-        #expect(first.selection(replacing: nil, selected: []) == [kept, deselected, gone])
+        var choices = KeptSelection()
+        #expect(choices.update([], selectable: Set(first.removable), suggested: first.suggested) == [kept, deselected, gone, noLongerMeasured])
 
         let again = SpaceRemoval.Plan(
-            removable: [kept, deselected, chosenByHand, unmeasured, new],
+            removable: [kept, deselected, chosenByHand, unmeasured, new, noLongerMeasured],
             inUse: [],
             leftToDeveloper: [],
             sizes: [kept: 1, deselected: 2, chosenByHand: 3, unmeasured: 4, new: 6]
         )
-        #expect(again.selection(replacing: first, selected: [kept, chosenByHand, gone]) == [kept, chosenByHand, new])
+        let selected: Set = [kept, chosenByHand, gone, noLongerMeasured]
+        #expect(choices.update(selected, selectable: Set(again.removable), suggested: again.suggested) == [kept, chosenByHand, new])
     }
 }

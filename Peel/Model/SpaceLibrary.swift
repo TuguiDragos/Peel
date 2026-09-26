@@ -16,6 +16,8 @@ final class SpaceLibrary: RowSelection {
     private(set) var plans: [SpaceItem.ID: SpaceRemoval.Plan] = [:]
     /// The area as it was, and the exclusions' revision, when its plan was made.
     @ObservationIgnored private var plannedFor: [SpaceItem.ID: (item: SpaceItem, exclusions: Int)] = [:]
+    /// What was chosen in each area, kept through its plans.
+    @ObservationIgnored private var choices: [SpaceItem.ID: KeptSelection] = [:]
 
     var selectedItem: SpaceItem? {
         report?.items.first { $0.id == selection }
@@ -25,8 +27,7 @@ final class SpaceLibrary: RowSelection {
         await refresh(replanning: [])
     }
 
-    /// Makes the area's plan from what is on disk now, keeping what was chosen in it
-    /// (`SpaceRemoval.Plan.selection(replacing:selected:)`).
+    /// Makes the area's plan from what is on disk now, keeping what was chosen in it.
     func plan(_ item: SpaceItem) async {
         let revision = ExclusionsStore.shared.revision
         let plan = await SpaceRemoval.plan(
@@ -37,7 +38,11 @@ final class SpaceLibrary: RowSelection {
         // A plan cut short measured only part of the area, and would read the rest as unknown.
         guard !Task.isCancelled else { return }
         let previous = plans[item.id]
-        let chosen = plan.selection(replacing: previous, selected: selectedURLs)
+        let chosen = choices[item.id, default: KeptSelection()].update(
+            selectedURLs,
+            selectable: Set(plan.removable),
+            suggested: plan.suggested
+        )
         selectedURLs.subtract(previous?.removable ?? [])
         selectedURLs.formUnion(chosen)
         plans[item.id] = plan
@@ -53,6 +58,7 @@ final class SpaceLibrary: RowSelection {
             selectedURLs.subtract(plans[id]?.removable ?? [])
             plans[id] = nil
             plannedFor[id] = nil
+            choices[id] = nil
         }
         if let selection, !result.items.contains(where: { $0.id == selection }) {
             self.selection = nil

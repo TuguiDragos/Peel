@@ -23,12 +23,9 @@ public enum SpaceRemoval {
             Set(inUse.map(\.name)).sorted()
         }
 
-        /// What to select of this plan when it replaces `previous`, the area's last plan, `selected` being what
-        /// was selected: a child that was already there keeps its checkbox as it was, and a child new to the area
-        /// is selected when its size is known, as every child is in an area's first plan.
-        public func selection(replacing previous: Plan?, selected: Set<URL>) -> Set<URL> {
-            let known = Set(previous?.removable ?? [])
-            return Set(removable.filter { known.contains($0) ? selected.contains($0) : sizes[$0] != nil })
+        /// What Peel selects of this plan for the person: every child it could measure.
+        public var suggested: Set<URL> {
+            Set(sizes.keys)
         }
     }
 
