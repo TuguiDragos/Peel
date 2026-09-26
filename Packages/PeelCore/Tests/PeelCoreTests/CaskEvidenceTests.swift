@@ -20,23 +20,23 @@ struct CaskEvidenceTests {
         #expect(combined.first?.leftoverPatterns == ["~/Library/Application Support/AdGuard"])
     }
 
-    /// The real shape of a cask, taken from `brew info --json=v2 --installed` for pearcleaner.
+    /// A cask shaped as `brew info --json=v2 --installed` writes one.
     private let caskJSON = """
     {
       "formulae": [],
       "casks": [
         {
-          "token": "pearcleaner",
-          "desc": "Application uninstaller",
-          "homepage": "https://github.com/alienator88/Pearcleaner",
-          "installed": "5.4.3",
-          "version": "5.4.3",
+          "token": "sample",
+          "desc": "A sample app",
+          "homepage": "https://example.org/sample",
+          "installed": "2.1.0",
+          "version": "2.1.0",
           "outdated": false,
           "artifacts": [
-            {"uninstall": [{"launchctl": "com.alienator88.PearcleanerSentinel*", "quit": "com.alienator88.Pearcleaner", "login_item": "Pearcleaner"}]},
-            {"app": ["Pearcleaner.app"], "target": "/Applications/Pearcleaner.app"},
-            {"binary": ["/Applications/Pearcleaner.app/Contents/MacOS/Pearcleaner", {"target": "pearcleaner"}], "target": "/opt/homebrew/bin/pearcleaner"},
-            {"zap": [{"trash": ["~/Library/Application Support/Pearcleaner", "~/Library/Caches/com.alienator88.Pearcleaner", "~/Library/Containers/com.alienator88.Pearcleaner*"]}]}
+            {"uninstall": [{"launchctl": "org.example.SampleHelper*", "quit": "org.example.Sample", "login_item": "Sample"}]},
+            {"app": ["Sample.app"], "target": "/Applications/Sample.app"},
+            {"binary": ["/Applications/Sample.app/Contents/MacOS/Sample", {"target": "sample"}], "target": "/opt/homebrew/bin/sample"},
+            {"zap": [{"trash": ["~/Library/Application Support/Sample", "~/Library/Caches/org.example.Sample", "~/Library/Containers/org.example.Sample*"]}]}
           ]
         }
       ]
@@ -52,22 +52,22 @@ struct CaskEvidenceTests {
     /// `brew uninstall` removes. A cask that is not installed has linked nothing.
     @Test func readsWhereHomebrewLinkedACasksCommands() throws {
         let cask = try #require(try casks().first { $0.kind == .cask })
-        #expect(cask.commandLinks == ["/opt/homebrew/bin/pearcleaner"])
-        #expect(cask.appTargets == ["/Applications/Pearcleaner.app"], "a command's link was read as the app's place")
+        #expect(cask.commandLinks == ["/opt/homebrew/bin/sample"])
+        #expect(cask.appTargets == ["/Applications/Sample.app"], "a command's link was read as the app's place")
 
-        let notInstalled = #"{"binary": ["$APPDIR/Pearcleaner.app/Contents/MacOS/Pearcleaner", {"target": "pearcleaner"}]}"#
+        let notInstalled = #"{"binary": ["$APPDIR/Sample.app/Contents/MacOS/Sample", {"target": "sample"}]}"#
         let known = try JSONDecoder().decode(CaskArtifact.self, from: Data(notInstalled.utf8))
         #expect(known.commandLinks.isEmpty)
     }
 
     @Test func readsAppsAndLeftoverPathsFromACask() throws {
         let cask = try #require(try casks().first { $0.kind == .cask })
-        #expect(cask.name == "pearcleaner")
-        #expect(cask.appNames == ["Pearcleaner.app"])
+        #expect(cask.name == "sample")
+        #expect(cask.appNames == ["Sample.app"])
         #expect(cask.leftoverPatterns == [
-            "~/Library/Application Support/Pearcleaner",
-            "~/Library/Caches/com.alienator88.Pearcleaner",
-            "~/Library/Containers/com.alienator88.Pearcleaner*",
+            "~/Library/Application Support/Sample",
+            "~/Library/Caches/org.example.Sample",
+            "~/Library/Containers/org.example.Sample*",
         ])
     }
 
@@ -122,10 +122,10 @@ struct CaskEvidenceTests {
 
     @Test func findsTheCaskBehindAnApp() throws {
         let packages = try casks()
-        let app = InstalledApp(url: URL(filePath: "/Applications/Pearcleaner.app"), bundleIdentifier: "com.alienator88.Pearcleaner", name: "Pearcleaner")
+        let app = InstalledApp(url: URL(filePath: "/Applications/Sample.app"), bundleIdentifier: "org.example.Sample", name: "Sample")
         let other = InstalledApp(url: URL(filePath: "/Applications/Something.app"), bundleIdentifier: "com.example.something", name: "Something")
 
-        #expect(CaskEvidence.cask(for: app, in: packages)?.name == "pearcleaner")
+        #expect(CaskEvidence.cask(for: app, in: packages)?.name == "sample")
         #expect(CaskEvidence.cask(for: other, in: packages) == nil)
     }
 

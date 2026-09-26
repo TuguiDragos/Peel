@@ -20,11 +20,11 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public let isPinned: Bool
     public let isInstalledOnRequest: Bool
     public let dependencies: [String]
-    /// Apps a cask installs, like "Pearcleaner.app".
+    /// Apps a cask installs, like "Example.app".
     public let appNames: [String]
-    /// Where Homebrew put them, for a cask that is installed: "/Applications/Pearcleaner.app".
+    /// Where Homebrew put them, for a cask that is installed: "/Applications/Example.app".
     public let appTargets: [String]
-    /// Where Homebrew linked the commands an installed cask puts on the path: "/opt/homebrew/bin/pearcleaner".
+    /// Where Homebrew linked the commands an installed cask puts on the path: "/opt/homebrew/bin/example".
     /// `brew uninstall` removes these links.
     public let commandLinks: [String]
     /// Bundle identifiers the cask tells macOS to quit, which prove a cask really is a given app.

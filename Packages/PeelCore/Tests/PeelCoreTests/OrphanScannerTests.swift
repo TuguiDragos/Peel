@@ -311,8 +311,8 @@ struct OrphanScannerTests {
     }
 
     @Test(arguments: [
-        ("S8EX82NJP6.com.macpaw.CleanMyMac5", "com.macpaw.CleanMyMac5"),
-        ("6H4HRTU5E3.group.com.avast.osx", "com.avast.osx"),
+        ("S8EX82NJP6.org.example.Sample5", "org.example.Sample5"),
+        ("6H4HRTU5E3.group.org.example.osx", "org.example.osx"),
         ("group.is.workflow.my.app", "is.workflow.my.app"),
         ("ABCDE12345.shared", "ABCDE12345.shared"),
     ])

@@ -138,10 +138,10 @@ struct AppInspectorTests {
         func app(_ path: String, _ identifier: String) -> InstalledApp {
             InstalledApp(url: URL(filePath: path, directoryHint: .isDirectory), bundleIdentifier: identifier, name: "App")
         }
-        #expect(app("/Applications/CleanMyMac.app", "com.macpaw.CleanMyMac-setapp").isFromSetapp)
-        #expect(app("/Applications/CleanMyMac.app", "com.macpaw.CleanMyMac-Setapp").isFromSetapp)
-        #expect(app("/Applications/Setapp/Gemini.app", "app.macpaw.Gemini").isFromSetapp)
-        #expect(app("/Users/me/Applications/Setapp/Gemini.app", "app.macpaw.Gemini").isFromSetapp)
+        #expect(app("/Applications/Sample.app", "org.example.Sample-setapp").isFromSetapp)
+        #expect(app("/Applications/Sample.app", "org.example.Sample-Setapp").isFromSetapp)
+        #expect(app("/Applications/Setapp/Sample.app", "org.example.Sample").isFromSetapp)
+        #expect(app("/Users/me/Applications/Setapp/Sample.app", "org.example.Sample").isFromSetapp)
         #expect(!app("/Applications/Setapp.app", "com.setapp.DesktopClient").isFromSetapp, "Setapp itself is not an app from Setapp")
         #expect(!app("/Applications/Setapp Tools/Thing.app", "com.example.thing").isFromSetapp)
         #expect(!app("/Applications/Thing.app", "com.example.setappish").isFromSetapp)

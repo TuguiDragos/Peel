@@ -35,10 +35,10 @@ struct HomebrewTests {
     /// Homebrew writes warnings to stderr and still exits 0, for example for a formula from a tap that uses a
     /// deprecated method. So the answer is read from stdout alone: JSON with a warning after it is not JSON.
     @Test func readsAnAnswerFromWhatWasPrintedAsTheAnswer() throws {
-        let json = #"{"formulae": [], "casks": [{"token": "pearcleaner", "installed": "5.4.3", "version": "5.4.3", "outdated": false}]}"#
+        let json = #"{"formulae": [], "casks": [{"token": "sample", "installed": "2.1.0", "version": "2.1.0", "outdated": false}]}"#
         let warned = Homebrew.Attempt(status: 0, standardOutput: json, standardError: "Warning: Calling plist_options is deprecated!\n")
 
-        #expect(try Homebrew.parseInstalled(Data(warned.answer().utf8))?.map(\.name) == ["pearcleaner"])
+        #expect(try Homebrew.parseInstalled(Data(warned.answer().utf8))?.map(\.name) == ["sample"])
         #expect(try warned.transcript().hasSuffix("is deprecated!\n"), "what the user is shown keeps the warning")
 
         let failed = Homebrew.Attempt(status: 1, standardOutput: "", standardError: "Error: No such keg\n")
@@ -58,14 +58,14 @@ struct HomebrewTests {
              "outdated": false, "pinned": true, "dependencies": ["libgit2", "oniguruma"]}
           ],
           "casks": [
-            {"token": "pearcleaner", "desc": "Utility to uninstall apps", "homepage": "https://github.com/alienator88/Pearcleaner",
-             "installed": "5.4.3", "version": "5.4.3", "outdated": false}
+            {"token": "sample", "desc": "A sample app", "homepage": "https://example.org/sample",
+             "installed": "2.1.0", "version": "2.1.0", "outdated": false}
           ]
         }
         """
         let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
 
-        #expect(packages.map(\.id) == ["formula/bat", "formula/openssl@3", "cask/pearcleaner"])
+        #expect(packages.map(\.id) == ["formula/bat", "formula/openssl@3", "cask/sample"])
         let openssl = try #require(packages.first { $0.name == "openssl@3" })
         #expect(openssl.isOutdated)
         #expect(openssl.installedVersion == "3.5.2")
@@ -79,7 +79,7 @@ struct HomebrewTests {
         #expect(packages.first { $0.name == "bat" }?.fullName == "sharkdp/tap/bat")
         #expect(openssl.fullName == "openssl@3", "an older Homebrew says no full name, and the short one stands in")
         #expect(packages.last?.kind == .cask)
-        #expect(packages.last?.installedVersion == "5.4.3")
+        #expect(packages.last?.installedVersion == "2.1.0")
     }
 
     /// The JSON follows what Homebrew 7.0.4 reports for packages it has stopped or will stop offering. A package
@@ -105,7 +105,7 @@ struct HomebrewTests {
             {"token": "active-trader-pro", "installed": "2.0", "version": "2.0",
              "deprecated": true, "deprecation_date": "2025-12-17", "deprecation_reason": "discontinued", "disabled": false,
              "disable_date": "2026-12-17"},
-            {"token": "pearcleaner", "installed": "5.4.3", "version": "5.4.3"}
+            {"token": "sample", "installed": "2.1.0", "version": "2.1.0"}
           ]
         }
         """
@@ -118,7 +118,7 @@ struct HomebrewTests {
         #expect(retirement("1kc-razer") == HomebrewRetirement(stage: .disabled, reason: .failsGatekeeperCheck, disableDate: day("2026-09-01"), replacement: .cask("razer-synapse")))
         #expect(retirement("active-trader-pro") == HomebrewRetirement(stage: .deprecated, reason: .discontinued, disableDate: day("2026-12-17"), replacement: nil))
         #expect(retirement("abricate") == nil, "a deprecation dated ahead has not happened yet")
-        #expect(retirement("pearcleaner") == nil)
+        #expect(retirement("sample") == nil)
     }
 
     /// Every reason keyword Homebrew 7.0.4 declares in `deprecate_disable.rb` is recognized, and any other text
@@ -181,7 +181,7 @@ struct HomebrewTests {
     @Test func readsWhatACleanUpWouldFree() {
         let output = """
         Would remove: /opt/homebrew/Cellar/x265/4.2 (12 files, 17MB)
-        Would remove (broken link): /opt/homebrew/bin/pearcleaner
+        Would remove (broken link): /opt/homebrew/bin/sample
         ==> This operation would free approximately 61.2MB of disk space.
         """
 
@@ -221,7 +221,7 @@ struct HomebrewTests {
           "tier": 1,
           "findings": [
             {
-              "text": "Broken symlinks were found:\\n  /opt/homebrew/bin/pearcleaner\\n",
+              "text": "Broken symlinks were found:\\n  /opt/homebrew/bin/sample\\n",
               "tier": 1,
               "affects": [],
               "links": [],
@@ -235,7 +235,7 @@ struct HomebrewTests {
         let findings = report.findings.map(\.finding)
 
         #expect(findings.count == 2)
-        #expect(findings[0].text == "Broken symlinks were found:\n  /opt/homebrew/bin/pearcleaner")
+        #expect(findings[0].text == "Broken symlinks were found:\n  /opt/homebrew/bin/sample")
         #expect(findings[0].remedy == "Remove them with `brew cleanup`")
         #expect(findings[0].commands == ["brew cleanup"])
         #expect(findings[1].remedy == nil)

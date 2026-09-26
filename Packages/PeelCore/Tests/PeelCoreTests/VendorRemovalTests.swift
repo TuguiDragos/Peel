@@ -43,7 +43,7 @@ struct VendorRemovalTests {
         let directory = try TemporaryDirectory()
         try directory.directory("Applications/Example.app")
         try directory.directory("Applications/Uninstall Pulse Secure.app")
-        try directory.directory("Applications/App Cleaner & Uninstaller.app")
+        try directory.directory("Applications/Other Product Uninstaller.app")
         try directory.directory("Suite/Example.app")
         try directory.directory("Suite/Uninstall Other Product.app")
 

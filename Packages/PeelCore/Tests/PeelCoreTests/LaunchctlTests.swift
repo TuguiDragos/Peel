@@ -54,7 +54,7 @@ struct LaunchctlTests {
         \t\t}
         \t}
         \tdisabled services = {
-        \t\t"com.piriform.ccleaner.uninstall" => enabled
+        \t\t"org.example.agent" => enabled
         \t\t"com.example.daemon" => disabled
         \t}
         }
@@ -64,7 +64,7 @@ struct LaunchctlTests {
         #expect(services?["com.adguard.mac.adguard.helper"] == .some(761))
 
         let disabled = Launchctl.parseDisabled(output)
-        #expect(disabled == ["com.piriform.ccleaner.uninstall": false, "com.example.daemon": true])
+        #expect(disabled == ["org.example.agent": false, "com.example.daemon": true])
     }
 
     @Test func parsesJobDetails() {

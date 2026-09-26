@@ -32,7 +32,7 @@ struct InventoryTests {
                 app("AdGuard", bundleIdentifier: "com.adguard.mac", feed: .sparkle(URL(string: "https://example.com/appcast.xml")!)),
                 app("Code", bundleIdentifier: "com.microsoft.VSCode", feed: .appStore),
                 app("Nothing", bundleIdentifier: "com.example.nothing"),
-                app("CleanMyMac", bundleIdentifier: "com.macpaw.CleanMyMac-setapp", feed: .sparkle(URL(string: "https://example.com/setapp.xml")!)),
+                app("Sample", bundleIdentifier: "org.example.Sample-setapp", feed: .sparkle(URL(string: "https://example.com/setapp.xml")!)),
             ],
             casks: [cask]
         )
@@ -43,7 +43,7 @@ struct InventoryTests {
         #expect(sources["AdGuard"] == "Sparkle")
         #expect(sources["Code"] == "Unknown")
         #expect(sources["Nothing"] == "Unknown")
-        #expect(sources["CleanMyMac"] == "Setapp", "Setapp keeps the app up to date, whatever feed it also carries")
+        #expect(sources["Sample"] == "Setapp", "Setapp keeps the app up to date, whatever feed it also carries")
         #expect(inventory.entries.first { $0.name == "Bear" }?.sourceDetail == "bear")
         #expect(inventory.entries.first { $0.name == "AdGuard" }?.sourceDetail == "https://example.com/appcast.xml")
     }
@@ -111,13 +111,13 @@ struct InventoryTests {
             apps: [app("Sparkly", bundleIdentifier: "com.example.sparkly", feed: .sparkle(URL(string: "https://example.com/a.xml")!))],
             casks: [
                 HomebrewPackage(name: "wget", kind: .formula),
-                HomebrewPackage(name: "pearcleaner", kind: .cask),
+                HomebrewPackage(name: "sample", kind: .cask),
                 HomebrewPackage(name: "not-asked-for", kind: .formula, isInstalledOnRequest: false),
             ]
         )
 
         let brewfile = try inventory.written(as: .brewfile)
-        #expect(brewfile == "brew \"wget\"\ncask \"pearcleaner\"\n")
+        #expect(brewfile == "brew \"wget\"\ncask \"sample\"\n")
         #expect(!brewfile.contains("Sparkly"))
     }
 
