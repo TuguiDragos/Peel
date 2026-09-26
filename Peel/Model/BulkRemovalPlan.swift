@@ -15,6 +15,9 @@ final class BulkRemovalPlan {
     /// Every installed app as of the last scan, to tell a chosen app's processes from another installed app's.
     private var installedApps: [InstalledApp] = []
     var selectedURLs: Set<URL> = []
+    private var choices = UninstallSelection()
+    /// Whether the helper can act, as last heard, so a scan that lands after it changed selects by what is true now.
+    private var canUseHelper = false
 
     init(apps: [InstalledApp]) {
         self.apps = apps
@@ -56,6 +59,7 @@ final class BulkRemovalPlan {
     }
 
     func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
+        self.canUseHelper = canUseHelper
         let apps = apps
         guard let result = await scanRun.run({
             await BulkUninstallation.prepare(
@@ -68,7 +72,14 @@ final class BulkRemovalPlan {
         }) else { return }
         bulk = result
         self.installedApps = installedApps
-        selectedURLs = result.suggestedSelection(canUseHelper: canUseHelper)
+        selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
+    }
+
+    /// Brings the selection in line with the helper as it is now, without scanning again.
+    func follow(canUseHelper: Bool) {
+        self.canUseHelper = canUseHelper
+        guard let bulk else { return }
+        selectedURLs = choices.update(selectedURLs, in: bulk, canUseHelper: canUseHelper)
     }
 
     func removeSelected() async -> TrashResult {

@@ -27,6 +27,35 @@ struct BulkUninstallationTests {
         )
     }
 
+    /// A checkbox can select what a row lets the person choose, by the rule of an app's own page: nothing Peel
+    /// leaves alone or with something excluded inside, nothing that needs the helper while it cannot act, no app
+    /// macOS keeps or the helper may not move, and nothing of an excluded app or of Peel. Everything Peel suggests
+    /// is among it.
+    @Test func selectsOnlyWhatARowLetsThePersonChoose() {
+        let notes = app("com.example.notes", "Notes")
+        let own = leftover("/Users/x/Library/Caches/com.example.notes", size: 100)
+        let keys = leftover("/Users/x/Library/Application Support/Notes Keys", size: 100).heldBack(.holdsKeys)
+        let excluded = leftover("/Users/x/Library/Application Support/Notes Excluded", size: 100).heldBack(.holdsAnExclusion)
+        let needsHelper = Uninstallation(
+            app: notes, appSize: 1000, appRequiresPrivileges: true,
+            scan: LeftoverScan(leftovers: [own, keys, excluded], unreadableLocations: [])
+        )
+        let chess = InstalledApp(url: URL(filePath: "/System/Applications/Chess.app"), bundleIdentifier: "com.apple.Chess", name: "Chess", isSystemProtected: true)
+        let chessData = leftover("/Users/x/Library/Containers/com.apple.Chess", size: 100)
+        var beyond = uninstallation(app("com.example.scribbler", "Scribbler"), [])
+        beyond.isAppBeyondTheHelper = true
+        var excludedApp = uninstallation(app("com.example.excluded", "Excluded"), [])
+        excludedApp.isExcluded = true
+        let peel = uninstallation(app("com.tuguidragos.Peel", "Peel"), [leftover("/Users/x/Library/Caches/com.tuguidragos.Peel", size: 100)])
+        let bulk = BulkUninstallation(uninstallations: [needsHelper, uninstallation(chess, [chessData]), beyond, excludedApp, peel])
+
+        #expect(bulk.selectable(canUseHelper: false) == [own.url, chessData.url])
+        #expect(bulk.selectable(canUseHelper: true) == [notes.url, own.url, chessData.url])
+        for canUseHelper in [false, true] {
+            #expect(bulk.suggestedSelection(canUseHelper: canUseHelper).isSubset(of: bulk.selectable(canUseHelper: canUseHelper)))
+        }
+    }
+
     /// A batch keeps the order an app's own page keeps: what could not be measured first among the leftovers, since
     /// it is most likely the biggest, then the largest. The apps come after their leftovers.
     @Test func listsWhatCouldNotBeMeasuredFirst() {

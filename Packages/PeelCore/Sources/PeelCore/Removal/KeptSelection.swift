@@ -24,8 +24,10 @@ public struct KeptSelection: Sendable {
         return made
     }
 
-    /// Forgets every choice, so the next update is Peel's suggestion alone.
-    public mutating func startOver() {
-        offered = [:]
+    /// Forgets what was chosen for `urls`, so the next update gives them Peel's suggestion as if they were new.
+    public mutating func forget(_ urls: Set<URL>) {
+        for url in urls {
+            offered[url] = nil
+        }
     }
 }

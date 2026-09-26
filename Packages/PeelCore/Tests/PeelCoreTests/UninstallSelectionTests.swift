@@ -16,9 +16,11 @@ struct UninstallSelectionTests {
         )
     }
 
-    private func uninstallation(appRequiresPrivileges: Bool = false, _ leftovers: [Leftover]) -> Uninstallation {
+    private let other = InstalledApp(url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "com.example.other", name: "Other")
+
+    private func uninstallation(of app: InstalledApp? = nil, appRequiresPrivileges: Bool = false, _ leftovers: [Leftover]) -> Uninstallation {
         Uninstallation(
-            app: app,
+            app: app ?? self.app,
             appSize: 10_000,
             appRequiresPrivileges: appRequiresPrivileges,
             scan: LeftoverScan(leftovers: leftovers, unreadableLocations: [])
@@ -86,5 +88,59 @@ struct UninstallSelectionTests {
         var changed = UninstallSelection()
         _ = changed.update([], in: plan, canUseHelper: false)
         #expect(changed.update([possible.url], in: plan, canUseHelper: true) == [possible.url])
+    }
+
+    /// Several apps' page keeps what the person deselected through its scans, as an app's own page does.
+    @Test func severalAppsKeepWhatThePersonDeselectedWhenTheyScanAgain() {
+        let own = leftover("com.example.app")
+        let others = leftover("com.example.other")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([own]), uninstallation(of: other, [others])])
+        var choices = UninstallSelection()
+
+        var selected = choices.update([], in: bulk, canUseHelper: true)
+        #expect(selected == [app.url, own.url, other.url, others.url])
+        selected.remove(own.url)
+
+        #expect(choices.update(selected, in: bulk, canUseHelper: true) == [app.url, other.url, others.url])
+    }
+
+    /// When one of several apps comes to stay, what it holds leaves the selection, the files it shares with the
+    /// other chosen apps included, and the others keep theirs.
+    @Test func whenOneOfSeveralAppsComesToStayOnlyItsFilesLeaveTheSelection() {
+        let own = leftover("com.example.app")
+        let possible = leftover("Example", confidence: .possible)
+        let shared = leftover("com.example.shared")
+        let others = leftover("com.example.other")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(appRequiresPrivileges: true, [own, possible, shared]),
+            uninstallation(of: other, [others, shared]),
+        ])
+        var choices = UninstallSelection()
+
+        var selected = choices.update([], in: bulk, canUseHelper: true)
+        #expect(selected == [app.url, own.url, shared.url, other.url, others.url])
+        selected.insert(possible.url)
+
+        #expect(choices.update(selected, in: bulk, canUseHelper: false) == [other.url, others.url])
+    }
+
+    /// When one of several apps can go again, Peel's suggestion comes back for it only if nothing on the page was
+    /// changed meanwhile.
+    @Test func oneOfSeveralAppsThatCanGoAgainGetsTheSuggestionOnlyIfNothingWasChanged() {
+        let own = leftover("com.example.app")
+        let others = leftover("com.example.other")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(appRequiresPrivileges: true, [own]),
+            uninstallation(of: other, [others]),
+        ])
+
+        var untouched = UninstallSelection()
+        let first = untouched.update([], in: bulk, canUseHelper: false)
+        #expect(first == [other.url, others.url])
+        #expect(untouched.update(first, in: bulk, canUseHelper: true) == [app.url, own.url, other.url, others.url])
+
+        var changed = UninstallSelection()
+        _ = changed.update([], in: bulk, canUseHelper: false)
+        #expect(changed.update([other.url], in: bulk, canUseHelper: true) == [other.url])
     }
 }

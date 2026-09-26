@@ -110,6 +110,9 @@ struct MultipleAppsView: View {
         .rescanOnExclusionChange("MultipleAppsView") {
             await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
         }
+        .onChange(of: helper.canAct) { _, canAct in
+            plan.follow(canUseHelper: canAct)
+        }
     }
 
     private var phase: ScanPhase {

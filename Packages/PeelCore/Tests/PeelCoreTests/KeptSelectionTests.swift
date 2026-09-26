@@ -57,12 +57,13 @@ struct KeptSelectionTests {
         #expect(kept.update(selected, selectable: [url("suggested"), url("picked")], suggested: []) == [url("picked")])
     }
 
-    @Test func startingOverGivesPeelsSuggestionAgain() {
+    /// A forgotten item takes Peel's suggestion at the next update, as if it were new, and only that item.
+    @Test func aForgottenItemTakesPeelsSuggestionAgain() {
         var kept = KeptSelection()
-        _ = kept.update([], selectable: [url("a"), url("b")], suggested: [url("a")])
+        _ = kept.update([], selectable: [url("a"), url("b")], suggested: [url("a"), url("b")])
 
-        kept.startOver()
-        #expect(kept.update([], selectable: [url("a"), url("b")], suggested: [url("a")]) == [url("a")])
+        kept.forget([url("a")])
+        #expect(kept.update([], selectable: [url("a"), url("b")], suggested: [url("a"), url("b")]) == [url("a")])
     }
 
     @Test func remembersTheSelectionItMade() {

@@ -79,6 +79,16 @@ public struct BulkUninstallation: Sendable {
         }.map(\.url))
     }
 
+    /// What a checkbox can select, by the rule of an app's own page: nothing Peel leaves alone or with something
+    /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps or the helper may not
+    /// move, and nothing of Peel.
+    public func selectable(canUseHelper: Bool) -> Set<URL> {
+        Set(items.filter { item in
+            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !(item.isApplication && item.isKeptByMacOS)
+                && item.match?.heldBack?.cannotBeMoved != true && (canUseHelper || !item.requiresPrivileges)
+        }.map(\.url))
+    }
+
     public var privilegedURLs: Set<URL> {
         Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
     }
