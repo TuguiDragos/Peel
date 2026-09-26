@@ -10,7 +10,9 @@ final class RemovalPlan {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    /// The question before a removal, and the removal it starts.
+    let question = RemovalQuestion()
+    var isRemoving: Bool { question.isRemoving }
     /// The kinds of files and links this app opens by default, so the page can say which app opens them once
     /// it is gone.
     private(set) var defaultRoles: [DefaultRole] = []
@@ -66,13 +68,11 @@ final class RemovalPlan {
         app.isPeelItself
     }
 
-    /// False when the size of something selected is unknown, so the bar shows the sum as "Over" that amount.
-    var isSelectionMeasured: Bool {
-        (!selectedURLs.contains(app.url) || isAppMeasured) && selectedURLs.allSatisfy { leftoverSizes[$0]?.isMeasured ?? true }
-    }
-
-    var selectedSize: Int64 {
-        selectedURLs.reduce(0) { $0 + (leftoverSizes[$1]?.size ?? 0) } + (selectedURLs.contains(app.url) ? appSize : 0)
+    /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
+    var request: RemovalRequest {
+        RemovalRequest(urls: selectedURLs, sizes: [URL: Int64](measured: selectedURLs.map { url in
+            (url, url == app.url ? (isAppMeasured ? appSize : nil) : leftoverSizes[url].flatMap { $0.isMeasured ? $0.size : nil })
+        }))
     }
 
     var isAppRunning: Bool {
@@ -127,10 +127,9 @@ final class RemovalPlan {
         (VendorRemoval.uninstaller(for: app), VendorRemoval.systemExtensions(in: app))
     }
 
-    func removeSelected() async -> TrashResult {
-        isRemoving = true
-        defer { isRemoving = false }
-        let urls = uninstallation?.removalOrder(of: selectedURLs) ?? []
+    /// Moves what `request` asked about, whatever has been selected since.
+    func move(_ request: RemovalRequest) async -> TrashResult {
+        let urls = uninstallation?.removalOrder(of: request.urls) ?? []
         // These paths are about to hold something else, or nothing, so their cached icons are dropped.
         IconCache.forget(urls)
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls, usingHelperFor: uninstallation?.privilegedURLs ?? [])

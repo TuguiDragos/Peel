@@ -11,7 +11,9 @@ final class BulkRemovalPlan {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    /// The question before a removal, and the removal it starts.
+    let question = RemovalQuestion()
+    var isRemoving: Bool { question.isRemoving }
     /// Every installed app as of the last scan, to tell a chosen app's processes from another installed app's.
     private var installedApps: [InstalledApp] = []
     var selectedURLs: Set<URL> = []
@@ -25,13 +27,12 @@ final class BulkRemovalPlan {
 
     var items: [BulkUninstallation.Item] { bulk?.items ?? [] }
 
-    /// False when a selected item's size is unknown, so the bar reads "Over" the sum.
-    var isSelectionMeasured: Bool {
-        items.allSatisfy { !selectedURLs.contains($0.url) || $0.isMeasured }
-    }
-
-    var selectedSize: Int64 {
-        items.filter { selectedURLs.contains($0.url) }.reduce(0) { $0 + $1.size }
+    /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
+    var request: RemovalRequest {
+        RemovalRequest(
+            urls: selectedURLs,
+            sizes: [URL: Int64](measured: items.filter { selectedURLs.contains($0.url) }.map { ($0.url, $0.isMeasured ? $0.size : nil) })
+        )
     }
 
     var total: SizeTotal { bulk?.total ?? SizeTotal(known: 0, isComplete: true) }
@@ -82,17 +83,12 @@ final class BulkRemovalPlan {
         selectedURLs = choices.update(selectedURLs, in: bulk, canUseHelper: canUseHelper)
     }
 
-    func removeSelected() async -> TrashResult {
+    /// Moves what `request` asked about, whatever has been selected since.
+    func move(_ request: RemovalRequest) async -> TrashResult {
         guard let bulk else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
-        let urls = bulk.removalOrder(of: selectedURLs)
+        let urls = bulk.removalOrder(of: request.urls)
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions)
             .trash(urls, usingHelperFor: bulk.privilegedURLs)
-    }
-
-    var sizes: [URL: Int64] {
-        [URL: Int64](measured: items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
     }
 
     /// The source History records: up to three app names, or a count in English that History shows in the

@@ -8,7 +8,6 @@ struct AppDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var plan: RemovalPlan
-    @State private var isConfirmingRemoval = false
     @State private var isShowingQuitAlert = false
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
@@ -34,11 +33,12 @@ struct AppDetailView: View {
     var body: some View {
         page
         .confirmationDialog(
-            Text.movingToTrash(plan.selectedURLs.count, SizeTotal(known: plan.selectedSize, isComplete: plan.isSelectionMeasured)),
-            isPresented: $isConfirmingRemoval
+            Text.movingToTrash(plan.question.request?.urls.count ?? 0, plan.question.request?.total ?? SizeTotal([])),
+            isPresented: Bindable(plan.question).isAsking
         ) {
             Button("Move to Trash") {
-                Task { await remove() }
+                guard let request = plan.question.start() else { return }
+                Task { await remove(request) }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
@@ -76,6 +76,14 @@ struct AppDetailView: View {
         .rescanOnExclusionChange("AppDetailView") { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
             plan.follow(canUseHelper: canAct)
+        }
+        .onChange(of: plan.selectedURLs) { _, selected in
+            plan.question.selectionChanged(to: selected)
+        }
+        .onChange(of: plan.question.isAsking) {
+            if plan.question.hasWaitingScan {
+                Task { await rescan() }
+            }
         }
     }
 
@@ -165,17 +173,18 @@ struct AppDetailView: View {
                     defaultsSection
                     PackageReceiptSection(app: plan.app, isExcluded: plan.isExcluded)
                 }
-                .opacity(isBusy ? Busy.dimmed : 1)
-                .disabled(isBusy)
-                .motion(value: isBusy)
+                .opacity(isAtWork ? Busy.dimmed : 1)
+                .disabled(isAtWork)
+                .motion(value: isAtWork)
             }
         }
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
         .safeAreaBar(edge: .bottom) {
             if plan.scan != nil {
+                let selected = plan.request.total
                 RemovalBar(
-                    selectedSize: plan.selectedSize,
-                    isSelectionMeasured: plan.isSelectionMeasured,
+                    selectedSize: selected.known,
+                    isSelectionMeasured: selected.isComplete,
                     isScanning: isBusy,
                     scan: plan.scanRun,
                     isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !isBusy,
@@ -435,8 +444,9 @@ struct AppDetailView: View {
     }
 
     /// A reset moves files to the Trash, and an exclusion changes what may be listed at all, so after either
-    /// one the tables are out of date.
+    /// one the tables are out of date. A scan asked for while the question is up or a removal runs waits for them.
     private func rescan() async {
+        guard plan.question.mayScan() else { return }
         await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
     }
 
@@ -546,15 +556,20 @@ struct AppDetailView: View {
         isRescanning || (plan.isScanning && plan.scan != nil)
     }
 
-    /// The app, when this removal resets its privacy permissions.
-    private var resetting: [InstalledApp] {
-        resetsPrivacy ? PrivacyReset.apps(among: [plan.app], moving: plan.selectedURLs) : []
+    /// True while the page scans again or a removal runs, when its rows take no clicks.
+    private var isAtWork: Bool {
+        isBusy || plan.isRemoving
+    }
+
+    /// The app, when a removal of `urls` resets its privacy permissions.
+    private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
+        resetsPrivacy ? PrivacyReset.apps(among: [plan.app], moving: urls) : []
     }
 
     /// The confirmation's message: the privacy reset, which History can't undo, and Homebrew's own record
     /// of the app, which the move doesn't touch.
     private var removalNote: Text? {
-        let privacy = resetting.isEmpty
+        let privacy = resetting(plan.question.request?.urls ?? []).isEmpty
             ? nil
             : Text("The app’s privacy permissions are cleared first, and History can’t bring them back.")
         // Homebrew keeps its own record of what it installed, and moving the bundle does not touch it.
@@ -573,21 +588,22 @@ struct AppDetailView: View {
         if plan.selectedURLs.contains(plan.app.url), plan.isAppRunning {
             isShowingQuitAlert = true
         } else {
-            isConfirmingRemoval = true
+            plan.question.ask(plan.request)
         }
     }
 
-    private func remove() async {
+    /// One removal, from the privacy reset before the move to the scan after it, with the page busy throughout.
+    private func remove(_ request: RemovalRequest) async {
+        let plan = plan
+        defer { plan.question.finish() }
         // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
-        let privacy = await PrivacyReset.reset(resetting)
-        let result = await plan.removeSelected()
+        let privacy = await PrivacyReset.reset(resetting(request.urls))
+        let result = await plan.move(request)
         outcome.report(result, privacy: privacy)
         if let state = AppManagement.state(after: result, appBundles: [plan.app.url], movedByTheHelper: plan.privilegedURLs) {
             home.record(appManagement: state)
         }
-        let sizes = [URL: Int64](measured: [(plan.app.url, plan.isAppMeasured ? plan.appSize : nil)]
-            + (plan.scan?.leftovers ?? []).map { ($0.url, $0.isMeasured ? $0.size : nil) })
-        await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
+        await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
             await library.load()
