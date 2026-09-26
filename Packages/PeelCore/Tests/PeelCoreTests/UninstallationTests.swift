@@ -64,6 +64,42 @@ struct UninstallationTests {
         #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).privilegedURLs == [app.url])
     }
 
+    /// A checkbox can select what a row lets the person choose: nothing Peel leaves alone or with something
+    /// excluded inside, nothing that needs the helper while it cannot act, and nothing of an app the person excluded
+    /// or of Peel. Everything Peel suggests is among it.
+    @Test func selectsOnlyWhatARowLetsThePersonChoose() {
+        let plain = leftover("plain")
+        let possible = leftover("possible", confidence: .possible)
+        let keys = leftover("keys").heldBack(.holdsKeys)
+        let excluded = leftover("excluded").heldBack(.holdsAnExclusion)
+        let unmeasured = leftover("unmeasured").heldBack(.notMeasured)
+        let privileged = leftover("privileged", requiresPrivileges: true)
+        let plan = uninstallation(leftovers: [plain, possible, keys, excluded, unmeasured, privileged])
+
+        #expect(plan.selectable(canUseHelper: false) == [app.url, plain.url, possible.url, unmeasured.url])
+        #expect(plan.selectable(canUseHelper: true) == [app.url, plain.url, possible.url, unmeasured.url, privileged.url])
+        for canUseHelper in [false, true] {
+            #expect(plan.suggestedSelection(canUseHelper: canUseHelper).isSubset(of: plan.selectable(canUseHelper: canUseHelper)))
+        }
+
+        let needsHelper = uninstallation(appRequiresPrivileges: true, leftovers: [plain])
+        #expect(needsHelper.selectable(canUseHelper: false) == [plain.url])
+        #expect(needsHelper.selectable(canUseHelper: true) == [app.url, plain.url])
+        var beyond = needsHelper
+        beyond.isAppBeyondTheHelper = true
+        #expect(beyond.selectable(canUseHelper: true) == [plain.url])
+
+        let protectedApp = InstalledApp(url: URL(filePath: "/System/Applications/Chess.app"), bundleIdentifier: "com.apple.Chess", name: "Chess", isSystemProtected: true)
+        #expect(uninstallation(app: protectedApp, leftovers: [plain]).selectable(canUseHelper: true) == [plain.url])
+
+        var excludedApp = uninstallation(leftovers: [plain])
+        excludedApp.isExcluded = true
+        #expect(excludedApp.selectable(canUseHelper: true).isEmpty)
+
+        let peel = InstalledApp(url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel")
+        #expect(uninstallation(app: peel, leftovers: [plain]).selectable(canUseHelper: true).isEmpty)
+    }
+
     /// An app that would stay gets nothing selected, as an app macOS keeps does: its leftovers would go first
     /// and leave it without its settings. It stays when the helper may not move it, or when it needs the helper
     /// and the helper is not there. In a batch, what such an app shares with another chosen app stays too.

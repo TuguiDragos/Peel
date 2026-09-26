@@ -165,6 +165,20 @@ public struct Uninstallation: Sendable {
         return selection
     }
 
+    /// What a checkbox on the app's page can select: nothing Peel leaves alone or with something excluded inside,
+    /// nothing that needs the helper while it cannot act, and nothing of an excluded app or of Peel.
+    public func selectable(canUseHelper: Bool) -> Set<URL> {
+        guard !isExcluded, !isPeel else { return [] }
+        var urls = Set(scan.leftovers.filter { leftover in
+            leftover.match.heldBack != .holdsAnExclusion && leftover.match.heldBack?.cannotBeMoved != true
+                && (canUseHelper || !leftover.requiresPrivileges)
+        }.map(\.url))
+        if !app.isSystemProtected, !isAppBeyondTheHelper, canUseHelper || !appRequiresPrivileges {
+            urls.insert(app.url)
+        }
+        return urls
+    }
+
     /// What moves when nobody reviews the list, as when Peel removes itself: the app, plus the recommended
     /// leftovers that need no helper and are certainly its own or named inside its bundle identifier (a
     /// namespace only its maker uses). Empty when the app is excluded, kept by macOS, or needs the helper: then

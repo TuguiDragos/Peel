@@ -21,6 +21,9 @@ final class RemovalPlan {
     private(set) var vendorUninstaller: URL?
     private(set) var systemExtensions: [String] = []
     var selectedURLs: Set<URL> = []
+    private var choices = UninstallSelection()
+    /// Whether the helper can act, as last heard, so a scan that lands after it changed selects by what is true now.
+    private var canUseHelper = false
     /// Worked out once per scan, because the page reads each of these several times on every change.
     private(set) var recommended: [Leftover] = []
     private(set) var needsReview: [Leftover] = []
@@ -82,7 +85,11 @@ final class RemovalPlan {
         uninstallation?.privilegedURLs.isEmpty == false
     }
 
+    /// What a checkbox can select now.
+    var selectable: Set<URL> { choices.selectable }
+
     func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
+        self.canUseHelper = canUseHelper
         let app = app
         guard let (result, bundle) = await scanRun.run({
             let result = await Uninstallation.prepare(
@@ -104,8 +111,15 @@ final class RemovalPlan {
         leftoverSizes = Dictionary(leftovers.map { ($0.url, ($0.size, $0.isMeasured)) }, uniquingKeysWith: { first, _ in first })
         self.installedApps = installedApps
         (vendorUninstaller, systemExtensions) = bundle
-        selectedURLs = result.suggestedSelection(canUseHelper: canUseHelper)
+        selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
         defaultRoles = await DefaultApps.roles(of: app)
+    }
+
+    /// Brings the selection in line with the helper as it is now, without scanning again.
+    func follow(canUseHelper: Bool) {
+        self.canUseHelper = canUseHelper
+        guard let uninstallation else { return }
+        selectedURLs = choices.update(selectedURLs, in: uninstallation, canUseHelper: canUseHelper)
     }
 
     @concurrent

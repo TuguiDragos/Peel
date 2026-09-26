@@ -74,6 +74,9 @@ struct AppDetailView: View {
             await rescan()
         }
         .rescanOnExclusionChange("AppDetailView") { await rescan() }
+        .onChange(of: helper.canAct) { _, canAct in
+            plan.follow(canUseHelper: canAct)
+        }
     }
 
     private var phase: ScanPhase {
@@ -261,9 +264,7 @@ struct AppDetailView: View {
     /// The Recommended rows a checkbox can select, for its Select All. Review Before Removing has no Select All,
     /// because nothing there should be selected without being read.
     private var recommendedSelectable: [URL] {
-        let isAppSelectable = !(plan.appRequiresPrivileges && !helper.canAct) && !plan.isExcluded && !plan.isPeel
-            && !plan.app.isSystemProtected && !plan.isAppBeyondTheHelper
-        return (isAppSelectable ? [plan.app.url] : []) + plan.recommended.filter(canSelect).map(\.url)
+        ([plan.app.url] + plan.recommended.map(\.url)).filter(plan.selectable.contains)
     }
 
     @ViewBuilder
@@ -523,11 +524,6 @@ struct AppDetailView: View {
             isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.isPeel,
             selection: plan, isSelected: plan.isSelected(leftover.url)
         )
-    }
-
-    private func canSelect(_ leftover: Leftover) -> Bool {
-        !(leftover.requiresPrivileges && !helper.canAct) && leftover.match.heldBack != .holdsAnExclusion
-            && leftover.match.heldBack?.cannotBeMoved != true && !plan.isPeel
     }
 
     /// What the row has to say for itself beyond the match: who else uses it, and why Peel left the checkmark off.
