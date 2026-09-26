@@ -68,7 +68,8 @@ struct PackageDetailView: View {
                 }
             }
         }
-        .disabled(packages.isWorking || packages.isScanning)
+        .disabled(packages.isWorking)
+        .dimmedWhileBusy(packages.isScanning)
         .safeAreaBar(edge: .bottom) {
             if !receipt.items.isEmpty {
                 RemovalBar(
@@ -76,7 +77,7 @@ struct PackageDetailView: View {
                     isSelectionMeasured: SizeTotal(selectedItems.map(\.size)).isComplete,
                     isScanning: packages.isScanning || packages.isWorking,
                     scan: packages.scanRun,
-                    isEnabled: !selectedItems.isEmpty && !packages.isWorking,
+                    isEnabled: !selectedItems.isEmpty,
                     onRemove: { isConfirmingRemoval = true }
                 )
             }

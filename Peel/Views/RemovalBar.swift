@@ -14,6 +14,7 @@ struct RemovalBar: View {
     @State private var isAskingToQuit = false
     @State private var isShowingPages = false
     private let purpose: Purpose
+    /// True while the page scans. The bar then moves nothing, whatever is selected.
     let isScanning: Bool
     /// The page's scan. Its count of items read is shown beside the spinner.
     var scan: ScanRun?
@@ -75,7 +76,7 @@ struct RemovalBar: View {
     private var reading: Reading {
         switch purpose {
         case .own(let total, let isEnabled, let onRemove):
-            return Reading(total: total, pages: nil, isEnabled: isEnabled, remove: onRemove)
+            return Reading(total: total, pages: nil, isEnabled: isEnabled && !isScanning, remove: onRemove)
         case .carried(let page, _):
             let parts = carrier.parts(from: page)
             return Reading(

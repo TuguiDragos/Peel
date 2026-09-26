@@ -86,11 +86,12 @@ struct PluginDetailView: View {
                         isConfirmingRemoval = true
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || exclusions.exclusions.isUnreadable)
+                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || exclusions.exclusions.isUnreadable)
                 }
             }
         }
         .formStyle(.grouped)
+        .dimmedWhileBusy(plugins.isScanning)
         .navigationTitle(plugin.name)
         .toolbar(removing: .title)
         .confirmationDialog(Text.movingToTrash(plugin.name, SizeTotal([plugin.size])), isPresented: $isConfirmingRemoval) {

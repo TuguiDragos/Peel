@@ -107,7 +107,7 @@ struct CloudView: View {
                     selectedSize: cloud.selectedSize,
                     isScanning: cloud.isScanning,
                     scan: cloud.scanRun,
-                    isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing && !cloud.isScanning,
+                    isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
                     onRemove: { isConfirming = true },
                     title: "Remove Downloads",
                     systemImage: "icloud.and.arrow.down",

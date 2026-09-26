@@ -66,7 +66,7 @@ struct MultipleAppsView: View {
                     isSelectionMeasured: selected.isComplete,
                     isScanning: plan.isScanning,
                     scan: plan.scanRun,
-                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !plan.isScanning,
+                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving,
                     onRemove: requestRemoval
                 )
             }

@@ -192,7 +192,7 @@ struct AppDetailView: View {
                     isSelectionMeasured: selected.isComplete,
                     isScanning: isBusy,
                     scan: plan.scanRun,
-                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !isBusy,
+                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving,
                     onRemove: requestRemoval
                 )
             }

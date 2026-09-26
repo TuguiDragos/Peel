@@ -71,9 +71,10 @@ struct SpaceDetailView: View {
                 Text("Where")
             }
         }
+        .dimmedWhileBusy(space.isScanning)
         .safeAreaBar(edge: .bottom) {
             if !item.isReadOnly {
-                RemovalBar(page: Tool.space.page(item.id), isScanning: plan == nil)
+                RemovalBar(page: Tool.space.page(item.id), isScanning: plan == nil || space.isScanning)
             }
         }
         // Made again each time the page opens, since what is inside changes as apps run. A rescan that finds the
