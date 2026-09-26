@@ -36,6 +36,30 @@ struct RemovalHistoryTests {
         #expect(loaded[0].trashedItem.originalURL.lastPathComponent.hasSuffix(".app"))
     }
 
+    /// The log keeps each item's time to the millisecond, since one removal moves every part within a second and
+    /// names them in the order they moved. A log written to the second reads as well.
+    @Test func aRemovalsPartsKeepTheOrderTheyMovedInOnceTheLogIsReadAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "removals.json")
+        let older = UUID()
+        let stored = """
+            [{"id":"\(UUID())","batch":"\(older)","originalURL":"file:///Applications/Old.app","trashedURL":"file:///Users/x/.Trash/Old.app","date":"2026-09-20T10:00:00Z","size":1,"source":"Old.app","tool":"applications"}]
+            """
+        try Data(stored.utf8).write(to: url)
+        let log = RemovalLog(url: url)
+        let batch = UUID()
+        let moment = Date(timeIntervalSince1970: 1_800_000_000)
+        for (offset, source, tool) in [(0.1, "com.gone.app", "orphans"), (0.2, "App Caches", "space"), (0.3, "SwiftTool", "projects"), (0.4, "Duplicates", "duplicates")] {
+            let item = TrashedItem(originalURL: URL(filePath: "/Users/x/\(source)"), trashedURL: URL(filePath: "/Users/x/.Trash/\(source)"), date: moment.addingTimeInterval(offset))
+            _ = await log.add([RemovalRecord(batch: batch, item: item, size: 1, source: source, tool: tool)])
+        }
+
+        let groups = RemovalRecord.grouped(try #require(await RemovalLog(url: url).load().records))
+
+        #expect(groups.first { $0.id == batch }?.parts.map(\.tool) == ["orphans", "space", "projects", "duplicates"])
+        #expect(groups.first { $0.id == older }?.date == ISO8601DateFormatter().date(from: "2026-09-20T10:00:00Z"))
+    }
+
     @Test func removesOnlyTheRecordsAskedFor() async throws {
         let directory = try TemporaryDirectory()
         let log = RemovalLog(url: directory.url.appending(path: "removals.json"))
@@ -58,20 +82,20 @@ struct RemovalHistoryTests {
         #expect(!trimmed.contains { $0.source == "Old0.app" })
     }
 
-    /// The log on disk uses these field names and ISO 8601 dates. Changing either would make every existing
-    /// log unreadable.
+    /// The log on disk uses these field names and ISO 8601 times. Changing either would make every existing log
+    /// unreadable.
     @Test func keepsTheStoredShapeOfARecord() throws {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        let stored = try encoder.encode([record("One.app", date: Date(timeIntervalSince1970: 5))])
+        encoder.dateEncodingStrategy = LogTime.encoding
+        let stored = try encoder.encode([record("One.app", date: Date(timeIntervalSince1970: 5.25))])
         let fields = try #require((JSONSerialization.jsonObject(with: stored) as? [[String: Any]])?.first)
 
         #expect(Set(fields.keys) == ["id", "batch", "originalURL", "trashedURL", "date", "size", "source", "tool"])
-        #expect(fields["date"] as? String == "1970-01-01T00:00:05Z")
+        #expect(fields["date"] as? String == "1970-01-01T00:00:05.250Z")
 
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        #expect(try decoder.decode([RemovalRecord].self, from: stored).first?.date == Date(timeIntervalSince1970: 5))
+        decoder.dateDecodingStrategy = LogTime.decoding
+        #expect(try decoder.decode([RemovalRecord].self, from: stored).first?.date == Date(timeIntervalSince1970: 5.25))
     }
 
     /// `removals.json` is a file any process can rewrite, and Swift's `+` traps on overflow, so the sizes read

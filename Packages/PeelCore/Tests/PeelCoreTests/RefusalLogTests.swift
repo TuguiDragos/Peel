@@ -163,6 +163,27 @@ struct RefusalLogTests {
         ])
     }
 
+    /// The log keeps each refusal's time to the millisecond, so the parts of one removal, refused within a second,
+    /// keep the order they moved in however often the log is written again. A log written to the second reads too.
+    @Test func refusalsKeepTheOrderTheyWereRefusedInWithinASecond() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "refusals.json")
+        let batch = UUID()
+        let stored = """
+            [{"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/a","reason":"claimed-since-scan","date":"2026-09-20T10:00:00.100Z","source":"com.gone.app","tool":"orphans"},
+             {"id":"\(UUID())","batch":"\(batch)","url":"file:///Users/me/b","reason":"last-copy","date":"2026-09-20T10:00:00.300Z","source":"Duplicates","sourceKey":"tool","tool":"duplicates"},
+             {"id":"\(UUID())","url":"file:///Users/me/old","reason":"not-permitted","date":"2026-09-19T10:00:00Z","source":"Editor","tool":"applications"}]
+            """
+        try Data(stored.utf8).write(to: url)
+
+        await RefusalLog(url: url).add([failure("/Users/me/new", .notPermitted)], source: "Editor", tool: "applications")
+        let records = await RefusalLog(url: url).load()
+
+        #expect(records.count == 4)
+        #expect(RefusalRecord.grouped(records).first { $0.id == batch }?.parts.map(\.tool) == ["orphans", "duplicates"])
+        #expect(records.contains { $0.date == ISO8601DateFormatter().date(from: "2026-09-19T10:00:00Z") })
+    }
+
     /// History lists what was refused one removal to an entry, newest first. A record kept without a batch is an
     /// entry of its own.
     @Test func historyShowsEachRemovalsRefusalsAsOneEntry() throws {

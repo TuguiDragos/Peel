@@ -69,7 +69,7 @@ public actor RefusalLog {
         guard url.isThere else { return [] }
         guard let data = BoundedRead.data(at: url, maximum: 16 * 1_024 * 1_024) else { return nil }
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = LogTime.decoding
         if let records = try? decoder.decode([RefusalRecord].self, from: data) {
             return records
         }
@@ -94,7 +94,7 @@ public actor RefusalLog {
 
     private func write(_ records: [RefusalRecord]) {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = LogTime.encoding
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? encoder.encode(records) else { return }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)

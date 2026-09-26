@@ -93,7 +93,7 @@ public actor RemovalLog {
             return nil
         }
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = LogTime.decoding
         if let records = try? decoder.decode([RemovalRecord].self, from: data) {
             note(nil)
             return records
@@ -120,7 +120,7 @@ public actor RemovalLog {
 
     private func write(_ records: [RemovalRecord], orNote failure: RemovalLogProblem) -> Bool {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = LogTime.encoding
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let data = try encoder.encode(records)
