@@ -69,10 +69,15 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    answer in time, or that macOS won't open, has an unknown size, never zero, and every list shows it that way.
 4. **Plan.** The page shows every match with its reason. Only `certain` and `likely` matches that nothing else
    claims are selected for the user (`Uninstallation.suggestedSelection`), and nothing is selected for an app
-   that would stay. The user can change the selection freely.
-5. **Move.** `TrashService` moves the selection. It asks `RemovalGuard` about each item first, holds the folder
-   around the item open, asks again about what the kernel calls that folder, and moves the item through it, so
-   the thing judged is the thing moved. Items only an administrator can move go through the helper.
+   that would stay. The user can change the selection freely, and what they choose stays through the page's
+   later scans and as the helper comes and goes: `KeptSelection` keeps the checkbox of every row they could
+   already choose and gives Peel's suggestion only to a row they could not, and every page that selects for the
+   user and scans again on its own keeps its choices by it.
+5. **Move.** The question before the move freezes what it asks about, and the move takes exactly that
+   (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
+   `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
+   about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
+   moved. Items only an administrator can move go through the helper.
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, and macOS is told to
    forget the preference domains whose files went.
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
