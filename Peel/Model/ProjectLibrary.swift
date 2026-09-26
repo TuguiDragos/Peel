@@ -38,6 +38,7 @@ final class ProjectLibrary {
     private(set) var refused: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     var selection: URL?
     var selectedURLs: Set<URL> = []
+    private var choices = KeptSelection()
 
     init() {
         folders = (UserDefaults.standard.array(forKey: Self.foldersKey) as? [String] ?? [])
@@ -51,8 +52,6 @@ final class ProjectLibrary {
     /// Scans the chosen folders. It scans even when none is chosen: that scan ends at once and overtakes any
     /// older scan of a folder just removed from the list, whose results then never land.
     func refresh() async {
-        let previous = Set(groups?.flatMap(\.artifacts).map(\.url) ?? [])
-        let suggestedAndSelected = Set(groups?.flatMap(\.artifacts).filter { $0.isRecommended && selectedURLs.contains($0.url) }.map(\.url) ?? [])
         let folders = folders
         guard let (scan, standings) = await scanRun.run({
             let scan = await ProjectArtifacts.scan(roots: folders, exclusions: ExclusionsStore.shared.exclusions)
@@ -67,13 +66,11 @@ final class ProjectLibrary {
         groups = result
         excludedFromBackups = Set(standings.filter { $0.value != .included }.keys)
         excludedFromAbove = Set(standings.filter { $0.value == .excludedFromAbove }.keys)
-        selectedURLs.formIntersection(Set(artifacts.map(\.url)))
-        // Selects the recommended artifacts this scan found for the first time, so what the user deselected
-        // stays deselected.
-        selectedURLs.formUnion(artifacts.filter { $0.isRecommended && !previous.contains($0.url) }.map(\.url))
-        // Deselects what Peel had selected when it stops being recommended, for example because the project
-        // is being worked on again, as its row says.
-        selectedURLs.subtract(artifacts.filter { !$0.isRecommended && suggestedAndSelected.contains($0.url) }.map(\.url))
+        selectedURLs = choices.update(
+            selectedURLs,
+            selectable: Set(artifacts.map(\.url)),
+            suggested: Set(artifacts.filter(\.isRecommended).map(\.url))
+        )
         if let selection, !result.contains(where: { $0.project == selection }) {
             self.selection = nil
         }

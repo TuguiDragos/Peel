@@ -12,6 +12,7 @@ final class DeveloperLibrary {
     private(set) var isRemoving = false
     var selection: DeveloperEnvironment.ID?
     var selectedURLs: Set<URL> = []
+    private var choices = KeptSelection()
 
     var selectedEnvironment: DeveloperEnvironment? {
         environments?.first { $0.id == selection }
@@ -19,12 +20,13 @@ final class DeveloperLibrary {
 
     func refresh() async {
         guard let result = await scanRun.run({ await DeveloperCaches.scan(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
-        // Selects only recommended locations new to this scan, so what the user deselected stays deselected.
-        let previous = Set(environments?.flatMap(\.locations).map(\.url) ?? [])
         environments = result
         let locations = result.flatMap(\.locations)
-        selectedURLs.formIntersection(Set(locations.map(\.url)))
-        selectedURLs.formUnion(locations.filter { $0.isRecommended && !previous.contains($0.url) }.map(\.url))
+        selectedURLs = choices.update(
+            selectedURLs,
+            selectable: Set(locations.map(\.url)),
+            suggested: Set(locations.filter(\.isRecommended).map(\.url))
+        )
         if let selection, !result.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
