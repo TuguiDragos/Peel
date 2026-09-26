@@ -6,10 +6,10 @@ import SwiftUI
 struct ForgetReceiptDialog: ViewModifier {
     @Environment(RemovalHistoryStore.self) private var history
     @Binding var receipt: PackageReceipt?
-    let forget: (PackageReceipt) async -> TrashResult
-    /// Scans the receipts again. It runs after History has the record, because a scan can take a while and
-    /// History is how the user puts the receipt back.
-    let rescan: () async -> Void
+    /// Forgets the receipt, records it with the closure it is given, then scans the receipts again, keeping its page
+    /// busy until all three are done. History is written first, because a scan can take a while and History is how
+    /// the user puts the receipt back.
+    let forget: (PackageReceipt, _ record: (TrashResult) async -> Void) async -> TrashResult
     @State private var failure: String?
 
     func body(content: Content) -> some View {
@@ -17,16 +17,16 @@ struct ForgetReceiptDialog: ViewModifier {
             .confirmationDialog(Text("Forget the receipt of \(receipt?.identifier ?? "")?"), isPresented: isAsking, presenting: receipt) { receipt in
                 Button("Forget Receipt") {
                     Task {
-                        let result = await forget(receipt)
+                        let result = await forget(receipt) { result in
+                            var sizes: [URL: Int64] = [:]
+                            for item in result.trashed {
+                                sizes[item.originalURL] = await FileSize.allocatedSize(of: item.trashedURL)
+                            }
+                            await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
+                        }
                         if !result.failures.isEmpty {
                             failure = result.failures.map { $0.url.abbreviatedPath }.joined(separator: "\n")
                         }
-                        var sizes: [URL: Int64] = [:]
-                        for item in result.trashed {
-                            sizes[item.originalURL] = await FileSize.allocatedSize(of: item.trashedURL)
-                        }
-                        await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
-                        await rescan()
                     }
                 }
                 Button("Cancel", role: .cancel) {}
@@ -58,9 +58,8 @@ struct ForgetReceiptDialog: ViewModifier {
 extension View {
     func forgetReceiptDialog(
         for receipt: Binding<PackageReceipt?>,
-        forget: @escaping (PackageReceipt) async -> TrashResult,
-        rescan: @escaping () async -> Void
+        forget: @escaping (PackageReceipt, _ record: (TrashResult) async -> Void) async -> TrashResult
     ) -> some View {
-        modifier(ForgetReceiptDialog(receipt: receipt, forget: forget, rescan: rescan))
+        modifier(ForgetReceiptDialog(receipt: receipt, forget: forget))
     }
 }

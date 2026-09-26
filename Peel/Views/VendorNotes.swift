@@ -63,7 +63,7 @@ struct PackageReceiptSection: View {
         }
         .task(id: app.id) { await load() }
         .rescanOnExclusionChange("VendorNotes") { await load() }
-        .forgetReceiptDialog(for: $receiptToForget, forget: forget) { await load() }
+        .forgetReceiptDialog(for: $receiptToForget, forget: forget)
     }
 
     private func load() async {
@@ -129,9 +129,12 @@ struct PackageReceiptSection: View {
         .padding(.vertical, 4)
     }
 
-    private func forget(_ receipt: PackageReceipt) async -> TrashResult {
+    private func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {
         isForgetting = true
         defer { isForgetting = false }
-        return await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+        let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+        await record(result)
+        await load()
+        return result
     }
 }

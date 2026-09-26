@@ -101,7 +101,7 @@ struct PackageDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         }
-        .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget, rescan: packages.refresh)
+        .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
     }
 
     /// Explains why the list is empty. An unknown file list is checked first: it means `pkgutil` gave none,

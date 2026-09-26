@@ -41,9 +41,12 @@ final class PackageLibrary {
         return result
     }
 
-    func forget(_ receipt: PackageReceipt) async -> TrashResult {
+    func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {
         isWorking = true
         defer { isWorking = false }
-        return await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+        let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+        await record(result)
+        await refresh()
+        return result
     }
 }
