@@ -29,6 +29,7 @@ final class ResetPlan {
     /// Every installed app as of the last scan. It tells this app's running helpers apart from another app's.
     private var installedApps: [InstalledApp] = []
     var selectedURLs: Set<URL> = []
+    private var choices = KeptSelection()
 
     init(app: InstalledApp) {
         self.app = app
@@ -73,9 +74,7 @@ final class ResetPlan {
         guard let result = await scanRun.run({
             await AppReset.prepare(app, installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
         }) else { return }
-        // The first scan starts from the suggested selection. A later one keeps the user's choice, less what the
-        // new scan does not list.
-        selectedURLs = reset == nil ? result.suggestedSelection : selectedURLs.intersection(result.items.map(\.url))
+        selectedURLs = choices.update(selectedURLs, selectable: Set(result.items.map(\.url)), suggested: result.suggestedSelection)
         reset = result
         self.installedApps = installedApps
         refreshRunningState()
