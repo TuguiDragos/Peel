@@ -52,6 +52,8 @@ struct CarriedPartsList: View {
                     .foregroundStyle(.secondary)
                     .frame(width: 20)
                     .accessibilityLabel(Text(tool.title))
+                    // A tool that is one page is already named by the part's title.
+                    .accessibilityHidden(part.title == String(localized: tool.title))
             }
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: part.title)
