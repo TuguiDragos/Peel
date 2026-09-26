@@ -26,36 +26,66 @@ struct PeelApp: App {
     @State private var notifications: PeelNotifications
     @State private var stats = LifetimeStats()
     @State private var found = FoundLastTimeStore()
-    @State private var library = AppLibrary()
-    @State private var orphans = OrphanLibrary()
-    @State private var projects = ProjectLibrary()
-    @State private var installers = InstallerLibrary()
+    @State private var library: AppLibrary
+    @State private var orphans: OrphanLibrary
+    @State private var projects: ProjectLibrary
+    @State private var installers: InstallerLibrary
     @State private var tweaks = TweakLibrary()
     @State private var extensions = ExtensionLibrary()
     @State private var cloud = CloudLibrary()
     @State private var backgroundItems = BackgroundItemLibrary()
     @State private var packages = PackageLibrary()
-    @State private var developer = DeveloperLibrary()
-    @State private var duplicates = DuplicateLibrary()
-    @State private var fileSearch = FileSearchLibrary()
+    @State private var developer: DeveloperLibrary
+    @State private var duplicates: DuplicateLibrary
+    @State private var fileSearch: FileSearchLibrary
     @State private var plugins = PluginLibrary()
     @State private var homebrew = HomebrewLibrary()
     @State private var helper = HelperModel()
     @State private var home = HomeModel()
-    @State private var history = RemovalHistoryStore()
-    @State private var outcome = RemovalOutcome()
+    @State private var history: RemovalHistoryStore
+    @State private var outcome: RemovalOutcome
     @State private var intel = IntelLibrary()
-    @State private var space = SpaceLibrary()
+    @State private var space: SpaceLibrary
+    @State private var carrier: SelectionCarrier
     @State private var background = BackgroundWork()
     @State private var hasLaunched = false
     private let exclusions = ExclusionsStore.shared
 
     /// Sets the notification delegate before launch finishes, which `UNUserNotificationCenter.h` requires for
-    /// clicks on notifications to reach it. A view's task can run later than that.
+    /// clicks on notifications to reach it. A view's task can run later than that. The storage tools are made here
+    /// too, so the carrier of their selection reads the same libraries their pages show.
     init() {
         let notifications = PeelNotifications()
         notifications.activate()
         _notifications = State(initialValue: notifications)
+
+        let (library, history, outcome) = (AppLibrary(), RemovalHistoryStore(), RemovalOutcome())
+        let (orphans, space, developer, projects) = (OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary())
+        let (installers, duplicates, fileSearch) = (InstallerLibrary(), DuplicateLibrary(), FileSearchLibrary())
+        _library = State(initialValue: library)
+        _history = State(initialValue: history)
+        _outcome = State(initialValue: outcome)
+        _orphans = State(initialValue: orphans)
+        _space = State(initialValue: space)
+        _developer = State(initialValue: developer)
+        _projects = State(initialValue: projects)
+        _installers = State(initialValue: installers)
+        _duplicates = State(initialValue: duplicates)
+        _fileSearch = State(initialValue: fileSearch)
+        _carrier = State(initialValue: SelectionCarrier(
+            tools: [
+                .orphans: orphans,
+                .space: space,
+                .developer: developer,
+                .projects: projects,
+                .installers: installers,
+                .duplicates: duplicates,
+                .fileSearch: fileSearch,
+            ],
+            apps: library,
+            history: history,
+            outcome: outcome
+        ))
     }
 
     /// Keeps the app list current as apps are installed and removed while Peel is open.
@@ -177,6 +207,7 @@ struct PeelApp: App {
                 .environment(history)
                 .environment(intel)
                 .environment(space)
+                .environment(carrier)
                 .environment(exclusions)
                 // Settings also open from the sidebar, so this window needs everything they read, `trashMonitor` too.
                 .environment(trashMonitor)

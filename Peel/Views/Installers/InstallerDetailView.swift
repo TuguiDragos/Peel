@@ -3,19 +3,13 @@ import PeelCore
 import SwiftUI
 
 struct InstallerDetailView: View {
-    @Environment(AppLibrary.self) private var library
     @Environment(InstallerLibrary.self) private var installers
-    @Environment(RemovalHistoryStore.self) private var history
-    @State private var isConfirmingRemoval = false
-    @Environment(RemovalOutcome.self) private var outcome
     @Environment(HelperModel.self) private var helper
     let kind: InstallerItem.Kind
 
     var body: some View {
         let rows = items
         let hasNoteColumn = rows.contains { !$0.isReadOnly && detail(for: $0) != nil }
-        let selectedRows = selectedItems(among: rows)
-        let selected = SizeTotal(selectedRows.map(\.size))
 
         List {
             header(rows)
@@ -79,32 +73,12 @@ struct InstallerDetailView: View {
         .dimmedWhileBusy(installers.isScanning)
         .safeAreaBar(edge: .bottom) {
             if kind != .deviceBackup {
-                RemovalBar(
-                    selectedSize: selected.known,
-                    isSelectionMeasured: selected.isComplete,
-                    isScanning: installers.isScanning,
-                    scan: installers.scanRun,
-                    isEnabled: !selectedRows.isEmpty && !installers.isRemoving && !installers.isScanning,
-                    onRemove: { isConfirmingRemoval = true }
-                )
+                RemovalBar(page: Tool.installers.page(kind.rawValue), isScanning: installers.isScanning, scan: installers.scanRun)
             }
         }
         .fadesInColumn(whenRowsChange: items.map(\.id))
         .navigationTitle(Text(kind.title))
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(selectedRows.count, selected), isPresented: $isConfirmingRemoval) {
-            Button("Move to Trash") {
-                Task {
-                    // Sizes are read before the move: the rescan after it does not list the items that moved.
-                    let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
-                    let result = await installers.removeSelected(in: kind, installedApps: library.apps) { result in
-                        await history.record(result, tool: .installers, source: kind.title.inEnglish, sourceKey: "installers.\(kind.rawValue)", sizes: sizes)
-                    }
-                    outcome.report(result)
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        }
     }
 
     private var items: [InstallerItem] {
@@ -132,10 +106,6 @@ struct InstallerDetailView: View {
                 caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove")
             )
         }
-    }
-
-    private func selectedItems(among rows: [InstallerItem]) -> [InstallerItem] {
-        rows.filter { !$0.isReadOnly && installers.selectedURLs.contains($0.url) }
     }
 
     private func detail(for item: InstallerItem) -> LocalizedStringResource? {

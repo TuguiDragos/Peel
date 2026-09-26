@@ -4,19 +4,15 @@ import SwiftUI
 
 struct SpaceDetailView: View {
     @Environment(SpaceLibrary.self) private var space
-    @Environment(RemovalHistoryStore.self) private var history
-    @Environment(RemovalOutcome.self) private var outcome
-    @Environment(ExclusionsStore.self) private var exclusions
-    @State private var isConfirmingRemoval = false
-    @State private var plan: SpaceRemoval.Plan?
-    /// The plan's removable children, in the order every list uses: unknown sizes first, then the largest.
-    @State private var rows: [URL] = []
     let item: SpaceItem
 
-    /// The apps that are open, by the names their folders may carry. Read each time rather than stored, since
-    /// an app can be opened while this page is on screen.
-    private var running: [String: String] {
-        SpaceRemoval.namesOfRunningApps()
+    private var plan: SpaceRemoval.Plan? {
+        space.plans[item.id]
+    }
+
+    /// The plan's removable children, in the order every list uses: unknown sizes first, then the largest.
+    private var rows: [URL] {
+        plan.map(Self.ordered) ?? []
     }
 
     var body: some View {
@@ -77,36 +73,18 @@ struct SpaceDetailView: View {
         }
         .safeAreaBar(edge: .bottom) {
             if !item.isReadOnly {
-                RemovalBar(
-                    selectedSize: selected.known,
-                    isSelectionMeasured: selected.isComplete,
-                    isScanning: plan == nil,
-                    isEnabled: !selectedRows.isEmpty && !space.isRemoving,
-                    onRemove: { isConfirmingRemoval = true }
-                )
+                RemovalBar(page: Tool.space.page(item.id), isScanning: plan == nil)
             }
         }
-        // Builds the plan again when a rescan changes the item's size or the exclusions change, so the list
-        // follows what is on disk, not what was there when the page opened.
-        .task(id: [item.id, String(item.size ?? 0), String(exclusions.revision)]) {
-            plan = nil
+        // Made again each time the page opens, since what is inside changes as apps run. A rescan that finds the
+        // area changed makes it again too (`SpaceLibrary.refresh`).
+        .task(id: item.id) {
             guard !item.isReadOnly else { return }
-            let found = await SpaceRemoval.plan(for: item, exclusions: exclusions.exclusions, running: running)
-            guard !Task.isCancelled else { return }
-            plan = found
-            rows = Self.ordered(found)
-            // Selects only the children whose size is known, as every page does, and leaves the rest to the user.
-            space.selectedURLs = Set(found.removable.filter { found.sizes[$0] != nil })
+            await space.plan(item)
         }
         .fadesInColumn(whenRowsChange: rows)
         .navigationTitle(Text(item.words.title))
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(selectedRows.count, selected), isPresented: $isConfirmingRemoval) {
-            Button("Move to Trash") {
-                Task { await remove() }
-            }
-            Button("Cancel", role: .cancel) {}
-        }
     }
 
     @ViewBuilder
@@ -182,31 +160,6 @@ struct SpaceDetailView: View {
     private var caption: Text {
         if item.isReadOnly { return Text("in use") }
         return plan == nil ? Text("in here") : Text("to remove")
-    }
-
-    private var selectedRows: [URL] {
-        plan?.removable.filter { space.selectedURLs.contains($0) } ?? []
-    }
-
-    private var selected: SizeTotal {
-        SizeTotal(selectedRows.map { plan?.sizes[$0] })
-    }
-
-    private func remove() async {
-        space.isRemoving = true
-        defer { space.isRemoving = false }
-        let exclusions = ExclusionsStore.shared.exclusions
-        // Builds the plan again rather than trusting the one on screen. An app opened since then may be writing
-        // to some of these folders, and the new plan leaves them out.
-        let fresh = await SpaceRemoval.plan(for: item, exclusions: exclusions, running: running)
-        let urls = fresh.removable.filter { space.selectedURLs.contains($0) }
-        let result = await TrashService(exclusions: exclusions).trash(urls)
-        outcome.report(result)
-        await history.record(result, tool: .space, source: item.words.title.inEnglish, sourceKey: "space.\(item.id)", sizes: fresh.sizes)
-        let after = await SpaceRemoval.plan(for: item, exclusions: exclusions, running: running)
-        plan = after
-        rows = Self.ordered(after)
-        await space.refresh()
     }
 
     private static func ordered(_ plan: SpaceRemoval.Plan) -> [URL] {

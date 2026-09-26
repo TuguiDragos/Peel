@@ -2,12 +2,8 @@ import PeelCore
 import SwiftUI
 
 struct OrphanDetailView: View {
-    @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(HelperModel.self) private var helper
-    @Environment(RemovalHistoryStore.self) private var history
-    @State private var isConfirmingRemoval = false
-    @Environment(RemovalOutcome.self) private var outcome
     let group: OrphanGroup
 
     var body: some View {
@@ -52,25 +48,11 @@ struct OrphanDetailView: View {
         }
         .dimmedWhileBusy(orphans.isScanning)
         .safeAreaBar(edge: .bottom) {
-            RemovalBar(
-                selectedSize: selected.known,
-                isSelectionMeasured: selected.isComplete,
-                isScanning: orphans.isScanning,
-                scan: orphans.scanRun,
-                isEnabled: !orphans.selected(in: group).isEmpty && !orphans.isRemoving && !orphans.isScanning,
-                onRemove: { isConfirmingRemoval = true }
-            )
+            RemovalBar(page: Tool.orphans.page(group.identifier), isScanning: orphans.isScanning, scan: orphans.scanRun)
         }
         .fadesInColumn(whenRowsChange: group.items.map(\.id))
         .navigationTitle(group.title)
         .toolbar(removing: .title)
-        // The dialog counts only this group's selected items, because items selected in other groups are not moved.
-        .confirmationDialog(Text.movingToTrash(orphans.selected(in: group).count, selected), isPresented: $isConfirmingRemoval) {
-            Button("Move to Trash") {
-                Task { await remove() }
-            }
-            Button("Cancel", role: .cancel) {}
-        }
     }
 
     private var hasNoteColumn: Bool {
@@ -114,21 +96,9 @@ struct OrphanDetailView: View {
         }
     }
 
-    private var selected: SizeTotal {
-        SizeTotal(orphans.selected(in: group).map(\.size))
-    }
-
     /// What Select All selects. A row held back waits to be chosen by hand, as Review Before Removing does on an
     /// app's page.
     private var selectableURLs: [URL] {
         group.items.filter { $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
-    }
-
-    private func remove() async {
-        let result = await orphans.removeSelected(in: group, installedApps: library.apps)
-        outcome.report(result)
-        // History is written before the rescan, which can take a while: it is how the user puts back what just moved.
-        await history.record(result, tool: .orphans, source: group.identifier, sizes: [URL: Int64](measured: group.items.map { ($0.url, $0.size) }))
-        await orphans.refresh(from: library)
     }
 }

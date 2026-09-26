@@ -24,7 +24,7 @@ final class DuplicateLibrary {
         didSet { readScan() }
     }
     /// The space each duplicate file frees, by path. Built once per scan, with `reclaimableFolders` and the
-    /// counts below, so summing the selection doesn't walk the whole scan on every change.
+    /// counts below, so reading the selection's sizes doesn't walk the whole scan on every change.
     private(set) var reclaimable: [URL: Int64] = [:]
     private(set) var reclaimableFolders: [URL: Int64] = [:]
     private(set) var copyCount = 0
@@ -68,11 +68,6 @@ final class DuplicateLibrary {
         selectedURLs.count + selectedFolders.count
     }
 
-    var selectedReclaimableSize: Int64 {
-        selectedURLs.reduce(0) { $0 + (reclaimable[$1] ?? 0) }
-            + selectedFolders.reduce(0) { $0 + (reclaimableFolders[$1] ?? 0) }
-    }
-
     private func readScan() {
         guard let scan else {
             reclaimable = [:]
@@ -113,29 +108,6 @@ final class DuplicateLibrary {
         selection = nil
         selectedURLs = []
         selectedFolders = []
-    }
-
-    func removeSelected() async -> TrashResult {
-        guard let scan else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
-        let result = await DuplicateRemoval.trash(
-            selectedURLs,
-            folders: selectedFolders,
-            from: scan,
-            using: TrashService(exclusions: ExclusionsStore.shared.exclusions)
-        )
-        let trashed = Set(result.trashed.map(\.originalURL))
-        // Reads the list again, since an exclusion can have narrowed it while the move ran.
-        guard let latest = self.scan else { return result }
-        let remaining = latest.removing(trashed)
-        self.scan = remaining
-        selectedURLs.subtract(trashed)
-        selectedFolders.subtract(trashed)
-        if let selection, !remaining.holds(selection) {
-            self.selection = nil
-        }
-        return result
     }
 
     /// Narrows the list to what `exclusions` leave. Duplicates scans only when asked, so without this a copy
@@ -229,4 +201,50 @@ private extension DuplicateScan {
 
 extension DuplicateLibrary: StoppableWork {
     var isRunning: Bool { isScanning }
+}
+
+extension DuplicateLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        guard selectedCount > 0 else { return [] }
+        let files = selectedURLs.map { ($0, reclaimable[$0]) }
+        let folders = selectedFolders.map { ($0, reclaimableFolders[$0]) }
+        return [CarriedSelection.Part(
+            page: Tool.duplicates.page(),
+            title: String(localized: Tool.duplicates.title),
+            source: Tool.duplicates.title.inEnglish,
+            sourceKey: "tool",
+            sizes: Dictionary(files + folders, uniquingKeysWith: { first, _ in first })
+        )]
+    }
+
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+        guard let scan else { return TrashResult() }
+        isRemoving = true
+        defer { isRemoving = false }
+        let result = await DuplicateRemoval.trash(
+            selectedURLs.filter { part.sizes.keys.contains($0) },
+            folders: selectedFolders.filter { part.sizes.keys.contains($0) },
+            from: scan,
+            using: TrashService(exclusions: ExclusionsStore.shared.exclusions)
+        )
+        let trashed = Set(result.trashed.map(\.originalURL))
+        // Reads the list again, since an exclusion can have narrowed it while the move ran.
+        guard let latest = self.scan else { return result }
+        let remaining = latest.removing(trashed)
+        self.scan = remaining
+        selectedURLs.subtract(trashed)
+        selectedFolders.subtract(trashed)
+        if let selection, !remaining.holds(selection) {
+            self.selection = nil
+        }
+        return result
+    }
+
+    /// Nothing to bring up to date: the move took what it moved out of the list.
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
+
+    func deselect(_ part: CarriedSelection.Part) {
+        selectedURLs.subtract(part.sizes.keys)
+        selectedFolders.subtract(part.sizes.keys)
+    }
 }

@@ -37,14 +37,14 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private var title: Text {
-        if outcome.failures.isEmpty {
+        if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty {
             return outcome.privacy.count == 1 ? Text("Privacy permissions weren’t reset.") : Text("Some privacy permissions weren’t reset.")
         }
         return outcome.movedCount == 0 ? Text("Nothing was moved to the Trash.") : Text("Some items couldn’t be moved to the Trash.")
     }
 
     private var message: String {
-        var lines = outcome.failures.prefix(Self.mostListed).map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+        var lines = quitLines + outcome.failures.prefix(Self.mostListed).map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
         let rest = outcome.failures.count - lines.count
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
@@ -65,9 +65,14 @@ struct RemovalFailureAlert: ViewModifier {
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
     /// selected.
     private func copyDetails() {
-        let lines = outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" } + extraLines
+        let lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" } + extraLines
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
+    }
+
+    /// A line for each app whose tool kept what was selected for it, since the app was open.
+    private var quitLines: [String] {
+        outcome.appsToQuit.map { String(localized: "Quit \($0) before removing its files.") }
     }
 
     /// One line per privacy reset. When a single failed reset is all there is to report, the title already

@@ -5,11 +5,8 @@ import SwiftUI
 struct FileSearchList: View {
     @Environment(FileSearchLibrary.self) private var search
     @Environment(ExclusionsStore.self) private var exclusions
-    @Environment(RemovalHistoryStore.self) private var history
-    @State private var isConfirmingRemoval = false
     @State private var isShowingFilters = false
     @State private var isRescanning = false
-    @Environment(RemovalOutcome.self) private var outcome
 
     var body: some View {
         @Bindable var search = search
@@ -72,12 +69,7 @@ struct FileSearchList: View {
         }
         .safeAreaBar(edge: .bottom) {
             if search.results?.files.isEmpty == false {
-                RemovalBar(
-                    selectedSize: search.selectedSize,
-                    isScanning: search.isSearching,
-                    isEnabled: !search.selectedURLs.isEmpty && !search.isRemoving && !search.isSearching,
-                    onRemove: { isConfirmingRemoval = true }
-                )
+                RemovalBar(page: Tool.fileSearch.page(), isScanning: search.isSearching)
             }
         }
         .fadesInColumn(whenRowsChange: search.results?.files.map(\.id))
@@ -117,27 +109,6 @@ struct FileSearchList: View {
         }
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
-        }
-        .confirmationDialog(
-            Text.movingToTrash(search.selectedURLs.count, SizeTotal(known: search.selectedSize, isComplete: true)),
-            isPresented: $isConfirmingRemoval
-        ) {
-            Button("Move to Trash") {
-                Task {
-                    let files = search.results?.files ?? []
-                    let result = await search.removeSelected { result in
-                        await history.record(
-                            result,
-                            tool: .fileSearch,
-                            source: Tool.fileSearch.title.inEnglish,
-                            sourceKey: "tool",
-                            sizes: Dictionary(files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
-                        )
-                    }
-                    outcome.report(result)
-                }
-            }
-            Button("Cancel", role: .cancel) {}
         }
     }
 

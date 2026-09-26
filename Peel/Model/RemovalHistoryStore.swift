@@ -61,6 +61,16 @@ struct RemovalBatch: Identifiable, Hashable {
     }
 }
 
+/// A removal written into History part by part, so what each part moved is there as soon as it moved, and told
+/// once, by `RemovalHistoryStore.finish`.
+struct RemovalInProgress {
+    let batch = UUID()
+    /// What the removal refused is an entry of its own, and History's list tells its entries apart by id, so it
+    /// never shares the removal's.
+    let refusals = UUID()
+    fileprivate(set) var records: [RemovalRecord] = []
+}
+
 /// What Peel was asked to move in one removal and did not.
 struct RefusalBatch: Identifiable, Hashable {
     let id: UUID
@@ -136,33 +146,47 @@ final class RemovalHistoryStore {
         })
     }
 
-    /// Records a removal in History. When Peel wrote the source itself, pass it in English along with a
-    /// `sourceKey`, so History can show it in the user's language (see `RemovalRecord.sourceKey`). An item missing
-    /// from `sizes` is recorded as unknown.
+    /// Records a removal from one place in History, as one entry. When Peel wrote the source itself, pass it in
+    /// English along with a `sourceKey`, so History can show it in the user's language (see
+    /// `RemovalRecord.sourceKey`). An item missing from `sizes` is recorded as unknown.
     func record(_ result: TrashResult, tool: Tool, source: String, sourceKey: String? = nil, sizes: [URL: Int64]) async {
+        var removal = RemovalInProgress()
+        await record(result, part: RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), sizes: sizes, in: &removal)
+        finish(removal)
+    }
+
+    /// Records in History what one part of `removal` moved, and what it refused.
+    func record(_ result: TrashResult, part: RemovalPart, sizes: [URL: Int64], in removal: inout RemovalInProgress) async {
         // Refusals are logged before the early return below: a removal where nothing moved is the one most
         // worth a record.
-        await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool.rawValue)
+        await refusals.add(result.failures, source: part.source, sourceKey: part.sourceKey, tool: part.tool, batch: removal.refusals)
         if !result.failures.isEmpty {
             await loadRefusals()
         }
         guard !result.trashed.isEmpty else { return }
-        let batch = UUID()
-        let new = result.trashed.map {
-            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool.rawValue)
-        }
+        let new = part.records(of: result, sizes: sizes, batch: removal.batch)
+        removal.records += new
+        // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
+        apply(await log.add(new))
+    }
+
+    /// Tells what `removal` moved once every part of it is recorded: the bar's "Moved", VoiceOver, the lifetime
+    /// totals, and Undo.
+    func finish(_ removal: RemovalInProgress) {
+        guard !removal.records.isEmpty else { return }
         let moved = RemovalBatch(
-            id: batch,
-            parts: [RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue)],
+            id: removal.batch,
+            parts: RemovalPart.of(removal.records.map { ($0.date, $0.part) }),
             date: .now,
-            records: new
+            records: removal.records
         )
         justMoved = moved
         AccessibilityNotification.Announcement(moved.movedAnnouncement).post()
-        // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
-        apply(await log.add(new))
-        stats?.add(result, sizes: sizes)
-        registerUndo(of: new, source: moved.title)
+        stats?.add(
+            TrashResult(trashed: removal.records.map(\.trashedItem)),
+            sizes: [URL: Int64](measured: removal.records.map { ($0.originalURL, $0.size) })
+        )
+        registerUndo(of: removal.records, source: moved.title)
     }
 
     /// Makes the last batch undoable, as Finder does after a move to the Trash: Command-Z puts it back, and the

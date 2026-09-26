@@ -20,6 +20,8 @@ The first public release, for macOS 26 and later, on Apple silicon and Intel Mac
 - Changes settings macOS has but doesn't show, and puts back what was there when you turn one off.
 - Moves what it removes to the Trash instead of deleting it, and keeps a History that puts it back and lists
   what it didn't move, with the reason.
+- Keeps what you select on the pages that free space while you look at the others, and moves it all at once, as
+  one entry in History.
 - Leaves alone the files, folders, and apps you exclude.
 - Checks your apps for updates, and watches the Trash for apps you remove yourself.
 - Says in About when a new version of Peel is out, with where to get it, and downloads nothing itself.

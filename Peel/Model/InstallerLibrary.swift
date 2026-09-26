@@ -33,17 +33,42 @@ final class InstallerLibrary {
         }
     }
 
-    func removeSelected(in kind: InstallerItem.Kind, installedApps: [InstalledApp], recording record: (TrashResult) async -> Void) async -> TrashResult {
+    private func selected(in kind: InstallerItem.Kind) -> [InstallerItem] {
+        items(in: kind).filter { !$0.isReadOnly && selectedURLs.contains($0.url) }
+    }
+}
+
+extension InstallerLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        sections.compactMap { kind in
+            let selected = selected(in: kind)
+            guard !selected.isEmpty else { return nil }
+            return CarriedSelection.Part(
+                page: Tool.installers.page(kind.rawValue),
+                title: String(localized: kind.title),
+                source: kind.title.inEnglish,
+                sourceKey: "installers.\(kind.rawValue)",
+                sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
+            )
+        }
+    }
+
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+        guard let kind = InstallerItem.Kind(rawValue: part.page.scope) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
-        let selected = items(in: kind).filter { !$0.isReadOnly && selectedURLs.contains($0.url) }
+        let selected = selected(in: kind).filter { part.sizes.keys.contains($0.url) }
         let privileged = Set(selected.filter(\.requiresPrivileges).map(\.url))
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions)
+        return await TrashService(exclusions: ExclusionsStore.shared.exclusions)
             .trash(selected.map(\.url), usingHelperFor: privileged)
-        // Written down before the rescan, which can take a while: History is the way back for what just moved.
-        await record(result)
-        await refresh(installedApps: installedApps)
-        return result
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+        await refresh(installedApps: apps.apps)
+    }
+
+    func choose(_ page: CarriedSelection.Page) {
+        selection = InstallerItem.Kind(rawValue: page.scope)
     }
 }
 

@@ -22,6 +22,14 @@ public enum SpaceRemoval {
         public var appsToQuit: [String] {
             Set(inUse.map(\.name)).sorted()
         }
+
+        /// What to select of this plan when it replaces `previous`, the area's last plan, `selected` being what
+        /// was selected: a child that was already there keeps its checkbox as it was, and a child new to the area
+        /// is selected when its size is known, as every child is in an area's first plan.
+        public func selection(replacing previous: Plan?, selected: Set<URL>) -> Set<URL> {
+            let known = Set(previous?.removable ?? [])
+            return Set(removable.filter { known.contains($0) ? selected.contains($0) : sizes[$0] != nil })
+        }
     }
 
     @concurrent
@@ -42,6 +50,32 @@ public enum SpaceRemoval {
         running: [String: String],
         measure: FileSize.Measure
     ) async -> Plan {
+        let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
+        var sizes: [URL: Int64] = [:]
+        for child in children.removable where !Task.isCancelled {
+            sizes[child] = await measure(child)
+        }
+        return Plan(removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes)
+    }
+
+    /// What of `item` can move now, measuring nothing: the check a move makes just before it moves, since an app
+    /// opened since the plan may be writing to some of these folders.
+    @concurrent
+    public static func removable(
+        in item: SpaceItem,
+        environment: SearchEnvironment = .current,
+        exclusions: Exclusions = .none,
+        running: [String: String] = [:]
+    ) async -> [URL] {
+        children(of: item, environment: environment, exclusions: exclusions, running: running).removable
+    }
+
+    private static func children(
+        of item: SpaceItem,
+        environment: SearchEnvironment,
+        exclusions: Exclusions,
+        running: [String: String]
+    ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL]) {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let children = item.urls.flatMap { url in
             (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
@@ -60,11 +94,7 @@ public enum SpaceRemoval {
                 removable.append(child)
             }
         }
-        var sizes: [URL: Int64] = [:]
-        for child in removable where !Task.isCancelled {
-            sizes[child] = await measure(child)
-        }
-        return Plan(removable: removable, inUse: inUse, leftToDeveloper: leftToDeveloper, sizes: sizes)
+        return (removable, inUse, leftToDeveloper)
     }
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle

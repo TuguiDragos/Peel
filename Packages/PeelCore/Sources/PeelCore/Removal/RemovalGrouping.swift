@@ -85,6 +85,16 @@ public struct RemovalPart: Sendable, Hashable {
     }
 }
 
+extension RemovalPart {
+    /// History's records of what moved from this part, all in `batch`, each with its size in `sizes`, and none
+    /// where it was not measured.
+    public func records(of result: TrashResult, sizes: [URL: Int64], batch: UUID) -> [RemovalRecord] {
+        result.trashed.map {
+            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool)
+        }
+    }
+}
+
 extension RemovalRecord {
     public var part: RemovalPart { RemovalPart(source: source, sourceKey: sourceKey, tool: tool) }
 }

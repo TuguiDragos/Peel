@@ -15,10 +15,7 @@ enum Removals {
     ) async -> Bool {
         await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool)
         guard !result.trashed.isEmpty else { return true }
-        let batch = UUID()
-        let records = result.trashed.map {
-            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool)
-        }
+        let records = RemovalPart(source: source, sourceKey: sourceKey, tool: tool).records(of: result, sizes: sizes, batch: UUID())
         return await log.add(records).records != nil
     }
 }

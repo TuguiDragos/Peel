@@ -92,40 +92,14 @@ struct DuplicateSummaryView: View {
 
 struct DuplicateRemovalBar: View {
     @Environment(DuplicateLibrary.self) private var duplicates
-    @Environment(RemovalHistoryStore.self) private var history
-    @Environment(RemovalOutcome.self) private var outcome
-    @State private var isConfirmingRemoval = false
 
     var body: some View {
+        // The selection can include groups a search hides, so the question says how many groups it reaches.
         RemovalBar(
-            selectedSize: duplicates.selectedReclaimableSize,
+            page: Tool.duplicates.page(),
             isScanning: false,
-            isEnabled: duplicates.selectedCount > 0 && !duplicates.isRemoving,
-            onRemove: { isConfirmingRemoval = true }
+            message: Text("From ^[\(groupsAffected) group](inflect: true). A selected folder goes with everything in it.")
         )
-        .confirmationDialog(
-            Text.movingToTrash(duplicates.selectedCount, SizeTotal(known: duplicates.selectedReclaimableSize, isComplete: true)),
-            isPresented: $isConfirmingRemoval
-        ) {
-            Button("Move to Trash") {
-                Task {
-                    // Sizes are read before the move: `removeSelected()` takes the moved copies out of the scan.
-                    let scan = duplicates.scan
-                    let sizes = Dictionary(
-                        (scan?.groups ?? []).flatMap(\.files).map { ($0.url, $0.reclaimableSize) }
-                            + (scan?.folderGroups ?? []).flatMap(\.folders).map { ($0.url, $0.reclaimableSize) },
-                        uniquingKeysWith: { first, _ in first }
-                    )
-                    let result = await duplicates.removeSelected()
-                    await history.record(result, tool: .duplicates, source: Tool.duplicates.title.inEnglish, sourceKey: "tool", sizes: sizes)
-                    outcome.report(result)
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            // The selection can include groups a search hides, so the message says how many groups it reaches.
-            Text("From ^[\(groupsAffected) group](inflect: true). A selected folder goes with everything in it.")
-        }
     }
 }
 

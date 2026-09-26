@@ -65,6 +65,22 @@ struct SpaceRemovalTests {
         #expect(plan.appsToQuit == ["Spotify"])
     }
 
+    /// A move asks again just before it moves anything, since an app opened since the plan may be writing to some
+    /// of these folders. It needs to know what may go, not how big it is, and it finds what a plan would.
+    @Test func theMovesCheckFindsWhatAPlanWould() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.spotify.client/audio.db")
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+        try directory.file("home/Library/Caches/Coursier/v1/https/repo.jar")
+        let running = ["comspotifyclient": "Spotify"]
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: running)
+        let removable = await SpaceRemoval.removable(in: item(directory), environment: environment(directory), running: running)
+
+        #expect(removable.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(removable == plan.removable)
+    }
+
     /// Many cache and log folders are named after the app rather than its bundle identifier, such as `Firefox`,
     /// `Mozilla`, `JetBrains` and `Zed`. Emptying one while its app writes to it is the risk here.
     @Test func leavesAloneAFolderNamedAfterTheOpenAppRatherThanItsIdentifier() async throws {
@@ -169,5 +185,31 @@ struct SpaceRemovalTests {
 
         #expect(Set(plan.removable.map(\.lastPathComponent)) == ["com.slow.app", "com.gone.app"])
         #expect(plan.sizes.keys.map(\.lastPathComponent) == ["com.gone.app"])
+    }
+
+    /// An area's plan is made again when the disk changes, and what the person chose in it stays chosen: a child
+    /// that was already there keeps its checkbox as it was, one new to the area is selected when its size is
+    /// known, as every child is in the area's first plan, and one that went is no longer selected.
+    @Test func aPlanMadeAgainKeepsWhatThePersonChose() {
+        let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
+        let (kept, deselected, chosenByHand, unmeasured, new, gone) = (
+            caches.appending(path: "com.a"), caches.appending(path: "com.b"), caches.appending(path: "com.c"),
+            caches.appending(path: "com.d"), caches.appending(path: "com.e"), caches.appending(path: "com.f")
+        )
+        let first = SpaceRemoval.Plan(
+            removable: [kept, deselected, chosenByHand, unmeasured, gone],
+            inUse: [],
+            leftToDeveloper: [],
+            sizes: [kept: 1, deselected: 2, gone: 5]
+        )
+        #expect(first.selection(replacing: nil, selected: []) == [kept, deselected, gone])
+
+        let again = SpaceRemoval.Plan(
+            removable: [kept, deselected, chosenByHand, unmeasured, new],
+            inUse: [],
+            leftToDeveloper: [],
+            sizes: [kept: 1, deselected: 2, chosenByHand: 3, unmeasured: 4, new: 6]
+        )
+        #expect(again.selection(replacing: first, selected: [kept, chosenByHand, gone]) == [kept, chosenByHand, new])
     }
 }

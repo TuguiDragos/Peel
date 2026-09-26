@@ -13,6 +13,7 @@ struct CarriedSelectionTests {
     private func part(_ tool: String, _ scope: String, _ sizes: [String: Int64?], source: String? = nil) -> Part {
         Part(
             page: Page(tool: tool, scope: scope),
+            title: scope,
             source: source ?? scope,
             sourceKey: nil,
             sizes: Dictionary(uniqueKeysWithValues: sizes.map { (URL(filePath: "/Users/x/\($0.key)"), $0.value) })
@@ -93,6 +94,29 @@ struct CarriedSelectionTests {
         #expect(pass.moved.map(\.part.page.scope) == ["Peel"])
     }
 
+    /// What a pass did is told once, whichever parts it came from: every item the parts moved, and every one
+    /// their tools refused.
+    @Test func aPassTellsWhatEveryPartMovedAndRefused() async {
+        let parts = [
+            part("developer", "Xcode", ["DerivedData": 900, "ModuleCache": 100]),
+            part("space", "caches", ["com.gone.app": 50]),
+        ]
+        let pass = await CarriedSelection.pass(parts) { part in
+            var result = TrashResult()
+            for url in part.sizes.keys {
+                if url.lastPathComponent == "ModuleCache" {
+                    result.failures.append(TrashFailure(url: url, reason: .protectedLocation))
+                } else {
+                    result.trashed.append(TrashedItem(originalURL: url, trashedURL: url, date: .now))
+                }
+            }
+            return result
+        }
+
+        #expect(Set(pass.result.trashed.map(\.originalURL.lastPathComponent)) == ["DerivedData", "com.gone.app"])
+        #expect(pass.result.failures.map(\.url.lastPathComponent) == ["ModuleCache"])
+    }
+
     /// What a pass moved is one History batch, each record under its own part's source and tool, with the size
     /// its page measured, and none for an item whose size was not known.
     @Test func whatMovedIsOneBatchWithEachPartsName() async {
@@ -104,7 +128,7 @@ struct CarriedSelectionTests {
         var records: [RemovalRecord] = []
         _ = await CarriedSelection.pass(parts) { part in
             let result = TrashResult(trashed: part.sizes.keys.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
-            records += part.records(of: result, batch: batch)
+            records += part.removalPart.records(of: result, sizes: part.measuredSizes, batch: batch)
             return result
         }
 

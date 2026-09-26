@@ -30,26 +30,53 @@ final class DeveloperLibrary {
         }
     }
 
-    /// Whether one of the environment's apps is running. Asked each time rather than stored, since an app can
-    /// be opened while the page is on screen.
-    /// The name of one of the environment's apps that is running, or nil when none is.
+    /// The name of one of the environment's apps that is running, or nil when none is. Asked each time rather
+    /// than stored, since an app can be opened while the page is on screen.
     func runningApp(of environment: DeveloperEnvironment) -> String? {
         environment.runningApp { identifier in
             NSRunningApplication.runningApplications(withBundleIdentifier: identifier).lazy.compactMap(\.localizedName).first
         }
     }
 
-    /// Moves the selected locations of `environment` to the Trash. Returns nil, moving nothing, when one of its
-    /// apps was opened between the button and the confirmation: files never move out from under a running app.
-    func removeSelected(from environment: DeveloperEnvironment, recording record: (TrashResult) async -> Void) async -> TrashResult? {
+    private func environment(of page: CarriedSelection.Page) -> DeveloperEnvironment? {
+        environments?.first { $0.id == page.scope }
+    }
+}
+
+extension DeveloperLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        (environments ?? []).compactMap { environment in
+            let selected = environment.locations.filter { selectedURLs.contains($0.url) }
+            guard !selected.isEmpty else { return nil }
+            return CarriedSelection.Part(
+                page: Tool.developer.page(environment.id),
+                title: environment.name,
+                source: environment.name,
+                sourceKey: nil,
+                sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
+            )
+        }
+    }
+
+    func appToQuit(for part: CarriedSelection.Part) -> String? {
+        environment(of: part.page).flatMap(runningApp(of:))
+    }
+
+    /// Moves nothing while one of the environment's apps is open: files never move out from under a running app.
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+        guard let environment = environment(of: part.page) else { return TrashResult() }
         guard runningApp(of: environment) == nil else { return nil }
         isRemoving = true
         defer { isRemoving = false }
-        let urls = environment.locations.map(\.url).filter(selectedURLs.contains)
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
-        // Written down before the rescan, which can take a while: History is the way back for what just moved.
-        await record(result)
+        let urls = environment.locations.map(\.url).filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
+        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
         await refresh()
-        return result
+    }
+
+    func choose(_ page: CarriedSelection.Page) {
+        selection = page.scope
     }
 }

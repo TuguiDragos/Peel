@@ -17,16 +17,18 @@ public struct CarriedSelection: Sendable {
         }
     }
 
-    /// What one page has selected: its items with the sizes the page measured, nil where it could not, and the
-    /// source History names them by.
+    /// What one page has selected: its items with the sizes the page measured, nil where it could not, the page's
+    /// title as the page shows it, and the source History names them by.
     public struct Part: Sendable, Hashable, Identifiable {
         public let page: Page
+        public let title: String
         public let source: String
         public let sourceKey: String?
         public let sizes: [URL: Int64?]
 
-        public init(page: Page, source: String, sourceKey: String?, sizes: [URL: Int64?]) {
+        public init(page: Page, title: String, source: String, sourceKey: String?, sizes: [URL: Int64?]) {
             self.page = page
+            self.title = title
             self.source = source
             self.sourceKey = sourceKey
             self.sizes = sizes
@@ -36,19 +38,13 @@ public struct CarriedSelection: Sendable {
         public var count: Int { sizes.count }
         public var total: SizeTotal { SizeTotal(sizes.values) }
 
-        /// What moved of this part, as History records of `batch`: each under the part's source and tool, with the
-        /// size its page measured, and none where the page could not measure it.
-        public func records(of result: TrashResult, batch: UUID) -> [RemovalRecord] {
-            result.trashed.map { item in
-                RemovalRecord(
-                    batch: batch,
-                    item: item,
-                    size: sizes[item.originalURL] ?? nil,
-                    source: source,
-                    sourceKey: sourceKey,
-                    tool: page.tool
-                )
-            }
+        public var removalPart: RemovalPart {
+            RemovalPart(source: source, sourceKey: sourceKey, tool: page.tool)
+        }
+
+        /// The sizes History records for the part: those its page measured.
+        public var measuredSizes: [URL: Int64] {
+            [URL: Int64](measured: sizes.lazy.map { ($0.key, $0.value) })
         }
     }
 
@@ -56,6 +52,11 @@ public struct CarriedSelection: Sendable {
     public struct Pass: Sendable {
         public var moved: [(part: Part, result: TrashResult)] = []
         public var kept: [Part] = []
+
+        /// Every item the moved parts moved, and every one their tools refused.
+        public var result: TrashResult {
+            TrashResult(trashed: moved.flatMap(\.result.trashed), failures: moved.flatMap(\.result.failures))
+        }
     }
 
     /// The pages seen so far, in the order they were first seen.

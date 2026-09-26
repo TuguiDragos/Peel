@@ -3,12 +3,6 @@ import SwiftUI
 
 struct DeveloperDetailView: View {
     @Environment(DeveloperLibrary.self) private var developer
-    @Environment(RemovalHistoryStore.self) private var history
-    @State private var isConfirmingRemoval = false
-    @Environment(RemovalOutcome.self) private var outcome
-    @State private var isShowingQuitAlert = false
-    /// The app the quit alert names: whichever of the environment's apps is running.
-    @State private var appToQuit = ""
     let environment: DeveloperEnvironment
 
     var body: some View {
@@ -37,42 +31,11 @@ struct DeveloperDetailView: View {
         }
         .dimmedWhileBusy(developer.isScanning)
         .safeAreaBar(edge: .bottom) {
-            RemovalBar(
-                selectedSize: selected.known,
-                isSelectionMeasured: selected.isComplete,
-                isScanning: developer.isScanning,
-                scan: developer.scanRun,
-                isEnabled: !selectedLocations.isEmpty && !developer.isRemoving && !developer.isScanning,
-                onRemove: requestRemoval
-            )
+            RemovalBar(page: Tool.developer.page(environment.id), isScanning: developer.isScanning, scan: developer.scanRun)
         }
         .fadesInColumn(whenRowsChange: environment.locations.map(\.id))
         .navigationTitle(environment.name)
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(selectedLocations.count, selected), isPresented: $isConfirmingRemoval) {
-            Button("Move to Trash") {
-                Task {
-                    let result = await developer.removeSelected(from: environment) { result in
-                        await history.record(
-                            result,
-                            tool: .developer,
-                            source: environment.name,
-                            sizes: [URL: Int64](measured: environment.locations.map { ($0.url, $0.size) })
-                        )
-                    }
-                    // A nil result means nothing moved: one of the environment's apps was opened in the meantime.
-                    guard let result else {
-                        askToQuit()
-                        return
-                    }
-                    outcome.report(result)
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        }
-        .alert("Quit \(appToQuit) before removing its files.", isPresented: $isShowingQuitAlert) {
-            Button("OK", role: .cancel) {}
-        }
     }
 
     private var header: some View {
@@ -101,27 +64,6 @@ struct DeveloperDetailView: View {
 
     private var keptByDefault: Int {
         environment.locations.count { !$0.isRecommended }
-    }
-
-    private var selectedLocations: [DeveloperEnvironment.Location] {
-        environment.locations.filter { developer.selectedURLs.contains($0.url) }
-    }
-
-    private var selected: SizeTotal {
-        SizeTotal(selectedLocations.map(\.size))
-    }
-
-    private func requestRemoval() {
-        if developer.runningApp(of: environment) != nil {
-            askToQuit()
-        } else {
-            isConfirmingRemoval = true
-        }
-    }
-
-    private func askToQuit() {
-        appToQuit = developer.runningApp(of: environment) ?? environment.name
-        isShowingQuitAlert = true
     }
 }
 

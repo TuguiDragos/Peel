@@ -98,6 +98,11 @@ Peel is free and open source, and it speaks English and 17 other languages.
 - **Space:** what's taking up room, and which app it belongs to.
 - **File Search:** large or old files, found through Spotlight.
 
+What you select on these pages, iCloud Drive aside, stays selected while you look at the others, and Move to Trash
+on any of them moves it all at once, as one entry in History. Only the pages you have opened count, so nothing Peel
+selected on a page you never saw goes with it. The bar at the foot of the page says how many pages that is, and
+lists them.
+
 ### Look after your Mac
 
 <p align="center">

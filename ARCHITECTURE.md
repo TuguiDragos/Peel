@@ -76,8 +76,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, and macOS is told to
    forget the preference domains whose files went.
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
-   from and where it went, so it can be put back; History keeps the most recent 20,000 items. What Peel refused to
-   move is recorded too (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
+   from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one
+   entry, even when it moved what was selected on several pages. What Peel refused to move is recorded too
+   (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, and, through the helper, only if the helper's own ledger says
    it moved that very item from that very place.
@@ -127,7 +128,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Pages and models.** The sidebar lists the tools. Each has its page in `Peel/Views/<Tool>/` and a model in
   `Peel/Model/` (`AppLibrary`, `OrphanLibrary`, `DuplicateLibrary`, and so on) that owns its scan and its
   selection. The pages share `RemovalRow` for a row that can be selected and `RemovalBar` for the button that
-  moves the selection.
+  moves the selection. On the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers
+  and Backups, Duplicates, and File Search) the selection travels: what is selected on every such page the user
+  has opened stays selected, and Move to Trash on any of them moves it all as one removal, each page's part by its
+  own tool with that tool's checks (`SelectionCarrier`, over `CarriedSelection` in PeelCore).
 - **Concurrency.** The app target runs on the main actor by default. Heavy work lives in PeelCore and is marked
   `@concurrent`, so it runs off the main actor.
 - **Two looks.** Home, the menu bar panel, and About use Peel's own look, a paper sheet with stickers. Every

@@ -153,6 +153,14 @@ moves only when you select it yourself.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused.
 
+What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and
+Backups, Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of
+them moves all of it. Only a page you have opened counts: Developer and Build Artifacts select for you in every
+tool and project they list, and what they selected on a page you never saw stays where it is. Before anything
+moves, the question lists every page with how much it holds, and each page's part is moved by its own tool, with
+that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app opened since
+is writing to, and Duplicates refuses a copy that changed.
+
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine
 snapshots are explained, never deleted.
 

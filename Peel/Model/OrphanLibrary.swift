@@ -20,8 +20,6 @@ final class OrphanLibrary {
         scan?.groups.first { $0.id == selection }
     }
 
-    /// The selected items in `group`. Selections are kept across groups, but only the group on screen is
-    /// counted or moved.
     func selected(in group: OrphanGroup) -> [OrphanItem] {
         group.items.filter { selectedURLs.contains($0.url) }
     }
@@ -48,15 +46,41 @@ final class OrphanLibrary {
         }
     }
 
-    func removeSelected(in group: OrphanGroup, installedApps: [InstalledApp]) async -> TrashResult {
+}
+
+extension OrphanLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        (scan?.groups ?? []).compactMap { group in
+            let selected = selected(in: group)
+            guard !selected.isEmpty else { return nil }
+            return CarriedSelection.Part(
+                page: Tool.orphans.page(group.identifier),
+                title: group.title,
+                source: group.identifier,
+                sourceKey: nil,
+                sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
+            )
+        }
+    }
+
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+        guard let group = scan?.groups.first(where: { $0.identifier == part.page.scope }) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
         return await OrphanRemoval.trash(
-            selected(in: group),
-            installedApps: installedApps,
+            selected(in: group).filter { part.sizes.keys.contains($0.url) },
+            installedApps: apps.apps,
             scanner: OrphanScanner(exclusions: exclusions),
             using: TrashService(exclusions: exclusions)
         )
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+        await refresh(from: apps)
+    }
+
+    func choose(_ page: CarriedSelection.Page) {
+        selection = page.scope
     }
 }

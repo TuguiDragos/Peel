@@ -25,10 +25,6 @@ final class FileSearchLibrary {
     /// The exclusions the list is filtered by: those the search ran under, or those it was narrowed to since.
     private var filteredBy = Exclusions.none
 
-    var selectedSize: Int64 {
-        selectedURLs.reduce(0) { $0 + (sizes[$1] ?? 0) }
-    }
-
     var chosenFile: FoundFile? {
         results?.files.first { $0.url == chosen }
     }
@@ -86,15 +82,30 @@ final class FileSearchLibrary {
         exclusions.keeping(files, url: \.url)
     }
 
-    /// Moves the selected files to the Trash. `record` writes History before the search runs again, since a
-    /// Spotlight query can take a while and History is the way back for what just moved.
-    func removeSelected(recording record: (TrashResult) async -> Void) async -> TrashResult {
+}
+
+extension FileSearchLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        guard !selectedURLs.isEmpty else { return [] }
+        return [CarriedSelection.Part(
+            page: Tool.fileSearch.page(),
+            title: String(localized: Tool.fileSearch.title),
+            source: Tool.fileSearch.title.inEnglish,
+            sourceKey: "tool",
+            sizes: Dictionary(uniqueKeysWithValues: selectedURLs.map { ($0, sizes[$0]) })
+        )]
+    }
+
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         isRemoving = true
         defer { isRemoving = false }
-        let files = results?.files.filter { selectedURLs.contains($0.url) && !$0.requiresPrivileges } ?? []
-        let result = await FileSearch.trash(files, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
-        await record(result)
+        let files = results?.files.filter {
+            selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) && !$0.requiresPrivileges
+        } ?? []
+        return await FileSearch.trash(files, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
         await search()
-        return result
     }
 }

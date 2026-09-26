@@ -3,9 +3,6 @@ import SwiftUI
 
 struct ProjectDetailView: View {
     @Environment(ProjectLibrary.self) private var projects
-    @Environment(RemovalHistoryStore.self) private var history
-    @State private var isConfirmingRemoval = false
-    @Environment(RemovalOutcome.self) private var outcome
     let group: ProjectGroup
 
     var body: some View {
@@ -67,33 +64,14 @@ struct ProjectDetailView: View {
         .dimmedWhileBusy(projects.isScanning)
         .safeAreaBar(edge: .bottom) {
             RemovalBar(
-                selectedSize: selected.known,
-                isSelectionMeasured: selected.isComplete,
+                page: Tool.projects.page(group.project.path(percentEncoded: false)),
                 isScanning: projects.isScanning,
-                scan: projects.scanRun,
-                isEnabled: !selectedArtifacts.isEmpty && !projects.isRemoving && !projects.isScanning,
-                onRemove: { isConfirmingRemoval = true }
+                scan: projects.scanRun
             )
         }
         .fadesInColumn(whenRowsChange: group.artifacts.map(\.url))
         .navigationTitle(group.project.lastPathComponent)
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(selectedArtifacts.count, selected), isPresented: $isConfirmingRemoval) {
-            Button("Move to Trash") {
-                Task {
-                    let result = await projects.removeSelected(in: group) { result in
-                        await history.record(
-                            result,
-                            tool: .projects,
-                            source: group.project.lastPathComponent,
-                            sizes: [URL: Int64](measured: group.artifacts.map { ($0.url, $0.size) })
-                        )
-                    }
-                    outcome.report(result)
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        }
     }
 
     private var header: some View {
@@ -122,14 +100,6 @@ struct ProjectDetailView: View {
         .contextMenu {
             ItemMenu(url: group.project)
         }
-    }
-
-    private var selectedArtifacts: [ProjectArtifact] {
-        group.artifacts.filter { projects.selectedURLs.contains($0.url) }
-    }
-
-    private var selected: SizeTotal {
-        SizeTotal(selectedArtifacts.map(\.size))
     }
 
     private func detail(for artifact: ProjectArtifact) -> LocalizedStringResource {

@@ -107,17 +107,6 @@ final class ProjectLibrary {
         await refresh()
     }
 
-    func removeSelected(in group: ProjectGroup, recording record: (TrashResult) async -> Void) async -> TrashResult {
-        isRemoving = true
-        defer { isRemoving = false }
-        let urls = group.artifacts.map(\.url).filter(selectedURLs.contains)
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
-        // Written down before the rescan, which can take a while: History is the way back for what just moved.
-        await record(result)
-        await refresh()
-        return result
-    }
-
     /// True when every artifact the checkbox acts on is excluded from backups. Artifacts with a generic name
     /// are never excluded by it, so they are not counted.
     func isExcludedFromBackups(_ group: ProjectGroup) -> Bool {
@@ -145,5 +134,41 @@ final class ProjectLibrary {
 
     private func save() {
         UserDefaults.standard.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
+    }
+
+    private func group(of page: CarriedSelection.Page) -> ProjectGroup? {
+        groups?.first { $0.project.path(percentEncoded: false) == page.scope }
+    }
+}
+
+extension ProjectLibrary: CarriesSelection {
+    var carriedParts: [CarriedSelection.Part] {
+        (groups ?? []).compactMap { group in
+            let selected = group.artifacts.filter { selectedURLs.contains($0.url) }
+            guard !selected.isEmpty else { return nil }
+            return CarriedSelection.Part(
+                page: Tool.projects.page(group.project.path(percentEncoded: false)),
+                title: group.project.lastPathComponent,
+                source: group.project.lastPathComponent,
+                sourceKey: nil,
+                sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
+            )
+        }
+    }
+
+    func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+        guard let group = group(of: part.page) else { return TrashResult() }
+        isRemoving = true
+        defer { isRemoving = false }
+        let urls = group.artifacts.map(\.url).filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
+        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+        await refresh()
+    }
+
+    func choose(_ page: CarriedSelection.Page) {
+        selection = group(of: page)?.project
     }
 }
