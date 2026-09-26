@@ -94,8 +94,19 @@ public struct DeviceInfo: Sendable, Hashable {
     }
 
     public static func storage(of url: URL) -> Storage {
-        let values = try? url.resourceValues(forKeys: [.volumeTotalCapacityKey, .volumeAvailableCapacityForImportantUsageKey])
-        return Storage(total: Int64(values?.volumeTotalCapacity ?? 0), free: values?.volumeAvailableCapacityForImportantUsage ?? 0)
+        let values = try? url.resourceValues(forKeys: [.volumeTotalCapacityKey, .volumeAvailableCapacityKey, .volumeAvailableCapacityForImportantUsageKey])
+        return storage(
+            total: values?.volumeTotalCapacity,
+            available: values?.volumeAvailableCapacity,
+            important: values?.volumeAvailableCapacityForImportantUsage
+        )
+    }
+
+    /// What is free is the room macOS would make for an important file, which counts what it can purge. A volume
+    /// that does not report that answers zero, and its plain free space is then what is free.
+    static func storage(total: Int?, available: Int?, important: Int64?) -> Storage {
+        let important = important ?? 0
+        return Storage(total: Int64(total ?? 0), free: important > 0 ? important : Int64(available ?? 0))
     }
 
     static func sysctl(_ name: String) -> String? {

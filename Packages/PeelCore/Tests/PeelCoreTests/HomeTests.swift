@@ -44,6 +44,14 @@ struct DeviceInfoTests {
         #expect(DeviceInfo.Storage(total: 0, free: 0).usedFraction == 0)
     }
 
+    /// What is free is the room macOS would make for an important file, which counts what it can purge. A volume
+    /// that does not report that answers zero, and its plain free space is then what is free.
+    @Test func freeSpaceIsThePlainFreeSpaceWhereTheVolumeDoesNotSayMore() {
+        #expect(DeviceInfo.storage(total: 245_107_195_904, available: 48_015_052_800, important: 58_789_408_280).free == 58_789_408_280)
+        #expect(DeviceInfo.storage(total: 536_829_952, available: 459_358_208, important: 0).free == 459_358_208)
+        #expect(DeviceInfo.storage(total: nil, available: nil, important: nil) == DeviceInfo.Storage(total: 0, free: 0))
+    }
+
     @Test func leavesOutAZeroPatchVersion() {
         #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 0)) == "26.7")
         #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 1)) == "26.7.1")
