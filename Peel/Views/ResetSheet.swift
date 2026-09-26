@@ -10,14 +10,18 @@ struct ResetSheet: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var plan: ResetPlan
+    /// Set once the sheet has moved files to the Trash or put settings back, so the page behind it knows that what
+    /// it lists has changed.
+    @Binding var changedFiles: Bool
     @State private var isConfirming = false
     @State private var isPuttingBack = false
     /// The result of Put Settings Back, or nil before it is pressed. A result is shown either way, so a success
     /// doesn't look like a click that did nothing.
     @State private var settingsWentBack: Bool?
 
-    init(app: InstalledApp) {
+    init(app: InstalledApp, changedFiles: Binding<Bool>) {
         _plan = State(initialValue: ResetPlan(app: app))
+        _changedFiles = changedFiles
     }
 
     var body: some View {
@@ -34,6 +38,9 @@ struct ResetSheet: View {
             Button("Reset", role: .destructive) {
                 Task {
                     let result = await plan.performReset()
+                    if !result.trashed.isEmpty {
+                        changedFiles = true
+                    }
                     await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
                 }
             }
@@ -245,6 +252,7 @@ struct ResetSheet: View {
                                 Task {
                                     isPuttingBack = true
                                     settingsWentBack = await plan.putSettingsBack()
+                                    changedFiles = true
                                     isPuttingBack = false
                                 }
                             }

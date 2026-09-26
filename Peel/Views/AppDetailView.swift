@@ -19,6 +19,7 @@ struct AppDetailView: View {
     @State private var upgradeOutput: HomebrewLibrary.CommandResult?
     @Environment(\.notifications) private var notifications
     @State private var isShowingReset = false
+    @State private var resetChangedFiles = false
 
     /// The result of the last upgrade started from this page, shown under the buttons.
     private enum Upgrade: Equatable {
@@ -58,8 +59,12 @@ struct AppDetailView: View {
             Button("Quit \(plan.app.name)") { plan.quitApp() }
             Button("Cancel", role: .cancel) {}
         }
-        .sheet(isPresented: $isShowingReset, onDismiss: { Task { await rescan() } }) {
-            ResetSheet(app: plan.app)
+        .sheet(isPresented: $isShowingReset, onDismiss: {
+            guard resetChangedFiles else { return }
+            resetChangedFiles = false
+            Task { await rescan() }
+        }) {
+            ResetSheet(app: plan.app, changedFiles: $resetChangedFiles)
         }
         .sheet(item: $upgradeOutput) { result in
             HomebrewOutputView(result: result)
