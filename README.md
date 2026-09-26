@@ -319,16 +319,6 @@ account.
 </details>
 
 <details>
-<summary><strong>Is Peel an alternative to AppCleaner or CleanMyMac?</strong></summary>
-
-<br>
-
-It does the same job of removing apps together with what they leave behind. Peel is free and open source, shows why
-each file belongs to the app and how sure it is, and moves everything to the Trash, where History can put it back.
-
-</details>
-
-<details>
 <summary><strong>Does Peel work on Intel Macs and older versions of macOS?</strong></summary>
 
 <br>
