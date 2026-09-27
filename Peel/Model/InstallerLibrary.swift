@@ -84,7 +84,7 @@ extension InstallerItem.Kind {
 
     var explanation: LocalizedStringResource {
         switch self {
-        case .appInstaller: "Disk images and packages at the top of Downloads, Desktop, and Documents, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
+        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
         case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it."
         case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and leaves the rest to Finder."

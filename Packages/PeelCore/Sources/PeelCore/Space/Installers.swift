@@ -87,11 +87,19 @@ public enum Installers {
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
-        let downloads = ["Downloads", "Desktop", "Documents"].map { home.appending(path: $0, directoryHint: .isDirectory) }
+        let places = ["Downloads", "Desktop", "Documents", "Public"].map {
+            Folder(url: home.appending(path: $0, directoryHint: .isDirectory), isSharedWithEveryone: false)
+        } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
+        var folders: [Folder] = []
+        for place in places {
+            if canList(place.url) == .missing { unreadable.append(place.url) }
+            folders += [place] + subfolders(of: place.url).map {
+                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone)
+            }
+        }
 
-        for folder in downloads {
-            if canList(folder) == .missing { unreadable.append(folder) }
-            for url in files(in: folder) {
+        for folder in folders {
+            for url in files(in: folder.url) {
                 // The extension is checked before measuring, since measuring a folder walks all of it.
                 let suffix = url.pathExtension.lowercased()
                 let isInstaller = installerExtensions.contains(suffix)
@@ -99,7 +107,7 @@ public enum Installers {
                 guard isInstaller || isArchive || firmwareExtensions.contains(suffix), !exclusions.excludes(url), !Task.isCancelled else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                let heldBack = isInTheCloud(url) ? .inTheCloud : seen
+                let heldBack = heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud)
                 if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
                     items.append(
@@ -115,8 +123,9 @@ public enum Installers {
             }
         }
 
+        let applications = root.appending(path: "Applications", directoryHint: .isDirectory)
         items += await macOSInstallers(
-            in: [root.appending(path: "Applications", directoryHint: .isDirectory)] + downloads,
+            in: [Folder(url: applications, isSharedWithEveryone: false)] + folders,
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
@@ -145,6 +154,34 @@ public enum Installers {
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
             unreadableLocations: unreadable
         )
+    }
+
+    /// A folder the scan looks in, and whether it belongs to every account on this Mac rather than to this one.
+    struct Folder {
+        let url: URL
+        let isSharedWithEveryone: Bool
+    }
+
+    /// The folders directly inside `place` that the scan looks in too, where a browser or a chat app keeps its
+    /// downloads. Never a link, a package, a folder whose contents are only in the cloud (listing it downloads
+    /// them), a repository, or a project: what is in those is work, or belongs to them.
+    private static func subfolders(of place: URL) -> [URL] {
+        files(in: place).filter { url in
+            guard url.isRealFolder, !FileSize.isDataless(url),
+                  (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) != true
+            else { return false }
+            let names = (try? FileManager.default.contentsOfDirectory(atPath: url.path(percentEncoded: false))) ?? []
+            return !names.contains { FileSize.repositoryMarkers.contains($0) || ProjectArtifacts.isMarker($0) }
+        }
+    }
+
+    /// Why an item is left for the person to choose: it is in iCloud Drive, measuring it saw a reason, or it
+    /// belongs to every account on this Mac.
+    private static func heldBack(
+        _ url: URL, seen: HoldBack?, in folder: Folder, isInTheCloud: (URL) -> Bool
+    ) -> HoldBack? {
+        if isInTheCloud(url) { return .inTheCloud }
+        return seen ?? (folder.isSharedWithEveryone ? .sharedWithEveryone : nil)
     }
 
     /// What measuring `url` gave: its size, and why what it saw leaves the item for the person to choose.
@@ -262,7 +299,7 @@ public enum Installers {
     }
 
     static func macOSInstallers(
-        in folders: [URL],
+        in folders: [Folder],
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
@@ -270,7 +307,8 @@ public enum Installers {
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for folder in folders {
-            for url in files(in: folder) where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
+            for url in files(in: folder.url)
+            where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url) else { continue }
                 let (size, seen) = await measured(url, by: measure)
@@ -286,7 +324,7 @@ public enum Installers {
                     isReadOnly: false,
                     notes: version.map { [.version($0)] } ?? [],
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                    heldBack: isInTheCloud(url) ? .inTheCloud : seen
+                    heldBack: heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud)
                 ))
             }
         }

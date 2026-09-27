@@ -26340,108 +26340,108 @@
         }
       }
     },
-    "Disk images and packages at the top of Downloads, Desktop, and Documents, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
+    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy disků a balíčky přímo ve složkách Stahování, Plocha a Dokumenty, kde instalátory obvykle zůstávají. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
+            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Image-Dateien und Pakete auf der obersten Ebene von „Downloads“, „Schreibtisch“ und „Dokumente“, wo Installer meist liegen bleiben. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
+            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imágenes de disco y paquetes en el primer nivel de Descargas, Escritorio y Documentos, donde suelen quedarse los instaladores. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
+            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Images disque et paquets situés à la racine des dossiers Téléchargements, Bureau et Documents, là où les programmes d’installation restent en général. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
+            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Immagini disco e pacchetti al primo livello di Download, Scrivania e Documenti, dove di solito restano gli installer. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
+            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“ダウンロード”、“デスクトップ”、“書類”の各フォルダの最上位にあるディスクイメージとパッケージです。インストーラは通常ここに残されています。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
+            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서 폴더의 최상위에 있는 디스크 이미지와 패키지입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
+            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schijfkopieën en pakketten direct in de mappen Downloads, Bureaublad en Documenten, waar installatieprogramma's meestal achterblijven. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
+            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy dysków i pakiety na najwyższym poziomie folderów Pobrane rzeczy, Biurko i Dokumenty, gdzie zwykle zostają instalatory. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
+            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagens de disco e pacotes que estão diretamente em Downloads, na Mesa e em Documentos, onde os instaladores costumam ficar. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
+            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagini de disc și pachete aflate direct în Descărcări, Desktop și Documente, unde rămân de obicei programele de instalare. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
+            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образы дисков и пакеты, лежащие прямо в папках «Загрузки», «Рабочий стол» и «Документы», где обычно остаются установщики. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
+            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skivavbilder och paket högst upp i Hämtade filer, Skrivbord och Dokument, där installerare brukar bli liggande. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
+            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İndirilenler, Masaüstü ve Belgeler klasörlerinin en üst düzeyindeki disk görüntüleri ve paketler; yükleyiciler genellikle buralarda kalır. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
+            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образи дисків і пакети на верхньому рівні папок «Викачане», «Робочий стіл» і «Документи», де зазвичай лишаються інсталятори. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
+            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "位于“下载”、“桌面”和“文稿”顶层的磁盘映像和软件包，安装器通常就留在这些地方。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
+            "value" : "位于“下载”、“桌面”、“文稿”、“公共”和“共享”及其下一层文件夹中、含有App或安装器的磁盘映像、软件包和归档，安装器通常就留在这些地方。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "位於「下載項目」、「桌面」和「文件」最上層的磁碟映像檔和套件，安裝程式通常會留在這些地方。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
+            "value" : "位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，含有App或安裝程式的磁碟映像檔、套件和封存檔，安裝程式通常會留在這些地方。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
           }
         }
       }

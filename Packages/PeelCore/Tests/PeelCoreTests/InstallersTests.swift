@@ -144,9 +144,42 @@ struct InstallersTests {
         try directory.file("Downloads/ubuntu-24.04-desktop-arm64.iso", bytes: 400_000)
         try directory.directory("Applications")
 
-        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000)
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
 
         #expect(scan.items(in: .appInstaller).map(\.name) == ["ubuntu-24.04-desktop-arm64.iso"])
+    }
+
+    /// Installers are also left in Public and Shared, and in a folder a browser or a chat app makes in Downloads.
+    /// A repository, a project, a package, and a link are never looked into: what is in them is work or is theirs.
+    @Test func looksOneFolderDownInEveryPlaceInstallersAreLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/Chat Desktop/Tool-1.dmg", bytes: 400_000)
+        try directory.file("Public/Drop Box/Other-2.pkg", bytes: 400_000)
+        try directory.file("Users/Shared/Old-3.dmg", bytes: 400_000)
+        try directory.file("Downloads/a/b/Deep-4.dmg", bytes: 400_000)
+        try directory.file("Documents/MyApp/.git/HEAD", bytes: 16)
+        try directory.file("Documents/MyApp/MyApp-5.dmg", bytes: 400_000)
+        try directory.file("Documents/Site/package.json", bytes: 16)
+        try directory.file("Documents/Site/Site-6.dmg", bytes: 400_000)
+        try directory.file("Downloads/Viewer.app/Contents/Setup-7.dmg", bytes: 400_000)
+        try directory.file("Elsewhere/Linked-8.dmg", bytes: 400_000)
+        try directory.directory("Desktop")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Desktop/Linked"),
+            withDestinationURL: directory.url.appending(path: "Elsewhere")
+        )
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(Set(heldBack.keys) == ["Tool-1.dmg", "Other-2.pkg", "Old-3.dmg"])
+        #expect(heldBack["Tool-1.dmg"] == .some(nil))
+        #expect(heldBack["Old-3.dmg"] == .sharedWithEveryone)
     }
 
     /// macOS asks before an app reads Downloads, Desktop, or Documents. A folder it refused is named, never read as
@@ -221,7 +254,9 @@ struct InstallersTests {
         try directory.file("Library/iTunes/iPhone Software Updates/iPhone17,1_26.1.ipsw", bytes: 400_000)
         try directory.directory("Downloads")
 
-        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000)
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
 
         #expect(scan.items(in: .macOSInstaller).map(\.name) == ["Install macOS Tahoe"])
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
@@ -398,7 +433,8 @@ struct InstallersTests {
     /// A word that only begins like one an installer adds is another word: `Macros` is not `mac`.
     @Test func aWordAfterTheNameCountsOnlyWhole() {
         let apps = [
-            app("Alfred", bundleIdentifier: "com.runningwithcrayons.Alfred"), app("Figma", bundleIdentifier: "com.figma.Desktop"),
+            app("Alfred", bundleIdentifier: "com.runningwithcrayons.Alfred"),
+            app("Figma", bundleIdentifier: "com.figma.Desktop"),
         ]
 
         #expect(Installers.installedApp(for: URL(filePath: "/x/Alfred-Macros-Pack.dmg"), in: apps) == nil)
