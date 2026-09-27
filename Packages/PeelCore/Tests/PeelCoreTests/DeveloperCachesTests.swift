@@ -4,6 +4,13 @@ import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
+    /// The public scan in a home of the test's own, with no user cache folder, so no real cache is read.
+    private func scanned(_ home: URL, exclusions: Exclusions = .none) async -> [DeveloperEnvironment] {
+        await DeveloperCaches.scan(
+            in: SearchEnvironment(homeDirectory: home, rootDirectory: home), exclusions: exclusions
+        )
+    }
+
     /// A scan stopped while it waits on a folder returns within a second and measures no more folders.
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
@@ -87,7 +94,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Developer/Xcode/DerivedData/ModuleCache.noindex/module.pcm", bytes: 20_000)
         try directory.directory("Library/Developer/Xcode/Archives/2026-09-17/App 17.09.2026, 10.00.xcarchive")
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
 
         #expect(environments.map(\.id) == ["npm", "xcode"])
         let npm = try #require(environments.first)
@@ -114,7 +121,7 @@ struct DeveloperCachesTests {
             try directory.file("\(chrome)/\(kept)", bytes: 4_096)
         }
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
 
         let folder = directory.url.appending(path: chrome).path(percentEncoded: false) + "/"
         let listed = try #require(environments.first { $0.id == "chrome" }).locations.map {
@@ -129,7 +136,7 @@ struct DeveloperCachesTests {
         try directory.file("\(chrome)/GPUPersistentCache/GPUCache/data_0", bytes: 4_096)
         try directory.file("\(chrome)/Default/GPUCache/data_0", bytes: 4_096)
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
 
         let folder = directory.url.appending(path: chrome).path(percentEncoded: false) + "/"
         let listed = try #require(environments.first { $0.id == "chrome" }).locations.map {
@@ -144,7 +151,7 @@ struct DeveloperCachesTests {
         try directory.file("\(chrome)/OptGuideOnDeviceModel/2025.8.8.1141/weights.bin", bytes: 4_096)
         try directory.file("\(chrome)/optimization_guide_model_store/2/abc/model.tflite", bytes: 4_096)
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
 
         let models = try #require(environments.first { $0.id == "chrome" }).locations
         let names = models.map(\.url.lastPathComponent).sorted()
@@ -364,7 +371,8 @@ struct DeveloperCachesTests {
                 // that ends in `/` matches every folder beside, so what sits beside its match is a file.
                 let concrete = folder.path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
                 let foldersOnly = concrete.hasSuffix("/")
-                let entry = foldersOnly ? String(concrete.dropLast()) : concrete
+                let base = folder.base == .userCache ? "UserCache/" : ""
+                let entry = base + (foldersOnly ? String(concrete.dropLast()) : concrete)
                 let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
                 try directory.file("\(row)/content", bytes: 400_000)
                 expected.insert(row)
@@ -372,7 +380,11 @@ struct DeveloperCachesTests {
             }
         }
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let userCache = directory.url.appending(path: "UserCache", directoryHint: .isDirectory)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url, rootDirectory: directory.url, userCacheDirectory: userCache
+        )
+        let environments = await DeveloperCaches.scan(in: environment)
         let home = directory.url.path(percentEncoded: false)
         let found = Set(environments.flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) })
         #expect(found == expected, "missing \(expected.subtracting(found).sorted()), extra \(found.subtracting(expected).sorted())")
@@ -400,7 +412,7 @@ struct DeveloperCachesTests {
         try directory.file(".ollama/models/blobs/sha256-1", bytes: 400_000)
         try directory.file("Library/Caches/pypoetry/virtualenvs/app/bin/python", bytes: 400_000)
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
         let locations = environments.flatMap(\.locations)
         #expect(locations.count == 2)
         #expect(locations.allSatisfy { !$0.isRecommended })
@@ -415,7 +427,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Unity/Asset Store-5.x/Publisher/Tools/Package.unitypackage", bytes: 400_000)
         try directory.file(".vagrant.d/boxes/hashicorp-VAGRANTSLASH-bionic64/0/virtualbox/box-disk001.vmdk", bytes: 400_000)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(locations.count == 3)
         #expect(locations.allSatisfy { $0.kind == .keptDownloads && !$0.isRecommended })
@@ -431,7 +443,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Caches/Cypress/15.0.0/Cypress.bin", bytes: 400_000)
         try directory.file(".cache/puppeteer/chrome/mac_arm-140.0/chrome.bin", bytes: 400_000)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(locations.count == 4)
         #expect(locations.allSatisfy { $0.kind == .environments && !$0.isRecommended })
@@ -444,7 +456,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Developer/Xcode/iOS DeviceSupport/iPhone17,1 18.6 (22G86)/Symbols/dyld", bytes: 400_000)
         try directory.file("Library/Developer/Xcode/watchOS DeviceSupport/Watch7,2 11.6 (22U80)/Symbols/dyld", bytes: 400_000)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(locations.count == 2)
         #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
@@ -457,7 +469,7 @@ struct DeveloperCachesTests {
         try directory.file("\(support)/iPhone17,1 26.0 (23A341)/Symbols/dyld", bytes: 400_000)
         try directory.file("\(support)/.DS_Store", bytes: 16)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["iPhone17,1 18.6 (22G86)", "iPhone17,1 26.0 (23A341)"])
         #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
@@ -474,7 +486,7 @@ struct DeveloperCachesTests {
         try directory.file("\(archives)/2026-09-02/App 02.09.2026, 11.00.xcarchive/Products/Applications/App.app/App", bytes: 400_000)
         try directory.file("\(archives)/2026-09-02/notes.txt", bytes: 16)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(locations.count == 2)
         #expect(locations.allSatisfy { $0.kind == .archives && !$0.isRecommended })
@@ -491,7 +503,7 @@ struct DeveloperCachesTests {
             try directory.directory("Library/Developer/Xcode/Archives/day \(day)/App \(day).xcarchive")
         }
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
 
         #expect(locations.count == 130)
     }
@@ -503,7 +515,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Caches/Homebrew/api/internal/packages.jws.json", bytes: 400_000)
         try directory.file("Library/Caches/Homebrew/downloads/bottle.tar.gz", bytes: 400_000)
 
-        let offered = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let offered = await scanned(directory.url).flatMap(\.locations)
         #expect(offered.map { $0.url.lastPathComponent } == ["downloads"])
         #expect(offered.allSatisfy { $0.isRecommended })
     }
@@ -519,7 +531,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Caches/pnpm/metadata/registry.json", bytes: 400_000)
         try directory.file(".yarn/berry/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip", bytes: 400_000)
 
-        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+        let locations = await scanned(directory.url).flatMap(\.locations)
         let suggested = locations.filter(\.isRecommended).map(\.url).map { $0.lastPathComponent }
         #expect(locations.count == 5)
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
@@ -856,6 +868,23 @@ struct DeveloperCachesTests {
         #expect(locations.map { $0.url.path(percentEncoded: false).hasSuffix("\(node)/cache") } == [true])
     }
 
+    @Test func offersClangsModuleCacheFromTheUsersCacheFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let userCache = try directory.directory("var/C")
+        try directory.file("var/C/clang/ModuleCache/1WXVCUBR7B7FT/Foundation-3DFYNEBRQSXST.pcm", bytes: 400_000)
+        try directory.file("home/clang/ModuleCache/mine.txt", bytes: 400_000)
+        let clang = DeveloperCaches.definitions.filter { $0.id == "clang" }
+
+        let locations = await DeveloperCaches.scan(
+            clang, homeDirectory: directory.url.appending(path: "home"), userCacheDirectory: userCache
+        ).flatMap(\.locations)
+
+        #expect(locations.map { PathPattern.comparablePath(of: $0.url) } == [
+            PathPattern.comparablePath(of: userCache.appending(path: "clang/ModuleCache")),
+        ])
+        #expect(locations.first?.kind == .cache)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
@@ -901,7 +930,7 @@ struct DeveloperCachesTests {
                 try directory.file(".bun/install/cache/links/react@18.3.1-5664d3cd670b3205/node_modules/react/index.js", bytes: 4_096)
             }
 
-            let bun = try #require(await DeveloperCaches.scan(homeDirectory: directory.url).first { $0.id == "bun" })
+            let bun = try #require(await scanned(directory.url).first { $0.id == "bun" })
 
             #expect(bun.locations.count == 1)
             #expect(bun.locations.first?.isRecommended == !hasStore, "links inside: \(hasStore)")
@@ -917,7 +946,7 @@ struct DeveloperCachesTests {
         try directory.file("Documents/notes.txt", bytes: 400_000)
         try directory.file("Library/Caches/pip-not-really/file", bytes: 400_000)
 
-        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+        let environments = await scanned(directory.url)
         let home = directory.url.path(percentEncoded: false)
         #expect(environments.map(\.id) == ["uv"])
         for url in environments.flatMap(\.locations).map(\.url) {
@@ -930,7 +959,7 @@ struct DeveloperCachesTests {
         let cache = try directory.directory(".cache/uv")
         try directory.file(".cache/uv/archive/file", bytes: 400_000)
 
-        let kept = await DeveloperCaches.scan(homeDirectory: directory.url, exclusions: Exclusions(paths: [cache]))
+        let kept = await scanned(directory.url, exclusions: Exclusions(paths: [cache]))
         #expect(kept.isEmpty)
     }
 
@@ -944,7 +973,7 @@ struct DeveloperCachesTests {
             try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.1/\(folder)/file.bin", bytes: 4_096)
         }
 
-        let offered = await DeveloperCaches.scan(homeDirectory: home).flatMap(\.locations).map { $0.url.path(percentEncoded: false) }
+        let offered = await scanned(home).flatMap(\.locations).map { $0.url.path(percentEncoded: false) }
 
         #expect(!offered.isEmpty, "the fabricated IDE folders were not found at all")
         #expect(!offered.contains { $0.contains("/LocalHistory") })
@@ -964,7 +993,7 @@ struct DeveloperCachesTests {
             withDestinationURL: directory.url.appending(path: "elsewhere/hub")
         )
 
-        let offered = await DeveloperCaches.scan(homeDirectory: home).flatMap(\.locations).map { $0.url.lastPathComponent }
+        let offered = await scanned(home).flatMap(\.locations).map { $0.url.lastPathComponent }
 
         #expect(!offered.contains("hub"))
     }
@@ -977,7 +1006,8 @@ struct DeveloperCachesTests {
             try directory.file("home/\(path)", bytes: 16)
         }
 
-        let offered = await DeveloperCaches.scan(homeDirectory: home).flatMap(\.locations).map { PathPattern.comparablePath(of: $0.url).lowercased() }
+        let offered = await scanned(home).flatMap(\.locations)
+            .map { PathPattern.comparablePath(of: $0.url).lowercased() }
 
         for path in offered {
             #expect(!offered.contains { $0 != path && path.hasPrefix($0 + "/") }, "\(path) sits inside another offered folder")

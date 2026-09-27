@@ -107,8 +107,14 @@ public enum DeveloperCaches {
         var ownFolders: [String] = []
     }
 
-    /// A folder a tool keeps, relative to the home folder, and what it holds.
+    /// A folder a tool keeps, relative to the home folder or to the user's cache folder, and what it holds.
     struct Folder {
+        enum Base {
+            case home
+            /// The folder macOS gives each user for caches, `getconf DARWIN_USER_CACHE_DIR`.
+            case userCache
+        }
+
         let path: String
         let kind: DeveloperEnvironment.ContentKind
         /// Where the tool documents the folder: a page, or the file inside Xcode that names it.
@@ -127,11 +133,12 @@ public enum DeveloperCaches {
         /// The Xcode setting that moves the folder elsewhere when it holds an absolute path. The folder is looked
         /// for there as well as at `path`, where an earlier Xcode may have left it.
         let movedByXcodeSetting: String?
+        let base: Base
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
-            movedByXcodeSetting: String? = nil
+            movedByXcodeSetting: String? = nil, base: Base = .home
         ) {
             self.path = path
             self.kind = kind
@@ -141,11 +148,13 @@ public enum DeveloperCaches {
             self.rowEnding = rowEnding
             self.rowsAreDerivedData = rowsAreDerivedData
             self.movedByXcodeSetting = movedByXcodeSetting
+            self.base = base
         }
 
-        /// Where the folder is: at `path`, and where the Xcode setting that moves it says.
-        func places(home: URL, preference: (String) -> String?) -> [URL] {
-            var places = PathPattern.expand(path, home: home)
+        /// Where the folder is: at `path` in its base, and where the Xcode setting that moves it says.
+        func places(home: URL, userCache: URL?, preference: (String) -> String?) -> [URL] {
+            guard let root = base == .home ? home : userCache else { return [] }
+            var places = PathPattern.expand(path, home: root)
             if let setting = movedByXcodeSetting.flatMap(preference).map({ NSString(string: $0).expandingTildeInPath }),
                setting.hasPrefix("/") {
                 let moved = URL(filePath: setting, directoryHint: .isDirectory)
@@ -226,7 +235,7 @@ public enum DeveloperCaches {
         let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
         let owned = definitions.flatMap { definition in
             let ownFolders = definition.ownFolders.map { home + PathComponents.of($0) }
-            return definition.folders.compactMap { folder -> [String]? in
+            return definition.folders.filter { $0.base == .home }.compactMap { folder -> [String]? in
                 let full = home + PathComponents.of(folder.path)
                 guard full.count > base.count, full.starts(with: base) else { return nil }
                 let declared = ownFolders.first { $0.count > base.count && full.starts(with: $0) }
@@ -748,6 +757,14 @@ public enum DeveloperCaches {
             Folder(".vagrant.d/boxes", .keptDownloads, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L140"),
             Folder(".vagrant.d/tmp", .cache, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L143"),
         ]),
+        // The modules Clang compiles for `@import` and `-fmodules`, kept in `cache_directory()/clang/ModuleCache`.
+        Definition(id: "clang", name: "Clang", systemImage: "hammer", appBundleIdentifiers: [], folders: [
+            Folder(
+                "clang/ModuleCache", .cache,
+                source: "https://github.com/llvm/llvm-project/blob/main/clang/lib/Driver/Driver.cpp#L4045-L4055",
+                base: .userCache
+            ),
+        ]),
         // Build systems and media
         Definition(id: "ccache", name: "ccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ccache", .buildData, source: "https://github.com/ccache/ccache/blob/master/doc/manual.adoc#L575-L577"),
@@ -914,10 +931,15 @@ public enum DeveloperCaches {
     }
 
     @concurrent
-    public static func scan(homeDirectory: URL = .homeDirectory, exclusions: Exclusions = .none) async -> [DeveloperEnvironment] {
+    public static func scan(
+        in environment: SearchEnvironment = .current, exclusions: Exclusions = .none
+    ) async -> [DeveloperEnvironment] {
         let apps = await AppCatalog.installedApps()
-        let electron = electronDefinitions(for: apps, home: homeDirectory)
-        return await scan(definitions + electron, homeDirectory: homeDirectory, exclusions: exclusions)
+        let electron = electronDefinitions(for: apps, home: environment.homeDirectory)
+        return await scan(
+            definitions + electron, homeDirectory: environment.homeDirectory,
+            userCacheDirectory: environment.userCacheDirectory, exclusions: exclusions
+        )
     }
 
     /// One definition for each installed Electron app whose session data folder, `Application Support/<its name>` as
@@ -957,6 +979,7 @@ public enum DeveloperCaches {
     static func scan(
         _ definitions: [Definition],
         homeDirectory: URL,
+        userCacheDirectory: URL? = nil,
         exclusions: Exclusions = .none,
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
         preference: @escaping @Sendable (String) -> String? = Self.xcodePreference
@@ -966,7 +989,10 @@ public enum DeveloperCaches {
                 _ = group.addTaskUnlessCancelled {
                     var found: [(url: URL, folder: Folder)] = []
                     for folder in definition.folders {
-                        for url in folder.places(home: homeDirectory, preference: preference).flatMap(folder.rows) {
+                        let places = folder.places(
+                            home: homeDirectory, userCache: userCacheDirectory, preference: preference
+                        )
+                        for url in places.flatMap(folder.rows) {
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.

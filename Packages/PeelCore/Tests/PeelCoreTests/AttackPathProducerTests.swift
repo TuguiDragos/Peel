@@ -86,7 +86,7 @@ struct AttackPathProducerTests {
         let real = try directory.file("home/Library/Mobile Documents/com~apple~CloudDocs/dotfiles/gcloud/logs/notes.txt")
         try link("Library/Mobile Documents/com~apple~CloudDocs/dotfiles", at: home.appending(path: ".config"))
 
-        let environments = await DeveloperCaches.scan(homeDirectory: home)
+        let environments = await DeveloperCaches.scan(in: SearchEnvironment(homeDirectory: home, rootDirectory: home))
         let offered = environments.flatMap(\.locations).map { $0.url.path(percentEncoded: false) }
         #expect(!offered.contains { $0.hasSuffix("/.config/gcloud/logs") }, "the developer page offers a path that lands in iCloud Drive")
 

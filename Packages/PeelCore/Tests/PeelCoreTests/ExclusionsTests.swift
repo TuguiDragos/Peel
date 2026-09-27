@@ -375,7 +375,9 @@ struct ExclusionsReachEveryScannerTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let exclusions = Exclusions(paths: [keptInCache, keptInModules])
 
-        let caches = await DeveloperCaches.scan(homeDirectory: home, exclusions: exclusions)
+        let caches = await DeveloperCaches.scan(
+            in: SearchEnvironment(homeDirectory: home, rootDirectory: home), exclusions: exclusions
+        )
         #expect(!caches.flatMap(\.locations).contains { $0.url.lastPathComponent == "pip" })
 
         let artifacts = await ProjectArtifacts.scan(roots: [home.appending(path: "Projects")], exclusions: exclusions).artifacts
