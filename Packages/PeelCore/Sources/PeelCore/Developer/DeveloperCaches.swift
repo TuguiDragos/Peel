@@ -207,8 +207,7 @@ public enum DeveloperCaches {
 
     static func archive(at url: URL) -> DeveloperEnvironment.Archive? {
         guard
-            let data = try? Data(contentsOf: url.appending(path: "Info.plist")),
-            let facts = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+            let facts = BoundedRead.propertyList(at: url.appending(path: "Info.plist")),
             let app = facts["ApplicationProperties"] as? [String: Any]
         else { return nil }
         let version = app["CFBundleShortVersionString"] as? String

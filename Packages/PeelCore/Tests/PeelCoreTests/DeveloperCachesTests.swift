@@ -648,6 +648,21 @@ struct DeveloperCachesTests {
         #expect(environments.isEmpty)
     }
 
+    @Test func readsAnArchivesInfoOnlyWhenItIsAPlainFileOfASensibleSize() throws {
+        let directory = try TemporaryDirectory()
+        let facts: [String: Any] = [
+            "ApplicationProperties": ["CFBundleShortVersionString": "2.1", "CFBundleVersion": "45"],
+            "Padding": String(repeating: "x", count: BoundedRead.maximumBytes),
+        ]
+        let data = try PropertyListSerialization.data(fromPropertyList: facts, format: .binary, options: 0)
+        try directory.file("Huge.xcarchive/Info.plist", contents: data)
+        let pipe = try directory.directory("Pipe.xcarchive").appending(path: "Info.plist")
+        #expect(mkfifo(pipe.path(percentEncoded: false), 0o600) == 0)
+
+        #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Huge.xcarchive")) == nil)
+        #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Pipe.xcarchive")) == nil)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
