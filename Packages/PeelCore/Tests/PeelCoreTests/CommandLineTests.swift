@@ -715,6 +715,18 @@ struct CommandLineTests {
         }
     }
 
+    /// Scripts read the exit status, so the help and the manual page name each code, and each is the one the tool
+    /// really uses: ArgumentParser's own for a usage error, and Peel's for a "no" and a failure.
+    @Test func namesTheExitCodesItUses() {
+        let help = PeelCommand.helpMessage(columns: 200)
+        #expect(PeelCommand.exitCode(for: ValidationError("wrong")) == ExitCode(64))
+        #expect(PeelCommand.exitCode(for: Output.declined) == ExitCode(2))
+        #expect(PeelCommand.exitCode(for: ExitCode.failure) == ExitCode(1))
+        for phrase in ["0 when it did what was asked", "1 when something failed", "2 when you answered no", "64 when the command"] {
+            #expect(help.contains(phrase))
+        }
+    }
+
     @Test func showsTheUsageOfTheSubcommandThatFailed() throws {
         let error = #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["inventory", "--format", "bogus"]) }
         let message = PeelCommand.fullMessage(for: try #require(error), columns: 200)

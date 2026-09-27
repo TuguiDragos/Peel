@@ -6,7 +6,7 @@ public struct PeelCommand: AsyncParsableCommand {
     public static let configuration = CommandConfiguration(
         commandName: "peel",
         abstract: "Find what apps leave behind and move it to the Trash.",
-        discussion: "Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app. The tool writes English whatever the Mac's language, since scripts read what it prints.",
+        discussion: "Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app. The tool writes English whatever the Mac's language, since scripts read what it prints. Exit status: 0 when it did what was asked, 1 when something failed or stayed where it was, 2 when you answered no, and 64 when the command or its options are wrong, or when Peel would have to ask and can't (add --yes).",
         version: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
         subcommands: [
             AppsCommand.self,
