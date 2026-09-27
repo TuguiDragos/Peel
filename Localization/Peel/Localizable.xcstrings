@@ -80782,7 +80782,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel jest wyłączony w ustawieniach rzeczy otwieranych podczas logowania i rozszerzeń, więc macOS go nie uruchomi."
+            "value" : "Peel jest wyłączony w panelu Rzeczy i rozszerzenia otwierane podczas logowania, więc macOS go nie uruchomi."
           }
         },
         "pt" : {
@@ -103816,7 +103816,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niektóre pozostałości znajdują się w folderach, które może zmieniać tylko administrator. Pomocnik przenosi je w imieniu Peel. macOS raz poprosi Cię o jego zatwierdzenie w ustawieniach rzeczy otwieranych podczas logowania i rozszerzeń. Pomocnik należy do kopii Peel, która go zainstalowała: druga kopia, w innym folderze, musi zainstalować własnego."
+            "value" : "Niektóre pozostałości znajdują się w folderach, które może zmieniać tylko administrator. Pomocnik przenosi je w imieniu Peel. macOS raz poprosi Cię o jego zatwierdzenie w panelu Rzeczy i rozszerzenia otwierane podczas logowania. Pomocnik należy do kopii Peel, która go zainstalowała: druga kopia, w innym folderze, musi zainstalować własnego."
           }
         },
         "pt" : {
