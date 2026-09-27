@@ -19,7 +19,15 @@ public enum PreferenceBackup {
         case failed
     }
 
-    typealias Run = @Sendable ([String]) async -> Bool
+    /// What `defaults` answered: yes, no (it ran and said no, as for a domain that is not there), or nothing at
+    /// all (it did not start, or ran out of time), which is never taken for a no.
+    enum Answer: Sendable, Equatable {
+        case yes
+        case no
+        case noAnswer
+    }
+
+    typealias Run = @Sendable ([String]) async -> Answer
 
     @concurrent
     public static func save(
@@ -36,8 +44,12 @@ public enum PreferenceBackup {
     @concurrent
     static func save(_ urls: [URL], for app: InstalledApp, in directory: URL, through service: TrashService = TrashService(), run: Run) async -> Saved {
         var domains: [PreferenceCleanup.Domain] = []
-        for domain in PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier) where await run(domain.command("read")) {
-            domains.append(domain)
+        for domain in PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier) {
+            switch await run(domain.command("read")) {
+            case .yes: domains.append(domain)
+            case .no: continue
+            case .noAnswer: return .failed
+            }
         }
         guard !domains.isEmpty else { return .nothingToSave }
 
@@ -53,7 +65,7 @@ public enum PreferenceBackup {
 
         for domain in domains {
             let file = folder.appending(path: fileName(for: domain))
-            guard await run(domain.command("export", file.path(percentEncoded: false))), file.isThere else {
+            guard await run(domain.command("export", file.path(percentEncoded: false))) == .yes, file.isThere else {
                 // `rmdir` removes the folder only when it is empty. If copies were already written, the folder
                 // goes to the Trash instead: nothing is deleted outright.
                 if rmdir(folder.path(percentEncoded: false)) != 0 {
@@ -95,7 +107,7 @@ public enum PreferenceBackup {
                 continue
             }
             _ = await run(domain.command("delete"))
-            if await !run(domain.command("import", file.path(percentEncoded: false))) {
+            if await run(domain.command("import", file.path(percentEncoded: false))) != .yes {
                 isComplete = false
                 clearedSome = true
             }
@@ -156,12 +168,14 @@ public enum PreferenceBackup {
         Date.now.formatted(stampStyle)
     }
 
-    /// Runs `defaults` and returns true when it exits with status 0. `save` checks that a domain exists with
-    /// `read`, because `export` succeeds even for a domain that does not exist.
-    @discardableResult
-    private static func run(_ arguments: [String]) async -> Bool {
-        guard case .success(let output) = await Subprocess.run("/usr/bin/defaults", arguments, timeout: 10) else { return false }
-        return output.status == 0
+    /// Runs `defaults`: yes when it exits with status 0, no for any other status, and no answer when it did not
+    /// run to its end. `save` checks that a domain exists with `read`, because `export` succeeds even for a domain
+    /// that does not exist.
+    private static func run(_ arguments: [String]) async -> Answer {
+        guard case .success(let output) = await Subprocess.run("/usr/bin/defaults", arguments, timeout: 10) else {
+            return .noAnswer
+        }
+        return output.status == 0 ? .yes : .no
     }
 
     /// Moves the folders beyond the newest `maximumBackups` to the Trash, never deleting them: once the Trash

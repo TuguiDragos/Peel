@@ -204,7 +204,7 @@ struct RemovalHygieneTests {
         let asked = Mutex<[[String]]>([])
         let notThere: PreferenceBackup.Run = { arguments in
             asked.withLock { $0.append(arguments) }
-            return false
+            return .no
         }
 
         #expect(await PreferenceBackup.save([URL.homeDirectory.appending(path: "Library/Caches/com.example.app")], for: app, in: backups, run: notThere) == .nothingToSave)
@@ -226,7 +226,7 @@ struct RemovalHygieneTests {
         let asked = Mutex<[[String]]>([])
         let run: PreferenceBackup.Run = { arguments in
             asked.withLock { $0.append(arguments) }
-            return true
+            return .yes
         }
 
         let restored = await PreferenceBackup.restore(from: folder, run: run)
@@ -237,7 +237,7 @@ struct RemovalHygieneTests {
         #expect(!commands.contains { $0.contains("com.example.helper") }, "the settings in use were cleared for a copy that could not go back")
 
         // An import that fails after the delete has cleared that domain, and the result says so.
-        let failingImport: PreferenceBackup.Run = { arguments in arguments.first != "import" }
+        let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : .yes }
         #expect(await PreferenceBackup.restore(from: folder, run: failingImport) == PreferenceBackup.Restored(isComplete: false, clearedSome: true))
     }
 
@@ -249,12 +249,28 @@ struct RemovalHygieneTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
 
-        let refused = await PreferenceBackup.save([plist], for: app, in: backups) { arguments in !arguments.contains("export") }
+        let refused = await PreferenceBackup.save([plist], for: app, in: backups) { arguments in arguments.contains("export") ? .no : .yes }
         #expect(refused == .failed)
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty, "an empty copy was left behind")
 
-        let nothing = await PreferenceBackup.save([URL(filePath: "/Users/x/Library/Caches/com.example.app")], for: app, in: backups) { _ in true }
+        let nothing = await PreferenceBackup.save([URL(filePath: "/Users/x/Library/Caches/com.example.app")], for: app, in: backups) { _ in .yes }
         #expect(nothing == .nothingToSave)
+    }
+
+    /// `defaults` that did not start or ran out of time said nothing about the domain, so the copy fails and the
+    /// reset moves nothing, rather than reading it as a domain that is not there and clearing it with no copy.
+    @Test func aReadThatGetsNoAnswerMakesTheCopyFail() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
+        let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
+
+        let saved = await PreferenceBackup.save([plist], for: app, in: backups) { arguments in
+            arguments.first == "read" ? .noAnswer : .yes
+        }
+
+        #expect(saved == .failed)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty)
     }
 
     /// Settings lists the saved copies, newest first, to put back or clear. A copy may hold a license key.
@@ -327,7 +343,7 @@ struct RemovalHygieneTests {
             if arguments.contains("export"), let file = arguments.last {
                 FileManager.default.createFile(atPath: file, contents: Data())
             }
-            return true
+            return .yes
         }
 
         guard case .saved = saved else { Issue.record("the copy was not made: \(saved)"); return }
