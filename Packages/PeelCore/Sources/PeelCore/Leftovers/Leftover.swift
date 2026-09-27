@@ -113,6 +113,14 @@ public struct LeftoverMatch: Sendable, Hashable {
         LeftoverMatch(reason: reason, confidence: confidence, sharedWith: sharedWith, otherCopies: otherCopies, heldBack: heldBack, isAWord: isAWord)
     }
 
+    /// Returns the same match, no surer than `ceiling`.
+    func atMost(_ ceiling: MatchConfidence) -> LeftoverMatch {
+        LeftoverMatch(
+            reason: reason, confidence: min(confidence, ceiling), sharedWith: sharedWith, otherCopies: otherCopies,
+            heldBack: heldBack, isAWord: isAWord
+        )
+    }
+
     /// Combines two apps' claims on one item, cautiously and the same in either order: the weaker claim counts,
     /// and if either one is held back, so is the result.
     func combined(with other: LeftoverMatch) -> LeftoverMatch {

@@ -235,7 +235,7 @@ public struct LeftoverScanner: Sendable {
                 for name in names {
                     let url = folder.appending(path: name)
                     let path = url.path(percentEncoded: false)
-                    if let match = matcher.match(fileName: name, kind: kind, at: url), match.confidence >= .likely,
+                    if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
                         guard !refuses(path, home) else { continue }
                         found.append(await leftover(at: url, kind: kind, match: match, parent: parent, home: home, isInsideAnotherAppsFolder: isAnotherApps, measure: measure))
@@ -328,13 +328,24 @@ public struct LeftoverScanner: Sendable {
         bundle: String
     ) -> LeftoverMatch? {
         guard kind != .commandLineTools else { return leadsInside(bundle, link: url) }
-        let byName = matcher.match(fileName: name, kind: kind, at: url)
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
-            guard byName == nil, let identifier = DeclaredIdentifier.of(url, kind: kind) else { return byName }
-            // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
-            return matcher.match(fileName: identifier, kind: .elsewhere, at: url)
+            return match(name, at: url, kind: kind, matcher: matcher)
         }
+        let byName = matcher.match(fileName: name, kind: kind, at: url)
         return byName?.confidence == .certain ? byName : inside
+    }
+
+    /// This app's claim on an item from its name and from the identifier it declares, which is read for a plug-in
+    /// and for an item whose name answers nothing. The identifier says who made a plug-in: a claim through it
+    /// replaces a weaker one on the name, and a name it does not back makes the plug-in only possible.
+    private static func match(_ name: String, at url: URL, kind: SearchLocation.Kind, matcher: LeftoverMatcher) -> LeftoverMatch? {
+        let byName = matcher.match(fileName: name, kind: kind, at: url)
+        guard byName == nil || kind == .plugIns else { return byName }
+        // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
+        let declared = DeclaredIdentifier.of(url, kind: kind).flatMap { matcher.match(fileName: $0, kind: .elsewhere, at: url) }
+        guard let byName else { return declared }
+        guard let declared else { return byName.restsOnAName ? byName.atMost(.possible) : byName }
+        return declared.confidence >= byName.confidence ? declared : byName
     }
 
     /// True for a folder another installed app claims, or one Apple named for itself. A name found inside it

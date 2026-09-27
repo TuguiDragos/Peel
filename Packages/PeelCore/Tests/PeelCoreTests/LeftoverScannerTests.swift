@@ -683,7 +683,8 @@ struct LeftoverScannerTests {
         #expect(folder.match.heldBack == .holdsKeys)
     }
 
-    /// Plug-ins are found in the user's Library and the system's, including inside a vendor's own folder.
+    /// Plug-ins that declare the app's identifier are found in the user's Library and the system's, including inside
+    /// a vendor's own folder.
     @Test func findsThePlugInsAnAppInstalled() async throws {
         let directory = try TemporaryDirectory()
         let massive = InstalledApp(
@@ -691,9 +692,9 @@ struct LeftoverScannerTests {
             bundleIdentifier: "com.native-instruments.massive",
             name: "Massive"
         )
-        try directory.file("home/Library/Audio/Plug-Ins/VST3/Massive.vst3/Contents/Info.plist", bytes: 512)
-        try directory.file("root/Library/Audio/Plug-Ins/Components/Massive.component/Contents/Info.plist", bytes: 512)
-        try directory.file("root/Library/Audio/Plug-Ins/VST/Native Instruments/Massive.vst/Contents/Info.plist", bytes: 512)
+        try directory.file("home/Library/Audio/Plug-Ins/VST3/Massive.vst3/Contents/Info.plist", contents: plist("com.native-instruments.massive.vst3"))
+        try directory.file("root/Library/Audio/Plug-Ins/Components/Massive.component/Contents/Info.plist", contents: plist("com.native-instruments.massive.au"))
+        try directory.file("root/Library/Audio/Plug-Ins/VST/Native Instruments/Massive.vst/Contents/Info.plist", contents: plist("com.native-instruments.massive.vst"))
         try directory.file("root/Library/QuickLook/Somebody Else.qlgenerator/Contents/Info.plist", bytes: 512)
 
         let scan = await LeftoverScanner(environment: environment(in: directory)).scan(massive, installedApps: [massive])
@@ -726,6 +727,52 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.reason == .vendorPrefix)
         #expect(scan.leftovers.first?.match.confidence == .possible)
         #expect(scan.leftovers.first?.match.isRecommended == false)
+    }
+
+    /// Another maker's plug-in can do what the app is called: the identifier it declares is not the app's, so its
+    /// name makes it only possible, and inside a vendor's folder, where only a strong claim is taken, it is not listed.
+    @Test func anotherMakersPlugInWithTheAppsNameIsNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let compressor = InstalledApp(
+            url: URL(filePath: "/Applications/Compressor.app"),
+            bundleIdentifier: "net.example.compressor",
+            name: "Compressor"
+        )
+        let plugIns = "root/Library/Audio/Plug-Ins"
+        try directory.file("\(plugIns)/Components/Compressor.component/Contents/Info.plist", contents: plist("org.example.dynamics.compressor"))
+        try directory.file("\(plugIns)/VST3/Dynamics/Compressor.vst3/Contents/Info.plist", contents: plist("org.example.dynamics.compressor"))
+        try directory.file("\(plugIns)/VST3/Compressor.vst3/Contents/Info.plist", contents: plist("net.example.compressor.vst3"))
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(compressor, installedApps: [compressor])
+
+        let folder = directory.url.appending(path: plugIns).path(percentEncoded: false)
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+            (String($0.url.path(percentEncoded: false).dropFirst(folder.count + 1)), $0.match)
+        })
+        #expect(found.keys.sorted() == ["Components/Compressor.component", "VST3/Compressor.vst3"])
+        #expect(found["Components/Compressor.component"]?.confidence == .possible)
+        #expect(found["Components/Compressor.component"]?.isRecommended == false)
+        #expect(found["VST3/Compressor.vst3"]?.reason == .bundleIdentifierPrefix)
+        #expect(found["VST3/Compressor.vst3"]?.isRecommended == true)
+    }
+
+    /// A plug-in is claimed through the identifier it declares when that says more than its name, which may only
+    /// start with the app's or say nothing of it, inside a vendor's folder as well.
+    @Test func aPlugInsIdentifierOutweighsAWeakerName() async throws {
+        let directory = try TemporaryDirectory()
+        let tunewell = InstalledApp(
+            url: URL(filePath: "/Applications/Tunewell.app"),
+            bundleIdentifier: "net.example.tunewell",
+            name: "Tunewell"
+        )
+        let plugIns = "root/Library/Audio/Plug-Ins"
+        try directory.file("\(plugIns)/Components/Tunewell Reverb.component/Contents/Info.plist", contents: plist("net.example.tunewell.reverb"))
+        try directory.file("\(plugIns)/VST3/Example Audio/Space.vst3/Contents/Info.plist", contents: plist("net.example.tunewell.space"))
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+
+        #expect(Set(scan.leftovers.map(\.url.lastPathComponent)) == ["Tunewell Reverb.component", "Space.vst3"])
+        #expect(scan.leftovers.allSatisfy { $0.match.reason == .bundleIdentifierPrefix && $0.match.isRecommended })
     }
 
     /// A launchd job is named by whoever wrote it, so a job whose program sits inside the app is the app's,
