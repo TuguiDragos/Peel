@@ -8034,7 +8034,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiunta %@"
+            "value" : "Aggiunta: %@"
           }
         },
         "ja" : {
@@ -56367,7 +56367,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spostati nel Cestino %@, in data %@."
+            "value" : "Spostati nel Cestino in data %2$@ (%1$@)."
           }
         },
         "ja" : {
@@ -71487,7 +71487,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aperta %@"
+            "value" : "Ultima apertura: %@"
           }
         },
         "ja" : {
@@ -74566,7 +74566,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. L’ultima risposta è arrivata %@. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, e Peel chiede di nuovo alla prossima verifica."
+            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. Ultima risposta: %@. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, e Peel chiede di nuovo alla prossima verifica."
           }
         },
         "ja" : {
@@ -77640,7 +77640,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha visto %@ installata l’ultima volta %@"
+            "value" : "Ultima volta che Peel ha visto %@ installata: %@"
           }
         },
         "ja" : {
@@ -100746,7 +100746,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qualcosa ha scritto qui %@"
+            "value" : "Ultima scrittura qui: %@"
           }
         },
         "ja" : {
@@ -100858,7 +100858,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qualcosa ha scritto qui %@, dopo l’ultima volta che Peel ha visto %@ installata"
+            "value" : "Ultima scrittura qui: %@, dopo l’ultima volta che Peel ha visto %@ installata"
           }
         },
         "ja" : {
@@ -128271,7 +128271,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hai chiesto di spostare questi elementi %@, in data %@."
+            "value" : "Hai chiesto di spostare questi elementi in data %2$@ (%1$@)."
           }
         },
         "ja" : {
