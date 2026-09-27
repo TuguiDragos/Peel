@@ -114,7 +114,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".turbo", marker: "turbo.json", tool: "Turborepo", isGeneric: false),
             Kind(artifact: ".parcel-cache", marker: "package.json", tool: "Parcel", isGeneric: false),
             Kind(
-                artifact: "storybook-static", marker: ".storybook", markerIsAFolder: true, tool: "Storybook", isGeneric: false
+                artifact: "storybook-static", marker: ".storybook", markerIsAFolder: true, tool: "Storybook",
+                isGeneric: false
             ),
             Kind(artifact: "dist", marker: "vite.config.ts", tool: "Vite", isGeneric: true),
             Kind(artifact: "out", marker: "next.config.js", tool: "Next.js", isGeneric: true),
@@ -122,6 +123,49 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".cache", marker: "gatsby-config.ts", tool: "Gatsby", isGeneric: true),
             Kind(artifact: "public", marker: "gatsby-config.js", tool: "Gatsby", isGeneric: true),
         ])
+    }
+
+    @Test func findsWhatPythonToolsLeave() async throws {
+        try await expectFound([
+            Kind(artifact: ".pytest_cache", marker: "conftest.py", tool: "pytest", isGeneric: false),
+            Kind(artifact: ".mypy_cache", marker: "mypy.ini", tool: "mypy", isGeneric: false),
+            Kind(artifact: ".ruff_cache", marker: "ruff.toml", tool: "Ruff", isGeneric: false),
+            Kind(artifact: "htmlcov", marker: ".coveragerc", tool: "Coverage.py", isGeneric: false),
+            Kind(artifact: ".tox", marker: "tox.ini", tool: "tox", isGeneric: false, isEnvironment: true),
+            Kind(artifact: ".nox", marker: "noxfile.py", tool: "Nox", isGeneric: false, isEnvironment: true),
+            Kind(artifact: "dist", marker: "pyproject.toml", tool: "Python", isGeneric: true),
+        ])
+    }
+
+    @Test func findsPythonsCompiledFilesOnlyWhereThatIsAllThereIs() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("tool/app.py", bytes: 16)
+        try directory.file("tool/__pycache__/app.cpython-313.pyc", bytes: 400_000)
+        try directory.file("notes/__pycache__/app.cpython-313.pyc", bytes: 400_000)
+        try directory.file("notes/__pycache__/draft.txt", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)" } == ["tool/__pycache__"])
+        #expect(found.first?.tool == "Python")
+        #expect(found.first?.isRecommended == true)
+    }
+
+    @Test func findsAVirtualEnvironmentUnderAGenericNameOnlyByItsOwnFile() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/pyproject.toml", bytes: 16)
+        try directory.file("app/env/pyvenv.cfg", bytes: 16)
+        try directory.file("app/env/lib/site.py", bytes: 400_000)
+        try directory.file("other/pyproject.toml", bytes: 16)
+        try directory.file("other/env/production.env", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.project.lastPathComponent) == ["app"])
+        let environment = try #require(found.first)
+        #expect(environment.isEnvironment && environment.hasGenericName && !environment.isRecommended)
     }
 
     private func age(_ url: URL, days: Int) throws {
@@ -329,7 +373,7 @@ struct ProjectArtifactsTests {
     @Test func everyDefinitionNamesAMarkerAToolAndItsSource() {
         for definition in ProjectArtifacts.definitions {
             #expect(!definition.name.isEmpty)
-            #expect(!definition.markers.isEmpty, "\(definition.name) has no marker")
+            #expect(!definition.markers.isEmpty || definition.proof != nil, "\(definition.name) has no proof")
             #expect(!definition.tool.isEmpty)
             #expect(!definition.name.contains("/"))
             let isAPage = definition.source.hasPrefix("https://") && URL(string: definition.source)?.host() != nil

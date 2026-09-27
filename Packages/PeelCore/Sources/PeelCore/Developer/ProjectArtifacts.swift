@@ -50,6 +50,38 @@ public enum ProjectArtifacts {
         var isEnvironment = false
         /// Where the tool documents the folder: a page, or what Xcode itself prints.
         let source: String
+        /// What the folder holds that only its tool writes, for a kind no project file stands beside.
+        var proof: Proof?
+
+        /// Whether the folder at `url`, beside the entries called `names`, is this kind.
+        func matches(_ url: URL, besides names: Set<String>) -> Bool {
+            guard markers.isEmpty || ProjectArtifacts.marker(for: self, in: names) != nil else { return false }
+            return proof?.holds(at: url) ?? true
+        }
+    }
+
+    enum Proof: Sendable {
+        /// A file the tool always writes inside, as `venv` writes `pyvenv.cfg`.
+        case holds(String)
+        /// Nothing but files with this ending, as Python writes only compiled `.pyc` files into `__pycache__`.
+        case holdsOnlyFilesEnding(String)
+
+        func holds(at url: URL) -> Bool {
+            switch self {
+            case .holds(let name):
+                var info = stat()
+                let path = url.appending(path: name).path(percentEncoded: false)
+                return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFREG
+            case .holdsOnlyFilesEnding(let ending):
+                let entries = (try? FileManager.default.contentsOfDirectory(
+                    at: url, includingPropertiesForKeys: [.isRegularFileKey]
+                )) ?? []
+                return !entries.isEmpty && entries.allSatisfy { entry in
+                    entry.lastPathComponent.hasSuffix(ending)
+                        && (try? entry.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile) == true
+                }
+            }
+        }
     }
 
     private static let gradleFiles = ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"]
@@ -59,6 +91,10 @@ public enum ProjectArtifacts {
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
+    private static let pytestFiles = [
+        "pytest.toml", ".pytest.toml", "pytest.ini", ".pytest.ini", "pyproject.toml", "tox.ini", "setup.cfg",
+        "conftest.py",
+    ]
 
     static let definitions: [Definition] = [
         Definition(
@@ -171,6 +207,42 @@ public enum ProjectArtifacts {
             name: "venv", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
             source: "https://docs.python.org/3/library/venv.html"
         ),
+        Definition(
+            name: "env", markers: pythonProjectFiles, tool: "Python", isGeneric: true, isEnvironment: true,
+            source: "https://docs.python.org/3/library/venv.html", proof: .holds("pyvenv.cfg")
+        ),
+        Definition(
+            name: "__pycache__", markers: [], tool: "Python", isGeneric: false,
+            source: "https://docs.python.org/3/tutorial/modules.html", proof: .holdsOnlyFilesEnding(".pyc")
+        ),
+        Definition(
+            name: ".pytest_cache", markers: pytestFiles, tool: "pytest", isGeneric: false,
+            source: "https://docs.pytest.org/en/stable/how-to/cache.html"
+        ),
+        Definition(
+            name: ".mypy_cache", markers: ["mypy.ini", ".mypy.ini", "pyproject.toml", "setup.cfg"], tool: "mypy",
+            isGeneric: false, source: "https://mypy.readthedocs.io/en/stable/command_line.html"
+        ),
+        Definition(
+            name: ".ruff_cache", markers: ["pyproject.toml", "ruff.toml", ".ruff.toml"], tool: "Ruff", isGeneric: false,
+            source: "https://docs.astral.sh/ruff/settings/"
+        ),
+        Definition(
+            name: "htmlcov", markers: [".coveragerc", "pyproject.toml", "setup.cfg", "tox.ini"], tool: "Coverage.py",
+            isGeneric: false, source: "https://coverage.readthedocs.io/en/latest/config.html"
+        ),
+        Definition(
+            name: ".tox", markers: ["tox.ini", "tox.toml", "pyproject.toml", "setup.cfg"], tool: "tox",
+            isGeneric: false, isEnvironment: true, source: "https://tox.wiki/en/latest/reference/config.html"
+        ),
+        Definition(
+            name: ".nox", markers: ["noxfile.py"], tool: "Nox", isGeneric: false, isEnvironment: true,
+            source: "https://nox.thea.codes/en/stable/usage.html"
+        ),
+        Definition(
+            name: "dist", markers: ["pyproject.toml"], tool: "Python", isGeneric: true,
+            source: "https://packaging.python.org/en/latest/tutorials/packaging-projects/"
+        ),
     ]
 
     /// Duplicates uses it to recognize a project folder and leave it alone.
@@ -280,7 +352,7 @@ public enum ProjectArtifacts {
             var matching: [Definition] = []
             for definition in definitions where names.contains(definition.name) {
                 let url = folder.appending(path: definition.name)
-                guard isRealFolder(url), marker(for: definition, in: names) != nil else { continue }
+                guard isRealFolder(url), definition.matches(url, besides: names) else { continue }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 guard artifactNames.insert(definition.name).inserted else { continue }
                 matching.append(definition)
