@@ -420,18 +420,14 @@ struct UninstallCommand: AsyncParsableCommand {
         // Checked again: the scan and the question take time, and the app may have been opened meanwhile.
         try await Self.refuseWhileRunning(target, among: apps)
 
-        // Ctrl-C and SIGTERM are ignored until History is written: an interrupt after the first move would
-        // leave items in the Trash that History knows nothing about.
-        signal(SIGINT, SIG_IGN)
-        signal(SIGTERM, SIG_IGN)
-        // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
-        let reset = resetPrivacy ? await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier) : nil
+        let (reset, result, recorded) = await Uninterrupted.run {
+            // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
+            let reset = resetPrivacy ? await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier) : nil
+            let result = await plan.move(using: service)
+            let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
+            return (reset, result, await Removals.record(result, from: target.name, sizes: sizes, tool: "applications"))
+        }
         let privacy = reset.map { Self.privacyOutcome($0, app: target) }
-        let result = await plan.move(using: service)
-        let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
-        let recorded = await Removals.record(result, from: target.name, sizes: sizes, tool: "applications")
-        signal(SIGINT, SIG_DFL)
-        signal(SIGTERM, SIG_DFL)
 
         if output.json {
             let report = Self.report(app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable)

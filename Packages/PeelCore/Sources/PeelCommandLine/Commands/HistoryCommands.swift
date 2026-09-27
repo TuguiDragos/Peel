@@ -250,23 +250,19 @@ struct RestoreCommand: AsyncParsableCommand {
             try Output.confirm("Put \(Output.count(going.count, "item", "items")) back?")
         }
 
-        // Ctrl-C and SIGTERM are ignored until History is written: an interrupt after the first item goes back
-        // would leave History listing items as removed when they are already back in place.
-        signal(SIGINT, SIG_IGN)
-        signal(SIGTERM, SIG_IGN)
-        var restored: Set<UUID> = []
-        var failures: [(RemovalRecord, RestoreFailure)] = []
-        for record in going {
-            // `peel` never uses the helper: items that need administrator access are left for the Peel app.
-            if let failure = await service.restore(record.trashedItem, canUseHelper: false) {
-                failures.append((record, failure))
-            } else {
-                restored.insert(record.id)
+        let (restored, failures, forgotten) = await Uninterrupted.run {
+            var restored: Set<UUID> = []
+            var failures: [(RemovalRecord, RestoreFailure)] = []
+            for record in going {
+                // `peel` never uses the helper: items that need administrator access are left for the Peel app.
+                if let failure = await service.restore(record.trashedItem, canUseHelper: false) {
+                    failures.append((record, failure))
+                } else {
+                    restored.insert(record.id)
+                }
             }
+            return (restored, failures, await log.remove(restored).records != nil)
         }
-        let forgotten = await log.remove(restored).records != nil
-        signal(SIGINT, SIG_DFL)
-        signal(SIGTERM, SIG_DFL)
 
         Output.line("Put \(Output.count(restored.count, "item", "items")) back.")
         if !forgotten {

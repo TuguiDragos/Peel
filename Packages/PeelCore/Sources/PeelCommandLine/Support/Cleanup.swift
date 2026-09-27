@@ -91,23 +91,20 @@ struct Cleanup {
             try Output.confirm(question)
         }
 
-        // Ctrl-C and SIGTERM are ignored until History is written: an interrupt after the first move would
-        // leave items in the Trash that History knows nothing about.
-        signal(SIGINT, SIG_IGN)
-        signal(SIGTERM, SIG_IGN)
-        let result = await move(service, moving.map(\.url))
-        let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
-        let recorded = await Removals.record(
-            TrashResult(trashed: result.trashed, failures: result.failures + refused),
-            from: source,
-            key: sourceKey,
-            sizes: sizes,
-            tool: tool,
-            in: log,
-            refusals: refusals
-        )
-        signal(SIGINT, SIG_DFL)
-        signal(SIGTERM, SIG_DFL)
+        let (result, recorded) = await Uninterrupted.run {
+            let result = await move(service, moving.map(\.url))
+            let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
+            let recorded = await Removals.record(
+                TrashResult(trashed: result.trashed, failures: result.failures + refused),
+                from: source,
+                key: sourceKey,
+                sizes: sizes,
+                tool: tool,
+                in: log,
+                refusals: refusals
+            )
+            return (result, recorded)
+        }
 
         Output.line("Moved \(Output.count(result.trashed.count, "item", "items")) to the Trash.")
         if !recorded {
