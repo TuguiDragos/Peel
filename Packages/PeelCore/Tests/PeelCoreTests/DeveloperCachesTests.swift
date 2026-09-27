@@ -730,6 +730,18 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["cache", "build-cache"])
     }
 
+    @Test func offersTheImagesTartKeepsAndNeverItsMachines() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".tart/cache/OCIs/ghcr.io/cirruslabs/macos/disk.img", bytes: 400_000)
+        try directory.file(".tart/vms/builder/disk.img", bytes: 400_000)
+        let tart = DeveloperCaches.definitions.filter { $0.id == "tart" }
+
+        let locations = await DeveloperCaches.scan(tart, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["cache"])
+        #expect(locations.first?.kind == .downloads)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
