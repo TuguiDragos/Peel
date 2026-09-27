@@ -146,18 +146,25 @@ Peel itself is listed on its own page with what it keeps, and nothing of it can 
 apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.
 
 Never selected for you, even when found: Xcode's archives of the apps you built and the symbols it copied from your
-devices, both needed to read crash reports, model weights, installed packages and virtual environments, the
-installers and boxes a tool keeps for you to install again, `/Users/Shared` (it belongs to every account, not just
-yours), a project you worked on this week, a folder with a repository, a wallet, or a signing key inside, a folder
-macOS would not let Peel read, and a folder Peel could not measure in time. Those last two are shown with their size
-as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to read quickly may
-be exactly the one with work inside, and nothing is selected for you without saying how much it is. A total that
-leaves such a folder out reads "Over" what is known.
+devices, both needed to read crash reports, model weights, the packages a tool keeps installed outside your projects,
+virtual environments, the installers and boxes a tool keeps for you to install again, `/Users/Shared` (it belongs to
+every account, not just yours), a project you worked on this week, a folder with a repository, a wallet, or a signing
+key inside, a folder macOS would not let Peel read, and a folder Peel could not measure in time. Those last two are
+shown with their size as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to
+read quickly may be exactly the one with work inside, and nothing is selected for you without saying how much it is. A
+total that leaves such a folder out reads "Over" what is known.
 
 A repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`) is the one exception: the tool says it makes
 everything in there again. Swift Package Manager tags `.build`, where it clones a package's dependencies, and
 `swift package reset` deletes that folder whole, so Build Artifacts can still select it. Carthage's checkouts, which
 people commit in, carry no such tag and are never selected.
+
+Build Artifacts selects what a build or a package manager makes again from the project's own files, such as
+`DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
+includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
+`Podfile`. A Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into
+one by hand, and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing
+on its own, such as `target` or `build`, is listed and never selected either.
 
 Orphaned Files selects nothing for you, and its Select All and `peel orphans --remove` leave these folders out as
 well: one in `/Users/Shared`, one with a repository, a wallet, or a signing key inside, or one Peel could not read
