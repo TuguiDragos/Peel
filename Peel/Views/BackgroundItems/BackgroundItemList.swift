@@ -128,9 +128,9 @@ private struct BackgroundItemRow: View {
                     .lineLimit(1)
                     .truncationMode(.middle)
                 if item.isOrphan {
-                    Text("Nothing left to run")
+                    WarningLabel(title: Text("Nothing left to run"))
                         .font(.caption)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.secondary)
                         .lineLimit(1)
                 } else if let ownerName {
                     Group {

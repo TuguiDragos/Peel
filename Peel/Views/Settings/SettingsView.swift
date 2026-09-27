@@ -185,8 +185,7 @@ private struct GeneralSettingsView: View {
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel stays in the menu bar to do it.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
                     HStack {
-                        Label("Peel needs Full Disk Access to watch the Trash.", systemImage: "lock.trianglebadge.exclamationmark")
-                            .foregroundStyle(.orange)
+                        WarningLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
                         Spacer()
                         // Goes through `HomeModel`, so Home offers "Reopen Peel" afterward: Full Disk Access
                         // applies only to a process started after it is granted.
@@ -201,8 +200,7 @@ private struct GeneralSettingsView: View {
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
                 if needsApprovalToOpenAtLogin {
                     HStack {
-                        Label("Peel is turned off in Login Items & Extensions, so macOS won’t start it.", systemImage: "exclamationmark.triangle")
-                            .foregroundStyle(.orange)
+                        WarningLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
                         Spacer()
                         Button("Open System Settings") {
                             SMAppService.openSystemSettingsLoginItems()
@@ -210,8 +208,7 @@ private struct GeneralSettingsView: View {
                     }
                 }
                 if let loginItemFailure {
-                    Label(loginItemFailure, systemImage: "exclamationmark.triangle")
-                        .foregroundStyle(.orange)
+                    WarningLabel(title: Text(loginItemFailure))
                         .textSelection(.enabled)
                 }
             }

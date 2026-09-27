@@ -102,9 +102,15 @@ struct ToolSidebar: View {
                     Text(verbatim: "Peel")
                         .font(.callout.weight(.semibold))
                     if let update = library.newerPeel {
-                        Text("\(update.version) is out")
-                            .font(.caption)
-                            .foregroundStyle(.tint)
+                        Label {
+                            Text("\(update.version) is out")
+                        } icon: {
+                            Image(systemName: "arrow.down.circle.fill")
+                                .foregroundStyle(.tint)
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     } else {
                         Text(verbatim: AppVersion.display)
                             .font(.caption)
