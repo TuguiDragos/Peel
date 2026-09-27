@@ -10,6 +10,8 @@ struct CloudView: View {
     @Environment(HomeModel.self) private var home
     @State private var isConfirming = false
     @State private var freed: BarNotice?
+    /// What the last Remove Downloads left as it was, which an alert tells, since the list moves on without it.
+    @State private var leftAlone: LeftAlone?
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -22,6 +24,24 @@ struct CloudView: View {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
+
+            if !cloud.refusals.isEmpty {
+                Section {
+                    ForEach(cloud.refusals) { refusal in
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(refusal.url.abbreviatedPath)
+                                .font(.callout)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                            Text(refusal.explanation)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    heading("Still Here", "These were left as they are, with the reason beside each one.")
+                }
+            }
 
             if !listed.isEmpty {
                 Section {
@@ -52,24 +72,6 @@ struct CloudView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                }
-            }
-
-            if !cloud.refusals.isEmpty {
-                Section {
-                    ForEach(cloud.refusals) { refusal in
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(refusal.url.abbreviatedPath)
-                                .font(.callout)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                            Text(refusal.explanation)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                } header: {
-                    heading("Still Here", "These were left as they are, with the reason beside each one.")
                 }
             }
         }
@@ -134,6 +136,9 @@ struct CloudView: View {
             Button("Remove Downloads") {
                 Task {
                     let bytes = await cloud.freeSelected()
+                    if !cloud.refusals.isEmpty {
+                        leftAlone = LeftAlone(freed: bytes, refusals: cloud.refusals)
+                    }
                     guard bytes > 0 else { return }
                     freed = BarNotice(figure: bytes.byteCount, words: "Freed")
                     AccessibilityNotification.Announcement(AttributedString(localized: "Freed \(bytes.byteCount) on this Mac.")).post()
@@ -142,6 +147,15 @@ struct CloudView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This frees \(cloud.selectedSize.byteCount). Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them.")
+        }
+        .alert(
+            leftAlone?.freed == 0 ? Text("No downloads were removed.") : Text("Some downloads couldn’t be removed."),
+            isPresented: Binding(get: { leftAlone != nil }, set: { if !$0 { leftAlone = nil } }),
+            presenting: leftAlone
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { leftAlone in
+            Text(verbatim: leftAlone.message)
         }
         .task {
             guard cloud.files == nil, !cloud.isScanning, !cloud.scanRun.wasStopped else { return }
@@ -175,5 +189,22 @@ struct CloudView: View {
         } trailing: {
             TotalLabel(bytes: cloud.totalSize, caption: Text("on this Mac"))
         }
+    }
+}
+
+/// The files one Remove Downloads left as they were, and what it freed.
+private struct LeftAlone {
+    let freed: Int64
+    let refusals: [CloudRefusal]
+
+    /// The first few files with the reason each stayed, as the alert after a removal lists them. Still Here, at the
+    /// top of the page, lists them all.
+    var message: String {
+        var lines = refusals.prefix(RemovalFailureAlert.mostListed).map { "\($0.url.abbreviatedPath)\n\($0.explanation)" }
+        let rest = refusals.count - lines.count
+        if rest > 0 {
+            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
+        }
+        return lines.joined(separator: "\n\n")
     }
 }

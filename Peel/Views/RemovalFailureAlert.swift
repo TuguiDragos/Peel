@@ -7,7 +7,7 @@ import SwiftUI
 /// alerts cannot be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
-    private static let mostListed = 4
+    static let mostListed = 4
 
     @Environment(RemovalOutcome.self) private var outcome
     @Environment(\.openSettings) private var openSettings
