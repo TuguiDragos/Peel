@@ -470,7 +470,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
         let rejected = urls.filter { !finder.canScan($0) }
         guard rejected.isEmpty else {
-            throw ValidationError("Peel can't scan \(rejected.map(Output.path).joined(separator: ", ")). Choose folders in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive, app data, the Music and TV apps' media folders, and system folders aren't scanned.")
+            throw ValidationError("Peel can't scan \(rejected.map(Output.path).joined(separator: ", ")). Choose folders in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive, app data, the Music and TV apps' media folders, apps and other packages, and system folders aren't scanned.")
         }
     }
 

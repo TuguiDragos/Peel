@@ -165,7 +165,7 @@ struct FolderDuplicates: Sendable {
                     entry,
                     identity: FileIdentity(info),
                     depth: depth + 1,
-                    isNeverOffered: isNeverOffered || Self.isAPackage(entry),
+                    isNeverOffered: isNeverOffered || DuplicateFinder.isAPackage(entry),
                     onListing: onListing
                 )
                 guard !child.isProject else {
@@ -305,11 +305,6 @@ struct FolderDuplicates: Sendable {
     private static func reclaimable(_ folder: Folder) -> Int64 {
         folder.files.reduce(0) { $0 + ReclaimableSpace.of(folder.url.appending(path: $1.name)) }
             + folder.children.reduce(0) { $0 + reclaimable($1.folder) }
-    }
-
-    /// Whether `url` is a package, such as an app.
-    private static func isAPackage(_ url: URL) -> Bool {
-        (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) == true
     }
 
     private static func files(in folders: [Folder]) -> [(url: URL, identity: FileIdentity)] {

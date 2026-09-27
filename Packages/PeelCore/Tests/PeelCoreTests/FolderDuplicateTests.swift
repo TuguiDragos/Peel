@@ -307,6 +307,22 @@ struct FolderDuplicateTests {
         #expect(names(try await scan(directory)) == [])
     }
 
+    /// A package chosen to be scanned, or a folder inside one, is not looked into at all, and says so: nothing inside
+    /// it, folder or file, is offered.
+    @Test func neverScansAChosenPackage() async throws {
+        let directory = try TemporaryDirectory()
+        let binary = randomData(count: 4_000)
+        for app in ["home/Documents/Tool.app", "home/Pictures/Tool.app"] {
+            try directory.file("\(app)/Contents/MacOS/Tool", contents: binary)
+        }
+
+        let chosen = ["home/Documents/Tool.app", "home/Pictures/Tool.app/Contents"]
+        let result = try await scan(directory, folders: chosen)
+        #expect(names(result) == [])
+        #expect(result.groups.isEmpty)
+        #expect(result.skippedLocations.map(\.lastPathComponent) == ["Tool.app", "Contents"])
+    }
+
     @Test func anEmptyFolderIsNoCopyOfAnything() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Documents/Empty")

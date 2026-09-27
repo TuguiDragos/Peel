@@ -34,7 +34,7 @@ public struct DuplicateFinder: Sendable {
     public func canScan(_ folder: URL) -> Bool {
         let path = Self.path(of: folder.resolvingSymlinksInPath())
         let home = Self.path(of: homeDirectory)
-        guard !ProtectedData.refuses(path, home: home), !Self.isInTheCloud(folder) else { return false }
+        guard !ProtectedData.refuses(path, home: home), !Self.isInTheCloud(folder), !Self.isInsideAPackage(folder) else { return false }
         if path.isInside(home) {
             return !Self.managedFolders.contains { path.isInside(home + "/" + $0) }
         }
@@ -49,6 +49,22 @@ public struct DuplicateFinder: Sendable {
     /// from every device.
     static func isInTheCloud(_ url: URL) -> Bool {
         (try? url.resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
+    }
+
+    /// Whether `url` is a package, such as an app.
+    static func isAPackage(_ url: URL) -> Bool {
+        (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) == true
+    }
+
+    /// Whether `url` is a package or sits inside one. What is inside a package belongs to it and is never a copy to
+    /// offer, and nothing here checks whether an app is running.
+    static func isInsideAPackage(_ url: URL) -> Bool {
+        var folder = url.standardizedFileURL
+        while folder.pathComponents.count > 1 {
+            if isAPackage(folder) { return true }
+            folder = folder.deletingLastPathComponent()
+        }
+        return false
     }
 
     /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
