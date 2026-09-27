@@ -663,6 +663,18 @@ struct DeveloperCachesTests {
         #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Pipe.xcarchive")) == nil)
     }
 
+    @Test func offersEveryCacheHomebrewNamesAndNeverItsCopyOfTheDefinitions() async throws {
+        let directory = try TemporaryDirectory()
+        for folder in ["glide_home", "api-source", "gh-actions-artifact", "go_cache", "api"] {
+            try directory.file("Library/Caches/Homebrew/\(folder)/data", bytes: 400_000)
+        }
+        let homebrew = DeveloperCaches.definitions.filter { $0.id == "homebrew" }
+
+        let offered = await DeveloperCaches.scan(homebrew, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(offered.map(\.url.lastPathComponent)) == ["glide_home", "api-source", "gh-actions-artifact", "go_cache"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

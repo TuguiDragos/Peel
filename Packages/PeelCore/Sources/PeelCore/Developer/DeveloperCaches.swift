@@ -284,7 +284,10 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Homebrew/downloads", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/download_strategy/abstract_file_download_strategy.rb#L42"),
             Folder("Library/Caches/Homebrew/Cask", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/cask/cache.rb#L9"),
             Folder("Library/Caches/Homebrew/bootsnap", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/startup/bootsnap.rb#L45"),
-            Folder("Library/Caches/Homebrew/*_cache", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/package_manager_cache.rb#L5-L27"),
+            Folder("Library/Caches/Homebrew/*_cache", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/package_manager_cache.rb#L8-L27"),
+            Folder("Library/Caches/Homebrew/glide_home", .cache, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/package_manager_cache.rb#L15"),
+            Folder("Library/Caches/Homebrew/api-source", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/api.rb#L26"),
+            Folder("Library/Caches/Homebrew/gh-actions-artifact", .downloads, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/utils/github/artifacts/github_artifact_download_strategy.rb#L9"),
             Folder("Library/Logs/Homebrew", .logs, source: "https://github.com/Homebrew/brew/blob/main/Library/Homebrew/utils/os.sh#L55-L56"),
         ]),
         Definition(id: "swiftlint", name: "SwiftLint", systemImage: "swift", appBundleIdentifiers: [], folders: [
