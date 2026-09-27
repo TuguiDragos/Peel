@@ -18,8 +18,7 @@ public enum BackgroundItemActions {
     /// would reach macOS's own job. The helper refuses one for a daemon, and the same answer holds here for an
     /// agent, which `launchctl` runs without the helper.
     static func refusal(for item: BackgroundItem) -> Failure? {
-        let usesMacOSsLabel = item.declaresAnAppleLabel || SystemDaemons.shipped.contains(item.label) || SystemAgents.shipped.contains(item.label)
-        return usesMacOSsLabel ? .launchctl(HelperRefusal.invalidRequest.rawValue) : nil
+        item.usesALabelOfMacOS ? .launchctl(HelperRefusal.invalidRequest.rawValue) : nil
     }
 
     @concurrent

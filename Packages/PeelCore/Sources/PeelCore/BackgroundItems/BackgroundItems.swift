@@ -115,9 +115,9 @@ public enum BackgroundItems {
         var items: [BackgroundItem] = []
         for (folder, kind, source) in folders {
             for plist in plists(in: folder) where !exclusions.excludes(plist) {
-                // Skips a job with the label of one of macOS's own daemons. Any other `com.apple.` label is kept
-                // and shown, because a made-up Apple label is a common way to disguise a job.
-                guard let job = JobDefinition(contentsOf: plist), !SystemDaemons.shipped.contains(job.label), !SystemAgents.shipped.contains(job.label) else { continue }
+                // A label of macOS's own is shown too, and marked (`usesALabelOfMacOS`): macOS keeps its jobs
+                // elsewhere, so a file here that borrows one is somebody else's, and a common way to hide a job.
+                guard let job = JobDefinition(contentsOf: plist) else { continue }
                 let owner = ownership.owner(label: job.label, associated: job.associated, program: job.program)
                 items.append(BackgroundItem(
                     label: job.label,

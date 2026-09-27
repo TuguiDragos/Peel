@@ -120581,6 +120581,112 @@
         }
       }
     },
+    "This uses the name of one of macOS’s jobs" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá název jedné z úloh systému macOS"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Objekt verwendet den Namen eines Jobs von macOS"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el nombre de una de las tareas de macOS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément utilise le nom d’une tâche de macOS"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il nome di uno degli elementi di macOS"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS固有のジョブの名前を使用しています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS의 작업 이름 중 하나를 사용하는 항목입니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit gebruikt de naam van een taak van macOS"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz używa nazwy jednego z zadań macOS"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este item usa o nome de uma das tarefas do macOS"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acesta folosește numele uneia dintre sarcinile macOS"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот объект использует имя одного из заданий macOS"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här använder namnet på ett av macOS egna jobb"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, macOS’in işlerinden birinin adını kullanıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей елемент використовує назву одного із завдань macOS"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此项使用了macOS某个任务的名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此項目使用macOS某個工作的名稱"
+          }
+        }
+      }
+    },
     "Time Machine already leaves out some of these, through a folder above them or a rule of its own, so that part isn’t Peel’s to change." : {
       "localizations" : {
         "cs" : {
@@ -149228,6 +149334,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS回報：%@"
+          }
+        }
+      }
+    },
+    "macOS runs a job by this name, but it didn’t install this file, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS spouští úlohu s tímto názvem, ale tento soubor nenainstaloval, a proto ji tu Peel nespouští, nezastavuje ani neodstraňuje. Podívejte se do souboru, abyste zjistili, co ji tam umístilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt einen Job mit diesem Namen aus, hat diese Datei aber nicht installiert, daher startet, stoppt oder entfernt Peel ihn hier nicht. Sieh in der Datei nach, welche Software sie dort abgelegt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ejecuta una tarea con este nombre, pero no instaló este archivo, así que aquí Peel no la inicia, no la detiene ni la elimina. Mira el archivo para saber qué lo puso ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS exécute une tâche portant ce nom, mais ce n’est pas macOS qui a installé ce fichier : Peel ne la démarre donc pas, ne l’arrête pas et ne la supprime pas ici. Examinez le fichier pour savoir ce qui l’a placé là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS esegue un elemento con questo nome, ma non ha installato questo file, quindi qui Peel non lo avvia, non lo interrompe e non lo rimuove. Guarda il file per capire cosa l’ha messo lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこの名前のジョブを実行しますが、このファイルはmacOSがインストールしたものではないため、Peelはここで開始、停止、ゴミ箱への移動を行いません。何がこれを置いたのかは、ファイルを見て確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 이름으로 작업을 실행하지만 이 파일은 macOS가 설치한 것이 아니므로 Peel은 여기에서 이 항목을 시작, 중단 또는 제거하지 않습니다. 무엇이 이 항목을 넣어 두었는지 파일을 살펴보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert een taak met deze naam uit, maar heeft dit bestand niet geïnstalleerd, dus Peel start, stopt of verwijdert het hier niet. Bekijk het bestand om te zien welke software het daar heeft neergezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia zadanie o tej nazwie, ale nie zainstalował tego pliku, więc Peel go tutaj nie uruchamia, nie zatrzymuje ani nie przenosi do Kosza. Zajrzyj do pliku, aby sprawdzić, co go tam umieściło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS executa uma tarefa com este nome, mas não foi ele que instalou este arquivo, por isso o Peel não a inicia, não a interrompe nem a remove aqui. Veja no arquivo o que o colocou ali."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rulează o sarcină cu acest nume, dar nu a instalat acest fișier, așa că Peel nu o pornește, nu o oprește și nu o elimină de aici. Examinați fișierul pentru a vedea ce l‑a pus acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает задание с таким именем, но этот файл установила не она, поэтому Peel здесь не запускает, не останавливает и не удаляет его. Загляните в файл, чтобы узнать, что его туда поместило."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör ett jobb med det här namnet, men har inte installerat den här filen, så Peel varken startar, stoppar eller tar bort det här. Titta i filen för att se vad som har lagt den där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu adla bir iş çalıştırıyor ama bu dosyayı kendisi yüklemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz veya kaldırmaz. Onu oraya neyin koyduğunu görmek için dosyaya bakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS виконує завдання з такою назвою, але цей файл вона не інсталювала, тож Peel тут його не запускає, не зупиняє й не вилучає. Перегляньте файл, щоб дізнатися, що його туди поклало."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS会运行使用此名称的任务，但此文件并非由macOS安装，因此Peel不会在此处启动、停止或移除它。请查看该文件，了解是什么将它放到了那里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會執行使用此名稱的工作，但這個檔案不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
           }
         }
       }

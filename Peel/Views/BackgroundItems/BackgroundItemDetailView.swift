@@ -103,6 +103,14 @@ struct BackgroundItemDetailView: View {
                         kind: .caution
                     ) {}
                 }
+            } else if item.usesALabelOfMacOS {
+                Section {
+                    Notice(
+                        title: Text("This uses the name of one of macOS’s jobs"),
+                        detail: Text("macOS runs a job by this name, but it didn’t install this file, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there."),
+                        kind: .caution
+                    ) {}
+                }
             }
 
             if item.state == .unknown {
@@ -159,9 +167,9 @@ struct BackgroundItemDetailView: View {
     }
 
     /// Whether this item needs administrator access while the helper can't act. Never true for Peel's own helper
-    /// or a job with an Apple label: neither offers an action, so the helper would change nothing.
+    /// or a job under one of macOS's labels: neither offers an action, so the helper would change nothing.
     private var needsHelper: Bool {
-        !item.isPeelsHelper && !item.declaresAnAppleLabel && (item.requiresPrivileges || item.removalRequiresPrivileges) && !helper.canAct
+        !item.isPeelsHelper && !item.usesALabelOfMacOS && (item.requiresPrivileges || item.removalRequiresPrivileges) && !helper.canAct
     }
 
     private var finderURL: URL? {
@@ -251,10 +259,10 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of Apple's names, and a job whose
+    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of macOS's labels, and a job whose
     /// state Peel could not read don't have.
     private var hasOwnControls: Bool {
-        !item.isPeelsHelper && !item.declaresAnAppleLabel && item.state != .unknown
+        !item.isPeelsHelper && !item.usesALabelOfMacOS && item.state != .unknown
     }
 
     private var controls: some View {

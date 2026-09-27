@@ -47,11 +47,17 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// installed and uninstalled only from Peel's Settings.
     public var isPeelsHelper: Bool { kind == .daemon && label == HelperIdentity.helperIdentifier }
 
-    /// True when the label starts with `com.apple.`. The scan leaves out the labels of macOS's own daemons, so a
-    /// listed job with an Apple label did not come with macOS. Peel shows it and never acts on it.
+    /// True when the label starts with `com.apple.`.
     public var declaresAnAppleLabel: Bool { label.hasPrefix("com.apple.") }
+
+    /// True when the label is Apple's, or one macOS gives a job of its own. macOS keeps its jobs under
+    /// `/System/Library` and `/Library/Apple/System/Library`, never where the scan reads, so a listed job with
+    /// such a label did not come with macOS. Peel shows it and never acts on it.
+    public var usesALabelOfMacOS: Bool {
+        declaresAnAppleLabel || SystemDaemons.shipped.contains(label) || SystemAgents.shipped.contains(label)
+    }
 
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }
 
-    public var canMoveToTrash: Bool { source != .app && plistURL != nil && !declaresAnAppleLabel }
+    public var canMoveToTrash: Bool { source != .app && plistURL != nil && !usesALabelOfMacOS }
 }

@@ -128,26 +128,32 @@ struct DeclaredBackgroundItemsTests {
         )
     }
 
-    @Test func readsTheJobEachFileDeclaresAndLeavesApplesOwnToMacOS() throws {
+    /// macOS keeps its own jobs under `/System/Library` and `/Library/Apple/System/Library`, so a file in these
+    /// folders that uses one of their labels, or any `com.apple.` label, is not macOS's. A label names a job only
+    /// in its own domain, so such a copy runs beside the real one: it is listed, marked, and never acted on.
+    @Test func showsAJobThatBorrowsALabelOfMacOSAndActsOnNone() throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/updater.plist", contents: job("com.example.agent", program: "/bin/sh"))
         try directory.file("root/Library/LaunchDaemons/com.example.helper.plist", contents: job("com.example.helper"))
-        // A label nobody but Apple should use, on a file macOS did not install: shown, and nothing acts on it.
         try directory.file("root/Library/LaunchDaemons/apple.plist", contents: job("com.apple.madeup.peeltest"))
-        // A label macOS itself declares is left out.
-        let shipped = try #require(SystemDaemons.shipped.first { $0.hasPrefix("com.apple.") })
-        try directory.file("root/Library/LaunchDaemons/shipped.plist", contents: job(shipped))
-        // So is a label one of macOS's own agents declares, whatever it says.
+        let shipped = try #require(SystemDaemons.shipped.first { !$0.hasPrefix("com.apple.") })
+        try directory.file("home/Library/LaunchAgents/daemon.plist", contents: job(shipped))
         try directory.file("home/Library/LaunchAgents/ssh.plist", contents: job("com.openssh.ssh-agent"))
         try directory.file("home/Library/LaunchAgents/unnamed.plist", contents: Data())
         try directory.file("home/Library/LaunchAgents/notes.txt")
 
         let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []))
 
-        #expect(items.map(\.label).sorted() == ["com.apple.madeup.peeltest", "com.example.agent", "com.example.helper"])
-        let impostor = try #require(items.first { $0.declaresAnAppleLabel })
-        #expect(!impostor.canMoveToTrash)
-        #expect(items.first { $0.label == "com.example.agent" }?.canMoveToTrash == true)
+        #expect(items.map(\.label).sorted() == ["com.apple.madeup.peeltest", "com.example.agent", "com.example.helper", "com.openssh.ssh-agent", shipped].sorted())
+        for borrowed in items where borrowed.label != "com.example.agent" && borrowed.label != "com.example.helper" {
+            #expect(borrowed.usesALabelOfMacOS, "\(borrowed.label)")
+            #expect(!borrowed.canMoveToTrash, "\(borrowed.label)")
+            #expect(BackgroundItemActions.refusal(for: borrowed) != nil, "\(borrowed.label)")
+        }
+        let own = try #require(items.first { $0.label == "com.example.agent" })
+        #expect(!own.usesALabelOfMacOS)
+        #expect(own.canMoveToTrash)
+        #expect(BackgroundItemActions.refusal(for: own) == nil)
     }
 
     /// One label declared in two folders is two files, and each row opens its own.
