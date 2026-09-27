@@ -94,13 +94,13 @@ struct SearchingTests {
     /// File Search is for finding what the user made. What an app keeps in a Library folder is listed last and
     /// never selected, and Duplicates skips those folders for the same reason.
     @Test func marksWhatAnAppKeepsForItself() {
-        let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
+        let appData = FileSearch.AppDataFolders(home: URL(filePath: "/Users/x", directoryHint: .isDirectory))
 
-        #expect(FileSearch.isAppData(URL(filePath: "/Users/x/Library/Application Support/Thing/data.db"), home: home))
-        #expect(FileSearch.isAppData(URL(filePath: "/Library/Application Support/Thing/data.db"), home: home))
-        #expect(FileSearch.isAppData(URL(filePath: "/System/Library/Fonts/Helvetica.ttc"), home: home))
-        #expect(!FileSearch.isAppData(URL(filePath: "/Users/x/Documents/Letter.pages"), home: home))
-        #expect(!FileSearch.isAppData(URL(filePath: "/Users/x/Librarything/notes.txt"), home: home))
+        #expect(appData.holds("/Users/x/Library/Application Support/Thing/data.db"))
+        #expect(appData.holds("/Library/Application Support/Thing/data.db"))
+        #expect(appData.holds("/System/Library/Fonts/Helvetica.ttc"))
+        #expect(!appData.holds("/Users/x/Documents/Letter.pages"))
+        #expect(!appData.holds("/Users/x/Librarything/notes.txt"))
     }
 
     /// A result list can be open for hours. A file written again under the same name is another file, and the

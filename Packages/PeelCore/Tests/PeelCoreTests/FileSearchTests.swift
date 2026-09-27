@@ -8,11 +8,11 @@ struct FileSearchTests {
     /// What an app keeps in a Library folder is listed last and never selected by Select All, whatever its name
     /// begins with: to a comparison of characters, a name beginning with a combining mark was outside its folder.
     @Test func whatSitsInALibraryFolderIsAppDataWhateverItsNameBeginsWith() {
-        let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
+        let appData = FileSearch.AppDataFolders(home: URL(filePath: "/Users/x", directoryHint: .isDirectory))
 
-        #expect(FileSearch.isAppData(URL(filePath: "/Users/x/Library/\u{301}cache.db"), home: home))
-        #expect(FileSearch.isAppData(URL(filePath: "/Library/\u{301}cache.db"), home: home))
-        #expect(!FileSearch.isAppData(URL(filePath: "/Users/x/Libraryish/cache.db"), home: home))
+        #expect(appData.holds("/Users/x/Library/\u{301}cache.db"))
+        #expect(appData.holds("/Library/\u{301}cache.db"))
+        #expect(!appData.holds("/Users/x/Libraryish/cache.db"))
     }
 
     /// A search is stopped like any scan: it comes back at once and reads nothing more.

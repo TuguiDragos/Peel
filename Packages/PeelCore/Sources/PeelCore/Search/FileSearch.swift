@@ -1,6 +1,7 @@
 import CoreServices
 import Darwin
 public import Foundation
+import Synchronization
 import UniformTypeIdentifiers
 internal import PeelPrivileged
 
@@ -110,35 +111,35 @@ public enum FileSearch {
         isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
     ) -> FileSearchResults {
         let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
-        var candidates: [(url: URL, info: stat, belongsToAnApp: Bool)] = []
+        let appData = AppDataFolders(home: environment.homeDirectory)
+        var candidates: [(path: String, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
             guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, holdsItsContentsHere(info) else { continue }
-            let url = URL(filePath: path)
-            candidates.append((url, info, isAppData(url, home: environment.homeDirectory)))
+            candidates.append((path, info, appData.holds(path)))
         }
         // In the list's order before the guard is asked, so it is asked only about files that can make the list.
         // What an app keeps for itself goes last: the tool is for finding what the user made.
         candidates.sort {
             if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
-            return $0.info.st_size != $1.info.st_size
-                ? $0.info.st_size > $1.info.st_size
-                : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            return $0.info.st_size != $1.info.st_size ? $0.info.st_size > $1.info.st_size : $0.path < $1.path
         }
         var results = FileSearchResults()
-        for candidate in candidates where allows(candidate.url) {
+        for candidate in candidates {
+            let url = URL(filePath: candidate.path)
+            guard allows(url) else { continue }
             guard results.files.count < maximumResults else {
                 results.isTruncated = true
                 break
             }
             results.files.append(FoundFile(
-                url: candidate.url,
+                url: url,
                 size: Int64(candidate.info.st_size),
                 modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
-                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(candidate.url),
+                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                 belongsToAnApp: candidate.belongsToAnApp,
-                isInTheCloud: isInTheCloud(candidate.url),
+                isInTheCloud: isInTheCloud(url),
                 identity: FileIdentity(candidate.info)
             ))
         }
@@ -151,12 +152,20 @@ public enum FileSearch {
         info.st_flags & UInt32(SF_DATALESS) == 0
     }
 
-    /// Returns whether `url` is inside the Library folder in `home`, `/Library`, or `/System/Library`, where apps
-    /// keep the data they work with.
-    static func isAppData(_ url: URL, home: URL) -> Bool {
-        let path = PathPattern.comparablePath(of: url)
-        return [PathPattern.comparablePath(of: home) + "/Library", "/Library", "/System/Library"].contains {
-            PathComponents.isPath(path, inside: $0)
+    /// The Library folder in the home folder, `/Library`, and `/System/Library`, where apps keep the data they work
+    /// with. Each folder's names are read once, since a wide search asks about hundreds of thousands of paths.
+    struct AppDataFolders {
+        private let folders: [[String]]
+
+        init(home: URL) {
+            let library = PathPattern.comparablePath(of: home) + "/Library"
+            folders = [library, "/Library", "/System/Library"].map(PathComponents.of)
+        }
+
+        /// Whether `path` sits inside one of the folders, compared name by name as `PathComponents` does.
+        func holds(_ path: String) -> Bool {
+            let names = PathComponents.of(path)
+            return folders.contains { names.count > $0.count && names.starts(with: $0) }
         }
     }
 
@@ -227,6 +236,8 @@ private final class SpotlightGathering: @unchecked Sendable {
     private var continuation: CheckedContinuation<[String]?, Never>?
     private var observer: (any NSObjectProtocol)?
     private var isOver = false
+    /// Set as soon as the task is canceled, not on `queue`, where the cancel would wait behind the reading of paths.
+    private let isCanceled = Atomic(false)
 
     init(_ query: MDQuery) {
         self.query = query
@@ -238,6 +249,7 @@ private final class SpotlightGathering: @unchecked Sendable {
                 queue.async { self.start(continuation) }
             }
         } onCancel: {
+            isCanceled.store(true, ordering: .relaxed)
             queue.async { self.end(with: nil) }
         }
     }
@@ -259,13 +271,19 @@ private final class SpotlightGathering: @unchecked Sendable {
     }
 
     /// Reads each result's path from the result itself, since a query's value lists never carry `kMDItemPath`.
-    private func foundPaths() -> [String] {
+    /// Nil once the task is canceled.
+    private func foundPaths() -> [String]? {
         MDQueryDisableUpdates(query)
-        return (0..<MDQueryGetResultCount(query)).compactMap { index in
-            guard let pointer = MDQueryGetResultAtIndex(query, index) else { return nil }
+        var paths: [String] = []
+        for index in 0..<MDQueryGetResultCount(query) {
+            if index.isMultiple(of: 256), isCanceled.load(ordering: .relaxed) { return nil }
+            guard let pointer = MDQueryGetResultAtIndex(query, index) else { continue }
             let item = Unmanaged<MDItem>.fromOpaque(pointer).takeUnretainedValue()
-            return MDItemCopyAttribute(item, kMDItemPath) as? String
+            if let path = MDItemCopyAttribute(item, kMDItemPath) as? String {
+                paths.append(path)
+            }
         }
+        return paths
     }
 
     /// Stops the query and answers the waiting task, once.
