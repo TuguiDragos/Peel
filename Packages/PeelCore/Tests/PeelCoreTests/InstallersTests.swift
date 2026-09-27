@@ -114,6 +114,16 @@ struct InstallersTests {
         #expect(installers.allSatisfy { !$0.isReadOnly })
     }
 
+    @Test func findsADiskImageInTheISOFormat() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/ubuntu-24.04-desktop-arm64.iso", bytes: 400_000)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000)
+
+        #expect(scan.items(in: .appInstaller).map(\.name) == ["ubuntu-24.04-desktop-arm64.iso"])
+    }
+
     /// macOS asks before an app reads Downloads, Desktop, or Documents. A folder it refused is named, never read as
     /// holding no installers.
     @Test func namesTheFoldersMacOSWouldNotLetItRead() async throws {

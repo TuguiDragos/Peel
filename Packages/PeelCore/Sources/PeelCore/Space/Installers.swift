@@ -59,7 +59,7 @@ public enum Installers {
 
     /// `xip` is Apple's own archive format, which Xcode ships in. `zip` is not listed, since a zip file can hold
     /// anything: `appInside(zip:)` decides about each one.
-    static let installerExtensions: Set<String> = ["dmg", "pkg", "mpkg", "xip"]
+    static let installerExtensions: Set<String> = ["dmg", "iso", "pkg", "mpkg", "xip"]
     static let firmwareExtensions: Set<String> = ["ipsw"]
 
     @concurrent
