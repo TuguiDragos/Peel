@@ -93,6 +93,8 @@ public enum PreferenceBackup {
         case incomplete(clearedSome: Bool)
         /// The settings the app has now could not be saved, so nothing was cleared or put back.
         case notSaved
+        /// The app was open, and would write its own settings over the copy, so nothing was cleared or put back.
+        case appIsOpen
 
         public var isComplete: Bool {
             if case .complete = self { true } else { false }
@@ -101,17 +103,19 @@ public enum PreferenceBackup {
 
     /// Puts the domains saved in `folder` back with `defaults import`, once the settings the app has now are saved
     /// in `directory` as a copy of their own: what it set since, a license entered again or an account, would
-    /// otherwise be gone. The app must not be running, or it overwrites them. `defaults import` merges rather than
+    /// otherwise be gone. `isOpen` tells whether the app runs, which would overwrite them: it is asked before
+    /// anything and again right before the settings in use are cleared. `defaults import` merges rather than
     /// replaces, so each domain is deleted first.
     @concurrent
     public static func restore(
         from folder: URL,
         of bundleIdentifier: String,
         in directory: URL = PreferenceBackup.defaultDirectory,
-        exclusions: Exclusions = .none
+        exclusions: Exclusions = .none,
+        isOpen: @Sendable () async -> Bool
     ) async -> Restored {
         let service = TrashService(exclusions: exclusions)
-        return await restore(from: folder, of: bundleIdentifier, in: directory, through: service, run: run)
+        return await restore(from: folder, of: bundleIdentifier, in: directory, through: service, run: run, isOpen: isOpen)
     }
 
     static func restore(
@@ -119,8 +123,10 @@ public enum PreferenceBackup {
         of bundleIdentifier: String,
         in directory: URL,
         through service: TrashService,
-        run: Run
+        run: Run,
+        isOpen: @Sendable () async -> Bool
     ) async -> Restored {
+        guard await !isOpen() else { return .appIsOpen }
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
         let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in domain(from: file.lastPathComponent).map { ($0, file) } }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
@@ -129,6 +135,7 @@ public enum PreferenceBackup {
         guard !readable.isEmpty else { return .incomplete(clearedSome: false) }
         let current = await save(readable.map(\.0), of: bundleIdentifier, in: directory, through: service, run: run)
         guard current != .failed else { return .notSaved }
+        guard await !isOpen() else { return .appIsOpen }
         var clearedSome = false
         for (domain, file) in readable {
             _ = await run(domain.command("delete"))

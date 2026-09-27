@@ -114,14 +114,14 @@ final class ResetPlan {
         return result
     }
 
-    /// Puts the saved settings back. Refused while the app is running, since it would write its own settings
-    /// over them.
-    func putSettingsBack() async -> Bool {
-        refreshRunningState()
-        guard let backup, !isAppRunning else { return false }
-        return await QuitGuard.shared.run {
-            await PreferenceBackup.restore(from: backup, of: app.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions)
-        }.isComplete
+    /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.
+    func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
+        await QuitGuard.shared.run {
+            await PreferenceBackup.restore(from: backup, of: app.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions) { @MainActor in
+                self.refreshRunningState()
+                return self.isAppRunning
+            }
+        }
     }
 
     /// Quits the app and the helpers it ships, so nothing writes its settings again while they are cleared.

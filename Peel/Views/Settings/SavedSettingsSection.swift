@@ -106,17 +106,14 @@ struct SavedSettingsSection: View {
     }
 
     private func putBack(_ copy: PreferenceBackup.Copy, named name: String) async {
-        // Asked again at the moment of Put Back: an app opened since the row was drawn would write its own settings
-        // over these when it quits.
-        refreshOpenApps()
-        guard !openApps.contains(copy.bundleIdentifier) else {
-            failure = Failure(title: String(localized: "Quit \(name) first, or it can write its own settings over these."), message: "")
-            return
-        }
         workingOn = copy.id
         defer { workingOn = nil }
+        // Asked again at the moment of Put Back and before the settings in use are cleared: an app opened since the
+        // row was drawn would write its own settings over these when it quits.
         let restored = await QuitGuard.shared.run {
-            await PreferenceBackup.restore(from: copy.folder, of: copy.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions)
+            await PreferenceBackup.restore(from: copy.folder, of: copy.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions) { @MainActor in
+                isRunning(copy.bundleIdentifier)
+            }
         }
         // The settings the app had until now may have become a copy of their own.
         reload()
@@ -132,6 +129,8 @@ struct SavedSettingsSection: View {
             )
         case .notSaved:
             failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: "")
+        case .appIsOpen:
+            failure = Failure(title: String(localized: "Quit \(name) first, or it can write its own settings over these."), message: "")
         }
     }
 

@@ -246,7 +246,7 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run)
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false })
 
         #expect(restored == .incomplete(clearedSome: false), "a copy that could not be read was reported as put back, or as cleared")
         let commands = asked.withLock { $0 }
@@ -255,7 +255,7 @@ struct RemovalHygieneTests {
 
         // An import that fails after the delete has cleared that domain, and the result says so.
         let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : Self.exporting(arguments) }
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: failingImport) == .incomplete(clearedSome: true))
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: failingImport, isOpen: { false }) == .incomplete(clearedSome: true))
     }
 
     /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
@@ -272,7 +272,7 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run)
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false })
 
         #expect(restored == .complete)
         let copies = PreferenceBackup.copies(in: backups)
@@ -281,6 +281,37 @@ struct RemovalHygieneTests {
         #expect(FileManager.default.fileExists(atPath: previous.folder.appending(path: "com.example.app.plist").path(percentEncoded: false)))
         let verbs = asked.withLock { $0 }.map(\.[0])
         #expect(verbs == ["read", "export", "delete", "import"], "cleared before the settings in use were saved")
+    }
+
+    /// An app that runs writes its own settings over what is put back, so nothing is cleared or put back while it is
+    /// open. It is asked before anything and again once the settings in use are saved, since it can open meanwhile.
+    @Test func putsNothingBackWhileTheAppIsOpen() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        try good.write(to: folder.appending(path: "com.example.app.plist"))
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let open = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { true })
+        #expect(open == .appIsOpen)
+        #expect(asked.withLock { $0 }.isEmpty)
+
+        let checks = Mutex(0)
+        let opensMeanwhile = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run) {
+            checks.withLock { count in
+                count += 1
+                return count > 1
+            }
+        }
+        #expect(opensMeanwhile == .appIsOpen)
+        let commands = asked.withLock { $0 }
+        #expect(commands.contains { $0.first == "export" }, "the settings in use were not saved first")
+        #expect(!commands.contains { $0.first == "delete" || $0.first == "import" }, "settings were cleared while the app was open")
     }
 
     /// When the settings in use cannot be saved, nothing is cleared, and the saved copy is not put back.
@@ -296,7 +327,7 @@ struct RemovalHygieneTests {
             return arguments.first == "export" ? .no : .yes
         }
 
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run) == .notSaved)
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false }) == .notSaved)
         #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
     }
 

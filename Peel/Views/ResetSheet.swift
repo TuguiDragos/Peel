@@ -17,7 +17,7 @@ struct ResetSheet: View {
     @State private var isPuttingBack = false
     /// The result of Put Settings Back, or nil before it is pressed. A result is shown either way, so a success
     /// doesn't look like a click that did nothing.
-    @State private var settingsWentBack: Bool?
+    @State private var putBack: PreferenceBackup.Restored?
 
     init(app: InstalledApp, changedFiles: Binding<Bool>) {
         _plan = State(initialValue: ResetPlan(app: app))
@@ -246,12 +246,24 @@ struct ResetSheet: View {
             if let backup = plan.backup {
                 Section {
                     VStack(alignment: .leading, spacing: 10) {
+                        if plan.isAppRunning {
+                            HStack(spacing: 10) {
+                                Text("Quit \(plan.app.name) first, or it can write its own settings over these.")
+                                    .font(.callout)
+                                Spacer(minLength: 8)
+                                Button("Quit \(plan.app.name)") { plan.quitApp() }
+                                    .buttonStyle(.bordered)
+                            }
+                        }
                         HStack(spacing: 10) {
                             Button("Put Settings Back") {
                                 Task {
                                     isPuttingBack = true
-                                    settingsWentBack = await plan.putSettingsBack()
-                                    changedFiles = true
+                                    let restored = await plan.putSettingsBack(from: backup)
+                                    putBack = restored
+                                    if restored != .appIsOpen, restored != .notSaved {
+                                        changedFiles = true
+                                    }
                                     isPuttingBack = false
                                 }
                             }
@@ -262,10 +274,8 @@ struct ResetSheet: View {
                             }
                             .buttonStyle(.bordered)
                         }
-                        if let settingsWentBack {
-                            Text(settingsWentBack ? "The settings are back as they were." : "Not all of the saved settings could be put back.")
-                                .font(.callout)
-                                .foregroundStyle(settingsWentBack ? AnyShapeStyle(.secondary) : AnyShapeStyle(.red))
+                        if let putBack {
+                            putBackResult(putBack)
                         }
                     }
                     .padding(.vertical, 2)
@@ -287,6 +297,35 @@ struct ResetSheet: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
+        }
+    }
+
+    /// What Put Settings Back did, each way it can end.
+    @ViewBuilder
+    private func putBackResult(_ restored: PreferenceBackup.Restored) -> some View {
+        switch restored {
+        case .complete:
+            Text("The settings are back as they were.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        case .incomplete(let clearedSome):
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Not all of the saved settings could be put back.")
+                    .foregroundStyle(.red)
+                if clearedSome {
+                    Text("The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .font(.callout)
+        case .notSaved:
+            Text("Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back.")
+                .font(.callout)
+                .foregroundStyle(.red)
+        case .appIsOpen:
+            Text("Quit \(plan.app.name) first, or it can write its own settings over these.")
+                .font(.callout)
+                .foregroundStyle(.red)
         }
     }
 
