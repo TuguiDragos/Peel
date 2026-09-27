@@ -449,6 +449,10 @@ struct ExclusionsReachEveryScannerTests {
         for path in ["/", "/Users/me", "/Users/me/", "/Users/me/Library", "/Applications", "/Library", "/System", "/Users", "/Volumes", "/opt"] {
             #expect(Exclusions.isTooBroad(URL(filePath: path), home: home), "\(path) was allowed")
         }
+        // Matching folds case and reads a path name by name, so the same folders written otherwise are as broad.
+        for path in ["/users/me", "/USERS/ME/library", "/Users/me/./Library", "/Users/me/Documents/../Library", "/library"] {
+            #expect(Exclusions.isTooBroad(URL(filePath: path), home: home), "\(path) was allowed")
+        }
         for path in ["/Users/me/Documents/Keep", "/Users/me/Library/Application Support/Acme", "/Applications/Acme.app", "/Volumes/Work/Acme"] {
             #expect(!Exclusions.isTooBroad(URL(filePath: path), home: home), "\(path) was refused")
         }

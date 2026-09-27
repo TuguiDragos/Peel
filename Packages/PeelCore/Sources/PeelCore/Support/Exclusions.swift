@@ -148,17 +148,13 @@ public struct Exclusions: Sendable, Codable, Hashable {
 extension Exclusions {
     /// True for a path too broad to exclude: `/`, a folder at the top of the disk, the home folder, or its
     /// Library. Excluding one would leave the tools with little or nothing to show, and `/` would protect
-    /// nothing at all, since a bare `/` would match everything and is ignored.
+    /// nothing at all, since a bare `/` would match everything and is ignored. It is judged on every spelling
+    /// matching reads, so the same folder written in another case is as broad.
     public static func isTooBroad(_ url: URL, home: URL = .homeDirectory) -> Bool {
-        func plain(_ url: URL) -> String {
-            var path = url.standardizedFileURL.path(percentEncoded: false)
-            while path.count > 1, path.hasSuffix("/") { path.removeLast() }
-            return path
-        }
-        let path = plain(url)
-        let home = plain(home)
-        let broad = ["/", home, home + "/Library", "/Applications", "/Library", "/System", "/Users", "/Volumes"]
-        return broad.contains(path) || PathComponents.of(path).count < 2
+        let topFolders = ["/Applications", "/Library", "/System", "/Users", "/Volumes"].map { URL(filePath: $0) }
+        let broad = Set(([home, home.appending(path: "Library")] + topFolders).flatMap(spellings(of:)))
+        let asked = spellings(of: url)
+        return asked.contains { PathComponents.of($0).count < 2 } || !asked.isDisjoint(with: broad)
     }
 }
 
