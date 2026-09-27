@@ -43,28 +43,20 @@ final class BulkRemovalPlan {
 
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
 
-    /// The chosen apps that are running, helpers included, with anything of theirs selected. Files never move out
-    /// from under a running app, so an app that stays still quits before a file of its own moves.
-    var runningApps: [InstalledApp] {
+    /// The processes of the chosen apps with anything of theirs selected that run now, helpers included. Files never
+    /// move out from under a running app, so an app that stays still quits before a file of its own moves.
+    var runningProcesses: [NSRunningApplication] {
         let running = RunningCopies.current
         let owners = Set(items.filter { selectedURLs.contains($0.url) }.flatMap(\.apps))
-        return apps.filter { app in
-            owners.contains(app.bundleIdentifier) && !RunningCopies.belonging(to: app, among: running, installedApps: installedApps).isEmpty
+        return apps.filter { owners.contains($0.bundleIdentifier) }.flatMap { app in
+            RunningCopies.belonging(to: app, among: running, installedApps: installedApps)
+                .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
         }
     }
 
     /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`).
     var staying: Set<String> {
         bulk?.staying(selected: selectedURLs) ?? []
-    }
-
-    func quitRunningApps() {
-        let running = RunningCopies.current
-        for app in runningApps {
-            for process in RunningCopies.belonging(to: app, among: running, installedApps: installedApps) {
-                NSRunningApplication(processIdentifier: process.identifier)?.terminate()
-            }
-        }
     }
 
     func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {

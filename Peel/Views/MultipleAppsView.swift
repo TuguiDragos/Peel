@@ -8,7 +8,7 @@ struct MultipleAppsView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var plan: BulkRemovalPlan
-    @State private var isShowingQuitAlert = false
+    @State private var quitting = QuitBeforeRemoving()
     @State private var resetsPrivacy = false
     @State private var isRescanning = false
     @Environment(RemovalOutcome.self) private var outcome
@@ -80,7 +80,7 @@ struct MultipleAppsView: View {
                     isSelectionMeasured: selected.isComplete,
                     isScanning: plan.isScanning,
                     scan: plan.scanRun,
-                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving,
+                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,
                     onRemove: requestRemoval
                 )
             }
@@ -108,12 +108,14 @@ struct MultipleAppsView: View {
         } message: {
             removalNote
         }
-        .alert("Quit these apps before removing them.", isPresented: $isShowingQuitAlert) {
-            Button("Quit Apps") { plan.quitRunningApps() }
-            Button("Cancel", role: .cancel) {}
+        .alert("Quit these apps before removing them.", isPresented: Bindable(quitting).isAsking) {
+            Button("Quit Apps") { quitting.quit() }
+            Button("Cancel", role: .cancel) { quitting.giveUp() }
         } message: {
-            Text(verbatim: plan.runningApps.map(\.name).formatted(.list(type: .and)))
+            Text(verbatim: quitting.names)
         }
+        .forceQuitOffer(quitting)
+        .onDisappear { quitting.giveUp() }
         .task {
             // Selecting apps one by one rebuilds this page after each change, and each build scans every selected
             // app. The short wait lets the selection settle: a newer change cancels this task before it scans.
@@ -266,12 +268,10 @@ struct MultipleAppsView: View {
         resetsPrivacy ? PrivacyReset.apps(among: plan.apps, moving: urls) : []
     }
 
+    /// Asks the question once the apps have quit, since none of their files moves while they run.
     private func requestRemoval() {
-        if !plan.runningApps.isEmpty {
-            isShowingQuitAlert = true
-        } else {
-            plan.question.ask(plan.request)
-        }
+        let plan = plan
+        quitting.check(plan.runningProcesses) { plan.question.ask(plan.request) }
     }
 
     /// One removal, from the privacy reset before the move to the scan after it, with the page busy throughout.

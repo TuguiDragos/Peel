@@ -75,10 +75,6 @@ final class RemovalPlan {
         }))
     }
 
-    var isAppRunning: Bool {
-        !relatedRunningApps.isEmpty
-    }
-
     var privilegedURLs: Set<URL> { uninstallation?.privilegedURLs ?? [] }
 
     var requiresHelper: Bool {
@@ -135,14 +131,8 @@ final class RemovalPlan {
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls, usingHelperFor: uninstallation?.privilegedURLs ?? [])
     }
 
-    /// Quits the app and the helpers it ships, so nothing rewrites its files while they are removed.
-    func quitApp() {
-        for running in relatedRunningApps {
-            running.terminate()
-        }
-    }
-
-    private var relatedRunningApps: [NSRunningApplication] {
+    /// The app's processes that run now, the helpers it ships included, which quit before any of its files move.
+    var runningProcesses: [NSRunningApplication] {
         RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: installedApps)
             .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
     }

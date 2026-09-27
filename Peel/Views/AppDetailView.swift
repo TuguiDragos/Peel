@@ -8,7 +8,7 @@ struct AppDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var plan: RemovalPlan
-    @State private var isShowingQuitAlert = false
+    @State private var quitting = QuitBeforeRemoving()
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
     @State private var resetsPrivacy = false
@@ -55,10 +55,14 @@ struct AppDetailView: View {
         } message: {
             Text("macOS forgets what \(plan.app.name) was allowed to access, such as the camera, the microphone, or your files, and the app asks you again the next time it needs them. History can’t undo this.")
         }
-        .alert("Quit \(plan.app.name) before removing it.", isPresented: $isShowingQuitAlert) {
-            Button("Quit \(plan.app.name)") { plan.quitApp() }
-            Button("Cancel", role: .cancel) {}
+        .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
+            Button("Quit \(plan.app.name)") { quitting.quit() }
+            Button("Cancel", role: .cancel) { quitting.giveUp() }
+        } message: {
+            Text(verbatim: quitting.names)
         }
+        .forceQuitOffer(quitting)
+        .onDisappear { quitting.giveUp() }
         .sheet(isPresented: $isShowingReset, onDismiss: {
             guard resetChangedFiles else { return }
             resetChangedFiles = false
@@ -192,7 +196,7 @@ struct AppDetailView: View {
                     isSelectionMeasured: selected.isComplete,
                     isScanning: isBusy,
                     scan: plan.scanRun,
-                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving,
+                    isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,
                     onRemove: requestRemoval
                 )
             }
@@ -590,12 +594,17 @@ struct AppDetailView: View {
         }
     }
 
+    /// Asks the question once the app has quit, since none of its files moves while it runs.
     private func requestRemoval() {
-        if plan.selectedURLs.contains(plan.app.url), plan.isAppRunning {
-            isShowingQuitAlert = true
-        } else {
-            plan.question.ask(plan.request)
-        }
+        let plan = plan
+        quitting.check(plan.runningProcesses) { plan.question.ask(plan.request) }
+    }
+
+    /// Quitting the app before removing it, or only its files when it stays.
+    private var quitTitle: Text {
+        plan.selectedURLs.contains(plan.app.url)
+            ? Text("Quit \(plan.app.name) before removing it.")
+            : Text("Quit \(plan.app.name) before removing its files.")
     }
 
     /// One removal, from the privacy reset before the move to the scan after it, with the page busy throughout.

@@ -539,6 +539,112 @@
         }
       }
     },
+    "%@ didn’t quit." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepodařilo se ukončit: %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht beendet: %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido salir de %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de quitter %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uscita da %@ non riuscita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@を終了できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@이(가) 종료되지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het stoppen van %@ is niet gelukt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się zakończyć: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O encerramento de %@ não foi concluído."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ încă rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось завершить %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ avslutades inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kapanmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не завершено: %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@尚未退出。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@尚未結束。"
+          }
+        }
+      }
+    },
     "%@ doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app." : {
       "localizations" : {
         "cs" : {
@@ -9591,6 +9697,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App將此項目存放在它的「資源庫」檔案夾中，而且現在可能正在使用。"
+          }
+        }
+      }
+    },
+    "An app may be waiting for you, for example to save your work. Force Quit closes what is still open at once, and what isn’t saved is lost." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace možná čeká, až něco uděláte, například uložíte svou práci. Když kliknete na Vynutit ukončení, vše, co je stále otevřené, se okamžitě zavře a co není uložené, se ztratí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine App wartet möglicherweise auf dich, zum Beispiel darauf, dass du deine Arbeit sicherst. „Sofort beenden“ schließt umgehend, was noch geöffnet ist, und was nicht gesichert ist, geht dabei verloren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que una app te esté esperando, por ejemplo, para que guardes tu trabajo. “Forzar salida” cierra al instante lo que sigue abierto, y lo que no se haya guardado se pierde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app attend peut-être une action de votre part, par exemple pour enregistrer votre travail. « Forcer à quitter » ferme immédiatement ce qui est encore ouvert, et ce qui n’a pas été enregistré est perdu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’app potrebbe essere in attesa di una tua risposta, ad esempio per salvare il tuo lavoro. “Uscita forzata” chiude subito ciò che è ancora aperto, e ciò che non è stato salvato va perso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが、作業の保存などの操作を待っている可能性があります。“強制終了”をクリックすると、まだ開いているものがすぐに閉じられ、保存していない変更内容は失われます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 작업 저장 등 사용자의 동작을 기다리고 있을 수 있습니다. ‘강제 종료’는 아직 열려 있는 항목을 즉시 닫으며, 저장하지 않은 내용은 유실됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een app wacht misschien op je, bijvoorbeeld om je werk te bewaren. 'Forceer stop' sluit meteen wat nog open is, en wat niet is bewaard, gaat verloren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja może czekać na Ciebie, na przykład aż zachowasz swoją pracę. „Wymuś koniec” natychmiast zamyka to, co jest nadal otwarte, a wszystko, czego nie zachowano, przepada."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um app pode estar esperando por você, por exemplo, para salvar o seu trabalho. Forçar Encerrar fecha imediatamente o que ainda está aberto, e o que não estiver salvo será perdido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S‑ar putea ca o aplicație să aștepte ceva de la dvs., de exemplu să vă salvați lucrările. Dacă faceți clic pe Închideți forțat aplicația, ce este încă deschis se închide imediat, iar ce nu este salvat se pierde."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Возможно, приложение ждет Ваших действий, например сохранения работы. Кнопка «Завершить принудительно» сразу закрывает то, что еще открыто, и все несохраненное будет потеряно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En app kanske väntar på dig, till exempel på att du ska spara ditt arbete. Om du klickar på Tvångsavsluta stängs det som fortfarande är öppet direkt, och det som inte har sparats går förlorat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulama, örneğin çalışmalarınızı kaydetmeniz için sizi bekliyor olabilir. Çıkmaya Zorla, hâlâ açık olanı hemen kapatır ve kaydedilmemiş her şey kaybolur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можливо, програма чекає на вас, щоб ви, наприклад, зберегли свою роботу. «Примусово завершити» відразу закриває те, що досі відкрите, і все незбережене буде втрачено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个App可能正在等待你的操作，例如保存你的工作成果。“强制退出”会立即关闭仍处于打开状态的程序，未保存的内容将会丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App可能正在等待你的操作，例如儲存你的工作成果。「強制結束」會立即關閉仍然打開的程式，未儲存的內容將會遺失。"
           }
         }
       }
@@ -32176,6 +32388,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "找到的檔案夾：%@"
+          }
+        }
+      }
+    },
+    "Force Quit" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vynutit ukončení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sofort beenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forzar salida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forcer à quitter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uscita forzata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強制終了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "강제 종료"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forceer stop"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymuś koniec"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forçar Encerrar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Închideți forțat aplicația"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить принудительно"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tvångsavsluta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çıkmaya Zorla"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примусово завершити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强制退出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強制結束"
           }
         }
       }
