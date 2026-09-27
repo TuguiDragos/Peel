@@ -622,6 +622,7 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Code/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/Code/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
             Folder("Library/Application Support/Code/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/Code/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
             Folder("Library/Caches/com.microsoft.VSCode.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/main/Squirrel/SQRLUpdater.m#L814-L829"),
         ]),
         Definition(id: "vscodium", name: "VSCodium", systemImage: "curlybraces", appBundleIdentifiers: ["com.vscodium"], folders: [
@@ -634,6 +635,8 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/VSCodium/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
             Folder("Library/Application Support/VSCodium/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/VSCodium/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/VSCodium/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/VSCodium/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
             Folder("Library/Caches/com.vscodium.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/main/Squirrel/SQRLShipItLauncher.m#L25-L26"),
         ]),
         Definition(id: "cursor", name: "Cursor", systemImage: "curlybraces", appBundleIdentifiers: ["com.todesktop.230313mzl4w4u92"], folders: [
@@ -645,6 +648,8 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Cursor/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/Cursor/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
             Folder("Library/Application Support/Cursor/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/environment/common/environmentService.ts#L127"),
+            Folder("Library/Application Support/Cursor/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/Cursor/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
         ]),
         Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
             Folder("Library/Application Support/Devin/Cache", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),

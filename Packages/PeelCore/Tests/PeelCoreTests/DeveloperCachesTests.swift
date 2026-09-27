@@ -826,6 +826,24 @@ struct DeveloperCachesTests {
         #expect(locations.first?.kind == .cache)
     }
 
+    @Test func offersTheConfigurationAndProfileCachesOfEveryEditorBuiltOnVSCode() async throws {
+        let directory = try TemporaryDirectory()
+        for app in ["Code", "VSCodium", "Cursor"] {
+            try directory.file("Library/Application Support/\(app)/CachedConfigurations/folder/key/configuration.json", bytes: 4_096)
+            try directory.file("Library/Application Support/\(app)/CachedProfilesData/__default__profile__/extensions.user.cache", bytes: 4_096)
+            try directory.file("Library/Application Support/\(app)/Backups/1/untitled", bytes: 4_096)
+        }
+        let editors = DeveloperCaches.definitions.filter { ["vscode", "vscodium", "cursor"].contains($0.id) }
+
+        let locations = await DeveloperCaches.scan(editors, homeDirectory: directory.url).flatMap(\.locations)
+
+        let support = directory.url.appending(path: "Library/Application Support").path(percentEncoded: false)
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(support.count + 1)) }) == [
+            "Code/CachedConfigurations", "Code/CachedProfilesData", "VSCodium/CachedConfigurations",
+            "VSCodium/CachedProfilesData", "Cursor/CachedConfigurations", "Cursor/CachedProfilesData",
+        ])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
