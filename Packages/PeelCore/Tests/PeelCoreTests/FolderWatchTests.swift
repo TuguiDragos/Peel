@@ -3,6 +3,10 @@ import Foundation
 import Testing
 
 struct FolderWatchTests {
+    /// Each wait returns at the first change, so only a broken watch waits this long; a busy Mac can hold FSEvents
+    /// back for many seconds.
+    private static let patience = Duration.seconds(60)
+
     /// The stream keeps the last change, so one that lands before anyone reads is not lost.
     @Test func saysWhenSomethingAppearsInAFolder() async throws {
         let directory = try TemporaryDirectory()
@@ -12,7 +16,7 @@ struct FolderWatchTests {
 
         try FileManager.default.createDirectory(at: folder.appending(path: "New.app"), withIntermediateDirectories: false)
 
-        #expect(await firstChange(of: changes, within: .seconds(5)), "no change arrived")
+        #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
     @Test func saysWhenSomethingLeavesAFolder() async throws {
@@ -23,7 +27,7 @@ struct FolderWatchTests {
 
         try FileManager.default.removeItem(at: folder.appending(path: "Old.app"))
 
-        #expect(await firstChange(of: changes, within: .seconds(5)), "no change arrived")
+        #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
     /// The control: without this, a watcher that reported constantly would pass the tests above.
@@ -32,7 +36,7 @@ struct FolderWatchTests {
         // The fixture's own change is heard first, so the watch under test cannot take it for its first.
         let setup = FolderWatch.changes(in: [directory.url])
         try directory.directory("watched/Untouched.app")
-        try #require(await firstChange(of: setup, within: .seconds(10)), "the fixture's own change was never heard")
+        try #require(await firstChange(of: setup, within: Self.patience), "the fixture's own change was never heard")
         let folder = directory.url.appending(path: "watched", directoryHint: .isDirectory)
         let changes = FolderWatch.changes(in: [folder])
 
@@ -48,7 +52,7 @@ struct FolderWatchTests {
 
         try FileManager.default.createDirectory(at: vendor.appending(path: "New.app/Contents"), withIntermediateDirectories: true)
 
-        #expect(await firstChange(of: changes, within: .seconds(10)), "no change arrived")
+        #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
     /// `~/Applications` does not exist on a new Mac, and the first app put into it must still be noticed.
@@ -59,7 +63,7 @@ struct FolderWatchTests {
 
         try FileManager.default.createDirectory(at: later.appending(path: "New.app"), withIntermediateDirectories: true)
 
-        #expect(await firstChange(of: changes, within: .seconds(10)), "no change arrived")
+        #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
     private func firstChange(of changes: AsyncStream<Void>, within limit: Duration) async -> Bool {
