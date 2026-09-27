@@ -162,7 +162,9 @@ final class HomebrewLibrary {
         // The installation is read first, since it says how to read the figures that follow. The other questions
         // take about as long as each other, so they run at the same time. Only the page shows the last two.
         let found = await Homebrew.installation()
-        async let reclaimable = includingReclaimable ? Homebrew.reclaimableBytes(asWrittenBy: found) : nil
+        let kept = found.map { ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: $0.prefix) } ?? []
+        async let reclaimable = includingReclaimable
+            ? Homebrew.reclaimableBytes(asWrittenBy: found, keeping: kept) : nil
         async let overridden = includingReclaimable ? Homebrew.overrides() : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
         do {
@@ -219,11 +221,13 @@ final class HomebrewLibrary {
                 return await following { onOutput throws(Homebrew.CommandFailure) in try await Homebrew.upgrade(packages, onOutput: onOutput) }
             case .uninstall(let id):
                 guard let package = package(id) else { return gone }
-                output = try await Homebrew.uninstall(package)
+                guard let kept = await keptFormulae() else { return keepsNothing }
+                output = try await Homebrew.uninstall(package, keeping: kept)
             case .update:
                 output = try await Homebrew.updateMetadata()
             case .cleanup:
-                output = try await Homebrew.cleanup()
+                guard let kept = await keptFormulae() else { return keepsNothing }
+                output = try await Homebrew.cleanup(keeping: kept)
             case .health:
                 // An older Homebrew answers only in prose, which is shown as written. `--json` is a hidden
                 // switch, so an answer Peel can't read is asked for again in prose rather than shown as an error.
@@ -249,6 +253,18 @@ final class HomebrewLibrary {
         } catch {
             return CommandResult(succeeded: false, output: error.output)
         }
+    }
+
+    private var keepsNothing: CommandResult {
+        CommandResult(succeeded: false, output: String(localized: "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it."))
+    }
+
+    /// The formulae the exclusions cover, which Homebrew is told to keep, asked again right before a command that
+    /// deletes for good. Nil when Peel can't tell which they are or Homebrew's own settings replace the list.
+    private func keptFormulae() async -> [String]? {
+        guard let prefix = installation?.prefix else { return nil }
+        let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: prefix)
+        return await Homebrew.keepsEvery(kept) ? kept : nil
     }
 
     private static func announce(_ words: LocalizedStringResource) {

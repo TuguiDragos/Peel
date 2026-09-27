@@ -13,6 +13,41 @@ struct HomebrewTests {
         }
     }
 
+    /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
+    /// so the formulae the exclusions cover are named in `HOMEBREW_NO_CLEANUP_FORMULAE`, which Homebrew's own
+    /// documentation says makes it refuse to clean up or autoremove them.
+    @Test func homebrewIsToldToKeepTheFormulaeTheExclusionsCover() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Cellar/wget/1.25.0")
+        try directory.directory("Cellar/jq/1.8.1")
+        try directory.directory("Cellar/python@3.13/3.13.7")
+        let exclusions = Exclusions(paths: [
+            directory.url.appending(path: "Cellar/jq"), directory.url.appending(path: "Cellar/python@3.13/3.13.7"),
+        ])
+
+        let kept = exclusions.keptFormulae(inCellarOf: directory.url)
+        #expect(kept == ["jq", "python@3.13"])
+        #expect(Exclusions.unreadable.keptFormulae(inCellarOf: directory.url) == ["jq", "python@3.13", "wget"])
+
+        let attempt = try await Homebrew.execute(
+            ["-c", "printf %s \"$HOMEBREW_NO_CLEANUP_FORMULAE\""], autoUpdate: false, keeping: kept, timeout: 10,
+            executable: URL(filePath: "/bin/sh")
+        )
+        #expect(attempt.standardOutput == "jq,python@3.13")
+    }
+
+    /// `bin/brew` reads its `brew.env` files after Peel's environment, and one can replace the list, so Peel asks
+    /// `brew config` what is in effect before it lets Homebrew delete anything.
+    @Test func readsWhichFormulaeHomebrewKeepsFromItsOwnSettings() {
+        let config = """
+        HOMEBREW_VERSION: 7.0.4
+        HOMEBREW_NO_CLEANUP_FORMULAE: jq,python@3.13
+        HOMEBREW_NO_ANALYTICS: set
+        """
+        #expect(Homebrew.keptFormulae(inConfig: config) == ["jq", "python@3.13"])
+        #expect(Homebrew.keptFormulae(inConfig: "HOMEBREW_VERSION: 7.0.4\n").isEmpty)
+    }
+
     /// Formulae and casks are upgraded in two calls, and the second is made even when the first never finished,
     /// as when it ran out of time: the casks were otherwise never tried, and the report left them out.
     @Test func upgradesTheCasksEvenWhenTheFormulaeNeverFinished() async {

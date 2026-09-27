@@ -80222,6 +80222,112 @@
         }
       }
     },
+    "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl ověřit, že Homebrew ponechá formulae, na které se vztahují vaše výjimky, a proto nic nespustil. Soubor brew.env, který nastavuje HOMEBREW_NO_CLEANUP_FORMULAE, nahradí seznam, který Peel předává Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht sicherstellen, dass Homebrew die Formulae behält, die unter deine Ausschlüsse fallen, und hat daher nichts ausgeführt. Eine brew.env-Datei, die HOMEBREW_NO_CLEANUP_FORMULAE festlegt, ersetzt die Liste, die Peel an Homebrew übergibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido asegurarse de que Homebrew conserve las formulae que cubren tus exclusiones, así que no ha ejecutado nada. Un archivo brew.env que establece HOMEBREW_NO_CLEANUP_FORMULAE reemplaza la lista que le da Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu s’assurer que Homebrew conserve les formulae concernées par vos exclusions : Peel n’a donc rien exécuté. Un fichier brew.env qui définit HOMEBREW_NO_CLEANUP_FORMULAE remplace la liste que Peel lui transmet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito ad assicurarsi che Homebrew conservi le formulae coperte dalle tue esclusioni, quindi non ha eseguito nulla. Un file brew.env che imposta HOMEBREW_NO_CLEANUP_FORMULAE sostituisce l’elenco che Peel gli fornisce."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、除外リストに含まれるformulaeをHomebrewが残すことを確認できなかったため、何も実行しませんでした。HOMEBREW_NO_CLEANUP_FORMULAEを設定するbrew.envファイルがあると、Peelが渡すリストはその設定に置き換えられます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 제외 항목에 포함된 formulae를 Homebrew가 유지하는지 확인할 수 없어 아무것도 실행하지 않았습니다. brew.env 파일에서 HOMEBREW_NO_CLEANUP_FORMULAE를 설정하면 Peel이 Homebrew에 전달하는 목록이 그 설정으로 대체됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet nagaan of Homebrew de formulae behoudt die onder je uitsluitingen vallen, en heeft daarom niets uitgevoerd. Een brew.env-bestand dat HOMEBREW_NO_CLEANUP_FORMULAE instelt, vervangt de lijst die Peel aan Homebrew doorgeeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł się upewnić, że Homebrew zachowa formulae objęte Twoimi wykluczeniami, więc niczego nie uruchomił. Plik brew.env, który ustawia HOMEBREW_NO_CLEANUP_FORMULAE, zastępuje listę, którą przekazuje mu Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu garantir que o Homebrew mantenha as formulae cobertas pelas suas exclusões, então não executou nada. Um arquivo brew.env que define HOMEBREW_NO_CLEANUP_FORMULAE substitui a lista que o Peel passa para ele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu s‑a putut asigura că Homebrew păstrează formulele acoperite de excluderile dvs., așa că nu a rulat nimic. Un fișier brew.env care stabilește HOMEBREW_NO_CLEANUP_FORMULAE înlocuiește lista pe care i‑o dă Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось убедиться, что Homebrew оставит formulae, на которые распространяются Ваши исключения, поэтому ничего не было запущено. Файл brew.env, который задает HOMEBREW_NO_CLEANUP_FORMULAE, заменяет список, который ему передает Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte säkerställa att Homebrew behåller de formulae som dina undantag omfattar, så Peel körde ingenting. En brew.env-fil som ställer in HOMEBREW_NO_CLEANUP_FORMULAE ersätter listan som Peel ger Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hariç tutulanlarınızın kapsadığı formulae için Homebrew’un bunları koruyacağından emin olamadı, bu yüzden hiçbir şey çalıştırmadı. HOMEBREW_NO_CLEANUP_FORMULAE değerini ayarlayan bir brew.env dosyası, Peel’in Homebrew’a verdiği listenin yerini alır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося переконатися, що Homebrew збереже formulae, які є у ваших винятках, тож Peel нічого не запускала. Файл brew.env, у якому задано HOMEBREW_NO_CLEANUP_FORMULAE, замінює список, який йому передає Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能确保Homebrew会保留你的排除项所涵盖的formulae，因此没有运行任何命令。设置了HOMEBREW_NO_CLEANUP_FORMULAE的brew.env文件会替换Peel提供给Homebrew的列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法確保Homebrew會保留你的排除項目所涵蓋的formulae，因此未執行任何Homebrew指令。設定了HOMEBREW_NO_CLEANUP_FORMULAE的brew.env檔案會取代Peel提供給Homebrew的列表。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read History" : {
       "localizations" : {
         "cs" : {

@@ -466,8 +466,12 @@ public enum Homebrew {
 
     /// What `brew cleanup` would free. Nothing is removed: `--dry-run` only reports.
     @concurrent
-    public static func reclaimableBytes(asWrittenBy installation: HomebrewInstallation?) async -> Int64? {
-        guard let output = try? await answer(["cleanup", "--dry-run"]) else { return nil }
+    public static func reclaimableBytes(
+        asWrittenBy installation: HomebrewInstallation?, keeping kept: [String]
+    ) async -> Int64? {
+        guard let output = try? await execute(
+            ["cleanup", "--dry-run"], autoUpdate: false, keeping: kept, timeout: longestAnswer
+        ).answer() else { return nil }
         return reclaimableBytes(in: output, countsInThousands: installation?.countsInThousands ?? true)
     }
 
@@ -519,9 +523,13 @@ public enum Homebrew {
         return attempt?.output ?? ""
     }
 
+    /// `kept` are the formulae Homebrew must not autoremove afterward.
     @concurrent
-    public static func uninstall(_ package: HomebrewPackage) async throws(CommandFailure) -> String {
-        try await run(["uninstall", package.kind == .cask ? "--cask" : "--formula", package.name], autoUpdate: false)
+    public static func uninstall(
+        _ package: HomebrewPackage, keeping kept: [String]
+    ) async throws(CommandFailure) -> String {
+        let arguments = ["uninstall", package.kind == .cask ? "--cask" : "--formula", package.name]
+        return try await execute(arguments, autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
     }
 
     @concurrent
@@ -529,9 +537,28 @@ public enum Homebrew {
         try await run(["update"], autoUpdate: false)
     }
 
+    /// `kept` are the formulae Homebrew must neither clean up nor autoremove.
     @concurrent
-    public static func cleanup() async throws(CommandFailure) -> String {
-        try await run(["cleanup"], autoUpdate: false)
+    public static func cleanup(keeping kept: [String]) async throws(CommandFailure) -> String {
+        try await execute(["cleanup"], autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
+    }
+
+    /// True when Homebrew, its own `brew.env` files read, still keeps every formula in `kept`. Such a file can
+    /// replace the list Peel gives it, and `brew config` says what is in effect.
+    @concurrent
+    public static func keepsEvery(_ kept: [String]) async -> Bool {
+        guard !kept.isEmpty else { return true }
+        guard let config = try? await execute(["config"], autoUpdate: false, keeping: kept, timeout: longestAnswer)
+            .answer() else { return false }
+        return Set(kept).isSubset(of: keptFormulae(inConfig: config))
+    }
+
+    /// Reads the `HOMEBREW_NO_CLEANUP_FORMULAE: a,b` line of `brew config`'s answer.
+    static func keptFormulae(inConfig config: String) -> Set<String> {
+        let prefix = "HOMEBREW_NO_CLEANUP_FORMULAE: "
+        let lines = config.split(whereSeparator: \.isNewline)
+        guard let line = lines.first(where: { $0.hasPrefix(prefix) }) else { return [] }
+        return Set(line.dropFirst(prefix.count).split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) })
     }
 
     static func parseInstalled(_ data: Data) -> [HomebrewPackage]? {
@@ -622,6 +649,7 @@ public enum Homebrew {
     static func execute(
         _ arguments: [String],
         autoUpdate: Bool,
+        keeping kept: [String] = [],
         timeout: TimeInterval?,
         onOutput: (@Sendable (Data) -> Void)? = nil,
         executable: URL? = executableURL
@@ -630,7 +658,8 @@ public enum Homebrew {
             throw CommandFailure(output: Self.notInstalled)
         }
         let path = executable.path(percentEncoded: false)
-        switch await Subprocess.run(path, arguments, environment: environment(autoUpdate: autoUpdate), timeout: timeout, onOutput: onOutput) {
+        let environment = environment(autoUpdate: autoUpdate, keeping: kept)
+        switch await Subprocess.run(path, arguments, environment: environment, timeout: timeout, onOutput: onOutput) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
         case .failure(let failure):
@@ -681,7 +710,7 @@ public enum Homebrew {
     /// value set anywhere in the user's session would otherwise decide how Homebrew behaves, and
     /// `HOMEBREW_FORCE_API_AUTO_UPDATE` would undo the setting that keeps Peel off the network. Homebrew's own
     /// `brew.env` files are read after it and can still undo a setting here, which `overrides()` reports.
-    static func environment(autoUpdate: Bool) -> [String: String] {
+    static func environment(autoUpdate: Bool, keeping kept: [String] = []) -> [String: String] {
         var values = [
             "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
             "HOME": URL.homeDirectory.path(percentEncoded: false),
@@ -695,6 +724,9 @@ public enum Homebrew {
         ]
         if !autoUpdate {
             values["HOMEBREW_NO_AUTO_UPDATE"] = "1"
+        }
+        if !kept.isEmpty {
+            values["HOMEBREW_NO_CLEANUP_FORMULAE"] = kept.joined(separator: ",")
         }
         return values
     }
