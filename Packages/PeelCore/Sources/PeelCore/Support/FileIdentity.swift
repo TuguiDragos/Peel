@@ -55,3 +55,14 @@ public struct FileIdentity: Sendable, Hashable {
         time.tv_sec &* 1_000_000_000 &+ time.tv_nsec
     }
 }
+
+/// What an item is on the disk: its device and inode while it is there, and its path otherwise. Two spellings of
+/// one path, another case on a disk that folds it or a slash at the end, name one item.
+enum ItemKey: Hashable {
+    case object(FileIdentity.Link)
+    case path(String)
+
+    init(_ url: URL) {
+        self = FileIdentity.Link.of(url).map(ItemKey.object) ?? .path(PathPattern.comparablePath(of: url))
+    }
+}

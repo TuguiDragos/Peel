@@ -204,9 +204,10 @@ public struct LeftoverScan: Sendable {
 
     /// Adds findings the scanner didn't see, keeping what it already knows about a path.
     public func adding(_ extra: [Leftover]) -> LeftoverScan {
-        // By path, not by URL: a folder written with a slash at the end is the same folder.
-        let known = Set(leftovers.map { PathPattern.comparablePath(of: $0.url) })
-        let merged = leftovers + extra.filter { !known.contains(PathPattern.comparablePath(of: $0.url)) }
+        // By what each item is on the disk, not by its spelling: a cask can write a folder in another case, or with
+        // a slash at the end, and it is still the folder the scan found.
+        let known = Set(leftovers.map { ItemKey($0.url) })
+        let merged = leftovers + extra.filter { !known.contains(ItemKey($0.url)) }
         return LeftoverScan(
             leftovers: merged.sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations,

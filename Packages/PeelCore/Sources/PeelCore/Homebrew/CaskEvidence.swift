@@ -15,12 +15,12 @@ public struct CaskEvidence: Sendable, Hashable {
 
     public static func evidence(for app: InstalledApp, casks: [HomebrewPackage], home: URL = .homeDirectory) -> CaskEvidence? {
         guard let cask = cask(for: app, in: casks) else { return nil }
-        var seen: Set<String> = []
+        var seen: Set<ItemKey> = []
         let named = cask.leftoverPatterns.flatMap { expand($0, home: home) }
         let emptied = cask.emptyFolderPatterns.flatMap { expand($0, home: home) }.filter(holdsNothing)
         let items = (named + emptied).compactMap { url -> Item? in
-            // A folder listed twice, such as with and without a trailing slash, becomes one item.
-            guard seen.insert(PathPattern.comparablePath(of: url)).inserted else { return nil }
+            // A folder listed twice, with and without a slash at the end or in another case, becomes one item.
+            guard seen.insert(ItemKey(url)).inserted else { return nil }
             return Item(url: url, isInLibrary: isInLibrary(url, home: home))
         }
         guard !items.isEmpty else { return nil }

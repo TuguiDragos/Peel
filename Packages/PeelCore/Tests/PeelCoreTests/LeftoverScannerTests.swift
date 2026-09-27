@@ -683,6 +683,27 @@ struct LeftoverScannerTests {
         #expect(folder.match.heldBack == .holdsKeys)
     }
 
+    /// A cask can name a folder in another case than the disk spells it. It is the folder the scan already found,
+    /// held back as a name at the top of a Library is, so it is listed once, as the scan found it.
+    @Test func aCaskPathInAnotherCaseIsTheFolderTheScanFound() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Tunewell/settings.db", bytes: 100)
+        let tunewell = InstalledApp(url: URL(filePath: "/Applications/Tunewell.app"), bundleIdentifier: "net.example.tunewell", name: "Tunewell")
+        let cask = HomebrewPackage(name: "tunewell", kind: .cask, appNames: ["Tunewell.app"], leftoverPatterns: ["~/Library/TUNEWELL"])
+        let environment = environment(in: directory)
+        let scan = await LeftoverScanner(environment: environment).scan(tunewell, installedApps: [tunewell])
+        let evidence = try #require(CaskEvidence.evidence(for: tunewell, casks: [cask], home: environment.homeDirectory))
+        let fromTheCask = await Uninstallation.caskLeftovers(
+            evidence, app: tunewell, exclusions: .none, matcher: LeftoverMatcher(app: tunewell, installedApps: [tunewell]),
+            environment: environment
+        )
+
+        let merged = scan.adding(fromTheCask)
+
+        #expect(merged.leftovers.map(\.url.lastPathComponent) == ["Tunewell"])
+        #expect(merged.leftovers.first?.match.heldBack == .namedLikeTheApp)
+    }
+
     /// Plug-ins that declare the app's identifier are found in the user's Library and the system's, including inside
     /// a vendor's own folder.
     @Test func findsThePlugInsAnAppInstalled() async throws {

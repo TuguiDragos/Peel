@@ -201,6 +201,20 @@ struct CaskEvidenceTests {
         #expect(found["Word Templates"]?.kind == .elsewhere, "a folder in Documents was called something it is not")
     }
 
+    /// A cask can write one path two ways, and a Mac's disk folds case, so both name one folder: it is one item.
+    @Test func aPathACaskWritesTwoWaysIsOneItem() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Library/Group Containers/org.example.Viewer")
+        let cask = HomebrewPackage(name: "viewer", kind: .cask, appNames: ["Viewer.app"], leftoverPatterns: [
+            "~/Library/Group Containers/org.example.Viewer", "~/Library/Group Containers/org.example.viewer",
+        ])
+        let app = InstalledApp(url: URL(filePath: "/Applications/Viewer.app"), bundleIdentifier: "org.example.Viewer", name: "Viewer")
+
+        let evidence = try #require(CaskEvidence.evidence(for: app, casks: [cask], home: directory.url))
+
+        #expect(evidence.items.count == 1)
+    }
+
     /// What a cask names is a folder like any other: a repository inside takes the checkmark away here as well.
     @Test func aCaskPathGoesThroughTheSameHoldBacks() async throws {
         let directory = try TemporaryDirectory()
