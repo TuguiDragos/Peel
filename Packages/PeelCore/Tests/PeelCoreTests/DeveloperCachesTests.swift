@@ -214,9 +214,10 @@ struct DeveloperCachesTests {
             ".npm", ".cargo", ".gradle", ".m2", ".android", ".nuget", ".gem", ".bundle", ".aws", ".config", ".cache",
             ".local", ".local/share", "go", ".vscode", ".ollama", ".lmstudio", ".cache/huggingface",
         ]
-        // The only top-level folders in the table, each owned outright by the one tool that made it.
+        // The only top-level entries in the table, each owned outright by the one tool that made it.
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
+            ".zcompdump*",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -740,6 +741,19 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["cache"])
         #expect(locations.first?.kind == .downloads)
+    }
+
+    @Test func offersZshsCompletionDumpsAndOhMyZshsCompletionsAndNotTheChoicesKeptBeside() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".zcompdump", bytes: 4_096)
+        try directory.file(".zcompdump-Mac-5.9", bytes: 4_096)
+        try directory.file(".oh-my-zsh/cache/completions/_gh", bytes: 4_096)
+        try directory.file(".oh-my-zsh/cache/dotenv-allowed.list", bytes: 64)
+        let shells = DeveloperCaches.definitions.filter { ["zsh", "ohmyzsh"].contains($0.id) }
+
+        let locations = await DeveloperCaches.scan(shells, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == [".zcompdump", ".zcompdump-Mac-5.9", "completions"])
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the

@@ -577,6 +577,15 @@ public enum DeveloperCaches {
         Definition(id: "mise", name: "mise", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/mise", .cache, source: "https://github.com/jdx/mise/blob/main/docs/directories.md#L34-L41"),
         ]),
+        // Shells
+        Definition(id: "zsh", name: "zsh", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".zcompdump*", .cache, source: "https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Use-of-compinit"),
+        ]),
+        // Only the completion scripts plug-ins make again when missing: `dotenv` keeps the files a person allowed
+        // beside them in the same cache folder.
+        Definition(id: "ohmyzsh", name: "Oh My Zsh", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".oh-my-zsh/cache/completions", .cache, source: "https://github.com/ohmyzsh/ohmyzsh/blob/master/oh-my-zsh.sh#L59-L68"),
+        ]),
         // Editors
         // A JetBrains IDE keeps `LocalHistory` beside its caches: the edits it recorded while a project was
         // open, which are in no repository and nowhere else. The cache folders are listed one by one, so
