@@ -40,8 +40,20 @@ public enum PreferenceBackup {
     /// cannot be copied, the result is `failed` and nothing may be cleared: the copy is what makes clearing safe.
     @concurrent
     static func save(_ urls: [URL], for app: InstalledApp, in directory: URL, through service: TrashService = TrashService(), run: Run) async -> Saved {
+        let domains = PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier)
+        return await save(domains, of: app.bundleIdentifier, in: directory, through: service, run: run)
+    }
+
+    /// Exports every one of `candidates` that exists into a new folder in `directory`, named for `bundleIdentifier`.
+    private static func save(
+        _ candidates: [PreferenceCleanup.Domain],
+        of bundleIdentifier: String,
+        in directory: URL,
+        through service: TrashService,
+        run: Run
+    ) async -> Saved {
         var domains: [PreferenceCleanup.Domain] = []
-        for domain in PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier) {
+        for domain in candidates {
             switch await run(domain.command("read")) {
             case .yes: domains.append(domain)
             case .no: continue
@@ -53,9 +65,9 @@ public enum PreferenceBackup {
         // The bundle identifier comes from the app itself and becomes part of a folder name, so it must have the
         // reverse DNS shape `copies` reads back, which rules out a `/`.
         guard
-            Identifier.isReverseDNS(app.bundleIdentifier),
+            Identifier.isReverseDNS(bundleIdentifier),
             (try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)) != nil,
-            let folder = newFolder(for: app.bundleIdentifier, in: directory)
+            let folder = newFolder(for: bundleIdentifier, in: directory)
         else { return .failed }
 
         for domain in domains {
@@ -73,40 +85,58 @@ public enum PreferenceBackup {
     }
 
     /// What putting a saved copy back came to.
-    public struct Restored: Sendable, Equatable {
+    public enum Restored: Sendable, Equatable {
         /// Every domain in the copy went back.
-        public let isComplete: Bool
-        /// A domain was cleared and then did not go back, so the app starts that part from scratch.
-        public let clearedSome: Bool
+        case complete
+        /// Not every domain went back. `clearedSome`: one was cleared and then did not go back, so the app starts
+        /// that part from scratch.
+        case incomplete(clearedSome: Bool)
+        /// The settings the app has now could not be saved, so nothing was cleared or put back.
+        case notSaved
+
+        public var isComplete: Bool {
+            if case .complete = self { true } else { false }
+        }
     }
 
-    /// Puts the domains saved in `folder` back with `defaults import`. The app must not be running, or it
-    /// overwrites them. `defaults import` merges rather than replaces, so each domain is deleted first.
+    /// Puts the domains saved in `folder` back with `defaults import`, once the settings the app has now are saved
+    /// in `directory` as a copy of their own: what it set since, a license entered again or an account, would
+    /// otherwise be gone. The app must not be running, or it overwrites them. `defaults import` merges rather than
+    /// replaces, so each domain is deleted first.
     @concurrent
-    public static func restore(from folder: URL) async -> Restored {
-        await restore(from: folder, run: run)
+    public static func restore(
+        from folder: URL,
+        of bundleIdentifier: String,
+        in directory: URL = PreferenceBackup.defaultDirectory,
+        exclusions: Exclusions = .none
+    ) async -> Restored {
+        let service = TrashService(exclusions: exclusions)
+        return await restore(from: folder, of: bundleIdentifier, in: directory, through: service, run: run)
     }
 
-    static func restore(from folder: URL, run: Run) async -> Restored {
+    static func restore(
+        from folder: URL,
+        of bundleIdentifier: String,
+        in directory: URL,
+        through service: TrashService = TrashService(),
+        run: Run
+    ) async -> Restored {
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
         let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in domain(from: file.lastPathComponent).map { ($0, file) } }
-        guard !saved.isEmpty else { return Restored(isComplete: false, clearedSome: false) }
-        var isComplete = true
+        // A copy that is not a readable property list would put nothing back once the delete had cleared the
+        // settings in use, so it is refused before anything is cleared.
+        let readable = saved.filter { isAPropertyList($0.1) }
+        guard !readable.isEmpty else { return .incomplete(clearedSome: false) }
+        let current = await save(readable.map(\.0), of: bundleIdentifier, in: directory, through: service, run: run)
+        guard current != .failed else { return .notSaved }
         var clearedSome = false
-        for (domain, file) in saved {
-            // A copy that is not a readable property list would put nothing back once the delete had cleared the
-            // settings in use, so it is refused before anything is cleared.
-            guard isAPropertyList(file) else {
-                isComplete = false
-                continue
-            }
+        for (domain, file) in readable {
             _ = await run(domain.command("delete"))
             if await run(domain.command("import", file.path(percentEncoded: false))) != .yes {
-                isComplete = false
                 clearedSome = true
             }
         }
-        return Restored(isComplete: isComplete, clearedSome: clearedSome)
+        return readable.count == saved.count && !clearedSome ? .complete : .incomplete(clearedSome: clearedSome)
     }
 
     /// Whether `file` holds a property list whose top level is a dictionary, which is what `defaults import` reads.

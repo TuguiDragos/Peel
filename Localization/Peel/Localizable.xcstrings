@@ -75915,6 +75915,112 @@
         }
       }
     },
+    "Peel couldn’t save the settings %@ has now, so it put nothing back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl uložit současná nastavení aplikace %@, a proto nic nevrátil zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die aktuellen Einstellungen von „%@“ nicht sichern, daher wurde nichts zurückgelegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar los ajustes que %@ tiene ahora, así que no ha restaurado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu enregistrer les réglages actuels de %@ : il n’a donc rien remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a salvare le impostazioni attuali di %@, quindi non ha ripristinato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは“%@”の現在の設定を保存できなかったため、何も戻しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 ‘%@’의 현재 설정을 저장할 수 없었으므로 아무것도 되돌려 놓지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de huidige instellingen van %@ niet bewaren, dus er is niets teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować obecnych ustawień aplikacji %@, więc niczego nie przywrócił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu salvar os ajustes atuais de %@, então não colocou nada de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut salva configurările pe care %@ le are acum, așa că nu a pus nimic înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить текущие настройки приложения «%@», поэтому он ничего не восстановил."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara de nuvarande inställningarna för %@, så inget lades tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ uygulamasının şu anki ayarlarını kaydedemedi, bu yüzden hiçbir şeyi yerine koymadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти поточні налаштування програми «%@», тому нічого не повернуто."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存“%@”当前的设置，因此没有放回任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法儲存「%@」目前的設定，因此沒有還原任何設定。"
+          }
+        }
+      }
+    },
     "Peel didn’t look everywhere" : {
       "localizations" : {
         "cs" : {
@@ -76441,6 +76547,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會開啟或關閉延伸功能：這由macOS負責。若要移除延伸功能，就得移除它所屬的App。"
+          }
+        }
+      }
+    },
+    "Peel first saves the settings %@ has now, as a copy of their own, then puts these in their place." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nejprve uloží současná nastavení aplikace %@ jako samostatnou kopii a pak je nahradí těmito."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sichert zuerst die aktuellen Einstellungen von „%@“ als eigene Kopie und setzt dann die gesicherten an ihre Stelle."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel guarda primero en una copia aparte los ajustes que %@ tiene ahora y después los sustituye por estos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel enregistre d’abord les réglages actuels de %@ dans une copie distincte, puis les remplace par ces réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel salva prima le impostazioni attuali di %@ in una copia a parte, poi le sostituisce con queste."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはまず、“%@”の現在の設定を別のコピーとして保存してから、これらの設定に置き換えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 먼저 ‘%@’의 현재 설정을 별도의 복사본으로 저장한 다음, 그 자리에 이 설정을 되돌려 놓습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bewaart eerst de huidige instellingen van %@ als een eigen kopie, en vervangt ze daarna door deze instellingen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel najpierw zachowuje obecne ustawienia aplikacji %@ jako osobną kopię, a potem przywraca te w ich miejsce."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel primeiro salva os ajustes atuais de %@, como uma cópia à parte, e depois coloca estes no lugar deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel salvează mai întâi configurările pe care %@ le are acum, ca o copie separată, apoi le pune pe acestea în locul lor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel сначала сохраняет текущие настройки приложения «%@» в виде отдельной копии, а затем заменяет их этими."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sparar först de nuvarande inställningarna för %@ som en egen kopia och ersätter dem sedan med de här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel önce %@ uygulamasının şu anki ayarlarını ayrı bir kopya olarak kaydeder, sonra bu ayarları onların yerine koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel спершу збереже поточні налаштування програми «%@» як окрему копію, а потім замінить їх цими."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会先将“%@”当前的设置单独保存为一份副本，再用这些设置替换它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會先將「%@」目前的設定另存為一份副本，再用這些設定取代它們。"
           }
         }
       }
@@ -84890,108 +85102,220 @@
         }
       }
     },
-    "Puts these settings back. Whatever the app set since is cleared first." : {
+    "Put back the settings saved for %@ on %@?" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vrátí tato nastavení zpět. Cokoli aplikace mezitím nastavila, se nejprve vymaže."
+            "value" : "Vrátit zpět nastavení uložená pro aplikaci %@ dne %@?"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Legt diese Einstellungen zurück. Was die App seitdem festgelegt hat, wird zuerst entfernt."
+            "value" : "Die am %2$@ für „%1$@“ gesicherten Einstellungen zurücklegen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Put back the settings saved for %1$@ on %2$@?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Restaura estos ajustes. Antes se borra todo lo que la app haya ajustado desde entonces."
+            "value" : "¿Restaurar los ajustes de %@ guardados el %@?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remet ces réglages en place. Ce que l’app a défini depuis est d’abord effacé."
+            "value" : "Remettre les réglages de %@ enregistrés le %@ ?"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ripristina queste impostazioni. Prima viene cancellato tutto ciò che l’app ha impostato nel frattempo."
+            "value" : "Vuoi ripristinare le impostazioni salvate per %@ in data %@?"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらの設定を戻します。その後にアプリが設定した内容は、先に消去されます。"
+            "value" : "%2$@に“%1$@”用に保存された設定を戻しますか?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 설정을 되돌려 놓습니다. 그 이후에 앱이 설정한 내용은 먼저 지워집니다."
+            "value" : "%2$@에 저장된 ‘%1$@’의 설정을 되돌려 놓겠습니까?"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zet deze instellingen terug. Wat de app sindsdien heeft ingesteld, wordt eerst gewist."
+            "value" : "Instellingen van %@, bewaard op %@, terugzetten?"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przywraca te ustawienia. Wszystko, co aplikacja ustawiła od tego czasu, zostanie najpierw wyczyszczone."
+            "value" : "Przywrócić ustawienia aplikacji %@ zachowane %@?"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Coloca estes ajustes de volta. O que o app definiu desde então é limpo primeiro."
+            "value" : "Colocar de volta os ajustes salvos de %@ em %@?"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pune înapoi aceste configurări. Tot ce a configurat aplicația între timp este eliminat mai întâi."
+            "value" : "Puneți înapoi configurările salvate pentru %@ pe %@?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Восстанавливает эти настройки. Все, что приложение настроило с тех пор, сначала очищается."
+            "value" : "Восстановить настройки приложения «%@», сохраненные %@?"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lägger tillbaka de här inställningarna. Det som appen har ställt in sedan dess rensas först."
+            "value" : "Vill du lägga tillbaka inställningarna som sparades för %@ den %@?"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu ayarları yerine koyar. Uygulamanın o zamandan beri ayarladığı her şey önce temizlenir."
+            "value" : "%@ için %@ tarihinde kaydedilen ayarlar yerine konsun mu?"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повертає ці налаштування. Усе, що програма змінила відтоді, спершу буде очищено."
+            "value" : "Повернути назад налаштування програми «%@», збережені %@?"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将这些设置放回原处。App此后设定的内容会先被清除。"
+            "value" : "要将于%2$@为“%1$@”保存的设置放回原处吗？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "還原這些設定。App在那之後設定的內容會先清除。"
+            "value" : "要將為「%@」於%@儲存的設定還原嗎？"
+          }
+        }
+      }
+    },
+    "Puts these settings back, after saving the ones the app has now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vrátí tato nastavení zpět, ale nejprve uloží současná nastavení aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legt diese Einstellungen zurück und sichert vorher die aktuellen Einstellungen der App."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaura estos ajustes después de guardar los que la app tiene ahora."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remet ces réglages en place, après avoir enregistré les réglages actuels de l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripristina queste impostazioni, dopo aver salvato quelle attuali dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの現在の設定を保存してから、これらの設定を戻します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 현재 설정을 저장한 후 이 설정을 되돌려 놓습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet deze instellingen terug, nadat de huidige instellingen van de app zijn bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przywraca te ustawienia po zachowaniu tych, które aplikacja ma teraz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloca estes ajustes de volta, depois de salvar os atuais do app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pune înapoi aceste configurări, după ce le salvează pe cele pe care aplicația le are acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстанавливает эти настройки, предварительно сохранив текущие настройки приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägger tillbaka de här inställningarna efter att ha sparat appens nuvarande inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamanın şu anki ayarlarını kaydettikten sonra bu ayarları yerine koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повертає ці налаштування, спершу зберігши поточні."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先保存App当前的设置，再将这些设置放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先儲存App目前的設定，再還原這些設定。"
           }
         }
       }

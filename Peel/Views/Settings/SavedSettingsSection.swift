@@ -11,6 +11,7 @@ struct SavedSettingsSection: View {
     @State private var workingOn: PreferenceBackup.Copy.ID?
     @State private var failure: Failure?
     @State private var copyToTrash: PreferenceBackup.Copy?
+    @State private var copyToPutBack: PreferenceBackup.Copy?
     /// The copies whose app, or a copy of it writing the same settings, is running. Stored and read again on every
     /// launch and quit, because a read of the workspace while drawing gives Observation nothing to follow.
     @State private var openApps: Set<String> = []
@@ -36,6 +37,14 @@ struct SavedSettingsSection: View {
         .onReceive(NSWorkspace.shared.publisher(for: \.runningApplications)) { _ in
             refreshOpenApps()
         }
+        .confirmationDialog(putBackQuestion, isPresented: isAskingToPutBack, presenting: copyToPutBack) { copy in
+            Button("Put Back") {
+                Task { await putBack(copy, named: library.name(forBundleIdentifier: copy.bundleIdentifier)) }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { copy in
+            Text("Peel first saves the settings \(library.name(forBundleIdentifier: copy.bundleIdentifier)) has now, as a copy of their own, then puts these in their place.")
+        }
         .confirmationDialog(trashQuestion, isPresented: isAskingToTrash, presenting: copyToTrash) { copy in
             Button("Move to Trash") {
                 Task { await moveToTrash(copy, named: library.name(forBundleIdentifier: copy.bundleIdentifier)) }
@@ -55,10 +64,10 @@ struct SavedSettingsSection: View {
         return LabeledContent {
             HStack(spacing: 8) {
                 Button("Put Back") {
-                    Task { await putBack(copy, named: name) }
+                    copyToPutBack = copy
                 }
                 .disabled(isOpen)
-                .help(isOpen ? Text("Quit \(name) first, or it can write its own settings over these.") : Text("Puts these settings back. Whatever the app set since is cleared first."))
+                .help(isOpen ? Text("Quit \(name) first, or it can write its own settings over these.") : Text("Puts these settings back, after saving the ones the app has now."))
                 Button("Show in Finder", systemImage: "folder") {
                     NSWorkspace.shared.activateFileViewerSelecting([copy.folder])
                 }
@@ -106,14 +115,23 @@ struct SavedSettingsSection: View {
         }
         workingOn = copy.id
         defer { workingOn = nil }
-        let restored = await PreferenceBackup.restore(from: copy.folder)
-        if !restored.isComplete {
+        let restored = await PreferenceBackup.restore(
+            from: copy.folder, of: copy.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions
+        )
+        // The settings the app had until now may have become a copy of their own.
+        reload()
+        switch restored {
+        case .complete:
+            break
+        case .incomplete(let clearedSome):
             failure = Failure(
                 title: String(localized: "Not all of the settings saved for \(name) could be put back."),
-                message: restored.clearedSome
+                message: clearedSome
                     ? String(localized: "The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
                     : ""
             )
+        case .notSaved:
+            failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: "")
         }
     }
 
@@ -134,6 +152,19 @@ struct SavedSettingsSection: View {
         guard let copy = copyToTrash else { return Text(verbatim: "") }
         let name = library.name(forBundleIdentifier: copy.bundleIdentifier)
         return Text("Move the settings saved for \(name) on \(copy.date, format: .dateTime.day().month().year().hour().minute()) to the Trash?")
+    }
+
+    private var putBackQuestion: Text {
+        guard let copy = copyToPutBack else { return Text(verbatim: "") }
+        let name = library.name(forBundleIdentifier: copy.bundleIdentifier)
+        return Text("Put back the settings saved for \(name) on \(copy.date, format: .dateTime.day().month().year().hour().minute())?")
+    }
+
+    private var isAskingToPutBack: Binding<Bool> {
+        Binding(
+            get: { copyToPutBack != nil },
+            set: { if !$0 { copyToPutBack = nil } }
+        )
     }
 
     private var isAskingToTrash: Binding<Bool> {

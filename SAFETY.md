@@ -233,12 +233,13 @@ start over in Settings, `peel` refuses, and the file it could not read is kept b
 A reset clears an app's settings and never the app itself. It lists only files that are certainly that app's, and the
 app has to be quit, both when the reset starts and when saved settings are put back. Before anything moves, Peel saves
 the app's settings, and if that copy fails, nothing moves; Settings lists the saved copies, where each can be put back
-or cleared, since one can hold a license key, and they stay until you clear them. What the app keeps for you (its
-Application Support folder, group containers, and application scripts) goes only when you select it, and is never
-offered for Mail, Messages, Notes, or Photos. Inside a sandboxed app's container, a reset touches only the app's
-preferences, saved state, caches, logs, and web data, never `Documents`, `Application Support`, or
-`Autosave Information`; web data, which signs you out of websites, is offered but never selected for you. A folder that
-holds a wallet's keys is never offered, even among those: BlueWallet keeps its wallet in its container's caches.
+or cleared, since one can hold a license key, and they stay until you clear them. Putting one back asks first, and saves
+the settings the app has now as a copy of their own before it replaces them. What the app keeps for you (its Application
+Support folder, group containers, and application scripts) goes only when you select it, and is never offered for Mail,
+Messages, Notes, or Photos. Inside a sandboxed app's container, a reset touches only the app's preferences, saved state,
+caches, logs, and web data, never `Documents`, `Application Support`, or `Autosave Information`; web data, which signs
+you out of websites, is offered but never selected for you. A folder that holds a wallet's keys is never offered, even
+among those: BlueWallet keeps its wallet in its container's caches.
 
 ## The helper that runs as root
 

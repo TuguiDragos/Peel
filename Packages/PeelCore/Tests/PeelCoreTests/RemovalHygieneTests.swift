@@ -219,26 +219,77 @@ struct RemovalHygieneTests {
     /// before anything is cleared.
     @Test func aCopyThatCannotBeReadClearsNothing() async throws {
         let directory = try TemporaryDirectory()
-        let folder = try directory.directory("com.example.app 2026-09-24 101500")
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
         let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
         try good.write(to: folder.appending(path: "com.example.app.plist"))
         try Data("not a property list".utf8).write(to: folder.appending(path: "com.example.helper.plist"))
         let asked = Mutex<[[String]]>([])
         let run: PreferenceBackup.Run = { arguments in
             asked.withLock { $0.append(arguments) }
-            return .yes
+            return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, run: run)
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run)
 
-        #expect(restored == PreferenceBackup.Restored(isComplete: false, clearedSome: false), "a copy that could not be read was reported as put back, or as cleared")
+        #expect(restored == .incomplete(clearedSome: false), "a copy that could not be read was reported as put back, or as cleared")
         let commands = asked.withLock { $0 }
         #expect(commands.contains(["delete", "com.example.app"]))
         #expect(!commands.contains { $0.contains("com.example.helper") }, "the settings in use were cleared for a copy that could not go back")
 
         // An import that fails after the delete has cleared that domain, and the result says so.
-        let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : .yes }
-        #expect(await PreferenceBackup.restore(from: folder, run: failingImport) == PreferenceBackup.Restored(isComplete: false, clearedSome: true))
+        let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : Self.exporting(arguments) }
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: failingImport) == .incomplete(clearedSome: true))
+    }
+
+    /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
+    /// are saved first, as a copy of their own, and only then cleared.
+    @Test func puttingBackSavesTheSettingsInUseFirst() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        try good.write(to: folder.appending(path: "com.example.app.plist"))
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run)
+
+        #expect(restored == .complete)
+        let copies = PreferenceBackup.copies(in: backups)
+        #expect(copies.count == 2, "the settings in use were not kept as a copy of their own")
+        let previous = try #require(copies.first { $0.folder != folder })
+        #expect(FileManager.default.fileExists(atPath: previous.folder.appending(path: "com.example.app.plist").path(percentEncoded: false)))
+        let verbs = asked.withLock { $0 }.map(\.[0])
+        #expect(verbs == ["read", "export", "delete", "import"], "cleared before the settings in use were saved")
+    }
+
+    /// When the settings in use cannot be saved, nothing is cleared, and the saved copy is not put back.
+    @Test func nothingIsClearedWhenTheSettingsInUseCannotBeSaved() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        try good.write(to: folder.appending(path: "com.example.app.plist"))
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return arguments.first == "export" ? .no : .yes
+        }
+
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run) == .notSaved)
+        #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
+    }
+
+    /// A stand-in for `defaults` that answers yes, and writes the file an `export` names, as the real one does.
+    private static func exporting(_ arguments: [String]) -> PreferenceBackup.Answer {
+        if arguments.first == "export", let file = arguments.last {
+            FileManager.default.createFile(atPath: file, contents: Data())
+        }
+        return .yes
     }
 
     /// The copy is what makes `defaults delete` safe to run, so a copy that could not be made must stop the
