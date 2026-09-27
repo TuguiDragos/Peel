@@ -522,6 +522,9 @@ public enum DeveloperCaches {
             Folder("Library/Caches/composer", .downloads, source: "https://github.com/composer/composer/blob/main/doc/06-config.md#L1105-L1108"),
             Folder(".composer/cache", .downloads, source: "https://github.com/composer/composer/blob/main/src/Composer/Factory.php#L122-L128"),
         ]),
+        Definition(id: "cpan", name: "CPAN", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".cpan/build", .buildData, source: "https://github.com/andk/cpanpm/blob/master/lib/CPAN/FirstTime.pm#L930"),
+        ]),
         Definition(id: "rubygems", name: "RubyGems & Bundler", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".gem/ruby/*/cache", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/specification.rb#L1659-L1660"),
             Folder(".gem/specs", .cache, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L23-L30"),

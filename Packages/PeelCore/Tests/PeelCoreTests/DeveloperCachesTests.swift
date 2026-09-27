@@ -780,6 +780,18 @@ struct DeveloperCachesTests {
         #expect(locations.map(\.url.lastPathComponent) == ["downloads"])
     }
 
+    @Test func offersCpansBuildFolderAndNeverItsPreferences() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cpan/build/Moose-2.2207-0/Makefile", bytes: 400_000)
+        try directory.file(".cpan/prefs/Moose.yml", bytes: 64)
+        try directory.file(".cpan/CPAN/MyConfig.pm", bytes: 64)
+        let cpan = DeveloperCaches.definitions.filter { $0.id == "cpan" }
+
+        let locations = await DeveloperCaches.scan(cpan, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["build"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
