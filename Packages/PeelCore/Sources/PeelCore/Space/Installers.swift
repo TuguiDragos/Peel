@@ -154,7 +154,7 @@ public enum Installers {
         )
     }
 
-    /// Words that can follow the app's name in an installer's file name, as `Naming.normalized` writes them: an
+    /// Words that can follow the app's name in an installer's file name, as `words(in:)` gives them joined: an
     /// architecture, a platform, or a word such as "setup" or "final".
     private static let afterTheName: Set<String> = ["arm64", "x64", "x8664", "amd64", "intel", "universal", "mac", "macos", "osx", "darwin", "installer", "setup", "full", "final"]
 
@@ -196,14 +196,42 @@ public enum Installers {
     /// word installers add. Any other word after the name makes it another product: `Notion Calendar` is not
     /// Notion, and `Signal RGB` is not Signal.
     static func names(_ stem: String, and name: String) -> Bool {
-        let normalized = Naming.normalized(stem)
         let app = Naming.normalized(name)
-        guard normalized != app else { return true }
-        guard normalized.hasPrefix(app) else { return false }
-        let rest = normalized.dropFirst(app.count)
-        if rest.first?.isNumber == true { return true }
-        if rest.first == "v", rest.dropFirst().first?.isNumber == true { return true }
-        return afterTheName.contains { rest.hasPrefix($0) }
+        guard Naming.normalized(stem) != app else { return true }
+        let words = words(in: stem)
+        // The app's name covers the first words whole, however they are spelled.
+        guard !words.isEmpty, let count = (1...words.count).first(where: { words.prefix($0).joined() == app }) else {
+            return false
+        }
+        let rest = words.dropFirst(count)
+        guard let first = rest.first else { return true }
+        if first.first?.isNumber == true { return true }
+        if first == "v", rest.dropFirst().first?.first?.isNumber == true { return true }
+        return (1...rest.count).contains { afterTheName.contains(rest.prefix($0).joined()) }
+    }
+
+    /// The words of a file name, lowercased: split at each character that is neither a letter nor a digit, where a
+    /// lowercase letter meets an uppercase one, and where letters meet digits.
+    static func words(in name: String) -> [String] {
+        var words: [String] = []
+        var word = ""
+        var previous: Character?
+        for character in name {
+            guard character.isLetter || character.isNumber else {
+                if !word.isEmpty { words.append(word.lowercased()) }
+                word = ""
+                previous = nil
+                continue
+            }
+            if let previous, previous.isLowercase && character.isUppercase || previous.isNumber != character.isNumber {
+                words.append(word.lowercased())
+                word = ""
+            }
+            word.append(character)
+            previous = character
+        }
+        if !word.isEmpty { words.append(word.lowercased()) }
+        return words
     }
 
     static func macOSInstallers(in folders: [URL], exclusions: Exclusions, minimumSize: Int64, measure: LeftoverScanner.Measure) async -> [InstallerItem] {

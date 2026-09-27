@@ -294,4 +294,18 @@ struct InstallersTests {
         #expect(Installers.installedApp(for: URL(filePath: "/x/Notion Calendar.dmg"), in: others) == nil)
         #expect(Installers.installedApp(for: URL(filePath: "/x/Notion-2.3.dmg"), in: others)?.name == "Notion")
     }
+
+    /// A word that only begins like one an installer adds is another word: `Macros` is not `mac`.
+    @Test func aWordAfterTheNameCountsOnlyWhole() {
+        let apps = [
+            app("Alfred", bundleIdentifier: "com.runningwithcrayons.Alfred"), app("Figma", bundleIdentifier: "com.figma.Desktop"),
+        ]
+
+        #expect(Installers.installedApp(for: URL(filePath: "/x/Alfred-Macros-Pack.dmg"), in: apps) == nil)
+        #expect(Installers.installedApp(for: URL(filePath: "/x/Figma-Fullscreen-Helper.dmg"), in: apps) == nil)
+        #expect(Installers.installedApp(for: URL(filePath: "/x/Alfred_5.5.1_2273.dmg"), in: apps)?.name == "Alfred")
+        #expect(Installers.installedApp(for: URL(filePath: "/x/Figma-mac-x86_64.dmg"), in: apps)?.name == "Figma")
+        #expect(Installers.installedApp(for: URL(filePath: "/x/FigmaSetup.dmg"), in: apps)?.name == "Figma")
+        #expect(Installers.installedApp(for: URL(filePath: "/x/Figma-v124.dmg"), in: apps)?.name == "Figma")
+    }
 }
