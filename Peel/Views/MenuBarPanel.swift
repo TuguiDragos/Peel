@@ -117,6 +117,8 @@ struct MenuBarPanel: View {
                     )
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(Text("Updates waiting"))
+                .accessibilityValue(Text(verbatim: waiting.count.formatted()))
                 .background(isPointingAtUpdates ? Album.slot : .clear)
                 .motion(.touch, value: isPointingAtUpdates)
                 .onHover { isPointingAtUpdates = $0 }
@@ -166,6 +168,11 @@ struct MenuBarPanel: View {
         .padding(.horizontal, Self.rowPadding)
         .frame(height: 46)
         .contentShape(.rect)
+        // One element, as a list row reads: the symbols are decoration, and the figure is the row's value.
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isStaticText)
+        .accessibilityLabel(label)
+        .accessibilityValue(Text(verbatim: value))
     }
 
     private var footer: some View {
