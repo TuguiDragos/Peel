@@ -414,6 +414,35 @@ struct DuplicateFinderTests {
         #expect(ReclaimableSpace.of(compressed) == 0)
         #expect(ReclaimableSpace.of(clone) == 0)
     }
+
+    /// A USB stick or a card formatted exFAT or FAT can neither clone a file nor keep a snapshot, so its copies share
+    /// no block, yet it answers the private size with zero. Removing a copy there frees every block the copy takes.
+    @Test(arguments: ["ExFAT", "MS-DOS FAT32"])
+    func aCopyOnADiskThatSharesNothingFreesAllItTakes(fileSystem: String) async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let volume = try ScratchVolume(fileSystem: fileSystem, mountedAt: home.appending(path: "Stick", directoryHint: .isDirectory))
+        let photo = randomData(count: 1_048_576)
+        for (path, contents) in [("one/photo.bin", photo), ("two/photo.bin", photo), ("two/other.bin", randomData(count: 4_096))] {
+            let url = volume.url.appending(path: path)
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try contents.write(to: url)
+        }
+        for folder in ["a", "b"] {
+            let url = volume.url.appending(path: "\(folder)/scan.bin")
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try photo.prefix(524_288).write(to: url)
+        }
+
+        let result = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [volume.url]))
+
+        let photos = try #require(result.groups.first { $0.files.contains { $0.url.lastPathComponent == "photo.bin" } })
+        let copy = try #require(photos.files.last)
+        #expect(copy.reclaimableSize == copy.allocatedSize && copy.allocatedSize >= 1_048_576)
+        #expect(!copy.sharesStorage)
+        let folders = try #require(result.folderGroups.first { $0.folders.contains { $0.url.lastPathComponent == "b" } })
+        #expect(folders.reclaimableSize >= 524_288)
+    }
 }
 
 struct DuplicateRemovalTests {
