@@ -51,13 +51,11 @@ public enum PreferenceBackup {
         guard !domains.isEmpty else { return .nothingToSave }
 
         // The bundle identifier comes from the app itself and becomes part of a folder name, so it must have the
-        // reverse DNS shape `copies` reads back, which rules out a `/`. The folder must be new, or a second save
-        // in the same second would write into the first one.
-        guard Identifier.isReverseDNS(app.bundleIdentifier) else { return .failed }
-        let folder = directory.appending(path: "\(app.bundleIdentifier) \(stamp())", directoryHint: .isDirectory)
+        // reverse DNS shape `copies` reads back, which rules out a `/`.
         guard
+            Identifier.isReverseDNS(app.bundleIdentifier),
             (try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)) != nil,
-            (try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)) != nil
+            let folder = newFolder(for: app.bundleIdentifier, in: directory)
         else { return .failed }
 
         for domain in domains {
@@ -127,17 +125,36 @@ public enum PreferenceBackup {
     }
 
     /// Lists the saved copies in `directory`, newest first. Only folders named the way `save` names them
-    /// (bundle identifier, then time) count; anything else is ignored.
+    /// (bundle identifier, then time, then a number for a second copy in the same second) count; anything else is
+    /// ignored.
     public static func copies(in directory: URL = PreferenceBackup.defaultDirectory) -> [Copy] {
         let folders = (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
-        return folders.compactMap { folder -> Copy? in
-            let name = folder.lastPathComponent
-            guard folder.isRealFolder, name.count > stampLength + 1 else { return nil }
-            let identifier = String(name.dropLast(stampLength + 1))
-            guard Identifier.isReverseDNS(identifier), let date = try? stampStyle.parse(String(name.suffix(stampLength))) else { return nil }
-            return Copy(folder: folder, bundleIdentifier: identifier, date: date)
+        return folders.compactMap { folder -> (copy: Copy, number: Int)? in
+            // An identifier has no space, so the name reads as the identifier, the day, the time, and a number.
+            let parts = folder.lastPathComponent.split(separator: " ", omittingEmptySubsequences: false)
+                .map(String.init)
+            guard folder.isRealFolder, parts.count == 3 || parts.count == 4, Identifier.isReverseDNS(parts[0]),
+                  let date = try? stampStyle.parse("\(parts[1]) \(parts[2])") else { return nil }
+            let number = parts.count == 4 ? Int(parts[3]) : 1
+            guard let number, number >= 1 else { return nil }
+            return (Copy(folder: folder, bundleIdentifier: parts[0], date: date), number)
         }
-        .sorted { $0.date > $1.date }
+        .sorted { $0.copy.date != $1.copy.date ? $0.copy.date > $1.copy.date : $0.number > $1.number }
+        .map(\.copy)
+    }
+
+    /// Makes a new folder in `directory` for a copy of `bundleIdentifier`'s settings, named for the time. A copy
+    /// already made in that second keeps its folder, and this one takes the next number after the time.
+    private static func newFolder(for bundleIdentifier: String, in directory: URL) -> URL? {
+        let name = "\(bundleIdentifier) \(stamp())"
+        for number in 1...100 {
+            let folder = directory.appending(path: number == 1 ? name : "\(name) \(number)", directoryHint: .isDirectory)
+            if (try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)) != nil {
+                return folder
+            }
+            guard folder.isThere else { return nil }
+        }
+        return nil
     }
 
     static func fileName(for domain: PreferenceCleanup.Domain) -> String {
@@ -158,7 +175,6 @@ public enum PreferenceBackup {
     /// Formats a time as `2026-09-20 093000`, in local time, since people read the folder name in Finder.
     private static let stampStyle = Date.ISO8601FormatStyle(dateSeparator: .dash, dateTimeSeparator: .space, timeSeparator: .omitted, timeZone: .current)
         .year().month().day().time(includingFractionalSeconds: false)
-    private static let stampLength = 17
 
     private static func stamp() -> String {
         Date.now.formatted(stampStyle)

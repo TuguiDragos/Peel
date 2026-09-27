@@ -273,20 +273,47 @@ struct RemovalHygieneTests {
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty)
     }
 
+    /// Two copies of one app's settings made within a second are both kept: the second gets a number after the
+    /// time instead of failing, or being written into the first.
+    @Test func twoCopiesMadeInTheSameSecondAreBothKept() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
+        let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
+        let exporting: PreferenceBackup.Run = { arguments in
+            if arguments.first == "export", let file = arguments.last {
+                FileManager.default.createFile(atPath: file, contents: Data())
+            }
+            return .yes
+        }
+
+        let first = await PreferenceBackup.save([plist], for: app, in: backups, run: exporting)
+        let second = await PreferenceBackup.save([plist], for: app, in: backups, run: exporting)
+
+        guard case .saved(let one) = first, case .saved(let two) = second else {
+            Issue.record("a copy was not made: \(first), \(second)")
+            return
+        }
+        #expect(one != two)
+        #expect(PreferenceBackup.copies(in: backups).map(\.folder.lastPathComponent).count == 2)
+    }
+
     /// Settings lists the saved copies, newest first, to put back or clear. A copy may hold a license key.
     @Test func listsTheCopiesThatWereSaved() throws {
         let directory = try TemporaryDirectory()
         let backups = try directory.directory("Backups")
         try directory.file("Backups/com.example.app 2026-09-18 101500/com.example.app.plist")
         try directory.file("Backups/com.example.app 2026-09-20 093000/com.example.app.plist")
+        try directory.file("Backups/com.example.app 2026-09-20 093000 2/com.example.app.plist")
         try directory.file("Backups/com.other.tool 2026-09-19 120000/com.other.tool.plist")
         try directory.file("Backups/notes.txt")
         try directory.directory("Backups/somebody else's folder")
+        try directory.directory("Backups/com.example.app 2026-09-20 093000 x")
 
         let copies = PreferenceBackup.copies(in: backups)
 
-        #expect(copies.map(\.bundleIdentifier) == ["com.example.app", "com.other.tool", "com.example.app"])
-        #expect(copies.first?.folder.lastPathComponent == "com.example.app 2026-09-20 093000")
+        #expect(copies.map(\.bundleIdentifier) == ["com.example.app", "com.example.app", "com.other.tool", "com.example.app"])
+        #expect(copies.map(\.folder.lastPathComponent).prefix(2) == ["com.example.app 2026-09-20 093000 2", "com.example.app 2026-09-20 093000"])
         #expect(copies.first?.date == DateComponents(calendar: .current, year: 2026, month: 9, day: 20, hour: 9, minute: 30, second: 0).date)
     }
 
