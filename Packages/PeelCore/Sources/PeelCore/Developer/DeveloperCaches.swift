@@ -569,6 +569,7 @@ public enum DeveloperCaches {
         Definition(id: "stack", name: "Haskell Stack", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".stack/pantry/hackage", .downloads, source: "https://github.com/commercialhaskell/stack/blob/master/doc/topics/stack_root.md#L228-L232"),
             Folder(".stack/setup-exe-cache", .buildData, source: "https://github.com/commercialhaskell/stack/blob/master/doc/topics/stack_root.md#L279-L285"),
+            Folder(".stack/snapshots", .environments, source: "https://github.com/commercialhaskell/stack/blob/master/doc/topics/stack_root.md#L312-L318"),
         ]),
         Definition(id: "opam", name: "opam", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".opam/download-cache", .downloads, source: "https://github.com/ocaml/opam/blob/master/doc/pages/Manual.md#L41"),

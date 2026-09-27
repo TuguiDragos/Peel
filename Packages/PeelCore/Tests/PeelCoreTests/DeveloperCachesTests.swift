@@ -792,6 +792,17 @@ struct DeveloperCachesTests {
         #expect(locations.map(\.url.lastPathComponent) == ["build"])
     }
 
+    @Test func listsStacksSnapshotsWithoutEverSelectingThem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".stack/snapshots/aarch64-osx/2f1c/9.8.4/lib/package.conf", bytes: 400_000)
+        let stack = DeveloperCaches.definitions.filter { $0.id == "stack" }
+
+        let locations = await DeveloperCaches.scan(stack, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["snapshots"])
+        #expect(locations.first?.isRecommended == false)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
