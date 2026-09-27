@@ -10,27 +10,17 @@ final class HelperService: NSObject, PeelHelperProtocol {
         self.lifetime = lifetime
     }
 
-    /// Limits on one request, so a client cannot hand the helper an unbounded amount of work. `PATH_MAX`
-    /// counts the terminating NUL, so the longest real path is 1,023 bytes.
-    private static let maximumItems = 10_000
-    private static let maximumPathLength = 1_023
-
-    private struct Caller {
-        let user: uid_t
-        let homeDirectory: String
-    }
-
     /// The account behind the connection the message came on, and its home folder. Nil when that account is not
     /// an administrator or its home folder cannot be found. It is asked for each message, so an account that stops
     /// being an administrator is refused from its next request. It says whose connection it is, not which process
     /// sent the message: `xpc_connection_create(3)` warns that a client can hand its connection to another process.
-    private static func caller() -> Caller? {
+    private static func caller() -> HelperRequest.Caller? {
         guard
             let user = NSXPCConnection.current()?.effectiveUserIdentifier,
             UserAuthorization.isAdministrator(user),
             let home = UserAuthorization.homeDirectory(of: user)
         else { return nil }
-        return Caller(user: user, homeDirectory: home)
+        return HelperRequest.Caller(user: user, homeDirectory: home)
     }
 
     private func tracked(_ finish: @escaping @Sendable (String?) -> Void) -> @Sendable (String?) -> Void {
@@ -38,10 +28,6 @@ final class HelperService: NSObject, PeelHelperProtocol {
             finish(answer)
             lifetime.requestFinished()
         }
-    }
-
-    private static func speaksThisVersion(_ version: Int) -> Bool {
-        version == HelperIdentity.protocolVersion
     }
 
     func protocolVersion(withReply reply: @escaping @Sendable (Int) -> Void) {
@@ -55,11 +41,14 @@ final class HelperService: NSObject, PeelHelperProtocol {
             lifetime.requestFinished()
         }
         func refuse(_ reason: String) {
-            reply([:], Dictionary(paths.prefix(Self.maximumItems).map { ($0, reason) }) { first, _ in first })
+            reply([:], Dictionary(paths.prefix(HelperRequest.maximumItems).map { ($0, reason) }) { first, _ in first })
         }
-        guard Self.speaksThisVersion(version) else { return refuse(HelperRefusal.outOfDate.rawValue) }
-        guard paths.count <= Self.maximumItems else { return refuse(HelperRefusal.tooManyItems.rawValue) }
-        guard let caller = Self.caller() else { return refuse(HelperRefusal.notAllowed.rawValue) }
+        let caller: HelperRequest.Caller
+        do {
+            caller = try HelperRequest.admit(version: version, items: paths.count, caller: Self.caller).get()
+        } catch {
+            return refuse(error.rawValue)
+        }
 
         let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory)
         guard let trash = policy.openTrash(ownedBy: caller.user) else { return refuse(HelperRefusal.noTrash.rawValue) }
@@ -67,7 +56,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         var failed: [String: String] = [:]
         var items: [(path: String, item: OpenItem)] = []
         for path in paths {
-            guard path.utf8.count <= Self.maximumPathLength else {
+            guard !HelperRequest.isTooLong(path) else {
                 failed[path] = HelperRefusal.pathTooLong.rawValue
                 continue
             }
@@ -87,11 +76,13 @@ final class HelperService: NSObject, PeelHelperProtocol {
     func restoreItem(version: Int, fromTrashPath trashPath: String, toPath destination: String, withReply finish: @escaping @Sendable (String?) -> Void) {
         lifetime.requestStarted()
         let reply = tracked(finish)
-        guard Self.speaksThisVersion(version) else { return reply(HelperRefusal.outOfDate.rawValue) }
-        guard trashPath.utf8.count <= Self.maximumPathLength, destination.utf8.count <= Self.maximumPathLength else {
-            return reply(HelperRefusal.pathTooLong.rawValue)
+        let caller: HelperRequest.Caller
+        do {
+            let paths = [trashPath, destination]
+            caller = try HelperRequest.admit(version: version, paths: paths, caller: Self.caller).get()
+        } catch {
+            return reply(error.rawValue)
         }
-        guard let caller = Self.caller() else { return reply(HelperRefusal.notAllowed.rawValue) }
 
         let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory)
         guard
@@ -125,8 +116,12 @@ final class HelperService: NSObject, PeelHelperProtocol {
     func moveLedgerToTrash(version: Int, withReply finish: @escaping @Sendable (String?) -> Void) {
         lifetime.requestStarted()
         let reply = tracked(finish)
-        guard Self.speaksThisVersion(version) else { return reply(HelperRefusal.outOfDate.rawValue) }
-        guard let caller = Self.caller() else { return reply(HelperRefusal.notAllowed.rawValue) }
+        let caller: HelperRequest.Caller
+        do {
+            caller = try HelperRequest.admit(version: version, caller: Self.caller).get()
+        } catch {
+            return reply(error.rawValue)
+        }
         guard let trash = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory).openTrash(ownedBy: caller.user) else {
             return reply(HelperRefusal.noTrash.rawValue)
         }
@@ -139,8 +134,9 @@ final class HelperService: NSObject, PeelHelperProtocol {
     func runDaemonCommand(version: Int, command: String, label: String, withReply finish: @escaping @Sendable (String?) -> Void) {
         lifetime.requestStarted()
         let reply = tracked(finish)
-        guard Self.speaksThisVersion(version) else { return reply(HelperRefusal.outOfDate.rawValue) }
-        guard Self.caller() != nil else { return reply(HelperRefusal.notAllowed.rawValue) }
+        if case .failure(let refusal) = HelperRequest.admit(version: version, caller: Self.caller) {
+            return reply(refusal.rawValue)
+        }
         guard let command = DaemonCommand(rawValue: command), PrivilegedPathPolicy.allowsDaemon(label) else {
             return reply(HelperRefusal.invalidRequest.rawValue)
         }
