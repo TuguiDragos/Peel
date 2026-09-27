@@ -272,6 +272,19 @@ struct RemovalHistoryTests {
         #expect(outcome.problem == .unreadable)
     }
 
+    /// A log in a folder that cannot be searched is not known to be empty, so it is unreadable, never replaced.
+    @Test func aLogItCannotReachIsUnreadableNotEmpty() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0o600, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        let outcome = await RemovalLog(url: url).add([Self.record(batch: UUID())])
+
+        #expect(outcome.records == nil)
+        #expect(outcome.problem == .unreadable)
+    }
+
     /// History showing "3 items" for a removal that touched twelve is worse than showing nothing: the user
     /// cannot tell which nine are missing. Whole batches are dropped, never part of one.
     @Test func recordsAWholeBatchEvenWhenItIsLargerThanTheCap() async throws {

@@ -250,6 +250,19 @@ struct TeamRegistryTests {
         InstalledApp(url: URL(filePath: "/Applications/\(identifier).app"), bundleIdentifier: identifier, name: identifier, teamIdentifier: team)
     }
 
+    /// A registry that leads nowhere cannot be read, so it reports nothing and is left as it is.
+    @Test func leavesARegistryItCannotReachAsItIs() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "teams.json")
+        let path = url.path(percentEncoded: false)
+        try FileManager.default.createSymbolicLink(atPath: path, withDestinationPath: "/nowhere/teams.json")
+
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]).isEmpty)
+
+        let kind = try FileManager.default.attributesOfItem(atPath: path)[.type] as? FileAttributeType
+        #expect(kind == .typeSymbolicLink, "the registry was written over")
+    }
+
     /// A change of signer is the one security warning the Applications tool gives. It is kept on disk and
     /// reported at every launch until the user acknowledges it.
     @Test func keepsSayingAnAppChangedHandsUntilItIsAcknowledged() async throws {

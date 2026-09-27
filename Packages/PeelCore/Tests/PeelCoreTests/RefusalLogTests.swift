@@ -93,6 +93,17 @@ struct RefusalLogTests {
         #expect(try Data(contentsOf: url) == Data("[]".utf8), "an unreadable record was written over")
     }
 
+    /// A record in a folder that cannot be searched may be there, so it is not called cleared.
+    @Test func aRecordItCannotReachIsNotClearedAway() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[]".utf8).write(to: url)
+        try directory.setPermissions(0o600, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        #expect(await RefusalLog(url: url).clear() == false)
+    }
+
     @Test func clearForgetsEverything() async throws {
         let directory = try TemporaryDirectory()
         let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))

@@ -58,7 +58,7 @@ public actor RefusalLog {
 
     public func clear() -> Bool {
         FileLock.whileHeld(beside: url) {
-            guard url.isThere else { return true }
+            guard !url.isMissing else { return true }
             return (try? FileManager.default.removeItem(at: url)) != nil
         }
     }
@@ -66,7 +66,7 @@ public actor RefusalLog {
     /// The records in the file. A file that fails to decode is set aside and its readable rows kept. Nil when the
     /// file could not be read or set aside, so it must not be written over.
     private func current() -> [RefusalRecord]? {
-        guard url.isThere else { return [] }
+        guard !url.isMissing else { return [] }
         guard let data = BoundedRead.data(at: url, maximum: 16 * 1_024 * 1_024) else { return nil }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = LogTime.decoding

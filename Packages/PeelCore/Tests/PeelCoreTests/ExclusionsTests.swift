@@ -237,6 +237,21 @@ struct ExclusionsTests {
         #expect(result.failures.map(\.reason) == [.protectedLocation])
     }
 
+    /// A list Peel cannot reach is not known to be empty: a folder on the way that cannot be searched, or a link
+    /// that leads nowhere, reads as a list that cannot be read, so nothing moves.
+    @Test func aListItCannotReachIsUnreadableNotEmpty() async throws {
+        let directory = try TemporaryDirectory()
+        let saved = Data(#"{"paths":[],"bundleIdentifiers":["com.example.app"]}"#.utf8)
+        let file = try directory.file("Peel/exclusions.json", contents: saved)
+        let link = directory.url.appending(path: "linked.json")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: URL(filePath: "/nowhere/list.json"))
+        try directory.setPermissions(0o600, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        #expect(await ExclusionStore(url: file).load().isUnreadable)
+        #expect(await ExclusionStore(url: link).load().isUnreadable)
+    }
+
     /// Until the app has read the saved list, what the user excluded is not known, so nothing moves, as for a list
     /// that cannot be read.
     @Test func movesNothingBeforeTheListIsRead() async throws {

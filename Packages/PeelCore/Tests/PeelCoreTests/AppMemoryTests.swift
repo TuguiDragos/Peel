@@ -25,6 +25,19 @@ struct AppMemoryTests {
         #expect(Set(second.map(\.bundleIdentifier)) == ["net.shinyfrog.bear", "dev.zed.Zed"], "an app it saw before was forgotten")
     }
 
+    /// A memory that leads nowhere cannot be read, so it is left as it is rather than replaced by a new file.
+    @Test func leavesAMemoryItCannotReachAsItIs() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "apps.json")
+        let path = url.path(percentEncoded: false)
+        try FileManager.default.createSymbolicLink(atPath: path, withDestinationPath: "/nowhere/apps.json")
+
+        _ = await AppMemory(url: url).remember([app("Bear", "net.shinyfrog.bear")])
+
+        let kind = try FileManager.default.attributesOfItem(atPath: path)[.type] as? FileAttributeType
+        #expect(kind == .typeSymbolicLink, "the memory was written over")
+    }
+
     /// macOS's own apps come and go with the system, so remembering them says nothing useful.
     @Test func leavesTheSystemsOwnAppsOut() async throws {
         let directory = try TemporaryDirectory()

@@ -8,6 +8,13 @@ extension URL {
         return lstat(path(percentEncoded: false), &info) == 0
     }
 
+    /// True only when nothing is there under this name. A name macOS cannot look up, as in a folder that cannot be
+    /// searched, is not missing, so one of Peel's files it cannot reach is never read as one that is not there.
+    var isMissing: Bool {
+        var info = stat()
+        return lstat(path(percentEncoded: false), &info) != 0 && errno == ENOENT
+    }
+
     /// True for a folder that is there in its own right: a symbolic link to one does not count.
     var isRealFolder: Bool {
         let values = try? resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])

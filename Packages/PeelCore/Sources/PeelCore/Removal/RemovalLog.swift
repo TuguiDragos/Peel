@@ -82,7 +82,7 @@ public actor RemovalLog {
 
     /// The records on disk, or nil when the file must not be replaced because it could not be read.
     private func current() -> [RemovalRecord]? {
-        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else {
+        guard !url.isMissing else {
             note(nil)
             return []
         }

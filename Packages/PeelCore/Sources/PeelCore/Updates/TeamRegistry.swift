@@ -85,10 +85,10 @@ public struct TeamRegistry: Sendable {
         }
     }
 
-    /// Returns nil for a file that exists but cannot be read or decoded. Rebuilt from the apps as they are, the
+    /// Returns nil for a file that cannot be read, reached or decoded. Rebuilt from the apps as they are, the
     /// registry would silently accept any change of team made since it was last read.
     private func load() -> [String: Entry]? {
-        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else { return [:] }
+        guard !url.isMissing else { return [:] }
         guard let data = BoundedRead.data(at: url) else { return nil }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601

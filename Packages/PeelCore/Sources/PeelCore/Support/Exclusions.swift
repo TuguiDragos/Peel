@@ -184,8 +184,8 @@ public struct ExclusionStore: Sendable {
         case notSaved(Exclusions)
     }
 
-    /// Loads the saved list. No file means an empty list. A file that is there but cannot be read gives
-    /// `.unreadable`, never an empty list, so what the user excluded stays protected.
+    /// Loads the saved list. No file means an empty list. A file that cannot be read or reached gives `.unreadable`,
+    /// never an empty list, so what the user excluded stays protected.
     @concurrent
     public func load() async -> Exclusions {
         read()
@@ -220,7 +220,7 @@ public struct ExclusionStore: Sendable {
     }
 
     private func read() -> Exclusions {
-        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else { return .none }
+        guard !url.isMissing else { return .none }
         guard let data = BoundedRead.data(at: url), let saved = try? JSONDecoder().decode(Exclusions.self, from: data) else {
             return .unreadable
         }

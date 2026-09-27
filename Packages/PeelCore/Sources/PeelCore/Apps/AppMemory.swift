@@ -40,7 +40,7 @@ public struct AppMemory: Sendable {
         FileLock.whileHeld(beside: url) { remember(apps, now: now, onTopOf: read()) }
     }
 
-    /// `known` is nil when the file exists but cannot be read. Its contents are then unknown, so it is never
+    /// `known` is nil when the file cannot be read or reached. Its contents are then unknown, so it is never
     /// written over, and the apps currently installed are still returned for this run.
     private func remember(_ apps: [InstalledApp], now: Date, onTopOf known: [RememberedApp]?) -> [RememberedApp] {
         var byIdentifier = Dictionary((known ?? []).map { ($0.bundleIdentifier, $0) }, uniquingKeysWith: { first, _ in first })
@@ -62,11 +62,11 @@ public struct AppMemory: Sendable {
         return kept
     }
 
-    /// Returns nil when the file exists but cannot be read. The file is the only record of apps that are gone,
+    /// Returns nil when the file cannot be read or reached. The file is the only record of apps that are gone,
     /// so a row that cannot be decoded costs only that row. The damaged file is first kept under another name,
     /// and when that fails, this returns nil so the file is left alone.
     private func read() -> [RememberedApp]? {
-        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else { return [] }
+        guard !url.isMissing else { return [] }
         guard let data = BoundedRead.data(at: url) else { return nil }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
