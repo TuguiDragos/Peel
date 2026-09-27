@@ -17685,7 +17685,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifică formulae instalate comparându‑le cu lista OSV.dev de vulnerabilități cunoscute. Homebrew trimite sursa și versiunea fiecăreia către api.osv.dev numai când faceți clic pe Scanați. Casks nu sunt verificate."
+            "value" : "Verifică formulele instalate comparându‑le cu lista OSV.dev de vulnerabilități cunoscute. Homebrew trimite sursa și versiunea fiecăreia către api.osv.dev numai când faceți clic pe Scanați. Cask‑urile nu sunt verificate."
           }
         },
         "ru" : {
@@ -37920,7 +37920,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew șterge pachetul definitiv: nimic nu ajunge în Coș și nu îl puteți pune înapoi din Istoric. Nu face acest lucru cât timp un alt pachet are nevoie de el și elimină totodată fiecare formula de care nu mai are nevoie nimic, indiferent de pachetul care a adus‑o."
+            "value" : "Homebrew șterge pachetul definitiv: nimic nu ajunge în Coș și nu îl puteți pune înapoi din Istoric. Nu face acest lucru cât timp un alt pachet are nevoie de el și elimină totodată fiecare formulă de care nu mai are nevoie nimic, indiferent de pachetul care a adus‑o."
           }
         },
         "ru" : {
@@ -38026,7 +38026,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew le șterge definitiv: aproximativ %@ în descărcări și versiuni vechi, plus orice formulae care existau doar pentru ceva ce nu mai există, pe care această cifră nu le include. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew le șterge definitiv: aproximativ %@ în descărcări și versiuni vechi, plus orice formule care existau doar pentru ceva ce nu mai există, pe care această cifră nu le include. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -38132,7 +38132,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew le șterge definitiv: descărcările și versiunile vechi pe care le‑a păstrat, plus orice formulae care existau doar pentru ceva ce nu mai există. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew le șterge definitiv: descărcările și versiunile vechi pe care le‑a păstrat, plus orice formule care existau doar pentru ceva ce nu mai există. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -39828,7 +39828,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instalează instrumentele în linie de comandă ca formulae și aplicațiile ca casks. Pe această pagină, Peel doar rulează comenzile proprii ale Homebrew și citește ce raportează acestea."
+            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel doar rulează comenzile proprii ale Homebrew și citește ce raportează acestea."
           }
         },
         "ru" : {
@@ -47694,7 +47694,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu mai respectă regulile Homebrew pentru casks."
+            "value" : "Nu mai respectă regulile Homebrew pentru cask‑uri."
           }
         },
         "ru" : {
@@ -84020,7 +84020,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă. Un singur lucru trimite o listă cu ce este instalat și îl porniți chiar dumneavoastră: scanarea vulnerabilităților din Homebrew trimite sursa și versiunea fiecărei formula instalate către api.osv.dev."
+            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă. Un singur lucru trimite o listă cu ce este instalat și îl porniți chiar dumneavoastră: scanarea vulnerabilităților din Homebrew trimite sursa și versiunea fiecărei formule instalate către api.osv.dev."
           }
         },
         "ru" : {
@@ -92249,7 +92249,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulae care existau doar pentru ceva ce nu mai există. Ce ați instalat dvs. rămâne."
+            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulele care existau doar pentru ceva ce nu mai există. Ce ați instalat dvs. rămâne."
           }
         },
         "ru" : {
@@ -115074,7 +115074,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lista de vulnerabilități cunoscute cu care Homebrew compară formulae."
+            "value" : "Lista de vulnerabilități cunoscute cu care Homebrew compară formulele."
           }
         },
         "ru" : {
