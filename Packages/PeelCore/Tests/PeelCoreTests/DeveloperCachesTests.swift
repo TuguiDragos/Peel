@@ -534,6 +534,29 @@ struct DeveloperCachesTests {
         #expect(offered == ["Simulator Devices"])
     }
 
+    @Test func offersEverySimulatorDeviceSetXcodeRemovesItself() async throws {
+        let directory = try TemporaryDirectory()
+        let sets = [
+            "Library/Developer/XCTestDevices",
+            "Library/Developer/XCPGDevices",
+            "Library/Developer/Xcode/UserData/IB Support/Simulator Devices",
+            "Library/Developer/Xcode/UserData/Previews/Simulator Devices",
+            "Library/Developer/Xcode/UserData-Tests/Previews/Simulator Devices",
+            "Library/Developer/Xcode/UserData/RT Support/Simulator Devices",
+        ]
+        for set in sets {
+            try directory.file("\(set)/device_set.plist", bytes: 400_000)
+        }
+        try directory.file("Library/Developer/Xcode/UserData/IB Support/other/state", bytes: 400_000)
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
+
+        let home = directory.url.path(percentEncoded: false)
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == Set(sets))
+        #expect(locations.allSatisfy { $0.isRecommended })
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

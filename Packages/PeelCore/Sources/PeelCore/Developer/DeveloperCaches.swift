@@ -187,6 +187,11 @@ public enum DeveloperCaches {
         Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
             Folder("Library/Developer/Xcode/DerivedData", .buildData, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes"),
             Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
+            Folder("Library/Developer/Xcode/UserData-Tests/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
+            Folder("Library/Developer/Xcode/UserData/IB Support/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
+            Folder("Library/Developer/Xcode/UserData/RT Support/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
+            Folder("Library/Developer/XCTestDevices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
+            Folder("Library/Developer/XCPGDevices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
             Folder("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_2-release-notes", rowsDepth: 1),
             Folder("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
             Folder("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
