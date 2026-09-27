@@ -123,6 +123,21 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == Set(caches))
     }
 
+    @Test func neverListsAFolderInsideAnotherItAlreadyLists() async throws {
+        let directory = try TemporaryDirectory()
+        let chrome = "Library/Application Support/Google/Chrome"
+        try directory.file("\(chrome)/GPUPersistentCache/GPUCache/data_0", bytes: 4_096)
+        try directory.file("\(chrome)/Default/GPUCache/data_0", bytes: 4_096)
+
+        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+
+        let folder = directory.url.appending(path: chrome).path(percentEncoded: false) + "/"
+        let listed = try #require(environments.first { $0.id == "chrome" }).locations.map {
+            $0.url.path(percentEncoded: false).replacingOccurrences(of: folder, with: "")
+        }
+        #expect(Set(listed) == ["GPUPersistentCache", "Default/GPUCache"])
+    }
+
     @Test func listsABrowsersModelsWithoutSelectingThem() async throws {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"

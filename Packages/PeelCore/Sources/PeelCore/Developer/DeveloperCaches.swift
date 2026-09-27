@@ -785,10 +785,9 @@ public enum DeveloperCaches {
         await withTaskGroup(of: DeveloperEnvironment?.self) { group in
             for definition in definitions {
                 _ = group.addTaskUnlessCancelled {
-                    var locations: [DeveloperEnvironment.Location] = []
+                    var found: [(url: URL, folder: Folder)] = []
                     for folder in definition.folders {
                         for url in PathPattern.expand(folder.path, home: homeDirectory) {
-                            guard !Task.isCancelled else { return nil }
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.
@@ -796,17 +795,27 @@ public enum DeveloperCaches {
                             // Skips a symbolic link, which is how people move a big cache to another disk.
                             // Moving the link frees nothing.
                             guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }
-                            // Awaited, never blocked on: every tool in the table is measured at once, and a
-                            // blocked wait would hold one of the few threads that every scan in the app shares.
-                            let contents = await measure(url)
-                            locations.append(DeveloperEnvironment.Location(
-                                url: url,
-                                kind: folder.kind(at: url),
-                                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
-                                source: folder.source,
-                                couldNotBeRead: contents?.couldNotBeRead == true
-                            ))
+                            found.append((url, folder))
                         }
+                    }
+                    // A pattern can reach inside a folder another pattern lists, as `*/GPUCache` reaches
+                    // `GPUPersistentCache/GPUCache`, and that folder goes with the one around it.
+                    let paths = found.map { PathPattern.comparablePath(of: $0.url) }
+                    var locations: [DeveloperEnvironment.Location] = []
+                    for (url, folder) in found {
+                        guard !Task.isCancelled else { return nil }
+                        let path = PathPattern.comparablePath(of: url)
+                        guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+                        // Awaited, never blocked on: every tool in the table is measured at once, and a
+                        // blocked wait would hold one of the few threads that every scan in the app shares.
+                        let contents = await measure(url)
+                        locations.append(DeveloperEnvironment.Location(
+                            url: url,
+                            kind: folder.kind(at: url),
+                            size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+                            source: folder.source,
+                            couldNotBeRead: contents?.couldNotBeRead == true
+                        ))
                     }
                     guard !locations.isEmpty else { return nil }
                     return DeveloperEnvironment(
