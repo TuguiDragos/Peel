@@ -132,18 +132,30 @@ public enum PrivilegedHelper {
         }
     }
 
-    /// Has the helper move its own ledger to this user's Trash, since nothing else can move it. Returns why the ledger
-    /// stayed, or nil once it is there or when there is none.
+    /// The folder the helper keeps its ledger in: root's, so only the helper can move it.
+    public static var ledgerFolder: URL {
+        URL(filePath: HelperLedger.defaultFolder, directoryHint: .isDirectory)
+    }
+
+    /// What became of the helper's ledger when Peel asked for it to go to the Trash.
+    public enum LedgerMove: Sendable, Equatable {
+        /// There was no ledger.
+        case none
+        case moved
+        case stayed(TrashFailure)
+    }
+
+    /// Has the helper move its own ledger to this user's Trash, since nothing else can move it.
     @concurrent
-    public static func moveLedgerToTrash() async -> TrashFailure? {
-        let folder = URL(filePath: HelperLedger.defaultFolder, directoryHint: .isDirectory)
-        guard folder.isThere else { return nil }
+    public static func moveLedgerToTrash() async -> LedgerMove {
+        let folder = ledgerFolder
+        guard folder.isThere else { return .none }
         let failure: String? = await withHelper(fallback: Self.unavailable) { helper, finish in
             helper.moveLedgerToTrash(version: HelperIdentity.protocolVersion) { failure in
                 finish(failure)
             }
         }
-        return failure.map { TrashFailure(url: folder, reason: .failed($0)) }
+        return failure.map { .stayed(TrashFailure(url: folder, reason: .failed($0))) } ?? .moved
     }
 
     /// Returns nil on success, or a failure description.

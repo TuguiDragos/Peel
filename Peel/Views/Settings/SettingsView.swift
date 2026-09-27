@@ -331,7 +331,7 @@ private struct GeneralSettingsView: View {
         } message: {
             Text(verbatim: selfUninstall.failure ?? "")
         }
-        .alert("Peel is in the Trash, and a few of its files stayed.", isPresented: .constant(selfUninstall.leftBehind != nil)) {
+        .alert("Peel is in the Trash, but a few things stayed behind.", isPresented: .constant(selfUninstall.leftBehind != nil)) {
             Button("Quit Peel") { selfUninstall.quit() }
         } message: {
             Text(verbatim: selfUninstall.leftBehind ?? "")

@@ -9,8 +9,8 @@ import ServiceManagement
 final class SelfUninstall {
     private(set) var isRunning = false
     var failure: String?
-    /// The files that stayed after the app itself moved to the Trash. Peel is running from the Trash by then,
-    /// so the alert that lists them has a single button, which quits.
+    /// What stayed after the app itself moved to the Trash: files, and a login item. Peel is running from the Trash by
+    /// then, so the alert that lists them has a single button, which quits.
     private(set) var leftBehind: String?
 
     static var removeCommand: String {
@@ -48,29 +48,47 @@ final class SelfUninstall {
         }
 
         let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
-        var ledgerStayed: TrashFailure?
+        var ledger = PrivilegedHelper.LedgerMove.none
         if isRegistered() {
-            ledgerStayed = await PrivilegedHelper.moveLedgerToTrash()
+            ledger = await PrivilegedHelper.moveLedgerToTrash()
             await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {
-                failure = helper.failure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+                let reason = helper.failure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+                failure = ledger == .moved ? "\(reason)\n\n\(Self.ledgerInTheTrash)" : reason
                 return
             }
         }
+        // Unregistering a login item that was never registered fails too, so what counts is whether it is still there.
         try? await SMAppService.mainApp.unregister()
+        let opensAtLogin = [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
 
         let result = await SelfRemoval.move(urls, app: bundleURL, folder: PeelFolder.url, using: TrashService(exclusions: exclusions), recording: record)
         guard result.trashed.contains(where: { $0.originalURL == bundleURL }) else {
-            failure = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
+            let lines = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+            failure = (lines + (ledger == .moved ? [Self.ledgerInTheTrash] : [])).joined(separator: "\n\n")
             return
         }
-        let stayed = result.failures + [ledgerStayed].compactMap(\.self)
-        guard stayed.isEmpty else {
-            leftBehind = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
+        var stayed = result.failures
+        if case .stayed(let failure) = ledger {
+            stayed.append(failure)
+        }
+        var lines = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+        if opensAtLogin {
+            lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions."))
+        }
+        guard lines.isEmpty else {
+            leftBehind = lines.joined(separator: "\n\n")
             return
         }
         quit()
+    }
+
+    /// Said when Peel stays after the helper's ledger went to the Trash: without it, the helper puts back nothing it
+    /// moved, now or once it is installed again.
+    private static var ledgerInTheTrash: String {
+        let folder = PrivilegedHelper.ledgerFolder
+        return String(localized: "Peel’s helper keeps a record of what it moves, and that record is already in the Trash, as \(folder.lastPathComponent). Until it is back in \(folder.deletingLastPathComponent().abbreviatedPath), History can’t put back what the helper moved.")
     }
 
     /// Exits at once rather than through `NSApp.terminate`, which would let AppKit write the window's frame

@@ -77611,108 +77611,108 @@
         }
       }
     },
-    "Peel is in the Trash, and a few of its files stayed." : {
+    "Peel is in the Trash, but a few things stayed behind." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel je v koši, ale několik jeho souborů zůstalo."
+            "value" : "Peel je v koši, ale několik věcí po něm zůstalo."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ist im Papierkorb, und einige seiner Dateien sind geblieben."
+            "value" : "Peel ist im Papierkorb, aber einige Dinge sind zurückgeblieben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel está en la papelera, y algunos de sus archivos se han quedado."
+            "value" : "Peel está en la papelera, pero algunas cosas se han quedado atrás."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel est dans la corbeille, mais quelques-uns de ses fichiers sont restés en place."
+            "value" : "Peel est dans la corbeille, mais quelques éléments sont restés en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel è nel Cestino, ma alcuni dei suoi file sono rimasti."
+            "value" : "Peel è nel Cestino, ma alcune cose sono rimaste."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはゴミ箱に入りましたが、一部のファイルが残っています。"
+            "value" : "Peelはゴミ箱に入りましたが、一部の項目が残っています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 휴지통에 있지만 일부 파일은 남아 있습니다."
+            "value" : "Peel은 휴지통에 있지만 일부 항목은 남아 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel staat in de prullenmand, maar een paar bestanden van Peel zijn gebleven."
+            "value" : "Peel staat in de prullenmand, maar er zijn een paar dingen achtergebleven."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel jest w Koszu, ale kilka jego plików zostało."
+            "value" : "Peel jest w Koszu, ale kilka rzeczy zostało."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel está no Lixo, e alguns arquivos dele ficaram."
+            "value" : "O Peel está no Lixo, mas algumas coisas ficaram para trás."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel este în Coș, iar câteva dintre fișierele sale au rămas."
+            "value" : "Peel este în Coș, dar câteva lucruri au rămas în urmă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel в Корзине, но некоторые его файлы остались."
+            "value" : "Peel в Корзине, но кое-что осталось."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ligger i papperskorgen, men några av dess filer blev kvar."
+            "value" : "Peel ligger i papperskorgen, men några saker blev kvar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel Çöp Sepeti’nde ama birkaç dosyası yerinde kaldı."
+            "value" : "Peel Çöp Sepeti’nde ama birkaç şey geride kaldı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel у Смітнику, але кілька її файлів лишилися."
+            "value" : "Peel у Смітнику, але дещо лишилося."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel已在废纸篓中，但它的少数文件仍留在原处。"
+            "value" : "Peel已在废纸篓中，但有少数项目仍留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel已在「垃圾桶」中，但它的少數檔案仍留在原處。"
+            "value" : "Peel已在「垃圾桶」中，但有少數項目仍留在原處。"
           }
         }
       }
@@ -77819,6 +77819,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel正從macOS建立的副本執行，因為它仍被標記為已下載的項目。請將Peel移到「應用程式」檔案夾，然後從那裡打開。"
+          }
+        }
+      }
+    },
+    "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel je stále nastavený tak, aby se otevíral při přihlášení: odstraňte ho v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ist noch so eingestellt, dass es bei der Anmeldung geöffnet wird: Entferne Peel unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sigue configurado para abrirse al iniciar sesión: elimínalo en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel est toujours configuré pour s’ouvrir avec la session : retirez-le dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel è ancora impostato per aprirsi al login: rimuovilo in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはまだログイン時に開くように設定されています。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で取り除いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 아직 로그인 시 열리도록 설정되어 있습니다. 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 제거하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel is nog steeds zo ingesteld dat het wordt geopend als je inlogt: verwijder het in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nadal jest ustawiony tak, aby otwierał się podczas logowania: usuń go w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel ainda está configurado para abrir no início da sessão: remova-o em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel este încă setat să se deschidă la login: eliminați‑l din Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel по-прежнему настроен на открытие при входе: удалите его в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel är fortfarande inställd på att öppnas vid inloggning: ta bort den i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hâlâ oturum açıldığında açılmaya ayarlı: onu Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kaldırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel досі налаштовано відкриватися під час входу в систему: вилучіть її в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel仍设置为在登录时打开：请在“系统设置”>“通用”>“登录项与扩展”中将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel仍設定為在登入時打開：請在「系統設定」>「一般」>「登入項目與延伸功能」中將它移除。"
           }
         }
       }
@@ -82656,6 +82762,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法使用Peel的輔助程式。"
+          }
+        }
+      }
+    },
+    "Peel’s helper keeps a record of what it moves, and that record is already in the Trash, as %@. Until it is back in %@, History can’t put back what the helper moved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu si vede záznam o tom, co přesouvá, a tento záznam už je v koši pod názvem %@. Dokud nebude znovu v %@, Historie nemůže vrátit zpět to, co pomocník přesunul."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel zeichnet auf, was es verschiebt, und diese Aufzeichnung liegt bereits als „%@“ im Papierkorb. Bis sie wieder in %@ liegt, lässt sich im Verlauf nicht zurücklegen, was das Hilfsprogramm verschoben hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel’s helper keeps a record of what it moves, and that record is already in the Trash, as %1$@. Until it is back in %2$@, History can’t put back what the helper moved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel lleva un registro de lo que traslada, y ese registro ya está en la papelera, como %@. Hasta que vuelva a estar en %@, Historial no puede restaurar lo que ha trasladado el asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel tient un registre de ce qu’il déplace, et ce registre est déjà dans la corbeille, sous le nom %@. Tant qu’il n’est pas de retour dans %@, l’Historique ne peut pas remettre en place ce que l’utilitaire a déplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel tiene un registro di ciò che sposta, e quel registro è già nel Cestino, come %@. Finché il registro non torna in %@, la Cronologia non può ripristinare ciò che l’assistente ha spostato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーは、移動するものの記録を保存していますが、その記録はすでに“%@”としてゴミ箱に入っています。記録が%@に戻るまで、ヘルパーが移動したものは履歴から戻すことができません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램은 이동하는 항목의 내역을 보관하며, 그 내역은 이미 휴지통에 ‘%@’(이)라는 이름으로 있습니다. 이 내역이 %@(으)로 돌아가기 전까지는 보조 프로그램이 이동한 항목은 기록에서 되돌려 놓을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel houdt een registratie bij van wat het verplaatst, en die registratie staat al in de prullenmand, als %@. Totdat die weer in %@ staat, kan Geschiedenis niet terugzetten wat het hulpprogramma heeft verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel prowadzi zapis tego, co przenosi, a ten zapis jest już w Koszu jako %@. Dopóki nie wróci do %@, Historia nie może przywrócić tego, co przeniósł pomocnik."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel mantém um registro do que move, e esse registro já está no Lixo, como %@. Até ele voltar para %@, o Histórico não pode colocar de volta o que o auxiliar moveu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel ține evidența a ceea ce mută, iar această evidență se află deja în Coș, sub numele %@. Până când revine în %@, nu puteți pune înapoi din Istoric ce a mutat instrumentul de ajutor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel ведет журнал того, что он перемещает, и этот журнал уже в Корзине под именем «%@». Пока журнал не вернется в %@, История не сможет восстановить то, что переместил помощник."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram för en förteckning över vad det flyttar, och den förteckningen ligger redan i papperskorgen som %@. Tills den ligger i %@ igen, kan Historik inte lägga tillbaka det som hjälpprogrammet flyttade."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı taşıdıklarının kaydını tutar ve bu kayıt zaten Çöp Sepeti’nde %@ adıyla duruyor. Kayıt %@ konumuna geri dönene kadar Geçmiş, yardımcının taşıdıklarını yerine koyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel веде запис того, що переміщує, і цей запис уже в Смітнику під назвою «%@». Доки запис не повернеться в %@, Історія не зможе повернути те, що перемістив помічник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序会保存它所移动内容的记录，而这份记录已在废纸篓中，名为“%@”。在这份记录回到%@之前，“历史记录”无法将帮助程序移动过的内容放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式會保存它所移動項目的記錄，而這份記錄已經以「%@」的名稱存放在「垃圾桶」中。在這份記錄回到「%@」之前，「歷史記錄」都無法還原輔助程式移動過的項目。"
           }
         }
       }
