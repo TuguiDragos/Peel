@@ -94,8 +94,9 @@ xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath bui
 - `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the menu bar glyph, and `export.sh`, which
   renders the PNGs the README shows.
 - `Scripts/`: `sync_localizations.py`, which keeps the catalogs in step with the code, `generate_manual.py`,
-  which keeps the manual page in step with `peel`, and `release.sh`, which builds, signs, notarizes, and checks a
-  release.
+  which keeps the manual page in step with `peel`, `release.sh`, which builds, signs, notarizes, and checks a
+  release, and `make_dmg.sh`, which lays out the disk image's window with dmgbuild (run by uv) over the background
+  `dmg_background.swift` draws.
 - `readme-assets/`: the screenshots the README shows.
 - `.github/`: the test workflow, the issue forms, and the pull request template.
 

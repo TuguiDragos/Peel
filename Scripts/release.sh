@@ -8,7 +8,8 @@
 #
 # Requires a Developer ID Application certificate in the keychain and a notary profile, stored once with
 #   xcrun notarytool store-credentials Peel --apple-id <you> --team-id 6R6J264YA2
-# which prompts for the app-specific password, so the password stays out of the shell history.
+# which prompts for the app-specific password, so the password stays out of the shell history, and uv
+# (`brew install uv`), which runs dmgbuild for the disk image's window.
 #
 # Usage: zsh Scripts/release.sh [notary-profile]   (default profile: Peel)
 set -euo pipefail
@@ -19,6 +20,11 @@ build="build/Release"
 archive="$build/Peel.xcarchive"
 export_directory="$build/export"
 app="$export_directory/Peel.app"
+
+if ! command -v uvx > /dev/null; then
+    echo "REFUSED: uv is not installed, and the disk image needs it. Install it with: brew install uv"
+    exit 1
+fi
 
 echo "== The tree"
 if [ -n "$(git status --porcelain)" ]; then
@@ -142,12 +148,8 @@ echo "== Disk image"
 # Signed with the identity that signed the app, then notarized and stapled itself, so it opens without a warning.
 identity="$(codesign -d --verbose=2 "$app" 2>&1 | sed -n 's/^Authority=\(Developer ID Application: .*\)$/\1/p' | head -1)"
 [ -n "$identity" ] || { echo "REFUSED: the app's Developer ID identity could not be read"; exit 1; }
-staging="$build/disk-image"
-mkdir -p "$staging"
-ditto "$app" "$staging/Peel.app"
-ln -s /Applications "$staging/Applications"
 image="$build/Peel-$version.dmg"
-hdiutil create -volname Peel -srcfolder "$staging" -format ULFO -ov "$image"
+zsh Scripts/make_dmg.sh "$app" "$image"
 codesign --sign "$identity" --timestamp "$image"
 xcrun notarytool submit "$image" --keychain-profile "$profile" --wait
 xcrun stapler staple "$image"
