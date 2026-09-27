@@ -74,6 +74,31 @@ struct InstallersTests {
         #expect(installers.first { $0.name.hasSuffix(".zip") }?.installedApp == "Rectangle")
     }
 
+    /// A maker also packs a disk image or a package into a zip. It counts only when it is the one thing inside.
+    @Test func findsAnInstallerDownloadedInsideAZip() async throws {
+        let directory = try TemporaryDirectory()
+        let build = directory.url.appending(path: "Build", directoryHint: .isDirectory)
+        try directory.file("Build/Rectangle-0.87.dmg", contents: randomData(count: 400_000))
+        try directory.file("Build/Tool.mpkg/Contents/Packages/a.pkg", contents: randomData(count: 400_000))
+        try directory.file("Build/README.txt", contents: randomData(count: 400_000))
+        try directory.directory("Downloads")
+        try run("/usr/bin/zip", ["-q", "../Downloads/download (4).zip", "Rectangle-0.87.dmg"], in: build)
+        try run("/usr/bin/zip", ["-qr", "../Downloads/Tool.zip", "Tool.mpkg"], in: build)
+        try run("/usr/bin/zip", ["-q", "../Downloads/With a note.zip", "Rectangle-0.87.dmg", "README.txt"], in: build)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [app("Rectangle", bundleIdentifier: "com.knollsoft.Rectangle")],
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 100_000
+        )
+
+        let installers = scan.items(in: .appInstaller)
+        #expect(Set(installers.map(\.name)) == ["download (4).zip", "Tool.zip"])
+        #expect(installers.first { $0.name.hasPrefix("download") }?.installedApp == "Rectangle")
+    }
+
     /// An archive past 4 GB or 65,535 entries keeps its directory in ZIP64 records, which `zip -fz` writes on any
     /// archive. Anything that is not a whole archive answers nothing, never a guess.
     @Test func readsTheAppInsideAnArchiveOfEitherKind() throws {
@@ -87,7 +112,7 @@ struct InstallersTests {
         let text = try directory.file("notes.zip", contents: Data("not an archive".utf8))
 
         #expect(ZipDirectory.names(at: large)?.contains("Rectangle.app/Contents/MacOS/Rectangle") == true)
-        #expect(Installers.appInside(zip: large) == "Rectangle")
+        #expect(Installers.installerInside(zip: large) == "Rectangle")
         #expect(ZipDirectory.names(at: cut) == nil)
         #expect(ZipDirectory.names(at: text) == nil)
     }

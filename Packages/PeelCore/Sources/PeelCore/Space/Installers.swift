@@ -58,7 +58,7 @@ public enum Installers {
     public static let minimumSize: Int64 = 20 * 1_000_000
 
     /// `xip` is Apple's own archive format, which Xcode ships in. `zip` is not listed, since a zip file can hold
-    /// anything: `appInside(zip:)` decides about each one.
+    /// anything: `installerInside(zip:)` decides about each one.
     static let installerExtensions: Set<String> = ["dmg", "iso", "pkg", "mpkg", "xip"]
     static let firmwareExtensions: Set<String> = ["ipsw"]
 
@@ -100,8 +100,10 @@ public enum Installers {
                 guard isWorthARow(size, minimumSize) else { continue }
                 let heldBack = isInTheCloud(url) ? .inTheCloud : seen
                 if isArchive {
-                    guard let app = appInside(zip: url) else { continue }
-                    items.append(appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: app))
+                    guard let inside = installerInside(zip: url) else { continue }
+                    items.append(
+                        appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: inside)
+                    )
                 } else {
                     items.append(
                         isInstaller
@@ -146,7 +148,7 @@ public enum Installers {
         size.map { $0 >= minimumSize } ?? true
     }
 
-    /// Makes the item for an app installer. For an archive, `name` is the app inside it, which is matched
+    /// Makes the item for an app installer. For an archive, `name` is what is inside it, which is matched
     /// instead of the file name: a download can be called anything, such as `download (3).zip`.
     static func appInstaller(at url: URL, size: Int64?, heldBack: HoldBack?, installedApps: [InstalledApp], named name: String? = nil) -> InstallerItem {
         let match = installedApp(named: name ?? url.deletingPathExtension().lastPathComponent, in: installedApps)
@@ -187,19 +189,24 @@ public enum Installers {
         return matches.max { $0.length < $1.length }?.app
     }
 
-    /// Returns the name of the app a zip archive holds, when the app is all it holds: every entry sits inside
-    /// one `<Name>.app` at the top, apart from the metadata `ditto` writes (`__MACOSX`, `._` files). An archive
-    /// of documents, or an app with anything beside it, is not an installer.
-    static func appInside(zip url: URL) -> String? {
+    /// Returns the name of the app or installer a zip archive holds, when that is all it holds: every entry is one
+    /// `<Name>.app` at the top, or one disk image or package, or sits inside it, apart from the metadata `ditto`
+    /// writes (`__MACOSX`, `._` files). An archive of documents, or an installer with anything beside it, is not an
+    /// installer.
+    static func installerInside(zip url: URL) -> String? {
         guard let names = ZipDirectory.names(at: url) else { return nil }
-        var app: String?
+        var inside: String?
         for name in names {
             let first = String(name.prefix { $0 != "/" })
             if first == "__MACOSX" || first.hasPrefix("._") { continue }
-            guard first.count > 4, first.lowercased().hasSuffix(".app"), name.count > first.count, app == nil || app == first else { return nil }
-            app = first
+            guard inside == nil || inside == first else { return nil }
+            inside = first
         }
-        return app.map { String($0.dropLast(4)) }
+        guard let inside, inside.count > 4 else { return nil }
+        let suffix = (inside as NSString).pathExtension.lowercased()
+        let isAnApp = suffix == "app" && names.contains { $0.count > inside.count + 1 && $0.hasPrefix(inside + "/") }
+        guard isAnApp || installerExtensions.contains(suffix) else { return nil }
+        return (inside as NSString).deletingPathExtension
     }
 
     /// True when the file name `stem` is the app's `name`, alone or followed by a version, an architecture, or a
