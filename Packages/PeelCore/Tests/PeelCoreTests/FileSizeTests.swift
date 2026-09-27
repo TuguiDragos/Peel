@@ -217,8 +217,9 @@ struct FileSizeTests {
                 return contents
             }
             while read.value == 0 { await Task.yield() }
-            #expect(await FileSize.contents(of: folder, within: 0) == nil)
-            guard !isAnswered.withLock({ $0 }) else {
+            // An answer here means the walk ended before this question joined it, so the two were not set up.
+            let impatient = await FileSize.contents(of: folder, within: 0)
+            guard impatient == nil, !isAnswered.withLock({ $0 }) else {
                 _ = await patient.value
                 continue
             }
