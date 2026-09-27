@@ -32,6 +32,28 @@ struct HomebrewTests {
         #expect(asked.withLock { $0 } == ["--formula", "--cask"])
     }
 
+    /// A stop is the person's: once the formulae were stopped, the casks are not started.
+    @Test func aStoppedUpgradeStartsNothingMore() async {
+        let packages = [HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"), HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0")]
+        let asked = Mutex<[String]>([])
+
+        let run = Task { () -> String? in
+            do throws(Homebrew.CommandFailure) {
+                _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+                    asked.withLock { $0.append(arguments[1]) }
+                    withUnsafeCurrentTask { $0?.cancel() }
+                    throw Homebrew.CommandFailure(output: "Stopped before it finished.")
+                }
+                return nil
+            } catch {
+                return error.output
+            }
+        }
+
+        #expect(await run.value == "Stopped before it finished.\n")
+        #expect(asked.withLock { $0 } == ["--formula"])
+    }
+
     /// Homebrew writes warnings to stderr and still exits 0, for example for a formula from a tap that uses a
     /// deprecated method. So the answer is read from stdout alone: JSON with a warning after it is not JSON.
     @Test func readsAnAnswerFromWhatWasPrintedAsTheAnswer() throws {
@@ -136,6 +158,24 @@ struct HomebrewTests {
         #expect(needs("runtime") == [true, true], "scripts run with sudo")
         #expect(needs("player") == [false, false], "launchctl goes on without sudo, and zap is not what uninstalling runs")
         #expect(needs("helper") == [true, true], "a kernel extension is unloaded with sudo, when upgrading too")
+    }
+
+    /// An upgrade someone follows shows what Homebrew wrote, then Peel's own sentence where it stopped. `/bin/sh`
+    /// stands in for `brew`, since a real upgrade would change this Mac's packages.
+    @Test func aFollowedRunSaysWhereItWasStopped() async throws {
+        let written = Mutex(Data())
+        let run = Task {
+            try await Homebrew.execute(
+                ["-c", "echo first; sleep 60"], autoUpdate: false, timeout: nil,
+                onOutput: { piece in written.withLock { $0.append(piece) } },
+                executable: URL(filePath: "/bin/sh")
+            )
+        }
+        while written.withLock({ $0.isEmpty }) { await Task.yield() }
+        run.cancel()
+
+        await #expect(throws: Homebrew.CommandFailure.self) { try await run.value }
+        #expect(String(decoding: written.withLock { $0 }, as: UTF8.self) == "first\nStopped before it finished.\n")
     }
 
     /// The JSON follows what Homebrew 7.0.4 reports for packages it has stopped or will stop offering. A package

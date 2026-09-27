@@ -415,7 +415,9 @@ struct ContentView: View {
 
     @ViewBuilder
     private var homebrewDetail: some View {
-        if let package = homebrew.selectedPackage {
+        if homebrew.progress != nil {
+            HomebrewProgressView()
+        } else if let package = homebrew.selectedPackage {
             HomebrewDetailView(package: package)
                 .id(package.id)
         } else {

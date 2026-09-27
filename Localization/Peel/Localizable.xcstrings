@@ -6832,6 +6832,112 @@
         }
       }
     },
+    "A package Homebrew is in the middle of installing may be left half installed, and may need installing again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balíček, který Homebrew právě instaluje, může zůstat napůl nainstalovaný a možná ho bude potřeba nainstalovat znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Paket, das Homebrew gerade installiert, bleibt möglicherweise nur teilweise installiert und muss eventuell erneut installiert werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un paquete que Homebrew esté instalando en este momento puede quedar a medio instalar, y puede que haya que volver a instalarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un paquet que Homebrew est en train d’installer pourrait rester partiellement installé, et il faudrait peut-être le réinstaller."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un pacchetto che Homebrew sta installando potrebbe restare installato a metà e dover essere reinstallato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewがインストールしている途中のパッケージは、不完全にインストールされたままになり、再インストールが必要になる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 설치 중인 패키지는 일부만 설치된 상태로 남을 수 있으며, 다시 설치해야 할 수도 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een pakket dat Homebrew nog aan het installeren is, kan half geïnstalleerd achterblijven en moet dan misschien opnieuw worden geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakiet, który Homebrew właśnie instaluje, może zostać zainstalowany częściowo i może wymagać ponownej instalacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um pacote que o Homebrew estiver instalando no momento pode ficar instalado pela metade, e talvez precise ser instalado de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și poate fi necesar să fie instalat din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет, который Homebrew устанавливает в этот момент, может остаться установленным наполовину, и его, возможно, придется установить снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett paket som Homebrew håller på att installera kan bli halvt installerat och behöva installeras igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un yüklemekte olduğu bir paket yarım yüklenmiş hâlde kalabilir ve yeniden yüklenmesi gerekebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет, який Homebrew саме інсталює, може залишитися інстальованим лише частково, і його, можливо, доведеться інсталювати знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew正在安装的软件包可能只安装了部分，之后可能需要重新安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew正在安裝的套件可能只有一部分完成安裝，因此可能需要重新安裝。"
+          }
+        }
+      }
+    },
     "A page jumps to where you sent it instead of gliding." : {
       "localizations" : {
         "cs" : {
@@ -105527,6 +105633,112 @@
         }
       }
     },
+    "Stop Homebrew?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavit Homebrew?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew stoppen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Detener Homebrew?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter Homebrew ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi interrompere Homebrew?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewを停止しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew를 중단하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew stoppen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatrzymać Homebrew?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar o Homebrew?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opriți Homebrew?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить Homebrew?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du stoppa Homebrew?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew durdurulsun mu?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зупинити Homebrew?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要停止Homebrew吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要停止Homebrew嗎？"
+          }
+        }
+      }
+    },
     "Stop Looking in %@" : {
       "localizations" : {
         "cs" : {
@@ -117613,108 +117825,108 @@
         }
       }
     },
-    "This can take several minutes, and Peel can’t stop it once it starts." : {
+    "This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Může to trvat několik minut a jakmile to začne, Peel to nemůže zastavit."
+            "value" : "Může to trvat dlouho, protože Homebrew některé balíčky sestavuje přímo v tomto Macu. Na této stránce můžete sledovat průběh a případně Homebrew zastavit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das kann einige Minuten dauern, und Peel kann den Vorgang nicht mehr stoppen, sobald er begonnen hat."
+            "value" : "Das kann lange dauern, da Homebrew manche Pakete auf diesem Mac kompiliert. Während Homebrew arbeitet, wird der Fortschritt auf dieser Seite angezeigt, und du kannst den Vorgang dort stoppen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puede tardar varios minutos, y Peel no puede detenerlo una vez que empiece."
+            "value" : "Puede tardar mucho, ya que Homebrew compila algunos paquetes en este Mac. Mientras Homebrew trabaja, esta página muestra su progreso, y desde ella puedes detenerlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cela peut prendre plusieurs minutes, et Peel ne peut pas l’interrompre une fois l’opération lancée."
+            "value" : "Cela peut prendre beaucoup de temps, car Homebrew compile certains paquets sur ce Mac. Sa progression s’affiche sur cette page au fur et à mesure, et vous pouvez l’y arrêter."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Può richiedere diversi minuti e, dopo l’avvio, Peel non può interromperlo."
+            "value" : "Può richiedere molto tempo, perché Homebrew compila alcuni pacchetti su questo Mac. L’avanzamento compare in questa pagina durante l’aggiornamento, e puoi interromperlo da qui."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数分かかることがあり、一度始まるとPeelでは止められません。"
+            "value" : "Homebrewは一部のパッケージをこのMacでビルドするため、かなり時間がかかる場合があります。実行中は、進行状況がこのページに表示され、そこから停止することもできます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "몇 분 정도 걸릴 수 있으며, 일단 시작되면 Peel이 중단할 수 없습니다."
+            "value" : "Homebrew가 일부 패키지를 이 Mac에서 빌드하므로 시간이 오래 걸릴 수 있습니다. 작업하는 동안 진행 상황이 이 페이지에 표시되며, 여기에서 중단할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit kan enkele minuten duren en Peel kan het niet stoppen zodra het is begonnen."
+            "value" : "Dit kan lang duren, omdat Homebrew sommige pakketten op deze Mac bouwt. De voortgang verschijnt op deze pagina terwijl Homebrew bezig is, en je kunt het daar stoppen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Może to potrwać kilka minut, a gdy się zacznie, Peel nie może tego zatrzymać."
+            "value" : "Może to potrwać dłuższy czas, ponieważ Homebrew kompiluje niektóre pakiety na tym Macu. Na tej stronie możesz na bieżąco śledzić postęp i zatrzymać uaktualnianie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Isso pode levar vários minutos, e o Peel não pode interrompê-lo depois que começar."
+            "value" : "Isso pode levar muito tempo, já que o Homebrew compila alguns pacotes neste Mac. O progresso aparece nesta página enquanto ele trabalha, e você pode interrompê-lo ali."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Procesul poate dura câteva minute, iar Peel nu îl poate opri odată pornit."
+            "value" : "Procesul poate dura mult timp, deoarece Homebrew compilează unele pachete pe acest Mac. Progresul apare pe această pagină pe măsură ce Homebrew lucrează, iar de acolo îl puteți opri."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это может занять несколько минут, и Peel не сможет остановить процесс, когда он начнется."
+            "value" : "Это может занять много времени, потому что Homebrew собирает некоторые пакеты на этом Mac. Пока Homebrew работает, ход обновления отображается на этой странице, и там же его можно остановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det kan ta flera minuter, och Peel kan inte stoppa det när det väl har börjat."
+            "value" : "Det kan ta lång tid, eftersom Homebrew bygger vissa paket på den här datorn. Förloppet visas på den här sidan medan Homebrew arbetar, och där kan du stoppa det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu işlem birkaç dakika sürebilir ve başladıktan sonra Peel onu durduramaz."
+            "value" : "Bu işlem uzun sürebilir, çünkü Homebrew bazı paketleri bu Mac’te derler. Homebrew çalışırken ilerleme durumu bu sayfada görünür ve işlemi buradan durdurabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це може тривати кілька хвилин, і після початку Peel не зможе це зупинити."
+            "value" : "Це може тривати довго, бо Homebrew збирає деякі пакети на цьому Mac. Перебіг оновлення видно на цій сторінці, поки воно триває, і тут його можна зупинити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这可能需要几分钟，而且一旦开始，Peel就无法停止它。"
+            "value" : "这可能需要很长时间，因为Homebrew会在这台Mac上构建某些软件包。升级进度会实时显示在此页面上，你也可以在此处停止升级。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這可能需要幾分鐘，而且一旦開始，Peel就無法停止。"
+            "value" : "這可能需要較長的時間，因為Homebrew會在這部Mac上建置某些套件。升級進行時，進度會顯示在此頁面上，你也可以在此停止升級。"
           }
         }
       }

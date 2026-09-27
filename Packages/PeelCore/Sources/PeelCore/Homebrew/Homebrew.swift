@@ -390,30 +390,36 @@ public enum Homebrew {
         return parseInstalled(Data(output.utf8))?.filter { $0.kind == .cask } ?? []
     }
 
+    /// Upgrades `package` with no time limit, since Homebrew builds some packages on this Mac and that can take
+    /// hours: `onOutput` is handed what Homebrew writes as it writes it, so the person can follow it, and the
+    /// upgrade stops when its task is canceled.
     @concurrent
-    public static func upgrade(_ package: HomebrewPackage) async throws(CommandFailure) -> String {
-        try await run(["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name], autoUpdate: true)
+    public static func upgrade(_ package: HomebrewPackage, onOutput: @escaping @Sendable (Data) -> Void) async throws(CommandFailure) -> String {
+        let arguments = ["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name]
+        return try await execute(arguments, autoUpdate: true, timeout: nil, onOutput: onOutput).transcript()
     }
 
+    /// Upgrades `packages` the same way.
     @concurrent
-    public static func upgrade(_ packages: [HomebrewPackage]) async throws(CommandFailure) -> String {
+    public static func upgrade(_ packages: [HomebrewPackage], onOutput: @escaping @Sendable (Data) -> Void) async throws(CommandFailure) -> String {
         // Said once: both calls below would fail the same way.
         guard executableURL != nil else { throw CommandFailure(output: notInstalled) }
         return try await upgrade(packages) { arguments throws(CommandFailure) in
-            try await execute(arguments, autoUpdate: true, timeout: longestCommand)
+            try await execute(arguments, autoUpdate: true, timeout: nil, onOutput: onOutput)
         }
     }
 
     /// Formulae and casks go in separate calls because a name can belong to both. Both are attempted even when
     /// the first fails, whether `brew` reported the failure or never finished, so the report covers the whole
-    /// run. `execute` is a parameter so a test can stand in for `brew`.
+    /// run, but nothing starts once the person has stopped it. `execute` is a parameter so a test can stand in for
+    /// `brew`.
     static func upgrade(
         _ packages: [HomebrewPackage],
         execute: (_ arguments: [String]) async throws(CommandFailure) -> Attempt
     ) async throws(CommandFailure) -> String {
         var output = ""
         var didFail = false
-        for kind in [HomebrewPackage.Kind.formula, .cask] {
+        for kind in [HomebrewPackage.Kind.formula, .cask] where !Task.isCancelled {
             let names = packages.filter { $0.kind == kind }.map(\.name)
             guard !names.isEmpty else { continue }
             do {
@@ -577,7 +583,7 @@ public enum Homebrew {
         return (formulae + casks).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
-    /// The time limit for a command that can run long, such as an upgrade, which downloads and installs.
+    /// The time limit for a command that can run long, such as an uninstall or a cleanup. An upgrade has none.
     private static let longestCommand: TimeInterval = 30 * 60
     /// The time limit for a question Homebrew answers from its local files.
     private static let longestAnswer: TimeInterval = 2 * 60
@@ -612,14 +618,24 @@ public enum Homebrew {
         }
     }
 
-    private static func execute(_ arguments: [String], autoUpdate: Bool, timeout: TimeInterval) async throws(CommandFailure) -> Attempt {
-        guard let executable = executableURL else {
+    /// Runs `brew`, or `executable` when a test stands in for it, since a real upgrade would change this Mac.
+    static func execute(
+        _ arguments: [String],
+        autoUpdate: Bool,
+        timeout: TimeInterval?,
+        onOutput: (@Sendable (Data) -> Void)? = nil,
+        executable: URL? = executableURL
+    ) async throws(CommandFailure) -> Attempt {
+        guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
         }
-        switch await Subprocess.run(executable.path(percentEncoded: false), arguments, environment: environment(autoUpdate: autoUpdate), timeout: timeout) {
+        let path = executable.path(percentEncoded: false)
+        switch await Subprocess.run(path, arguments, environment: environment(autoUpdate: autoUpdate), timeout: timeout, onOutput: onOutput) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
         case .failure(let failure):
+            // A run someone follows shows Peel's own sentence where it happened, after what the tool wrote.
+            onOutput?(Data((failure.explanation + "\n").utf8))
             throw CommandFailure(output: failure.explanation)
         }
     }

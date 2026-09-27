@@ -23,6 +23,14 @@ final class HomebrewLibrary {
             case .upgrade, .upgradeAll, .uninstall, .update, .cleanup: false
             }
         }
+
+        /// An upgrade has no time limit, so its output is shown as it comes and the person can stop it.
+        var isUpgrade: Bool {
+            switch self {
+            case .upgrade, .upgradeAll: true
+            case .uninstall, .update, .cleanup, .health, .vulnerabilities: false
+            }
+        }
     }
 
     struct CommandResult: Identifiable {
@@ -77,6 +85,11 @@ final class HomebrewLibrary {
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
     private(set) var runningCommand: Command?
+    /// What Homebrew has written so far in the running upgrade. Nil when no upgrade runs.
+    private(set) var progress: String?
+    /// True once the person asked the running upgrade to stop.
+    private(set) var isStopping = false
+    private var runningTask: Task<CommandResult?, Never>?
     var selection: HomebrewPackage.ID?
     var result: CommandResult?
 
@@ -159,11 +172,22 @@ final class HomebrewLibrary {
     func run(_ command: Command, showsResult: Bool = true) async -> CommandResult? {
         guard runningCommand == nil else { return nil }
         runningCommand = command
-        defer { runningCommand = nil }
-        let outcome = await outcome(of: command)
+        defer {
+            (runningCommand, runningTask, progress, isStopping) = (nil, nil, nil, false)
+        }
+        let task = Task { await outcome(of: command) }
+        runningTask = task
+        let outcome = await task.value
         if showsResult, let outcome { result = outcome }
         if !command.onlyLooks { await refresh(includingReclaimable: true) }
         return outcome
+    }
+
+    /// Stops the running upgrade: Homebrew is asked to stop, and killed if it does not.
+    func stopUpgrade() {
+        guard runningCommand?.isUpgrade == true else { return }
+        isStopping = true
+        runningTask?.cancel()
     }
 
     /// Nil for a command that only looks and keeps what it found in `findings` or `advisories`.
@@ -178,9 +202,10 @@ final class HomebrewLibrary {
             switch command {
             case .upgrade(let id):
                 guard let package = package(id) else { return gone }
-                output = try await Homebrew.upgrade(package)
+                return await following { onOutput throws(Homebrew.CommandFailure) in try await Homebrew.upgrade(package, onOutput: onOutput) }
             case .upgradeAll:
-                output = try await Homebrew.upgrade(upgradable)
+                let packages = upgradable
+                return await following { onOutput throws(Homebrew.CommandFailure) in try await Homebrew.upgrade(packages, onOutput: onOutput) }
             case .uninstall(let id):
                 guard let package = package(id) else { return gone }
                 output = try await Homebrew.uninstall(package)
@@ -204,6 +229,38 @@ final class HomebrewLibrary {
             return CommandResult(succeeded: true, output: output)
         } catch {
             return CommandResult(succeeded: false, output: error.output)
+        }
+    }
+
+    /// Runs an upgrade while `progress` shows what Homebrew writes, in the order it writes it, with Peel's own
+    /// sentence where a stop or a failure to start happened. That whole transcript is the result, a stopped run's
+    /// included, since it is where Homebrew says what it had done.
+    private func following(
+        _ upgrade: (@escaping @Sendable (Data) -> Void) async throws(Homebrew.CommandFailure) -> String
+    ) async -> CommandResult {
+        progress = ""
+        let (pieces, sink) = AsyncStream.makeStream(of: Data.self)
+        let shown = Task {
+            var written = Data()
+            for await piece in pieces {
+                written.append(piece)
+                progress = String(decoding: written, as: UTF8.self)
+            }
+        }
+        let outcome: Result<String, Homebrew.CommandFailure>
+        do {
+            outcome = .success(try await upgrade { sink.yield($0) })
+        } catch {
+            outcome = .failure(error)
+        }
+        sink.finish()
+        await shown.value
+        let written = progress ?? ""
+        switch outcome {
+        case .success(let output):
+            return CommandResult(succeeded: true, output: written.isEmpty ? output : written)
+        case .failure(let failure):
+            return CommandResult(succeeded: false, output: written.isEmpty ? failure.output : written)
         }
     }
 

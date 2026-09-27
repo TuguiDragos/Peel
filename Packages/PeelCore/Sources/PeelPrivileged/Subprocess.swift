@@ -2,10 +2,11 @@ import Darwin
 public import Foundation
 import Synchronization
 
-/// The one way Peel and its helper run a tool. Every run has a time limit and stops when its task is
-/// canceled: a removal waits for `launchctl` and `defaults`, and a tool that never answers must not hold it
-/// forever. The pipes are read with `read(2)`, because `FileHandle`'s `readDataToEndOfFile` and
-/// `availableData` raise an exception on failure that Swift cannot catch (`NSFileHandle.h`).
+/// The one way Peel and its helper run a tool. Every run stops when its task is canceled, and has a time limit
+/// unless the person follows it and can stop it themselves: a removal waits for `launchctl` and `defaults`, and a
+/// tool that never answers must not hold it forever. The pipes are read with `read(2)`, because `FileHandle`'s
+/// `readDataToEndOfFile` and `availableData` raise an exception on failure that Swift cannot catch
+/// (`NSFileHandle.h`).
 public enum Subprocess {
     public struct Output: Sendable, Hashable {
         public let status: Int32
@@ -37,15 +38,17 @@ public enum Subprocess {
     /// outlive it and hold a pipe open, and the answer does not wait for that.
     static let drain: TimeInterval = 0.5
 
-    /// Runs `executable` with `arguments`, and stops it after `timeout` seconds or when the task is canceled.
-    /// When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs, so a
-    /// tool that fills one pipe never waits on a reader that is busy with the other.
+    /// Runs `executable` with `arguments`, and stops it after `timeout` seconds, when there is one, or when the task
+    /// is canceled. When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs,
+    /// so a tool that fills one pipe never waits on a reader that is busy with the other, and `onOutput` is handed
+    /// what either stream brings as it comes.
     @concurrent
     public static func run(
         _ executable: String,
         _ arguments: [String],
         environment: [String: String]? = nil,
-        timeout: TimeInterval
+        timeout: TimeInterval?,
+        onOutput: (@Sendable (Data) -> Void)? = nil
     ) async -> Result<Output, Failure> {
         // A task stopped before this step starts nothing: launching the tool only to kill it would hold the Stop
         // for as long as the kill takes.
@@ -66,9 +69,11 @@ public enum Subprocess {
         } catch {
             return .failure(.couldNotStart(error.localizedDescription))
         }
-        let output = Reader(outputPipe.fileHandleForReading.fileDescriptor)
-        let errors = Reader(errorPipe.fileHandleForReading.fileDescriptor)
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { run.stop(because: .timedOut) }
+        let output = Reader(outputPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
+        let errors = Reader(errorPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
+        if let timeout {
+            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { run.stop(because: .timedOut) }
+        }
 
         await withTaskCancellationHandler {
             await run.wait()
@@ -146,8 +151,11 @@ public enum Subprocess {
         }
 
         private let state = Mutex(State())
+        /// Handed each piece as it is read, on the reading thread.
+        private let onRead: (@Sendable (Data) -> Void)?
 
-        init(_ descriptor: Int32) {
+        init(_ descriptor: Int32, onRead: (@Sendable (Data) -> Void)?) {
+            self.onRead = onRead
             let thread = Thread { [self] in
                 read(descriptor)
                 let waiter = state.withLock { state in
@@ -185,6 +193,7 @@ public enum Subprocess {
                 let count = Darwin.read(descriptor, &buffer, buffer.count)
                 if count > 0 {
                     state.withLock { $0.data.append(contentsOf: buffer[0..<count]) }
+                    onRead?(Data(buffer[0..<count]))
                 } else if count == 0 || errno != EINTR {
                     return
                 }

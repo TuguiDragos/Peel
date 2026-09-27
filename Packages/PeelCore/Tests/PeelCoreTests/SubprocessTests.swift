@@ -1,9 +1,10 @@
 import Foundation
 @testable import PeelPrivileged
+import Synchronization
 import Testing
 
-/// A tool Peel runs must never hang Peel or crash it. Every run has a time limit, stops when its caller is
-/// canceled, and returns a failure as a value, never as an exception.
+/// A tool Peel runs must never hang Peel or crash it. Every run stops when its caller is canceled, has a time limit
+/// unless the person follows it and can stop it, and returns a failure as a value, never as an exception.
 struct SubprocessTests {
     @Test func readsBothStreamsAndTheStatus() async throws {
         let result = await Subprocess.run("/bin/sh", ["-c", "echo out; echo err >&2; exit 3"], timeout: 30)
@@ -44,6 +45,30 @@ struct SubprocessTests {
     @Test func aToolThatIgnoresBeingAskedToStopIsKilled() async {
         let result = await Subprocess.run("/bin/sh", ["-c", "trap '' TERM; while :; do :; done"], timeout: 0.2)
         #expect(result == .failure(.timedOut))
+    }
+
+    /// What a tool writes reaches whoever asked while the tool still runs, from either stream, so a long run can
+    /// be followed as it goes.
+    @Test func handsOverWhatTheToolWritesAsItWrites() async throws {
+        let started = ContinuousClock.now
+        let seen = Mutex<[(text: String, at: Duration)]>([])
+        let output = try await Subprocess.run("/bin/sh", ["-c", "echo first; sleep 1; echo second >&2"], timeout: 30) { data in
+            seen.withLock { $0.append((String(decoding: data, as: UTF8.self), ContinuousClock.now - started)) }
+        }.get()
+
+        let chunks = seen.withLock { $0 }
+        let first = try #require(chunks.first { $0.text.contains("first") })
+        let second = try #require(chunks.first { $0.text.contains("second") })
+        #expect(second.at - first.at > .milliseconds(500), "the first line came only when the tool ended")
+        #expect(output.text == "first\n" && output.errorText == "second\n")
+    }
+
+    /// A run without a time limit, which Homebrew's upgrades need, still stops when whoever asked goes away.
+    @Test func aRunWithNoTimeLimitStopsWhenAsked() async {
+        let task = Task { await Subprocess.run("/bin/sleep", ["600"], timeout: nil) }
+        try? await Task.sleep(for: .milliseconds(300))
+        task.cancel()
+        #expect(await task.value == .failure(.canceled))
     }
 
     @Test func aToolIsStoppedWhenWhoeverAskedGoesAway() async {
