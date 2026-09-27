@@ -55,6 +55,7 @@ public enum PackageReceipts {
     static func list(exclusions: Exclusions, pkgutil: @escaping Pkgutil, environment: SearchEnvironment = .current) async -> PackageScan {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let reach = HelperReach(environment: environment)
+        let shared = sharedFolders(in: environment)
         guard let packages = packageList(in: await pkgutil(["--pkgs-plist"])) else {
             return PackageScan(receipts: [], couldNotAsk: true)
         }
@@ -65,12 +66,12 @@ public enum PackageReceipts {
             var results: [PackageReceipt] = []
             for _ in 0..<concurrentReceipts {
                 guard let identifier = pending.next() else { break }
-                group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach).receipt }
+                group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared).receipt }
             }
             while let result = await group.next() {
                 results.append(result)
                 if let identifier = pending.next() {
-                    group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach).receipt }
+                    group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared).receipt }
                 }
             }
             return results
@@ -100,8 +101,9 @@ public enum PackageReceipts {
         var receipts: [PackageReceipt] = []
         let removalGuard = RemovalGuard(environment: .current, exclusions: exclusions)
         let reach = HelperReach(environment: .current)
+        let shared = sharedFolders(in: .current)
         for identifier in identifiers.sorted() where !Task.isCancelled {
-            let found = await receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach)
+            let found = await receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared)
             guard found.installs(wanted) else { continue }
             receipts.append(found.receipt)
         }
@@ -135,7 +137,14 @@ public enum PackageReceipts {
         }
     }
 
-    private static func receipt(_ identifier: String, exclusions: Exclusions = .none, pkgutil: Pkgutil, removalGuard: RemovalGuard, reach: HelperReach) async -> Found {
+    private static func receipt(
+        _ identifier: String,
+        exclusions: Exclusions = .none,
+        pkgutil: Pkgutil,
+        removalGuard: RemovalGuard,
+        reach: HelperReach,
+        shared: [String]
+    ) async -> Found {
         guard
             let data = await pkgutil(["--pkg-info-plist", identifier])?.data(using: .utf8),
             let info = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
@@ -164,11 +173,15 @@ public enum PackageReceipts {
             let url = URL(filePath: PathPattern.located(path) ?? path)
             guard !exclusions.excludes(url), seen.insert(PathPattern.comparablePath(of: url)).inserted else { continue }
             let requiresPrivileges = FileAccess.requiresPrivilegesToRemove(url)
+            let contents = await FileSize.contents(of: url)
+            let path = PathPattern.comparablePath(of: url)
+            let isShared = shared.contains { PathComponents.isPath(path, atOrInside: $0) }
             items.append(PackageReceipt.Item(
                 url: url,
-                size: await FileSize.measure(url),
+                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 requiresPrivileges: requiresPrivileges,
-                isLeftAlone: !removalGuard.allowsRemoval(of: url) || (requiresPrivileges && reach.isBeyond(url))
+                isLeftAlone: !removalGuard.allowsRemoval(of: url) || (requiresPrivileges && reach.isBeyond(url)),
+                heldBack: HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
             ))
         }
 
@@ -188,6 +201,11 @@ public enum PackageReceipts {
                 return installLocation.appending(path: relative).path(percentEncoded: false)
             }
         )
+    }
+
+    /// The folders every account on the Mac uses, `/Users/Shared`, spelled to be compared.
+    private static func sharedFolders(in environment: SearchEnvironment) -> [String] {
+        environment.locations.filter { $0.kind == .sharedFolder }.map { PathPattern.comparablePath(of: $0.url) }
     }
 
     /// How many levels deep the search goes into a folder that also holds files this package did not install.

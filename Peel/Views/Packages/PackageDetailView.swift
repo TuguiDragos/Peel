@@ -30,12 +30,13 @@ struct PackageDetailView: View {
                         url: item.url,
                         icon: item.url.pathExtension == "app" ? .file(item.url) : .symbol("doc"),
                         detail: item.isLeftAlone ? "Left alone: Peel won’t move this, because of where it sits or what is inside it." : nil,
+                        warning: item.isLeftAlone ? nil : item.heldBack.map { String(localized: $0.explanation) },
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
                         isLocked: item.requiresPrivileges && !helper.canAct,
                         isLeftAlone: item.isLeftAlone,
                         isFirst: index == 0,
-                        hasNoteColumn: receipt.items.contains(where: \.isLeftAlone),
+                        hasNoteColumn: receipt.items.contains { $0.isLeftAlone || $0.heldBack != nil },
                         selection: packages, isSelected: packages.isSelected(item.url)
                     )
                 }
@@ -159,7 +160,7 @@ struct PackageDetailView: View {
     }
 
     private var selectableURLs: [URL] {
-        receipt.items.filter { !$0.isLeftAlone && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
+        receipt.items.filter { !$0.isLeftAlone && $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
     }
 
 }

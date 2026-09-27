@@ -17,6 +17,9 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         /// True when Peel never moves this item: `RemovalGuard` refuses it (a file in `/usr/local/bin`, for
         /// example), or it needs an administrator and the helper would refuse it. It is listed but never offered.
         public var isLeftAlone = false
+        /// Why the item is left for the person to choose: what measuring it saw (not measured, not read, a wallet,
+        /// or a repository), or `/Users/Shared`, which every account on the Mac uses.
+        public var heldBack: HoldBack?
 
         public var id: URL { url }
     }

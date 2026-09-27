@@ -70,6 +70,44 @@ struct PackageReceiptsTests {
         #expect(PackageReceipts.topLevel(files: files, installLocation: "/", exists: { _ in true }).offered.isEmpty)
     }
 
+    /// What may exist nowhere else is left for the person to choose, with its reason: a folder the package made
+    /// that now holds a repository or a wallet, and anything in `/Users/Shared`, which every account on the Mac uses.
+    @Test func leavesToThePersonWhatAReceiptsFolderHolds() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        try directory.file("Library/Application Support/Vendor Repo/.git/HEAD", bytes: 16)
+        try directory.file("Library/Application Support/Vendor Coin/wallet.dat", bytes: 16)
+        try directory.file("Library/Application Support/Vendor Plain/data.db", bytes: 16)
+        try directory.file("Users/Shared/StudioSync/project.txt", bytes: 16)
+        let locations = ["com.example.vendor": "Library/Application Support", "com.example.studio": "Users/Shared"]
+        let files = [
+            "com.example.vendor": "Vendor Repo\nVendor Coin\nVendor Plain\nVendor Plain/data.db\n",
+            "com.example.studio": "StudioSync\n",
+        ]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("com.example.studio", "com.example.vendor")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": locations[arguments[1]] ?? ""]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return files[arguments[1]]
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        let reasons = scan.receipts.flatMap(\.items).map { "\($0.url.lastPathComponent): \($0.heldBack.map(\.rawValue) ?? "none")" }
+        #expect(reasons.sorted() == [
+            "StudioSync: sharedWithEveryone", "Vendor Coin: holdsAWallet", "Vendor Plain: none", "Vendor Repo: holdsRepository",
+        ])
+    }
+
     /// A receipt's file list leaves out the install prefix, such as `Applications`, so the path is asked about again
     /// without its leading folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {
