@@ -139,7 +139,7 @@ struct SavedSettingsSection: View {
         workingOn = copy.id
         defer { workingOn = nil }
         // Measured before the move, since nothing is left at that path after it.
-        let size = await FileSize.allocatedSize(of: copy.folder)
+        let size = await FileSize.reclaimableSize(of: copy.folder)
         await QuitGuard.shared.run {
             let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([copy.folder])
             if let reason = result.failures.first?.reason {

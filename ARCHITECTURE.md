@@ -69,8 +69,10 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    claim the file too (with the apps of the same maker that macOS knows outside the Applications folders), the
    other copies of the app that use it (any macOS knows, wherever they are, named by their place), and, when Peel
    holds it back, why (`HoldBack`).
-3. **Measure.** `FileSize` walks each folder on a thread of its own, with a time budget. A folder that doesn't
-   answer in time, or that macOS won't open, has an unknown size, never zero, and every list shows it that way.
+3. **Measure.** `FileSize` walks each folder on a thread of its own, with a time budget. A size is what moving
+   the item would free: a file that shares its blocks with an APFS clone counts only what it holds alone, and one
+   with another name outside the folder counts nothing. A folder that doesn't answer in time, or that macOS won't
+   open, even a folder inside it, has an unknown size, never zero, and every list shows it that way.
 4. **Plan.** The page shows every match with its reason. Only `certain` and `likely` matches that nothing else
    claims are selected for the user (`Uninstallation.suggestedSelection`), and nothing is selected for an app
    that would stay. The user can change the selection freely, and what they choose stays through the page's

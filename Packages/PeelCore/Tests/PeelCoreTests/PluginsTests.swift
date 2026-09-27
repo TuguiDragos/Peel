@@ -98,7 +98,7 @@ struct PluginsTests {
         )
 
         let plugins = await Plugins.scan(environment: environment, exclusions: .none) { url in
-            url.lastPathComponent == "Slow.vst3" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "Slow.vst3" ? nil : await FileSize.reclaimableSize(of: url, within: FileSize.budget)
         }
 
         #expect(plugins.map(\.name) == ["Quick", "Slow"])

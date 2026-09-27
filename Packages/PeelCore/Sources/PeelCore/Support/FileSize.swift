@@ -4,6 +4,8 @@ import Synchronization
 
 /// What one walk of a folder found.
 public struct FolderContents: Sendable, Hashable {
+    /// The space removing the folder would free, which is less than it takes on disk when a file shares its blocks
+    /// with an APFS clone, or keeps another name outside it.
     public let size: Int64
     /// True when a version control repository was seen inside (`repositoryMarkers`). Work that is not
     /// committed, or not pushed, exists nowhere else.
@@ -36,18 +38,18 @@ public enum FileSize {
     /// How a scanner asks for a size. Tests hand in their own, to stand in for a folder that does not answer.
     typealias Measure = @Sendable (URL) async -> Int64?
 
-    static let measure: Measure = { await allocatedSize(of: $0) }
+    static let measure: Measure = { await reclaimableSize(of: $0) }
 
-    /// The space a file, or everything inside a folder, takes on disk. Nil for a folder that does not answer
-    /// within `budget` or that macOS will not let Peel open. No variant answers zero instead: unknown is not
+    /// The space removing a file, or a folder with everything inside it, would free. Nil for a folder that does not
+    /// answer within `budget` or that macOS will not let Peel open. No variant answers zero instead: unknown is not
     /// empty, and every caller has to decide how to handle it.
     @concurrent
-    public static func allocatedSize(of url: URL, within budget: TimeInterval = FileSize.budget) async -> Int64? {
+    public static func reclaimableSize(of url: URL, within budget: TimeInterval = FileSize.budget) async -> Int64? {
         guard let contents = await contents(of: url, within: budget), !contents.couldNotBeRead else { return nil }
         return contents.size
     }
 
-    /// The walk behind `allocatedSize(of:within:)`, which also reports what it saw on the way. Nil when the
+    /// The walk behind `reclaimableSize(of:within:)`, which also reports what it saw on the way. Nil when the
     /// folder does not answer within `budget`, or when the task is canceled.
     ///
     /// A folder a file provider owns (a cloud drive, or a container such as Podcasts') can hold a directory
@@ -103,9 +105,9 @@ public enum FileSize {
     private static func immediateContents(of url: URL) -> FolderContents {
         ScanCount.current?.add(1)
         do {
-            let values = try url.resourceValues(forKeys: [.totalFileAllocatedSizeKey, .contentModificationDateKey])
+            let values = try url.resourceValues(forKeys: [.totalFileAllocatedSizeKey, .contentModificationDateKey, .linkCountKey, .mayShareFileContentKey])
             return FolderContents(
-                size: Int64(values.totalFileAllocatedSize ?? 0),
+                size: (values.linkCount ?? 1) > 1 ? 0 : freed(by: url, values),
                 holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
                 holdsWallet: isWallet(url.lastPathComponent),
                 newestChange: values.contentModificationDate
@@ -132,6 +134,7 @@ public enum FileSize {
     static func walk(_ url: URL, countingFor scan: ScanCount? = nil, unless isStopped: () -> Bool) -> FolderContents? {
         let fileKeys: Set<URLResourceKey> = [
             .isRegularFileKey, .totalFileAllocatedSizeKey, .linkCountKey, .fileIdentifierKey, .contentModificationDateKey,
+            .mayShareFileContentKey,
         ]
         // Notes whether the folder, or a folder inside it, failed to open. The enumerator reports that only to the
         // error handler and goes on without it, which would read as a folder holding less than it does. A folder
@@ -152,9 +155,9 @@ public enum FileSize {
         var holdsRepository = repositoryMarkers.contains(url.lastPathComponent)
         var holdsWallet = isWallet(url.lastPathComponent)
         var newestChange: Date?
-        // A file with several hard links takes its space once. Counting it once per name would overstate what
-        // emptying the folder frees.
-        var counted: Set<UInt64> = []
+        // A file with several names goes only once every name has gone, so it counts once, and only when all of
+        // its names are inside.
+        var severalNames: [UInt64: (seen: Int, count: Int, size: Int64)] = [:]
         // Each entry gets its own autorelease pool, or what reading every name leaves behind would pile up in
         // memory until the walk ends.
         walking: while true {
@@ -173,9 +176,10 @@ public enum FileSize {
                     return .next
                 }
                 if let links = values.linkCount, links > 1, let identifier = values.fileIdentifier {
-                    guard counted.insert(identifier).inserted else { return .next }
+                    severalNames[identifier, default: (0, links, Int64(values.totalFileAllocatedSize ?? 0))].seen += 1
+                    return .next
                 }
-                total += Int64(values.totalFileAllocatedSize ?? 0)
+                total += freed(by: file, values)
                 return .next
             }
             switch step {
@@ -184,6 +188,7 @@ public enum FileSize {
             case .stopped: return nil
             }
         }
+        total += severalNames.values.reduce(0) { $0 + ($1.seen >= $1.count ? $1.size : 0) }
         return FolderContents(
             size: total,
             holdsRepository: holdsRepository,
@@ -195,6 +200,12 @@ public enum FileSize {
 
     private enum Step {
         case next, finished, stopped
+    }
+
+    /// What removing a file with one name frees: what it holds alone when it may share blocks with an APFS clone
+    /// (`ReclaimableSpace`), and every block it takes otherwise.
+    private static func freed(by file: URL, _ values: URLResourceValues) -> Int64 {
+        values.mayShareFileContent == true ? ReclaimableSpace.of(file) : Int64(values.totalFileAllocatedSize ?? 0)
     }
 
     /// Whether a folder of the walk refused to open. Set by the enumerator's error handler on the walking thread,

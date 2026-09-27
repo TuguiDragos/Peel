@@ -32,11 +32,36 @@ struct FileSizeTests {
             try FileManager.default.linkItem(at: original, to: folder.appending(path: name))
         }
 
-        let size = try #require(await FileSize.allocatedSize(of: folder))
-        let one = try #require(await FileSize.allocatedSize(of: original))
+        let size = try #require(await FileSize.reclaimableSize(of: folder))
+        let one = ReclaimableSpace.allocated(original)
 
         #expect(one > 0)
         #expect(size == one, "four names for one file measured \(size) instead of \(one)")
+    }
+
+    /// A size is what removing the item would free. An APFS clone of a file kept elsewhere frees only what it holds
+    /// alone, and a file with another name outside the folder frees nothing, since that name keeps it. A file whose
+    /// names are all inside frees its blocks once.
+    @Test func aFolderFreesOnlyWhatGoesWithIt() async throws {
+        let directory = try TemporaryDirectory()
+        let random = { (count: Int) in Data((0..<count).map { _ in UInt8.random(in: 0...255) }) }
+        let stored = try directory.file("store/package.bin", contents: random(1_048_576))
+        let shared = try directory.file("store/shared.bin", contents: random(524_288))
+        let own = try directory.file("project/own.bin", contents: random(262_144))
+        for url in [stored, shared, own] {
+            let handle = try FileHandle(forWritingTo: url)
+            try handle.synchronize()
+            try handle.close()
+        }
+        let project = directory.url.appending(path: "project", directoryHint: .isDirectory)
+        #expect(clonefile(stored.path(percentEncoded: false), project.appending(path: "clone.bin").path(percentEncoded: false), 0) == 0)
+        try FileManager.default.linkItem(at: shared, to: project.appending(path: "linked.bin"))
+        try FileManager.default.linkItem(at: own, to: project.appending(path: "own again.bin"))
+
+        let size = try #require(await FileSize.reclaimableSize(of: project))
+
+        #expect(size >= 262_144 && size < 262_144 + 131_072, "the project frees \(size), not what only its own file holds")
+        #expect(try #require(await FileSize.reclaimableSize(of: project.appending(path: "linked.bin"))) == 0)
     }
 
     /// A walk releases what it reads as it goes, rather than holding every name until it ends. The check runs in
@@ -86,7 +111,7 @@ struct FileSizeTests {
         try directory.file("tree/a.bin", bytes: 100_000)
         try directory.file("tree/b.bin", bytes: 100_000)
 
-        #expect(try #require(await FileSize.allocatedSize(of: folder)) >= 200_000)
+        #expect(try #require(await FileSize.reclaimableSize(of: folder)) >= 200_000)
     }
 
     /// A folder macOS will not open has no known size. Read as zero, it would fall under Space's size floor and
@@ -99,7 +124,7 @@ struct FileSizeTests {
         defer { try? directory.setPermissions(0o755, of: "closed") }
 
         #expect(await FileSize.contents(of: folder)?.couldNotBeRead == true)
-        #expect(await FileSize.allocatedSize(of: folder) == nil)
+        #expect(await FileSize.reclaimableSize(of: folder) == nil)
     }
 
     /// A folder inside that macOS will not open leaves the walk short: its size, and whatever wallet or repository
@@ -113,7 +138,7 @@ struct FileSizeTests {
         defer { try? directory.setPermissions(0o755, of: "Vendor/Private") }
 
         #expect(await FileSize.contents(of: folder)?.couldNotBeRead == true)
-        #expect(await FileSize.allocatedSize(of: folder) == nil)
+        #expect(await FileSize.reclaimableSize(of: folder) == nil)
     }
 
     /// A folder that goes away while the walk goes on holds nothing any more, which is no reason to doubt the rest:
@@ -146,19 +171,19 @@ struct FileSizeTests {
         try directory.setPermissions(0, of: "closed")
         defer { try? directory.setPermissions(0o755, of: "closed") }
 
-        #expect(await FileSize.allocatedSize(of: file) == nil)
-        #expect(await FileSize.allocatedSize(of: folder) == nil)
+        #expect(await FileSize.reclaimableSize(of: file) == nil)
+        #expect(await FileSize.reclaimableSize(of: folder) == nil)
         #expect(await FileSize.contents(of: file)?.couldNotBeRead == true)
-        #expect(await FileSize.allocatedSize(of: directory.url.appending(path: "not there")) == 0)
+        #expect(await FileSize.reclaimableSize(of: directory.url.appending(path: "not there")) == 0)
     }
 
-    /// `allocatedSize(of:)` makes the same walk as `contents(of:)`, so both report the same size.
+    /// `reclaimableSize(of:)` makes the same walk as `contents(of:)`, so both report the same size.
     @Test func measuresAFolderThatAnswers() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("tree")
         try directory.file("tree/a.bin", bytes: 100_000)
 
-        let measured = try #require(await FileSize.allocatedSize(of: folder))
+        let measured = try #require(await FileSize.reclaimableSize(of: folder))
         #expect(measured >= 100_000)
         #expect(await FileSize.contents(of: folder)?.size == measured)
     }
@@ -172,7 +197,7 @@ struct FileSizeTests {
             try directory.file("wide/folder\(index)/file.bin", bytes: 4_096)
         }
 
-        let measured = await FileSize.allocatedSize(of: folder, within: 0.001)
+        let measured = await FileSize.reclaimableSize(of: folder, within: 0.001)
 
         // Either it finished, or it ran out of budget. Never a hang, and never a wrong number.
         if let measured { #expect(measured >= 4_096) }
@@ -188,11 +213,11 @@ struct FileSizeTests {
             try directory.file("big/folder\(index)/file.bin", bytes: 16)
         }
 
-        #expect(await FileSize.allocatedSize(of: folder, within: 0) == nil, "no budget at all, so nothing can be known yet")
+        #expect(await FileSize.reclaimableSize(of: folder, within: 0) == nil, "no budget at all, so nothing can be known yet")
         var later: Int64?
         for _ in 0..<200 where later == nil {
             try await Task.sleep(for: .milliseconds(20))
-            later = await FileSize.allocatedSize(of: folder, within: 0)
+            later = await FileSize.reclaimableSize(of: folder, within: 0)
         }
         #expect(await FileSize.contents(of: folder)?.size == later)
         #expect(try #require(later) >= 8_192)
@@ -229,7 +254,7 @@ struct FileSizeTests {
             var later: Int64?
             for _ in 0..<200 where later == nil {
                 try await Task.sleep(for: .milliseconds(20))
-                later = await FileSize.allocatedSize(of: folder, within: 0)
+                later = await FileSize.reclaimableSize(of: folder, within: 0)
             }
             #expect(later != nil, "the folder stayed unknown once the walk was taken")
         }
@@ -245,12 +270,12 @@ struct FileSizeTests {
 
         let task = Task { () -> Int64? in
             while !Task.isCancelled { await Task.yield() }
-            return await FileSize.allocatedSize(of: folder, within: 3_600)
+            return await FileSize.reclaimableSize(of: folder, within: 3_600)
         }
         task.cancel()
 
         #expect(await task.value == nil, "nobody wanted it, so nothing was walked for it")
-        #expect(try #require(await FileSize.allocatedSize(of: folder)) >= 100_000)
+        #expect(try #require(await FileSize.reclaimableSize(of: folder)) >= 100_000)
     }
 
     /// A walk nobody wants anymore stops at the next entry instead of reading the folder to its end.
@@ -272,8 +297,8 @@ struct FileSizeTests {
         let folder = try directory.directory("tree")
         try directory.file("tree/a.bin", bytes: 100_000)
 
-        async let first = FileSize.allocatedSize(of: folder)
-        async let second = FileSize.allocatedSize(of: folder)
+        async let first = FileSize.reclaimableSize(of: folder)
+        async let second = FileSize.reclaimableSize(of: folder)
         let (one, two) = (await first, await second)
 
         #expect(try #require(one) >= 100_000)
@@ -289,14 +314,14 @@ struct FileSizeTests {
             try directory.file("tree/folder\(index)/file.bin", bytes: 16)
         }
 
-        #expect(await FileSize.allocatedSize(of: folder, within: 0) == nil, "no budget at all, so nothing can be known yet")
+        #expect(await FileSize.reclaimableSize(of: folder, within: 0) == nil, "no budget at all, so nothing can be known yet")
 
         // Asked again, with a real budget: the answer comes from what is known about the folder, not from a
         // second walk waited out. The same folder written with a trailing slash is the same key.
         let withSlash = URL(filePath: folder.path(percentEncoded: false) + "/", directoryHint: .isDirectory)
         let start = ContinuousClock.now
-        _ = await FileSize.allocatedSize(of: folder, within: FileSize.budget)
-        _ = await FileSize.allocatedSize(of: withSlash, within: FileSize.budget)
+        _ = await FileSize.reclaimableSize(of: folder, within: FileSize.budget)
+        _ = await FileSize.reclaimableSize(of: withSlash, within: FileSize.budget)
         #expect(ContinuousClock.now - start < .seconds(2), "a question about a folder already being walked paid a budget of its own")
     }
 

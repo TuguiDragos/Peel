@@ -264,7 +264,7 @@ final class AppLibrary {
             var pending = missing.makeIterator()
             for _ in 0..<Self.concurrentSizeReads {
                 guard let app = pending.next() else { break }
-                _ = group.addTaskUnlessCancelled { (app.id, await FileSize.allocatedSize(of: app.url)) }
+                _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
             }
             while let (id, size) = await group.next() {
                 // A bundle that did not answer in time stays unknown (blank in the list) and is tried
@@ -274,7 +274,7 @@ final class AppLibrary {
                     sizes[id] = size
                 }
                 if !Task.isCancelled, let app = pending.next() {
-                    _ = group.addTaskUnlessCancelled { (app.id, await FileSize.allocatedSize(of: app.url)) }
+                    _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
                 }
             }
         }

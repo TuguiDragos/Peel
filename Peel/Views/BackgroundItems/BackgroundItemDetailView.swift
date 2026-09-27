@@ -145,7 +145,7 @@ struct BackgroundItemDetailView: View {
                     // Read before the move: afterwards nothing is at that path to measure.
                     var sizes: [URL: Int64] = [:]
                     if let plist = item.plistURL {
-                        sizes[plist] = await FileSize.allocatedSize(of: plist)
+                        sizes[plist] = await FileSize.reclaimableSize(of: plist)
                     }
                     await backgroundItems.perform(.moveToTrash, on: item) { result in
                         await history.record(result, tool: .backgroundItems, source: item.label, sizes: sizes)

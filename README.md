@@ -290,6 +290,17 @@ your keychains, Mail, Messages, and photo libraries.
 </details>
 
 <details>
+<summary><strong>Why does Peel show a smaller size than Finder?</strong></summary>
+
+<br>
+
+Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when
+files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them
+changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go.
+
+</details>
+
+<details>
 <summary><strong>Why does Peel ask for Full Disk Access?</strong></summary>
 
 <br>

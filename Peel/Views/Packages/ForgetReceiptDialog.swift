@@ -20,7 +20,7 @@ struct ForgetReceiptDialog: ViewModifier {
                         let result = await forget(receipt) { result in
                             var sizes: [URL: Int64] = [:]
                             for item in result.trashed {
-                                sizes[item.originalURL] = await FileSize.allocatedSize(of: item.trashedURL)
+                                sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
                             }
                             await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
                         }

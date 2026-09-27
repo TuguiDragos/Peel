@@ -41,7 +41,7 @@ struct SpaceInventoryTests {
         try directory.file("Library/Caches/com.example.app/blob", bytes: 400_000)
 
         let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000) { url in
-            url.lastPathComponent == "Caches" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "Caches" ? nil : await FileSize.reclaimableSize(of: url, within: FileSize.budget)
         }
 
         #expect(report.items.map(\.id) == ["caches", "logs"])
