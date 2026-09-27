@@ -68111,6 +68111,112 @@
         }
       }
     },
+    "Not selected: macOS keeps this cache for its own services, which may be using it right now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: systém macOS si tuto mezipaměť uchovává pro své vlastní služby, které ji možná právě teď používají."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: macOS bewahrt diesen Cache für seine eigenen Dienste auf, die ihn möglicherweise gerade verwenden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: macOS guarda esta caché para sus propios servicios, que podrían estar usándola ahora mismo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : macOS conserve ce cache pour ses propres services, qui l’utilisent peut-être en ce moment."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: macOS conserva questa cache per i propri servizi, che potrebbero usarla proprio ora."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このキャッシュはmacOSが自身のサービスのために保持しているもので、現在使用中の可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: macOS가 자체 서비스를 위해 이 캐시를 보관하며, 해당 서비스가 지금 이 캐시를 사용하고 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: macOS bewaart deze cache voor zijn eigen diensten, die hem misschien op dit moment gebruiken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: macOS przechowuje tę pamięć podręczną na potrzeby własnych usług, które mogą z niej właśnie korzystać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o macOS mantém este cache para os próprios serviços, que podem estar usando-o neste momento."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: macOS păstrează această memorie tampon pentru propriile servicii, care o pot utiliza chiar acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: macOS хранит этот кэш для своих служб, которые, возможно, используют его прямо сейчас."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: macOS behåller den här cachen för sina egna tjänster, som kanske använder den just nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: macOS bu önbelleği kendi hizmetleri için tutuyor; bunlar şu anda onu kullanıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: macOS зберігає цей кеш для власних служб, які можуть саме зараз ним користуватися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：macOS为其自身服务保留此缓存，这些服务现在可能正在使用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：macOS為自己的服務保留此快取，這些服務現在可能正在使用它。"
+          }
+        }
+      }
+    },
     "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see." : {
       "localizations" : {
         "cs" : {

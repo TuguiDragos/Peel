@@ -271,6 +271,7 @@ extension HoldBack {
         case .holdsKeys: "holds a wallet or a key Peel protects"
         case .insideAnotherAppsFolder: "inside another app's folder"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
+        case .keptByMacOS: "a cache macOS keeps for itself"
         }
     }
 }

@@ -93,6 +93,32 @@ struct SpaceRemovalTests {
         #expect(plan.leftToDeveloper.map(\.lastPathComponent) == ["Google"])
     }
 
+    @Test func neverSelectsACacheMacOSKeepsForItself() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["com.apple.Spotlight", "CloudKit", "familycircled", "org.example.notes", "com.gone.app"] {
+            try directory.file("home/Library/Caches/\(name)/data.db")
+        }
+        try directory.file("home/Library/Logs/com.apple.example/run.log")
+        let logs = SpaceItem(
+            id: "logs",
+            category: .library,
+            urls: [directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)],
+            size: 0,
+            handling: .trash
+        )
+        let names = { (urls: [URL]) in urls.map(\.lastPathComponent).sorted() }
+
+        let caches = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+        let logged = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
+
+        let all = ["CloudKit", "com.apple.Spotlight", "com.gone.app", "familycircled", "org.example.notes"]
+        #expect(names(caches.removable) == all)
+        #expect(names(Array(caches.suggested)) == ["com.gone.app", "org.example.notes"])
+        let keptByMacOS = caches.heldBack.filter { $0.value == .keptByMacOS }.map(\.key)
+        #expect(names(keptByMacOS) == ["CloudKit", "com.apple.Spotlight", "familycircled"])
+        #expect(names(Array(logged.suggested)) == ["com.apple.example"])
+    }
+
     @Test func leavesAloneWhatAnOpenAppIsStillUsing() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.spotify.client/audio.db")

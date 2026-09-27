@@ -51,12 +51,16 @@ public enum SpaceRemoval {
         measure: LeftoverScanner.Measure
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
+        let caches = environment.locations.filter { $0.kind == .caches }
+        let cachesFolders = Set(caches.map { PathPattern.comparablePath(of: $0.url) })
         var sizes: [URL: Int64] = [:]
         var heldBack: [URL: HoldBack] = [:]
         for child in children.removable where !Task.isCancelled {
             let contents = await measure(child)
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
-            heldBack[child] = HoldBack.seen(in: contents)
+            let isMacOSs = cachesFolders.contains(PathPattern.comparablePath(of: child.deletingLastPathComponent()))
+                && SystemCaches.isMacOSs(child.lastPathComponent)
+            heldBack[child] = isMacOSs ? .keptByMacOS : HoldBack.seen(in: contents)
         }
         return Plan(
             removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
