@@ -8,6 +8,7 @@ import Testing
 /// waits on one must return at once and ask about nothing more, or Stop would leave it walking the disk.
 final class Unanswered: Sendable {
     private let asked = Mutex(0)
+    private let finished = Mutex(false)
 
     var count: Int { asked.withLock { $0 } }
 
@@ -41,13 +42,14 @@ final class Unanswered: Sendable {
     /// waiting. Returns how long the scan took to return after the cancel, and how many folders it asked about
     /// before and after it.
     func stop(_ scan: @escaping @Sendable () async -> Void) async throws -> (took: Duration, askedBefore: Int, askedAfter: Int) {
-        let running = Task { await scan() }
+        let running = Task { [self] in
+            await scan()
+            finished.withLock { $0 = true }
+        }
         let clock = ContinuousClock()
-        let start = clock.now
         while count == 0 {
-            guard clock.now - start < .seconds(10) else {
-                running.cancel()
-                Issue.record("the scan never asked about a folder")
+            guard !finished.withLock({ $0 }) else {
+                Issue.record("the scan finished without asking about a folder")
                 return (.zero, 0, 0)
             }
             try await Task.sleep(for: .milliseconds(2))
