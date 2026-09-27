@@ -814,6 +814,18 @@ struct DeveloperCachesTests {
         #expect(locations.map(\.url.lastPathComponent) == ["cache.ets"])
     }
 
+    @Test func offersOpencodesCacheAndNeverItsData() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cache/opencode/models.json", bytes: 400_000)
+        try directory.file(".local/share/opencode/storage/session.json", bytes: 400_000)
+        let opencode = DeveloperCaches.definitions.filter { $0.id == "opencode" }
+
+        let locations = await DeveloperCaches.scan(opencode, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["opencode"])
+        #expect(locations.first?.kind == .cache)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

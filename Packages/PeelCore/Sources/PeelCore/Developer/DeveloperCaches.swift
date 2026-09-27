@@ -684,6 +684,9 @@ public enum DeveloperCaches {
             Folder(".local/state/nvim/lazy", .cache, source: "https://github.com/folke/lazy.nvim/blob/main/lua/lazy/core/config.lua#L220-L225"),
             Folder(".local/state/nvim/logs", .logs, source: "https://github.com/neovim/neovim/blob/master/runtime/doc/starting.txt#L1409-L1410"),
         ]),
+        Definition(id: "opencode", name: "opencode", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".cache/opencode", .cache, source: "https://github.com/anomalyco/opencode/blob/dev/packages/core/src/global.ts#L12"),
+        ]),
         // Cloud tools
         Definition(id: "gcloud", name: "Google Cloud CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".config/gcloud/logs", .logs, source: "https://docs.cloud.google.com/compute/docs/troubleshooting/general-tips"),
