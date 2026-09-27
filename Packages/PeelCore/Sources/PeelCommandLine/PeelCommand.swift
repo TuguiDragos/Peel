@@ -50,7 +50,7 @@ public struct PeelCommand: AsyncParsableCommand {
         }
     }
 
-    /// Writes a failure of Peel's own as a note, where every control character is shown as `?`: its message names
+    /// Writes a failure of Peel's own as a note, where what could hide or reorder text is shown as `?`: it names
     /// apps and paths from other people's bundles. Any other error is left for ArgumentParser to print.
     @discardableResult
     static func report(_ error: any Error) -> Bool {

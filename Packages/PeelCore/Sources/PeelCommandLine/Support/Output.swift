@@ -45,7 +45,8 @@ enum Output {
         write(plain(text) + "\n")
     }
 
-    /// Replaces every control character with `?` (`PlainText`), for names and paths from other people's bundles.
+    /// Replaces every character that could hide or reorder text with `?` (`PlainText`), for names and paths from
+    /// other people's bundles.
     static func plain(_ text: String) -> String {
         PlainText.of(text)
     }
@@ -72,7 +73,7 @@ enum Output {
     }
 
     /// Writes `text` to standard error, which is for the person reading, not for a script. Newlines are kept, and
-    /// every other control character is replaced with `?`.
+    /// every other character `plain` hides is replaced with `?`.
     static func note(_ text: String) {
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false).map { plain(String($0)) }
         let written = lines.joined(separator: "\n") + "\n"
