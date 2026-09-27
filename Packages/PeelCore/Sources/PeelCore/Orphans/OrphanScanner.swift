@@ -56,12 +56,16 @@ public struct OrphanScanner: Sendable {
         )
 
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
+        let goneNames = Dictionary(gone.map { ($0.name.lowercased(), $0.bundleIdentifier) }, uniquingKeysWith: { first, _ in first })
 
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
             for location in environment.locations {
                 _ = group.addTaskUnlessCancelled { [walk] in
-                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps, home: home, walk: walk)
+                    await Self.scan(
+                        location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
+                        goneNames: goneNames, home: home, walk: walk
+                    )
                 }
             }
             return await group.reduce(into: [LocationResult]()) { $0.append($1) }
@@ -100,8 +104,13 @@ public struct OrphanScanner: Sendable {
         let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
         var kept: [OrphanItem] = []
-        for item in items where await Self.orphanIdentifier(of: item.url, kind: item.kind, ownership: ownership, jobs: jobs) != nil {
-            kept.append(item)
+        for item in items {
+            let isStillOrphaned = if let app = item.namedAfter {
+                await Self.goneApp(named: item.url, kind: item.kind, goneNames: [item.url.lastPathComponent.lowercased(): app], ownership: ownership) != nil
+            } else {
+                await Self.orphanIdentifier(of: item.url, kind: item.kind, ownership: ownership, jobs: jobs) != nil
+            }
+            if isStillOrphaned { kept.append(item) }
         }
         return kept
     }
@@ -241,6 +250,23 @@ public struct OrphanScanner: Sendable {
         return identifier
     }
 
+    /// The places where an app keeps a folder under its own name, such as `Caches/Figma`, and nothing it keeps
+    /// there is the person's own work.
+    static let namedPlaces: Set<SearchLocation.Kind> = [
+        .caches, .logs, .savedApplicationState, .httpStorages, .webKit, .applicationSupport,
+    ]
+
+    /// The app that left whose name `url` bears, in one of `namedPlaces`, while no installed app claims that name.
+    static func goneApp(named url: URL, kind: SearchLocation.Kind, goneNames: [String: String], ownership: AppOwnership) async -> String? {
+        let name = url.lastPathComponent
+        guard
+            namedPlaces.contains(kind), !isSensitive(fileName: name),
+            let app = goneNames[name.lowercased()],
+            !ownership.isClaimed(fileName: name, kind: kind, identifier: app)
+        else { return nil }
+        return await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) ? nil : app
+    }
+
     /// Whether a plug-in came with an app Peel saw go: its identifier is that app's, extends it, or is its maker's.
     /// An installer can put a plug-in in place with no app at all, and its date does not move when it is used, so
     /// nothing else says it was left behind.
@@ -263,6 +289,7 @@ public struct OrphanScanner: Sendable {
         jobs: BackgroundItemOwnership,
         goneBundles: [String: String],
         goneApps: [String],
+        goneNames: [String: String],
         home: String,
         walk: LeftoverScanner.Measure
     ) async -> LocationResult {
@@ -284,7 +311,13 @@ public struct OrphanScanner: Sendable {
             guard isAFileAFolderOrALink(url) else { continue }
             // What the guard refuses outright is never listed, whether an installed app claims it or not.
             guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
-            guard let identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles) else { continue }
+            var namedAfter: String?
+            var identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles)
+            if identifier == nil {
+                namedAfter = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
+                identifier = namedAfter
+            }
+            guard let identifier else { continue }
             guard location.kind != .plugIns || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
 
             // The item's own date changes when something is taken out of it, but not when a file inside is
@@ -301,6 +334,7 @@ public struct OrphanScanner: Sendable {
             } else {
                 // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
                 HoldBack.seen(in: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
+                    ?? (namedAfter != nil ? .namedLikeTheApp : nil)
             }
             let item = OrphanItem(
                 url: url,
@@ -308,7 +342,8 @@ public struct OrphanScanner: Sendable {
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
                 requiresPrivileges: parent.requiresPrivileges(toRemove: url),
-                heldBack: heldBack
+                heldBack: heldBack,
+                namedAfter: namedAfter
             )
             found.append((identifier, item))
         }

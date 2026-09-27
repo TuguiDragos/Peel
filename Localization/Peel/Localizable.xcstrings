@@ -72987,6 +72987,112 @@
         }
       }
     },
+    "Only the name ties these to %@, which Peel saw installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen název je spojuje s aplikací %@, kterou Peel viděl nainstalovanou"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur der Name verbindet diese mit der App „%@“, die Peel installiert vorgefunden hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el nombre los vincula a %@, que Peel vio instalada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul le nom relie ces fichiers à %@, que Peel a vu installé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo il nome li lega a %@, che Peel ha visto installata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがインストールを確認した“%@”とは名前だけでつながっています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목은 Peel이 설치를 확인한 ‘%@’과(와) 이름으로만 연결됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen de naam koppelt deze aan %@, die Peel geïnstalleerd zag"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z aplikacją %@, którą Peel widział zainstalowaną, łączy je tylko nazwa"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o nome liga estes itens a %@, que o Peel viu instalado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar numele le leagă de aplicația %@, pe care Peel a văzut‑o instalată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С приложением «%@», которое Peel видел установленным, их связывает только имя"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara namnet knyter dessa till %@, som Peel såg installerad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları Peel’in yüklü olarak gördüğü %@ uygulamasına yalnızca adları bağlıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лише назва повʼязує їх із програмою «%@», яку Peel бачила інстальованою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些文件仅凭名称与Peel曾看到已安装的“%@”关联"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有名稱將這些項目與Peel曾看到已安裝的「%@」關聯在一起"
+          }
+        }
+      }
+    },
     "Open %@" : {
       "localizations" : {
         "cs" : {

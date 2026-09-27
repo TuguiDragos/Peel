@@ -11,6 +11,8 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// Why the item is left for the user to choose by hand, or nil. Select All passes it by, and `peel orphans
     /// --remove` leaves it where it is.
     public var heldBack: HoldBack?
+    /// The bundle identifier of the app that left, when the item bears its name and nothing else ties the two.
+    public var namedAfter: String?
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {

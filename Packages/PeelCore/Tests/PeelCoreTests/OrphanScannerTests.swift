@@ -219,6 +219,35 @@ struct OrphanScannerTests {
         #expect(still.map(\.url.lastPathComponent) == ["com.gone.app"])
     }
 
+    @Test func findsWhatAnAppThatLeftKeptUnderItsNameAndSelectsNone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/Figma/index.db", bytes: 50_000)
+        try directory.file("home/Library/Logs/Figma/main.log")
+        try directory.file("home/Library/Application Support/Figma/settings.json")
+        try directory.file("home/Library/Preferences/Figma.plist")
+        try directory.file("home/Library/Caches/Installed/cache.db")
+        try directory.file("home/Library/Caches/Sketchbook/cache.db")
+        let figma = RememberedApp(
+            bundleIdentifier: "com.figma.Desktop", name: "Figma", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/Figma.app"
+        )
+        let scanner = scanner(in: directory)
+
+        let groups = await scanner.scan(installedApps: installed, remembered: [figma]).groups
+
+        #expect(groups.map(\.identifier) == ["com.figma.Desktop"])
+        let group = try #require(groups.first)
+        #expect(Set(group.items.map { "\($0.kind.rawValue)/\($0.url.lastPathComponent)" }) == [
+            "caches/Figma", "logs/Figma", "applicationSupport/Figma",
+        ])
+        #expect(group.items.allSatisfy { $0.heldBack == .namedLikeTheApp && $0.namedAfter == "com.figma.Desktop" })
+        #expect(group.confidence == OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: "Figma")]))
+
+        #expect(await scanner.stillOrphaned(group.items, installedApps: installed).count == 3)
+        let back = InstalledApp(url: URL(filePath: "/Applications/Figma.app"), bundleIdentifier: "com.figma.Desktop2", name: "Figma")
+        #expect(await scanner.stillOrphaned(group.items, installedApps: installed + [back]).isEmpty)
+    }
+
     @Test func reportsOnlyUnclaimedAppItems() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Preferences/com.gone.app.plist")

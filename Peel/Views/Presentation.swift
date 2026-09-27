@@ -234,6 +234,8 @@ extension OrphanConfidence {
             Text("Something with this identifier is running now")
         case .leadsIntoAnAppThatIsGone:
             Text("These links lead into an app that is no longer there")
+        case .onlyTheName(let name):
+            Text("Only the name ties these to \(name), which Peel saw installed")
         case .writtenRecently(let date):
             wroteHere(date)
         case .writtenAfterItLeft(let name, let written):

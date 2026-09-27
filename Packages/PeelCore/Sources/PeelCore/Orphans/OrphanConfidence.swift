@@ -34,6 +34,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         case running
         /// Links into an app that is gone, so they lead nowhere.
         case leadsIntoAnAppThatIsGone
+        /// Only the name of an app Peel saw installed ties these files to it.
+        case onlyTheName(of: String)
         /// Nothing installed claims the identifier, which is all Peel can say.
         case nothingClaimsIt
     }
@@ -65,6 +67,9 @@ public struct OrphanConfidence: Sendable, Hashable {
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
         if group.items.allSatisfy({ $0.kind == .commandLineTools }) {
             return OrphanConfidence(level: .certain, reasons: [.leadsIntoAnAppThatIsGone])
+        }
+        if let app = group.rememberedApp, group.items.allSatisfy({ $0.namedAfter != nil }) {
+            return OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: app.name)])
         }
         let makerIsStillHere = group.rememberedApp?.teamIdentifier.map(installedTeams.contains) ?? false
         // A folder's own date changes when files are taken out of it, so the last write on a leftover is often
