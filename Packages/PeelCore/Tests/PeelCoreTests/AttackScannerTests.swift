@@ -96,6 +96,19 @@ struct AttackScannerTests {
         #expect(found == ["com.gone.app"], "ATTACK SUCCEEDED: something of the user's own is reported as an orphan: \(found)")
     }
 
+    /// Shortcuts keeps its data in a group container whose name has no `com.apple.` in it. Orphaned Files leaves it
+    /// out because the guard refuses it, not because the Shortcuts app happens to claim it: here nothing does.
+    @Test func orphanScannerNeverListsWhatTheGuardRefuses() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Group Containers/group.is.workflow.shortcuts/Shortcuts.sqlite")
+        try directory.file("home/Library/Group Containers/group.com.gone.app/data.db")
+        let scanner = OrphanScanner(environment: environment(directory), isRegisteredApp: { _ in false }, systemApps: [])
+
+        let found = await scanner.scan(installedApps: []).groups.map(\.identifier)
+
+        #expect(found == ["com.gone.app"], "ATTACK SUCCEEDED: what the guard refuses is listed as an orphan: \(found)")
+    }
+
     /// There are real apps called Documents, Downloads, and Public. The folders every account starts with are
     /// never theirs.
     @Test func neverClaimsTheFoldersEveryAccountStartsWith() async throws {

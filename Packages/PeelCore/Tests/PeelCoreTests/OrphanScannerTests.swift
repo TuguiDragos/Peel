@@ -298,15 +298,15 @@ struct OrphanScannerTests {
     /// The apps macOS ships claim their folders like any other app, and none of them is in the list Peel scans.
     @Test func ignoresGroupsDeclaredBySystemApps() async throws {
         let directory = try TemporaryDirectory()
-        try directory.directory("home/Library/Group Containers/group.is.workflow.shortcuts")
-        let shortcuts = InstalledApp(
-            url: URL(filePath: "/System/Applications/Shortcuts.app"),
-            bundleIdentifier: "is.workflow.my.app",
-            name: "Shortcuts",
-            applicationGroups: ["group.is.workflow.shortcuts"]
+        try directory.directory("home/Library/Group Containers/group.net.example.shared")
+        let systemApp = InstalledApp(
+            url: URL(filePath: "/System/Applications/Example.app"),
+            bundleIdentifier: "org.example.system",
+            name: "Example",
+            applicationGroups: ["group.net.example.shared"]
         )
 
-        #expect(await scanner(in: directory, systemApps: [shortcuts]).scan(installedApps: installed).groups.isEmpty)
+        #expect(await scanner(in: directory, systemApps: [systemApp]).scan(installedApps: installed).groups.isEmpty)
         #expect(await !scanner(in: directory).scan(installedApps: installed).groups.isEmpty, "with no rival it is nobody's")
     }
 

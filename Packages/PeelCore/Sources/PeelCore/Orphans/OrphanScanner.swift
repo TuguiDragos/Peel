@@ -291,6 +291,8 @@ public struct OrphanScanner: Sendable {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             guard isAFileAFolderOrALink(url) else { continue }
+            // What the guard refuses outright is never listed, whether an installed app claims it or not.
+            guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
             guard let identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles) else { continue }
             guard location.kind != .plugIns || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
 
