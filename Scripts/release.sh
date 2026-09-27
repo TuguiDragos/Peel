@@ -45,13 +45,16 @@ fi
 grep -E "Test run with" "$build/test.log" || true
 
 echo "== Archiving"
-# The output goes to a log, not through a pipe, so the `if` checks xcodebuild's own exit status.
+# The output goes to a log, not through a pipe, so the `if` checks xcodebuild's own exit status. Pointer
+# authentication is set here as well as in the project, since Xcode gives the Swift packages only the settings
+# of the command line, and every binary imports them.
 if ! xcodebuild archive \
     -project Peel.xcodeproj \
     -scheme Peel \
     -configuration Release \
     -archivePath "$archive" \
     -derivedDataPath "$build/DerivedData" \
+    ENABLE_POINTER_AUTHENTICATION=YES \
     > "$build/archive.log" 2>&1
 then
     grep -E "error:" "$build/archive.log" || tail -20 "$build/archive.log"
@@ -110,6 +113,21 @@ do
         exit 1
     fi
 done
+
+echo "== Architectures"
+# arm64e is the slice with pointer authentication, which Apple silicon runs; arm64 and x86_64 are for the rest.
+for executable in \
+    "$app/Contents/MacOS/Peel" \
+    "$app/Contents/MacOS/PeelHelper" \
+    "$app/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder" \
+    "$app/Contents/Helpers/peel"
+do
+    archs="$(lipo -archs "$executable")" || { echo "REFUSED: lipo cannot read $executable"; exit 1; }
+    for arch in arm64e arm64 x86_64; do
+        [[ " $archs " == *" $arch "* ]] || { echo "REFUSED: $executable is built for $archs, without $arch"; exit 1; }
+    done
+done
+echo "Every binary: arm64e, arm64, x86_64"
 
 echo "== Languages"
 # Every language in the project's `knownRegions` (besides `en` and `Base`) must ship in the app and in the Finder

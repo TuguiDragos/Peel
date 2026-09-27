@@ -49,17 +49,21 @@ jobs:
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
             -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
 
-      # Release builds every binary for Apple silicon and Intel alike, with the optimizer a Debug build leaves off.
+      # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
+      # with the optimizer a Debug build leaves off. The setting is given here too, since only the command line reaches
+      # the Swift packages.
       - name: Build the app for release
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
-            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO build
+            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES build
           for binary in MacOS/Peel MacOS/PeelHelper Helpers/peel PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder; do
             archs=$(lipo -archs "build/Release/Build/Products/Release/Peel.app/Contents/$binary")
-            case "$archs" in
-              *x86_64*arm64*|*arm64*x86_64*) ;;
-              *) echo "::error::$binary is built for $archs only."; exit 1 ;;
-            esac
+            for arch in arm64e arm64 x86_64; do
+              case " $archs " in
+                *" $arch "*) ;;
+                *) echo "::error::$binary is built for $archs, without $arch."; exit 1 ;;
+              esac
+            done
           done
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
