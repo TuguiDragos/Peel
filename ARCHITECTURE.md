@@ -172,8 +172,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 through `Cleanup`, so all of them ask, record, and exit the same way: they print the plan with the guard's answer
 beside each item, stop there with `--dry-run`, ask unless given `-y`, exit 2 when the answer is no and 1 when a
 removal couldn't finish, and write the same History the app shows. The tool never uses the helper. Everything it
-prints goes through `Output`, so scripts can read it: its own words are plain ASCII, and names, paths, and what macOS says in an
-error are printed as they are, in UTF-8, with every character that could hide or reorder text shown as `?` (`PlainText`).
+prints goes through `Output`, so scripts can read it: its own words are plain ASCII, and names, paths, and what
+macOS says in an error are printed as they are, in UTF-8, with every character that could hide or reorder text shown
+as `?` (`PlainText`).
 
 The app's build puts the tool's shell completions, written by the tool it just built, and its manual page,
 `Support/peel.1`, in `Peel.app/Contents/Resources/completions` and `man` (the Command Line Documentation phase),
