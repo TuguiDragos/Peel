@@ -52,11 +52,9 @@ struct ResetSheet: View {
         .task(id: exclusions.revision) {
             await plan.refresh(installedApps: library.apps)
         }
-        // A reset needs the app quit, so the sheet follows the app launching or quitting while it is open.
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)) { _ in
-            plan.refreshRunningState()
-        }
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)) { _ in
+        // A reset needs the app quit, so the sheet follows the apps that run. The workspace reports every change
+        // to them through key-value observing, while it posts no notice for a menu bar or background app.
+        .onReceive(NSWorkspace.shared.publisher(for: \.runningApplications)) { _ in
             plan.refreshRunningState()
         }
     }

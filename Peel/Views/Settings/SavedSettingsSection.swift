@@ -31,10 +31,9 @@ struct SavedSettingsSection: View {
             }
         }
         .task { reload() }
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)) { _ in
-            refreshOpenApps()
-        }
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)) { _ in
+        // Put Back waits for the app to quit. The workspace reports every change to the apps that run through
+        // key-value observing, while it posts no notice for a menu bar or background app.
+        .onReceive(NSWorkspace.shared.publisher(for: \.runningApplications)) { _ in
             refreshOpenApps()
         }
         .confirmationDialog(trashQuestion, isPresented: isAskingToTrash, presenting: copyToTrash) { copy in
