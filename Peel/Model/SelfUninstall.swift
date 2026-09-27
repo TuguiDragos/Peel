@@ -24,11 +24,17 @@ final class SelfUninstall {
     }
 
     /// Removes Peel. The plan is made first, and the steps nothing can undo (unregistering the helper and the
-    /// login item) come after, so a plan that cannot be made leaves Peel as it was.
+    /// login item) come after, so a plan that cannot be made leaves Peel as it was. A quit is refused meanwhile,
+    /// since Peel ends itself once it has gone.
     func run(installedApps: [InstalledApp], helper: HelperModel, recording record: (TrashResult) async -> Void = { _ in }) async {
         isRunning = true
         defer { isRunning = false }
+        await QuitGuard.shared.runRefusingQuit {
+            await remove(installedApps: installedApps, helper: helper, recording: record)
+        }
+    }
 
+    private func remove(installedApps: [InstalledApp], helper: HelperModel, recording record: (TrashResult) async -> Void) async {
         let bundleURL = Bundle.main.bundleURL
         guard let app = await AppLibrary.inspect(bundleURL) else {
             failure = String(localized: "Peel couldn’t read its own files.")

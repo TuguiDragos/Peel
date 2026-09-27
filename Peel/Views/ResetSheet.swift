@@ -37,11 +37,13 @@ struct ResetSheet: View {
         .confirmationDialog("Reset \(plan.app.name)?", isPresented: $isConfirming) {
             Button("Reset", role: .destructive) {
                 Task {
-                    let result = await plan.performReset()
-                    if !result.trashed.isEmpty {
-                        changedFiles = true
+                    await QuitGuard.shared.run {
+                        let result = await plan.performReset()
+                        if !result.trashed.isEmpty {
+                            changedFiles = true
+                        }
+                        await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
                     }
-                    await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
                 }
             }
             Button("Cancel", role: .cancel) {}

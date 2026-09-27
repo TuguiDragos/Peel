@@ -27,9 +27,12 @@ final class PluginLibrary {
         isRemoving = true
         defer { isRemoving = false }
         let privileged: Set<URL> = plugin.requiresPrivileges ? [plugin.url] : []
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([plugin.url], usingHelperFor: privileged)
-        // Written down before the rescan, which can take a while: History is the way back for what just moved.
-        await record(result)
+        let result = await QuitGuard.shared.run {
+            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([plugin.url], usingHelperFor: privileged)
+            // Written down before the rescan, which can take a while: History is the way back for what just moved.
+            await record(result)
+            return result
+        }
         await refresh()
         return result
     }

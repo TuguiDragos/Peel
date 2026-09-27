@@ -119,9 +119,9 @@ final class ResetPlan {
     func putSettingsBack() async -> Bool {
         refreshRunningState()
         guard let backup, !isAppRunning else { return false }
-        return await PreferenceBackup.restore(
-            from: backup, of: app.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions
-        ).isComplete
+        return await QuitGuard.shared.run {
+            await PreferenceBackup.restore(from: backup, of: app.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions)
+        }.isComplete
     }
 
     /// Quits the app and the helpers it ships, so nothing writes its settings again while they are cleared.

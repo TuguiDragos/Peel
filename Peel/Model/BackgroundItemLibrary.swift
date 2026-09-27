@@ -59,8 +59,11 @@ final class BackgroundItemLibrary {
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
-                let result = try await BackgroundItemActions.moveToTrash(item, exclusions: exclusions)
-                await record(result)
+                let result = try await QuitGuard.shared.run { () async throws(BackgroundItemActions.Failure) -> TrashResult in
+                    let result = try await BackgroundItemActions.moveToTrash(item, exclusions: exclusions)
+                    await record(result)
+                    return result
+                }
                 if let refusal = result.failures.first {
                     failure = ActionFailure(action: action, reason: .trash(refusal.reason))
                 }

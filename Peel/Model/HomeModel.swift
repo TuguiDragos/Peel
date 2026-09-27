@@ -271,7 +271,7 @@ final class HomeModel {
                     self.couldNotRelaunch = true
                     return
                 }
-                NSApp.terminate(nil)
+                QuitGuard.quit()
             }
         }
     }

@@ -47,7 +47,7 @@ struct MenuBarPanel: View {
                 SettingsLink { Text("Settings…") }
                 Button("About Peel") { openWindow(id: AboutView.windowID) }
                 Divider()
-                Button("Quit Peel") { NSApp.terminate(nil) }
+                Button("Quit Peel") { QuitGuard.quit() }
                     .keyboardShortcut("q")
             } label: {
                 Image(systemName: "gearshape")

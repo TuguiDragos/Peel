@@ -34,9 +34,12 @@ final class PackageLibrary {
         defer { isWorking = false }
         let items = selectedReceipt?.items.filter { selectedURLs.contains($0.url) } ?? []
         let privileged = Set(items.filter(\.requiresPrivileges).map(\.url))
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(items.map(\.url), usingHelperFor: privileged)
-        // Written down before the rescan, which can take a while: History is the way back for what just moved.
-        await record(result)
+        let result = await QuitGuard.shared.run {
+            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(items.map(\.url), usingHelperFor: privileged)
+            // Written down before the rescan, which can take a while: History is the way back for what just moved.
+            await record(result)
+            return result
+        }
         await refresh()
         return result
     }
@@ -44,8 +47,11 @@ final class PackageLibrary {
     func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {
         isWorking = true
         defer { isWorking = false }
-        let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
-        await record(result)
+        let result = await QuitGuard.shared.run {
+            let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+            await record(result)
+            return result
+        }
         await refresh()
         return result
     }

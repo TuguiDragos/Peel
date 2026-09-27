@@ -89,8 +89,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one
    entry, even when it moved what was selected on several pages. Each item is also written down the moment it
    moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches History the
-   next time it is read, as an interrupted removal. What Peel refused to move is recorded too (`refusals.json`),
-   and History lists it under Not Moved, one removal to an entry.
+   next time it is read, as an interrupted removal, and quitting the app waits for a removal until History has it
+   (`QuitGuard`). What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not
+   Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, and, through the helper, only if the helper's own ledger says
    it moved that very item from that very place.

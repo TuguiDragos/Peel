@@ -280,14 +280,17 @@ struct MultipleAppsView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
-        // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
-        let privacy = await PrivacyReset.reset(resetting(request.urls))
-        let result = await plan.move(request)
-        outcome.report(result, privacy: privacy)
-        if let state = AppManagement.state(after: result, appBundles: Set(plan.apps.map(\.url)), movedByTheHelper: plan.privilegedURLs) {
-            home.record(appManagement: state)
+        let result = await QuitGuard.shared.run {
+            // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
+            let privacy = await PrivacyReset.reset(resetting(request.urls))
+            let result = await plan.move(request)
+            outcome.report(result, privacy: privacy)
+            if let state = AppManagement.state(after: result, appBundles: Set(plan.apps.map(\.url)), movedByTheHelper: plan.privilegedURLs) {
+                home.record(appManagement: state)
+            }
+            await history.record(result, tool: .applications, source: plan.historySource, sourceKey: plan.historySourceKey, sizes: request.sizes)
+            return result
         }
-        await history.record(result, tool: .applications, source: plan.historySource, sourceKey: plan.historySourceKey, sizes: request.sizes)
         // When an app bundle moved, reloading the library changes the selection, which rebuilds this page. When
         // only files moved, the plan is refreshed here: otherwise they would stay listed, and moving them again
         // would fail for each one.

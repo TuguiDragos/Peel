@@ -1,13 +1,17 @@
 import PeelCore
 import SwiftUI
 
-/// Decides whether Peel quits when its window closes. SwiftUI's documentation for `Window` says an app whose
-/// primary scene is a single window quits when that window closes. Peel keeps running in the menu bar while it
-/// watches the Trash, so it quits only when that setting is off.
+/// Decides whether Peel quits when its window closes, and when a quit goes ahead (`QuitGuard`). SwiftUI's
+/// documentation for `Window` says an app whose primary scene is a single window quits when that window closes.
+/// Peel keeps running in the menu bar while it watches the Trash, so it quits only when that setting is off.
 @MainActor
 final class PeelAppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ application: NSApplication) -> Bool {
         !UserDefaults.standard.bool(forKey: SettingsKey.watchesTrash)
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        QuitGuard.shared.replyToQuit()
     }
 }
 

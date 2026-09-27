@@ -613,14 +613,17 @@ struct AppDetailView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
-        // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
-        let privacy = await PrivacyReset.reset(resetting(request.urls))
-        let result = await plan.move(request)
-        outcome.report(result, privacy: privacy)
-        if let state = AppManagement.state(after: result, appBundles: [plan.app.url], movedByTheHelper: plan.privilegedURLs) {
-            home.record(appManagement: state)
+        let result = await QuitGuard.shared.run {
+            // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
+            let privacy = await PrivacyReset.reset(resetting(request.urls))
+            let result = await plan.move(request)
+            outcome.report(result, privacy: privacy)
+            if let state = AppManagement.state(after: result, appBundles: [plan.app.url], movedByTheHelper: plan.privilegedURLs) {
+                home.record(appManagement: state)
+            }
+            await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
+            return result
         }
-        await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
             await library.load()

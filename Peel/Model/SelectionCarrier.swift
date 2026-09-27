@@ -90,13 +90,15 @@ final class SelectionCarrier {
         defer { isMoving = false }
         var removal = RemovalInProgress()
         var appsToQuit: [String] = []
-        let pass = await CarriedSelection.pass(parts) { part in
-            guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
-                appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
-                return nil
+        let pass = await QuitGuard.shared.run {
+            await CarriedSelection.pass(parts) { part in
+                guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
+                    appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
+                    return nil
+                }
+                await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
+                return result
             }
-            await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
-            return result
         }
         history.finish(removal)
         outcome.report(pass.result, appsToQuit: appsToQuit)

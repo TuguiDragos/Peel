@@ -107,10 +107,10 @@ link moves the link.
 Peel never deletes anything of yours. Everything it removes goes to the Trash, and everything is recorded so
 History can put it back; History keeps the most recent 20,000 items, and what it forgets is still in the Trash.
 That includes an installer receipt you ask Peel to forget: the two files that make it up go to the Trash
-through the helper, where `pkgutil --forget` would have discarded them for good. Each item is written down the
-moment it moves, so a removal cut short by a quit or a crash still reaches History, as an interrupted removal,
-the next time Peel or `peel` opens it. The space is freed when *you* empty the Trash: Peel never does
-that for you.
+through the helper, where `pkgutil --forget` would have discarded them for good. Quitting Peel waits for a
+removal until History has it, and each item is written down the moment it moves, so one cut short by a crash
+or Force Quit still reaches History, as an interrupted removal, the next time Peel or `peel` opens it. The
+space is freed when *you* empty the Trash: Peel never does that for you.
 
 The one file Peel deletes outright is its own list of refusals, and only when `peel history --refused --clear` is
 asked to forget it.

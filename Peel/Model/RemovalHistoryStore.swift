@@ -228,21 +228,23 @@ final class RemovalHistoryStore {
         isRestoring = true
         defer { isRestoring = false }
         let service = TrashService()
-        var restored: Set<UUID> = []
-        var problems: [RemovalRecord.ID: RestoreFailure] = [:]
-        // Shallowest first, so a folder is put back before anything that was inside it. A child put back first
-        // would make a new folder at its parent's path, and the parent could then not be put back.
-        for record in records.sorted(by: { $0.originalURL.pathComponents.count < $1.originalURL.pathComponents.count }) {
-            if let failure = await service.restore(record.trashedItem, canUseHelper: canUseHelper) {
-                problems[record.id] = failure
-            } else {
-                restored.insert(record.id)
+        await QuitGuard.shared.run {
+            var restored: Set<UUID> = []
+            var problems: [RemovalRecord.ID: RestoreFailure] = [:]
+            // Shallowest first, so a folder is put back before anything that was inside it. A child put back first
+            // would make a new folder at its parent's path, and the parent could then not be put back.
+            for record in records.sorted(by: { $0.originalURL.pathComponents.count < $1.originalURL.pathComponents.count }) {
+                if let failure = await service.restore(record.trashedItem, canUseHelper: canUseHelper) {
+                    problems[record.id] = failure
+                } else {
+                    restored.insert(record.id)
+                }
             }
-        }
-        failures = problems
-        selectedIDs.subtract(restored)
-        if !restored.isEmpty {
-            apply(await log.remove(restored))
+            failures = problems
+            selectedIDs.subtract(restored)
+            if !restored.isEmpty {
+                apply(await log.remove(restored))
+            }
         }
     }
 

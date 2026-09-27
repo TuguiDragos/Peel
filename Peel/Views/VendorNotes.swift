@@ -132,8 +132,11 @@ struct PackageReceiptSection: View {
     private func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {
         isForgetting = true
         defer { isForgetting = false }
-        let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
-        await record(result)
+        let result = await QuitGuard.shared.run {
+            let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+            await record(result)
+            return result
+        }
         await load()
         return result
     }
