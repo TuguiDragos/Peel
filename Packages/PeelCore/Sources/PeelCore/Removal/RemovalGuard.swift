@@ -30,7 +30,7 @@ struct RemovalGuard: Sendable {
         paths += homeDirectories.map { $0.path(percentEncoded: false) }
         paths += environment.locations.map { $0.url.path(percentEncoded: false) }
         paths += ProtectedData.sharedHomeItems.map { home.appending(path: $0).path(percentEncoded: false) }
-        let trees = (ProtectedData.homeFolders + ProtectedData.homeKeys).map { home.appending(path: $0).path(percentEncoded: false) }
+        let trees = ProtectedData.homeTrees.map { home.appending(path: $0).path(percentEncoded: false) }
         protectedPaths = Set(paths.flatMap(Self.names))
         protectedTrees = Set((trees + ProtectedData.systemFolders).flatMap(Self.names)).map(PathComponents.of)
         protectedObjects = ProtectedObjects(trees: trees + ProtectedData.systemFolders, folders: paths)
@@ -40,7 +40,7 @@ struct RemovalGuard: Sendable {
     /// reached through a link, and Spotlight names files by the disk they are on, so both forms must match.
     private static func names(of path: String) -> Set<String> {
         let path = normalized(path)
-        return PathPattern.spellings(of: path).union(PathPattern.located(path).map(PathPattern.spellings) ?? [])
+        return PathPattern.spellings(of: path).union(PathPattern.locatedWithoutOpening(path).map(PathPattern.spellings) ?? [])
     }
 
     func allowsRemoval(of url: URL) -> Bool {

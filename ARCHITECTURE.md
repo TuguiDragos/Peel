@@ -111,9 +111,11 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
 - **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the
   same list without asking the app. The guard judges the item and not the spelling of its path: each rule is
-  asked of the path as written, as found on disk, and as the kernel names the item, then of its device and
-  inode. A path is read name by name (`PathComponents`), never as text, since a slash and a combining mark after
-  it are one Swift `Character`.
+  asked of the path as written, as found on disk, and as the kernel names the item, and the places it protects
+  by path (in the home, the keychains, and the folders that stay themselves) are known by device and inode as
+  well, wherever a link leads them. It finds those places without opening them, since opening a folder inside
+  another app's container makes macOS ask for that app's data. A path is read name by name (`PathComponents`),
+  never as text, since a slash and a combining mark after it are one Swift `Character`.
 - **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears, and
   a folder with something excluded inside is never moved.
 - **Unknown stays unknown.** A size that couldn't be measured, a list a tool didn't give, an answer that didn't

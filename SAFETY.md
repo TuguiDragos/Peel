@@ -82,9 +82,12 @@ folded together before the check, and there are tests that try to get past it by
 can follow `/.nofollow/` or `/.resolve/0/`, and `/.vol/<device>/<inode>` reaches a file by its numbers
 alone. The usual way of resolving a path folds none of them, and the Trash takes a file under each. So Peel
 asks the system what it calls the item, from an open descriptor rather than from the text, and then asks the
-disk what the item *is*: every protected folder is known by its device and inode as well as by name, and
-an item is refused when it, or any folder it really sits in, is one of them. That also stops a file name
-that begins with a combining accent, which text comparison cannot see the start of.
+disk what the item *is*. Every place the table names in your home, `/Library/Keychains`, and each folder above
+that stays itself are known by their device and inode as well as by name, wherever a link leads them, and an
+item is refused when it, or any folder it really sits in, is one of them. That also stops a file name that
+begins with a combining accent, which text comparison cannot see the start of. Everything else on this page is
+judged by the item's names: as written, where it really sits, and as the system names it, spelled as the disk
+stores it.
 
 **And the thing judged is the thing moved.** A check made by name and a move made by name are two looks at
 the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
@@ -200,8 +203,9 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
 
 - **Where wallets keep their keys is never removed.** The 58 places in the table at the top of this page, each
   read from the wallet's own documentation or source, are refused outright by the app, the `peel` tool, and the
-  helper, and so is any folder that holds one. What comes back on its own beside a key, such as a downloaded
-  blockchain, can still go.
+  helper, and so is any folder that holds one. When a wallet's folder was moved to another disk and linked back,
+  as is common once a blockchain outgrows the startup disk, its keys are refused there as well. What comes back on
+  its own beside a key, such as a downloaded blockchain, can still go.
 - **A browser profile with a wallet stays.** A wallet extension such as MetaMask or Phantom keeps its vault in the
   browser's profile, beside `Local Storage`, which every extension shares. So a profile that holds one of the
   wallet extensions Peel knows (those of more than 60 wallets, for Chrome, Brave, Edge, Arc, Opera, Vivaldi, and

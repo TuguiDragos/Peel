@@ -319,6 +319,27 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: cache.deletingLastPathComponent()))
     }
 
+    /// A blockchain can outgrow the startup disk, so a wallet's folder is often kept on another one, with a link to it
+    /// where the wallet looks. Its keys have to be known under the name of the disk they are on too.
+    @Test func aWalletKeptOnAnotherDiskThroughALink() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let disk = directory.url.appending(path: "disk", directoryHint: .isDirectory)
+        let key = try directory.file("disk/Bitcoin/wallet.dat")
+        let wallet = try directory.file("disk/Bitcoin/wallets/default/wallet.dat")
+        let blocks = try directory.file("disk/Bitcoin/blocks/blk00000.dat", bytes: 4_096)
+        try directory.directory("home/Library/Application Support")
+        let bitcoin = disk.appending(path: "Bitcoin", directoryHint: .isDirectory)
+        try link(bitcoin.path(percentEncoded: false), at: home.appending(path: "Library/Application Support/Bitcoin").path(percentEncoded: false))
+        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+
+        for item in [key, wallet, disk.appending(path: "Bitcoin/wallets"), bitcoin, disk] {
+            #expect(!guardian.allowsRemoval(of: item), "ATTACK SUCCEEDED: \(item.path(percentEncoded: false)) may be removed under the name of its disk")
+        }
+        // The blockchain beside the keys comes back on its own, wherever it is kept.
+        #expect(guardian.allowsRemoval(of: blocks.deletingLastPathComponent()))
+    }
+
     /// `trashItem` moves a link, not what it points at, so an item is judged where it sits, not where it leads.
     @Test func anItemUnderALinkedParentThatIsItselfALink() throws {
         let directory = try TemporaryDirectory()

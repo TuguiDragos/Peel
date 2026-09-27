@@ -134,6 +134,10 @@ public enum ProtectedData: Sendable {
         ".kaspa",
     ]
 
+    /// Every protected place named from a home folder: `homeFolders`, `homeKeys` and `walletKeys`. `refuses`,
+    /// `holds` and `RemovalGuard` all read it, so a place added to one of those lists is protected by all three.
+    public static let homeTrees = homeFolders + homeKeys + walletKeys
+
     /// Hidden items in the home folder that belong to no single app: shells, git, and the folders many tools
     /// share. Never removed on any app's behalf, but what sits inside `.config`, `.cache`, and `.local` still
     /// can be, so this is an exact match and not a tree.
@@ -292,7 +296,7 @@ public enum ProtectedData: Sendable {
     private static func trees(under home: String) -> Trees {
         treesByHome.withLock { cache in
             if let trees = cache[home] { return trees }
-            let trees = Trees((homeFolders + homeKeys + walletKeys).map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) })
+            let trees = Trees(homeTrees.map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) })
             if cache.count >= 32 { cache.removeAll() }
             cache[home] = trees
             return trees

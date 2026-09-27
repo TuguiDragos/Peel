@@ -119,8 +119,11 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
     preferences files.
 
   It judges the item, not how its path is spelled: each rule is asked of the path as written, as found on disk,
-  and as the kernel names the item, then of its device and inode, so another case, a link, or a `/.vol` name
-  reaches the same answer. [SAFETY.md](SAFETY.md) lists every protected place.
+  and as the kernel names the item, so another case, a link, or a `/.vol` name reaches the same answer. The
+  places it protects by path (in the home, the keychains, and the folders that stay themselves) are known by
+  device and inode as well, wherever a link leads them, and are found without opening them
+  (`PathPattern.locatedWithoutOpening`): opening a folder inside another app's container makes macOS ask the
+  person for that app's data. [SAFETY.md](SAFETY.md) lists every protected place.
 - **Paths are compared name by name, never as text.** A Swift `String` reads a slash and a combining mark after
   it as one `Character`, so `hasPrefix(folder + "/")` and `split(separator: "/")` miss a folder that such a name
   sits in. Every "is this inside that folder" question goes through `PathComponents`.

@@ -47,7 +47,11 @@ public enum PathPattern {
     /// The kernel's name when `path` can be opened, or `realpath`'s when it cannot: a folder macOS keeps from
     /// Peel (Mail, without Full Disk Access) does not open, but `realpath` still resolves its links.
     private static func name(of path: String) -> String? {
-        if let name = kernelName(of: path) { return name }
+        kernelName(of: path) ?? realName(of: path)
+    }
+
+    /// `realpath`'s name for `path`: links resolved and each name spelled as on disk, found without opening anything.
+    private static func realName(of path: String) -> String? {
         guard let real = realpath(path, nil) else { return nil }
         defer { free(real) }
         return String(cString: real)
@@ -58,11 +62,23 @@ public enum PathPattern {
     /// never followed, since a move takes a link and not what it points to. Nil when the part appended holds
     /// `.` or `..`, which cannot be resolved without the folders.
     static func located(_ path: String) -> String? {
+        located(path, naming: name(of:))
+    }
+
+    /// `located`, with `realpath` naming the folders. Opening a folder inside another app's container makes macOS ask
+    /// the person for that app's data, and looking a path up there does not, so this is what the guard asks of the
+    /// places it protects. `realpath` gives the kernel's answer for any path but one that begins with `/.vol/`,
+    /// `/.nofollow/` or `/.resolve/`, and a place named from a home folder never does.
+    static func locatedWithoutOpening(_ path: String) -> String? {
+        located(path, naming: realName(of:))
+    }
+
+    private static func located(_ path: String, naming name: (String) -> String?) -> String? {
         guard path != "/" else { return path }
         var ancestor = (path as NSString).deletingLastPathComponent
         var rest = [(path as NSString).lastPathComponent]
         while true {
-            if let folder = name(of: ancestor) {
+            if let folder = name(ancestor) {
                 guard !rest.contains(where: { $0 == "." || $0 == ".." }) else { return nil }
                 return (folder == "/" ? "" : folder) + "/" + rest.reversed().joined(separator: "/")
             }
