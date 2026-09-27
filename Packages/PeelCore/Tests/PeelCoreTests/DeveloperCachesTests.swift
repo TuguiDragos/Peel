@@ -316,6 +316,22 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .keptDownloads && !$0.isRecommended })
     }
 
+    /// The browsers and binaries test tools install are not fetched again when they are gone: `npx playwright
+    /// install`, Cypress's `postinstall` and `npx puppeteer browsers install` put them back. They are listed as
+    /// installed packages and never selected.
+    @Test func browsersATestToolInstalledAreNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/ms-playwright/chromium-1200/chrome-mac/Chromium.bin", bytes: 400_000)
+        try directory.file("Library/Caches/ms-playwright-go/1.50.0/node", bytes: 400_000)
+        try directory.file("Library/Caches/Cypress/15.0.0/Cypress.bin", bytes: 400_000)
+        try directory.file(".cache/puppeteer/chrome/mac_arm-140.0/chrome.bin", bytes: 400_000)
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.count == 4)
+        #expect(locations.allSatisfy { $0.kind == .environments && !$0.isRecommended })
+    }
+
     /// Peel reads cask definitions from Homebrew's `api` folder, which `brew cleanup` leaves alone too. It is
     /// never offered: without it, the next Homebrew question would go to the network.
     @Test func leavesHomebrewsCopyOfTheCaskDefinitions() async throws {

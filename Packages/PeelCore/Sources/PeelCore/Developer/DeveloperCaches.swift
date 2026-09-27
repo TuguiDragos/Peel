@@ -12,7 +12,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         case archives
         /// Model weights and datasets: large, slow to fetch again.
         case models
-        /// Installed sets of packages: virtual environments, editor plug-ins, language servers.
+        /// Installed sets of packages: virtual environments, editor plug-ins, language servers, and the browsers a test
+        /// tool installs, which it does not fetch again by itself.
         case environments
         /// What a tool keeps for the person to install again: installers, store packages, virtual machine boxes.
         case keptDownloads
@@ -213,20 +214,20 @@ public enum DeveloperCaches {
             Folder(".cache/prisma", .downloads, source: "https://github.com/prisma/prisma/blob/7.10.0/packages/fetch-engine/src/utils.ts#L38-L40"),
         ]),
         Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/ms-playwright", .downloads, source: "https://github.com/microsoft/playwright/blob/main/docs/src/browsers.md#L958"),
+            Folder("Library/Caches/ms-playwright", .environments, source: "https://github.com/microsoft/playwright/blob/main/docs/src/browsers.md#L958"),
         ]),
         Definition(id: "playwrightgo", name: "Playwright for Go", systemImage: "globe", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/ms-playwright-go", .downloads, source: "https://github.com/playwright-community/playwright-go/blob/main/run.go#L370-L372"),
+            Folder("Library/Caches/ms-playwright-go", .environments, source: "https://github.com/playwright-community/playwright-go/blob/main/run.go#L370-L372"),
         ]),
         // The drivers and browsers Selenium Manager keeps, and not `se-config.toml`, its settings, beside them.
         Definition(id: "selenium", name: "Selenium Manager", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder(".cache/selenium/*/", .downloads, source: "https://github.com/SeleniumHQ/seleniumhq.github.io/blob/trunk/website_and_docs/content/documentation/selenium_manager.en.md#L34"),
         ]),
         Definition(id: "cypress", name: "Cypress", systemImage: "globe", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/Cypress", .downloads, source: "https://github.com/cypress-io/cypress-documentation/blob/main/docs/app/get-started/advanced-installation.mdx#L615"),
+            Folder("Library/Caches/Cypress", .environments, source: "https://github.com/cypress-io/cypress-documentation/blob/main/docs/app/get-started/advanced-installation.mdx#L615"),
         ]),
         Definition(id: "puppeteer", name: "Puppeteer", systemImage: "globe", appBundleIdentifiers: [], folders: [
-            Folder(".cache/puppeteer", .downloads, source: "https://github.com/puppeteer/puppeteer/blob/main/packages/puppeteer/src/getConfiguration.ts#L162-L165"),
+            Folder(".cache/puppeteer", .environments, source: "https://github.com/puppeteer/puppeteer/blob/main/packages/puppeteer/src/getConfiguration.ts#L162-L165"),
         ]),
         Definition(id: "electron", name: "Electron", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/electron", .downloads, source: "https://github.com/electron/get/blob/main/README.md#L123"),
