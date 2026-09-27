@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 import Synchronization
 
 public enum AppCatalog {
@@ -26,6 +27,16 @@ public enum AppCatalog {
     public static func app(at url: URL, among apps: [InstalledApp]) -> InstalledApp? {
         let real = PathPattern.comparablePath(of: PathPattern.canonical(url))
         return apps.first { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) == real }
+    }
+
+    /// The app `url` is, or the one it sits inside, such as the app that holds a plug-in. When apps sit inside
+    /// each other, the innermost one.
+    public static func app(holding url: URL, among apps: [InstalledApp]) -> InstalledApp? {
+        let path = PathPattern.comparablePath(of: url)
+        return apps
+            .map { (app: $0, path: PathPattern.comparablePath(of: $0.url)) }
+            .filter { PathComponents.isPath(path, atOrInside: $0.path) }
+            .max { $0.path.count < $1.path.count }?.app
     }
 
     @concurrent

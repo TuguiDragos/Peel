@@ -7,7 +7,7 @@ struct IntelDetailView: View {
     let finding: IntelFinding
 
     private var app: InstalledApp? {
-        library.apps.first { $0.url == finding.url || finding.url.path(percentEncoded: false).hasPrefix($0.url.path(percentEncoded: false) + "/") }
+        AppCatalog.app(holding: finding.url, among: library.apps)
     }
 
     var body: some View {
