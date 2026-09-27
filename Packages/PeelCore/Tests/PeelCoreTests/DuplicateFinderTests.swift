@@ -51,6 +51,32 @@ struct DuplicateFinderTests {
         #expect(FileIdentity(late).modificationDate == Date(timeIntervalSince1970: 10_000_000_000.000000005))
     }
 
+    /// Only a file with another of its size can be a copy, so only those are asked whether they may move, which
+    /// opens the file and the folders above it. A name that may not move leaves the file to its next name.
+    @Test func asksWhetherAFileMayMoveOnlyWhenAnotherHasItsSize() throws {
+        let directory = try TemporaryDirectory()
+        let sizes = ["a": 10, "b": 10, "lonely": 11, "refused": 12, "other": 12]
+        for (name, size) in sizes {
+            try directory.file("files/\(name)", contents: randomData(count: size))
+        }
+        try FileManager.default.linkItem(at: directory.url.appending(path: "files/refused"), to: directory.url.appending(path: "files/linked"))
+        let files = try ["a", "b", "lonely", "refused", "linked", "other"].map { name in
+            let url = directory.url.appending(path: "files/\(name)")
+            var info = stat()
+            try #require(lstat(url.path(percentEncoded: false), &info) == 0)
+            return DuplicateFinder.Candidate(url: url, identity: FileIdentity(info))
+        }
+
+        var asked: [String] = []
+        let movable = try DuplicateFinder.movable(files) { url in
+            asked.append(url.lastPathComponent)
+            return url.lastPathComponent != "refused"
+        }
+
+        #expect(asked == ["a", "b", "refused", "linked", "other"])
+        #expect(movable.map(\.url.lastPathComponent) == ["a", "b", "linked", "other"])
+    }
+
     @Test func groupsFilesWithIdenticalContents() async throws {
         let directory = try TemporaryDirectory()
         let photo = randomData(count: 4_000)

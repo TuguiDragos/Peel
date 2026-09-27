@@ -128,7 +128,7 @@ public struct DuplicateFinder: Sendable {
         )
     }
 
-    private struct Candidate: Sendable {
+    struct Candidate: Sendable {
         let url: URL
         let identity: FileIdentity
     }
@@ -159,8 +159,7 @@ public struct DuplicateFinder: Sendable {
         let excludedFolders = Self.managedPaths(home: homeDirectory)
         let minimumSize = max(1, options.minimumSize)
         let unreadable = UnreadableLocations()
-        var seen = Set<FileIdentity.Link>()
-        var candidates: [Candidate] = []
+        var walked: [Candidate] = []
         var projects = Set<String>()
         var visited = 0
 
@@ -180,7 +179,7 @@ public struct DuplicateFinder: Sendable {
                 visited += 1
                 if visited.isMultiple(of: 256) {
                     guard !Task.isCancelled else { throw CancellationError() }
-                    progress(.collecting(filesFound: candidates.count))
+                    progress(.collecting(filesFound: walked.count))
                 }
                 if ProjectArtifacts.isMarker(url.lastPathComponent) {
                     let parent = Self.path(of: url.deletingLastPathComponent())
@@ -198,7 +197,6 @@ public struct DuplicateFinder: Sendable {
                     }
                     continue
                 }
-                guard !exclusions.excludes(url), removalGuard.allowsRemoval(of: url), !url.isInTheCloud else { continue }
                 var info = stat()
                 guard
                     values.isRegularFile == true,
@@ -208,16 +206,34 @@ public struct DuplicateFinder: Sendable {
                     ReclaimableSpace.held(info) >= minimumSize,
                     options.kind == .any || values.contentType.map(options.kind.includes) == true
                 else { continue }
-                let identity = FileIdentity(info)
-                if seen.insert(identity.link).inserted {
-                    candidates.append(Candidate(url: url, identity: identity))
-                }
+                walked.append(Candidate(url: url, identity: FileIdentity(info)))
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
-        let outsideProjects = projects.isEmpty ? candidates : candidates.filter { !Self.isInside(projects, $0.url) }
+        let outsideProjects = projects.isEmpty ? walked : walked.filter { !Self.isInside(projects, $0.url) }
         progress(.collecting(filesFound: outsideProjects.count))
-        return (outsideProjects, unreadable.urls)
+        let movable = try Self.movable(outsideProjects) { removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud }
+        return (movable, unreadable.urls)
+    }
+
+    /// The files that could be a copy of another and may be moved, each file once whatever names it has. Only a
+    /// file of the same size as another can be a copy, so `isMovable`, the guard and the cloud check, which open the
+    /// file and the folders above it, is asked of those alone, in the order the walk found them: a name it refuses
+    /// leaves the file to its next name.
+    static func movable(_ files: [Candidate], isMovable: (URL) -> Bool) throws(CancellationError) -> [Candidate] {
+        let sizes = Dictionary(files.map { ($0.identity.size, 1) }, uniquingKeysWith: +)
+        var seen = Set<FileIdentity.Link>()
+        var movable: [Candidate] = []
+        var asked = 0
+        for file in files where sizes[file.identity.size, default: 0] > 1 {
+            asked += 1
+            if asked.isMultiple(of: 256) {
+                guard !Task.isCancelled else { throw CancellationError() }
+            }
+            guard isMovable(file.url), seen.insert(file.identity.link).inserted else { continue }
+            movable.append(file)
+        }
+        return movable
     }
 
     static func isInside(_ folders: Set<String>, _ url: URL) -> Bool {
