@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 public struct Plugin: Sendable, Hashable, Identifiable {
     public enum Category: String, Sendable, Hashable, CaseIterable {
@@ -36,30 +37,41 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     public var id: URL { url }
 }
 
+extension Plugin.Category {
+    init?(_ folder: LibraryFolder) {
+        switch folder {
+        case .audioUnits: self = .audioUnits
+        case .audioDrivers: self = .audioDrivers
+        case .vst: self = .vst
+        case .vst3: self = .vst3
+        case .clap: self = .clap
+        case .midiDrivers: self = .midiDrivers
+        case .internetPlugIns: self = .internetPlugIns
+        case .preferencePanes: self = .preferencePanes
+        case .quickLook: self = .quickLook
+        case .screenSavers: self = .screenSavers
+        case .spotlight: self = .spotlight
+        case .services: self = .services
+        case .inputMethods: self = .inputMethods
+        case .colorPickers: self = .colorPickers
+        case .contextualMenuItems: self = .contextualMenuItems
+        case .mailBundles: self = .mailBundles
+        case .applicationSupport, .applicationScripts, .caches, .containers, .groupContainers, .preferences,
+             .preferencesByHost, .savedApplicationState, .recentDocuments, .logs, .httpStorages, .webKit, .cookies,
+             .launchAgents, .launchDaemons, .privilegedHelperTools:
+            return nil
+        }
+    }
+}
+
 /// Finds the plug-ins that apps have installed in the folders macOS loads plug-ins from. Apple's own
 /// components sit in the same folders and are left out, because macOS relies on them.
 public enum Plugins {
-    /// The folders in each Library that macOS loads plug-ins from. `SearchEnvironment` reuses this table, so the
-    /// uninstall and Orphaned Files search these folders, and `RemovalGuard` refuses to remove them. The helper's
-    /// `PrivilegedPathPolicy.systemLocations` must also list each of these folders inside `/Library`.
-    static let folders: [(String, Plugin.Category)] = [
-        ("Audio/Plug-Ins/Components", .audioUnits),
-        ("Audio/Plug-Ins/HAL", .audioDrivers),
-        ("Audio/Plug-Ins/VST", .vst),
-        ("Audio/Plug-Ins/VST3", .vst3),
-        ("Audio/Plug-Ins/CLAP", .clap),
-        ("Audio/MIDI Drivers", .midiDrivers),
-        ("Internet Plug-Ins", .internetPlugIns),
-        ("PreferencePanes", .preferencePanes),
-        ("QuickLook", .quickLook),
-        ("Screen Savers", .screenSavers),
-        ("Spotlight", .spotlight),
-        ("Services", .services),
-        ("Input Methods", .inputMethods),
-        ("ColorPickers", .colorPickers),
-        ("Contextual Menu Items", .contextualMenuItems),
-        ("Mail/Bundles", .mailBundles),
-    ]
+    /// The folders in each Library that macOS loads plug-ins from, with what each holds. `SearchEnvironment` reuses
+    /// this table, so the uninstall and Orphaned Files search these folders.
+    static let folders = LibraryFolder.plugIns.compactMap { folder in
+        Plugin.Category(folder).map { (folder.rawValue, $0) }
+    }
 
     /// Returns the `CFBundleIdentifier` in the plug-in's `Info.plist`. A plug-in is named for what it does, not
     /// for who made it, so this is its only identifier. It is only a claim, so callers match it like a file name.

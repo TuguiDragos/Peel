@@ -37,33 +37,9 @@ public struct PrivilegedPathPolicy: Sendable {
         }
     }
 
-    public static let systemLocations = [
-        "/Applications",
-        "/Library/Application Support",
-        "/Library/Audio/MIDI Drivers",
-        "/Library/Audio/Plug-Ins/CLAP",
-        "/Library/Audio/Plug-Ins/Components",
-        "/Library/Audio/Plug-Ins/HAL",
-        "/Library/Audio/Plug-Ins/VST",
-        "/Library/Audio/Plug-Ins/VST3",
-        "/Library/Caches",
-        "/Library/ColorPickers",
-        "/Library/Contextual Menu Items",
-        "/Library/Input Methods",
-        "/Library/Internet Plug-Ins",
-        "/Library/LaunchAgents",
-        "/Library/LaunchDaemons",
-        "/Library/Logs",
-        "/Library/Mail/Bundles",
-        "/Library/PreferencePanes",
-        "/Library/Preferences",
-        "/Library/PrivilegedHelperTools",
-        "/Library/QuickLook",
-        "/Library/Screen Savers",
-        "/Library/Services",
-        "/Library/Spotlight",
-        "/private/var/db/receipts",
-    ]
+    public static let systemLocations = ["/Applications"]
+        + (LibraryFolder.local + LibraryFolder.plugIns).map { "/Library/" + $0.rawValue }
+        + ["/private/var/db/receipts"]
 
     /// The served folders where anything the helper moved may be put back (`init` adds the user's Library).
     /// The others are folders that code is loaded from, and take back only what belongs to root alone (see
@@ -87,6 +63,8 @@ public struct PrivilegedPathPolicy: Sendable {
     private let restorable: [String]
     private let applicationLocations: [String]
     private let links: [String]
+    /// The folders of the home's Library that Peel searches, lowercased, as names from the root.
+    private let searchedFolders: Set<[String]>
     private let homeDirectory: String
     private let trustedOwner: uid_t
 
@@ -104,6 +82,10 @@ public struct PrivilegedPathPolicy: Sendable {
         locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
+        let library = Self.realPath(homeDirectory + "/Library") ?? homeDirectory + "/Library"
+        searchedFolders = Set(LibraryFolder.inTheUsersLibrary.map { folder in
+            PathComponents.of((library + "/" + folder.rawValue).lowercased())
+        })
     }
 
     /// True for a path directly in one of the folders the helper takes only a link from.
@@ -132,7 +114,11 @@ public struct PrivilegedPathPolicy: Sendable {
         let parent = "/" + components.dropLast().joined(separator: "/")
         guard let resolvedParent = Self.realPath(parent) else { return .failure(.unresolvableParent) }
         let resolved = (resolvedParent == "/" ? "" : resolvedParent) + "/" + name
-        guard !ProtectedData.refuses(resolved, home: homeDirectory) else { return .failure(.irreplaceable) }
+        guard
+            !ProtectedData.refuses(resolved, home: homeDirectory),
+            !searchedFolders.contains(PathComponents.of(resolved.lowercased())),
+            !ProtectedData.spellings(of: resolved).contains(where: ProtectedData.isInAContainersDocuments)
+        else { return .failure(.irreplaceable) }
         // Refused as well when moving it would take something protected along with it. The helper runs as
         // root, so it asks this itself rather than trusting the app to.
         guard

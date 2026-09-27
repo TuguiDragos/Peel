@@ -215,6 +215,37 @@ extension AttackHelperPolicyTests {
     }
 
     /// The helper builds its whole policy around this string: which home is the caller's, which Trash is opened.
+    @Test func theHelperRefusesWhatAContainersDocumentsHoldOnItsOwn() throws {
+        let directory = try TemporaryDirectory()
+        let path = "home/Library/Containers/com.example.notes/Data/Documents/novel.txt"
+        try directory.file(path)
+
+        let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
+        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a document out of an app's container")
+    }
+
+    /// Peel looks inside each of these folders and offers what an app left there, never the folder itself.
+    @Test func theHelperRefusesEveryFolderPeelSearchesInTheUsersLibrary() throws {
+        let directory = try TemporaryDirectory()
+        for folder in LibraryFolder.inTheUsersLibrary {
+            let path = "home/Library/" + folder.rawValue
+            try directory.directory(path)
+            let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
+            #expect(result.isFailure, "ATTACK SUCCEEDED: root would move \(path) whole")
+        }
+        let inside = try directory.directory("home/Library/Caches/com.example.app")
+        #expect(!policy(directory).open(inside.path(percentEncoded: false)).isFailure)
+    }
+
+    @Test func theHelperRefusesACachesFolderWithAnIDEsLocalHistoryThreeLevelsDown() throws {
+        let directory = try TemporaryDirectory()
+        let caches = "home/Library/Containers/com.example.ide/Data/Library/Caches"
+        try directory.file(caches + "/JetBrains/IntelliJIdea2026.2/LocalHistory/changes.storageData")
+
+        let result = policy(directory).open(directory.url.appending(path: caches).path(percentEncoded: false))
+        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a Caches folder and the local history inside it")
+    }
+
     @Test func readsTheCallersHomeFolder() throws {
         let home = try #require(UserAuthorization.homeDirectory(of: getuid()))
         #expect(home == String(cString: getpwuid(getuid()).pointee.pw_dir))

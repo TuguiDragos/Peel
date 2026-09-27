@@ -213,18 +213,23 @@ public enum ProtectedData: Sendable {
     static let workKeptInCaches: Set<String> = ["localhistory", "location_data"]
 
     /// True for a path under a `Caches` folder that is at or inside one of those folders, or holds one a level
-    /// or two down, which is how deep they sit (`Caches/JetBrains/<product>/LocalHistory`). It reads the disk,
-    /// so it needs the path as spelled on disk.
+    /// or two down, and for a Library's `Caches` folder holding one three levels down, which is how deep they sit
+    /// (`Caches/JetBrains/<product>/LocalHistory`). It reads the disk, so it needs the path as spelled on disk.
     public static func holdsWorkKeptInACache(_ path: String) -> Bool {
         let components = PathComponents.of(path).map { $0.lowercased() }
-        guard let caches = components.lastIndex(of: "caches"), caches + 1 < components.count else { return false }
+        guard let caches = components.lastIndex(of: "caches") else { return false }
+        if caches + 1 == components.count {
+            return caches > 0 && components[caches - 1] == "library" && holdsWorkKeptInACache(path, levels: 3)
+        }
         if components[(caches + 1)...].contains(where: workKeptInCaches.contains) { return true }
+        return holdsWorkKeptInACache(path, levels: 2)
+    }
 
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: path)) ?? []
+    private static func holdsWorkKeptInACache(_ folder: String, levels: Int) -> Bool {
+        guard levels > 0 else { return false }
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder)) ?? []
         return names.contains { name in
-            if workKeptInCaches.contains(name.lowercased()) { return true }
-            let deeper = (try? FileManager.default.contentsOfDirectory(atPath: path + "/" + name)) ?? []
-            return deeper.contains { workKeptInCaches.contains($0.lowercased()) }
+            workKeptInCaches.contains(name.lowercased()) || holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1)
         }
     }
 

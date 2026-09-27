@@ -51,6 +51,30 @@ public struct SearchLocation: Sendable, Hashable {
 }
 
 extension SearchLocation.Kind {
+    init(_ folder: LibraryFolder) {
+        switch folder {
+        case .applicationSupport: self = .applicationSupport
+        case .applicationScripts: self = .applicationScripts
+        case .caches: self = .caches
+        case .containers: self = .containers
+        case .groupContainers: self = .groupContainers
+        case .preferences: self = .preferences
+        case .preferencesByHost: self = .preferencesByHost
+        case .savedApplicationState: self = .savedApplicationState
+        case .recentDocuments: self = .recentDocuments
+        case .logs: self = .logs
+        case .httpStorages: self = .httpStorages
+        case .webKit: self = .webKit
+        case .cookies: self = .cookies
+        case .launchAgents: self = .launchAgents
+        case .launchDaemons: self = .launchDaemons
+        case .privilegedHelperTools: self = .privilegedHelperTools
+        case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
+             .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles:
+            self = .plugIns
+        }
+    }
+
     /// True when this kind of location looks at an entry with this name. The home folder is split in two: hidden
     /// entries, and the rest except the folders every account starts with. At the top of a Library, a folder
     /// scanned as a location of its own is never offered whole.
@@ -91,32 +115,8 @@ public struct SearchEnvironment: Sendable {
         )
     }
 
-    static let userEntries: [(SearchLocation.Kind, String)] = [
-        (.applicationSupport, "Application Support"),
-        (.applicationScripts, "Application Scripts"),
-        (.caches, "Caches"),
-        (.containers, "Containers"),
-        (.groupContainers, "Group Containers"),
-        (.preferences, "Preferences"),
-        (.preferencesByHost, "Preferences/ByHost"),
-        (.savedApplicationState, "Saved Application State"),
-        (.recentDocuments, "Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"),
-        (.logs, "Logs"),
-        (.httpStorages, "HTTPStorages"),
-        (.webKit, "WebKit"),
-        (.cookies, "Cookies"),
-        (.launchAgents, "LaunchAgents"),
-    ]
-
-    static let localEntries: [(SearchLocation.Kind, String)] = [
-        (.applicationSupport, "Application Support"),
-        (.caches, "Caches"),
-        (.preferences, "Preferences"),
-        (.logs, "Logs"),
-        (.launchAgents, "LaunchAgents"),
-        (.launchDaemons, "LaunchDaemons"),
-        (.privilegedHelperTools, "PrivilegedHelperTools"),
-    ]
+    static let userEntries = LibraryFolder.user.map { (SearchLocation.Kind($0), $0.rawValue) }
+    static let localEntries = LibraryFolder.local.map { (SearchLocation.Kind($0), $0.rawValue) }
 
     /// Lowercased, because disks ignore case by default, so `desktop` is the Desktop folder.
     static let accountFolderNames = Set(ProtectedData.accountFolders.map { $0.lowercased() })
