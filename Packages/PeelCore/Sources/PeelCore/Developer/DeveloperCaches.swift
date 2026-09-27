@@ -36,6 +36,17 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         }
     }
 
+    /// What the `info.plist` Xcode writes in a DerivedData folder says of the workspace the folder was built for.
+    public struct Workspace: Sendable, Hashable {
+        public let name: String
+        public let lastUsed: Date?
+
+        /// True when the workspace was opened within the last week, or when Xcode wrote no date for it.
+        public var mayStillBeInUse: Bool {
+            lastUsed.map { $0 > Date.now.addingTimeInterval(-ProjectArtifacts.recentlyActive) } ?? true
+        }
+    }
+
     public struct Location: Sendable, Hashable, Identifiable {
         public let url: URL
         public let kind: ContentKind
@@ -46,13 +57,17 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// True when macOS would not let Peel open the folder, rather than it not answering in time.
         public var couldNotBeRead = false
         public var archive: Archive?
+        public var workspace: Workspace?
+        /// False for a folder among the tool's own that nothing shows the tool made. It is listed and never selected.
+        public var isTheTools = true
 
         public var id: URL { url }
 
         /// Whether Peel selects this location for the user: only content that tools make or fetch again, or
         /// logs, and only once measured. Nothing is selected for the user without showing its size.
         public var isRecommended: Bool {
-            switch kind {
+            guard isTheTools, workspace?.mayStillBeInUse != true else { return false }
+            return switch kind {
             case .buildData, .downloads, .cache, .logs: size != nil
             case .deviceSupport, .archives, .models, .environments, .keptDownloads: false
             }
@@ -107,10 +122,12 @@ public enum DeveloperCaches {
         let rowsDepth: Int
         /// The ending every row's name has, such as `.xcarchive`, or nil for any.
         let rowEnding: String?
+        /// True for Xcode's DerivedData, whose rows are the tool's own only when `derivedDataRow(at:)` shows it.
+        let rowsAreDerivedData: Bool
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
-            rowsDepth: Int = 0, rowEnding: String? = nil
+            rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false
         ) {
             self.path = path
             self.kind = kind
@@ -118,6 +135,7 @@ public enum DeveloperCaches {
             self.storeInside = storeInside
             self.rowsDepth = rowsDepth
             self.rowEnding = rowEnding
+            self.rowsAreDerivedData = rowsAreDerivedData
         }
 
         func rows(in folder: URL) -> [URL] {
@@ -145,6 +163,24 @@ public enum DeveloperCaches {
             let store = url.appending(path: storeInside).path(percentEncoded: false)
             return (try? FileManager.default.attributesOfItem(atPath: store)) != nil ? .environments : kind
         }
+    }
+
+    /// The caches Xcode 27 names inside DerivedData, beside the folder it makes for each workspace.
+    private static let derivedDataCaches: Set<String> = [
+        "ModuleCache.noindex", "SDKStatCaches.noindex", "CompilationCache.noindex", "SymbolCache.noindex",
+        "SDKExplicitPrecompiledModules",
+    ]
+
+    /// Whether a folder in DerivedData is Xcode's, and the workspace it was built for: a cache Xcode names, or a
+    /// folder whose `info.plist` names its workspace, as Xcode writes one in each.
+    static func derivedDataRow(at url: URL) -> (workspace: DeveloperEnvironment.Workspace?, isXcodes: Bool) {
+        guard !derivedDataCaches.contains(url.lastPathComponent) else { return (nil, true) }
+        guard
+            let info = BoundedRead.propertyList(at: url.appending(path: "info.plist"), maximum: 64 * 1_024),
+            let path = info["WorkspacePath"] as? String, !path.isEmpty
+        else { return (nil, false) }
+        let name = URL(filePath: path).deletingPathExtension().lastPathComponent
+        return (DeveloperEnvironment.Workspace(name: name, lastUsed: info["LastAccessedDate"] as? Date), true)
     }
 
     static func archive(at url: URL) -> DeveloperEnvironment.Archive? {
@@ -185,7 +221,11 @@ public enum DeveloperCaches {
     static let definitions: [Definition] = [
         // Apple
         Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
-            Folder("Library/Developer/Xcode/DerivedData", .buildData, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes"),
+            Folder(
+                "Library/Developer/Xcode/DerivedData", .buildData,
+                source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes",
+                rowsDepth: 1, rowsAreDerivedData: true
+            ),
             Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
             Folder("Library/Developer/Xcode/UserData-Tests/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
             Folder("Library/Developer/Xcode/UserData/IB Support/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
@@ -873,13 +913,16 @@ public enum DeveloperCaches {
                         // Awaited, never blocked on: every tool in the table is measured at once, and a
                         // blocked wait would hold one of the few threads that every scan in the app shares.
                         let contents = await measure(url)
+                        let derived = folder.rowsAreDerivedData ? Self.derivedDataRow(at: url) : nil
                         locations.append(DeveloperEnvironment.Location(
                             url: url,
                             kind: folder.kind(at: url),
                             size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                             source: folder.source,
                             couldNotBeRead: contents?.couldNotBeRead == true,
-                            archive: folder.kind == .archives ? Self.archive(at: url) : nil
+                            archive: folder.kind == .archives ? Self.archive(at: url) : nil,
+                            workspace: derived?.workspace,
+                            isTheTools: derived?.isXcodes ?? true
                         ))
                     }
                     guard !locations.isEmpty else { return nil }

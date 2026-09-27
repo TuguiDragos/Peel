@@ -84,7 +84,7 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         try directory.file(".npm/_cacache/content/data", bytes: 80_000)
         try directory.file(".npm/_npx/package/index.js", bytes: 8_000)
-        try directory.file("Library/Developer/Xcode/DerivedData/Build/output", bytes: 20_000)
+        try directory.file("Library/Developer/Xcode/DerivedData/ModuleCache.noindex/module.pcm", bytes: 20_000)
         try directory.directory("Library/Developer/Xcode/Archives/2026-09-17/App 17.09.2026, 10.00.xcarchive")
 
         let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
@@ -190,7 +190,7 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         try directory.file(".npm/_cacache/content/data", bytes: 80_000)
         try directory.file(".npm/_npx/package/index.js", bytes: 8_000)
-        try directory.file("Library/Developer/Xcode/DerivedData/Build/output", bytes: 20_000)
+        try directory.file("Library/Developer/Xcode/DerivedData/ModuleCache.noindex/module.pcm", bytes: 20_000)
 
         let environments = await DeveloperCaches.scan(DeveloperCaches.definitions, homeDirectory: directory.url, exclusions: .none) { url in
             url.lastPathComponent == "_npx" ? nil : await FileSize.contents(of: url)
@@ -579,6 +579,35 @@ struct DeveloperCachesTests {
         #expect(locations.map(\.url.lastPathComponent) == ["CoreSimulator"])
         #expect(locations.first?.kind == .logs)
         #expect(DeveloperCaches.foldersLeftToDeveloper(inside: logs, home: directory.url).contains(["CoreSimulator"]))
+    }
+
+    @Test func listsDerivedDataByWorkspaceAndLeavesTheOnesUsedThisWeek() async throws {
+        let directory = try TemporaryDirectory()
+        let derived = "Library/Developer/Xcode/DerivedData"
+        func workspace(_ folder: String, path: String, lastUsed: Date) throws {
+            let info: [String: Any] = ["WorkspacePath": path, "LastAccessedDate": lastUsed]
+            let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            try directory.file("\(derived)/\(folder)/info.plist", contents: data)
+            try directory.file("\(derived)/\(folder)/Build/Products/app", bytes: 400_000)
+        }
+        try workspace("Notes-abcdefghijklmnopqrstuvwxyzab", path: "/Code/Notes/Notes.xcodeproj", lastUsed: .now - 30 * 86_400)
+        try workspace("Chat-bcdefghijklmnopqrstuvwxyzabc", path: "/Code/Chat/Chat.xcworkspace", lastUsed: .now - 86_400)
+        try directory.file("\(derived)/ModuleCache.noindex/module.pcm", bytes: 400_000)
+        try directory.file("\(derived)/Notes Backup/Notes.swift", bytes: 400_000)
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
+        let byName = Dictionary(uniqueKeysWithValues: locations.map { ($0.url.lastPathComponent, $0) })
+
+        #expect(Set(byName.keys) == [
+            "Notes-abcdefghijklmnopqrstuvwxyzab", "Chat-bcdefghijklmnopqrstuvwxyzabc", "ModuleCache.noindex", "Notes Backup",
+        ])
+        #expect(byName["Notes-abcdefghijklmnopqrstuvwxyzab"]?.workspace?.name == "Notes")
+        #expect(byName["Notes-abcdefghijklmnopqrstuvwxyzab"]?.isRecommended == true)
+        #expect(byName["Chat-bcdefghijklmnopqrstuvwxyzabc"]?.workspace?.name == "Chat")
+        #expect(byName["Chat-bcdefghijklmnopqrstuvwxyzabc"]?.isRecommended == false)
+        #expect(byName["ModuleCache.noindex"]?.isRecommended == true)
+        #expect(byName["Notes Backup"]?.isRecommended == false)
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the

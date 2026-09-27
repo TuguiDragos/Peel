@@ -13465,108 +13465,108 @@
         }
       }
     },
-    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you." : {
+    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
+            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci, data sestavení projektu otevřeného během posledního týdne, složky, u kterých nic nenasvědčuje, že je nástroj vytvořil, a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
+            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren, die Build-Daten eines in der letzten Woche geöffneten Projekts, Ordner ohne Hinweis darauf, dass das Tool sie erstellt hat, und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
+            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, las carpetas que nada indica que haya creado la herramienta y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
+            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés, les données de compilation d’un projet ouvert au cours de la dernière semaine, les dossiers que rien ne rattache à l’outil et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
+            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli, dati di build di un progetto aperto nell’ultima settimana, cartelle per cui nulla indica che le abbia create lo strumento e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、過去1週間以内に開かれたプロジェクトのビルドデータ、ツールが作成したことを示すものがないフォルダ、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일, 최근 일주일 이내에 연 프로젝트의 빌드 데이터, 도구가 만들었음을 보여 주는 항목이 없는 폴더 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
+            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren, de buildgegevens van een project dat de afgelopen week is geopend, mappen waarvan niets erop wijst dat de tool ze heeft gemaakt en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
+            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji, dane kompilacji projektu otwartego w ciągu ostatniego tygodnia, foldery, których nic nie łączy z tym narzędziem, i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
+            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo, os dados de compilação de um projeto aberto na última semana, pastas que nada indica terem sido criadas pela ferramenta e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
+            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou, datele de compilare ale unui proiect deschis în ultima săptămână, dosarele despre care nimic nu arată că au fost create de instrument și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
+            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, данные сборки проектов, открывавшихся за последнюю неделю, папки без признаков того, что их создал этот инструмент, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
+            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen, byggdata för ett projekt som öppnats under den senaste veckan, mappar som inget visar att verktyget skapat och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler, son bir hafta içinde açılan bir projenin derleme verileri, aracın oluşturduğunu hiçbir şeyin göstermediği klasörler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
+            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, дані збірки проєктів, відкритих за останній тиждень, папки, щодо яких ніщо не вказує, що їх створив інструмент, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
+            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件、过去一周内打开过的项目的构建数据、没有迹象表明由该工具生成的文件夹，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
+            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案、過去一週內打開過的計畫案建置資料、沒有跡象顯示由該工具產生的檔案夾，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
           }
         }
       }
@@ -15369,6 +15369,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建置產物"
+          }
+        }
+      }
+    },
+    "Build data for %@, made again when you build" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data sestavení projektu %@, znovu vzniknou při sestavování"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Build-Daten für %@, die beim nächsten Build neu entstehen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos de compilación de %@, que se vuelven a generar al compilar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Données de compilation de %@, recréées à la prochaine compilation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dati di build di %@, ricreati quando compili"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ビルド時に再作成される%@のビルドデータ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’의 빌드 데이터, 빌드할 때 다시 만들어짐"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buildgegevens voor %@, opnieuw gemaakt bij de volgende build"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dane kompilacji projektu %@, tworzone ponownie podczas kompilacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados de compilação de %@, gerados de novo quando você compila"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date de compilare pentru %@, refăcute când compilați"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные сборки проекта «%@», которые снова появятся при следующей сборке"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byggdata för %@, skapas igen när du bygger"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ için derleme verileri, derlediğinizde yeniden oluşturulur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дані збірки для «%@», які створюються знову під час збирання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的构建数据，构建时会重新生成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」的建置資料，會在你建置時重新產生"
           }
         }
       }
@@ -67899,6 +68005,112 @@
         }
       }
     },
+    "Not selected: %@ was opened in the last week, so its build data may be needed again soon." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: projekt %@ byl otevřen během posledního týdne, takže jeho data sestavení mohou být brzy znovu potřeba."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: %@ wurde in der letzten Woche geöffnet, daher werden die Build-Daten möglicherweise bald wieder gebraucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: %@ se ha abierto en la última semana, así que sus datos de compilación podrían volver a necesitarse pronto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : %@ a été ouvert au cours de la dernière semaine, ses données de compilation pourraient donc resservir bientôt."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: hai aperto %@ nell’ultima settimana, quindi i suoi dati di build potrebbero servire di nuovo a breve."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: %@は過去1週間以内に開かれたため、そのビルドデータがすぐにまた必要になる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: ‘%@’은(는) 최근 일주일 이내에 열렸으므로 빌드 데이터가 곧 다시 필요할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: %@ is de afgelopen week geopend, dus de buildgegevens zijn misschien binnenkort weer nodig."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: projekt %@ otwarto w ciągu ostatniego tygodnia, więc jego dane kompilacji mogą być wkrótce znów potrzebne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: %@ foi aberto na última semana, então os dados de compilação dele podem ser necessários de novo em breve."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: proiectul %@ a fost deschis în ultima săptămână, deci datele sale de compilare ar putea fi necesare din nou în curând."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: проект «%@» открывался за последнюю неделю, поэтому его данные сборки могут скоро снова понадобиться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: %@ öppnades under den senaste veckan, så dess byggdata kan behövas igen snart."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: %@ son bir hafta içinde açıldı, bu nedenle derleme verilerine yakında yeniden gerek duyulabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: проєкт «%@» відкривали за останній тиждень, тому його дані збірки можуть незабаром знову знадобитися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：%@在过去一周内打开过，因此可能很快会再次需要其构建数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：「%@」在過去一週內打開過，因此可能很快又會需要它的建置資料。"
+          }
+        }
+      }
+    },
     "Not selected: /Users/Shared belongs to every account on this Mac rather than to one app." : {
       "localizations" : {
         "cs" : {
@@ -68955,6 +69167,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：macOS不讓Peel讀取其中的內容，因此無法得知裡面有什麼。如果Peel尚未取得「完全取用磁碟」權限，在「系統設定」中給予此權限後，它或許就能看到。"
+          }
+        }
+      }
+    },
+    "Not selected: nothing shows that %@ made this folder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: nic nenasvědčuje tomu, že tuto složku vytvořil nástroj %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Nichts deutet darauf hin, dass %@ diesen Ordner erstellt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: nada indica que %@ haya creado esta carpeta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : rien n’indique que %@ ait créé ce dossier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: nulla indica che questa cartella sia stata creata da %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このフォルダを%@が作成したことを示すものはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: ‘%@’이(가) 이 폴더를 만들었음을 보여 주는 항목이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: niets wijst erop dat %@ deze map heeft gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: nic nie wskazuje, że ten folder utworzyło narzędzie %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: nada indica que esta pasta foi criada por %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: nimic nu arată că %@ a creat acest dosar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: ничто не указывает на то, что эту папку создал инструмент «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: inget visar att %@ skapade den här mappen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: hiçbir şey bu klasörü %@ aracının oluşturduğunu göstermiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: ніщо не вказує, що цю папку створено інструментом %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：没有任何迹象表明此文件夹是%@生成的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：沒有任何跡象顯示此檔案夾是由「%@」產生的。"
           }
         }
       }

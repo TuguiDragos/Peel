@@ -17,7 +17,7 @@ struct DeveloperDetailView: View {
                         url: location.url,
                         icon: .symbol(location.kind.symbolName),
                         detail: detail(for: location),
-                        warning: location.size == nil ? String(localized: location.couldNotBeRead ? HoldBack.couldNotBeRead.explanation : HoldBack.notMeasured.explanation) : nil,
+                        warning: warning(for: location),
                         size: location.size ?? 0,
                         isMeasured: location.size != nil,
                         isFirst: index == 0,
@@ -52,7 +52,7 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("\(keptByDefault) kept"), systemImage: "hand.raised", tint: .secondary,
                         name: String(localized: "\(keptByDefault) kept"),
-                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you.")
+                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you.")
                     )
                 }
             }
@@ -62,8 +62,22 @@ struct DeveloperDetailView: View {
     }
 
     private func detail(for location: DeveloperEnvironment.Location) -> LocalizedStringResource {
+        if let workspace = location.workspace { return "Build data for \(workspace.name), made again when you build" }
         guard let version = location.archive?.label else { return location.kind.title }
         return "Version \(version), needed to read its crash reports"
+    }
+
+    private func warning(for location: DeveloperEnvironment.Location) -> String? {
+        if location.size == nil {
+            return String(localized: location.couldNotBeRead ? HoldBack.couldNotBeRead.explanation : HoldBack.notMeasured.explanation)
+        }
+        if !location.isTheTools {
+            return String(localized: "Not selected: nothing shows that \(environment.name) made this folder.")
+        }
+        if let workspace = location.workspace, workspace.mayStillBeInUse {
+            return String(localized: "Not selected: \(workspace.name) was opened in the last week, so its build data may be needed again soon.")
+        }
+        return nil
     }
 
     private var keptByDefault: Int {
