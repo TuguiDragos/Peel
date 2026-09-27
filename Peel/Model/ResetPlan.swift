@@ -81,8 +81,9 @@ final class ResetPlan {
     }
 
     /// Backs up the app's settings, then moves the selection to the Trash, which also makes cfprefsd forget the
-    /// app's preference domains. Checks again that the app is not running: an app opened since the sheet
-    /// appeared would have its files moved from under it, and would write its settings back when it quits.
+    /// app's preference domains. Checks that the app is not running before the copy and again before the move,
+    /// since the copy takes a moment: an app opened meanwhile would have its files moved from under it, and would
+    /// write its settings back when it quits. Then nothing moves, and the copy stays.
     func performReset() async -> TrashResult {
         refreshRunningState()
         guard let reset, !isAppRunning else { return TrashResult() }
@@ -100,6 +101,8 @@ final class ResetPlan {
             backup = nil
         }
         couldNotSaveSettings = false
+        refreshRunningState()
+        guard !isAppRunning else { return TrashResult() }
         let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls, ownedBy: app.bundleIdentifier)
         failures = result.failures
         movedCount = result.trashed.count
