@@ -610,6 +610,44 @@ struct DeveloperCachesTests {
         #expect(byName["Notes Backup"]?.isRecommended == false)
     }
 
+    @Test func findsDerivedDataAndArchivesWhereXcodesSettingsMovedThem() async throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["WorkspacePath": "/Code/Notes/Notes.xcodeproj", "LastAccessedDate": Date.now - 30 * 86_400],
+            format: .xml, options: 0
+        )
+        try directory.file("Fast/DerivedData/Notes-abcdefghijklmnopqrstuvwxyzab/info.plist", contents: info)
+        try directory.file("Fast/DerivedData/Notes-abcdefghijklmnopqrstuvwxyzab/Build/app", bytes: 400_000)
+        try directory.file("Fast/DerivedData/Photos/beach.jpg", bytes: 400_000)
+        try directory.directory("Fast/Archives/2026-09-17/Notes 17.09.2026, 10.00.xcarchive")
+        try directory.file("Library/Developer/Xcode/DerivedData/ModuleCache.noindex/module.pcm", bytes: 400_000)
+        let moved = [
+            "IDECustomDerivedDataLocation": directory.url.appending(path: "Fast/DerivedData").path(percentEncoded: false),
+            "IDECustomDistributionArchivesLocation": directory.url.appending(path: "Fast/Archives").path(percentEncoded: false),
+        ]
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url, preference: { moved[$0] })
+            .flatMap(\.locations)
+        let byName = Dictionary(uniqueKeysWithValues: locations.map { ($0.url.lastPathComponent, $0) })
+
+        #expect(Set(byName.keys) == [
+            "Notes-abcdefghijklmnopqrstuvwxyzab", "Photos", "Notes 17.09.2026, 10.00.xcarchive", "ModuleCache.noindex",
+        ])
+        #expect(byName["Notes-abcdefghijklmnopqrstuvwxyzab"]?.isRecommended == true)
+        #expect(byName["Photos"]?.isRecommended == false)
+        #expect(byName["Notes 17.09.2026, 10.00.xcarchive"]?.kind == .archives)
+    }
+
+    @Test func aSettingThatIsNotAnAbsolutePathMovesNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let environments = await DeveloperCaches.scan(xcode, homeDirectory: directory.url, preference: { _ in "." })
+
+        #expect(environments.isEmpty)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

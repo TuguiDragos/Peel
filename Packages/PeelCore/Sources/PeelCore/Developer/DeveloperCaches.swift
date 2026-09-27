@@ -124,10 +124,14 @@ public enum DeveloperCaches {
         let rowEnding: String?
         /// True for Xcode's DerivedData, whose rows are the tool's own only when `derivedDataRow(at:)` shows it.
         let rowsAreDerivedData: Bool
+        /// The Xcode setting that moves the folder elsewhere when it holds an absolute path. The folder is looked
+        /// for there as well as at `path`, where an earlier Xcode may have left it.
+        let movedByXcodeSetting: String?
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
-            rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false
+            rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
+            movedByXcodeSetting: String? = nil
         ) {
             self.path = path
             self.kind = kind
@@ -136,6 +140,19 @@ public enum DeveloperCaches {
             self.rowsDepth = rowsDepth
             self.rowEnding = rowEnding
             self.rowsAreDerivedData = rowsAreDerivedData
+            self.movedByXcodeSetting = movedByXcodeSetting
+        }
+
+        /// Where the folder is: at `path`, and where the Xcode setting that moves it says.
+        func places(home: URL, preference: (String) -> String?) -> [URL] {
+            var places = PathPattern.expand(path, home: home)
+            if let setting = movedByXcodeSetting.flatMap(preference).map({ NSString(string: $0).expandingTildeInPath }),
+               setting.hasPrefix("/") {
+                let moved = URL(filePath: setting, directoryHint: .isDirectory)
+                if moved.isRealFolder { places.append(moved) }
+            }
+            var seen: Set<String> = []
+            return places.filter { seen.insert(PathPattern.comparablePath(of: $0)).inserted }
         }
 
         func rows(in folder: URL) -> [URL] {
@@ -163,6 +180,11 @@ public enum DeveloperCaches {
             let store = url.appending(path: storeInside).path(percentEncoded: false)
             return (try? FileManager.default.attributesOfItem(atPath: store)) != nil ? .environments : kind
         }
+    }
+
+    /// A setting of Xcode's that holds a path, as Xcode's Settings > Locations writes it.
+    @Sendable static func xcodePreference(_ key: String) -> String? {
+        CFPreferencesCopyAppValue(key as CFString, "com.apple.dt.Xcode" as CFString) as? String
     }
 
     /// The caches Xcode 27 names inside DerivedData, beside the folder it makes for each workspace.
@@ -224,7 +246,7 @@ public enum DeveloperCaches {
             Folder(
                 "Library/Developer/Xcode/DerivedData", .buildData,
                 source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes",
-                rowsDepth: 1, rowsAreDerivedData: true
+                rowsDepth: 1, rowsAreDerivedData: true, movedByXcodeSetting: "IDECustomDerivedDataLocation"
             ),
             Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
             Folder("Library/Developer/Xcode/UserData-Tests/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
@@ -242,7 +264,11 @@ public enum DeveloperCaches {
             Folder("Library/Logs/CoreSimulator", .logs, source: "Xcode 27: /Library/Developer/PrivateFrameworks/CoreSimulator.framework (\"%s/Library/Logs/CoreSimulator\")"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
             Folder("Library/Developer/Packages", .keptDownloads, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-16_2-release-notes"),
-            Folder("Library/Developer/Xcode/Archives", .archives, source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]", rowsDepth: 2, rowEnding: ".xcarchive"),
+            Folder(
+                "Library/Developer/Xcode/Archives", .archives,
+                source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]",
+                rowsDepth: 2, rowEnding: ".xcarchive", movedByXcodeSetting: "IDECustomDistributionArchivesLocation"
+            ),
         ]),
         Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/org.swift.swiftpm", .downloads, source: "https://github.com/swiftlang/swift-package-manager/blob/main/Sources/Basics/FileSystem/FileSystem+Extensions.swift#L246-L253"),
@@ -884,14 +910,15 @@ public enum DeveloperCaches {
         _ definitions: [Definition],
         homeDirectory: URL,
         exclusions: Exclusions = .none,
-        measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
+        measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
+        preference: @escaping @Sendable (String) -> String? = Self.xcodePreference
     ) async -> [DeveloperEnvironment] {
         await withTaskGroup(of: DeveloperEnvironment?.self) { group in
             for definition in definitions {
                 _ = group.addTaskUnlessCancelled {
                     var found: [(url: URL, folder: Folder)] = []
                     for folder in definition.folders {
-                        for url in PathPattern.expand(folder.path, home: homeDirectory).flatMap(folder.rows) {
+                        for url in folder.places(home: homeDirectory, preference: preference).flatMap(folder.rows) {
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.
