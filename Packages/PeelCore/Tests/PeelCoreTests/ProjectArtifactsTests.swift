@@ -209,6 +209,28 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true, "the cache's own new files counted as work in the project")
     }
 
+    @Test func findsAFolderItsToolTaggedAsACacheWhateverItIsCalled() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n# This file is a cache directory tag.\n".utf8)
+        try directory.file("app/main.c", bytes: 16)
+        try directory.file("app/scratch-cache/CACHEDIR.TAG", contents: tag)
+        try directory.file("app/scratch-cache/objects/blob", bytes: 400_000)
+        try directory.file("app/look-alike/CACHEDIR.TAG", contents: Data("not a tag".utf8))
+        try directory.file("app/look-alike/notes.txt", bytes: 400_000)
+        try directory.file("crate/Cargo.toml", bytes: 16)
+        try directory.file("crate/target/CACHEDIR.TAG", contents: tag)
+        try directory.file("crate/target/debug/crate", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map { "\($0.project.lastPathComponent)/\($0.name)" }) == ["app/scratch-cache", "crate/target"])
+        let tagged = try #require(found.first { $0.name == "scratch-cache" })
+        #expect(tagged.tool == nil)
+        #expect(tagged.isRecommended)
+        #expect(found.first { $0.name == "target" }?.tool == "Cargo")
+    }
+
     @Test func aUnityProjectsObjIsUnitysThoughDotNetsProjectFileSitsBesideIt() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("game/ProjectSettings/ProjectVersion.txt", bytes: 16)

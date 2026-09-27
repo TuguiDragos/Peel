@@ -7,7 +7,8 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     public let url: URL
     public let project: URL
     public let name: String
-    public let tool: String
+    /// Nil for a folder known only by the cache directory tag its tool wrote, which does not say which tool it was.
+    public let tool: String?
     /// Nil when it was not measured, which is not the same as empty.
     public let size: Int64?
     /// The latest change in the project's own files, its artifacts left out.
@@ -485,20 +486,27 @@ public enum ProjectArtifacts {
             let names = Set(entries.map(\.lastPathComponent))
             var artifactNames: Set<String> = []
 
-            var matching: [(definition: Definition, name: String)] = []
+            var matching: [(name: String, definition: Definition?)] = []
             for definition in definitions {
                 for name in definition.candidates(among: names) {
                     let url = folder.appending(path: name)
                     guard isRealFolder(url), definition.matches(url, in: folder, besides: names) else { continue }
                     guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                     guard artifactNames.insert(name).inserted else { continue }
-                    matching.append((definition, name))
+                    matching.append((name, definition))
                     reached.insert(Self.key(of: url))
                 }
             }
+            for entry in entries where !artifactNames.contains(entry.lastPathComponent) {
+                guard isRealFolder(entry), isTaggedAsACache(entry) else { continue }
+                guard !exclusions.excludes(entry), !exclusions.holds(entry) else { continue }
+                artifactNames.insert(entry.lastPathComponent)
+                matching.append((entry.lastPathComponent, nil))
+                reached.insert(Self.key(of: entry))
+            }
             // Read after all of the project's artifacts are found, so the walk skips every one of them.
             let activity = matching.isEmpty ? (date: nil, isCertain: true) : lastActivity(in: folder, ignoring: artifactNames)
-            for (definition, name) in matching {
+            for (name, definition) in matching {
                 let url = folder.appending(path: name)
                 let contents = await measure(url)
                 let heldBack = HoldBack.seen(in: contents)
@@ -506,12 +514,12 @@ public enum ProjectArtifacts {
                     url: url,
                     project: folder,
                     name: name,
-                    tool: definition.tool,
+                    tool: definition?.tool,
                     size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                     lastActivity: activity.date,
                     lastActivityIsCertain: activity.isCertain,
-                    hasGenericName: definition.isGeneric,
-                    isEnvironment: definition.isEnvironment,
+                    hasGenericName: definition?.isGeneric ?? false,
+                    isEnvironment: definition?.isEnvironment ?? false,
                     // A tool that tags its folder as a cache makes everything in it again, its own clones included.
                     heldBack: heldBack == .holdsRepository && isTaggedAsACache(url) ? nil : heldBack
                 ))
@@ -610,7 +618,7 @@ extension ProjectArtifact {
     public func matches(_ query: String) -> Bool {
         guard !query.isEmpty else { return true }
         return SearchText.matches(name, query)
-            || SearchText.matches(tool, query)
+            || (tool.map { SearchText.matches($0, query) } ?? false)
             || SearchText.matches(project.lastPathComponent, query)
     }
 }

@@ -305,7 +305,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "projects",
         abstract: "List what builds left behind in your projects, and move it to the Trash.",
-        discussion: "A folder only counts when the file that makes it sits beside it. Projects changed in the last 7 days, and folders under a name that could mean anything, are listed but never suggested, and --remove moves only what is suggested."
+        discussion: "A folder only counts when the file that makes it sits beside it, or its tool tagged it as a cache. Projects changed in the last 7 days, and folders under a name that could mean anything, are listed but never suggested, and --remove moves only what is suggested."
     )
 
     @Argument(help: "Folders your projects live in.", completion: .directory)
@@ -321,7 +321,8 @@ struct ProjectsCommand: AsyncParsableCommand {
     struct Record: Encodable {
         let path: String
         let project: String
-        let tool: String
+        /// `null` for a folder known only by the cache directory tag its tool wrote.
+        let tool: String?
         let size: MeasuredSize
         let suggested: Bool
         let recentlyActive: Bool
@@ -454,7 +455,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     }
 
     static func rows(for artifacts: [ProjectArtifact]) -> [[String]] {
-        artifacts.map { [Output.size($0.size), Output.path($0.url), $0.tool, note(for: $0)] }
+        artifacts.map { [Output.size($0.size), Output.path($0.url), $0.tool ?? "tagged as a cache", note(for: $0)] }
     }
 
     /// Returns why `artifact` is kept, or "suggested". It checks the same conditions as `isRecommended`, and
