@@ -717,6 +717,19 @@ struct DeveloperCachesTests {
         #expect(locations.map(\.url.lastPathComponent) == ["bincache00_py313_arm64"])
     }
 
+    @Test func offersTheAndroidToolsCachesAndNothingElseOfTheirFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".android/cache/sdkbin-1_4b3a.xml", bytes: 400_000)
+        try directory.file(".android/build-cache/3.6.1/output/classes.dex", bytes: 400_000)
+        try directory.file(".android/avd/Pixel.avd/userdata.img", bytes: 400_000)
+        try directory.file(".android/debug.keystore", bytes: 4_096)
+        let studio = DeveloperCaches.definitions.filter { $0.id == "androidstudio" }
+
+        let locations = await DeveloperCaches.scan(studio, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["cache", "build-cache"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

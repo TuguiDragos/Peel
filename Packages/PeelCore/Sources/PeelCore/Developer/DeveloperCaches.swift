@@ -653,6 +653,8 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Google/AndroidStudio*/index", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Caches/Google/AndroidStudio*/tmp", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Logs/Google/AndroidStudio*", .logs, source: "https://developer.android.com/studio/troubleshoot"),
+            Folder(".android/cache", .downloads, source: "https://android.googlesource.com/platform/tools/base/+/refs/tags/studio-4.0.0/sdklib/src/main/java/com/android/sdklib/repository/legacy/remote/internal/DownloadCache.java#219"),
+            Folder(".android/build-cache", .buildData, source: "https://android.googlesource.com/platform/tools/base/+/refs/tags/studio-4.0.0/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/BuildCacheUtils.java#108"),
         ], ownFolders: ["Library/Caches/Google/AndroidStudio*", "Library/Logs/Google/AndroidStudio*"]),
         Definition(id: "neovim", name: "Neovim", systemImage: "curlybraces", appBundleIdentifiers: [], folders: [
             Folder(".cache/nvim", .cache, source: "https://github.com/neovim/neovim/blob/master/runtime/doc/starting.txt#L1404-L1405"),
