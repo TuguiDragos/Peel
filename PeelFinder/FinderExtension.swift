@@ -1,5 +1,6 @@
 import AppKit
 import FinderSync
+import PeelLink
 
 final class FinderExtension: FIFinderSync {
     override init() {
@@ -22,32 +23,20 @@ final class FinderExtension: FIFinderSync {
     }
 
     @objc private func openInPeel(_ sender: NSMenuItem) {
-        guard let application = selectedApplication, var components = URLComponents(string: "peel://open") else { return }
-        components.queryItems = [URLQueryItem(name: "path", value: application.path(percentEncoded: false))]
-        guard let url = components.url else { return }
+        guard
+            let application = selectedApplication,
+            let url = OpenRequest.link(toApplicationAt: application.path(percentEncoded: false))
+        else { return }
         // Opens the URL in the copy of Peel that contains this extension. Launch Services might send `peel://`
         // URLs to a different copy of Peel.
-        guard let host = hostApplication else {
+        guard let host = OpenRequest.hostApplication(ofExtensionAt: Bundle.main.bundleURL) else {
             NSWorkspace.shared.open(url)
             return
         }
         NSWorkspace.shared.open([url], withApplicationAt: host, configuration: NSWorkspace.OpenConfiguration())
     }
 
-    /// The app that contains this extension, or `nil` when the extension is not inside an app.
-    /// It is three levels up: `Peel.app/Contents/PlugIns/PeelFinder.appex`.
-    private var hostApplication: URL? {
-        let host = Bundle.main.bundleURL
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-        return host.pathExtension == "app" ? host : nil
-    }
-
     private var selectedApplication: URL? {
-        guard let items = FIFinderSyncController.default().selectedItemURLs(), items.count == 1, items[0].pathExtension == "app" else {
-            return nil
-        }
-        return items[0]
+        FIFinderSyncController.default().selectedItemURLs().flatMap(OpenRequest.application(amongSelected:))
     }
 }

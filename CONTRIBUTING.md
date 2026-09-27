@@ -87,7 +87,8 @@ xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath bui
 - `PeelCLI/`: the `peel` command line tool, a thin entry point.
 - `PeelUITests/`: the accessibility audit, run by hand before a release.
 - `Packages/PeelCore/`: everything that decides and acts, with the tests. `PeelCore` scans, matches, and removes;
-  `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands.
+  `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands; `PeelLink` is the
+  `peel://open` link the Finder extension sends and the app reads.
 - `Localization/`: every translation, and nothing else: the string catalogs of the app and the Finder extension.
 - `Support/`: the Info.plists, the helper's launchd property list, and the manual page of `peel`.
 - `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the menu bar glyph, and `export.sh`, which

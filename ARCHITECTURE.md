@@ -18,6 +18,8 @@ Peel is four programs built from one Xcode project, and a Swift package that hol
 ```mermaid
 flowchart LR
     Finder["Finder extension<br>sandboxed"] -- "peel://open" --> App["Peel.app<br>runs as you"]
+    Finder --> Link["PeelLink<br>what a link says"]
+    App --> Link
     CLI["peel command<br>runs as you"] --> Core["PeelCore<br>scans, matches, moves"]
     App --> Core
     App -- "XPC, administrators only" --> Helper["Helper<br>runs as root"]
@@ -25,7 +27,7 @@ flowchart LR
     Helper --> Privileged
 ```
 
-The package, `Packages/PeelCore`, has three libraries:
+The package, `Packages/PeelCore`, has four libraries:
 
 - **PeelCore** decides and acts: it finds apps and their leftovers, measures folders, matches files to apps,
   and moves things to the Trash. It has no interface and speaks plain English; the app words everything a
@@ -33,6 +35,8 @@ The package, `Packages/PeelCore`, has three libraries:
 - **PeelPrivileged** is the part the helper shares: which paths may be touched, what is protected, how a tool
   is run, and how a path is split into names. The helper links nothing else, so it stays small.
 - **PeelCommandLine** holds the `peel` commands. `PeelCLI` is only their entry point.
+- **PeelLink** says what a `peel://open?path=` link means, for the Finder extension that sends it, the
+  notifications that send it too, and the app that reads it. The extension links nothing else.
 
 Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs
 more than 900 tests without building the app.

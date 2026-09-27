@@ -18,6 +18,8 @@
 		AA0000000000000000000029 /* PeelPrivileged in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000028 /* PeelPrivileged */; };
 		AA0000000000000000000030 /* com.tuguidragos.Peel.Helper.plist in Embed Launch Daemon */ = {isa = PBXBuildFile; fileRef = AA000000000000000000002F /* com.tuguidragos.Peel.Helper.plist */; };
 		AA0000000000000000000012 /* PeelCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000011 /* PeelCore */; };
+		AA0000000000000000000066 /* PeelLink in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000065 /* PeelLink */; };
+		AA0000000000000000000068 /* PeelLink in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000067 /* PeelLink */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0000000000000000000012 /* PeelCore in Frameworks */,
+				AA0000000000000000000068 /* PeelLink in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA0000000000000000000066 /* PeelLink in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +292,9 @@
 				AA0000000000000000000058 /* PeelFinder */,
 			);
 			name = PeelFinder;
+			packageProductDependencies = (
+				AA0000000000000000000065 /* PeelLink */,
+			);
 			productName = PeelFinder;
 			productReference = AA0000000000000000000035 /* PeelFinder.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -341,6 +348,7 @@
 			name = Peel;
 			packageProductDependencies = (
 				AA0000000000000000000011 /* PeelCore */,
+				AA0000000000000000000067 /* PeelLink */,
 			);
 			productName = Peel;
 			productReference = AA0000000000000000000004 /* Peel.app */;
@@ -1010,6 +1018,14 @@
 		AA0000000000000000000011 /* PeelCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PeelCore;
+		};
+		AA0000000000000000000065 /* PeelLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PeelLink;
+		};
+		AA0000000000000000000067 /* PeelLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PeelLink;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

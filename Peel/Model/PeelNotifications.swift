@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import PeelCore
+import PeelLink
 import SwiftUI
 import UserNotifications
 
@@ -69,10 +70,8 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         guard
             let path = response.notification.request.content.userInfo[Self.pathKey] as? String,
-            var components = URLComponents(string: "peel://open")
+            let url = OpenRequest.link(toApplicationAt: path)
         else { return }
-        components.queryItems = [URLQueryItem(name: "path", value: path)]
-        guard let url = components.url else { return }
         await MainActor.run {
             _ = NSWorkspace.shared.open(url)
         }

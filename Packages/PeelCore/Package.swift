@@ -17,18 +17,24 @@ let package = Package(
         .library(name: "PeelCore", targets: ["PeelCore"]),
         .library(name: "PeelPrivileged", targets: ["PeelPrivileged"]),
         .library(name: "PeelCommandLine", targets: ["PeelCommandLine"]),
+        .library(name: "PeelLink", targets: ["PeelLink"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.8.2"),
     ],
     targets: [
         .target(name: "PeelPrivileged", swiftSettings: swiftSettings),
+        .target(name: "PeelLink", swiftSettings: swiftSettings),
         .target(name: "PeelCore", dependencies: ["PeelPrivileged"], swiftSettings: swiftSettings),
         .target(
             name: "PeelCommandLine",
             dependencies: ["PeelCore", .product(name: "ArgumentParser", package: "swift-argument-parser")],
             swiftSettings: swiftSettings
         ),
-        .testTarget(name: "PeelCoreTests", dependencies: ["PeelCore", "PeelPrivileged", "PeelCommandLine"], swiftSettings: swiftSettings),
+        .testTarget(
+            name: "PeelCoreTests",
+            dependencies: ["PeelCore", "PeelPrivileged", "PeelCommandLine", "PeelLink"],
+            swiftSettings: swiftSettings
+        ),
     ]
 )

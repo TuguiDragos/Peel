@@ -1,4 +1,5 @@
 import PeelCore
+import PeelLink
 import SwiftUI
 
 struct ContentView: View {
