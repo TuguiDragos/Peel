@@ -72,13 +72,14 @@ struct BackgroundItemActionsTests {
         #expect(result.trashed.count == 1)
         #expect(steps.withLock { $0 } == ["move", "stop"])
 
-        // Refused: nothing is stopped, and the reason is the one the guard gave.
+        // Refused: nothing is stopped, and the refusal comes back in the result, with the reason the guard gave, so
+        // it is written down like any other.
         steps.withLock { $0 = [] }
-        await #expect(throws: BackgroundItemActions.Failure.trash(.protectedLocation)) {
-            try await BackgroundItemActions.moveToTrash(
-                item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: true), stop: stop
-            )
-        }
+        let refused = try await BackgroundItemActions.moveToTrash(
+            item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: true), stop: stop
+        )
+        #expect(refused.trashed.isEmpty)
+        #expect(refused.failures.map(\.reason) == [.protectedLocation])
         #expect(steps.withLock { $0 } == ["move"])
 
         // A job launchd does not hold has nothing to stop.

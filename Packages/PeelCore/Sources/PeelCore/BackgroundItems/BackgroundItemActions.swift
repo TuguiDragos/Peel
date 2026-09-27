@@ -79,7 +79,8 @@ public enum BackgroundItemActions {
     }
 
     /// Moves the job's property list to the Trash, then unloads the job. The move comes first, so a refused move
-    /// never leaves the job stopped with its file still in place.
+    /// never leaves the job stopped with its file still in place. A refused move comes back in the result, to be
+    /// written down like any other refusal.
     @concurrent
     @discardableResult
     public static func moveToTrash(_ item: BackgroundItem, exclusions: Exclusions = .none) async throws(Failure) -> TrashResult {
@@ -102,12 +103,9 @@ public enum BackgroundItemActions {
             throw .requiresPrivileges
         }
         let result = await trash.trash([plist], usingHelperFor: item.removalRequiresPrivileges ? [plist] : [])
-        if let failure = result.failures.first {
-            throw .trash(failure.reason)
-        }
         // `TrashService` stops a job only when `PrivilegedPathPolicy.isValidLabel` accepts its label. The user
         // chose this job, so it is also stopped here by its own label. A job that is already gone is not a failure.
-        if item.state != .notLoaded {
+        if !result.trashed.isEmpty, item.state != .notLoaded {
             await stop(item)
         }
         return result

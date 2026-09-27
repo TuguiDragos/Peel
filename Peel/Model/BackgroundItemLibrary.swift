@@ -55,7 +55,11 @@ final class BackgroundItemLibrary {
             case .stop: try await BackgroundItemActions.stop(item)
             case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
-            case .moveToTrash: result = try await BackgroundItemActions.moveToTrash(item, exclusions: ExclusionsStore.shared.exclusions)
+            case .moveToTrash:
+                result = try await BackgroundItemActions.moveToTrash(item, exclusions: ExclusionsStore.shared.exclusions)
+                if let refusal = result.failures.first {
+                    failure = ActionFailure(action: action, reason: .trash(refusal.reason))
+                }
             }
         } catch {
             failure = ActionFailure(action: action, reason: error)
