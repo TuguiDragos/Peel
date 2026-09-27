@@ -106,6 +106,7 @@ private struct GeneralSettingsView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(HelperModel.self) private var helper
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(StandingWork.self) private var background
     @Environment(HomeModel.self) private var home
     @State private var selfUninstall = SelfUninstall()
     @State private var isConfirmingSelfRemoval = false
@@ -333,8 +334,8 @@ private struct GeneralSettingsView: View {
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {
                 Task {
-                    await selfUninstall.run(installedApps: library.apps, helper: helper) { result in
-                        await history.record(result, tool: .applications, source: "Peel", sizes: [:])
+                    await selfUninstall.run(installedApps: library.apps, helper: helper, pausing: background) { result in
+                        await history.record(result, tool: .applications, source: "Peel", sizes: [:], countsTowardTotals: false)
                     }
                 }
             }

@@ -25,16 +25,27 @@ final class SelfUninstall {
 
     /// Removes Peel. The plan is made first, and the steps nothing can undo (unregistering the helper and the
     /// login item) come after, so a plan that cannot be made leaves Peel as it was. A quit is refused meanwhile,
-    /// since Peel ends itself once it has gone.
-    func run(installedApps: [InstalledApp], helper: HelperModel, recording record: (TrashResult) async -> Void = { _ in }) async {
+    /// since Peel ends itself once it has gone. `work` is paused from the first of those steps, since what it does
+    /// on its own would write Peel's files again, and resumed if Peel stays where it was.
+    func run(
+        installedApps: [InstalledApp],
+        helper: HelperModel,
+        pausing work: StandingWork,
+        recording record: (TrashResult) async -> Void = { _ in }
+    ) async {
         isRunning = true
         defer { isRunning = false }
         await QuitGuard.shared.runRefusingQuit {
-            await remove(installedApps: installedApps, helper: helper, recording: record)
+            await remove(installedApps: installedApps, helper: helper, pausing: work, recording: record)
         }
     }
 
-    private func remove(installedApps: [InstalledApp], helper: HelperModel, recording record: (TrashResult) async -> Void) async {
+    private func remove(
+        installedApps: [InstalledApp],
+        helper: HelperModel,
+        pausing work: StandingWork,
+        recording record: (TrashResult) async -> Void
+    ) async {
         let bundleURL = Bundle.main.bundleURL
         guard let app = await AppLibrary.inspect(bundleURL) else {
             failure = String(localized: "Peel couldn’t read its own files.")
@@ -47,6 +58,7 @@ final class SelfUninstall {
             return
         }
 
+        work.pause()
         let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
         var ledger = PrivilegedHelper.LedgerMove.none
         if isRegistered() {
@@ -54,6 +66,7 @@ final class SelfUninstall {
             await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {
+                work.resume()
                 let reason = helper.failure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
                 failure = ledger == .moved ? "\(reason)\n\n\(Self.ledgerInTheTrash)" : reason
                 return
@@ -65,6 +78,7 @@ final class SelfUninstall {
 
         let result = await SelfRemoval.move(urls, app: bundleURL, folder: PeelFolder.url, using: TrashService(exclusions: exclusions), recording: record)
         guard result.trashed.contains(where: { $0.originalURL == bundleURL }) else {
+            work.resume()
             let lines = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
             failure = (lines + (ledger == .moved ? [Self.ledgerInTheTrash] : [])).joined(separator: "\n\n")
             return

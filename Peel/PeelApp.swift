@@ -50,7 +50,7 @@ struct PeelApp: App {
     @State private var intel = IntelLibrary()
     @State private var space: SpaceLibrary
     @State private var carrier: SelectionCarrier
-    @State private var background = BackgroundWork()
+    @State private var background = StandingWork()
     @State private var hasLaunched = false
     private let exclusions = ExclusionsStore.shared
 
@@ -95,6 +95,7 @@ struct PeelApp: App {
     private func followFolders() async {
         for await _ in FolderWatch.changes(in: AppCatalog.defaultDirectories) {
             try? await Task.sleep(for: .seconds(1), tolerance: .milliseconds(250))
+            guard !Task.isCancelled else { return }
             let before = library.revision
             let changed = await library.refresh()
             // Any write inside a bundle wakes this loop, so Homebrew and the rest run only when the app list changed.
@@ -126,6 +127,7 @@ struct PeelApp: App {
     /// window's scene phase is no sign of that: on macOS a window stays active while another app is in front.
     private func followActivations() async {
         for await _ in NotificationCenter.default.notifications(named: NSApplication.didBecomeActiveNotification) {
+            guard !Task.isCancelled else { return }
             helper.refresh()
             // `peel exclusions` may have changed the list while another app was in front.
             Task { await exclusions.load() }
@@ -175,6 +177,7 @@ struct PeelApp: App {
 
     private func follow(_ tool: Tool, _ looked: @escaping @MainActor @Sendable () -> Looked?) async {
         for await value in Observations(looked) {
+            guard !Task.isCancelled else { return }
             if let value {
                 found.record(value, for: tool)
             }
@@ -238,6 +241,7 @@ struct PeelApp: App {
                 .environment(home)
                 .environment(history)
                 .environment(intel)
+                .environment(background)
                 .environment(space)
                 .environment(carrier)
                 .environment(exclusions)
@@ -334,6 +338,7 @@ struct PeelApp: App {
                 .environment(homebrew)
                 .environment(history)
                 .environment(home)
+                .environment(background)
         }
         .windowResizability(.contentSize)
 
