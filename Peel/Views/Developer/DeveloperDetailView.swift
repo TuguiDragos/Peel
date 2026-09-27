@@ -16,7 +16,7 @@ struct DeveloperDetailView: View {
                     RemovalRow(
                         url: location.url,
                         icon: .symbol(location.kind.symbolName),
-                        detail: location.kind.title,
+                        detail: detail(for: location),
                         warning: location.size == nil ? String(localized: location.couldNotBeRead ? HoldBack.couldNotBeRead.explanation : HoldBack.notMeasured.explanation) : nil,
                         size: location.size ?? 0,
                         isMeasured: location.size != nil,
@@ -59,6 +59,11 @@ struct DeveloperDetailView: View {
         } trailing: {
             TotalLabel(total: environment.total, caption: Text("in here"))
         }
+    }
+
+    private func detail(for location: DeveloperEnvironment.Location) -> LocalizedStringResource {
+        guard let version = location.archive?.label else { return location.kind.title }
+        return "Version \(version), needed to read its crash reports"
     }
 
     private var keptByDefault: Int {

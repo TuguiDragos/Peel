@@ -85,7 +85,7 @@ struct DeveloperCachesTests {
         try directory.file(".npm/_cacache/content/data", bytes: 80_000)
         try directory.file(".npm/_npx/package/index.js", bytes: 8_000)
         try directory.file("Library/Developer/Xcode/DerivedData/Build/output", bytes: 20_000)
-        try directory.directory("Library/Developer/Xcode/Archives/2026-09-17")
+        try directory.directory("Library/Developer/Xcode/Archives/2026-09-17/App 17.09.2026, 10.00.xcarchive")
 
         let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
 
@@ -355,14 +355,15 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         var expected: Set<String> = []
         for definition in DeveloperCaches.definitions {
-            for path in definition.folders.map(\.path) {
+            for folder in definition.folders {
                 // A wildcard becomes a name it matches: `*` any folder, `[0-9a-f]` one of ccache's shards. A pattern
                 // that ends in `/` matches every folder beside, so what sits beside its match is a file.
-                let concrete = path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
+                let concrete = folder.path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
                 let foldersOnly = concrete.hasSuffix("/")
                 let entry = foldersOnly ? String(concrete.dropLast()) : concrete
-                try directory.file("\(entry)/content", bytes: 400_000)
-                expected.insert(entry)
+                let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
+                try directory.file("\(row)/content", bytes: 400_000)
+                expected.insert(row)
                 try directory.file("\(entry)/../elsewhere-\(definition.id)" + (foldersOnly ? "" : "/content"), bytes: 400_000)
             }
         }
@@ -443,6 +444,52 @@ struct DeveloperCachesTests {
 
         #expect(locations.count == 2)
         #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
+    }
+
+    @Test func listsEachSystemVersionsSymbolsOnItsOwnAndSelectsNone() async throws {
+        let directory = try TemporaryDirectory()
+        let support = "Library/Developer/Xcode/iOS DeviceSupport"
+        try directory.file("\(support)/iPhone17,1 18.6 (22G86)/Symbols/dyld", bytes: 400_000)
+        try directory.file("\(support)/iPhone17,1 26.0 (23A341)/Symbols/dyld", bytes: 400_000)
+        try directory.file("\(support)/.DS_Store", bytes: 16)
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["iPhone17,1 18.6 (22G86)", "iPhone17,1 26.0 (23A341)"])
+        #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
+    }
+
+    @Test func listsEachArchiveWithTheVersionItHoldsAndSelectsNone() async throws {
+        let directory = try TemporaryDirectory()
+        let archives = "Library/Developer/Xcode/Archives"
+        let facts: [String: Any] = ["ApplicationProperties": ["CFBundleShortVersionString": "2.1", "CFBundleVersion": "45"]]
+        try directory.file(
+            "\(archives)/2026-09-01/App 01.09.2026, 10.00.xcarchive/Info.plist",
+            contents: try PropertyListSerialization.data(fromPropertyList: facts, format: .xml, options: 0)
+        )
+        try directory.file("\(archives)/2026-09-02/App 02.09.2026, 11.00.xcarchive/Products/Applications/App.app/App", bytes: 400_000)
+        try directory.file("\(archives)/2026-09-02/notes.txt", bytes: 16)
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.count == 2)
+        #expect(locations.allSatisfy { $0.kind == .archives && !$0.isRecommended })
+        let first = try #require(locations.first { $0.url.lastPathComponent.hasPrefix("App 01.09") })
+        #expect(first.archive == DeveloperEnvironment.Archive(version: "2.1", build: "45"))
+        #expect(first.archive?.label == "2.1 (45)")
+        #expect(DeveloperEnvironment.Archive(version: nil, build: "45").label == "45")
+        #expect(locations.first { $0.url.lastPathComponent.hasPrefix("App 02.09") }?.archive == nil)
+    }
+
+    @Test func listsEveryArchiveHoweverManyThereAre() async throws {
+        let directory = try TemporaryDirectory()
+        for day in 1...130 {
+            try directory.directory("Library/Developer/Xcode/Archives/day \(day)/App \(day).xcarchive")
+        }
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.count == 130)
     }
 
     /// Peel reads cask definitions from Homebrew's `api` folder, which `brew cleanup` leaves alone too. It is

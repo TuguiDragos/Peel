@@ -22,6 +22,20 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         case keptDownloads
     }
 
+    /// What an Xcode archive's own `Info.plist` says of the app inside it.
+    public struct Archive: Sendable, Hashable {
+        public let version: String?
+        public let build: String?
+
+        /// The version as Xcode's Organizer writes it, `2.1 (45)`, or whichever of the two the archive names.
+        public var label: String? {
+            switch (version, build) {
+            case let (version?, build?): "\(version) (\(build))"
+            case let (version, build): version ?? build
+            }
+        }
+    }
+
     public struct Location: Sendable, Hashable, Identifiable {
         public let url: URL
         public let kind: ContentKind
@@ -31,6 +45,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public let source: String
         /// True when macOS would not let Peel open the folder, rather than it not answering in time.
         public var couldNotBeRead = false
+        public var archive: Archive?
 
         public var id: URL { url }
 
@@ -86,12 +101,42 @@ public enum DeveloperCaches {
         /// A store the tool can turn on inside the folder, which projects then link into. While an entry by that
         /// name is there, a link included, the folder is listed without a checkmark: moving it breaks them.
         let storeInside: String?
+        /// How far inside the folder its rows are: 0 lists it whole, 1 lists each folder in it, as Xcode keeps one per
+        /// system version, and 2 each folder two levels down, as Xcode keeps each archive in a folder for its day.
+        /// Listed rather than globbed, since `glob` stops at 128 paths.
+        let rowsDepth: Int
+        /// The ending every row's name has, such as `.xcarchive`, or nil for any.
+        let rowEnding: String?
 
-        init(_ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil) {
+        init(
+            _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
+            rowsDepth: Int = 0, rowEnding: String? = nil
+        ) {
             self.path = path
             self.kind = kind
             self.source = source
             self.storeInside = storeInside
+            self.rowsDepth = rowsDepth
+            self.rowEnding = rowEnding
+        }
+
+        func rows(in folder: URL) -> [URL] {
+            var level = [folder]
+            for _ in 0..<rowsDepth {
+                level = level.flatMap { folder in
+                    let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey]
+                    let entries = (try? FileManager.default.contentsOfDirectory(
+                        at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles]
+                    )) ?? []
+                    // Named from `folder`, which keeps the spelling the rest of the list uses.
+                    return entries.filter { entry in
+                        let values = try? entry.resourceValues(forKeys: Set(keys))
+                        return values?.isDirectory == true && values?.isSymbolicLink != true
+                    }.map { folder.appending(path: $0.lastPathComponent, directoryHint: .notDirectory) }
+                }
+            }
+            guard rowsDepth > 0, let rowEnding else { return level }
+            return level.filter { $0.lastPathComponent.hasSuffix(rowEnding) }
         }
 
         /// What the folder at `url` holds now: installed packages once its store is there, `kind` otherwise.
@@ -100,6 +145,18 @@ public enum DeveloperCaches {
             let store = url.appending(path: storeInside).path(percentEncoded: false)
             return (try? FileManager.default.attributesOfItem(atPath: store)) != nil ? .environments : kind
         }
+    }
+
+    static func archive(at url: URL) -> DeveloperEnvironment.Archive? {
+        guard
+            let data = try? Data(contentsOf: url.appending(path: "Info.plist")),
+            let facts = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+            let app = facts["ApplicationProperties"] as? [String: Any]
+        else { return nil }
+        let version = app["CFBundleShortVersionString"] as? String
+        let build = app["CFBundleVersion"] as? String
+        guard version != nil || build != nil else { return nil }
+        return DeveloperEnvironment.Archive(version: version, build: build)
     }
 
     /// The tools' own folders inside `folder`, as the name patterns leading to each (`["Google", "AndroidStudio*"]`),
@@ -130,15 +187,15 @@ public enum DeveloperCaches {
         Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
             Folder("Library/Developer/Xcode/DerivedData", .buildData, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes"),
             Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
-            Folder("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_2-release-notes"),
-            Folder("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py"),
-            Folder("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py"),
-            Folder("Library/Developer/Xcode/visionOS DeviceSupport", .deviceSupport, source: "Xcode 27: DVTFoundation.framework (\"%@ DeviceSupport\") and XROS.platform/Info.plist (Description visionOS)"),
-            Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py"),
+            Folder("Library/Developer/Xcode/iOS DeviceSupport", .deviceSupport, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_2-release-notes", rowsDepth: 1),
+            Folder("Library/Developer/Xcode/watchOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
+            Folder("Library/Developer/Xcode/tvOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
+            Folder("Library/Developer/Xcode/visionOS DeviceSupport", .deviceSupport, source: "Xcode 27: DVTFoundation.framework (\"%@ DeviceSupport\") and XROS.platform/Info.plist (Description visionOS)", rowsDepth: 1),
+            Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
             Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_3-release-notes"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
             Folder("Library/Developer/Packages", .keptDownloads, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-16_2-release-notes"),
-            Folder("Library/Developer/Xcode/Archives", .archives, source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]"),
+            Folder("Library/Developer/Xcode/Archives", .archives, source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]", rowsDepth: 2, rowEnding: ".xcarchive"),
         ]),
         Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/org.swift.swiftpm", .downloads, source: "https://github.com/swiftlang/swift-package-manager/blob/main/Sources/Basics/FileSystem/FileSystem+Extensions.swift#L246-L253"),
@@ -787,7 +844,7 @@ public enum DeveloperCaches {
                 _ = group.addTaskUnlessCancelled {
                     var found: [(url: URL, folder: Folder)] = []
                     for folder in definition.folders {
-                        for url in PathPattern.expand(folder.path, home: homeDirectory) {
+                        for url in PathPattern.expand(folder.path, home: homeDirectory).flatMap(folder.rows) {
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.
@@ -814,7 +871,8 @@ public enum DeveloperCaches {
                             kind: folder.kind(at: url),
                             size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                             source: folder.source,
-                            couldNotBeRead: contents?.couldNotBeRead == true
+                            couldNotBeRead: contents?.couldNotBeRead == true,
+                            archive: folder.kind == .archives ? Self.archive(at: url) : nil
                         ))
                     }
                     guard !locations.isEmpty else { return nil }
