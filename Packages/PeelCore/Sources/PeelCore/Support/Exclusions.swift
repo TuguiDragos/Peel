@@ -15,11 +15,22 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// True when the saved list exists but could not be read, so what the user excluded is unknown. Nothing is
     /// moved while this is true.
     public private(set) var isUnreadable = false
+    /// False until the saved list has been read. Nothing is moved before, as for a list that cannot be read.
+    public private(set) var hasBeenRead = true
+
+    /// True when what the user excluded is known: the saved list was read, and could be.
+    public var isKnown: Bool { hasBeenRead && !isUnreadable }
 
     public static let none = Exclusions()
     public static let unreadable: Exclusions = {
         var exclusions = Exclusions()
         exclusions.isUnreadable = true
+        return exclusions
+    }()
+    /// The list before the saved one has been read.
+    public static let notYetRead: Exclusions = {
+        var exclusions = Exclusions()
+        exclusions.hasBeenRead = false
         return exclusions
     }()
 
@@ -31,12 +42,14 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// Compares what is excluded. `spellings` is left out, since it is worked out from `paths`.
     public static func == (one: Exclusions, other: Exclusions) -> Bool {
         one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers && one.isUnreadable == other.isUnreadable
+            && one.hasBeenRead == other.hasBeenRead
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(paths)
         hasher.combine(bundleIdentifiers)
         hasher.combine(isUnreadable)
+        hasher.combine(hasBeenRead)
     }
 
     /// One saved entry. `value` is nil when the entry cannot be decoded, so a bad entry is dropped, not the list.
@@ -111,9 +124,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// True when `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
     /// installed apps known to be its), an app identifier it quits, or its own folder under `prefix`. An
-    /// unreadable list counts as excluding every package, since `brew uninstall` cannot be undone.
+    /// unreadable list, or one not read yet, counts as excluding every package, since `brew uninstall` cannot be
+    /// undone.
     public func excludes(_ package: HomebrewPackage, apps: [InstalledApp], prefix: URL?) -> Bool {
-        guard !isUnreadable else { return true }
+        guard isKnown else { return true }
         let targets = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
         if targets.contains(where: { excludes($0) || holds($0) }) { return true }
         if apps.contains(where: { excludes(bundleIdentifier: $0.bundleIdentifier) }) { return true }

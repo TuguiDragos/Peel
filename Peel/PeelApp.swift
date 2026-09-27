@@ -251,13 +251,15 @@ struct PeelApp: App {
                     guard !hasLaunched else { return }
                     hasLaunched = true
                     history.stats = stats
+                    // Read beside the rest and behind nothing: until the exclusions are read, nothing moves.
+                    async let exclusionsRead: Void = Marks.interval("Exclusions") { await exclusions.load() }
                     // The apps and Homebrew don't depend on Home's checks, so they load in parallel with them.
                     async let homebrewPackages: Void = Marks.interval("Homebrew") { await homebrew.refresh() }
                     async let apps: Void = Marks.interval("Applications") { await library.load() }
                     // Home's checks run at launch, whichever page opens first. They ask the helper whether it can act,
                     // which every page reads to lock the rows that need it.
                     await Marks.interval("Home checks") { await home.refresh(helper: helper) }
-                    await Marks.interval("Exclusions") { await exclusions.load() }
+                    await exclusionsRead
                     trashMonitor.onApplicationTrashed = { [notifications] url in
                         notifications.notify(applicationTrashed: url)
                     }

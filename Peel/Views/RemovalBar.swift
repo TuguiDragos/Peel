@@ -90,7 +90,7 @@ struct RemovalBar: View {
 
     var body: some View {
         let reading = reading
-        let isEnabled = reading.isEnabled && !exclusions.exclusions.isUnreadable
+        let isEnabled = reading.isEnabled && exclusions.exclusions.isKnown
         FloatingBar {
             if let notice {
                 Text(verbatim: notice.figure)

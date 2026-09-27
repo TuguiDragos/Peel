@@ -86,7 +86,7 @@ struct PluginDetailView: View {
                         isConfirmingRemoval = true
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || exclusions.exclusions.isUnreadable)
+                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || !exclusions.exclusions.isKnown)
                 }
             }
         }

@@ -51,6 +51,7 @@ struct ExclusionsTests {
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], prefix: prefix))
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], prefix: prefix))
         #expect(Exclusions.unreadable.excludes(formula, apps: [], prefix: prefix), "a list that cannot be read keeps everything")
+        #expect(Exclusions.notYetRead.excludes(formula, apps: [], prefix: prefix), "a list not read yet keeps everything")
 
         let unrelated = Exclusions(paths: [URL(filePath: "/Applications/Other.app")], bundleIdentifiers: ["com.other.app"])
         #expect(!unrelated.excludes(cask, apps: [app], prefix: prefix))
@@ -234,6 +235,21 @@ struct ExclusionsTests {
         let result = await service.trash([item])
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.reason) == [.protectedLocation])
+    }
+
+    /// Until the app has read the saved list, what the user excluded is not known, so nothing moves, as for a list
+    /// that cannot be read.
+    @Test func movesNothingBeforeTheListIsRead() async throws {
+        let directory = try TemporaryDirectory()
+        let item = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
+        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let service = TrashService(environment: environment, exclusions: .notYetRead) { $0 }
+
+        let result = await service.trash([item])
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.protectedLocation])
+        #expect(!Exclusions.notYetRead.isKnown && !Exclusions.notYetRead.isUnreadable)
+        #expect(Exclusions.none.isKnown && !Exclusions.unreadable.isKnown)
     }
 
     /// Saving over a list that could not be read keeps it under another name instead of erasing it.

@@ -8,7 +8,7 @@ final class ExclusionsStore {
     static let shared = ExclusionsStore()
 
     private let store = ExclusionStore()
-    private(set) var exclusions = Exclusions.none
+    private(set) var exclusions = Exclusions.notYetRead
     /// Incremented whenever the list changes. Pages scan again, or narrow their list, when it does, because
     /// what they show was filtered by the exclusions as they stood when the scan ran.
     private(set) var revision = 0

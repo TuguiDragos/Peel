@@ -78,7 +78,7 @@ struct HistoryDetailView: View {
             RestoreBar(
                 count: selected.count,
                 isRestoring: history.isRestoring,
-                isEnabled: !selected.isEmpty && !history.isRestoring && !exclusions.exclusions.isUnreadable
+                isEnabled: !selected.isEmpty && !history.isRestoring && exclusions.exclusions.isKnown
             ) {
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }

@@ -303,7 +303,7 @@ struct BackgroundItemDetailView: View {
                 isConfirmingTrash = true
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isBusy || item.removalRequiresPrivileges && !helper.canAct || exclusions.exclusions.isUnreadable)
+            .disabled(isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown)
         }
     }
 

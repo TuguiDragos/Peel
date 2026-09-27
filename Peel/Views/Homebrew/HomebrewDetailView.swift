@@ -128,6 +128,7 @@ struct HomebrewDetailView: View {
     /// `TrashService` and `RemovalGuard`, so this is where the exclusions are checked.
     private var uninstallRefusal: LocalizedStringResource? {
         if exclusions.exclusions.isUnreadable { return "Exclusions can’t be read: see Settings" }
+        if !exclusions.exclusions.hasBeenRead { return "Checking…" }
         let apps = library.apps.filter { library.cask(for: $0)?.id == package.id }
         return exclusions.exclusions.excludes(package, apps: apps, prefix: homebrew.installation?.prefix) ? "Excluded in Settings" : nil
     }

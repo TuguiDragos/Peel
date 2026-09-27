@@ -64,7 +64,7 @@ struct RemovalGuard: Sendable {
     }
 
     private func allows(_ url: URL, isALink known: Bool?) -> Bool {
-        guard url.isFileURL, !exclusions.isUnreadable else { return false }
+        guard url.isFileURL, exclusions.isKnown else { return false }
         let path = Self.normalized(url.path(percentEncoded: false))
         // A path can be written several ways (`/var` for `/private/var`, a different case), and a Put Back
         // destination does not exist yet. `located` names the part that exists the way the kernel does.
