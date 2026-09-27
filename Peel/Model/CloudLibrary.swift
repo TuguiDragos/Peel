@@ -39,7 +39,7 @@ final class CloudLibrary {
         isFreeing = true
         defer { isFreeing = false }
         let chosen = files?.filter { selectedURLs.contains($0.url) } ?? []
-        let refused = await CloudStorage.free(chosen)
+        let refused = await CloudStorage.free(chosen, exclusions: ExclusionsStore.shared.exclusions)
         let kept = Set(refused.map(\.url))
         await refresh()
         refusals = refused

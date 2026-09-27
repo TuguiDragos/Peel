@@ -164,6 +164,7 @@ extension CloudRefusal {
     var explanation: String {
         switch reason {
         case .changedSinceScan: String(localized: "It isn’t as it was when Peel looked at it: it may have been edited, stopped syncing, or been freed already, so Peel left it alone.")
+        case .excluded: String(localized: "Excluded in Settings")
         case .failed(let message): message
         }
     }

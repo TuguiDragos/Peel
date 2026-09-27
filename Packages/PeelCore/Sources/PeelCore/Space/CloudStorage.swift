@@ -32,6 +32,9 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
     public enum Reason: Sendable, Hashable {
         /// The file is not as it was at the scan: edited, moved, or freed already, or not safely in iCloud.
         case changedSinceScan
+        /// Excluded in Settings since the scan, or the exclusions are not known, so it is left as a move to the
+        /// Trash would be.
+        case excluded
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)
     }
@@ -204,13 +207,17 @@ public enum CloudStorage {
     }
 
     /// Frees the local copies of `files` and returns the ones that were not freed. Each file is checked again
-    /// first: the list may have been on screen for hours, and a file edited since then may exist in its newest
-    /// form only on the local disk.
+    /// first, against `exclusions` as they are now as well: the list may have been on screen for hours, and a file
+    /// edited since then may exist in its newest form only on the local disk.
     @discardableResult
     @concurrent
-    public static func free(_ files: [CloudFile]) async -> [CloudRefusal] {
+    public static func free(_ files: [CloudFile], exclusions: Exclusions) async -> [CloudRefusal] {
         var refused: [CloudRefusal] = []
         for file in files {
+            guard exclusions.isKnown, !exclusions.excludes(file.url) else {
+                refused.append(CloudRefusal(url: file.url, reason: .excluded))
+                continue
+            }
             var url = file.url
             url.removeAllCachedResourceValues()
             guard

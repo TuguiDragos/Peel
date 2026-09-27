@@ -34,11 +34,24 @@ struct CloudStorageTests {
         let url = try directory.file("file.bin", bytes: 2_000_000)
         let scanned = CloudFile(url: url, name: "file.bin", container: "iCloud Drive", size: 2_000_000, modified: .distantPast)
 
-        let refused = await CloudStorage.free([scanned])
+        let refused = await CloudStorage.free([scanned], exclusions: .none)
 
         #expect(refused.map(\.url) == [url])
         #expect(refused.first?.reason == .changedSinceScan)
         #expect(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
+    }
+
+    /// The list on screen was filtered by the exclusions as they stood at the scan, so a file excluded since, or
+    /// any file while the exclusions are not known, stays downloaded.
+    @Test func leavesAloneWhatWasExcludedSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("Offline/file.bin", bytes: 2_000_000)
+        let scanned = CloudFile(url: url, name: "file.bin", container: "iCloud Drive", size: 2_000_000, modified: .distantPast)
+        let offline = Exclusions(paths: [directory.url.appending(path: "Offline", directoryHint: .isDirectory)])
+
+        #expect(await CloudStorage.free([scanned], exclusions: offline).map(\.reason) == [.excluded])
+        #expect(await CloudStorage.free([scanned], exclusions: .notYetRead).map(\.reason) == [.excluded])
+        #expect(await CloudStorage.free([scanned], exclusions: .unreadable).map(\.reason) == [.excluded])
     }
 
     @Test func callsEachFolderWhatTheUserCallsIt() {
