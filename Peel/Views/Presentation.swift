@@ -116,6 +116,8 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.")
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.")
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.")
+        case .heldOpen(let processes):
+            String(localized: "Files in it are still open in \(processes.formatted(.list(type: .and))), so Peel left it where it is.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

@@ -30907,6 +30907,112 @@
         }
       }
     },
+    "Files in it are still open in %@, so Peel left it where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory v ní jsou stále otevřené (%@), proto ji Peel nechal na místě."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dateien darin sind noch in %@ geöffnet, daher hat Peel es an seinem Ort belassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene archivos que siguen abiertos en %@, así que Peel lo ha dejado donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des fichiers qu’il contient sont encore ouverts par %@ : Peel l’a donc laissé en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene file ancora aperti in %@, quindi Peel l’ha lasciato dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中のファイルが%@でまだ開かれているため、Peelはそのままにしました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목 안의 파일이 아직 %@에서 열려 있어서 Peel이 그대로 두었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestanden erin zijn nog geopend in %@, dus Peel heeft het laten staan waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki wewnątrz są nadal otwarte przez: %@, więc Peel zostawił to na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há arquivos dentro dele que ainda estão abertos em %@, por isso o Peel o deixou onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele fișiere din acest articol sunt încă deschise în %@, așa că Peel l‑a lăsat unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы в этом объекте все еще открыты в %@, поэтому Peel оставил его на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filer i det är fortfarande öppna i %@, så Peel lät det ligga kvar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçindeki dosyalar hâlâ %@ tarafından açık tutuluyor, bu yüzden Peel onu yerinde bıraktı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли цього елемента досі відкриті в %@, тож Peel залишила його на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中有文件仍在“%@”中打开，因此Peel将它留在了原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中有檔案仍在「%@」中打開，因此Peel將它留在原處。"
+          }
+        }
+      }
+    },
     "Files named with an app’s identifier that no installed app claims will appear here." : {
       "localizations" : {
         "cs" : {

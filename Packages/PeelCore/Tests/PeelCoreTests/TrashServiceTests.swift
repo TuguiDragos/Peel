@@ -600,6 +600,30 @@ struct TrashServiceTests {
         #expect(FileManager.default.fileExists(atPath: home.appending(path: "Library/Caches").path(percentEncoded: false)))
     }
 
+    @Test func leavesAFolderAnotherProcessHoldsAFileOpenIn() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let file = try directory.file("home/Library/Caches/org.example.agent/store.db")
+        let folder = file.deletingLastPathComponent()
+        let holder = Process()
+        holder.executableURL = URL(filePath: "/bin/sleep")
+        holder.arguments = ["30"]
+        holder.standardInput = try FileHandle(forReadingFrom: file)
+        try holder.run()
+        defer { holder.terminate() }
+
+        let held = await service.trash([folder])
+
+        #expect(held.trashed.isEmpty)
+        #expect(held.failures.map(\.reason) == [.heldOpen(by: ["sleep"])])
+        #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
+
+        holder.terminate()
+        holder.waitUntilExit()
+        let free = await service.trash([folder])
+        #expect(free.trashed.map(\.originalURL) == [folder])
+    }
+
     /// `/var`, `/tmp`, and `/etc` are symbolic links into `/private`. A guard that knew only one spelling could
     /// be bypassed by writing the other.
     @Test func refusesTheSystemsRootsHoweverTheyAreSpelled() throws {

@@ -75,6 +75,8 @@ public struct TrashFailure: Sendable, Hashable {
         case somethingElseMoved(named: String)
         /// History cannot be read, so nothing moves: what moved could not be listed for Put Back.
         case historyUnreadable
+        /// These processes hold a file open in it, and moving it would pull it from under them.
+        case heldOpen(by: [String])
         case failed(String)
     }
 
@@ -101,6 +103,7 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "moved-without-a-trace"
         case .somethingElseMoved: "something-else-moved"
         case .historyUnreadable: "history-unreadable"
+        case .heldOpen: "held-open"
         case .failed: "failed"
         }
     }
@@ -109,6 +112,7 @@ extension TrashFailure.Reason {
         switch self {
         case .failed(let message): message
         case .somethingElseMoved(let name): name
+        case .heldOpen(let processes): processes.joined(separator: "\n")
         default: nil
         }
     }
@@ -125,6 +129,7 @@ extension TrashFailure.Reason {
         case "moved-without-a-trace": self = .movedWithoutATrace
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
         case "history-unreadable": self = .historyUnreadable
+        case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -264,6 +269,7 @@ public struct TrashService: Sendable {
         // The guard reads the disk, so it is asked once for each item.
         let allowed = urls.filter(removalGuard.allowsRemoval(of:))
         let isAllowed = Set(allowed)
+        let openFiles = OpenFiles()
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
 
@@ -278,6 +284,11 @@ public struct TrashService: Sendable {
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
             guard !moved.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            let holders = openFiles.holders(of: url)
+            guard holders.isEmpty else {
+                result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
+                continue
+            }
             do {
                 let trashedURL = try moveToTrash(url)
                 let item = TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now, identity: .init(ofItemAt: trashedURL))
@@ -310,9 +321,17 @@ public struct TrashService: Sendable {
         // An item inside another folder of this request goes with that folder. Sent on its own, the helper would
         // find it gone and report a failure.
         let paths = permitted.map(PathPattern.comparablePath)
-        let allowed = permitted.filter { url in
+        let openFiles = OpenFiles()
+        var allowed: [URL] = []
+        for url in permitted {
             let path = PathPattern.comparablePath(of: url)
-            return !paths.contains { PathComponents.isPath(path, inside: $0) }
+            guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            let holders = openFiles.holders(of: url)
+            guard holders.isEmpty else {
+                result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
+                continue
+            }
+            allowed.append(url)
         }
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
         // A command-line tool's link leads into its app until the app has moved, and the helper takes such a link

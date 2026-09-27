@@ -335,6 +335,8 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
+        case .heldOpen(let processes):
+            "files in it are still open in \(processes.map(Output.plain).joined(separator: ", "))"
         case .failed(let message): Output.plain(message)
         }
     }
