@@ -137,6 +137,34 @@ struct ProjectArtifactsTests {
         ])
     }
 
+    @Test func findsWhatGameEnginesAndDotNetBuild() async throws {
+        let unity = "ProjectSettings/ProjectVersion.txt"
+        try await expectFound([
+            Kind(artifact: "Library", marker: unity, tool: "Unity", isGeneric: true),
+            Kind(artifact: "Temp", marker: unity, tool: "Unity", isGeneric: true),
+            Kind(artifact: "Logs", marker: unity, tool: "Unity", isGeneric: true),
+            Kind(artifact: "obj", marker: unity, tool: "Unity", isGeneric: true),
+            Kind(artifact: "Binaries", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: true),
+            Kind(artifact: "Intermediate", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: true),
+            Kind(artifact: "DerivedDataCache", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: false),
+            Kind(artifact: ".godot", marker: "project.godot", tool: "Godot", isGeneric: false),
+            Kind(artifact: ".import", marker: "project.godot", tool: "Godot", isGeneric: false),
+            Kind(artifact: "bin", marker: "App.csproj", tool: ".NET", isGeneric: true),
+            Kind(artifact: "obj", marker: "Library.fsproj", tool: ".NET", isGeneric: true),
+        ])
+    }
+
+    @Test func aUnityProjectsObjIsUnitysThoughDotNetsProjectFileSitsBesideIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("game/ProjectSettings/ProjectVersion.txt", bytes: 16)
+        try directory.file("game/Assembly-CSharp.csproj", bytes: 16)
+        try directory.file("game/obj/Debug/Assembly-CSharp.dll", bytes: 400_000)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.tool) == ["Unity"])
+    }
+
     @Test func findsPythonsCompiledFilesOnlyWhereThatIsAllThereIs() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("tool/app.py", bytes: 16)

@@ -43,7 +43,8 @@ public enum ProjectArtifacts {
 
     struct Definition: Sendable {
         let name: String
-        /// A leading `*` matches any name with that ending, as in `*.xcodeproj`.
+        /// A leading `*` matches any name with that ending, as in `*.xcodeproj`, and a path names a file inside a
+        /// folder beside the artifact, as in `ProjectSettings/ProjectVersion.txt`.
         let markers: [String]
         let tool: String
         let isGeneric: Bool
@@ -53,10 +54,21 @@ public enum ProjectArtifacts {
         /// What the folder holds that only its tool writes, for a kind no project file stands beside.
         var proof: Proof?
 
-        /// Whether the folder at `url`, beside the entries called `names`, is this kind.
         func matches(_ url: URL, besides names: Set<String>) -> Bool {
-            guard markers.isEmpty || ProjectArtifacts.marker(for: self, in: names) != nil else { return false }
+            let folder = url.deletingLastPathComponent()
+            guard markers.isEmpty || hasMarker(besides: names, in: folder) else { return false }
             return proof?.holds(at: url) ?? true
+        }
+
+        private func hasMarker(besides names: Set<String>, in folder: URL) -> Bool {
+            markers.contains { marker in
+                if marker.hasPrefix("*") {
+                    let suffix = marker.dropFirst()
+                    return names.contains { $0.hasSuffix(suffix) && $0.count > suffix.count }
+                }
+                guard let first = PathComponents.of(marker).first, names.contains(first) else { return false }
+                return first == marker || Proof.holds(marker).holds(at: folder)
+            }
         }
     }
 
@@ -91,6 +103,8 @@ public enum ProjectArtifacts {
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
+    private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
+    private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
         "pytest.toml", ".pytest.toml", "pytest.ini", ".pytest.ini", "pyproject.toml", "tox.ini", "setup.cfg",
         "conftest.py",
@@ -243,6 +257,51 @@ public enum ProjectArtifacts {
             name: "dist", markers: ["pyproject.toml"], tool: "Python", isGeneric: true,
             source: "https://packaging.python.org/en/latest/tutorials/packaging-projects/"
         ),
+        Definition(
+            name: "Library", markers: [unityProjectFile], tool: "Unity", isGeneric: true,
+            source: "https://docs.unity.com/en-us/unity-version-control/ignore-files"
+        ),
+        Definition(
+            name: "Temp", markers: [unityProjectFile], tool: "Unity", isGeneric: true,
+            source: "https://docs.unity.com/en-us/unity-version-control/ignore-files"
+        ),
+        Definition(
+            name: "Logs", markers: [unityProjectFile], tool: "Unity", isGeneric: true,
+            source: "https://docs.unity.com/en-us/unity-version-control/ignore-files"
+        ),
+        Definition(
+            name: "obj", markers: [unityProjectFile], tool: "Unity", isGeneric: true,
+            source: "https://docs.unity.com/en-us/unity-version-control/ignore-files"
+        ),
+        Definition(
+            name: "Binaries", markers: ["*.uproject"], tool: "Unreal Engine", isGeneric: true,
+            source: "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-directory-structure"
+        ),
+        Definition(
+            name: "Intermediate", markers: ["*.uproject"], tool: "Unreal Engine", isGeneric: true,
+            source: "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-directory-structure"
+        ),
+        Definition(
+            name: "DerivedDataCache", markers: ["*.uproject"], tool: "Unreal Engine", isGeneric: false,
+            source: "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-directory-structure"
+        ),
+        Definition(
+            name: ".godot", markers: ["project.godot"], tool: "Godot", isGeneric: false,
+            source: "https://docs.godotengine.org/en/stable/tutorials/best_practices/version_control_systems.html"
+        ),
+        Definition(
+            name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,
+            source: "https://docs.godotengine.org/en/3.6/tutorials/best_practices/version_control_systems.html"
+        ),
+        // After the game engines, whose projects carry a .NET project file too.
+        Definition(
+            name: "bin", markers: dotNetProjectFiles, tool: ".NET", isGeneric: true,
+            source: "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props"
+        ),
+        Definition(
+            name: "obj", markers: dotNetProjectFiles, tool: ".NET", isGeneric: true,
+            source: "https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties"
+        ),
     ]
 
     /// Duplicates uses it to recognize a project folder and leave it alone.
@@ -250,7 +309,9 @@ public enum ProjectArtifacts {
         exactMarkers.contains(name) || markerSuffixes.contains { name.hasSuffix($0) && name.count > $0.count }
     }
 
-    private static let exactMarkers = Set(definitions.flatMap(\.markers).filter { !$0.hasPrefix("*") })
+    private static let exactMarkers = Set(
+        definitions.flatMap(\.markers).filter { !$0.hasPrefix("*") }.compactMap { PathComponents.of($0).first }
+    )
     private static let markerSuffixes = Set(definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) })
 
     static let maximumDepth = 8
@@ -393,18 +454,6 @@ public enum ProjectArtifacts {
     static func isSkipped(_ name: String) -> Bool {
         if name.hasPrefix(".") || name == "Library" { return true }
         return definitions.contains { $0.name == name && !$0.isGeneric }
-    }
-
-    static func marker(for definition: Definition, in names: Set<String>) -> String? {
-        for marker in definition.markers {
-            if marker.hasPrefix("*") {
-                let suffix = String(marker.dropFirst())
-                if let match = names.first(where: { $0.hasSuffix(suffix) && $0.count > suffix.count }) { return match }
-            } else if names.contains(marker) {
-                return marker
-            }
-        }
-        return nil
     }
 
     /// Files Git updates whenever the repository changes: three reads can answer for a whole repository.
