@@ -70,11 +70,12 @@ struct DeveloperCachesTests {
         try FileManager.default.createSymbolicLink(at: directory.url.appending(path: "link"), withDestinationURL: directory.url.appending(path: "home"))
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
-        let asWritten = DeveloperCaches.namesListed(inside: home.appending(path: "Library/Caches", directoryHint: .isDirectory), home: home)
-        let otherCase = DeveloperCaches.namesListed(inside: home.appending(path: "library/caches", directoryHint: .isDirectory), home: home)
-        let throughALink = DeveloperCaches.namesListed(inside: directory.url.appending(path: "link/Library/Caches", directoryHint: .isDirectory), home: home)
+        let left = { (folder: URL) in DeveloperCaches.foldersLeftToDeveloper(inside: folder, home: home) }
+        let asWritten = left(home.appending(path: "Library/Caches", directoryHint: .isDirectory))
+        let otherCase = left(home.appending(path: "library/caches", directoryHint: .isDirectory))
+        let throughALink = left(directory.url.appending(path: "link/Library/Caches", directoryHint: .isDirectory))
 
-        #expect(asWritten.contains("Coursier"))
+        #expect(asWritten.contains(["Coursier"]))
         #expect(otherCase == asWritten, "another case found \(otherCase)")
         #expect(throughALink == asWritten, "a link found \(throughALink)")
     }
@@ -203,6 +204,16 @@ struct DeveloperCachesTests {
             for folder in definition.folders {
                 let isAPage = folder.source.hasPrefix("https://") && URL(string: folder.source)?.host() != nil
                 #expect(isAPage || folder.source.hasPrefix("Xcode 27: "), "\(definition.id)'s \(folder.path) names \(folder.source)")
+            }
+        }
+    }
+
+    @Test func everyOwnFolderHoldsWhatItsToolLists() {
+        for definition in DeveloperCaches.definitions {
+            for own in definition.ownFolders {
+                let names = PathComponents.of(own)
+                let holds = definition.folders.contains { PathComponents.of($0.path).starts(with: names) }
+                #expect(holds, "\(definition.id)'s \(own) holds none of its folders")
             }
         }
     }

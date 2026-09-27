@@ -72,6 +72,9 @@ public enum DeveloperCaches {
         let systemImage: String
         let appBundleIdentifiers: [String]
         let folders: [Folder]
+        /// The tool's own folder inside a folder its vendor shares with other products, such as
+        /// `Library/Caches/Google/AndroidStudio*`. Space leaves only that part of the vendor's folder to Developer.
+        var ownFolders: [String] = []
     }
 
     /// A folder a tool keeps, relative to the home folder, and what it holds.
@@ -99,20 +102,25 @@ public enum DeveloperCaches {
         }
     }
 
-    /// Returns the names of the children of `folder` that this table lists, or lists something inside, as
-    /// patterns such as `AndroidStudio*`. Space leaves these folders to the Developer page. Both folders are read
-    /// as the kernel names them, so another spelling of the same folder (another case, a link) finds the same.
-    static func namesListed(inside folder: URL, home: URL) -> [String] {
+    /// The tools' own folders inside `folder`, as the name patterns leading to each (`["Google", "AndroidStudio*"]`),
+    /// which Space leaves to the Developer page. Both folders are read as the kernel names them, so another spelling
+    /// of the same folder (another case, a link) finds the same.
+    static func foldersLeftToDeveloper(inside folder: URL, home: URL) -> [[String]] {
         // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
         // paths in the table don't.
         let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
         let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
-        let names = definitions.flatMap(\.folders).compactMap { folder -> String? in
-            let full = home + PathComponents.of(folder.path)
-            guard full.count > base.count, full.starts(with: base) else { return nil }
-            return full[base.count]
+        let owned = definitions.flatMap { definition in
+            let ownFolders = definition.ownFolders.map { home + PathComponents.of($0) }
+            return definition.folders.compactMap { folder -> [String]? in
+                let full = home + PathComponents.of(folder.path)
+                guard full.count > base.count, full.starts(with: base) else { return nil }
+                let declared = ownFolders.first { $0.count > base.count && full.starts(with: $0) }
+                let own = declared ?? Array(full.prefix(base.count + 1))
+                return Array(own[base.count...])
+            }
         }
-        return Array(Set(names)).sorted()
+        return Set(owned).sorted { $0.joined(separator: "/") < $1.joined(separator: "/") }
     }
 
     /// The folders the Developer page offers, relative to the home folder. Only folders one tool owns outright
@@ -501,7 +509,7 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Google/AndroidStudio*/index", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Caches/Google/AndroidStudio*/tmp", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Logs/Google/AndroidStudio*", .logs, source: "https://developer.android.com/studio/troubleshoot"),
-        ]),
+        ], ownFolders: ["Library/Caches/Google/AndroidStudio*", "Library/Logs/Google/AndroidStudio*"]),
         Definition(id: "neovim", name: "Neovim", systemImage: "curlybraces", appBundleIdentifiers: [], folders: [
             Folder(".cache/nvim", .cache, source: "https://github.com/neovim/neovim/blob/master/runtime/doc/starting.txt#L1404-L1405"),
             Folder(".local/share/nvim/lazy", .environments, source: "https://github.com/folke/lazy.nvim/blob/main/lua/lazy/core/config.lua#L8"),

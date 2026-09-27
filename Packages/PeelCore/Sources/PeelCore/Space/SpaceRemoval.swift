@@ -2,22 +2,22 @@ import AppKit
 public import Foundation
 
 /// Plans the emptying of one of Space's folders. The folder itself is never removed (the guard refuses it, and
-/// macOS expects to find it), so its children are listed instead. Each child passes through the same guard and
-/// exclusions as anything else, and one named for an open app is left where it is, since the app may still be
-/// writing to it.
+/// macOS expects to find it), so its children are listed instead, and inside a vendor's folder that holds a tool's
+/// own, the vendor's other children. Each passes through the same guard and exclusions as anything else, and one
+/// named for an open app is left where it is, since the app may still be writing to it.
 public enum SpaceRemoval {
     public struct Plan: Sendable {
-        /// Children that will be moved to the Trash.
+        /// Folders and files that will be moved to the Trash.
         public let removable: [URL]
-        /// Children left alone because the app that owns them is open, each with the name of that app.
+        /// Those left alone because the app that owns them is open, each with the name of that app.
         public let inUse: [(url: URL, name: String)]
-        /// Children left to Developer, which lists something inside each.
+        /// Folders left to Developer, each a tool's own folder with something inside that Developer lists.
         public let leftToDeveloper: [URL]
-        /// The size of each removable child, which is what emptying frees. A child whose size is not known is
-        /// missing here but stays in `removable`.
+        /// The size of each removable item, which is what emptying frees. One whose size is not known is missing
+        /// here but stays in `removable`.
         public let sizes: [URL: Int64]
-        /// Why a removable child is left for the person to choose, from what measuring it saw. A child missing here
-        /// holds nothing that keeps it from being selected.
+        /// Why a removable item is left for the person to choose, from what measuring it saw. One missing here holds
+        /// nothing that keeps it from being selected.
         public var heldBack: [URL: HoldBack] = [:]
 
         /// The open apps whose folders are left alone, each named once and sorted, by the names the user knows, not
@@ -26,7 +26,7 @@ public enum SpaceRemoval {
             Set(inUse.map(\.name)).sorted()
         }
 
-        /// What Peel selects of this plan for the person: every child it could measure that nothing holds back.
+        /// What Peel selects of this plan for the person: every item it could measure that nothing holds back.
         public var suggested: Set<URL> {
             Set(sizes.keys).subtracting(heldBack.keys)
         }
@@ -83,22 +83,31 @@ public enum SpaceRemoval {
         running: [String: String]
     ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL]) {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
-        let children = item.urls.flatMap { url in
-            (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
-        }
-
-        let developerNames = item.urls.flatMap { DeveloperCaches.namesListed(inside: $0, home: environment.homeDirectory) }
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
-        for child in children where removalGuard.allowsRemoval(of: child) {
-            if let name = running[Naming.normalized(child.lastPathComponent)] {
-                inUse.append((child, name))
-            } else if developerNames.contains(where: { fnmatch($0, child.lastPathComponent, FNM_CASEFOLD) == 0 }) {
-                leftToDeveloper.append(child)
-            } else {
-                removable.append(child)
+        func sort(_ folder: URL, leaving owned: [[String]]) {
+            let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            for child in children ?? [] {
+                let name = child.lastPathComponent
+                let app = running[Naming.normalized(name)]
+                let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
+                if app == nil, !listed.isEmpty, !listed.contains(where: { $0.count == 1 }), child.isRealFolder {
+                    sort(child, leaving: listed.map { Array($0.dropFirst()) })
+                    continue
+                }
+                guard removalGuard.allowsRemoval(of: child) else { continue }
+                if let app {
+                    inUse.append((child, app))
+                } else if !listed.isEmpty {
+                    leftToDeveloper.append(child)
+                } else {
+                    removable.append(child)
+                }
             }
+        }
+        for url in item.urls {
+            sort(url, leaving: DeveloperCaches.foldersLeftToDeveloper(inside: url, home: environment.homeDirectory))
         }
         return (removable, inUse, leftToDeveloper)
     }

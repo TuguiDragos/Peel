@@ -50,6 +50,49 @@ struct SpaceRemovalTests {
         #expect(logged.leftToDeveloper.map(\.lastPathComponent) == ["JetBrains"])
     }
 
+    @Test func offersTheRestOfAVendorsFolderThatHoldsAToolsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/Google/Chrome/Default/Cache/Cache_Data/data_0")
+        try directory.file("home/Library/Caches/Google/AndroidStudio2026.1.4/caches/index.db")
+        try directory.file("home/Library/Caches/Google/AndroidStudio2026.1.4/LocalHistory/changes.storageData")
+        try directory.file("home/Library/Caches/Google/AndroidStudio2025.3.1/caches/index.db")
+        try directory.file("home/Library/Caches/Coursier/jvm/adoptium@17/bin/java")
+        try directory.file("home/Library/Logs/Google/AndroidStudio2026.1.4/idea.log")
+        try directory.file("home/Library/Logs/Google/GoogleUpdater/updater.log")
+        let logs = SpaceItem(
+            id: "logs",
+            category: .library,
+            urls: [directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)],
+            size: 0,
+            handling: .trash
+        )
+        let named = { (urls: [URL]) in
+            urls.map { "\($0.deletingLastPathComponent().lastPathComponent)/\($0.lastPathComponent)" }.sorted()
+        }
+
+        let caches = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+        let logged = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
+
+        #expect(named(caches.removable) == ["Google/Chrome"])
+        #expect(named(caches.leftToDeveloper) == ["Caches/Coursier", "Google/AndroidStudio2025.3.1"])
+        #expect(named(logged.removable) == ["Google/GoogleUpdater"])
+        #expect(named(logged.leftToDeveloper) == ["Google/AndroidStudio2026.1.4"])
+    }
+
+    @Test func neverGoesThroughALinkIntoAnotherFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Projects/Site/index.html")
+        try directory.directory("home/Library/Caches")
+        let google = directory.url.appending(path: "home/Library/Caches/Google")
+        let projects = directory.url.appending(path: "home/Projects")
+        try FileManager.default.createSymbolicLink(at: google, withDestinationURL: projects)
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+
+        #expect(plan.removable.isEmpty, "offered \(plan.removable.map(\.path))")
+        #expect(plan.leftToDeveloper.map(\.lastPathComponent) == ["Google"])
+    }
+
     @Test func leavesAloneWhatAnOpenAppIsStillUsing() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.spotify.client/audio.db")
