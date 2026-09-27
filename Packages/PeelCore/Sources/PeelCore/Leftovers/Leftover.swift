@@ -63,6 +63,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
     case openedFromMail
+    /// A report macOS wrote when the app crashed, which its developer may still ask for.
+    case crashReport
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {

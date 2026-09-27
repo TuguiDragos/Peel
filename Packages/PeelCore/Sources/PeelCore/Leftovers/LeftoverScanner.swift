@@ -279,7 +279,7 @@ public struct LeftoverScanner: Sendable {
         } else if contents?.couldNotBeRead == true {
             .couldNotBeRead
         } else if let contents {
-            heldBack(match, in: kind, contents: contents, isInsideAnotherAppsFolder: isInsideAnotherAppsFolder)
+            heldBack(match, at: url, in: kind, contents: contents, isInsideAnotherAppsFolder: isInsideAnotherAppsFolder)
         } else {
             .notMeasured
         }
@@ -303,6 +303,7 @@ public struct LeftoverScanner: Sendable {
     /// unselected.
     private static func heldBack(
         _ match: LeftoverMatch,
+        at url: URL,
         in kind: SearchLocation.Kind,
         contents: FolderContents,
         isInsideAnotherAppsFolder: Bool
@@ -311,6 +312,7 @@ public struct LeftoverScanner: Sendable {
         // are. Holding it back costs a checkmark, and the row says what is inside.
         if contents.holdsWallet { return .holdsAWallet }
         if contents.holdsRepository { return .holdsRepository }
+        if kind == .logs, CrashReport.isOne(url) { return .crashReport }
         if kind == .sharedFolder { return .sharedWithEveryone }
         if Self.namedGroundOfSomebodyElse.contains(kind), match.restsOnAName { return .namedLikeTheApp }
         // An identifier names the app wherever it sits. Its name, inside somebody else's folder, does not.
@@ -335,12 +337,12 @@ public struct LeftoverScanner: Sendable {
         return byName?.confidence == .certain ? byName : inside
     }
 
-    /// This app's claim on an item from its name and from the identifier it declares, which is read for a plug-in
-    /// and for an item whose name answers nothing. The identifier says who made a plug-in: a claim through it
-    /// replaces a weaker one on the name, and a name it does not back makes the plug-in only possible.
+    /// This app's claim on an item from its name and from the identifier it declares, which is read for a plug-in, a
+    /// crash report, and an item whose name answers nothing. The identifier says whose such an item is: a claim
+    /// through it replaces a weaker one on the name, and a name it does not back makes the item only possible.
     private static func match(_ name: String, at url: URL, kind: SearchLocation.Kind, matcher: LeftoverMatcher) -> LeftoverMatch? {
         let byName = matcher.match(fileName: name, kind: kind, at: url)
-        guard byName == nil || kind == .plugIns else { return byName }
+        guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }
         // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
         let declared = DeclaredIdentifier.of(url, kind: kind).flatMap { matcher.match(fileName: $0, kind: .elsewhere, at: url) }
         guard let byName else { return declared }

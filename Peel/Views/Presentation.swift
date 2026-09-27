@@ -206,6 +206,8 @@ extension HoldBack {
             "Not selected: macOS keeps this cache for its own services, which may be using it right now."
         case .openedFromMail:
             "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else."
+        case .crashReport:
+            "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for."
         }
     }
 }

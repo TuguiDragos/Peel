@@ -30,4 +30,21 @@ struct DeclaredIdentifierTests {
         #expect(DeclaredIdentifier.of(byUUID, kind: .containers) == "org.example.notes")
         #expect(DeclaredIdentifier.of(byName, kind: .containers) == nil)
     }
+
+    @Test func aCrashReportDeclaresTheBundleOnItsFirstLineHoweverLongItIs() throws {
+        let directory = try TemporaryDirectory()
+        let metadata = #"{"bug_type":"309","bundleID":"org.example.notes","name":"Notes Example"}"#
+        let body = String(repeating: "x", count: 2_000_000)
+        let contents = Data("\(metadata)\n\(body)".utf8)
+        let name = "Notes Example-2026-09-01-101010"
+        let report = try directory.file("Logs/DiagnosticReports/\(name).ips", contents: contents)
+        let loose = try directory.file("Logs/\(name).ips", contents: contents)
+        let text = try directory.file("Logs/DiagnosticReports/\(name).diag", contents: contents)
+
+        #expect(DeclaredIdentifier.of(report, kind: .logs) == "org.example.notes")
+        #expect(DeclaredIdentifier.outranksTheName(of: report, kind: .logs))
+        #expect(DeclaredIdentifier.of(loose, kind: .logs) == nil)
+        #expect(DeclaredIdentifier.of(text, kind: .logs) == nil)
+        #expect(!DeclaredIdentifier.outranksTheName(of: loose, kind: .logs))
+    }
 }

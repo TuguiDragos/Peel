@@ -68217,6 +68217,112 @@
         }
       }
     },
+    "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: zpráva, kterou systém macOS zapsal při havárii aplikace a o kterou vás výrobce aplikace může ještě požádat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Ein Absturzbericht, den macOS geschrieben hat, als die App unerwartet beendet wurde, und den ihr Hersteller möglicherweise noch von dir anfordert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: un informe de errores que macOS creó cuando la app se cerró inesperadamente, y que su desarrollador todavía puede pedirte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : un rapport de blocage que macOS a écrit lorsque l’app s’est fermée de manière inattendue, et que son développeur peut encore vous demander."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: un resoconto che macOS ha scritto quando l’app si è chiusa inaspettatamente, e che la sua azienda di sviluppo potrebbe ancora chiederti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アプリが予期しない理由で終了したときにmacOSが作成したクラッシュレポートで、開発元から提出を求められる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 앱이 충돌했을 때 macOS가 작성한 리포트로, 앱 제작자가 여전히 사용자에게 요청할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een rapport dat macOS heeft geschreven toen de app crashte, en waar de maker je misschien nog om vraagt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: raport, który macOS zapisał po awarii aplikacji, a o który jej producent może jeszcze Cię poprosić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: um relatório que o macOS criou quando o app falhou, e que o fabricante ainda pode pedir a você."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: un raport scris de macOS când aplicația s‑a oprit subit, pe care producătorul acesteia vi‑l mai poate cere."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: отчет, который macOS записала при сбое приложения и который производитель приложения может еще попросить у Вас."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: en rapport som macOS skrev när appen kraschade, och som appens utvecklare kanske fortfarande ber dig om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: uygulama çöktüğünde macOS’in yazdığı bir rapor; geliştiricisi bunu sizden hâlâ isteyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: звіт, створений macOS під час аварійного завершення програми, який її розробник ще може у вас попросити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：这是macOS在App崩溃时写下的报告，App的厂商可能仍会向你索要。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這是macOS在App當機時寫下的報告，App的廠商可能仍會向你索取。"
+          }
+        }
+      }
+    },
     "Not selected: a wallet or a signing key is inside. Once the Trash is emptied, what it opens is gone for good unless you have a backup." : {
       "localizations" : {
         "cs" : {

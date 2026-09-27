@@ -950,6 +950,32 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.confidence == .certain)
     }
 
+    @Test func findsTheAppsCrashReportsByTheBundleTheyNameAndNeverSelectsThem() async throws {
+        let directory = try TemporaryDirectory()
+        let reports = "home/Library/Logs/DiagnosticReports"
+        let ours = report(bundleIdentifier: "net.example.client")
+        try directory.file("\(reports)/Tunewell-2026-09-01-101010.ips", contents: ours)
+        try directory.file("\(reports)/Retired/Tunewell-2026-08-01-090000.ips", contents: ours)
+        let another = report(bundleIdentifier: "org.example.tunewell")
+        try directory.file("\(reports)/Tunewell-2026-09-02-111111.ips", contents: another)
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent).sorted() == [
+            "Tunewell-2026-08-01-090000.ips", "Tunewell-2026-09-01-101010.ips",
+        ])
+        #expect(scan.leftovers.allSatisfy { $0.match.reason == .bundleIdentifier && $0.match.confidence == .certain })
+        #expect(scan.leftovers.allSatisfy { $0.match.heldBack == .crashReport })
+    }
+
+    private func report(bundleIdentifier: String) -> Data {
+        Data("""
+        {"app_name":"Tunewell","bug_type":"309","bundleID":"\(bundleIdentifier)","name":"Tunewell","incident_id":"1"}
+        {"procName":"Tunewell","exception":{"type":"EXC_CRASH"}}
+        """.utf8)
+    }
+
     private func job(program: String) -> Data {
         Data("""
         <?xml version="1.0" encoding="UTF-8"?>

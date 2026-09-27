@@ -1,15 +1,21 @@
 import Foundation
 
 /// The identifier an item declares about itself, for when its file name matches nothing: a plug-in is named for
-/// what it does rather than for who made it, and a container is sometimes named by a UUID. The identifier is
-/// only a claim, so it goes through the same matching as a file name.
+/// what it does rather than for who made it, a crash report for the process and the time, and a container is
+/// sometimes named by a UUID. The identifier is only a claim, so it goes through the same matching as a file name.
 enum DeclaredIdentifier {
     static func of(_ url: URL, kind: SearchLocation.Kind) -> String? {
         switch kind {
         case .plugIns: Plugins.declaredIdentifier(at: url)
         case .containers: container(at: url)
+        case .logs: CrashReport.bundleIdentifier(of: url)
         default: nil
         }
+    }
+
+    /// True for an item whose name never says whose it is, so what it declares is read even when the name matches.
+    static func outranksTheName(of url: URL, kind: SearchLocation.Kind) -> Bool {
+        kind == .plugIns || (kind == .logs && CrashReport.isOne(url))
     }
 
     /// The `MCMMetadataIdentifier` in a container's metadata, read only when the folder's name is not already an

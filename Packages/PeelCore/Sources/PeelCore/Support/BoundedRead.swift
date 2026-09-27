@@ -35,6 +35,28 @@ enum BoundedRead {
         return data.count <= maximum ? data : nil
     }
 
+    /// The first `count` bytes of the regular file at `url`, or the whole file when it is shorter, whatever its size.
+    static func prefix(of url: URL, count: Int) -> Data? {
+        guard let descriptor = openRegularFile(at: url, maximum: .max) else { return nil }
+        defer { close(descriptor) }
+
+        var buffer = [UInt8](repeating: 0, count: count)
+        var filled = 0
+        while filled < count {
+            let read = buffer.withUnsafeMutableBytes { bytes in
+                Darwin.read(descriptor, bytes.baseAddress! + filled, count - filled)
+            }
+            if read > 0 {
+                filled += read
+            } else if read == 0 {
+                break
+            } else if errno != EINTR {
+                return nil
+            }
+        }
+        return Data(buffer[0..<filled])
+    }
+
     /// Whether `url` opens as a regular file of at most `maximum` bytes, which is what `data(at:maximum:)` asks
     /// before it reads.
     static func opens(_ url: URL, maximum: Int = maximumBytes) -> Bool {
