@@ -221,6 +221,47 @@ struct TrashServiceTests {
         #expect(await service.restore(planted) == .notAllowed)
     }
 
+    /// Once the Trash is emptied, another item of the same name can land where an old record's item was. It is not
+    /// that item: History no longer counts the old record as in the Trash, and Put Back leaves the new one where it is.
+    @Test func anItemLandingLaterWhereAnotherWasIsNotTakenForIt() async throws {
+        let directory = try TemporaryDirectory()
+        let first = try directory.file("home/Projects/One/node_modules/left-pad/index.js")
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let second = try directory.file("home/Projects/Two/node_modules/is-odd/index.js")
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let service = try service(in: directory)
+        let moved = try #require(await service.trash([first]).trashed.first)
+        let record = RemovalRecord(batch: UUID(), item: moved, size: 10, source: "One", tool: "projects")
+
+        // The Trash is emptied, and the next project's folder of the same name lands in the same place.
+        try FileManager.default.moveItem(at: moved.trashedURL, to: directory.url.appending(path: "emptied"))
+        let movedLater = try #require(await service.trash([second]).trashed.first)
+        #expect(movedLater.trashedURL == moved.trashedURL, "the second folder did not land where the first had")
+
+        #expect(!record.isStillInTrash)
+        #expect(await service.restore(record.trashedItem) == .missingFromTrash)
+        #expect(!FileManager.default.fileExists(atPath: first.path(percentEncoded: false)), "the other project's folder was put back here")
+        #expect(FileManager.default.fileExists(atPath: movedLater.trashedURL.path(percentEncoded: false)))
+    }
+
+    /// Put Back asks again, of the item it holds open, whether it is the one that moved: another item could take its
+    /// place between the look and the move.
+    @Test func putBackLeavesAnotherItemInThePlaceItHolds() throws {
+        let directory = try TemporaryDirectory()
+        let original = directory.url.appending(path: "home/Projects/One/node_modules")
+        try FileManager.default.createDirectory(at: original.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let first = try directory.directory("home/.Trash/node_modules")
+        let identity = try #require(TrashedItem.Identity(ofItemAt: first))
+        try FileManager.default.moveItem(at: first, to: directory.url.appending(path: "emptied"))
+        try directory.directory("home/.Trash/node_modules")
+        let item = TrashedItem(originalURL: original, trashedURL: first, date: .now, identity: identity)
+
+        #expect(throws: TrashService.NotTheItemThatMoved.self) {
+            try TrashService.putBack(item) { _ in true }
+        }
+        #expect(!FileManager.default.fileExists(atPath: original.path(percentEncoded: false)))
+    }
+
     /// Records come from a file any process can rewrite, so Put Back checks the folder an item really sits in.
     /// A folder that is only called `.Trash` can be a link into Messages, or sit inside iCloud Drive.
     @Test func putsNothingBackFromAFolderThatIsOnlyCalledTrash() async throws {

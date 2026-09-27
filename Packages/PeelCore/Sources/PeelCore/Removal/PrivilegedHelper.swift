@@ -112,9 +112,10 @@ public enum PrivilegedHelper {
         for url in urls {
             let path = url.path(percentEncoded: false)
             if let destination = reply?.moved[path] {
-                result.trashed.append(TrashedItem(originalURL: url, trashedURL: URL(filePath: destination), date: .now))
+                let trashedURL = URL(filePath: destination)
+                result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now, identity: .init(ofItemAt: trashedURL)))
             } else if reply == nil, !url.isThere, let link = links[url] ?? nil, let found = TrashService.item(link, in: trash) {
-                result.trashed.append(TrashedItem(originalURL: url, trashedURL: found, date: .now))
+                result.trashed.append(TrashedItem(originalURL: url, trashedURL: found, date: .now, identity: .init(ofItemAt: found)))
             } else {
                 result.failures.append(TrashFailure(url: url, reason: .failed(reply?.failed[path] ?? Self.unavailable)))
             }

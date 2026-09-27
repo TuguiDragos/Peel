@@ -7,6 +7,9 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     public let originalURL: URL
     public let trashedURL: URL
     public let date: Date
+    /// Which item went to the Trash, so one that lands in the same place later is never taken for it. Nil in a record
+    /// written before Peel kept it.
+    public let identity: TrashedItem.Identity?
     /// Nil when Peel could not measure the item. It is never read as zero.
     public let size: Int64?
     /// What the items belonged to: an app, an orphan group, a file name.
@@ -22,6 +25,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         originalURL = item.originalURL
         trashedURL = item.trashedURL
         date = item.date
+        identity = item.identity
         self.size = size
         self.source = source
         self.sourceKey = sourceKey
@@ -36,6 +40,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         originalURL = try container.decode(URL.self, forKey: .originalURL)
         trashedURL = try container.decode(URL.self, forKey: .trashedURL)
         date = try container.decode(Date.self, forKey: .date)
+        identity = try container.decodeIfPresent(TrashedItem.Identity.self, forKey: .identity)
         size = try container.decodeIfPresent(Int64.self, forKey: .size).map { max(0, $0) }
         source = try container.decode(String.self, forKey: .source)
         tool = try container.decode(String.self, forKey: .tool)
@@ -43,11 +48,11 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     }
 
     public var trashedItem: TrashedItem {
-        TrashedItem(originalURL: originalURL, trashedURL: trashedURL, date: date)
+        TrashedItem(originalURL: originalURL, trashedURL: trashedURL, date: date, identity: identity)
     }
 
     public var isStillInTrash: Bool {
-        trashedURL.isThere
+        trashedItem.isInTheTrash
     }
 
     /// False while the disk whose Trash holds the item is not connected. The item may still be there, so the

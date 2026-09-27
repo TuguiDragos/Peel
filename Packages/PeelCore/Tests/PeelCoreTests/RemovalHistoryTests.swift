@@ -98,6 +98,34 @@ struct RemovalHistoryTests {
         #expect(try decoder.decode([RemovalRecord].self, from: stored).first?.date == Date(timeIntervalSince1970: 5.25))
     }
 
+    /// Which item went to the Trash is kept in the log, so Put Back knows it after Peel quits; a record written before
+    /// Peel kept it reads as it always did, by name.
+    @Test func whichItemMovedIsKeptInTheLog() async throws {
+        let directory = try TemporaryDirectory()
+        let trashed = try directory.file("home/.Trash/report.pdf")
+        let item = TrashedItem(
+            originalURL: directory.url.appending(path: "home/Documents/report.pdf"),
+            trashedURL: trashed,
+            date: .now,
+            identity: TrashedItem.Identity(ofItemAt: trashed)
+        )
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        _ = await log.add([RemovalRecord(batch: UUID(), item: item, size: 16, source: "Editor", tool: "applications")])
+
+        let read = try #require(await RemovalLog(url: log.url).load().records?.first)
+
+        #expect(read.identity != nil)
+        #expect(read.identity == item.identity)
+        #expect(read.isStillInTrash)
+
+        let older = try JSONDecoder().decode(RemovalRecord.self, from: Data("""
+            {"id":"\(UUID())","batch":"\(UUID())","originalURL":"file:///Users/x/Documents/report.pdf",
+             "trashedURL":"\(trashed.absoluteString)","date":788918400,"size":16,"source":"Editor","tool":"applications"}
+            """.utf8))
+        #expect(older.identity == nil)
+        #expect(older.isStillInTrash, "a record without an identity is judged by name, as before")
+    }
+
     /// A time read from a log is written back as it was read, since every change writes the whole log again: a
     /// time that lost a millisecond each time could move behind a part that moved after it.
     @Test func aTimeReadBackIsWrittenAsItWas() throws {

@@ -73,8 +73,9 @@ public final class DirectoryHandle: Sendable {
 /// three, and the birth time tells apart an item that reuses a freed inode number.
 public struct ItemIdentity: Codable, Hashable, Sendable {
     let device: Int64
-    let inode: UInt64
-    let birth: Int64
+    public let inode: UInt64
+    /// When the item was made, in nanoseconds since 1970.
+    public let birth: Int64
 
     init(_ info: stat) {
         device = Int64(info.st_dev)

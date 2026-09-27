@@ -5,6 +5,41 @@ public struct TrashedItem: Sendable, Hashable, Codable {
     public let originalURL: URL
     public let trashedURL: URL
     public let date: Date
+    /// Which item went to the Trash, read there as it landed, so an item that lands in the same place once the Trash
+    /// is emptied is never taken for it. Nil in what was recorded before Peel kept it.
+    public let identity: Identity?
+
+    /// An item as its volume knows it: its inode and when it was made, which a move within the volume keeps. The
+    /// volume's device number is left out, since it follows the order volumes are mounted in.
+    public struct Identity: Sendable, Hashable, Codable {
+        let inode: UInt64
+        let birth: Int64
+
+        init(_ identity: ItemIdentity) {
+            inode = identity.inode
+            birth = identity.birth
+        }
+
+        /// The identity of the item at `url` itself, never of what a link there leads to.
+        init?(ofItemAt url: URL) {
+            guard let identity = ItemIdentity(ofItemAt: url.path(percentEncoded: false)) else { return nil }
+            self.init(identity)
+        }
+    }
+
+    init(originalURL: URL, trashedURL: URL, date: Date, identity: Identity? = nil) {
+        self.originalURL = originalURL
+        self.trashedURL = trashedURL
+        self.date = date
+        self.identity = identity
+    }
+
+    /// Whether the item is still where it went in the Trash: something is there and, when Peel knows which item
+    /// went, it is that item.
+    public var isInTheTrash: Bool {
+        guard let identity else { return trashedURL.isThere }
+        return Identity(ofItemAt: trashedURL) == identity
+    }
 }
 
 public struct TrashFailure: Sendable, Hashable {
@@ -227,7 +262,8 @@ public struct TrashService: Sendable {
             let path = PathPattern.comparablePath(of: url)
             guard !moved.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
             do {
-                let item = TrashedItem(originalURL: url, trashedURL: try moveToTrash(url), date: .now)
+                let trashedURL = try moveToTrash(url)
+                let item = TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now, identity: .init(ofItemAt: trashedURL))
                 if let removal {
                     journal?.note([item], batch: removal)
                 }
@@ -310,7 +346,7 @@ public struct TrashService: Sendable {
         guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }
 
         let fileManager = FileManager.default
-        guard item.trashedURL.isThere else { return .missingFromTrash }
+        guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
 
         let parent = item.originalURL.deletingLastPathComponent()
@@ -326,6 +362,8 @@ public struct TrashService: Sendable {
                 return nil
             } catch is RefusedOnceHeld {
                 return .notAllowed
+            } catch is NotTheItemThatMoved {
+                return .missingFromTrash
             } catch POSIXError.EEXIST {
                 return .alreadyThere
             } catch {
@@ -341,6 +379,9 @@ public struct TrashService: Sendable {
     /// is asked again about the destination as the kernel names it, and the move never replaces an item there.
     static func putBack(_ item: TrashedItem, isAllowed: (URL) -> Bool) throws {
         let trashed = try OpenItem.at(item.trashedURL.path(percentEncoded: false)).get()
+        if let identity = item.identity, trashed.identity.map(TrashedItem.Identity.init) != identity {
+            throw NotTheItemThatMoved()
+        }
         let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false)).get()
         guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
         let name = item.originalURL.lastPathComponent
@@ -381,6 +422,10 @@ public struct TrashService: Sendable {
 
     /// The guard refused the item once its folder was held open and named by the kernel.
     struct RefusedOnceHeld: Error {}
+
+    /// What sits where an item went in the Trash is another item: the Trash was emptied, and something of the same
+    /// name landed there since.
+    struct NotTheItemThatMoved: Error {}
 
     /// A move by name put something other than the checked item in the Trash.
     struct SomethingElseMoved: Error {

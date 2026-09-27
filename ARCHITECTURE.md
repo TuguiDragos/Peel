@@ -94,8 +94,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    before a removal) until the History page starts it over. What Peel refused to move is recorded too
    (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
-   real Trash, only to a place the guard allows, and, through the helper, only if the helper's own ledger says
-   it moved that very item from that very place.
+   real Trash, only to a place the guard allows, only when it is the item that went (`TrashedItem.identity`,
+   its inode and birth time, read in the Trash as it landed and asked again of the item Put Back holds open),
+   and, through the helper, only if the helper's own ledger says it moved that very item from that very place.
 
 ## What keeps data safe
 
