@@ -14,7 +14,11 @@ final class ExclusionsStore {
     private(set) var revision = 0
     /// The last change could not be written, so it will not be there after a relaunch.
     private(set) var couldNotSave = false
-    private var hasLoaded = false
+    /// The changes that could not be written. They stay in force until Peel quits, as Settings says, laid again
+    /// over the list each time it is read, and the next change that is written takes them with it.
+    @ObservationIgnored private var unsaved: [@Sendable (inout Exclusions) -> Void] = []
+    /// The last read or change of the list, which the next one waits for, so they land in the order they were made.
+    @ObservationIgnored private var last: Task<Void, Never>?
     /// The revision each page last scanned under. Kept here rather than in the page, because while Settings
     /// takes the whole pane, no page is on screen to notice a change.
     @ObservationIgnored private var scanned = ScannedRevisions()
@@ -23,14 +27,11 @@ final class ExclusionsStore {
         scanned.needsRescan(page, at: revision)
     }
 
-    /// Loads the saved list. A page that scanned before it arrived filtered by nothing, so a loaded list that
-    /// differs counts as a change.
+    /// Loads the saved list, at launch and whenever Peel comes forward, since `peel exclusions` can change it
+    /// meanwhile. A page that scanned before it arrived filtered by nothing, so a loaded list that differs counts
+    /// as a change.
     func load() async {
-        let loaded = await store.load()
-        hasLoaded = true
-        guard loaded != exclusions else { return }
-        exclusions = loaded
-        revision += 1
+        await inTurn { [self] in show(withUnsaved(await store.load())) }
     }
 
     static func isTooBroad(_ url: URL) -> Bool {
@@ -38,55 +39,76 @@ final class ExclusionsStore {
     }
 
     func add(paths: [URL]) async {
-        var updated = await current()
-        updated.paths.formUnion(paths.map { $0.standardizedFileURL })
-        await save(updated)
+        let added = paths.map(\.standardizedFileURL)
+        await change { $0.paths.formUnion(added) }
     }
 
     func add(bundleIdentifier: String) async {
-        var updated = await current()
-        updated.bundleIdentifiers.insert(bundleIdentifier)
-        await save(updated)
+        await change { $0.bundleIdentifiers.insert(bundleIdentifier) }
     }
 
     func remove(paths: [URL]) async {
-        var updated = await current()
-        updated.paths.subtract(paths.map { $0.standardizedFileURL })
-        await save(updated)
+        let removed = paths.map(\.standardizedFileURL)
+        await change { $0.paths.subtract(removed) }
     }
 
     func remove(bundleIdentifiers: [String]) async {
-        var updated = await current()
-        updated.bundleIdentifiers.subtract(bundleIdentifiers)
-        await save(updated)
+        await change { $0.bundleIdentifiers.subtract(bundleIdentifiers) }
     }
 
     /// Replaces a list that could not be read, which the store keeps under another name.
     func startOver() async {
-        await save(.none)
-    }
-
-    /// The list, loaded first if needed: a change made before the saved list is read would overwrite it.
-    private func current() async -> Exclusions {
-        if !hasLoaded { await load() }
-        return exclusions
-    }
-
-    /// The last write, which the next one waits for. Writes land one at a time in the order they were made,
-    /// so an older list can never overwrite a newer one.
-    private var writing: Task<Void, Never>?
-
-    private func save(_ updated: Exclusions) async {
-        // Built anew, which clears `isUnreadable`, since the user has just edited the list.
-        exclusions = Exclusions(paths: updated.paths, bundleIdentifiers: updated.bundleIdentifiers)
-        revision += 1
-        let saving = exclusions
-        let previous = writing
-        let write = Task { [store] in
-            await previous?.value
-            return await store.save(saving)
+        await inTurn { [self] in
+            couldNotSave = await !store.save(.none)
+            guard !couldNotSave else { return }
+            unsaved = []
+            show(.none)
         }
-        writing = Task { _ = await write.value }
-        couldNotSave = await !write.value
+    }
+
+    /// Changes the saved list, which the store reads again under the file's lock, so a change made in Terminal
+    /// meanwhile is kept. A change to a list that cannot be read starts a new one, as Settings says.
+    private func change(_ transform: @escaping @Sendable (inout Exclusions) -> Void) async {
+        await inTurn { [self] in
+            let changes = unsaved + [transform]
+            switch await store.change(startingOverIfUnreadable: true, { list in changes.forEach { $0(&list) } }) {
+            case .saved(let saved):
+                unsaved = []
+                couldNotSave = false
+                show(saved)
+            case .notSaved(let changed):
+                unsaved.append(transform)
+                couldNotSave = true
+                show(changed)
+            case .unreadable:
+                show(.unreadable)
+            }
+        }
+    }
+
+    /// Runs `operation` once the read or change before it has landed.
+    private func inTurn(_ operation: @escaping () async -> Void) async {
+        let previous = last
+        let current = Task {
+            await previous?.value
+            await operation()
+        }
+        last = current
+        await current.value
+    }
+
+    /// `list` with the changes that could not be written laid over it. They started a new list if the saved one
+    /// could not be read.
+    private func withUnsaved(_ list: Exclusions) -> Exclusions {
+        guard !unsaved.isEmpty else { return list }
+        var changed = list.isUnreadable ? .none : list
+        unsaved.forEach { $0(&changed) }
+        return changed
+    }
+
+    private func show(_ list: Exclusions) {
+        guard list != exclusions else { return }
+        exclusions = list
+        revision += 1
     }
 }

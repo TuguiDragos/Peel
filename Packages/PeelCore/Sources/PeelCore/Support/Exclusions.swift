@@ -159,10 +159,53 @@ public struct ExclusionStore: Sendable {
         PeelFolder.url.appending(path: "exclusions.json")
     }
 
+    /// What `change(_:)` did.
+    public enum Outcome: Sendable, Equatable {
+        /// The list as it was saved.
+        case saved(Exclusions)
+        /// The saved list cannot be read, so it was left as it is.
+        case unreadable
+        /// The list could not be written. It carries what the list would have been, which the app keeps until it
+        /// quits.
+        case notSaved(Exclusions)
+    }
+
     /// Loads the saved list. No file means an empty list. A file that is there but cannot be read gives
     /// `.unreadable`, never an empty list, so what the user excluded stays protected.
     @concurrent
     public func load() async -> Exclusions {
+        read()
+    }
+
+    /// Saves `exclusions` in place of the list, and returns false when they could not be written. A saved file that
+    /// cannot be read is first renamed with `DamagedFile`, never overwritten.
+    @concurrent
+    @discardableResult
+    public func save(_ exclusions: Exclusions) async -> Bool {
+        FileLock.whileHeld(beside: url) { write(exclusions) }
+    }
+
+    /// Changes the saved list with `transform`. The list is read again and written under the file's lock, so what
+    /// another process saved meanwhile, such as `peel exclusions add` while the app runs, is kept. A saved list that
+    /// cannot be read is left as it is, unless `startsOver`: it is then kept under another name and `transform`
+    /// starts a new list, which is what an edit in Settings does and what `peel` never does.
+    @concurrent
+    public func change(
+        startingOverIfUnreadable startsOver: Bool = false,
+        _ transform: @Sendable (inout Exclusions) -> Void
+    ) async -> Outcome {
+        FileLock.whileHeld(beside: url) {
+            var exclusions = read()
+            if exclusions.isUnreadable {
+                guard startsOver else { return .unreadable }
+                exclusions = .none
+            }
+            transform(&exclusions)
+            return write(exclusions) ? .saved(exclusions) : .notSaved(exclusions)
+        }
+    }
+
+    private func read() -> Exclusions {
         guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else { return .none }
         guard let data = BoundedRead.data(at: url), let saved = try? JSONDecoder().decode(Exclusions.self, from: data) else {
             return .unreadable
@@ -170,15 +213,11 @@ public struct ExclusionStore: Sendable {
         return saved
     }
 
-    /// Saves `exclusions`, and returns false when they could not be written. A saved file that cannot be read
-    /// is first renamed with `DamagedFile`, never overwritten.
-    @concurrent
-    @discardableResult
-    public func save(_ exclusions: Exclusions) async -> Bool {
+    private func write(_ exclusions: Exclusions) -> Bool {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? encoder.encode(exclusions) else { return false }
-        if await load().isUnreadable, DamagedFile.setAside(url) == nil { return false }
+        if read().isUnreadable, DamagedFile.setAside(url) == nil { return false }
         do {
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             try data.write(to: url, options: .atomic)

@@ -123,6 +123,8 @@ struct PeelApp: App {
     private func followActivations() async {
         for await _ in NotificationCenter.default.notifications(named: NSApplication.didBecomeActiveNotification) {
             helper.refresh()
+            // `peel exclusions` may have changed the list while another app was in front.
+            Task { await exclusions.load() }
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one.
             Task { await home.refresh(helper: helper) }

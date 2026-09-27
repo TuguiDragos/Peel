@@ -126,6 +126,80 @@ struct ExclusionsTests {
         #expect(await store.load() == exclusions)
     }
 
+    /// The app reads the list at launch, and `peel exclusions` can change it while the app runs. A change reads the
+    /// list again under the file's lock, so what the other one saved meanwhile is kept.
+    @Test func aChangeKeepsWhatAnotherWriterSaved() async throws {
+        let directory = try TemporaryDirectory()
+        let file = directory.url.appending(path: "Peel/exclusions.json")
+        let (app, terminal) = (ExclusionStore(url: file), ExclusionStore(url: file))
+        let (kept, added) = (URL(filePath: "/Users/x/Kept"), URL(filePath: "/Users/x/Added"))
+        _ = await app.load()
+        await terminal.save(Exclusions(paths: [kept]))
+
+        let outcome = await app.change { $0.paths.insert(added) }
+
+        #expect(outcome == .saved(Exclusions(paths: [kept, added])))
+        #expect(await app.load().paths == [kept, added])
+    }
+
+    /// Changes made at once, as two processes can make them, each land.
+    @Test func changesMadeAtOnceAllLand() async throws {
+        let directory = try TemporaryDirectory()
+        let store = ExclusionStore(url: directory.url.appending(path: "Peel/exclusions.json"))
+
+        await withTaskGroup(of: Void.self) { group in
+            for index in 0..<16 {
+                group.addTask { _ = await store.change { $0.paths.insert(URL(filePath: "/Users/x/\(index)")) } }
+            }
+        }
+
+        #expect(await store.load().paths.count == 16)
+    }
+
+    /// A list that cannot be read is left as it is: changing it would throw away what the user chose.
+    @Test func aChangeLeavesAListItCannotReadAsItIs() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("exclusions.json", contents: Data("not json".utf8))
+
+        let outcome = await ExclusionStore(url: file).change { $0.bundleIdentifiers.insert("com.example.app") }
+
+        #expect(outcome == .unreadable)
+        #expect(try String(contentsOf: file, encoding: .utf8) == "not json")
+    }
+
+    /// An edit in Settings to a list that cannot be read starts a new list, as Settings says it does, and the old
+    /// file stays beside it under another name.
+    @Test func anEditThatStartsOverKeepsTheListItCannotReadAside() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("exclusions.json", contents: Data("not json".utf8))
+
+        let outcome = await ExclusionStore(url: file).change(startingOverIfUnreadable: true) {
+            $0.bundleIdentifiers.insert("com.example.app")
+        }
+
+        #expect(outcome == .saved(Exclusions(bundleIdentifiers: ["com.example.app"])))
+        #expect(await ExclusionStore(url: file).load() == Exclusions(bundleIdentifiers: ["com.example.app"]))
+        let names = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
+        let aside = try #require(names.first { $0.hasPrefix("exclusions-damaged-") })
+        #expect(try String(contentsOf: directory.url.appending(path: aside), encoding: .utf8) == "not json")
+    }
+
+    /// A change that cannot be written says what the list would have been, so the app can keep it until it quits.
+    @Test func aChangeThatCannotBeWrittenSaysWhatItWouldHaveSaved() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let store = ExclusionStore(url: folder.appending(path: "exclusions.json"))
+        await store.save(Exclusions(paths: [URL(filePath: "/Users/x/Kept")]))
+        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: folder.path(percentEncoded: false))
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: folder.path(percentEncoded: false)) }
+
+        let outcome = await store.change { $0.paths.insert(URL(filePath: "/Users/x/Added")) }
+
+        #expect(outcome == .notSaved(Exclusions(paths: [URL(filePath: "/Users/x/Kept"), URL(filePath: "/Users/x/Added")])))
+        #expect(await store.load().paths == [URL(filePath: "/Users/x/Kept")])
+    }
+
     /// An entry that makes no sense is dropped, and the rest of the list is kept.
     @Test func keepsTheRestOfAListWithABadEntry() async throws {
         let directory = try TemporaryDirectory()
