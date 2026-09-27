@@ -51,7 +51,19 @@ enum Identifier {
         identifier.split(separator: ".").count
     }
 
-    /// "com.example.app": at least three components and a lowercase top-level domain.
+    /// Whether an identifier an app declares is shaped like one app's: two components or more (Obsidian's is
+    /// `md.obsidian`), none empty, only ASCII letters, digits, `-` and `_`, and no leading `-`. A single word, or
+    /// anything else, is too generic to prove what it names.
+    static func isValid(_ identifier: String) -> Bool {
+        let components = identifier.split(separator: ".", omittingEmptySubsequences: false)
+        guard components.count >= 2, !identifier.hasPrefix("-") else { return false }
+        return components.allSatisfy { component in
+            !component.isEmpty && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
+        }
+    }
+
+    /// Whether a name found on disk reads as an app's identifier, "com.example.app": at least three components and a
+    /// lowercase top-level domain. Stricter than `isValid`, since a name nobody declared is only a guess.
     static func isReverseDNS(_ identifier: String) -> Bool {
         let components = identifier.split(separator: ".", omittingEmptySubsequences: false)
         guard

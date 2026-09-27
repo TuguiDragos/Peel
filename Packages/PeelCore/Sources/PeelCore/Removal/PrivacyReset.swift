@@ -65,17 +65,12 @@ public enum PrivacyReset {
     }
 
     /// True when `bundleIdentifier` may be handed to `tccutil`. Apple's own apps and every part of Peel are
-    /// refused. Any other identifier must read as exactly one app's: two components or more (Obsidian's is
-    /// `md.obsidian`), none empty, only ASCII letters, digits, `-` and `_`, and no leading `-`. This matters
+    /// refused, and any other identifier must read as exactly one app's (`Identifier.isValid`). This matters
     /// because `tccutil reset All` with no identifier resets every app.
     public static func isAllowed(bundleIdentifier: String) -> Bool {
         let identifier = bundleIdentifier.lowercased()
         let own = HelperIdentity.appIdentifier.lowercased()
         guard !identifier.hasPrefix("com.apple."), identifier != own, !identifier.hasPrefix(own + ".") else { return false }
-        let components = bundleIdentifier.split(separator: ".", omittingEmptySubsequences: false)
-        guard components.count >= 2, !bundleIdentifier.hasPrefix("-") else { return false }
-        return components.allSatisfy { component in
-            !component.isEmpty && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
-        }
+        return Identifier.isValid(bundleIdentifier)
     }
 }

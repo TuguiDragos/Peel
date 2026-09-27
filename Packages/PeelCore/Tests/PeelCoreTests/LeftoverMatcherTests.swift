@@ -348,6 +348,21 @@ struct LeftoverMatcherTests {
         #expect(match("com.example.game", in: .caches, for: carrier)?.confidence == .certain)
     }
 
+    /// A real identifier can have two components or a first one longer than a country or a company's short domain:
+    /// Arc is `company.thebrowser.Browser`, Obsidian `md.obsidian`, Notion `notion.id`. A file named exactly by one is
+    /// that app's, as certain as any, and so is one named by an identifier it embeds.
+    @Test func anIdentifierOfAnyValidShapeProvesItsOwnFiles() throws {
+        for (identifier, name) in [("company.thebrowser.Browser", "Arc"), ("md.obsidian", "Obsidian"), ("notion.id", "Notion")] {
+            let owned = try #require(match("\(identifier).plist", in: .preferences, for: app(identifier, name: name)))
+            #expect(owned.reason == .bundleIdentifier, "\(identifier)")
+            #expect(owned.confidence == .certain, "\(identifier)")
+        }
+        let arc = app("company.thebrowser.Browser", name: "Arc", embedded: ["company.thebrowser.browser.helper"])
+        let helper = try #require(match("company.thebrowser.browser.helper", in: .caches, for: arc))
+        #expect(helper.reason == .embeddedBundleIdentifier)
+        #expect(helper.confidence == .certain)
+    }
+
     /// When one app claims an item by name and another by identifier, neither claim wins, whatever their ranks.
     @Test func aNameAndAnIdentifierThatBothClaimAnItemShareIt() throws {
         let target = app("com.example.notes", name: "Notes Pro")

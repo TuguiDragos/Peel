@@ -153,6 +153,17 @@ struct RemovalHygieneTests {
         #expect(PreferenceCleanup.domains(for: [own], ownedBy: "com.someone.else", home: home).isEmpty)
     }
 
+    /// A sandboxed app whose identifier has two components owns the settings file in its container just the same.
+    @Test func forgetsTheDomainOfASandboxedAppWithATwoPartIdentifier() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let own = try directory.file("home/Library/Containers/md.example/Data/Library/Preferences/md.example.plist")
+
+        #expect(PreferenceCleanup.domains(for: [own], ownedBy: "md.example", home: home) == [
+            PreferenceCleanup.Domain(name: "md.example", isByHost: false),
+        ])
+    }
+
     /// A container that cannot be read may hold the settings, so the domain is left alone.
     @Test func keepsTheDomainOfAContainerItCannotRead() throws {
         let directory = try TemporaryDirectory()
@@ -352,6 +363,29 @@ struct RemovalHygieneTests {
         }
         #expect(one != two)
         #expect(PreferenceBackup.copies(in: backups).map(\.folder.lastPathComponent).count == 2)
+    }
+
+    /// Arc's identifier is `company.thebrowser.Browser` and Obsidian's `md.obsidian`. A copy of their settings is
+    /// made, and read back, like any other app's: without it a reset clears nothing.
+    @Test func savesTheSettingsOfAnyAppWithAValidIdentifier() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let exporting: PreferenceBackup.Run = { arguments in
+            if arguments.first == "export", let file = arguments.last {
+                FileManager.default.createFile(atPath: file, contents: Data())
+            }
+            return .yes
+        }
+        for identifier in ["company.thebrowser.Browser", "md.obsidian"] {
+            let app = InstalledApp(url: URL(filePath: "/Applications/\(identifier).app"), bundleIdentifier: identifier, name: identifier)
+            let plist = URL.homeDirectory.appending(path: "Library/Preferences/\(identifier).plist")
+            let saved = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: exporting)
+            guard case .saved = saved else {
+                Issue.record("no copy of \(identifier)'s settings: \(saved)")
+                continue
+            }
+        }
+        #expect(Set(PreferenceBackup.copies(in: backups).map(\.bundleIdentifier)) == ["company.thebrowser.Browser", "md.obsidian"])
     }
 
     /// Settings lists the saved copies, newest first, to put back or clear. A copy may hold a license key.

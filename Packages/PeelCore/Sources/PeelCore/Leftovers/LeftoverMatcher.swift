@@ -288,11 +288,11 @@ extension LeftoverMatcher {
             guard !candidate.isApple || isApplesOwn else { return nil }
 
             if key == identifier {
-                guard Identifier.isReverseDNS(key) else { return Evidence(unproven: .bundleIdentifier, for: candidate) }
+                guard Identifier.isValid(key) else { return Evidence(unproven: .bundleIdentifier, for: candidate) }
                 return Evidence(.bundleIdentifier, .certain, specificity: key.count)
             }
             if let embedded = embeddedIdentifiers.first(where: { $0.value == key }) {
-                guard Identifier.isReverseDNS(key) else { return Evidence(unproven: .embeddedBundleIdentifier, for: candidate) }
+                guard Identifier.isValid(key) else { return Evidence(unproven: .embeddedBundleIdentifier, for: candidate) }
                 return Evidence(.embeddedBundleIdentifier, embedded.sharesVendor ? .certain : .likely, specificity: key.count)
             }
             if applicationGroups.contains(key) {

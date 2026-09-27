@@ -157,7 +157,7 @@ enum PreferenceCleanup {
     }
 
     private static func isOwned(_ name: String, by owner: String?) -> Bool {
-        guard let owner, Identifier.isReverseDNS(owner) else { return false }
+        guard let owner, Identifier.isValid(owner) else { return false }
         return name == owner || name.hasPrefix(owner + ".")
     }
 }

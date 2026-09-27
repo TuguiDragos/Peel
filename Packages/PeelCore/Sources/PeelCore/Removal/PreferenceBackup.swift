@@ -63,9 +63,9 @@ public enum PreferenceBackup {
         guard !domains.isEmpty else { return .nothingToSave }
 
         // The bundle identifier comes from the app itself and becomes part of a folder name, so it must have the
-        // reverse DNS shape `copies` reads back, which rules out a `/`.
+        // shape `copies` reads back, which rules out a `/` and a space.
         guard
-            Identifier.isReverseDNS(bundleIdentifier),
+            Identifier.isValid(bundleIdentifier),
             (try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)) != nil,
             let folder = newFolder(for: bundleIdentifier, in: directory)
         else { return .failed }
@@ -163,7 +163,7 @@ public enum PreferenceBackup {
             // An identifier has no space, so the name reads as the identifier, the day, the time, and a number.
             let parts = folder.lastPathComponent.split(separator: " ", omittingEmptySubsequences: false)
                 .map(String.init)
-            guard folder.isRealFolder, parts.count == 3 || parts.count == 4, Identifier.isReverseDNS(parts[0]),
+            guard folder.isRealFolder, parts.count == 3 || parts.count == 4, Identifier.isValid(parts[0]),
                   let date = try? stampStyle.parse("\(parts[1]) \(parts[2])") else { return nil }
             let number = parts.count == 4 ? Int(parts[3]) : 1
             guard let number, number >= 1 else { return nil }
