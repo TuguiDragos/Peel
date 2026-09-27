@@ -102,7 +102,7 @@ struct RemovalBar: View {
                 Text(moved.size.known > 0 ? moved.size.text : String(inflecting: "^[\(moved.records.count) item](inflect: true)"))
                     .font(.barFigure)
                     .monospacedDigit()
-                Text("Moved")
+                Text("Moved", comment: "A label after a figure at the foot of a page, for a moment after a removal: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, never as a form that agrees with the number or adds (s).")
                     .foregroundStyle(.secondary)
             } else if isScanning {
                 ProgressView()
@@ -118,7 +118,7 @@ struct RemovalBar: View {
                     VStack(alignment: .leading, spacing: 0) {
                         figure(reading.total)
                         HStack(spacing: 4) {
-                            Text("Selected on ^[\(pages) page](inflect: true)")
+                            Text("Selected on ^[\(pages) page](inflect: true)", comment: "Under the figure in the bar at the foot of a page, when the selection is on several pages: the figure is a size, such as 426 kB. Word Selected as the bar's own \"Selected\" is worded, agreeing with no number but the pages'.")
                             Image(systemName: "chevron.up")
                                 .font(.caption2.weight(.semibold))
                                 .accessibilityHidden(true)
@@ -134,7 +134,7 @@ struct RemovalBar: View {
                 }
             } else {
                 figure(reading.total)
-                Text("Selected")
+                Text("Selected", comment: "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).")
                     .foregroundStyle(.secondary)
             }
         } action: {

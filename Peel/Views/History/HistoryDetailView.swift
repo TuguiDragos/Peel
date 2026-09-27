@@ -253,7 +253,7 @@ private struct RestoreBar: View {
                     .font(.barFigure)
                     .monospacedDigit()
                     .contentTransition(.numericText(value: Double(count)))
-                Text("Selected")
+                Text("Selected", comment: "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).")
                     .foregroundStyle(.secondary)
             }
         } action: {

@@ -57505,6 +57505,7 @@
       }
     },
     "Moved" : {
+      "comment" : "A label after a figure at the foot of a page, for a moment after a removal: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, never as a form that agrees with the number or adds (s).",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -57527,7 +57528,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "déplacé(s)"
+            "value" : "dans la corbeille"
           }
         },
         "it" : {
@@ -57581,7 +57582,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "flyttade"
+            "value" : "till papperskorgen"
           }
         },
         "tr" : {
@@ -99074,6 +99075,7 @@
       }
     },
     "Selected" : {
+      "comment" : "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -99096,7 +99098,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sélectionné(s)"
+            "value" : "dans la sélection"
           }
         },
         "it" : {
@@ -99126,7 +99128,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaznaczone"
+            "value" : "Zaznaczono"
           }
         },
         "pt" : {
@@ -99150,7 +99152,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "markerade"
+            "value" : "i markeringen"
           }
         },
         "tr" : {
@@ -99286,6 +99288,7 @@
       }
     },
     "Selected on ^[%lld page](inflect: true)" : {
+      "comment" : "Under the figure in the bar at the foot of a page, when the selection is on several pages: the figure is a size, such as 426 kB. Word Selected as the bar's own \"Selected\" is worded, agreeing with no number but the pages'.",
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -99365,19 +99368,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "sélectionné(s) sur %lld de pages"
+                  "value" : "dans la sélection, sur %lld de pages"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "sélectionné(s) sur %lld page"
+                  "value" : "dans la sélection, sur %lld page"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "sélectionné(s) sur %lld pages"
+                  "value" : "dans la sélection, sur %lld pages"
                 }
               }
             }
@@ -99443,25 +99446,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Zaznaczone na %lld stronach"
+                  "value" : "Zaznaczono na %lld stronach"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Zaznaczone na %lld stronach"
+                  "value" : "Zaznaczono na %lld stronach"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Zaznaczone na %lld stronie"
+                  "value" : "Zaznaczono na %lld stronie"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Zaznaczone na %lld strony"
+                  "value" : "Zaznaczono na %lld strony"
                 }
               }
             }
@@ -99551,13 +99554,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "markerade på %lld sida"
+                  "value" : "i markeringen på %lld sida"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "markerade på %lld sidor"
+                  "value" : "i markeringen på %lld sidor"
                 }
               }
             }
