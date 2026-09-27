@@ -208,6 +208,8 @@ extension HoldBack {
             "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else."
         case .crashReport:
             "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for."
+        case .inTheCloud:
+            "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices."
         }
     }
 }

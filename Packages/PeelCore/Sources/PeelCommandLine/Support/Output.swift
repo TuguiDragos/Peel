@@ -274,6 +274,7 @@ extension HoldBack {
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"
+        case .inTheCloud: "in iCloud Drive, so moving it removes it from every device"
         }
     }
 }

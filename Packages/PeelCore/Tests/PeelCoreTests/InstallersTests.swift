@@ -133,6 +133,26 @@ struct InstallersTests {
         #expect(scan.items.map(\.name) == ["Tool-2.dmg"])
     }
 
+    @Test func anInstallerInICloudDriveIsLeftForThePersonToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
+        try directory.directory("Documents/Install macOS Tahoe.app/Contents")
+        try directory.file("Documents/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
+        try directory.file("Desktop/Other-3.dmg", bytes: 400_000)
+        let documents = PathPattern.comparablePath(of: directory.url.appending(path: "Documents"))
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk,
+            isInTheCloud: { PathPattern.comparablePath(of: $0.deletingLastPathComponent()) == documents }
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Tool-2.dmg"] == .inTheCloud)
+        #expect(heldBack["Install macOS Tahoe"] == .inTheCloud)
+        #expect(heldBack["Other-3.dmg"] == .some(nil))
+    }
+
     @Test func findsMacOSInstallersAndDeviceFirmware() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)

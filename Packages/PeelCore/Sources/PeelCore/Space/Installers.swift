@@ -81,7 +81,8 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        canList: (URL) -> AccessState = FullDiskAccess.canList
+        canList: (URL) -> AccessState = FullDiskAccess.canList,
+        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
@@ -95,8 +96,9 @@ public enum Installers {
                 let isInstaller = installerExtensions.contains(suffix)
                 let isArchive = suffix == "zip"
                 guard isInstaller || isArchive || firmwareExtensions.contains(suffix), !exclusions.excludes(url), !Task.isCancelled else { continue }
-                let (size, heldBack) = await measured(url, by: measure)
+                let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
+                let heldBack = isInTheCloud(url) ? .inTheCloud : seen
                 if isArchive {
                     guard let app = appInside(zip: url) else { continue }
                     items.append(appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: app))
@@ -114,7 +116,8 @@ public enum Installers {
             in: [root.appending(path: "Applications", directoryHint: .isDirectory)] + downloads,
             exclusions: exclusions,
             minimumSize: minimumSize,
-            measure: measure
+            measure: measure,
+            isInTheCloud: isInTheCloud
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
 
@@ -241,13 +244,19 @@ public enum Installers {
         return words
     }
 
-    static func macOSInstallers(in folders: [URL], exclusions: Exclusions, minimumSize: Int64, measure: LeftoverScanner.Measure) async -> [InstallerItem] {
+    static func macOSInstallers(
+        in folders: [URL],
+        exclusions: Exclusions,
+        minimumSize: Int64,
+        measure: LeftoverScanner.Measure,
+        isInTheCloud: (URL) -> Bool
+    ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for folder in folders {
             for url in files(in: folder) where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url) else { continue }
-                let (size, heldBack) = await measured(url, by: measure)
+                let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let version = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))?["CFBundleShortVersionString"] as? String
                 items.append(InstallerItem(
@@ -260,7 +269,7 @@ public enum Installers {
                     isReadOnly: false,
                     notes: version.map { [.version($0)] } ?? [],
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                    heldBack: heldBack
+                    heldBack: isInTheCloud(url) ? .inTheCloud : seen
                 ))
             }
         }
