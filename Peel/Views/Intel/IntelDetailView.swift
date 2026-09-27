@@ -10,6 +10,15 @@ struct IntelDetailView: View {
         AppCatalog.app(holding: finding.url, among: library.apps)
     }
 
+    /// When the app was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
+    /// a new date is no reason to scan again.
+    private var lastOpened: Date? {
+        switch finding.kind {
+        case .app, .insideApp: app?.lastUsedDate
+        case .plugin, .driver, .backgroundItem, .commandLineTool: nil
+        }
+    }
+
     var body: some View {
         Form {
             Section {
@@ -62,9 +71,9 @@ struct IntelDetailView: View {
                 LabeledContent("Size") {
                     Text(finding.size.byteCount).monospacedDigit()
                 }
-                if let lastUsedDate = finding.lastUsedDate {
+                if let lastOpened {
                     LabeledContent("Last opened") {
-                        Text(lastUsedDate, format: .relative(presentation: .named))
+                        Text(lastOpened, format: .relative(presentation: .named))
                     }
                 }
                 if let app, let status = library.shownUpdateStatus(of: app) {

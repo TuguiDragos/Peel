@@ -19,7 +19,6 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public let owner: String?
     /// Nil when the size is not known because measuring it timed out or was refused. Unknown is not zero.
     public let size: Int64?
-    public let lastUsedDate: Date?
 
     public var id: URL { url }
 }
@@ -109,7 +108,6 @@ public enum IntelInspector {
                     name: app.name,
                     owner: nil,
                     size: await measure(app.url),
-                    lastUsedDate: app.lastUsedDate,
                 ))
                 continue
             }
@@ -120,7 +118,6 @@ public enum IntelInspector {
                     name: url.lastPathComponent,
                     owner: app.name,
                     size: await measure(url),
-                    lastUsedDate: app.lastUsedDate,
                 ))
             }
         }
@@ -132,7 +129,6 @@ public enum IntelInspector {
                 name: plugin.name,
                 owner: nil,
                 size: plugin.size,
-                lastUsedDate: nil,
             ))
         }
 
@@ -143,7 +139,6 @@ public enum IntelInspector {
                 name: url.lastPathComponent,
                 owner: nil,
                 size: await measure(url),
-                lastUsedDate: nil,
             ))
         }
 
@@ -156,7 +151,6 @@ public enum IntelInspector {
                 name: item.label,
                 owner: item.plistURL?.lastPathComponent,
                 size: await measure(program),
-                lastUsedDate: nil,
             ))
         }
 
@@ -167,7 +161,6 @@ public enum IntelInspector {
                 name: url.lastPathComponent,
                 owner: nil,
                 size: await measure(url),
-                lastUsedDate: nil,
             ))
         }
 

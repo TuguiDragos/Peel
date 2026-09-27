@@ -65,7 +65,6 @@ struct SearchingTests {
             name: "Widget.plugin",
             owner: "Photoshop",
             size: 10,
-            lastUsedDate: nil,
         )
 
         #expect(finding.matches("widget"))
@@ -89,7 +88,7 @@ struct SearchingTests {
     @Test func anEmptyQueryKeepsEverything() {
         #expect(duplicates("/a/b.txt").matches(""))
         #expect(CloudFile(url: URL(filePath: "/a"), name: "a", container: "c", size: 1, modified: nil).matches(""))
-        #expect(IntelFinding(url: URL(filePath: "/a"), kind: .app, name: "a", owner: nil, size: 1, lastUsedDate: nil).matches(""))
+        #expect(IntelFinding(url: URL(filePath: "/a"), kind: .app, name: "a", owner: nil, size: 1).matches(""))
     }
 
     /// File Search is for finding what the user made. What an app keeps in a Library folder is listed last and

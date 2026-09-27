@@ -111,6 +111,14 @@ public enum AppCatalog {
         apps.sorted(by: byName)
     }
 
+    /// Whether `reading` lists the same apps as `listed`, each the same build in the same place, whatever each says
+    /// about when it was last opened: that changes every time an app is opened, and says nothing about what is
+    /// installed. Both are in the order `sorted` keeps.
+    public static func listsTheSameApps(_ reading: [InstalledApp], as listed: [InstalledApp]) -> Bool {
+        reading.count == listed.count
+            && zip(reading, listed).allSatisfy { $0.withLastUsedDate(nil) == $1.withLastUsedDate(nil) }
+    }
+
     static func appBundles(in directory: URL, maximumDepth: Int = 3) -> [URL] {
         guard let enumerator = FileManager.default.enumerator(
             at: directory,

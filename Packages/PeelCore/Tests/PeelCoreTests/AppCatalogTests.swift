@@ -3,8 +3,32 @@ import Foundation
 import Testing
 
 struct AppCatalogTests {
-    private func app(_ name: String) -> InstalledApp {
-        InstalledApp(url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory), bundleIdentifier: "org.example.\(name)", name: name)
+    private let yesterday = Date(timeIntervalSince1970: 1_800_000_000)
+    private let today = Date(timeIntervalSince1970: 1_800_086_400)
+
+    private func app(_ name: String, version: String = "1.0", lastUsed: Date? = nil) -> InstalledApp {
+        InstalledApp(
+            url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.\(name)", name: name, version: version, lastUsedDate: lastUsed
+        )
+    }
+
+    /// Opening an app changes when it was last opened and nothing about what is installed, so the pages that scan
+    /// again whenever the apps change are not told they did.
+    @Test func anAppOpenedAgainListsTheSameApps() {
+        let listed = [app("Tunewell", lastUsed: yesterday), app("Zed")]
+        let reading = [app("Tunewell", lastUsed: today), app("Zed", lastUsed: today)]
+
+        #expect(AppCatalog.listsTheSameApps(reading, as: listed))
+    }
+
+    @Test func anotherBuildAnAppAddedOrAnAppGoneIsAnotherList() {
+        let listed = [app("Tunewell"), app("Zed")]
+
+        #expect(!AppCatalog.listsTheSameApps([app("Tunewell", version: "2.0"), app("Zed")], as: listed))
+        #expect(!AppCatalog.listsTheSameApps([app("Arc"), app("Tunewell"), app("Zed")], as: listed))
+        #expect(!AppCatalog.listsTheSameApps([app("Tunewell")], as: listed))
+        #expect(AppCatalog.listsTheSameApps(listed, as: listed))
     }
 
     /// A folder's URL ends in a slash, as the catalog reads it, and a plug-in inside the app still belongs to it.

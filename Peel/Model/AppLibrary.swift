@@ -66,9 +66,13 @@ final class AppLibrary {
     static let unusedMonths = 6
 
     private(set) var apps: [InstalledApp] = []
-    /// Incremented whenever the list changes, or anything about one of its apps does. Work is keyed to this
-    /// rather than to `apps.count`, because an upgrade replaces a bundle without changing the count.
+    /// Incremented whenever the apps listed change: one installed, removed, moved, or replaced by another build.
+    /// Work is keyed to this rather than to `apps.count`, because an upgrade replaces a bundle without changing the
+    /// count. When an app was last opened is not part of it, since opening an app changes nothing that is installed.
     private(set) var revision = 0
+    /// Incremented when only the dates the apps were last opened changed, which the list shows, sorts by, and
+    /// filters on.
+    private(set) var lastOpenedRevision = 0
     private(set) var isLoading = false
     private(set) var hasLoaded = false
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
@@ -179,7 +183,13 @@ final class AppLibrary {
     func refresh() async -> [InstalledApp] {
         guard let found = await scanRun.run({ await AppCatalog.installedApps() }) else { return [] }
         lastRead = .now
-        guard AppCatalog.sorted(found + stillThere(revealed, beside: found)) != apps else { return [] }
+        let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
+        guard listed != apps else { return [] }
+        guard !AppCatalog.listsTheSameApps(listed, as: apps) else {
+            apps = listed
+            lastOpenedRevision += 1
+            return []
+        }
         let changed = adopt(found)
         // Remembered whenever the list changes, so an app installed and removed between two visits to Orphaned
         // Files is still known. Done last, so nothing above is left half done while this waits.
@@ -329,6 +339,7 @@ final class AppLibrary {
 
     private struct VisibleKey: Hashable {
         let revision: Int
+        let lastOpened: Int
         let updates: Int
         let sizes: Int
         let sort: AppSort
@@ -346,6 +357,7 @@ final class AppLibrary {
     func visibleApps(matching searchText: String) -> VisibleApps {
         let key = VisibleKey(
             revision: revision,
+            lastOpened: lastOpenedRevision,
             updates: updatesRevision,
             sizes: sort == .size ? sizesRevision : 0,
             sort: sort,
