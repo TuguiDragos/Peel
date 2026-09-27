@@ -48,26 +48,77 @@ public enum ProjectArtifacts {
         let tool: String
         let isGeneric: Bool
         var isEnvironment = false
+        /// Where the tool documents the folder: a page, or what Xcode itself prints.
+        let source: String
     }
 
+    private static let gradleFiles = ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"]
+    private static let pythonProjectFiles = ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"]
+    private static let nextConfigFiles = ["next.config.js", "next.config.mjs", "next.config.ts"]
+
     static let definitions: [Definition] = [
-        Definition(name: "node_modules", markers: ["package.json"], tool: "npm", isGeneric: false),
-        Definition(name: ".build", markers: ["Package.swift"], tool: "Swift Package Manager", isGeneric: false),
-        Definition(name: "Pods", markers: ["Podfile"], tool: "CocoaPods", isGeneric: false),
-        Definition(name: "Carthage", markers: ["Cartfile"], tool: "Carthage", isGeneric: false),
-        Definition(name: "DerivedData", markers: ["*.xcodeproj", "*.xcworkspace"], tool: "Xcode", isGeneric: false),
-        Definition(name: ".next", markers: ["next.config.js", "next.config.mjs", "next.config.ts"], tool: "Next.js", isGeneric: false),
-        Definition(name: ".dart_tool", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: false),
+        Definition(
+            name: "node_modules", markers: ["package.json"], tool: "npm", isGeneric: false,
+            source: "https://docs.npmjs.com/cli/v11/configuring-npm/folders"
+        ),
+        Definition(
+            name: ".build", markers: ["Package.swift"], tool: "Swift Package Manager", isGeneric: false,
+            source: "Xcode 27: swift build --help (--scratch-path, default .build)"
+        ),
+        Definition(
+            name: "Pods", markers: ["Podfile"], tool: "CocoaPods", isGeneric: false,
+            source: "https://guides.cocoapods.org/using/using-cocoapods.html"
+        ),
+        Definition(
+            name: "Carthage", markers: ["Cartfile"], tool: "Carthage", isGeneric: false,
+            source: "https://github.com/Carthage/Carthage/blob/master/README.md"
+        ),
+        Definition(
+            name: "DerivedData", markers: ["*.xcodeproj", "*.xcworkspace"], tool: "Xcode", isGeneric: false,
+            source: "Xcode 27: man xcodebuild (-derivedDataPath)"
+        ),
+        Definition(
+            name: ".next", markers: nextConfigFiles, tool: "Next.js", isGeneric: false,
+            source: "https://nextjs.org/docs/app/api-reference/config/next-config-js/distDir"
+        ),
+        Definition(
+            name: ".dart_tool", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: false,
+            source: "https://dart.dev/tools/pub/package-layout"
+        ),
         // `.terraform` keeps the selected workspace and the last backend configuration beside the cached
         // providers, and `terraform init` brings back only the providers.
-        Definition(name: ".terraform", markers: ["*.tf"], tool: "Terraform", isGeneric: false, isEnvironment: true),
-        Definition(name: ".gradle", markers: ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"], tool: "Gradle", isGeneric: false),
-        Definition(name: "target", markers: ["Cargo.toml"], tool: "Cargo", isGeneric: true),
-        Definition(name: "target", markers: ["pom.xml"], tool: "Maven", isGeneric: true),
-        Definition(name: "build", markers: ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"], tool: "Gradle", isGeneric: true),
-        Definition(name: "build", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: true),
-        Definition(name: ".venv", markers: ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"], tool: "Python", isGeneric: false, isEnvironment: true),
-        Definition(name: "venv", markers: ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"], tool: "Python", isGeneric: false, isEnvironment: true),
+        Definition(
+            name: ".terraform", markers: ["*.tf"], tool: "Terraform", isGeneric: false, isEnvironment: true,
+            source: "https://developer.hashicorp.com/terraform/cli/init"
+        ),
+        Definition(
+            name: ".gradle", markers: gradleFiles, tool: "Gradle", isGeneric: false,
+            source: "https://docs.gradle.org/current/userguide/directory_layout.html"
+        ),
+        Definition(
+            name: "target", markers: ["Cargo.toml"], tool: "Cargo", isGeneric: true,
+            source: "https://doc.rust-lang.org/cargo/reference/build-cache.html"
+        ),
+        Definition(
+            name: "target", markers: ["pom.xml"], tool: "Maven", isGeneric: true,
+            source: "https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"
+        ),
+        Definition(
+            name: "build", markers: gradleFiles, tool: "Gradle", isGeneric: true,
+            source: "https://docs.gradle.org/current/userguide/directory_layout.html"
+        ),
+        Definition(
+            name: "build", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: true,
+            source: "https://docs.flutter.dev/reference/flutter-cli"
+        ),
+        Definition(
+            name: ".venv", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
+            source: "https://docs.python.org/3/library/venv.html"
+        ),
+        Definition(
+            name: "venv", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
+            source: "https://docs.python.org/3/library/venv.html"
+        ),
     ]
 
     /// Duplicates uses it to recognize a project folder and leave it alone.

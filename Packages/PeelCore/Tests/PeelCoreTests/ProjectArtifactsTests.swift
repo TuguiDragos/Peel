@@ -253,12 +253,14 @@ struct ProjectArtifactsTests {
         #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/x/does-not-exist")))
     }
 
-    @Test func everyDefinitionNamesAMarkerAndATool() {
+    @Test func everyDefinitionNamesAMarkerAToolAndItsSource() {
         for definition in ProjectArtifacts.definitions {
             #expect(!definition.name.isEmpty)
             #expect(!definition.markers.isEmpty, "\(definition.name) has no marker")
             #expect(!definition.tool.isEmpty)
             #expect(!definition.name.contains("/"))
+            let isAPage = definition.source.hasPrefix("https://") && URL(string: definition.source)?.host() != nil
+            #expect(isAPage || definition.source.hasPrefix("Xcode 27: "), "\(definition.name) names \(definition.source)")
         }
     }
 
