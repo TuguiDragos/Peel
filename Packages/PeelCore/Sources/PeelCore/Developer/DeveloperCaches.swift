@@ -488,6 +488,8 @@ public enum DeveloperCaches {
             Folder(".gradle/caches", .downloads, source: "https://github.com/gradle/gradle/blob/master/platforms/documentation/docs/src/docs/userguide/reference/runtime-configuration/directory_layout.adoc#L40-L53"),
             Folder(".gradle/wrapper/dists", .downloads, source: "https://github.com/gradle/gradle/blob/master/platforms/documentation/docs/src/docs/userguide/reference/runtime-configuration/directory_layout.adoc#L52"),
             Folder(".gradle/daemon", .cache, source: "https://github.com/gradle/gradle/blob/master/platforms/documentation/docs/src/docs/userguide/reference/runtime-configuration/directory_layout.adoc#L49"),
+            Folder(".gradle/notifications", .cache, source: "https://github.com/gradle/gradle/blob/master/platforms/core-runtime/gradle-cli/src/main/java/org/gradle/launcher/cli/WelcomeMessageAction.java#L121-L126"),
+            Folder(".gradle/workers", .cache, source: "https://github.com/gradle/gradle/blob/master/platforms/core-execution/worker-main/src/main/java/org/gradle/process/internal/worker/child/DefaultWorkerDirectoryProvider.java#L31-L38"),
         ]),
         Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".m2/repository", .environments, source: "https://github.com/apache/maven/blob/master/api/maven-api-settings/src/main/mdo/settings.mdo#L110"),

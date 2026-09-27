@@ -756,6 +756,19 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.url.lastPathComponent)) == [".zcompdump", ".zcompdump-Mac-5.9", "completions"])
     }
 
+    @Test func offersGradlesMarkersAndWorkerFolderAndNeverItsSettings() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".gradle/notifications/9.1.0/release-features.rendered", bytes: 64)
+        try directory.file(".gradle/workers/classpath.jar", bytes: 400_000)
+        try directory.file(".gradle/gradle.properties", bytes: 64)
+        try directory.file(".gradle/init.d/mirror.gradle", bytes: 64)
+        let gradle = DeveloperCaches.definitions.filter { $0.id == "gradle" }
+
+        let locations = await DeveloperCaches.scan(gradle, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["notifications", "workers"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
