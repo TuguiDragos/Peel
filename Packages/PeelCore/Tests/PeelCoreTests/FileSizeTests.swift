@@ -322,7 +322,8 @@ struct FileSizeTests {
         let start = ContinuousClock.now
         _ = await FileSize.reclaimableSize(of: folder, within: FileSize.budget)
         _ = await FileSize.reclaimableSize(of: withSlash, within: FileSize.budget)
-        #expect(ContinuousClock.now - start < .seconds(2), "a question about a folder already being walked paid a budget of its own")
+        let took = ContinuousClock.now - start
+        #expect(took < .seconds(FileSize.budget), "a question about a folder being walked paid a budget of its own")
     }
 
     /// The walk that measures a folder also says whether a repository is in it, at any depth, because that

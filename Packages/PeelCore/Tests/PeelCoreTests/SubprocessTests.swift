@@ -64,20 +64,42 @@ struct SubprocessTests {
     }
 
     /// A run without a time limit, which Homebrew's upgrades need, still stops when whoever asked goes away.
-    @Test func aRunWithNoTimeLimitStopsWhenAsked() async {
-        let task = Task { await Subprocess.run("/bin/sleep", ["600"], timeout: nil) }
-        try? await Task.sleep(for: .milliseconds(300))
+    @Test func aRunWithNoTimeLimitStopsWhenAsked() async throws {
+        let task = try await sleeping(timeout: nil)
         task.cancel()
         #expect(await task.value == .failure(.canceled))
     }
 
-    @Test func aToolIsStoppedWhenWhoeverAskedGoesAway() async {
-        let task = Task { await Subprocess.run("/bin/sleep", ["600"], timeout: 3_600) }
-        // Long enough for the tool to start, even on a busy machine.
-        try? await Task.sleep(for: .milliseconds(300))
+    @Test func aToolIsStoppedWhenWhoeverAskedGoesAway() async throws {
+        let task = try await sleeping(timeout: 3_600)
         task.cancel()
         #expect(await task.value == .failure(.canceled))
     }
+
+    /// Runs a tool that says it has started and then sleeps for ten minutes, and returns once it has said so, so
+    /// that a cancel reaches a tool that runs rather than one not started yet.
+    private func sleeping(
+        timeout: TimeInterval?
+    ) async throws -> Task<Result<Subprocess.Output, Subprocess.Failure>, Never> {
+        let started = Mutex(false)
+        let task = Task {
+            await Subprocess.run("/bin/sh", ["-c", "echo started; exec /bin/sleep 600"], timeout: timeout) { _ in
+                started.withLock { $0 = true }
+            }
+        }
+        let clock = ContinuousClock()
+        let start = clock.now
+        while !started.withLock({ $0 }), clock.now - start < .seconds(10) {
+            try await Task.sleep(for: .milliseconds(5))
+        }
+        guard started.withLock({ $0 }) else {
+            task.cancel()
+            throw Unstarted()
+        }
+        return task
+    }
+
+    private struct Unstarted: Error {}
 
     /// A task that was already canceled starts no tool at all: a scan stopped between two steps must not launch
     /// the next one only to kill it, which on a busy Mac takes longer than a Stop is allowed. Asked for a tool
