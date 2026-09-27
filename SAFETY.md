@@ -155,7 +155,9 @@ Orphaned Files selects nothing for you, and its Select All and `peel orphans --r
 well: one with a repository, a wallet, or a signing key inside, or one Peel could not read or measure in time,
 moves only when you select it yourself.
 
-In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused.
+In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing
+inside an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`:
+they only count toward the folder around them.
 
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and
 Backups, Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of
