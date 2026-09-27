@@ -3,15 +3,20 @@ import PeelPrivileged
 
 final class HelperListenerDelegate: NSObject, NSXPCListenerDelegate {
     private let lifetime: HelperLifetime
+    private let codeSigningRequirement: String
 
-    init(lifetime: HelperLifetime) {
+    init(lifetime: HelperLifetime, codeSigningRequirement: String) {
         self.lifetime = lifetime
+        self.codeSigningRequirement = codeSigningRequirement
     }
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
         let isAdministrator = { UserAuthorization.isAdministrator(connection.effectiveUserIdentifier) }
         guard lifetime.accept(isAdministrator) else { return false }
 
+        // The listener checks the code only when it connects; with this, a message from any other code closes the
+        // connection (`NSXPCConnection.h`), so a connection handed to another process is never served.
+        connection.setCodeSigningRequirement(codeSigningRequirement)
         connection.exportedInterface = Self.interface()
         connection.exportedObject = HelperService(lifetime: lifetime)
         connection.invalidationHandler = { [lifetime] in

@@ -171,8 +171,9 @@ disk that somebody may have replaced.
 - It answers administrators only, asked when a connection opens and again with each message. The account is the
   connection's and says nothing about which process sent a message (`xpc_connection_create(3)`), so no rule may
   rest on it for that.
-- It accepts only a copy of Peel signed by the same team, and a released helper refuses a build that can be
-  debugged.
+- It accepts only a copy of Peel signed by the same team, checked when a connection opens and for every message
+  after it (`setCodeSigningRequirement` on each accepted connection), and a released helper refuses a build that
+  can be debugged.
 - It never uses a path again after checking it. It holds the folder open and works through that descriptor, so
   a folder swapped after the check leads nowhere.
 - A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a protocol version bump,
