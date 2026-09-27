@@ -20,8 +20,8 @@ final class InstallerLibrary {
         scan?.items(in: kind) ?? []
     }
 
-    var backupsNeedFullDiskAccess: Bool {
-        scan?.backupsNeedFullDiskAccess ?? false
+    var needsFullDiskAccess: Bool {
+        scan?.needsFullDiskAccess ?? false
     }
 
     func refresh(installedApps: [InstalledApp]) async {

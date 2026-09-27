@@ -42,8 +42,11 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
 
 public struct InstallerScan: Sendable {
     public let items: [InstallerItem]
-    /// True when device backups are there but macOS won't let Peel read them.
-    public let backupsNeedFullDiskAccess: Bool
+    /// The folders Peel looks in that macOS would not let it read, the device backups' among them, so what is in
+    /// them is not known.
+    public let unreadableLocations: [URL]
+
+    public var needsFullDiskAccess: Bool { !unreadableLocations.isEmpty }
 
     public func items(in kind: InstallerItem.Kind) -> [InstallerItem] {
         items.filter { $0.kind == kind }
@@ -77,12 +80,15 @@ public enum Installers {
         root: URL,
         exclusions: Exclusions,
         minimumSize: Int64,
-        measure: LeftoverScanner.Measure
+        measure: LeftoverScanner.Measure,
+        canList: (URL) -> AccessState = FullDiskAccess.canList
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
+        var unreadable: [URL] = []
         let downloads = ["Downloads", "Desktop", "Documents"].map { home.appending(path: $0, directoryHint: .isDirectory) }
 
         for folder in downloads {
+            if canList(folder) == .missing { unreadable.append(folder) }
             for url in files(in: folder) {
                 // The extension is checked before measuring, since measuring a folder walks all of it.
                 let suffix = url.pathExtension.lowercased()
@@ -113,15 +119,16 @@ public enum Installers {
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
 
         let backupFolder = home.appending(path: "Library/Application Support/MobileSync/Backup", directoryHint: .isDirectory)
-        let readable = FullDiskAccess.canList(backupFolder)
+        let readable = canList(backupFolder)
         if readable == .granted {
             items += await backups(in: backupFolder, measure: measure)
         }
 
+        if readable == .missing { unreadable.append(backupFolder) }
         return InstallerScan(
             // An unknown size sorts first: an item that ran out of time is most likely one of the biggest.
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
-            backupsNeedFullDiskAccess: readable == .missing
+            unreadableLocations: unreadable
         )
     }
 

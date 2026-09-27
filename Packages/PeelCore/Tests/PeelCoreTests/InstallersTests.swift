@@ -114,6 +114,25 @@ struct InstallersTests {
         #expect(installers.allSatisfy { !$0.isReadOnly })
     }
 
+    /// macOS asks before an app reads Downloads, Desktop, or Documents. A folder it refused is named, never read as
+    /// holding no installers.
+    @Test func namesTheFoldersMacOSWouldNotLetItRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Downloads")
+        try directory.file("Desktop/Tool-2.dmg", bytes: 400_000)
+        let downloads = PathPattern.comparablePath(of: directory.url.appending(path: "Downloads"))
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk,
+            canList: { PathPattern.comparablePath(of: $0) == downloads ? .missing : .granted }
+        )
+
+        #expect(scan.unreadableLocations.map { PathPattern.comparablePath(of: $0) } == [downloads])
+        #expect(scan.needsFullDiskAccess)
+        #expect(scan.items.map(\.name) == ["Tool-2.dmg"])
+    }
+
     @Test func findsMacOSInstallersAndDeviceFirmware() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)

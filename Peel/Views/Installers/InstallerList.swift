@@ -4,6 +4,7 @@ import SwiftUI
 struct InstallerList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(InstallerLibrary.self) private var installers
+    @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -21,7 +22,7 @@ struct InstallerList: View {
         let filtered = listed
 
         List(selection: $installers.selection) {
-            if installers.backupsNeedFullDiskAccess {
+            if installers.needsFullDiskAccess {
                 FullDiskAccessBanner()
             }
             ForEach(filtered, id: \.self) { kind in
@@ -32,7 +33,15 @@ struct InstallerList: View {
         }
         .columnSearch(text: $searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: installers.scanRun) {
-            if installers.sections.isEmpty {
+            if installers.sections.isEmpty, let unreadable = installers.scan?.unreadableLocations, !unreadable.isEmpty {
+                ContentUnavailableView {
+                    Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text("No installers were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                } actions: {
+                    Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                }
+            } else if installers.sections.isEmpty {
                 ContentUnavailableView(
                     "Nothing Left Over",
                     systemImage: "checkmark.seal",
@@ -44,7 +53,13 @@ struct InstallerList: View {
         }
         .fadesInColumn(whenRowsChange: installers.scan?.items.map(\.id))
         .navigationTitle(Text(Tool.installers.title))
-        .announcesScan(installers.isScanning, found: installers.summary, wasStopped: installers.scanRun.wasStopped)
+        .announcesScan(
+            installers.isScanning,
+            found: installers.summary,
+            couldNotLook: installers.sections.isEmpty && installers.needsFullDiskAccess
+                ? "Not Everything Could Be Read" : nil,
+            wasStopped: installers.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded || installers.isRemoving, scan: installers.scanRun) {
@@ -61,7 +76,7 @@ struct InstallerList: View {
 
     private func phase(_ filtered: [InstallerItem.Kind]) -> ScanPhase {
         if installers.scan == nil { return installers.scanRun.wasStopped ? .stopped : .scanning(.walk) }
-        if installers.sections.isEmpty, !installers.backupsNeedFullDiskAccess { return .message }
+        if installers.sections.isEmpty { return .message }
         if !installers.sections.isEmpty, filtered.isEmpty { return .message }
         return .content
     }

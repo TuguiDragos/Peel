@@ -64781,6 +64781,346 @@
         }
       }
     },
+    "No installers were found, but Peel couldn’t look in ^[%lld folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es wurden keine Installer gefunden, aber Peel konnte in %lld Ordner nicht hineinsehen, daher könnte es dort welche geben. Gib Peel Festplattenvollzugriff, damit Peel auch dort nachsehen kann."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es wurden keine Installer gefunden, aber Peel konnte in %lld Ordner nicht hineinsehen, daher könnte es dort welche geben. Gib Peel Festplattenvollzugriff, damit Peel auch dort nachsehen kann."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No se han encontrado instaladores, pero Peel no ha podido mirar en %lld de carpetas, así que podría haber alguno ahí. Da a Peel acceso total al disco para que también mire ahí."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No se han encontrado instaladores, pero Peel no ha podido mirar en %lld carpeta, así que podría haber alguno ahí. Da a Peel acceso total al disco para que también mire ahí."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No se han encontrado instaladores, pero Peel no ha podido mirar en %lld carpetas, así que podría haber alguno ahí. Da a Peel acceso total al disco para que también mire ahí."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucun programme d’installation n’a été trouvé, mais Peel n’a pas pu regarder dans %lld de dossiers, qui peuvent donc en contenir. Accordez à Peel l’accès complet au disque pour qu’il y regarde aussi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucun programme d’installation n’a été trouvé, mais Peel n’a pas pu regarder dans %lld dossier, qui peut donc en contenir. Accordez à Peel l’accès complet au disque pour qu’il y regarde aussi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucun programme d’installation n’a été trouvé, mais Peel n’a pas pu regarder dans %lld dossiers, qui peuvent donc en contenir. Accordez à Peel l’accès complet au disque pour qu’il y regarde aussi."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non sono stati trovati installer, ma Peel non è riuscito a esaminare %lld di cartelle, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco per esaminare anche quelle."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non sono stati trovati installer, ma Peel non è riuscito a esaminare una cartella, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco per esaminare anche quella."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non sono stati trovati installer, ma Peel non è riuscito a esaminare %lld cartelle, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco per esaminare anche quelle."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストーラは見つかりませんでしたが、Peelが調べられなかったフォルダが%lld個あるため、そこにインストーラがある可能性があります。そこも調べられるように、Peelにフルディスクアクセスを許可してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치 프로그램을 찾지 못했지만, Peel이 폴더 %lld개를 살펴볼 수 없었으므로 그곳에 있을 수 있습니다. 그곳도 살펴보려면 Peel에 전체 디스크 접근 권한을 부여하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Er zijn geen installatieprogramma's gevonden, maar Peel kon niet in één map kijken, dus daar kunnen er nog zijn. Geef Peel volledige schijftoegang om daar ook te kijken."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Er zijn geen installatieprogramma's gevonden, maar Peel kon niet in %lld mappen kijken, dus daar kunnen er nog zijn. Geef Peel volledige schijftoegang om daar ook te kijken."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum instalador foi encontrado, mas o Peel não conseguiu examinar %lld de pastas, então pode haver alguns lá. Dê ao Peel Acesso Total ao Disco para que ele examine lá também."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum instalador foi encontrado, mas o Peel não conseguiu examinar %lld pasta, então pode haver alguns lá. Dê ao Peel Acesso Total ao Disco para que ele examine lá também."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum instalador foi encontrado, mas o Peel não conseguiu examinar %lld pastas, então pode haver alguns lá. Dê ao Peel Acesso Total ao Disco para que ele examine lá também."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑au găsit programe de instalare, dar Peel nu a putut căuta în %lld dosare, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc pentru a căuta și acolo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑au găsit programe de instalare, dar Peel nu a putut căuta în %lld dosar, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc pentru a căuta și acolo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑au găsit programe de instalare, dar Peel nu a putut căuta în %lld de dosare, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc pentru a căuta și acolo."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папок, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папку, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Inga installerare hittades, men Peel kunde inte titta i en mapp, så det kan finnas några där. Ge Peel full skivtillgång för att titta där också."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Inga installerare hittades, men Peel kunde inte titta i %lld mappar, så det kan finnas några där. Ge Peel full skivtillgång för att titta där också."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yükleyici bulunamadı ama Peel %lld klasörün içine bakamadı, bu yüzden orada yükleyiciler olabilir. Oraya da bakabilmesi için Peel’e Tam Disk Erişimi verin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yükleyici bulunamadı ama Peel %lld klasörün içine bakamadı, bu yüzden orada yükleyiciler olabilir. Oralara da bakabilmesi için Peel’e Tam Disk Erişimi verin."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Інсталяторів не знайдено, але Peel не вдалося зазирнути в %lld папки, тож вони можуть бути там. Надайте Peel повний доступ до диска, щоб зазирнути й туди."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Інсталяторів не знайдено, але Peel не вдалося зазирнути в %lld папок, тож вони можуть бути там. Надайте Peel повний доступ до диска, щоб зазирнути й туди."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Інсталяторів не знайдено, але Peel не вдалося зазирнути в %lld папку, тож вони можуть бути там. Надайте Peel повний доступ до диска, щоб зазирнути й туди."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Інсталяторів не знайдено, але Peel не вдалося зазирнути в %lld папки, тож вони можуть бути там. Надайте Peel повний доступ до диска, щоб зазирнути й туди."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到安装器，但有%lld个文件夹Peel无法查看，因此其中可能仍有安装器。授予Peel完全磁盘访问权限，即可一并查看这些文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有找到安裝程式，但Peel無法查看%lld個檔案夾，因此那裡可能還有。請給予Peel「完全取用磁碟」權限，讓它也能查看那裡。"
+          }
+        }
+      }
+    },
     "No longer in the Trash" : {
       "localizations" : {
         "cs" : {
