@@ -18,7 +18,8 @@ be undone by History, and each says so where the user confirms it: Homebrew's ow
 an app's privacy permissions. `defaults delete` for an app's preferences runs only once their file is in the Trash, and
 a reset exports the domain first, so putting the file back undoes it; putting saved settings back clears a domain only
 once it has been saved as a copy of its own, and asks first. Every `brew` call runs with `HOMEBREW_NO_INSTALL_CLEANUP`,
-so an upgrade never cleans up on its own.
+so an upgrade never cleans up on its own, and when a `brew.env` file turns that back on (`Homebrew.overrides()`), Peel
+leaves upgrades to Terminal.
 
 ## What you need
 

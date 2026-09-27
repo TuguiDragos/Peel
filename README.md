@@ -208,7 +208,8 @@ Peel sends no analytics and has no account. On its own, it goes online only to c
 you can turn that off. Each check asks one app's own update feed about that app alone, or the App Store about an
 app bought there. Homebrew goes online only when you ask it to update, upgrade, or scan for vulnerabilities, and
 that scan is the one time a list of what is installed leaves your Mac: the name and version of each Homebrew
-formula, sent to `api.osv.dev`. Turn off Check for app updates in Settings, and Peel contacts nothing on its own.
+formula, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change that, and the Homebrew page
+then says what they change. Turn off Check for app updates in Settings, and Peel contacts nothing on its own.
 
 <details>
 <summary>Every address Peel or Homebrew may contact</summary>

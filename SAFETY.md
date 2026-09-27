@@ -123,11 +123,12 @@ free name allows, and the move then replaces the placeholder.
 What Peel deletes outright is only its own: its list of refusals, when `peel history --refused --clear` is asked to
 forget it, and such a placeholder, when the move it was made for fails.
 
-Three things Peel starts can't be undone by History, and Peel says so before you confirm each of them: Homebrew's
-own uninstall and Clean Up, which delete what they remove, and resetting an app's privacy permissions, which is off
-until you choose it. An upgrade from the Homebrew page never cleans up on its own, although Homebrew would by
-default. Forgetting a preference domain (described above) is not one of the three: it is done only once the file
-is in the Trash, and putting the file back undoes it, until the app writes its settings again.
+Three things Peel starts can't be undone by History, and Peel says so before you confirm each of them: Homebrew's own
+uninstall and Clean Up, which delete what they remove, and resetting an app's privacy permissions, which is off until
+you choose it. An upgrade from the Homebrew page never cleans up on its own, although Homebrew would by default. If one
+of Homebrew's own settings files (`brew.env`) turns that cleanup back on, the Homebrew page says so and Peel leaves
+upgrades to Terminal. Forgetting a preference domain (described above) is not one of the three: it is done only once the
+file is in the Trash, and putting the file back undoes it, until the app writes its settings again.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing until it can, or until you

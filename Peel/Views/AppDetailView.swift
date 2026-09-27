@@ -414,16 +414,19 @@ struct AppDetailView: View {
     private func updateExplanation(for source: UpdateSource) -> LocalizedStringResource {
         switch source {
         case .appStore: "The App Store has it. Update from the App Store."
-        case .homebrew where upgradeNeedsTerminal:
+        case .homebrew where library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true:
             "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+        case .homebrew where homebrew.overrides.contains(.cleansUp):
+            HomebrewLibrary.cleansUp
         case .homebrew: "Homebrew has it. Peel can run the upgrade for you."
         case .developer, .automatic: "The maker has it. Update from inside the app."
         }
     }
 
-    /// Whether the cask asks for an administrator's password when it upgrades, which only Terminal can give.
+    /// Whether the cask's upgrade is left to Terminal: it asks for an administrator's password, which only Terminal
+    /// can give, or Homebrew would clean up after it.
     private var upgradeNeedsTerminal: Bool {
-        library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true
+        library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true || homebrew.overrides.contains(.cleansUp)
     }
 
     @ViewBuilder

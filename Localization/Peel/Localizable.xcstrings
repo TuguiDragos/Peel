@@ -6302,6 +6302,112 @@
         }
       }
     },
+    "A brew.env file sets this, in /etc/homebrew, in %@, or in ~/.homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavuje to soubor brew.env ve složce /etc/homebrew, %@ nebo ~/.homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festgelegt ist dies in einer brew.env-Datei in /etc/homebrew, in %@ oder in ~/.homebrew."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto lo establece un archivo brew.env en /etc/homebrew, en %@ o en ~/.homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela provient d’un fichier brew.env situé dans /etc/homebrew, dans %@ ou dans ~/.homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo è impostato in un file brew.env che si trova in /etc/homebrew, in %@ o in ~/.homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これは、/etc/homebrew、%@、または~/.homebrewにあるbrew.envファイルで設定されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 /etc/homebrew, %@ 또는 ~/.homebrew에 있는 brew.env 파일에 지정되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit wordt ingesteld door een brew.env-bestand in /etc/homebrew, in %@ of in ~/.homebrew."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawia to plik brew.env w /etc/homebrew, w %@ lub w ~/.homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isso é definido por um arquivo brew.env em /etc/homebrew, em %@ ou em ~/.homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest lucru este stabilit de un fișier brew.env, aflat în /etc/homebrew, în %@ sau în ~/.homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это задает файл brew.env в /etc/homebrew, в %@ или в ~/.homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här ställs in i en brew.env-fil i /etc/homebrew, i %@ eller i ~/.homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu, /etc/homebrew, %@ veya ~/.homebrew içindeki bir brew.env dosyası ayarlıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це задано у файлі brew.env у /etc/homebrew, у %@ або в ~/.homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是由/etc/homebrew、%@或~/.homebrew中的brew.env文件设置的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是由位於/etc/homebrew、%@或~/.homebrew中的brew.env檔案所設定。"
+          }
+        }
+      }
+    },
     "A caution about %@" : {
       "localizations" : {
         "cs" : {
@@ -37219,6 +37325,112 @@
         }
       }
     },
+    "Homebrew cleans up after every upgrade, deleting old versions for good, so Peel leaves upgrades to Terminal." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew po každém upgradu provede čištění, při kterém trvale smaže staré verze, a proto Peel upgrady přenechává Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew führt nach jedem Upgrade eine Bereinigung aus und löscht dabei alte Versionen endgültig, daher überlässt Peel Upgrades dem Terminal."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hace limpieza tras cada actualización de paquetes y borra definitivamente las versiones antiguas, así que Peel deja las actualizaciones en manos de Terminal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après chaque mise à niveau, Homebrew effectue un nettoyage qui supprime définitivement les anciennes versions : Peel laisse donc les mises à niveau à Terminal."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew fa pulizia dopo ogni aggiornamento, eliminando definitivamente le vecchie versioni, quindi Peel lascia gli aggiornamenti a Terminale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewはアップグレード後に毎回クリーンアップを実行して古いバージョンを完全に削除するため、Peelはアップグレードをターミナルに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 업그레이드가 끝날 때마다 정리를 실행하여 이전 버전을 영구적으로 삭제하므로, Peel은 업그레이드를 터미널에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ruimt na elke upgrade op en verwijdert daarbij oude versies definitief, dus Peel laat upgrades over aan Terminal."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew robi porządki po każdym uaktualnieniu, trwale usuwając stare wersje, więc Peel zostawia uaktualnianie Terminalowi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew faz uma limpeza depois de cada upgrade, apagando as versões antigas definitivamente, então o Peel deixa os upgrades para o Terminal."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew face curățenie după fiecare upgrade, ștergând definitiv versiunile vechi, așa că Peel lasă upgrade‑urile în seama aplicației Terminal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew выполняет очистку после каждого обновления, безвозвратно удаляя старые версии, поэтому Peel оставляет обновления Терминалу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew rensar upp efter varje uppgradering och raderar gamla versioner permanent, så Peel överlåter uppgraderingar åt Terminal."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew her yükseltmeden sonra temizlik yapar ve eski sürümleri kalıcı olarak siler, bu yüzden Peel yükseltmeleri Terminal’e bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew після кожного оновлення пакетів виконує очищення, назавжди видаляючи старі версії, тож Peel не запускає оновлення сама, а залишає це Терміналу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会在每次升级后进行清理，永久删除旧版本，因此Peel将升级交给“终端”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew每次升級後都會自動清理並永久刪除舊版本，因此Peel將升級交由「終端機」執行。"
+          }
+        }
+      }
+    },
     "Homebrew couldn’t finish" : {
       "localizations" : {
         "cs" : {
@@ -39657,6 +39869,112 @@
         }
       }
     },
+    "Homebrew may download its list of packages when Peel only asks about them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew může stáhnout svůj seznam balíčků i tehdy, když se na ně Peel jen ptá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lädt möglicherweise seine Paketliste aus dem Internet, wenn Peel nur nach den Paketen fragt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew puede descargar su lista de paquetes cuando Peel solo le pregunta por ellos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew peut télécharger sa liste de paquets alors que Peel ne fait que l’interroger à leur sujet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew potrebbe scaricare il suo elenco di pacchetti anche quando Peel si limita a chiedergli informazioni sui pacchetti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、Peelがパッケージについて問い合わせるだけでも、パッケージリストをダウンロードすることがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 패키지에 대해 묻기만 해도 Homebrew가 패키지 목록을 다운로드할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kan de eigen pakketlijst downloaden wanneer Peel alleen naar de pakketten vraagt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew może pobrać swoją listę pakietów, nawet gdy Peel tylko o nie pyta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew pode baixar a lista de pacotes dele quando o Peel só pergunta sobre eles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew își poate descărca lista de pachete atunci când Peel doar întreabă despre ele."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew может загрузить свой список пакетов, даже когда Peel лишь спрашивает о них."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kan hämta sin paketlista även när Peel bara frågar om paketen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, Peel ona paketleri yalnızca sorduğunda bile paket listesini indirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew може викачувати свій список пакетів, навіть коли Peel лише запитує про них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使Peel只是查询软件包，Homebrew也可能会下载其软件包列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使Peel只是查詢套件，Homebrew也可能會下載套件列表。"
+          }
+        }
+      }
+    },
     "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal." : {
       "localizations" : {
         "cs" : {
@@ -40077,6 +40395,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew遇到問題。如果Peel中該App的頁面仍開著，你可以在那裡看到它的訊息。"
+          }
+        }
+      }
+    },
+    "Homebrew sends its makers analytics whenever Peel runs it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew odesílá svým tvůrcům analytické údaje pokaždé, když ho Peel spustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sendet Analysedaten an seine Hersteller, wann immer Peel es ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew envía datos de uso a sus creadores cada vez que Peel lo ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew envoie des données d’analyse à son éditeur chaque fois que Peel l’exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew invia dati di utilizzo ai suoi produttori ogni volta che Peel lo esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、Peelが実行するたびに、開発元に解析データを送信します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 Homebrew를 실행할 때마다 Homebrew가 제작자에게 분석 정보를 보냅니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew stuurt analysegegevens naar zijn makers telkens wanneer Peel het uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew wysyła swoim producentom dane analiz za każdym razem, gdy Peel go uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew envia dados de uso aos fabricantes dele sempre que o Peel o executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trimite producătorilor săi date de analiză ori de câte ori Peel îl rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew отправляет аналитику своим разработчикам каждый раз, когда Peel его запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew skickar analysdata till sina tillverkare varje gång Peel kör det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, Peel onu her çalıştırdığında üreticilerine analiz verileri gönderir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew надсилає аналітику своїм розробникам щоразу, коли Peel його запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会在Peel每次运行它时向其开发者发送分析数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew每次由Peel執行時，都會傳送分析資料給它的廠商。"
           }
         }
       }
@@ -40947,6 +41371,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew建議改用「%@」formula。"
+          }
+        }
+      }
+    },
+    "Homebrew’s Own Settings Change How Peel Runs It" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vlastní nastavení Homebrew mění, jak ho Peel spouští"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die eigenen Einstellungen von Homebrew ändern, wie Peel es ausführt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los propios ajustes de Homebrew cambian cómo lo ejecuta Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les réglages propres à Homebrew modifient la façon dont Peel l’exécute"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le impostazioni di Homebrew cambiano il modo in cui Peel lo esegue"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew自身の設定により、Peelが実行するときの動作が変わります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew 자체 설정이 Peel의 Homebrew 실행 방식을 변경함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De eigen instellingen van Homebrew veranderen hoe Peel het uitvoert"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Własne ustawienia Homebrew zmieniają sposób, w jaki Peel go uruchamia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os Ajustes do Próprio Homebrew Mudam Como o Peel o Executa"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurările proprii ale Homebrew schimbă modul în care Peel îl rulează"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собственные настройки Homebrew меняют то, как Peel его запускает"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrews egna inställningar ändrar hur Peel kör det"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un Kendi Ayarları, Peel’in Onu Çalıştırma Biçimini Değiştiriyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власні налаштування Homebrew змінюють те, як Peel його запускає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew自己的设置改变了Peel运行它的方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew自己的設定會改變Peel執行它的方式"
           }
         }
       }

@@ -18,6 +18,7 @@ struct HomebrewList: View {
             // While searching, the page lists only the matching packages and hides every other section.
             if searchText.isEmpty, homebrew.isInstalled, !homebrew.needsDefinitions {
                 installation
+                overridden
                 maintenance
                 health
                 vulnerabilities
@@ -82,6 +83,29 @@ struct HomebrewList: View {
     }
 
     // MARK: - Homebrew itself
+
+    /// What Homebrew's own settings undo of how Peel runs it, said before anything is run.
+    @ViewBuilder
+    private var overridden: some View {
+        let overrides = homebrew.overrides
+        if !overrides.isEmpty {
+            Section {
+                Notice(title: Text("Homebrew’s Own Settings Change How Peel Runs It"), detail: Text(verbatim: explanation(of: overrides)), kind: .caution) {}
+            }
+        }
+    }
+
+    private func explanation(of overrides: Homebrew.Overrides) -> String {
+        var sentences: [String] = []
+        if overrides.contains(.cleansUp) { sentences.append(String(localized: HomebrewLibrary.cleansUp)) }
+        if overrides.contains(.sendsAnalytics) { sentences.append(String(localized: "Homebrew sends its makers analytics whenever Peel runs it.")) }
+        if overrides.contains(.updatesItself) { sentences.append(String(localized: "Homebrew may download its list of packages when Peel only asks about them.")) }
+        let prefix = homebrew.installation?.prefix ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
+        let folder = (prefix?.path(percentEncoded: false) ?? "") + "/etc/homebrew"
+        sentences.append(String(localized: "A brew.env file sets this, in /etc/homebrew, in \(folder), or in ~/.homebrew."))
+        // A line each, since Chinese and Japanese put no space between sentences.
+        return sentences.joined(separator: "\n")
+    }
 
     private var installation: some View {
         Section {
@@ -313,7 +337,7 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(!outdated.contains(where: \.joinsUpgradeAll) || isBusy)
+                        .disabled(homebrew.upgradable.isEmpty || isBusy)
                 }
             }
         }

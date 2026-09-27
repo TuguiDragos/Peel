@@ -110,7 +110,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   for fails. Three actions can't be undone by History, and each says so where it is confirmed: Homebrew's own uninstall
   and clean up, and resetting an app's privacy permissions. Forgetting a preference domain happens only once its file is
   in the Trash, so putting the file back undoes it. Every `brew` call runs without Homebrew's automatic cleanup
-  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own.
+  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's turns
+  that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to Terminal.
 - **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the
   same list without asking the app. The guard judges the item and not the spelling of its path: each rule is

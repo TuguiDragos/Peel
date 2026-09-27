@@ -32,6 +32,32 @@ struct HomebrewTests {
         #expect(asked.withLock { $0 } == ["--formula", "--cask"])
     }
 
+    /// Homebrew reads its own `brew.env` files after Peel's environment, and a line there with no value, such as
+    /// `HOMEBREW_NO_INSTALL_CLEANUP=`, turns Peel's setting off (`bin/brew` and `env_config.rb`, 7.0.4). `brew config`
+    /// lists what is in effect: these are its answers in Peel's environment with such a file, as it wrote them.
+    @Test func readsWhatHomebrewsOwnSettingsUndo() {
+        let plain = """
+        HOMEBREW_VERSION: 7.0.4-17-g2f1c682
+        HOMEBREW_PREFIX: /opt/homebrew
+        HOMEBREW_NO_ANALYTICS: set
+        HOMEBREW_NO_AUTO_UPDATE: set
+        HOMEBREW_NO_COLOR: set
+        HOMEBREW_NO_ENV_HINTS: set
+        HOMEBREW_NO_INSTALL_CLEANUP: set
+        """
+        let emptied = """
+        HOMEBREW_VERSION: 7.0.4-17-g2f1c682
+        HOMEBREW_PREFIX: /opt/homebrew
+        HOMEBREW_NO_COLOR: set
+        HOMEBREW_NO_ENV_HINTS: set
+        """
+        let forced = plain.replacingOccurrences(of: "HOMEBREW_NO_ANALYTICS", with: "HOMEBREW_FORCE_API_AUTO_UPDATE: set\nHOMEBREW_NO_ANALYTICS")
+
+        #expect(Homebrew.Overrides(config: plain).isEmpty)
+        #expect(Homebrew.Overrides(config: emptied) == [.cleansUp, .sendsAnalytics, .updatesItself])
+        #expect(Homebrew.Overrides(config: forced) == [.updatesItself])
+    }
+
     /// A stop is the person's: once the formulae were stopped, the casks are not started.
     @Test func aStoppedUpgradeStartsNothingMore() async {
         let packages = [HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"), HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0")]

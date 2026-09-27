@@ -85,8 +85,9 @@ struct HomebrewDetailView: View {
             Section {
                 HStack {
                     if package.isOutdated {
-                        if package.upgradeNeedsAnAdministrator {
-                            CopyButton(text: "brew upgrade --cask \(package.fullName)", title: "Copy Upgrade Command")
+                        if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                            let kind = package.kind == .cask ? "--cask" : "--formula"
+                            CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
                         } else {
                             Button("Upgrade", systemImage: "arrow.down.circle") {
                                 Task { await homebrew.run(.upgrade(package.id)) }
@@ -115,6 +116,11 @@ struct HomebrewDetailView: View {
                     }
                 }
                 .disabled(homebrew.runningCommand != nil)
+                if package.isOutdated, homebrew.overrides.contains(.cleansUp) {
+                    Text(HomebrewLibrary.cleansUp)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
                 if (package.isOutdated && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
                     Text(needsTerminal)
                         .font(.callout)

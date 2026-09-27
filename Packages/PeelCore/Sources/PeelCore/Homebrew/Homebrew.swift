@@ -640,9 +640,47 @@ public enum Homebrew {
         }
     }
 
+    /// What Homebrew's own settings undo of the environment Peel runs it in. `bin/brew` reads `brew.env` files after
+    /// that environment (`/etc/homebrew`, the prefix's `etc/homebrew`, and `~/.homebrew`), and a line there with no
+    /// value turns one of Peel's settings off.
+    public struct Overrides: OptionSet, Sendable, Hashable {
+        public let rawValue: Int
+
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+
+        /// An upgrade runs `brew cleanup` by itself, which deletes old versions for good.
+        public static let cleansUp = Overrides(rawValue: 1 << 0)
+        /// Homebrew sends analytics when Peel runs it.
+        public static let sendsAnalytics = Overrides(rawValue: 1 << 1)
+        /// Homebrew may update its package lists, over the network, when Peel only asks about them.
+        public static let updatesItself = Overrides(rawValue: 1 << 2)
+
+        /// Reads `brew config`'s answer, which lists each setting in effect as `NAME: set`.
+        init(config: String) {
+            let set = Set(config.split(whereSeparator: \.isNewline).compactMap { line -> Substring? in
+                guard line.hasSuffix(": set") else { return nil }
+                return line.dropLast(": set".count)
+            })
+            self = []
+            if !set.contains("HOMEBREW_NO_INSTALL_CLEANUP") { insert(.cleansUp) }
+            if !set.contains("HOMEBREW_NO_ANALYTICS") { insert(.sendsAnalytics) }
+            if !set.contains("HOMEBREW_NO_AUTO_UPDATE") || set.contains("HOMEBREW_FORCE_API_AUTO_UPDATE") { insert(.updatesItself) }
+        }
+    }
+
+    /// What Homebrew's own settings undo, as it says itself. Nil when it would not say.
+    @concurrent
+    public static func overrides() async -> Overrides? {
+        guard let config = try? await answer(["config"]) else { return nil }
+        return Overrides(config: config)
+    }
+
     /// The environment every `brew` call runs in. It is built from nothing rather than inherited: a `HOMEBREW_*`
     /// value set anywhere in the user's session would otherwise decide how Homebrew behaves, and
-    /// `HOMEBREW_FORCE_API_AUTO_UPDATE` would undo the setting that keeps Peel off the network.
+    /// `HOMEBREW_FORCE_API_AUTO_UPDATE` would undo the setting that keeps Peel off the network. Homebrew's own
+    /// `brew.env` files are read after it and can still undo a setting here, which `overrides()` reports.
     static func environment(autoUpdate: Bool) -> [String: String] {
         var values = [
             "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
