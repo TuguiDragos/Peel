@@ -234,7 +234,7 @@ struct DeveloperCachesTests {
     /// Toolchains, environments, and anything holding an account are installations or secrets, not caches.
     @Test func neverListsToolchainsOrCredentials() {
         let forbidden = [
-            ".rustup", ".pyenv", ".sdkman", ".rbenv", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
+            ".rustup", ".sdkman", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
             "conda/envs", "miniconda3/envs", "anaconda3/envs", ".local/pipx",
             "Library/Android/sdk", "flutter/bin", ".stack/programs",
             ".aws", ".ssh", ".gnupg", ".netrc", ".docker/config", ".kube/config", ".npmrc",
@@ -266,9 +266,12 @@ struct DeveloperCachesTests {
             "Library/Unity",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
-        // of the public index, `trunk`, is a cache. nvm's folder is nvm and every Node it installed; only its download
-        // cache is one.
-        let onlyThisPart = [".cocoapods/repos": ".cocoapods/repos/trunk", ".nvm": ".nvm/.cache"]
+        // of the public index, `trunk`, is a cache. nvm's, pyenv's and rbenv's folders hold every version they
+        // installed; only their download caches are caches.
+        let onlyThisPart = [
+            ".cocoapods/repos": ".cocoapods/repos/trunk", ".nvm": ".nvm/.cache", ".pyenv": ".pyenv/cache",
+            ".rbenv": ".rbenv/cache",
+        ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
                 for pattern in forbidden {
@@ -684,6 +687,23 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["_prebuilds"])
         #expect(locations.first?.isRecommended == true)
+    }
+
+    @Test func offersThePackagesPyenvAndRbenvKeptAndNeverTheirInstalledVersions() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".pyenv/cache/Python-3.13.1.tar.xz", bytes: 400_000)
+        try directory.file(".pyenv/versions/3.13.1/bin/python3", bytes: 400_000)
+        try directory.file(".rbenv/cache/ruby-3.4.1.tar.gz", bytes: 400_000)
+        try directory.file(".rbenv/versions/3.4.1/bin/ruby", bytes: 400_000)
+        let tools = DeveloperCaches.definitions.filter { ["pyenv", "rbenv"].contains($0.id) }
+
+        let locations = await DeveloperCaches.scan(tools, homeDirectory: directory.url).flatMap(\.locations)
+
+        let home = directory.url.path(percentEncoded: false)
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            ".pyenv/cache", ".rbenv/cache",
+        ])
+        #expect(locations.allSatisfy { $0.kind == .downloads })
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the

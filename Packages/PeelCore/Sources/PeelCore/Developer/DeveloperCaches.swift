@@ -451,6 +451,10 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Jedi", .cache, source: "https://github.com/davidhalter/jedi/blob/master/jedi/settings.py#L77-L78"),
             Folder("Library/Caches/Parso", .cache, source: "https://github.com/davidhalter/parso/blob/master/parso/cache.py#L69-L70"),
         ]),
+        // Only the package files `pyenv install` keeps, never `versions`, the Pythons it installed.
+        Definition(id: "pyenv", name: "pyenv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder(".pyenv/cache", .downloads, source: "https://github.com/pyenv/pyenv/blob/master/plugins/python-build/bin/pyenv-install#L235-L238"),
+        ]),
         // Rust and Go
         Definition(id: "cargo", name: "Cargo", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder(".cargo/registry/cache", .downloads, source: "https://github.com/rust-lang/cargo/blob/master/doc/book/src/guide/cargo-home.md#L47-L48"),
@@ -516,6 +520,10 @@ public enum DeveloperCaches {
             Folder(".cache/gem/specs", .cache, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L26-L28"),
             Folder(".bundle/cache", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/bundler.rb#L284-L303"),
             Folder(".local/share/gem/ruby/*/cache", .downloads, source: "https://github.com/ruby/rubygems/blob/master/lib/rubygems/defaults.rb#L103-L109"),
+        ]),
+        // Only the package files `rbenv install` keeps, never `versions`, the Rubies it installed.
+        Definition(id: "rbenv", name: "rbenv", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
+            Folder(".rbenv/cache", .downloads, source: "https://github.com/rbenv/ruby-build/blob/master/bin/rbenv-install#L209-L212"),
         ]),
         Definition(id: "nuget", name: "NuGet", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".nuget/packages", .downloads, source: "https://github.com/NuGet/docs.microsoft.com-nuget/blob/main/docs/consume-packages/managing-the-global-packages-and-cache-folders.md#L17"),
