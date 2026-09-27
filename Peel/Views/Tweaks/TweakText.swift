@@ -28,7 +28,7 @@ extension Tweak {
     private static let words: [String: Words] = [
         "dock-autohide-delay": Words(
             title: "A hidden Dock appears at once",
-            detail: "macOS waits a fifth of a second before sliding the Dock out. This removes the wait."
+            detail: "macOS waits a moment before sliding the Dock out. This removes the wait."
         ),
         "dock-autohide-time": Words(
             title: "No sliding animation for the Dock",
@@ -45,7 +45,7 @@ extension Tweak {
         ),
         "dock-static-only": Words(
             title: "Only apps that are running",
-            detail: "The Dock shows what is open and nothing else.",
+            detail: "The Dock shows what is open and nothing else, unless a configuration profile keeps apps in it.",
             caution: "Apps you keep in the Dock are remembered, and come back when you turn this off."
         ),
         "dock-show-recents": Words(

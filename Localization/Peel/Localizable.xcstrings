@@ -111298,108 +111298,108 @@
         }
       }
     },
-    "The Dock shows what is open and nothing else." : {
+    "The Dock shows what is open and nothing else, unless a configuration profile keeps apps in it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock zobrazuje jen to, co je otevřené, a nic jiného."
+            "value" : "Dock zobrazuje jen to, co je otevřené, a nic jiného, ledaže v něm konfigurační profil ponechává aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Dock zeigt, was geöffnet ist, und sonst nichts."
+            "value" : "Das Dock zeigt, was geöffnet ist, und sonst nichts, es sei denn, ein Konfigurationsprofil hält Apps darin fest."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El Dock muestra lo que está abierto y nada más."
+            "value" : "El Dock muestra lo que está abierto y nada más, salvo que un perfil de configuración mantenga apps en él."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le Dock n’affiche que ce qui est ouvert."
+            "value" : "Le Dock n’affiche que ce qui est ouvert, sauf si un profil de configuration y conserve des apps."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il Dock mostra ciò che è aperto e nient’altro."
+            "value" : "Il Dock mostra ciò che è aperto e nient’altro, a meno che un profilo di configurazione non vi mantenga delle app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dockには、開いているものだけが表示されます。"
+            "value" : "Dockには、開いているものだけが表示されます。ただし、構成プロファイルでDockに残るよう設定されたアプリは除きます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock에 열려 있는 항목만 표시됩니다."
+            "value" : "Dock에 열려 있는 항목만 표시됩니다. 단, 구성 프로필이 Dock에 유지하는 앱은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het Dock toont wat er open is en verder niets."
+            "value" : "Het Dock toont wat er open is en verder niets, tenzij een configuratieprofiel apps in het Dock houdt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock pokazuje tylko to, co jest otwarte."
+            "value" : "Dock pokazuje tylko to, co jest otwarte, chyba że profil konfiguracji utrzymuje w nim aplikacje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Dock mostra o que está aberto e nada mais."
+            "value" : "O Dock mostra o que está aberto e nada mais, a menos que um perfil de configuração mantenha apps nele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock‑ul afișează ce este deschis și nimic altceva."
+            "value" : "Dock‑ul afișează ce este deschis și nimic altceva, în afara aplicațiilor păstrate acolo de un profil de configurare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock показывает только то, что открыто, и ничего больше."
+            "value" : "Dock показывает только то, что открыто, и ничего больше, если только профиль конфигурации не закрепляет в нем приложения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock visar det som är öppet och inget annat."
+            "value" : "Dock visar det som är öppet och inget annat, om inte en konfigurationsprofil håller kvar appar där."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock yalnızca açık olanları gösterir, başka hiçbir şeyi göstermez."
+            "value" : "Bir konfigürasyon profili Dock’ta uygulama tutmadıkça Dock yalnızca açık olanları gösterir, başka hiçbir şeyi göstermez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock показує лише те, що відкрито, і нічого більше."
+            "value" : "Dock показує лише те, що відкрито, і нічого більше, хіба що профіль конфігурації тримає в ньому програми."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "程序坞只显示已打开的App，不显示其他内容。"
+            "value" : "程序坞只显示已打开的App，不显示其他内容，除非有描述文件将App保留在程序坞中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock只顯示已打開的項目，不顯示其他項目。"
+            "value" : "Dock只顯示已打開的項目，不顯示其他項目，除非設定描述檔將App保留在Dock中。"
           }
         }
       }
@@ -151293,108 +151293,108 @@
         }
       }
     },
-    "macOS waits a fifth of a second before sliding the Dock out. This removes the wait." : {
+    "macOS waits a moment before sliding the Dock out. This removes the wait." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS čeká pětinu sekundy, než Dock vysune. Tato volba čekání zruší."
+            "value" : "Systém macOS chvíli čeká, než Dock vysune. Tato volba čekání zruší."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS wartet eine Fünftelsekunde, bevor es das Dock einblendet. Damit entfällt die Wartezeit."
+            "value" : "macOS wartet einen Moment, bevor es das Dock einblendet. Damit entfällt die Wartezeit."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS espera dos décimas de segundo antes de que el Dock aparezca deslizándose. Esto elimina la espera."
+            "value" : "macOS espera un momento antes de que el Dock aparezca deslizándose. Esto elimina la espera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS attend un cinquième de seconde avant de faire apparaître le Dock. Ce réglage supprime ce délai."
+            "value" : "macOS attend un instant avant de faire apparaître le Dock. Ce réglage supprime ce délai."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS aspetta un quinto di secondo prima di far scorrere fuori il Dock. Questo ritocco elimina l’attesa."
+            "value" : "macOS aspetta un attimo prima di far scorrere fuori il Dock. Questo ritocco elimina l’attesa."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、Dockをスライドして表示する前に0.2秒待ちます。この待ち時間をなくします。"
+            "value" : "macOSは、Dockをスライドして表示する前に少し待ちます。この待ち時間をなくします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 Dock이 미끄러져 나오기 전에 0.2초 동안 기다립니다. 이 설정은 이 대기 시간을 없앱니다."
+            "value" : "macOS는 Dock이 미끄러져 나오기 전에 잠시 기다립니다. 이 설정은 이 대기 시간을 없앱니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS wacht een vijfde van een seconde voordat het Dock tevoorschijn schuift. Dit haalt die wachttijd weg."
+            "value" : "macOS wacht even voordat het Dock tevoorschijn schuift. Dit haalt die wachttijd weg."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS czeka jedną piątą sekundy, zanim wysunie Dock. To ustawienie usuwa to oczekiwanie."
+            "value" : "macOS czeka chwilę, zanim wysunie Dock. To ustawienie usuwa to oczekiwanie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS espera um quinto de segundo antes de deslizar o Dock para fora. Isto remove a espera."
+            "value" : "O macOS espera um momento antes de deslizar o Dock para fora. Isto remove a espera."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS așteaptă o cincime de secundă înainte ca Dock‑ul să apară glisând. Această ajustare elimină așteptarea."
+            "value" : "macOS așteaptă o clipă înainte ca Dock‑ul să apară glisând. Această ajustare elimină așteptarea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ждет одну пятую секунды, прежде чем выдвинуть Dock. Этот параметр убирает задержку."
+            "value" : "macOS немного ждет, прежде чем выдвинуть Dock. Этот параметр убирает задержку."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS väntar en femtedels sekund innan Dock glider fram. Det här tar bort väntan."
+            "value" : "macOS väntar ett ögonblick innan Dock glider fram. Det här tar bort väntan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, Dock’u kaydırarak göstermeden önce saniyenin beşte biri kadar bekler. Bu ayar beklemeyi kaldırır."
+            "value" : "macOS, Dock’u kaydırarak göstermeden önce kısa bir süre bekler. Bu ayar beklemeyi kaldırır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS чекає пʼяту частину секунди, перш ніж висунути Dock. Це прибирає очікування."
+            "value" : "macOS трохи чекає, перш ніж висунути Dock. Це прибирає очікування."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS会等待五分之一秒才滑出程序坞。此项会取消这段等待。"
+            "value" : "macOS会等待片刻才滑出程序坞。此项会取消这段等待。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會等待五分之一秒才滑出Dock。此設定會取消這段等待。"
+            "value" : "macOS會稍等片刻才滑出Dock。此設定會取消這段等待。"
           }
         }
       }
