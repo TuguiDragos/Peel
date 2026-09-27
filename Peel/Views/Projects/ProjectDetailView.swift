@@ -95,7 +95,6 @@ struct ProjectDetailView: View {
         } trailing: {
             // The size of all the folders listed, selected or not. The bar at the bottom shows the selection's size.
             TotalLabel(total: group.total, caption: Text("in here"))
-                .accessibilityLabel(Text(verbatim: group.total.text))
         }
         .contextMenu {
             ItemMenu(url: group.project)

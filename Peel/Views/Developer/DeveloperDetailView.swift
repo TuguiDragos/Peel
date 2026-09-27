@@ -58,7 +58,6 @@ struct DeveloperDetailView: View {
             }
         } trailing: {
             TotalLabel(total: environment.total, caption: Text("in here"))
-                .accessibilityLabel(Text(verbatim: environment.total.text))
         }
     }
 

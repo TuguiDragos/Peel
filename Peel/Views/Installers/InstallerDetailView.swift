@@ -138,6 +138,7 @@ private struct BackupRow: View {
             Image(systemName: "iphone.gen3")
                 .foregroundStyle(.secondary)
                 .frame(width: 20)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: item.name)
                     .lineLimit(1)
@@ -157,6 +158,7 @@ private struct BackupRow: View {
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
         }
+        .accessibilityElement(children: .combine)
         .tableRow(isFirst: isFirst)
         .contextMenu {
             Button("Show in Finder", systemImage: "folder") {

@@ -149,7 +149,6 @@ struct SpaceDetailView: View {
             }
         } trailing: {
             TotalLabel(total: total, caption: caption)
-                .accessibilityLabel(Text(verbatim: total.text))
         }
     }
 
