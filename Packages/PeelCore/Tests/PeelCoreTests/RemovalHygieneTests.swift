@@ -4,6 +4,11 @@ import Synchronization
 import Testing
 
 struct RemovalHygieneTests {
+    /// A service for the saves and restores below, which move nothing of their own: one that did would be refused.
+    private static let service = TrashService(
+        environment: SearchEnvironment(homeDirectory: URL(filePath: "/nonexistent/home"), rootDirectory: URL(filePath: "/nonexistent/root"))
+    ) { _ in throw CocoaError(.fileWriteNoPermission) }
+
     private let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
     /// The host UUID of the Mac these tests pretend to run on, as its ByHost file names carry it.
     private let host = "0A1B2C3D-4E5F-6071-8293-A4B5C6D7E8F9"
@@ -207,9 +212,9 @@ struct RemovalHygieneTests {
             return .no
         }
 
-        #expect(await PreferenceBackup.save([URL.homeDirectory.appending(path: "Library/Caches/com.example.app")], for: app, in: backups, run: notThere) == .nothingToSave)
+        #expect(await PreferenceBackup.save([URL.homeDirectory.appending(path: "Library/Caches/com.example.app")], for: app, in: backups, through: Self.service, run: notThere) == .nothingToSave)
         #expect(asked.withLock { $0 }.isEmpty, "a folder that names no domain was asked about")
-        #expect(await PreferenceBackup.save([plist], for: app, in: backups, run: notThere) == .nothingToSave)
+        #expect(await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: notThere) == .nothingToSave)
         #expect(asked.withLock { $0 } == [["read", "com.example.app"]])
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty)
     }
@@ -230,7 +235,7 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run)
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run)
 
         #expect(restored == .incomplete(clearedSome: false), "a copy that could not be read was reported as put back, or as cleared")
         let commands = asked.withLock { $0 }
@@ -239,7 +244,7 @@ struct RemovalHygieneTests {
 
         // An import that fails after the delete has cleared that domain, and the result says so.
         let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : Self.exporting(arguments) }
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: failingImport) == .incomplete(clearedSome: true))
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: failingImport) == .incomplete(clearedSome: true))
     }
 
     /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
@@ -256,7 +261,7 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run)
+        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run)
 
         #expect(restored == .complete)
         let copies = PreferenceBackup.copies(in: backups)
@@ -280,7 +285,7 @@ struct RemovalHygieneTests {
             return arguments.first == "export" ? .no : .yes
         }
 
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, run: run) == .notSaved)
+        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run) == .notSaved)
         #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
     }
 
@@ -300,11 +305,11 @@ struct RemovalHygieneTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
 
-        let refused = await PreferenceBackup.save([plist], for: app, in: backups) { arguments in arguments.contains("export") ? .no : .yes }
+        let refused = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { arguments in arguments.contains("export") ? .no : .yes }
         #expect(refused == .failed)
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty, "an empty copy was left behind")
 
-        let nothing = await PreferenceBackup.save([URL(filePath: "/Users/x/Library/Caches/com.example.app")], for: app, in: backups) { _ in .yes }
+        let nothing = await PreferenceBackup.save([URL(filePath: "/Users/x/Library/Caches/com.example.app")], for: app, in: backups, through: Self.service) { _ in .yes }
         #expect(nothing == .nothingToSave)
     }
 
@@ -316,7 +321,7 @@ struct RemovalHygieneTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
 
-        let saved = await PreferenceBackup.save([plist], for: app, in: backups) { arguments in
+        let saved = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { arguments in
             arguments.first == "read" ? .noAnswer : .yes
         }
 
@@ -338,8 +343,8 @@ struct RemovalHygieneTests {
             return .yes
         }
 
-        let first = await PreferenceBackup.save([plist], for: app, in: backups, run: exporting)
-        let second = await PreferenceBackup.save([plist], for: app, in: backups, run: exporting)
+        let first = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: exporting)
+        let second = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: exporting)
 
         guard case .saved(let one) = first, case .saved(let two) = second else {
             Issue.record("a copy was not made: \(first), \(second)")

@@ -2,6 +2,11 @@ import ArgumentParser
 import Foundation
 import PeelCore
 
+extension RemovalPart {
+    /// The tool that moved the part, or nil for a removal that was interrupted, which names none.
+    fileprivate var namedTool: String? { tool.isEmpty ? nil : tool }
+}
+
 /// One removal, as History shows it: everything that went in one go.
 struct Batch {
     let id: UUID
@@ -11,8 +16,8 @@ struct Batch {
     /// Where the removal moved from: one part, or one for each tool whose selection it moved.
     var parts: [RemovalPart] { RemovalPart.of(records.map { ($0.date, $0.part) }) }
     var source: String { Output.list(parts.map(\.source)) }
-    /// The tool the removal moved from, or nil for one that moved from several.
-    var tool: String? { parts.count == 1 ? parts[0].tool : nil }
+    /// The tool the removal moved from, or nil for one that moved from several or was interrupted.
+    var tool: String? { parts.count == 1 ? parts[0].namedTool : nil }
     var size: SizeTotal { records.totalSize }
     /// The records whose items are still in the Trash. An item emptied from the Trash can't be put back.
     var restorable: [RemovalRecord] { records.filter(\.isStillInTrash) }
@@ -54,7 +59,18 @@ struct HistoryCommand: AsyncParsableCommand {
     private struct Record: Encodable {
         struct Part: Encodable {
             let source: String
-            let tool: String
+            let tool: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case source, tool
+            }
+
+            /// Written by hand so an interrupted part says `"tool": null` rather than leaving the key out.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(source, forKey: .source)
+                try container.encode(tool, forKey: .tool)
+            }
         }
 
         let batch: String
@@ -110,7 +126,7 @@ struct HistoryCommand: AsyncParsableCommand {
                     date: batch.date,
                     source: batch.source,
                     tool: batch.tool,
-                    parts: batch.parts.map { Record.Part(source: $0.source, tool: $0.tool) },
+                    parts: batch.parts.map { Record.Part(source: $0.source, tool: $0.namedTool) },
                     size: MeasuredSize(batch.size),
                     itemCount: batch.records.count,
                     restorableCount: batch.restorable.count,

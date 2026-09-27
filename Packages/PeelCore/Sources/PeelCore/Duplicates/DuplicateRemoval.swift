@@ -9,7 +9,7 @@ public enum DuplicateRemoval {
         _ selection: Set<URL>,
         folders: Set<URL> = [],
         from scan: DuplicateScan,
-        using trashService: TrashService = TrashService()
+        using trashService: TrashService
     ) async -> TrashResult {
         // The scan never offers a file on its own when it sits inside an offered folder, so the two selections
         // never ask for the same bytes.

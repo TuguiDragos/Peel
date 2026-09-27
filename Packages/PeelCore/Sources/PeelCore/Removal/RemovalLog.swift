@@ -31,9 +31,12 @@ public actor RemovalLog {
 
     public let url: URL
     public private(set) var problem: RemovalLogProblem?
+    /// What removals moved and have not recorded yet, item by item.
+    private let journal: RemovalJournal
 
     public init(url: URL = RemovalHistory.defaultURL) {
         self.url = url
+        journal = RemovalJournal(beside: url)
     }
 
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
@@ -48,6 +51,7 @@ public actor RemovalLog {
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
             let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
             guard write(updated, orNote: .couldNotRecord) else { return RemovalLogOutcome(records: nil, problem: problem) }
+            journal.forget(records.map(\.trashedItem))
             // A removal that is recorded clears an earlier `.couldNotRecord`.
             if problem == .couldNotRecord { problem = nil }
             return RemovalLogOutcome(records: updated, problem: problem)
@@ -80,8 +84,32 @@ public actor RemovalLog {
         self.problem = problem
     }
 
-    /// The records on disk, or nil when the file must not be replaced because it could not be read.
+    /// The records on disk with every removal that stopped before recording itself taken in, or nil when the file
+    /// must not be replaced because it could not be read.
     private func current() -> [RemovalRecord]? {
+        guard let records = stored() else { return nil }
+        return takingInInterrupted(records)
+    }
+
+    /// Records what the journal holds for processes that no longer run, as interrupted removals, then lets those
+    /// lines go. An item History already has is not recorded again: a process may have stopped after writing
+    /// History and before letting its lines go.
+    private func takingInInterrupted(_ records: [RemovalRecord]) -> [RemovalRecord] {
+        let left = journal.left()
+        guard !left.isEmpty else { return records }
+        let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })
+        let interrupted = left.filter { !recorded.contains(RemovalJournal.Key($0.item)) }.map(\.interruptedRecord)
+        var updated = records
+        if !interrupted.isEmpty {
+            updated = Self.trimmed(records + interrupted, keeping: Set(interrupted.map(\.batch)))
+            guard write(updated, orNote: .couldNotRecord) else { return records }
+        }
+        journal.forget(Set(left))
+        return updated
+    }
+
+    /// The records on disk, or nil when the file must not be replaced because it could not be read.
+    private func stored() -> [RemovalRecord]? {
         guard !url.isMissing else {
             note(nil)
             return []

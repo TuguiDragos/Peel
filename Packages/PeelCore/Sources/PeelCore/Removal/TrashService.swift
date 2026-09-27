@@ -1,7 +1,7 @@
 public import Foundation
 internal import PeelPrivileged
 
-public struct TrashedItem: Sendable, Hashable {
+public struct TrashedItem: Sendable, Hashable, Codable {
     public let originalURL: URL
     public let trashedURL: URL
     public let date: Date
@@ -105,6 +105,8 @@ public struct TrashService: Sendable {
     private let moveThroughHelper: MoveThroughHelper
     private let moveToTrash: @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
+    /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
+    private let journal: RemovalJournal?
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
@@ -115,12 +117,13 @@ public struct TrashService: Sendable {
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
             moveThroughHelper: Self.moveThroughTheHelper,
             moveToTrash: { try Self.moveToSystemTrash($0, isAllowed: removalGuard.allowsRemoval(of:)) },
-            ownMoves: .shared
+            ownMoves: .shared,
+            journal: RemovalJournal(beside: RemovalHistory.defaultURL)
         )
     }
 
-    /// For tests. Unless a test passes its own, it stops no launchd job, forgets no preference domain, and acts
-    /// as if there were no helper.
+    /// For tests. Unless a test passes its own, it stops no launchd job, forgets no preference domain, acts as if
+    /// there were no helper, and writes no journal.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -128,6 +131,7 @@ public struct TrashService: Sendable {
         forgetDomains: @escaping ForgetDomains = { _, _ in },
         moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
+        journal: RemovalJournal? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
     ) {
         self.init(
@@ -137,7 +141,8 @@ public struct TrashService: Sendable {
             forgetDomains: forgetDomains,
             moveThroughHelper: moveThroughHelper,
             moveToTrash: moveToTrash,
-            ownMoves: ownMoves
+            ownMoves: ownMoves,
+            journal: journal
         )
     }
 
@@ -148,7 +153,8 @@ public struct TrashService: Sendable {
         forgetDomains: @escaping ForgetDomains,
         moveThroughHelper: @escaping MoveThroughHelper,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
-        ownMoves: OwnTrashMoves
+        ownMoves: OwnTrashMoves,
+        journal: RemovalJournal?
     ) {
         self.environment = environment
         self.removalGuard = removalGuard
@@ -157,6 +163,7 @@ public struct TrashService: Sendable {
         self.moveThroughHelper = moveThroughHelper
         self.moveToTrash = moveToTrash
         self.ownMoves = ownMoves
+        self.journal = journal
     }
 
     /// Why the guard would refuse to move `url`, or nil when it would move. A plan can show this before anything
@@ -170,6 +177,18 @@ public struct TrashService: Sendable {
     /// is forgotten even when Apple wrote the app.
     @concurrent
     public func trash(_ urls: [URL], ownedBy owner: String? = nil) async -> TrashResult {
+        await trash(urls, ownedBy: owner, removal: UUID())
+    }
+
+    /// Moves files Peel made for itself, which History never lists, such as a copy of settings it could not
+    /// finish: to the Trash like anything else, with nothing written down for History.
+    @concurrent
+    func trashOwnFiles(_ urls: [URL]) async -> TrashResult {
+        await trash(urls, ownedBy: nil, removal: nil)
+    }
+
+    /// Moves `urls` as the current user, as part of `removal`, the move the journal groups them by, or of none.
+    private func trash(_ urls: [URL], ownedBy owner: String?, removal: UUID?) async -> TrashResult {
         // The guard reads the disk, so it is asked once for each item.
         let allowed = urls.filter(removalGuard.allowsRemoval(of:))
         let isAllowed = Set(allowed)
@@ -188,8 +207,11 @@ public struct TrashService: Sendable {
             let path = PathPattern.comparablePath(of: url)
             guard !moved.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
             do {
-                let trashedURL = try moveToTrash(url)
-                result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now))
+                let item = TrashedItem(originalURL: url, trashedURL: try moveToTrash(url), date: .now)
+                if let removal {
+                    journal?.note([item], batch: removal)
+                }
+                result.trashed.append(item)
                 moved.append(path)
             } catch {
                 result.failures.append(TrashFailure(url: url, reason: Self.reason(for: error)))
@@ -203,7 +225,8 @@ public struct TrashService: Sendable {
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
     @concurrent
     public func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>) async -> TrashResult {
-        var result = await trash(urls.filter { !privilegedURLs.contains($0) })
+        let removal = UUID()
+        var result = await trash(urls.filter { !privilegedURLs.contains($0) }, ownedBy: nil, removal: removal)
         let helperURLs = urls.filter(privilegedURLs.contains)
         guard !helperURLs.isEmpty else { return result }
 
@@ -226,6 +249,7 @@ public struct TrashService: Sendable {
         var helperResult = TrashResult()
         for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] where !batch.isEmpty {
             let moved = await moveThroughHelper(batch)
+            journal?.note(moved.trashed, batch: removal)
             helperResult.trashed += moved.trashed
             helperResult.failures += moved.failures
         }

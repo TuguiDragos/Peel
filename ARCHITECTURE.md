@@ -87,8 +87,10 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    forget the preference domains whose files went.
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
    from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one
-   entry, even when it moved what was selected on several pages. What Peel refused to move is recorded too
-   (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
+   entry, even when it moved what was selected on several pages. Each item is also written down the moment it
+   moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches History the
+   next time it is read, as an interrupted removal. What Peel refused to move is recorded too (`refusals.json`),
+   and History lists it under Not Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, and, through the helper, only if the helper's own ledger says
    it moved that very item from that very place.
@@ -171,6 +173,7 @@ where a Homebrew install takes them from.
 | Where | What |
 |---|---|
 | `~/Library/Application Support/Peel/removals.json` | History: every removal, so it can be put back. |
+| `~/Library/Application Support/Peel/removals.journal` | What a removal has moved so far, item by item, until History has it. |
 | `~/Library/Application Support/Peel/refusals.json` | What Peel was asked to move and refused, and why. |
 | `~/Library/Application Support/Peel/exclusions.json` | The user's exclusions. |
 | `~/Library/Application Support/Peel/Preference Backups/` | The settings Peel saved before resetting an app. |

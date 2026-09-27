@@ -39,7 +39,7 @@ public enum PreferenceBackup {
     /// Exports every existing preference domain among `urls` into a new folder in `directory`. If any one
     /// cannot be copied, the result is `failed` and nothing may be cleared: the copy is what makes clearing safe.
     @concurrent
-    static func save(_ urls: [URL], for app: InstalledApp, in directory: URL, through service: TrashService = TrashService(), run: Run) async -> Saved {
+    static func save(_ urls: [URL], for app: InstalledApp, in directory: URL, through service: TrashService, run: Run) async -> Saved {
         let domains = PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier)
         return await save(domains, of: app.bundleIdentifier, in: directory, through: service, run: run)
     }
@@ -76,7 +76,7 @@ public enum PreferenceBackup {
                 // `rmdir` removes the folder only when it is empty. If copies were already written, the folder
                 // goes to the Trash instead: nothing is deleted outright.
                 if rmdir(folder.path(percentEncoded: false)) != 0 {
-                    _ = await service.trash([folder])
+                    _ = await service.trashOwnFiles([folder])
                 }
                 return .failed
             }
@@ -118,7 +118,7 @@ public enum PreferenceBackup {
         from folder: URL,
         of bundleIdentifier: String,
         in directory: URL,
-        through service: TrashService = TrashService(),
+        through service: TrashService,
         run: Run
     ) async -> Restored {
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []

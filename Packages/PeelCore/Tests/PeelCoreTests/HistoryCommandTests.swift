@@ -137,6 +137,28 @@ struct HistoryCommandTests {
         #expect(listedParts.compactMap { $0["tool"] as? String } == ["developer", "projects", "duplicates"])
     }
 
+    /// A removal cut short comes back into History with no tool, since which tool moved it is not known, and
+    /// `--json` says so with null rather than a name.
+    @Test func anInterruptedRemovalNamesNoTool() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let item = TrashedItem(
+            originalURL: directory.url.appending(path: "home/Library/Caches/com.example.app"),
+            trashedURL: directory.url.appending(path: "home/.Trash/com.example.app"),
+            date: .now
+        )
+        let writer = RemovalJournal.Writer(pid: 0, started: 0)
+        _ = await logs.removals.add([RemovalJournal.Entry(writer: writer, batch: UUID(), item: item).interruptedRecord])
+
+        let removal = try #require(try listed(try await printed(["history", "--json"], from: logs)).first as? [String: Any])
+
+        #expect(removal["source"] as? String == "Interrupted removal")
+        #expect(removal["tool"] is NSNull)
+        let parts = try #require(removal["parts"] as? [[String: Any]])
+        #expect(parts.count == 1)
+        #expect(parts.first?["tool"] is NSNull)
+    }
+
     /// With nothing recorded, the command prints a sentence rather than an empty table, and `--json` prints an
     /// empty list.
     @Test func saysSoWhenThereIsNothingToList() async throws {

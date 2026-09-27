@@ -40,6 +40,8 @@ struct RemovalBatch: Identifiable, Hashable {
     static func title(source: String, key: String?, tool: Tool?) -> String {
         guard let key else { return source }
         if key == "tool", let tool { return String(localized: tool.title) }
+        // What a removal moved before Peel quit or stopped, taken into History the next time it was read.
+        if key == "interrupted" { return String(localized: "Interrupted Removal") }
         if key.hasPrefix("space."), let words = SpaceItem.words(for: String(key.dropFirst("space.".count))) {
             return String(localized: words.title)
         }
