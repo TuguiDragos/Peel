@@ -188,6 +188,32 @@ struct InstallersTests {
         #expect(heldBack["Other-3.dmg"] == .some(nil))
     }
 
+    /// An item only an administrator can move goes through the helper, which takes a macOS installer from
+    /// Applications and anything in the home's Library, and nothing else in the home folder. One it would refuse
+    /// cannot be selected at all.
+    @Test(.permissionsHold) func leavesAloneWhatTheHelperWouldRefuse() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Downloads/Tool-1.dmg", bytes: 400_000)
+        try directory.file("home/Library/iTunes/iPhone Software Updates/iPhone17,1_26.1.ipsw", bytes: 400_000)
+        try directory.file("root/Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
+        let locked = ["home/Downloads", "home/Library/iTunes/iPhone Software Updates", "root/Applications"]
+        for folder in locked { try directory.setPermissions(0o555, of: folder) }
+        defer { for folder in locked { try? directory.setPermissions(0o755, of: folder) } }
+
+        let scan = await Installers.scan(
+            installedApps: [],
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0) })
+        #expect(items.values.allSatisfy { $0.requiresPrivileges })
+        #expect(items["Tool-1.dmg"]?.heldBack == .beyondTheHelper)
+        #expect(items["iPhone17,1_26.1.ipsw"]?.heldBack == .some(nil))
+        #expect(items["Install macOS Tahoe"]?.heldBack == .some(nil))
+    }
+
     @Test func findsMacOSInstallersAndDeviceFirmware() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)

@@ -22,7 +22,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     public let isReadOnly: Bool
     public let notes: [Note]
     /// True when moving the item needs administrator access, so the move goes through the helper. A macOS
-    /// installer that Software Update downloaded is one: it belongs to root.
+    /// installer that Software Update downloaded is one: it belongs to root. One the helper would refuse is held
+    /// back as `beyondTheHelper`.
     public var requiresPrivileges = false
     /// Why the item is left for the person to choose, from what measuring it saw: it was not measured or not read,
     /// or a wallet or a repository is inside.
@@ -130,6 +131,15 @@ public enum Installers {
         }
 
         if readable == .missing { unreadable.append(backupFolder) }
+        let reach = HelperReach(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
+        items = items.map { item in
+            guard item.requiresPrivileges, item.heldBack?.cannotBeMoved != true, reach.isBeyond(item.url) else {
+                return item
+            }
+            var item = item
+            item.heldBack = .beyondTheHelper
+            return item
+        }
         return InstallerScan(
             // An unknown size sorts first: an item that ran out of time is most likely one of the biggest.
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
@@ -310,6 +320,7 @@ public enum Installers {
             installedApp: nil,
             isReadOnly: false,
             notes: [],
+            requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
             heldBack: heldBack
         )
     }

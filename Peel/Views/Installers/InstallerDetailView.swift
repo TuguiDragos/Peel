@@ -16,7 +16,7 @@ struct InstallerDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if rows.contains(where: \.requiresPrivileges), !helper.canAct {
+            if rows.contains(where: { $0.requiresPrivileges && $0.heldBack?.cannotBeMoved != true }), !helper.canAct {
                 HelperRequiredBanner()
             }
 
@@ -33,6 +33,7 @@ struct InstallerDetailView: View {
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
                             isLocked: item.requiresPrivileges && !helper.canAct,
+                            isLeftAlone: item.heldBack?.cannotBeMoved == true,
                             isFirst: item.id == rows.first?.id,
                             hasNoteColumn: hasNoteColumn,
                             selection: installers, isSelected: installers.isSelected(item.url)
