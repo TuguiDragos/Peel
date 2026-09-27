@@ -440,6 +440,19 @@ struct OrphanScannerTests {
         #expect(scan.groups.map(\.identifier) == [])
     }
 
+    /// `/Users/Shared` belongs to every account on the Mac, and another account's apps are not known here, so what
+    /// is found there is listed but left for the user to choose, as an uninstall leaves it.
+    @Test func whatIsInTheSharedFolderIsHeldBack() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Users/Shared/com.gone.app/library.db")
+        try directory.file("home/Library/Caches/com.gone.app/cache.db")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        let heldBack = items.map { "\($0.kind): \($0.heldBack.map(\.rawValue) ?? "none")" }.sorted()
+        #expect(heldBack == ["caches: none", "sharedFolder: sharedWithEveryone"])
+    }
+
     /// A group container is there for a maker's apps to share, so another app of that maker claims it as it claims
     /// the maker's other files, with `group.` in front of the name or not.
     @Test func anotherAppOfTheMakerClaimsItsGroupContainer() async throws {

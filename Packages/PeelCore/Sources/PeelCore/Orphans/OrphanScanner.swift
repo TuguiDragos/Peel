@@ -308,7 +308,8 @@ public struct OrphanScanner: Sendable {
             } else if ProtectedData.holdsALibrary(path) {
                 .holdsALibrary
             } else {
-                Self.heldBack(by: contents)
+                // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
+                Self.heldBack(by: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
             }
             let item = OrphanItem(
                 url: url,

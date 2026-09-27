@@ -154,8 +154,8 @@ exactly the one with work inside, and nothing is selected for you without saying
 such a folder out reads "Over" what is known.
 
 Orphaned Files selects nothing for you, and its Select All and `peel orphans --remove` leave these folders out as
-well: one with a repository, a wallet, or a signing key inside, or one Peel could not read or measure in time,
-moves only when you select it yourself.
+well: one in `/Users/Shared`, one with a repository, a wallet, or a signing key inside, or one Peel could not read
+or measure in time, moves only when you select it yourself.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing
 inside an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`:
