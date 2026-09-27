@@ -292,6 +292,8 @@ struct HomebrewList: View {
                         Spacer(minLength: 4)
                         if package.isPinned {
                             Badge(title: Text("Pinned"), systemImage: "pin", tint: .secondary)
+                        } else if package.upgradeNeedsAnAdministrator {
+                            Badge(title: Text("Needs Terminal"), systemImage: "terminal", tint: .secondary)
                         }
                     }
                     .padding(.vertical, 2)
@@ -311,7 +313,7 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(outdated.allSatisfy(\.isPinned) || isBusy)
+                        .disabled(!outdated.contains(where: \.joinsUpgradeAll) || isBusy)
                 }
             }
         }

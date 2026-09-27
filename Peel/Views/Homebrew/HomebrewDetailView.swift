@@ -85,11 +85,15 @@ struct HomebrewDetailView: View {
             Section {
                 HStack {
                     if package.isOutdated {
-                        Button("Upgrade", systemImage: "arrow.down.circle") {
-                            Task { await homebrew.run(.upgrade(package.id)) }
+                        if package.upgradeNeedsAnAdministrator {
+                            CopyButton(text: "brew upgrade --cask \(package.fullName)", title: "Copy Upgrade Command")
+                        } else {
+                            Button("Upgrade", systemImage: "arrow.down.circle") {
+                                Task { await homebrew.run(.upgrade(package.id)) }
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(package.isPinned)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(package.isPinned)
                     }
                     if isRunning {
                         ProgressView()
@@ -101,12 +105,21 @@ struct HomebrewDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Button("Uninstall", systemImage: "trash", role: .destructive) {
-                        isConfirmingUninstall = true
+                    if isUninstalledInTerminal {
+                        CopyButton(text: "brew uninstall --cask \(package.fullName)", title: "Copy Uninstall Command")
+                    } else {
+                        Button("Uninstall", systemImage: "trash", role: .destructive) {
+                            isConfirmingUninstall = true
+                        }
+                        .disabled(uninstallRefusal != nil)
                     }
-                    .disabled(uninstallRefusal != nil)
                 }
                 .disabled(homebrew.runningCommand != nil)
+                if (package.isOutdated && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
+                    Text(needsTerminal)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
             }
         }
         .formStyle(.grouped)
@@ -124,6 +137,15 @@ struct HomebrewDetailView: View {
         }
     }
 
+    /// Said where Peel hands a cask's command to Terminal: `brew` asks for an administrator's password with `sudo`,
+    /// which needs a terminal, and Peel runs it without one.
+    private let needsTerminal: LocalizedStringResource = "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+
+    /// A cask whose uninstall needs an administrator is offered as a command, unless it may not be uninstalled at all.
+    private var isUninstalledInTerminal: Bool {
+        package.uninstallNeedsAnAdministrator && uninstallRefusal == nil
+    }
+
     /// Why Uninstall is unavailable, or nil when it's allowed. `brew uninstall` deletes permanently, outside
     /// `TrashService` and `RemovalGuard`, so this is where the exclusions are checked.
     private var uninstallRefusal: LocalizedStringResource? {
@@ -136,8 +158,7 @@ struct HomebrewDetailView: View {
     private var isRunning: Bool {
         switch homebrew.runningCommand {
         case .upgrade(let id), .uninstall(let id): id == package.id
-        // Upgrade All upgrades this package too if it's outdated and not pinned.
-        case .upgradeAll: package.isOutdated && !package.isPinned
+        case .upgradeAll: package.isOutdated && package.joinsUpgradeAll
         case .update, .cleanup, .health, .vulnerabilities, nil: false
         }
     }

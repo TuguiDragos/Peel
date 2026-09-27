@@ -37,11 +37,24 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public let emptyFolderPatterns: [String]
     /// Set when Homebrew has deprecated or disabled the package.
     public let retirement: HomebrewRetirement?
+    /// True for a cask whose upgrade runs a step as root with `sudo`, which asks for a password that only a
+    /// terminal can give: an installer package, an installer script run with `sudo`, or an `uninstall` step that
+    /// needs one, since an upgrade removes the old version first.
+    public let upgradeNeedsAnAdministrator: Bool
+    /// True for a cask whose `uninstall` stanza runs a step with `sudo`: `pkgutil`, `delete`, `kext`, or a script
+    /// run with `sudo`.
+    public let uninstallNeedsAnAdministrator: Bool
     /// The entries of `packageIdentifiers` whose receipts are installed, lowercased. `noting(receipts:)` sets
     /// them, so the cask carries this proof to every place that checks it.
     public private(set) var receiptsOnThisMac: [String] = []
 
     public var id: String { "\(kind.rawValue)/\(name)" }
+
+    /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
+    /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
+    public var joinsUpgradeAll: Bool {
+        !isPinned && !upgradeNeedsAnAdministrator
+    }
 
     /// Returns a copy that notes which `packageIdentifiers` are among `receipts`, the lowercased identifiers of
     /// the installed receipts. A pattern such as `com.adobe.acrobat.DC.*` matches none and proves nothing,
@@ -71,7 +84,9 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         emptyFolderPatterns: [String] = [],
         quitIdentifiers: [String] = [],
         packageIdentifiers: [String] = [],
-        retirement: HomebrewRetirement? = nil
+        retirement: HomebrewRetirement? = nil,
+        upgradeNeedsAnAdministrator: Bool = false,
+        uninstallNeedsAnAdministrator: Bool = false
     ) {
         self.name = name
         self.kind = kind
@@ -92,6 +107,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         self.quitIdentifiers = quitIdentifiers
         self.packageIdentifiers = packageIdentifiers
         self.retirement = retirement
+        self.upgradeNeedsAnAdministrator = upgradeNeedsAnAdministrator
+        self.uninstallNeedsAnAdministrator = uninstallNeedsAnAdministrator
     }
 }
 
@@ -213,8 +230,14 @@ struct CaskArtifact: Decodable, Sendable {
     let quitIdentifiers: [String]
     /// Installer receipts the cask forgets, which can be matched against the receipts on this Mac.
     let packageIdentifiers: [String]
+    /// True when installing runs as root: an installer package, or an installer script run with `sudo`.
+    let installNeedsAnAdministrator: Bool
+    /// True when the `uninstall` stanza runs a step as root: `pkgutil`, `delete` and `kext` always do, and a
+    /// script when it says `sudo`. `launchctl` tries with `sudo` and goes on without it, and `zap` is not run.
+    let uninstallNeedsAnAdministrator: Bool
 
     private static let removalKeys = ["trash", "delete"]
+    private static let stepsRunAsRoot = ["pkgutil", "delete", "kext"]
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -248,6 +271,12 @@ struct CaskArtifact: Decodable, Sendable {
         emptyFolderPatterns = emptyFolders
         quitIdentifiers = quits
         packageIdentifiers = packages
+
+        let runsAsRoot = { (script: CaskValue?) in (script?.dictionaries ?? []).contains { $0["sudo"]?.isTrue == true } }
+        installNeedsAnAdministrator = raw["pkg"] != nil || (raw["installer"]?.dictionaries ?? []).contains { runsAsRoot($0["script"]) }
+        uninstallNeedsAnAdministrator = (raw["uninstall"]?.dictionaries ?? []).contains { stanza in
+            Self.stepsRunAsRoot.contains { stanza[$0] != nil } || runsAsRoot(stanza["script"]) || runsAsRoot(stanza["early_script"])
+        }
     }
 }
 
@@ -256,6 +285,7 @@ indirect enum CaskValue: Decodable, Sendable {
     case string(String)
     case list([CaskValue])
     case dictionary([String: CaskValue])
+    case boolean(Bool)
     case other
 
     init(from decoder: any Decoder) throws {
@@ -266,6 +296,8 @@ indirect enum CaskValue: Decodable, Sendable {
             self = .list(value)
         } else if let value = try? container.decode([String: CaskValue].self) {
             self = .dictionary(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
         } else {
             self = .other
         }
@@ -275,7 +307,7 @@ indirect enum CaskValue: Decodable, Sendable {
         switch self {
         case .string(let value): [value]
         case .list(let values): values.flatMap(\.strings)
-        case .dictionary, .other: []
+        case .dictionary, .boolean, .other: []
         }
     }
 
@@ -283,8 +315,12 @@ indirect enum CaskValue: Decodable, Sendable {
         switch self {
         case .dictionary(let value): [value]
         case .list(let values): values.flatMap(\.dictionaries)
-        case .string, .other: []
+        case .string, .boolean, .other: []
         }
+    }
+
+    var isTrue: Bool {
+        if case .boolean(true) = self { true } else { false }
     }
 }
 
@@ -533,7 +569,9 @@ public enum Homebrew {
                 emptyFolderPatterns: cask.artifacts?.flatMap(\.emptyFolderPatterns) ?? [],
                 quitIdentifiers: cask.artifacts?.flatMap(\.quitIdentifiers) ?? [],
                 packageIdentifiers: cask.artifacts?.flatMap(\.packageIdentifiers) ?? [],
-                retirement: cask.retirement.value
+                retirement: cask.retirement.value,
+                upgradeNeedsAnAdministrator: cask.artifacts?.contains { $0.installNeedsAnAdministrator || $0.uninstallNeedsAnAdministrator } ?? false,
+                uninstallNeedsAnAdministrator: cask.artifacts?.contains(where: \.uninstallNeedsAnAdministrator) ?? false
             )
         }
         return (formulae + casks).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }

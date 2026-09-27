@@ -94,9 +94,9 @@ final class HomebrewLibrary {
         return retired.filter { $0.retirement?.stage == .disabled } + retired.filter { $0.retirement?.stage == .deprecated }
     }
 
-    /// A pinned package is held at its version on purpose, so it is shown as out of date and left alone.
+    /// What Upgrade All upgrades: the rest are shown as out of date and left alone (`joinsUpgradeAll`).
     var upgradable: [HomebrewPackage] {
-        outdated.filter { !$0.isPinned }
+        outdated.filter(\.joinsUpgradeAll)
     }
 
     func count(of kind: HomebrewPackage.Kind) -> Int {

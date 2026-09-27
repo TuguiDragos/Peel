@@ -100,6 +100,44 @@ struct HomebrewTests {
         #expect(packages.first { $0.name == "other" }?.isPinned == false)
     }
 
+    /// Homebrew runs some steps of a cask as root with `sudo`, which asks for a password only a terminal can give
+    /// (`cask/artifact/pkg.rb` and `abstract_uninstall.rb`, 7.0.4). The artifacts are written as `brew info
+    /// --json=v2` writes Zoom's, Adobe AIR's, and a plain app's.
+    @Test func knowsWhichCasksNeedAnAdministrator() throws {
+        let json = """
+        {
+          "formulae": [],
+          "casks": [
+            {"token": "meeting", "installed": "6.0", "version": "6.1", "outdated": true, "artifacts": [
+              {"uninstall": [{"launchctl": ["org.example.meeting.updater"], "pkgutil": "org.example.meeting.pkg",
+                              "delete": ["/Library/Internet Plug-Ins/Meeting.plugin"]}]},
+              {"pkg": ["MeetingInstaller.pkg"]}]},
+            {"token": "runtime", "installed": "51.1", "version": "51.2", "outdated": true, "artifacts": [
+              {"uninstall": [{"script": {"executable": "Runtime Installer.app/Contents/MacOS/Runtime Installer",
+                                         "args": ["-uninstall"], "sudo": true}, "rmdir": ["/Applications/Runtime"]}]},
+              {"installer": [{"script": {"executable": "Runtime Installer.app/Contents/MacOS/Runtime Installer",
+                                         "args": ["-silent"], "sudo": true}}]}]},
+            {"token": "player", "installed": "3.0", "version": "3.0", "outdated": false, "artifacts": [
+              {"app": ["Player.app"]},
+              {"uninstall": [{"launchctl": "org.example.player.helper", "quit": "org.example.player"}]},
+              {"zap": [{"trash": ["~/Library/Application Support/Player"], "delete": "/Library/Player"}]}]},
+            {"token": "helper", "installed": "1.0", "version": "1.1", "outdated": true, "artifacts": [
+              {"installer": [{"script": {"executable": "Install Helper", "sudo": false}}]},
+              {"uninstall": [{"kext": "org.example.helper.driver"}]}]}
+          ]
+        }
+        """
+        let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
+        let needs = { (name: String) in
+            packages.first { $0.name == name }.map { [$0.upgradeNeedsAnAdministrator, $0.uninstallNeedsAnAdministrator] }
+        }
+
+        #expect(needs("meeting") == [true, true], "an installer package and `pkgutil` both run with sudo")
+        #expect(needs("runtime") == [true, true], "scripts run with sudo")
+        #expect(needs("player") == [false, false], "launchctl goes on without sudo, and zap is not what uninstalling runs")
+        #expect(needs("helper") == [true, true], "a kernel extension is unloaded with sudo, when upgrading too")
+    }
+
     /// The JSON follows what Homebrew 7.0.4 reports for packages it has stopped or will stop offering. A package
     /// can be deprecated and disabled at once (disabled wins), a deprecated one carries the day it will be
     /// disabled, and a reason is one of Homebrew's keywords or a sentence a maintainer wrote.

@@ -414,9 +414,16 @@ struct AppDetailView: View {
     private func updateExplanation(for source: UpdateSource) -> LocalizedStringResource {
         switch source {
         case .appStore: "The App Store has it. Update from the App Store."
+        case .homebrew where upgradeNeedsTerminal:
+            "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
         case .homebrew: "Homebrew has it. Peel can run the upgrade for you."
         case .developer, .automatic: "The maker has it. Update from inside the app."
         }
+    }
+
+    /// Whether the cask asks for an administrator's password when it upgrades, which only Terminal can give.
+    private var upgradeNeedsTerminal: Bool {
+        library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true
     }
 
     @ViewBuilder
@@ -428,6 +435,10 @@ struct AppDetailView: View {
                 NSWorkspace.shared.open(page ?? URL(string: "macappstore://showUpdatesPage")!)
             }
             .buttonStyle(.borderedProminent)
+        case .homebrew where upgradeNeedsTerminal:
+            if let cask = library.cask(for: plan.app) {
+                CopyButton(text: "brew upgrade --cask \(cask.fullName)", title: "Copy Upgrade Command")
+            }
         case .homebrew:
             Button {
                 Task { await upgradeWithHomebrew() }

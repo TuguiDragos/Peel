@@ -119,7 +119,7 @@ lists them.
 - **Package Receipts:** what installer packages put on your Mac, item by item.
 - **Intel Software:** everything that still needs Rosetta, including helpers hidden inside universal apps.
 - **Homebrew:** your formulae and casks, with Update, Clean Up, Check Health, Scan for Vulnerabilities, Upgrade,
-  and Uninstall.
+  and Uninstall, or the command to run in Terminal for a cask that asks for an administrator's password.
 
 ### Fine-tune your Mac
 
