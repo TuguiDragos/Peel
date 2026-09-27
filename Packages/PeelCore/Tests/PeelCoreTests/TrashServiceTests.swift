@@ -1,6 +1,7 @@
 import Foundation
 import Synchronization
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct TrashServiceTests {
@@ -613,23 +614,31 @@ struct TrashServiceTests {
     }
 
     /// A folder refused by its name is refused before anything inside it is read, since the checks that look a
-    /// level or two down cost a read of every folder there.
+    /// level or two down cost a read of every folder there. Listing a folder moves its access time when that time
+    /// is older than its last change, which `stat` does not, so a folder set back to 2000 tells whether it was read.
     @Test func refusesByNameBeforeReadingWhatIsInside() throws {
         let directory = try TemporaryDirectory()
-        for index in 0..<300 {
-            try directory.directory("home/Library/Keychains/\(index)/inner")
-        }
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
         let keychains = home.appending(path: "Library/Keychains", directoryHint: .isDirectory)
-
-        let took = ContinuousClock().measure {
-            for _ in 0..<10 {
-                #expect(!guardian.allowsRemoval(of: keychains))
-            }
+        let folders = try [keychains] + (0..<3).map { try directory.directory("home/Library/Keychains/\($0)") }
+        try directory.directory("home/Library/Keychains/0/inner")
+        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let longAgo = timespec(tv_sec: 946_684_800, tv_nsec: 0)
+        let accessed = { (folder: URL) in
+            var info = stat()
+            #expect(stat(folder.path(percentEncoded: false), &info) == 0)
+            return info.st_atimespec.tv_sec
+        }
+        for folder in folders {
+            var times = [longAgo, timespec(tv_sec: 0, tv_nsec: Int(UTIME_OMIT))]
+            #expect(utimensat(AT_FDCWD, folder.path(percentEncoded: false), &times, 0) == 0)
         }
 
-        #expect(took < .milliseconds(250))
+        #expect(!guardian.allowsRemoval(of: keychains))
+
+        #expect(folders.map(accessed) == folders.map { _ in longAgo.tv_sec })
+        #expect(!ProtectedData.holdsALibrary(keychains.path(percentEncoded: false)))
+        #expect(accessed(keychains) > longAgo.tv_sec, "listing a folder no longer moves its access time")
     }
 
     /// These hold work nothing can bring back. A file removed from iCloud Drive, for example, is removed from
