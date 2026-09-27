@@ -68769,6 +68769,112 @@
         }
       }
     },
+    "Not selected: a program has this open right now, and may still be downloading it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: nějaký program má tento soubor právě teď otevřený a možná ho ještě stahuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Ein Programm hat dieses Objekt gerade geöffnet und lädt es möglicherweise noch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: un programa lo tiene abierto ahora mismo, y puede que aún lo esté descargando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : un programme garde ce fichier ouvert en ce moment et le télécharge peut-être encore."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: un programma lo tiene aperto proprio ora, e potrebbe ancora scaricarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 現在ほかのプログラムがこれを開いていて、まだダウンロード中の可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 지금 어떤 프로그램이 이 파일을 열고 있으며, 아직 다운로드하는 중일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een programma heeft dit op dit moment geopend en is het misschien nog aan het downloaden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: jakiś program ma właśnie otwarty ten plik i może go jeszcze pobierać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: um programa está com este item aberto neste momento e pode ainda estar baixando-o."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier este deschis chiar acum de un program și poate fi încă în curs de descărcare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл сейчас открыт в какой-то программе, которая, возможно, еще загружает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: ett program har den här filen öppen just nu och kanske fortfarande hämtar den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bir program bu dosyayı şu anda açık tutuyor ve onu hâlâ indiriyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл саме зараз відкрито в якійсь програмі, яка, можливо, ще його викачує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：某个程序现在已打开此文件，可能仍在下载它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：某個程式現在正打開此項目，而且可能仍在下載它。"
+          }
+        }
+      }
+    },
     "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for." : {
       "localizations" : {
         "cs" : {

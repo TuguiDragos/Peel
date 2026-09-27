@@ -83,7 +83,8 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         canList: (URL) -> AccessState = FullDiskAccess.canList,
-        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
+        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud },
+        openFiles: OpenFiles = OpenFiles()
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
@@ -107,7 +108,7 @@ public enum Installers {
                 guard isInstaller || isArchive || firmwareExtensions.contains(suffix), !exclusions.excludes(url), !Task.isCancelled else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                let heldBack = heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud)
+                let heldBack = heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud, openFiles: openFiles)
                 if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
                     items.append(
@@ -129,7 +130,8 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            isInTheCloud: isInTheCloud
+            isInTheCloud: isInTheCloud,
+            openFiles: openFiles
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
 
@@ -175,13 +177,15 @@ public enum Installers {
         }
     }
 
-    /// Why an item is left for the person to choose: it is in iCloud Drive, measuring it saw a reason, or it
-    /// belongs to every account on this Mac.
+    /// Why an item is left for the person to choose: it is in iCloud Drive, measuring it saw a reason, a program
+    /// has it open, or it belongs to every account on this Mac.
     private static func heldBack(
-        _ url: URL, seen: HoldBack?, in folder: Folder, isInTheCloud: (URL) -> Bool
+        _ url: URL, seen: HoldBack?, in folder: Folder, isInTheCloud: (URL) -> Bool, openFiles: OpenFiles
     ) -> HoldBack? {
         if isInTheCloud(url) { return .inTheCloud }
-        return seen ?? (folder.isSharedWithEveryone ? .sharedWithEveryone : nil)
+        if let seen { return seen }
+        if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
+        return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
     }
 
     /// What measuring `url` gave: its size, and why what it saw leaves the item for the person to choose.
@@ -303,7 +307,8 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        isInTheCloud: (URL) -> Bool
+        isInTheCloud: (URL) -> Bool,
+        openFiles: OpenFiles
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for folder in folders {
@@ -324,7 +329,7 @@ public enum Installers {
                     isReadOnly: false,
                     notes: version.map { [.version($0)] } ?? [],
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                    heldBack: heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud)
+                    heldBack: heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud, openFiles: openFiles)
                 ))
             }
         }

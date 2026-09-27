@@ -210,6 +210,8 @@ extension HoldBack {
             "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for."
         case .inTheCloud:
             "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices."
+        case .openInAProgram:
+            "Not selected: a program has this open right now, and may still be downloading it."
         }
     }
 }

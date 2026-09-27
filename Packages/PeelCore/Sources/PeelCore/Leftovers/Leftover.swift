@@ -67,6 +67,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case crashReport
     /// A file in iCloud Drive, which moving to the Trash removes from every device.
     case inTheCloud
+    /// A file a program has open right now, which may still be downloading it.
+    case openInAProgram
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {

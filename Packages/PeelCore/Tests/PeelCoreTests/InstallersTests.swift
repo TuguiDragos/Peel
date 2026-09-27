@@ -247,6 +247,24 @@ struct InstallersTests {
         #expect(items["Install macOS Tahoe"]?.heldBack == .some(nil))
     }
 
+    @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
+        try directory.file("Downloads/Other-2.dmg", bytes: 400_000)
+        try directory.directory("Applications")
+        let writer = try FileHandle(forWritingTo: downloading)
+        defer { try? writer.close() }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Tool-1.dmg"] == .openInAProgram)
+        #expect(heldBack["Other-2.dmg"] == .some(nil))
+    }
+
     @Test func findsMacOSInstallersAndDeviceFirmware() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
