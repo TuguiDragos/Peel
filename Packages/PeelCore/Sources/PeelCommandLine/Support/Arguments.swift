@@ -38,6 +38,18 @@ enum KindArgument: String, CaseIterable, ExpressibleByArgument {
     case archives
     case diskImages = "disk-images"
 
+    /// What `--help` and the manual page say beside each value.
+    var defaultValueDescription: String {
+        switch self {
+        case .documents: "Text files, PDFs, and other documents, not source code"
+        case .images: "Pictures and photos"
+        case .movies: "Videos"
+        case .audio: "Music and other sound"
+        case .archives: "Zip files and other archives"
+        case .diskImages: "Disk images, such as .dmg files"
+        }
+    }
+
     var fileKind: FileKind {
         switch self {
         case .documents: .documents
@@ -55,6 +67,16 @@ enum FormatArgument: String, CaseIterable, ExpressibleByArgument {
     case json
     case csv
     case brewfile
+
+    /// What `--help` and the manual page say beside each value.
+    var defaultValueDescription: String {
+        switch self {
+        case .text: "A line per app, with its version and where it came from"
+        case .json: "Every detail, for scripts"
+        case .csv: "A table for a spreadsheet"
+        case .brewfile: "What Homebrew can install again, for brew bundle"
+        }
+    }
 
     var format: Inventory.Format {
         switch self {

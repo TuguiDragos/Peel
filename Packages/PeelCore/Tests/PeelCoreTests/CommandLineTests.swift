@@ -711,7 +711,7 @@ struct CommandLineTests {
 
         // The format is an enum, so ArgumentParser writes this message itself and lists the four values it takes.
         #expect(message.contains("'bogus' is invalid for '--format <format>'"))
-        #expect(message.contains("text, json, csv, brewfile"))
+        #expect(message.contains("'text', 'json', 'csv' or 'brewfile'"))
         #expect(message.contains("Usage: peel inventory"))
         #expect(message.contains("See 'peel inventory --help'"))
     }

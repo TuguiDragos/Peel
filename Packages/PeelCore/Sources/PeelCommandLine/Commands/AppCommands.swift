@@ -26,7 +26,7 @@ struct InventoryCommand: AsyncParsableCommand {
     )
 
     /// An enum, so `--help` lists the formats and the shell can complete them.
-    @Option(help: "What to write: \(FormatArgument.allValueStrings.joined(separator: ", ")).")
+    @Option(help: "What to write.")
     var format: FormatArgument = .text
 
     func run() async throws {
