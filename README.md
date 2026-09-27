@@ -108,9 +108,11 @@ Peel is free and open source, and it speaks English and 17 other languages.
   it copied from your devices, model weights, installed packages, and what a tool keeps for you to install again
   (Vagrant boxes, Asset Store packages) are listed but never selected for you, and toolchains or anything holding an
   account are never listed.
-- **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, and
-  `target`. A project changed in the last 7 days is never selected for you, and neither is a Python environment,
-  Terraform's `.terraform`, or a folder like `target` whose name says nothing on its own.
+- **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
+  `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
+  when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
+  neither are installed packages (a Python environment, `vendor`, Terraform's `.terraform`) or a folder like `target`
+  whose name says nothing on its own.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
 - **Installers and Backups:** installers of apps you already have, macOS installers, device firmware, and what your
   iPhone backups hold. Nothing is selected for you.
