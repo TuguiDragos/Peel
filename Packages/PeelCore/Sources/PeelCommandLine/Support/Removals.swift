@@ -13,9 +13,13 @@ enum Removals {
         in log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async -> Bool {
+        // History first: it is the way back for what moved, and the refusal log may have to wait for another writer.
+        var isRecorded = true
+        if !result.trashed.isEmpty {
+            let part = RemovalPart(source: source, sourceKey: sourceKey, tool: tool)
+            isRecorded = await log.add(part.records(of: result, sizes: sizes, batch: UUID())).records != nil
+        }
         await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool)
-        guard !result.trashed.isEmpty else { return true }
-        let records = RemovalPart(source: source, sourceKey: sourceKey, tool: tool).records(of: result, sizes: sizes, batch: UUID())
-        return await log.add(records).records != nil
+        return isRecorded
     }
 }

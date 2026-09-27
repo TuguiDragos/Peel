@@ -40,6 +40,40 @@ struct RefusalLogTests {
         #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["protected-location"])
     }
 
+    /// History is the way back for what just moved, so it is written before the refusals: while the refusal log
+    /// waits for another writer, what moved is already in History.
+    @Test func writesHistoryBeforeTheRefusals() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        let history = folder.appending(path: "removals.json")
+        let log = RemovalLog(url: history)
+        let refusals = RefusalLog(url: folder.appending(path: "refusals.json"))
+        let moved = TrashedItem(
+            originalURL: URL(filePath: "/Users/me/Library/Caches/com.example.app"),
+            trashedURL: URL(filePath: "/Users/me/.Trash/com.example.app"),
+            date: .now
+        )
+        let result = TrashResult(trashed: [moved], failures: [failure("/Users/me/Library/Mail", .protectedLocation)])
+        // Holds the refusal log's lock, as another process writing it would.
+        let lockFile = folder.appending(path: "refusals.json.lock").path(percentEncoded: false)
+        let lock = open(lockFile, O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
+        defer { close(lock) }
+        flock(lock, LOCK_EX)
+
+        let recording = Task {
+            await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals)
+        }
+        var isInHistory = false
+        for _ in 0..<100 where !isInHistory {
+            try await Task.sleep(for: .milliseconds(20))
+            isInHistory = FileManager.default.fileExists(atPath: history.path(percentEncoded: false))
+        }
+        flock(lock, LOCK_UN)
+
+        #expect(await recording.value)
+        #expect(isInHistory, "History waited for the refusals")
+    }
+
     @Test func nothingIsWrittenWhenNothingWasRefused() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "Peel/refusals.json")

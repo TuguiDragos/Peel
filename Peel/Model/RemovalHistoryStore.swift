@@ -157,17 +157,18 @@ final class RemovalHistoryStore {
 
     /// Records in History what one part of `removal` moved, and what it refused.
     func record(_ result: TrashResult, part: RemovalPart, sizes: [URL: Int64], in removal: inout RemovalInProgress) async {
-        // Refusals are logged before the early return below: a removal where nothing moved is the one most
-        // worth a record.
+        // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
+        if !result.trashed.isEmpty {
+            let new = part.records(of: result, sizes: sizes, batch: removal.batch)
+            removal.records += new
+            apply(await log.add(new))
+        }
+        // Refusals are logged whether or not anything moved: a removal where nothing moved is the one most worth a
+        // record.
         await refusals.add(result.failures, source: part.source, sourceKey: part.sourceKey, tool: part.tool, batch: removal.refusals)
         if !result.failures.isEmpty {
             await loadRefusals()
         }
-        guard !result.trashed.isEmpty else { return }
-        let new = part.records(of: result, sizes: sizes, batch: removal.batch)
-        removal.records += new
-        // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
-        apply(await log.add(new))
     }
 
     /// Tells what `removal` moved once every part of it is recorded: the bar's "Moved", VoiceOver, the lifetime
