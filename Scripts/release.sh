@@ -1,6 +1,6 @@
 #!/bin/zsh
-# Builds, signs, notarizes, and checks a release of Peel, then prints the paths and SHA-256 checksums of its disk
-# image, for people, and its zip, for Homebrew.
+# Tests, builds, signs, notarizes, and checks a release of Peel from a committed tree, then prints the paths and
+# SHA-256 checksums of its disk image, for people, and its zip, for Homebrew.
 #
 # Signing uses Xcode's `archive` and `exportArchive`, which do what notarization requires: they add a secure
 # timestamp and remove the `com.apple.security.get-task-allow` entitlement. Nothing is sent to Apple's notary
@@ -20,8 +20,24 @@ archive="$build/Peel.xcarchive"
 export_directory="$build/export"
 app="$export_directory/Peel.app"
 
+echo "== The tree"
+# A release is built from what is committed, so what ships is what the history holds.
+if [ -n "$(git status --porcelain)" ]; then
+    git status --short
+    echo "REFUSED: the working tree has changes. Commit them or set them aside first."
+    exit 1
+fi
+
 rm -rf "$build"
 mkdir -p "$build"
+
+echo "== Testing"
+if ! swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$build/test.log" 2>&1; then
+    grep -E "error:|✘" "$build/test.log" | head -20 || tail -20 "$build/test.log"
+    echo "REFUSED: the tests failed. The whole log is $build/test.log"
+    exit 1
+fi
+grep -E "Test run with" "$build/test.log" || true
 
 echo "== Archiving"
 # The output goes to a log, not through a pipe, so the `if` checks xcodebuild's own exit status.
@@ -111,8 +127,10 @@ echo "== Checks"
 codesign --verify --deep --strict --verbose=2 "$app"
 spctl -a -vvv -t exec "$app"
 xcrun stapler validate "$app"
-if command -v syspolicy_check > /dev/null; then
-    syspolicy_check distribution "$app" || true
+# The checks macOS runs before it opens an app downloaded from the web (syspolicy_check(1)): 0 when it would open.
+if ! syspolicy_check distribution "$app"; then
+    echo "REFUSED: macOS would not open this app as it is."
+    exit 1
 fi
 
 version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")"
