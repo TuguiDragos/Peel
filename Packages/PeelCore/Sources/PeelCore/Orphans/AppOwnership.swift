@@ -10,10 +10,14 @@ struct AppOwnership: Sendable {
     }
 
     /// Returns whether an installed app has any claim on the item, even a weak one, or macOS knows an app by the
-    /// item's identifier or by a prefix of it with at least three components.
+    /// item's identifier or by a prefix of it with at least three components. The apps are asked about the
+    /// identifier as well as the name, since a plug-in is named for what it does and a container can be a UUID.
     func isClaimed(fileName: String, kind: SearchLocation.Kind, identifier: String) -> Bool {
-        let candidate = LeftoverMatcher.Candidate(LeftoverMatcher.key(from: fileName, kind: kind))
-        if profiles.contains(where: { $0.evidence(for: candidate) != nil }) {
+        var candidates = [LeftoverMatcher.Candidate(LeftoverMatcher.key(from: fileName, kind: kind))]
+        if candidates[0].key != identifier.lowercased() {
+            candidates.append(LeftoverMatcher.Candidate(identifier))
+        }
+        if profiles.contains(where: { profile in candidates.contains { profile.evidence(for: $0) != nil } }) {
             return true
         }
         // macOS knows an app by its bundle identifier, never by a container's name with a team or `group.` in front.

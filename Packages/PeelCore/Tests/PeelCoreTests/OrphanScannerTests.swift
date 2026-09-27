@@ -412,6 +412,46 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    /// What an item declares about itself is asked of the installed apps as its name is: a maker's plug-in, named for
+    /// what it does, and a container named by a UUID for an extension an installed app embeds are that app's.
+    @Test func anItemsDeclaredIdentifierIsAskedOfTheInstalledApps() async throws {
+        let directory = try TemporaryDirectory()
+        let plugIn = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.vendor.effectx.au</string></dict></plist>
+        """
+        let container = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>MCMMetadataIdentifier</key><string>com.vendor.helperext</string></dict></plist>
+        """
+        try directory.file("root/Library/Audio/Plug-Ins/Components/Effect X.component/Contents/Info.plist", contents: Data(plugIn.utf8))
+        try directory.file(
+            "home/Library/Containers/5F1D2C3B-8A9E-4B7C-9D0E-1F2A3B4C5D6E/.com.apple.containermanagerd.metadata.plist",
+            contents: Data(container.utf8)
+        )
+        let hub = InstalledApp(
+            url: URL(filePath: "/Applications/Hub.app"), bundleIdentifier: "com.vendor.hub", name: "Hub",
+            embeddedBundleIdentifiers: ["com.vendor.helperext"]
+        )
+        let old = RememberedApp(bundleIdentifier: "com.vendor.old", name: "Old", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Old.app")
+
+        let scan = await scanner(in: directory).scan(installedApps: installed + [hub], remembered: [old])
+
+        #expect(scan.groups.map(\.identifier) == [])
+    }
+
+    /// A group container is there for a maker's apps to share, so another app of that maker claims it as it claims
+    /// the maker's other files, with `group.` in front of the name or not.
+    @Test func anotherAppOfTheMakerClaimsItsGroupContainer() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Group Containers/group.com.vendor.notes")
+        try directory.directory("home/Library/Containers/com.vendor.notes")
+        let mail = InstalledApp(url: URL(filePath: "/Applications/Mail Pro.app"), bundleIdentifier: "com.vendor.mail", name: "Mail Pro")
+
+        #expect(await scanner(in: directory).scan(installedApps: installed + [mail]).groups.isEmpty)
+        #expect(await scanner(in: directory).scan(installedApps: installed).groups.map(\.identifier) == ["com.vendor.notes"])
+    }
+
     /// A link to a tool inside an app that is gone leads nowhere, and an app's uninstaller can leave such links
     /// behind. A tool's name says nothing about its app, so the group is named after the app the link led into,
     /// or given that app's identifier when Peel remembers it.
