@@ -215,20 +215,35 @@ struct AppResetTests {
         #expect(Set(reset.items.map(\.url.lastPathComponent)) == ["com.example.app.plist"])
     }
 
-    /// A sandboxed app's cache can be the biggest thing a reset clears. A folder that was not measured in time is
-    /// still offered, listed first, and the size of a selection that holds it is marked incomplete.
-    @Test func aFolderInAContainerThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
+    /// A reset clears what the app makes again and nothing that may exist nowhere else: a folder in a container that
+    /// holds a wallet or a repository is never offered, as the uninstall holds such a folder back. The container is
+    /// looked into because it is held back only for the documents in it.
+    @Test func aFolderInAContainerHoldingAWalletOrARepositoryIsNotOffered() async throws {
+        let directory = try TemporaryDirectory()
+        let library = "Library/Containers/com.example.app/Data/Library"
+        try directory.file("Library/Containers/com.example.app/Data/Documents/letter.txt", bytes: 4096)
+        try directory.file("\(library)/Caches/coin/wallet.dat", bytes: 4096)
+        try directory.file("\(library)/Logs/mirror/.git/HEAD", bytes: 4096)
+        try directory.file("\(library)/WebKit/site", bytes: 4096)
+
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+
+        #expect(reset.items.map(\.url.lastPathComponent) == ["WebKit"])
+    }
+
+    /// A folder in a container that did not answer in time is not known to hold only what the app makes again, so a
+    /// reset does not offer it: it is not read as empty, and nothing unknown is selected.
+    @Test func aFolderInAContainerThatDidNotAnswerInTimeIsNotOffered() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Containers/com.example.app/Data/Library/Caches/cache", bytes: 400_000)
         try directory.file("Library/Containers/com.example.app/Data/Library/Logs/app.log", bytes: 4096)
 
         let reset = await AppReset.prepare(app(), installedApps: [app()], exclusions: .none, environment: home(directory)) { url in
-            url.lastPathComponent == "Caches" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "Caches" ? nil : await FileSize.contents(of: url)
         }
 
-        #expect(reset.items.map(\.url.lastPathComponent) == ["Caches", "Logs"])
-        #expect(reset.items.first?.size == nil)
-        #expect(!reset.size(of: reset.suggestedSelection).isComplete)
+        #expect(reset.items.map(\.url.lastPathComponent) == ["Logs"])
+        #expect(reset.size(of: reset.suggestedSelection).isComplete)
         #expect(reset.size(of: reset.suggestedSelection).known >= 4096)
     }
 

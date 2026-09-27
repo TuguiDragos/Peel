@@ -17,8 +17,9 @@ public struct AppReset: Sendable {
         public let url: URL
         public let kind: SearchLocation.Kind
         public let group: Group
-        /// Nil when measuring timed out or was refused. An unknown size is not the same as zero.
-        public let size: Int64?
+        /// Always known: a folder that was not measured or not read is never offered, nor one holding a wallet or a
+        /// repository, as the uninstall holds such a folder back.
+        public let size: Int64
 
         public var id: URL { url }
     }
@@ -105,7 +106,7 @@ public struct AppReset: Sendable {
         exclusions: Exclusions = .none,
         environment: SearchEnvironment = .current
     ) async -> AppReset {
-        await prepare(app, installedApps: installedApps, exclusions: exclusions, environment: environment, measure: FileSize.measure)
+        await prepare(app, installedApps: installedApps, exclusions: exclusions, environment: environment, measure: LeftoverScanner.walk)
     }
 
     @concurrent
@@ -114,7 +115,7 @@ public struct AppReset: Sendable {
         installedApps: [InstalledApp],
         exclusions: Exclusions,
         environment: SearchEnvironment,
-        measure: FileSize.Measure
+        measure: LeftoverScanner.Measure
     ) async -> AppReset {
         guard !exclusions.excludes(app) else {
             return AppReset(app: app, items: [], keepsAppData: false, needsFullDiskAccess: false)
@@ -155,7 +156,7 @@ public struct AppReset: Sendable {
 
         return AppReset(
             app: app,
-            items: items.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
+            items: items.sorted { $0.size > $1.size },
             keepsAppData: keepsAppData,
             needsFullDiskAccess: needsFullDiskAccess
         )
@@ -166,13 +167,17 @@ public struct AppReset: Sendable {
         of app: InstalledApp,
         exclusions: Exclusions,
         home: URL,
-        measure: FileSize.Measure
+        measure: LeftoverScanner.Measure
     ) async -> [Item] {
         var items: [Item] = []
         for folder in containerFolders {
             let url = container.appending(path: folder.path, directoryHint: .isDirectory)
             guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url), !holdsKeys(url, home: home) else { continue }
-            items.append(Item(url: url, kind: folder.kind, group: folder.group, size: await measure(url)))
+            // What the uninstall would hold back is never offered: a wallet or a repository inside, or a folder that
+            // was not measured or not read.
+            let seen = await measure(url)
+            guard let seen, HoldBack.seen(in: seen) == nil else { continue }
+            items.append(Item(url: url, kind: folder.kind, group: folder.group, size: seen.size))
         }
         let preferences = container.appending(path: containerPreferenceFolder, directoryHint: .isDirectory)
         guard preferences.isRealFolder else { return items }
@@ -182,7 +187,9 @@ public struct AppReset: Sendable {
         let contents = (try? FileManager.default.contentsOfDirectory(at: preferences, includingPropertiesForKeys: [.isSymbolicLinkKey])) ?? []
         for file in contents where names.contains(file.lastPathComponent.lowercased()) {
             guard (try? file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true, !exclusions.excludes(file) else { continue }
-            items.append(Item(url: file, kind: .preferences, group: .settings, size: await measure(file)))
+            let seen = await measure(file)
+            guard let seen, HoldBack.seen(in: seen) == nil else { continue }
+            items.append(Item(url: file, kind: .preferences, group: .settings, size: seen.size))
         }
         return items
     }

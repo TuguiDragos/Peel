@@ -116,8 +116,7 @@ struct ResetSheet: View {
                                 url: item.url,
                                 icon: .symbol(item.kind.symbolName),
                                 detail: nil,
-                                size: item.size ?? 0,
-                                isMeasured: item.size != nil,
+                                size: item.size,
                                 isFirst: index == 0,
                                 hasNoteColumn: false,
                                 selection: plan, isSelected: plan.isSelected(item.url)
@@ -322,6 +321,6 @@ struct ResetSheet: View {
     }
 
     private var sizes: [URL: Int64] {
-        [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
+        Dictionary(plan.items.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
     }
 }
