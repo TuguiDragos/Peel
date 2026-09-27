@@ -14949,6 +14949,112 @@
         }
       }
     },
+    "Battle.net Cache" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mezipaměť Battle.net"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net-Cache"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caché de Battle.net"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache Battle.net"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache di Battle.net"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.netのキャッシュ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net 캐시"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net-cache"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pamięć podręczna Battle.net"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache do Battle.net"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memorie tampon Battle.net"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кэш Battle.net"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache för Battle.net"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net Önbelleği"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кеш Battle.net"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net缓存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net快取"
+          }
+        }
+      }
+    },
     "Being removed" : {
       "localizations" : {
         "cs" : {
@@ -132787,6 +132893,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App為你保存的內容"
+          }
+        }
+      }
+    },
+    "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mezipaměť, kterou aplikace Battle.net ukládá pro všechny účty v tomto Macu. Společnost Blizzard uvádí, že její odstranění vaše hry neovlivní a aplikace ji vytvoří znovu. Protože patří všem účtům, zobrazuje se, ale nikdy se nevybírá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was die Battle.net-App für jeden Benutzeraccount auf diesem Mac zwischenspeichert. Laut Blizzard hat das Entfernen keine Auswirkung auf deine Spiele, und die App erstellt es erneut. Da es allen Benutzeraccounts gehört, wird es angezeigt, aber nie ausgewählt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que la app Battle.net guarda en caché para todas las cuentas de este Mac. Blizzard indica que eliminar esta caché no afecta a tus juegos, y la app la vuelve a crear. Como pertenece a todas las cuentas, se muestra pero nunca se selecciona."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que l’app Battle.net met en cache pour tous les comptes de ce Mac. Selon Blizzard, le supprimer n’a aucune incidence sur vos jeux, et l’app le recrée. Comme il appartient à tous les comptes, il est listé mais jamais sélectionné."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cache che l’app Battle.net conserva per tutti gli account di questo Mac. Blizzard afferma che rimuoverla non ha effetti sui tuoi giochi, e l’app la ricrea. Poiché appartiene a tutti gli account, è elencata ma mai selezionata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.netアプリがこのMacのすべてのアカウントのためにキャッシュしているデータです。Blizzardによると、削除してもゲームに影響はなく、アプリが再作成します。すべてのアカウントのものであるため、一覧には表示されますが、自動で選択されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net 앱이 이 Mac의 모든 계정을 위해 저장하는 캐시입니다. Blizzard에 따르면 이를 제거해도 게임에는 영향이 없으며, 앱이 다시 만듭니다. 모든 계정에 속한 폴더이므로 목록에 표시되지만 절대 미리 선택되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat de Battle.net-app voor elke account op deze Mac in de cache bewaart. Volgens Blizzard heeft het verwijderen ervan geen invloed op je games, en de app maakt het opnieuw aan. Omdat het bij elke account hoort, wordt het getoond maar nooit geselecteerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pamięć podręczna aplikacji Battle.net dla wszystkich kont na tym Macu. Blizzard podaje, że jej usunięcie nie wpływa na Twoje gry, a aplikacja tworzy ją ponownie. Ponieważ należy do wszystkich kont, jest na liście, ale nigdy nie jest zaznaczana."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que o app Battle.net armazena em cache para todas as contas deste Mac. A Blizzard diz que remover esse cache não afeta seus jogos, e o app o cria novamente. Como ele pertence a todas as contas, é listado, mas nunca selecionado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memoria tampon pe care aplicația Battle.net o păstrează pentru toate conturile de pe acest Mac. Blizzard spune că eliminarea ei nu vă afectează jocurile, iar aplicația o reface. Deoarece aparține tuturor conturilor, este listată, dar nu este niciodată selectată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что приложение Battle.net кэширует для всех учетных записей на этом Mac. По словам Blizzard, удаление этого кэша не влияет на Ваши игры, а приложение создает его заново. Поскольку он принадлежит всем учетным записям, он показывается в списке, но никогда не выбирается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som appen Battle.net cachar för alla konton på den här datorn. Enligt Blizzard påverkas inte dina spel om du tar bort det, och appen skapar det igen. Eftersom det tillhör alla konton visas det i listan men markeras aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net uygulamasının bu Mac’teki her hesap için önbelleğe aldıkları. Blizzard, bunu kaldırmanın oyunlarınızı etkilemediğini söylüyor ve uygulama onu yeniden oluşturur. Her hesaba ait olduğu için listelenir ama hiçbir zaman seçilmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що програма Battle.net зберігає в кеші для всіх облікових записів на цьому Mac. За словами Blizzard, вилучення цього кешу не впливає на ваші ігри, а програма створює його знову. Оскільки він належить усім обліковим записам, він показується, але ніколи не вибирається."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net App为这台Mac上的所有账户缓存的内容。Blizzard表示移除它不会影响你的游戏，而且该App会重新生成它。由于它属于所有账户，因此它会列出，但绝不会被选择。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battle.net App為這部Mac上的所有帳號儲存的快取。Blizzard表示移除它不會影響你的遊戲，而且App會重新產生它。由於它屬於所有帳號，因此會列出，但絕不會選取。"
           }
         }
       }

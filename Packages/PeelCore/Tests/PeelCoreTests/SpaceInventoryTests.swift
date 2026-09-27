@@ -156,6 +156,22 @@ struct SpaceInventoryTests {
         #expect(Set(folders) == ["ABCDE12345.org.example.shared/Library/Caches", "org.example.chat/Data/tmp"])
     }
 
+    @Test func findsTheCacheBattleNetKeepsForEveryAccount() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Users/Shared/Blizzard/Battle.net/Cache/data.bin", bytes: 8_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: FileSize.measure
+        )
+
+        let cache = try #require(report.items.first { $0.id == "battlenet-cache" })
+        #expect(cache.urls.map { $0.pathComponents.suffix(3).joined(separator: "/") } == ["Shared/Blizzard/Battle.net"])
+        #expect(cache.handling == .trash)
+        #expect(cache.heldBack == .sharedWithEveryone)
+    }
+
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)

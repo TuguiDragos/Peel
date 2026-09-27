@@ -230,6 +230,15 @@ public enum SpaceInventory {
             handling: .trash,
             heldBack: .openedFromMail
         ),
+        // Blizzard's support names this folder as the Battle.net cache, whose removal does not affect game data
+        // (us.support.blizzard.com/en/article/34721). It belongs to every account on the Mac.
+        Definition(
+            id: "battlenet-cache",
+            category: .library,
+            paths: ["/Users/Shared/Blizzard/Battle.net"],
+            handling: .trash,
+            heldBack: .sharedWithEveryone
+        ),
     ]
 
     /// The total size of `urls`, or nil when any of them could not be measured. A folder a file provider owns
