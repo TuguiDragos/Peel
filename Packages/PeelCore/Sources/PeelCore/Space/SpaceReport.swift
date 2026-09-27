@@ -25,6 +25,8 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// Nil when measuring one of its folders ran out of time or was refused. Unknown is not the same as empty.
     public let size: Int64?
     public let handling: Handling
+    /// Why nothing in this area is selected for the person, whatever each item holds.
+    public var heldBack: HoldBack?
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -55,6 +57,16 @@ public enum SpaceInventory {
         let handling: SpaceItem.Handling
         /// The folder inside every app's container (`Library/Containers/<identifier>`) that belongs to this area too.
         var containerFolder: String?
+        var heldBack: HoldBack?
+
+        /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
+        func urls(home: URL, root: URL) -> [URL] {
+            paths.map { path in
+                path.hasPrefix("/")
+                    ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
+                    : home.appending(path: path, directoryHint: .isDirectory)
+            }
+        }
     }
 
     /// The identifier of every area. Public so the app can check that it has words for each one: the words
@@ -205,6 +217,14 @@ public enum SpaceInventory {
             handling: .trash,
             containerFolder: "Data/Library/Caches"
         ),
+        // Sandboxed, Mail writes only the second folder. The first is what an older Mail left in the Library itself.
+        Definition(
+            id: "mail-downloads",
+            category: .library,
+            paths: ["Library/Mail Downloads", "Library/Containers/com.apple.mail/Data/Library/Mail Downloads"],
+            handling: .trash,
+            heldBack: .openedFromMail
+        ),
     ]
 
     /// The total size of `urls`, or nil when any of them could not be measured. A folder a file provider owns
@@ -217,6 +237,13 @@ public enum SpaceInventory {
             total += measured
         }
         return total
+    }
+
+    /// The folders Space empties. Each stays itself, since Space moves what is inside, never the folder.
+    static func emptiedFolders(in environment: SearchEnvironment) -> [URL] {
+        definitions.filter { $0.handling == .trash }.flatMap {
+            $0.urls(home: environment.homeDirectory, root: environment.rootDirectory)
+        }
     }
 
     /// Every app's container, listed rather than matched with `glob`, which stops at 128 paths.
@@ -244,12 +271,7 @@ public enum SpaceInventory {
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
         let wanted = definitions.compactMap { definition -> (Definition, [URL])? in
-            let urls = definition.paths
-                .map { path in
-                    path.hasPrefix("/")
-                        ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
-                        : home.appending(path: path, directoryHint: .isDirectory)
-                }
+            let urls = definition.urls(home: home, root: root)
                 .filter { FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: $0)) }
                 + (definition.containerFolder.map { folder in
                     containers.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)
@@ -277,7 +299,8 @@ public enum SpaceInventory {
                     category: definition.category,
                     urls: urls,
                     size: size,
-                    handling: definition.handling
+                    handling: definition.handling,
+                    heldBack: definition.heldBack
                 ))
             }
         }

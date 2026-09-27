@@ -141,6 +141,10 @@ extension SpaceItem {
             title: "Sandboxed App Caches",
             detail: "What sandboxed apps, such as those from the App Store, cached in their own containers. An app that is open keeps its caches, and those of Apple’s own apps are listed but never selected."
         ),
+        "mail-downloads": Words(
+            title: "Mail Downloads",
+            detail: "Copies of the attachments you opened in Mail. Mail deletes each with its message unless you edited it, so they are listed and never selected."
+        ),
     ]
 }
 

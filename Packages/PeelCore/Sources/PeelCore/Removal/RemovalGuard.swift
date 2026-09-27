@@ -29,6 +29,7 @@ struct RemovalGuard: Sendable {
         let homeDirectories: [URL] = [home] + ProtectedData.accountFolders.map { home.appending(path: $0) }
         paths += homeDirectories.map { $0.path(percentEncoded: false) }
         paths += environment.locations.map { $0.url.path(percentEncoded: false) }
+        paths += SpaceInventory.emptiedFolders(in: environment).map { $0.path(percentEncoded: false) }
         paths += ProtectedData.sharedHomeItems.map { home.appending(path: $0).path(percentEncoded: false) }
         let trees = ProtectedData.homeTrees.map { home.appending(path: $0).path(percentEncoded: false) }
         protectedPaths = Set(paths.flatMap(Self.names))

@@ -162,6 +162,38 @@ struct SpaceRemovalTests {
         #expect(plan.appsToQuit == ["Spotify"])
     }
 
+    @Test func leavesEveryAttachmentMailKeptForThePersonToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let downloads = [
+            "home/Library/Mail Downloads", "home/Library/Containers/com.apple.mail/Data/Library/Mail Downloads",
+        ]
+        try directory.file("\(downloads[0])/0C6E/Invoice.pdf", bytes: 4_096)
+        try directory.file("\(downloads[1])/5A1F/Plan.pages", bytes: 4_096)
+        let item = SpaceItem(
+            id: "mail-downloads",
+            category: .library,
+            urls: downloads.map { directory.url.appending(path: $0, directoryHint: .isDirectory) },
+            size: 8_192,
+            handling: .trash,
+            heldBack: .openedFromMail
+        )
+        let mail = RunningCopies.Process(
+            identifier: 1, bundleIdentifier: "com.apple.mail", bundleURL: URL(filePath: "/System/Applications/Mail.app")
+        )
+
+        let closed = await SpaceRemoval.plan(for: item, environment: environment(directory), running: [:])
+        let open = await SpaceRemoval.plan(
+            for: item, environment: environment(directory), running: SpaceRemoval.namesOfRunningApps([mail])
+        )
+
+        #expect(closed.removable.map(\.lastPathComponent).sorted() == ["0C6E", "5A1F"])
+        #expect(closed.suggested.isEmpty)
+        #expect(Set(closed.heldBack.values) == [.openedFromMail])
+        #expect(closed.heldBack.count == 2)
+        #expect(open.removable.map(\.lastPathComponent) == ["0C6E"])
+        #expect(open.appsToQuit == ["Mail"])
+    }
+
     /// A move asks again just before it moves anything, since an app opened since the plan may be writing to some
     /// of these folders. It needs to know what may go, not how big it is, and it finds what a plan would.
     @Test func theMovesCheckFindsWhatAPlanWould() async throws {

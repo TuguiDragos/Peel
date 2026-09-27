@@ -61,6 +61,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case beyondTheHelper
     /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
     case keptByMacOS
+    /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
+    case openedFromMail
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {

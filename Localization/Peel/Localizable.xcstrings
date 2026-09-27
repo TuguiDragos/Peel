@@ -22818,6 +22818,112 @@
         }
       }
     },
+    "Copies of the attachments you opened in Mail. Mail deletes each with its message unless you edited it, so they are listed and never selected." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopie příloh, které jste otevřeli v aplikaci Mail. Aplikace Mail každou z nich smaže spolu s její zprávou, pokud jste ji neupravili, proto se zobrazují, ale nikdy se nevybírají."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopien der Anhänge, die du in Mail geöffnet hast. Mail löscht jede Kopie zusammen mit ihrer E-Mail, sofern du sie nicht bearbeitet hast, daher werden sie angezeigt, aber nie ausgewählt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copias de los archivos adjuntos que has abierto en Mail. Mail borra cada una con su mensaje salvo que la hayas editado, por eso se muestran pero nunca se seleccionan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copies des pièces jointes que vous avez ouvertes dans Mail. Mail supprime chacune avec son message, sauf si vous l’avez modifiée. C’est pourquoi elles sont listées mais jamais sélectionnées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copie degli allegati che hai aperto in Mail. Mail elimina ognuna insieme al suo messaggio, a meno che tu non l’abbia modificata, quindi sono elencate ma mai selezionate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールで開いた添付ファイルのコピーです。編集していないものはメッセージの削除時にメールが一緒に削除するため、一覧には表示されますが、自動で選択されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail에서 연 첨부 파일의 복사본입니다. Mail은 편집하지 않은 한 각 복사본을 해당 메시지와 함께 삭제하므로, 목록에 표시되지만 절대 미리 선택되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieën van de bijlagen die je in Mail hebt geopend. Mail verwijdert elke kopie samen met het bijbehorende bericht, tenzij je deze hebt bewerkt, dus ze worden getoond maar nooit geselecteerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopie załączników otwartych przez Ciebie w Poczcie. Poczta usuwa każdą z nich razem z jej wiadomością, jeśli jej nie edytowano, dlatego są na liście, ale nigdy nie są zaznaczane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cópias dos anexos que você abriu no Mail. O Mail apaga cada uma com a respectiva mensagem, a menos que você a tenha editado, por isso elas são listadas, mas nunca selecionadas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copii ale fișierelor atașate pe care le‑ați deschis în Mail. Mail șterge fiecare copie odată cu mesajul său, dacă nu ați editat‑o, așa că sunt listate, dar nu sunt niciodată selectate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Копии вложений, которые Вы открывали в Почте. Почта удаляет каждую из них вместе с ее письмом, если Вы ее не редактировали, поэтому они показываются в списке, но никогда не выбираются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopior av bilagor som du har öppnat i Mail. Mail raderar varje bilaga tillsammans med mejlet den hör till om du inte har redigerat den, så de visas i listan men markeras aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail’de açtığınız ilişiklerin kopyaları. Mail, düzenlemediğiniz her birini iletisiyle birlikte siler; bu yüzden listelenir ama hiçbir zaman seçilmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Копії вкладень, які ви відкривали в Пошті. Пошта видаляє кожну разом із її листом, якщо ви її не редагували, тому вони показуються, але ніколи не вибираються."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在“邮件”中打开的附件的副本。除非你编辑过，否则“邮件”会在删除邮件时一并删除每个副本，因此它们会列出，但绝不会被选择。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在「郵件」中打開的附件副本。「郵件」會隨郵件一併刪除每個副本，除非你編輯過它，因此這些副本會列出，但絕不會選取。"
+          }
+        }
+      }
+    },
     "Copy" : {
       "localizations" : {
         "cs" : {
@@ -54364,6 +54470,112 @@
         }
       }
     },
+    "Mail Downloads" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přílohy pošty"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail-Downloads"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargas de Mail"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Téléchargements Mail"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download di Mail"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールダウンロード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메일 다운로드"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads in Mail"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pobrane rzeczy Poczty"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads do Mail"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descărcări Mail"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузки Почты"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtningsmappen för Mail"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail İndirilenleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поштові викачування"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail Downloads"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "郵件下載項目"
+          }
+        }
+      }
+    },
     "Mail Plug-ins" : {
       "localizations" : {
         "cs" : {
@@ -67789,6 +68001,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：/Users/Shared屬於這部Mac上的所有帳號，而不屬於單一App。"
+          }
+        }
+      }
+    },
+    "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: aplikace Mail zde uchovává kopii každé přílohy, kterou otevřete, a kopie, kterou jste upravili, nemusí existovat nikde jinde."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Mail bewahrt hier eine Kopie jedes Anhangs auf, den du öffnest, und eine bearbeitete Kopie gibt es möglicherweise nirgendwo sonst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: Mail guarda aquí una copia de cada archivo adjunto que abres, y una que hayas editado puede no existir en ningún otro sitio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : Mail conserve ici une copie de chaque pièce jointe que vous ouvrez, et une copie que vous avez modifiée n’existe peut-être nulle part ailleurs."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: Mail conserva qui una copia di ogni allegato che apri, e una copia che hai modificato potrebbe non esistere altrove."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: メールは開いた添付ファイルのコピーをここに保存しており、編集したコピーはほかのどこにも存在しない可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: Mail은 사용자가 여는 각 첨부 파일의 복사본을 여기에 보관하며, 편집한 복사본은 다른 곳에 없을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: Mail bewaart hier een kopie van elke bijlage die je opent, en een kopie die je hebt bewerkt, bestaat misschien nergens anders."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: Poczta przechowuje tu kopię każdego otwieranego przez Ciebie załącznika, a edytowana przez Ciebie kopia może nie istnieć nigdzie indziej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o Mail mantém aqui uma cópia de cada anexo que você abre, e uma cópia que você editou pode não existir em nenhum outro lugar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: Mail păstrează aici o copie a fiecărui fișier atașat pe care îl deschideți, iar o copie pe care ați editat‑o poate să nu existe în altă parte."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: Почта хранит здесь копию каждого вложения, которое Вы открываете, а отредактированная Вами копия, возможно, есть только здесь."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: Mail sparar här en kopia av varje bilaga du öppnar, och en bilaga som du har redigerat finns kanske inte någon annanstans."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Mail, açtığınız her ilişkinin bir kopyasını burada tutar; düzenlediğiniz bir kopya başka hiçbir yerde bulunmayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: Пошта зберігає тут копію кожного вкладення, яке ви відкриваєте, а відредаговане вами вкладення може більше ніде не зберігатися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：“邮件”会在此处为你打开的每个附件保留一个副本，而你编辑过的副本可能在其他任何地方都不存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：「郵件」會在此處保留你打開的每個附件的副本，而你編輯過的副本可能不存在於其他任何地方。"
           }
         }
       }

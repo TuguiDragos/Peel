@@ -204,6 +204,8 @@ extension HoldBack {
             "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here."
         case .keptByMacOS:
             "Not selected: macOS keeps this cache for its own services, which may be using it right now."
+        case .openedFromMail:
+            "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else."
         }
     }
 }

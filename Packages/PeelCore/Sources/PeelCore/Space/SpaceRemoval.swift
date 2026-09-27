@@ -57,7 +57,7 @@ public enum SpaceRemoval {
         for child in children.removable where !Task.isCancelled {
             let contents = await measure(child)
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
-            heldBack[child] = systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents)
+            heldBack[child] = item.heldBack ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
         }
         return Plan(
             removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,

@@ -122,6 +122,25 @@ struct SpaceInventoryTests {
         #expect(folders("logs").contains("org.example.chat/Data/Library/Logs"))
     }
 
+    @Test func findsTheCopiesMailKeepsOfTheAttachmentsYouOpen() async throws {
+        let directory = try TemporaryDirectory()
+        let container = "Library/Containers/com.apple.mail/Data/Library/Mail Downloads"
+        try directory.file("Library/Mail Downloads/0C6E/Invoice.pdf", bytes: 8_000)
+        try directory.file("\(container)/5A1F/Plan.pages", bytes: 8_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+        )
+
+        let attachments = try #require(report.items.first { $0.id == "mail-downloads" })
+        #expect(attachments.urls == [
+            directory.url.appending(path: "Library/Mail Downloads", directoryHint: .isDirectory),
+            directory.url.appending(path: container, directoryHint: .isDirectory),
+        ])
+        #expect(attachments.handling == .trash)
+        #expect(attachments.heldBack == .openedFromMail)
+    }
+
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)
