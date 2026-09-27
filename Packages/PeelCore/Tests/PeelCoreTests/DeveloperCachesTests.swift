@@ -557,6 +557,17 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.isRecommended })
     }
 
+    @Test func offersTheDocumentationXcodeCaches() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Developer/Xcode/DocumentationCache/v27/index.db", bytes: 400_000)
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["DocumentationCache"])
+        #expect(locations.first?.kind == .cache)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
