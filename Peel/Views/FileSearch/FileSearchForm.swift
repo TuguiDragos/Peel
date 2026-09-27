@@ -40,6 +40,6 @@ struct FileSearchForm: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 400, height: 280)
+        .frame(width: 400)
     }
 }
