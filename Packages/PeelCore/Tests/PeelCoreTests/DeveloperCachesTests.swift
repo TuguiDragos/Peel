@@ -122,6 +122,20 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == Set(caches))
     }
 
+    @Test func listsABrowsersModelsWithoutSelectingThem() async throws {
+        let directory = try TemporaryDirectory()
+        let chrome = "Library/Application Support/Google/Chrome"
+        try directory.file("\(chrome)/OptGuideOnDeviceModel/2025.8.8.1141/weights.bin", bytes: 4_096)
+        try directory.file("\(chrome)/optimization_guide_model_store/2/abc/model.tflite", bytes: 4_096)
+
+        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+
+        let models = try #require(environments.first { $0.id == "chrome" }).locations
+        let names = models.map(\.url.lastPathComponent).sorted()
+        #expect(names == ["OptGuideOnDeviceModel", "optimization_guide_model_store"])
+        #expect(models.allSatisfy { $0.kind == .models && !$0.isRecommended })
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {

@@ -687,22 +687,22 @@ public enum DeveloperCaches {
             appBundleIdentifiers: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev",
                                    "com.google.Chrome.canary"],
             folders: ["Chrome", "Chrome Beta", "Chrome Dev", "Chrome Canary"].flatMap {
-                chromiumCaches(in: "Library/Application Support/Google/\($0)")
+                chromiumFolders(in: "Library/Application Support/Google/\($0)")
             }
         ),
         Definition(
             id: "chromium", name: "Chromium", systemImage: "globe", appBundleIdentifiers: ["org.chromium.Chromium"],
-            folders: chromiumCaches(in: "Library/Application Support/Chromium")
+            folders: chromiumFolders(in: "Library/Application Support/Chromium")
         ),
         Definition(
             id: "brave", name: "Brave", systemImage: "globe", appBundleIdentifiers: ["com.brave.Browser"],
-            folders: chromiumCaches(in: "Library/Application Support/BraveSoftware/Brave-Browser")
+            folders: chromiumFolders(in: "Library/Application Support/BraveSoftware/Brave-Browser")
         ),
     ]
 
-    /// The caches Chromium keeps in a browser's user data folder, beside its profiles and in each of them, named where
-    /// Chromium names them. What a profile holds for the person, its site data included, is never among them.
-    private static func chromiumCaches(in userData: String) -> [Folder] {
+    /// The caches and models Chromium keeps in a browser's user data folder, beside its profiles and in each of them,
+    /// named where Chromium names them. What a profile holds for the person, its site data included, is never listed.
+    private static func chromiumFolders(in userData: String) -> [Folder] {
         let browser = "https://github.com/chromium/chromium/blob/main/chrome/browser/"
         let gpu = "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"
         return ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
@@ -714,7 +714,21 @@ public enum DeveloperCaches {
             ),
         ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
             Folder("\(userData)/*/\($0)", .cache, source: gpu)
-        }
+        } + chromiumModels(in: userData)
+    }
+
+    /// The on-device models the component updater installs again when a feature asks for one, and the models the
+    /// optimization guide downloads. Components go in the user data folder (`chrome_main_delegate.cc#L1566-L1569`).
+    private static func chromiumModels(in userData: String) -> [Folder] {
+        let installer = "https://github.com/chromium/chromium/blob/main/chrome/browser/component_updater/"
+            + "optimization_guide_on_device_model_installer.cc"
+        let store = "https://github.com/chromium/chromium/blob/main/chrome/browser/optimization_guide/model_execution/"
+            + "optimization_guide_global_state.cc#L70-L76"
+        return [
+            Folder("\(userData)/OptGuideOnDeviceModel", .models, source: installer + "#L53-L75"),
+            Folder("\(userData)/OptGuideManifestModel", .models, source: installer + "#L248-L255"),
+            Folder("\(userData)/optimization_guide_model_store", .models, source: store),
+        ]
     }
 
     @concurrent
