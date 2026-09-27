@@ -98,6 +98,23 @@ struct RemovalHistoryTests {
         #expect(try decoder.decode([RemovalRecord].self, from: stored).first?.date == Date(timeIntervalSince1970: 5.25))
     }
 
+    /// A time read from a log is written back as it was read, since every change writes the whole log again: a
+    /// time that lost a millisecond each time could move behind a part that moved after it.
+    @Test func aTimeReadBackIsWrittenAsItWas() throws {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = LogTime.encoding
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = LogTime.decoding
+        // Read back, .002 is a hair under two milliseconds, as a binary fraction is.
+        let written = try encoder.encode([Date(timeIntervalSinceReferenceDate: 800_000_015.002_07)])
+
+        let again = try encoder.encode(try decoder.decode([Date].self, from: written))
+
+        #expect(String(decoding: written, as: UTF8.self) == #"["2026-05-09T06:13:35.002Z"]"#)
+        #expect(String(decoding: again, as: UTF8.self) == String(decoding: written, as: UTF8.self))
+        #expect(LogTime.text(for: Date(timeIntervalSince1970: 5.2506)) == "1970-01-01T00:00:05.251Z", "the nearest millisecond")
+    }
+
     /// `removals.json` is a file any process can rewrite, and Swift's `+` traps on overflow, so the sizes read
     /// from it are checked and added up without trapping.
     @Test func aSizeNobodyCouldHaveMeasuredNeitherCrashesNorCounts() throws {
