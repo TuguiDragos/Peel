@@ -9,8 +9,17 @@ public final class HelperLedger: @unchecked Sendable {
     private struct Entry: Codable {
         let path: String
         let identity: ItemIdentity
+        /// The UUID of the volume the item was on. Its device number follows the order volumes mount in, so an
+        /// item is known by this and its inode and birth time, and by its device number only when this is missing.
+        let volume: String?
         let user: UInt32
         let date: Date
+
+        func names(_ other: ItemIdentity, on otherVolume: String?) -> Bool {
+            guard identity.inode == other.inode, identity.birth == other.birth else { return false }
+            if let volume, let otherVolume { return volume == otherVolume }
+            return identity == other
+        }
     }
 
     public static let defaultFolder = "/private/var/db/\(HelperIdentity.helperIdentifier)"
@@ -41,20 +50,22 @@ public final class HelperLedger: @unchecked Sendable {
     public func record(_ items: [OpenItem], movedBy user: uid_t) -> Bool {
         Self.lock.withLock {
             let added = items.compactMap { item in
-                item.identity.map { Entry(path: item.path, identity: $0, user: user, date: .now) }
+                item.identity.map { identity in
+                    Entry(path: item.path, identity: identity, volume: Self.volume(of: item), user: user, date: .now)
+                }
             }
-            let known = Set(added.map(\.identity))
             guard let entries = read() else { return false }
-            return write((entries.filter { !known.contains($0.identity) } + added).suffix(maximumEntries))
+            let kept = entries.filter { entry in !added.contains { entry.names($0.identity, on: $0.volume) } }
+            return write((kept + added).suffix(maximumEntries))
         }
     }
 
     /// Removes `items` from the ledger: those that did not move after all, and those that were put back.
     public func forget(_ items: [OpenItem]) {
         Self.lock.withLock {
-            let gone = Set(items.compactMap(\.identity))
+            let gone = items.compactMap { item in item.identity.map { ($0, Self.volume(of: item)) } }
             guard !gone.isEmpty, let entries = read() else { return }
-            _ = write(entries.filter { !gone.contains($0.identity) })
+            _ = write(entries.filter { entry in !gone.contains { entry.names($0.0, on: $0.1) } })
         }
     }
 
@@ -81,7 +92,16 @@ public final class HelperLedger: @unchecked Sendable {
     public func origin(of item: OpenItem, movedBy user: uid_t) throws(Unreadable) -> String? {
         guard let entries = Self.lock.withLock({ read() }) else { throw Unreadable() }
         guard let identity = item.identity else { return nil }
-        return entries.last { $0.identity == identity && $0.user == user }?.path
+        let volume = Self.volume(of: item)
+        return entries.last { $0.names(identity, on: volume) && $0.user == user }?.path
+    }
+
+    private static func volume(of item: OpenItem) -> String? {
+        var info = statfs()
+        guard fstatfs(item.parent.descriptor, &info) == 0 else { return nil }
+        let mount = withUnsafeBytes(of: info.f_mntonname) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+        let volume = URL(filePath: mount, directoryHint: .isDirectory)
+        return (try? volume.resourceValues(forKeys: [.volumeUUIDStringKey]))?.volumeUUIDString
     }
 
     /// The entries, or nil when the ledger is there and cannot be read: then nothing moves and nothing goes back.

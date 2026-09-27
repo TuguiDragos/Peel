@@ -1,5 +1,5 @@
 import Foundation
-import PeelPrivileged
+@testable import PeelPrivileged
 import Testing
 
 /// Put Back works from a record that any process running as the user can rewrite, so the helper keeps its own
@@ -193,6 +193,32 @@ struct HelperLedgerTests {
 
         try directory.setPermissions(0o600, of: url)
         #expect(try Data(contentsOf: url) == before)
+    }
+
+    /// A volume's device number follows the order volumes mount in, so it can change between two starts of the Mac.
+    @Test func knowsAnItemAfterItsVolumeIsNumberedAgain() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let ledger = try ledger(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let trashedPath = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
+
+        let url = directory.url.appending(path: "private/moved.plist")
+        let saved = try PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil)
+        var entries = try #require(saved as? [[String: Any]])
+        var identity = try #require(entries[0]["identity"] as? [String: Any])
+        identity["device"] = 1
+        entries[0]["identity"] = identity
+        try PropertyListSerialization.data(fromPropertyList: entries, format: .binary, options: 0).write(to: url)
+
+        let trashed = try #require(policy.openInTrash(trashedPath, trash: trash))
+        #expect(try ledger.origin(of: trashed, movedBy: getuid()) != nil, "forgotten once the volume was numbered again")
+
+        identity["device"] = Int(try #require(trashed.identity).device)
+        entries[0]["identity"] = identity
+        entries[0]["volume"] = nil
+        try PropertyListSerialization.data(fromPropertyList: entries, format: .binary, options: 0).write(to: url)
+        #expect(try ledger.origin(of: trashed, movedBy: getuid()) != nil, "an entry kept without its volume was forgotten")
     }
 
     @Test func keepsTheNewestEntriesAndOnlyInAFolderOfItsOwn() throws {
