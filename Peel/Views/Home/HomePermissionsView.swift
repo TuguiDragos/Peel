@@ -275,7 +275,7 @@ struct HomePermissionsContent: View {
         switch permission {
         case .fullDiskAccess: (Album.charcoal, .white)
         case .helper: (Album.orange, Album.onOrange)
-        case .appManagement: (Album.cream, Album.orange)
+        case .appManagement: (Album.cream, Album.orangeOnCream)
         default: (Album.cream, Album.charcoal)
         }
     }

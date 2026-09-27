@@ -27,6 +27,9 @@ enum Album {
     static let redFill = Color(.peelRedFill)
     /// Orange for words and marks on the paper, where the brand orange is too light to read. The logo keeps `orange`.
     static let orangeInk = Color(.peelOrangeInk)
+    /// Orange for a mark on a `cream` sticker. The cream is the same in every appearance, so this orange is too,
+    /// where `orangeInk` lightens in dark for the dark paper.
+    static let orangeOnCream = Color(.peelOrangeOnCream)
     /// Words and marks drawn on `orange`: dark, and white where Increase Contrast darkens the orange.
     static let onOrange = Color(.inkOnOrange)
 }
