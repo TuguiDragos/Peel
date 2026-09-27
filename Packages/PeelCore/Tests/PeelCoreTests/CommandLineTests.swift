@@ -705,6 +705,16 @@ struct CommandLineTests {
         #expect(row(.possible) == "bundle identifier, review: possible match")
     }
 
+    /// Nothing in Orphaned Files is ever suggested, so its `--remove` says what it moves instead: the group named.
+    @Test func removeSaysWhatEachCommandMoves() {
+        let orphans = OrphansCommand.helpMessage(columns: 200)
+        #expect(orphans.contains("Move the named group to the Trash, leaving out what Peel holds back."))
+        #expect(!orphans.contains("Move what Peel suggests"))
+        for help in [CachesCommand.helpMessage(columns: 200), ProjectsCommand.helpMessage(columns: 200), DuplicatesCommand.helpMessage(columns: 200)] {
+            #expect(help.contains("Move what Peel suggests to the Trash."))
+        }
+    }
+
     @Test func showsTheUsageOfTheSubcommandThatFailed() throws {
         let error = #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["inventory", "--format", "bogus"]) }
         let message = PeelCommand.fullMessage(for: try #require(error), columns: 200)
@@ -782,7 +792,7 @@ struct CommandLineTests {
     /// A flag that only makes sense with `--remove` is refused without it, rather than quietly ignored.
     /// `--json` only lists, so it is refused with `--remove`.
     @Test func removalFlagsOnlyGoWithARemoval() throws {
-        #expect(try (PeelCommand.parseAsRoot(["caches", "--remove", "--dry-run"]) as? CachesCommand)?.removal.remove == true)
+        #expect(try (PeelCommand.parseAsRoot(["caches", "--remove", "--dry-run"]) as? CachesCommand)?.remove == true)
         for arguments in [["caches", "--dry-run"], ["caches", "-y"], ["projects", "~/x", "--dry-run"], ["duplicates", "--yes"]] {
             #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(arguments) }
         }

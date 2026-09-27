@@ -12,6 +12,9 @@ struct OrphansCommand: AsyncParsableCommand {
     @Argument(help: "The group to move, as `peel orphans` names it in its first column.")
     var group: String?
 
+    @Flag(help: "Move the named group to the Trash, leaving out what Peel holds back.")
+    var remove = false
+
     @OptionGroup var removal: RemovalOptions
 
     @OptionGroup var output: OutputOptions
@@ -52,9 +55,9 @@ struct OrphansCommand: AsyncParsableCommand {
     }
 
     func validate() throws {
-        try removal.validate(with: output)
-        guard removal.remove == (group != nil) else {
-            throw ValidationError(removal.remove
+        try removal.validate(removing: remove, with: output)
+        guard remove == (group != nil) else {
+            throw ValidationError(remove
                 ? "Name the group to move. See `peel orphans`."
                 : "A group on its own does nothing. Add --remove to move it.")
         }
@@ -174,6 +177,9 @@ struct CachesCommand: AsyncParsableCommand {
     @Argument(help: "Tools to look at, as `peel caches` names them. All of them when none is given.")
     var tools: [String] = []
 
+    @Flag(help: RemovalOptions.movesWhatPeelSuggests)
+    var remove = false
+
     @OptionGroup var removal: RemovalOptions
 
     @OptionGroup var output: OutputOptions
@@ -194,13 +200,13 @@ struct CachesCommand: AsyncParsableCommand {
     }
 
     func validate() throws {
-        try removal.validate(with: output)
+        try removal.validate(removing: remove, with: output)
     }
 
     func run() async throws {
         let all = await DeveloperCaches.scan(exclusions: UnreadableExclusions.load())
         let environments = try Self.chosen(from: all, named: tools)
-        guard !removal.remove else {
+        guard !remove else {
             return try await clean(environments, using: TrashService(exclusions: await ExclusionStore().load()))
         }
 
@@ -305,6 +311,9 @@ struct ProjectsCommand: AsyncParsableCommand {
     @Argument(help: "Folders your projects live in.", completion: .directory)
     var folders: [String]
 
+    @Flag(help: RemovalOptions.movesWhatPeelSuggests)
+    var remove = false
+
     @OptionGroup var removal: RemovalOptions
 
     @OptionGroup var output: OutputOptions
@@ -345,7 +354,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     /// Fails when none of the folders can be searched, giving the reason for each, rather than report that
     /// nothing built was found.
     func validate() throws {
-        try removal.validate(with: output)
+        try removal.validate(removing: remove, with: output)
         let refused = folders.map(URL.init(argument:)).compactMap { root in
             ProjectArtifacts.refusal(for: root).map { "\(Output.plain(Output.path(root))): \($0.summary)" }
         }
@@ -364,7 +373,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         }
         let scan = await ProjectArtifacts.scan(roots: roots, exclusions: UnreadableExclusions.load())
         let artifacts = scan.artifacts
-        if removal.remove {
+        if remove {
             Self.notes(for: scan).forEach(Output.note)
             return try await clean(artifacts, using: TrashService(exclusions: await ExclusionStore().load()))
         }
@@ -476,6 +485,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
     @Option(name: .customLong("min-size"), help: "Only files at least this large, and folders holding at least this much, like 500KB or 1.5GB.")
     var minimumSize: ByteSize?
 
+    @Flag(help: RemovalOptions.movesWhatPeelSuggests)
+    var remove = false
+
     @OptionGroup var removal: RemovalOptions
 
     @OptionGroup var output: OutputOptions
@@ -504,7 +516,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     /// Checks the folders here rather than in `run()`: only while it parses does ArgumentParser know which
     /// subcommand's usage to print. The finder needs no exclusions, since they don't decide what can be scanned.
     func validate() throws {
-        try removal.validate(with: output)
+        try removal.validate(removing: remove, with: output)
         // One finder for every folder: each new finder resolves the home folder's links again.
         let finder = DuplicateFinder()
         let urls = folders.map(URL.init(argument:))
@@ -525,7 +537,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         options.kind = kind?.fileKind ?? .any
         options.minimumSize = minimumSize?.bytes ?? 1
         let scan = try await finder.scan(options)
-        if removal.remove {
+        if remove {
             Self.notes(for: scan).forEach(Output.note)
             return try await clean(scan, using: TrashService(exclusions: await ExclusionStore().load()))
         }

@@ -2,9 +2,10 @@ import ArgumentParser
 import Foundation
 import PeelCore
 
+/// What goes with a command's own `--remove`, which each command declares with the help that says what it moves.
 struct RemovalOptions: ParsableArguments {
-    @Flag(help: "Move what Peel suggests to the Trash.")
-    var remove = false
+    /// The help of `--remove` for a command that moves what Peel suggests.
+    static let movesWhatPeelSuggests: ArgumentHelp = "Move what Peel suggests to the Trash."
 
     @Flag(name: .customLong("dry-run"), help: "Show what would go without moving anything.")
     var dryRun = false
@@ -12,7 +13,7 @@ struct RemovalOptions: ParsableArguments {
     @Flag(name: .shortAndLong, help: "Don't ask for confirmation.")
     var yes = false
 
-    func validate(with output: OutputOptions) throws {
+    func validate(removing remove: Bool, with output: OutputOptions) throws {
         guard remove || (!dryRun && !yes) else {
             throw ValidationError("--dry-run and --yes only go with --remove.")
         }
