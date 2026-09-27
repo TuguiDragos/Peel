@@ -35,12 +35,12 @@ public enum BackgroundItems {
             var results: [BackgroundItem] = []
             for _ in 0..<concurrentDetailQueries {
                 guard let next = pending.next() else { break }
-                group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded) }
+                group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions) }
             }
             while let result = await group.next() {
                 if let result { results.append(result) }
                 if !Task.isCancelled, let next = pending.next() {
-                    group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded) }
+                    group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions) }
                 }
             }
             return results
@@ -142,33 +142,52 @@ public enum BackgroundItems {
     private static func appSubmittedItem(
         _ candidate: (label: String, kind: BackgroundItem.Kind, target: String),
         ownership: BackgroundItemOwnership,
-        loaded: Loaded
+        loaded: Loaded,
+        exclusions: Exclusions
     ) async -> BackgroundItem? {
         let details = Launchctl.parseDetails(await Launchctl.run(["print", candidate.target]).output)
+        return undeclaredItem(candidate, details: details, ownership: ownership, loaded: loaded, exclusions: exclusions)
+    }
+
+    /// The item for a loaded job no file in the three folders declares, from what `launchctl print` said of it: one
+    /// an app registered or submitted, named by its owner when Peel can tell it, or one something loaded from a file
+    /// anywhere else, which launchd forgets at the next logout or restart. A job macOS loaded from its own folders is
+    /// not an item, and neither is a file the user excluded.
+    static func undeclaredItem(
+        _ candidate: (label: String, kind: BackgroundItem.Kind, target: String),
+        details: Launchctl.JobDetails,
+        ownership: BackgroundItemOwnership,
+        loaded: Loaded,
+        exclusions: Exclusions
+    ) -> BackgroundItem? {
         let isSubmittedByApp = details.path?.hasPrefix("(submitted by") == true
             && details.program.map { !PathComponents.isPath($0, inside: "/System") } == true
-        guard details.managedBy == serviceManagement || isSubmittedByApp else { return nil }
+        let isAnApps = details.managedBy == serviceManagement || isSubmittedByApp
         let path = details.path.flatMap { $0.hasPrefix("/") ? URL(filePath: $0) : nil }
+        let isMacOSs = path.map { file in
+            ["/System", "/Library/Apple"].contains { PathComponents.isPath(file.path(percentEncoded: false), inside: $0) }
+        } ?? false
+        guard isAnApps || (path != nil && !isMacOSs), path.map(exclusions.excludes) != true else { return nil }
         let job = path.flatMap(JobDefinition.init(contentsOf:))
         let program = details.program ?? job?.program
-        guard let owner = ownership.owner(
+        let owner = ownership.owner(
             label: candidate.label,
             registeredBy: details.parentBundleIdentifier,
             associated: job?.associated ?? [],
             program: program
-        ) else { return nil }
+        )
 
         return BackgroundItem(
             label: candidate.label,
             kind: candidate.kind,
-            source: .app,
+            source: isAnApps ? .app : .otherFile,
             plistURL: path,
             program: program,
             runsAtLoad: job?.runsAtLoad ?? false,
             keepsAlive: job?.keepsAlive ?? false,
-            ownerBundleIdentifier: owner.bundleIdentifier,
-            ownerName: owner.name,
-            isOwnerInstalled: owner.isInstalled,
+            ownerBundleIdentifier: owner?.bundleIdentifier,
+            ownerName: owner?.name,
+            isOwnerInstalled: owner?.isInstalled ?? false,
             isOrphan: ownership.isOrphan(label: candidate.label, program: program, owner: owner),
             state: loaded.state(of: candidate.label, candidate.kind),
             isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false

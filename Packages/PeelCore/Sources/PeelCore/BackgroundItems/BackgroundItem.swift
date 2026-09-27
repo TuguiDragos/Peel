@@ -10,7 +10,11 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public enum Source: Sendable, Hashable {
         case userLibrary
         case systemLibrary
+        /// Registered or submitted by an app, and known only while it is loaded.
         case app
+        /// Loaded from a file outside the folders launchd reads by itself, and known only while it is loaded: launchd
+        /// forgets it at the next logout or restart.
+        case otherFile
     }
 
     public enum State: Sendable, Hashable {
@@ -59,5 +63,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }
 
-    public var canMoveToTrash: Bool { source != .app && plistURL != nil && !usesALabelOfMacOS }
+    /// True for a job Peel sees only while it is loaded, so once stopped it would leave the list and could not be
+    /// started again from here.
+    public var isSeenOnlyWhileLoaded: Bool { source == .app || source == .otherFile }
+
+    public var canMoveToTrash: Bool { !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS }
 }

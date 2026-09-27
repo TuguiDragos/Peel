@@ -113,6 +113,18 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.source == .otherFile {
+                Section {
+                    Notice(
+                        title: Text("Loaded from a file elsewhere"),
+                        detail: item.kind == .daemon
+                            ? Text("Something loaded this from a file outside the folders macOS reads at startup, so macOS forgets it when the Mac restarts. The file is shown above.")
+                            : Text("Something loaded this from a file outside the folders macOS reads at login, so macOS forgets it when you log out. The file is shown above."),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if item.state == .unknown {
                 Section {
                     Notice(
@@ -285,9 +297,9 @@ struct BackgroundItemDetailView: View {
 
     private var ownControls: some View {
         Group {
-            // No Start or Stop for a job an app registered. Peel sees it only while it is loaded, so once stopped
-            // it would leave the list, and Peel could not start it again. System Settings also offers only a switch.
-            if item.source != .app {
+            // No Start or Stop for a job Peel sees only while it is loaded: once stopped it would leave the list,
+            // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
+            if !item.isSeenOnlyWhileLoaded {
                 let isRunning = if case .running = item.state { true } else { false }
                 Button(isRunning ? "Stop" : "Start", systemImage: isRunning ? "stop.fill" : "play.fill") {
                     Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }

@@ -52293,6 +52293,112 @@
         }
       }
     },
+    "Loaded from a file elsewhere" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Načteno ze souboru na jiném místě"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus einer Datei an anderer Stelle geladen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargado desde un archivo en otro lugar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargé depuis un fichier situé ailleurs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricato da un file in un’altra cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかの場所にあるファイルから読み込まれています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 위치의 파일에서 로드됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geladen uit een bestand elders"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wczytano z pliku w innym miejscu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregado de um arquivo em outro local"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încărcat dintr‑un fișier din altă parte"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загружено из файла в другом месте"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inläst från en fil någon annanstans"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başka bir yerdeki dosyadan yüklendi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завантажено з файлу в іншому місці"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从其他位置的文件载入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從其他位置的檔案載入"
+          }
+        }
+      }
+    },
     "Location" : {
       "localizations" : {
         "cs" : {
@@ -103715,6 +103821,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "那裡已經有其他項目。"
+          }
+        }
+      }
+    },
+    "Something loaded this from a file outside the folders macOS reads at login, so macOS forgets it when you log out. The file is shown above." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Něco tuto úlohu načetlo ze souboru mimo složky, které macOS čte při přihlášení, takže ji macOS po odhlášení zapomene. Soubor je zobrazený výše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etwas hat dieses Objekt aus einer Datei außerhalb der Ordner geladen, die macOS bei der Anmeldung liest, daher vergisst macOS es, wenn du dich abmeldest. Die Datei wird oben angezeigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo lo ha cargado desde un archivo fuera de las carpetas que macOS lee al iniciar sesión, así que macOS lo olvida cuando cierras sesión. El archivo aparece arriba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément a été chargé depuis un fichier situé en dehors des dossiers que macOS lit à l’ouverture de session, si bien que macOS l’oublie lorsque vous fermez la session. Le fichier est indiqué ci-dessus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualcosa l’ha caricato da un file fuori dalle cartelle che macOS legge al login, quindi macOS lo dimentica quando esegui il logout. Il file è mostrato qui sopra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがログイン時に読み込むフォルダの外にあるファイルから、何かがこれを読み込みました。そのため、ログアウトするとmacOSはこれを忘れます。そのファイルは上に表示されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 로그인 시 읽는 폴더 밖의 파일에서 무언가가 이 항목을 로드했으므로, 로그아웃하면 macOS가 이 항목을 잊습니다. 파일은 위에 표시되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iets heeft dit geladen uit een bestand buiten de mappen die macOS bij het inloggen leest, dus macOS vergeet het als je uitlogt. Het bestand staat hierboven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coś wczytało tę rzecz z pliku spoza folderów, które macOS odczytuje podczas logowania, więc macOS zapomni o niej, gdy się wylogujesz. Ten plik jest pokazany powyżej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo carregou este item de um arquivo fora das pastas que o macOS lê ao iniciar a sessão, então o macOS o esquece quando você finaliza a sessão. O arquivo aparece acima."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceva l‑a încărcat dintr‑un fișier aflat în afara dosarelor pe care macOS le citește la login, așa că macOS îl uită când faceți logout. Fișierul este afișat mai sus."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что-то загрузило этот объект из файла вне папок, которые macOS читает при входе в систему, поэтому macOS забудет о нем, когда Вы выйдете из системы. Файл показан выше."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något läste in det här från en fil utanför de mappar som macOS läser vid inloggning, så macOS glömmer det när du loggar ut. Filen visas ovan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, macOS’in oturum açıldığında okuduğu klasörlerin dışındaki bir dosyadan yüklendi, bu yüzden macOS oturumu kapattığınızda onu unutur. Dosya yukarıda gösteriliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щось завантажило цей елемент з файлу поза папками, які macOS читає під час входу в систему, тож macOS забуває про нього, коли ви виходите із системи. Файл показано вище."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个程序从macOS在登录时读取的文件夹之外的文件载入了此项，因此你退出登录时，macOS会忘记它。该文件显示在上方。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有東西從macOS在登入時讀取的檔案夾以外的檔案載入了此項目，因此你登出時macOS就會忘記它。該檔案顯示於上方。"
+          }
+        }
+      }
+    },
+    "Something loaded this from a file outside the folders macOS reads at startup, so macOS forgets it when the Mac restarts. The file is shown above." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Něco tuto úlohu načetlo ze souboru mimo složky, které macOS čte při startu, takže ji macOS po restartu Macu zapomene. Soubor je zobrazený výše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etwas hat dieses Objekt aus einer Datei außerhalb der Ordner geladen, die macOS beim Systemstart liest, daher vergisst macOS es, wenn der Mac neu startet. Die Datei wird oben angezeigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo lo ha cargado desde un archivo fuera de las carpetas que macOS lee al arrancar, así que macOS lo olvida cuando el Mac se reinicia. El archivo aparece arriba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément a été chargé depuis un fichier situé en dehors des dossiers que macOS lit au démarrage, si bien que macOS l’oublie lorsque le Mac redémarre. Le fichier est indiqué ci-dessus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualcosa l’ha caricato da un file fuori dalle cartelle che macOS legge all’avvio, quindi macOS lo dimentica quando il Mac si riavvia. Il file è mostrato qui sopra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが起動時に読み込むフォルダの外にあるファイルから、何かがこれを読み込みました。そのため、Macを再起動するとmacOSはこれを忘れます。そのファイルは上に表示されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 시동 시 읽는 폴더 밖의 파일에서 무언가가 이 항목을 로드했으므로, Mac을 재시동하면 macOS가 이 항목을 잊습니다. 파일은 위에 표시되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iets heeft dit geladen uit een bestand buiten de mappen die macOS bij het opstarten leest, dus macOS vergeet het als de Mac opnieuw opstart. Het bestand staat hierboven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coś wczytało tę rzecz z pliku spoza folderów, które macOS odczytuje podczas startu systemu, więc macOS zapomni o niej, gdy Mac uruchomi się ponownie. Ten plik jest pokazany powyżej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo carregou este item de um arquivo fora das pastas que o macOS lê na inicialização, então o macOS o esquece quando o Mac é reiniciado. O arquivo aparece acima."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceva l‑a încărcat dintr‑un fișier aflat în afara dosarelor pe care macOS le citește la pornire, așa că macOS îl uită când Mac‑ul repornește. Fișierul este afișat mai sus."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что-то загрузило этот объект из файла вне папок, которые macOS читает при загрузке Mac, поэтому macOS забудет о нем, когда Mac перезагрузится. Файл показан выше."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något läste in det här från en fil utanför de mappar som macOS läser vid systemstart, så macOS glömmer det när datorn startas om. Filen visas ovan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, macOS’in Mac açıldığında okuduğu klasörlerin dışındaki bir dosyadan yüklendi, bu yüzden macOS, Mac yeniden başladığında onu unutur. Dosya yukarıda gösteriliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щось завантажило цей елемент з файлу поза папками, які macOS читає під час запуску системи, тож macOS забуває про нього, коли Mac перезапускається. Файл показано вище."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个程序从macOS在启动时读取的文件夹之外的文件载入了此项，因此Mac重新启动时，macOS会忘记它。该文件显示在上方。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有東西從macOS在開機時讀取的檔案夾以外的檔案載入了此項目，因此Mac重新開機時macOS就會忘記它。該檔案顯示於上方。"
           }
         }
       }

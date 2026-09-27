@@ -156,6 +156,30 @@ struct DeclaredBackgroundItemsTests {
         #expect(BackgroundItemActions.refusal(for: own) == nil)
     }
 
+    /// A loaded job no file in the three folders declares is listed when an app registered or submitted it, whether
+    /// or not Peel can name that app, and when something loaded it from a file anywhere else, which launchd forgets at
+    /// the next logout or restart. A job macOS loaded from its own folders is not, and neither is an excluded file.
+    @Test func listsAJobLoadedFromElsewhereOrWithNoOwner() throws {
+        let directory = try TemporaryDirectory()
+        let ownership = BackgroundItemOwnership(installedApps: [])
+        let stray = try directory.file("home/Desktop/org.example.stray.plist", contents: job("org.example.stray", program: "/bin/sh"))
+        func item(_ label: String, _ details: Launchctl.JobDetails, exclusions: Exclusions = .none) -> BackgroundItem? {
+            BackgroundItems.undeclaredItem((label, .agent, "gui/501/\(label)"), details: details, ownership: ownership, loaded: .init(), exclusions: exclusions)
+        }
+
+        let loadedElsewhere = try #require(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh")))
+        #expect(loadedElsewhere.source == .otherFile)
+        #expect(loadedElsewhere.plistURL?.lastPathComponent == "org.example.stray.plist")
+        #expect(!loadedElsewhere.canMoveToTrash)
+
+        let nobodys = try #require(item("org.example.nobody", .init(path: "(submitted by tool[42])", program: "/usr/local/bin/org.example.nobody")))
+        #expect(nobodys.source == .app)
+        #expect(nobodys.ownerBundleIdentifier == nil)
+
+        #expect(item("com.openssh.ssh-agent", .init(path: "/System/Library/LaunchAgents/com.openssh.ssh-agent.plist", program: "/usr/bin/ssh-agent")) == nil)
+        #expect(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh"), exclusions: Exclusions(paths: [stray])) == nil)
+    }
+
     /// One label declared in two folders is two files, and each row opens its own.
     @Test func keepsTwoFilesThatDeclareOneLabelApart() throws {
         let directory = try TemporaryDirectory()
