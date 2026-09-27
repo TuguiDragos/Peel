@@ -97,6 +97,31 @@ struct DeveloperCachesTests {
         #expect(xcode.locations.first { $0.kind == .buildData }?.isRecommended == true)
     }
 
+    @Test func listsABrowsersCachesAndNothingOfWhatItKeepsForThePerson() async throws {
+        let directory = try TemporaryDirectory()
+        let chrome = "Library/Application Support/Google/Chrome"
+        let caches = [
+            "ShaderCache", "GrShaderCache", "component_crx_cache", "Default/GPUCache", "Profile 1/DawnWebGPUCache",
+        ]
+        for cache in caches {
+            try directory.file("\(chrome)/\(cache)/data_0", bytes: 4_096)
+        }
+        let kept = [
+            "Default/Local Storage/leveldb/000003.log", "Default/Service Worker/CacheStorage/index", "Default/History",
+        ]
+        for kept in kept + ["Local State"] {
+            try directory.file("\(chrome)/\(kept)", bytes: 4_096)
+        }
+
+        let environments = await DeveloperCaches.scan(homeDirectory: directory.url)
+
+        let folder = directory.url.appending(path: chrome).path(percentEncoded: false) + "/"
+        let listed = try #require(environments.first { $0.id == "chrome" }).locations.map {
+            $0.url.path(percentEncoded: false).replacingOccurrences(of: folder, with: "")
+        }
+        #expect(Set(listed) == Set(caches))
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {

@@ -680,7 +680,42 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),
+        // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, and Brave's own
+        // importer names Brave's. Their disk caches are in `Library/Caches`, which Space empties.
+        Definition(
+            id: "chrome", name: "Google Chrome", systemImage: "globe",
+            appBundleIdentifiers: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev",
+                                   "com.google.Chrome.canary"],
+            folders: ["Chrome", "Chrome Beta", "Chrome Dev", "Chrome Canary"].flatMap {
+                chromiumCaches(in: "Library/Application Support/Google/\($0)")
+            }
+        ),
+        Definition(
+            id: "chromium", name: "Chromium", systemImage: "globe", appBundleIdentifiers: ["org.chromium.Chromium"],
+            folders: chromiumCaches(in: "Library/Application Support/Chromium")
+        ),
+        Definition(
+            id: "brave", name: "Brave", systemImage: "globe", appBundleIdentifiers: ["com.brave.Browser"],
+            folders: chromiumCaches(in: "Library/Application Support/BraveSoftware/Brave-Browser")
+        ),
     ]
+
+    /// The caches Chromium keeps in a browser's user data folder, beside its profiles and in each of them, named where
+    /// Chromium names them. What a profile holds for the person, its site data included, is never among them.
+    private static func chromiumCaches(in userData: String) -> [Folder] {
+        let browser = "https://github.com/chromium/chromium/blob/main/chrome/browser/"
+        let gpu = "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"
+        return ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
+            Folder("\(userData)/\($0)", .cache, source: browser + "chrome_content_browser_client.cc#L5154-L5178")
+        } + [
+            Folder(
+                "\(userData)/component_crx_cache", .downloads,
+                source: browser + "component_updater/chrome_component_updater_configurator.cc#L135-L138"
+            ),
+        ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
+            Folder("\(userData)/*/\($0)", .cache, source: gpu)
+        }
+    }
 
     @concurrent
     public static func scan(homeDirectory: URL = .homeDirectory, exclusions: Exclusions = .none) async -> [DeveloperEnvironment] {
