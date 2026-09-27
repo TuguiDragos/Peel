@@ -40,14 +40,28 @@ struct MultipleAppsView: View {
                     Text("Apps")
                 }
 
-                if !files.isEmpty {
+                if !recommendedFiles.isEmpty {
                     Section {
-                        ForEach(Array(files.enumerated()), id: \.element.id) { index, item in
+                        ForEach(Array(recommendedFiles.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
                         .listRowSeparator(.hidden)
                     } header: {
                         Text("Files They Leave Behind")
+                    }
+                }
+
+                if !filesToReview.isEmpty {
+                    Section {
+                        ForEach(Array(filesToReview.enumerated()), id: \.element.id) { index, item in
+                            row(item, isFirst: index == 0)
+                        }
+                        .listRowSeparator(.hidden)
+                    } header: {
+                        heading(
+                            "Review Before Removing",
+                            "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
+                        )
                     }
                 }
 
@@ -136,8 +150,14 @@ struct MultipleAppsView: View {
         plan.items.filter(\.isApplication)
     }
 
-    private var files: [BulkUninstallation.Item] {
-        plan.items.filter { !$0.isApplication }
+    /// The files Peel would select if their apps go, as an app's own page lists them under Recommended.
+    private var recommendedFiles: [BulkUninstallation.Item] {
+        plan.items.filter { !$0.isApplication && $0.isRecommended }
+    }
+
+    /// The files nothing selects for the person, as an app's own page lists them under Review Before Removing.
+    private var filesToReview: [BulkUninstallation.Item] {
+        plan.items.filter { !$0.isApplication && !$0.isRecommended }
     }
 
     private var header: some View {
