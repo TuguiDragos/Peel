@@ -116,7 +116,7 @@ struct FileSizeTests {
 
     /// A folder macOS will not open has no known size. Read as zero, it would fall under Space's size floor and
     /// never be shown.
-    @Test func knowsNoSizeForAFolderItCannotOpen() async throws {
+    @Test(.permissionsHold) func knowsNoSizeForAFolderItCannotOpen() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("closed")
         try directory.file("closed/a.bin", bytes: 100_000)
@@ -129,7 +129,7 @@ struct FileSizeTests {
 
     /// A folder inside that macOS will not open leaves the walk short: its size, and whatever wallet or repository
     /// it holds, were never seen. So the folder around it is not known either.
-    @Test func knowsNoSizeForAFolderItCannotReadToTheEnd() async throws {
+    @Test(.permissionsHold) func knowsNoSizeForAFolderItCannotReadToTheEnd() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("Vendor")
         try directory.file("Vendor/settings.plist", bytes: 100_000)
@@ -163,7 +163,7 @@ struct FileSizeTests {
 
     /// An item whose own attributes macOS will not give, because the folder around it cannot be searched, is not
     /// known either, and never reads as zero. An item that is not there at all holds nothing.
-    @Test func knowsNoSizeForAnItemItCannotLookAt() async throws {
+    @Test(.permissionsHold) func knowsNoSizeForAnItemItCannotLookAt() async throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("closed/a.bin", bytes: 100_000)
         let folder = try directory.directory("closed/inner")

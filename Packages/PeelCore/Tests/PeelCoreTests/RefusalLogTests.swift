@@ -114,11 +114,11 @@ struct RefusalLogTests {
     }
 
     /// The file is the only copy of what was refused, so when it cannot be read it is never written over.
-    @Test func whatCannotBeReadIsKept() async throws {
+    @Test(.permissionsHold) func whatCannotBeReadIsKept() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.directory("Peel").appending(path: "refusals.json")
         try Data("[]".utf8).write(to: url)
-        try FileManager.default.setAttributes([.posixPermissions: 0], ofItemAtPath: url.path(percentEncoded: false))
+        try directory.setPermissions(0, of: url)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false)) }
 
         await RefusalLog(url: url).add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")

@@ -118,7 +118,7 @@ struct DuplicateFinderTests {
 
     /// A folder locked by ordinary file permissions is not one Full Disk Access would open, so the scan does not
     /// ask for it. Only macOS's privacy refusal does, and a test cannot stage that.
-    @Test func aFolderLockedByPermissionsDoesNotAskForFullDiskAccess() async throws {
+    @Test(.permissionsHold) func aFolderLockedByPermissionsDoesNotAskForFullDiskAccess() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Documents/locked/inside.txt", contents: Data("hello".utf8))
         try directory.setPermissions(0o000, of: "home/Documents/locked")

@@ -337,7 +337,7 @@ struct PackageReceiptsTests {
     /// An item that needs an administrator is left alone when the helper would refuse it. The helper refuses
     /// items outside the folders it serves, anything in `/Applications` that is not an app, and, in a folder
     /// command-line tools are linked into, anything but a link that leads nowhere.
-    @Test func leavesAloneWhatTheHelperWouldRefuse() async throws {
+    @Test(.permissionsHold) func leavesAloneWhatTheHelperWouldRefuse() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
         let served = PathPattern.canonical(try directory.directory("root/Library/Application Support/Example"))
@@ -348,7 +348,7 @@ struct PackageReceiptsTests {
         try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "linked").path(percentEncoded: false), withDestinationPath: "tool")
         try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "gone").path(percentEncoded: false), withDestinationPath: "/Applications/Gone.app/Contents/MacOS/gone")
         for folder in [served, vendor, tools, bin] {
-            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
+            try directory.setPermissions(0o555, of: folder)
         }
         defer {
             for folder in [served, vendor, tools, bin] {

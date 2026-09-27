@@ -91,7 +91,7 @@ struct TrashMoverTests {
     /// was being put back to keeps an empty stand-in. exFAT refuses no permission, so no rename there can be made to
     /// fail at that moment: here the startup disk plays exFAT, answering `ENOTSUP` for a free name, and a folder
     /// that cannot be changed makes the rename fail.
-    @Test func aMoveThatFailsLeavesNothingBehind() throws {
+    @Test(.permissionsHold) func aMoveThatFailsLeavesNothingBehind() throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("locked/notes.txt")
         let project = try directory.directory("Project/inside")

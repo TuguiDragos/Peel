@@ -265,7 +265,7 @@ struct TrashServiceTests {
 
     /// An item is gone from the Trash only when the disk says nothing is there, or another item is. When macOS won't
     /// let Peel look, whether it is there is not known, and never read as gone, since gone records can be forgotten.
-    @Test func whatPeelCannotSeeInTheTrashIsNotKnownRatherThanGone() throws {
+    @Test(.permissionsHold) func whatPeelCannotSeeInTheTrashIsNotKnownRatherThanGone() throws {
         let directory = try TemporaryDirectory()
         let trashed = try directory.file("home/.Trash/report.pdf")
         let item = TrashedItem(

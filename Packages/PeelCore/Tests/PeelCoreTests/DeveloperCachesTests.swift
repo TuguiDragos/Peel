@@ -25,7 +25,7 @@ struct DeveloperCachesTests {
 
     /// A folder macOS would not let Peel open is not one that took too long: both are unknown and never selected
     /// for the user, and the page says which of the two it was.
-    @Test func tellsAFolderMacOSRefusedFromOneThatDidNotAnswer() async throws {
+    @Test(.permissionsHold) func tellsAFolderMacOSRefusedFromOneThatDidNotAnswer() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".npm/_cacache/content/data", bytes: 80_000)
         try directory.file(".npm/_npx/package/index.js", bytes: 8_000)

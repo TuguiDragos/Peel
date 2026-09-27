@@ -277,7 +277,7 @@ struct RemovalHistoryTests {
 
     /// A full disk is when people run a cleaner, and also when the record cannot be written. History opens by
     /// reading the older, healthy file, and that read must not clear the notice.
-    @Test func aRemovalThatCouldNotBeRecordedStaysSaidUntilOneIs() async throws {
+    @Test(.permissionsHold) func aRemovalThatCouldNotBeRecordedStaysSaidUntilOneIs() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
         let log = RemovalLog(url: url)
@@ -293,7 +293,7 @@ struct RemovalHistoryTests {
 
     /// A Put Back that cannot update the log reports `couldNotUpdate`, not `couldNotRecord`: nothing was
     /// removed, and the items have left the Trash.
-    @Test func aPutBackThatCouldNotBeWrittenDownSaysSo() async throws {
+    @Test(.permissionsHold) func aPutBackThatCouldNotBeWrittenDownSaysSo() async throws {
         let directory = try TemporaryDirectory()
         let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let record = Self.record(batch: UUID())
@@ -305,7 +305,7 @@ struct RemovalHistoryTests {
     }
 
     /// A file that cannot even be read cannot be copied out of the way, so nothing is written at all.
-    @Test func leavesAnUnreadableFileAlone() async throws {
+    @Test(.permissionsHold) func leavesAnUnreadableFileAlone() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
         try directory.setPermissions(0, of: "Peel/removals.json")
@@ -319,7 +319,7 @@ struct RemovalHistoryTests {
 
     /// Whether History can be read is known without reading it, so a removal can be refused before anything moves:
     /// a History not written yet can be, one Peel cannot open, or in a folder Peel cannot search, cannot.
-    @Test func whetherHistoryCanBeReadIsKnownBeforeAMove() throws {
+    @Test(.permissionsHold) func whetherHistoryCanBeReadIsKnownBeforeAMove() throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "Peel/removals.json")
         #expect(RemovalLog.canBeRead(at: url), "a History not written yet")
@@ -337,7 +337,7 @@ struct RemovalHistoryTests {
     }
 
     /// Starting over keeps a History Peel cannot read beside the new one, under another name, and records again.
-    @Test func startingOverKeepsAHistoryItCannotReadAside() async throws {
+    @Test(.permissionsHold) func startingOverKeepsAHistoryItCannotReadAside() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
         try directory.setPermissions(0, of: "Peel/removals.json")

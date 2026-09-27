@@ -85,7 +85,7 @@ struct OrphanScannerTests {
 
     /// A crash reporter keeps a folder for each app inside its own. When macOS will not let Peel list that folder,
     /// what it holds is not known, so it is not reported as nobody's, the same as a folder that did not answer.
-    @Test func aFolderThatCannotBeListedIsNotNobodys() async throws {
+    @Test(.permissionsHold) func aFolderThatCannotBeListedIsNotNobodys() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/com.vendor.reports/com.installed.app/report.log")
         try directory.setPermissions(0, of: "home/Library/Application Support/com.vendor.reports")
@@ -98,13 +98,13 @@ struct OrphanScannerTests {
 
     /// An item that needs an administrator, in a place the helper does not serve, is left alone rather than
     /// offered and then refused.
-    @Test func whatTheHelperMayNotMoveIsLeftAlone() async throws {
+    @Test(.permissionsHold) func whatTheHelperMayNotMoveIsLeftAlone() async throws {
         let directory = try TemporaryDirectory()
         let served = try directory.directory("root/Library/Application Support/com.gone.app")
         let beyond = try directory.directory("root/Users/Shared/com.gone.app")
         try directory.file("root/Users/Shared/com.gone.app/wallet.dat")
         for folder in [served, beyond] {
-            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
+            try directory.setPermissions(0o555, of: folder)
         }
         defer {
             for folder in [served, beyond] {
@@ -373,7 +373,7 @@ struct OrphanScannerTests {
     }
 
     /// A file that cannot be read is not called a leftover on its name; one that is no job at all still is.
-    @Test func aJobThatCannotBeReadIsNotCalledALeftover() async throws {
+    @Test(.permissionsHold) func aJobThatCannotBeReadIsNotCalledALeftover() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/org.example.closed.plist", contents: job("org.example.closed", runs: ["/bin/sh"]))
         try directory.setPermissions(0o000, of: "home/Library/LaunchAgents/org.example.closed.plist")
@@ -500,12 +500,12 @@ struct OrphanScannerTests {
 
     /// In root's `/usr/local/bin`, a link into an app that is gone leads nowhere, which is the one kind of item the
     /// helper takes from there, so it is offered like anything else the helper can move.
-    @Test func aLinkIntoAnAppThatIsGoneIsWithinTheHelpersReach() async throws {
+    @Test(.permissionsHold) func aLinkIntoAnAppThatIsGoneIsWithinTheHelpersReach() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/usr/local/bin")
         let link = bin.appending(path: "docker")
         try FileManager.default.createSymbolicLink(atPath: link.path(percentEncoded: false), withDestinationPath: "../../../Applications/Gone.app/Contents/MacOS/docker")
-        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bin.path(percentEncoded: false))
+        try directory.setPermissions(0o555, of: bin)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
 
         let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)

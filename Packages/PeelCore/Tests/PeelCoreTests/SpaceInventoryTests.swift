@@ -50,7 +50,7 @@ struct SpaceInventoryTests {
     }
 
     /// Without Full Disk Access some areas are refused, and a refused one is kept like one that ran out of time.
-    @Test func keepsAFolderItCannotOpen() async throws {
+    @Test(.permissionsHold) func keepsAFolderItCannotOpen() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Logs/big.log", bytes: 400_000)
         try directory.setPermissions(0, of: "Library/Logs")

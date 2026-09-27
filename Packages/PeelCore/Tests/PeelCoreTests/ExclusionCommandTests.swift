@@ -142,11 +142,11 @@ struct ExclusionCommandTests {
         #expect(try Data(contentsOf: store.url) == Data("not json".utf8))
     }
 
-    @Test func saysSoWhenItCannotWrite() async throws {
+    @Test(.permissionsHold) func saysSoWhenItCannotWrite() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("Peel")
         let store = store(in: directory)
-        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: folder.path(percentEncoded: false))
+        try directory.setPermissions(0o500, of: folder)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false)) }
 
         await #expect(throws: CommandFailure.self) {

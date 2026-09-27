@@ -150,14 +150,14 @@ struct UninstallationTests {
 
     /// Leftovers move before the app. If the helper then refused the app, it would stay without them, so an app
     /// the helper may not move is never offered. Neither is an app macOS keeps, wherever it sits.
-    @Test func anAppTheHelperMayNotMoveIsNeverOffered() async throws {
+    @Test(.permissionsHold) func anAppTheHelperMayNotMoveIsNeverOffered() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Applications/Scribbler.app/Contents/Info.plist", bytes: 4_096)
         try directory.file("root/Volumes/Other/Applications/Scribbler.app/Contents/Info.plist", bytes: 4_096)
         let inReach = directory.url.appending(path: "root/Applications/Scribbler.app")
         let beyond = directory.url.appending(path: "root/Volumes/Other/Applications/Scribbler.app")
         for bundle in [inReach, beyond] {
-            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bundle.path(percentEncoded: false))
+            try directory.setPermissions(0o555, of: bundle)
         }
         defer {
             for bundle in [inReach, beyond] {
@@ -218,7 +218,7 @@ struct UninstallationTests {
     }
 
     /// An app bundle macOS will not let Peel read has no known size: its row reads "Unknown", never zero.
-    @Test func anAppBundleThatCannotBeReadIsNotMeasured() async throws {
+    @Test(.permissionsHold) func anAppBundleThatCannotBeReadIsNotMeasured() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
         let bundle = try directory.directory("home/Applications/Example.app")
@@ -284,14 +284,14 @@ struct UninstallationTests {
 
     /// A command-line tool's link in root's `/usr/local/bin` that leads into the app goes with it, through the
     /// helper, which takes it once the app has moved and the link leads nowhere.
-    @Test func aToolsLinkInRootsFolderGoesWithTheApp() async throws {
+    @Test(.permissionsHold) func aToolsLinkInRootsFolderGoesWithTheApp() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Scribbler.app"), bundleIdentifier: "com.example.scribbler", name: "Scribbler")
         try directory.file("root/Applications/Scribbler.app/Contents/MacOS/scribble")
         let bin = try directory.directory("root/usr/local/bin")
         let link = bin.appending(path: "scribble")
         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: app.url.appending(path: "Contents/MacOS/scribble"))
-        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: bin.path(percentEncoded: false))
+        try directory.setPermissions(0o555, of: bin)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
         let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
 
@@ -305,14 +305,14 @@ struct UninstallationTests {
 
     /// A folder the helper would refuse to move, such as root's `/Library/Developer` matched on the name of an
     /// app called Developer, is held back and cannot be selected, so it never reaches the helper to be refused.
-    @Test func whatTheHelperMayNotMoveIsNeverOffered() async throws {
+    @Test(.permissionsHold) func whatTheHelperMayNotMoveIsNeverOffered() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Scribbler.app"), bundleIdentifier: "com.example.scribbler", name: "Scribbler")
         let served = try directory.directory("root/Library/Application Support/com.example.scribbler")
         let named = try directory.directory("root/Library/Scribbler")
         let identified = try directory.directory("root/Library/com.example.scribbler")
         for folder in [served, named, identified] {
-            try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path(percentEncoded: false))
+            try directory.setPermissions(0o555, of: folder)
         }
         defer {
             for folder in [served, named, identified] {

@@ -160,7 +160,7 @@ struct HistoryCommandTests {
     }
 
     /// A removal whose items Peel cannot look at in the Trash is not called gone: nobody knows yet.
-    @Test func aRemovalPeelCannotLookAtIsNotCalledGone() throws {
+    @Test(.permissionsHold) func aRemovalPeelCannotLookAtIsNotCalledGone() throws {
         let directory = try TemporaryDirectory()
         let trashed = try directory.file("home/.Trash/report.pdf")
         let record = RemovalRecord(
@@ -251,11 +251,11 @@ struct HistoryCommandTests {
     }
 
     /// A History file that cannot be read is reported as an error, never shown as an empty History.
-    @Test func refusesToListAHistoryItCannotRead() async throws {
+    @Test(.permissionsHold) func refusesToListAHistoryItCannotRead() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let file = try directory.file("Peel/removals.json", contents: Data("not json".utf8))
-        try FileManager.default.setAttributes([.posixPermissions: 0], ofItemAtPath: file.path(percentEncoded: false))
+        try directory.setPermissions(0, of: file)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: file.path(percentEncoded: false)) }
 
         await #expect(throws: CommandFailure.self) {

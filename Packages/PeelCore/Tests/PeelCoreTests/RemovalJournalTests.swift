@@ -121,7 +121,7 @@ struct RemovalJournalTests {
 
     /// While History cannot be read nothing moves, since what moved could not be listed for Put Back. An item the
     /// guard refuses keeps that reason, and Peel's own files, which History never lists, still go.
-    @Test func nothingMovesWhileHistoryCannotBeRead() async throws {
+    @Test(.permissionsHold) func nothingMovesWhileHistoryCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let history = try directory.file("home/Library/Application Support/Peel/removals.json", contents: Data("[]".utf8))
         try directory.setPermissions(0, of: "home/Library/Application Support/Peel/removals.json")

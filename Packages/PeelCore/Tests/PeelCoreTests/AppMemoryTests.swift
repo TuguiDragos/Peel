@@ -105,7 +105,7 @@ struct AppMemoryTests {
     }
 
     /// A file that is there and cannot be read says nothing about what it holds, so it is never written over.
-    @Test func leavesAFileItCannotReadAlone() async throws {
+    @Test(.permissionsHold) func leavesAFileItCannotReadAlone() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "apps.json")
         let memory = AppMemory(url: url)

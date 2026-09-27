@@ -417,7 +417,7 @@ struct AttackRemovalGuardTests {
     /// The guard refuses what is inside a container's `Data/Documents`, where a sandboxed app keeps what its
     /// user made. An uninstall lists the container around it, so the container is refused too while that folder
     /// holds anything or cannot be read.
-    @Test func theContainerAroundSomebodysDocuments() throws {
+    @Test(.permissionsHold) func theContainerAroundSomebodysDocuments() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.file("home/Library/Containers/com.example.notes/Data/Documents/thesis.txt")

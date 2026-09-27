@@ -76,7 +76,7 @@ struct DeviceInfoTests {
 struct AccessTests {
     /// A privacy (TCC) refusal reads as `EPERM`. Plain permissions read as `EACCES`, which says nothing about
     /// Full Disk Access: a `.Trash` that `sudo` left owned by root is one example.
-    @Test func tellsApartReadableFoldersFromRefusedOnes() throws {
+    @Test(.permissionsHold) func tellsApartReadableFoldersFromRefusedOnes() throws {
         let directory = try TemporaryDirectory()
         let readable = try directory.directory("readable")
         let refused = try directory.directory("refused")
@@ -90,7 +90,7 @@ struct AccessTests {
 
     /// The probes are tried in turn, and an unknown answer moves on to the next: a `.Trash` nobody can list must
     /// not keep the Safari folders from being asked.
-    @Test func keepsAskingWhenAProbeSaysNothing() async throws {
+    @Test(.permissionsHold) func keepsAskingWhenAProbeSaysNothing() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
         try directory.directory("home/.Trash")
@@ -132,7 +132,7 @@ struct AccessTests {
     }
 
     /// A refusal where the account cannot write is about ownership, not App Management.
-    @Test func aRefusalInAFolderThatCannotBeWrittenSaysNothing() throws {
+    @Test(.permissionsHold) func aRefusalInAFolderThatCannotBeWrittenSaysNothing() throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Locked/Example.app")
         try directory.setPermissions(0o555, of: "Locked")

@@ -186,13 +186,13 @@ struct ExclusionsTests {
     }
 
     /// A change that cannot be written says what the list would have been, so the app can keep it until it quits.
-    @Test func aChangeThatCannotBeWrittenSaysWhatItWouldHaveSaved() async throws {
+    @Test(.permissionsHold) func aChangeThatCannotBeWrittenSaysWhatItWouldHaveSaved() async throws {
         let directory = try TemporaryDirectory()
         let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let store = ExclusionStore(url: folder.appending(path: "exclusions.json"))
         await store.save(Exclusions(paths: [URL(filePath: "/Users/x/Kept")]))
-        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: folder.path(percentEncoded: false))
+        try directory.setPermissions(0o500, of: folder)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: folder.path(percentEncoded: false)) }
 
         let outcome = await store.change { $0.paths.insert(URL(filePath: "/Users/x/Added")) }
@@ -214,7 +214,7 @@ struct ExclusionsTests {
     }
 
     /// A list that is there and cannot be read is not an empty list: what was excluded is unknown.
-    @Test func doesNotReadAListItCannotUnderstandAsEmpty() async throws {
+    @Test(.permissionsHold) func doesNotReadAListItCannotUnderstandAsEmpty() async throws {
         let directory = try TemporaryDirectory()
         let broken = try directory.file("broken.json", contents: Data(#"{"paths":["file:///Users/x/Vault/""#.utf8))
         let locked = try directory.file("locked.json", contents: Data(#"{"paths":[]}"#.utf8))

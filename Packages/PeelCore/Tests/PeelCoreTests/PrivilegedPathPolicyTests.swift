@@ -211,7 +211,7 @@ struct PrivilegedPathPolicyTests {
     /// Without Full Disk Access, macOS refuses to open `~/.Trash` for reading, the helper included, but allows
     /// opening it for search. Moving an item in needs no reading, so a Trash that can be entered but not listed
     /// stands in for it here.
-    @Test func movesIntoATrashItMayNotRead() throws {
+    @Test(.permissionsHold) func movesIntoATrashItMayNotRead() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)
         try directory.directory("home/.Trash")

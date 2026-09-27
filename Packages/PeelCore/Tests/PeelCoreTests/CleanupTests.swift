@@ -39,7 +39,7 @@ struct CleanupTests {
     }
 
     /// While History cannot be read nothing moves, and the command says so above the list, with the way out.
-    @Test func saysSoWhenHistoryCannotBeRead() async throws {
+    @Test(.permissionsHold) func saysSoWhenHistoryCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
         let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))

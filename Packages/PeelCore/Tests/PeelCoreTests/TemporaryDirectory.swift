@@ -1,4 +1,5 @@
 import Foundation
+import Testing
 
 struct TemporaryDirectory: ~Copyable {
     let url: URL
@@ -53,6 +54,16 @@ struct TemporaryDirectory: ~Copyable {
     }
 
     func setPermissions(_ permissions: Int, of path: String) throws {
-        try FileManager.default.setAttributes([.posixPermissions: permissions], ofItemAtPath: url.appending(path: path).path(percentEncoded: false))
+        try setPermissions(permissions, of: url.appending(path: path))
+    }
+
+    /// Root ignores permissions, so a test that takes the owner's read or write away carries `.permissionsHold`,
+    /// and one that does not fails under root rather than passing for the wrong reason.
+    func setPermissions(_ permissions: Int, of item: URL) throws {
+        if geteuid() == 0, permissions & 0o600 != 0o600 {
+            Issue.record("this test takes permissions away, which root ignores, so it needs .permissionsHold")
+        }
+        let path = item.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.posixPermissions: permissions], ofItemAtPath: path)
     }
 }

@@ -120,7 +120,7 @@ struct CloudStorageTests {
 
     /// Without Full Disk Access, iCloud Drive cannot be read. The scan then says so, rather than reporting
     /// nothing to free.
-    @Test func saysWhenICloudDriveCouldNotBeRead() async throws {
+    @Test(.permissionsHold) func saysWhenICloudDriveCouldNotBeRead() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Library/Mobile Documents")
         try directory.setPermissions(0o000, of: "Library/Mobile Documents")

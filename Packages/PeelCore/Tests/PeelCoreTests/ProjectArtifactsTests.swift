@@ -40,7 +40,7 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.markableForBackups([modules], excludedFromAbove: [modules.url]).isEmpty)
     }
 
-    @Test func doesNotBlameFullDiskAccessForOrdinaryPermissions() async throws {
+    @Test(.permissionsHold) func doesNotBlameFullDiskAccessForOrdinaryPermissions() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Code/app/package.json", bytes: 16)
         try directory.setPermissions(0, of: "Code")

@@ -312,7 +312,7 @@ struct LeftoverScannerTests {
         #expect(try #require(emptied.leftovers.first { $0.kind == .containers }).match.isRecommended)
     }
 
-    @Test func reportsUnreadableLocations() async throws {
+    @Test(.permissionsHold) func reportsUnreadableLocations() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Logs/Tunewell/log.txt")
         try directory.setPermissions(0o000, of: "home/Library/Logs")
@@ -324,7 +324,7 @@ struct LeftoverScannerTests {
         #expect(scan.unreadableLocations.map(\.kind) == [.logs])
     }
 
-    @Test func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
+    @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")
         try directory.file("home/Library/Preferences/net.example.client.plist")
@@ -562,11 +562,11 @@ struct LeftoverScannerTests {
 
     /// A folder macOS will not open would read as empty, and an empty folder of the app's own would be selected.
     /// From macOS 27, access to another team's container is denied outright rather than prompted for.
-    @Test func aLeftoverThatCannotBeReadIsNeverSelectedAndHasNoSize() async throws {
+    @Test(.permissionsHold) func aLeftoverThatCannotBeReadIsNeverSelectedAndHasNoSize() async throws {
         let directory = try TemporaryDirectory()
         let container = try directory.directory("home/Library/Containers/net.example.client")
         try directory.file("home/Library/Containers/net.example.client/Data/Library/Caches/blob", bytes: 64_000)
-        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: container.path(percentEncoded: false))
+        try directory.setPermissions(0o000, of: container)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: container.path(percentEncoded: false)) }
 
         let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
@@ -579,7 +579,7 @@ struct LeftoverScannerTests {
 
     /// A folder inside the leftover that macOS will not open may hold what nothing brings back, as a helper's own
     /// `Private` folder with a wallet in it, so the leftover is not read to the end and is never selected.
-    @Test func aLeftoverNotReadToTheEndIsNeverSelected() async throws {
+    @Test(.permissionsHold) func aLeftoverNotReadToTheEndIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/net.example.client/settings.plist", bytes: 4_096)
         try directory.file("home/Library/Application Support/net.example.client/Private/wallet.dat", bytes: 4_096)

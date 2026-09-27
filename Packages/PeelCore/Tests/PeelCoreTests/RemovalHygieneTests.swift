@@ -165,7 +165,7 @@ struct RemovalHygieneTests {
     }
 
     /// A container that cannot be read may hold the settings, so the domain is left alone.
-    @Test func keepsTheDomainOfAContainerItCannotRead() throws {
+    @Test(.permissionsHold) func keepsTheDomainOfAContainerItCannotRead() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let stray = try directory.file("home/Library/Preferences/com.example.app.plist")

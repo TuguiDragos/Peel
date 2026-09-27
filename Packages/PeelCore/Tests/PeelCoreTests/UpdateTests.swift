@@ -366,7 +366,7 @@ struct TeamRegistryTests {
 
     /// A registry that cannot be read is never written over. Rebuilt from today's apps, it would hide for good a
     /// change of signer made since it was last read.
-    @Test func leavesARegistryItCannotReadAlone() async throws {
+    @Test(.permissionsHold) func leavesARegistryItCannotReadAlone() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "teams.json")
         _ = await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")])
@@ -415,7 +415,7 @@ struct TeamRegistryTests {
 
     /// A registry that cannot be saved has not recorded what the check learned, so it says so rather than let the
     /// next launch start again from the apps as they are then.
-    @Test func saysWhenTheRegistryCannotBeSaved() async throws {
+    @Test(.permissionsHold) func saysWhenTheRegistryCannotBeSaved() async throws {
         let directory = try TemporaryDirectory()
         _ = try directory.directory("Peel")
         let url = directory.url.appending(path: "Peel/teams.json")
