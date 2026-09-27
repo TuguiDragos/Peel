@@ -51,16 +51,13 @@ public enum SpaceRemoval {
         measure: LeftoverScanner.Measure
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
-        let caches = environment.locations.filter { $0.kind == .caches }
-        let cachesFolders = Set(caches.map { PathPattern.comparablePath(of: $0.url) })
+        let systemCaches = SystemCaches(environment: environment)
         var sizes: [URL: Int64] = [:]
         var heldBack: [URL: HoldBack] = [:]
         for child in children.removable where !Task.isCancelled {
             let contents = await measure(child)
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
-            let isMacOSs = cachesFolders.contains(PathPattern.comparablePath(of: child.deletingLastPathComponent()))
-                && SystemCaches.isMacOSs(child.lastPathComponent)
-            heldBack[child] = isMacOSs ? .keptByMacOS : HoldBack.seen(in: contents)
+            heldBack[child] = systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents)
         }
         return Plan(
             removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
@@ -90,14 +87,15 @@ public enum SpaceRemoval {
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
-        func sort(_ folder: URL, leaving owned: [[String]]) {
+        let systemCaches = SystemCaches(environment: environment)
+        func sort(_ folder: URL, leaving owned: [[String]], owner: String?) {
             let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
             for child in children ?? [] {
                 let name = child.lastPathComponent
-                let app = running[Naming.normalized(name)]
+                let app = owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
                 if app == nil, !listed.isEmpty, !listed.contains(where: { $0.count == 1 }), child.isRealFolder {
-                    sort(child, leaving: listed.map { Array($0.dropFirst()) })
+                    sort(child, leaving: listed.map { Array($0.dropFirst()) }, owner: owner)
                     continue
                 }
                 guard removalGuard.allowsRemoval(of: child) else { continue }
@@ -111,7 +109,10 @@ public enum SpaceRemoval {
             }
         }
         for url in item.urls {
-            sort(url, leaving: DeveloperCaches.foldersLeftToDeveloper(inside: url, home: environment.homeDirectory))
+            // Everything in an app's container is that app's, whatever its name.
+            let owner = systemCaches.container(holding: url).flatMap { running[Naming.normalized($0)] }
+            let owned = DeveloperCaches.foldersLeftToDeveloper(inside: url, home: environment.homeDirectory)
+            sort(url, leaving: owned, owner: owner)
         }
         return (removable, inUse, leftToDeveloper)
     }

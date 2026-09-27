@@ -119,6 +119,34 @@ struct SpaceRemovalTests {
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 
+    @Test func emptiesAContainersCachesUnlessItsAppIsOpenOrApples() async throws {
+        let directory = try TemporaryDirectory()
+        let containers = "home/Library/Containers"
+        for container in ["org.example.chat", "org.example.notes", "com.apple.Safari"] {
+            try directory.file("\(containers)/\(container)/Data/Library/Caches/Cache.db", bytes: 4_096)
+        }
+        let item = SpaceItem(
+            id: "container-caches",
+            category: .library,
+            urls: ["org.example.chat", "org.example.notes", "com.apple.Safari"].map {
+                directory.url.appending(path: "\(containers)/\($0)/Data/Library/Caches", directoryHint: .isDirectory)
+            },
+            size: 0,
+            handling: .trash
+        )
+        let notes = URL(filePath: "/Applications/Notes Example.app")
+        let running = [RunningCopies.Process(identifier: 1, bundleIdentifier: "org.example.notes", bundleURL: notes)]
+        let owner = { (url: URL) in url.pathComponents.dropLast(4).last ?? "" }
+
+        let names = SpaceRemoval.namesOfRunningApps(running)
+        let plan = await SpaceRemoval.plan(for: item, environment: environment(directory), running: names)
+
+        #expect(plan.removable.map(owner).sorted() == ["com.apple.Safari", "org.example.chat"])
+        #expect(plan.suggested.map(owner) == ["org.example.chat"])
+        #expect(plan.heldBack.filter { $0.value == .keptByMacOS }.map { owner($0.key) } == ["com.apple.Safari"])
+        #expect(plan.inUse.map { owner($0.url) } == ["org.example.notes"])
+    }
+
     @Test func leavesAloneWhatAnOpenAppIsStillUsing() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.spotify.client/audio.db")

@@ -2,7 +2,7 @@ import Foundation
 internal import PeelPrivileged
 
 /// The folders in a Caches folder that macOS keeps for its own services, which may be using them at any moment.
-enum SystemCaches {
+struct SystemCaches {
     /// The ones not named `com.apple.`, each with the part of the sealed system that carries its name.
     static let named: [String: String] = [
         "AMSDataMigratorTool": "/System/Library/PrivateFrameworks/AppleMediaServices.framework"
@@ -22,5 +22,30 @@ enum SystemCaches {
 
     static func isMacOSs(_ name: String) -> Bool {
         ProtectedData.isApplesName(name) || lowercasedNames.contains(name.lowercased())
+    }
+
+    private let cachesFolders: Set<String>
+    private let containers: [String]
+
+    init(environment: SearchEnvironment) {
+        let locations = environment.locations
+        cachesFolders = Set(locations.filter { $0.kind == .caches }.map { PathPattern.comparablePath(of: $0.url) })
+        let folder = locations.first { $0.kind == .containers }?.url
+        containers = folder.map { PathComponents.of(PathPattern.comparablePath(of: $0)) } ?? []
+    }
+
+    /// Whether macOS keeps `url` for itself: a folder in a Caches folder named for macOS, or anything in the container
+    /// of one of Apple's own apps.
+    func keeps(_ url: URL) -> Bool {
+        if cachesFolders.contains(PathPattern.comparablePath(of: url.deletingLastPathComponent())) {
+            return Self.isMacOSs(url.lastPathComponent)
+        }
+        return container(holding: url).map(ProtectedData.isApplesName) ?? false
+    }
+
+    func container(holding url: URL) -> String? {
+        let names = PathComponents.of(PathPattern.comparablePath(of: url))
+        guard !containers.isEmpty, names.count > containers.count, names.starts(with: containers) else { return nil }
+        return names[containers.count]
     }
 }

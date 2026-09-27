@@ -98,10 +98,34 @@ struct SpaceInventoryTests {
         #expect(!paths.contains("Caches"), "the caches Developer selects are counted here as well")
     }
 
+    @Test func findsTheCachesAndLogsInEveryAppsContainer() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Containers/org.example.chat/Data/Library/Caches/blob", bytes: 8_000)
+        try directory.file("Library/Containers/org.example.chat/Data/Library/Logs/run.log", bytes: 8_000)
+        try directory.file("Library/Containers/org.example.notes/Data/Library/Caches/blob", bytes: 8_000)
+        try directory.directory("Library/Containers/org.example.empty/Data/Documents")
+        try directory.directory("Elsewhere/Data/Library/Caches")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Library/Containers/org.example.link"),
+            withDestinationURL: directory.url.appending(path: "Elsewhere")
+        )
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+        )
+
+        let folders = { (id: String) in
+            report.items.first { $0.id == id }?.urls.map { $0.pathComponents.suffix(4).joined(separator: "/") } ?? []
+        }
+        let caches = ["org.example.chat/Data/Library/Caches", "org.example.notes/Data/Library/Caches"]
+        #expect(folders("container-caches") == caches)
+        #expect(folders("logs").contains("org.example.chat/Data/Library/Logs"))
+    }
+
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)
-            #expect(!definition.paths.isEmpty)
+            #expect(!definition.paths.isEmpty || definition.containerFolder != nil)
         }
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }

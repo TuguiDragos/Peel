@@ -137,6 +137,10 @@ extension SpaceItem {
             title: "App Caches",
             detail: "Everything that apps cached in your Library, each folder moved whole. Developer tools’ folders are left to the Developer page, which knows which part of each is only a cache."
         ),
+        "container-caches": Words(
+            title: "Sandboxed App Caches",
+            detail: "What sandboxed apps, such as those from the App Store, cached in their own containers. An app that is open keeps its caches, and those of Apple’s own apps are listed but never selected."
+        ),
     ]
 }
 

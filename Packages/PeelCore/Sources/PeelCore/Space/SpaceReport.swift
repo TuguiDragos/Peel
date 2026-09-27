@@ -53,6 +53,8 @@ public enum SpaceInventory {
         let category: SpaceItem.Category
         let paths: [String]
         let handling: SpaceItem.Handling
+        /// The folder inside every app's container (`Library/Containers/<identifier>`) that belongs to this area too.
+        var containerFolder: String?
     }
 
     /// The identifier of every area. Public so the app can check that it has words for each one: the words
@@ -187,13 +189,21 @@ public enum SpaceInventory {
             id: "logs",
             category: .library,
             paths: ["Library/Logs"],
-            handling: .trash
+            handling: .trash,
+            containerFolder: "Data/Library/Logs"
         ),
         Definition(
             id: "caches",
             category: .library,
             paths: ["Library/Caches"],
             handling: .trash
+        ),
+        Definition(
+            id: "container-caches",
+            category: .library,
+            paths: [],
+            handling: .trash,
+            containerFolder: "Data/Library/Caches"
         ),
     ]
 
@@ -207,6 +217,13 @@ public enum SpaceInventory {
             total += measured
         }
         return total
+    }
+
+    /// Every app's container, listed rather than matched with `glob`, which stops at 128 paths.
+    static func appContainers(in home: URL) -> [URL] {
+        let containers = home.appending(path: "Library/Containers", directoryHint: .isDirectory)
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: containers.path(percentEncoded: false))) ?? []
+        return names.sorted().map { containers.appending(path: $0, directoryHint: .isDirectory) }.filter(\.isRealFolder)
     }
 
     /// Anything smaller than this is noise in a report about space.
@@ -225,6 +242,7 @@ public enum SpaceInventory {
         minimumSize: Int64,
         measure: @escaping FileSize.Measure
     ) async -> SpaceReport {
+        let containers = appContainers(in: home)
         let wanted = definitions.compactMap { definition -> (Definition, [URL])? in
             let urls = definition.paths
                 .map { path in
@@ -233,6 +251,9 @@ public enum SpaceInventory {
                         : home.appending(path: path, directoryHint: .isDirectory)
                 }
                 .filter { FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: $0)) }
+                + (definition.containerFolder.map { folder in
+                    containers.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)
+                } ?? [])
             return urls.isEmpty ? nil : (definition, urls)
         }
 
