@@ -568,6 +568,19 @@ struct DeveloperCachesTests {
         #expect(locations.first?.kind == .cache)
     }
 
+    @Test func offersTheLogsOfTheSimulatorsAndSpaceLeavesThemToDeveloper() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Logs/CoreSimulator/CoreSimulator.log", bytes: 400_000)
+        let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
+
+        let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
+        let logs = directory.url.appending(path: "Library/Logs", directoryHint: .isDirectory)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["CoreSimulator"])
+        #expect(locations.first?.kind == .logs)
+        #expect(DeveloperCaches.foldersLeftToDeveloper(inside: logs, home: directory.url).contains(["CoreSimulator"]))
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

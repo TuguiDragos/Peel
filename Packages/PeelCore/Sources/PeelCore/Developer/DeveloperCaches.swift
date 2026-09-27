@@ -199,6 +199,7 @@ public enum DeveloperCaches {
             Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
             Folder("Library/Developer/Xcode/DocumentationCache", .cache, source: "Xcode 27: DVTFoundation.framework, -[DVTDeveloperPaths documentationCacheDirectoryForCurrentApplication]"),
             Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_3-release-notes"),
+            Folder("Library/Logs/CoreSimulator", .logs, source: "Xcode 27: /Library/Developer/PrivateFrameworks/CoreSimulator.framework (\"%s/Library/Logs/CoreSimulator\")"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
             Folder("Library/Developer/Packages", .keptDownloads, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-16_2-release-notes"),
             Folder("Library/Developer/Xcode/Archives", .archives, source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]", rowsDepth: 2, rowEnding: ".xcarchive"),
