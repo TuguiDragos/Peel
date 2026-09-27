@@ -260,8 +260,9 @@ Peel installs a helper for the few things that need administrator rights: moving
 to the Trash, putting them back, and starting, stopping, enabling, or disabling another vendor's launch daemon. It
 is deliberately small: no shell, no arbitrary paths, and it fails closed.
 
-- It answers administrators only, and it checks that on **every message**, because a check made once when
-  the connection opens can be walked around by handing the connection's port to another process.
+- It answers administrators only, and only a copy of Peel signed by the same team. Both are checked when the
+  app connects, and the account is asked again with each request, so an account that stops being an
+  administrator is refused from then on.
 - It refuses the list above on its own, without asking the app, and asks it both ways: a folder that holds
   something on the list is refused like the thing itself.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at

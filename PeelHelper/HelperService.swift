@@ -20,10 +20,10 @@ final class HelperService: NSObject, PeelHelperProtocol {
         let homeDirectory: String
     }
 
-    /// The account that sent the message being handled, and its home folder. Nil when that account is not an
-    /// administrator or its home folder cannot be found. It is read for every message, not once per
-    /// connection, because `xpc_connection_create(3)` warns that a client of a launchd Mach service like this
-    /// one can hand its connection's Mach port to a process with other credentials.
+    /// The account behind the connection the message came on, and its home folder. Nil when that account is not
+    /// an administrator or its home folder cannot be found. It is asked for each message, so an account that stops
+    /// being an administrator is refused from its next request. It says whose connection it is, not which process
+    /// sent the message: `xpc_connection_create(3)` warns that a client can hand its connection to another process.
     private static func caller() -> Caller? {
         guard
             let user = NSXPCConnection.current()?.effectiveUserIdentifier,

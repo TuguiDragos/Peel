@@ -163,8 +163,9 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 disk that somebody may have replaced.
 
 - It has no shell, accepts no path outside the folders it serves, and refuses whenever it is unsure.
-- It answers administrators only, and checks that on **every message**, not once per connection:
-  `xpc_connection_create(3)` explains why a check made when the connection opens can be worked around.
+- It answers administrators only, asked when a connection opens and again with each message. The account is the
+  connection's and says nothing about which process sent a message (`xpc_connection_create(3)`), so no rule may
+  rest on it for that.
 - It accepts only a copy of Peel signed by the same team, and a released helper refuses a build that can be
   debugged.
 - It never uses a path again after checking it. It holds the folder open and works through that descriptor, so

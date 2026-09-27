@@ -9,8 +9,6 @@ final class HelperListenerDelegate: NSObject, NSXPCListenerDelegate {
     }
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
-        // An early refusal only. The check that matters runs on every message, in `HelperService.caller()`,
-        // because a client can hand its connection's Mach port to a process with other credentials.
         guard UserAuthorization.isAdministrator(connection.effectiveUserIdentifier) else { return false }
 
         connection.exportedInterface = Self.interface()

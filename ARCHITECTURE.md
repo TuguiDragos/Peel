@@ -20,7 +20,7 @@ flowchart LR
     Finder["Finder extension<br>sandboxed"] -- "peel://open" --> App["Peel.app<br>runs as you"]
     CLI["peel command<br>runs as you"] --> Core["PeelCore<br>scans, matches, moves"]
     App --> Core
-    App -- "XPC, checked on every message" --> Helper["Helper<br>runs as root"]
+    App -- "XPC, administrators only" --> Helper["Helper<br>runs as root"]
     Core --> Privileged["PeelPrivileged<br>what may be touched"]
     Helper --> Privileged
 ```
@@ -128,8 +128,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
 The helper (`com.tuguidragos.Peel.Helper`) is registered with `SMAppService` when the user asks for it, and
 macOS asks the user to approve it once. It talks to the app over XPC.
 
-- On every message it checks that the caller is an administrator, and it accepts only a copy of Peel signed by
-  the same team. A released helper refuses a build that can be debugged.
+- It answers administrators only, asked when a connection opens and again with each message, and it accepts
+  only a copy of Peel signed by the same team. A released helper refuses a build that can be debugged.
 - It does three things: moves items to the Trash, puts them back, and starts, stops, enables, or disables another
   vendor's launch daemon, never one macOS ships and never itself.
 - It serves a fixed list of folders (`PrivilegedPathPolicy`), refuses everything else, and refuses whatever
