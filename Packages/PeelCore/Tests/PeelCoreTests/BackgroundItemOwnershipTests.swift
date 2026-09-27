@@ -67,6 +67,38 @@ struct BackgroundItemOwnershipTests {
         #expect(owner?.bundleIdentifier == "com.other.tool")
     }
 
+    /// A label, or the bundle a program sits in, is a name anyone can give, so it proves an app's job only when the
+    /// program is signed by that app's team or sits inside that very app. Otherwise the owner is a name alone, and
+    /// the page says so.
+    @Test func saysHowSureItIsOfAnOwner() throws {
+        let directory = try TemporaryDirectory()
+        let installed = try directory.directory("Applications/Example.app")
+        try directory.file("Applications/Example.app/Contents/Info.plist", contents: PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "com.example.app"], format: .xml, options: 0))
+        try directory.file("tmp/Fake.app/Contents/Info.plist", contents: PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "com.example.app"], format: .xml, options: 0))
+        let ownership = BackgroundItemOwnership(
+            installedApps: [InstalledApp(url: installed, bundleIdentifier: "com.example.app", name: "Example", teamIdentifier: "ABCDE12345"), app("com.other.tool", "Tool")],
+            teamOfProgram: { Self.teams[$0] }
+        )
+        func owner(_ label: String, registeredBy: String? = nil, associated: [String] = [], program: String?) -> BackgroundItemOwnership.Owner? {
+            ownership.owner(label: label, registeredBy: registeredBy, associated: associated, program: program)
+        }
+
+        #expect(owner("org.unrelated.label", registeredBy: "com.other.tool", program: nil)?.isConfirmed == true)
+        #expect(owner("org.unrelated.label", associated: ["com.example.app"], program: "/usr/local/bin/example-helper")?.isConfirmed == true)
+        #expect(owner("com.example.app.updater", program: "/usr/local/bin/example-helper")?.isConfirmed == true)
+        #expect(owner("org.unrelated.label", program: installed.appending(path: "Contents/MacOS/helper").path(percentEncoded: false))?.isConfirmed == true)
+
+        let impostor = try #require(owner("com.example.app.updater", program: "/usr/local/bin/impostor"))
+        #expect(impostor.bundleIdentifier == "com.example.app")
+        #expect(!impostor.isConfirmed)
+        #expect(owner("com.other.tool.helper", program: nil)?.isConfirmed == false)
+        let planted = try #require(owner("org.unrelated.label", program: directory.url.appending(path: "tmp/Fake.app/Contents/MacOS/x").path(percentEncoded: false)))
+        #expect(planted.bundleIdentifier == "com.example.app")
+        #expect(!planted.isConfirmed)
+    }
+
     @Test func fallsBackToTheLabelWhenNothingElseMatches() {
         let owner = ownership.owner(label: "com.other.tool.helper", associated: [], program: nil)
         #expect(owner?.bundleIdentifier == "com.other.tool")

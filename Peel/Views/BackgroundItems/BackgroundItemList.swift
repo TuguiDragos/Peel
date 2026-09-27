@@ -133,10 +133,16 @@ private struct BackgroundItemRow: View {
                         .foregroundStyle(.orange)
                         .lineLimit(1)
                 } else if let ownerName {
-                    Text(ownerName)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
+                    Group {
+                        if item.isOwnerConfirmed {
+                            Text(ownerName)
+                        } else {
+                            Text("Named like \(ownerName)")
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 }
             }
         }

@@ -35,6 +35,10 @@ struct BackgroundItemDetailView: View {
                                 Text("No longer installed")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
+                            } else if !item.isOwnerConfirmed {
+                                Text("Only its name points to this app.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }

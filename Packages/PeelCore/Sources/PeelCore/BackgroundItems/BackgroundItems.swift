@@ -94,7 +94,8 @@ public enum BackgroundItems {
                 isOwnerInstalled: true,
                 isOrphan: false,
                 state: .notLoaded,
-                isDisabled: true
+                isDisabled: true,
+                isOwnerConfirmed: owner.isConfirmed
             )
         }
     }
@@ -163,7 +164,8 @@ public enum BackgroundItems {
                     isOwnerInstalled: owner?.isInstalled ?? false,
                     isOrphan: ownership.isOrphan(label: job.label, program: job.program, owner: owner),
                     state: loaded.state(of: job.label, kind),
-                    isDisabled: loaded.override(of: job.label, kind) ?? job.isDisabled
+                    isDisabled: loaded.override(of: job.label, kind) ?? job.isDisabled,
+                    isOwnerConfirmed: owner?.isConfirmed ?? false
                 ))
             }
         }
@@ -221,7 +223,8 @@ public enum BackgroundItems {
             isOwnerInstalled: owner?.isInstalled ?? false,
             isOrphan: ownership.isOrphan(label: candidate.label, program: program, owner: owner),
             state: loaded.state(of: candidate.label, candidate.kind),
-            isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false
+            isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false,
+            isOwnerConfirmed: owner?.isConfirmed ?? false
         )
     }
 

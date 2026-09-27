@@ -1,4 +1,5 @@
 import Foundation
+import PeelPrivileged
 
 /// Finds the app a launchd job belongs to. Every clue is tried before a job is called orphaned, because
 /// one key that does not match is not enough reason to remove a job that an app may still need.
@@ -7,6 +8,9 @@ public struct BackgroundItemOwnership: Sendable {
         public let bundleIdentifier: String
         public let name: String?
         public let isInstalled: Bool
+        /// True when macOS registered the job for the app, or its program is signed by the app's team or sits
+        /// inside the app. False when only a name points to the app: a label, or a bundle anyone can make.
+        public var isConfirmed = true
     }
 
     private let apps: [InstalledApp]
@@ -46,10 +50,12 @@ public struct BackgroundItemOwnership: Sendable {
             return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, isInstalled: true)
         }
         if let identifier = Self.bundleIdentifier(inProgramPath: program) {
-            return owner(forIdentifier: identifier)
+            var owner = owner(forIdentifier: identifier)
+            owner.isConfirmed = byIdentifier[identifier.lowercased()].map { proves(program, $0, team: team) } ?? false
+            return owner
         }
         if let app = appMatching(label: label) {
-            return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, isInstalled: true)
+            return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, isInstalled: true, isConfirmed: proves(program, app, team: team))
         }
         if let team, let candidates = byTeam[team], candidates.count == 1 {
             return Owner(bundleIdentifier: candidates[0].bundleIdentifier, name: candidates[0].name, isInstalled: true)
@@ -57,7 +63,7 @@ public struct BackgroundItemOwnership: Sendable {
         // No installed app claims the job. An app the plist names that is gone is still returned, so the user
         // can see which app it was. That app is not installed, so it keeps nothing from being called orphaned.
         let gone = associated.first { byIdentifier[$0.lowercased()] == nil && AppInspector.applicationURL(forBundleIdentifier: $0) == nil }
-        return gone.map { Owner(bundleIdentifier: $0, name: nil, isInstalled: false) }
+        return gone.map { Owner(bundleIdentifier: $0, name: nil, isInstalled: false, isConfirmed: false) }
     }
 
     /// Whether a job is orphaned: no installed app claims it, and its program is gone from disk or it names
@@ -96,6 +102,13 @@ public struct BackgroundItemOwnership: Sendable {
             name: elsewhere?.deletingPathExtension().lastPathComponent,
             isInstalled: elsewhere != nil
         )
+    }
+
+    /// Whether `program` is `app`'s own: signed by its team, or inside its bundle.
+    private func proves(_ program: String?, _ app: InstalledApp, team: String?) -> Bool {
+        if let team, team == app.teamIdentifier { return true }
+        guard let program else { return false }
+        return PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: program)), inside: PathPattern.comparablePath(of: app.url))
     }
 
     /// Returns the installed app whose bundle identifier is the label, or else the longest one the label
