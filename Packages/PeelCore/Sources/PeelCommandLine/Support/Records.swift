@@ -45,6 +45,8 @@ struct LeftoverRecord: Encodable {
     /// Why Peel left the item unselected on purpose, or `null` when it didn't.
     let heldBack: String?
     let sharedWith: [String]
+    /// Other copies of the app that use the item too, by their place, since they share its identifier.
+    let otherCopies: [String]
     let isRecommended: Bool
     let needsAdministrator: Bool
 
@@ -55,6 +57,7 @@ struct LeftoverRecord: Encodable {
         confidence = leftover.match.confidence.summary
         heldBack = leftover.match.heldBack?.rawValue
         sharedWith = leftover.match.sharedWith
+        otherCopies = leftover.match.otherCopies.map(Output.path)
         isRecommended = leftover.match.isRecommended
         needsAdministrator = leftover.requiresPrivileges
     }
@@ -66,6 +69,7 @@ struct LeftoverRecord: Encodable {
         case confidence
         case heldBack
         case sharedWith
+        case otherCopies
         case isRecommended
         case needsAdministrator
     }
@@ -79,6 +83,7 @@ struct LeftoverRecord: Encodable {
         try container.encode(confidence, forKey: .confidence)
         try container.encode(heldBack, forKey: .heldBack)
         try container.encode(sharedWith, forKey: .sharedWith)
+        try container.encode(otherCopies, forKey: .otherCopies)
         try container.encode(isRecommended, forKey: .isRecommended)
         try container.encode(needsAdministrator, forKey: .needsAdministrator)
     }

@@ -211,6 +211,18 @@ struct CommandLineTests {
         #expect(Set(records[0].keys) == Set(records[1].keys))
     }
 
+    /// Another copy of the app shares its identifier, so the JSON names it by its place.
+    @Test func namesAnotherCopyByItsPlace() throws {
+        let match = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [], otherCopies: [URL(filePath: "/Volumes/Disk/Editor.app")])
+        let folder = URL(filePath: "/Users/me/Library/Application Support/Editor")
+        let leftover = Leftover(url: folder, kind: .applicationSupport, match: match, size: 4_096, isMeasured: true, requiresPrivileges: false)
+
+        let json = try Output.jsonText([LeftoverRecord(leftover)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+        #expect(records[0]["otherCopies"] as? [String] == ["/Volumes/Disk/Editor.app"])
+        #expect(records[0]["isRecommended"] as? Bool == false)
+    }
+
     /// `peel leftovers --json` names the folders macOS kept Peel out of, where the app may have left more.
     @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
@@ -632,8 +644,8 @@ struct CommandLineTests {
     /// match is only possible.
     @Test func saysWhyARowIsOnlyShown() {
         let folder = URL(filePath: "/Users/me/Library/Application Support/Editor")
-        func row(_ confidence: MatchConfidence, sharedWith: [String] = [], heldBack: HoldBack? = nil) -> String {
-            var match = LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith)
+        func row(_ confidence: MatchConfidence, sharedWith: [String] = [], otherCopies: [URL] = [], heldBack: HoldBack? = nil) -> String {
+            var match = LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith, otherCopies: otherCopies)
             if let heldBack { match = match.forReview(heldBack) }
             return LeftoversCommand.summary(of: Leftover(url: folder, kind: .applicationSupport, match: match, size: 1, isMeasured: true, requiresPrivileges: false))
         }
@@ -641,6 +653,8 @@ struct CommandLineTests {
         #expect(row(.certain) == "bundle identifier")
         #expect(row(.certain, heldBack: .holdsRepository) == "bundle identifier, review: holds a repository")
         #expect(row(.certain, sharedWith: ["com.acme.other"]) == "bundle identifier, review: shared with com.acme.other")
+        #expect(row(.certain, otherCopies: [URL(filePath: "/Volumes/Disk/Editor.app")])
+            == "bundle identifier, review: shared with /Volumes/Disk/Editor.app")
         #expect(row(.possible) == "bundle identifier, review: possible match")
     }
 

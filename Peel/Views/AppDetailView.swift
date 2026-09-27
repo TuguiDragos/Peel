@@ -545,8 +545,9 @@ struct AppDetailView: View {
     private func warning(for leftover: Leftover) -> String? {
         var lines: [String] = []
         if leftover.match.isShared {
-            let names = leftover.match.sharedWith.map(library.name(forBundleIdentifier:)).formatted(.list(type: .and))
-            lines.append(String(localized: "Also used by \(names)"))
+            let users = leftover.match.sharedWith.map(library.name(forBundleIdentifier:))
+                + leftover.match.otherCopies.map(\.abbreviatedPath)
+            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
         }
         if let heldBack = leftover.match.heldBack {
             lines.append(String(localized: heldBack.explanation))

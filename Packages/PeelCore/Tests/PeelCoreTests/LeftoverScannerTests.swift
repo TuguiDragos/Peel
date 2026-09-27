@@ -66,6 +66,31 @@ struct LeftoverScannerTests {
         )
     }
 
+    /// Another copy of an app that macOS knows outside the Applications folders uses the same files. Every Mac has one
+    /// of the character palette in its input methods folder, so a copy of it in Applications shares its settings, and
+    /// that copy is counted once when the list of apps holds it too.
+    @Test func aCopyMacOSKnowsElsewhereSharesTheAppsFiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/com.apple.CharacterPaletteIM.plist", bytes: 4096)
+        let elsewhere = URL(filePath: "/System/Library/Input Methods/CharacterPalette.app")
+        // Only an app Apple signed can claim Apple's files, and this copy stands in for one.
+        let palette = InstalledApp(
+            url: URL(filePath: "/Applications/CharacterPalette.app"),
+            bundleIdentifier: "com.apple.CharacterPaletteIM",
+            name: "Character Palette",
+            teamIdentifier: "59GAB85EFG"
+        )
+        let listed = InstalledApp(url: elsewhere, bundleIdentifier: palette.bundleIdentifier, name: palette.name, isSystemProtected: true)
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        for installedApps in [[palette], [palette, listed]] {
+            let scan = await scanner.scan(palette, installedApps: installedApps)
+            let preferences = try #require(scan.leftovers.first { $0.kind == .preferences })
+            #expect(preferences.match.otherCopies.map(PathPattern.comparablePath) == [PathPattern.comparablePath(of: elsewhere)])
+            #expect(!preferences.match.isRecommended)
+        }
+    }
+
     /// The guard, which reads every spelling of a path from the disk, is asked only about what the scan would take
     /// or walk into, and what it refuses stays out.
     @Test func asksTheGuardOnlyAboutWhatItWouldTakeOrWalkInto() async throws {

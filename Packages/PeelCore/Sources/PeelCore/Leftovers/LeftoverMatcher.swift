@@ -39,22 +39,30 @@ struct LeftoverMatcher: Sendable {
         guard let evidence = target.evidence(for: candidate) else { return nil }
 
         var sharedWith: Set<String> = []
+        var otherCopies: [URL] = []
+        func share(with other: Profile) {
+            if other.identifier == target.identifier {
+                otherCopies.append(other.url)
+            } else {
+                sharedWith.insert(other.bundleIdentifier)
+            }
+        }
         for other in others {
             guard let rival = other.evidence(for: candidate) else {
                 // Siblings from the same maker, like Firefox Nightly beside Firefox, use the same files.
                 if target.isSibling(of: other), other.sharesName(with: candidate) {
-                    sharedWith.insert(other.bundleIdentifier)
+                    share(with: other)
                 }
                 continue
             }
             // A likely claim by name against one by identifier: neither wins, whatever their ranks, and the item
             // is shared. Otherwise the stronger claim wins, as with Chrome and Chrome Canary, and equal ones share.
             if rival.family != evidence.family, rival.confidence >= .likely, evidence.confidence >= .likely {
-                sharedWith.insert(other.bundleIdentifier)
+                share(with: other)
             } else if rival.rank > evidence.rank {
                 return nil
             } else if rival.rank == evidence.rank {
-                sharedWith.insert(other.bundleIdentifier)
+                share(with: other)
             }
         }
         if evidence.reason == .bundleIdentifierPrefix {
@@ -64,6 +72,7 @@ struct LeftoverMatcher: Sendable {
             reason: evidence.reason,
             confidence: evidence.confidence,
             sharedWith: sharedWith.sorted(),
+            otherCopies: otherCopies,
             isAWord: evidence.isAWord
         )
     }
@@ -84,11 +93,16 @@ struct LeftoverMatcher: Sendable {
         }
     }
 
-    /// Bundle identifiers of the other installed apps with any claim on `fileName`. A path a Homebrew cask names
-    /// is checked this way too, so one shared with another app is never selected for this app.
-    func othersClaiming(fileName: String, kind: SearchLocation.Kind) -> [String] {
+    /// The other installed apps with any claim on `fileName`, by bundle identifier, and the other copies of this app
+    /// with one. A path a Homebrew cask names is checked this way too, so one shared with another app or another
+    /// copy is never selected for this app.
+    func othersClaiming(fileName: String, kind: SearchLocation.Kind) -> (apps: [String], copies: [URL]) {
         let candidate = Candidate(Self.key(from: fileName, kind: kind))
-        return others.filter { $0.evidence(for: candidate) != nil }.map(\.bundleIdentifier).sorted()
+        let claiming = others.filter { $0.evidence(for: candidate) != nil }
+        return (
+            claiming.filter { $0.identifier != target.identifier }.map(\.bundleIdentifier).sorted(),
+            claiming.filter { $0.identifier == target.identifier }.map(\.url)
+        )
     }
 
     static func key(from fileName: String, kind: SearchLocation.Kind) -> String {
@@ -213,6 +227,7 @@ extension LeftoverMatcher {
         /// The team Apple signs some of its own apps with, Xcode among them.
         static let appleTeam = "59gab85efg."
 
+        let url: URL
         let bundleIdentifier: String
         let identifier: String
         let embeddedIdentifiers: [EmbeddedIdentifier]
@@ -225,6 +240,7 @@ extension LeftoverMatcher {
         let isApplesOwn: Bool
 
         init(_ app: InstalledApp) {
+            url = app.url
             bundleIdentifier = app.bundleIdentifier
             identifier = app.bundleIdentifier.lowercased()
             let vendor = Identifier.vendor(of: identifier)

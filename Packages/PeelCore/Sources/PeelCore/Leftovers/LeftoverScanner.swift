@@ -10,43 +10,55 @@ public struct LeftoverScanner: Sendable {
     public let exclusions: Exclusions
     private let measure: Measure
     private let refuses: Refuses
-    private let registeredApp: LeftoverMatcher.RegisteredApp
     /// The most folders listed per location while searching inside folders the app does not claim. The default
     /// is far more than a busy Application Support or Caches folder needs, and each listing is cheap.
     private let nestedFolderLimit: Int
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
-        self.init(environment: environment, exclusions: exclusions, measure: Self.walk, registeredApp: AppInspector.applicationURL(forBundleIdentifier:))
+        self.init(environment: environment, exclusions: exclusions, measure: Self.walk)
     }
 
     static let walk: Measure = { await FileSize.contents(of: $0) }
 
-    /// For tests, which say how each folder answers and can count what the guard is asked. They leave out Launch
-    /// Services, whose answers depend on what is installed on the Mac running them.
+    /// For tests, which say how each folder answers and can count what the guard is asked.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         measure: @escaping Measure,
         refuses: @escaping Refuses = { ProtectedData.refuses($0, home: $1) },
-        registeredApp: @escaping LeftoverMatcher.RegisteredApp = { _ in nil },
         nestedFolderLimit: Int = 5_000
     ) {
         self.environment = environment
         self.exclusions = exclusions
         self.measure = measure
         self.refuses = refuses
-        self.registeredApp = registeredApp
         self.nestedFolderLimit = nestedFolderLimit
     }
 
     /// Finds the files `app` keeps outside its bundle. `installedApps` should hold every app on the Mac, so files
-    /// other apps use are marked as shared. The apps macOS ships are added as rivals too: Apple keeps folders
-    /// under their names (`Application Support/Music`) that an app of the same name would otherwise get outright.
+    /// other apps use are marked as shared.
     @concurrent
     public func scan(_ app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverScan {
-        let systemApps = await AppCatalog.systemApps.value
-        let matcher = LeftoverMatcher(app: app, installedApps: installedApps + systemApps, registeredApp: registeredApp)
+        await scan(app, matcher: matcher(for: app, installedApps: installedApps))
+    }
 
+    /// What tells `app`'s files from those of every other app. The apps macOS ships are rivals too: Apple keeps
+    /// folders under their names (`Application Support/Music`) that an app of the same name would otherwise get
+    /// outright. So is every other copy of the app macOS knows, such as an older one kept in Downloads or one on
+    /// another disk, since it carries the app's identifier and uses the same files.
+    func matcher(for app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverMatcher {
+        let known = installedApps + (await AppCatalog.systemApps.value)
+        let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
+        let listed = Set(known.filter { $0.bundleIdentifier == app.bundleIdentifier }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
+        let elsewhere = AppInspector.applicationURLs(forBundleIdentifier: app.bundleIdentifier).filter { url in
+            let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
+            return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle)
+        }
+        return LeftoverMatcher(app: app, installedApps: known + elsewhere.compactMap(AppInspector.inspect))
+    }
+
+    @concurrent
+    func scan(_ app: InstalledApp, matcher: LeftoverMatcher) async -> LeftoverScan {
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             for location in environment.locations {
                 let home = environment.homeDirectory.path(percentEncoded: false)
@@ -306,9 +318,10 @@ public struct LeftoverScanner: Sendable {
     }
 
     /// True for a folder another installed app claims, or one Apple named for itself. A name found inside it
-    /// is only a guess: `Caches/com.apple.python/Library/Developer` is not the Developer app's.
+    /// is only a guess: `Caches/com.apple.python/Library/Developer` is not the Developer app's. Another copy of
+    /// the app is no one else.
     private static func isSomebodyElses(_ name: String, kind: SearchLocation.Kind, matcher: LeftoverMatcher) -> Bool {
-        ProtectedData.isApplesName(name) || !matcher.othersClaiming(fileName: name, kind: kind).isEmpty
+        ProtectedData.isApplesName(name) || !matcher.othersClaiming(fileName: name, kind: kind).apps.isEmpty
     }
 
     /// A job that runs a program inside the app is that app's, whatever it is called: `com.maker.updater.plist`

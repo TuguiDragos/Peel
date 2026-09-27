@@ -100,6 +100,18 @@ struct AppResetTests {
         #expect(reset.items.isEmpty)
     }
 
+    /// Every copy of an app writes the same settings, and a reset quits them all first, so another copy keeps
+    /// nothing out of it. Another app's claim does.
+    @Test func anotherCopyOfTheAppKeepsNothingOutOfAReset() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        let copy = app(at: "/Users/x/Downloads/Example.app")
+
+        let reset = await AppReset.prepare(app(), installedApps: [app(), copy], environment: home(directory))
+
+        #expect(reset.items.map(\.kind) == [.preferences])
+    }
+
     /// A container holds settings next to the user's documents, so it is opened up rather than offered whole.
     @Test func opensAContainerUpAndLeavesTheUsersWorkInsideItAlone() async throws {
         let directory = try TemporaryDirectory()

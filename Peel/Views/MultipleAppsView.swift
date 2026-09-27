@@ -194,8 +194,9 @@ struct MultipleAppsView: View {
         if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, !item.isPeels, !item.isExcluded {
             lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
         }
-        if !item.sharedWithOthers.isEmpty {
-            lines.append(String(localized: "Also used by \(names(of: item.sharedWithOthers))"))
+        let users = item.sharedWithOthers.map(library.name(forBundleIdentifier:)) + item.otherCopies.map(\.abbreviatedPath)
+        if !users.isEmpty {
+            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
         }
         if let heldBack = item.match?.heldBack {
             lines.append(String(localized: heldBack.explanation))

@@ -48,10 +48,13 @@ manifest doesn't set it, so ask for it on the command line to hold the package t
 swift build --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 
-Some tests read this Mac rather than a fixture, on purpose: an answer about Homebrew, launchd, or the disk is
-worth little against a mock. They are slower, and they depend on what you have installed. The slowest scans every
-app installed here, in full, to check that nothing Peel would select is refused or shared. It takes minutes, so it
-runs only when asked for, and it is worth running before a release:
+Tests run through the code Peel runs, on the Mac running them: a scan asks this Mac's Launch Services and reads its
+system apps and a real disk, since an answer about Homebrew, launchd, Launch Services, or the disk is worth little
+against a mock. A stand-in is only for what a Mac can't do on demand, such as a folder that never answers, and the
+files a test scans sit in a temporary home, never in yours. Some tests read this Mac on purpose, so they are slower
+and depend on what you have installed. The slowest scans every app installed here, in full, to check that nothing
+Peel would select is refused or shared. It takes minutes, so it runs only when asked for, and it is worth running
+before a release:
 
 ```bash
 PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter SuggestedSelectionOnThisMacTests

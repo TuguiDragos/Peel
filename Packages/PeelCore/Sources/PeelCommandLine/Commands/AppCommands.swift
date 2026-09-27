@@ -151,8 +151,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         if let heldBack = leftover.match.heldBack {
             summary += ", review: \(heldBack.summary)"
         } else if !leftover.match.isRecommended {
+            let users = leftover.match.sharedWith + leftover.match.otherCopies.map(Output.path)
             summary += leftover.match.isShared
-                ? ", review: shared with \(leftover.match.sharedWith.joined(separator: ", "))"
+                ? ", review: shared with \(users.joined(separator: ", "))"
                 : ", review: \(leftover.match.confidence.summary) match"
         }
         if leftover.requiresPrivileges {

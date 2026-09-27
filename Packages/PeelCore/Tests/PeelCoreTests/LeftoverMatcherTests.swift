@@ -51,6 +51,21 @@ struct LeftoverMatcherTests {
         #expect(try #require(match("com.google.Chrome.helper", in: .caches, for: chrome)).isRecommended)
     }
 
+    /// Another copy of the app uses the same files wherever it is, so a file both claim is shared with that copy,
+    /// known by its place, since the identifier cannot tell the two apart. What only this copy embeds stays its own.
+    @Test func anotherCopyOfTheAppSharesWhatItUsesAndNothingMore() throws {
+        let sample = app("org.example.Sample", name: "Sample", embedded: ["org.example.Sample.Updater"])
+        let older = InstalledApp(url: URL(filePath: "/Volumes/Disk/Sample.app"), bundleIdentifier: sample.bundleIdentifier, name: "Sample")
+
+        let preferences = try #require(match("org.example.Sample.plist", in: .preferences, for: sample, with: [older]))
+        #expect(preferences.sharedWith.isEmpty)
+        #expect(preferences.otherCopies == [older.url])
+        #expect(!preferences.isRecommended)
+        let updater = try #require(match("org.example.Sample.Updater", in: .caches, for: sample, with: [older]))
+        #expect(updater.otherCopies.isEmpty)
+        #expect(updater.isRecommended)
+    }
+
     @Test(arguments: [
         ("com.spotify.client.plist", SearchLocation.Kind.preferences),
         ("COM.SPOTIFY.CLIENT", .caches),

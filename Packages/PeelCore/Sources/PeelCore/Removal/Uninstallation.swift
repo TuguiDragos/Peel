@@ -38,10 +38,10 @@ public struct Uninstallation: Sendable {
                 isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false
             )
         }
-        var scan = await LeftoverScanner(environment: environment, exclusions: exclusions).scan(app, installedApps: installedApps)
+        let scanner = LeftoverScanner(environment: environment, exclusions: exclusions)
+        let matcher = await scanner.matcher(for: app, installedApps: installedApps)
+        var scan = await scanner.scan(app, matcher: matcher)
         if let evidence = CaskEvidence.evidence(for: app, casks: casks, home: environment.homeDirectory) {
-            // The same rival apps the scanner used, including the apps that come with macOS.
-            let matcher = LeftoverMatcher(app: app, installedApps: installedApps + (await AppCatalog.systemApps.value))
             scan = scan.adding(await caskLeftovers(evidence, app: app, exclusions: exclusions, matcher: matcher, environment: environment))
         }
         scan = scan.adding(await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment))
@@ -103,14 +103,15 @@ public struct Uninstallation: Sendable {
             let place = place(of: item.url, in: environment)
             let own = matcher.match(fileName: item.url.lastPathComponent, kind: place.kind)
             // Every folder on the way counts: a path inside a folder another app claims is not this app's alone.
-            let rivals = Set(place.components.flatMap { matcher.othersClaiming(fileName: $0, kind: place.kind) })
+            let claims = place.components.map { matcher.othersClaiming(fileName: $0, kind: place.kind) }
             let leftover = await LeftoverScanner.leftover(
                 at: item.url,
                 kind: place.kind,
                 match: LeftoverMatch(
                     reason: .homebrewCask,
                     confidence: item.isInLibrary && own != nil ? .likely : .possible,
-                    sharedWith: rivals.union(own?.sharedWith ?? []).sorted()
+                    sharedWith: Set(claims.flatMap(\.apps)).union(own?.sharedWith ?? []).sorted(),
+                    otherCopies: claims.flatMap(\.copies) + (own?.otherCopies ?? [])
                 ),
                 parent: ParentAccess(item.url.deletingLastPathComponent()),
                 home: environment.homeDirectory.path(percentEncoded: false)

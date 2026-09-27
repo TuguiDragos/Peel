@@ -444,13 +444,15 @@ struct SuggestedSelectionOnThisMacTests {
         }
     }
 
-    /// The other half of the same rule: nothing shared with another installed app is ever selected.
+    /// The other half of the same rule: nothing shared with another installed app, or another copy of the app, is
+    /// ever selected.
     @Test func nothingSharedWithAnotherAppIsSelected() async {
         for uninstallation in await Self.uninstallations.value {
             let app = uninstallation.app
             let suggested = uninstallation.suggestedSelection(canUseHelper: true)
             for leftover in uninstallation.scan.leftovers where suggested.contains(leftover.url) {
-                #expect(!leftover.match.isShared, "\(app.name): \(leftover.url.lastPathComponent) is shared with \(leftover.match.sharedWith)")
+                let users = leftover.match.sharedWith + leftover.match.otherCopies.map { $0.path(percentEncoded: false) }
+                #expect(!leftover.match.isShared, "\(app.name): \(leftover.url.lastPathComponent) is shared with \(users)")
                 #expect(leftover.match.confidence >= .likely, "\(app.name): \(leftover.url.lastPathComponent) is only a guess")
             }
         }

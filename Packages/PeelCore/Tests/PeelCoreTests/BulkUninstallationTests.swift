@@ -73,6 +73,25 @@ struct BulkUninstallationTests {
         #expect(bulk.files(of: mail.bundleIdentifier) == [shared.url])
     }
 
+    /// Two copies of one app share its files. Choosing one of them among several apps leaves what the other copy
+    /// uses unselected, since that copy stays; choosing both lets it go.
+    @Test func aCopyThatIsNotChosenKeepsTheFilesItUses() throws {
+        let notes = app("com.example.notes", "Notes")
+        let copy = InstalledApp(url: URL(filePath: "/Users/x/Applications/Notes.app"), bundleIdentifier: notes.bundleIdentifier, name: notes.name)
+        let mail = app("com.example.mail", "Mail")
+        let matcher = LeftoverMatcher(app: notes, installedApps: [notes, copy, mail])
+        let match = try #require(matcher.match(fileName: "com.example.notes.plist", kind: .preferences))
+        let preferences = Leftover(
+            url: URL(filePath: "/Users/x/Library/Preferences/com.example.notes.plist"),
+            kind: .preferences, match: match, size: 100, isMeasured: true, requiresPrivileges: false
+        )
+        let bulk = BulkUninstallation(uninstallations: [uninstallation(notes, [preferences]), uninstallation(mail, [])])
+        #expect(!bulk.suggestedSelection(canUseHelper: true).contains(preferences.url))
+
+        let bothCopies = BulkUninstallation(uninstallations: [uninstallation(notes, [preferences]), uninstallation(copy, [preferences])])
+        #expect(bothCopies.suggestedSelection(canUseHelper: true).contains(preferences.url))
+    }
+
     /// A batch keeps the order an app's own page keeps: what could not be measured first among the leftovers, since
     /// it is most likely the biggest, then the largest. The apps come after their leftovers.
     @Test func listsWhatCouldNotBeMeasuredFirst() {

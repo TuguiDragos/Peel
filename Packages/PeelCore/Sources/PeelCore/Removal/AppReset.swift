@@ -126,8 +126,9 @@ public struct AppReset: Sendable {
         // reset is for.
         let usable = scan.leftovers.filter { leftover in
             // Only `certain`, never `likely`: a reset ends in `defaults delete`, and a display name or an unlisted
-            // prefix may also belong to something else (an app called Yarn, and the Yarn command-line tool).
-            let isCertainlyTheApps = leftover.match.confidence == .certain && !leftover.match.isShared
+            // prefix may also belong to something else (an app called Yarn, and the Yarn command-line tool). Another
+            // copy of the app shares its settings, and a reset waits for every copy to quit.
+            let isCertainlyTheApps = leftover.match.confidence == .certain && leftover.match.sharedWith.isEmpty
             let isOffered = leftover.match.heldBack == nil
                 || (leftover.kind == .containers && [.holdsDocuments, .holdsKeys].contains(leftover.match.heldBack))
             return isCertainlyTheApps && isOffered && !leftover.requiresPrivileges

@@ -13,6 +13,8 @@ public struct BulkUninstallation: Sendable {
         public let match: LeftoverMatch?
         /// The bundle identifiers of apps outside the selection that also claim this item.
         public let sharedWithOthers: [String]
+        /// Other copies of a chosen app, not chosen themselves, that use this item too.
+        public var otherCopies: [URL] = []
         /// An excluded app, or an item with something excluded inside. Shown, never selected, never moved.
         public var isExcluded = false
         /// An app macOS protects, or an item found for one. The app stays, so none of it is a leftover to select.
@@ -29,7 +31,7 @@ public struct BulkUninstallation: Sendable {
         public var isRecommended: Bool {
             guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper else { return false }
             guard let match else { return true }
-            return sharedWithOthers.isEmpty && match.confidence >= .likely && match.heldBack == nil
+            return sharedWithOthers.isEmpty && otherCopies.isEmpty && match.confidence >= .likely && match.heldBack == nil
         }
     }
 
@@ -114,6 +116,7 @@ public struct BulkUninstallation: Sendable {
 
     static func merge(_ uninstallations: [Uninstallation]) -> [Item] {
         let chosen = Set(uninstallations.map(\.app.bundleIdentifier))
+        let chosenBundles = Set(uninstallations.map { PathPattern.comparablePath(of: $0.app.url) })
         var byURL: [URL: Item] = [:]
         var order: [URL] = []
 
@@ -127,6 +130,7 @@ public struct BulkUninstallation: Sendable {
                     apps: existing.apps + item.apps.filter { !existing.apps.contains($0) },
                     match: existing.match.flatMap { known in item.match.map(known.combined) } ?? existing.match ?? item.match,
                     sharedWithOthers: existing.sharedWithOthers.filter(item.sharedWithOthers.contains),
+                    otherCopies: existing.otherCopies + item.otherCopies.filter { !existing.otherCopies.contains($0) },
                     isExcluded: existing.isExcluded || item.isExcluded,
                     isKeptByMacOS: existing.isKeptByMacOS || item.isKeptByMacOS,
                     isMeasured: existing.isMeasured || item.isMeasured,
@@ -150,6 +154,7 @@ public struct BulkUninstallation: Sendable {
                     apps: [identifier],
                     match: leftover.match,
                     sharedWithOthers: leftover.match.sharedWith.filter { !chosen.contains($0) },
+                    otherCopies: leftover.match.otherCopies.filter { !chosenBundles.contains(PathPattern.comparablePath(of: $0)) },
                     isExcluded: leftover.match.heldBack == .holdsAnExclusion,
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,

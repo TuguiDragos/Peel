@@ -8,7 +8,13 @@ public enum AppInspector {
     /// Where macOS thinks an app is, including folders Peel doesn't scan, such as a build folder.
     /// A copy in the Trash doesn't count as installed.
     public static func applicationURL(forBundleIdentifier identifier: String) -> URL? {
-        NSWorkspace.shared.urlsForApplications(withBundleIdentifier: identifier).first { url in
+        applicationURLs(forBundleIdentifier: identifier).first
+    }
+
+    /// Every copy of the app with `identifier` that macOS knows, wherever it is, best first. A copy in the Trash
+    /// doesn't count as installed.
+    static func applicationURLs(forBundleIdentifier identifier: String) -> [URL] {
+        NSWorkspace.shared.urlsForApplications(withBundleIdentifier: identifier).filter { url in
             let path = url.path(percentEncoded: false)
             return !path.contains("/.Trash/") && !path.contains("/.Trashes/") && FileManager.default.fileExists(atPath: path)
         }

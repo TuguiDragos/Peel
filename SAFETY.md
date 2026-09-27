@@ -130,13 +130,14 @@ root of another disk), asked of the folder itself with every link resolved: a fo
 ## What is selected for you
 
 Only matches Peel is `certain` or `likely` about, and only when nothing else installed on the Mac uses them.
-Anything shared with another app is shown and left unselected. Something matched by the app's name alone inside
-another app's folder, or one of Apple's, is shown and never selected, since it is most likely that app's data about
-this one; so is something matched by name alone at the top of your home folder or of a Library, where a name is
-only a guess. And nothing at all is selected for an app that would stay: one macOS keeps, one the helper may not
-move, or one that needs the helper while it cannot act. When you remove several apps at once and deselect one of
-them, it stays too: its files leave the selection, those it shares with the other apps included, and selecting it
-again brings them back.
+Anything shared with another app is shown and left unselected, and so is what another copy of the app uses: one
+macOS knows anywhere, such as an older copy in Downloads or one on another disk, is named by where it is. Something
+matched by the app's name alone inside another app's folder, or one of Apple's, is shown and never selected, since
+it is most likely that app's data about this one; so is something matched by name alone at the top of your home
+folder or of a Library, where a name is only a guess. And nothing at all is selected for an app that would stay: one
+macOS keeps, one the helper may not move, or one that needs the helper while it cannot act. When you remove several
+apps at once and deselect one of them, it stays too: its files leave the selection, those it shares with the other
+apps included, and selecting it again brings them back.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.

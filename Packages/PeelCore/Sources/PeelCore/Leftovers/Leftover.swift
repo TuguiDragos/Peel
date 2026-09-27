@@ -72,21 +72,32 @@ public struct LeftoverMatch: Sendable, Hashable {
     public let confidence: MatchConfidence
     /// Bundle identifiers of other installed apps that match the item equally well.
     public let sharedWith: [String]
+    /// Other copies of the app, wherever they are, that use the item too. They share its identifier, so each is
+    /// known by its place.
+    public let otherCopies: [URL]
     /// The reason the item was left unselected on purpose, if it was.
     public var heldBack: HoldBack?
     /// True when `reason` is an identifier that is a single word, such as `notes`. A bundle writes its own
     /// identifier, so such a claim says no more than a name.
     public let isAWord: Bool
 
-    public init(reason: MatchReason, confidence: MatchConfidence, sharedWith: [String], heldBack: HoldBack? = nil, isAWord: Bool = false) {
+    public init(
+        reason: MatchReason,
+        confidence: MatchConfidence,
+        sharedWith: [String],
+        otherCopies: [URL] = [],
+        heldBack: HoldBack? = nil,
+        isAWord: Bool = false
+    ) {
         self.reason = reason
         self.confidence = confidence
         self.sharedWith = sharedWith
+        self.otherCopies = Set(otherCopies).sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
         self.heldBack = heldBack
         self.isAWord = isAWord
     }
 
-    public var isShared: Bool { !sharedWith.isEmpty }
+    public var isShared: Bool { !sharedWith.isEmpty || !otherCopies.isEmpty }
 
     /// True when the claim is the app's name, or an identifier that is only a word.
     public var restsOnAName: Bool { reason == .name || isAWord }
@@ -99,7 +110,7 @@ public struct LeftoverMatch: Sendable, Hashable {
 
     /// Returns the same match, held back for `heldBack`: shown, but never selected.
     public func forReview(_ heldBack: HoldBack) -> LeftoverMatch {
-        LeftoverMatch(reason: reason, confidence: confidence, sharedWith: sharedWith, heldBack: heldBack, isAWord: isAWord)
+        LeftoverMatch(reason: reason, confidence: confidence, sharedWith: sharedWith, otherCopies: otherCopies, heldBack: heldBack, isAWord: isAWord)
     }
 
     /// Combines two apps' claims on one item, cautiously and the same in either order: the weaker claim counts,
@@ -116,6 +127,7 @@ public struct LeftoverMatch: Sendable, Hashable {
             reason: weaker.reason,
             confidence: weaker.confidence,
             sharedWith: Set(sharedWith).union(other.sharedWith).sorted(),
+            otherCopies: otherCopies + other.otherCopies,
             heldBack: heldBack,
             isAWord: isAWord || other.isAWord
         )
