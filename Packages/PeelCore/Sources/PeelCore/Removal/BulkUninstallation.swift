@@ -1,7 +1,7 @@
 public import Foundation
 
-/// An uninstall of several apps at once. Each file is listed once, and a file shared only among the chosen
-/// apps is safe to remove, since all of them are going.
+/// An uninstall of several apps at once. Each file is listed once, and a file shared only among the chosen apps
+/// can go with them, unless one of them stays (`staying(selected:)`).
 public struct BulkUninstallation: Sendable {
     public struct Item: Sendable, Hashable, Identifiable {
         public let url: URL
@@ -87,6 +87,18 @@ public struct BulkUninstallation: Sendable {
             !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !(item.isApplication && item.isKeptByMacOS)
                 && item.match?.heldBack?.cannotBeMoved != true && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
+    }
+
+    /// The files of the app with `identifier`: its leftovers, and what it shares with another chosen app. Two copies
+    /// of an app share these, and each has a bundle of its own.
+    public func files(of identifier: String) -> Set<URL> {
+        Set(items.filter { !$0.isApplication && $0.apps.contains(identifier) }.map(\.url))
+    }
+
+    /// The bundle identifiers of the chosen apps that stay: each one with a copy whose bundle is not selected. That
+    /// includes an app that cannot go (`Uninstallation.appStays(canUseHelper:)`), since its bundle never is.
+    public func staying(selected: Set<URL>) -> Set<String> {
+        Set(uninstallations.filter { !selected.contains($0.app.url) }.map(\.app.bundleIdentifier))
     }
 
     public var privilegedURLs: Set<URL> {

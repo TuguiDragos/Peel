@@ -13,6 +13,8 @@ struct RemovalRow: View {
     /// column is left out.
     var kind: LocalizedStringResource?
     var warning: String?
+    /// On a page that lists several apps' files, the apps the item was found for, named first in its note.
+    var foundFor: String?
     let size: Int64
     /// False when the size is not known, such as for a folder that did not answer in time. The row then
     /// reads "Unknown", never zero.
@@ -224,6 +226,12 @@ struct RemovalRow: View {
 
     private var explanation: AttributedString {
         var text = AttributedString()
+        if let foundFor {
+            text += AttributedString(String(localized: "Found for \(foundFor)"))
+            if detail != nil {
+                text += AttributedString("\n\n")
+            }
+        }
         if let detail {
             text += AttributedString(String(localized: detail))
         }

@@ -6,6 +6,7 @@ import Foundation
 /// SwiftUI treats every row as changed and rebuilds all of them on every change.
 protocol RowSelection: AnyObject {
     var selectedURLs: Set<URL> { get set }
+    func setSelected(_ isSelected: Bool, for url: URL)
 }
 
 extension RowSelection {

@@ -24,6 +24,11 @@ public struct KeptSelection: Sendable {
         return made
     }
 
+    /// True when the person could choose `url` after the last update.
+    public func hasOffered(_ url: URL) -> Bool {
+        offered[url] != nil
+    }
+
     /// Forgets what was chosen for `urls`, so the next update gives them Peel's suggestion as if they were new.
     public mutating func forget(_ urls: Set<URL>) {
         for url in urls {

@@ -143,4 +143,78 @@ struct UninstallSelectionTests {
         _ = changed.update([], in: bulk, canUseHelper: false)
         #expect(changed.update([other.url], in: bulk, canUseHelper: true) == [other.url])
     }
+
+    /// On several apps' page, deselecting one app's bundle keeps that app, so its files leave the selection, the
+    /// file it shares with another chosen app included, and the other app keeps its own.
+    @Test func deselectingOneOfSeveralAppsLeavesItsFiles() {
+        let own = leftover("com.example.app")
+        let others = leftover("com.example.other")
+        let shared = leftover("com.example.shared")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([own, shared]), uninstallation(of: other, [others, shared])])
+        var choices = UninstallSelection()
+        let suggested = choices.update([], in: bulk, canUseHelper: true)
+        #expect(suggested == [app.url, own.url, shared.url, other.url, others.url])
+
+        let selected = choices.personChanged(from: suggested, to: suggested.subtracting([other.url]), in: bulk)
+        #expect(selected == [app.url, own.url])
+        #expect(bulk.staying(selected: selected) == [other.bundleIdentifier])
+    }
+
+    /// Selecting the bundle again brings back the app's files as they were, and nothing more: a file the person had
+    /// deselected before stays deselected.
+    @Test func selectingTheBundleAgainBringsBackWhatWasSelected() {
+        let others = leftover("com.example.other")
+        let agent = leftover("com.example.other.agent")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([]), uninstallation(of: other, [others, agent])])
+        var choices = UninstallSelection()
+        var selected = choices.update([], in: bulk, canUseHelper: true)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([agent.url]), in: bulk)
+
+        selected = choices.personChanged(from: selected, to: selected.subtracting([other.url]), in: bulk)
+        #expect(selected == [app.url])
+        #expect(choices.personChanged(from: selected, to: selected.union([other.url]), in: bulk) == [app.url, other.url, others.url])
+    }
+
+    /// An app the person keeps stays kept through the page's scans: a file of it found later is not selected.
+    @Test func aScanAfterAnAppWasKeptSelectsNothingOfIt() {
+        let others = leftover("com.example.other")
+        let later = leftover("com.example.other.later")
+        let before = BulkUninstallation(uninstallations: [uninstallation([]), uninstallation(of: other, [others])])
+        var choices = UninstallSelection()
+        var selected = choices.update([], in: before, canUseHelper: true)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([other.url]), in: before)
+
+        let after = BulkUninstallation(uninstallations: [uninstallation([]), uninstallation(of: other, [others, later])])
+        #expect(choices.update(selected, in: after, canUseHelper: true) == [app.url])
+    }
+
+    /// Two copies of one app share its files, which stay while either copy does. Keeping one copy keeps them, and
+    /// the other copy can still go, through the page's scans too.
+    @Test func keepingOneOfTwoCopiesKeepsTheirFilesAndLetsTheOtherGo() {
+        let copy = InstalledApp(url: URL(filePath: "/Users/me/Applications/Example.app"), bundleIdentifier: app.bundleIdentifier, name: app.name)
+        let own = leftover("com.example.app")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([own]), uninstallation(of: copy, [own])])
+        var choices = UninstallSelection()
+        let suggested = choices.update([], in: bulk, canUseHelper: true)
+        #expect(suggested == [app.url, copy.url, own.url])
+
+        let selected = choices.personChanged(from: suggested, to: suggested.subtracting([copy.url]), in: bulk)
+        #expect(selected == [app.url])
+        #expect(choices.update(selected, in: bulk, canUseHelper: true) == [app.url])
+    }
+
+    /// The files of two copies come back only once both are selected again.
+    @Test func theFilesOfTwoCopiesComeBackOnceBothAreSelectedAgain() {
+        let copy = InstalledApp(url: URL(filePath: "/Users/me/Applications/Example.app"), bundleIdentifier: app.bundleIdentifier, name: app.name)
+        let own = leftover("com.example.app")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([own]), uninstallation(of: copy, [own])])
+        var choices = UninstallSelection()
+        var selected = choices.update([], in: bulk, canUseHelper: true)
+
+        selected = choices.personChanged(from: selected, to: selected.subtracting([copy.url]), in: bulk)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([app.url]), in: bulk)
+        selected = choices.personChanged(from: selected, to: selected.union([app.url]), in: bulk)
+        #expect(selected == [app.url])
+        #expect(choices.personChanged(from: selected, to: selected.union([copy.url]), in: bulk) == [app.url, copy.url, own.url])
+    }
 }

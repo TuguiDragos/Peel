@@ -56,6 +56,23 @@ struct BulkUninstallationTests {
         }
     }
 
+    /// An app stays when a copy of it is not selected. Two copies share their files, and neither bundle is one of
+    /// them.
+    @Test func namesTheAppsThatStayAndTheirFiles() {
+        let notes = app("com.example.notes", "Notes")
+        let copy = InstalledApp(url: URL(filePath: "/Users/x/Applications/Notes.app"), bundleIdentifier: notes.bundleIdentifier, name: notes.name)
+        let mail = app("com.example.mail", "Mail")
+        let own = leftover("/Users/x/Library/Caches/com.example.notes", size: 100)
+        let shared = leftover("/Users/x/Library/Group Containers/group.com.example", size: 100)
+        let bulk = BulkUninstallation(uninstallations: [uninstallation(notes, [own, shared]), uninstallation(copy, [own]), uninstallation(mail, [shared])])
+
+        #expect(bulk.staying(selected: [notes.url, copy.url, mail.url]).isEmpty)
+        #expect(bulk.staying(selected: [notes.url, mail.url]) == [notes.bundleIdentifier])
+        #expect(bulk.staying(selected: [notes.url, copy.url]) == [mail.bundleIdentifier])
+        #expect(bulk.files(of: notes.bundleIdentifier) == [own.url, shared.url])
+        #expect(bulk.files(of: mail.bundleIdentifier) == [shared.url])
+    }
+
     /// A batch keeps the order an app's own page keeps: what could not be measured first among the leftovers, since
     /// it is most likely the biggest, then the largest. The apps come after their leftovers.
     @Test func listsWhatCouldNotBeMeasuredFirst() {

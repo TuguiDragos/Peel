@@ -43,11 +43,19 @@ final class BulkRemovalPlan {
 
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
 
-    /// The chosen apps that are running, helpers included, and whose bundle is selected. An app whose bundle
-    /// the user deselected stays, so it is neither named nor quit.
+    /// The chosen apps that are running, helpers included, with anything of theirs selected. Files never move out
+    /// from under a running app, so an app that stays still quits before a file of its own moves.
     var runningApps: [InstalledApp] {
         let running = RunningCopies.current
-        return apps.filter { selectedURLs.contains($0.url) && !RunningCopies.belonging(to: $0, among: running, installedApps: installedApps).isEmpty }
+        let owners = Set(items.filter { selectedURLs.contains($0.url) }.flatMap(\.apps))
+        return apps.filter { app in
+            owners.contains(app.bundleIdentifier) && !RunningCopies.belonging(to: app, among: running, installedApps: installedApps).isEmpty
+        }
+    }
+
+    /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`).
+    var staying: Set<String> {
+        bulk?.staying(selected: selectedURLs) ?? []
     }
 
     func quitRunningApps() {
@@ -81,6 +89,18 @@ final class BulkRemovalPlan {
         self.canUseHelper = canUseHelper
         guard let bulk else { return }
         selectedURLs = choices.update(selectedURLs, in: bulk, canUseHelper: canUseHelper)
+    }
+
+    /// Selects or deselects one row. Deselecting an app's bundle keeps the app, so its files leave the selection
+    /// with it (`UninstallSelection.personChanged(from:to:in:)`).
+    func setSelected(_ isSelected: Bool, for url: URL) {
+        var selected = selectedURLs
+        if isSelected {
+            selected.insert(url)
+        } else {
+            selected.remove(url)
+        }
+        selectedURLs = bulk.map { choices.personChanged(from: selectedURLs, to: selected, in: $0) } ?? selected
     }
 
     /// Moves what `request` asked about, whatever has been selected since.

@@ -92,9 +92,7 @@ struct MultipleAppsView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            if !resetting(plan.question.request?.urls ?? []).isEmpty {
-                Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back.")
-            }
+            removalNote
         }
         .alert("Quit these apps before removing them.", isPresented: $isShowingQuitAlert) {
             Button("Quit Apps") { plan.quitRunningApps() }
@@ -170,6 +168,7 @@ struct MultipleAppsView: View {
             icon: item.isApplication ? .file(item.url) : .symbol(item.kind?.symbolName ?? "doc"),
             detail: item.isApplication ? "Application" : item.match?.reason.title,
             warning: warning(for: item),
+            foundFor: item.isApplication ? nil : names(of: item.apps),
             size: item.size,
             isMeasured: item.isMeasured,
             isLocked: item.requiresPrivileges && !helper.canAct,
@@ -182,13 +181,21 @@ struct MultipleAppsView: View {
         )
     }
 
+    /// The names of the apps with these bundle identifiers, as a list.
+    private func names(of identifiers: [String]) -> String {
+        identifiers.map(library.name(forBundleIdentifier:)).formatted(.list(type: .and))
+    }
+
     /// The warning in a row's note, in the same words an app's own page uses: which other apps use the item,
     /// and why Peel did not select it or leaves it where it is.
     private func warning(for item: BulkUninstallation.Item) -> String? {
         var lines: [String] = []
+        let keptBy = item.apps.filter(plan.staying.contains)
+        if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, !item.isPeels, !item.isExcluded {
+            lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
+        }
         if !item.sharedWithOthers.isEmpty {
-            let names = item.sharedWithOthers.map(library.name(forBundleIdentifier:)).formatted(.list(type: .and))
-            lines.append(String(localized: "Also used by \(names)"))
+            lines.append(String(localized: "Also used by \(names(of: item.sharedWithOthers))"))
         }
         if let heldBack = item.match?.heldBack {
             lines.append(String(localized: heldBack.explanation))
@@ -206,6 +213,31 @@ struct MultipleAppsView: View {
                 : String(localized: "Not selected: it belongs to an app macOS keeps, so it is in use."))
         }
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
+    }
+
+    /// Under the question: which of the chosen apps go and which stay, and the privacy reset, which History can't undo.
+    private var removalNote: Text {
+        let urls = plan.question.request?.urls ?? []
+        let going = plan.apps.filter { urls.contains($0.url) }
+        let staying = plan.apps.filter { !urls.contains($0.url) }
+        var lines: [Text] = []
+        if !going.isEmpty {
+            lines.append(Text("Apps that go: \(list(going))"))
+        }
+        if !staying.isEmpty {
+            lines.append(Text("Apps that stay: \(list(staying))"))
+        }
+        if !resetting(urls).isEmpty {
+            lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
+        }
+        return lines.dropFirst().reduce(lines.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
+    }
+
+    /// These chosen apps as a list: each by its name, or by where it is when another chosen app has the same name.
+    private func list(_ apps: [InstalledApp]) -> String {
+        apps.map { app in
+            plan.apps.contains { $0.name == app.name && $0.url != app.url } ? app.url.abbreviatedPath : app.name
+        }.formatted(.list(type: .and))
     }
 
     /// The apps whose privacy permissions a removal of `urls` resets.

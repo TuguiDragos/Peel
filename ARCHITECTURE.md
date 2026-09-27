@@ -72,7 +72,8 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    that would stay. The user can change the selection freely, and what they choose stays through the page's
    later scans and as the helper comes and goes: `KeptSelection` keeps the checkbox of every row they could
    already choose and gives Peel's suggestion only to a row they could not, and every page that selects for the
-   user and scans again on its own keeps its choices by it.
+   user and scans again on its own keeps its choices by it. Among several apps, one whose bundle the user
+   deselects stays, and its files leave the selection with it (`UninstallSelection`).
 5. **Move.** The question before the move freezes what it asks about, and the move takes exactly that
    (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
    `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
