@@ -733,7 +733,43 @@ public enum DeveloperCaches {
 
     @concurrent
     public static func scan(homeDirectory: URL = .homeDirectory, exclusions: Exclusions = .none) async -> [DeveloperEnvironment] {
-        await scan(definitions, homeDirectory: homeDirectory, exclusions: exclusions)
+        let apps = await AppCatalog.installedApps()
+        let electron = electronDefinitions(for: apps, home: homeDirectory)
+        return await scan(definitions + electron, homeDirectory: homeDirectory, exclusions: exclusions)
+    }
+
+    /// One definition for each installed Electron app whose session data folder, `Application Support/<its name>` as
+    /// Electron's `docs/api/app.md` puts it, holds the `Local State` Electron writes there. It lists only what Electron
+    /// and Chromium name as caches, and an app a definition of the table already covers is left to that definition.
+    static func electronDefinitions(for apps: [InstalledApp], home: URL) -> [Definition] {
+        let covered = Set(definitions.flatMap(\.folders).compactMap { folder -> String? in
+            let names = PathComponents.of(folder.path)
+            guard names.count > 2, names[0] == "Library", names[1] == "Application Support" else { return nil }
+            return names[2].lowercased()
+        })
+        let electron = "https://github.com/electron/electron/blob/main/shell/browser/"
+        let chromium = "https://github.com/chromium/chromium/blob/main/"
+        let codeCache = chromium + "content/browser/storage_partition_impl.cc#L1585"
+        let exists = { (url: URL) in FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) }
+        return apps.compactMap { app in
+            guard let name = app.bundleName, !name.isEmpty, !name.contains("/"), !covered.contains(name.lowercased()),
+                  exists(app.url.appending(path: "Contents/Frameworks/Electron Framework.framework"))
+            else { return nil }
+            let data = "Library/Application Support/\(name)"
+            guard exists(home.appending(path: "\(data)/Local State")) else { return nil }
+            let folders = [
+                Folder("\(data)/Cache", .cache, source: electron + "net/network_context_service.cc#L94-L95"),
+                Folder("\(data)/Code Cache", .cache, source: codeCache),
+            ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
+                Folder("\(data)/\($0)", .cache, source: chromium + "gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50")
+            } + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
+                Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
+            }
+            return Definition(
+                id: "electron.\(app.bundleIdentifier)", name: app.name, systemImage: "macwindow",
+                appBundleIdentifiers: [app.bundleIdentifier], folders: folders
+            )
+        }
     }
 
     static func scan(

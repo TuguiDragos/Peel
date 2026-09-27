@@ -136,6 +136,38 @@ struct DeveloperCachesTests {
         #expect(models.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
+    @Test func listsAnElectronAppsCachesWhereItsDataCarriesLocalState() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let app = { (name: String, electron: Bool) throws -> InstalledApp in
+            let bundle = try directory.directory("Applications/\(name).app/Contents/Frameworks")
+            if electron {
+                let framework = bundle.appending(path: "Electron Framework.framework")
+                try FileManager.default.createDirectory(at: framework, withIntermediateDirectories: true)
+            }
+            return InstalledApp(
+                url: bundle.deletingLastPathComponent().deletingLastPathComponent(),
+                bundleIdentifier: "org.example.\(name.lowercased())", name: name, bundleName: name
+            )
+        }
+        let apps = [try app("Chat", true), try app("Notes", true), try app("Native", false), try app("Code", true)]
+        for name in ["Chat", "Native", "Code"] {
+            try directory.file("home/Library/Application Support/\(name)/Local State")
+            try directory.file("home/Library/Application Support/\(name)/GPUCache/data_0", bytes: 4_096)
+        }
+        try directory.file("home/Library/Application Support/Notes/GPUCache/data_0", bytes: 4_096)
+        try directory.file("home/Library/Application Support/Chat/Cache/Cache_Data/index", bytes: 4_096)
+        try directory.file("home/Library/Application Support/Chat/Local Storage/leveldb/000003.log", bytes: 4_096)
+
+        let definitions = DeveloperCaches.electronDefinitions(for: apps, home: home)
+        let environments = await DeveloperCaches.scan(definitions, homeDirectory: home)
+
+        #expect(definitions.map(\.id) == ["electron.org.example.chat"])
+        let chat = try #require(environments.first)
+        #expect(chat.appBundleIdentifiers == ["org.example.chat"])
+        #expect(chat.locations.map(\.url.lastPathComponent).sorted() == ["Cache", "GPUCache"])
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
