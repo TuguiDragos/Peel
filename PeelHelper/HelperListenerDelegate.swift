@@ -9,11 +9,11 @@ final class HelperListenerDelegate: NSObject, NSXPCListenerDelegate {
     }
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
-        guard UserAuthorization.isAdministrator(connection.effectiveUserIdentifier) else { return false }
+        let isAdministrator = { UserAuthorization.isAdministrator(connection.effectiveUserIdentifier) }
+        guard lifetime.accept(isAdministrator) else { return false }
 
         connection.exportedInterface = Self.interface()
         connection.exportedObject = HelperService(lifetime: lifetime)
-        lifetime.connectionOpened()
         connection.invalidationHandler = { [lifetime] in
             lifetime.connectionClosed()
         }
