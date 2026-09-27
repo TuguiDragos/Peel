@@ -101,6 +101,40 @@ struct FileSizeTests {
         #expect(await FileSize.allocatedSize(of: folder) == nil)
     }
 
+    /// A folder inside that macOS will not open leaves the walk short: its size, and whatever wallet or repository
+    /// it holds, were never seen. So the folder around it is not known either.
+    @Test func knowsNoSizeForAFolderItCannotReadToTheEnd() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Vendor")
+        try directory.file("Vendor/settings.plist", bytes: 100_000)
+        try directory.file("Vendor/Private/wallet.dat", bytes: 100_000)
+        try directory.setPermissions(0, of: "Vendor/Private")
+        defer { try? directory.setPermissions(0o755, of: "Vendor/Private") }
+
+        #expect(await FileSize.contents(of: folder)?.couldNotBeRead == true)
+        #expect(await FileSize.allocatedSize(of: folder) == nil)
+    }
+
+    /// A folder that goes away while the walk goes on holds nothing any more, which is no reason to doubt the rest:
+    /// an app that makes and removes folders in its cache as it runs would otherwise leave that cache never known.
+    @Test func aFolderThatGoesAwayDuringTheWalkLeavesTheRestKnown() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Cache")
+        try directory.file("Cache/work-in-progress/part.bin", bytes: 100_000)
+        try directory.directory("elsewhere")
+        var hasMoved = false
+        let contents = FileSize.walk(folder, unless: {
+            if !hasMoved {
+                hasMoved = true
+                try? FileManager.default.moveItem(at: folder.appending(path: "work-in-progress"), to: directory.url.appending(path: "elsewhere/work-in-progress"))
+            }
+            return false
+        })
+
+        #expect(hasMoved)
+        #expect(contents?.couldNotBeRead == false)
+    }
+
     /// An item whose own attributes macOS will not give, because the folder around it cannot be searched, is not
     /// known either, and never reads as zero. An item that is not there at all holds nothing.
     @Test func knowsNoSizeForAnItemItCannotLookAt() async throws {

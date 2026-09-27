@@ -577,6 +577,23 @@ struct LeftoverScannerTests {
         #expect(!found.isMeasured)
     }
 
+    /// A folder inside the leftover that macOS will not open may hold what nothing brings back, as a helper's own
+    /// `Private` folder with a wallet in it, so the leftover is not read to the end and is never selected.
+    @Test func aLeftoverNotReadToTheEndIsNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/net.example.client/settings.plist", bytes: 4_096)
+        try directory.file("home/Library/Application Support/net.example.client/Private/wallet.dat", bytes: 4_096)
+        try directory.setPermissions(0, of: "home/Library/Application Support/net.example.client/Private")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/net.example.client/Private") }
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let found = try #require(scan.leftovers.first { $0.url.path(percentEncoded: false).hasSuffix("Application Support/net.example.client") })
+
+        #expect(found.match.heldBack == .couldNotBeRead, "a folder read only in part was taken for all it holds")
+        #expect(!found.match.isRecommended)
+        #expect(!found.isMeasured)
+    }
+
     /// An exclusion inside replaces `notMeasured` as the reason, but the folder's size stays unknown, not zero.
     @Test func aFolderHoldingAnExclusionKeepsASizeNobodyKnows() async throws {
         let directory = try TemporaryDirectory()

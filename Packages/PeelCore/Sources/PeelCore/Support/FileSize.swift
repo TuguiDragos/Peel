@@ -14,8 +14,9 @@ public struct FolderContents: Sendable, Hashable {
     /// The latest modification date of anything inside. A folder's own date does not change when a file in
     /// it is rewritten in place.
     public let newestChange: Date?
-    /// True when the folder itself could not be opened, so nothing inside was seen. `size` is then zero, which
-    /// must never be read as empty. From macOS 27, another team's container is refused outright.
+    /// True when the folder, or a folder inside it, could not be opened, so not everything inside was seen. `size`
+    /// then counts only what was, which must never be read as the folder's size. From macOS 27, another team's
+    /// container is refused outright.
     public let couldNotBeRead: Bool
 
     init(size: Int64, holdsRepository: Bool, holdsWallet: Bool = false, newestChange: Date? = nil, couldNotBeRead: Bool = false) {
@@ -132,15 +133,16 @@ public enum FileSize {
         let fileKeys: Set<URLResourceKey> = [
             .isRegularFileKey, .totalFileAllocatedSizeKey, .linkCountKey, .fileIdentifierKey, .contentModificationDateKey,
         ]
-        // Notes whether the folder itself failed to open. The enumerator reports that only to the error
-        // handler and then yields nothing, which would read as an empty folder.
-        let refused = Refused(path: PathPattern.comparablePath(of: url))
+        // Notes whether the folder, or a folder inside it, failed to open. The enumerator reports that only to the
+        // error handler and goes on without it, which would read as a folder holding less than it does. A folder
+        // that is no longer there holds nothing, which leaves nothing unseen.
+        let refused = Refused()
         guard let enumerator = FileManager.default.enumerator(
             at: url,
             includingPropertiesForKeys: Array(fileKeys),
             options: [],
-            errorHandler: { failing, _ in
-                if PathPattern.comparablePath(of: failing) == refused.path { refused.note() }
+            errorHandler: { _, error in
+                if (error as? CocoaError)?.code != .fileReadNoSuchFile { refused.note() }
                 return true
             }
         ) else { return FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
@@ -195,15 +197,10 @@ public enum FileSize {
         case next, finished, stopped
     }
 
-    /// Whether the folder being walked refused to open. Set by the enumerator's error handler on the walking
-    /// thread, and read once the walk ends.
+    /// Whether a folder of the walk refused to open. Set by the enumerator's error handler on the walking thread,
+    /// and read once the walk ends.
     private final class Refused: Sendable {
-        let path: String
         private let state = Mutex(false)
-
-        init(path: String) {
-            self.path = path
-        }
 
         var happened: Bool { state.withLock { $0 } }
 

@@ -222,8 +222,9 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   or `.keys`, and the others `FileSize.isWallet` lists. A folder with one inside is shown with that reason and
   never selected for you, not even by Select All in Orphaned Files, `peel uninstall`, or `peel orphans --remove`.
   You can still select it yourself, because a name can mislead: a Java project keeps a `keystore` too.
-- **A folder Peel could not finish reading is treated the same way.** A coin's data folder, with its blockchain,
-  is the one most likely to be too big to read in time, and its wallet may be inside.
+- **A folder Peel could not finish reading is treated the same way**, whether it ran out of time or macOS kept a
+  folder inside it closed. A coin's data folder, with its blockchain, is the one most likely to be too big to read
+  in time, and its wallet may be inside.
 
 What this cannot cover, said plainly. Peel looks for a browser profile at most two levels inside a folder, as it
 does for a photo library, so a profile kept deeper in a folder you move yourself is not seen. A wallet kept where no
