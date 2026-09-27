@@ -92,13 +92,22 @@ def synced(target, catalog_path):
 
 
 def info_plist(current):
-    """Returns the InfoPlist catalog: the English from `INFO_PLIST`, with every existing translation kept."""
+    """Returns the InfoPlist catalog: the English from `INFO_PLIST`, with every existing translation kept. When the
+    English changed, each translation still says the old text, so it is marked for review, which the catalog tests
+    refuse until it is translated again."""
     plist = plistlib.loads(INFO_PLIST.read_bytes())
     strings = {}
     old = keys(current)
     for key in INFO_KEYS:
         entry = dict(old.get(key, {}))
         localizations = dict(entry.get("localizations", {}))
+        english = localizations.get("en", {}).get("stringUnit", {}).get("value")
+        if english is not None and english != plist[key]:
+            print(f"  changed in English, translations to review: {key}")
+            localizations = {
+                language: {"stringUnit": {**value["stringUnit"], "state": "needs_review"}} if "stringUnit" in value else value
+                for language, value in localizations.items()
+            }
         localizations["en"] = {"stringUnit": {"state": "new", "value": plist[key]}}
         entry["localizations"] = localizations
         entry["extractionState"] = "extracted_with_value"
