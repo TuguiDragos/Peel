@@ -55,11 +55,13 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
 
+        let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
+
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
             for location in environment.locations {
                 _ = group.addTaskUnlessCancelled { [walk] in
-                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, home: home, walk: walk)
+                    await Self.scan(location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps, home: home, walk: walk)
                 }
             }
             return await group.reduce(into: [LocationResult]()) { $0.append($1) }
@@ -239,6 +241,17 @@ public struct OrphanScanner: Sendable {
         return identifier
     }
 
+    /// Whether a plug-in came with an app Peel saw go: its identifier is that app's, extends it, or is its maker's.
+    /// An installer can put a plug-in in place with no app at all, and its date does not move when it is used, so
+    /// nothing else says it was left behind.
+    static func cameWithAnAppThatLeft(_ identifier: String, goneApps: [String]) -> Bool {
+        let plugIn = identifier.lowercased()
+        let maker = Identifier.vendor(of: plugIn)
+        return goneApps.contains { app in
+            plugIn == app || plugIn.hasPrefix(app + ".") || (maker != nil && maker == Identifier.vendor(of: app))
+        }
+    }
+
     /// Why what the walk saw leaves an item to be chosen by hand: a wallet, a signing key, or a repository inside
     /// may exist nowhere else, and a folder the walk could not see into is not known to be empty.
     private static func heldBack(by contents: FolderContents?) -> HoldBack? {
@@ -258,6 +271,7 @@ public struct OrphanScanner: Sendable {
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
         goneBundles: [String: String],
+        goneApps: [String],
         home: String,
         walk: LeftoverScanner.Measure
     ) async -> LocationResult {
@@ -278,6 +292,7 @@ public struct OrphanScanner: Sendable {
             let url = location.url.appending(path: name)
             guard isAFileAFolderOrALink(url) else { continue }
             guard let identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles) else { continue }
+            guard location.kind != .plugIns || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
 
             // The item's own date changes when something is taken out of it, but not when a file inside is
             // rewritten in place, so the newest date inside comes from the walk.

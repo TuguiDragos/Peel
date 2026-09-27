@@ -384,27 +384,32 @@ struct OrphanScannerTests {
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["org.example.empty.plist"])
     }
 
-    /// A plug-in is named for what it does, so it is listed under the identifier it declares inside. One whose
-    /// identifier an installed app claims is not an orphan.
-    @Test func listsAPlugInUnderTheIdentifierItDeclares() async throws {
+    /// A plug-in is named for what it does, so it is listed under the identifier it declares inside, and only when
+    /// Peel saw the app it came with go: its identifier is that app's, extends it, or is its maker's. One an installer
+    /// put there on its own, with no app, is no orphan however old it is, and neither is one an installed app claims.
+    @Test func listsAPlugInOnlyWhenItsAppLeft() async throws {
         let directory = try TemporaryDirectory()
         let info = """
         <?xml version="1.0" encoding="UTF-8"?>
         <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>%@</string></dict></plist>
         """
-        try directory.file(
-            "root/Library/Audio/Plug-Ins/VST3/Gone.vst3/Contents/Info.plist",
-            contents: Data(info.replacingOccurrences(of: "%@", with: "com.gonevendor.gone").utf8)
-        )
-        try directory.file(
-            "root/Library/QuickLook/Still Here.qlgenerator/Contents/Info.plist",
-            contents: Data(info.replacingOccurrences(of: "%@", with: "com.installed.app.quicklook").utf8)
+        let plugIns = [
+            "root/Library/Audio/Plug-Ins/VST3/Gone.vst3": "com.gonevendor.gone",
+            "root/Library/Audio/Plug-Ins/Components/Gone Reverb.component": "com.gonevendor.reverb",
+            "root/Library/Audio/Plug-Ins/Components/Standalone.component": "com.independent.synth",
+            "root/Library/QuickLook/Still Here.qlgenerator": "com.installed.app.quicklook",
+        ]
+        for (path, identifier) in plugIns {
+            try directory.file("\(path)/Contents/Info.plist", contents: Data(info.replacingOccurrences(of: "%@", with: identifier).utf8))
+        }
+        let gone = RememberedApp(
+            bundleIdentifier: "com.gonevendor.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Gone.app"
         )
 
-        let scan = await scanner(in: directory, registered: ["com.installed.app"]).scan(installedApps: installed)
+        let scan = await scanner(in: directory, registered: ["com.installed.app"]).scan(installedApps: installed, remembered: [gone])
 
-        #expect(scan.groups.map(\.identifier) == ["com.gonevendor.gone"])
-        #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["Gone.vst3"])
+        #expect(Set(scan.groups.map(\.identifier)) == ["com.gonevendor.gone", "com.gonevendor.reverb"])
+        #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
     /// A link to a tool inside an app that is gone leads nowhere, and an app's uninstaller can leave such links

@@ -9,13 +9,14 @@ struct OrphanConfidenceTests {
 
     private func group(
         identifier: String = "com.example.app",
+        kind: SearchLocation.Kind = .applicationSupport,
         written: TimeInterval? = nil,
         size: Int64 = 1_000,
         remembered: RememberedApp? = nil
     ) -> OrphanGroup {
         let item = OrphanItem(
             url: URL(filePath: "/Users/someone/Library/Application Support/\(identifier)", directoryHint: .isDirectory),
-            kind: .applicationSupport,
+            kind: kind,
             size: size,
             modificationDate: written.map { now.addingTimeInterval(-$0) },
             requiresPrivileges: false
@@ -109,6 +110,13 @@ struct OrphanConfidenceTests {
         let judged = OrphanConfidence.judge(group(written: 400 * 24 * 60 * 60), now: now)
         #expect(judged.level == .certain)
         #expect(judged.reasons.contains { if case .untouched(let months) = $0 { months >= OrphanConfidence.longUntouched } else { false } })
+    }
+
+    @Test("A plug-in's date does not move when it is used, so its age says nothing")
+    func aPlugInsAgeSaysNothing() {
+        let judged = OrphanConfidence.judge(group(kind: .plugIns, written: 400 * 24 * 60 * 60), now: now)
+        #expect(judged.level == .likely)
+        #expect(judged.reasons == [.nothingClaimsIt])
     }
 
     @Test("A folder that did not answer was not read, so nothing is said about when it was last written")
