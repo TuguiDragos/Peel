@@ -226,4 +226,6 @@ checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<ver
 `Peel-<version>.zip`, for Homebrew. The disk image is signed, notarized, and stapled too. It opens on a window of
 the album's paper with an arc from Peel to Applications, which `Scripts/make_dmg.sh` lays out with dmgbuild, run by
 uv, so nothing drives Finder; the background carries no words, since Finder writes the names in each Mac's language.
-It refuses a build in which any of the four programs can be debugged, or in which a language is missing.
+It starts only from a committed tree whose package tests pass with warnings as errors, and it refuses a build in
+which any of the four programs can be debugged, in which a language is missing, or which `syspolicy_check
+distribution` says macOS would not open.
