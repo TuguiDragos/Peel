@@ -275,9 +275,11 @@ struct MultipleAppsView: View {
     }
 
     /// One removal, from the privacy reset before the move to the scan after it, with the page busy throughout.
+    /// An app opened since the question moves nothing: it is asked to quit again.
     private func remove(_ request: RemovalRequest) async {
         let plan = plan
         defer { plan.question.finish() }
+        guard plan.runningProcesses.isEmpty else { return requestRemoval() }
         // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
         let privacy = await PrivacyReset.reset(resetting(request.urls))
         let result = await plan.move(request)
