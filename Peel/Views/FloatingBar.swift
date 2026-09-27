@@ -22,6 +22,8 @@ struct FloatingBar<Reading: View, Action: View>: View {
                 .frame(height: 40)
                 .glassEffect()
                 .glassEffectID("reading", in: glass)
+                // The figure and its word are one reading, "303 kB Selected", as `TotalLabel` reads its total.
+                .accessibilityElement(children: .combine)
 
                 action
                     .buttonStyle(.glassProminent)
