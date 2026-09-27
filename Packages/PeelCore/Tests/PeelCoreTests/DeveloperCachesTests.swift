@@ -101,7 +101,8 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"
         let caches = [
-            "ShaderCache", "GrShaderCache", "component_crx_cache", "Default/GPUCache", "Profile 1/DawnWebGPUCache",
+            "ShaderCache", "GrShaderCache", "component_crx_cache", "extensions_crx_cache", "Default/GPUCache",
+            "Profile 1/DawnWebGPUCache",
         ]
         for cache in caches {
             try directory.file("\(chrome)/\(cache)/data_0", bytes: 4_096)

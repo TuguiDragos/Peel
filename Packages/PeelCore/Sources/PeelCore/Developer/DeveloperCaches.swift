@@ -712,6 +712,10 @@ public enum DeveloperCaches {
                 "\(userData)/component_crx_cache", .downloads,
                 source: browser + "component_updater/chrome_component_updater_configurator.cc#L135-L138"
             ),
+            Folder(
+                "\(userData)/extensions_crx_cache", .downloads,
+                source: browser + "extensions/updater/chrome_update_client_config.cc#L192-L197"
+            ),
         ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
             Folder("\(userData)/*/\($0)", .cache, source: gpu)
         } + chromiumModels(in: userData)
