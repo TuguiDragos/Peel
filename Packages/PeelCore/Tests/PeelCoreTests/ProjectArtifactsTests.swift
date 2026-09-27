@@ -154,6 +154,61 @@ struct ProjectArtifactsTests {
         ])
     }
 
+    @Test func findsWhatOtherBuildToolsLeave() async throws {
+        try await expectFound([
+            Kind(artifact: "build", marker: "CMakeLists.txt", tool: "CMake", isGeneric: true),
+            Kind(artifact: "build", marker: "App.xcodeproj", markerIsAFolder: true, tool: "Xcode", isGeneric: true),
+            Kind(artifact: "zig-out", marker: "build.zig", tool: "Zig", isGeneric: false),
+            Kind(artifact: ".zig-cache", marker: "build.zig", tool: "Zig", isGeneric: false),
+            Kind(artifact: "zig-cache", marker: "build.zig", tool: "Zig", isGeneric: false),
+            Kind(artifact: ".cxx", marker: "build.gradle.kts", tool: "Android Gradle plugin", isGeneric: false),
+            Kind(artifact: ".stack-work", marker: "stack.yaml", tool: "Stack", isGeneric: false),
+            Kind(artifact: "dist-newstyle", marker: "app.cabal", tool: "Cabal", isGeneric: false),
+            Kind(artifact: "_build", marker: "mix.exs", tool: "Mix", isGeneric: true),
+            Kind(artifact: "deps", marker: "mix.exs", tool: "Mix", isGeneric: true, isEnvironment: true),
+            Kind(artifact: ".elixir_ls", marker: "mix.exs", tool: "ElixirLS", isGeneric: false),
+            Kind(artifact: "lib", marker: "shard.lock", tool: "Shards", isGeneric: true, isEnvironment: true),
+            Kind(artifact: "vendor", marker: "composer.json", tool: "Composer", isGeneric: true, isEnvironment: true),
+            Kind(artifact: ".terragrunt-cache", marker: "terragrunt.hcl", tool: "Terragrunt", isGeneric: false),
+        ])
+    }
+
+    @Test func findsEveryBuildFolderCLionNamesForItsProfiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("engine/CMakeLists.txt", bytes: 16)
+        try directory.file("engine/src/main.c", bytes: 16)
+        try directory.file("engine/cmake-build-debug/engine", bytes: 400_000)
+        try directory.file("engine/cmake-build-release-arm64/engine", bytes: 400_000)
+        try directory.file("notes/cmake-build-debug/engine", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map { "\($0.project.lastPathComponent)/\($0.name)" }) == [
+            "engine/cmake-build-debug", "engine/cmake-build-release-arm64",
+        ])
+        #expect(found.allSatisfy { $0.tool == "CLion" && $0.isRecommended })
+    }
+
+    @Test func findsRailsCacheInsideItsTemporaryFolderAndOnlyThere() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("shop/config/application.rb", bytes: 16)
+        try directory.file("shop/app/models/order.rb", bytes: 16)
+        try directory.file("shop/tmp/cache/bootsnap/load-path", bytes: 400_000)
+        try directory.file("shop/tmp/pids/server.pid", bytes: 16)
+        try age(directory.url, days: 60)
+        try FileManager.default.setAttributes(
+            [.modificationDate: Date.now],
+            ofItemAtPath: directory.url.appending(path: "shop/tmp/cache/bootsnap/load-path").path(percentEncoded: false)
+        )
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)" } == ["shop/tmp/cache"])
+        #expect(found.first?.tool == "Rails")
+        #expect(found.first?.isRecommended == true, "the cache's own new files counted as work in the project")
+    }
+
     @Test func aUnityProjectsObjIsUnitysThoughDotNetsProjectFileSitsBesideIt() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("game/ProjectSettings/ProjectVersion.txt", bytes: 16)
@@ -403,7 +458,7 @@ struct ProjectArtifactsTests {
             #expect(!definition.name.isEmpty)
             #expect(!definition.markers.isEmpty || definition.proof != nil, "\(definition.name) has no proof")
             #expect(!definition.tool.isEmpty)
-            #expect(!definition.name.contains("/"))
+            #expect(definition.name.split(separator: "/").count <= 2, "\(definition.name) goes deeper than one folder")
             let isAPage = definition.source.hasPrefix("https://") && URL(string: definition.source)?.host() != nil
             #expect(isAPage || definition.source.hasPrefix("Xcode 27: "), "\(definition.name) names \(definition.source)")
         }

@@ -54,8 +54,18 @@ public enum ProjectArtifacts {
         /// What the folder holds that only its tool writes, for a kind no project file stands beside.
         var proof: Proof?
 
-        func matches(_ url: URL, besides names: Set<String>) -> Bool {
-            let folder = url.deletingLastPathComponent()
+        /// The artifacts this kind names among a folder's entries: a name ending in `*` is a prefix, as CLion names
+        /// a build folder for each profile, and a path names a folder inside one of them, as Rails keeps `tmp/cache`.
+        func candidates(among names: Set<String>) -> [String] {
+            if name.hasSuffix("*") {
+                let prefix = name.dropLast()
+                return names.filter { $0.hasPrefix(prefix) && $0.count > prefix.count }.sorted()
+            }
+            guard let first = PathComponents.of(name).first, names.contains(first) else { return [] }
+            return [name]
+        }
+
+        func matches(_ url: URL, in folder: URL, besides names: Set<String>) -> Bool {
             guard markers.isEmpty || hasMarker(besides: names, in: folder) else { return false }
             return proof?.holds(at: url) ?? true
         }
@@ -293,6 +303,70 @@ public enum ProjectArtifacts {
             name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,
             source: "https://docs.godotengine.org/en/3.6/tutorials/best_practices/version_control_systems.html"
         ),
+        Definition(
+            name: "build", markers: ["CMakeLists.txt"], tool: "CMake", isGeneric: true,
+            source: "https://cmake.org/cmake/help/latest/manual/cmake.1.html"
+        ),
+        Definition(
+            name: "cmake-build-*", markers: ["CMakeLists.txt"], tool: "CLion", isGeneric: false,
+            source: "https://www.jetbrains.com/help/clion/quick-cmake-tutorial.html"
+        ),
+        Definition(
+            name: "build", markers: ["*.xcodeproj"], tool: "Xcode", isGeneric: true,
+            source: "Xcode 27: xcodebuild -showBuildSettings (SYMROOT, the project's build folder)"
+        ),
+        Definition(
+            name: "zig-out", markers: ["build.zig"], tool: "Zig", isGeneric: false,
+            source: "https://ziglang.org/learn/build-system/"
+        ),
+        Definition(
+            name: ".zig-cache", markers: ["build.zig"], tool: "Zig", isGeneric: false,
+            source: "https://ziglang.org/learn/build-system/"
+        ),
+        Definition(
+            name: "zig-cache", markers: ["build.zig"], tool: "Zig", isGeneric: false,
+            source: "https://ziglang.org/download/0.13.0/release-notes.html"
+        ),
+        Definition(
+            name: ".cxx", markers: gradleFiles, tool: "Android Gradle plugin", isGeneric: false,
+            source: "https://developer.android.com/studio/projects/gradle-external-native-builds"
+        ),
+        Definition(
+            name: ".stack-work", markers: ["stack.yaml"], tool: "Stack", isGeneric: false,
+            source: "https://docs.haskellstack.org/en/stable/topics/stack_work/"
+        ),
+        Definition(
+            name: "dist-newstyle", markers: ["cabal.project", "*.cabal"], tool: "Cabal", isGeneric: false,
+            source: "https://cabal.readthedocs.io/en/stable/nix-local-build.html"
+        ),
+        Definition(
+            name: "_build", markers: ["mix.exs"], tool: "Mix", isGeneric: true,
+            source: "https://mix.hexdocs.pm/Mix.Tasks.Clean.html"
+        ),
+        Definition(
+            name: "deps", markers: ["mix.exs"], tool: "Mix", isGeneric: true, isEnvironment: true,
+            source: "https://mix.hexdocs.pm/Mix.Tasks.Clean.html"
+        ),
+        Definition(
+            name: ".elixir_ls", markers: ["mix.exs"], tool: "ElixirLS", isGeneric: false,
+            source: "https://github.com/elixir-lsp/elixir-ls/blob/master/README.md"
+        ),
+        Definition(
+            name: "lib", markers: ["shard.lock"], tool: "Shards", isGeneric: true, isEnvironment: true,
+            source: "https://crystal-lang.org/reference/latest/man/shards/index.html"
+        ),
+        Definition(
+            name: "vendor", markers: ["composer.json"], tool: "Composer", isGeneric: true, isEnvironment: true,
+            source: "https://getcomposer.org/doc/01-basic-usage.md"
+        ),
+        Definition(
+            name: "tmp/cache", markers: ["config/application.rb"], tool: "Rails", isGeneric: false,
+            source: "https://guides.rubyonrails.org/command_line.html"
+        ),
+        Definition(
+            name: ".terragrunt-cache", markers: ["terragrunt.hcl"], tool: "Terragrunt", isGeneric: false,
+            source: "https://docs.terragrunt.com/features/units/terragrunt-cache/"
+        ),
         // After the game engines, whose projects carry a .NET project file too.
         Definition(
             name: "bin", markers: dotNetProjectFiles, tool: ".NET", isGeneric: true,
@@ -401,6 +475,7 @@ public enum ProjectArtifacts {
         // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
         var visited = 0
+        var reached: Set<String> = []
 
         while next < queue.count, visited < maximumFolders, !Task.isCancelled {
             let (folder, depth) = queue[next]
@@ -410,24 +485,27 @@ public enum ProjectArtifacts {
             let names = Set(entries.map(\.lastPathComponent))
             var artifactNames: Set<String> = []
 
-            var matching: [Definition] = []
-            for definition in definitions where names.contains(definition.name) {
-                let url = folder.appending(path: definition.name)
-                guard isRealFolder(url), definition.matches(url, besides: names) else { continue }
-                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                guard artifactNames.insert(definition.name).inserted else { continue }
-                matching.append(definition)
+            var matching: [(definition: Definition, name: String)] = []
+            for definition in definitions {
+                for name in definition.candidates(among: names) {
+                    let url = folder.appending(path: name)
+                    guard isRealFolder(url), definition.matches(url, in: folder, besides: names) else { continue }
+                    guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+                    guard artifactNames.insert(name).inserted else { continue }
+                    matching.append((definition, name))
+                    reached.insert(Self.key(of: url))
+                }
             }
             // Read after all of the project's artifacts are found, so the walk skips every one of them.
             let activity = matching.isEmpty ? (date: nil, isCertain: true) : lastActivity(in: folder, ignoring: artifactNames)
-            for definition in matching {
-                let url = folder.appending(path: definition.name)
+            for (definition, name) in matching {
+                let url = folder.appending(path: name)
                 let contents = await measure(url)
                 let heldBack = HoldBack.seen(in: contents)
                 found.append(ProjectArtifact(
                     url: url,
                     project: folder,
-                    name: definition.name,
+                    name: name,
                     tool: definition.tool,
                     size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                     lastActivity: activity.date,
@@ -440,7 +518,7 @@ public enum ProjectArtifacts {
             }
 
             guard depth < maximumDepth else { continue }
-            for entry in entries where !artifactNames.contains(entry.lastPathComponent) {
+            for entry in entries where !reached.contains(Self.key(of: entry)) {
                 guard isRealFolder(entry), !exclusions.excludes(entry), !isSkipped(entry.lastPathComponent) else { continue }
                 queue.append((entry, depth + 1))
             }
@@ -477,10 +555,12 @@ public enum ProjectArtifacts {
             errorHandler: { _, _ in true }
         ) else { return (newest, newest != nil) }
 
+        let base = key(of: project)
         var samples = 0
         for case let url as URL in enumerator {
             let name = url.lastPathComponent
-            if artifacts.contains(name) || isSkipped(name) {
+            let relative = String(key(of: url).dropFirst(base.count + 1))
+            if artifacts.contains(name) || artifacts.contains(relative) || isSkipped(name) {
                 enumerator.skipDescendants()
                 continue
             }
@@ -491,6 +571,12 @@ public enum ProjectArtifacts {
             if date > cutoff { return (date, true) }
         }
         return (newest, newest != nil)
+    }
+
+    static func key(of url: URL) -> String {
+        var path = url.standardizedFileURL.path(percentEncoded: false)
+        while path.count > 1, path.hasSuffix("/") { path.removeLast() }
+        return path
     }
 
     /// A cache directory tag is how a tool says everything inside can be made again (Cache Directory Tagging
