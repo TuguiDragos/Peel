@@ -224,7 +224,7 @@ struct DeveloperCachesTests {
         // The only top-level entries in the table, each owned outright by the one tool that made it.
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
-            ".zcompdump*",
+            ".zcompdump*", ".pnpm-store",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -894,6 +894,17 @@ struct DeveloperCachesTests {
         let locations = await DeveloperCaches.scan(sonar, homeDirectory: directory.url).flatMap(\.locations)
 
         #expect(locations.map(\.url.lastPathComponent) == ["cache"])
+    }
+
+    @Test func listsTheStoreOlderPnpmKeptInTheHomeFolderWithoutSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".pnpm-store/v3/files/00/abc", bytes: 400_000)
+        let pnpm = DeveloperCaches.definitions.filter { $0.id == "pnpm" }
+
+        let locations = await DeveloperCaches.scan(pnpm, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == [".pnpm-store"])
+        #expect(locations.first?.isRecommended == false)
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the

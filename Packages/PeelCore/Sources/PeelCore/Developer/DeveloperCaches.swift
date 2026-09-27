@@ -321,6 +321,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/pnpm/store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/main/docs/settings/store.md#L15"),
+            Folder(".pnpm-store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/main/versioned_docs_archived/version-6.x/npmrc.md#L95-L100"),
             Folder("Library/Caches/pnpm", .cache, source: "https://github.com/pnpm/pnpm.io/blob/main/docs/settings/other.md#L175"),
         ]),
         Definition(id: "bun", name: "Bun", systemImage: "cube", appBundleIdentifiers: [], folders: [
