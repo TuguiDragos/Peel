@@ -180,6 +180,32 @@ struct DeclaredBackgroundItemsTests {
         #expect(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh"), exclusions: Exclusions(paths: [stray])) == nil)
     }
 
+    /// A job an app registered is known only while it is loaded, so after Disable and a restart it would leave the
+    /// list with no way to Enable it. launchd keeps the override by label, and an override that disables a job no row
+    /// lists yet, of an app that is installed, is a row of its own. Apple's labels and a gone app's stay out.
+    @Test func keepsADisabledJobOfAnInstalledAppListed() throws {
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example")
+        let ownership = BackgroundItemOwnership(installedApps: [app])
+        let loaded = BackgroundItems.Loaded(
+            user: ["org.example.app.running": nil],
+            system: [:],
+            userDisabled: ["org.example.app.helper": true, "org.example.app.on": false, "org.example.gone.helper": true,
+                           "com.apple.example": true, "org.example.app.running": true],
+            systemDisabled: ["org.example.app.daemon": true]
+        )
+
+        let items = BackgroundItems.disabledJobs(in: loaded, listed: [], ownership: ownership)
+
+        #expect(items.map(\.label).sorted() == ["org.example.app.daemon", "org.example.app.helper"])
+        for item in items {
+            #expect(item.isDisabled)
+            #expect(item.state == .notLoaded)
+            #expect(item.source == .app)
+            #expect(item.ownerBundleIdentifier == "org.example.app")
+        }
+        #expect(items.first { $0.label == "org.example.app.daemon" }?.kind == .daemon)
+    }
+
     /// One label declared in two folders is two files, and each row opens its own.
     @Test func keepsTwoFilesThatDeclareOneLabelApart() throws {
         let directory = try TemporaryDirectory()

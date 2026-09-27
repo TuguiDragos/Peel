@@ -271,10 +271,11 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of macOS's labels, and a job whose
-    /// state Peel could not read don't have.
+    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of macOS's labels, a job whose
+    /// state Peel could not read, and a job loaded from a file elsewhere don't have. Disabled, that last one would
+    /// leave the list at the next logout or restart with nothing left to Enable it from.
     private var hasOwnControls: Bool {
-        !item.isPeelsHelper && !item.usesALabelOfMacOS && item.state != .unknown
+        !item.isPeelsHelper && !item.usesALabelOfMacOS && item.state != .unknown && item.source != .otherFile
     }
 
     private var controls: some View {

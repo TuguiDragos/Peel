@@ -45,6 +45,7 @@ public enum BackgroundItems {
             }
             return results
         }
+        items += disabledJobs(in: loaded, listed: items, ownership: ownership)
 
         return items
             .filter { $0.ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) != true }
@@ -66,6 +67,36 @@ public enum BackgroundItems {
         return candidates.filter { label, kind, _ in
             !label.hasPrefix("com.apple.") && !label.hasPrefix("application.") && !known.contains("\(kind.rawValue)/\(label)")
         }.sorted { $0.label < $1.label }
+    }
+
+    /// The jobs launchd keeps disabled that no row lists, because they are not loaded and no file here declares
+    /// them, when they belong to an installed app. A job an app registered is seen only while it is loaded, so without
+    /// this row, one disabled here would leave the list after a restart, with no way to Enable it again.
+    static func disabledJobs(in loaded: Loaded, listed: [BackgroundItem], ownership: BackgroundItemOwnership) -> [BackgroundItem] {
+        let known = Set(listed.map { "\($0.kind.rawValue)/\($0.label)" })
+        let overrides = (loaded.userDisabled ?? [:]).map { ($0.key, $0.value, BackgroundItem.Kind.agent) }
+            + (loaded.systemDisabled ?? [:]).map { ($0.key, $0.value, BackgroundItem.Kind.daemon) }
+        return overrides.compactMap { label, isDisabled, kind in
+            guard isDisabled, !label.hasPrefix("com.apple."), !label.hasPrefix("application."),
+                  !known.contains("\(kind.rawValue)/\(label)"), loaded.state(of: label, kind) == .notLoaded,
+                  let owner = ownership.owner(label: label, associated: [], program: nil), owner.isInstalled
+            else { return nil }
+            return BackgroundItem(
+                label: label,
+                kind: kind,
+                source: .app,
+                plistURL: nil,
+                program: nil,
+                runsAtLoad: false,
+                keepsAlive: false,
+                ownerBundleIdentifier: owner.bundleIdentifier,
+                ownerName: owner.name,
+                isOwnerInstalled: true,
+                isOrphan: false,
+                state: .notLoaded,
+                isDisabled: true
+            )
+        }
     }
 
     /// What `launchctl` reports right now. Each part is nil when `launchctl` answered in a form Peel cannot read.
