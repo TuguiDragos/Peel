@@ -675,6 +675,17 @@ struct DeveloperCachesTests {
         #expect(Set(offered.map(\.url.lastPathComponent)) == ["glide_home", "api-source", "gh-actions-artifact", "go_cache"])
     }
 
+    @Test func offersThePrebuiltBinariesNativeModulesDownloadedIntoNpmsFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".npm/_prebuilds/b1f2-better-sqlite3-v12.0.0-node-v137-darwin-arm64.tar.gz", bytes: 400_000)
+        let npm = DeveloperCaches.definitions.filter { $0.id == "npm" }
+
+        let locations = await DeveloperCaches.scan(npm, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["_prebuilds"])
+        #expect(locations.first?.isRecommended == true)
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

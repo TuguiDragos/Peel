@@ -301,6 +301,7 @@ public enum DeveloperCaches {
             Folder(".npm/_cacache", .downloads, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L443"),
             Folder(".npm/_npx", .downloads, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L444"),
             Folder(".npm/_logs", .logs, source: "https://github.com/npm/cli/blob/latest/workspaces/config/lib/definitions/definitions.js#L1481-L1486"),
+            Folder(".npm/_prebuilds", .downloads, source: "https://github.com/prebuild/prebuild-install/blob/master/README.md#L148-L154"),
         ]),
         Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Yarn", .downloads, source: "https://github.com/yarnpkg/yarn/blob/master/src/util/user-dirs.js#L32-L33"),
