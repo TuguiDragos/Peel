@@ -276,6 +276,10 @@ final class RemovalHistoryStore {
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
                 apply(await log.remove(restored))
+                // A move is announced, and so is its undoing: the rows only vanish from the list.
+                AccessibilityNotification.Announcement(
+                    AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true).")
+                ).post()
             }
         }
     }
