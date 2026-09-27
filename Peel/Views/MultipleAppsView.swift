@@ -65,7 +65,7 @@ struct MultipleAppsView: View {
                     }
                 }
 
-                if plan.apps.contains(where: { PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier) }) {
+                if plan.apps.contains(where: { PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier) && !plan.appsInTheTrash.contains($0.url) }) {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
             }
@@ -196,7 +196,7 @@ struct MultipleAppsView: View {
             isLocked: item.requiresPrivileges && !helper.canAct,
             isExcluded: item.isExcluded,
             isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS)
-                || item.isPeels,
+                || item.isPeels || item.isInTheTrash,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
             selection: plan, isSelected: plan.isSelected(item.url)
@@ -229,6 +229,9 @@ struct MultipleAppsView: View {
         if item.isPeels {
             lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
         }
+        if item.isInTheTrash {
+            lines.append(String(localized: "Already in the Trash. What it left behind can still go."))
+        }
         if item.isKeptByMacOS {
             // Two literals, so the string catalog finds both.
             lines.append(item.isApplication
@@ -242,7 +245,7 @@ struct MultipleAppsView: View {
     private var removalNote: Text {
         let urls = plan.question.request?.urls ?? []
         let going = plan.apps.filter { urls.contains($0.url) }
-        let staying = plan.apps.filter { !urls.contains($0.url) }
+        let staying = plan.apps.filter { !urls.contains($0.url) && !plan.appsInTheTrash.contains($0.url) }
         var lines: [Text] = []
         if !going.isEmpty {
             lines.append(Text("Apps that go: \(list(going))"))

@@ -4,6 +4,24 @@ import Synchronization
 import Testing
 
 struct TrashServiceTests {
+    /// An item is in the Trash when it sits there or in a folder there. Put Back asks the narrower question, since
+    /// what it puts back sits directly in a Trash, and a folder that is only called `.Trash` is no Trash.
+    @Test func knowsWhatIsInATrashDirectlyOrInAFolderThere() throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let direct = try directory.directory("home/.Trash/Example.app")
+        let nested = try directory.directory("home/.Trash/Old Apps/Example.app")
+        let installed = try directory.directory("home/Applications/Example.app")
+        let lookalike = try directory.directory("home/Documents/.Trash/Example.app")
+
+        #expect(service.isInsideATrash(direct))
+        #expect(service.isInsideATrash(nested))
+        #expect(!service.isInsideATrash(installed))
+        #expect(!service.isInsideATrash(lookalike))
+        #expect(service.isInATrash(direct))
+        #expect(!service.isInATrash(nested))
+    }
+
     private func service(in directory: borrowing TemporaryDirectory) throws -> TrashService {
         // Where macOS keeps it, because restore refuses an item that is not really in a Trash.
         let trash = try directory.directory("home/.Trash")

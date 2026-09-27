@@ -233,6 +233,33 @@ struct UninstallationTests {
         #expect(!plan.isAppMeasured, "an app that could not be read counted as measured, at zero bytes")
     }
 
+    /// Watch the Trash leads to the page of an app already in the Trash, so what it left behind can go too. Its bundle
+    /// can't move again, so it is neither selected nor counted, on its own page or among several apps, and the app
+    /// does not count as one that stays, which would hold its leftovers back.
+    @Test(arguments: ["home/.Trash/Example.app", "home/.Trash/Old Apps/Example.app"])
+    func anAppAlreadyInTheTrashLeavesOnlyItsLeftoversToMove(place: String) async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let bundle = try directory.directory(place)
+        try directory.file("\(place)/Contents/Info.plist", bytes: 4_096)
+        try directory.file("home/Library/Preferences/org.example.app.plist")
+        let installed = InstalledApp(url: bundle, bundleIdentifier: "org.example.app", name: "Example")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+        #expect(plan.isAppInTheTrash)
+        #expect(plan.suggestedSelection(canUseHelper: true).map(\.lastPathComponent) == ["org.example.app.plist"])
+        #expect(!plan.selectable(canUseHelper: true).contains(bundle))
+        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 1)
+        #expect(!plan.privilegedURLs.contains(bundle))
+
+        let several = await BulkUninstallation.prepare([installed], installedApps: [installed], environment: environment)
+        #expect(several.suggestedSelection(canUseHelper: true).map(\.lastPathComponent) == ["org.example.app.plist"])
+        #expect(!several.selectable(canUseHelper: true).contains(bundle))
+        #expect(several.staying(selected: []).isEmpty, "an app already in the Trash held its leftovers back")
+        #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
+    }
+
     /// Excluded by identifier or by path, the app and everything the scan would find are left alone.
     @Test func leavesAnExcludedAppAndItsFilesAlone() async throws {
         let directory = try TemporaryDirectory()

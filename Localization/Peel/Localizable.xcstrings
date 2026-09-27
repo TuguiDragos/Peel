@@ -9595,6 +9595,112 @@
         }
       }
     },
+    "Already in the Trash. What it left behind can still go." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace už je v koši. Co po sobě zanechala, lze ještě odstranit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereits im Papierkorb. Was die App hinterlassen hat, kann trotzdem verschoben werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya está en la papelera. Lo que ha dejado aún se puede eliminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjà dans la corbeille. Ce que l’app a laissé derrière elle peut encore être supprimé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Già nel Cestino. Ciò che si è lasciata dietro può ancora essere rimosso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでにゴミ箱にあります。このアプリが残したものは、まだゴミ箱に入れられます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 휴지통에 있습니다. 앱이 남긴 파일은 여전히 휴지통으로 이동할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staat al in de prullenmand. Wat de app heeft achtergelaten, kan nog steeds weg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest już w Koszu. To, co po sobie pozostawiła, nadal można przenieść do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Já está no Lixo. O que ele deixou para trás ainda pode ir para lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deja în Coș. Ce a lăsat în urmă poate fi mutat în continuare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже в Корзине. То, что осталось после него, еще можно переместить в Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligger redan i papperskorgen. Det som den lämnade kvar kan fortfarande tas bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama zaten Çöp Sepeti’nde. Geride bıraktığı dosyalar yine de kaldırılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже в Смітнику. Те, що вона залишила по собі, ще можна вилучити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在废纸篓中。它留下的文件仍可移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在「垃圾桶」中。它留下的檔案仍可移除。"
+          }
+        }
+      }
+    },
     "Also reset privacy permissions" : {
       "localizations" : {
         "cs" : {

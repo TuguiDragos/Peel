@@ -134,6 +134,9 @@ final class AppLibrary {
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
     private var revealed: [InstalledApp] = []
+    /// The listed apps that are in a Trash, which only a revealed one can be: Watch the Trash leads to them so what
+    /// they left behind can go. They are on their way out, so no round checks them, and no update is counted.
+    private var appsInATrash: Set<InstalledApp.ID> = []
     /// Runs the reading of the folders. A new reading stops one still running, since the older one could
     /// finish last with a list that lacks an app installed in between.
     let scanRun = ScanRun()
@@ -206,6 +209,8 @@ final class AppLibrary {
     @discardableResult
     private func adopt(_ found: [InstalledApp]) -> [InstalledApp] {
         revealed = stillThere(revealed, beside: found)
+        let trash = TrashService()
+        appsInATrash = Set(revealed.filter { trash.isInsideATrash($0.url) }.map(\.id))
         let listed = AppCatalog.sorted(found + revealed)
         let previous = Dictionary(apps.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let changed = listed.filter { app in previous[app.id].map { !Self.isTheSameBuild($0, app) } ?? false }
@@ -428,7 +433,7 @@ final class AppLibrary {
         guard UserDefaults.standard.object(forKey: SettingsKey.checksForAppUpdates) as? Bool ?? true else { return }
         let now = Date.now
         let wanted = targets.filter { app in
-            guard !isIgnored(app) else { return false }
+            guard !isIgnored(app), !appsInATrash.contains(app.id) else { return false }
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }

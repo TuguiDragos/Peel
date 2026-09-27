@@ -176,7 +176,7 @@ struct AppDetailView: View {
 
                     recommendedSection
                     reviewSection
-                    if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier) {
+                    if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
                         PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                     }
                     defaultsSection
@@ -258,7 +258,7 @@ struct AppDetailView: View {
                 isMeasured: plan.isAppMeasured,
                 isLocked: plan.appRequiresPrivileges && !helper.canAct,
                 isExcluded: plan.isExcluded,
-                isLeftAlone: plan.app.isSystemProtected || plan.isAppBeyondTheHelper || plan.isPeel,
+                isLeftAlone: plan.app.isSystemProtected || plan.isAppBeyondTheHelper || plan.isAppInTheTrash || plan.isPeel,
                 appIdentifier: plan.app.bundleIdentifier,
                 selection: plan, isSelected: plan.isSelected(plan.app.url)
             )
@@ -312,6 +312,9 @@ struct AppDetailView: View {
         }
         if plan.app.isSystemProtected {
             return String(localized: "macOS keeps this app, so it stays where it is.")
+        }
+        if plan.isAppInTheTrash {
+            return String(localized: "Already in the Trash. What it left behind can still go.")
         }
         return plan.isAppBeyondTheHelper ? String(localized: HoldBack.beyondTheHelper.explanation) : nil
     }
@@ -395,7 +398,7 @@ struct AppDetailView: View {
             Button("Show in Finder") {
                 NSWorkspace.shared.activateFileViewerSelecting([plan.app.url])
             }
-            if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier) {
+            if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
                 Divider()
                 Button("Reset Privacy Permissions\u{2026}") { isConfirmingPrivacyReset = true }
                     .disabled(plan.isExcluded)

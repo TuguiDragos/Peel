@@ -410,15 +410,28 @@ public struct TrashService: Sendable {
     /// folder is compared with links resolved, since one that is only called `.Trash` can be a link into
     /// Messages. `FileManager` is not asked: for a folder in iCloud Drive it names iCloud's Trash, not Peel's.
     public func isInATrash(_ url: URL) -> Bool {
-        guard
-            !url.pathComponents.contains(where: { $0 == "." || $0 == ".." }),
-            let folder = PrivilegedPathPolicy.resolvedPath(url.deletingLastPathComponent().path(percentEncoded: false))
-        else { return false }
+        guard let folder = resolvedFolder(of: url) else { return false }
+        return trashes(forItemsIn: folder).contains(folder)
+    }
+
+    /// Whether `url` is in a Trash, directly or in a folder there, where nothing can be moved again.
+    public func isInsideATrash(_ url: URL) -> Bool {
+        guard let folder = resolvedFolder(of: url) else { return false }
+        return trashes(forItemsIn: folder).contains { PathComponents.isPath(folder, atOrInside: $0) }
+    }
+
+    private func resolvedFolder(of url: URL) -> String? {
+        guard !url.pathComponents.contains(where: { $0 == "." || $0 == ".." }) else { return nil }
+        return PrivilegedPathPolicy.resolvedPath(url.deletingLastPathComponent().path(percentEncoded: false))
+    }
+
+    /// The Trashes an item in `folder` could be in, with links resolved: the home's, and its volume's.
+    private func trashes(forItemsIn folder: String) -> [String] {
         var trashes = [URL.homeDirectory, environment.homeDirectory].map { $0.appending(path: ".Trash", directoryHint: .isDirectory) }
         if let volume = try? URL(filePath: folder).resourceValues(forKeys: [.volumeURLKey]).volume {
             trashes.append(volume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory))
         }
-        return trashes.contains { PrivilegedPathPolicy.resolvedPath($0.path(percentEncoded: false)) == folder }
+        return trashes.compactMap { PrivilegedPathPolicy.resolvedPath($0.path(percentEncoded: false)) }
     }
 
     /// The failure reason for an error a move threw. macOS does not say which permission is missing, so any

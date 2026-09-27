@@ -63,6 +63,10 @@ final class RemovalPlan {
         uninstallation?.isAppBeyondTheHelper ?? false
     }
 
+    var isAppInTheTrash: Bool {
+        uninstallation?.isAppInTheTrash ?? false
+    }
+
     /// Known before the scan, so the page says from the start that Peel removes itself in Settings.
     var isPeel: Bool {
         app.isPeelItself

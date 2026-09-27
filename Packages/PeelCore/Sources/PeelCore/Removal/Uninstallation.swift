@@ -14,6 +14,9 @@ public struct Uninstallation: Sendable {
     /// True when the app needs administrator rights and the helper may not move it. The app is then never
     /// selected: its leftovers would move first, and the app would stay without them.
     public var isAppBeyondTheHelper = false
+    /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
+    /// it is never selected or counted, and what it left behind still is.
+    public var isAppInTheTrash = false
     /// True for Peel, which is removed only from its own Settings, where its helper and login item go first. Its
     /// files are listed, and nothing of it is selected or moved anywhere else: `unreviewedSelection` is that way.
     public var isPeel: Bool { app.isPeelItself }
@@ -54,7 +57,8 @@ public struct Uninstallation: Sendable {
             appRequiresPrivileges: appRequiresPrivileges,
             scan: scan,
             isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
-            isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url)
+            isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
+            isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url)
         )
     }
 
@@ -162,7 +166,9 @@ public struct Uninstallation: Sendable {
     public func suggestedSelection(canUseHelper: Bool) -> Set<URL> {
         guard !appStays(canUseHelper: canUseHelper) else { return [] }
         var selection = Set(scan.leftovers.filter { $0.match.isRecommended && (canUseHelper || !$0.requiresPrivileges) }.map(\.url))
-        selection.insert(app.url)
+        if !isAppInTheTrash {
+            selection.insert(app.url)
+        }
         return selection
     }
 
@@ -174,7 +180,7 @@ public struct Uninstallation: Sendable {
             leftover.match.heldBack != .holdsAnExclusion && leftover.match.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !leftover.requiresPrivileges)
         }.map(\.url))
-        if !app.isSystemProtected, !isAppBeyondTheHelper, canUseHelper || !appRequiresPrivileges {
+        if !app.isSystemProtected, !isAppBeyondTheHelper, !isAppInTheTrash, canUseHelper || !appRequiresPrivileges {
             urls.insert(app.url)
         }
         return urls
@@ -201,7 +207,7 @@ public struct Uninstallation: Sendable {
         var sizes: [Int64?] = leftovers
             .filter { $0.match.heldBack?.cannotBeMoved != true && $0.match.heldBack != .holdsAnExclusion }
             .map { $0.isMeasured ? $0.size : nil }
-        if withApp, !app.isSystemProtected, !isExcluded, !isAppBeyondTheHelper {
+        if withApp, !app.isSystemProtected, !isExcluded, !isAppBeyondTheHelper, !isAppInTheTrash {
             sizes.append(isAppMeasured ? appSize : nil)
         }
         return (sizes.count, SizeTotal(sizes))
@@ -210,7 +216,7 @@ public struct Uninstallation: Sendable {
     public var privilegedURLs: Set<URL> {
         guard !isExcluded, !isPeel else { return [] }
         var urls = Set(scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url))
-        if appRequiresPrivileges, !app.isSystemProtected, !isAppBeyondTheHelper {
+        if appRequiresPrivileges, !app.isSystemProtected, !isAppBeyondTheHelper, !isAppInTheTrash {
             urls.insert(app.url)
         }
         return urls

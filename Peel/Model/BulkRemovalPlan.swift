@@ -54,6 +54,11 @@ final class BulkRemovalPlan {
         }
     }
 
+    /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
+    var appsInTheTrash: Set<URL> {
+        Set(bulk?.uninstallations.filter(\.isAppInTheTrash).map(\.app.url) ?? [])
+    }
+
     /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`).
     var staying: Set<String> {
         bulk?.staying(selected: selectedURLs) ?? []

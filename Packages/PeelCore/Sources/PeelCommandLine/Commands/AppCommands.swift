@@ -367,7 +367,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let exclusions = await ExclusionStore().load()
         try AppLookup.refuseIfExcluded(target, by: exclusions)
         let service = TrashService(exclusions: exclusions)
-        guard !service.isInATrash(target.url) else {
+        guard !service.isInsideATrash(target.url) else {
             throw CommandFailure("\(target.name) is already in the Trash. Empty it, or put it back first.")
         }
         try await Self.refuseWhileRunning(target, among: apps)
