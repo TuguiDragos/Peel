@@ -166,7 +166,7 @@ final class AppLibrary {
         await AppMemory().remember(found)
     }
 
-    /// Calls `refresh()` unless the folders were read in the last 30 seconds. For the window coming forward:
+    /// Calls `refresh()` unless the folders were read in the last 30 seconds. For Peel coming forward:
     /// the folder watcher sees every real change, so a recent read is enough.
     func refreshUnlessRecent() async -> [InstalledApp] {
         if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return [] }

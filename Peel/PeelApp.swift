@@ -14,7 +14,6 @@ final class PeelAppDelegate: NSObject, NSApplicationDelegate {
 @main
 struct PeelApp: App {
     @NSApplicationDelegateAdaptor(PeelAppDelegate.self) private var delegate
-    @Environment(\.scenePhase) private var scenePhase
     static let mainWindowID = "main"
     /// How often the update round runs. The shortest wait an app can have is six hours, after a failed check
     /// (`UpdateSchedule.afterFailure`), so an hourly round checks each app soon after it is due.
@@ -115,6 +114,31 @@ struct PeelApp: App {
             // are due.
             if checksForAppUpdates {
                 await checkForUpdates()
+            }
+        }
+    }
+
+    /// Looks again, each time Peel comes forward, at what may have changed while another app was in front. A
+    /// window's scene phase is no sign of that: on macOS a window stays active while another app is in front.
+    private func followActivations() async {
+        for await _ in NotificationCenter.default.notifications(named: NSApplication.didBecomeActiveNotification) {
+            helper.refresh()
+            // Home's checks run again whatever page is showing: permissions change in System Settings, and the
+            // badge on Home in the sidebar shows a missing one.
+            Task { await home.refresh(helper: helper) }
+            Task {
+                // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
+                // one reports what changed, and it may be this one rather than the folder watcher's.
+                let changed = await library.refreshUnlessRecent()
+                if checksForAppUpdates, !changed.isEmpty {
+                    await library.checkForUpdates(changed, force: true)
+                }
+                if !changed.isEmpty {
+                    await library.checkSigningTeams()
+                }
+            }
+            if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
+                trashMonitor.start()
             }
         }
     }
@@ -221,7 +245,7 @@ struct PeelApp: App {
                     await HomeSnapshot.runIfRequested()
                     #endif
                     // While Peel watches the Trash it keeps running after its window closes, so reopening the window
-                    // must not run the launch work again. Work for a window coming forward is in `scenePhase` below.
+                    // must not run the launch work again. Work for Peel coming forward is in `followActivations`.
                     guard !hasLaunched else { return }
                     hasLaunched = true
                     history.stats = stats
@@ -251,34 +275,12 @@ struct PeelApp: App {
                 .task {
                     // Started once, and not as a child of this view's task, so the work goes on in the menu bar
                     // after the window closes.
-                    background.start([followFolders, askWhenDue, followFindings])
+                    background.start([followFolders, askWhenDue, followFindings, followActivations])
                 }
         }
         .defaultSize(width: 1120, height: 764)
         .commands {
             PeelCommands(library: library, homebrew: homebrew)
-        }
-        .onChange(of: scenePhase) { _, phase in
-            if phase == .active {
-                helper.refresh()
-                // Home's checks run again whatever page is showing: permissions change in System Settings, and the
-                // badge on Home in the sidebar shows a missing one.
-                Task { await home.refresh(helper: helper) }
-                Task {
-                    // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
-                    // one reports what changed, and it may be this one rather than the folder watcher's.
-                    let changed = await library.refreshUnlessRecent()
-                    if checksForAppUpdates, !changed.isEmpty {
-                        await library.checkForUpdates(changed, force: true)
-                    }
-                    if !changed.isEmpty {
-                        await library.checkSigningTeams()
-                    }
-                }
-                if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
-                    trashMonitor.start()
-                }
-            }
         }
         .onChange(of: watchesTrash) { _, isWatching in
             if isWatching {

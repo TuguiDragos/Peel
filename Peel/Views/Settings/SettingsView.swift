@@ -86,7 +86,6 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
     @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(AppLibrary.self) private var library
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(HelperModel.self) private var helper
@@ -311,9 +310,9 @@ private struct GeneralSettingsView: View {
             Task { await library.checkForUpdates(library.apps) }
         }
         .task { readStandings() }
-        .onChange(of: scenePhase) { _, phase in
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             // The user may have changed the login item in System Settings, so read it again.
-            if phase == .active { readStandings() }
+            readStandings()
         }
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {
