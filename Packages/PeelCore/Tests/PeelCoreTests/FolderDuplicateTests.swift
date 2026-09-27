@@ -294,6 +294,19 @@ struct FolderDuplicateTests {
         #expect(try await scan(directory).folderGroups.isEmpty)
     }
 
+    /// Nothing inside a package is offered either: an app gutted in place would stay behind, even the copy in use.
+    @Test func neverOffersAnythingInsideAPackage() async throws {
+        let directory = try TemporaryDirectory()
+        let binary = randomData(count: 4_000)
+        let resource = randomData(count: 3_000)
+        for app in ["home/Documents/Tool.app", "home/Pictures/Tool.app"] {
+            try directory.file("\(app)/Contents/MacOS/Tool", contents: binary)
+            try directory.file("\(app)/Contents/Resources/Tool.icns", contents: resource)
+        }
+
+        #expect(names(try await scan(directory)) == [])
+    }
+
     @Test func anEmptyFolderIsNoCopyOfAnything() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Documents/Empty")

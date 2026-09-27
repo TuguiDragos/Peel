@@ -21,6 +21,9 @@ struct FolderDuplicates: Sendable {
     private final class Folder {
         let url: URL
         let identity: FileIdentity
+        /// A package, such as an app, or a folder inside one: compared as part of the folder around it, and never
+        /// offered on its own, since nothing here checks whether an app is running.
+        let isNeverOffered: Bool
         var files: [(name: String, identity: FileIdentity)] = []
         var children: [(name: String, folder: Folder)] = []
         var isWhole = true
@@ -32,9 +35,10 @@ struct FolderDuplicates: Sendable {
         var totalHeld: Int64 = 0
         var shape: SHA256.Digest?
 
-        init(url: URL, identity: FileIdentity) {
+        init(url: URL, identity: FileIdentity, isNeverOffered: Bool) {
             self.url = url
             self.identity = identity
+            self.isNeverOffered = isNeverOffered
         }
     }
 
@@ -60,7 +64,7 @@ struct FolderDuplicates: Sendable {
         where visited.insert(DuplicateFinder.path(of: root)).inserted {
             var info = stat()
             guard lstat(root.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { continue }
-            let folder = try list(root, identity: FileIdentity(info), depth: 0) {
+            let folder = try list(root, identity: FileIdentity(info), depth: 0, isNeverOffered: false) {
                 found += 1
                 if listing.allows(isLast: false) { progress(.listing(foldersFound: found)) }
             }
@@ -103,7 +107,7 @@ struct FolderDuplicates: Sendable {
     private func contents(of url: URL) -> String? {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
-        guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, onListing: {}) else { return nil }
+        guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, onListing: {}) else { return nil }
         return identity(of: folder).map(Self.hexadecimal)
     }
 
@@ -124,9 +128,10 @@ struct FolderDuplicates: Sendable {
         _ url: URL,
         identity: FileIdentity,
         depth: Int,
+        isNeverOffered: Bool,
         onListing: () -> Void
     ) throws(CancellationError) -> Folder {
-        let folder = Folder(url: url, identity: identity)
+        let folder = Folder(url: url, identity: identity, isNeverOffered: isNeverOffered)
         guard !Task.isCancelled else { throw CancellationError() }
         onListing()
         guard depth < Self.depthLimit,
@@ -156,7 +161,13 @@ struct FolderDuplicates: Sendable {
                     folder.isWhole = false
                     continue
                 }
-                let child = try list(entry, identity: FileIdentity(info), depth: depth + 1, onListing: onListing)
+                let child = try list(
+                    entry,
+                    identity: FileIdentity(info),
+                    depth: depth + 1,
+                    isNeverOffered: isNeverOffered || Self.isAPackage(entry),
+                    onListing: onListing
+                )
                 guard !child.isProject else {
                     folder.isWhole = false
                     continue
@@ -211,7 +222,8 @@ struct FolderDuplicates: Sendable {
         var seen = Set<FileIdentity.Link>()
 
         func visit(_ folder: Folder) {
-            if folder.isWhole, folder.fileCount > 0, folder.totalHeld >= minimumSize, seen.insert(folder.identity.link).inserted {
+            if folder.isWhole, !folder.isNeverOffered, folder.fileCount > 0, folder.totalHeld >= minimumSize,
+               seen.insert(folder.identity.link).inserted {
                 let key = ShapeKey(shape: shape(of: folder), fileCount: folder.fileCount, size: folder.size)
                 byShape[key, default: []].append(folder)
             }
@@ -260,7 +272,7 @@ struct FolderDuplicates: Sendable {
         removalGuard: RemovalGuard
     ) -> [DuplicateFolderGroup] {
         let allowed = groups
-            .map { (digest: $0.digest, folders: $0.folders.filter { removalGuard.allowsRemoval(of: $0.url) && !Self.isAPackage($0.url) }) }
+            .map { (digest: $0.digest, folders: $0.folders.filter { removalGuard.allowsRemoval(of: $0.url) }) }
             .filter { $0.folders.count > 1 }
         let offered = Set(allowed.flatMap { $0.folders.map { DuplicateFinder.path(of: $0.url) } })
 
@@ -295,8 +307,7 @@ struct FolderDuplicates: Sendable {
             + folder.children.reduce(0) { $0 + reclaimable($1.folder) }
     }
 
-    /// Whether `url` is a package, such as an app. A package is compared as part of the folder that holds it but
-    /// never offered on its own, since nothing here checks whether an app is running.
+    /// Whether `url` is a package, such as an app.
     private static func isAPackage(_ url: URL) -> Bool {
         (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) == true
     }

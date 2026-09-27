@@ -223,6 +223,7 @@ struct DuplicateFinderTests {
         #expect(result.groups.count == 1)
         #expect(result.groups.first?.files.count == 2)
         #expect(result.groups.first?.files.contains { $0.url.lastPathComponent == "copy.bin" && $0.url.path(percentEncoded: false).contains("/home/Pictures/") } == true)
+        #expect(result.folderGroups.map { $0.folders.map(\.url.lastPathComponent) } == [])
     }
 
     @Test func filtersByKindAndMinimumSize() async throws {
