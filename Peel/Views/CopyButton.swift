@@ -18,7 +18,7 @@ struct CopyButton: View {
             // The button exists to say the copy took, so it says so only when the pasteboard agrees.
             NSPasteboard.general.clearContents()
             copies = NSPasteboard.general.setString(text, forType: .string) ? copies + 1 : 0
-            // VoiceOver hears it too, since the word that changes is not where its cursor is.
+            // VoiceOver does not read a title that changes under its cursor, so the copy is announced as well.
             if hasCopied {
                 AccessibilityNotification.Announcement(AttributedString(localized: "Copied")).post()
             }
