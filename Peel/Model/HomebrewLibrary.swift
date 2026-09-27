@@ -1,3 +1,4 @@
+import Accessibility
 import Foundation
 import Observation
 import PeelCore
@@ -231,15 +232,27 @@ final class HomebrewLibrary {
                     return CommandResult(succeeded: !report.isEmpty, output: report)
                 }
                 findings = found
+                // The report fills in a section of the page, which VoiceOver would not notice.
+                Self.announce(found.isEmpty
+                    ? "Homebrew found nothing out of place."
+                    : "^[\(found.count) finding](inflect: true)")
                 return nil
             case .vulnerabilities:
-                advisories = try await Homebrew.vulnerabilities()
+                let report = try await Homebrew.vulnerabilities()
+                advisories = report
+                Self.announce(report.advisories.isEmpty
+                    ? "Homebrew found no known vulnerabilities."
+                    : "Known vulnerabilities in ^[\(report.advisories.count) package](inflect: true).")
                 return nil
             }
             return CommandResult(succeeded: true, output: output)
         } catch {
             return CommandResult(succeeded: false, output: error.output)
         }
+    }
+
+    private static func announce(_ words: LocalizedStringResource) {
+        AccessibilityNotification.Announcement(AttributedString(localized: words)).post()
     }
 
     /// Said where Peel leaves upgrades to Terminal because Homebrew would clean up after them.
