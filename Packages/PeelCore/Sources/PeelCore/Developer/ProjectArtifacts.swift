@@ -1,28 +1,22 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// A folder that a build or a package manager leaves inside a project, such as `node_modules`, `target`, or
-/// `Pods`. It only counts when the project file behind it sits beside it (`package.json` for `node_modules`),
-/// so a folder called `build` that no tool made is left alone.
+/// A folder a build or a package manager leaves inside a project. It counts only when the project file behind it
+/// sits beside it (`package.json` for `node_modules`), so a `build` folder no tool made is left alone.
 public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     public let url: URL
-    /// The project folder the artifact belongs to.
     public let project: URL
     public let name: String
     public let tool: String
-    /// Nil when measuring ran out of time or was refused. Unknown is not the same as empty.
+    /// Nil when it was not measured, which is not the same as empty.
     public let size: Int64?
-    /// The latest change found in the project's own files, leaving out its artifacts.
+    /// The latest change in the project's own files, its artifacts left out.
     public let lastActivity: Date?
-    /// False when Peel could not tell when the project last changed: it was too big to read to the end, or
-    /// nothing in it had a date. What is not known is never selected for the user.
     public var lastActivityIsCertain = true
-    /// True for folders whose name says nothing on its own, like `build` or `target`.
+    /// A name that says nothing on its own, like `build` or `target`: shown, never selected for the user.
     public let hasGenericName: Bool
-    /// True for an installed set of packages, which a build doesn't make again on its own.
+    /// Installed packages, which a build does not make again on its own: shown, never selected for the user.
     public let isEnvironment: Bool
-    /// Why what measuring the folder saw leaves it to be chosen by hand: it was not measured or not read, or a
-    /// wallet or a repository is inside. Nil when nothing did.
     public var heldBack: HoldBack?
 
     public var id: URL { url }
@@ -32,35 +26,27 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
         return lastActivity > Date.now.addingTimeInterval(-ProjectArtifacts.recentlyActive)
     }
 
-    /// Whether Peel selects this artifact for the user: build output with a name that can't mean anything
-    /// else, in a project known not to have changed lately, measured, and holding nothing that may exist nowhere
-    /// else.
     public var isRecommended: Bool {
         !hasGenericName && !isEnvironment && !isRecentlyActive && lastActivityIsCertain && heldBack == nil
     }
 }
 
 public enum ProjectArtifacts {
-    /// A project changed within this time counts as in use, so none of its artifacts are selected for the user.
+    /// A project changed within this time is in use, so none of its artifacts are selected for the user.
     public static let recentlyActive: TimeInterval = 7 * 24 * 60 * 60
 
-    /// The artifacts a mark leaving them out of Time Machine goes on: only what Peel is sure a build makes again,
-    /// since a folder with a generic name like `build` could be the user's own and the mark travels with the
-    /// folder, even into a copy of it (`man tmutil`). An artifact Time Machine already leaves out through a
-    /// folder above it is skipped too: it has no mark of its own to change.
+    /// The artifacts to leave out of Time Machine: never one with a generic name, since the mark travels with the
+    /// folder, even into a copy of it (`man tmutil`).
     public static func markableForBackups(_ artifacts: [ProjectArtifact], excludedFromAbove: Set<URL>) -> [URL] {
         artifacts.filter { !$0.hasGenericName && !excludedFromAbove.contains($0.url) }.map(\.url)
     }
 
     struct Definition: Sendable {
         let name: String
-        /// The artifact only counts when one of these sits beside it. A leading `*` matches any name with
-        /// that ending, as in `*.xcodeproj`.
+        /// A leading `*` matches any name with that ending, as in `*.xcodeproj`.
         let markers: [String]
         let tool: String
-        /// A name that could mean anything, so it is shown but never preselected.
         let isGeneric: Bool
-        /// Installed packages rather than build output, so it is shown but never preselected.
         var isEnvironment = false
     }
 
@@ -84,8 +70,7 @@ public enum ProjectArtifacts {
         Definition(name: "venv", markers: ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"], tool: "Python", isGeneric: false, isEnvironment: true),
     ]
 
-    /// Returns whether `name` is one of the markers in `definitions`, such as `package.json` or
-    /// `App.xcodeproj`. Duplicates uses it to recognize a project folder and leave it alone.
+    /// Duplicates uses it to recognize a project folder and leave it alone.
     static func isMarker(_ name: String) -> Bool {
         exactMarkers.contains(name) || markerSuffixes.contains { name.hasSuffix($0) && name.count > $0.count }
     }
@@ -93,19 +78,15 @@ public enum ProjectArtifacts {
     private static let exactMarkers = Set(definitions.flatMap(\.markers).filter { !$0.hasPrefix("*") })
     private static let markerSuffixes = Set(definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) })
 
-    /// A scan never walks deeper than this, and never into an artifact it has already found.
     static let maximumDepth = 8
     static let maximumFolders = 40_000
-    /// How many of a project's entries are read, at most, to find its last change. When the walk reaches
-    /// this limit, the last change counts as unknown.
+    /// Past this many entries read, a project's last change counts as unknown.
     static let maximumActivitySamples = 2_000
 
-    /// The result of one scan of the chosen folders. `wasCutShort` is true when the scan reached
-    /// `maximumFolders` and left the deepest folders unread, so the page can say the list is incomplete.
     public struct Scan: Sendable {
         public var artifacts: [ProjectArtifact] = []
+        /// True when the scan reached `maximumFolders` and left the deepest folders unread.
         public var wasCutShort = false
-        /// The chosen folders macOS refused, which Full Disk Access would open.
         public var unreadableLocations: [URL] = []
 
         public var needsFullDiskAccess: Bool { !unreadableLocations.isEmpty }
@@ -139,17 +120,14 @@ public enum ProjectArtifacts {
         }
     }
 
-    /// Why a chosen folder cannot be searched. The page shows the reason instead of an empty list.
     public enum Refusal: Sendable, Hashable {
         case tooBroad
         case inTheCloud
         case notAFolder
     }
 
-    /// Returns why `root` cannot be searched, or nil when it can. A whole volume or a home folder is too broad
-    /// to walk, and a cloud folder is left to the app that syncs it. Every spelling of the path is checked, as
-    /// the removal guard and the exclusions do: `/users/me` and `/System/Volumes/Data/Users/me` are the same
-    /// home folder, and a link into a cloud folder is that cloud folder.
+    /// Why `root` cannot be searched, or nil. Every spelling of the path is checked: `/users/me` and
+    /// `/System/Volumes/Data/Users/me` are the same home folder, and a link into a cloud folder is that cloud folder.
     public static func refusal(for root: URL, home: URL = .homeDirectory) -> Refusal? {
         let spellings = ([PathPattern.comparablePath(of: root), PathPattern.canonical(root).path(percentEncoded: false)]
             + Array(PathPattern.spellings(of: PathPattern.comparablePath(of: root)))).map { $0.lowercased() }
@@ -165,7 +143,6 @@ public enum ProjectArtifacts {
             while path.count > 1, path.hasSuffix("/") { path.removeLast() }
             if path.contains("/library/mobile documents") || path.contains("/library/cloudstorage") { return .inTheCloud }
             let components = PathComponents.of(path)
-            // Too broad: the root and every top-level folder, anyone's home folder, and the root of any volume.
             // A home folder and a volume root both have two components, so they are recognized by name.
             if components.count < 2 || homes.contains(path) { return .tooBroad }
             if components.count == 2, ["users", "volumes"].contains(components[0]) { return .tooBroad }
@@ -185,8 +162,7 @@ public enum ProjectArtifacts {
     static func artifacts(in root: URL, exclusions: Exclusions, measure: LeftoverScanner.Measure) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
         var found: [ProjectArtifact] = []
         var queue: [(url: URL, depth: Int)] = [(root, 0)]
-        // An index rather than `removeFirst`, which shifts every waiting folder on each call and makes the
-        // scan quadratic.
+        // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
         var visited = 0
 
@@ -206,7 +182,7 @@ public enum ProjectArtifacts {
                 guard artifactNames.insert(definition.name).inserted else { continue }
                 matching.append(definition)
             }
-            // Read once per project, after all of its artifacts are found, so the walk skips every one of them.
+            // Read after all of the project's artifacts are found, so the walk skips every one of them.
             let activity = matching.isEmpty ? (date: nil, isCertain: true) : lastActivity(in: folder, ignoring: artifactNames)
             for definition in matching {
                 let url = folder.appending(path: definition.name)
@@ -236,9 +212,8 @@ public enum ProjectArtifacts {
         return (found, next < queue.count)
     }
 
-    /// Returns whether a walk skips an entry called `name`: anything hidden, `Library`, or an artifact's name.
-    /// Projects live in visible folders, and a hidden folder is usually a tool's own store, such as `~/.npm`
-    /// with its many `node_modules`, which belong to the Developer page.
+    /// A hidden folder is usually a tool's own store, such as `~/.npm` with its many `node_modules`, which belong
+    /// to the Developer page.
     static func isSkipped(_ name: String) -> Bool {
         if name.hasPrefix(".") || name == "Library" { return true }
         return definitions.contains { $0.name == name }
@@ -256,13 +231,10 @@ public enum ProjectArtifacts {
         return nil
     }
 
-    /// Files Git updates whenever the repository changes. They are read first: three reads can answer for a
-    /// whole repository, where the walk below reads only a sample of the project's files.
+    /// Files Git updates whenever the repository changes: three reads can answer for a whole repository.
     private static let gitMarks = [".git/index", ".git/HEAD", ".git/logs/HEAD"]
 
-    /// Returns the latest change found in the project, leaving out its artifacts. It stops at the first change
-    /// within `recentlyActive`, which alone answers the question. `isCertain` is false when the walk was cut
-    /// short or found no date at all.
+    /// Stops at the first change within `recentlyActive`, which alone answers the question.
     static func lastActivity(in project: URL, ignoring artifacts: Set<String>) -> (date: Date?, isCertain: Bool) {
         let cutoff = Date.now.addingTimeInterval(-recentlyActive)
         var newest: Date?
@@ -296,18 +268,16 @@ public enum ProjectArtifacts {
         return (newest, newest != nil)
     }
 
-    /// Whether `folder` carries a cache directory tag, with which its tool says that everything inside can be made
-    /// again. The Cache Directory Tagging Specification has the file begin with this signature. Swift Package
-    /// Manager tags `.build`, which `swift package reset` deletes whole and `swift package resolve` clones again.
+    /// A cache directory tag is how a tool says everything inside can be made again (Cache Directory Tagging
+    /// Specification).
     static func isTaggedAsACache(_ folder: URL) -> Bool {
         let signature = Data("Signature: 8a477f597d28d172789f06886806bc55".utf8)
         guard let tag = BoundedRead.data(at: folder.appending(path: "CACHEDIR.TAG"), maximum: 4_096) else { return false }
         return tag.starts(with: signature)
     }
 
-    /// Returns whether `url` is a plain folder: not a link, a package, or a cloud item. A cloud placeholder
-    /// looks like a folder but holds nothing until it is downloaded. A package can be an app: an Electron app
-    /// ships `package.json` beside `node_modules` inside its bundle, and nothing may be removed from there.
+    /// Not a link, a cloud placeholder, or a package: an Electron app ships `package.json` beside `node_modules`
+    /// inside its bundle.
     static func isRealFolder(_ url: URL) -> Bool {
         let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey, .isUbiquitousItemKey, .isPackageKey])
         guard values?.isDirectory == true, values?.isSymbolicLink != true, values?.isPackage != true else { return false }
@@ -326,8 +296,6 @@ public enum ProjectArtifacts {
 }
 
 extension ProjectArtifact {
-    /// Returns whether `query` matches the folder's name, the tool that made it, or the project's name, which
-    /// are what a row shows.
     public func matches(_ query: String) -> Bool {
         guard !query.isEmpty else { return true }
         return SearchText.matches(name, query)
