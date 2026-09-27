@@ -51,6 +51,79 @@ struct ProjectArtifactsTests {
         #expect(!scan.needsFullDiskAccess)
     }
 
+    private struct Kind {
+        let artifact: String
+        let marker: String
+        var markerIsAFolder = false
+        let tool: String
+        let isGeneric: Bool
+        var isEnvironment = false
+    }
+
+    private func expectFound(_ kinds: [Kind]) async throws {
+        for kind in kinds {
+            let directory = try TemporaryDirectory()
+            if kind.markerIsAFolder {
+                try directory.directory("with/\(kind.marker)")
+            } else {
+                try directory.file("with/\(kind.marker)", bytes: 16)
+            }
+            try directory.file("with/README.md", bytes: 16)
+            try directory.file("with/\(kind.artifact)/output.bin", bytes: 400_000)
+            try directory.file("without/\(kind.artifact)/output.bin", bytes: 400_000)
+            try age(directory.url, days: 60)
+
+            let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+            let projects = found.map(\.project.lastPathComponent)
+            #expect(projects == ["with"], "\(kind.artifact) was found in \(projects)")
+            let artifact = found.first { $0.name == kind.artifact }
+            #expect(artifact?.tool == kind.tool, "\(kind.artifact)")
+            #expect(artifact?.hasGenericName == kind.isGeneric, "\(kind.artifact)")
+            #expect(artifact?.isEnvironment == kind.isEnvironment, "\(kind.artifact)")
+            #expect(artifact?.isRecommended == (!kind.isGeneric && !kind.isEnvironment), "\(kind.artifact)")
+        }
+    }
+
+    @Test func looksInsideAFolderWithAGenericNameThatNoToolMade() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Code/public/site/package.json", bytes: 16)
+        try directory.file("Code/public/site/node_modules/left-pad/index.js", bytes: 400_000)
+        try directory.file("Code/shop/next.config.js", bytes: 16)
+        try directory.file("Code/shop/.next/cache/data", bytes: 400_000)
+        try directory.file("Code/shop/public/logo.svg", bytes: 16)
+        try age(directory.url, days: 60)
+        try FileManager.default.setAttributes(
+            [.modificationDate: Date.now],
+            ofItemAtPath: directory.url.appending(path: "Code/shop/public/logo.svg").path(percentEncoded: false)
+        )
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")]).artifacts
+
+        #expect(found.map(\.project.lastPathComponent).sorted() == ["shop", "site"])
+        let next = try #require(found.first { $0.name == ".next" })
+        #expect(next.isRecentlyActive, "a change in the project's own public folder was not counted")
+    }
+
+    @Test func findsWhatJavaScriptToolsBuild() async throws {
+        try await expectFound([
+            Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),
+            Kind(artifact: ".output", marker: "nuxt.config.mjs", tool: "Nuxt", isGeneric: false),
+            Kind(artifact: ".svelte-kit", marker: "svelte.config.js", tool: "SvelteKit", isGeneric: false),
+            Kind(artifact: ".angular", marker: "angular.json", tool: "Angular", isGeneric: false),
+            Kind(artifact: ".turbo", marker: "turbo.json", tool: "Turborepo", isGeneric: false),
+            Kind(artifact: ".parcel-cache", marker: "package.json", tool: "Parcel", isGeneric: false),
+            Kind(
+                artifact: "storybook-static", marker: ".storybook", markerIsAFolder: true, tool: "Storybook", isGeneric: false
+            ),
+            Kind(artifact: "dist", marker: "vite.config.ts", tool: "Vite", isGeneric: true),
+            Kind(artifact: "out", marker: "next.config.js", tool: "Next.js", isGeneric: true),
+            Kind(artifact: "coverage", marker: "vitest.config.mts", tool: "Vitest", isGeneric: true),
+            Kind(artifact: ".cache", marker: "gatsby-config.ts", tool: "Gatsby", isGeneric: true),
+            Kind(artifact: "public", marker: "gatsby-config.js", tool: "Gatsby", isGeneric: true),
+        ])
+    }
+
     private func age(_ url: URL, days: Int) throws {
         let date = Date.now.addingTimeInterval(-Double(days) * 24 * 60 * 60)
         guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) else { return }

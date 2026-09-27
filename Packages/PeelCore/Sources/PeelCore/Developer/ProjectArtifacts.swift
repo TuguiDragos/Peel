@@ -55,6 +55,10 @@ public enum ProjectArtifacts {
     private static let gradleFiles = ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"]
     private static let pythonProjectFiles = ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"]
     private static let nextConfigFiles = ["next.config.js", "next.config.mjs", "next.config.ts"]
+    private static let nuxtConfigFiles = ["nuxt.config.ts", "nuxt.config.js", "nuxt.config.mjs"]
+    private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
+    private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
+    private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
 
     static let definitions: [Definition] = [
         Definition(
@@ -80,6 +84,54 @@ public enum ProjectArtifacts {
         Definition(
             name: ".next", markers: nextConfigFiles, tool: "Next.js", isGeneric: false,
             source: "https://nextjs.org/docs/app/api-reference/config/next-config-js/distDir"
+        ),
+        Definition(
+            name: ".nuxt", markers: nuxtConfigFiles, tool: "Nuxt", isGeneric: false,
+            source: "https://nuxt.com/docs/4.x/directory-structure/nuxt"
+        ),
+        Definition(
+            name: ".output", markers: nuxtConfigFiles, tool: "Nuxt", isGeneric: false,
+            source: "https://nuxt.com/docs/4.x/directory-structure/output"
+        ),
+        Definition(
+            name: ".svelte-kit", markers: ["svelte.config.js"], tool: "SvelteKit", isGeneric: false,
+            source: "https://svelte.dev/docs/kit/project-structure"
+        ),
+        Definition(
+            name: ".angular", markers: ["angular.json"], tool: "Angular", isGeneric: false,
+            source: "https://angular.dev/cli/cache"
+        ),
+        Definition(
+            name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
+            source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        Definition(
+            name: ".parcel-cache", markers: ["package.json"], tool: "Parcel", isGeneric: false,
+            source: "https://parceljs.org/features/cli/"
+        ),
+        Definition(
+            name: "storybook-static", markers: [".storybook"], tool: "Storybook", isGeneric: false,
+            source: "https://github.com/storybookjs/storybook/blob/next/code/core/src/cli/build.ts"
+        ),
+        Definition(
+            name: "dist", markers: viteConfigFiles, tool: "Vite", isGeneric: true,
+            source: "https://vite.dev/config/build-options"
+        ),
+        Definition(
+            name: "out", markers: nextConfigFiles, tool: "Next.js", isGeneric: true,
+            source: "https://nextjs.org/docs/app/guides/static-exports"
+        ),
+        Definition(
+            name: "coverage", markers: vitestConfigFiles, tool: "Vitest", isGeneric: true,
+            source: "https://vitest.dev/config/coverage"
+        ),
+        Definition(
+            name: ".cache", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
+            source: "https://www.gatsbyjs.com/docs/reference/gatsby-cli/"
+        ),
+        Definition(
+            name: "public", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
+            source: "https://www.gatsbyjs.com/docs/reference/gatsby-cli/"
         ),
         Definition(
             name: ".dart_tool", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: false,
@@ -264,10 +316,11 @@ public enum ProjectArtifacts {
     }
 
     /// A hidden folder is usually a tool's own store, such as `~/.npm` with its many `node_modules`, which belong
-    /// to the Developer page.
+    /// to the Developer page. A generic name like `public` is walked, since it is the person's own folder unless
+    /// the file of the tool that makes it sits beside it.
     static func isSkipped(_ name: String) -> Bool {
         if name.hasPrefix(".") || name == "Library" { return true }
-        return definitions.contains { $0.name == name }
+        return definitions.contains { $0.name == name && !$0.isGeneric }
     }
 
     static func marker(for definition: Definition, in names: Set<String>) -> String? {
