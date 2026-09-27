@@ -225,13 +225,17 @@ struct FileSizeTests {
 
     /// Someone may still be waiting when a late walk finishes: that one takes the answer, and the question after it
     /// walks the folder again, so the folder is still unknown only once. The first waiter starts the walk and counts
-    /// what it reads, the second joins with no budget and gives up, and the first is then still waiting.
+    /// what it reads, the second joins with no budget and gives up, and the first is then still waiting. The second
+    /// asks at high priority, since a test waiting in the shared pool can be scheduled only after the walk ended, and
+    /// each attempt that still misses it walks a folder twice as big.
     @Test func aLateWalkTakenBySomeoneStillWaitingLeavesTheFolderKnowable() async throws {
         var isSetUp = false
-        for attempt in 1...3 where !isSetUp {
+        var entries = 1_000
+        while !isSetUp, entries <= 16_000 {
+            defer { entries *= 2 }
             let directory = try TemporaryDirectory()
             let folder = try directory.directory("big")
-            for index in 0..<(1_000 * attempt) {
+            for index in 0..<entries {
                 try directory.file("big/folder\(index)/file.bin", bytes: 16)
             }
             let read = ScanCount()
@@ -241,9 +245,11 @@ struct FileSizeTests {
                 isAnswered.withLock { $0 = true }
                 return contents
             }
-            while read.value == 0 { await Task.yield() }
             // An answer here means the walk ended before this question joined it, so the two were not set up.
-            let impatient = await FileSize.contents(of: folder, within: 0)
+            let impatient = await Task.detached(priority: .high) {
+                while read.value == 0 { await Task.yield() }
+                return await FileSize.contents(of: folder, within: 0)
+            }.value
             guard impatient == nil, !isAnswered.withLock({ $0 }) else {
                 _ = await patient.value
                 continue
