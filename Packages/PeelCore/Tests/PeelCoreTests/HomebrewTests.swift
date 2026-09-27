@@ -345,6 +345,23 @@ struct HomebrewTests {
         #expect(Homebrew.reclaimableBytes(in: output, countsInThousands: true) == 61_200_000)
     }
 
+    /// `brew cleanup` autoremoves too (Homebrew 7.0.4's `cleanup.rb`), and its dry run names each formula it would
+    /// uninstall under one headline, which Clean Up's confirmation repeats.
+    @Test func readsWhichFormulaeACleanUpWouldAutoremove() {
+        let output = """
+        Would remove: /opt/homebrew/Cellar/x265/4.2 (12 files, 17MB)
+        ==> Would autoremove 2 unneeded formulae:
+        libfoo
+        org/tap/bar
+        Would remove: /Users/me/Library/Caches/Homebrew/downloads/abc--x265-4.2.bottle.tar.gz (2MB)
+        ==> This operation would free approximately 61.2MB of disk space.
+        """
+
+        #expect(Homebrew.autoremovedFormulae(in: output) == ["libfoo", "org/tap/bar"])
+        let nothingToAutoremove = "==> This operation would free approximately 3KB of disk space."
+        #expect(Homebrew.autoremovedFormulae(in: nothingToAutoremove).isEmpty)
+    }
+
     /// Homebrew drops the decimal on a round number, and its largest unit is GB. From 5.0.0 it counts in thousands
     /// (`utils/formatter.rb` divides by 1000.0). Earlier versions count in 1024s, whatever the unit says.
     @Test func readsEveryUnitACleanUpUses() {

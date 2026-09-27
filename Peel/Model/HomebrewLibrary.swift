@@ -49,6 +49,8 @@ final class HomebrewLibrary {
     private(set) var installation: HomebrewInstallation?
     /// What `brew cleanup` would free, as Homebrew reported it. Nil when it wouldn't say.
     private(set) var reclaimable: Int64?
+    /// The formulae `brew cleanup` would uninstall for good because nothing needs them anymore.
+    private(set) var autoremovable: [String] = []
     /// What Homebrew's own settings undo of how Peel runs it, read with the page and before an upgrade.
     private(set) var overrides: Homebrew.Overrides = []
     /// Homebrew has no local copy of its package definitions, for example because its cache was cleared (not
@@ -128,7 +130,7 @@ final class HomebrewLibrary {
         isInstalled = Homebrew.executableURL != nil
         guard isInstalled else { return }
         guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }) else { return }
-        guard let (found, installed, bytes, overridden) = reading else {
+        guard let (found, installed, preview, overridden) = reading else {
             needsDefinitions = true
             packages = packages ?? []
             return
@@ -145,7 +147,10 @@ final class HomebrewLibrary {
         }
         self.installation = found
         // Keeps the last figure when this reading brought none: one that was right a moment ago beats none.
-        self.reclaimable = bytes ?? self.reclaimable
+        if let preview {
+            reclaimable = preview.bytes ?? reclaimable
+            autoremovable = preview.autoremoved
+        }
         overrides = overridden ?? overrides
         revision += 1
         if let selection, packages?.contains(where: { $0.id == selection }) != true {
@@ -156,15 +161,17 @@ final class HomebrewLibrary {
     /// Nil while Homebrew has no local definitions to read, as when `brew update` has never run.
     private func read(
         includingReclaimable: Bool
-    ) async -> (HomebrewInstallation?, Result<[HomebrewPackage], Homebrew.CommandFailure>, Int64?, Homebrew.Overrides?)? {
+    ) async -> (
+        HomebrewInstallation?, Result<[HomebrewPackage], Homebrew.CommandFailure>, Homebrew.CleanupPreview?,
+        Homebrew.Overrides?
+    )? {
         guard await Homebrew.hasLocalDefinitions() else { return nil }
         needsDefinitions = false
         // The installation is read first, since it says how to read the figures that follow. The other questions
         // take about as long as each other, so they run at the same time. Only the page shows the last two.
         let found = await Homebrew.installation()
         let kept = found.map { ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: $0.prefix) } ?? []
-        async let reclaimable = includingReclaimable
-            ? Homebrew.reclaimableBytes(asWrittenBy: found, keeping: kept) : nil
+        async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         async let overridden = includingReclaimable ? Homebrew.overrides() : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
         do {
@@ -172,7 +179,7 @@ final class HomebrewLibrary {
         } catch {
             installed = .failure(error)
         }
-        return (found, installed, await reclaimable, await overridden)
+        return (found, installed, await preview, await overridden)
     }
 
     /// Runs `command` and returns its result to the caller. Only one command runs at a time: while one runs,

@@ -68,11 +68,7 @@ struct HomebrewList: View {
             Button("Clean Up", role: .destructive) { start(.cleanup) }
             Button("Cancel", role: .cancel) {}
         } message: {
-            if let reclaimable = homebrew.reclaimable, reclaimable > 0 {
-                Text("Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back.")
-            } else {
-                Text("Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back.")
-            }
+            Text(verbatim: cleanUpWarning)
         }
         .task {
             // Only this page shows what Clean Up would free, so the figure is asked for here, and only while
@@ -80,6 +76,21 @@ struct HomebrewList: View {
             guard !homebrew.isScanning, !homebrew.scanRun.wasStopped, homebrew.packages == nil || homebrew.reclaimable == nil else { return }
             await homebrew.refresh(includingReclaimable: true)
         }
+    }
+
+    /// What Clean Up deletes for good, with the formulae it would uninstall named, since those are packages.
+    private var cleanUpWarning: String {
+        var sentences: [String] = []
+        if let reclaimable = homebrew.reclaimable, reclaimable > 0 {
+            sentences.append(String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
+        } else {
+            sentences.append(String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back."))
+        }
+        let formulae = homebrew.autoremovable
+        if !formulae.isEmpty {
+            sentences.append(String(inflecting: "It uninstalls ^[\(formulae.count) formula](inflect: true) that nothing needs anymore: \(formulae.formatted(.list(type: .and)))."))
+        }
+        return sentences.joined(separator: "\n\n")
     }
 
     // MARK: - Homebrew itself

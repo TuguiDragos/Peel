@@ -464,15 +464,33 @@ public enum Homebrew {
         return (try? JSONDecoder().decode(HomebrewTrust.self, from: Data(output.utf8))) ?? HomebrewTrust()
     }
 
-    /// What `brew cleanup` would free. Nothing is removed: `--dry-run` only reports.
+    /// What `brew cleanup` would do, as its dry run says.
+    public struct CleanupPreview: Sendable, Hashable {
+        /// What it would free, leaving out the formulae it would autoremove. Nil when Homebrew's words can't be read.
+        public let bytes: Int64?
+        /// The formulae it would uninstall for good because nothing needs them anymore.
+        public let autoremoved: [String]
+    }
+
+    /// What `brew cleanup` would do. Nothing is removed: `--dry-run` only reports.
     @concurrent
-    public static func reclaimableBytes(
+    public static func cleanupPreview(
         asWrittenBy installation: HomebrewInstallation?, keeping kept: [String]
-    ) async -> Int64? {
+    ) async -> CleanupPreview? {
         guard let output = try? await execute(
             ["cleanup", "--dry-run"], autoUpdate: false, keeping: kept, timeout: longestAnswer
         ).answer() else { return nil }
-        return reclaimableBytes(in: output, countsInThousands: installation?.countsInThousands ?? true)
+        return CleanupPreview(
+            bytes: reclaimableBytes(in: output, countsInThousands: installation?.countsInThousands ?? true),
+            autoremoved: autoremovedFormulae(in: output)
+        )
+    }
+
+    /// Reads the formulae named under the "Would autoremove" headline, one to a line.
+    static func autoremovedFormulae(in output: String) -> [String] {
+        let lines = output.split(whereSeparator: \.isNewline).map(String.init)
+        guard let headline = lines.firstIndex(where: { $0.hasPrefix("==> Would autoremove") }) else { return [] }
+        return Array(lines[(headline + 1)...].prefix { !$0.isEmpty && !$0.contains(" ") })
     }
 
     /// Reads the total from the one sentence where Homebrew gives it, such as "would free approximately

@@ -48371,6 +48371,352 @@
         }
       }
     },
+    "It uninstalls ^[%lld formula](inflect: true) that nothing needs anymore: %@." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstaluje %lld formula, kterou už nic nepotřebuje: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew deinstalliert %lld Formula, die von nichts mehr benötigt wird: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew deinstalliert %lld Formulae, die von nichts mehr benötigt werden: %@."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It uninstalls ^[%1$lld formula](inflect: true) that nothing needs anymore: %2$@."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desinstala %lld de formulae de las que ya no depende nada: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desinstala %lld formula de la que ya no depende nada: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desinstala %lld formulae de las que ya no depende nada: %@."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il désinstalle %lld de formulae dont plus rien n’a besoin : %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il désinstalle %lld formula dont plus rien n’a besoin : %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il désinstalle %lld formulae dont plus rien n’a besoin : %@."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Disinstalla %lld di formulae che non servono più a nulla: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Disinstalla %lld formula che non serve più a nulla: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Disinstalla %lld formulae che non servono più a nulla: %@."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "もう何にも必要とされていない%lld個のformulaeをアンインストールします: %@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 더 이상 필요하지 않은 formula %lld개를 제거합니다: %@."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Het deïnstalleert %lld formula waar niets meer van afhankelijk is: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Het deïnstalleert %lld formulae waar niets meer van afhankelijk is: %@."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstalowuje %lld formula, której nic już nie potrzebuje: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele desinstala %lld de formulae de que nada mais precisa: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele desinstala %lld formula de que nada mais precisa: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele desinstala %lld formulae de que nada mais precisa: %@."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dezinstalează %lld formule de care nu mai are nevoie nimic: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dezinstalează %lld formulă de care nu mai are nevoie nimic: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dezinstalează %lld de formule de care nu mai are nevoie nimic: %@."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew удаляет %lld formula, которая больше ничему не нужна: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew avinstallerar %lld formula som inget längre behöver: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew avinstallerar %lld formulae som inget längre behöver: %@."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Artık hiçbir şeyin ihtiyaç duymadığı %lld formula da kaldırılır: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Artık hiçbir şeyin ihtiyaç duymadığı %lld formula da kaldırılır: %@."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Він деінсталює %lld formula, яка більше нічому не потрібна: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会卸载%lld个不再被需要的formula：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會解除安裝%lld個不再被需要的formulae：%@。"
+          }
+        }
+      }
+    },
     "It was first seen signed by %@, and is signed by %@ now." : {
       "localizations" : {
         "cs" : {
