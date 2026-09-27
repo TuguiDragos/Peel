@@ -12,6 +12,12 @@ public enum AppOrder {
         }
     }
 
+    /// Sorts `apps` by size, largest first. An app whose size could not be measured comes first, since it is most
+    /// likely the biggest, and one still being measured comes last, after every size already known.
+    public static func sortedBySize(_ apps: [InstalledApp], sizes: [URL: Int64], unmeasured: Set<URL>) -> [InstalledApp] {
+        sorted(apps) { sizes[$0.id] ?? (unmeasured.contains($0.id) ? .max : -1) }
+    }
+
     /// Whether `app` has not been opened in the last `months` months. An app with no record of being opened
     /// counts from the day it was added, since it is exactly the kind of app this filter is meant to find. With
     /// neither date, the app does not count as unused.

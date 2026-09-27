@@ -94,6 +94,7 @@ struct AppList: View {
             app: app,
             updateStatus: library.updateStatuses[app.id],
             size: library.sizes[app.id],
+            isUnmeasured: library.unmeasured.contains(app.id),
             teamChange: library.teamChanges[app.bundleIdentifier],
             sort: library.sort,
             hasUpdate: library.hasUpdate(app),
@@ -235,6 +236,9 @@ private struct AppRow: View {
     let app: InstalledApp
     let updateStatus: UpdateStatus?
     let size: Int64?
+    /// True when the bundle could not be measured, so the size reads "Unknown" rather than staying blank as it does
+    /// while it is measured.
+    let isUnmeasured: Bool
     let teamChange: TeamRegistry.Change?
     let sort: AppSort
     let hasUpdate: Bool
@@ -271,7 +275,7 @@ private struct AppRow: View {
                     .accessibilityLabel(Text(.excludedApp))
             }
             // Always drawn, even before the sizes arrive, so nothing shifts when they do.
-            Text(size?.byteCount ?? "")
+            Text(size?.byteCount ?? (isUnmeasured ? String(localized: "Unknown") : ""))
                 .font(.subheadline)
                 .monospacedDigit()
                 .foregroundStyle(.secondary)

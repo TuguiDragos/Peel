@@ -97,6 +97,11 @@ final class AppLibrary {
     private(set) var sizes: [InstalledApp.ID: Int64] = [:] {
         didSet { sizesRevision += 1 }
     }
+    /// The apps whose bundle could not be measured, by time or by macOS, so their size is not known rather than
+    /// still to come. The list reads "Unknown" for them and sorts them first.
+    private(set) var unmeasured: Set<InstalledApp.ID> = [] {
+        didSet { sizesRevision += 1 }
+    }
 
     /// Incremented when a size arrives. Only the size sort depends on it, so other sorts keep their cached list.
     private(set) var sizesRevision = 0
@@ -222,6 +227,7 @@ final class AppLibrary {
         let stale = Set(changed.map(\.id))
         let keeps = { (id: InstalledApp.ID) in present.contains(id) && !stale.contains(id) }
         sizes = sizes.filter { keeps($0.key) }
+        unmeasured = unmeasured.filter(keeps)
         updateStatuses = updateStatuses.filter { keeps($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { keeps($0.key) }
         selection.formIntersection(present)
@@ -263,10 +269,18 @@ final class AppLibrary {
     }
 
     /// Measures the apps with no size yet. Each bundle needs a walk of every file, so sizes arrive after the list.
+    /// A bundle that could not be measured is asked once more after `remeasureDelay`: a walk that ran out of time
+    /// goes on, and its answer is kept for the next question.
     func loadSizes() async {
-        let missing = apps.filter { sizes[$0.id] == nil }
-        guard !missing.isEmpty else { return }
+        await measure(apps.filter { sizes[$0.id] == nil })
+        guard !unmeasured.isEmpty, (try? await Task.sleep(for: Self.remeasureDelay)) != nil else { return }
+        await measure(apps.filter { unmeasured.contains($0.id) })
+    }
 
+    private static let remeasureDelay = Duration.seconds(30)
+
+    private func measure(_ missing: [InstalledApp]) async {
+        guard !missing.isEmpty else { return }
         let measured = Dictionary(missing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         await withTaskGroup(of: (InstalledApp.ID, Int64?).self) { group in
             var pending = missing.makeIterator()
@@ -275,11 +289,15 @@ final class AppLibrary {
                 _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
             }
             while let (id, size) = await group.next() {
-                // A bundle that did not answer in time stays unknown (blank in the list) and is tried
-                // again at the next revision, when its walk has usually finished. A bundle replaced while
-                // it was walked is another build, so this size is dropped.
-                if let size, let app = measured[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) {
-                    sizes[id] = size
+                // A walk given up because the list changed says nothing about the bundle, and a bundle replaced
+                // while it was walked is another build, so neither answer is kept.
+                if !Task.isCancelled, let app = measured[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) {
+                    if let size {
+                        sizes[id] = size
+                        unmeasured.remove(id)
+                    } else {
+                        unmeasured.insert(id)
+                    }
                 }
                 if !Task.isCancelled, let app = pending.next() {
                     _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
@@ -415,7 +433,7 @@ final class AppLibrary {
         case .name:
             apps.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         case .size:
-            AppOrder.sorted(apps) { sizes[$0.id] ?? 0 }
+            AppOrder.sortedBySize(apps, sizes: sizes, unmeasured: unmeasured)
         case .lastOpened:
             AppOrder.sorted(apps) { $0.lastUsedDate ?? .distantPast }
         case .dateAdded:
