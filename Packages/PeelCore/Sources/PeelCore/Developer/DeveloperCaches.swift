@@ -556,6 +556,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "hex", name: "Hex", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".hex/packages", .downloads, source: "https://github.com/hexpm/hex/blob/main/lib/hex/scm.ex#L8"),
+            Folder(".hex/cache.ets", .cache, source: "https://github.com/hexpm/hex/blob/main/lib/hex/registry/server.ex#L8"),
         ]),
         Definition(id: "rebar3", name: "rebar3", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".cache/rebar3/hex", .downloads, source: "https://github.com/erlang/rebar3/blob/main/apps/rebar/src/rebar_packages.erl#L159-L160"),

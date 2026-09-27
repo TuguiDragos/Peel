@@ -803,6 +803,17 @@ struct DeveloperCachesTests {
         #expect(locations.first?.isRecommended == false)
     }
 
+    @Test func offersTheRegistryHexCachesAndNeverItsAccountKey() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".hex/cache.ets", bytes: 400_000)
+        try directory.file(".hex/hex.config", bytes: 64)
+        let hex = DeveloperCaches.definitions.filter { $0.folders.contains { $0.path.hasPrefix(".hex/") } }
+
+        let locations = await DeveloperCaches.scan(hex, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["cache.ets"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
