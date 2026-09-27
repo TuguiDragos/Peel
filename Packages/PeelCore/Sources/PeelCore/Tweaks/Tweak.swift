@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 /// A macOS setting kept in one preference key. Each tweak names the domain and key it changes. Turning it off
 /// puts back what the key held before Peel changed it, or removes the key so that macOS uses its default.
@@ -45,6 +45,14 @@ public struct Tweak: Sendable, Hashable, Identifiable {
     /// True when macOS has its own control for this key (in System Settings, Finder Settings, or the Screenshot
     /// toolbar), so the user can change it back outside Peel.
     public let hasASystemControl: Bool
+    /// Where Apple documents the key. An undocumented key is known from use alone, so a release of macOS can rename
+    /// or ignore it without a word, and its switch would stay on while nothing changes.
+    public let documentation: Documentation
+
+    public enum Documentation: Sendable, Hashable {
+        case apple(URL)
+        case undocumented
+    }
 }
 
 /// A tweak's current state, as read from the preferences.

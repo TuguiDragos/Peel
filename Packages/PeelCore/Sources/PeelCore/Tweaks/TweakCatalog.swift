@@ -13,7 +13,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.number(0)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "dock-autohide-time",
@@ -22,7 +23,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.number(0)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "dock-launchanim",
@@ -31,7 +33,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .apple(URL(string: "https://developer.apple.com/documentation/devicemanagement/dock")!)
         ),
         Tweak(
             id: "dock-no-bouncing",
@@ -40,7 +43,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "dock-static-only",
@@ -49,7 +53,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .apple(URL(string: "https://developer.apple.com/documentation/devicemanagement/dock")!)
         ),
         Tweak(
             id: "dock-show-recents",
@@ -58,7 +63,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .apple(URL(string: "https://developer.apple.com/documentation/devicemanagement/dock")!)
         ),
         Tweak(
             id: "dock-minimize-to-application",
@@ -67,7 +73,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .apple(URL(string: "https://developer.apple.com/documentation/devicemanagement/dock")!)
         ),
         Tweak(
             id: "dock-mru-spaces",
@@ -76,7 +83,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .dock,
             group: .dock,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
     ]
 
@@ -88,7 +96,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .none,
             group: .screenshots,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "screenshot-location",
@@ -97,7 +106,8 @@ public enum TweakCatalog {
             kind: .folder,
             restart: .none,
             group: .screenshots,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "screenshot-shadow",
@@ -106,7 +116,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .none,
             group: .screenshots,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "screenshot-date",
@@ -115,7 +126,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .none,
             group: .screenshots,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "screenshot-jpg",
@@ -124,7 +136,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.text("jpg")),
             restart: .none,
             group: .screenshots,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
     ]
 
@@ -136,7 +149,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-extensions",
@@ -145,7 +159,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-path-bar",
@@ -154,7 +169,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-status-bar",
@@ -163,7 +179,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-folders-first",
@@ -172,7 +189,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-extension-warning",
@@ -181,7 +199,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-posix-title",
@@ -190,7 +209,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .finder,
             group: .finder,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "finder-network-stores",
@@ -199,7 +219,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .logOut,
             group: .finder,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .apple(URL(string: "https://support.apple.com/102064")!)
         ),
     ]
 
@@ -211,7 +232,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "typing-capitalisation",
@@ -220,7 +242,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "typing-period",
@@ -229,7 +252,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "typing-quotes",
@@ -238,7 +262,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "typing-dashes",
@@ -247,7 +272,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "typing-spelling",
@@ -256,7 +282,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .typing,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
     ]
 
@@ -268,7 +295,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.text("Always")),
             restart: .relaunchApps,
             group: .windows,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "windows-scroll-animation",
@@ -277,7 +305,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .relaunchApps,
             group: .windows,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "windows-resize-time",
@@ -286,7 +315,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.number(0.001)),
             restart: .relaunchApps,
             group: .windows,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "windows-drag-anywhere",
@@ -295,7 +325,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .relaunchApps,
             group: .windows,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "windows-tiled-margins",
@@ -304,7 +335,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .windowManager,
             group: .windows,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "windows-clock-seconds",
@@ -313,7 +345,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(true)),
             restart: .controlCenter,
             group: .windows,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
     ]
 
@@ -325,7 +358,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .none,
             group: .privacy,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
         Tweak(
             id: "privacy-personalised-ads",
@@ -334,7 +368,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.boolean(false)),
             restart: .none,
             group: .privacy,
-            hasASystemControl: true
+            hasASystemControl: true,
+            documentation: .undocumented
         ),
         Tweak(
             id: "privacy-crash-reporter",
@@ -343,7 +378,8 @@ public enum TweakCatalog {
             kind: .aSwitch(.text("none")),
             restart: .none,
             group: .privacy,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         ),
     ]
 }

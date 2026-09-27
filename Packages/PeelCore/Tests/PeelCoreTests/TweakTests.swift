@@ -18,6 +18,22 @@ struct TweakTests {
 
     /// AppKit and HIToolbox read their keys once, when an app starts, so apps already open keep the old value.
     /// The row says so rather than asking for a log out, which would work but is not needed.
+    /// Apple documents only a few of these keys; the rest are known from use alone, so a release can rename or ignore
+    /// one without a word. Each tweak says which it is, and a documented one names Apple's page.
+    @Test func everyTweakSaysWhereAppleDocumentsIt() {
+        var documented: Set<String> = []
+        for tweak in TweakCatalog.all {
+            guard case .apple(let page) = tweak.documentation else { continue }
+            documented.insert(tweak.id)
+            #expect(page.scheme == "https" && (page.host() ?? "").hasSuffix("apple.com"), "\(tweak.id): \(page)")
+        }
+        let applesOwn: Set = [
+            "dock-launchanim", "dock-static-only", "dock-show-recents", "dock-minimize-to-application",
+            "finder-network-stores",
+        ]
+        #expect(documented == applesOwn)
+    }
+
     @Test func asksForALogOutOnlyWhereAppleSaysItIsNeeded() {
         let logOut = TweakCatalog.all.filter { $0.restart == .logOut }.map(\.id)
         #expect(logOut == ["finder-network-stores"], "a log out is asked for where reopening the app is enough")
@@ -86,7 +102,8 @@ struct TweakTests {
             kind: .aSwitch(.boolean(true)),
             restart: .none,
             group: .dock,
-            hasASystemControl: false
+            hasASystemControl: false,
+            documentation: .undocumented
         )
 
         let state = store.state(of: nonsense)
