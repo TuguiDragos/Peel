@@ -145,13 +145,14 @@ shares with the other apps included, and selecting it again brings them back.
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.
 
-Never selected for you, even when found: model weights, installed packages and virtual environments, the installers
-and boxes a tool keeps for you to install again, `/Users/Shared` (it belongs to every account, not just yours), a
-project you worked on this week, a folder with a repository, a wallet, or a signing key inside, a folder macOS would
-not let Peel read, and a folder Peel could not measure in time. Those last two are shown with their size as
-"Unknown", never as zero, in every tool and in History once they are moved: a folder too big to read quickly may be
-exactly the one with work inside, and nothing is selected for you without saying how much it is. A total that leaves
-such a folder out reads "Over" what is known.
+Never selected for you, even when found: Xcode's archives of the apps you built and the symbols it copied from your
+devices, both needed to read crash reports, model weights, installed packages and virtual environments, the
+installers and boxes a tool keeps for you to install again, `/Users/Shared` (it belongs to every account, not just
+yours), a project you worked on this week, a folder with a repository, a wallet, or a signing key inside, a folder
+macOS would not let Peel read, and a folder Peel could not measure in time. Those last two are shown with their size
+as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to read quickly may
+be exactly the one with work inside, and nothing is selected for you without saying how much it is. A total that
+leaves such a folder out reads "Over" what is known.
 
 A repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`) is the one exception: the tool says it makes
 everything in there again. Swift Package Manager tags `.build`, where it clones a package's dependencies, and

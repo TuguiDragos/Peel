@@ -13041,108 +13041,108 @@
         }
       }
     },
-    "Archives, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you." : {
+    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivy, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
+            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
+            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
+            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les archives, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
+            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
+            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archieven, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
+            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiwa, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
+            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos comprimidos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
+            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arhivele, ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
+            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архивы, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
+            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arkiv, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
+            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arşivler, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архіви, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
+            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "归档、模型权重、已安装的环境、为重新安装而保留的下载文件，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
+            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "封存檔、模型權重、已安裝的環境、保留供重新安裝的下載檔案，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
+            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
           }
         }
       }
@@ -24844,112 +24844,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "裝置韌體"
-          }
-        }
-      }
-    },
-    "Device support files, downloaded again when a device connects" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Soubory podpory zařízení, znovu se stáhnou po připojení zařízení"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dateien zur Geräteunterstützung, die erneut geladen werden, wenn ein Gerät verbunden wird"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivos de soporte de dispositivos, que se vuelven a descargar cuando se conecta un dispositivo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fichiers de prise en charge des appareils, téléchargés à nouveau lorsqu’un appareil se connecte"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File di supporto dei dispositivi, scaricati di nuovo quando si collega un dispositivo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デバイスの接続時に再ダウンロードされるデバイスサポートファイル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기기 지원 파일, 기기를 연결하면 다시 다운로드됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestanden voor apparaatondersteuning, opnieuw gedownload als er een apparaat wordt aangesloten"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pliki obsługi urządzeń, pobierane ponownie po podłączeniu urządzenia"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivos de suporte a dispositivos, baixados de novo quando um dispositivo se conecta"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișiere de suport pentru dispozitive, descărcate din nou când se conectează un dispozitiv"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файлы поддержки устройств, которые снова загружаются при подключении устройства"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filer för enhetsstöd, hämtas igen när en enhet ansluts"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aygıt destek dosyaları, bir aygıt bağlandığında yeniden indirilir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файли підтримки пристроїв, які знову викачуються, коли підʼєднується пристрій"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设备支持文件，设备连接时会重新下载"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "裝置支援檔案，會在裝置連接時重新下載"
           }
         }
       }
@@ -104323,6 +104217,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用直引號"
+          }
+        }
+      }
+    },
+    "Symbols from your devices, needed to read their crash reports" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symboly z vašich zařízení, potřebné ke čtení jejich zpráv o haváriích"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug-Symbole von deinen Geräten, die zum Lesen ihrer Absturzberichte nötig sind"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Símbolos de tus dispositivos, necesarios para leer sus informes de errores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symboles de débogage provenant de vos appareils, nécessaires pour lire leurs rapports de blocage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simboli dai tuoi dispositivi, necessari per leggerne i resoconti dei blocchi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスのクラッシュレポートを読むのに必要な、デバイスから取り込んだシンボル"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기기에서 가져온 심볼, 해당 기기의 충돌 리포트를 읽는 데 필요함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutopsporingssymbolen van je apparaten, nodig om hun crashrapporten te lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbole z Twoich urządzeń, potrzebne do odczytywania ich raportów o awariach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Símbolos dos seus dispositivos, necessários para ler os relatórios de falha deles"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simboluri de pe dispozitivele dvs., necesare pentru a citi rapoartele lor de oprire subită"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символы с Ваших устройств, которые нужны для чтения их отчетов о сбоях"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symboler från dina enheter, behövs för att läsa deras kraschrapporter"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aygıtlarınızdan alınan semboller, bu aygıtların çökme raporlarını okumak için gerekir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символи налагодження з ваших пристроїв, потрібні для читання їхніх звітів про аварії"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你设备的符号，读取这些设备的崩溃报告时需要用到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你裝置的符號，讀取這些裝置的當機報告時需要用到"
           }
         }
       }

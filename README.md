@@ -85,9 +85,9 @@ Peel is free and open source, and it speaks English and 17 other languages.
 
 - **Orphaned Files:** files left behind by apps you already removed.
 - **Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
-  engines, and AI models. Model weights, installed packages, and what a tool keeps for you to install again
-  (Vagrant boxes, Asset Store packages) are listed but never selected for you, and toolchains or anything holding
-  an account are never listed.
+  engines, and AI models. Xcode's archives and the symbols it copied from your devices, model weights, installed
+  packages, and what a tool keeps for you to install again (Vagrant boxes, Asset Store packages) are listed but
+  never selected for you, and toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, and
   `target`. A project changed in the last 7 days is never selected for you.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.

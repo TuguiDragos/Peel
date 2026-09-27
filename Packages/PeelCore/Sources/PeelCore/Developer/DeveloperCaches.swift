@@ -8,6 +8,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         case cache
         /// Logs of what a tool did. Nothing makes them again, and no tool needs them to work.
         case logs
+        /// Symbols Xcode copied from a device, which its crash reports need to be read. Most come back only when a
+        /// device running that system version connects, and none comes back by itself.
         case deviceSupport
         case archives
         /// Model weights and datasets: large, slow to fetch again.
@@ -35,8 +37,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// logs, and only once measured. Nothing is selected for the user without showing its size.
         public var isRecommended: Bool {
             switch kind {
-            case .buildData, .downloads, .cache, .deviceSupport, .logs: size != nil
-            case .archives, .models, .environments, .keptDownloads: false
+            case .buildData, .downloads, .cache, .logs: size != nil
+            case .deviceSupport, .archives, .models, .environments, .keptDownloads: false
             }
         }
     }

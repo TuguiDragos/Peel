@@ -351,7 +351,7 @@ extension DeveloperEnvironment.ContentKind {
         case .downloads: "downloads"
         case .cache: "cache"
         case .logs: "logs"
-        case .deviceSupport: "device support"
+        case .deviceSupport: "device support, kept by default"
         case .archives: "archives, kept by default"
         case .models: "models, kept by default"
         case .environments: "installed packages, kept by default"

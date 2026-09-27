@@ -52,7 +52,7 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("\(keptByDefault) kept"), systemImage: "hand.raised", tint: .secondary,
                         name: String(localized: "\(keptByDefault) kept"),
-                        detail: Text("Archives, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you.")
+                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, and anything Peel couldn’t measure are listed but never selected for you.")
                     )
                 }
             }
@@ -74,7 +74,7 @@ extension DeveloperEnvironment.ContentKind {
         case .downloads: "Packages, downloaded again when needed"
         case .cache: "Cache, made again as you use the tool"
         case .logs: "Logs of what the tool did, which nothing makes again"
-        case .deviceSupport: "Device support files, downloaded again when a device connects"
+        case .deviceSupport: "Symbols from your devices, needed to read their crash reports"
         case .archives: "App archives, needed to read crash reports"
         case .models: "Model weights or datasets, a long download to get back"
         case .environments: "Installed packages, put back by installing them again"

@@ -332,6 +332,19 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .environments && !$0.isRecommended })
     }
 
+    /// Xcode copies a device's symbols when the device connects. Most come back only from a device running that
+    /// system version, none comes back by itself, and crash reports need them: they are listed and never selected.
+    @Test func symbolsFromDevicesAreNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Developer/Xcode/iOS DeviceSupport/iPhone17,1 18.6 (22G86)/Symbols/dyld", bytes: 400_000)
+        try directory.file("Library/Developer/Xcode/watchOS DeviceSupport/Watch7,2 11.6 (22U80)/Symbols/dyld", bytes: 400_000)
+
+        let locations = await DeveloperCaches.scan(homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.count == 2)
+        #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
+    }
+
     /// Peel reads cask definitions from Homebrew's `api` folder, which `brew cleanup` leaves alone too. It is
     /// never offered: without it, the next Homebrew question would go to the network.
     @Test func leavesHomebrewsCopyOfTheCaskDefinitions() async throws {
