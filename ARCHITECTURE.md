@@ -117,7 +117,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
 - **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears, and
   a folder with something excluded inside is never moved.
 - **Unknown stays unknown.** A size that couldn't be measured, a list a tool didn't give, an answer that didn't
-  come: each is kept as not known, shown as such, and never selected for the user.
+  come, whether an item is still in the Trash when macOS won't let Peel look (`TrashedItem.standing`): each is
+  kept as not known, shown as such, never selected for the user, and never forgotten from History.
 - **Every hold back has a reason.** When Peel takes a checkmark away, the row says why.
 
 ## The helper

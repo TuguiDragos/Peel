@@ -77,7 +77,7 @@ public struct ItemIdentity: Codable, Hashable, Sendable {
     /// When the item was made, in nanoseconds since 1970.
     public let birth: Int64
 
-    init(_ info: stat) {
+    public init(_ info: stat) {
         device = Int64(info.st_dev)
         inode = UInt64(info.st_ino)
         birth = Int64(info.st_birthtimespec.tv_sec) * 1_000_000_000 + Int64(info.st_birthtimespec.tv_nsec)

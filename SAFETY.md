@@ -133,6 +133,8 @@ root of another disk), asked of the folder itself with every link resolved: a fo
 `.Trash`, a link into Messages, or iCloud Drive's own Trash, is refused. And it takes only the very item that
 went: History keeps which item it was (its inode and when it was made), so once the Trash is emptied, another
 item that lands in the same place, another project's `node_modules`, say, is never put back in its stead.
+History offers to forget a record only once its item has certainly left the Trash, asks first, and looks again
+just before; an item Peel isn't allowed to look at is shown as not known and kept.
 
 ## What is selected for you
 

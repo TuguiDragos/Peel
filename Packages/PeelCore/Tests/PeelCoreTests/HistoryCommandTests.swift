@@ -159,6 +159,25 @@ struct HistoryCommandTests {
         #expect(parts.first?["tool"] is NSNull)
     }
 
+    /// A removal whose items Peel cannot look at in the Trash is not called gone: nobody knows yet.
+    @Test func aRemovalPeelCannotLookAtIsNotCalledGone() throws {
+        let directory = try TemporaryDirectory()
+        let trashed = try directory.file("home/.Trash/report.pdf")
+        let record = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(originalURL: directory.url.appending(path: "home/Documents/report.pdf"), trashedURL: trashed, date: .now),
+            size: 16,
+            source: "Editor",
+            tool: "applications"
+        )
+        try directory.setPermissions(0, of: "home/.Trash")
+        defer { try? directory.setPermissions(0o755, of: "home/.Trash") }
+
+        let batch = try #require(Batch.all(in: [record]).first)
+
+        #expect(batch.state(among: batch.records) == "can't look in the Trash")
+    }
+
     /// With nothing recorded, the command prints a sentence rather than an empty table, and `--json` prints an
     /// empty list.
     @Test func saysSoWhenThereIsNothingToList() async throws {

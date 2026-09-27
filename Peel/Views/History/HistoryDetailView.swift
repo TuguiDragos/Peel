@@ -10,25 +10,37 @@ struct HistoryDetailView: View {
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
     /// moment, and offer to forget records that are still there.
     @State private var standing: Standing?
+    @State private var isAskingToForget = false
     let batch: RemovalBatch
 
-    /// Which records are still in the Trash, and which are in the Trash of a disk that isn't connected. Any
-    /// other record has left the Trash. It is read off the main actor, so drawing the page never touches the disk.
+    /// Which records are still in the Trash, which are in the Trash of a disk that isn't connected, and which Peel
+    /// can't look at. Any other record has left the Trash. It is read off the main actor, so drawing the page never
+    /// touches the disk.
     private struct Standing {
         var inTrash: Set<RemovalRecord.ID> = []
         var away: Set<RemovalRecord.ID> = []
+        var notKnown: Set<RemovalRecord.ID> = []
 
         @concurrent
         static func of(_ records: [RemovalRecord]) async -> Standing {
             var standing = Standing()
             for record in records {
-                if record.isStillInTrash {
+                let place = record.standing
+                if place == .inTheTrash {
                     standing.inTrash.insert(record.id)
                 } else if !record.isOnAConnectedDisk {
                     standing.away.insert(record.id)
+                } else if place == .notKnown {
+                    standing.notKnown.insert(record.id)
                 }
             }
             return standing
+        }
+
+        /// The records among `records` that have left the Trash, looked at again.
+        @concurrent
+        static func stillGone(_ records: [RemovalRecord]) async -> [RemovalRecord] {
+            records.filter { $0.standing == .gone && $0.isOnAConnectedDisk }
         }
     }
 
@@ -54,7 +66,15 @@ struct HistoryDetailView: View {
 
     private var missing: [RemovalRecord] {
         guard let standing else { return [] }
-        return batch.records.filter { !standing.inTrash.contains($0.id) && !standing.away.contains($0.id) }
+        return batch.records.filter {
+            !standing.inTrash.contains($0.id) && !standing.away.contains($0.id) && !standing.notKnown.contains($0.id)
+        }
+    }
+
+    /// Records Peel can't look at in the Trash. Whether they are still there is not known, so the page never offers
+    /// to forget them.
+    private var notKnown: [RemovalRecord] {
+        batch.records.filter { standing?.notKnown.contains($0.id) == true }
     }
 
     /// Records in the Trash of a disk that isn't connected. They may still be there, so the page never offers
@@ -109,10 +129,28 @@ struct HistoryDetailView: View {
                 detail: Text("Peel can only put back what is still there.")
             ) {
                 Button("Forget") {
-                    Task { await history.forget(missing) }
+                    isAskingToForget = true
                 }
                 .tint(.red)
             }
+            .listRowSeparator(.hidden)
+            .confirmationDialog(Text("Forget ^[\(missing.count) item](inflect: true)?"), isPresented: $isAskingToForget) {
+                Button("Forget", role: .destructive) {
+                    // Looked at again first: an item can come back to the Trash, or stop being visible, meanwhile.
+                    Task { await history.forget(await Standing.stillGone(missing)) }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("What History forgets, it can’t put back afterwards.")
+            }
+        }
+
+        if !notKnown.isEmpty {
+            Notice(
+                title: Text("Peel can’t look in the Trash right now"),
+                detail: Text("History keeps what it can’t see until Peel can look again."),
+                kind: .note
+            ) {}
             .listRowSeparator(.hidden)
         }
 
@@ -175,6 +213,7 @@ struct HistoryDetailView: View {
     private func place(of record: RemovalRecord, in standing: Standing) -> RecordPlace {
         if standing.inTrash.contains(record.id) { return .inTrash }
         if standing.away.contains(record.id) { return .onADiskThatIsAway }
+        if standing.notKnown.contains(record.id) { return .notKnown }
         return .gone
     }
 
@@ -232,6 +271,7 @@ private struct RestoreBar: View {
 private enum RecordPlace {
     case inTrash
     case onADiskThatIsAway
+    case notKnown
     case gone
 
     var symbolName: String { self == .inTrash ? "trash" : "questionmark.circle" }
@@ -241,6 +281,7 @@ private enum RecordPlace {
         case .gone: "No longer in the Trash"
         case .inTrash: "In the Trash"
         case .onADiskThatIsAway: "On a disk that isn’t connected"
+        case .notKnown: "Peel can’t look in the Trash right now"
         }
     }
 }

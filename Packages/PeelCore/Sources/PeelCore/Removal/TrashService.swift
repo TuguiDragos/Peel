@@ -34,11 +34,28 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         self.identity = identity
     }
 
+    /// Where the item stands now, as the disk says.
+    public enum Standing: Sendable, Equatable {
+        case inTheTrash
+        /// Nothing is where it went, or, when Peel knows which item went, another item is.
+        case gone
+        /// macOS would not let Peel look, so whether it is there is not known.
+        case notKnown
+    }
+
+    public var standing: Standing {
+        var info = stat()
+        guard lstat(trashedURL.path(percentEncoded: false), &info) == 0 else {
+            return errno == ENOENT || errno == ENOTDIR ? .gone : .notKnown
+        }
+        guard let identity else { return .inTheTrash }
+        return Identity(ItemIdentity(info)) == identity ? .inTheTrash : .gone
+    }
+
     /// Whether the item is still where it went in the Trash: something is there and, when Peel knows which item
     /// went, it is that item.
     public var isInTheTrash: Bool {
-        guard let identity else { return trashedURL.isThere }
-        return Identity(ofItemAt: trashedURL) == identity
+        standing == .inTheTrash
     }
 }
 

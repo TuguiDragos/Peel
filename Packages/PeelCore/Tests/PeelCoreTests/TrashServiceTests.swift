@@ -244,6 +244,29 @@ struct TrashServiceTests {
         #expect(FileManager.default.fileExists(atPath: movedLater.trashedURL.path(percentEncoded: false)))
     }
 
+    /// An item is gone from the Trash only when the disk says nothing is there, or another item is. When macOS won't
+    /// let Peel look, whether it is there is not known, and never read as gone, since gone records can be forgotten.
+    @Test func whatPeelCannotSeeInTheTrashIsNotKnownRatherThanGone() throws {
+        let directory = try TemporaryDirectory()
+        let trashed = try directory.file("home/.Trash/report.pdf")
+        let item = TrashedItem(
+            originalURL: directory.url.appending(path: "home/Documents/report.pdf"),
+            trashedURL: trashed,
+            date: .now,
+            identity: TrashedItem.Identity(ofItemAt: trashed)
+        )
+        #expect(item.standing == .inTheTrash)
+
+        try directory.setPermissions(0, of: "home/.Trash")
+        #expect(item.standing == .notKnown)
+        try directory.setPermissions(0o755, of: "home/.Trash")
+
+        try FileManager.default.moveItem(at: trashed, to: directory.url.appending(path: "emptied"))
+        #expect(item.standing == .gone)
+        try directory.file("home/.Trash/report.pdf")
+        #expect(item.standing == .gone, "another item in its place was taken for it")
+    }
+
     /// Put Back asks again, of the item it holds open, whether it is the one that moved: another item could take its
     /// place between the look and the move.
     @Test func putBackLeavesAnotherItemInThePlaceItHolds() throws {

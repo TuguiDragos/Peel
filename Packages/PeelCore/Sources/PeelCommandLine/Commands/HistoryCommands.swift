@@ -34,6 +34,7 @@ struct Batch {
     func state(among records: [RemovalRecord]) -> String {
         if records.allSatisfy(\.isStillInTrash) { return "in the Trash" }
         if records.contains(where: { !$0.isOnAConnectedDisk }) { return "on a disk that isn't connected" }
+        if records.contains(where: { $0.standing == .notKnown }) { return "can't look in the Trash" }
         return restorable.isEmpty ? "gone from the Trash" : "partly gone from the Trash"
     }
 }

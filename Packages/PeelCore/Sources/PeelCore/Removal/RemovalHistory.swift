@@ -55,6 +55,11 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         trashedItem.isInTheTrash
     }
 
+    /// Where the item stands now: in the Trash, gone from it, or not known when macOS won't let Peel look.
+    public var standing: TrashedItem.Standing {
+        trashedItem.standing
+    }
+
     /// False while the disk whose Trash holds the item is not connected. The item may still be there, so the
     /// record is not treated as missing.
     public var isOnAConnectedDisk: Bool {
