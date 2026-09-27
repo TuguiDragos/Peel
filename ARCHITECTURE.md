@@ -138,7 +138,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 
 - It answers administrators only, asked when a connection opens and again with each message, and it accepts
   only a copy of Peel signed by the same team, checked when a connection opens and for every message after it.
-  A released helper refuses a build that can be debugged.
+  A released helper refuses a build that can be debugged, and launchd starts the helper only as the team's own
+  build of it (`SpawnConstraint` in its launchd property list).
 - It does three things: moves items to the Trash, puts them back, and starts, stops, enables, or disables another
   vendor's launch daemon, never one macOS ships and never itself.
 - It serves a fixed list of folders (`PrivilegedPathPolicy`), refuses everything else, and refuses whatever

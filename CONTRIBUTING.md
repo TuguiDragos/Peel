@@ -29,7 +29,9 @@ leaves upgrades to Terminal.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
   `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team for the targets under Signing &
   Capabilities in Xcode and leave that change out of your commits. The helper accepts only an app signed by the
-  same team as itself, so the app and the helper you build work together. The package's tests need no signing.
+  same team as itself, so the app and the helper you build work together. launchd starts the helper only as the
+  team named in `Support/com.tuguidragos.Peel.Helper.plist` (`SpawnConstraint`), so to install the helper you
+  build, put your team there as well, again outside your commits. The package's tests need no signing.
 - Nothing else. The only dependency is Apple's swift-argument-parser, which Xcode fetches.
 
 ```bash

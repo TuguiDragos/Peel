@@ -35,6 +35,20 @@ struct HelperPolicyTests {
         }
     }
 
+    /// The team in `SpawnConstraint` has to be the one every target of the project signs with.
+    @Test func launchdStartsOnlyTheTeamsOwnHelper() throws {
+        let repository = StringCatalogTests.repository
+        let plist = try Data(contentsOf: repository.appending(path: "Support/\(HelperIdentity.launchdPlistName)"))
+        let job = try #require(try PropertyListSerialization.propertyList(from: plist, format: nil) as? [String: Any])
+        let project = try String(contentsOf: repository.appending(path: "Peel.xcodeproj/project.pbxproj"), encoding: .utf8)
+        let teams = Set(project.matches(of: /DEVELOPMENT_TEAM = (\w+);/).map { String($0.output.1) })
+
+        let constraint = try #require(job["SpawnConstraint"] as? [String: String], "launchd would start any code as the helper")
+        #expect(teams.count == 1)
+        let team = try #require(teams.first)
+        #expect(constraint == ["team-identifier": team, "signing-identifier": HelperIdentity.helperIdentifier])
+    }
+
     /// Which one is compiled in follows the build, so a shipped helper can never be handed the looser text.
     @Test func theTextInUseFollowsTheBuild() {
         let inUse = CodeSigning.requirement(identifier: "com.tuguidragos.Peel", teamIdentifier: "6R6J264YA2")

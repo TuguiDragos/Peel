@@ -11,6 +11,13 @@
 		<key>com.tuguidragos.Peel.Helper</key>
 		<true/>
 	</dict>
+	<key>SpawnConstraint</key>
+	<dict>
+		<key>team-identifier</key>
+		<string>6R6J264YA2</string>
+		<key>signing-identifier</key>
+		<string>com.tuguidragos.Peel.Helper</string>
+	</dict>
 	<key>AssociatedBundleIdentifiers</key>
 	<array>
 		<string>com.tuguidragos.Peel</string>
