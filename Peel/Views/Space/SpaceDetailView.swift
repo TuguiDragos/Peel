@@ -101,10 +101,11 @@ struct SpaceDetailView: View {
                     url: url,
                     icon: .file(url),
                     detail: nil,
+                    warning: plan.heldBack[url].map { String(localized: $0.explanation) },
                     size: plan.sizes[url] ?? 0,
                     isMeasured: plan.sizes[url] != nil,
                     isFirst: index == 0,
-                    hasNoteColumn: false,
+                    hasNoteColumn: !plan.heldBack.isEmpty,
                     selection: space, isSelected: space.isSelected(url)
                 )
             }
@@ -113,7 +114,7 @@ struct SpaceDetailView: View {
             SectionHeaderLine {
                 heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
             } actions: {
-                SelectAllButton(selectable: rows, selection: Bindable(space).selectedURLs)
+                SelectAllButton(selectable: rows.filter { plan.heldBack[$0] == nil }, selection: Bindable(space).selectedURLs)
             }
         } footer: {
             if !plan.appsToQuit.isEmpty || !plan.leftToDeveloper.isEmpty {

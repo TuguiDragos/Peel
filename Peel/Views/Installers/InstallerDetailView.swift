@@ -9,7 +9,7 @@ struct InstallerDetailView: View {
 
     var body: some View {
         let rows = items
-        let hasNoteColumn = rows.contains { !$0.isReadOnly && detail(for: $0) != nil }
+        let hasNoteColumn = rows.contains { !$0.isReadOnly && (detail(for: $0) != nil || $0.heldBack != nil) }
 
         List {
             header(rows)
@@ -29,6 +29,7 @@ struct InstallerDetailView: View {
                             url: item.url,
                             icon: .file(item.url),
                             detail: detail(for: item),
+                            warning: item.heldBack.map { String(localized: $0.explanation) },
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
                             isLocked: item.requiresPrivileges && !helper.canAct,
@@ -44,7 +45,7 @@ struct InstallerDetailView: View {
                     heading(kind.title, kind.explanation)
                 } actions: {
                     SelectAllButton(
-                        selectable: rows.filter { !$0.isReadOnly && !($0.requiresPrivileges && !helper.canAct) }.map(\.url),
+                        selectable: rows.filter { !$0.isReadOnly && $0.heldBack == nil && !($0.requiresPrivileges && !helper.canAct) }.map(\.url),
                         selection: Bindable(installers).selectedURLs
                     )
                 }

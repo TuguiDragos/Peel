@@ -172,6 +172,21 @@ struct SpaceRemovalTests {
         #expect(try #require(plan.sizes.values.first) >= 4_000)
     }
 
+    /// What may exist nowhere else is never selected for the person: a child with a wallet or a repository inside
+    /// is left for them to choose, with its reason.
+    @Test func aChildHoldingAWalletOrARepositoryIsLeftToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.coin.app/wallets/default", bytes: 100)
+        try directory.file("home/Library/Caches/com.tool.app/mirror/.git/HEAD", bytes: 100)
+        try directory.file("home/Library/Caches/com.gone.app/old.db", bytes: 100)
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+
+        let reasons = plan.removable.map { "\($0.lastPathComponent): \(plan.heldBack[$0].map(\.rawValue) ?? "none")" }.sorted()
+        #expect(reasons == ["com.coin.app: holdsAWallet", "com.gone.app: none", "com.tool.app: holdsRepository"])
+        #expect(plan.suggested.map(\.lastPathComponent) == ["com.gone.app"])
+    }
+
     /// Each removed item is recorded with its size, so History shows what a cleanup freed. A child that did not
     /// answer in time still goes, and only its size is unknown.
     @Test func aChildThatDidNotAnswerStillGoesAndHasNoSize() async throws {
@@ -180,11 +195,12 @@ struct SpaceRemovalTests {
         try directory.file("home/Library/Caches/com.gone.app/small.db", bytes: 4_000)
 
         let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), exclusions: .none, running: [:]) { url in
-            url.lastPathComponent == "com.slow.app" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "com.slow.app" ? nil : await FileSize.contents(of: url)
         }
 
         #expect(Set(plan.removable.map(\.lastPathComponent)) == ["com.slow.app", "com.gone.app"])
         #expect(plan.sizes.keys.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(plan.heldBack.map { "\($0.key.lastPathComponent): \($0.value.rawValue)" } == ["com.slow.app: notMeasured"])
     }
 
     /// An area's plan is made again when the disk changes, and what the person chose in it stays chosen: a child

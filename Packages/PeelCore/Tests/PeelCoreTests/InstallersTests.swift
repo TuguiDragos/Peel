@@ -18,7 +18,7 @@ struct InstallersTests {
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
-            _ = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 0, measure: unanswered.measure)
+            _ = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 0, measure: unanswered.walk)
         }
 
         #expect(stop.took < .seconds(1))
@@ -139,7 +139,7 @@ struct InstallersTests {
 
         let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000) { url in
             asked.withLock { $0.append(url.lastPathComponent) }
-            return await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            return await FileSize.contents(of: url)
         }
 
         #expect(asked.withLock { $0 } == ["Thing-1.dmg"])
@@ -160,7 +160,7 @@ struct InstallersTests {
             await Installers.scan(installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000) { _ in
                 measured.withLock { $0 += 1 }
                 while !Task.isCancelled { await Task.yield() }
-                return 400_000
+                return FolderContents(size: 400_000, holdsRepository: false)
             }
         }
         while measured.withLock({ $0 }) == 0 { await Task.yield() }
@@ -180,7 +180,7 @@ struct InstallersTests {
         try directory.directory("Applications")
 
         let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000) { url in
-            url.lastPathComponent == "slow" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "slow" ? nil : await FileSize.contents(of: url)
         }
 
         let backups = scan.items(in: .deviceBackup)
@@ -189,7 +189,8 @@ struct InstallersTests {
         #expect(try #require(backups.last?.size) >= 400_000)
     }
 
-    /// A package can be a folder. One that did not answer may be any size, so the floor does not drop it.
+    /// A package can be a folder. One that did not answer may be any size, so the floor does not drop it, and what
+    /// is inside is not known, so it is left for the person to choose.
     @Test func keepsAnInstallerWhoseSizeIsNotKnown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/Suite.mpkg/Contents/Packages/one.pkg", bytes: 16)
@@ -199,6 +200,7 @@ struct InstallersTests {
 
         #expect(scan.items(in: .appInstaller).map(\.name) == ["Suite.mpkg"])
         #expect(scan.items.first?.size == nil)
+        #expect(scan.items.first?.heldBack == .notMeasured)
     }
 
     /// A backup is the only thing here Peel won't move: it says what is in it and leaves it to Finder.
@@ -216,7 +218,7 @@ struct InstallersTests {
         try (PropertyListSerialization.data(fromPropertyList: ["IsEncrypted": true], format: .xml, options: 0))
             .write(to: backup.appending(path: "Manifest.plist"))
 
-        let items = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: FileSize.measure)
+        let items = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: LeftoverScanner.walk)
         let item = try #require(items.first)
 
         #expect(item.name == "Zoë's iPhone")
@@ -226,7 +228,7 @@ struct InstallersTests {
         let tablet = try directory.directory("Backup/00008112-00AB")
         try (PropertyListSerialization.data(fromPropertyList: ["Product Type": "iPad13,4", "Product Version": "26.1"], format: .xml, options: 0))
             .write(to: tablet.appending(path: "Info.plist"))
-        let tablets = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: FileSize.measure)
+        let tablets = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: LeftoverScanner.walk)
         #expect(tablets.first { $0.url.lastPathComponent == "00008112-00AB" }?.notes == [.name("iPad13,4"), .name("iPadOS 26.1")])
         #expect(item.date == Date(timeIntervalSince1970: 1_700_000_000))
         #expect(item.isReadOnly)

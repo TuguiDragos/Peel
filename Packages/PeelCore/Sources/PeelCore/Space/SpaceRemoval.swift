@@ -16,6 +16,9 @@ public enum SpaceRemoval {
         /// The size of each removable child, which is what emptying frees. A child whose size is not known is
         /// missing here but stays in `removable`.
         public let sizes: [URL: Int64]
+        /// Why a removable child is left for the person to choose, from what measuring it saw. A child missing here
+        /// holds nothing that keeps it from being selected.
+        public var heldBack: [URL: HoldBack] = [:]
 
         /// The open apps whose folders are left alone, each named once and sorted, by the names the user knows, not
         /// the folder names. One app can write to several folders, by its name and by its identifier.
@@ -23,9 +26,9 @@ public enum SpaceRemoval {
             Set(inUse.map(\.name)).sorted()
         }
 
-        /// What Peel selects of this plan for the person: every child it could measure.
+        /// What Peel selects of this plan for the person: every child it could measure that nothing holds back.
         public var suggested: Set<URL> {
-            Set(sizes.keys)
+            Set(sizes.keys).subtracting(heldBack.keys)
         }
     }
 
@@ -36,7 +39,7 @@ public enum SpaceRemoval {
         exclusions: Exclusions = .none,
         running: [String: String] = [:]
     ) async -> Plan {
-        await plan(for: item, environment: environment, exclusions: exclusions, running: running, measure: FileSize.measure)
+        await plan(for: item, environment: environment, exclusions: exclusions, running: running, measure: LeftoverScanner.walk)
     }
 
     @concurrent
@@ -45,14 +48,20 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions,
         running: [String: String],
-        measure: FileSize.Measure
+        measure: LeftoverScanner.Measure
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
         var sizes: [URL: Int64] = [:]
+        var heldBack: [URL: HoldBack] = [:]
         for child in children.removable where !Task.isCancelled {
-            sizes[child] = await measure(child)
+            let contents = await measure(child)
+            sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
+            heldBack[child] = HoldBack.seen(in: contents)
         }
-        return Plan(removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes)
+        return Plan(
+            removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
+            heldBack: heldBack
+        )
     }
 
     /// What of `item` can move now, measuring nothing: the check a move makes just before it moves, since an app
