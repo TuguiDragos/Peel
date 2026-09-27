@@ -31,7 +31,8 @@ struct LeftoverMatcher: Sendable {
         self.registeredApp = registeredApp
     }
 
-    func match(fileName: String, kind: SearchLocation.Kind) -> LeftoverMatch? {
+    /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
+    func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)
         // A hidden file outside the home folder is the system's own: `.GlobalPreferences.plist` is the global domain.
         guard !key.hasPrefix(".") else { return nil }
@@ -47,7 +48,13 @@ struct LeftoverMatcher: Sendable {
                 sharedWith.insert(other.bundleIdentifier)
             }
         }
-        for other in others {
+        // An app inside the item goes with it, such as an agent or an update an app keeps in its own folder.
+        let item = url.map(PathPattern.comparablePath)
+        func goesWithTheItem(_ other: Profile) -> Bool {
+            guard let item, other.path.hasPrefix(item) else { return false }
+            return PathComponents.isPath(other.path, atOrInside: item)
+        }
+        for other in others where !goesWithTheItem(other) {
             guard let rival = other.evidence(for: candidate) else {
                 // Siblings from the same maker, like Firefox Nightly beside Firefox, use the same files.
                 if target.isSibling(of: other), other.sharesName(with: candidate) {
@@ -228,6 +235,8 @@ extension LeftoverMatcher {
         static let appleTeam = "59gab85efg."
 
         let url: URL
+        /// Where the bundle is, spelled to be compared (`PathPattern.comparablePath`).
+        let path: String
         let bundleIdentifier: String
         let identifier: String
         let embeddedIdentifiers: [EmbeddedIdentifier]
@@ -241,6 +250,7 @@ extension LeftoverMatcher {
 
         init(_ app: InstalledApp) {
             url = app.url
+            path = PathPattern.comparablePath(of: app.url)
             bundleIdentifier = app.bundleIdentifier
             identifier = app.bundleIdentifier.lowercased()
             let vendor = Identifier.vendor(of: identifier)

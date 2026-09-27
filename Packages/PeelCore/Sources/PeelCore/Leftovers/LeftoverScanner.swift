@@ -44,17 +44,37 @@ public struct LeftoverScanner: Sendable {
 
     /// What tells `app`'s files from those of every other app. The apps macOS ships are rivals too: Apple keeps
     /// folders under their names (`Application Support/Music`) that an app of the same name would otherwise get
-    /// outright. So is every other copy of the app macOS knows, such as an older one kept in Downloads or one on
-    /// another disk, since it carries the app's identifier and uses the same files.
+    /// outright. So are the apps macOS knows outside the list that may use the same files (`appsElsewhere`).
     func matcher(for app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverMatcher {
         let known = installedApps + (await AppCatalog.systemApps.value)
-        let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
-        let listed = Set(known.filter { $0.bundleIdentifier == app.bundleIdentifier }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
-        let elsewhere = AppInspector.applicationURLs(forBundleIdentifier: app.bundleIdentifier).filter { url in
-            let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
-            return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle)
+        return LeftoverMatcher(app: app, installedApps: known + (await appsElsewhere(like: app, besides: known)))
+    }
+
+    /// The apps macOS knows, outside `known`, that may use `app`'s files: every other copy of it, such as an older one
+    /// kept in Downloads or one on another disk, and the apps of the same maker, such as a Nightly build beside it.
+    /// Spotlight names the maker's apps and Launch Services says where each is installed, so a copy inside a backup
+    /// never counts. Apple's own apps are left to the list of what macOS ships, which Spotlight would name whole.
+    private func appsElsewhere(like app: InstalledApp, besides known: [InstalledApp]) async -> [InstalledApp] {
+        var identifiers = [app.bundleIdentifier]
+        if !ProtectedData.isApplesName(app.bundleIdentifier), let vendor = Identifier.vendor(of: app.bundleIdentifier) {
+            let own = app.bundleIdentifier.lowercased()
+            identifiers += await AppInspector.indexedIdentifiers(beginningWith: vendor + ".").filter { $0.lowercased() != own }.sorted()
         }
-        return LeftoverMatcher(app: app, installedApps: known + elsewhere.compactMap(AppInspector.inspect))
+        let wanted = Set(identifiers.map { $0.lowercased() })
+        let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
+        let listed = Set(known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
+        return identifiers.flatMap(AppInspector.applicationURLs).filter { url in
+            let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
+            return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle) && Self.standsOnItsOwn(path, in: environment)
+        }.compactMap(AppInspector.inspect)
+    }
+
+    /// True for an app at `path` that a person keeps on its own. One inside the home's Library or the Mac's is part of
+    /// another app (a helper, an agent, an update being prepared, a build) and goes with that app's folder.
+    static func standsOnItsOwn(_ path: String, in environment: SearchEnvironment) -> Bool {
+        ![environment.homeDirectory, environment.rootDirectory].contains { folder in
+            PathComponents.isPath(path, inside: PathPattern.comparablePath(of: folder.appending(path: "Library", directoryHint: .isDirectory)))
+        }
     }
 
     @concurrent
@@ -215,7 +235,7 @@ public struct LeftoverScanner: Sendable {
                 for name in names {
                     let url = folder.appending(path: name)
                     let path = url.path(percentEncoded: false)
-                    if let match = matcher.match(fileName: name, kind: kind), match.confidence >= .likely,
+                    if let match = matcher.match(fileName: name, kind: kind, at: url), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
                         guard !refuses(path, home) else { continue }
                         found.append(await leftover(at: url, kind: kind, match: match, parent: parent, home: home, isInsideAnotherAppsFolder: isAnotherApps, measure: measure))
@@ -308,11 +328,11 @@ public struct LeftoverScanner: Sendable {
         bundle: String
     ) -> LeftoverMatch? {
         guard kind != .commandLineTools else { return leadsInside(bundle, link: url) }
-        let byName = matcher.match(fileName: name, kind: kind)
+        let byName = matcher.match(fileName: name, kind: kind, at: url)
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
             guard byName == nil, let identifier = DeclaredIdentifier.of(url, kind: kind) else { return byName }
             // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
-            return matcher.match(fileName: identifier, kind: .elsewhere)
+            return matcher.match(fileName: identifier, kind: .elsewhere, at: url)
         }
         return byName?.confidence == .certain ? byName : inside
     }

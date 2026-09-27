@@ -101,7 +101,7 @@ public struct Uninstallation: Sendable {
         let bundle = PathPattern.comparablePath(of: app.url)
         for item in evidence.items where !exclusions.excludes(item.url) && !isAtOrInside(bundle, item.url) {
             let place = place(of: item.url, in: environment)
-            let own = matcher.match(fileName: item.url.lastPathComponent, kind: place.kind)
+            let own = matcher.match(fileName: item.url.lastPathComponent, kind: place.kind, at: item.url)
             // Every folder on the way counts: a path inside a folder another app claims is not this app's alone.
             let claims = place.components.map { matcher.othersClaiming(fileName: $0, kind: place.kind) }
             let leftover = await LeftoverScanner.leftover(

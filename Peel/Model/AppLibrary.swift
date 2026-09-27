@@ -631,10 +631,15 @@ final class AppLibrary {
         AppCatalog.app(at: url, among: apps)
     }
 
+    /// The name of the app with `bundleIdentifier`: the listed app's, or the one Finder shows for an app macOS knows
+    /// elsewhere, such as a helper or a Nightly build on another disk. The identifier itself when macOS knows none.
     func name(forBundleIdentifier bundleIdentifier: String) -> String {
         if lastNames?.revision != revision {
             lastNames = (revision, Dictionary(apps.map { ($0.bundleIdentifier, $0.name) }, uniquingKeysWith: { first, _ in first }))
         }
-        return lastNames?.names[bundleIdentifier] ?? bundleIdentifier
+        if let name = lastNames?.names[bundleIdentifier] { return name }
+        let name = AppInspector.applicationURL(forBundleIdentifier: bundleIdentifier).map(AppInspector.displayName(of:)) ?? bundleIdentifier
+        lastNames?.names[bundleIdentifier] = name
+        return name
     }
 }

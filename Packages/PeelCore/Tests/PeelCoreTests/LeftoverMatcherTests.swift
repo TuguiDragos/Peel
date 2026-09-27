@@ -66,6 +66,26 @@ struct LeftoverMatcherTests {
         #expect(updater.isRecommended)
     }
 
+    /// An app that sits inside the item goes with it, so it keeps none of it: an agent or an update the app keeps in
+    /// its own support folder does not make that folder shared. The same apps kept anywhere else do.
+    @Test func anAppInsideTheItemKeepsNoneOfIt() throws {
+        let sketchpad = app("org.example.Sketchpad", name: "Sketchpad")
+        let folder = URL(filePath: "/Users/x/Library/Application Support/Sketchpad")
+        func claim(besides rivals: [InstalledApp]) throws -> LeftoverMatch {
+            try #require(LeftoverMatcher(app: sketchpad, installedApps: [sketchpad] + rivals).match(fileName: "Sketchpad", kind: .applicationSupport, at: folder))
+        }
+        func agent(at url: URL) -> InstalledApp {
+            InstalledApp(url: url, bundleIdentifier: "org.example.agent", name: "SketchpadAgent")
+        }
+        func update(at url: URL) -> InstalledApp {
+            InstalledApp(url: url, bundleIdentifier: sketchpad.bundleIdentifier, name: "Sketchpad")
+        }
+
+        #expect(try claim(besides: [agent(at: folder.appending(path: "SketchpadAgent.app")), update(at: folder.appending(path: "Updates/Sketchpad.app"))]).isRecommended)
+        #expect(try claim(besides: [agent(at: URL(filePath: "/Volumes/Disk/SketchpadAgent.app"))]).sharedWith == ["org.example.agent"])
+        #expect(try claim(besides: [update(at: URL(filePath: "/Users/x/Downloads/Sketchpad.app"))]).otherCopies.count == 1)
+    }
+
     @Test(arguments: [
         ("com.spotify.client.plist", SearchLocation.Kind.preferences),
         ("COM.SPOTIFY.CLIENT", .caches),

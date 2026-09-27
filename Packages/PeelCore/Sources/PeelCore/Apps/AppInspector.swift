@@ -20,6 +20,31 @@ public enum AppInspector {
         }
     }
 
+    /// The identifiers of the apps Spotlight has indexed whose identifier begins with `prefix`, wherever they are, such
+    /// as every app of one maker. Empty when Spotlight is off, has none, or does not answer within `budget`, and for a
+    /// prefix that is not made of an identifier's characters, since it goes into the query as it is.
+    static func indexedIdentifiers(
+        beginningWith prefix: String,
+        within budget: TimeInterval = spotlightBudget
+    ) async -> Set<String> {
+        guard !prefix.isEmpty, prefix.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || "._-".contains($0)) }) else { return [] }
+        let text = "kMDItemContentTypeTree == \"com.apple.application-bundle\" && kMDItemCFBundleIdentifier == \"\(prefix)*\"c"
+        let found = await SlowRead.answer(within: budget) { _ -> Set<String> in
+            guard let query = MDQueryCreate(kCFAllocatorDefault, text as CFString, nil, nil),
+                  MDQueryExecute(query, CFOptionFlags(kMDQuerySynchronous.rawValue))
+            else { return [] }
+            return Set((0..<MDQueryGetResultCount(query)).compactMap { index in
+                guard let result = MDQueryGetResultAtIndex(query, index) else { return nil }
+                return MDItemCopyAttribute(Unmanaged<MDItem>.fromOpaque(result).takeUnretainedValue(), kMDItemCFBundleIdentifier) as? String
+            })
+        }
+        return found ?? []
+    }
+
+    /// How long a scan waits for Spotlight. It answers a query on one attribute at once unless it is rebuilding its
+    /// index, and a scan can do without the apps it would name.
+    private static let spotlightBudget: TimeInterval = 2
+
     public static func inspect(_ url: URL) -> InstalledApp? {
         let contents = url.appending(path: "Contents", directoryHint: .isDirectory)
         guard

@@ -91,6 +91,19 @@ struct LeftoverScannerTests {
         }
     }
 
+    /// An app inside the home's Library or the Mac's is part of another app, such as an agent kept in its maker's
+    /// support folder or a build, so it keeps no file of an app it resembles. macOS's own Library is not one of them.
+    @Test func anAppInALibraryFolderIsPartOfAnotherApp() {
+        let mac = SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
+
+        #expect(!LeftoverScanner.standsOnItsOwn("/Users/x/Library/Application Support/Sketchpad/SketchpadAgent.app", in: mac))
+        #expect(!LeftoverScanner.standsOnItsOwn("/Library/Application Support/Sketchpad/Updater.app", in: mac))
+        #expect(LeftoverScanner.standsOnItsOwn("/Users/x/Downloads/Sketchpad Nightly.app", in: mac))
+        #expect(LeftoverScanner.standsOnItsOwn("/Volumes/Disk/Sketchpad.app", in: mac))
+        #expect(LeftoverScanner.standsOnItsOwn("/System/Library/Input Methods/CharacterPalette.app", in: mac))
+        #expect(LeftoverScanner.standsOnItsOwn("/Users/x/Libraryish/Sketchpad.app", in: mac))
+    }
+
     /// The guard, which reads every spelling of a path from the disk, is asked only about what the scan would take
     /// or walk into, and what it refuses stays out.
     @Test func asksTheGuardOnlyAboutWhatItWouldTakeOrWalkInto() async throws {

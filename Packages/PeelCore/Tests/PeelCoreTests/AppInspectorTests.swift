@@ -29,6 +29,26 @@ struct AppInspectorTests {
     }
 
     /// Reads `/usr/bin/true`, the real binary the `universal` fixture above is modeled on.
+    /// Spotlight names the apps whose identifier begins with a maker's, wherever they are: every Mac has the
+    /// dictation input method in its input methods folder, outside the Applications folders. A Mac with Spotlight off
+    /// answers nothing, and the test waits for one that indexes. The other tests' scans ask Spotlight at the same
+    /// time, so this one is given longer than a scan waits.
+    @Test(.enabled("Spotlight indexes this Mac") { await !AppInspector.indexedIdentifiers(beginningWith: "com.apple.", within: 60).isEmpty })
+    func spotlightNamesTheAppsOfOneMaker() async {
+        let found = await AppInspector.indexedIdentifiers(beginningWith: "com.apple.inputmethod.", within: 60)
+
+        #expect(found.contains("com.apple.inputmethod.ironwood"))
+        #expect(found.allSatisfy { $0.lowercased().hasPrefix("com.apple.inputmethod.") })
+    }
+
+    /// A bundle writes its own identifier, and a maker's prefix taken from it goes into a Spotlight query. One that
+    /// could change the query asks nothing.
+    @Test func aPrefixThatCouldChangeTheQueryAsksNothing() async {
+        for prefix in ["com.example\" || kMDItemFSName == \"*", "com.example *", "", "com.example.\\"] {
+            #expect(await AppInspector.indexedIdentifiers(beginningWith: prefix).isEmpty, "\(prefix)")
+        }
+    }
+
     @Test func readsARealBinaryTheSameWay() {
         #expect(MachOHeader.architectures(ofExecutableAt: URL(filePath: "/usr/bin/true")).contains(.arm64))
     }
