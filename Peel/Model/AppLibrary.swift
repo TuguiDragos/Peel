@@ -81,15 +81,16 @@ final class AppLibrary {
 
     /// Incremented by anything that changes which apps have an update waiting, so the list redraws.
     private(set) var updatesRevision = 0
-    private(set) var appsCheckingForUpdates: Set<InstalledApp.ID> = [] {
+    private var updateRounds = UpdateRounds<InstalledApp.ID>() {
         didSet {
-            if appsCheckingForUpdates.isEmpty {
+            if updateRounds.checking.isEmpty {
                 heldUpdateCount = nil
-            } else if oldValue.isEmpty {
+            } else if oldValue.checking.isEmpty {
                 heldUpdateCount = appsWithUpdates.count
             }
         }
     }
+    var appsCheckingForUpdates: Set<InstalledApp.ID> { updateRounds.checking }
     /// The update count when the current round of checks began. The menu bar shows it until the round ends,
     /// rather than a count that climbs as answers arrive seconds apart.
     private var heldUpdateCount: Int?
@@ -435,9 +436,9 @@ final class AppLibrary {
         .map { app in apps.first { $0.id == app.id } ?? app }
         guard !wanted.isEmpty else { return }
         let asked = Dictionary(wanted.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        appsCheckingForUpdates.formUnion(wanted.map(\.id))
-        // However the round ends, no app is left marked as being checked.
-        defer { appsCheckingForUpdates.subtract(wanted.map(\.id)) }
+        let round = updateRounds.begin(wanted.map(\.id))
+        // However the round ends, no app is left marked as being checked by it.
+        defer { updateRounds.end(round) }
         let checker = updateChecker
         let preference = updateSource
         let casks = casks
@@ -450,7 +451,11 @@ final class AppLibrary {
             }
             while case let (id, answer)? = await group.next() {
                 let status = answer.status
-                appsCheckingForUpdates.remove(id)
+                // The update source changed since this round began, and the round that change started answers now.
+                guard updateRounds.answered(id, in: round) else {
+                    group.cancelAll()
+                    continue
+                }
                 // In a canceled round every pending request ends as a failure. Recording those would erase
                 // what was known and put off the next check for hours.
                 guard !Task.isCancelled else { continue }
@@ -474,7 +479,7 @@ final class AppLibrary {
                 }
             }
         }
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, updateRounds.isCurrent(round) else { return }
         UpdateMemoryStore.save(memory)
     }
 
@@ -530,6 +535,7 @@ final class AppLibrary {
     /// Forgets every update answer and schedule, then checks every app again. The answers shown were found
     /// under the old source, and the badge would explain them in terms of the new one.
     func updateSourceChanged() async {
+        updateRounds.sourceChanged()
         updateStatuses = [:]
         lastUpdateChecks = [:]
         memory = [:]
