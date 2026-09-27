@@ -303,6 +303,28 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Caches/New Folder/not-there-yet.pdf")))
     }
 
+    /// The same folded letters in the name of something that is there. The kernel names an item as the disk spells
+    /// it, so a wallet or a conversation asked for under a folded name is still refused.
+    @Test func aLetterTheDiskFoldsInTheNameOfSomethingThere() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Library/Application Support/Bitcoin/wallets/default/wallet.dat")
+        try directory.file("home/Library/Messages/chat.db")
+        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+
+        let folded = [
+            "Library/Application Support/Bitcoin/walletſ",
+            "Library/Application ſupport/Bitcoin/wallets/default/wallet.dat",
+            "Library/Meßages/chat.db",
+            "Library/Meſſages",
+        ]
+        for path in folded {
+            let url = home.appending(path: path)
+            try #require(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)), "this disk does not fold \(path)")
+            #expect(!guardian.allowsRemoval(of: url), "ATTACK SUCCEEDED: the guard allows \(path)")
+        }
+    }
+
     /// A home folder kept on another disk is reached through a link, and Spotlight names files by where they
     /// really are. What is protected has to be known under that name too.
     @Test func aHomeReachedThroughALink() throws {
