@@ -103,6 +103,8 @@ final class AppLibrary {
     private(set) var lastUpdateChecks: [InstalledApp.ID: Date] = [:]
     /// Apps whose signing team changed without the user acknowledging it yet, by bundle identifier.
     private(set) var teamChanges: [String: TeamRegistry.Change] = [:]
+    /// Why the record of who signs each app is not being kept, or nil while it is.
+    private(set) var teamRecordProblem: TeamRegistry.Problem?
     /// The casks Homebrew knows, installed or not, for telling where an app came from and comparing versions.
     private(set) var casks: [HomebrewPackage] = []
     /// The cask each Homebrew-installed app came from. Matched with the same evidence everything else uses,
@@ -612,13 +614,22 @@ final class AppLibrary {
     /// Records the team that signs each app, and keeps the apps whose team changed. The registry reports each
     /// change again on every launch until the user acknowledges it.
     func checkSigningTeams() async {
-        let changes = await teamRegistry.check(apps)
-        teamChanges = Dictionary(changes.map { ($0.bundleIdentifier, $0) }, uniquingKeysWith: { first, _ in first })
+        let outcome = await teamRegistry.check(apps)
+        teamChanges = Dictionary(outcome.changes.map { ($0.bundleIdentifier, $0) }, uniquingKeysWith: { first, _ in first })
+        teamRecordProblem = outcome.problem
     }
 
     func acknowledgeTeamChange(for app: InstalledApp) async {
         teamChanges.removeValue(forKey: app.bundleIdentifier)
-        await teamRegistry.acknowledge(app.bundleIdentifier)
+        if let problem = await teamRegistry.acknowledge(app.bundleIdentifier) {
+            teamRecordProblem = problem
+        }
+    }
+
+    /// Keeps a record of signers that cannot be read beside a new one, and records who signs each app now.
+    func startTeamRecordOver() async {
+        guard await teamRegistry.startOver() else { return }
+        await checkSigningTeams()
     }
 
     /// Selects an app, adding it first when it lives outside the scanned folders, for example in the Trash.

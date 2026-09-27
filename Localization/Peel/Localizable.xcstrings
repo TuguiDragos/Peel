@@ -76891,6 +76891,112 @@
         }
       }
     },
+    "Peel can’t read its record of who signs your apps" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst svůj záznam o tom, kdo podepisuje vaše aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann seine Aufzeichnung darüber, wer deine Apps signiert, nicht lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer su registro de quién firma tus apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire son registre des signataires de vos apps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere il registro di chi firma le tue app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリの署名者の記録を読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱 서명자 기록을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan zijn registratie van wie je apps ondertekent niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać swojego zapisu tego, kto podpisuje Twoje aplikacje"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler o registro de quem assina seus apps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi evidența celor care semnează aplicațiile dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать журнал того, кем подписаны Ваши приложения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa sin förteckning över vem som signerar dina appar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, uygulamalarınızı kimin imzaladığına ilişkin kaydını okuyamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдається прочитати запис про те, хто підписує ваші програми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你的App的签名者记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你的App簽署者記錄"
+          }
+        }
+      }
+    },
     "Peel can’t see or remove everything yet" : {
       "localizations" : {
         "cs" : {
@@ -77947,6 +78053,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法先儲存一份設定副本，因此沒有移動任何項目。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t save its record of who signs your apps" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl uložit svůj záznam o tom, kdo podepisuje vaše aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte seine Aufzeichnung darüber, wer deine Apps signiert, nicht speichern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar su registro de quién firma tus apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu enregistrer son registre des signataires de vos apps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a salvare il registro di chi firma le tue app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリの署名者の記録を保存できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱 서명자 기록을 저장할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon zijn registratie van wie je apps ondertekent niet bewaren"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować swojego zapisu tego, kto podpisuje Twoje aplikacje"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu salvar o registro de quem assina seus apps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut salva evidența celor care semnează aplicațiile dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить журнал того, кем подписаны Ваши приложения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara sin förteckning över vem som signerar dina appar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, uygulamalarınızı kimin imzaladığına ilişkin kaydını saklayamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти запис про те, хто підписує ваші програми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存你的App的签名者记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法儲存你的App簽署者記錄"
           }
         }
       }
@@ -123368,6 +123580,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在Peel能讀取這些項目或你重新開始之前，Peel不會移除任何項目，也不會還原任何項目，因為它無法得知你要求它不要動哪些項目。在下方加入或移除項目也會重新開始：舊檔案會保留在新檔案旁邊，但其中的內容都不再有效。"
+          }
+        }
+      }
+    },
+    "Until it can, Peel may not warn you when an app’s signer changes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud Peel nedokáže záznam uložit, nemusí vás upozornit, když aplikaci začne podepisovat někdo jiný."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis Peel die Aufzeichnung speichern kann, warnt es dich möglicherweise nicht, wenn eine App von jemand anderem signiert wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta que pueda hacerlo, es posible que Peel no te avise cuando cambie quién firma una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant qu’il n’y parvient pas, Peel risque de ne pas vous avertir si le signataire d’une app change."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché non ci riesce, Peel potrebbe non avvisarti quando cambia chi firma un’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存できるようになるまで、Peelはアプリの署名者が変わっても警告できないことがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록을 저장할 수 있게 되기 전까지, Peel은 앱의 서명자가 바뀔 때 경고하지 못할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totdat dat lukt, waarschuwt Peel je misschien niet als de ondertekenaar van een app verandert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki Peel nie będzie mógł go zachować, może Cię nie ostrzec, gdy aplikację zacznie podpisywać ktoś inny."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até conseguir, o Peel pode não avisar você quando um app passar a ser assinado por outro desenvolvedor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Până când o poate salva, Peel s‑ar putea să nu vă avertizeze când se schimbă semnatarul unei aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока это не удастся, Peel может не предупредить Вас, когда приложение начнет подписывать кто-то другой."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tills det går kan det hända att Peel inte varnar dig när det ändras vem som signerar en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kaydı saklayabilene kadar, bir uygulamayı imzalayan değiştiğinde sizi uyarmayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доки Peel не зможе зберегти запис, вона може не попередити вас, коли програму почне підписувати хтось інший."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在能够保存该记录之前，Peel可能不会在App的签名者更改时提醒你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在能儲存這份記錄之前，Peel可能無法在App的簽署者變更時提醒你。"
+          }
+        }
+      }
+    },
+    "Until you start the record over, Peel can’t warn you when an app’s signer changes. Starting over keeps the old file beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud nezačnete záznam znovu, Peel vás nemůže upozornit, když aplikaci začne podepisovat někdo jiný. Když začnete znovu, starý soubor se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis du mit der Aufzeichnung neu beginnst, kann Peel dich nicht warnen, wenn eine App von jemand anderem signiert wird. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta que vuelvas a empezar el registro, Peel no puede avisarte cuando cambie quién firma una app. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que vous n’avez pas recommencé le registre, Peel ne peut pas vous avertir si le signataire d’une app change. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché non ricominci il registro da capo, Peel non può avvisarti quando cambia chi firma un’app. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録を最初からやり直すまで、Peelはアプリの署名者が変わっても警告できません。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 기록을 처음부터 다시 시작하기 전까지, Peel은 앱의 서명자가 바뀔 때 경고할 수 없습니다. 처음부터 다시 시작하면 이전 파일은 새 파일 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totdat je opnieuw begint met de registratie, kan Peel je niet waarschuwen als de ondertekenaar van een app verandert. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki nie zaczniesz zapisu od nowa, Peel nie będzie mógł Cię ostrzec, gdy aplikację zacznie podpisywać ktoś inny. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até você recomeçar o registro, o Peel não pode avisar você quando um app passar a ser assinado por outro desenvolvedor. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Până când reîncepeți evidența, Peel nu vă poate avertiza când se schimbă semnatarul unei aplicații. Dacă o reîncepeți, fișierul vechi este păstrat lângă unul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Вы не начнете журнал заново, Peel не сможет предупредить Вас, когда приложение начнет подписывать кто-то другой. Если начать заново, старый файл сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tills du börjar om förteckningen kan Peel inte varna dig när det ändras vem som signerar en app. När du börjar om sparas den gamla filen bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz kaydı baştan başlatana kadar Peel, bir uygulamayı imzalayan değiştiğinde sizi uyaramaz. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доки ви не почнете запис наново, Peel не зможе попередити вас, коли програму почне підписувати хтось інший. Коли ви починаєте наново, старий файл зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新开始该记录之前，Peel无法在App的签名者更改时提醒你。重新开始会将旧文件保留在新文件旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新開始這份記錄之前，Peel無法在App的簽署者變更時提醒你。重新開始時，舊檔案會保留在新檔案旁邊。"
           }
         }
       }

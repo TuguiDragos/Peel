@@ -277,14 +277,14 @@ struct TeamRegistryTests {
         InstalledApp(url: URL(filePath: "/Applications/\(identifier).app"), bundleIdentifier: identifier, name: identifier, teamIdentifier: team)
     }
 
-    /// A registry that leads nowhere cannot be read, so it reports nothing and is left as it is.
+    /// A registry that leads nowhere cannot be read, so it reports nothing, says so, and is left as it is.
     @Test func leavesARegistryItCannotReachAsItIs() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "teams.json")
         let path = url.path(percentEncoded: false)
         try FileManager.default.createSymbolicLink(atPath: path, withDestinationPath: "/nowhere/teams.json")
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]).isEmpty)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unreadable))
 
         let kind = try FileManager.default.attributesOfItem(atPath: path)[.type] as? FileAttributeType
         #expect(kind == .typeSymbolicLink, "the registry was written over")
@@ -296,19 +296,19 @@ struct TeamRegistryTests {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "teams.json")
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111"), app("com.example.other", team: nil)]).isEmpty)
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]).isEmpty)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111"), app("com.example.other", team: nil)]).changes.isEmpty)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]).changes.isEmpty)
 
-        let changed = await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")])
+        let changed = await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).changes
         #expect(changed.map(\.previous) == ["AAAA111111"])
         #expect(changed.map(\.current) == ["BBBB222222"])
 
-        let nextLaunch = await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")])
+        let nextLaunch = await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).changes
         #expect(nextLaunch.map(\.previous) == ["AAAA111111"], "the change was said once and then forgotten")
         #expect(nextLaunch.map(\.current) == ["BBBB222222"])
 
-        await TeamRegistry(url: url).acknowledge("com.example.app")
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).isEmpty)
+        #expect(await TeamRegistry(url: url).acknowledge("com.example.app") == nil)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).changes.isEmpty)
     }
 
     /// An app signed again by the team it had has no change left to report.
@@ -316,9 +316,9 @@ struct TeamRegistryTests {
         let directory = try TemporaryDirectory()
         let registry = TeamRegistry(url: directory.url.appending(path: "teams.json"))
         _ = await registry.check([app("com.example.app", team: "AAAA111111")])
-        #expect(await registry.check([app("com.example.app", team: "BBBB222222")]).count == 1)
+        #expect(await registry.check([app("com.example.app", team: "BBBB222222")]).changes.count == 1)
 
-        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]).isEmpty)
+        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]).changes.isEmpty)
     }
 
     /// Someone who tampers with an app has no Developer ID for it, so a known team followed by none is the
@@ -330,12 +330,12 @@ struct TeamRegistryTests {
         let start = Date(timeIntervalSince1970: 1_800_000_000)
         _ = await registry.check([app("com.example.app", team: "AAAA111111")], now: start)
 
-        #expect(await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60)).isEmpty, "said at once, which an update in progress would trigger")
-        let later = await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60 + TeamRegistry.settlingTime + 1))
+        #expect(await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60)).changes.isEmpty, "said at once, which an update in progress would trigger")
+        let later = await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60 + TeamRegistry.settlingTime + 1)).changes
         #expect(later.map(\.previous) == ["AAAA111111"])
         #expect(later.map(\.current) == [""])
 
-        #expect(await registry.check([app("com.example.app", team: "AAAA111111")], now: start.addingTimeInterval(7_200)).isEmpty, "signed again by the team it had")
+        #expect(await registry.check([app("com.example.app", team: "AAAA111111")], now: start.addingTimeInterval(7_200)).changes.isEmpty, "signed again by the team it had")
     }
 
     /// Two copies of one app signed by different teams are acknowledged once. Otherwise each copy would count as
@@ -346,10 +346,10 @@ struct TeamRegistryTests {
         let copies = [app("com.example.app", team: "AAAA111111"), app("com.example.app", team: "BBBB222222")]
         _ = await registry.check([copies[0]])
 
-        #expect(await registry.check(copies).map(\.current) == ["BBBB222222"])
-        await registry.acknowledge("com.example.app")
-        #expect(await registry.check(copies).isEmpty)
-        #expect(await registry.check(copies.reversed()).isEmpty)
+        #expect(await registry.check(copies).changes.map(\.current) == ["BBBB222222"])
+        #expect(await registry.acknowledge("com.example.app") == nil)
+        #expect(await registry.check(copies).changes.isEmpty)
+        #expect(await registry.check(copies.reversed()).changes.isEmpty)
     }
 
     @Test func writesNothingWhenNothingChanged() async throws {
@@ -374,11 +374,60 @@ struct TeamRegistryTests {
         try directory.setPermissions(0o000, of: "teams.json")
         defer { try? directory.setPermissions(0o644, of: "teams.json") }
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).isEmpty)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]) == .init(changes: [], problem: .unreadable))
 
         try directory.setPermissions(0o644, of: "teams.json")
         #expect(try Data(contentsOf: url) == before)
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).count == 1)
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).changes.count == 1)
+    }
+
+    /// A registry that cannot be read says so on every check, never silently, and starting it over keeps the old
+    /// file beside a new one, which records who signs each app from then on.
+    @Test func startsARegistryItCannotReadOverWhenAsked() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("teams.json", contents: Data("{".utf8))
+        let registry = TeamRegistry(url: url)
+
+        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unreadable))
+        #expect(await registry.acknowledge("com.example.app") == .unreadable)
+        #expect(try Data(contentsOf: url) == Data("{".utf8))
+
+        #expect(await registry.startOver())
+        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
+        #expect(kept.contains { $0.hasPrefix("teams-damaged-") && $0.hasSuffix(".json") })
+        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: nil))
+        #expect(await registry.check([app("com.example.app", team: "BBBB222222")]).changes.map(\.current) == ["BBBB222222"])
+    }
+
+    /// Starting over sets aside only a registry that cannot be read. One that reads is what tells a change of
+    /// signer apart, so it stays.
+    @Test func startsOverOnlyARegistryItCannotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "teams.json")
+        let registry = TeamRegistry(url: url)
+        _ = await registry.check([app("com.example.app", team: "AAAA111111")])
+
+        #expect(await registry.startOver())
+        let files = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
+        #expect(!files.contains { $0.hasPrefix("teams-damaged-") })
+        #expect(await registry.check([app("com.example.app", team: "BBBB222222")]).changes.map(\.previous) == ["AAAA111111"])
+    }
+
+    /// A registry that cannot be saved has not recorded what the check learned, so it says so rather than let the
+    /// next launch start again from the apps as they are then.
+    @Test func saysWhenTheRegistryCannotBeSaved() async throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.directory("Peel")
+        let url = directory.url.appending(path: "Peel/teams.json")
+        try directory.setPermissions(0o555, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unsaved))
+        #expect(url.isMissing)
+
+        try directory.setPermissions(0o755, of: "Peel")
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: nil))
+        #expect(!url.isMissing)
     }
 
     /// A registry written by an earlier version of Peel has no pending changes in it, and still reads.
@@ -386,7 +435,7 @@ struct TeamRegistryTests {
         let directory = try TemporaryDirectory()
         let url = try directory.file("teams.json", contents: Data(#"{"com.example.app":{"firstSeen":"2026-01-01T00:00:00Z","team":"AAAA111111"}}"#.utf8))
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).map(\.previous) == ["AAAA111111"])
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]).changes.map(\.previous) == ["AAAA111111"])
     }
 }
 

@@ -15,6 +15,9 @@ struct AppList: View {
         let row = { (app: InstalledApp) in self.row(for: app, isExcluded: excluded.contains(app.id)) }
 
         List(selection: $library.selection) {
+            if let problem = library.teamRecordProblem {
+                TeamRecordNotice(problem: problem)
+            }
             if visible.waiting.isEmpty {
                 ForEach(visible.rest, content: row)
             } else {
@@ -98,6 +101,35 @@ struct AppList: View {
             isExcluded: isExcluded
         )
         .tag(app.id)
+    }
+}
+
+/// Says that Peel is not keeping its record of who signs each app, so no change of signer is being reported.
+private struct TeamRecordNotice: View {
+    @Environment(AppLibrary.self) private var library
+    let problem: TeamRegistry.Problem
+
+    var body: some View {
+        Group {
+            switch problem {
+            case .unreadable:
+                Notice(
+                    title: Text("Peel can’t read its record of who signs your apps"),
+                    detail: Text("Until you start the record over, Peel can’t warn you when an app’s signer changes. Starting over keeps the old file beside a new one.")
+                ) {
+                    Button("Start Over") {
+                        Task { await library.startTeamRecordOver() }
+                    }
+                }
+            case .unsaved:
+                Notice(
+                    title: Text("Peel couldn’t save its record of who signs your apps"),
+                    detail: Text("Until it can, Peel may not warn you when an app’s signer changes.")
+                ) { EmptyView() }
+            }
+        }
+        .padding(.vertical, 6)
+        .listRowSeparator(.hidden)
     }
 }
 
