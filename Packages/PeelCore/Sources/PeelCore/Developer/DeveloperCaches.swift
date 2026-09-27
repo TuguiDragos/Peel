@@ -766,6 +766,10 @@ public enum DeveloperCaches {
             ),
         ]),
         // Build systems and media
+        // Only the scanner's cache: `ssl` beside it holds the client certificates the scanner signs in with.
+        Definition(id: "sonar", name: "SonarScanner", systemImage: "hammer", appBundleIdentifiers: [], folders: [
+            Folder(".sonar/cache", .downloads, source: "https://github.com/SonarSource/sonar-scanner-java-library/blob/master/lib/src/main/java/org/sonarsource/scanner/lib/ScannerEngineBootstrapper.java#L137"),
+        ]),
         Definition(id: "ccache", name: "ccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ccache", .buildData, source: "https://github.com/ccache/ccache/blob/master/doc/manual.adoc#L575-L577"),
             // A legacy `~/.ccache` also holds `ccache.conf` (https://ccache.dev/manual/latest.html), so only

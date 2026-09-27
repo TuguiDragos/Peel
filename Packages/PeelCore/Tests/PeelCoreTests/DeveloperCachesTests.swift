@@ -270,8 +270,8 @@ struct DeveloperCachesTests {
             // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
             // Jan its chat history; Ollama a copy of its app while it updates.
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
-            // Unity keeps its licenses beside its caches.
-            "Library/Unity",
+            // Unity keeps its licenses beside its caches; SonarScanner the client certificates it signs in with.
+            "Library/Unity", ".sonar",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's, pyenv's, rbenv's and rustup's folders hold every version
@@ -883,6 +883,17 @@ struct DeveloperCachesTests {
             PathPattern.comparablePath(of: userCache.appending(path: "clang/ModuleCache")),
         ])
         #expect(locations.first?.kind == .cache)
+    }
+
+    @Test func offersTheSonarScannersCacheAndNeverItsCertificates() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".sonar/cache/0f2e/sonar-scanner-engine-shaded-10.jar", bytes: 400_000)
+        try directory.file(".sonar/ssl/keystore.p12", bytes: 4_096)
+        let sonar = DeveloperCaches.definitions.filter { $0.id == "sonar" }
+
+        let locations = await DeveloperCaches.scan(sonar, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["cache"])
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
