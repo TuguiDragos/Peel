@@ -844,6 +844,18 @@ struct DeveloperCachesTests {
         ])
     }
 
+    @Test func offersTheNpmCacheOfZedsNodeAndNeverTheNodeItself() async throws {
+        let directory = try TemporaryDirectory()
+        let node = "Library/Application Support/Zed/node/node-v24.11.0-darwin-arm64"
+        try directory.file("\(node)/cache/_cacache/index-v5/00/data", bytes: 400_000)
+        try directory.file("\(node)/bin/node", bytes: 400_000)
+        let zed = DeveloperCaches.definitions.filter { $0.id == "zed" }
+
+        let locations = await DeveloperCaches.scan(zed, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map { $0.url.path(percentEncoded: false).hasSuffix("\(node)/cache") } == [true])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

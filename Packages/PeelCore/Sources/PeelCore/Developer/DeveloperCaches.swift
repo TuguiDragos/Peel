@@ -663,6 +663,7 @@ public enum DeveloperCaches {
         Definition(id: "zed", name: "Zed", systemImage: "curlybraces", appBundleIdentifiers: ["dev.zed.Zed"], folders: [
             Folder("Library/Caches/Zed", .cache, source: "https://github.com/zed-industries/zed/blob/main/crates/paths/src/paths.rs#L192-L199"),
             Folder("Library/Logs/Zed", .logs, source: "https://github.com/zed-industries/zed/blob/main/crates/paths/src/paths.rs#L228-L235"),
+            Folder("Library/Application Support/Zed/node/node-*/cache", .cache, source: "https://github.com/zed-industries/zed/blob/main/crates/node_runtime/src/node_runtime.rs#L721-L724"),
             Folder("Library/Application Support/Zed/hang_traces", .logs, source: "https://github.com/zed-industries/zed/blob/main/crates/paths/src/paths.rs#L221-L225"),
             Folder("Library/Application Support/Zed/remote_servers", .downloads, source: "https://github.com/zed-industries/zed/blob/main/crates/paths/src/paths.rs#L474-L478"),
             Folder("Library/Application Support/Zed/languages", .environments, source: "https://github.com/zed-industries/zed/blob/main/crates/paths/src/paths.rs#L438-L444"),
