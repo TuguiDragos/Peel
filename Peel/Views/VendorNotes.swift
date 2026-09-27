@@ -107,6 +107,9 @@ struct PackageReceiptSection: View {
                         Image(systemName: item.requiresPrivileges ? "lock.fill" : "doc")
                             .foregroundStyle(.secondary)
                             .frame(width: 20)
+                            // The lock is the only place that says so; the document says nothing.
+                            .accessibilityLabel(Text("Needs administrator access"))
+                            .accessibilityHidden(!item.requiresPrivileges)
                         Text(item.url.abbreviatedPath)
                             .font(.caption)
                             .lineLimit(1)

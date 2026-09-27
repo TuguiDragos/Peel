@@ -15,6 +15,7 @@ struct ToolRow<Title: View, Details: View, Trailing: View>: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 28, height: 28)
                 .background(.quaternary, in: .circle)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 title
                 details
