@@ -44,11 +44,13 @@ final class BackgroundItemLibrary {
         let reason: BackgroundItemActions.Failure
     }
 
-    @discardableResult
-    func perform(_ action: Action, on item: BackgroundItem) async -> TrashResult {
+    /// Runs `action` on `item`, then scans again. What a move to the Trash moved and refused goes to `record` before
+    /// the rescan, which can take a while: History is the way back for what just moved.
+    func perform(
+        _ action: Action, on item: BackgroundItem, recording record: (TrashResult) async -> Void = { _ in }
+    ) async {
         runningActionItemIDs.insert(item.id)
         defer { runningActionItemIDs.remove(item.id) }
-        var result = TrashResult()
         do {
             switch action {
             case .start: try await BackgroundItemActions.start(item)
@@ -56,7 +58,9 @@ final class BackgroundItemLibrary {
             case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
-                result = try await BackgroundItemActions.moveToTrash(item, exclusions: ExclusionsStore.shared.exclusions)
+                let exclusions = ExclusionsStore.shared.exclusions
+                let result = try await BackgroundItemActions.moveToTrash(item, exclusions: exclusions)
+                await record(result)
                 if let refusal = result.failures.first {
                     failure = ActionFailure(action: action, reason: .trash(refusal.reason))
                 }
@@ -65,6 +69,5 @@ final class BackgroundItemLibrary {
             failure = ActionFailure(action: action, reason: error)
         }
         await refresh(installedApps: installedApps)
-        return result
     }
 }

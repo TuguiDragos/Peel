@@ -147,8 +147,9 @@ struct BackgroundItemDetailView: View {
                     if let plist = item.plistURL {
                         sizes[plist] = await FileSize.allocatedSize(of: plist)
                     }
-                    let result = await backgroundItems.perform(.moveToTrash, on: item)
-                    await history.record(result, tool: .backgroundItems, source: item.label, sizes: sizes)
+                    await backgroundItems.perform(.moveToTrash, on: item) { result in
+                        await history.record(result, tool: .backgroundItems, source: item.label, sizes: sizes)
+                    }
                 }
             }
             Button("Cancel", role: .cancel) {}
