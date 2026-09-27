@@ -285,7 +285,9 @@ private enum Walks {
             let path = PathPattern.comparablePath(of: folder)
             let isLastToLeave = answer.leave()
             if let found = answer.taken() {
-                if case .walking(let current) = entries[path], current === answer { entries[path] = nil }
+                // Handed over once: the question after this walks the folder again, even if an earlier waiter
+                // had given up on this walk.
+                if isOf(entries[path], answer) { entries[path] = nil }
                 return found
             }
             if isWithdrawn {
@@ -297,13 +299,18 @@ private enum Walks {
         }
     }
 
+    /// Whether `entry` is the walk `answer` belongs to, still going or given up on.
+    private static func isOf(_ entry: Entry?, _ answer: Answer) -> Bool {
+        switch entry {
+        case .walking(let current), .abandoned(let current): current === answer
+        case .landed, nil: false
+        }
+    }
+
     static func finish(_ folder: URL, with contents: FolderContents?, into answer: Answer) {
         entries.withLock { entries in
             let path = PathPattern.comparablePath(of: folder)
-            let isCurrent = switch entries[path] {
-            case .walking(let current), .abandoned(let current): current === answer
-            case .landed, nil: false
-            }
+            let isCurrent = isOf(entries[path], answer)
             guard let contents else {
                 // Stopped partway: the next question walks the folder again.
                 if isCurrent { entries[path] = nil }

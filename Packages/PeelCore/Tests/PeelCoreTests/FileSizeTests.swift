@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct FileSizeTests {
@@ -195,6 +196,43 @@ struct FileSizeTests {
         }
         #expect(await FileSize.contents(of: folder)?.size == later)
         #expect(try #require(later) >= 8_192)
+    }
+
+    /// Someone may still be waiting when a late walk finishes: that one takes the answer, and the question after it
+    /// walks the folder again, so the folder is still unknown only once. The first waiter starts the walk and counts
+    /// what it reads, the second joins with no budget and gives up, and the first is then still waiting.
+    @Test func aLateWalkTakenBySomeoneStillWaitingLeavesTheFolderKnowable() async throws {
+        var isSetUp = false
+        for attempt in 1...3 where !isSetUp {
+            let directory = try TemporaryDirectory()
+            let folder = try directory.directory("big")
+            for index in 0..<(1_000 * attempt) {
+                try directory.file("big/folder\(index)/file.bin", bytes: 16)
+            }
+            let read = ScanCount()
+            let isAnswered = Mutex(false)
+            let patient = Task {
+                let contents = await ScanCount.$current.withValue(read) { await FileSize.contents(of: folder, within: 60) }
+                isAnswered.withLock { $0 = true }
+                return contents
+            }
+            while read.value == 0 { await Task.yield() }
+            #expect(await FileSize.contents(of: folder, within: 0) == nil)
+            guard !isAnswered.withLock({ $0 }) else {
+                _ = await patient.value
+                continue
+            }
+            isSetUp = true
+            #expect(await patient.value != nil)
+
+            var later: Int64?
+            for _ in 0..<200 where later == nil {
+                try await Task.sleep(for: .milliseconds(20))
+                later = await FileSize.allocatedSize(of: folder, within: 0)
+            }
+            #expect(later != nil, "the folder stayed unknown once the walk was taken")
+        }
+        #expect(isSetUp, "the walk always finished before the second question joined it")
     }
 
     /// A canceled question comes back at once with nothing. That says nothing about the folder, so it is not
