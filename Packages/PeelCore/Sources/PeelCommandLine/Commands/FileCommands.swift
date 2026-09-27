@@ -131,7 +131,7 @@ struct OrphansCommand: AsyncParsableCommand {
         }
         let items = group.items.filter { $0.heldBack == nil }
         // Nobody asked for a held back file on its own, so it is said here and never recorded as refused.
-        let staying = group.items.compactMap { item in item.heldBack.map { "\(Output.path(item.url)) stays: \($0.summary)" } }
+        let staying = group.items.compactMap { item in item.heldBack.map { "\(Output.plain(Output.path(item.url))) stays: \($0.summary)" } }
         guard !items.isEmpty else {
             Output.line("Every file of \(group.identifier) is one Peel leaves alone. See `peel orphans`.")
             staying.forEach(Output.note)
@@ -291,7 +291,7 @@ struct CachesCommand: AsyncParsableCommand {
     }
 
     private static func quitFirst(_ environment: DeveloperEnvironment) -> String {
-        "Quit \(environment.runningApp ?? environment.name) first: \(environment.name)'s caches stay while it runs."
+        "Quit \(Output.plain(environment.runningApp ?? environment.name)) first: \(environment.name)'s caches stay while it runs."
     }
 }
 
@@ -347,7 +347,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     func validate() throws {
         try removal.validate(with: output)
         let refused = folders.map(URL.init(argument:)).compactMap { root in
-            ProjectArtifacts.refusal(for: root).map { "\(Output.path(root)): \($0.summary)" }
+            ProjectArtifacts.refusal(for: root).map { "\(Output.plain(Output.path(root))): \($0.summary)" }
         }
         guard refused.count < folders.count else {
             throw ValidationError((refused.isEmpty ? ["No folders to look in."] : refused).joined(separator: "\n"))
@@ -359,7 +359,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         // Each folder that can't be searched gets a note, so it isn't mistaken for one with nothing built in it.
         for root in roots {
             if let refusal = ProjectArtifacts.refusal(for: root) {
-                Output.note("\(Output.path(root)): \(refusal.summary)")
+                Output.note("\(Output.plain(Output.path(root))): \(refusal.summary)")
             }
         }
         let scan = await ProjectArtifacts.scan(roots: roots, exclusions: UnreadableExclusions.load())

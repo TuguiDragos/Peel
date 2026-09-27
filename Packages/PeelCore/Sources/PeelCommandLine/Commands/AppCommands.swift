@@ -178,7 +178,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             Output.note(Output.fullDiskAccessNote)
         }
         for location in uninstallation.scan.cutShortLocations {
-            Output.note("There are more folders in \(Output.path(location.url)) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach.")
+            Output.note("There are more folders in \(Output.plain(Output.path(location.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach.")
         }
     }
 }
@@ -328,7 +328,8 @@ struct UninstallCommand: AsyncParsableCommand {
     private static func refuseWhileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async throws {
         let running = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
         guard running.isEmpty else {
-            throw CommandFailure("Quit \(target.name) first. Still running: \(Set(running.map(\.bundleIdentifier)).sorted().joined(separator: ", ")).")
+            let identifiers = Set(running.map(\.bundleIdentifier)).sorted().map(Output.plain)
+            throw CommandFailure("Quit \(Output.plain(target.name)) first. Still running: \(identifiers.joined(separator: ", ")).")
         }
     }
 
@@ -344,14 +345,14 @@ struct UninstallCommand: AsyncParsableCommand {
     /// anything is listed: skipping the reset quietly would remove the app and leave its permissions on record.
     static func refuseIfPrivacyCannotBeReset(_ target: InstalledApp) throws {
         guard !PrivacyReset.isAllowed(bundleIdentifier: target.bundleIdentifier) else { return }
-        throw CommandFailure("Peel never resets privacy permissions for \(target.name). Leave out --reset-privacy to remove it anyway.")
+        throw CommandFailure("Peel never resets privacy permissions for \(Output.plain(target.name)). Leave out --reset-privacy to remove it anyway.")
     }
 
     /// Returns the line that reports the privacy reset, and whether the command fails because of it.
     static func privacyOutcome(_ result: PrivacyReset.Result, app: InstalledApp) -> (line: String, failed: Bool) {
         result == .reset
-            ? ("Reset \(app.name)'s privacy permissions.", false)
-            : ("\(app.name)'s privacy permissions weren't reset: \(result.summary).", true)
+            ? ("Reset \(Output.plain(app.name))'s privacy permissions.", false)
+            : ("\(Output.plain(app.name))'s privacy permissions weren't reset: \(result.summary).", true)
     }
 
     func run() async throws {
@@ -359,7 +360,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let target = try AppLookup.app(matching: app, in: apps)
         try Self.refuseIfItIsPeel(target)
         guard !target.isSystemProtected else {
-            throw CommandFailure("macOS protects \(target.name), so it can't be removed.")
+            throw CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
         }
         if resetPrivacy {
             try Self.refuseIfPrivacyCannotBeReset(target)
@@ -368,7 +369,7 @@ struct UninstallCommand: AsyncParsableCommand {
         try AppLookup.refuseIfExcluded(target, by: exclusions)
         let service = TrashService(exclusions: exclusions)
         guard !service.isInsideATrash(target.url) else {
-            throw CommandFailure("\(target.name) is already in the Trash. Empty it, or put it back first.")
+            throw CommandFailure("\(Output.plain(target.name)) is already in the Trash. Empty it, or put it back first.")
         }
         try await Self.refuseWhileRunning(target, among: apps)
         let homebrew = await CaskLookup.evidence(for: target)
@@ -380,7 +381,7 @@ struct UninstallCommand: AsyncParsableCommand {
             receipts: homebrew.receipts
         )
         guard !uninstallation.appRequiresPrivileges else {
-            throw CommandFailure("Moving \(target.name) to the Trash needs administrator access. Remove it with the Peel app.")
+            throw CommandFailure("Moving \(Output.plain(target.name)) to the Trash needs administrator access. Remove it with the Peel app.")
         }
 
         if let note = UnreadableHistory.note() {
@@ -389,7 +390,7 @@ struct UninstallCommand: AsyncParsableCommand {
         // The removal guard judges each item before printing, so the list shows what the move will really do.
         let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers, refusal: service.refusal(of:))
         if let refusal = plan.appStays {
-            throw CommandFailure("Peel won't move \(Output.path(target.url)): \(refusal.summary). Nothing of \(target.name) was touched.")
+            throw CommandFailure("Peel won't move \(Output.plain(Output.path(target.url))): \(refusal.summary). Nothing of \(Output.plain(target.name)) was touched.")
         }
         let unreadable = uninstallation.scan.unreadableLocations
         if !output.json {
@@ -464,7 +465,7 @@ struct UninstallCommand: AsyncParsableCommand {
             notes.append(Output.fullDiskAccessNote)
         }
         notes += scan.cutShortLocations.map {
-            "There are more folders in \(Output.path($0.url)) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach."
+            "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach."
         }
         if plan.needsAdministrator > 0 {
             let them = plan.needsAdministrator == 1 ? "it" : "them"
@@ -478,9 +479,9 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     static func whatFailed(_ result: TrashResult, plan: UninstallPlan, app: InstalledApp) -> [String] {
-        var notes = result.failures.map { "Couldn't move \(Output.path($0.url)): \($0.reason.summary)" }
+        var notes = result.failures.map { "Couldn't move \(Output.plain(Output.path($0.url))): \($0.reason.summary)" }
         if result.trashed.isEmpty, plan.moving.count > 1 {
-            notes.append("\(app.name) stayed, so its files were left where they are.")
+            notes.append("\(Output.plain(app.name)) stayed, so its files were left where they are.")
         }
         // macOS refuses to move another developer's app without App Management, and it names no permission.
         if AppManagement.state(after: result, appBundles: [plan.app]) == .missing {

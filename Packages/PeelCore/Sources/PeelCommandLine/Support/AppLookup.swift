@@ -12,15 +12,15 @@ enum AppLookup {
         var description: String {
             switch self {
             case .notFound(let query):
-                "No installed app matches \"\(query)\". Run `peel apps` to see installed apps."
+                "No installed app matches \"\(Output.plain(query))\". Run `peel apps` to see installed apps."
             case .ambiguous(let query, let paths):
-                "Several apps match \"\(query)\". Use one of these paths:\n" + paths.map { "  \($0)" }.joined(separator: "\n")
+                "Several apps match \"\(Output.plain(query))\". Use one of these paths:\n" + paths.map { "  \(Output.plain($0))" }.joined(separator: "\n")
             case .notAnApp(let path):
-                "\(path) isn't an app."
+                "\(Output.plain(path)) isn't an app."
             case .excluded(let name):
-                "\(name) is excluded in Peel's settings, so Peel leaves it alone."
+                "\(Output.plain(name)) is excluded in Peel's settings, so Peel leaves it alone."
             case .exclusionsUnreadable(let path):
-                "Peel couldn't read your exclusions at \(path), so it left everything alone. Open Peel and click Start Over in Settings > Exclusions."
+                "Peel couldn't read your exclusions at \(Output.plain(path)), so it left everything alone. Open Peel and click Start Over in Settings > Exclusions."
             }
         }
     }

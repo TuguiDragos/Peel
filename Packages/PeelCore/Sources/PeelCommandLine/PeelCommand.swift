@@ -37,6 +37,25 @@ public struct PeelCommand: AsyncParsableCommand {
             Output.note("Don't run `peel` with `sudo`. What needs administrator access is removed by the Peel app, which has the checks for it.")
             Darwin.exit(1)
         }
-        await main()
+        do {
+            var command = try await asyncParseAsRoot()
+            if var asynchronous = command as? any AsyncParsableCommand {
+                try await asynchronous.run()
+            } else {
+                try command.run()
+            }
+        } catch {
+            guard report(error) else { exit(withError: error) }
+            Darwin.exit(EXIT_FAILURE)
+        }
+    }
+
+    /// Writes a failure of Peel's own as a note, where every control character is shown as `?`: its message names
+    /// apps and paths from other people's bundles. Any other error is left for ArgumentParser to print.
+    @discardableResult
+    static func report(_ error: any Error) -> Bool {
+        guard error is CommandFailure || error is AppLookup.Failure else { return false }
+        Output.note("Error: \(error)")
+        return true
     }
 }

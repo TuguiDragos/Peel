@@ -114,7 +114,7 @@ struct Cleanup {
         }
         guard result.failures.isEmpty else {
             for failure in result.failures {
-                Output.note("\(Output.path(failure.url)) stayed: \(failure.reason.summary)")
+                Output.note("\(Output.plain(Output.path(failure.url))) stayed: \(failure.reason.summary)")
             }
             throw ExitCode.failure
         }

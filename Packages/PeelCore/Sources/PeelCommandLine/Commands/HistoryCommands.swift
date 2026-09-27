@@ -271,7 +271,7 @@ struct RestoreCommand: AsyncParsableCommand {
         }
         guard failures.isEmpty else {
             for (record, failure) in failures {
-                Output.note("Couldn't put \(Output.path(record.originalURL)) back: \(failure.summary)")
+                Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
             }
             throw ExitCode.failure
         }

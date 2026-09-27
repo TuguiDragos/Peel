@@ -155,6 +155,47 @@ struct CommandLineTests {
         }
     }
 
+    /// A name or a version comes from someone else's bundle, so the text and CSV inventory show it plain: an escape
+    /// sequence there would change the terminal's title or clear its screen, and a line end would split a row. JSON
+    /// escapes both by itself.
+    @Test func writesTheInventoryWithoutControlCharacters() throws {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Evil.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.evil",
+            name: "Evil\u{1B}]0;pwned\u{07}\nApp",
+            version: "1\u{1B}[2J"
+        )
+        let inventory = Inventory.build(apps: [app])
+        for format in [Inventory.Format.text, .csv] {
+            let written = try inventory.written(as: format)
+            #expect(!written.unicodeScalars.contains { $0.value == 0x1B || $0.value == 0x07 }, "\(format)")
+            #expect(written.contains("Evil?]0;pwned??App"), "\(format)")
+        }
+        #expect(try inventory.written(as: .json).contains("\\u001b"))
+    }
+
+    /// An error names apps and paths from other people's bundles, and reaches the terminal as a note does: every
+    /// control character is shown as `?`.
+    @Test func writesAnErrorWithoutControlCharacters() {
+        let collected = Output.Collected()
+        Output.$collected.withValue(collected) {
+            PeelCommand.report(CommandFailure("Quit Evil\u{1B}[2J first."))
+        }
+        #expect(collected.notes == "Error: Quit Evil?[2J first.\n")
+        #expect(PeelCommand.report(ValidationError("not ours")) == false)
+    }
+
+    /// A line end the message writes stays, while one inside a path it names is shown as `?`, so each path the
+    /// reader is offered is one line.
+    @Test func keepsAnErrorsOwnLinesButNotThoseOfAPath() {
+        let collected = Output.Collected()
+        Output.$collected.withValue(collected) {
+            PeelCommand.report(AppLookup.Failure.ambiguous("Evil", ["/Applications/Evil\n.app", "/Applications/Evil.app"]))
+        }
+        let expected = "Error: Several apps match \"Evil\". Use one of these paths:\n  /Applications/Evil?.app\n  /Applications/Evil.app\n"
+        #expect(collected.notes == expected)
+    }
+
     @Test func spellsAPathTheSameWayAsTheInventory() {
         let app = InstalledApp(url: URL(filePath: NSHomeDirectory() + "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let inventoried = Inventory.build(apps: [app]).entries[0].path

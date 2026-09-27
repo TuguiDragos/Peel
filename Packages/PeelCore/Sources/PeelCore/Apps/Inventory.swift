@@ -143,18 +143,21 @@ public struct Inventory: Sendable {
                 entry.lastOpened.map { Self.day($0) } ?? "",
             ]
         }
-        return ([header] + rows).map { $0.map(Self.escaped).joined(separator: ",") }.joined(separator: "\n") + "\n"
+        return ([header] + rows)
+            .map { $0.map { Self.escaped(PlainText.of($0)) }.joined(separator: ",") }
+            .joined(separator: "\n") + "\n"
     }
 
+    /// A line per app. Its name and version come from the app's own bundle, so each is shown plain (`PlainText`).
     private func text() -> String {
         entries.map { entry in
-            var line = entry.name
+            var line = PlainText.of(entry.name)
             if let version = entry.version {
-                line += " \(version)"
+                line += " \(PlainText.of(version))"
             }
             line += ", \(entry.source)"
             if let detail = entry.sourceDetail, entry.source == "Homebrew" {
-                line += " (\(detail))"
+                line += " (\(PlainText.of(detail)))"
             }
             return line
         }

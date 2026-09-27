@@ -93,7 +93,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
             }
             let broad = paths.map(URL.init(argument:)).filter { Exclusions.isTooBroad($0) }
             guard broad.isEmpty else {
-                throw ValidationError("\(broad.map(Output.path).joined(separator: ", ")): too broad to exclude. Name a folder inside it.")
+                throw ValidationError("\(broad.map { Output.plain(Output.path($0)) }.joined(separator: ", ")): too broad to exclude. Name a folder inside it.")
             }
         }
 

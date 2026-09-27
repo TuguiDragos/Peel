@@ -6,7 +6,7 @@ import PeelCore
 enum UnreadableExclusions {
     static func note(for exclusions: Exclusions, savedAt url: URL = ExclusionStore.defaultURL) -> String? {
         guard exclusions.isUnreadable else { return nil }
-        return "Peel couldn't read your exclusions at \(url.path(percentEncoded: false)), so this may list what you asked it to leave alone, and nothing will be moved. Open Peel and click Start Over in Settings > Exclusions."
+        return "Peel couldn't read your exclusions at \(Output.plain(url.path(percentEncoded: false))), so this may list what you asked it to leave alone, and nothing will be moved. Open Peel and click Start Over in Settings > Exclusions."
     }
 
     static func load(from store: ExclusionStore = ExclusionStore()) async -> Exclusions {

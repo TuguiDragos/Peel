@@ -45,16 +45,9 @@ enum Output {
         write(plain(text) + "\n")
     }
 
-    /// Replaces every control character with `?`. Names and paths come from other people's bundles: a newline in
-    /// one would make a script read one row as two, and an escape sequence could rewrite on screen the list the
-    /// user is asked to confirm.
+    /// Replaces every control character with `?` (`PlainText`), for names and paths from other people's bundles.
     static func plain(_ text: String) -> String {
-        guard text.unicodeScalars.contains(where: isControl) else { return text }
-        return String(text.unicodeScalars.map { isControl($0) ? "?" : Character($0) })
-    }
-
-    private static func isControl(_ scalar: Unicode.Scalar) -> Bool {
-        scalar.value <= 0x1F || (0x7F...0x9F).contains(scalar.value)
+        PlainText.of(text)
     }
 
     /// Returns `name` so the reader can paste it into a command: in single quotes when it contains a space.
@@ -214,7 +207,7 @@ extension RestoreFailure {
         case .alreadyThere: "something is there already"
         case .needsHelper: "it needs administrator access, so put it back with the Peel app"
         case .notAllowed: "Peel won't write there"
-        case .failed(let message): message
+        case .failed(let message): Output.plain(message)
         }
     }
 }
@@ -222,7 +215,7 @@ extension RestoreFailure {
 extension RemovalLogProblem {
     var summary: String {
         switch self {
-        case .damaged(let setAside): "History was damaged, so it was kept as \(Output.path(setAside)) and started again."
+        case .damaged(let setAside): "History was damaged, so it was kept as \(Output.plain(Output.path(setAside))) and started again."
         case .unreadable: "History couldn't be read, so Peel moves nothing until you start it over in the Peel app's History."
         case .couldNotRecord: "History couldn't be saved, so the last removal isn't in it."
         case .couldNotUpdate: "History couldn't be saved, so what was put back is still listed in it."
@@ -298,9 +291,9 @@ extension OrphanConfidence {
         case .running: "something with this identifier is running now"
         case .leadsIntoAnAppThatIsGone: "these links lead into an app that is no longer there"
         case .writtenRecently(let date): "something wrote here on \(Output.day(date))"
-        case .writtenAfterItLeft(let name, let written): "something wrote here on \(Output.day(written)), after Peel last saw \(name) installed"
+        case .writtenAfterItLeft(let name, let written): "something wrote here on \(Output.day(written)), after Peel last saw \(Output.plain(name)) installed"
         case .sameMakerStillInstalled: "an app from the same maker is still installed"
-        case .appLeft(let name, let lastSeen): "Peel last saw \(name) installed on \(Output.day(lastSeen))"
+        case .appLeft(let name, let lastSeen): "Peel last saw \(Output.plain(name)) installed on \(Output.day(lastSeen))"
         case .untouched(let months): "\(months) months since anything wrote here"
         case .nothingClaimsIt, nil: "nothing installed claims these"
         }
@@ -322,8 +315,8 @@ extension PrivacyReset.Result {
         case .reset: "reset"
         case .notKnownToTheSystem: "macOS couldn't find the app"
         case .refused: "Peel never resets them for this app"
-        case .failed(let message): message.isEmpty ? "macOS didn't say why" : "macOS reported: \(message)"
-        case .couldNotAsk(let message): message
+        case .failed(let message): message.isEmpty ? "macOS didn't say why" : "macOS reported: \(Output.plain(message))"
+        case .couldNotAsk(let message): Output.plain(message)
         }
     }
 }
@@ -338,9 +331,9 @@ extension TrashFailure.Reason {
         case .notPermitted: "not permitted"
         case .needsHelper: "needs administrator access"
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
-        case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(name)"
+        case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
-        case .failed(let message): message
+        case .failed(let message): Output.plain(message)
         }
     }
 }
