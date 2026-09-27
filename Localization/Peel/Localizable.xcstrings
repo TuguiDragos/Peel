@@ -132027,108 +132027,108 @@
         }
       }
     },
-    "What sandboxed apps, such as those from the App Store, cached in their own containers. An app that is open keeps its caches, and those of Apple’s own apps are listed but never selected." : {
+    "What sandboxed apps, such as those from the App Store, cached or left as temporary files in their own containers, and cached in the ones they share with apps from the same maker. What an open app uses stays, and the caches of Apple’s own apps are listed but never selected." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti ve svých vlastních kontejnerech. Otevřená aplikace si své mezipaměti ponechá a mezipaměti vlastních aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
+            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti nebo zanechaly jako dočasné soubory ve svých vlastních kontejnerech, a co uložily do mezipaměti v kontejnerech, které sdílejí s aplikacemi od stejného výrobce. Co používá otevřená aplikace, zůstává na místě, a mezipaměti vlastních aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was Sandbox-Apps, etwa die aus dem App Store, in ihren eigenen Containern zwischengespeichert haben. Eine geöffnete App behält ihre Caches, und die von Apples eigenen Apps werden angezeigt, aber nie ausgewählt."
+            "value" : "Was Sandbox-Apps, etwa die aus dem App Store, in ihren eigenen Containern zwischengespeichert oder als temporäre Dateien hinterlassen haben, und was sie in den Containern zwischengespeichert haben, die sie mit Apps desselben Herstellers teilen. Was eine geöffnete App verwendet, bleibt erhalten, und die Caches von Apples eigenen Apps werden angezeigt, aber nie ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché en sus propios contenedores. Una app que está abierta conserva sus cachés, y las de las propias apps de Apple se muestran pero nunca se seleccionan."
+            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché o dejado como archivos temporales en sus propios contenedores, y lo que han guardado en caché en los que comparten con apps del mismo fabricante. Lo que usa una app abierta se queda donde está, y las cachés de las propias apps de Apple se muestran pero nunca se seleccionan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache dans leurs propres conteneurs. Une app ouverte conserve ses caches, et ceux des apps d’Apple sont listés mais jamais sélectionnés."
+            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache ou laissé sous forme de fichiers temporaires dans leurs propres conteneurs, et mis en cache dans ceux qu’elles partagent avec les apps du même éditeur. Ce qu’utilise une app ouverte reste en place, et les caches des apps d’Apple sont listés mais jamais sélectionnés."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che le app in sandbox, come quelle scaricate da App Store, hanno messo in cache nei propri contenitori. Un’app aperta conserva le sue cache, e quelle delle app di Apple sono elencate ma mai selezionate."
+            "value" : "Ciò che le app in sandbox, come quelle scaricate da App Store, hanno messo in cache o lasciato come file temporanei nei propri contenitori, e messo in cache in quelli che condividono con le app dello stesso produttore. Ciò che usa un’app aperta resta al suo posto, e le cache delle app di Apple sono elencate ma mai selezionate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Storeのアプリなど、サンドボックス化されたアプリが自身のコンテナにキャッシュしたものです。開いているアプリのキャッシュはそのまま残り、Apple製のアプリのキャッシュは一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "App Storeのアプリなど、サンドボックス化されたアプリが自身のコンテナにキャッシュしたものや一時ファイルとして残したもの、そして同じ開発元のアプリと共有するコンテナにキャッシュしたものです。開いているアプリが使用しているものはそのまま残り、Apple製のアプリのキャッシュは一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store에서 받은 앱 등 샌드박스가 적용된 앱이 자체 컨테이너에 캐시한 항목입니다. 열려 있는 앱은 캐시를 그대로 유지하며, Apple 자체 앱의 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "App Store에서 받은 앱 등 샌드박스가 적용된 앱이 자체 컨테이너에 캐시하거나 임시 파일로 남긴 항목과, 같은 제작자의 앱과 공유하는 컨테이너에 캐시한 항목입니다. 열려 있는 앱이 사용하는 항목은 그대로 유지되며, Apple 자체 앱의 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun eigen containers in de cache hebben gezet. Een app die open is, behoudt zijn caches, en die van de eigen apps van Apple worden getoond maar nooit geselecteerd."
+            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun eigen containers in de cache hebben gezet of als tijdelijke bestanden hebben achtergelaten, en in de cache hebben gezet in de containers die ze delen met apps van dezelfde maker. Wat een geopende app gebruikt, blijft staan, en de caches van de eigen apps van Apple worden getoond maar nooit geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co aplikacje działające w piaskownicy, takie jak te z App Store, zapisały w pamięci podręcznej we własnych kontenerach. Otwarta aplikacja zachowuje swoją pamięć podręczną, a pamięć podręczna własnych aplikacji Apple jest na liście, ale nigdy nie jest zaznaczana."
+            "value" : "To, co aplikacje działające w piaskownicy, takie jak te z App Store, zapisały w pamięci podręcznej lub pozostawiły jako pliki tymczasowe we własnych kontenerach, a także zapisały w pamięci podręcznej w tych, które współdzielą z aplikacjami tego samego producenta. To, czego używa otwarta aplikacja, zostaje na miejscu, a pamięć podręczna własnych aplikacji Apple jest na liście, ale nigdy nie jest zaznaczana."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps em sandbox, como os da App Store, guardaram em cache nos próprios contêineres. Um app aberto mantém os seus caches, e os dos apps da própria Apple são listados, mas nunca selecionados."
+            "value" : "O que os apps em sandbox, como os da App Store, guardaram em cache ou deixaram como arquivos temporários nos próprios contêineres, e guardaram em cache nos que compartilham com apps do mesmo fabricante. O que um app aberto usa permanece, e os caches dos apps da própria Apple são listados, mas nunca selecionados."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce au păstrat aplicațiile izolate, cum sunt cele din App Store, în memoria tampon din propriile containere. O aplicație deschisă își păstrează memoriile tampon, iar cele ale aplicațiilor Apple sunt listate, dar nu sunt niciodată selectate."
+            "value" : "Ce au păstrat aplicațiile izolate, cum sunt cele din App Store, în memoria tampon sau au lăsat ca fișiere temporare în propriile containere și ce au păstrat în memoria tampon din containerele pe care le partajează cu aplicații de la același producător. Ce folosește o aplicație deschisă rămâne pe loc, iar memoriile tampon ale aplicațiilor Apple sunt listate, dar nu sunt niciodată selectate."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали в своих контейнерах. Кэши открытого приложения остаются на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
+            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appar i sandlåda, till exempel de från App Store, har cachat i sina egna behållare. En app som är öppen behåller sina cachar, och cacharna för Apples egna appar visas i listan men markeras aldrig."
+            "value" : "Det som appar i sandlåda, till exempel de från App Store, har cachat eller lämnat som tillfälliga filer i sina egna behållare, och har cachat i de behållare de delar med appar från samma tillverkare. Det som en öppen app använder stannar kvar, och cacharna för Apples egna appar visas i listan men markeras aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store’dan gelenler gibi Sandbox kullanan uygulamaların kendi kapsayıcılarında önbelleğe aldıkları. Açık olan bir uygulamanın önbellekleri yerinde kalır; Apple’ın kendi uygulamalarının önbellekleri ise listelenir ama hiçbir zaman seçilmez."
+            "value" : "App Store’dan gelenler gibi Sandbox kullanan uygulamaların kendi kapsayıcılarında önbelleğe aldıkları veya geçici dosya olarak bıraktıkları ve aynı üreticinin uygulamalarıyla paylaştıkları kapsayıcılarda önbelleğe aldıkları. Açık bir uygulamanın kullandıkları yerinde kalır; Apple’ın kendi uygulamalarının önbellekleri ise listelenir ama hiçbir zaman seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що ізольовані програми, як-от програми з App Store, кешували у власних контейнерах. Відкрита програма зберігає свої кеші, а кеші власних програм Apple показуються, але ніколи не вибираються."
+            "value" : "Те, що ізольовані програми, як-от програми з App Store, кешували або залишили як тимчасові файли у власних контейнерах, а також кешували в контейнерах, спільних із програмами того самого виробника. Те, чим користується відкрита програма, лишається, а кеші власних програм Apple показуються, але ніколи не вибираються."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沙盒App（例如来自App Store的App）在各自容器中缓存的内容。已打开的App会保留其缓存；Apple自己的App的缓存会列出，但绝不会被选择。"
+            "value" : "沙盒App（例如来自App Store的App）在各自容器中缓存或作为临时文件留下的内容，以及在与同一厂商的App共享的容器中缓存的内容。已打开的App正在使用的内容会保留；Apple自己的App的缓存会列出，但绝不会被选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沙盒App（例如來自App Store的App）在自己的容器中快取的內容。已打開的App會保留其快取，而Apple自家App的快取會列出，但絕不會選取。"
+            "value" : "沙盒App（例如來自App Store的App）在自己的容器中快取或留作暫存檔案的內容，以及在與同一廠商的App共用的容器中快取的內容。已打開的App正在使用的內容會保留，而Apple自家App的快取會列出，但絕不會選取。"
           }
         }
       }

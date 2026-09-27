@@ -141,10 +141,26 @@ struct SpaceInventoryTests {
         #expect(attachments.heldBack == .openedFromMail)
     }
 
+    @Test func findsTheCachesOfEveryGroupContainerButApplesAndTheTemporaryFilesOfEveryContainer() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Group Containers/ABCDE12345.org.example.shared/Library/Caches/blob", bytes: 8_000)
+        try directory.file("Library/Group Containers/group.com.apple.notes/Library/Caches/blob", bytes: 8_000)
+        try directory.file("Library/Containers/org.example.chat/Data/tmp/upload.part", bytes: 8_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+        )
+
+        let folders = report.items.first { $0.id == "container-caches" }?.urls
+            .map { $0.pathComponents.suffix(3).joined(separator: "/") } ?? []
+        #expect(Set(folders) == ["ABCDE12345.org.example.shared/Library/Caches", "org.example.chat/Data/tmp"])
+    }
+
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)
-            #expect(!definition.paths.isEmpty || definition.containerFolder != nil)
+            let containers = !definition.containerFolders.isEmpty || definition.groupContainerFolder != nil
+            #expect(!definition.paths.isEmpty || containers)
         }
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }

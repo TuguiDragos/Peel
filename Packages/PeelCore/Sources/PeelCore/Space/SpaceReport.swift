@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// An area of the disk that can take up a lot of room, such as simulators or virtual machines. Most areas are
 /// read-only here: their own app or tool is the right place to remove them. Peel never adds them up into a
@@ -55,8 +56,11 @@ public enum SpaceInventory {
         let category: SpaceItem.Category
         let paths: [String]
         let handling: SpaceItem.Handling
-        /// The folder inside every app's container (`Library/Containers/<identifier>`) that belongs to this area too.
-        var containerFolder: String?
+        /// The folders inside every app's container (`Library/Containers/<identifier>`) that belong to this area too.
+        var containerFolders: [String] = []
+        /// The folder inside every group container not Apple's own (`Library/Group Containers/<group>`) that belongs
+        /// to this area too.
+        var groupContainerFolder: String?
         var heldBack: HoldBack?
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
@@ -202,7 +206,7 @@ public enum SpaceInventory {
             category: .library,
             paths: ["Library/Logs"],
             handling: .trash,
-            containerFolder: "Data/Library/Logs"
+            containerFolders: ["Data/Library/Logs"]
         ),
         Definition(
             id: "caches",
@@ -215,7 +219,8 @@ public enum SpaceInventory {
             category: .library,
             paths: [],
             handling: .trash,
-            containerFolder: "Data/Library/Caches"
+            containerFolders: ["Data/Library/Caches", "Data/tmp"],
+            groupContainerFolder: "Library/Caches"
         ),
         // Sandboxed, Mail writes only the second folder. The first is what an older Mail left in the Library itself.
         Definition(
@@ -248,9 +253,18 @@ public enum SpaceInventory {
 
     /// Every app's container, listed rather than matched with `glob`, which stops at 128 paths.
     static func appContainers(in home: URL) -> [URL] {
-        let containers = home.appending(path: "Library/Containers", directoryHint: .isDirectory)
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: containers.path(percentEncoded: false))) ?? []
-        return names.sorted().map { containers.appending(path: $0, directoryHint: .isDirectory) }.filter(\.isRealFolder)
+        folders(in: home.appending(path: "Library/Containers", directoryHint: .isDirectory))
+    }
+
+    /// Every group container but Apple's own, which hold what macOS keeps for its apps and are never emptied.
+    static func groupContainers(in home: URL) -> [URL] {
+        folders(in: home.appending(path: "Library/Group Containers", directoryHint: .isDirectory))
+            .filter { !ProtectedData.isApplesName($0.lastPathComponent) }
+    }
+
+    private static func folders(in parent: URL) -> [URL] {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: parent.path(percentEncoded: false))) ?? []
+        return names.sorted().map { parent.appending(path: $0, directoryHint: .isDirectory) }.filter(\.isRealFolder)
     }
 
     /// Anything smaller than this is noise in a report about space.
@@ -270,11 +284,15 @@ public enum SpaceInventory {
         measure: @escaping FileSize.Measure
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
+        let groups = groupContainers(in: home)
         let wanted = definitions.compactMap { definition -> (Definition, [URL])? in
             let urls = definition.urls(home: home, root: root)
                 .filter { FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: $0)) }
-                + (definition.containerFolder.map { folder in
+                + definition.containerFolders.flatMap { folder in
                     containers.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)
+                }
+                + (definition.groupContainerFolder.map { folder in
+                    groups.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)
                 } ?? [])
             return urls.isEmpty ? nil : (definition, urls)
         }

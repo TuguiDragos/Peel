@@ -32,23 +32,24 @@ public enum SpaceRemoval {
         }
     }
 
+    /// The plan while the apps in `running` are open, whose names and groups are read here, away from the main actor.
     @concurrent
     public static func plan(
         for item: SpaceItem,
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
-        running: [String: String] = [:]
+        running: [RunningCopies.Process]
     ) async -> Plan {
-        await plan(for: item, environment: environment, exclusions: exclusions, running: running, measure: LeftoverScanner.walk)
+        await plan(for: item, environment: environment, exclusions: exclusions, running: namesOfRunningApps(running))
     }
 
     @concurrent
     static func plan(
         for item: SpaceItem,
         environment: SearchEnvironment,
-        exclusions: Exclusions,
-        running: [String: String],
-        measure: LeftoverScanner.Measure
+        exclusions: Exclusions = .none,
+        running: [String: String] = [:],
+        measure: LeftoverScanner.Measure = LeftoverScanner.walk
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
         let systemCaches = SystemCaches(environment: environment)
@@ -71,6 +72,18 @@ public enum SpaceRemoval {
     public static func removable(
         in item: SpaceItem,
         environment: SearchEnvironment = .current,
+        exclusions: Exclusions = .none,
+        running: [RunningCopies.Process]
+    ) async -> [URL] {
+        await removable(
+            in: item, environment: environment, exclusions: exclusions, running: namesOfRunningApps(running)
+        )
+    }
+
+    @concurrent
+    static func removable(
+        in item: SpaceItem,
+        environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:]
     ) async -> [URL] {
@@ -119,8 +132,9 @@ public enum SpaceRemoval {
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle
     /// identifier, its last part, and the bundle's file name, since many cache and log folders carry the app's
-    /// name rather than its identifier (`Firefox`, `Zed`).
-    public static func namesOfRunningApps(_ running: [RunningCopies.Process]) -> [String: String] {
+    /// name rather than its identifier (`Firefox`, `Zed`), and the application groups its signature claims, whose
+    /// group containers it shares with other apps of its maker.
+    static func namesOfRunningApps(_ running: [RunningCopies.Process]) -> [String: String] {
         var names: [String: String] = [:]
         for process in running {
             let bundle = process.bundleURL?.deletingPathExtension().lastPathComponent
@@ -130,7 +144,7 @@ public enum SpaceRemoval {
                 process.bundleIdentifier,
                 process.bundleIdentifier.split(separator: ".").last.map(String.init),
                 bundle,
-            ].compactMap(\.self)
+            ].compactMap(\.self) + (process.bundleURL.map(AppInspector.applicationGroups) ?? [])
             for spelling in spellings where Naming.isSignificant(spelling) {
                 names[Naming.normalized(spelling)] = displayed
             }
@@ -138,8 +152,4 @@ public enum SpaceRemoval {
         return names
     }
 
-    @MainActor
-    public static func namesOfRunningApps() -> [String: String] {
-        namesOfRunningApps(RunningCopies.current)
-    }
 }

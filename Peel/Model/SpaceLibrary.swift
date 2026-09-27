@@ -33,7 +33,7 @@ final class SpaceLibrary: RowSelection {
         let plan = await SpaceRemoval.plan(
             for: item,
             exclusions: ExclusionsStore.shared.exclusions,
-            running: SpaceRemoval.namesOfRunningApps()
+            running: RunningCopies.current
         )
         // A plan cut short measured only part of the area, and would read the rest as unknown.
         guard !Task.isCancelled else { return }
@@ -95,7 +95,7 @@ extension SpaceLibrary: CarriesSelection {
         isRemoving = true
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
-        let removable = await SpaceRemoval.removable(in: item, exclusions: exclusions, running: SpaceRemoval.namesOfRunningApps())
+        let removable = await SpaceRemoval.removable(in: item, exclusions: exclusions, running: RunningCopies.current)
         return await TrashService(exclusions: exclusions)
             .trash(removable.filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) })
     }

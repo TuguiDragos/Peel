@@ -139,7 +139,7 @@ extension SpaceItem {
         ),
         "container-caches": Words(
             title: "Sandboxed App Caches",
-            detail: "What sandboxed apps, such as those from the App Store, cached in their own containers. An app that is open keeps its caches, and those of Apple’s own apps are listed but never selected."
+            detail: "What sandboxed apps, such as those from the App Store, cached or left as temporary files in their own containers, and cached in the ones they share with apps from the same maker. What an open app uses stays, and the caches of Apple’s own apps are listed but never selected."
         ),
         "mail-downloads": Words(
             title: "Mail Downloads",

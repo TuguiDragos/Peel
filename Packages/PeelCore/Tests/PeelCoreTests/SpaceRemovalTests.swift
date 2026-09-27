@@ -162,6 +162,43 @@ struct SpaceRemovalTests {
         #expect(plan.appsToQuit == ["Spotify"])
     }
 
+    @Test func leavesAGroupContainersCachesAloneWhileAnAppSharingItIsOpen() async throws {
+        let directory = try TemporaryDirectory()
+        let groups = "home/Library/Group Containers"
+        try directory.file("\(groups)/ABCDE12345.org.example.shared/Library/Caches/blob/data", bytes: 4_096)
+        try directory.file("\(groups)/ABCDE12345.org.example.other/Library/Caches/blob/data", bytes: 4_096)
+        let item = SpaceItem(
+            id: "container-caches",
+            category: .library,
+            urls: ["shared", "other"].map { name in
+                let caches = "\(groups)/ABCDE12345.org.example.\(name)/Library/Caches"
+                return directory.url.appending(path: caches, directoryHint: .isDirectory)
+            },
+            size: 8_192,
+            handling: .trash
+        )
+
+        let plan = await SpaceRemoval.plan(
+            for: item, environment: environment(directory),
+            running: [Naming.normalized("ABCDE12345.org.example.shared"): "Chat Example"]
+        )
+
+        let group = { (url: URL) in url.pathComponents.dropLast(3).last ?? "" }
+        #expect(plan.removable.map(group) == ["ABCDE12345.org.example.other"])
+        #expect(plan.appsToQuit == ["Chat Example"])
+    }
+
+    @Test func anOpenAppAnswersToTheGroupsItsSignatureClaims() {
+        let notes = RunningCopies.Process(
+            identifier: 1, bundleIdentifier: "com.apple.Notes",
+            bundleURL: URL(filePath: "/System/Applications/Notes.app")
+        )
+
+        let names = SpaceRemoval.namesOfRunningApps([notes])
+
+        #expect(names[Naming.normalized("group.com.apple.notes")] != nil)
+    }
+
     @Test func leavesEveryAttachmentMailKeptForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloads = [

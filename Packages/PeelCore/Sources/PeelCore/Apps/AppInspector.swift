@@ -108,14 +108,23 @@ public enum AppInspector {
 
     private static func signingInformation(for url: URL) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String]) {
         guard let information = CodeSignature.information(at: url) else { return (nil, nil, []) }
-        let entitlements = information[kSecCodeInfoEntitlementsDict as String] as? [String: Any]
         let team = information[kSecCodeInfoTeamIdentifier as String] as? String
         let leaf = (information[kSecCodeInfoCertificates as String] as? [SecCertificate])?.first
         return (
             team,
             leaf.flatMap { SecCertificateCopySubjectSummary($0) as String? }.flatMap { CodeSignature.developer(fromLeaf: $0, team: team) },
-            entitlements?["com.apple.security.application-groups"] as? [String] ?? []
+            applicationGroups(in: information)
         )
+    }
+
+    /// The application groups the bundle's checked signature claims.
+    static func applicationGroups(at url: URL) -> [String] {
+        CodeSignature.information(at: url).map(applicationGroups(in:)) ?? []
+    }
+
+    private static func applicationGroups(in information: [String: Any]) -> [String] {
+        let entitlements = information[kSecCodeInfoEntitlementsDict as String] as? [String: Any]
+        return entitlements?["com.apple.security.application-groups"] as? [String] ?? []
     }
 
     private static func embeddedBundleIdentifiers(in contents: URL) -> [String] {

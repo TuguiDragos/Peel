@@ -25,13 +25,13 @@ struct SystemCaches {
     }
 
     private let cachesFolders: Set<String>
-    private let containers: [String]
+    private let containerFolders: [[String]]
 
     init(environment: SearchEnvironment) {
         let locations = environment.locations
         cachesFolders = Set(locations.filter { $0.kind == .caches }.map { PathPattern.comparablePath(of: $0.url) })
-        let folder = locations.first { $0.kind == .containers }?.url
-        containers = folder.map { PathComponents.of(PathPattern.comparablePath(of: $0)) } ?? []
+        containerFolders = locations.filter { $0.kind == .containers || $0.kind == .groupContainers }
+            .map { PathComponents.of(PathPattern.comparablePath(of: $0.url)) }
     }
 
     /// Whether macOS keeps `url` for itself: a folder in a Caches folder named for macOS, or anything in the container
@@ -43,9 +43,12 @@ struct SystemCaches {
         return container(holding: url).map(ProtectedData.isApplesName) ?? false
     }
 
+    /// The identifier of the app container or the group container `url` is in: the name of that container's folder.
     func container(holding url: URL) -> String? {
         let names = PathComponents.of(PathPattern.comparablePath(of: url))
-        guard !containers.isEmpty, names.count > containers.count, names.starts(with: containers) else { return nil }
-        return names[containers.count]
+        guard let folder = containerFolders.first(where: { names.count > $0.count && names.starts(with: $0) }) else {
+            return nil
+        }
+        return names[folder.count]
     }
 }
