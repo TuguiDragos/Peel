@@ -134,11 +134,14 @@ public enum DeveloperCaches {
         /// for there as well as at `path`, where an earlier Xcode may have left it.
         let movedByXcodeSetting: String?
         let base: Base
+        /// The links, relative to the home folder, a tool's installer puts on the path to the version it runs. When
+        /// set, the folder's rows are the versions it keeps beside that one (`olderVersions(in:home:)`).
+        let launchers: [String]
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
-            movedByXcodeSetting: String? = nil, base: Base = .home
+            movedByXcodeSetting: String? = nil, base: Base = .home, launchers: [String] = []
         ) {
             self.path = path
             self.kind = kind
@@ -149,6 +152,35 @@ public enum DeveloperCaches {
             self.rowsAreDerivedData = rowsAreDerivedData
             self.movedByXcodeSetting = movedByXcodeSetting
             self.base = base
+            self.launchers = launchers
+        }
+
+        /// The versions in `folder` beside the ones its launchers run, or none when a launcher is not the installer's
+        /// link into it: a launcher of the person's own may run any version, so none can be called old.
+        func olderVersions(in folder: URL, home: URL) -> [URL] {
+            let base = PathComponents.of(PathPattern.comparablePath(of: folder))
+            var running: Set<String> = []
+            for launcher in launchers {
+                let link = home.appending(path: launcher)
+                let path = link.path(percentEncoded: false)
+                guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: path) else {
+                    if link.isMissing { continue }
+                    return []
+                }
+                let target = URL(filePath: destination, relativeTo: link.deletingLastPathComponent())
+                    .standardizedFileURL
+                let names = PathComponents.of(PathPattern.comparablePath(of: target))
+                guard names.count > base.count, names.starts(with: base) else { return [] }
+                running.insert(names[base.count])
+            }
+            guard !running.isEmpty else { return [] }
+            let entries = (try? FileManager.default.contentsOfDirectory(
+                at: folder, includingPropertiesForKeys: [.isSymbolicLinkKey], options: [.skipsHiddenFiles]
+            )) ?? []
+            return entries.filter { entry in
+                (try? entry.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true
+            }.map { folder.appending(path: $0.lastPathComponent) }
+                .filter { !running.contains(PathComponents.of(PathPattern.comparablePath(of: $0)).last ?? "") }
         }
 
         /// Where the folder is: at `path` in its base, and where the Xcode setting that moves it says.
@@ -700,6 +732,18 @@ public enum DeveloperCaches {
             Folder(".local/state/nvim/lazy", .cache, source: "https://github.com/folke/lazy.nvim/blob/main/lua/lazy/core/config.lua#L220-L225"),
             Folder(".local/state/nvim/logs", .logs, source: "https://github.com/neovim/neovim/blob/master/runtime/doc/starting.txt#L1409-L1410"),
         ]),
+        Definition(id: "claudecode", name: "Claude Code", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(
+                ".local/share/claude/versions", .environments,
+                source: "https://code.claude.com/docs/en/setup#auto-updates", launchers: [".local/bin/claude"]
+            ),
+        ]),
+        Definition(id: "cursoragent", name: "Cursor CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(
+                ".local/share/cursor-agent/versions", .environments,
+                source: "https://cursor.com/install", launchers: [".local/bin/agent", ".local/bin/cursor-agent"]
+            ),
+        ]),
         Definition(id: "opencode", name: "opencode", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".cache/opencode", .cache, source: "https://github.com/anomalyco/opencode/blob/dev/packages/core/src/global.ts#L12"),
         ]),
@@ -997,7 +1041,11 @@ public enum DeveloperCaches {
                         let places = folder.places(
                             home: homeDirectory, userCache: userCacheDirectory, preference: preference
                         )
-                        for url in places.flatMap(folder.rows) {
+                        let rows = places.flatMap { place in
+                            folder.launchers.isEmpty
+                                ? folder.rows(in: place) : folder.olderVersions(in: place, home: homeDirectory)
+                        }
+                        for url in rows {
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.

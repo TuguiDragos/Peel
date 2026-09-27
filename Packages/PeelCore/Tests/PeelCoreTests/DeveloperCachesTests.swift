@@ -373,6 +373,22 @@ struct DeveloperCachesTests {
                 let foldersOnly = concrete.hasSuffix("/")
                 let base = folder.base == .userCache ? "UserCache/" : ""
                 let entry = base + (foldersOnly ? String(concrete.dropLast()) : concrete)
+                // A folder of versions lists those beside the one its launchers run.
+                if !folder.launchers.isEmpty {
+                    try directory.file("\(entry)/old/content", bytes: 400_000)
+                    try directory.file("\(entry)/current/content", bytes: 400_000)
+                    let current = directory.url.appending(path: "\(entry)/current").path(percentEncoded: false)
+                    for launcher in folder.launchers {
+                        try directory.directory((launcher as NSString).deletingLastPathComponent)
+                        try FileManager.default.createSymbolicLink(
+                            atPath: directory.url.appending(path: launcher).path(percentEncoded: false),
+                            withDestinationPath: current
+                        )
+                    }
+                    expected.insert("\(entry)/old")
+                    try directory.file("\(entry)/../elsewhere-\(definition.id)/content", bytes: 400_000)
+                    continue
+                }
                 let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
                 try directory.file("\(row)/content", bytes: 400_000)
                 expected.insert(row)
@@ -905,6 +921,45 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == [".pnpm-store"])
         #expect(locations.first?.isRecommended == false)
+    }
+
+    @Test func listsTheVersionsANativeInstallKeptAndNeverTheOneItsLauncherRuns() async throws {
+        let directory = try TemporaryDirectory()
+        let claude = ".local/share/claude/versions"
+        let cursor = ".local/share/cursor-agent/versions"
+        try directory.file("\(claude)/2.1.200", bytes: 400_000)
+        try directory.file("\(claude)/2.1.211", bytes: 400_000)
+        try directory.file("\(cursor)/2026.09.20-a1b2c3d/cursor-agent", bytes: 400_000)
+        try directory.file("\(cursor)/2026.09.26-dd393fe/cursor-agent", bytes: 400_000)
+        try directory.directory(".local/bin")
+        let link = { (name: String, target: String) in
+            try FileManager.default.createSymbolicLink(
+                atPath: directory.url.appending(path: ".local/bin/\(name)").path(percentEncoded: false),
+                withDestinationPath: directory.url.appending(path: target).path(percentEncoded: false)
+            )
+        }
+        try link("claude", "\(claude)/2.1.211")
+        try link("agent", "\(cursor)/2026.09.26-dd393fe/cursor-agent")
+        try link("cursor-agent", "\(cursor)/2026.09.26-dd393fe/cursor-agent")
+        let tools = DeveloperCaches.definitions.filter { $0.folders.contains { !$0.launchers.isEmpty } }
+
+        let locations = await DeveloperCaches.scan(tools, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["2.1.200", "2026.09.20-a1b2c3d"])
+        #expect(locations.allSatisfy { $0.kind == .environments && !$0.isRecommended })
+    }
+
+    @Test func aLauncherThatIsNotTheInstallersLinkKeepsEveryVersion() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".local/share/claude/versions/2.1.200", bytes: 400_000)
+        try directory.file(".local/share/claude/versions/2.1.211", bytes: 400_000)
+        let script = "#!/bin/sh\nexec ~/.local/share/claude/versions/2.1.200\n"
+        try directory.file(".local/bin/claude", contents: Data(script.utf8))
+        let tools = DeveloperCaches.definitions.filter { $0.folders.contains { !$0.launchers.isEmpty } }
+
+        let locations = await DeveloperCaches.scan(tools, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.isEmpty)
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
