@@ -4,9 +4,6 @@ internal import PeelPrivileged
 /// Saves an app's preference domains with `defaults export` before a reset clears them. History can put the
 /// plists back only until the app writes new ones; a saved copy still works after that.
 public enum PreferenceBackup {
-    /// How many saved copies are kept. Older ones go to the Trash.
-    static let maximumBackups = 20
-
     public static var defaultDirectory: URL {
         PeelFolder.url.appending(path: "Preference Backups", directoryHint: .isDirectory)
     }
@@ -74,7 +71,6 @@ public enum PreferenceBackup {
                 return .failed
             }
         }
-        await prune(directory, through: service)
         return .saved(folder)
     }
 
@@ -176,25 +172,5 @@ public enum PreferenceBackup {
             return .noAnswer
         }
         return output.status == 0 ? .yes : .no
-    }
-
-    /// Moves the folders beyond the newest `maximumBackups` to the Trash, never deleting them: once the Trash
-    /// has been emptied, a saved copy may be the only way back to those settings.
-    static func prune(_ directory: URL, through service: TrashService) async {
-        let keys: Set<URLResourceKey> = [.isDirectoryKey, .creationDateKey]
-        guard let contents = try? FileManager.default.contentsOfDirectory(
-            at: directory,
-            includingPropertiesForKeys: Array(keys),
-            options: [.skipsHiddenFiles]
-        ) else { return }
-
-        let folders = contents
-            .filter { (try? $0.resourceValues(forKeys: keys).isDirectory) == true }
-            .sorted { left, right in
-                let leftDate = (try? left.resourceValues(forKeys: keys).creationDate) ?? .distantPast
-                let rightDate = (try? right.resourceValues(forKeys: keys).creationDate) ?? .distantPast
-                return leftDate > rightDate
-            }
-        _ = await service.trash(Array(folders.dropFirst(maximumBackups)))
     }
 }

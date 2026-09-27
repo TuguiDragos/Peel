@@ -290,47 +290,17 @@ struct RemovalHygieneTests {
         #expect(copies.first?.date == DateComponents(calendar: .current, year: 2026, month: 9, day: 20, hour: 9, minute: 30, second: 0).date)
     }
 
-    /// Once the Trash has been emptied, a saved copy is the only way back to those settings, so copies past the
-    /// newest twenty go to the Trash and are never deleted.
-    @Test func oldBackupsGoToTheTrashAndAreNeverDeleted() async throws {
+    /// A saved copy can hold a license key or an account, and once the Trash is emptied it may be the only way
+    /// back to those settings, so copies stay until the person clears them in Settings: a new one takes none away.
+    @Test func savedCopiesStayUntilTheyAreCleared() async throws {
         let directory = try TemporaryDirectory()
         let backups = try directory.directory("home/Library/Application Support/Peel/Preference Backups")
-        for index in 0..<(PreferenceBackup.maximumBackups + 2) {
-            let folder = try directory.directory("home/Library/Application Support/Peel/Preference Backups/com.example.app \(index)")
-            let made = Date(timeIntervalSince1970: TimeInterval(1_700_000_000 + index * 60))
-            try FileManager.default.setAttributes([.creationDate: made], ofItemAtPath: folder.path(percentEncoded: false))
+        for index in 0..<22 {
+            try directory.directory("home/Library/Application Support/Peel/Preference Backups/com.example.app \(index)")
         }
         let moved = Mutex<[String]>([])
         let service = TrashService(
             environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
-            moveToTrash: { url in
-                moved.withLock { $0.append(url.lastPathComponent) }
-                return url
-            }
-        )
-
-        await PreferenceBackup.prune(backups, through: service)
-
-        #expect(moved.withLock { $0 }.sorted() == ["com.example.app 0", "com.example.app 1"], "the two oldest, and only through the Trash")
-        #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).count == PreferenceBackup.maximumBackups + 2, "something was unlinked")
-    }
-
-    /// Peel never moves anything the user excluded, and pruning old copies is no exception: an excluded copy
-    /// stays even when it is older than the newest twenty.
-    @Test func anExcludedCopyIsNeverTakenToKeepTheNewestTwenty() async throws {
-        let directory = try TemporaryDirectory()
-        let backups = try directory.directory("home/Library/Application Support/Peel/Preference Backups")
-        var oldest: URL?
-        for index in 0..<(PreferenceBackup.maximumBackups + 2) {
-            let folder = try directory.directory("home/Library/Application Support/Peel/Preference Backups/com.example.app \(index)")
-            let made = Date(timeIntervalSince1970: TimeInterval(1_700_000_000 + index * 60))
-            try FileManager.default.setAttributes([.creationDate: made], ofItemAtPath: folder.path(percentEncoded: false))
-            if index == 0 { oldest = folder }
-        }
-        let moved = Mutex<[String]>([])
-        let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
-            exclusions: Exclusions(paths: [try #require(oldest)]),
             moveToTrash: { url in
                 moved.withLock { $0.append(url.lastPathComponent) }
                 return url
@@ -347,7 +317,8 @@ struct RemovalHygieneTests {
         }
 
         guard case .saved = saved else { Issue.record("the copy was not made: \(saved)"); return }
-        #expect(moved.withLock { $0 }.sorted() == ["com.example.app 1", "com.example.app 2"], "the excluded copy was taken")
+        #expect(moved.withLock { $0 }.isEmpty, "a saved copy was taken away")
+        #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).count == 23)
     }
 
     @Test func leavesSensitiveFilesOutOfOrphans() {

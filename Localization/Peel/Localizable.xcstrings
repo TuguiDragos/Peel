@@ -6938,108 +6938,108 @@
         }
       }
     },
-    "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so clear the ones you no longer need. Peel keeps the newest 20." : {
+    "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so clear the ones you no longer need." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Při resetování Peel uloží kopii nastavení, která vymaže, a tlačítko Vrátit zpět z ní nastavení obnoví, i když už aplikace zapsala nová. Kopie může obsahovat licenční klíč nebo účet, proto ty, které už nepotřebujete, odstraňte. Peel uchovává 20 nejnovějších."
+            "value" : "Při resetování Peel uloží kopii nastavení, která vymaže, a tlačítko Vrátit zpět z ní nastavení obnoví, i když už aplikace zapsala nová. Kopie může obsahovat licenční klíč nebo účet, proto ty, které už nepotřebujete, odstraňte."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beim Zurücksetzen wird eine Kopie der entfernten Einstellungen aufbewahrt, und „Zurücklegen“ funktioniert damit auch dann, wenn die App bereits neue geschrieben hat. Eine Kopie kann einen Lizenzschlüssel oder einen Account enthalten, entferne also die, die du nicht mehr brauchst. Peel behält die neuesten 20."
+            "value" : "Beim Zurücksetzen wird eine Kopie der entfernten Einstellungen aufbewahrt, und „Zurücklegen“ funktioniert damit auch dann, wenn die App bereits neue geschrieben hat. Eine Kopie kann einen Lizenzschlüssel oder einen Account enthalten, entferne also die, die du nicht mehr brauchst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al restablecer una app, se guarda una copia de los ajustes que se borran, y “Restaurar” funciona a partir de ella incluso después de que la app haya escrito ajustes nuevos. Una copia puede contener una clave de licencia o una cuenta, así que elimina las que ya no necesites. Peel conserva las 20 más recientes."
+            "value" : "Al restablecer una app, se guarda una copia de los ajustes que se borran, y “Restaurar” funciona a partir de ella incluso después de que la app haya escrito ajustes nuevos. Una copia puede contener una clave de licencia o una cuenta, así que elimina las que ya no necesites."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une réinitialisation conserve une copie des réglages qu’elle efface, et « Remettre » s’en sert même après que l’app a écrit de nouveaux réglages. Une copie peut contenir une clé de licence ou un compte : supprimez donc celles dont vous n’avez plus besoin. Peel conserve les 20 plus récentes."
+            "value" : "Une réinitialisation conserve une copie des réglages qu’elle efface, et « Remettre » s’en sert même après que l’app a écrit de nouveaux réglages. Une copie peut contenir une clé de licence ou un compte : supprimez donc celles dont vous n’avez plus besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una reimpostazione conserva una copia delle impostazioni che cancella, e “Ripristina” funziona a partire da quella anche dopo che l’app ne ha scritte di nuove. Una copia può contenere una chiave di licenza o un account, quindi rimuovi quelle che non ti servono più. Peel conserva le 20 più recenti."
+            "value" : "Una reimpostazione conserva una copia delle impostazioni che cancella, e “Ripristina” funziona a partire da quella anche dopo che l’app ne ha scritte di nuove. Una copia può contenere una chiave di licenza o un account, quindi rimuovi quelle che non ti servono più."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "リセットでは、消去する設定のコピーが保存され、アプリが新しい設定を書き込んだ後でも、そのコピーから“戻す”を使えます。コピーにはライセンスキーやアカウントが含まれている場合があるため、不要になったものはゴミ箱に入れてください。Peelは最新の20件を保持します。"
+            "value" : "リセットでは、消去する設定のコピーが保存され、アプリが新しい設定を書き込んだ後でも、そのコピーから“戻す”を使えます。コピーにはライセンスキーやアカウントが含まれている場合があるため、不要になったものはゴミ箱に入れてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "재설정하면 지워지는 설정의 복사본이 보관되며, ‘되돌려 놓기’는 앱이 새로운 설정을 쓴 후에도 이 복사본으로 작동합니다. 복사본에는 라이센스 키나 계정이 들어 있을 수 있으므로 더 이상 필요 없는 복사본은 지우십시오. Peel은 최신 복사본 20개를 보관합니다."
+            "value" : "재설정하면 지워지는 설정의 복사본이 보관되며, ‘되돌려 놓기’는 앱이 새로운 설정을 쓴 후에도 이 복사본으로 작동합니다. 복사본에는 라이센스 키나 계정이 들어 있을 수 있으므로 더 이상 필요 없는 복사본은 지우십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bij het opnieuw instellen wordt een kopie bewaard van de instellingen die worden gewist, en 'Zet terug' werkt daarmee, zelfs nadat de app nieuwe instellingen heeft geschreven. Een kopie kan een licentiesleutel of een account bevatten, dus ruim de kopieën op die je niet meer nodig hebt. Peel bewaart de nieuwste 20."
+            "value" : "Bij het opnieuw instellen wordt een kopie bewaard van de instellingen die worden gewist, en 'Zet terug' werkt daarmee, zelfs nadat de app nieuwe instellingen heeft geschreven. Een kopie kan een licentiesleutel of een account bevatten, dus ruim de kopieën op die je niet meer nodig hebt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyzerowanie zachowuje kopię czyszczonych ustawień, a przycisk Przywróć korzysta z niej nawet wtedy, gdy aplikacja zapisała już nowe. Kopia może zawierać klucz licencyjny lub dane konta, więc przenoś do Kosza te, których już nie potrzebujesz. Peel przechowuje 20 najnowszych."
+            "value" : "Wyzerowanie zachowuje kopię czyszczonych ustawień, a przycisk Przywróć korzysta z niej nawet wtedy, gdy aplikacja zapisała już nowe. Kopia może zawierać klucz licencyjny lub dane konta, więc przenoś do Kosza te, których już nie potrzebujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma redefinição guarda uma cópia dos ajustes que limpa, e Colocar de Volta usa essa cópia mesmo depois que o app gravou ajustes novos. Uma cópia pode conter uma chave de licença ou uma conta, então remova as de que você não precisa mais. O Peel mantém as 20 mais recentes."
+            "value" : "Uma redefinição guarda uma cópia dos ajustes que limpa, e Colocar de Volta usa essa cópia mesmo depois que o app gravou ajustes novos. Uma cópia pode conter uma chave de licença ou uma conta, então remova as de que você não precisa mais."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O resetare păstrează o copie a configurărilor pe care le elimină, iar butonul Puneți înapoi funcționează pe baza ei chiar și după ce aplicația a scris altele noi. O copie poate conține o cheie de licență sau un cont, așa că eliminați copiile de care nu mai aveți nevoie. Peel le păstrează pe cele mai noi 20."
+            "value" : "O resetare păstrează o copie a configurărilor pe care le elimină, iar butonul Puneți înapoi funcționează pe baza ei chiar și după ce aplicația a scris altele noi. O copie poate conține o cheie de licență sau un cont, așa că eliminați copiile de care nu mai aveți nevoie."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "При сбросе сохраняется копия очищаемых настроек, и кнопка «Восстановить» работает с ней, даже если приложение уже записало новые. В копии может быть лицензионный ключ или учетная запись, поэтому удаляйте те копии, которые Вам больше не нужны. Peel хранит 20 последних."
+            "value" : "При сбросе сохраняется копия очищаемых настроек, и кнопка «Восстановить» работает с ней, даже если приложение уже записало новые. В копии может быть лицензионный ключ или учетная запись, поэтому удаляйте те копии, которые Вам больше не нужны."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En nollställning sparar en kopia av inställningarna som den rensar, och Lägg tillbaka fungerar utifrån den även efter att appen har skrivit nya. En kopia kan innehålla en licensnyckel eller ett konto, så rensa bort de kopior som du inte längre behöver. Peel behåller de 20 senaste."
+            "value" : "En nollställning sparar en kopia av inställningarna som den rensar, och Lägg tillbaka fungerar utifrån den även efter att appen har skrivit nya. En kopia kan innehålla en licensnyckel eller ett konto, så rensa bort de kopior som du inte längre behöver."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir sıfırlama, temizlediği ayarların bir kopyasını tutar; Yerine Koy, uygulama yeni ayarlar yazdıktan sonra bile bu kopyayı kullanır. Bir kopya lisans anahtarı veya hesap bilgisi içerebilir, bu yüzden artık gerekmeyenleri temizleyin. Peel en yeni 20 kopyayı tutar."
+            "value" : "Bir sıfırlama, temizlediği ayarların bir kopyasını tutar; Yerine Koy, uygulama yeni ayarlar yazdıktan sonra bile bu kopyayı kullanır. Bir kopya lisans anahtarı veya hesap bilgisi içerebilir, bu yüzden artık gerekmeyenleri temizleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скидання зберігає копію налаштувань, які очищає, і «Повернути назад» працює з цієї копії навіть після того, як програма записала нові. Копія може містити ліцензійний ключ чи дані облікового запису, тож вилучайте ті копії, які вам більше не потрібні. Peel зберігає 20 найновіших."
+            "value" : "Скидання зберігає копію налаштувань, які очищає, і «Повернути назад» працює з цієї копії навіть після того, як програма записала нові. Копія може містити ліцензійний ключ чи дані облікового запису, тож вилучайте ті копії, які вам більше не потрібні."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重置时会保留一份所清除设置的副本，即使App之后写入了新设置，“放回原处”也能根据副本恢复。副本中可能包含许可证密钥或账户，因此请清除不再需要的副本。Peel会保留最新的20份。"
+            "value" : "重置时会保留一份所清除设置的副本，即使App之后写入了新设置，“放回原处”也能根据副本恢复。副本中可能包含许可证密钥或账户，因此请清除不再需要的副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重置時會保留一份它所清除之設定的副本，即使App已寫入新的設定，「還原」仍可依據此副本運作。副本中可能含有授權碼或帳號，因此請清除你不再需要的副本。Peel會保留最新的20份。"
+            "value" : "重置時會保留一份它所清除之設定的副本，即使App已寫入新的設定，「還原」仍可依據此副本運作。副本中可能含有授權碼或帳號，因此請清除你不再需要的副本。"
           }
         }
       }

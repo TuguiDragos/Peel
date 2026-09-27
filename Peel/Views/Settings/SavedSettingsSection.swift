@@ -25,7 +25,7 @@ struct SavedSettingsSection: View {
                 } header: {
                     heading(
                         "Saved Settings",
-                        "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so clear the ones you no longer need. Peel keeps the newest 20."
+                        "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so clear the ones you no longer need."
                     )
                 }
             }
