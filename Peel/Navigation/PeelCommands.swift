@@ -48,6 +48,7 @@ struct PeelCommands: Commands {
     /// What the Applications toolbar's two menus act on, so the menu bar can offer them as well.
     let library: AppLibrary
     let homebrew: HomebrewLibrary
+    let textEditing: TextEditing
     @Environment(\.openWindow) private var openWindow
     @FocusedValue(\.removalHistory) private var history
     @FocusedBinding(\.selectedTool) private var selectedTool
@@ -88,7 +89,7 @@ struct PeelCommands: Commands {
             Divider()
             Button(String(localized: moveToTrash?.title ?? "Move to Trash")) { moveToTrash?.perform() }
                 .keyboardShortcut(.delete, modifiers: .command)
-                .disabled(moveToTrash?.isEnabled != true)
+                .disabled(moveToTrash?.isEnabled != true || textEditing.isEditing)
             Divider()
             Menu("Export List of Apps") {
                 ForEach(Inventory.Format.allCases.filter { $0 != .brewfile || homebrew.isInstalled }, id: \.self) { format in

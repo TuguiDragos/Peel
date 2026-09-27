@@ -51,6 +51,7 @@ struct PeelApp: App {
     @State private var space: SpaceLibrary
     @State private var carrier: SelectionCarrier
     @State private var background = StandingWork()
+    @State private var textEditing = TextEditing()
     @State private var hasLaunched = false
     private let exclusions = ExclusionsStore.shared
 
@@ -291,11 +292,12 @@ struct PeelApp: App {
                     // Started once, and not as a child of this view's task, so the work goes on in the menu bar
                     // after the window closes.
                     background.start([followFolders, askWhenDue, followFindings, followActivations])
+                    textEditing.start()
                 }
         }
         .defaultSize(width: 1120, height: 764)
         .commands {
-            PeelCommands(library: library, homebrew: homebrew)
+            PeelCommands(library: library, homebrew: homebrew, textEditing: textEditing)
         }
         .onChange(of: watchesTrash) { _, isWatching in
             if isWatching {
