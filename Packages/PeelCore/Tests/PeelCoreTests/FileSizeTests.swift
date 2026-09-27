@@ -5,6 +5,23 @@ import Testing
 struct FileSizeTests {
     /// A file with several names is one file on the disk, so it is counted once. Adding up every name would
     /// report more than emptying the folder could ever free.
+    /// What is measured is looked at by its own name as well as by what is inside it: a wallet's file measured on
+    /// its own, a `keystore` folder, and a repository's own folder.
+    @Test func theMeasuredItemsOwnNameCounts() async throws {
+        let directory = try TemporaryDirectory()
+        let wallet = try directory.file("SomeCoin/wallet.dat", bytes: 100)
+        let keys = try directory.file("Monero/mine.keys", bytes: 100)
+        let keystore = try directory.file("Ethereum/keystore/key", bytes: 100).deletingLastPathComponent()
+        let repository = try directory.file("project/.hg/store/data", bytes: 100).deletingLastPathComponent().deletingLastPathComponent()
+        let plain = try directory.file("Notes/notes.txt", bytes: 100)
+
+        #expect(await FileSize.contents(of: wallet)?.holdsWallet == true)
+        #expect(await FileSize.contents(of: keys)?.holdsWallet == true)
+        #expect(await FileSize.contents(of: keystore)?.holdsWallet == true)
+        #expect(await FileSize.contents(of: repository)?.holdsRepository == true)
+        #expect(await FileSize.contents(of: plain).map { $0.holdsWallet || $0.holdsRepository } == false)
+    }
+
     @Test func countsAFileWithSeveralNamesOnce() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("tree")

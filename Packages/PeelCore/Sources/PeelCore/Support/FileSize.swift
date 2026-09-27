@@ -105,7 +105,8 @@ public enum FileSize {
             let values = try url.resourceValues(forKeys: [.totalFileAllocatedSizeKey, .contentModificationDateKey])
             return FolderContents(
                 size: Int64(values.totalFileAllocatedSize ?? 0),
-                holdsRepository: url.lastPathComponent == ".git",
+                holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
+                holdsWallet: isWallet(url.lastPathComponent),
                 newestChange: values.contentModificationDate
             )
         } catch CocoaError.fileReadNoSuchFile {
@@ -145,8 +146,9 @@ public enum FileSize {
         ) else { return FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
 
         var total: Int64 = 0
-        var holdsRepository = false
-        var holdsWallet = false
+        // The folder's own name counts as its entries' do: a `keystore` or a `.git` measured on its own.
+        var holdsRepository = repositoryMarkers.contains(url.lastPathComponent)
+        var holdsWallet = isWallet(url.lastPathComponent)
         var newestChange: Date?
         // A file with several hard links takes its space once. Counting it once per name would overstate what
         // emptying the folder frees.
