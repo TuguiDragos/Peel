@@ -596,6 +596,12 @@ struct CommandLineTests {
         #expect(!some.nothingAnswered)
     }
 
+    /// `--all` lists an app Peel can't check as the app does. "No update feed" was wrong for an app that came with
+    /// macOS, an App Store app with no Mac version to read, and an app whose bundle names no version.
+    @Test func saysAnAppItCannotCheckCannotBeChecked() {
+        #expect(UpdatesCommand.summary(.unsupported) == "can't check")
+    }
+
     /// The same rule the app follows: an app the user told Peel to leave alone is not checked, and a skipped
     /// version is not an update waiting.
     @Test func readsTheSameUpdateSettingsTheAppDoes() {

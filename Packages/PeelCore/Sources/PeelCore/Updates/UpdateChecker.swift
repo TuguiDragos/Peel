@@ -86,16 +86,18 @@ public struct UpdateChecker: Sendable {
     }
 
     private func feedAnswer(for app: InstalledApp) async -> UpdateAnswer {
-        switch app.updateFeed {
+        // An app whose bundle names no version has nothing to compare a release with, so nobody is asked.
+        guard let installed = app.version else { return UpdateAnswer(status: .unsupported) }
+        return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
-        case .sparkle(let url): UpdateAnswer(status: await sparkleStatus(for: app, at: url))
-        case .electron(let url): UpdateAnswer(status: await electronStatus(for: app, at: url))
-        case .gitHubRelease(let url): UpdateAnswer(status: await gitHubReleaseStatus(for: app, at: url))
+        case .sparkle(let url): UpdateAnswer(status: await sparkleStatus(for: app, installed: installed, at: url))
+        case .electron(let url): UpdateAnswer(status: await electronStatus(installed: installed, at: url))
+        case .gitHubRelease(let url): UpdateAnswer(status: await gitHubReleaseStatus(installed: installed, at: url))
         case .appStore: await appStoreAnswer(for: app)
         }
     }
 
-    private func sparkleStatus(for app: InstalledApp, at url: URL) async -> UpdateStatus {
+    private func sparkleStatus(for app: InstalledApp, installed: String, at url: URL) async -> UpdateStatus {
         guard let data = await fetch(url) else { return .failed }
         let item: AppcastItem
         switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
@@ -107,24 +109,24 @@ public struct UpdateChecker: Sendable {
         let isNewer = if let version = item.version, let build = app.buildVersion {
             VersionComparison.isNewer(version, than: build)
         } else {
-            VersionComparison.isNewer(latest, than: app.version ?? "")
+            VersionComparison.isNewer(latest, than: installed)
         }
         return isNewer ? .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes) : .upToDate
     }
 
-    private func electronStatus(for app: InstalledApp, at url: URL) async -> UpdateStatus {
+    private func electronStatus(installed: String, at url: URL) async -> UpdateStatus {
         guard
             let data = await fetch(url),
             let latest = ElectronUpdater.version(fromFeed: String(decoding: data, as: UTF8.self))
         else { return .failed }
-        return VersionComparison.isNewer(latest, than: app.version ?? "")
+        return VersionComparison.isNewer(latest, than: installed)
             ? .updateAvailable(version: latest, source: .developer, releaseNotes: nil)
             : .upToDate
     }
 
-    private func gitHubReleaseStatus(for app: InstalledApp, at url: URL) async -> UpdateStatus {
+    private func gitHubReleaseStatus(installed: String, at url: URL) async -> UpdateStatus {
         guard let data = await fetch(url), let release = GitHubRelease.latest(in: data) else { return .failed }
-        return VersionComparison.isNewer(release.version, than: app.version ?? "")
+        return VersionComparison.isNewer(release.version, than: installed)
             ? .updateAvailable(version: release.version, source: .developer, releaseNotes: release.page)
             : .upToDate
     }
@@ -132,7 +134,7 @@ public struct UpdateChecker: Sendable {
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
     /// Asking about other apps would send Apple, one identifier at a time, the list of installed apps.
     private func appStoreAnswer(for app: InstalledApp) async -> UpdateAnswer {
-        guard app.isFromAppStore else { return UpdateAnswer(status: .unsupported) }
+        guard app.isFromAppStore, let installed = app.version else { return UpdateAnswer(status: .unsupported) }
         var reply = await lookup(app.bundleIdentifier, in: country)
         // A two-letter region with no store, such as Antarctica (AQ), is also refused with HTTP 400.
         if reply.status == 400, country != "us" {
@@ -145,7 +147,7 @@ public struct UpdateChecker: Sendable {
         case .noMacRecord:
             return UpdateAnswer(status: .unsupported)
         case .mac(let latest, let page, let developer):
-            let status: UpdateStatus = VersionComparison.isNewer(latest, than: app.version ?? "")
+            let status: UpdateStatus = VersionComparison.isNewer(latest, than: installed)
                 ? .updateAvailable(version: latest, source: .appStore, releaseNotes: page)
                 : .upToDate
             return UpdateAnswer(status: status, developer: developer)

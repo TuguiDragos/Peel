@@ -751,6 +751,112 @@
         }
       }
     },
+    "%@ doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ neuvádí, o jakou verzi jde, takže Peel nemá s čím aktualizaci porovnat. Aktualizaci hledejte přímo v aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ gibt nicht an, um welche Version es sich handelt, daher hat Peel nichts, womit es ein Update vergleichen kann. Suche in der App selbst nach einem Update."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no indica qué versión es, así que Peel no tiene nada con lo que comparar una actualización. Busca actualizaciones dentro de la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ n’indique pas de quelle version il s’agit : Peel n’a donc rien à quoi comparer une mise à jour. Cherchez une mise à jour dans l’app elle-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ non indica di quale versione si tratti, quindi Peel non ha nulla con cui confrontare un aggiornamento. Cerca un aggiornamento dall’interno dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”は自身のバージョンを示していないため、Peelにはアップデートと比較するものがありません。アプリ内でアップデートを探してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 어떤 버전인지 알려 주지 않으므로 Peel이 업데이트와 비교할 것이 없습니다. 앱 안에서 업데이트를 찾아보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ geeft niet aan welke versie het is, dus Peel heeft niets om een update mee te vergelijken. Zoek in de app zelf naar een update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ nie podaje, którą ma wersję, więc Peel nie ma z czym porównać uaktualnienia. Poszukaj uaktualnienia w samej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não informa a própria versão, então o Peel não tem nada com que comparar uma atualização. Procure uma atualização dentro do app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația %@ nu indică ce versiune are, așa că Peel nu are cu ce compara o actualizare. Căutați o actualizare din interiorul aplicației."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» не сообщает, какая у него версия, поэтому Peel не с чем сравнить обновление. Поищите обновление в самом приложении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ anger inte vilken version den har, så Peel har inget att jämföra en uppdatering med. Leta efter en uppdatering inuti appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, hangi sürüm olduğunu söylemiyor, bu yüzden Peel’in bir güncellemeyle karşılaştıracak bir şeyi yok. Güncellemeyi uygulamanın içinde arayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» не вказує, яка в неї версія, тож Peel нема з чим порівнювати оновлення. Пошукайте оновлення в самій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”没有说明它是哪个版本，因此Peel没有可与更新比较的版本。请在App内查找更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」沒有說明它是哪個版本，因此Peel無從比對更新。請在App內尋找更新。"
+          }
+        }
+      }
+    },
     "%@ has an update" : {
       "localizations" : {
         "cs" : {

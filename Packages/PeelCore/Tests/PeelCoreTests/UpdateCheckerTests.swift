@@ -174,4 +174,33 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         reply("itunes.apple.com", "<html>")
         #expect(await checker.status(for: sold) == .failed, "an answer Peel can't read is still a failed check")
     }
+
+    /// An app whose bundle names no version, neither `CFBundleShortVersionString` nor `CFBundleVersion`, has nothing
+    /// to compare a release with. Read as an empty version, any release was newer, forever. It claims no update, and
+    /// nobody is asked.
+    @Test func anAppThatNamesNoVersionClaimsNoUpdate() async {
+        CannedProtocol.replies.withLock {
+            $0 = [
+                "feed.example.com": .init(body: Data(appcast("<item><sparkle:version>200</sparkle:version><sparkle:shortVersionString>2.0</sparkle:shortVersionString></item>").utf8)),
+                "electron.example.com": .init(body: Data("version: 2.0.0\n".utf8)),
+                "api.github.com": .init(body: Data(#"{"tag_name":"v2.0","html_url":"https://github.com/example/editor/releases/tag/v2.0"}"#.utf8)),
+                "itunes.apple.com": .init(body: Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#.utf8)),
+            ]
+        }
+        CannedProtocol.asked.withLock { $0 = [] }
+        let feeds: [UpdateFeed] = [
+            .sparkle(URL(string: "https://feed.example.com/appcast.xml")!),
+            .electron(URL(string: "https://electron.example.com/latest-mac.yml")!),
+            .gitHubRelease(URL(string: "https://api.github.com/repos/example/editor/releases/latest")!),
+            .appStore,
+        ]
+        for feed in feeds {
+            let unversioned = InstalledApp(
+                url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "com.example.editor", name: "Editor",
+                isFromAppStore: feed == .appStore, updateFeed: feed
+            )
+            #expect(await checker.status(for: unversioned) == .unsupported, "\(feed)")
+        }
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+    }
 }

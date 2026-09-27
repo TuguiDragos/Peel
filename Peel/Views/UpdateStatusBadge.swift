@@ -56,12 +56,14 @@ struct UpdateStatusBadge: View {
         }
     }
 
-    /// Why Peel can't check this app. Three reasons share the one badge, so the note says which applies. The
+    /// Why Peel can't check this app. Four reasons share the one badge, so the note says which applies. The
     /// preferred update source is never the reason: an app not sold by the App Store is checked through its
     /// own feed whatever that setting says.
     private var unsupportedReason: Text {
         if app.isSystemProtected {
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")
+        } else if app.version == nil {
+            Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")
         } else if app.isFromAppStore {
             Text("The App Store doesn’t give a Mac version of \(app.name) that Peel can compare. It lists some apps under one entry for all the devices they run on, with the iPhone’s version, and nothing for an app it doesn’t sell in this region. The App Store app itself knows when there is an update.")
         } else {

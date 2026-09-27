@@ -607,11 +607,11 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
-    private static func summary(_ status: UpdateStatus) -> String {
+    static func summary(_ status: UpdateStatus) -> String {
         switch status {
         case .updateAvailable(let version, _, _): "\(version) available"
         case .upToDate: "up to date"
-        case .unsupported: "no update feed"
+        case .unsupported: "can't check"
         case .failed: "check failed"
         }
     }
