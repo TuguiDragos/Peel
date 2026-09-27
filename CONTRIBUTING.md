@@ -23,7 +23,8 @@ leaves upgrades to Terminal.
 
 ## What you need
 
-- macOS 26 or later. Peel is built with the macOS 27 SDK for macOS 26 and later.
+- macOS 26 or later. Peel is built with the macOS 27 SDK for macOS 26 and later, the versions every release is
+  tested on by hand, so it has no code for an older macOS.
 - Xcode 27 or later, with Swift 6.4.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
   `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team for the targets under Signing &
