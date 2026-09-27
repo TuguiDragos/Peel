@@ -46,17 +46,19 @@ struct DeveloperCachesTests {
         #expect(!refused.isRecommended && !slow.isRecommended)
     }
 
-    /// Xcode's caches wait on Simulator too, so the request to quit names whichever of the two is running: the
-    /// environment's name would ask for Xcode while only Simulator runs, and the request would keep coming back.
+    /// Xcode's caches wait on Simulator too, so the request to quit names whichever of an environment's apps is
+    /// running: the environment's name would ask for Xcode while only Simulator runs, and the request would keep
+    /// coming back. Finder runs on every Mac, and an identifier nobody uses stands for an app that is closed.
     @Test func namesTheAppThatRunsRatherThanTheEnvironment() throws {
         let xcode = try #require(DeveloperCaches.definitions.first { $0.id == "xcode" })
-        let environment = DeveloperEnvironment(
-            id: xcode.id, name: xcode.name, systemImage: xcode.systemImage, appBundleIdentifiers: xcode.appBundleIdentifiers, locations: []
-        )
+        #expect(xcode.appBundleIdentifiers.contains("com.apple.dt.Xcode"))
+        #expect(xcode.appBundleIdentifiers.contains("com.apple.iphonesimulator"))
+        func environment(_ apps: [String]) -> DeveloperEnvironment {
+            DeveloperEnvironment(id: "tools", name: "Tools", systemImage: "hammer", appBundleIdentifiers: apps, locations: [])
+        }
 
-        #expect(environment.runningApp { $0 == "com.apple.iphonesimulator" ? "Simulator" : nil } == "Simulator")
-        #expect(environment.runningApp { $0 == "com.apple.dt.Xcode" ? "Xcode" : nil } == "Xcode")
-        #expect(environment.runningApp { _ in nil } == nil)
+        #expect(environment(["org.example.closed", "com.apple.finder"]).runningApp == "Finder")
+        #expect(environment(["org.example.closed"]).runningApp == nil)
     }
 
     /// Space asks about a folder however it was spelled, so another spelling of the same folder (another case, or

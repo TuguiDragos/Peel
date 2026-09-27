@@ -1,4 +1,3 @@
-import AppKit
 import Foundation
 import Observation
 import PeelCore
@@ -32,14 +31,6 @@ final class DeveloperLibrary {
         }
     }
 
-    /// The name of one of the environment's apps that is running, or nil when none is. Asked each time rather
-    /// than stored, since an app can be opened while the page is on screen.
-    func runningApp(of environment: DeveloperEnvironment) -> String? {
-        environment.runningApp { identifier in
-            NSRunningApplication.runningApplications(withBundleIdentifier: identifier).lazy.compactMap(\.localizedName).first
-        }
-    }
-
     private func environment(of page: CarriedSelection.Page) -> DeveloperEnvironment? {
         environments?.first { $0.id == page.scope }
     }
@@ -61,13 +52,13 @@ extension DeveloperLibrary: CarriesSelection {
     }
 
     func appToQuit(for part: CarriedSelection.Part) -> String? {
-        environment(of: part.page).flatMap(runningApp(of:))
+        environment(of: part.page)?.runningApp
     }
 
     /// Moves nothing while one of the environment's apps is open: files never move out from under a running app.
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let environment = environment(of: part.page) else { return TrashResult() }
-        guard runningApp(of: environment) == nil else { return nil }
+        guard environment.runningApp == nil else { return nil }
         isRemoving = true
         defer { isRemoving = false }
         let urls = environment.locations.map(\.url).filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }

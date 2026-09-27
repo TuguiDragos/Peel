@@ -1,4 +1,5 @@
 public import Foundation
+import AppKit
 internal import PeelPrivileged
 
 public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
@@ -54,10 +55,13 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         SizeTotal(locations.map(\.size))
     }
 
-    /// The name of one of the environment's apps that is running, which is the one to ask the user to quit.
-    /// `name` answers for a bundle identifier with the name of a running copy, or nil when none runs.
-    public func runningApp(named name: (String) -> String?) -> String? {
-        appBundleIdentifiers.lazy.compactMap(name).first
+    /// The name of one of the environment's apps that is running, which is the one to ask the user to quit, or nil
+    /// when none runs. Nothing of the environment moves while one runs, from the app or `peel`: it writes in these
+    /// folders. Asked each time, since an app can be opened at any moment.
+    public var runningApp: String? {
+        appBundleIdentifiers.lazy.compactMap { identifier in
+            NSRunningApplication.runningApplications(withBundleIdentifier: identifier).lazy.compactMap(\.localizedName).first
+        }.first
     }
 }
 

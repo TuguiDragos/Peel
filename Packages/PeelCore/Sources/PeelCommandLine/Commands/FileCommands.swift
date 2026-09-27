@@ -253,15 +253,24 @@ struct CachesCommand: AsyncParsableCommand {
         recordingIn log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async throws {
-        let locations = environments.flatMap { environment in environment.locations.filter(\.isRecommended) }
+        // Nothing of a tool moves while its app runs, since the app writes in those folders.
+        let open = environments.filter { $0.runningApp != nil && $0.locations.contains(where: \.isRecommended) }
+        for environment in open {
+            Output.note(Self.quitFirst(environment))
+        }
+        let closed = environments.filter { environment in !open.contains { $0.id == environment.id } }
+        let locations = closed.flatMap { environment in environment.locations.filter(\.isRecommended) }
         guard !locations.isEmpty else {
+            if let first = open.first {
+                throw CommandFailure(Self.quitFirst(first))
+            }
             Output.line("Nothing here is safe to suggest. See `peel caches`.")
             return
         }
         let cleanup = Cleanup.of(
             locations.map { (url: $0.url, size: $0.size) },
-            source: environments.count == 1 ? environments[0].name : "Developer caches",
-            sourceKey: environments.count == 1 ? nil : "tool",
+            source: closed.count == 1 ? closed[0].name : "Developer caches",
+            sourceKey: closed.count == 1 ? nil : "tool",
             tool: "developer",
             service: service
         )
@@ -271,8 +280,18 @@ struct CachesCommand: AsyncParsableCommand {
             yes: removal.yes,
             using: service,
             recordingIn: log,
-            refusals: refusals
+            refusals: refusals,
+            checkingAgain: {
+                // The question takes time, and an app may have been opened meanwhile.
+                if let reopened = closed.first(where: { $0.runningApp != nil }) {
+                    throw CommandFailure(Self.quitFirst(reopened))
+                }
+            }
         )
+    }
+
+    private static func quitFirst(_ environment: DeveloperEnvironment) -> String {
+        "Quit \(environment.runningApp ?? environment.name) first: \(environment.name)'s caches stay while it runs."
     }
 }
 

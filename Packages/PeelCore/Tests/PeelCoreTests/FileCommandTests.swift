@@ -36,12 +36,18 @@ struct FileCommandTests {
 
     // MARK: Developer caches
 
-    private func environment(_ name: String, id: String, locations: [(String, DeveloperEnvironment.ContentKind)], in directory: borrowing TemporaryDirectory) throws -> DeveloperEnvironment {
+    private func environment(
+        _ name: String,
+        id: String,
+        apps: [String] = [],
+        locations: [(String, DeveloperEnvironment.ContentKind)],
+        in directory: borrowing TemporaryDirectory
+    ) throws -> DeveloperEnvironment {
         DeveloperEnvironment(
             id: id,
             name: name,
             systemImage: "hammer",
-            appBundleIdentifiers: [],
+            appBundleIdentifiers: apps,
             locations: try locations.map { path, kind in
                 DeveloperEnvironment.Location(url: try directory.file("home/\(path)/blob", bytes: 30).deletingLastPathComponent(), kind: kind, size: 30, source: "https://example.com/\(path)")
             }
@@ -75,6 +81,31 @@ struct FileCommandTests {
 
         #expect(await moved(logs) == ["cargo"])
         #expect(FileManager.default.fileExists(atPath: directory.url.appending(path: "home/Library/Models/llama").path(percentEncoded: false)))
+    }
+
+    /// Nothing of a tool moves while its app runs, since the app writes in those folders: the Developer page waits,
+    /// and so does `peel caches`. Finder runs on every Mac, so it stands for an app that is open.
+    @Test func leavesTheCachesOfAnAppThatRuns() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let open = try environment("Finder Tools", id: "finder", apps: ["com.apple.finder"], locations: [("Library/Caches/finder-tool", .cache)], in: directory)
+        let closed = try environment("Rust", id: "rust", locations: [("Library/Caches/cargo", .cache)], in: directory)
+        #expect(open.runningApp == "Finder")
+        #expect(closed.runningApp == nil)
+
+        let collected = Output.Collected()
+        try await Output.$collected.withValue(collected) {
+            try await (command(["caches", "--remove", "-y"]) as CachesCommand)
+                .clean([open, closed], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
+        #expect(await moved(logs) == ["cargo"])
+        #expect(collected.notes.contains("Quit Finder first"))
+        #expect(FileManager.default.fileExists(atPath: directory.url.appending(path: "home/Library/Caches/finder-tool").path(percentEncoded: false)))
+
+        await #expect(throws: CommandFailure.self) {
+            try await (command(["caches", "--remove", "-y"]) as CachesCommand)
+                .clean([open], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
     }
 
     @Test func aDryRunOnCachesMovesNothing() async throws {

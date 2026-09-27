@@ -62,7 +62,8 @@ struct Cleanup {
         using service: TrashService,
         recordingIn log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog(),
-        move: (TrashService, [URL]) async -> TrashResult = { await $0.trash($1) }
+        move: (TrashService, [URL]) async -> TrashResult = { await $0.trash($1) },
+        checkingAgain: () async throws -> Void = {}
     ) async throws {
         if let note = UnreadableHistory.note(at: log.url) {
             Output.note(note)
@@ -90,6 +91,7 @@ struct Cleanup {
         if !yes {
             try Output.confirm(question)
         }
+        try await checkingAgain()
 
         let (result, recorded) = await Uninterrupted.run {
             let result = await move(service, moving.map(\.url))
