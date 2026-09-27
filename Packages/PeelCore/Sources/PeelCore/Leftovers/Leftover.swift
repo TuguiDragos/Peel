@@ -65,6 +65,14 @@ public enum HoldBack: String, Sendable, Hashable {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .beyondTheHelper
     }
 
+    /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
+    /// exist nowhere else, and a folder the walk could not see into is not known to be empty.
+    static func seen(in contents: FolderContents?) -> HoldBack? {
+        guard let contents else { return .notMeasured }
+        if contents.couldNotBeRead { return .couldNotBeRead }
+        if contents.holdsWallet { return .holdsAWallet }
+        return contents.holdsRepository ? .holdsRepository : nil
+    }
 }
 
 public struct LeftoverMatch: Sendable, Hashable {

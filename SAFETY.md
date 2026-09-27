@@ -153,6 +153,11 @@ not let Peel read, and a folder Peel could not measure in time. Those last two a
 exactly the one with work inside, and nothing is selected for you without saying how much it is. A total that leaves
 such a folder out reads "Over" what is known.
 
+A repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`) is the one exception: the tool says it makes
+everything in there again. Swift Package Manager tags `.build`, where it clones a package's dependencies, and
+`swift package reset` deletes that folder whole, so Build Artifacts can still select it. Carthage's checkouts, which
+people commit in, carry no such tag and are never selected.
+
 Orphaned Files selects nothing for you, and its Select All and `peel orphans --remove` leave these folders out as
 well: one in `/Users/Shared`, one with a repository, a wallet, or a signing key inside, or one Peel could not read
 or measure in time, moves only when you select it yourself.

@@ -48,7 +48,7 @@ struct ScanCountTests {
         let count = ScanCount()
 
         _ = await ScanCount.$current.withValue(count) {
-            await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)], exclusions: .none) { _ in 0 }
+            await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)], exclusions: .none) { _ in FolderContents(size: 0, holdsRepository: false) }
         }
 
         #expect(count.value >= 3, "the project, its build file and its node_modules at least")

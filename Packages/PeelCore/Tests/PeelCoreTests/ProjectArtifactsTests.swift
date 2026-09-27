@@ -12,7 +12,7 @@ struct ProjectArtifactsTests {
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
-            _ = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)], exclusions: .none, measure: unanswered.measure)
+            _ = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)], exclusions: .none, measure: unanswered.walk)
         }
 
         #expect(stop.took < .seconds(1))
@@ -77,6 +77,31 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    /// What may exist nowhere else is never selected: a clone someone commits in, as Carthage's checkouts are with
+    /// `--use-submodules`, or a wallet. A repository inside a folder its tool tags as a cache is the tool's own
+    /// clone, which it makes again, as Swift Package Manager does for `.build`.
+    @Test func anArtifactHoldingARepositoryOrAWalletIsNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n# a cache directory tag\n".utf8)
+        try directory.file("Projects/app/Cartfile", bytes: 16)
+        try directory.file("Projects/app/Carthage/Checkouts/Dep/.git/HEAD", bytes: 16)
+        try directory.file("Projects/site/package.json", bytes: 16)
+        try directory.file("Projects/site/node_modules/coin/wallet.dat", bytes: 16)
+        try directory.file("Projects/tool/Package.swift", bytes: 16)
+        try directory.file("Projects/tool/.build/CACHEDIR.TAG", contents: tag)
+        try directory.file("Projects/tool/.build/checkouts/dep/.git/HEAD", bytes: 16)
+        try directory.file("Projects/old/Package.swift", bytes: 16)
+        try directory.file("Projects/old/.build/CACHEDIR.TAG", contents: Data("not a tag".utf8))
+        try directory.file("Projects/old/.build/checkouts/dep/.git/HEAD", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
+
+        let reasons = found.map { "\($0.project.lastPathComponent): \($0.heldBack.map(\.rawValue) ?? "none")" }.sorted()
+        #expect(reasons == ["app: holdsRepository", "old: holdsRepository", "site: holdsAWallet", "tool: none"])
+        #expect(found.filter(\.isRecommended).map(\.project.lastPathComponent) == ["tool"])
+    }
+
     /// A large `node_modules` is the folder most likely to run out of time. Its size is then unknown, not zero,
     /// so it is listed first and never selected for the user.
     @Test func anArtifactThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
@@ -88,7 +113,7 @@ struct ProjectArtifactsTests {
         try age(directory.url, days: 60)
 
         let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")], exclusions: .none) { url in
-            url.lastPathComponent == "node_modules" ? nil : await FileSize.allocatedSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "node_modules" ? nil : await FileSize.contents(of: url)
         }.artifacts
 
         #expect(found.map(\.name) == ["node_modules", ".build"])

@@ -21,6 +21,9 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     public let hasGenericName: Bool
     /// True for an installed set of packages, which a build doesn't make again on its own.
     public let isEnvironment: Bool
+    /// Why what measuring the folder saw leaves it to be chosen by hand: it was not measured or not read, or a
+    /// wallet or a repository is inside. Nil when nothing did.
+    public var heldBack: HoldBack?
 
     public var id: URL { url }
 
@@ -30,9 +33,10 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     }
 
     /// Whether Peel selects this artifact for the user: build output with a name that can't mean anything
-    /// else, in a project known not to have changed lately, and only once measured.
+    /// else, in a project known not to have changed lately, measured, and holding nothing that may exist nowhere
+    /// else.
     public var isRecommended: Bool {
-        !hasGenericName && !isEnvironment && !isRecentlyActive && lastActivityIsCertain && size != nil
+        !hasGenericName && !isEnvironment && !isRecentlyActive && lastActivityIsCertain && heldBack == nil
     }
 }
 
@@ -109,11 +113,11 @@ public enum ProjectArtifacts {
 
     @concurrent
     public static func scan(roots: [URL], exclusions: Exclusions = .none) async -> Scan {
-        await scan(roots: roots, exclusions: exclusions, measure: FileSize.measure)
+        await scan(roots: roots, exclusions: exclusions, measure: LeftoverScanner.walk)
     }
 
     @concurrent
-    static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping FileSize.Measure) async -> Scan {
+    static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure) async -> Scan {
         await withTaskGroup(of: (artifacts: [ProjectArtifact], wasCutShort: Bool).self) { group in
             for root in roots where isSearchable(root) {
                 group.addTask { await artifacts(in: root, exclusions: exclusions, measure: measure) }
@@ -178,7 +182,7 @@ public enum ProjectArtifacts {
         refusal(for: root, home: home) == nil
     }
 
-    static func artifacts(in root: URL, exclusions: Exclusions, measure: FileSize.Measure) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
+    static func artifacts(in root: URL, exclusions: Exclusions, measure: LeftoverScanner.Measure) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
         var found: [ProjectArtifact] = []
         var queue: [(url: URL, depth: Int)] = [(root, 0)]
         // An index rather than `removeFirst`, which shifts every waiting folder on each call and makes the
@@ -205,16 +209,21 @@ public enum ProjectArtifacts {
             // Read once per project, after all of its artifacts are found, so the walk skips every one of them.
             let activity = matching.isEmpty ? (date: nil, isCertain: true) : lastActivity(in: folder, ignoring: artifactNames)
             for definition in matching {
+                let url = folder.appending(path: definition.name)
+                let contents = await measure(url)
+                let heldBack = HoldBack.seen(in: contents)
                 found.append(ProjectArtifact(
-                    url: folder.appending(path: definition.name),
+                    url: url,
                     project: folder,
                     name: definition.name,
                     tool: definition.tool,
-                    size: await measure(folder.appending(path: definition.name)),
+                    size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                     lastActivity: activity.date,
                     lastActivityIsCertain: activity.isCertain,
                     hasGenericName: definition.isGeneric,
-                    isEnvironment: definition.isEnvironment
+                    isEnvironment: definition.isEnvironment,
+                    // A tool that tags its folder as a cache makes everything in it again, its own clones included.
+                    heldBack: heldBack == .holdsRepository && isTaggedAsACache(url) ? nil : heldBack
                 ))
             }
 
@@ -285,6 +294,15 @@ public enum ProjectArtifacts {
             if date > cutoff { return (date, true) }
         }
         return (newest, newest != nil)
+    }
+
+    /// Whether `folder` carries a cache directory tag, with which its tool says that everything inside can be made
+    /// again. The Cache Directory Tagging Specification has the file begin with this signature. Swift Package
+    /// Manager tags `.build`, which `swift package reset` deletes whole and `swift package resolve` clones again.
+    static func isTaggedAsACache(_ folder: URL) -> Bool {
+        let signature = Data("Signature: 8a477f597d28d172789f06886806bc55".utf8)
+        guard let tag = BoundedRead.data(at: folder.appending(path: "CACHEDIR.TAG"), maximum: 4_096) else { return false }
+        return tag.starts(with: signature)
     }
 
     /// Returns whether `url` is a plain folder: not a link, a package, or a cloud item. A cloud placeholder

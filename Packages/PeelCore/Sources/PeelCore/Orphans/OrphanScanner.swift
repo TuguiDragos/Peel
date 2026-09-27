@@ -252,15 +252,6 @@ public struct OrphanScanner: Sendable {
         }
     }
 
-    /// Why what the walk saw leaves an item to be chosen by hand: a wallet, a signing key, or a repository inside
-    /// may exist nowhere else, and a folder the walk could not see into is not known to be empty.
-    private static func heldBack(by contents: FolderContents?) -> HoldBack? {
-        guard let contents else { return .notMeasured }
-        if contents.couldNotBeRead { return .couldNotBeRead }
-        if contents.holdsWallet { return .holdsAWallet }
-        return contents.holdsRepository ? .holdsRepository : nil
-    }
-
     private enum LocationResult: Sendable {
         case found([(identifier: String, item: OrphanItem)])
         case unreadable(SearchLocation)
@@ -309,7 +300,7 @@ public struct OrphanScanner: Sendable {
                 .holdsALibrary
             } else {
                 // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
-                Self.heldBack(by: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
+                HoldBack.seen(in: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
             }
             let item = OrphanItem(
                 url: url,

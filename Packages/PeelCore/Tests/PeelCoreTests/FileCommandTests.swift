@@ -285,7 +285,8 @@ struct FileCommandTests {
             lastActivity: Date? = .now.addingTimeInterval(-ProjectArtifacts.recentlyActive * 2),
             certain: Bool = true,
             generic: Bool = false,
-            environment: Bool = false
+            environment: Bool = false,
+            heldBack: HoldBack? = nil
         ) -> ProjectArtifact {
             var artifact = ProjectArtifact(
                 url: project.appending(path: name),
@@ -295,7 +296,8 @@ struct FileCommandTests {
                 size: size,
                 lastActivity: lastActivity,
                 hasGenericName: generic,
-                isEnvironment: environment
+                isEnvironment: environment,
+                heldBack: heldBack
             )
             artifact.lastActivityIsCertain = certain
             return artifact
@@ -306,7 +308,8 @@ struct FileCommandTests {
             (artifact("huge", certain: false), "too large to tell when it last changed, kept"),
             (artifact("venv", environment: true), "installed packages, kept"),
             (artifact("build", generic: true), "name could mean anything, kept"),
-            (artifact("slow", size: nil), "not measured in time, kept"),
+            (artifact("slow", size: nil, heldBack: .notMeasured), "not measured in time, kept"),
+            (artifact("Carthage", heldBack: .holdsRepository), "holds a repository, kept"),
         ]
 
         for (artifact, note) in cases {

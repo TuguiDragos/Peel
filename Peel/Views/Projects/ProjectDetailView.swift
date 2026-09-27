@@ -107,6 +107,9 @@ struct ProjectDetailView: View {
     }
 
     private func warning(for artifact: ProjectArtifact) -> String? {
+        if let heldBack = artifact.heldBack {
+            return String(localized: heldBack.explanation)
+        }
         if artifact.isRecentlyActive {
             return String(localized: "Not selected: something in this project changed in the last 7 days.")
         }
@@ -117,9 +120,6 @@ struct ProjectDetailView: View {
         }
         if artifact.hasGenericName {
             return String(localized: "Not selected: a folder called \(artifact.name) could be anyone’s.")
-        }
-        if artifact.size == nil {
-            return String(localized: "Not selected: this folder took too long to measure, so Peel doesn’t know how big it is or what is inside.")
         }
         if !artifact.lastActivityIsCertain {
             return String(localized: "Not selected: this project is too large for Peel to tell when it last changed.")

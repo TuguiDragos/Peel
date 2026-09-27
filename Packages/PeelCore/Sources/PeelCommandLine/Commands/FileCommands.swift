@@ -297,6 +297,30 @@ struct ProjectsCommand: AsyncParsableCommand {
         let size: MeasuredSize
         let suggested: Bool
         let recentlyActive: Bool
+        /// Why measuring the folder left it to be chosen by hand, or `null` when nothing did.
+        let heldBack: String?
+
+        private enum CodingKeys: String, CodingKey {
+            case path
+            case project
+            case tool
+            case size
+            case suggested
+            case recentlyActive
+            case heldBack
+        }
+
+        /// Encodes a missing `heldBack` as `null`, for the reason `AppRecord` gives.
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(path, forKey: .path)
+            try container.encode(project, forKey: .project)
+            try container.encode(tool, forKey: .tool)
+            try container.encode(size, forKey: .size)
+            try container.encode(suggested, forKey: .suggested)
+            try container.encode(recentlyActive, forKey: .recentlyActive)
+            try container.encode(heldBack, forKey: .heldBack)
+        }
     }
 
     /// Fails when none of the folders can be searched, giving the reason for each, rather than report that
@@ -364,7 +388,8 @@ struct ProjectsCommand: AsyncParsableCommand {
                     tool: $0.tool,
                     size: MeasuredSize($0.size),
                     suggested: $0.isRecommended,
-                    recentlyActive: $0.isRecentlyActive
+                    recentlyActive: $0.isRecentlyActive,
+                    heldBack: $0.heldBack?.rawValue
                 )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path)
@@ -407,11 +432,11 @@ struct ProjectsCommand: AsyncParsableCommand {
     /// Returns why `artifact` is kept, or "suggested". It checks the same conditions as `isRecommended`, and
     /// the two must never disagree.
     static func note(for artifact: ProjectArtifact) -> String {
+        if let heldBack = artifact.heldBack { return "\(heldBack.summary), kept" }
         if artifact.isRecentlyActive { return "changed in the last 7 days, kept" }
         if !artifact.lastActivityIsCertain { return "too large to tell when it last changed, kept" }
         if artifact.isEnvironment { return "installed packages, kept" }
         if artifact.hasGenericName { return "name could mean anything, kept" }
-        if artifact.size == nil { return "not measured in time, kept" }
         return "suggested"
     }
 }
