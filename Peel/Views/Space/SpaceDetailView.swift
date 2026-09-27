@@ -19,7 +19,7 @@ struct SpaceDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             Section {
                 Text(item.words.detail)

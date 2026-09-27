@@ -223,7 +223,7 @@ extension RemovalLogProblem {
     var summary: String {
         switch self {
         case .damaged(let setAside): "History was damaged, so it was kept as \(Output.path(setAside)) and started again."
-        case .unreadable: "History couldn't be read, so nothing new is being recorded."
+        case .unreadable: "History couldn't be read, so Peel moves nothing until you start it over in the Peel app's History."
         case .couldNotRecord: "History couldn't be saved, so the last removal isn't in it."
         case .couldNotUpdate: "History couldn't be saved, so what was put back is still listed in it."
         }
@@ -339,6 +339,7 @@ extension TrashFailure.Reason {
         case .needsHelper: "needs administrator access"
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(name)"
+        case .historyUnreadable: "History can't be read"
         case .failed(let message): message
         }
     }

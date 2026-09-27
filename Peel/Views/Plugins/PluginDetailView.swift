@@ -71,7 +71,7 @@ struct PluginDetailView: View {
             }
 
             Section {
-                ExclusionsUnreadableBanner()
+                RemovalsHeldBanner()
                 if plugin.isLeftAlone {
                     Text("Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.")
                         .font(.callout)
@@ -86,7 +86,7 @@ struct PluginDetailView: View {
                         isConfirmingRemoval = true
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || !exclusions.exclusions.isKnown)
+                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || !exclusions.exclusions.isKnown || history.isUnreadable)
                 }
             }
         }

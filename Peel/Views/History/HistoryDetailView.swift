@@ -67,7 +67,7 @@ struct HistoryDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner(isOnHistoryPage: true)
 
             // The records appear only once the disk has answered, so no row changes after it is drawn.
             if let standing {
@@ -78,7 +78,7 @@ struct HistoryDetailView: View {
             RestoreBar(
                 count: selected.count,
                 isRestoring: history.isRestoring,
-                isEnabled: !selected.isEmpty && !history.isRestoring && exclusions.exclusions.isKnown
+                isEnabled: !selected.isEmpty && !history.isRestoring && exclusions.exclusions.isKnown && !history.isUnreadable
             ) {
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }

@@ -16,7 +16,7 @@ struct DuplicateGroupView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             Section {
                 ForEach(Array(group.files.enumerated()), id: \.element.id) { index, file in

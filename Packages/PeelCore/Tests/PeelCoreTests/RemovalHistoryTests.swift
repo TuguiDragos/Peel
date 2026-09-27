@@ -289,6 +289,46 @@ struct RemovalHistoryTests {
         #expect(outcome.problem == .unreadable)
     }
 
+    /// Whether History can be read is known without reading it, so a removal can be refused before anything moves:
+    /// a History not written yet can be, one Peel cannot open, or in a folder Peel cannot search, cannot.
+    @Test func whetherHistoryCanBeReadIsKnownBeforeAMove() throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "Peel/removals.json")
+        #expect(RemovalLog.canBeRead(at: url), "a History not written yet")
+
+        _ = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        #expect(RemovalLog.canBeRead(at: url))
+
+        try directory.setPermissions(0, of: "Peel/removals.json")
+        #expect(!RemovalLog.canBeRead(at: url), "a file Peel cannot open")
+        try directory.setPermissions(0o644, of: "Peel/removals.json")
+
+        try directory.setPermissions(0o600, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+        #expect(!RemovalLog.canBeRead(at: url), "a folder Peel cannot search")
+    }
+
+    /// Starting over keeps a History Peel cannot read beside the new one, under another name, and records again.
+    @Test func startingOverKeepsAHistoryItCannotReadAside() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0, of: "Peel/removals.json")
+        let log = RemovalLog(url: url)
+        #expect(await log.load().problem == .unreadable)
+
+        let outcome = await log.startOver()
+
+        let folder = directory.url.appending(path: "Peel").path(percentEncoded: false)
+        let kept = try FileManager.default.contentsOfDirectory(atPath: folder).filter { $0.hasPrefix("removals-damaged-") }
+        for name in kept {
+            try directory.setPermissions(0o644, of: "Peel/\(name)")
+        }
+        #expect(kept.count == 1, "the old file was not kept beside the new one")
+        #expect(outcome.records == [])
+        #expect(outcome.problem == nil)
+        #expect(await log.add([Self.record(batch: UUID())]).records?.count == 1)
+    }
+
     /// A log in a folder that cannot be searched is not known to be empty, so it is unreadable, never replaced.
     @Test func aLogItCannotReachIsUnreadableNotEmpty() async throws {
         let directory = try TemporaryDirectory()

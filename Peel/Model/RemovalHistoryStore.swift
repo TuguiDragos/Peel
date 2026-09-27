@@ -114,6 +114,9 @@ final class RemovalHistoryStore {
     private(set) var refusalBatches: [RefusalBatch] = []
     private(set) var refusalSearchKeys: [RefusalBatch.ID: String] = [:]
     private(set) var problem: RemovalLogProblem?
+    /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
+    /// reading it: at launch, when Peel comes forward, and with every read or change of History.
+    private(set) var isUnreadable = false
     private(set) var isRestoring = false
     var selection: RemovalBatch.ID?
     /// By record, not by path: Space and Developer move the same cache folders again and again, so one path
@@ -139,6 +142,22 @@ final class RemovalHistoryStore {
     func load() async {
         apply(await log.load())
         await loadRefusals()
+    }
+
+    /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the
+    /// last read or change of it met.
+    var shownProblem: RemovalLogProblem? {
+        isUnreadable ? .unreadable : problem
+    }
+
+    /// Looks again at whether History can be read, which costs no read of it.
+    func checkReadability() {
+        isUnreadable = !RemovalLog.canBeRead(at: log.url)
+    }
+
+    /// Keeps a History that cannot be read beside a new one, and records again.
+    func startOver() async {
+        apply(await log.startOver())
     }
 
     private func loadRefusals() async {
@@ -171,6 +190,7 @@ final class RemovalHistoryStore {
         if !result.failures.isEmpty {
             await loadRefusals()
         }
+        checkReadability()
     }
 
     /// Tells what `removal` moved once every part of it is recorded: the bar's "Moved", VoiceOver, the lifetime
@@ -218,6 +238,7 @@ final class RemovalHistoryStore {
             })
         }
         problem = outcome.problem
+        checkReadability()
         hasLoaded = true
     }
 

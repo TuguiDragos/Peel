@@ -21,6 +21,8 @@ public struct TrashFailure: Sendable, Hashable {
         case movedWithoutATrace
         /// What moved by name was not the item the guard checked. It is in the Trash under this name.
         case somethingElseMoved(named: String)
+        /// History cannot be read, so nothing moves: what moved could not be listed for Put Back.
+        case historyUnreadable
         case failed(String)
     }
 
@@ -46,6 +48,7 @@ extension TrashFailure.Reason {
         case .needsHelper: "needs-helper"
         case .movedWithoutATrace: "moved-without-a-trace"
         case .somethingElseMoved: "something-else-moved"
+        case .historyUnreadable: "history-unreadable"
         case .failed: "failed"
         }
     }
@@ -69,6 +72,7 @@ extension TrashFailure.Reason {
         case "needs-helper": self = .needsHelper
         case "moved-without-a-trace": self = .movedWithoutATrace
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
+        case "history-unreadable": self = .historyUnreadable
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -169,7 +173,22 @@ public struct TrashService: Sendable {
     /// Why the guard would refuse to move `url`, or nil when it would move. A plan can show this before anything
     /// moves, since the move asks the same guard.
     public func refusal(of url: URL) -> TrashFailure.Reason? {
-        removalGuard.allowsRemoval(of: url) ? nil : .protectedLocation
+        guard removalGuard.allowsRemoval(of: url) else { return .protectedLocation }
+        return historyCanBeRead ? nil : .historyUnreadable
+    }
+
+    /// Whether the History this service's moves are recorded in can be read. Nothing moves while it cannot, since
+    /// what moved could not be listed for Put Back.
+    private var historyCanBeRead: Bool {
+        journal?.historyCanBeRead ?? true
+    }
+
+    /// Every item of `urls` refused, while History cannot be read. An item the guard refuses keeps that reason,
+    /// which outlasts this one.
+    private func refusingAllWhileHistoryCannotBeRead(_ urls: [URL]) -> TrashResult? {
+        guard !historyCanBeRead else { return nil }
+        let refused = urls.map { TrashFailure(url: $0, reason: removalGuard.allowsRemoval(of: $0) ? .historyUnreadable : .protectedLocation) }
+        return TrashResult(failures: refused)
     }
 
     /// Moves `urls` to the Trash as the current user, then stops the launchd jobs and forgets the preference
@@ -177,7 +196,8 @@ public struct TrashService: Sendable {
     /// is forgotten even when Apple wrote the app.
     @concurrent
     public func trash(_ urls: [URL], ownedBy owner: String? = nil) async -> TrashResult {
-        await trash(urls, ownedBy: owner, removal: UUID())
+        if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
+        return await trash(urls, ownedBy: owner, removal: UUID())
     }
 
     /// Moves files Peel made for itself, which History never lists, such as a copy of settings it could not
@@ -225,6 +245,7 @@ public struct TrashService: Sendable {
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
     @concurrent
     public func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>) async -> TrashResult {
+        if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
         let removal = UUID()
         var result = await trash(urls.filter { !privilegedURLs.contains($0) }, ownedBy: nil, removal: removal)
         let helperURLs = urls.filter(privilegedURLs.contains)

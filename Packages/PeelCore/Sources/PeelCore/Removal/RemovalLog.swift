@@ -28,8 +28,11 @@ public struct RemovalLogOutcome: Sendable {
 public actor RemovalLog {
     /// The most records the file keeps. Past this, the oldest batches are dropped whole, never in part.
     static let maximumRecords = 20_000
+    /// The largest file read as History. The file is Peel's, but any process of the user can rewrite it, and
+    /// 20,000 records take about 6 MB.
+    static let maximumBytes = 64 * 1_024 * 1_024
 
-    public let url: URL
+    public nonisolated let url: URL
     public private(set) var problem: RemovalLogProblem?
     /// What removals moved and have not recorded yet, item by item.
     private let journal: RemovalJournal
@@ -55,6 +58,22 @@ public actor RemovalLog {
             // A removal that is recorded clears an earlier `.couldNotRecord`.
             if problem == .couldNotRecord { problem = nil }
             return RemovalLogOutcome(records: updated, problem: problem)
+        }
+    }
+
+    /// Whether History at `url` can be read, known without reading it: it is not there yet, or it opens as the file
+    /// it should be. A History that cannot be read is never written over, and nothing moves meanwhile.
+    public static func canBeRead(at url: URL = RemovalHistory.defaultURL) -> Bool {
+        url.isMissing || BoundedRead.opens(url, maximum: maximumBytes)
+    }
+
+    /// Keeps a History that cannot be read beside the new one, under another name, and starts recording again.
+    public func startOver() -> RemovalLogOutcome {
+        whileNoOtherProcessWrites {
+            guard stored() == nil else { return RemovalLogOutcome(records: current(), problem: problem) }
+            guard DamagedFile.setAside(url) != nil else { return RemovalLogOutcome(records: nil, problem: problem) }
+            problem = nil
+            return RemovalLogOutcome(records: current(), problem: problem)
         }
     }
 
@@ -114,9 +133,7 @@ public actor RemovalLog {
             note(nil)
             return []
         }
-        // Bounded like every other read: the file is Peel's, but any process of the user can rewrite it. The
-        // limit leaves plenty of room, since 20,000 records take about 6 MB.
-        guard let data = BoundedRead.data(at: url, maximum: 64 * 1_024 * 1_024) else {
+        guard let data = BoundedRead.data(at: url, maximum: Self.maximumBytes) else {
             note(.unreadable)
             return nil
         }

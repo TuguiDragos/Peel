@@ -44,14 +44,14 @@ struct HistoryList: View {
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .safeAreaBar(edge: .top) {
             Group {
-                if let problem = history.problem {
+                if let problem = history.shownProblem {
                     HistoryProblemNotice(problem: problem)
                         .padding(.horizontal, 12)
                         .padding(.bottom, 8)
                         .transition(.opacity)
                 }
             }
-            .motion(.settle, .movement, value: history.problem != nil)
+            .motion(.settle, .movement, value: history.shownProblem != nil)
         }
         .overlay {
             if history.batches.isEmpty, history.refusalBatches.isEmpty, history.hasLoaded {
@@ -81,6 +81,7 @@ struct HistoryList: View {
 }
 
 private struct HistoryProblemNotice: View {
+    @Environment(RemovalHistoryStore.self) private var history
     let problem: RemovalLogProblem
 
     var body: some View {
@@ -97,8 +98,12 @@ private struct HistoryProblemNotice: View {
         case .unreadable:
             Notice(
                 title: Text("The record of past removals can’t be read"),
-                detail: Text("Peel isn’t recording new removals, so it doesn’t overwrite what is there.")
-            ) { EmptyView() }
+                detail: Text("Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one.")
+            ) {
+                Button("Start Over") {
+                    Task { await history.startOver() }
+                }
+            }
         case .couldNotRecord:
             Notice(
                 title: Text("The last removal couldn’t be recorded"),

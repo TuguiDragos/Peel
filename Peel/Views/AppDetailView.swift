@@ -115,7 +115,7 @@ struct AppDetailView: View {
             }
             .listRowSeparator(.hidden)
 
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
             if plan.isExcluded {
                 Notice(
                     title: Text("This app is excluded"),

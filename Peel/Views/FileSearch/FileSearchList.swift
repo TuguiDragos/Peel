@@ -12,7 +12,7 @@ struct FileSearchList: View {
         @Bindable var search = search
 
         List(selection: $search.chosen) {
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
             // Says the limit rather than counting the rows, since exclusions added after the search take files
             // out of the list, and can empty it, while the rest stays unlisted.
             if search.results?.isTruncated == true {

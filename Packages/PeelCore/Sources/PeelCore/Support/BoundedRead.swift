@@ -16,11 +16,8 @@ enum BoundedRead {
     /// after would let the file be swapped for a pipe in between. A symbolic link is followed, since users
     /// link launch agents and settings in from a repository.
     static func data(at url: URL, maximum: Int = maximumBytes, read: Read = { Darwin.read($0, $1, $2) }) -> Data? {
-        let descriptor = open(url.path(percentEncoded: false), O_RDONLY | O_NONBLOCK | O_CLOEXEC)
-        guard descriptor >= 0 else { return nil }
+        guard let descriptor = openRegularFile(at: url, maximum: maximum) else { return nil }
         defer { close(descriptor) }
-        var info = stat()
-        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= maximum else { return nil }
 
         var data = Data()
         var buffer = [UInt8](repeating: 0, count: 64 * 1_024)
@@ -36,6 +33,26 @@ enum BoundedRead {
             }
         }
         return data.count <= maximum ? data : nil
+    }
+
+    /// Whether `url` opens as a regular file of at most `maximum` bytes, which is what `data(at:maximum:)` asks
+    /// before it reads.
+    static func opens(_ url: URL, maximum: Int = maximumBytes) -> Bool {
+        guard let descriptor = openRegularFile(at: url, maximum: maximum) else { return false }
+        close(descriptor)
+        return true
+    }
+
+    /// A descriptor for the regular file at `url` when it is at most `maximum` bytes, which the caller closes.
+    private static func openRegularFile(at url: URL, maximum: Int) -> Int32? {
+        let descriptor = open(url.path(percentEncoded: false), O_RDONLY | O_NONBLOCK | O_CLOEXEC)
+        guard descriptor >= 0 else { return nil }
+        var info = stat()
+        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= maximum else {
+            close(descriptor)
+            return nil
+        }
+        return descriptor
     }
 
     static func propertyList(at url: URL, maximum: Int = maximumBytes) -> [String: Any]? {

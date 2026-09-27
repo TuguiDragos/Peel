@@ -14,7 +14,7 @@ struct PackageDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             if receipt.items.contains(where: { $0.requiresPrivileges && !$0.isLeftAlone }), !helper.canAct {
                 HelperRequiredBanner()

@@ -70504,6 +70504,112 @@
         }
       }
     },
+    "Open History" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Historii"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlauf öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Historial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir l’Historique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Cronologia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴を開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Geschiedenis"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Historię"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Histórico"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți Istoricul"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Историю"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Historik"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş’i Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити Історію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开历史记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開歷史記錄"
+          }
+        }
+      }
+    },
     "Open Peel" : {
       "localizations" : {
         "cs" : {
@@ -75597,6 +75703,218 @@
         }
       }
     },
+    "Peel couldn’t read History" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst Historii"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte den Verlauf nicht lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer Historial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire l’Historique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere la Cronologia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは履歴を読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon Geschiedenis niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać Historii"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler o Histórico"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi Istoricul"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать Историю"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa Historik"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Geçmiş’i okuyamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати Історію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取“历史记录”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取「歷史記錄」"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read History, and it moves nothing it can’t put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst Historii a nepřesouvá nic, co nemůže vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte den Verlauf nicht lesen und verschiebt nichts, was sich nicht zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer Historial, y no traslada nada que no pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire l’Historique, et il ne déplace rien qu’il ne pourrait pas remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere la Cronologia, e non sposta nulla che non possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは履歴を読み取れませんでした。戻せないものは何も移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록을 읽을 수 없었으며, 되돌려 놓을 수 없는 것은 아무것도 이동하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon Geschiedenis niet lezen en verplaatst niets wat het niet kan terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać Historii i nie przenosi niczego, czego nie może przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler o Histórico, e não move nada que não possa colocar de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi Istoricul și nu mută nimic din ce nu poate pune înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать Историю, а он не перемещает ничего, что не сможет восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa Historik och flyttar inget som den inte kan lägga tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Geçmiş’i okuyamadı ve yerine koyamayacağı hiçbir şeyi taşımaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не змогла прочитати Історію й не переміщує нічого, чого не може повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取“历史记录”，而它不会移动任何无法放回原处的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取「歷史記錄」，而它不會移動任何無法還原的項目。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read its own files." : {
       "localizations" : {
         "cs" : {
@@ -77607,112 +77925,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel在「登入項目與延伸功能」中已關閉，因此macOS不會啟動它。"
-          }
-        }
-      }
-    },
-    "Peel isn’t recording new removals, so it doesn’t overwrite what is there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nová odstranění nezaznamenává, aby nepřepsal to, co v záznamu je."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zeichnet nicht auf, was ab jetzt entfernt wird, damit das Vorhandene nicht überschrieben wird."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no está registrando las eliminaciones nuevas, para no sobrescribir lo que hay."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’enregistre pas les nouvelles suppressions, afin de ne pas écraser ce qui s’y trouve."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non registra le nuove rimozioni, così non sovrascrive ciò che c’è."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、既存の記録を上書きしないよう、新しくゴミ箱に入れた項目を記録していません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 기존 기록을 덮어쓰지 않도록 새로운 제거 내역을 기록하지 않고 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel registreert geen nieuwe verwijderingen, zodat wat er staat niet wordt overschreven."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie zapisuje nowych przeniesień do Kosza, więc nie nadpisuje tego, co już tam jest."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não está registrando novas remoções, para não sobrescrever o que está lá."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu înregistrează eliminările noi, ca să nu scrie peste ce se află acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не записывает новые удаления, чтобы не перезаписать то, что там есть."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel för inte in nya borttagningar, så att det som redan finns där inte skrivs över."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel yeni kaldırma işlemlerini kaydetmiyor, böylece oradakinin üzerine yazmıyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не записує нових вилучень, щоб не перезаписати те, що там є."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel目前不记录新的移除操作，因此不会覆盖已有的记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel目前不會記錄新的移除項目，以免覆寫現有的記錄。"
           }
         }
       }
@@ -80408,6 +80620,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在你於「設定」中重新開始此列表之前，Peel不會移除任何項目，也不會還原任何項目。"
+          }
+        }
+      }
+    },
+    "Peel removes nothing until you start History over, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud nezačnete Historii znovu, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt nichts, bis du den Verlauf neu beginnst, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no elimina nada hasta que vuelvas a empezar Historial, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne supprime rien tant que vous n’avez pas recommencé l’Historique, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non rimuove nulla finché non ricominci la Cronologia da capo, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴を最初からやり直すまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록을 처음부터 다시 시작하기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert niets totdat je opnieuw begint met Geschiedenis, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel niczego nie przeniesie do Kosza, dopóki nie zaczniesz Historii od nowa, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não remove nada até você recomeçar o Histórico, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu elimină nimic până când nu reîncepeți Istoricul, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ничего не удаляет, пока Вы не начнете Историю заново, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar inte bort något förrän du börjar om Historik, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz Geçmiş’i baştan başlatana kadar Peel hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel нічого не вилучає, доки ви не почнете Історію наново, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新开始“历史记录”之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新開始「歷史記錄」之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
           }
         }
       }
@@ -120902,6 +121220,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未評級"
+          }
+        }
+      }
+    },
+    "Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud Peel nedokáže záznam přečíst nebo dokud nezačnete znovu, nic neodstraní, protože kdyby teď něco přesunul, nešlo by to vrátit zpět. Když začnete znovu, starý soubor se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis Peel die Aufzeichnung lesen kann oder du neu beginnst, entfernt Peel nichts, da sich nicht zurücklegen ließe, was jetzt verschoben würde. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta que pueda leer el registro, o hasta que vuelvas a empezar, Peel no elimina nada, porque cualquier cosa que trasladara ahora no se podría restaurar. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que Peel ne peut pas lire le registre, ou que vous ne l’avez pas recommencé, il ne supprime rien, car tout ce qu’il déplacerait maintenant serait impossible à remettre en place. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché non riesce a leggere il registro, o finché non ricominci da capo, Peel non rimuove nulla, perché qualsiasi cosa spostasse ora non si potrebbe ripristinare. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録を読み取れるようになるか、最初からやり直すまで、Peelは何もゴミ箱に入れません。今何かを移動すると、それを戻せなくなるためです。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록을 읽을 수 있게 되거나 사용자가 처음부터 다시 시작하기 전까지, Peel은 지금 무엇을 이동하든 되돌려 놓을 수 없으므로 아무것도 제거하지 않습니다. 처음부터 다시 시작하면 이전 파일은 새 파일 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totdat Peel de registratie kan lezen of jij opnieuw begint, verwijdert Peel niets, omdat wat Peel nu zou verplaatsen, niet kan worden teruggezet. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki Peel nie będzie mógł odczytać zapisu albo nie zaczniesz od nowa, niczego nie przeniesie do Kosza, ponieważ niczego, co by teraz przeniósł, nie dałoby się przywrócić. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até conseguir ler o registro, ou até você recomeçar, o Peel não remove nada, porque nada do que ele movesse agora poderia ser colocado de volta. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Până când poate citi evidența sau până când o reîncepeți, Peel nu elimină nimic, deoarece orice ar muta acum nu ar putea fi pus înapoi. Dacă o reîncepeți, fișierul vechi este păstrat lângă unul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Peel не сможет прочитать журнал или пока Вы не начнете его заново, Peel ничего не удаляет, потому что то, что он переместил бы сейчас, нельзя было бы восстановить. Если начать заново, старый файл сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tills Peel kan läsa förteckningen, eller tills du börjar om, tar Peel inte bort något, eftersom inget som Peel flyttade nu skulle kunna läggas tillbaka. När du börjar om sparas den gamla filen bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, kaydı okuyabilene veya siz baştan başlayana kadar hiçbir şeyi kaldırmaz, çünkü şimdi taşıyacağı hiçbir şey yerine konamazdı. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доки Peel не зможе прочитати запис або доки ви не почнете наново, Peel нічого не вилучає, бо те, що вона зараз перемістила б, не можна було б повернути. Коли ви починаєте наново, старий файл зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能够读取该记录或你重新开始之前，Peel不会移除任何内容，因为如果它现在移动任何内容，都将无法放回原处。重新开始会将旧文件保留在新文件旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能讀取這份記錄或你重新開始之前，Peel不會移除任何項目，因為它現在移動的任何項目都將無法還原。重新開始時，舊檔案會保留在新檔案旁邊。"
           }
         }
       }

@@ -21,7 +21,7 @@ struct MultipleAppsView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             if plan.bulk != nil {
                 if !plan.unreadableLocations.isEmpty {

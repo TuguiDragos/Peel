@@ -119,6 +119,32 @@ struct RemovalJournalTests {
         #expect(Set(journal.entries().map(\.item.trashedURL)) == Set(result.trashed.map(\.trashedURL)))
     }
 
+    /// While History cannot be read nothing moves, since what moved could not be listed for Put Back. An item the
+    /// guard refuses keeps that reason, and Peel's own files, which History never lists, still go.
+    @Test func nothingMovesWhileHistoryCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("home/Library/Application Support/Peel/removals.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0, of: "home/Library/Application Support/Peel/removals.json")
+        defer { try? directory.setPermissions(0o644, of: "home/Library/Application Support/Peel/removals.json") }
+        let item = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
+        let keychains = try directory.directory("home/Library/Keychains")
+        let moved = Mutex<[URL]>([])
+        let service = service(in: directory, journal: RemovalJournal(beside: history)) { url in
+            moved.withLock { $0.append(url) }
+            return directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
+        }
+
+        #expect(service.refusal(of: item) == .historyUnreadable)
+        #expect(service.refusal(of: keychains) == .protectedLocation)
+        let result = await service.trash([item, keychains])
+        let throughTheHelper = await service.trash([item], usingHelperFor: [item])
+
+        #expect(moved.withLock { $0 }.isEmpty)
+        #expect(result.failures.map(\.reason) == [.historyUnreadable, .protectedLocation])
+        #expect(throughTheHelper.failures.map(\.reason) == [.historyUnreadable])
+        #expect(await service.trashOwnFiles([item]).trashed.count == 1, "Peel's own files waited for History")
+    }
+
     /// Peel's folder holds the journal, and Peel moves it last as it removes itself: that move is not written
     /// down, since History went with the folder and writing the line would make the folder again.
     @Test func theMoveOfTheFolderThatHoldsTheJournalMakesNothingAgain() async throws {

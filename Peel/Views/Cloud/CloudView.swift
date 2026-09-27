@@ -21,7 +21,7 @@ struct CloudView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             if !listed.isEmpty {
                 Section {

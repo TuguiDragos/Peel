@@ -13,7 +13,7 @@ struct DuplicateFolderGroupView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             Section {
                 ForEach(Array(group.folders.enumerated()), id: \.element.id) { index, folder in

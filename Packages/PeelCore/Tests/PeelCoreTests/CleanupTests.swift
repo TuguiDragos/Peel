@@ -38,6 +38,24 @@ struct CleanupTests {
         #expect(plan.total.known == 20)
     }
 
+    /// While History cannot be read nothing moves, and the command says so above the list, with the way out.
+    @Test func saysSoWhenHistoryCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0, of: "Peel/removals.json")
+        defer { try? directory.setPermissions(0o644, of: "Peel/removals.json") }
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await cleanup(items: [(cache, 20)], service: try service(in: directory))
+                .run(question: "?", dryRun: true, yes: true, using: try service(in: directory), recordingIn: RemovalLog(url: history))
+        }
+
+        #expect(collected.notes.hasPrefix("Peel couldn't read its History at \(history.path(percentEncoded: false)), so nothing will be moved."))
+        #expect(collected.notes.contains("Start Over in History"))
+    }
+
     /// The command line never uses the helper, so what needs administrator access stays and says so.
     @Test func leavesWhatNeedsAdministratorAccessForTheApp() throws {
         let directory = try TemporaryDirectory()

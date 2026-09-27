@@ -14,7 +14,7 @@ struct InstallerDetailView: View {
         List {
             header(rows)
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             if rows.contains(where: \.requiresPrivileges), !helper.canAct {
                 HelperRequiredBanner()

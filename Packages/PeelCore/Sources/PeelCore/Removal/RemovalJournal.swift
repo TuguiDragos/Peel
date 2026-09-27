@@ -56,10 +56,18 @@ struct RemovalJournal: Sendable {
     }
 
     let url: URL
+    /// The History log that takes in what the journal holds.
+    let history: URL
 
     /// The journal beside the History log at `history`.
     init(beside history: URL) {
         url = history.deletingLastPathComponent().appending(path: "removals.journal")
+        self.history = history
+    }
+
+    /// Whether History can be read, and so take in what is written here.
+    var historyCanBeRead: Bool {
+        RemovalLog.canBeRead(at: history)
     }
 
     /// Writes down `items`, which moved together in `batch`, one line each. An item the journal was in, Peel's own

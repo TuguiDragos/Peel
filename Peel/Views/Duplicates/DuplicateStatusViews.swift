@@ -66,7 +66,7 @@ struct DuplicateSummaryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
             // Shown only when Full Disk Access would help: it can't fix a folder that is missing, or one the

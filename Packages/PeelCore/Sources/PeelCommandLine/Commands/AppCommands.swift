@@ -383,6 +383,9 @@ struct UninstallCommand: AsyncParsableCommand {
             throw CommandFailure("Moving \(target.name) to the Trash needs administrator access. Remove it with the Peel app.")
         }
 
+        if let note = UnreadableHistory.note() {
+            Output.note(note)
+        }
         // The removal guard judges each item before printing, so the list shows what the move will really do.
         let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers, refusal: service.refusal(of:))
         if let refusal = plan.appStays {

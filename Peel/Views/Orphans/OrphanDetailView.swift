@@ -10,7 +10,7 @@ struct OrphanDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             if orphans.scan?.unreadableLocations.isEmpty == false {
                 FullDiskAccessBanner()

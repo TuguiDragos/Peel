@@ -64,6 +64,9 @@ struct Cleanup {
         refusals: RefusalLog = RefusalLog(),
         move: (TrashService, [URL]) async -> TrashResult = { await $0.trash($1) }
     ) async throws {
+        if let note = UnreadableHistory.note(at: log.url) {
+            Output.note(note)
+        }
         // A third column, saying which items move and why the others stay, appears only when some item stays.
         let saysWhyItStays = !staying.isEmpty
         Output.table(items.map { item in

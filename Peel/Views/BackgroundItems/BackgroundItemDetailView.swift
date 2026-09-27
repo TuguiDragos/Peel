@@ -124,7 +124,7 @@ struct BackgroundItemDetailView: View {
             if hasOwnControls || finderURL != nil {
                 Section {
                     if item.canMoveToTrash {
-                        ExclusionsUnreadableBanner()
+                        RemovalsHeldBanner()
                     }
                     controls
                 }
@@ -304,7 +304,7 @@ struct BackgroundItemDetailView: View {
                 isConfirmingTrash = true
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown)
+            .disabled(isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown || history.isUnreadable)
         }
     }
 

@@ -9,7 +9,7 @@ struct DeveloperDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             Section {
                 ForEach(Array(environment.locations.enumerated()), id: \.element.id) { index, location in

@@ -122,7 +122,9 @@ default. Forgetting a preference domain (described above) is not one of the thre
 is in the Trash, and putting the file back undoes it, until the app writes its settings again.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
-the only way back from a removal.
+the only way back from a removal. If it can't be read at all, Peel moves nothing until it can, or until you
+start it over in History, which keeps the old file beside the new one: what moved meanwhile couldn't be put
+back. The `peel` command says so and moves nothing either.
 
 The record is also a file any process running as you can rewrite, so Put Back reads it as a request, not as
 a fact. It only takes something that really sits in a Trash of yours (`~/.Trash`, or `.Trashes/<uid>` at the

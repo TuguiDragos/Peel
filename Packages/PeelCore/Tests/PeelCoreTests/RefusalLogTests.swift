@@ -150,7 +150,7 @@ struct RefusalLogTests {
 
     private static let everyReason: [TrashFailure.Reason] = [
         .protectedLocation, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
-        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .failed("x"),
+        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .failed("x"),
     ]
 
     /// A record stores its reason as a word, not a sentence, so a later version of Peel can still read it.

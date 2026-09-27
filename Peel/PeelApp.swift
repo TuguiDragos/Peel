@@ -129,6 +129,8 @@ struct PeelApp: App {
             helper.refresh()
             // `peel exclusions` may have changed the list while another app was in front.
             Task { await exclusions.load() }
+            // History may have become readable again meanwhile, or stopped being.
+            history.checkReadability()
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one.
             Task { await home.refresh(helper: helper) }
@@ -255,6 +257,7 @@ struct PeelApp: App {
                     guard !hasLaunched else { return }
                     hasLaunched = true
                     history.stats = stats
+                    history.checkReadability()
                     // Read beside the rest and behind nothing: until the exclusions are read, nothing moves.
                     async let exclusionsRead: Void = Marks.interval("Exclusions") { await exclusions.load() }
                     // The apps and Homebrew don't depend on Home's checks, so they load in parallel with them.

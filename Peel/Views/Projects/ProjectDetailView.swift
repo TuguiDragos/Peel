@@ -9,7 +9,7 @@ struct ProjectDetailView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            ExclusionsUnreadableBanner()
+            RemovalsHeldBanner()
 
             Section {
                 ForEach(Array(group.artifacts.enumerated()), id: \.element.id) { index, artifact in
