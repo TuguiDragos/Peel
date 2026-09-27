@@ -8,6 +8,8 @@ struct AppcastItem: Equatable {
     var channel: String?
     /// `sparkle:os` on the enclosure. A feed shared with WinSparkle lists Windows builds beside the Mac's.
     var system: String?
+    /// `sparkle:hardwareRequirements`, in lowercase. Sparkle knows one: `arm64`, a release for Apple silicon only.
+    var hardwareRequirements: Set<String> = []
     var releaseNotes: URL?
 
     var displayVersion: String? {
@@ -19,15 +21,16 @@ enum Appcast {
     enum Reading: Equatable {
         case latest(AppcastItem)
         /// The feed was read, but none of its items is a release for the running system: each is on a named
-        /// channel, is for another operating system, needs a newer or older macOS, or has no version. This counts
-        /// as up to date, not as a failed check.
+        /// channel, is for another operating system, needs a newer or older macOS or Apple silicon, or has no
+        /// version. This counts as up to date, not as a failed check.
         case nothingForThisMac
         case unreadable
     }
 
     /// Finds the newest release that runs on `systemVersion`. Like Sparkle, it skips items on a named channel,
-    /// items for another operating system, and items that need a newer or older macOS.
-    static func read(_ data: Data, systemVersion: String) -> Reading {
+    /// items for another operating system, items that need a newer or older macOS, and, on an Intel Mac, items
+    /// that need Apple silicon. Sparkle offers those under Rosetta, which only an Apple silicon Mac has.
+    static func read(_ data: Data, systemVersion: String, isAppleSilicon: Bool) -> Reading {
         let delegate = ParserDelegate()
         let parser = XMLParser(data: data)
         parser.delegate = delegate
@@ -37,6 +40,7 @@ enum Appcast {
             guard item.channel == nil, item.displayVersion != nil, item.system == nil || item.system == "macos" else { return false }
             if let minimum = item.minimumSystemVersion, VersionComparison.isNewer(minimum, than: systemVersion) { return false }
             if let maximum = item.maximumSystemVersion, VersionComparison.isNewer(systemVersion, than: maximum) { return false }
+            if !isAppleSilicon, item.hardwareRequirements.contains("arm64") { return false }
             return true
         }
         return releases.max(by: isOlder).map(Reading.latest) ?? .nothingForThisMac
@@ -122,6 +126,9 @@ enum Appcast {
                 current?.maximumSystemVersion = value
             case "sparkle:channel" where !value.isEmpty:
                 current?.channel = value
+            case "sparkle:hardwareRequirements":
+                let separators = CharacterSet.whitespaces.union(CharacterSet(charactersIn: ","))
+                current?.hardwareRequirements = Set(value.lowercased().components(separatedBy: separators).filter { !$0.isEmpty })
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
                 if current != nil, let url = URL(string: value), url.scheme == "https",
                    notes[elementName]?.contains(where: { $0.language == noteLanguage }) != true {

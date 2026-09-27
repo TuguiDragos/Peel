@@ -24,7 +24,7 @@ struct VersionComparisonTests {
 
 struct AppcastTests {
     private func latestItem(in feed: String, systemVersion: String = "26.7.0") -> AppcastItem? {
-        if case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: systemVersion) { item } else { nil }
+        if case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: systemVersion, isAppleSilicon: true) { item } else { nil }
     }
 
     /// A feed shared with WinSparkle lists a Windows build beside the Mac one, and the last release for an
@@ -41,14 +41,41 @@ struct AppcastTests {
         #expect(try #require(latestItem(in: feed)).version == "500")
     }
 
+    /// Sparkle does not offer an Intel Mac a release that lists `arm64` among its hardware requirements, so neither
+    /// does Peel. The list is split at spaces and commas and read without case, as Sparkle reads it.
+    @Test func skipsAReleaseForAppleSiliconOnAnIntelMac() throws {
+        let feed = """
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+        <item><sparkle:version>600</sparkle:version><sparkle:hardwareRequirements>ARM64</sparkle:hardwareRequirements></item>
+        <item><sparkle:version>550</sparkle:version><sparkle:hardwareRequirements>metal,arm64</sparkle:hardwareRequirements></item>
+        <item><sparkle:version>500</sparkle:version><sparkle:hardwareRequirements>metal</sparkle:hardwareRequirements></item>
+        </channel></rss>
+        """
+        let read = { (isAppleSilicon: Bool) in Appcast.read(Data(feed.utf8), systemVersion: "26.7.0", isAppleSilicon: isAppleSilicon) }
+        guard case .latest(let onIntel) = read(false), case .latest(let onAppleSilicon) = read(true) else {
+            Issue.record("the feed was not read")
+            return
+        }
+        #expect(onIntel.version == "500")
+        #expect(onAppleSilicon.version == "600")
+        #expect(onAppleSilicon.hardwareRequirements == ["arm64"])
+
+        let onlyForAppleSilicon = """
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+        <item><sparkle:version>600</sparkle:version><sparkle:hardwareRequirements>arm64 metal</sparkle:hardwareRequirements></item>
+        </channel></rss>
+        """
+        #expect(Appcast.read(Data(onlyForAppleSilicon.utf8), systemVersion: "26.7.0", isAppleSilicon: false) == .nothingForThisMac)
+    }
+
     @Test func tellsAHealthyFeedWithNothingForThisMacFromOneItCannotRead() {
         let future = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
         <item><sparkle:version>4</sparkle:version><sparkle:minimumSystemVersion>99.0</sparkle:minimumSystemVersion></item>
         </channel></rss>
         """
-        #expect(Appcast.read(Data(future.utf8), systemVersion: "26.7.0") == .nothingForThisMac)
-        #expect(Appcast.read(Data("<rss><channel>".utf8), systemVersion: "26.7.0") == .unreadable)
+        #expect(Appcast.read(Data(future.utf8), systemVersion: "26.7.0", isAppleSilicon: true) == .nothingForThisMac)
+        #expect(Appcast.read(Data("<rss><channel>".utf8), systemVersion: "26.7.0", isAppleSilicon: true) == .unreadable)
     }
 
     /// Sparkle reads the version from the enclosure's attribute first, and from the element only when there is
@@ -410,7 +437,7 @@ struct UpdateSourceTests {
         <sparkle:releaseNotesLink>https://example.com/notes.html</sparkle:releaseNotesLink>
         </item></channel></rss>
         """
-        guard case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: "26.0.0") else {
+        guard case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: "26.0.0", isAppleSilicon: true) else {
             Issue.record("the feed was not read")
             return
         }

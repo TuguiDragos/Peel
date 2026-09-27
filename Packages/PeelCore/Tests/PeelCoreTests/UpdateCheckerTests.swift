@@ -105,6 +105,14 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sparkleApp()) == .upToDate)
     }
 
+    /// A release for Apple silicon only is an update on this Mac when it has Apple silicon, and nothing at all when
+    /// it has an Intel processor.
+    @Test func aReleaseForAppleSiliconIsAnUpdateOnlyOnAppleSilicon() async {
+        reply("feed.example.com", appcast("<item><sparkle:version>200</sparkle:version><sparkle:shortVersionString>2.0</sparkle:shortVersionString><sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements></item>"))
+        let expected: UpdateStatus = HostArchitecture.isAppleSilicon ? .updateAvailable(version: "2.0", source: .developer, releaseNotes: nil) : .upToDate
+        #expect(await checker.status(for: sparkleApp()) == expected)
+    }
+
     /// Many apps installed with Homebrew carry no update feed of their own. In the automatic mode, Homebrew's
     /// answer is used for them rather than "Can't check for updates".
     @Test func automaticFallsBackToWhatHomebrewKnows() async {

@@ -23,6 +23,7 @@ public struct UpdateChecker: Sendable {
     private let session: URLSession
     private let country: String
     private let systemVersion: String
+    private let isAppleSilicon = HostArchitecture.isAppleSilicon
 
     public init(session: URLSession? = nil, locale: Locale = .current) {
         self.session = session ?? URLSession(configuration: Self.configuration)
@@ -97,7 +98,7 @@ public struct UpdateChecker: Sendable {
     private func sparkleStatus(for app: InstalledApp, at url: URL) async -> UpdateStatus {
         guard let data = await fetch(url) else { return .failed }
         let item: AppcastItem
-        switch Appcast.read(data, systemVersion: systemVersion) {
+        switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
         case .unreadable: return .failed
         case .nothingForThisMac: return .upToDate
         case .latest(let latest): item = latest
