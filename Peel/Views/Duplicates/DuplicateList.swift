@@ -161,6 +161,7 @@ private struct DuplicateFolderGroupRow: View {
                     } icon: {
                         Image(systemName: "folder.badge.plus")
                     }
+                    .accessibilityLabel(Text("^[\(group.folders.count) copy](inflect: true)"))
                     Text("^[\(group.fileCount) file](inflect: true)")
                 }
                 .font(.caption)
@@ -191,6 +192,8 @@ private struct DuplicateGroupRow: View {
                     } icon: {
                         Image(systemName: "doc.on.doc")
                     }
+                    // The symbol is what says the number counts copies.
+                    .accessibilityLabel(Text("^[\(group.files.count) copy](inflect: true)"))
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
