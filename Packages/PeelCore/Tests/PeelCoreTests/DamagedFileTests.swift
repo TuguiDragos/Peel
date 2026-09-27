@@ -1,5 +1,5 @@
 import Foundation
-@testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct DamagedFileTests {

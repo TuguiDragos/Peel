@@ -44,7 +44,8 @@ public final class HelperLedger: @unchecked Sendable {
                 item.identity.map { Entry(path: item.path, identity: $0, user: user, date: .now) }
             }
             let known = Set(added.map(\.identity))
-            return write((read().filter { !known.contains($0.identity) } + added).suffix(maximumEntries))
+            guard let entries = read() else { return false }
+            return write((entries.filter { !known.contains($0.identity) } + added).suffix(maximumEntries))
         }
     }
 
@@ -52,8 +53,8 @@ public final class HelperLedger: @unchecked Sendable {
     public func forget(_ items: [OpenItem]) {
         Self.lock.withLock {
             let gone = Set(items.compactMap(\.identity))
-            guard !gone.isEmpty else { return }
-            _ = write(read().filter { !gone.contains($0.identity) })
+            guard !gone.isEmpty, let entries = read() else { return }
+            _ = write(entries.filter { !gone.contains($0.identity) })
         }
     }
 
@@ -74,17 +75,36 @@ public final class HelperLedger: @unchecked Sendable {
         }
     }
 
+    public struct Unreadable: Error {}
+
     /// The place `item` was taken from, when this helper took it on behalf of `user`.
-    public func origin(of item: OpenItem, movedBy user: uid_t) -> String? {
-        Self.lock.withLock {
-            guard let identity = item.identity else { return nil }
-            return read().last { $0.identity == identity && $0.user == user }?.path
-        }
+    public func origin(of item: OpenItem, movedBy user: uid_t) throws(Unreadable) -> String? {
+        guard let entries = Self.lock.withLock({ read() }) else { throw Unreadable() }
+        guard let identity = item.identity else { return nil }
+        return entries.last { $0.identity == identity && $0.user == user }?.path
     }
 
-    private func read() -> [Entry] {
-        guard let data = try? Data(contentsOf: url) else { return [] }
-        return (try? PropertyListDecoder().decode([Entry].self, from: data)) ?? []
+    /// The entries, or nil when the ledger is there and cannot be read: then nothing moves and nothing goes back.
+    /// A ledger that is not a list of entries is set aside and a new one begins; an entry that makes no sense is
+    /// left out.
+    private func read() -> [Entry]? {
+        var info = stat()
+        if lstat(url.path(percentEncoded: false), &info) != 0 {
+            return errno == ENOENT ? [] : nil
+        }
+        guard let data = try? Data(contentsOf: url) else { return nil }
+        guard let entries = try? PropertyListDecoder().decode([Readable].self, from: data) else {
+            return DamagedFile.setAside(url) == nil ? nil : []
+        }
+        return entries.compactMap(\.entry)
+    }
+
+    private struct Readable: Decodable {
+        let entry: Entry?
+
+        init(from decoder: any Decoder) throws {
+            entry = try? Entry(from: decoder)
+        }
     }
 
     private func write(_ entries: some Sequence<Entry>) -> Bool {

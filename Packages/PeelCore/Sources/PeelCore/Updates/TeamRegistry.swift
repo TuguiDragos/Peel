@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// Remembers which team signs each app, so the user can be told when a different team, or no team, signs it.
 public struct TeamRegistry: Sendable {

@@ -44,12 +44,12 @@ struct HelperLedgerTests {
         try FileManager.default.moveItem(atPath: trashedPath, toPath: renamed)
 
         let trashed = try #require(policy.openInTrash(renamed, trash: trash))
-        let origin = try #require(ledger.origin(of: trashed, movedBy: getuid()))
+        let origin = try #require(try ledger.origin(of: trashed, movedBy: getuid()))
         #expect(origin.hasSuffix("/root/Library/Caches/com.example.plist"))
-        #expect(ledger.origin(of: trashed, movedBy: getuid() + 1) == nil, "another account's request was believed")
+        #expect(try ledger.origin(of: trashed, movedBy: getuid() + 1) == nil, "another account's request was believed")
 
         ledger.forget([trashed])
-        #expect(ledger.origin(of: trashed, movedBy: getuid()) == nil)
+        #expect(try ledger.origin(of: trashed, movedBy: getuid()) == nil)
     }
 
     /// One request can name an item twice, by the same path or by two spellings that reach it. It moves once and
@@ -74,7 +74,7 @@ struct HelperLedgerTests {
         let destination = try #require(result.moved[direct])
         #expect(result.moved[linked] == destination)
         let trashed = try #require(policy.openInTrash(destination, trash: trash))
-        #expect(ledger.origin(of: trashed, movedBy: getuid()) != nil, "the ledger forgot the item it moved, so Put Back would refuse it")
+        #expect(try ledger.origin(of: trashed, movedBy: getuid()) != nil, "the ledger forgot the item it moved, so Put Back would refuse it")
     }
 
     @Test func knowsNothingAboutAnItemItDidNotMove() throws {
@@ -86,14 +86,14 @@ struct HelperLedgerTests {
         // Dropped into the Trash by hand, which is all a crafted record would need without the ledger.
         try directory.file("home/.Trash/planted.plist")
         let planted = try #require(policy.openInTrash(path("home/.Trash/planted.plist", in: directory), trash: trash))
-        #expect(ledger.origin(of: planted, movedBy: getuid()) == nil)
+        #expect(try ledger.origin(of: planted, movedBy: getuid()) == nil)
 
         // The name of something the helper did move, with another file behind it.
         let trashedPath = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
         try FileManager.default.removeItem(atPath: trashedPath)
         try Data("swapped".utf8).write(to: URL(filePath: trashedPath))
         let swapped = try #require(policy.openInTrash(trashedPath, trash: trash))
-        #expect(ledger.origin(of: swapped, movedBy: getuid()) == nil, "ATTACK SUCCEEDED: a file swapped in under the same name is believed")
+        #expect(try ledger.origin(of: swapped, movedBy: getuid()) == nil, "ATTACK SUCCEEDED: a file swapped in under the same name is believed")
     }
 
     /// The helper serves each connection on a queue of its own, and each request opens the ledger afresh, so two
@@ -110,7 +110,7 @@ struct HelperLedgerTests {
             _ = HelperLedger(at: url)?.record([items[index]], movedBy: getuid())
         }
         let ledger = try ledger(in: directory)
-        #expect(items.filter { ledger.origin(of: $0, movedBy: getuid()) == nil }.isEmpty, "a record was lost")
+        #expect(try items.filter { try ledger.origin(of: $0, movedBy: getuid()) == nil }.isEmpty, "a record was lost")
     }
 
     /// Remove Peel has the helper move its ledger to the Trash before it goes, since nothing else can move it. It
@@ -142,6 +142,59 @@ struct HelperLedgerTests {
         #expect(FileManager.default.fileExists(atPath: path("root/Library/Caches", in: directory)))
     }
 
+    @Test func setsAsideALedgerItCannotReadAsOneAndStartsAnother() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let ledger = try ledger(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        try Data("damaged".utf8).write(to: directory.url.appending(path: "private/moved.plist"))
+
+        let trashedPath = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
+
+        let aside = try FileManager.default.contentsOfDirectory(atPath: path("private", in: directory))
+            .filter { $0.hasPrefix("moved-damaged-") }
+        #expect(aside.count == 1, "the damaged ledger was written over")
+        let kept = try aside.map { try Data(contentsOf: directory.url.appending(path: "private/\($0)")) }
+        #expect(kept == [Data("damaged".utf8)])
+        #expect(try ledger.origin(of: try #require(policy.openInTrash(trashedPath, trash: trash)), movedBy: getuid()) != nil)
+    }
+
+    @Test func oneEntryItCannotReadCostsThatEntryOnly() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let ledger = try ledger(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let trashedPath = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
+
+        let url = directory.url.appending(path: "private/moved.plist")
+        var entries = try #require(try PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil) as? [Any])
+        entries.append(["path": 1])
+        try PropertyListSerialization.data(fromPropertyList: entries, format: .binary, options: 0).write(to: url)
+
+        let trashed = try #require(policy.openInTrash(trashedPath, trash: trash))
+        #expect(try ledger.origin(of: trashed, movedBy: getuid()) != nil, "one entry it could not read emptied the ledger")
+    }
+
+    @Test(.permissionsHold) func movesNothingWhileItsLedgerCannotBeRead() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let ledger = try ledger(in: directory)
+        _ = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
+        let url = directory.url.appending(path: "private/moved.plist")
+        let before = try Data(contentsOf: url)
+        try directory.setPermissions(0o000, of: url)
+
+        try directory.file("root/Library/Caches/other.plist")
+        let item = try policy.open(path("root/Library/Caches/other.plist", in: directory)).get()
+        #expect(!ledger.record([item], movedBy: getuid()), "a ledger it could not read was written over")
+        #expect(throws: HelperLedger.Unreadable.self, "a ledger it could not read answered for Put Back") {
+            try ledger.origin(of: item, movedBy: getuid())
+        }
+
+        try directory.setPermissions(0o600, of: url)
+        #expect(try Data(contentsOf: url) == before)
+    }
+
     @Test func keepsTheNewestEntriesAndOnlyInAFolderOfItsOwn() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)
@@ -149,7 +202,7 @@ struct HelperLedgerTests {
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
 
         let paths = try ["a.plist", "b.plist", "c.plist"].map { try move("root/Library/Caches/\($0)", with: ledger, policy: policy, in: directory) }
-        let origins = try paths.map { ledger.origin(of: try #require(policy.openInTrash($0, trash: trash)), movedBy: getuid()) }
+        let origins = try paths.map { try ledger.origin(of: try #require(policy.openInTrash($0, trash: trash)), movedBy: getuid()) }
         #expect(origins.map { $0 != nil } == [false, true, true])
 
         let attributes = try FileManager.default.attributesOfItem(atPath: path("private/moved.plist", in: directory))

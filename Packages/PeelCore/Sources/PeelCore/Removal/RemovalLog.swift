@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// A problem reading or writing the log, for History to show.
 public enum RemovalLogProblem: Sendable, Equatable {

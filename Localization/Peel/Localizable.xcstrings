@@ -85143,6 +85143,112 @@
         }
       }
     },
+    "Peel’s helper can’t read its record of what it moved, so nothing was put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu nemůže přečíst svůj záznam o tom, co přesunul, a proto se nic nevrátilo zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel kann seine Aufzeichnungen darüber, was es verschoben hat, nicht lesen, daher wurde nichts zurückgelegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no puede leer su registro de lo que ha trasladado, así que no se ha restaurado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel ne peut pas lire le registre de ce qu’il a déplacé : rien n’a donc été remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non riesce a leggere il registro di ciò che ha spostato, quindi non è stato ripristinato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが移動したものの記録を読み取れないため、何も戻しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 이동한 항목에 대한 기록을 읽을 수 없으므로 아무것도 되돌려 놓지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kan zijn overzicht van wat het heeft verplaatst niet lezen, dus er is niets teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie może odczytać swojego zapisu tego, co przeniósł, więc niczego nie przywrócono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não consegue ler o registro do que moveu, então nada foi colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu își poate citi evidența a ceea ce a mutat, așa că nu s‑a pus nimic înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не может прочитать свой журнал того, что он переместил, поэтому ничего не восстановлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kan inte läsa sin förteckning över vad det flyttade, så inget lades tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı taşıdıklarının kaydını okuyamıyor, bu yüzden hiçbir şey yerine konmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не може прочитати свій запис того, що перемістив, тож нічого не повернуто."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序无法读取它所移动内容的记录，因此没有放回任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式無法讀取它所移動項目的記錄，因此未還原任何項目。"
+          }
+        }
+      }
+    },
     "Peel’s helper didn’t move this from there, so it stays in the Trash. You can drag it back out in Finder." : {
       "localizations" : {
         "cs" : {

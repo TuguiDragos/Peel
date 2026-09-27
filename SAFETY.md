@@ -292,8 +292,9 @@ is deliberately small: no shell, no arbitrary paths, and it fails closed.
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is
   recognized by what it is (not by its name or place in the Trash), and it goes back only to the exact place
   the helper took it from. Something dropped into your Trash by hand, or swapped in under a known name, stays
-  there. A folder that code is loaded from takes back only what is still owned by root and writable by
-  nobody else.
+  there. While the ledger can't be read, the helper moves nothing and puts nothing back; one it can't make sense
+  of is kept under another name, never written over, and a new one begins. A folder that code is loaded from
+  takes back only what is still owned by root and writable by nobody else.
 
 If you never install the helper, Peel still works; it just cannot touch what needs administrator rights.
 Home lists the helper as required for that reason, and keeps a reminder there until it is installed.

@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// An app Peel has seen installed, kept after the app is gone. An app dragged to the Trash leaves its files
 /// behind with nothing to name them, so Peel shows them under the remembered name instead of an identifier.

@@ -145,9 +145,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - It opens folders by descriptor and works through them, so a path swapped for a link after the check leads
   nowhere.
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
-  and puts back only what that ledger knows.
-- Adding an operation means bumping `HelperIdentity.protocolVersion`, which asks users to install the helper
-  again.
+  and puts back only what that ledger knows. While the ledger can't be read it moves nothing, and one it can't make
+  sense of is kept under another name (`DamagedFile`), never written over.
+- Any change to the helper means bumping `HelperIdentity.protocolVersion`, which asks users to install the
+  helper again.
 
 ## The app
 

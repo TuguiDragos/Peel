@@ -105,9 +105,13 @@ final class HelperService: NSObject, PeelHelperProtocol {
         case .success(let target):
             // The request comes from History's record, which any process the user runs can rewrite. So the item
             // goes back only if the ledger shows the helper moved it, and only to the path recorded there.
-            guard let ledger = HelperLedger(), ledger.origin(of: trashed, movedBy: caller.user) == target.path else {
-                return reply(HelperRefusal.notMovedByHelper.rawValue)
+            guard
+                let ledger = HelperLedger(),
+                case .success(let origin) = Result(catching: { try ledger.origin(of: trashed, movedBy: caller.user) })
+            else {
+                return reply(HelperRefusal.cannotReadRecord.rawValue)
             }
+            guard origin == target.path else { return reply(HelperRefusal.notMovedByHelper.rawValue) }
             switch TrashMover.rename(trashed, to: target.name, in: target.parent) {
             case .success:
                 ledger.forget([trashed])

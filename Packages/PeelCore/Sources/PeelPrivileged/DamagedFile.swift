@@ -1,8 +1,8 @@
-import Foundation
+public import Foundation
 
 /// Renames one of Peel's own files that cannot be read, so the next save does not overwrite it.
-enum DamagedFile {
-    static func setAside(_ url: URL) -> URL? {
+public enum DamagedFile {
+    public static func setAside(_ url: URL) -> URL? {
         let folder = url.deletingLastPathComponent()
         let name = url.deletingPathExtension().lastPathComponent
         let ext = url.pathExtension

@@ -8,8 +8,8 @@ internal import PeelPrivileged
 public enum FixedSentence: CaseIterable, Sendable {
     case notAFullPath, dotInPath, controlCharacter, folderNotFound, outsideHelpersFolders, onlyAppsThere
     case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder, onlyLinksThere, leadsSomewhere
-    case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, notInTrash
-    case notMovedByHelper, invalidRequest, configurationMissing
+    case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, cannotReadRecord
+    case notInTrash, notMovedByHelper, invalidRequest, configurationMissing
     case toolTimedOut, toolStopped
     case receiptMisplaced, homebrewNotInstalled, helperUnavailable
 
@@ -40,6 +40,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .noTrash: HelperRefusal.noTrash.rawValue
         case .pathTooLong: HelperRefusal.pathTooLong.rawValue
         case .cannotKeepRecord: HelperRefusal.cannotKeepRecord.rawValue
+        case .cannotReadRecord: HelperRefusal.cannotReadRecord.rawValue
         case .notInTrash: HelperRefusal.notInTrash.rawValue
         case .notMovedByHelper: HelperRefusal.notMovedByHelper.rawValue
         case .invalidRequest: HelperRefusal.invalidRequest.rawValue

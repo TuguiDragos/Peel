@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 public struct RefusalRecord: Sendable, Codable, Hashable, Identifiable {
     public let id: UUID

@@ -154,7 +154,7 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   text the compiler keeps. XProtect, the malware scanner in macOS, takes a binary that carries a few wallet IDs for
   a program that steals them and moves it to the Trash, a test binary included, so tests read the IDs from those
   comments (`WalletIDs`). `BrowserWalletTests` checks every fingerprint against the ID above it.
-- **The privileged helper**: `PrivilegedPathPolicyTests`, and for a new operation a bump of
+- **The privileged helper**: `PrivilegedPathPolicyTests`, and for any change to the helper a bump of
   `HelperIdentity.protocolVersion`.
 - **`DeveloperCaches.definitions`**: a source showing the folder is a cache, and a `DeveloperCachesTests` run.
   Never a toolchain, never an installation, never a file holding an account or a token, and never a path inside
@@ -175,8 +175,8 @@ disk that somebody may have replaced.
   debugged.
 - It never uses a path again after checking it. It holds the folder open and works through that descriptor, so
   a folder swapped after the check leads nowhere.
-- A new operation needs `PrivilegedPathPolicyTests` and a protocol version bump, which asks every user to
-  install the helper again. That cost is deliberate.
+- A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a protocol version bump,
+  which asks every user to install the helper again. That cost is deliberate.
 
 If you are unsure whether something belongs in the helper, it doesn't. The helper should stay small enough to
 read in one sitting.
