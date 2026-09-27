@@ -102,11 +102,12 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 
 A handful of ideas carry most of the weight. Each is enforced in one place and tested there.
 
-- **The Trash, never deletion.** Nothing in Peel deletes anything of the user's; the one file it deletes outright is
-  its own list of refusals, when `peel history --refused --clear` is asked to forget it. Three actions can't be
-  undone by History, and each says so where it is confirmed: Homebrew's own uninstall and clean up, and resetting
-  an app's privacy permissions. Forgetting a preference domain happens only once its file is in the Trash, so
-  putting the file back undoes it. Every `brew` call runs without Homebrew's automatic cleanup
+- **The Trash, never deletion.** Nothing in Peel deletes anything of the user's; what it deletes outright is its own:
+  its list of refusals, when `peel history --refused --clear` is asked to forget it, and the empty placeholder
+  `TrashMover` makes to hold a name on a disk that cannot rename without replacing (exFAT), when the move it was made
+  for fails. Three actions can't be undone by History, and each says so where it is confirmed: Homebrew's own uninstall
+  and clean up, and resetting an app's privacy permissions. Forgetting a preference domain happens only once its file is
+  in the Trash, so putting the file back undoes it. Every `brew` call runs without Homebrew's automatic cleanup
   (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own.
 - **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the

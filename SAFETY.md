@@ -116,8 +116,12 @@ and each item is written down the moment it moves, so one cut short by a crash o
 History, as an interrupted removal, the next time Peel or `peel` opens it. The space is freed when *you* empty
 the Trash: Peel never does that for you.
 
-The one file Peel deletes outright is its own list of refusals, and only when `peel history --refused --clear` is
-asked to forget it.
+A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
+themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
+free name allows, and the move then replaces the placeholder.
+
+What Peel deletes outright is only its own: its list of refusals, when `peel history --refused --clear` is asked to
+forget it, and such a placeholder, when the move it was made for fails.
 
 Three things Peel starts can't be undone by History, and Peel says so before you confirm each of them: Homebrew's
 own uninstall and Clean Up, which delete what they remove, and resetting an app's privacy permissions, which is off
