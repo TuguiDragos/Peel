@@ -26,6 +26,14 @@
 
 ## Install
 
+> [!CAUTION]
+> Peel is published in one place only: this repository,
+> [github.com/TuguiDragos/Peel](https://github.com/TuguiDragos/Peel). Download it from its
+> [releases](https://github.com/TuguiDragos/Peel/releases/latest) or with the Homebrew command below, which installs
+> the same release. My only website is [tuguidragos.com](https://tuguidragos.com). Any other site, download page, or
+> store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone
+> asking you to pay for it is not me. Please download it only from here.
+
 **Requirements:** macOS Tahoe 26 or later, on a Mac with Apple silicon or an Intel processor.
 
 ### Download
