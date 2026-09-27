@@ -134,8 +134,7 @@ struct IntelDetailView: View {
                 .frame(width: 64, height: 64)
             VStack(alignment: .leading, spacing: 6) {
                 Text(verbatim: finding.name)
-                    .font(.title.bold())
-                    .titleLine()
+                    .pageTitle()
                     .help(Text(verbatim: finding.name))
                 if let owner = finding.owner {
                     Text("in \(owner)")

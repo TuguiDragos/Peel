@@ -233,8 +233,7 @@ struct BackgroundItemDetailView: View {
             }
             VStack(alignment: .leading, spacing: 6) {
                 Text(verbatim: item.label)
-                    .font(.title.bold())
-                    .titleLine()
+                    .pageTitle()
                     .textSelection(.enabled)
                     .help(Text(verbatim: item.label))
                 FlowLayout(spacing: 6) {

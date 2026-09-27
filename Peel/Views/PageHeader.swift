@@ -36,7 +36,7 @@ extension PageHeader where Trailing == EmptyView {
 extension Text {
     /// Styles a page title that is a name, such as an app's: bold title type on one line (see `titleLine()`).
     func pageTitle() -> some View {
-        font(.title.bold()).titleLine()
+        font(.title.bold()).titleLine().headsThePage()
     }
 
     /// Styles a page title that is a phrase in the user's language. It wraps to a second line rather than
@@ -45,5 +45,14 @@ extension Text {
         font(.title.bold())
             .lineLimit(2)
             .fixedSize(horizontal: false, vertical: true)
+            .headsThePage()
+    }
+}
+
+extension View {
+    /// Makes a page's or a sheet's title its first heading, where VoiceOver's Headings rotor starts, above the
+    /// sections' second level ones.
+    func headsThePage() -> some View {
+        accessibilityAddTraits(.isHeader).accessibilityHeading(.h1)
     }
 }

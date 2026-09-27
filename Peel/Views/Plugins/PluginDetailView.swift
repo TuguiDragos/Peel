@@ -19,8 +19,7 @@ struct PluginDetailView: View {
                         .frame(width: 56, height: 56)
                     VStack(alignment: .leading, spacing: 6) {
                         Text(verbatim: plugin.name)
-                            .font(.title.bold())
-                            .titleLine()
+                            .pageTitle()
                             .help(Text(verbatim: plugin.name))
                         FlowLayout(spacing: 6) {
                             Badge(title: Text(plugin.category.title), systemImage: "powerplug", tint: .secondary)

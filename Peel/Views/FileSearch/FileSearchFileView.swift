@@ -13,8 +13,7 @@ struct FileSearchFileView: View {
                     AppIcon(url: file.url)
                         .frame(width: 64, height: 64)
                     Text(verbatim: file.url.lastPathComponent)
-                        .font(.title.bold())
-                        .titleLine()
+                        .pageTitle()
                         .help(Text(verbatim: file.url.lastPathComponent))
                     Spacer(minLength: 0)
                 }

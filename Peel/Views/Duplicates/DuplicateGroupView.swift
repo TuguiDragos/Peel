@@ -49,8 +49,7 @@ struct DuplicateGroupView: View {
             copies
             VStack(alignment: .leading, spacing: 6) {
                 Text(verbatim: group.files[0].url.lastPathComponent)
-                    .font(.title.bold())
-                    .titleLine()
+                    .pageTitle()
                     .help(Text(verbatim: group.files[0].url.lastPathComponent))
                 FlowLayout(spacing: 6) {
                     Badge(title: Text(verbatim: group.size.byteCount), systemImage: "doc", tint: .secondary)

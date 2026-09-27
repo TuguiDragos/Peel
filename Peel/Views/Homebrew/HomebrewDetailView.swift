@@ -19,8 +19,7 @@ struct HomebrewDetailView: View {
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 6) {
                         Text(verbatim: package.name)
-                            .font(.title.bold())
-                            .titleLine()
+                            .pageTitle()
                             .textSelection(.enabled)
                             .help(Text(verbatim: package.name))
                         if let summary = package.summary {

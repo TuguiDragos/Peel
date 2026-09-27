@@ -170,6 +170,7 @@ struct ResetSheet: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Reset \(plan.app.name)")
                     .font(.title.bold())
+                    .headsThePage()
                 Text("\(plan.app.name) stays installed and forgets what is selected below. What is selected goes to the Trash, and the settings are copied first.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
@@ -210,6 +211,7 @@ struct ResetSheet: View {
             VStack(alignment: .leading, spacing: 10) {
                 outcomeTitle
                     .font(.title.bold())
+                    .headsThePage()
                 // Two paragraphs, not one sentence joined in code: languages build sentences differently.
                 Group {
                     if plan.askedToMove > 0 {

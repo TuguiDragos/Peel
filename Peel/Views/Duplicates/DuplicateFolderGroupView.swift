@@ -44,8 +44,7 @@ struct DuplicateFolderGroupView: View {
             copies
             VStack(alignment: .leading, spacing: 6) {
                 Text(verbatim: group.folders[0].url.lastPathComponent)
-                    .font(.title.bold())
-                    .titleLine()
+                    .pageTitle()
                     .help(Text(verbatim: group.folders[0].url.lastPathComponent))
                 HStack(spacing: 6) {
                     Badge(title: Text(verbatim: group.size.byteCount), systemImage: "folder", tint: .secondary)

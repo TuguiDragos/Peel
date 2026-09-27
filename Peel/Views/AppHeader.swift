@@ -22,8 +22,7 @@ struct AppHeader<Actions: View>: View {
             VStack(alignment: .leading, spacing: 10) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(app.name)
-                        .font(.title.bold())
-                        .titleLine()
+                        .pageTitle()
                         .help(Text(verbatim: app.name))
                     identity
                 }
