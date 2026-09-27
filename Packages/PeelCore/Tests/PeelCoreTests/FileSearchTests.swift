@@ -123,6 +123,34 @@ struct FileSearchTests {
         #expect(!results.isTruncated)
     }
 
+    /// A file in iCloud Drive, as Desktop and Documents are when they sync, is listed with that said: moving it to
+    /// the Trash removes it from every device. A temporary folder holds no iCloud item, so which file is one is
+    /// given here, as macOS would answer.
+    @Test func saysWhichFilesAreInTheCloud() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let synced = try directory.file("home/Documents/Report.pdf", bytes: 9_000)
+        let local = try directory.file("home/Downloads/Setup.dmg", bytes: 1_000)
+
+        let results = FileSearch.results(
+            from: [synced, local].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            isInTheCloud: { $0.lastPathComponent == "Report.pdf" }
+        )
+
+        #expect(results.files.map { "\($0.url.lastPathComponent): \($0.isInTheCloud)" } == ["Report.pdf: true", "Setup.dmg: false"])
+    }
+
+    /// A file whose contents live only in the cloud (`SF_DATALESS`) takes no room on this Mac, so moving it frees
+    /// nothing here and removes it everywhere. It is never listed.
+    @Test func aFileOnlyInTheCloudIsNeverListed() {
+        var info = stat()
+        info.st_mode = S_IFREG
+        #expect(FileSearch.holdsItsContentsHere(info))
+        info.st_flags = UInt32(SF_DATALESS)
+        #expect(!FileSearch.holdsItsContentsHere(info))
+    }
+
     /// `MDQuery.h` promises no order, so the results are sorted before the cap applies. Cutting first would keep
     /// an arbitrary set of files and call them the largest. The guard allows every file here, since the order is
     /// what is checked; `listsOnlyRegularFilesOutsideProtectedLocations` asks the real one.

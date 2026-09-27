@@ -37,6 +37,9 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     /// True when the file sits in a Library folder, so it is an app's working data rather than something the user
     /// made. Such a file is listed last and never selected for the user.
     public var belongsToAnApp = false
+    /// True when the file is in iCloud Drive, as Desktop and Documents are when they sync: moving it to the Trash
+    /// removes it from every device. It is never selected for the user.
+    public var isInTheCloud = false
     /// The file's identity when it was listed. Results can stay on screen for a long time, and a file written
     /// again under the same name is not the one the row describes.
     public var identity: FileIdentity?
@@ -103,14 +106,15 @@ public enum FileSearch {
         from paths: [String],
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
-        allows: ((URL) -> Bool)? = nil
+        allows: ((URL) -> Bool)? = nil,
+        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
     ) -> FileSearchResults {
         let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
         var candidates: [(url: URL, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
-            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { continue }
+            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, holdsItsContentsHere(info) else { continue }
             let url = URL(filePath: path)
             candidates.append((url, info, isAppData(url, home: environment.homeDirectory)))
         }
@@ -134,10 +138,17 @@ public enum FileSearch {
                 modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(candidate.url),
                 belongsToAnApp: candidate.belongsToAnApp,
+                isInTheCloud: isInTheCloud(candidate.url),
                 identity: FileIdentity(candidate.info)
             ))
         }
         return results
+    }
+
+    /// Whether a file's contents are on this Mac. One whose contents live only in the cloud (`SF_DATALESS`) frees
+    /// nothing here when moved.
+    static func holdsItsContentsHere(_ info: stat) -> Bool {
+        info.st_flags & UInt32(SF_DATALESS) == 0
     }
 
     /// Returns whether `url` is inside the Library folder in `home`, `/Library`, or `/System/Library`, where apps

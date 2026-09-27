@@ -34,7 +34,7 @@ public struct DuplicateFinder: Sendable {
     public func canScan(_ folder: URL) -> Bool {
         let path = Self.path(of: folder.resolvingSymlinksInPath())
         let home = Self.path(of: homeDirectory)
-        guard !ProtectedData.refuses(path, home: home), !Self.isInTheCloud(folder), !Self.isInsideAPackage(folder) else { return false }
+        guard !ProtectedData.refuses(path, home: home), !folder.isInTheCloud, !Self.isInsideAPackage(folder) else { return false }
         if path.isInside(home) {
             return !Self.managedFolders.contains { path.isInside(home + "/" + $0) }
         }
@@ -42,13 +42,6 @@ public struct DuplicateFinder: Sendable {
             return false
         }
         return (try? folder.resourceValues(forKeys: [.volumeIsReadOnlyKey]).volumeIsReadOnly) != true
-    }
-
-    /// Whether `url` is stored in the cloud, as `isUbiquitousItem` reports. With Desktop and Documents in iCloud,
-    /// their files are cloud items even though their paths are in the home folder, and removing one removes it
-    /// from every device.
-    static func isInTheCloud(_ url: URL) -> Bool {
-        (try? url.resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
     }
 
     /// Whether `url` is a package, such as an app.
@@ -205,7 +198,7 @@ public struct DuplicateFinder: Sendable {
                     }
                     continue
                 }
-                guard !exclusions.excludes(url), removalGuard.allowsRemoval(of: url), !Self.isInTheCloud(url) else { continue }
+                guard !exclusions.excludes(url), removalGuard.allowsRemoval(of: url), !url.isInTheCloud else { continue }
                 var info = stat()
                 guard
                     values.isRegularFile == true,

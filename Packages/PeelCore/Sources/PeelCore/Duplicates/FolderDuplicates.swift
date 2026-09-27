@@ -176,7 +176,7 @@ struct FolderDuplicates: Sendable {
                 folder.isWhole = folder.isWhole && child.isWhole
                 folder.children.append((entry.lastPathComponent, child))
             case S_IFREG:
-                guard info.st_flags & UInt32(SF_DATALESS) == 0, !DuplicateFinder.isInTheCloud(entry) else {
+                guard info.st_flags & UInt32(SF_DATALESS) == 0, !entry.isInTheCloud else {
                     folder.isWhole = false
                     continue
                 }

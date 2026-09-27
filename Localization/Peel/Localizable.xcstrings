@@ -115989,6 +115989,112 @@
         }
       }
     },
+    "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor je na iCloud Drivu, takže přesunutím do koše ho odstraníte z iCloudu i z vašich ostatních zařízení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei liegt in iCloud Drive, daher wird sie aus iCloud und von deinen anderen Geräten entfernt, wenn du sie in den Papierkorb legst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo está en iCloud Drive, así que trasladarlo a la papelera lo elimina de iCloud y de tus otros dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier se trouve dans iCloud Drive : le placer dans la corbeille le supprime donc d’iCloud et de vos autres appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo file si trova su iCloud Drive, quindi, se lo sposti nel Cestino, viene rimosso da iCloud e dagli altri tuoi dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルはiCloud Driveにあるため、ゴミ箱に入れると、iCloudからも、ほかのデバイスからも削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 파일은 iCloud Drive에 있으므로 휴지통으로 이동하면 iCloud는 물론 다른 기기에서도 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit bestand staat op iCloud Drive, dus als je het naar de prullenmand verplaatst, verdwijnt het uit iCloud en van je andere apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik jest na iCloud Drive, więc po przeniesieniu do Kosza zostanie usunięty z iCloud i z Twoich pozostałych urządzeń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este arquivo está no iCloud Drive, então, se você o mover para o Lixo, ele será removido do iCloud e dos seus outros dispositivos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest fișier se află pe iCloud Drive, așa că mutarea lui în Coș îl elimină de pe iCloud și de pe celelalte dispozitive ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот файл находится в iCloud Drive, поэтому, если переместить его в Корзину, он будет удален из iCloud и с других Ваших устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här filen ligger i iCloud Drive, så om du flyttar den till papperskorgen tas den bort från iCloud och från dina andra enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu dosya, iCloud Drive’da olduğu için Çöp Sepeti’ne taşınırsa iCloud’dan ve diğer aygıtlarınızdan silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл зберігається в iCloud Drive, тож переміщення в Смітник прибирає його з iCloud і з інших ваших пристроїв."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件位于iCloud云盘中，因此将它移到废纸篓后，它会从iCloud和你的其他设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案位於「iCloud雲碟」中，因此丟到「垃圾桶」會將它從iCloud和你的其他裝置上移除。"
+          }
+        }
+      }
+    },
     "This frees %@. Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them." : {
       "localizations" : {
         "cs" : {

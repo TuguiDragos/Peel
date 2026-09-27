@@ -35,6 +35,11 @@ struct FileSearchFileView: View {
                 LabeledContent("Modified") {
                     Text(file.modificationDate, format: .relative(presentation: .named))
                 }
+                if file.isInTheCloud {
+                    Text("This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
                 if file.belongsToAnApp {
                     Text("An app keeps this in its Library folder, and may be using it right now.")
                         .font(.callout)

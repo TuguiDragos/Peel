@@ -13,4 +13,11 @@ extension URL {
         let values = try? resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
         return values?.isDirectory == true && values?.isSymbolicLink != true
     }
+
+    /// Whether the item is stored in the cloud, as `isUbiquitousItem` reports. With Desktop and Documents in iCloud,
+    /// their files are cloud items even though their paths are in the home folder, and removing one removes it
+    /// from every device.
+    var isInTheCloud: Bool {
+        (try? resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
+    }
 }

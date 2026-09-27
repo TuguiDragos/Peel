@@ -27,7 +27,9 @@ struct FileSearchList: View {
                             url: file.url,
                             icon: .file(file.url),
                             detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
-                            warning: file.belongsToAnApp
+                            warning: file.isInTheCloud
+                                ? String(localized: "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
+                                : file.belongsToAnApp
                                 ? String(localized: "An app keeps this in its Library folder, and may be using it right now.")
                                 : nil,
                             size: file.size,
