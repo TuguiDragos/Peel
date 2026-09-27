@@ -21,8 +21,9 @@ struct FolderDuplicates: Sendable {
     private final class Folder {
         let url: URL
         let identity: FileIdentity
-        /// A package, such as an app, or a folder inside one: compared as part of the folder around it, and never
-        /// offered on its own, since nothing here checks whether an app is running.
+        /// A package, such as an app, a hidden folder, or a folder inside one of them: compared as part of the
+        /// folder around it, and never offered on its own. Nothing here checks whether an app is running, and the
+        /// file scan leaves hidden items out on purpose, since a hidden folder is a tool's settings or data.
         let isNeverOffered: Bool
         var files: [(name: String, identity: FileIdentity)] = []
         var children: [(name: String, folder: Folder)] = []
@@ -165,7 +166,7 @@ struct FolderDuplicates: Sendable {
                     entry,
                     identity: FileIdentity(info),
                     depth: depth + 1,
-                    isNeverOffered: isNeverOffered || DuplicateFinder.isAPackage(entry),
+                    isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || DuplicateFinder.isAPackage(entry),
                     onListing: onListing
                 )
                 guard !child.isProject else {
@@ -300,6 +301,11 @@ struct FolderDuplicates: Sendable {
             contents: Self.hexadecimal(contents),
             neverProjects: neverProjects
         )
+    }
+
+    /// Whether the entry is hidden the way Finder hides it: a leading dot, or the hidden flag.
+    private static func isHidden(_ url: URL, _ info: stat) -> Bool {
+        url.lastPathComponent.hasPrefix(".") || info.st_flags & UInt32(UF_HIDDEN) != 0
     }
 
     private static func reclaimable(_ folder: Folder) -> Int64 {

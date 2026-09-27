@@ -323,6 +323,21 @@ struct FolderDuplicateTests {
         #expect(result.skippedLocations.map(\.lastPathComponent) == ["Tool.app", "Contents"])
     }
 
+    /// A hidden folder, or one inside a hidden folder, is never offered, as the file scan never lists a hidden file:
+    /// a tool's settings in `~/.config` stay where they are, however like a backup of them they are. Finder's hidden
+    /// flag hides a folder as a leading dot does.
+    @Test func neverOffersAHiddenFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = randomData(count: 4_000)
+        let flagged = try directory.directory("home/Pictures/Kept")
+        for folder in ["home/.config/tool", "home/Documents/tool", "home/Pictures/Kept/tool", "home/Movies/tool"] {
+            try directory.file("\(folder)/settings.json", contents: settings)
+        }
+        #expect(chflags(flagged.path(percentEncoded: false), UInt32(UF_HIDDEN)) == 0)
+
+        #expect(names(try await scan(directory)) == [["Documents/tool", "Movies/tool"]])
+    }
+
     @Test func anEmptyFolderIsNoCopyOfAnything() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Documents/Empty")
