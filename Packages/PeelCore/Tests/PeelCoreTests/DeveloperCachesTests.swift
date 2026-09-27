@@ -706,6 +706,17 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .downloads })
     }
 
+    @Test func offersOnlyTheBinaryCachesOfPyInstaller() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Application Support/pyinstaller/bincache00_py313_arm64/libpython.dylib", bytes: 400_000)
+        try directory.file("Library/Application Support/pyinstaller/other/state", bytes: 400_000)
+        let pyinstaller = DeveloperCaches.definitions.filter { $0.id == "pyinstaller" }
+
+        let locations = await DeveloperCaches.scan(pyinstaller, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["bincache00_py313_arm64"])
+    }
+
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {

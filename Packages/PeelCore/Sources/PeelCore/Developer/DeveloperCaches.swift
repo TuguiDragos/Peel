@@ -451,6 +451,9 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Jedi", .cache, source: "https://github.com/davidhalter/jedi/blob/master/jedi/settings.py#L77-L78"),
             Folder("Library/Caches/Parso", .cache, source: "https://github.com/davidhalter/parso/blob/master/parso/cache.py#L69-L70"),
         ]),
+        Definition(id: "pyinstaller", name: "PyInstaller", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/pyinstaller/bincache*/", .cache, source: "https://github.com/pyinstaller/pyinstaller/blob/develop/PyInstaller/configure.py#L53-L71"),
+        ]),
         // Only the package files `pyenv install` keeps, never `versions`, the Pythons it installed.
         Definition(id: "pyenv", name: "pyenv", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder(".pyenv/cache", .downloads, source: "https://github.com/pyenv/pyenv/blob/master/plugins/python-build/bin/pyenv-install#L235-L238"),
