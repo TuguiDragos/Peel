@@ -52,10 +52,12 @@ struct SearchingTests {
             modified: nil
         )
 
-        #expect(file.matches("muzica"))
-        #expect(file.matches("CloudDocs"))
-        #expect(file.matches("iCloud"))
-        #expect(!file.matches("Wallpaper"))
+        let list = SearchableList([file], key: \.searchKey)
+        #expect(list.matching("muzica") == [file])
+        #expect(list.matching("CloudDocs") == [file])
+        #expect(list.matching("iCloud") == [file])
+        #expect(list.matching("Wallpaper").isEmpty)
+        #expect(list.matching("Drive/Users").isEmpty)
     }
 
     @Test func findsIntelSoftwareByNameOrTheAppItSitsIn() {
@@ -81,13 +83,15 @@ struct SearchingTests {
             modified: nil
         )
 
-        #expect(file.matches("sedinta"))
-        #expect(file.matches("ȘEDINȚĂ"))
+        let list = SearchableList([file], key: \.searchKey)
+        #expect(list.matching("sedinta") == [file])
+        #expect(list.matching("ȘEDINȚĂ") == [file])
     }
 
     @Test func anEmptyQueryKeepsEverything() {
         #expect(duplicates("/a/b.txt").matches(""))
-        #expect(CloudFile(url: URL(filePath: "/a"), name: "a", container: "c", size: 1, modified: nil).matches(""))
+        let file = CloudFile(url: URL(filePath: "/a"), name: "a", container: "c", size: 1, modified: nil)
+        #expect(SearchableList([file], key: \.searchKey).matching("") == [file])
         #expect(IntelFinding(url: URL(filePath: "/a"), kind: .app, name: "a", owner: nil, size: 1).matches(""))
     }
 

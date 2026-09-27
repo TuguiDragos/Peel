@@ -15,11 +15,8 @@ struct CloudView: View {
     @State private var isRescanning = false
     @State private var searchText = ""
 
-    private var listed: [CloudFile] {
-        (cloud.files ?? []).filter { $0.matches(searchText) }
-    }
-
     var body: some View {
+        let listed = cloud.files(matching: searchText)
         List {
             header
                 .listRowSeparator(.hidden)
@@ -77,7 +74,7 @@ struct CloudView: View {
         }
         .dimmedWhileBusy(cloud.isScanning)
         .columnSearch(text: $searchText, prompt: "Search iCloud Drive", when: cloud.files?.isEmpty == false)
-        .scanState(phase, scan: cloud.scanRun) {
+        .scanState(phase(listed: listed), scan: cloud.scanRun) {
             if !searchText.isEmpty, cloud.files?.isEmpty == false, listed.isEmpty {
                 ContentUnavailableView.search(text: searchText)
             } else if cloud.couldNotRead {
@@ -170,7 +167,7 @@ struct CloudView: View {
         }
     }
 
-    private var phase: ScanPhase {
+    private func phase(listed: [CloudFile]) -> ScanPhase {
         if cloud.files == nil { return cloud.scanRun.wasStopped ? .stopped : .scanning(.walk) }
         if !searchText.isEmpty, cloud.files?.isEmpty == false, listed.isEmpty { return .message }
         if cloud.couldNotRead { return .message }

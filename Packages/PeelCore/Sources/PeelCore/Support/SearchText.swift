@@ -10,3 +10,21 @@ public enum SearchText {
             || text.range(of: query, options: options) != nil
     }
 }
+
+/// A list and what a search looks in for each of its items, read once: typing in a search field would otherwise
+/// read every item again at each key.
+public struct SearchableList<Item: Sendable>: Sendable {
+    public let items: [Item]
+    private let keys: [String]
+
+    public init(_ items: [Item], key: (Item) -> String) {
+        self.items = items
+        keys = items.map(key)
+    }
+
+    /// The items whose key holds `query`, as `SearchText` compares; all of them for an empty query.
+    public func matching(_ query: String) -> [Item] {
+        guard !query.isEmpty else { return items }
+        return zip(items, keys).filter { SearchText.matches($0.1, query) }.map(\.0)
+    }
+}

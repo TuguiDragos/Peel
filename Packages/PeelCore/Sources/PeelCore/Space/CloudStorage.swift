@@ -261,11 +261,9 @@ public enum CloudStorage {
 }
 
 extension CloudFile {
-    /// The row shows an abbreviated path, so the whole path is searched and not only the file name.
-    public func matches(_ query: String) -> Bool {
-        guard !query.isEmpty else { return true }
-        return SearchText.matches(name, query)
-            || SearchText.matches(container, query)
-            || SearchText.matches(url.path(percentEncoded: false), query)
+    /// What a search looks in: the folder it belongs to, and the whole path, which ends in its name, since the row
+    /// shows an abbreviated path. A line end keeps a query from matching across the two.
+    public var searchKey: String {
+        container + "\n" + url.path(percentEncoded: false)
     }
 }
