@@ -298,6 +298,7 @@ extension OrphanConfidence {
         case .running: "something with this identifier is running now"
         case .leadsIntoAnAppThatIsGone: "these links lead into an app that is no longer there"
         case .writtenRecently(let date): "something wrote here on \(Output.day(date))"
+        case .writtenAfterItLeft(let name, let written): "something wrote here on \(Output.day(written)), after Peel last saw \(name) installed"
         case .sameMakerStillInstalled: "an app from the same maker is still installed"
         case .appLeft(let name, let lastSeen): "Peel last saw \(name) installed on \(Output.day(lastSeen))"
         case .untouched(let months): "\(months) months since anything wrote here"

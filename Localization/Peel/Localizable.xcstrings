@@ -100823,6 +100823,118 @@
         }
       }
     },
+    "Something wrote here %@, after Peel last saw %@ installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Něco sem zapsalo %@, poté co Peel naposledy viděl aplikaci %@ nainstalovanou"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier wurde %@ etwas geschrieben, nachdem Peel „%@“ zuletzt installiert vorgefunden hatte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Something wrote here %1$@, after Peel last saw %2$@ installed"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo escribió aquí %@, después de que Peel viera %@ instalada por última vez"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quelque chose a écrit ici %@, après que Peel a vu %@ installé pour la dernière fois"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualcosa ha scritto qui %@, dopo l’ultima volta che Peel ha visto %@ installata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが最後に“%2$@”のインストールを確認した後、%1$@、ここに書き込みがありました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 ‘%2$@’의 설치를 마지막으로 확인한 후, %1$@ 무언가가 여기에 기록함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier is %@ nog iets geschreven, nadat Peel %@ voor het laatst geïnstalleerd zag"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coś zapisało tu dane %@, po tym, jak Peel ostatnio widział zainstalowaną aplikację %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo gravou aqui %@, depois que o Peel viu %@ instalado pela última vez"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceva a scris aici %@, după ce Peel a văzut ultima dată aplicația %@ instalată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сюда что-то записывалось %@, после того как Peel последний раз видел приложение «%@» установленным"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något skrev här %@, efter att Peel senast såg %@ installerad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %2$@ uygulamasını en son yüklü olarak gördükten sonra, buraya %1$@ bir şey yazıldı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щось записувало сюди %@, після того як Peel востаннє бачила програму «%@» інстальованою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有程序在%@写入过这里，是在Peel上次看到“%@”已安装之后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@曾有項目寫入此處，是在Peel最後一次看到「%@」已安裝之後"
+          }
+        }
+      }
+    },
     "Sort By" : {
       "localizations" : {
         "cs" : {

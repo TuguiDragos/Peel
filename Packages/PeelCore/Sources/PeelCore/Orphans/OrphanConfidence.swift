@@ -6,13 +6,13 @@ public import Foundation
 /// only decides how a row reads and which rows are listed first.
 public struct OrphanConfidence: Sendable, Hashable {
     public enum Level: Int, Sendable, Hashable, Comparable {
-        /// Something may still use the files: it is running, it wrote here recently, or another app by the same
-        /// maker is installed.
+        /// Something may still use the files: it is running, it wrote here recently or after the app was gone, or
+        /// another app by the same maker is installed.
         case unsure
         /// Nothing installed claims it.
         case likely
-        /// Nothing claims it, and Peel knows why: it saw the app go, nothing has written here in months, or the
-        /// files are links into an app that is gone.
+        /// Nothing claims it, and Peel knows why: it saw the app go and nothing wrote here after, nothing has
+        /// written here in months, or the files are links into an app that is gone.
         case certain
 
         public static func < (one: Level, other: Level) -> Bool { one.rawValue < other.rawValue }
@@ -25,6 +25,9 @@ public struct OrphanConfidence: Sendable, Hashable {
         case untouched(months: Int)
         /// Something wrote here within the last week, so something may still be running.
         case writtenRecently(Date)
+        /// Something wrote here after Peel last saw the app, later than its removal takes, so something may still
+        /// use the files: the app itself from another disk, or another program.
+        case writtenAfterItLeft(name: String, written: Date)
         /// An app by the same maker is still installed, and apps by one maker can share group folders.
         case sameMakerStillInstalled
         /// Something with this identifier is running right now.
@@ -77,17 +80,17 @@ public struct OrphanConfidence: Sendable, Hashable {
             return OrphanConfidence(level: .unsure, reasons: [.sameMakerStillInstalled])
         }
 
-        var reasons: [Reason] = []
-        if let app = group.rememberedApp {
-            reasons.append(.appLeft(name: app.name, lastSeen: app.lastSeen))
-        }
         if let months = monthsUntouched(group, now: now), months >= longUntouched {
-            reasons.append(.untouched(months: months))
+            return OrphanConfidence(level: .certain, reasons: [.untouched(months: months)])
         }
-        guard !reasons.isEmpty else {
+        guard let app = group.rememberedApp else {
             return OrphanConfidence(level: .likely, reasons: [.nothingClaimsIt])
         }
-        return OrphanConfidence(level: .certain, reasons: reasons)
+        // Peel saw the app go, and something wrote here later than its removal takes, or when is not known.
+        if let written = lastWrite(in: group), written <= now {
+            return OrphanConfidence(level: .unsure, reasons: [.writtenAfterItLeft(name: app.name, written: written)])
+        }
+        return OrphanConfidence(level: .likely, reasons: [.appLeft(name: app.name, lastSeen: app.lastSeen)])
     }
 
     /// Whether two identifiers belong to one app. A helper runs under its app's identifier or a longer one. A

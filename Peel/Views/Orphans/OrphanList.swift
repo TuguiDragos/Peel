@@ -89,11 +89,11 @@ private struct OrphanGroupRow: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                 }
-                // Shows why Peel thinks nothing uses these files, not a date the user would have to interpret.
+                // Shows why Peel thinks nothing uses these files, not a date the user would have to interpret. It is
+                // shown whole, since the app's name can come last.
                 group.confidence.summary
                     .font(.caption)
                     .rowTint(group.confidence.tint)
-                    .lineLimit(2)
             }
             Spacer(minLength: 6)
             Text(group.total.text)

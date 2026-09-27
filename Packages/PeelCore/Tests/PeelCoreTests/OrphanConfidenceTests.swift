@@ -105,6 +105,40 @@ struct OrphanConfidenceTests {
         #expect(judged.reasons.contains { if case .appLeft(let name, _) = $0 { name == "Numi" } else { false } })
     }
 
+    @Test("Something that wrote here weeks after the app was gone may still use the files, and the write is the reason")
+    func aWriteWeeksAfterTheAppLeft() {
+        let judged = OrphanConfidence.judge(group(written: 20 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 60)), now: now)
+        #expect(judged.level == .unsure)
+        #expect(judged.reasons == [.writtenAfterItLeft(name: "Numi", written: now.addingTimeInterval(-20 * 24 * 60 * 60))])
+    }
+
+    @Test("Months of nothing touching it settle it even when something wrote after the app was gone")
+    func aWriteAfterTheAppLeftLongAgo() throws {
+        let judged = OrphanConfidence.judge(group(written: 250 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 400)), now: now)
+        #expect(judged.level == .certain)
+        #expect(judged.reasons.count == 1)
+        guard case .untouched(let months) = try #require(judged.reasons.first) else {
+            Issue.record("expected the months without a write to be the reason, got \(judged.reasons)")
+            return
+        }
+        #expect(months >= OrphanConfidence.longUntouched)
+    }
+
+    @Test("Files that were not read in time say nothing about when they were written, so seeing the app go is not enough")
+    func aGoneAppWhoseFilesWereNotRead() {
+        let item = OrphanItem(
+            url: URL(filePath: "/Users/someone/Library/Application Support/com.example.app", directoryHint: .isDirectory),
+            kind: .applicationSupport,
+            size: nil,
+            modificationDate: now.addingTimeInterval(-400 * 24 * 60 * 60),
+            requiresPrivileges: false
+        )
+        let numi = left("Numi")
+        let judged = OrphanConfidence.judge(OrphanGroup(identifier: "com.example.app", items: [item], rememberedApp: numi), now: now)
+        #expect(judged.level == .likely)
+        #expect(judged.reasons == [.appLeft(name: "Numi", lastSeen: numi.lastSeen)])
+    }
+
     @Test("Months of nothing touching it is enough on its own")
     func longUntouched() {
         let judged = OrphanConfidence.judge(group(written: 400 * 24 * 60 * 60), now: now)
@@ -150,6 +184,9 @@ struct OrphanConfidenceTests {
     func aClockThatRanAhead() {
         let judged = OrphanConfidence.judge(group(written: -10 * 24 * 60 * 60), now: now)
         #expect(judged.level == .likely)
+        // Nor as the removal of an app Peel saw go: that write would have to come before it.
+        let afterTheApp = OrphanConfidence.judge(group(written: -10 * 24 * 60 * 60, remembered: left("Numi")), now: now)
+        #expect(afterTheApp.level == .likely)
     }
 
     @Test("What Peel is sure about is listed first, and the largest of those first again")

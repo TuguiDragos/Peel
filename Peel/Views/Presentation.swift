@@ -209,10 +209,16 @@ extension OrphanConfidence {
     }
 
     /// The badge on a group's page, or nil when it would add nothing: the summary when Peel is unsure, or
-    /// else how long nothing has written there. That Peel saw the app leave is said in a line of its own.
+    /// else how long nothing has written there. That Peel saw the app leave is said in a line of its own, so a
+    /// write after it left is told by its date alone.
     var badge: Text? {
+        if case .writtenAfterItLeft(_, let written) = reasons.first { return wroteHere(written) }
         if level == .unsure { return summary }
         return reasons.first { if case .untouched = $0 { true } else { false } }.map(text(for:))
+    }
+
+    private func wroteHere(_ date: Date) -> Text {
+        Text("Something wrote here \(date, format: .relative(presentation: .named))")
     }
 
     private func text(for reason: Reason?) -> Text {
@@ -223,7 +229,9 @@ extension OrphanConfidence {
         case .leadsIntoAnAppThatIsGone:
             Text("These links lead into an app that is no longer there")
         case .writtenRecently(let date):
-            Text("Something wrote here \(date, format: .relative(presentation: .named))")
+            wroteHere(date)
+        case .writtenAfterItLeft(let name, let written):
+            Text("Something wrote here \(written, format: .relative(presentation: .named)), after Peel last saw \(name) installed")
         case .sameMakerStillInstalled:
             Text("An app from the same maker is still installed")
         case .appLeft(let name, let lastSeen):
