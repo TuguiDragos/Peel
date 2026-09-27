@@ -82,6 +82,24 @@ struct HomebrewTests {
         #expect(packages.last?.installedVersion == "2.1.0")
     }
 
+    /// Homebrew pins a cask as it pins a formula (`brew pin --cask`, since 6.0.0), and says so in the cask's JSON, as
+    /// 7.0.4 writes it. A pinned cask is left out of Upgrade All, since `brew upgrade` refuses to upgrade it.
+    @Test func readsAPinnedCask() throws {
+        let json = """
+        {
+          "formulae": [],
+          "casks": [
+            {"token": "sample", "installed": "2.1.0", "version": "2.2.0", "outdated": true, "pinned": true, "pinned_version": "2.1.0"},
+            {"token": "other", "installed": "1.0", "version": "1.1", "outdated": true, "pinned": false, "pinned_version": null}
+          ]
+        }
+        """
+        let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
+
+        #expect(packages.first { $0.name == "sample" }?.isPinned == true)
+        #expect(packages.first { $0.name == "other" }?.isPinned == false)
+    }
+
     /// The JSON follows what Homebrew 7.0.4 reports for packages it has stopped or will stop offering. A package
     /// can be deprecated and disabled at once (disabled wins), a deprecated one carries the day it will be
     /// disabled, and a reason is one of Homebrew's keywords or a sentence a maintainer wrote.

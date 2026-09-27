@@ -523,7 +523,7 @@ public enum Homebrew {
                 installedVersion: cask.installed,
                 latestVersion: cask.version,
                 isOutdated: cask.outdated ?? false,
-                isPinned: false,
+                isPinned: cask.pinned ?? false,
                 isInstalledOnRequest: true,
                 dependencies: [],
                 appNames: cask.artifacts?.flatMap(\.appNames) ?? [],
@@ -759,7 +759,7 @@ public enum Homebrew {
 
         struct Cask: Decodable {
             enum CodingKeys: String, CodingKey {
-                case token, desc, homepage, installed, version, outdated, artifacts
+                case token, desc, homepage, installed, version, outdated, pinned, artifacts
                 case fullToken = "full_token"
             }
 
@@ -770,6 +770,7 @@ public enum Homebrew {
             let installed: String?
             let version: String?
             let outdated: Bool?
+            let pinned: Bool?
             /// Free-form stanzas such as `app`, `uninstall`, and `zap`. Only what `CaskArtifact` understands is read.
             let artifacts: [CaskArtifact]?
         }
