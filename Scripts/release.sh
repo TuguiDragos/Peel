@@ -21,7 +21,6 @@ export_directory="$build/export"
 app="$export_directory/Peel.app"
 
 echo "== The tree"
-# A release is built from what is committed, so what ships is what the history holds.
 if [ -n "$(git status --porcelain)" ]; then
     git status --short
     echo "REFUSED: the working tree has changes. Commit them or set them aside first."
@@ -127,7 +126,6 @@ echo "== Checks"
 codesign --verify --deep --strict --verbose=2 "$app"
 spctl -a -vvv -t exec "$app"
 xcrun stapler validate "$app"
-# The checks macOS runs before it opens an app downloaded from the web (syspolicy_check(1)): 0 when it would open.
 if ! syspolicy_check distribution "$app"; then
     echo "REFUSED: macOS would not open this app as it is."
     exit 1

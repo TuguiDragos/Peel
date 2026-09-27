@@ -613,9 +613,8 @@ struct TrashServiceTests {
         }
     }
 
-    /// A folder refused by its name is refused before anything inside it is read, since the checks that look a
-    /// level or two down cost a read of every folder there. Listing a folder moves its access time when that time
-    /// is older than its last change, which `stat` does not, so a folder set back to 2000 tells whether it was read.
+    /// A folder refused by its name is refused before anything inside it is read. Listing a folder moves an old
+    /// access time and `stat` does not, so each folder's access time tells whether it was read.
     @Test func refusesByNameBeforeReadingWhatIsInside() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

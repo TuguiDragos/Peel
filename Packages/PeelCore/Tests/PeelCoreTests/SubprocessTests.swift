@@ -76,8 +76,6 @@ struct SubprocessTests {
         #expect(await task.value == .failure(.canceled))
     }
 
-    /// Runs a tool that says it has started and then sleeps for ten minutes, and returns once it has said so, so
-    /// that a cancel reaches a tool that runs rather than one not started yet.
     private func sleeping(
         timeout: TimeInterval?
     ) async throws -> Task<Result<Subprocess.Output, Subprocess.Failure>, Never> {

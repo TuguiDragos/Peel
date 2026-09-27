@@ -29,8 +29,7 @@ struct FolderWatchTests {
     /// The control: without this, a watcher that reported constantly would pass the tests above.
     @Test func staysSilentWhileNothingHappens() async throws {
         let directory = try TemporaryDirectory()
-        // macOS reports a change a moment after it happens. The fixture's own change is heard by a watch of its
-        // own first, so the watch under test, which begins after it, cannot hear it as its first change.
+        // The fixture's own change is heard first, so the watch under test cannot take it for its first.
         let setup = FolderWatch.changes(in: [directory.url])
         try directory.directory("watched/Untouched.app")
         try #require(await firstChange(of: setup, within: .seconds(10)), "the fixture's own change was never heard")
