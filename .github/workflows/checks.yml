@@ -17,10 +17,12 @@ concurrency:
 jobs:
   test:
     if: github.event_name == 'workflow_dispatch' || !github.event.repository.private
-    # Peel needs Swift 6.4, which comes with Xcode 27.
+    # Peel needs Swift 6.4, which comes with Xcode 27. GitHub offers Xcode 27 only on this preview image, on Apple
+    # silicon, so the Release build below is what compiles Peel for Intel Macs.
     runs-on: xcode-27
     steps:
-      - uses: actions/checkout@v7
+      # Pinned to the commit of v7.0.1, so a tag moved by someone else changes nothing here.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Show the toolchain
         run: |
@@ -38,13 +40,27 @@ jobs:
             exit 1
           fi
 
+      # The app's targets treat warnings as errors in the project; the package is held to the same here.
       - name: Test PeelCore
-        run: swift test --package-path Packages/PeelCore
+        run: swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 
       - name: Build the app
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
             -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+
+      # Release builds every binary for Apple silicon and Intel alike, with the optimizer a Debug build leaves off.
+      - name: Build the app for release
+        run: |
+          xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
+            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO build
+          for binary in MacOS/Peel MacOS/PeelHelper Helpers/peel PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder; do
+            archs=$(lipo -archs "build/Release/Build/Products/Release/Peel.app/Contents/$binary")
+            case "$archs" in
+              *x86_64*arm64*|*arm64*x86_64*) ;;
+              *) echo "::error::$binary is built for $archs only."; exit 1 ;;
+            esac
+          done
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
       - name: Build the accessibility audit

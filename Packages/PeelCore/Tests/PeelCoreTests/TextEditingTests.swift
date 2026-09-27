@@ -35,19 +35,19 @@ struct TextEditingTests {
         window.contentView?.addSubview(field)
         window.makeFirstResponder(field)
         let completions = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100), styleMask: [], backing: .buffered, defer: true)
-        var key: NSWindow? = window
-        let editing = TextEditing(keyWindow: { key })
+        let key = KeyWindow(window)
+        let editing = TextEditing(keyWindow: { key.window })
         editing.start()
         #expect(editing.isEditing)
 
         NotificationCenter.default.post(name: NSWindow.didBecomeKeyNotification, object: completions)
         #expect(editing.isEditing)
 
-        key = completions
+        key.window = completions
         NotificationCenter.default.post(name: NSWindow.didBecomeKeyNotification, object: completions)
         #expect(!editing.isEditing)
 
-        key = nil
+        key.window = nil
         NotificationCenter.default.post(name: NSWindow.didResignKeyNotification, object: completions)
         #expect(!editing.isEditing)
     }
@@ -62,5 +62,15 @@ struct TextEditingTests {
         #expect(!TextEditing.edits(readOnly))
         #expect(!TextEditing.edits(NSTableView()))
         #expect(!TextEditing.edits(nil))
+    }
+}
+
+/// The window a test says is key, read by `TextEditing` each time a window says it became key.
+@MainActor
+private final class KeyWindow {
+    var window: NSWindow?
+
+    init(_ window: NSWindow?) {
+        self.window = window
     }
 }
