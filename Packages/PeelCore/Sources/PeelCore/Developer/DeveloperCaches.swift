@@ -538,6 +538,8 @@ public enum DeveloperCaches {
             Folder(".gradle/workers", .cache, source: "https://github.com/gradle/gradle/blob/master/platforms/core-execution/worker-main/src/main/java/org/gradle/process/internal/worker/child/DefaultWorkerDirectoryProvider.java#L31-L38"),
         ]),
         Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            // `mvn install` puts the person's own modules here, which exist nowhere else (Maven's introduction to
+            // repositories), while Gradle, Ivy, sbt and NuGet keep only what they download again by themselves.
             Folder(".m2/repository", .environments, source: "https://github.com/apache/maven/blob/master/api/maven-api-settings/src/main/mdo/settings.mdo#L110"),
             Folder(".m2/wrapper/dists", .downloads, source: "https://github.com/apache/maven-wrapper/blob/master/maven-wrapper/src/site/markdown/index.md#L29"),
         ]),

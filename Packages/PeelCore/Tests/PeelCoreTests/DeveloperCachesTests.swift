@@ -553,6 +553,23 @@ struct DeveloperCachesTests {
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
+    @Test func neverSelectsMavensRepositoryAndOffersWhatOtherBuildToolsDownloadAgain() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".m2/repository/org/example/app/1.0/app-1.0.jar", bytes: 400_000)
+        try directory.file(".gradle/caches/modules-2/files-2.1/org.example/lib.jar", bytes: 400_000)
+        try directory.file(".ivy2/cache/org.example/lib/jars/lib.jar", bytes: 400_000)
+        try directory.file(".sbt/boot/scala-2.12.20/lib/scala-library.jar", bytes: 400_000)
+        try directory.file(".nuget/packages/org.example.lib/1.0.0/lib.nupkg", bytes: 400_000)
+
+        let locations = await scanned(directory.url).flatMap(\.locations)
+        let suggested = Set(
+            locations.filter { $0.isRecommended }.map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
+        )
+
+        #expect(locations.count == 5)
+        #expect(suggested == [".gradle/caches", ".ivy2/cache", ".sbt/boot", ".nuget/packages"])
+    }
+
     /// Of what Xcode keeps for previews, only the simulator devices it makes for them are offered: Xcode itself lists
     /// that folder among the simulator device sets it removes.
     @Test func offersOnlyTheSimulatorDevicesXcodeMakesForPreviews() async throws {
