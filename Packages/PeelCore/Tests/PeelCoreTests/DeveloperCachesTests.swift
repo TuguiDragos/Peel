@@ -235,7 +235,7 @@ struct DeveloperCachesTests {
     /// Toolchains, environments, and anything holding an account are installations or secrets, not caches.
     @Test func neverListsToolchainsOrCredentials() {
         let forbidden = [
-            ".rustup", ".sdkman", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
+            ".sdkman", ".jenv", "nix/store", ".nix-profile", ".asdf", ".volta",
             "conda/envs", "miniconda3/envs", "anaconda3/envs", ".local/pipx",
             "Library/Android/sdk", "flutter/bin", ".stack/programs",
             ".aws", ".ssh", ".gnupg", ".netrc", ".docker/config", ".kube/config", ".npmrc",
@@ -267,11 +267,11 @@ struct DeveloperCachesTests {
             "Library/Unity",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
-        // of the public index, `trunk`, is a cache. nvm's, pyenv's and rbenv's folders hold every version they
-        // installed; only their download caches are caches.
+        // of the public index, `trunk`, is a cache. nvm's, pyenv's, rbenv's and rustup's folders hold every version
+        // they installed; only their download caches are caches.
         let onlyThisPart = [
             ".cocoapods/repos": ".cocoapods/repos/trunk", ".nvm": ".nvm/.cache", ".pyenv": ".pyenv/cache",
-            ".rbenv": ".rbenv/cache",
+            ".rbenv": ".rbenv/cache", ".rustup": ".rustup/downloads",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -767,6 +767,17 @@ struct DeveloperCachesTests {
         let locations = await DeveloperCaches.scan(gradle, homeDirectory: directory.url).flatMap(\.locations)
 
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["notifications", "workers"])
+    }
+
+    @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".rustup/downloads/4b1c.partial", bytes: 400_000)
+        try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)
+        let rustup = DeveloperCaches.definitions.filter { $0.id == "rustup" }
+
+        let locations = await DeveloperCaches.scan(rustup, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["downloads"])
     }
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
