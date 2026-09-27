@@ -17,31 +17,47 @@ enum SettingsPane: String {
 /// The last open tab is remembered, as the Human Interface Guidelines ask of a settings window.
 struct SettingsTabs: View {
     @AppStorage(SettingsKey.pane) private var pane = SettingsPane.general.rawValue
+    /// Whether each tab is as tall as what it shows, which the Settings window follows. On the Settings page the
+    /// tabs fill the column.
+    var fitsEachTab = false
 
     var body: some View {
         TabView(selection: $pane) {
             Tab("General", systemImage: "gearshape", value: SettingsPane.general.rawValue) {
-                GeneralSettingsView()
+                fitted(GeneralSettingsView())
             }
             Tab("Exclusions", systemImage: "hand.raised", value: SettingsPane.exclusions.rawValue) {
-                ExclusionsSettingsView()
+                fitted(ExclusionsSettingsView())
             }
             Tab("Privacy", systemImage: "network", value: SettingsPane.privacy.rawValue) {
-                PrivacySettingsView()
+                fitted(PrivacySettingsView())
             }
             Tab("Helper", systemImage: "lock.shield", value: SettingsPane.helper.rawValue) {
-                HelperSettingsView()
+                fitted(HelperSettingsView())
             }
+        }
+    }
+
+    /// A tab as tall as what it shows, up to 520 points, past which it scrolls. A tab view gives every tab the
+    /// same height unless each asks for its own, which is what `fixedSize` does here.
+    @ViewBuilder
+    private func fitted(_ tab: some View) -> some View {
+        if fitsEachTab {
+            tab
+                .frame(width: 680)
+                .frame(maxHeight: 520)
+                .fixedSize(horizontal: false, vertical: true)
+        } else {
+            tab
         }
     }
 }
 
-/// The Settings window's content, at a fixed size. The `Settings` scene sizes the window to fit it, so the
-/// window can't be resized, as is usual for a settings window on the Mac.
+/// The Settings window's content. The `Settings` scene sizes the window to fit it, so the window takes the
+/// height of the tab shown and can't be resized, as a settings window on the Mac does.
 struct SettingsView: View {
     var body: some View {
-        SettingsTabs()
-            .frame(width: 680, height: 520)
+        SettingsTabs(fitsEachTab: true)
     }
 }
 
