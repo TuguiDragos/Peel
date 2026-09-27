@@ -13,8 +13,15 @@ struct ItemMenu: View {
     /// The identifier of the app itself, when the row is one.
     var appIdentifier: String?
     var isExcluded = false
+    /// Opens the row's note, which a keyboard or VoiceOver reaches here, since its button in the row takes no
+    /// keyboard focus.
+    var showNote: (() -> Void)?
 
     var body: some View {
+        if let showNote {
+            Button("Show Note", systemImage: "info.circle", action: showNote)
+            Divider()
+        }
         Button("Show in Finder", systemImage: "folder") {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }

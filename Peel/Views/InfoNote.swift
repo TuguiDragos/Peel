@@ -15,8 +15,14 @@ struct InfoNote: View {
     var isAlbum = false
     /// True for the note in each row of a list of items, whose button takes `RowButtonStyle`.
     var isInRow = false
+    /// Whether the note is open, when something beside the button opens it as well, such as a row's menu.
+    var opening: Binding<Bool>?
 
-    @State private var isOpen = false
+    @State private var isOpenHere = false
+
+    private var isOpen: Binding<Bool> {
+        opening ?? $isOpenHere
+    }
 
     init(
         name: String,
@@ -25,7 +31,8 @@ struct InfoNote: View {
         footnote: Text? = nil,
         isMarked: Bool = false,
         isAlbum: Bool = false,
-        isInRow: Bool = false
+        isInRow: Bool = false,
+        opening: Binding<Bool>? = nil
     ) {
         self.name = name
         self.detail = detail
@@ -34,6 +41,7 @@ struct InfoNote: View {
         self.isMarked = isMarked
         self.isAlbum = isAlbum
         self.isInRow = isInRow
+        self.opening = opening
     }
 
     /// A marked note says so in its shape as well: by color alone it is the fainter of the two in light mode.
@@ -42,10 +50,10 @@ struct InfoNote: View {
     }
 
     var body: some View {
-        Button { isOpen = true } label: {
+        Button { isOpen.wrappedValue = true } label: {
             Image(systemName: mark)
                 .font(.callout.weight(.semibold))
-                .foregroundStyle(isOpen || isMarked ? noteTint(isAlbum: isAlbum) : Color.secondary)
+                .foregroundStyle(isOpen.wrappedValue || isMarked ? noteTint(isAlbum: isAlbum) : Color.secondary)
                 .padding(4)
                 .contentShape(.rect)
         }
@@ -53,7 +61,7 @@ struct InfoNote: View {
         // The button takes clicks across its own frame, 4 points around the glyph; the layout keeps the glyph's.
         .padding(-4)
         .accessibilityLabel(isMarked ? Text("A caution about \(name)") : Text("What \(name) is for"))
-        .popover(isPresented: $isOpen, arrowEdge: .bottom) {
+        .popover(isPresented: isOpen, arrowEdge: .bottom) {
             NoteCard(name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, isAlbum: isAlbum)
         }
     }

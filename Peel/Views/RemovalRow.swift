@@ -49,6 +49,11 @@ struct RemovalRow: View {
     }
 
     @State private var isCompact = false
+    @State private var isNoteOpen = false
+
+    private var hasNote: Bool {
+        hasNoteColumn && (detail != nil || warning != nil)
+    }
 
     var body: some View {
         HStack(spacing: 6) {
@@ -62,7 +67,7 @@ struct RemovalRow: View {
             proxy.size.width < limit
         } action: { isCompact = $0 }
         .contextMenu {
-            ItemMenu(url: url, appIdentifier: appIdentifier, isExcluded: isExcluded)
+            ItemMenu(url: url, appIdentifier: appIdentifier, isExcluded: isExcluded, showNote: hasNote ? { isNoteOpen = true } : nil)
         }
     }
 
@@ -71,7 +76,8 @@ struct RemovalRow: View {
             NativeCheckbox(
                 isOn: Binding(get: { isSelected }, set: { selection.setSelected($0, for: url) }),
                 label: spokenItem,
-                hint: warning.map { String(Self.commandsMarked($0).characters) }
+                // What the note says, since its button takes no keyboard focus.
+                hint: detail != nil || warning != nil ? String(explanation.characters) : nil
             )
             clickableItem
                 .checkboxTitle()
@@ -217,7 +223,8 @@ struct RemovalRow: View {
                 detail: Text(explanation),
                 footnote: Text(verbatim: url.path(percentEncoded: false)),
                 isMarked: warning != nil,
-                isInRow: true
+                isInRow: true,
+                opening: $isNoteOpen
             )
         } else {
             blank
