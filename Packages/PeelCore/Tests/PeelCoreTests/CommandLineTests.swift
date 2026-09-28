@@ -301,6 +301,7 @@ struct CommandLineTests {
         #expect(failed.first?["detail"] as? String == "disk full")
         #expect(report["dryRun"] as? Bool == false)
         #expect(report["privacyReset"] as? Bool == true)
+        #expect(report["appMoved"] as? Bool == false)
         #expect(report["needsAdministrator"] as? Int == 1)
         #expect(report["needsReview"] as? Int == 2)
         #expect(report["unreadableLocations"] as? [String] == [])
@@ -310,6 +311,7 @@ struct CommandLineTests {
         #expect(planned["dryRun"] as? Bool == true)
         #expect(planned["moved"] as? [String] == [])
         #expect(planned["privacyReset"] is NSNull)
+        #expect(planned["appMoved"] is NSNull)
     }
 
     /// A script adds sizes up, so an unknown size is `null` under the same key: never zero, and never a missing
@@ -582,11 +584,16 @@ struct CommandLineTests {
     @Test func saysWhatCameOfThePrivacyReset() {
         let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
 
-        #expect(UninstallCommand.privacyOutcome(.reset, app: editor) == ("Reset Editor's privacy permissions.", false))
-        #expect(UninstallCommand.privacyOutcome(.notKnownToTheSystem, app: editor) == ("Editor's privacy permissions weren't reset: macOS couldn't find the app.", true))
-        #expect(UninstallCommand.privacyOutcome(.failed(""), app: editor) == ("Editor's privacy permissions weren't reset: macOS didn't say why.", true))
-        #expect(UninstallCommand.privacyOutcome(.failed("Failed to reset All"), app: editor) == ("Editor's privacy permissions weren't reset: macOS reported: Failed to reset All.", true))
-        #expect(UninstallCommand.privacyOutcome(.couldNotAsk("tccutil didn't answer in time"), app: editor) == ("Editor's privacy permissions weren't reset: tccutil didn't answer in time.", true))
+        let trashed = TrashedItem(originalURL: editor.url, trashedURL: editor.url, date: .now)
+        let moved = TrashResult(trashed: [trashed], failures: [])
+        let stayed = TrashResult(trashed: [], failures: [TrashFailure(url: editor.url, reason: .notPermitted)])
+
+        #expect(UninstallCommand.privacyOutcome(.reset, app: editor, after: moved) == ("Reset Editor's privacy permissions.", false))
+        #expect(UninstallCommand.privacyOutcome(.reset, app: editor, after: stayed) == ("Reset Editor's privacy permissions, but Editor stayed where it is, so it will ask for them again.", true))
+        #expect(UninstallCommand.privacyOutcome(.notKnownToTheSystem, app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS couldn't find the app.", true))
+        #expect(UninstallCommand.privacyOutcome(.failed(""), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS didn't say why.", true))
+        #expect(UninstallCommand.privacyOutcome(.failed("Failed to reset All"), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS reported: Failed to reset All.", true))
+        #expect(UninstallCommand.privacyOutcome(.couldNotAsk("tccutil didn't answer in time"), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: tccutil didn't answer in time.", true))
     }
 
     /// Nothing moves without an answer. Where `peel` cannot ask, it needs `--yes` or `--dry-run`, which leave

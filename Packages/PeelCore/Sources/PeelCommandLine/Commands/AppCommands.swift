@@ -261,6 +261,8 @@ struct UninstallCommand: AsyncParsableCommand {
         let failed: [Failure]
         /// Whether the privacy permissions were reset, or `null` when that wasn't asked for or it was a dry run.
         let privacyReset: Bool?
+        /// Whether the app itself went to the Trash, or `null` for a dry run.
+        let appMoved: Bool?
         let needsAdministrator: Int
         let needsReview: Int
         let unreadableLocations: [String]
@@ -272,12 +274,13 @@ struct UninstallCommand: AsyncParsableCommand {
             case moved
             case failed
             case privacyReset
+            case appMoved
             case needsAdministrator
             case needsReview
             case unreadableLocations
         }
 
-        /// Encodes an unknown `privacyReset` as `null`, for the reason `AppRecord` gives.
+        /// Encodes an unknown `privacyReset` and `appMoved` as `null`, for the reason `AppRecord` gives.
         func encode(to encoder: any Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(app, forKey: .app)
@@ -286,6 +289,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(moved, forKey: .moved)
             try container.encode(failed, forKey: .failed)
             try container.encode(privacyReset, forKey: .privacyReset)
+            try container.encode(appMoved, forKey: .appMoved)
             try container.encode(needsAdministrator, forKey: .needsAdministrator)
             try container.encode(needsReview, forKey: .needsReview)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
@@ -311,6 +315,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 Report.Failure(path: Output.path($0.url), reason: $0.reason.name, detail: $0.reason.detail)
             },
             privacyReset: privacy.map { $0 == .reset },
+            appMoved: result.map { result in result.trashed.contains { $0.originalURL == plan.app } },
             needsAdministrator: plan.needsAdministrator,
             needsReview: plan.needsReview,
             unreadableLocations: unreadable.map { Output.path($0.url) }
@@ -348,11 +353,18 @@ struct UninstallCommand: AsyncParsableCommand {
         throw CommandFailure("Peel never resets privacy permissions for \(Output.plain(target.name)). Leave out --reset-privacy to remove it anyway.")
     }
 
-    /// Returns the line that reports the privacy reset, and whether the command fails because of it.
-    static func privacyOutcome(_ result: PrivacyReset.Result, app: InstalledApp) -> (line: String, failed: Bool) {
-        result == .reset
-            ? ("Reset \(Output.plain(app.name))'s privacy permissions.", false)
-            : ("\(Output.plain(app.name))'s privacy permissions weren't reset: \(result.summary).", true)
+    /// Returns the line that reports the privacy reset, and whether it is a warning the command fails with: a reset
+    /// that did not happen, or one for an app that then stayed (`PrivacyReset.worthTelling`).
+    static func privacyOutcome(
+        _ result: PrivacyReset.Result, app: InstalledApp, after removal: TrashResult
+    ) -> (line: String, failed: Bool) {
+        let name = Output.plain(app.name)
+        guard result == .reset else { return ("\(name)'s privacy permissions weren't reset: \(result.summary).", true) }
+        guard PrivacyReset.worthTelling([(app, result)], after: removal).isEmpty else {
+            let stayed = "\(name) stayed where it is, so it will ask for them again"
+            return ("Reset \(name)'s privacy permissions, but \(stayed).", true)
+        }
+        return ("Reset \(name)'s privacy permissions.", false)
     }
 
     func run() async throws {
@@ -428,7 +440,7 @@ struct UninstallCommand: AsyncParsableCommand {
             let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
             return (reset, result, await Removals.record(result, from: target.name, sizes: sizes, tool: "applications"))
         }
-        let privacy = reset.map { Self.privacyOutcome($0, app: target) }
+        let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
 
         if output.json {
             let report = Self.report(app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable)
