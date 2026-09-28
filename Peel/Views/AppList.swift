@@ -56,8 +56,9 @@ struct AppList: View {
             }
         }
         .dropDestination(for: URL.self) { urls, _ in
-            guard let applicationURL = urls.compactMap(OpenRequest.applicationURL(from:)).first else { return false }
-            Task { await library.reveal(applicationURL) }
+            let applicationURLs = urls.compactMap(OpenRequest.applicationURL(from:))
+            guard !applicationURLs.isEmpty else { return false }
+            Task { await library.reveal(applicationURLs) }
             return true
         }
         .fadesInColumn(whenRowsChange: library.apps.map(\.id))

@@ -130,7 +130,7 @@ struct ContentView: View {
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
             show(.applications)
-            Task { await library.reveal(applicationURL) }
+            Task { await library.reveal([applicationURL]) }
         }
         // A request made while the window was closed (from a Shortcut, the Finder extension, or the menu bar
         // panel) is already set when this view appears, and `onChange` only fires on a change, so anything
@@ -353,7 +353,7 @@ struct ContentView: View {
         let match = library.apps.first { $0.names.contains { $0.lowercased() == wanted } }
             ?? library.apps.first { $0.names.contains { SearchText.matches($0, name) } }
         guard let match else { return }
-        await library.reveal(match.url)
+        await library.reveal([match.url])
     }
 
     @ViewBuilder

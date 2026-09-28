@@ -673,22 +673,33 @@ final class AppLibrary {
         await checkSigningTeams()
     }
 
-    /// Selects an app, adding it first when it lives outside the scanned folders, for example in the Trash.
-    func reveal(_ url: URL) async {
+    /// Selects the apps together, adding each first when it lives outside the scanned folders, for example in
+    /// the Trash. What is not an app is passed over.
+    func reveal(_ urls: [URL]) async {
+        var chosen: Set<InstalledApp.ID> = []
+        for url in urls {
+            if let id = await listed(url) {
+                chosen.insert(id)
+            }
+        }
+        guard !chosen.isEmpty else { return }
+        selection = chosen
+    }
+
+    private func listed(_ url: URL) async -> InstalledApp.ID? {
         let bundleURL = url.standardizedFileURL
         // Looked up on disk, since a trailing slash, another case, or a link can name a bundle already listed.
         // Listed twice, the app would be its own rival and share every file with itself.
         if let existing = await Self.find(bundleURL, among: apps) {
-            selection = [existing.id]
-            return
+            return existing.id
         }
-        guard bundleURL.pathExtension == "app", let app = await Self.inspect(bundleURL) else { return }
+        guard bundleURL.pathExtension == "app", let app = await Self.inspect(bundleURL) else { return nil }
         // Checked again, since two drops of the same bundle can both get this far before either is listed.
         if !apps.contains(where: { $0.id == app.id }) {
             revealed.append(app)
             adopt(apps.filter { listed in !revealed.contains { $0.id == listed.id } })
         }
-        selection = [app.id]
+        return app.id
     }
 
     @concurrent
