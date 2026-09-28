@@ -402,6 +402,16 @@ struct CommandLineTests {
 
     /// The notes shown before the user agrees to a removal. Each one names something that will still be on
     /// the disk afterwards, so leaving one out would promise more than the removal does.
+    /// Full Disk Access does not open a folder closed by ordinary permissions, so then the folders are named instead.
+    @Test func namesTheFoldersFullDiskAccessWouldNotOpen() {
+        let locked = URL(filePath: "/Library/Application Support/Vendor")
+
+        let said = "Peel couldn't look inside /Library/Application Support/Vendor, so something may be there"
+            + " that isn't listed."
+        #expect(Output.unreadableNote(for: [locked], needsFullDiskAccess: false) == said)
+        #expect(Output.unreadableNote(for: [locked], needsFullDiskAccess: true) == Output.fullDiskAccessNote)
+    }
+
     @Test func saysWhatWillStayBeforeItAsks() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let cache = URL(filePath: "/Users/me/Library/Caches/com.example.editor")
@@ -414,7 +424,9 @@ struct CommandLineTests {
             keepLeftovers: false,
             refusal: { _ in nil }
         )
-        let scan = LeftoverScan(leftovers: [], unreadableLocations: [caches], cutShortLocations: [caches])
+        let scan = LeftoverScan(
+            leftovers: [], unreadableLocations: [caches], cutShortLocations: [caches], needsFullDiskAccess: true
+        )
 
         let notes = UninstallCommand.whatStays(plan, app: app, homebrew: CaskLookup.Answer(failure: "brew is not installed"), scan: scan)
 

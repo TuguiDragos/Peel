@@ -101,12 +101,16 @@ public struct LeftoverScanner: Sendable {
         }
         let leftovers = Self.merged(found)
 
+        let byPath: (SearchLocation, SearchLocation) -> Bool = {
+            $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+        }
         return LeftoverScan(
             leftovers: exclusions.keeping(leftovers, url: \.url)
                 .map { exclusions.holds($0.url) ? $0.heldBack(.holdsAnExclusion) : $0 }
                 .sorted(by: Leftover.comesBefore),
-            unreadableLocations: unreadableLocations.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) },
-            cutShortLocations: cutShortLocations.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+            unreadableLocations: unreadableLocations.sorted(by: byPath),
+            cutShortLocations: cutShortLocations.sorted(by: byPath),
+            needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing }
         )
     }
 

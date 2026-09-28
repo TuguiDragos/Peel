@@ -12,8 +12,10 @@ struct OrphanDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if orphans.scan?.unreadableLocations.isEmpty == false {
+            if orphans.scan?.needsFullDiskAccess == true {
                 FullDiskAccessBanner()
+            } else if let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
+                UnreadableFoldersNotice(folders: unreadable.map(\.url))
             }
             if group.items.contains(where: { $0.requiresPrivileges && $0.leftAlone == nil }), !helper.canAct {
                 HelperRequiredBanner()

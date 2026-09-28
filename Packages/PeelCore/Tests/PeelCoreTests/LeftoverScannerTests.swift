@@ -342,6 +342,7 @@ struct LeftoverScannerTests {
 
         #expect(scan.leftovers.isEmpty)
         #expect(scan.unreadableLocations.map(\.kind) == [.logs])
+        #expect(!scan.needsFullDiskAccess, "Full Disk Access does not open a folder closed by ordinary permissions")
     }
 
     /// A vendor's folder the deep search cannot look into may hold the app's files, so the scan says it could not
@@ -357,6 +358,7 @@ struct LeftoverScannerTests {
 
         #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Vendor"])
         #expect(scan.unreadableLocations.map(\.kind) == [.applicationSupport])
+        #expect(!scan.needsFullDiskAccess)
     }
 
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {

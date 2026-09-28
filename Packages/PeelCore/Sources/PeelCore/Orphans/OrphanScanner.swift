@@ -100,7 +100,10 @@ public struct OrphanScanner: Sendable {
         let teams = Set(installedApps.compactMap(\.teamIdentifier))
         return OrphanScan(
             groups: Self.group(kept, remembered: gone, installedTeams: teams, running: running),
-            unreadableLocations: unreadableLocations.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+            unreadableLocations: unreadableLocations.sorted {
+                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            },
+            needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing }
         )
     }
 

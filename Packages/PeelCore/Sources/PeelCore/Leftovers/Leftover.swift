@@ -207,6 +207,9 @@ public struct LeftoverScan: Sendable {
     public let unreadableLocations: [SearchLocation]
     /// Locations where the search inside other folders hit its limit, so some of the app's files may be missed.
     public var cutShortLocations: [SearchLocation] = []
+    /// True when macOS's privacy protection, not ordinary permissions, kept Peel out of one of `unreadableLocations`,
+    /// so Full Disk Access would open it.
+    public var needsFullDiskAccess = false
 
     /// Holds back, as `beyondTheHelper`, each item that needs an administrator and that the helper would refuse
     /// once `app` has moved. An item already held back by a reason that blocks the move keeps its reason.
@@ -217,7 +220,8 @@ public struct LeftoverScan: Sendable {
                 return leftover.heldBack(.beyondTheHelper)
             },
             unreadableLocations: unreadableLocations,
-            cutShortLocations: cutShortLocations
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
         )
     }
 
@@ -230,7 +234,8 @@ public struct LeftoverScan: Sendable {
         return LeftoverScan(
             leftovers: merged.sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations,
-            cutShortLocations: cutShortLocations
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
         )
     }
 }

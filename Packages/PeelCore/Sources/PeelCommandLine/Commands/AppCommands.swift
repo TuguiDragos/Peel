@@ -183,7 +183,9 @@ struct LeftoversCommand: AsyncParsableCommand {
             Output.note(note)
         }
         if !uninstallation.scan.unreadableLocations.isEmpty {
-            Output.note(Output.fullDiskAccessNote)
+            let scan = uninstallation.scan
+            let folders = scan.unreadableLocations.map(\.url)
+            Output.note(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
         for location in uninstallation.scan.cutShortLocations {
             Output.note("There are more folders in \(Output.plain(Output.path(location.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach.")
@@ -482,7 +484,8 @@ struct UninstallCommand: AsyncParsableCommand {
             notes.append(note)
         }
         if !scan.unreadableLocations.isEmpty {
-            notes.append(Output.fullDiskAccessNote)
+            let folders = scan.unreadableLocations.map(\.url)
+            notes.append(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
         notes += scan.cutShortLocations.map {
             "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach."

@@ -308,6 +308,20 @@ struct OrphanScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    /// A location closed by ordinary permissions is reported, but Full Disk Access would not open it, so the scan
+    /// does not ask for it.
+    @Test(.permissionsHold) func aLocationClosedByPermissionsDoesNotAskForFullDiskAccess() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Logs/com.gone.app")
+        try directory.setPermissions(0, of: "home/Library/Logs")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Logs") }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.map(\.kind) == [.logs])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
     /// With the app gone, what it kept in `Data/Documents` may be the only copy of what its user made.
     @Test func anOrphanedContainerThatHoldsDocumentsSaysSo() async throws {
         let directory = try TemporaryDirectory()

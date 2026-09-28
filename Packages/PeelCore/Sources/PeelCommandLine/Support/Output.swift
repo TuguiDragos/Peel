@@ -176,6 +176,14 @@ enum Output {
 
     static let fullDiskAccessNote = "Some folders couldn't be read. Give your terminal app Full Disk Access in System Settings to see everything."
 
+    /// What a scan couldn't look into: Full Disk Access when it would open them, otherwise the folders themselves,
+    /// since it does not open a folder closed by ordinary permissions.
+    static func unreadableNote(for folders: [URL], needsFullDiskAccess: Bool) -> String {
+        guard !needsFullDiskAccess else { return fullDiskAccessNote }
+        let listed = folders.map { plain(path($0)) }.joined(separator: ", ")
+        return "Peel couldn't look inside \(listed), so something may be there that isn't listed."
+    }
+
     /// Whether the user can answer a question: standard input and standard error must both be a terminal. The
     /// question goes to standard error, and with that redirected the user would see only a waiting cursor.
     static var canAsk: Bool { isatty(STDIN_FILENO) == 1 && isatty(STDERR_FILENO) == 1 }

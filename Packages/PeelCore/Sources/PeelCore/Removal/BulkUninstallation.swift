@@ -51,6 +51,9 @@ public struct BulkUninstallation: Sendable {
             .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.match?.heldBack?.cannotBeMoved != true }
             .map { $0.isMeasured ? $0.size : nil })
     }
+    public var needsFullDiskAccess: Bool {
+        uninstallations.contains { $0.scan.needsFullDiskAccess }
+    }
     public var unreadableLocations: [SearchLocation] {
         Array(Set(uninstallations.flatMap { $0.scan.unreadableLocations })).sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
     }

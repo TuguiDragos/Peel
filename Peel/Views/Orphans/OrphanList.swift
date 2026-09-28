@@ -30,9 +30,15 @@ struct OrphanList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text("No orphaned files were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                    if orphans.scan?.needsFullDiskAccess == true {
+                        Text("No orphaned files were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                    } else {
+                        Text("No orphaned files were found, but Peel couldn’t look inside \(unreadable.map(\.url.abbreviatedPath).formatted(.list(type: .and))), so there may be some there.")
+                    }
                 } actions: {
-                    Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    if orphans.scan?.needsFullDiskAccess == true {
+                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    }
                 }
             } else if orphans.scan?.groups.isEmpty == true {
                 ContentUnavailableView(

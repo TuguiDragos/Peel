@@ -69473,6 +69473,112 @@
         }
       }
     },
+    "No orphaned files were found, but Peel couldn’t look inside %@, so there may be some there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenašly se žádné osiřelé soubory, ale Peel nemohl nahlédnout do %@, takže tam nějaké být mohou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurden keine verwaisten Dateien gefunden, aber Peel konnte in %@ nicht hineinsehen, daher könnte es dort welche geben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han encontrado archivos huérfanos, pero Peel no ha podido mirar dentro de %@, así que podría haber alguno ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun fichier orphelin n’a été trouvé, mais Peel n’a pas pu regarder dans %@, où il peut donc y en avoir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sono stati trovati file orfani, ma Peel non è riuscito a esaminare %@, quindi lì potrebbero essercene."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "孤立ファイルは見つかりませんでしたが、Peelが%@の中を調べられなかったため、そこに孤立ファイルがある可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주인 없는 파일을 찾지 못했지만, Peel이 %@ 안을 살펴볼 수 없었으므로 그곳에 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er zijn geen verweesde bestanden gevonden, maar Peel kon niet in %@ kijken, dus daar kunnen er nog zijn."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie znaleziono osieroconych plików, ale Peel nie mógł zajrzeć do %@, więc mogą tam jakieś być."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum arquivo órfão foi encontrado, mas o Peel não conseguiu examinar o conteúdo de %@, então pode haver alguns lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑au găsit fișiere orfane, dar Peel nu a putut căuta în %@, așa că acolo ar putea exista unele."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осиротевшие файлы не найдены, но Peel не смог заглянуть в %@, так что там они могут быть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inga övergivna filer hittades, men Peel kunde inte titta i %@, så det kan finnas några där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sahipsiz dosya bulunamadı ama Peel şu klasörlerin içine bakamadı: %@. Bu yüzden orada sahipsiz dosyalar olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Покинутих файлів не знайдено, але Peel не вдалося зазирнути в %@, тож вони можуть бути там."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到孤立文件，但Peel无法查看%@内部，因此其中可能仍有孤立文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有找到孤立檔案，但Peel無法查看%@，因此那裡可能還有。"
+          }
+        }
+      }
+    },
     "No other folder is on this list yet." : {
       "localizations" : {
         "cs" : {
@@ -85334,6 +85440,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法查看%lld個檔案夾。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t look inside %@, so something may be there that isn’t listed here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl nahlédnout do %@, takže tam může být něco, co tu není uvedeno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte in %@ nicht hineinsehen, daher könnte dort etwas liegen, das hier nicht aufgeführt ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido mirar dentro de %@, así que podría haber algo ahí que no aparezca aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu regarder dans %@, il peut donc s’y trouver des éléments qui ne figurent pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a esaminare %@, quindi lì potrebbe esserci qualcosa che qui non è elencato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@の中を調べられなかったため、ここに表示されていないものがそこにある可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@ 안을 살펴볼 수 없었으므로 여기에 나열되지 않은 항목이 그곳에 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet in %@ kijken, dus daar kan iets staan dat hier niet wordt getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zajrzeć do %@, więc może tam być coś, czego nie ma tutaj na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu examinar o conteúdo de %@, então pode haver algo lá que não está listado aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut căuta în %@, așa că acolo ar putea exista ceva ce nu este listat aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не смог заглянуть в %@, так что там может быть что-то, что здесь не указано."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte titta i %@, så det kan finnas något där som inte visas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu klasörlerin içine bakamadı: %@. Bu yüzden orada, bu listede olmayan bir şey bulunabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зазирнути в %@, тож там може бути щось, чого немає в цьому списку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法查看%@内部，因此其中可能有此处未列出的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法查看%@，因此那裡可能有這裡未列出的項目。"
           }
         }
       }

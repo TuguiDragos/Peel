@@ -89,7 +89,8 @@ struct OrphansCommand: AsyncParsableCommand {
             }
         }
         if !scan.unreadableLocations.isEmpty {
-            Output.note(Output.fullDiskAccessNote)
+            let folders = scan.unreadableLocations.map(\.url)
+            Output.note(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
     }
 
@@ -569,7 +570,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
     static func notes(for scan: DuplicateScan) -> [String] {
         var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
-            notes.append(Output.fullDiskAccessNote)
+            notes.append(
+                Output.unreadableNote(for: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess)
+            )
         }
         if !scan.skippedLocations.isEmpty {
             let folders = scan.skippedLocations.map(Output.path).joined(separator: ", ")
