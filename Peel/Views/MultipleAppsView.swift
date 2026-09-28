@@ -202,7 +202,7 @@ struct MultipleAppsView: View {
             size: item.size,
             isMeasured: item.isMeasured,
             isLocked: item.requiresPrivileges && !helper.canAct,
-            isExcluded: item.isExcluded,
+            isExcluded: item.isApplication && item.isExcluded,
             isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS)
                 || item.isPeels || item.isInTheTrash,
             appIdentifier: item.isApplication ? item.apps.first : nil,

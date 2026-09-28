@@ -645,6 +645,7 @@ struct LeftoverScannerTests {
 
         let found = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Tunewell" })
         #expect(found.match.heldBack == .holdsAnExclusion)
+        #expect(found.match.heldBack?.cannotBeMoved == true, "the guard refuses a folder holding an exclusion")
         #expect(!found.isMeasured, "a folder nobody measured was given a size of zero")
     }
 

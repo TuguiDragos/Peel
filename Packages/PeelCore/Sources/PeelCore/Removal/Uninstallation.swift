@@ -177,8 +177,7 @@ public struct Uninstallation: Sendable {
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         guard !isExcluded, !isPeel else { return [] }
         var urls = Set(scan.leftovers.filter { leftover in
-            leftover.match.heldBack != .holdsAnExclusion && leftover.match.heldBack?.cannotBeMoved != true
-                && (canUseHelper || !leftover.requiresPrivileges)
+            leftover.match.heldBack?.cannotBeMoved != true && (canUseHelper || !leftover.requiresPrivileges)
         }.map(\.url))
         if !app.isSystemProtected, !isAppBeyondTheHelper, !isAppInTheTrash, canUseHelper || !appRequiresPrivileges {
             urls.insert(app.url)
@@ -205,7 +204,7 @@ public struct Uninstallation: Sendable {
     public func movable(among leftovers: [Leftover], withApp: Bool) -> (count: Int, size: SizeTotal) {
         guard !isPeel else { return (0, SizeTotal([])) }
         var sizes: [Int64?] = leftovers
-            .filter { $0.match.heldBack?.cannotBeMoved != true && $0.match.heldBack != .holdsAnExclusion }
+            .filter { $0.match.heldBack?.cannotBeMoved != true }
             .map { $0.isMeasured ? $0.size : nil }
         if withApp, !app.isSystemProtected, !isExcluded, !isAppBeyondTheHelper, !isAppInTheTrash {
             sizes.append(isAppMeasured ? appSize : nil)

@@ -76,9 +76,11 @@ public enum HoldBack: String, Sendable, Hashable {
     /// An update whose app is running, which may install it when it quits.
     case appIsRunning
 
-    /// True when the item cannot be selected at all, rather than only left unselected.
+    /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
+    /// would refuse to move it.
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .beyondTheHelper
+            || self == .holdsAnExclusion
     }
 
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
@@ -207,16 +209,11 @@ public struct LeftoverScan: Sendable {
     public var cutShortLocations: [SearchLocation] = []
 
     /// Holds back, as `beyondTheHelper`, each item that needs an administrator and that the helper would refuse
-    /// once `app` has moved. An item already held back by `holdsAnExclusion`, or by a reason that blocks the move,
-    /// keeps its reason.
+    /// once `app` has moved. An item already held back by a reason that blocks the move keeps its reason.
     func holdingBack(beyond reach: HelperReach, leaving app: URL) -> LeftoverScan {
         LeftoverScan(
             leftovers: leftovers.map { leftover in
-                let heldBack = leftover.match.heldBack
-                guard
-                    leftover.requiresPrivileges, heldBack != .holdsAnExclusion,
-                    reach.isBeyond(leftover.url, leaving: app)
-                else { return leftover }
+                guard leftover.requiresPrivileges, reach.isBeyond(leftover.url, leaving: app) else { return leftover }
                 return leftover.heldBack(.beyondTheHelper)
             },
             unreadableLocations: unreadableLocations,

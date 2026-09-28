@@ -567,7 +567,6 @@ struct AppDetailView: View {
             size: leftover.size,
             isMeasured: leftover.isMeasured,
             isLocked: leftover.requiresPrivileges && !helper.canAct,
-            isExcluded: leftover.match.heldBack == .holdsAnExclusion,
             isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.isPeel,
             selection: plan, isSelected: plan.isSelected(leftover.url)
         )

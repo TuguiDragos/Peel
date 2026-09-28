@@ -188,7 +188,7 @@ struct RemovalRow: View {
     private var badgeKind: (title: LocalizedStringResource, symbol: String)? {
         if isExcluded { return ("Excluded in Settings", "hand.raised.fill") }
         if isLeftAlone { return ("Left alone", "hand.raised") }
-        if isLocked { return ("Helper", "lock.fill") }
+        if isLocked { return ("Needs administrator access", "lock.fill") }
         return nil
     }
 
@@ -196,12 +196,7 @@ struct RemovalRow: View {
     private var badge: some View {
         Group {
             if let badgeKind {
-                if isLocked, !isExcluded, !isLeftAlone {
-                    Badge(title: Text(badgeKind.title), systemImage: badgeKind.symbol)
-                        .help(Text("Needs administrator access"))
-                } else {
-                    Badge(title: Text(badgeKind.title), systemImage: badgeKind.symbol)
-                }
+                Badge(title: Text(badgeKind.title), systemImage: badgeKind.symbol)
             }
         }
         .fixedSize()
