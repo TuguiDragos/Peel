@@ -171,6 +171,7 @@ import Testing
             "Choose…": ["localizations": ["ro": unit("Alegeți...")]],
             "Run `brew unpin`": ["localizations": ["ro": unit("Rulați brew unpin")]],
             "Uses [a tool](peel-license:tool)": ["localizations": ["ro": unit("Folosește [un instrument](peel-license:instrument)")]],
+            "OrbStack": ["localizations": ["ro": unit("OrbStack"), "fr": unit("OrbStack")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -199,6 +200,7 @@ import Testing
         #expect(caught["ellipsis"]?.contains("Choose…") == true)
         #expect(caught["markdown"]?.contains("Run `brew unpin`") == true)
         #expect(caught["markdown"]?.contains("Uses [a tool](peel-license:tool)") == true, "a link's address changed")
+        #expect(caught["sameEverywhere"]?.contains("OrbStack") == true, "a name or a command, never to translate")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -426,6 +428,11 @@ struct CatalogChecker {
             }
             // A key with a value of its own (`Unknown (extension state)`) is translated from that value.
             let source = englishValue(localizations) ?? key
+            // The same words in every language are a name or a command, which no translator should be asked for.
+            let values = required.map { ((localizations[$0] as? [String: Any])?["stringUnit"] as? [String: Any])?["value"] as? String }
+            if !required.isEmpty, source.contains(where: \.isLetter), values.allSatisfy({ $0 == source }) {
+                fail(path, key, "", "sameEverywhere", "the English in every language: mark it never to translate")
+            }
             let sourceSlots = Self.slots(source)
             for language in Set(required).union(translated).sorted() {
                 guard let node = localizations[language] as? [String: Any] else {

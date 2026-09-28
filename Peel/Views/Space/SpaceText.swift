@@ -40,57 +40,57 @@ extension SpaceItem {
             hint: "View > Tool Windows > Device Manager, and Tools > SDK Manager, in Android Studio"
         ),
         "unity-assets": Words(
-            title: "Unity Asset Store",
+            title: LocalizedStringResource("Unity Asset Store", comment: "A product's name, never translated."),
             detail: "Packages downloaded from your Asset Store purchases.",
             hint: "My Assets, in the Unity Editor’s Package Manager"
         ),
         "docker": Words(
-            title: "Docker Desktop",
+            title: LocalizedStringResource("Docker Desktop", comment: "A product's name, never translated."),
             detail: "Docker’s disk image holds every image, container, and volume.",
             hint: "docker system prune, or Docker Desktop > Settings > Resources"
         ),
         "orbstack": Words(
-            title: "OrbStack",
+            title: LocalizedStringResource("OrbStack", comment: "A product's name, never translated."),
             detail: "OrbStack’s machines and images.",
             hint: "orb delete <name> for a machine, and docker image prune -a for images nothing uses"
         ),
         "colima": Words(
-            title: "Colima",
+            title: LocalizedStringResource("Colima", comment: "A product's name, never translated."),
             detail: "Colima’s virtual machines.",
-            hint: "colima delete --data"
+            hint: LocalizedStringResource("colima delete --data", comment: "A command, typed as it is.")
         ),
         "utm": Words(
-            title: "UTM",
+            title: LocalizedStringResource("UTM", comment: "A product's name, never translated."),
             detail: "UTM virtual machines.",
             hint: "Delete the machine in UTM"
         ),
         "parallels": Words(
-            title: "Parallels",
+            title: LocalizedStringResource("Parallels", comment: "A product's name, never translated."),
             detail: "Parallels virtual machines.",
             hint: "Remove the machine in Parallels Desktop and choose to move its files to the Trash"
         ),
         "vmware": Words(
-            title: "VMware Fusion",
+            title: LocalizedStringResource("VMware Fusion", comment: "A product's name, never translated."),
             detail: "VMware virtual machines.",
             hint: "Delete the machine in VMware Fusion and choose to move its files to the Trash"
         ),
         "podman": Words(
-            title: "Podman",
+            title: LocalizedStringResource("Podman", comment: "A product's name, never translated."),
             detail: "Podman’s virtual machine and the images inside it.",
             hint: "podman machine rm <name>"
         ),
         "lima": Words(
-            title: "Lima",
+            title: LocalizedStringResource("Lima", comment: "A product's name, never translated."),
             detail: "Lima virtual machines.",
             hint: "limactl delete <name>"
         ),
         "minikube": Words(
-            title: "minikube",
+            title: LocalizedStringResource("minikube", comment: "A product's name, never translated."),
             detail: "minikube clusters and the images they downloaded.",
-            hint: "minikube delete --all --purge"
+            hint: LocalizedStringResource("minikube delete --all --purge", comment: "A command, typed as it is.")
         ),
         "virtualbox": Words(
-            title: "VirtualBox",
+            title: LocalizedStringResource("VirtualBox", comment: "A product's name, never translated."),
             detail: "VirtualBox virtual machines.",
             hint: "Remove the machine in VirtualBox and choose to delete all its files"
         ),
