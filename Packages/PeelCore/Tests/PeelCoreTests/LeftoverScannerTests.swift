@@ -833,6 +833,43 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.match.reason == .bundleIdentifierPrefix && $0.match.isRecommended })
     }
 
+    /// A framework in `~/Library/Frameworks` is named for what it is, so the identifier in its bundle says whose it
+    /// is. The app's name alone, backed by no identifier, is only a guess.
+    @Test func findsTheAppsFrameworksByTheIdentifierTheyDeclare() async throws {
+        let directory = try TemporaryDirectory()
+        let tunewell = InstalledApp(
+            url: URL(filePath: "/Applications/Tunewell.app"),
+            bundleIdentifier: "net.example.tunewell",
+            name: "Tunewell"
+        )
+        for (name, identifier) in [
+            ("TunewellKit", "net.example.tunewell.kit"), ("Tunewell", "org.example.other.tunewell"),
+            ("Updates", "org.example.updates"),
+        ] {
+            let framework = "home/Library/Frameworks/\(name).framework"
+            try directory.file("\(framework)/Versions/A/Resources/Info.plist", contents: plist(identifier))
+            try FileManager.default.createSymbolicLink(
+                atPath: directory.url.appending(path: "\(framework)/Versions/Current").path(percentEncoded: false),
+                withDestinationPath: "A"
+            )
+            try FileManager.default.createSymbolicLink(
+                atPath: directory.url.appending(path: "\(framework)/Resources").path(percentEncoded: false),
+                withDestinationPath: "Versions/Current/Resources"
+            )
+        }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(Set(found.keys) == ["TunewellKit.framework", "Tunewell.framework"])
+        #expect(found["TunewellKit.framework"]?.reason == .bundleIdentifierPrefix)
+        #expect(found["TunewellKit.framework"]?.isRecommended == true)
+        #expect(found["Tunewell.framework"]?.confidence == .possible)
+        #expect(found["Tunewell.framework"]?.isRecommended == false)
+        #expect(scan.leftovers.allSatisfy { $0.kind == .frameworks })
+    }
+
     /// A launchd job is named by whoever wrote it, so a job whose program sits inside the app is the app's,
     /// whatever its file is called. That match is certain and outranks a weaker match on the file name.
     @Test func findsAJobByTheProgramItRuns() async throws {

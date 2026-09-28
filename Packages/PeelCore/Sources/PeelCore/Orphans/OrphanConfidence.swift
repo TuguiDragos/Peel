@@ -111,10 +111,10 @@ public struct OrphanConfidence: Sendable, Hashable {
         group.total.isComplete ? group.lastModified : nil
     }
 
-    /// Whole months since the group's last write, from the items whose date moves when they are used: a plug-in's
-    /// does not, so a group of plug-ins alone says nothing this way.
+    /// Whole months since the group's last write, from the items whose date moves when they are used: code macOS
+    /// loads keeps its date, so a group of plug-ins alone says nothing this way.
     static func monthsUntouched(_ group: OrphanGroup, now: Date) -> Int? {
-        let used = group.items.filter { $0.kind != .plugIns }
+        let used = group.items.filter { !$0.kind.isLoadedCode }
         guard group.total.isComplete, let written = used.compactMap(\.modificationDate).max(), written <= now else { return nil }
         // Counts Gregorian months, whatever calendar the user has set. In a lunar calendar, the default in Saudi
         // Arabia, six months end several days sooner.

@@ -7,6 +7,7 @@ enum DeclaredIdentifier {
     static func of(_ url: URL, kind: SearchLocation.Kind) -> String? {
         switch kind {
         case .plugIns: Plugins.declaredIdentifier(at: url)
+        case .frameworks: framework(at: url)
         case .containers: container(at: url)
         case .logs: CrashReport.bundleIdentifier(of: url)
         default: nil
@@ -15,7 +16,13 @@ enum DeclaredIdentifier {
 
     /// True for an item whose name never says whose it is, so what it declares is read even when the name matches.
     static func outranksTheName(of url: URL, kind: SearchLocation.Kind) -> Bool {
-        kind == .plugIns || (kind == .logs && CrashReport.isOne(url))
+        kind.isLoadedCode || (kind == .logs && CrashReport.isOne(url))
+    }
+
+    /// The `CFBundleIdentifier` a framework's `Resources/Info.plist` declares.
+    private static func framework(at url: URL) -> String? {
+        let resources = url.appending(path: "Resources", directoryHint: .isDirectory)
+        return AppInspector.infoDictionary(in: resources)?["CFBundleIdentifier"] as? String
     }
 
     /// The `MCMMetadataIdentifier` in a container's metadata, read only when the folder's name is not already an

@@ -411,6 +411,12 @@ struct LeftoverMatcherTests {
         #expect(match("com.xferrecords.serum.qlgenerator", in: .plugIns, for: serum)?.confidence == .certain)
     }
 
+    @Test func aFrameworkIsMatchedWithoutItsExtension() throws {
+        let serum = app("com.xferrecords.serum", name: "Serum")
+        #expect(match("Serum.framework", in: .frameworks, for: serum)?.reason == .name)
+        #expect(match("com.xferrecords.serum.framework", in: .frameworks, for: serum)?.confidence == .certain)
+    }
+
     /// An extension missing from the table stays in the key, and its dot reads as a separator. The plug-in is
     /// then only a name prefix match: shown as a guess, never selected as the app's own.
     @Test func anUnknownPlugInKindIsNeverTakenForTheAppsOwn() throws {

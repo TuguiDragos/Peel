@@ -128,6 +128,8 @@ struct LeftoverMatcher: Sendable {
             fileName.removingSuffix(".log")
         case .plugIns:
             withoutPlugInExtension(fileName)
+        case .frameworks:
+            fileName.removingSuffix(".framework")
         case .hiddenHomeFiles:
             fileName.hasPrefix(".") ? String(fileName.dropFirst()) : fileName
         default:

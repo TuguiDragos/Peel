@@ -20,6 +20,7 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     /// Apple's "Creating a Startup Item", Daemons and Services Programming Guide: the folder older software installs
     /// its startup items in.
     case startupItems = "StartupItems"
+    case frameworks = "Frameworks"
     case audioUnits = "Audio/Plug-Ins/Components"
     case audioDrivers = "Audio/Plug-Ins/HAL"
     case vst = "Audio/Plug-Ins/VST"
@@ -60,7 +61,7 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     public static let user: [LibraryFolder] = [
         .applicationSupport, .applicationScripts, .caches, .containers, .groupContainers, .preferences,
         .preferencesByHost, .savedApplicationState, .recentDocuments, .logs, .httpStorages, .webKit, .cookies,
-        .launchAgents,
+        .launchAgents, .frameworks,
     ]
 
     /// The folders searched in the Mac's own `/Library`, besides the plug-in folders.

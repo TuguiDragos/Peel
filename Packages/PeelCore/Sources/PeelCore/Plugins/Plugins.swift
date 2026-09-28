@@ -70,7 +70,7 @@ extension Plugin.Category {
         case .contactsPlugIns: self = .contactsPlugIns
         case .applicationSupport, .applicationScripts, .caches, .containers, .groupContainers, .preferences,
              .preferencesByHost, .savedApplicationState, .recentDocuments, .logs, .httpStorages, .webKit, .cookies,
-             .launchAgents, .launchDaemons, .privilegedHelperTools, .startupItems:
+             .launchAgents, .launchDaemons, .privilegedHelperTools, .startupItems, .frameworks:
             return nil
         }
     }

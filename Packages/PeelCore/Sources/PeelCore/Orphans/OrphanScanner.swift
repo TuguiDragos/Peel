@@ -274,9 +274,9 @@ public struct OrphanScanner: Sendable {
         return await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) ? nil : app
     }
 
-    /// Whether a plug-in came with an app Peel saw go: its identifier is that app's, extends it, or is its maker's.
-    /// An installer can put a plug-in in place with no app at all, and its date does not move when it is used, so
-    /// nothing else says it was left behind.
+    /// Whether a plug-in or a framework came with an app Peel saw go: its identifier is that app's, extends it, or
+    /// is its maker's. An installer can put one in place with no app at all, and its date does not move when it is
+    /// used, so nothing else says it was left behind.
     static func cameWithAnAppThatLeft(_ identifier: String, goneApps: [String]) -> Bool {
         let plugIn = identifier.lowercased()
         let maker = Identifier.vendor(of: plugIn)
@@ -325,7 +325,7 @@ public struct OrphanScanner: Sendable {
                 identifier = namedAfter
             }
             guard let identifier else { continue }
-            guard location.kind != .plugIns || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
+            guard !location.kind.isLoadedCode || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
 
             // The item's own date changes when something is taken out of it, but not when a file inside is
             // rewritten in place, so the newest date inside comes from the walk.

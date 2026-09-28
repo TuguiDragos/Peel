@@ -24,6 +24,8 @@ public struct SearchLocation: Sendable, Hashable {
         case startupItems
         /// The folders macOS loads plug-ins from.
         case plugIns
+        /// `~/Library/Frameworks`, where an app can install a framework other programs load.
+        case frameworks
         /// The two files that are an installer receipt, which is how macOS still counts a package as installed.
         case receipts
         /// The top of a Library itself, where a vendor keeps a folder of its own beside macOS's.
@@ -72,11 +74,18 @@ extension SearchLocation.Kind {
         case .launchDaemons: self = .launchDaemons
         case .privilegedHelperTools: self = .privilegedHelperTools
         case .startupItems: self = .startupItems
+        case .frameworks: self = .frameworks
         case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
              .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
             self = .plugIns
         }
+    }
+
+    /// True for code macOS loads, which is named for what it does rather than for who made it, and whose date does
+    /// not move when it is used: a plug-in or a framework.
+    var isLoadedCode: Bool {
+        self == .plugIns || self == .frameworks
     }
 
     /// True when this kind of location looks at an entry with this name. The home folder is split in two: hidden
