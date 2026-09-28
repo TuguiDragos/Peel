@@ -283,6 +283,12 @@ extension LeftoverMatcher {
             return normalizedNames.contains { $0.hasPrefix(candidate.normalized) || candidate.normalized.hasPrefix($0) }
         }
 
+        /// An identifier without an identifier's shape counts as a name, under the names' rule: one too short or too
+        /// common for a name, such as a job labelled `updater`, claims nothing.
+        private func unproven(_ reason: MatchReason, _ candidate: Candidate) -> Evidence? {
+            Naming.isSignificant(candidate.key) ? Evidence(unproven: reason, for: candidate) : nil
+        }
+
         func evidence(for candidate: Candidate) -> Evidence? {
             let key = candidate.key
             // Everything an app says about itself (its identifier, what it embeds, the groups it claims)
@@ -290,15 +296,15 @@ extension LeftoverMatcher {
             guard !candidate.isApple || isApplesOwn else { return nil }
 
             if key == identifier {
-                guard Identifier.isValid(key) else { return Evidence(unproven: .bundleIdentifier, for: candidate) }
+                guard Identifier.isValid(key) else { return unproven(.bundleIdentifier, candidate) }
                 return Evidence(.bundleIdentifier, .certain, specificity: key.count)
             }
             if let embedded = embeddedIdentifiers.first(where: { $0.value == key }) {
-                guard Identifier.isValid(key) else { return Evidence(unproven: .embeddedBundleIdentifier, for: candidate) }
+                guard Identifier.isValid(key) else { return unproven(.embeddedBundleIdentifier, candidate) }
                 return Evidence(.embeddedBundleIdentifier, embedded.sharesVendor ? .certain : .likely, specificity: key.count)
             }
             if applicationGroups.contains(key) {
-                guard Identifier.isGroup(key) else { return Evidence(unproven: .applicationGroup, for: candidate) }
+                guard Identifier.isGroup(key) else { return unproven(.applicationGroup, candidate) }
                 return Evidence(.applicationGroup, .certain, specificity: key.count)
             }
             guard !candidate.isApple else { return nil }

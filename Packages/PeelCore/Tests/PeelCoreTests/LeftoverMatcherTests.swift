@@ -348,6 +348,17 @@ struct LeftoverMatcherTests {
         #expect(match("com.example.game", in: .caches, for: carrier)?.confidence == .certain)
     }
 
+    /// A one word identifier is held to the rule a name is: a word any folder could be called claims nothing. A job's
+    /// label is free text, and one called "updater" is not a claim on every folder of that name.
+    @Test func aOneWordIdentifierTooCommonForANameClaimsNothing() {
+        let tool = app("com.example.tool", name: "Example Tool", embedded: ["updater", "Helper", "tl"])
+
+        #expect(match("updater", in: .applicationSupport, for: tool) == nil)
+        #expect(match("Helper", in: .caches, for: tool) == nil)
+        #expect(match("tl", in: .preferences, for: tool) == nil)
+        #expect(match("com.example.tool", in: .caches, for: tool)?.confidence == .certain)
+    }
+
     /// A real identifier can have two components or a first one longer than a country or a company's short domain:
     /// Arc is `company.thebrowser.Browser`, Obsidian `md.obsidian`, Notion `notion.id`. A file named exactly by one is
     /// that app's, as certain as any, and so is one named by an identifier it embeds.
