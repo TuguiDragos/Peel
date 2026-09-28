@@ -74,7 +74,11 @@ struct SpaceRemovalTests {
         let logged = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
 
         #expect(named(caches.removable) == ["Google/Chrome"])
-        #expect(named(caches.leftToDeveloper) == ["Caches/Coursier", "Google/AndroidStudio2025.3.1"])
+        #expect(
+            named(caches.leftToDeveloper)
+                == ["Caches/Coursier", "Google/AndroidStudio2025.3.1", "Google/AndroidStudio2026.1.4"]
+        )
+        #expect(caches.refused.isEmpty)
         #expect(named(logged.removable) == ["Google/GoogleUpdater"])
         #expect(named(logged.leftToDeveloper) == ["Google/AndroidStudio2026.1.4"])
     }
@@ -165,6 +169,7 @@ struct SpaceRemovalTests {
         let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
 
         #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
+        #expect(plan.refused.isEmpty)
     }
 
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {
@@ -363,6 +368,26 @@ struct SpaceRemovalTests {
         let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
 
         #expect(plan.removable.map(\.lastPathComponent) == ["com.gone.app"])
+    }
+
+    @Test func saysWhyItLeavesAloneWhatTheGuardRefuses() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.Editor/LocalHistory/changes.storageData")
+        try directory.file("home/Library/Caches/org.example.Kept/LocalHistory/changes.storageData")
+        try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/LocalHistory/changes.storageData")
+        try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/index.db")
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+        let kept = directory.url.appending(path: "home/Library/Caches/org.example.Kept", directoryHint: .isDirectory)
+
+        let plan = await SpaceRemoval.plan(
+            for: item(directory), environment: environment(directory), exclusions: Exclusions(paths: [kept]),
+            running: [:]
+        )
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(plan.leftToDeveloper.map(\.lastPathComponent) == ["JetBrains"])
+        let refused = plan.refused.map { "\($0.key.lastPathComponent): \($0.value)" }
+        #expect(refused == ["org.example.Editor: holdsWorkKeptInACache"])
     }
 
     @Test func neverOffersTheFolderItself() async throws {

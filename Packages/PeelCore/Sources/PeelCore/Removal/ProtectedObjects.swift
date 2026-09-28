@@ -36,14 +36,16 @@ struct ProtectedObjects: Sendable {
         self.folders = Set(folders.flatMap(Self.objects))
     }
 
-    /// False when the item is a protected folder, holds a tree, or sits inside a tree. `located` is the path as
-    /// the kernel names it, so its folders are the real ones. An item that does not exist yet has no inode: only
-    /// the folders above it are checked, and the rules that read paths judge the rest.
-    func allows(_ located: String) -> Bool {
+    /// Why the item may not be removed: it is a tree or sits inside one, it is a protected folder, or it holds a
+    /// tree. `located` is the path as the kernel names it, so its folders are the real ones. An item that does not
+    /// exist yet has no inode: only the folders above it are checked, and the rules that read paths judge the rest.
+    func refusal(of located: String) -> GuardRefusal? {
         if let item = Self.object(at: located, followingLinks: false) {
-            guard !trees.contains(item), !folders.contains(item), !holders.contains(item) else { return false }
+            if trees.contains(item) { return .protectedLocation }
+            if folders.contains(item) { return .staysItself }
+            if holders.contains(item) { return .holdsProtectedData }
         }
-        return !isInsideATree((located as NSString).deletingLastPathComponent)
+        return isInsideATree((located as NSString).deletingLastPathComponent) ? .protectedLocation : nil
     }
 
     private func isInsideATree(_ folder: String) -> Bool {

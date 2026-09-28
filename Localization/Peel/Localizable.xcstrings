@@ -88518,6 +88518,686 @@
         }
       }
     },
+    "Peel leaves ^[%lld folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože v ní aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složek ponechává nedotčených, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil eine App darin Arbeit aufbewahrt, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil eine App darin Arbeit aufbewahrt, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja una carpeta de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld de dossiers en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld dossier en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld dossiers en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dov’è una di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。エディタのローカル履歴など、ほかのどこにも存在しない作業内容をアプリがそこに保管しているためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. 편집기의 로컬 기록처럼 다른 곳에는 없는 작업을 앱이 그곳에 보관하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat één map hier met rust, omdat een app daar werk bewaart dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat %lld mappen hier met rust, omdat een app daar werk bewaart dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ aplikacja przechowuje w nim pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque um app guarda nelas um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld pasta daqui intocada porque um app guarda nela um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld pastas daqui intocadas porque um app guarda nelas um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папок, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папку, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lämnar %lld mapp här orörd eftersom en app sparar arbete i den som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lämnar %lld mappar här orörda eftersom en app sparar arbete i dem som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bir uygulama orada başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bir uygulama bu klasörlerde başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папки звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папок звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папку звідси, бо програма зберігає в ній роботу, якої більше ніде немає, як-от локальну історію редактора."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папки звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会触碰此处的%lld个文件夹，因为有App在其中保存了在其他任何地方都不存在的内容，例如编辑器的本地历史记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為有App在其中保存不存在於其他任何地方的工作成果，例如編輯器的本機歷史記錄。"
+          }
+        }
+      }
+    },
+    "Peel leaves ^[%lld folder](inflect: true) here alone because it protects what is there, such as a wallet, an app’s documents, or a library." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože chrání, co v ní je, například peněženku, dokumenty aplikace nebo knihovnu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zde %lld složek ponechává nedotčených, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa eine Wallet, die Dokumente einer App oder eine Mediathek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa eine Wallet, die Dokumente einer App oder eine Mediathek."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja una carpeta de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld de dossiers en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld dossier en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ici, Peel laisse %lld dossiers en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come un wallet, i documenti di un’app o una libreria."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dov’è una di queste cartelle, perché protegge ciò che contiene, come un wallet, i documenti di un’app o una libreria."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come un wallet, i documenti di un’app o una libreria."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。ウォレット、アプリの書類、ライブラリなど、Peelが保護しているものが中にあるためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. 지갑, 앱의 문서 또는 보관함처럼 그곳에 있는 항목을 Peel이 보호하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat één map hier met rust, omdat het beschermt wat erin zit, zoals een wallet, de documenten van een app of een bibliotheek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat %lld mappen hier met rust, omdat het beschermt wat erin zit, zoals een wallet, de documenten van een app of een bibliotheek."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque protege o que há nelas, como uma carteira, os documentos de um app ou uma biblioteca."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld pasta daqui intocada porque protege o que há nela, como uma carteira, os documentos de um app ou uma biblioteca."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel deixa %lld pastas daqui intocadas porque protege o que há nelas, como uma carteira, os documentos de um app ou uma biblioteca."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папок, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папку, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lämnar %lld mapp här orörd eftersom Peel skyddar det som ligger i den, till exempel en plånbok, en apps dokument eller ett bibliotek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel lämnar %lld mappar här orörda eftersom Peel skyddar det som ligger i dem, till exempel en plånbok, en apps dokument eller ett bibliotek."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü içindekileri korur: örneğin bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bu klasörlerin içindekileri korur: örneğin bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папок звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папку звідси, бо захищає те, що в ній є, як-от гаманець, документи програми або медіатеку."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会触碰此处的%lld个文件夹，因为其中的内容受Peel保护，例如钱包、App的文稿或资料库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為它會保護其中的內容，例如錢包、App的文件或資料庫。"
+          }
+        }
+      }
+    },
     "Peel leaves ^[%lld folder](inflect: true) here to the Developer page, which knows which part of each is only a cache." : {
       "localizations" : {
         "cs" : {

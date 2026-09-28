@@ -21,6 +21,9 @@ public enum SpaceRemoval {
         public var heldBack: [URL: HoldBack] = [:]
         /// The removable items only an administrator can move, which go through the helper.
         public var needsTheHelper: Set<URL> = []
+        /// What the guard never moves from here, each with its reason, so the page can say why the area holds more
+        /// than it offers. What the person excluded is left out, as it is everywhere.
+        public var refused: [URL: GuardRefusal] = [:]
 
         /// The open apps whose folders are left alone, each named once and sorted, by the names the user knows, not
         /// the folder names. One app can write to several folders, by its name and by its identifier.
@@ -70,7 +73,7 @@ public enum SpaceRemoval {
         }
         return Plan(
             removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
-            heldBack: heldBack, needsTheHelper: needsTheHelper
+            heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused
         )
     }
 
@@ -103,11 +106,12 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions,
         running: [String: String]
-    ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL]) {
+    ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal]) {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
+        var refused: [URL: GuardRefusal] = [:]
         let systemCaches = SystemCaches(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?) {
@@ -123,7 +127,22 @@ public enum SpaceRemoval {
                     sort(child, leaving: listed.map { Array($0.dropFirst()) }, owner: owner)
                     continue
                 }
-                guard removalGuard.allowsRemoval(of: child) else { continue }
+                switch removalGuard.refusal(of: child) {
+                case .excluded, .exclusionsNotKnown:
+                    continue
+                // Developer lists the parts of a tool's folder that are only a cache, and never the rest.
+                case _? where !listed.isEmpty:
+                    leftToDeveloper.append(child)
+                    continue
+                // A folder that stays itself is one Space empties on its own page, or one macOS expects to find.
+                case .staysItself:
+                    continue
+                case let refusal?:
+                    refused[child] = refusal
+                    continue
+                case nil:
+                    break
+                }
                 if let app {
                     inUse.append((child, app))
                 } else if !listed.isEmpty {
@@ -139,7 +158,7 @@ public enum SpaceRemoval {
             let owned = DeveloperCaches.foldersLeftToDeveloper(inside: url, home: environment.homeDirectory)
             sort(url, leaving: owned, owner: owner)
         }
-        return (removable, inUse, leftToDeveloper)
+        return (removable, inUse, leftToDeveloper, refused)
     }
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle

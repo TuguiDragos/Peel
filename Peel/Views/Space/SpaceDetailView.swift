@@ -127,13 +127,20 @@ struct SpaceDetailView: View {
                 )
             }
         } footer: {
-            if !plan.appsToQuit.isEmpty || !plan.leftToDeveloper.isEmpty {
+            if !plan.appsToQuit.isEmpty || !plan.leftToDeveloper.isEmpty || !plan.refused.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     if !plan.appsToQuit.isEmpty {
                         Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
                     }
                     if !plan.leftToDeveloper.isEmpty {
                         Text("Peel leaves ^[\(plan.leftToDeveloper.count) folder](inflect: true) here to the Developer page, which knows which part of each is only a cache.")
+                    }
+                    let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
+                    if keepingWork > 0 {
+                        Text("Peel leaves ^[\(keepingWork) folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history.")
+                    }
+                    if plan.refused.count > keepingWork {
+                        Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as a wallet, an app’s documents, or a library.")
                     }
                 }
                 .font(.callout)

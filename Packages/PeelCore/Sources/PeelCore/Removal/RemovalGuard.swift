@@ -2,6 +2,26 @@ import Darwin
 import Foundation
 internal import PeelPrivileged
 
+/// Why `RemovalGuard` refuses to move an item.
+public enum GuardRefusal: String, Sendable, Hashable {
+    /// The exclusions have not been read yet, or cannot be read, so nothing moves.
+    case exclusionsNotKnown
+    /// The person excluded it, or something inside it.
+    case excluded
+    /// A folder that stays itself, such as the home folder or one Space empties, though what is inside may go.
+    case staysItself
+    /// It is part of macOS, or it sits inside something Peel protects.
+    case protectedLocation
+    /// Something Peel protects is inside, such as a keychain, a wallet's keys, or a browser profile with a wallet.
+    case holdsProtectedData
+    /// A sandboxed app's documents are inside.
+    case holdsDocuments
+    /// A photo, music, or video library is inside.
+    case holdsALibrary
+    /// Work an app keeps only in a cache folder is inside, such as an editor's local history.
+    case holdsWorkKeptInACache
+}
+
 struct RemovalGuard: Sendable {
     /// Nothing inside these may be removed. `/Library/Updates` is where Software Update stages macOS updates.
     /// Lower-cased, because the spellings they are compared against are.
@@ -47,13 +67,17 @@ struct RemovalGuard: Sendable {
     }
 
     func allowsRemoval(of url: URL) -> Bool {
-        allows(url, isALink: nil)
+        refusal(of: url) == nil
+    }
+
+    func refusal(of url: URL) -> GuardRefusal? {
+        refusal(of: url, isALink: nil)
     }
 
     /// Whether `trashed` may go back to `destination`, which is judged as a removal from there would be, for the
     /// kind of item `trashed` is: nothing is there yet to tell.
     func allowsPuttingBack(_ trashed: URL, at destination: URL) -> Bool {
-        allows(destination, isALink: Self.isALink(trashed.path(percentEncoded: false)))
+        refusal(of: destination, isALink: Self.isALink(trashed.path(percentEncoded: false))) == nil
     }
 
     /// True for the lower-cased spelling of a link directly in a folder command-line tools are linked into.
@@ -66,51 +90,58 @@ struct RemovalGuard: Sendable {
         return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFLNK
     }
 
-    private func allows(_ url: URL, isALink known: Bool?) -> Bool {
-        guard url.isFileURL, exclusions.isKnown else { return false }
+    private func refusal(of url: URL, isALink known: Bool?) -> GuardRefusal? {
+        guard url.isFileURL else { return .protectedLocation }
+        guard exclusions.isKnown else { return .exclusionsNotKnown }
         let path = Self.normalized(url.path(percentEncoded: false))
         // A path can be written several ways (`/var` for `/private/var`, a different case), and a Put Back
         // destination does not exist yet. `located` names the part that exists the way the kernel does.
-        guard let located = PathPattern.located(path) else { return false }
+        guard let located = PathPattern.located(path) else { return .protectedLocation }
         let isALink = known ?? Self.isALink(located)
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.
         let names = Set([path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self))
         for name in names {
             let named = URL(filePath: name)
-            guard !exclusions.excludes(named), !exclusions.holds(named) else { return false }
-            guard protectedObjects.allows(name) else { return false }
+            guard !exclusions.excludes(named), !exclusions.holds(named) else { return .excluded }
+            if let refusal = protectedObjects.refusal(of: name) { return refusal }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.
-            guard !ProtectedData.refuses(name, home: home), !ProtectedData.holds(name, home: home) else { return false }
+            guard !ProtectedData.refuses(name, home: home) else { return .protectedLocation }
+            guard !ProtectedData.holds(name, home: home) else { return .holdsProtectedData }
         }
 
         for spelling in names.reduce(into: Set<String>(), { $0.formUnion(PathPattern.spellings(of: $1)) }) {
             let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
-            guard !protectedPaths.contains(spelling), !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else {
-                return false
-            }
+            guard !protectedPaths.contains(spelling) else { return .staysItself }
+            guard !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else { return .protectedLocation }
 
             let parts = PathComponents.of(spelling)
-            guard !protectedTrees.contains(where: { parts.starts(with: $0) }) else { return false }
+            guard !protectedTrees.contains(where: { parts.starts(with: $0) }) else { return .protectedLocation }
             // Also refuse a folder with a protected tree inside, since removing it would take the tree along.
-            guard !protectedTrees.contains(where: { $0.count > parts.count && $0.starts(with: parts) }) else { return false }
-            guard !Self.isInsideAUserLibrary(spelling), !ProtectedData.isGlobalPreferences(spelling) else { return false }
-            guard !ProtectedData.isInAnApplesGroupContainer(spelling) else { return false }
+            guard !protectedTrees.contains(where: { $0.count > parts.count && $0.starts(with: parts) }) else {
+                return .holdsProtectedData
+            }
+            guard !Self.isInsideAUserLibrary(spelling), !ProtectedData.isGlobalPreferences(spelling) else {
+                return .protectedLocation
+            }
+            guard !ProtectedData.isInAnApplesGroupContainer(spelling) else { return .protectedLocation }
             // A sandboxed app's own documents sit inside its container, beside the settings.
-            guard !ProtectedData.isInAContainersDocuments(spelling) else { return false }
+            guard !ProtectedData.isInAContainersDocuments(spelling) else { return .protectedLocation }
         }
         var info = stat()
-        guard lstat(path, &info) != 0 || info.st_flags & UInt32(SF_RESTRICTED) == 0 else { return false }
+        guard lstat(path, &info) != 0 || info.st_flags & UInt32(SF_RESTRICTED) == 0 else { return .protectedLocation }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         for name in names {
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
-            guard !ProtectedData.holdsAContainersDocuments(name), !ProtectedData.holdsWorkKeptInACache(name) else { return false }
-            guard !ProtectedData.holdsALibrary(name), !ProtectedData.holdsABrowserWallet(name) else { return false }
+            guard !ProtectedData.holdsAContainersDocuments(name) else { return .holdsDocuments }
+            guard !ProtectedData.holdsWorkKeptInACache(name) else { return .holdsWorkKeptInACache }
+            guard !ProtectedData.holdsALibrary(name) else { return .holdsALibrary }
+            guard !ProtectedData.holdsABrowserWallet(name) else { return .holdsProtectedData }
         }
-        return true
+        return nil
     }
 
     /// True for anything at or inside a photo, music or video library package. The path arrives lower-cased.
