@@ -239,8 +239,9 @@ public enum PackageReceipts {
         })
         .filter(exists)
 
+        let folded = Set(paths.map { $0.lowercased() })
         let onDisk = outermost
-            .flatMap { onlyWhatThisPackageWrote($0, listed: listed, namesInside: namesInside) }
+            .flatMap { onlyWhatThisPackageWrote($0, listed: folded, namesInside: namesInside) }
             .sorted()
         return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) })
     }
@@ -248,7 +249,7 @@ public enum PackageReceipts {
     /// Returns `path` when this package installed everything inside it, and otherwise the parts inside it that
     /// the package did install, so a vendor folder that two of its products share is never offered whole. A
     /// bundle is always one item: an app that updated itself does not match its receipt file by file, and
-    /// its parts are never listed on their own.
+    /// its parts are never listed on their own. `listed` holds the package's paths in lowercase.
     static func onlyWhatThisPackageWrote(
         _ path: String,
         listed: Set<String>,
@@ -258,9 +259,8 @@ public enum PackageReceipts {
         guard (path as NSString).pathExtension.isEmpty, depth < deepestDescent else { return [path] }
         guard let names = namesInside(path) else { return [path] }
         let inside = names.map { (path as NSString).appendingPathComponent($0) }
-        let folded = Set(listed.map { $0.lowercased() })
-        guard inside.contains(where: { !folded.contains($0.lowercased()) }) else { return [path] }
-        let own = inside.filter { folded.contains($0.lowercased()) }
+        guard inside.contains(where: { !listed.contains($0.lowercased()) }) else { return [path] }
+        let own = inside.filter { listed.contains($0.lowercased()) }
         // Nothing inside is listed: the package installed the folder and something else filled it, so the
         // folder is still the only thing this receipt can name.
         guard !own.isEmpty else { return [path] }
