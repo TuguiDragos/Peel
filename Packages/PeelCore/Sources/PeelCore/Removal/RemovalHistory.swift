@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     public let id: UUID
@@ -81,6 +82,15 @@ extension Sequence<RemovalRecord> {
     /// The sum of the sizes, incomplete when one of them is not known.
     public var totalSize: SizeTotal {
         SizeTotal(map(\.size))
+    }
+
+    /// Shallowest first, so a folder is put back before anything that was inside it. A child put back first would
+    /// make a new folder at its parent's path, and the parent could then not be put back.
+    public var inPutBackOrder: [RemovalRecord] {
+        let depth = { (record: RemovalRecord) in
+            PathComponents.of(record.originalURL.path(percentEncoded: false)).count
+        }
+        return sorted { depth($0) < depth($1) }
     }
 }
 

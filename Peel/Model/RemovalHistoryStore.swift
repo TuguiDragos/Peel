@@ -266,9 +266,7 @@ final class RemovalHistoryStore {
         await QuitGuard.shared.run {
             var restored: Set<UUID> = []
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
-            // Shallowest first, so a folder is put back before anything that was inside it. A child put back first
-            // would make a new folder at its parent's path, and the parent could then not be put back.
-            for record in records.sorted(by: { $0.originalURL.pathComponents.count < $1.originalURL.pathComponents.count }) {
+            for record in records.inPutBackOrder {
                 if let failure = await service.restore(record.trashedItem, canUseHelper: canUseHelper) {
                     problems[record.id] = failure
                 } else {

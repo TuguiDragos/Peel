@@ -336,7 +336,7 @@ struct RestoreCommand: AsyncParsableCommand {
         let (restored, failures, forgotten) = await Uninterrupted.run {
             var restored: Set<UUID> = []
             var failures: [(RemovalRecord, RestoreFailure)] = []
-            for record in going {
+            for record in going.inPutBackOrder {
                 // `peel` never uses the helper: items that need administrator access are left for the Peel app.
                 if let failure = await service.restore(record.trashedItem, canUseHelper: false) {
                     failures.append((record, failure))
