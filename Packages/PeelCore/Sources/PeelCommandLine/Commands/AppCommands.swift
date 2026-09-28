@@ -578,8 +578,9 @@ struct UpdatesCommand: AsyncParsableCommand {
             let status = statuses[app.id] ?? .unsupported
             if status != .unsupported { report.withAFeed += 1 }
             if status == .failed { report.failed += 1 }
-            // The same rule as the app's list: a skipped version is not a waiting update.
-            if all || preferences.isWaiting(status, for: app) {
+            // The same rule as the app's list: a skipped version is not a waiting update. A check that failed is
+            // always listed, so a report with one is never read as all up to date.
+            if all || status == .failed || preferences.isWaiting(status, for: app) {
                 report.rows.append((app, status))
             }
         }
@@ -602,7 +603,7 @@ struct UpdatesCommand: AsyncParsableCommand {
             try Output.json(report.rows.map { Record(app: $0.app, status: $0.status) })
         } else if !report.rows.isEmpty {
             Output.table([["NAME", "INSTALLED", "STATUS"]] + report.rows.map { [$0.app.name, $0.app.version ?? "", Self.summary($0.status)] })
-        } else if !report.nothingAnswered {
+        } else {
             Output.line("Every app with an update feed is up to date.")
         }
         if let note = homebrew.note {

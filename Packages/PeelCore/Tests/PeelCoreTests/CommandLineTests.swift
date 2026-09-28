@@ -614,8 +614,8 @@ struct CommandLineTests {
 
     // MARK: peel updates
 
-    /// When every check fails, as with no network, the report must not read as "every app is up to date": a
-    /// script checking the result would take it as the all clear.
+    /// A check that failed is listed, in the table and in `--json`, so the report never reads as "every app is up to
+    /// date", which a script would take as the all clear, while some apps did not answer.
     @Test func doesNotCallAFailedCheckAnAllClear() {
         let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor", version: "1.0")
         let notes = InstalledApp(url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.notes", name: "Notes", version: "2.0")
@@ -628,7 +628,7 @@ struct CommandLineTests {
             preferences: UpdatePreferences(),
             all: false
         )
-        #expect(nothing.rows.isEmpty)
+        #expect(nothing.rows.map(\.app.name) == ["Editor", "Notes"])
         #expect(nothing.failed == 2)
         #expect(nothing.withAFeed == 2)
         #expect(nothing.nothingAnswered)
@@ -639,7 +639,7 @@ struct CommandLineTests {
             preferences: UpdatePreferences(),
             all: false
         )
-        #expect(some.rows.isEmpty)
+        #expect(some.rows.map(\.app.name) == ["Editor"])
         #expect(some.failed == 1)
         #expect(!some.nothingAnswered)
     }
