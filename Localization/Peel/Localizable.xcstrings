@@ -73361,6 +73361,112 @@
         }
       }
     },
+    "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tento soubor je ve složce, kterou si aplikace uchovává v Application Support, a aplikace ho možná ještě potřebuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt befindet sich in einem Ordner, den eine App in Application Support aufbewahrt, und die App benötigt es möglicherweise noch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: está en una carpeta que una app guarda en Application Support, y puede que la app aún lo necesite."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce fichier se trouve dans un dossier qu’une app conserve dans Application Support, et l’app en a peut-être encore besoin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: si trova in una cartella che un’app conserva in Application Support, e l’app potrebbe averne ancora bisogno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: これはアプリがApplication Supportに保存しているフォルダ内にあり、そのアプリがまだ必要としている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 앱이 Application Support에 보관하는 폴더에 있으며, 해당 앱에 아직 필요할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit staat in een map die een app in Application Support bewaart, en de app heeft het misschien nog nodig."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik jest w folderze, który aplikacja przechowuje w Application Support, i może go ona jeszcze potrzebować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item está em uma pasta que um app guarda em Application Support, e o app pode ainda precisar dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier se află într‑un dosar pe care o aplicație îl păstrează în Application Support, iar aplicația ar putea avea încă nevoie de el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл находится в папке, которую приложение хранит в Application Support, и приложению он, возможно, еще нужен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den här filen ligger i en mapp som en app har i Application Support, och appen kanske fortfarande behöver den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu dosya, bir uygulamanın Application Support içinde tuttuğu bir klasörde ve uygulamanın ona hâlâ ihtiyacı olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл міститься в папці, яку програма зберігає в Application Support, і, можливо, він ще потрібен цій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此文件位于某个App保存在Application Support中的文件夹内，该App可能仍需要它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此項目位於某個App在Application Support中保存的檔案夾，而且該App可能仍需要它。"
+          }
+        }
+      }
+    },
     "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices." : {
       "localizations" : {
         "cs" : {

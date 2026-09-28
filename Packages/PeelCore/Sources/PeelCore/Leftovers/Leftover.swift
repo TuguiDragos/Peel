@@ -71,6 +71,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case openInAProgram
     /// A download that changed within the last day, which may still be going.
     case changedRecently
+    /// An installer package in a folder an app keeps in Application Support, which the app may still need.
+    case keptByAnApp
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {

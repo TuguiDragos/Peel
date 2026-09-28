@@ -216,6 +216,8 @@ extension HoldBack {
             "Not selected: a program has this open right now, and may still be downloading it."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
+        case .keptByAnApp:
+            "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it."
         }
     }
 }

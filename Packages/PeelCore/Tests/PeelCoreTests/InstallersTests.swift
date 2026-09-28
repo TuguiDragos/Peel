@@ -14,6 +14,7 @@ struct InstallersTests {
         for index in 1...3 {
             try directory.directory("Applications/Install macOS \(index).app/Contents")
             try directory.file("Library/iTunes/iPhone Software Updates/iPhone \(index).ipsw", bytes: 16)
+            try directory.file("Library/Application Support/Tool \(index)/Update.pkg", bytes: 16)
         }
         let unanswered = Unanswered()
 
@@ -270,6 +271,27 @@ struct InstallersTests {
         #expect(items.values.allSatisfy { $0.kind == .incompleteDownload })
         #expect(items["Video.mp4.crdownload"]?.heldBack == .some(nil))
         #expect(items["Archive.zip.part"]?.heldBack == .changedRecently)
+    }
+
+    @Test func findsPackagesKeptInApplicationSupportAndLeavesThemToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Application Support/org.example.Studio/Updates/Studio-2.4.pkg", bytes: 400_000)
+        try directory.file("Library/Application Support/Toolbox/Installer.mpkg/Contents/Archive", bytes: 400_000)
+        try directory.file("Library/Application Support/Toolbox/a/b/Deeper.pkg", bytes: 400_000)
+        try directory.file("Library/Application Support/MobileSync/Backup.pkg", bytes: 400_000)
+        try directory.file("Library/Application Support/Toolbox/notes.txt", bytes: 400_000)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [app("Studio", bundleIdentifier: "org.example.Studio")], home: directory.url,
+            root: directory.url, exclusions: .none, minimumSize: 100_000, measure: LeftoverScanner.walk,
+            openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items(in: .appInstaller).map { ($0.name, $0) })
+        #expect(Set(items.keys) == ["Studio-2.4.pkg", "Installer.mpkg"])
+        #expect(items["Studio-2.4.pkg"]?.installedApp == "Studio")
+        #expect(items.values.allSatisfy { $0.heldBack == .keptByAnApp })
     }
 
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {

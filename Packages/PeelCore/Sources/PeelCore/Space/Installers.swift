@@ -147,6 +147,15 @@ public enum Installers {
             openFiles: openFiles
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
+        items += await packagesKeptByApps(
+            home: home,
+            installedApps: installedApps,
+            exclusions: exclusions,
+            minimumSize: minimumSize,
+            measure: measure,
+            isInTheCloud: isInTheCloud,
+            openFiles: openFiles
+        )
 
         let backupFolder = home.appending(path: "Library/Application Support/MobileSync/Backup", directoryHint: .isDirectory)
         let readable = canList(backupFolder)
@@ -361,6 +370,45 @@ public enum Installers {
                 let (size, heldBack) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 items.append(firmware(at: url, size: size, heldBack: heldBack))
+            }
+        }
+        return items
+    }
+
+    /// Installer packages in `~/Library/Application Support`, up to three levels down, never inside a package or in
+    /// the device backups. Each is matched by its name to an installed app, or else by the folder it sits in.
+    static func packagesKeptByApps(
+        home: URL,
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        minimumSize: Int64,
+        measure: LeftoverScanner.Measure,
+        isInTheCloud: (URL) -> Bool,
+        openFiles: OpenFiles
+    ) async -> [InstallerItem] {
+        let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
+        var items: [InstallerItem] = []
+        var folders: [(url: URL, depth: Int, owner: String?)] = [(support, 1, nil)]
+        while let (folder, depth, owner) = folders.popLast() {
+            for url in files(in: folder) {
+                guard !Task.isCancelled else { return items }
+                guard ["pkg", "mpkg"].contains(url.pathExtension.lowercased()) else {
+                    if depth < 3, url.isRealFolder, !FileSize.isDataless(url),
+                       (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) != true,
+                       depth > 1 || url.lastPathComponent != "MobileSync" {
+                        folders.append((url, depth + 1, owner ?? url.lastPathComponent))
+                    }
+                    continue
+                }
+                guard !exclusions.excludes(url) else { continue }
+                let (size, seen) = await measured(url, by: measure)
+                guard isWorthARow(size, minimumSize) else { continue }
+                let place = Folder(url: folder, isSharedWithEveryone: false)
+                let heldBack = heldBack(url, seen: seen, in: place, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                let named = installedApp(for: url, in: installedApps) == nil ? owner : nil
+                items.append(appInstaller(
+                    at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps, named: named
+                ))
             }
         }
         return items
