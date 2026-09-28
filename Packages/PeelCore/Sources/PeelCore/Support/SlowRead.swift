@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import Synchronization
 
@@ -5,20 +6,26 @@ import Synchronization
 /// the way `FileSize` walks a folder. Nil means no answer, never an empty folder.
 enum SlowRead {
     /// The names in the folder at `url`: empty for anything that is not there or is not a folder, and nil when
-    /// what it holds is not known: macOS refused to list it, the read did not come back in time, or the task was
-    /// canceled.
+    /// what it holds is not known: macOS refused to list it, the listing failed any other way, the read did not
+    /// come back in time, or the task was canceled.
     static func names(in url: URL, within budget: TimeInterval = FileSize.budget) async -> [String]? {
         let path = url.path(percentEncoded: false)
         let listed: [String]?? = await answer(within: budget) { _ in
             do {
                 return try FileManager.default.contentsOfDirectory(atPath: path)
-            } catch CocoaError.fileReadNoPermission {
-                return nil
             } catch {
-                return []
+                return holdsNothing(path) ? [] : nil
             }
         }
         return listed ?? nil
+    }
+
+    /// Whether `path` is not there or is not a folder, as `stat` tells. Foundation reports a link that leads back
+    /// to itself as a missing file too, and that one is there.
+    private static func holdsNothing(_ path: String) -> Bool {
+        var info = stat()
+        guard stat(path, &info) == 0 else { return errno == ENOENT || errno == ENOTDIR }
+        return info.st_mode & S_IFMT != S_IFDIR
     }
 
     /// Runs `read` on a thread of its own and returns its answer, or nil when it does not come within `budget`

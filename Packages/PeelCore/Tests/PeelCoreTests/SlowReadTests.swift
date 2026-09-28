@@ -61,4 +61,15 @@ struct SlowReadTests {
         #expect(await SlowRead.names(in: file) == [])
         #expect(await SlowRead.names(in: directory.url.appending(path: "missing")) == [])
     }
+
+    /// Only a folder that is not there, or is not a folder, holds nothing. Any other error leaves what it holds
+    /// unknown: a link that leads back to itself stands in for the errors a disk or a file provider can give.
+    @Test func aFolderThatCouldNotBeListedIsNotEmpty() async throws {
+        let directory = try TemporaryDirectory()
+        let loop = directory.url.appending(path: "loop")
+        let path = loop.path(percentEncoded: false)
+        try FileManager.default.createSymbolicLink(atPath: path, withDestinationPath: "loop")
+
+        #expect(await SlowRead.names(in: loop) == nil)
+    }
 }
