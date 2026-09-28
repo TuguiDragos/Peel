@@ -140,7 +140,7 @@ struct LeftoverMatcher: Sendable {
     private static let plugInExtensions = [
         ".component", ".vst3", ".vst", ".clap", ".driver", ".plugin", ".webplugin", ".bundle", ".mailbundle",
         ".prefPane", ".qlgenerator", ".saver", ".qtz", ".mdimporter", ".service", ".workflow", ".colorPicker",
-        ".menu", ".inputmethod", ".app", ".aaxplugin", ".dictionary", ".action", ".kext",
+        ".menu", ".inputmethod", ".app", ".aaxplugin", ".dictionary", ".action", ".kext", ".fs",
     ]
 
     static func withoutPlugInExtension(_ fileName: String) -> String {

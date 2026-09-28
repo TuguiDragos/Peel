@@ -945,6 +945,30 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.count == 1, "the kext was reached twice or its folder was offered")
     }
 
+    /// A file system an app's package installed stays in `/Library/Filesystems` after the app goes, and is listed the
+    /// same way: found by the identifier it declares, never selected, since the helper does not serve that folder.
+    @Test(.permissionsHold) func listsTheAppsFileSystemWithoutEverSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.hexachord.filesystem"], format: .xml, options: 0
+        )
+        try info.write(to: directory.file("root/Library/Filesystems/hexfs.fs/Contents/Info.plist"))
+        try directory.setPermissions(0o555, of: "root/Library/Filesystems")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Filesystems") }
+
+        let found = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let scan = found.holdingBack(beyond: HelperReach(environment: environment(in: directory)), leaving: app.url)
+
+        let fileSystem = try #require(scan.leftovers.first { $0.url.lastPathComponent == "hexfs.fs" })
+        #expect(fileSystem.match.heldBack == .beyondTheHelper)
+        #expect(scan.leftovers.count == 1, "the file system was reached twice or its folder was offered")
+    }
+
     /// Apple: "The system automatically uninstalls any system extensions when the user deletes the corresponding
     /// app." The copy macOS activated in `/Library/SystemExtensions` is its own to remove, so it is never listed.
     @Test func neverListsASystemExtensionMacOSRemovesWithItsApp() async throws {
