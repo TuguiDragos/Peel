@@ -142,6 +142,20 @@ struct DuplicateFinderTests {
         #expect(names(try await scan(directory)) == [["Documents/a.bin", "Documents/b.bin"]])
     }
 
+    /// Dotfiles kept in a repository at the top of the home folder make no folder inside it a repository's.
+    @Test func aRepositoryOfTheHomeFolderLeavesItsFoldersToScan() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.file("home/.git/HEAD")
+        try directory.file("home/Documents/a.bin", contents: contents)
+        try directory.file("home/Documents/b.bin", contents: contents)
+
+        let found = try await scan(directory, folders: ["home/Documents"])
+
+        #expect(found.skippedLocations.isEmpty)
+        #expect(names(found) == [["Documents/a.bin", "Documents/b.bin"]])
+    }
+
     /// A repository is left alone whether it is the chosen folder or holds it. The walk never yields the chosen
     /// folder itself, so that case is checked on its own.
     @Test func leavesAloneAFolderThatIsOrIsInsideARepository() async throws {

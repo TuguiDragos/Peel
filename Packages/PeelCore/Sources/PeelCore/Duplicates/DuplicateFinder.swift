@@ -332,16 +332,18 @@ public struct DuplicateFinder: Sendable {
         }
     }
 
-    /// Whether `folder` is a repository or sits inside one, checking each folder above it up to the home folder
-    /// or the root. The walk checks only the folders it finds, and the enumerator never yields the folder it
-    /// starts from, so a chosen folder is checked here.
+    /// Whether `folder` is a repository or sits inside one, checking each folder above it up to the root, or up to
+    /// the home folder, which is never asked: dotfiles kept in a repository there make no folder in it a project.
+    /// The walk checks only the folders it finds, and the enumerator never yields the folder it starts from, so a
+    /// chosen folder is checked here.
     static func isInsideARepository(_ folder: URL, home: URL) -> Bool {
         var url = folder.resolvingSymlinksInPath()
         let stop = Self.path(of: home.resolvingSymlinksInPath())
         while true {
-            if isRepository(url) { return true }
             let path = Self.path(of: url)
-            guard path != stop, path != "/", !path.isEmpty else { return false }
+            guard path != stop else { return false }
+            if isRepository(url) { return true }
+            guard path != "/", !path.isEmpty else { return false }
             let parent = url.deletingLastPathComponent()
             guard Self.path(of: parent) != path else { return false }
             url = parent
