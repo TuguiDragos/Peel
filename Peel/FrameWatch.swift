@@ -32,11 +32,14 @@ final class FrameWatch: NSObject {
         link.add(to: .main, forMode: .common)
         self.link = link
         // The display asks no frames for a window out of sight (minimized, hidden, or covered), which is no hitch.
+        let window = view.window
         sight = NotificationCenter.default.addObserver(
-            forName: NSWindow.didChangeOcclusionStateNotification, object: view.window, queue: .main
-        ) { [weak self] note in
-            guard let window = note.object as? NSWindow, !window.occlusionState.contains(.visible) else { return }
-            MainActor.assumeIsolated { self?.hitches.pause() }
+            forName: NSWindow.didChangeOcclusionStateNotification, object: window, queue: .main
+        ) { [weak self, weak window] _ in
+            MainActor.assumeIsolated {
+                guard let window, !window.occlusionState.contains(.visible) else { return }
+                self?.hitches.pause()
+            }
         }
         guard observer == nil else { return }
         watchTheMainThread()
