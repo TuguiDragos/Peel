@@ -244,16 +244,19 @@ struct CachesCommand: AsyncParsableCommand {
     }
 
     /// Returns the environments named in `tools`, by the name the listing shows or by its identifier, ignoring
-    /// case. All of them when `tools` is empty.
+    /// case. All of them when `tools` is empty. A name that matches none fails the command, even beside one that
+    /// matches: shown the rest, a typo would read as a tool with nothing to show.
     static func chosen(from environments: [DeveloperEnvironment], named tools: [String]) throws -> [DeveloperEnvironment] {
         guard !tools.isEmpty else { return environments }
-        let chosen = environments.filter { environment in
-            tools.contains { $0.caseInsensitiveCompare(environment.name) == .orderedSame || $0.caseInsensitiveCompare(environment.id) == .orderedSame }
+        func isNamed(_ environment: DeveloperEnvironment, _ tool: String) -> Bool {
+            [environment.name, environment.id].contains { tool.caseInsensitiveCompare($0) == .orderedSame }
         }
-        guard !chosen.isEmpty else {
-            throw CommandFailure("No developer caches of \(tools.map(Output.quoted).joined(separator: ", ")) were found. See `peel caches`.")
+        let unmatched = tools.filter { tool in !environments.contains { isNamed($0, tool) } }
+        guard unmatched.isEmpty else {
+            let names = unmatched.map(Output.quoted).joined(separator: ", ")
+            throw CommandFailure("No developer caches of \(names) were found. See `peel caches`.")
         }
-        return chosen
+        return environments.filter { environment in tools.contains { isNamed(environment, $0) } }
     }
 
     func clean(

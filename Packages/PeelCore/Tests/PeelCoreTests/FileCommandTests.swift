@@ -64,6 +64,12 @@ struct FileCommandTests {
         #expect(try CachesCommand.chosen(from: [brew, cargo], named: ["RUST"]).map(\.id) == ["rust"])
         #expect(try CachesCommand.chosen(from: [brew, cargo], named: ["Homebrew", "Rust"]).count == 2)
         #expect(throws: CommandFailure.self) { try CachesCommand.chosen(from: [brew, cargo], named: ["Nonesuch"]) }
+        // A name that matches nothing beside one that does is a typo, never a tool with nothing to show.
+        let typo = #expect(throws: CommandFailure.self) {
+            try CachesCommand.chosen(from: [brew, cargo], named: ["rust", "hombrew"])
+        }
+        let hombrew = Output.quoted("hombrew")
+        #expect(typo?.description == "No developer caches of \(hombrew) were found. See `peel caches`.")
     }
 
     /// Model weights and installed packages are listed and never suggested, so `--remove` leaves them.
