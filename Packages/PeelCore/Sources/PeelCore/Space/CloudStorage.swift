@@ -2,9 +2,9 @@ public import Foundation
 import Synchronization
 internal import PeelPrivileged
 
-/// A file in iCloud Drive that also has a local copy. Freeing the local copy deletes nothing: the file stays in
-/// iCloud, Finder still shows it, and it downloads again when it is opened. So freeing does not go through the
-/// Trash, since there is nothing to put back.
+/// A file in iCloud Drive, or a document saved as a package, that also has a local copy. Freeing the local copy
+/// deletes nothing: the file stays in iCloud, Finder still shows it, and it downloads again when it is opened. So
+/// freeing does not go through the Trash, since there is nothing to put back.
 public struct CloudFile: Sendable, Hashable, Identifiable {
     public let url: URL
     public let name: String
@@ -71,7 +71,7 @@ public enum CloudStorage {
 
     /// The resource keys read for each file, by the scan and again by `free(_:)`.
     static let keys: Set<URLResourceKey> = [
-        .isRegularFileKey, .contentModificationDateKey, .ubiquitousItemDownloadingStatusKey,
+        .isRegularFileKey, .isPackageKey, .contentModificationDateKey, .ubiquitousItemDownloadingStatusKey,
         .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey, .ubiquitousItemHasUnresolvedConflictsKey,
         .ubiquitousItemIsSyncPausedKey, .ubiquitousItemUploadingErrorKey,
     ]
@@ -215,28 +215,38 @@ public enum CloudStorage {
             return
         }
 
+        // The budget is spent, or the page that asked was left or stopped.
+        func stopped() -> Bool { ContinuousClock.now >= deadline || isGivenUp() }
         for case let url as URL in enumerator {
-            // The budget is spent, or the page that asked was left or stopped.
-            guard ContinuousClock.now < deadline, !isGivenUp() else {
+            guard !stopped() else {
                 collector.cutShort()
                 return
             }
             scan?.add(1)
             guard
                 let values = try? url.resourceValues(forKeys: keys),
-                values.isRegularFile == true,
+                values.isRegularFile == true || values.isPackage == true,
                 !exclusions.excludes(url),
                 isSafe(values)
             else { continue }
-            let size = ReclaimableSpace.of(url)
-            guard size >= minimumSize else { continue }
+            let measured = values.isRegularFile == true
+                ? (size: ReclaimableSpace.of(url), modified: values.contentModificationDate)
+                : package(url, values, exclusions: exclusions, countingFor: scan, unless: stopped)
+            guard let measured else {
+                if stopped() {
+                    collector.cutShort()
+                    return
+                }
+                continue
+            }
+            guard measured.size >= minimumSize else { continue }
 
             let file = CloudFile(
                 url: url,
                 name: url.lastPathComponent,
                 container: containerName(of: url, under: root),
-                size: size,
-                modified: values.contentModificationDate
+                size: measured.size,
+                modified: measured.modified
             )
             collector.add(file)
         }
@@ -248,6 +258,13 @@ public enum CloudStorage {
     @discardableResult
     @concurrent
     public static func free(_ files: [CloudFile], exclusions: Exclusions) async -> [CloudRefusal] {
+        await free(files, exclusions: exclusions, isSafe: isSafeToFree(_:))
+    }
+
+    @concurrent
+    static func free(
+        _ files: [CloudFile], exclusions: Exclusions, isSafe: (URLResourceValues) -> Bool
+    ) async -> [CloudRefusal] {
         var refused: [CloudRefusal] = []
         for file in files {
             guard exclusions.isKnown, !exclusions.excludes(file.url) else {
@@ -258,9 +275,11 @@ public enum CloudStorage {
             url.removeAllCachedResourceValues()
             guard
                 let values = try? url.resourceValues(forKeys: keys),
-                values.isRegularFile == true,
-                isSafeToFree(values),
-                values.contentModificationDate == file.modified
+                isSafe(values),
+                values.isRegularFile == true
+                    ? values.contentModificationDate == file.modified
+                    : values.isPackage == true
+                        && package(url, values, exclusions: exclusions, unless: { false })?.modified == file.modified
             else {
                 refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
                 continue
@@ -272,6 +291,22 @@ public enum CloudStorage {
             }
         }
         return refused
+    }
+
+    /// A document saved as a package, which iCloud keeps as one item: what removing its download frees, and the
+    /// newest date of anything inside, since editing a file inside leaves the package's own date as it was. Nil for
+    /// a package with something excluded inside, one that could not be read whole, or a walk that was stopped.
+    static func package(
+        _ url: URL,
+        _ values: URLResourceValues,
+        exclusions: Exclusions,
+        countingFor scan: ScanCount? = nil,
+        unless isStopped: () -> Bool
+    ) -> (size: Int64, modified: Date?)? {
+        guard !exclusions.holds(url), let contents = FileSize.walk(url, countingFor: scan, unless: isStopped),
+              !contents.couldNotBeRead
+        else { return nil }
+        return (contents.size, [values.contentModificationDate, contents.newestChange].compactMap(\.self).max())
     }
 
     /// The readable name of the iCloud folder that holds `url`: "iCloud Drive" for `com~apple~CloudDocs`, and

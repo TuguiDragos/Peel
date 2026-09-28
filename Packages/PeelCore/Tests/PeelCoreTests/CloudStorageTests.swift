@@ -189,4 +189,50 @@ struct CloudStorageTests {
         #expect(collector.collected.wasCutShort)
         #expect(collector.collected.files.isEmpty)
     }
+
+    /// iCloud Drive keeps a document saved as a package as one item, and Finder removes its download whole.
+    @Test func aDocumentSavedAsAPackageIsOneItem() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
+        try directory.file("\(drive)/Notes.rtfd/Attachments/take.bin", bytes: 1_000_000)
+        try directory.file("\(drive)/Kept.rtfd/TXT.rtf", bytes: 2_000_000)
+        try directory.file("\(drive)/Kept.rtfd/private.bin", bytes: 2_000_000)
+        try directory.file("\(drive)/Folder/inside.bin", bytes: 2_000_000)
+        let package = directory.url.appending(path: "\(drive)/Notes.rtfd", directoryHint: .isDirectory)
+        let excluded = directory.url.appending(path: "\(drive)/Kept.rtfd/private.bin")
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [excluded]), into: collector,
+            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let files = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0) })
+
+        #expect(files.keys.sorted() == ["Notes.rtfd", "inside.bin"])
+        #expect(files["Notes.rtfd"]?.size == FileSize.walk(package, unless: { false })?.size)
+        #expect((files["Notes.rtfd"]?.size ?? 0) >= 3_000_000)
+    }
+
+    /// Editing a file inside a package leaves the package's own date as it was, so the newest date inside is what
+    /// tells that it changed since the scan.
+    @Test func freesNoPackageEditedInsideSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        let inside = try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let scanned = try #require(collector.collected.files.first)
+
+        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true })
+        let later: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(60)]
+        try FileManager.default.setAttributes(later, ofItemAtPath: inside.path(percentEncoded: false))
+        let edited = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true })
+
+        #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
+        #expect(edited.map(\.reason) == [.changedSinceScan])
+    }
 }
