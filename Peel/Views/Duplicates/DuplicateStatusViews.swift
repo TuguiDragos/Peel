@@ -76,6 +76,15 @@ struct DuplicateSummaryView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 12)
             }
+            if !scan.notLookedIn.isEmpty {
+                Notice(
+                    title: Text("Peel couldn’t look in ^[\(scan.notLookedIn.count) folder](inflect: true)"),
+                    detail: Text(verbatim: scan.notLookedIn.map(\.abbreviatedPath).formatted(.list(type: .and))),
+                    kind: .note
+                ) {}
+                .padding(.horizontal, 20)
+                .padding(.top, 12)
+            }
             ContentUnavailableView {
                 Label("Duplicates Found", systemImage: "doc.on.doc")
             } description: {

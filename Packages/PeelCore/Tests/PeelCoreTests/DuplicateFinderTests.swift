@@ -174,6 +174,21 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
+    /// Copies found elsewhere do not hide a chosen folder Peel did not look in: the page still names it.
+    @Test func namesTheFoldersItDidNotLookInBesideWhatItFound() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.file("home/Developer/Thing/.git/HEAD")
+        try directory.file("home/Documents/a.bin", contents: contents)
+        try directory.file("home/Documents/b.bin", contents: contents)
+
+        let found = try await scan(directory, folders: ["home/Developer/Thing", "home/Documents"])
+
+        #expect(!found.groups.isEmpty)
+        #expect(!found.readNothing)
+        #expect(found.notLookedIn.map(\.lastPathComponent) == ["Thing"])
+    }
+
     /// A project is left alone like a repository, even without one: it is known by its build file.
     @Test func leavesAloneAProjectKnownByItsBuildFile() async throws {
         let directory = try TemporaryDirectory()

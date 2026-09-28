@@ -45,7 +45,7 @@ struct DuplicateList: View {
                         ContentUnavailableView {
                             Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                         } description: {
-                            Text("No duplicates were found, but Peel couldn’t look in ^[\(scan.unreadableLocations.count + scan.skippedLocations.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access, or choose folders it can read.")
+                            Text("No duplicates were found, but Peel couldn’t look in ^[\(scan.notLookedIn.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access, or choose folders it can read.")
                         } actions: {
                             if scan.needsFullDiskAccess {
                                 Button("Open System Settings") { home.openFullDiskAccessSettings() }
@@ -111,11 +111,19 @@ struct DuplicateList: View {
         // A scan ends without a result only when it was stopped.
         .announcesScan(
             duplicates.isScanning,
-            found: duplicates.summary,
+            found: summary,
             couldNotLook: duplicates.scan?.readNothing == true ? "Not Everything Could Be Read" : nil,
             wasStopped: duplicates.scan == nil
         )
         .navigationTitle(Text(Tool.duplicates.title))
+    }
+
+    /// What VoiceOver hears when a scan ends: what it found, and the folders it could not look in.
+    private var summary: AttributedString? {
+        guard let found = duplicates.summary, let count = duplicates.scan?.notLookedIn.count, count > 0 else {
+            return duplicates.summary
+        }
+        return found + " " + AttributedString(localized: "Peel couldn’t look in ^[\(count) folder](inflect: true).")
     }
 
     /// A new scan clears what the last one found, so it asks first when there is something to lose.

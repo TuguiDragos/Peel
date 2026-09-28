@@ -106,10 +106,15 @@ public struct DuplicateScan: Sendable {
     /// allow. It stays false for a folder locked by ordinary permissions, or one that is missing.
     public var needsFullDiskAccess = false
 
+    /// The folders Peel could not read or skipped, where duplicates may still be, whatever else it found.
+    public var notLookedIn: [URL] {
+        unreadableLocations + skippedLocations
+    }
+
     /// True when no duplicates were found but some of what was asked for could not be read or was skipped, even
     /// one locked folder at any depth. Duplicates may then exist where Peel could not look.
     public var readNothing: Bool {
-        groups.isEmpty && folderGroups.isEmpty && !(unreadableLocations.isEmpty && skippedLocations.isEmpty)
+        groups.isEmpty && folderGroups.isEmpty && !notLookedIn.isEmpty
     }
 
     /// Every file except the suggested one to keep in each group.
