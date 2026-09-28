@@ -128,6 +128,32 @@ struct DeclaredBackgroundItemsTests {
         )
     }
 
+    /// launchd runs a program with the arguments after it, and a program named apart from them (`Program`) takes the
+    /// place of the first. The whole command is read for its shape.
+    @Test func readsTheWholeCommandOfAJob() throws {
+        let directory = try TemporaryDirectory()
+        let fetches: [String: Any] = [
+            "Label": "org.example.fetch", "ProgramArguments": ["/usr/bin/curl", "-fsSL", "https://example.org"],
+        ]
+        let named: [String: Any] = [
+            "Label": "org.example.named", "Program": "/bin/sh", "ProgramArguments": ["sh", "-c", "true"],
+        ]
+        for (label, plist) in ["org.example.fetch": fetches, "org.example.named": named] {
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            try directory.file("home/Library/LaunchAgents/\(label).plist", contents: data)
+        }
+        let agent = try job("org.example.agent", program: "/bin/sleep")
+        try directory.file("home/Library/LaunchAgents/org.example.agent.plist", contents: agent)
+
+        let ownership = BackgroundItemOwnership(installedApps: [])
+        let items = BackgroundItems.declared(in: environment(directory), ownership: ownership)
+
+        let shapes = Dictionary(uniqueKeysWithValues: items.map { ($0.label, $0.unusualCommand) })
+        #expect(shapes["org.example.fetch"] == .downloads)
+        #expect(shapes["org.example.named"] == .runsCodeFromItsSettings)
+        #expect(shapes["org.example.agent"] == .some(nil))
+    }
+
     /// A file in these folders that can't be read as a job, not a property list or one without a `Label`, is one
     /// launchd can't load. It is listed under its file name so it can be moved to the Trash, and nothing else is
     /// offered for it.

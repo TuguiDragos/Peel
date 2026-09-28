@@ -253,6 +253,14 @@ struct BackgroundItemDetailView: View {
                             detail: Text("The program it starts is gone, and no installed app claims it.")
                         )
                     }
+                    if let unusual = item.unusualCommand {
+                        NoteBadge(
+                            title: Text("Unusual command"), systemImage: "exclamationmark.magnifyingglass",
+                            tint: .orange,
+                            name: String(localized: "Unusual command"),
+                            detail: Text(unusual.explanation)
+                        )
+                    }
                     if needsHelper {
                         Badge(title: Text("Needs administrator access"), systemImage: "lock", tint: .secondary)
                     }
@@ -342,4 +350,19 @@ struct BackgroundItemDetailView: View {
         }
     }
 
+}
+
+extension UnusualCommand {
+    var explanation: LocalizedStringResource {
+        switch self {
+        case .runsFromATemporaryFolder:
+            "Its program sits in a temporary folder, where any program on this Mac can write. Software installed on purpose can do this too."
+        case .downloads:
+            "Its command downloads from the internet each time it runs. Software installed on purpose can do this too."
+        case .decodesBase64:
+            "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too."
+        case .runsCodeFromItsSettings:
+            "It runs a script written into its own file rather than a program on disk. Software installed on purpose can do this too."
+        }
+    }
 }

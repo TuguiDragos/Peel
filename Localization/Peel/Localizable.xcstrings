@@ -49431,6 +49431,112 @@
         }
       }
     },
+    "It runs a script written into its own file rather than a program on disk. Software installed on purpose can do this too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka spouští skript zapsaný přímo v jejím vlastním souboru, ne program na disku. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es führt statt eines Programms auf dem Datenträger ein Skript aus, das direkt in seiner eigenen Datei steht. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta un script escrito dentro de su propio archivo en lugar de un programa del disco. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il exécute un script écrit dans son propre fichier plutôt qu’un programme présent sur le disque. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegue uno script scritto nel suo stesso file anziché un programma presente sul disco. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディスク上のプログラムではなく、自身のファイルに書き込まれたスクリプトを実行します。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목은 디스크에 있는 프로그램이 아니라 자체 파일에 작성된 스크립트를 실행합니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het voert een script uit dat in het eigen bestand is geschreven, in plaats van een programma op de schijf. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz uruchamia skrypt zapisany w jej własnym pliku, a nie program na dysku. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele executa um script escrito no próprio arquivo, em vez de um programa no disco. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulează un script scris în propriul fișier, nu un program de pe disc. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он запускает скрипт, записанный прямо в его файле, а не программу на диске. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det kör ett skript som är skrivet i den egna filen i stället för ett program på skivan. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diskteki bir program yerine kendi dosyasına yazılmış bir betik çalıştırıyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Він запускає скрипт, записаний прямо у власному файлі, а не виконуваний файл на диску. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它运行的是写在其自身文件中的脚本，而不是磁盘上的程序。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它執行的是寫在自身檔案中的指令碼，而非磁碟上的程式。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
     "It still leads to something on this Mac." : {
       "localizations" : {
         "cs" : {
@@ -50307,6 +50413,218 @@
         }
       }
     },
+    "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkaz položky dekóduje base64, takže to, co spouští, nelze přečíst na první pohled. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Befehl decodiert base64, sodass sich nicht auf einen Blick lesen lässt, was er ausführt. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su comando descodifica base64, lo que impide leer de un vistazo lo que ejecuta. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sa commande décode du base64, ce qui empêche de voir d’un coup d’œil ce qu’elle exécute. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo comando decodifica testo in base64, così ciò che esegue non si può leggere a colpo d’occhio. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドがbase64をデコードするため、実行される内容をひと目で読み取ることができません。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 명령은 base64를 디코딩하므로 실행하는 내용을 한눈에 읽을 수 없습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het commando decodeert base64, waardoor wat het uitvoert niet in één oogopslag te lezen is. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie tej rzeczy dekoduje base64, przez co tego, co uruchamia, nie da się odczytać na pierwszy rzut oka. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O comando dele decodifica base64, o que impede ler de relance o que ele executa. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda sa decodează base64, astfel încât ce rulează nu poate fi citit dintr‑o privire. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его команда декодирует base64, из-за чего то, что она запускает, не прочитать с первого взгляда. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandot avkodar base64, vilket gör att det som körs inte kan läsas med en snabb blick. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komutu base64 kodunu çözüyor, bu da çalıştırdığı şeyin bir bakışta okunmasını engelliyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його команда декодує base64, тож з першого погляду не видно, що саме вона запускає. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的命令会解码base64，因此它运行的内容无法一眼看出。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的指令會解碼base64，讓人無法一眼看出它執行的內容。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
+    "Its command downloads from the internet each time it runs. Software installed on purpose can do this too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkaz položky při každém spuštění stahuje data z internetu. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Befehl lädt bei jeder Ausführung etwas aus dem Internet. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su comando descarga contenido de internet cada vez que se ejecuta. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sa commande télécharge du contenu depuis Internet à chaque exécution. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo comando scarica da internet ogni volta che viene eseguito. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドが実行されるたびにインターネットからダウンロードします。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 명령은 실행될 때마다 인터넷에서 다운로드합니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het commando downloadt iets van het internet telkens wanneer het wordt uitgevoerd. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie tej rzeczy przy każdym uruchomieniu pobiera dane z internetu. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O comando dele baixa conteúdo da internet sempre que é executado. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda sa descarcă de pe internet de fiecare dată când rulează. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его команда загружает данные из интернета при каждом запуске. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandot hämtar från internet varje gång det körs. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komutu, her çalıştığında internetten indirme yapıyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його команда викачує дані з інтернету під час кожного запуску. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的命令每次运行时都会从互联网下载内容。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的指令每次執行時都會從網際網路下載內容。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
     "Its maker has deprecated it." : {
       "localizations" : {
         "cs" : {
@@ -51151,6 +51469,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它的隱私權限未重置。%@"
+          }
+        }
+      }
+    },
+    "Its program sits in a temporary folder, where any program on this Mac can write. Software installed on purpose can do this too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program, který položka spouští, je v dočasné složce, kam může zapisovat kterýkoli program v tomto Macu. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Programm liegt in einem temporären Ordner, in den jedes Programm auf diesem Mac schreiben kann. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su programa está en una carpeta temporal, donde cualquier programa de este Mac puede escribir. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son programme se trouve dans un dossier temporaire, où n’importe quel programme de ce Mac peut écrire. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo programma si trova in una cartella temporanea, dove qualsiasi programma su questo Mac può scrivere. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プログラムが一時フォルダにあり、そこにはこのMac上のどのプログラムでも書き込めます。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 프로그램은 이 Mac의 모든 프로그램이 쓸 수 있는 임시 폴더에 있습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het programma staat in een tijdelijke map, waarin elk programma op deze Mac kan schrijven. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program tej rzeczy znajduje się w folderze tymczasowym, w którym może zapisywać każdy program na tym Macu. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O programa que ele executa fica em uma pasta temporária, onde qualquer programa deste Mac pode gravar. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul său se află într‑un dosar temporar, în care poate scrie orice program de pe acest Mac. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его программа находится во временной папке, в которую может записывать любая программа на этом Mac. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programmet ligger i en tillfällig mapp, där alla program på den här datorn kan skriva. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programı, bu Mac’teki her programın yazabildiği geçici bir klasörde duruyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його виконуваний файл лежить у тимчасовій папці, куди може записувати будь-яка програма на цьому Mac. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的程序位于临时文件夹中，这台Mac上的任何程序都可以在那里写入。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的程式位於暫存檔案夾中，這部Mac上的任何程式都能寫入該處。刻意安裝的軟體也可能這樣做。"
           }
         }
       }
@@ -131097,6 +131521,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在你重新開始這份記錄之前，Peel無法在App的簽署者變更時提醒你。重新開始時，舊檔案會保留在新檔案旁邊。"
+          }
+        }
+      }
+    },
+    "Unusual command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neobvyklý příkaz"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungewöhnlicher Befehl"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando inusual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commande inhabituelle"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando insolito"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通常とは異なるコマンド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반적이지 않은 명령"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongebruikelijk commando"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietypowe polecenie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando incomum"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandă neobișnuită"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Необычная команда"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovanligt kommando"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alışılmadık komut"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Незвична команда"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不寻常的命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不尋常的指令"
           }
         }
       }

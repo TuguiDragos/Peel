@@ -149,6 +149,12 @@ private struct BackgroundItemRow: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                 }
+                if item.unusualCommand != nil {
+                    WarningLabel(title: Text("Unusual command"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
             }
         }
         .padding(.vertical, 2)

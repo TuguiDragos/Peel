@@ -168,7 +168,8 @@ public enum BackgroundItems {
                     isOrphan: ownership.isOrphan(label: job.label, program: job.program, owner: owner),
                     state: loaded.state(of: job.label, kind),
                     isDisabled: loaded.override(of: job.label, kind) ?? job.isDisabled,
-                    isOwnerConfirmed: owner?.isConfirmed ?? false
+                    isOwnerConfirmed: owner?.isConfirmed ?? false,
+                    unusualCommand: UnusualCommand(arguments: job.arguments)
                 ))
             }
         }
@@ -252,7 +253,8 @@ public enum BackgroundItems {
             isOrphan: ownership.isOrphan(label: candidate.label, program: program, owner: owner),
             state: loaded.state(of: candidate.label, candidate.kind),
             isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false,
-            isOwnerConfirmed: owner?.isConfirmed ?? false
+            isOwnerConfirmed: owner?.isConfirmed ?? false,
+            unusualCommand: UnusualCommand(arguments: job?.arguments ?? program.map { [$0] } ?? [])
         )
     }
 
@@ -266,6 +268,8 @@ public enum BackgroundItems {
 struct JobDefinition {
     let label: String
     let program: String?
+    /// The program and its arguments, as launchd runs them.
+    let arguments: [String]
     let runsAtLoad: Bool
     let keepsAlive: Bool
     let isDisabled: Bool
@@ -282,8 +286,10 @@ struct JobDefinition {
     init?(_ plist: [String: Any]) {
         guard let label = plist["Label"] as? String, !label.isEmpty else { return nil }
         self.label = label
-        // Reads only the first argument: a cast to `[String]` fails when any argument is not a string.
+        // Reads each argument alone: a cast to `[String]` fails when any argument is not a string.
+        let listed = (plist["ProgramArguments"] as? [Any])?.compactMap { $0 as? String } ?? []
         program = plist["Program"] as? String ?? (plist["ProgramArguments"] as? [Any])?.first as? String
+        arguments = (plist["Program"] as? String).map { [$0] + listed.dropFirst() } ?? listed
         keepsAlive = (plist["KeepAlive"] as? Bool) ?? (plist["KeepAlive"] is [String: Any])
         // `man launchd.plist`, KeepAlive: "The use of this key implicitly implies RunAtLoad".
         runsAtLoad = (plist["RunAtLoad"] as? Bool ?? false) || keepsAlive

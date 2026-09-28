@@ -44,6 +44,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for a file launchd can't load: not a property list, or one without a `Label`. It is named by its file,
     /// and nothing but moving it is offered.
     public var isUnreadable = false
+    /// What in the job's command is worth a second look, if anything.
+    public var unusualCommand: UnusualCommand?
 
     /// Includes the file's path, because two files can declare one label (a per-user copy beside the
     /// system-wide one), and each file needs a row of its own.
