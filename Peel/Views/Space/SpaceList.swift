@@ -77,15 +77,23 @@ struct SpaceList: View {
     private func storage(_ report: SpaceReport) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             StorageStrip(storage: report.storage)
-            if report.purgeable > 0 {
+            if let purgeable = report.purgeable, purgeable > 0 {
                 // The strip's available figure already includes these bytes, so the note ties them to it, not
                 // to the used figure.
-                Text("The available space includes \(report.purgeable.byteCount) that macOS clears when something needs the room.")
+                Text("The available space includes \(purgeable.byteCount) that macOS clears when something needs the room.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else if report.purgeable == nil {
+                Text("Peel couldn’t find out how much of the available space macOS clears by itself.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            if !report.snapshots.isEmpty {
-                SnapshotNote(snapshots: report.snapshots)
+            if let snapshots = report.snapshots, !snapshots.isEmpty {
+                SnapshotNote(snapshots: snapshots)
+            } else if report.snapshots == nil {
+                Text("Peel couldn’t list the snapshots kept on this disk, which may hold some of its space.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .padding(.vertical, 6)

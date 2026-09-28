@@ -39,7 +39,7 @@ struct LocalSnapshotsTests {
         </plist>
         """
 
-        let snapshots = LocalSnapshots.parse(Data(output.utf8))
+        let snapshots = try #require(LocalSnapshots.parse(Data(output.utf8)))
         #expect(snapshots.count == 3)
 
         let update = try #require(snapshots.first)
@@ -82,14 +82,20 @@ struct LocalSnapshotsTests {
         <?xml version="1.0" encoding="UTF-8"?>
         <plist version="1.0"><dict><key>Snapshots</key><array/></dict></plist>
         """
-        #expect(LocalSnapshots.parse(Data(none.utf8)).isEmpty)
-        #expect(LocalSnapshots.parse(Data()).isEmpty)
-        #expect(LocalSnapshots.parse(Data("No snapshots for disk3s1".utf8)).isEmpty)
+        #expect(LocalSnapshots.parse(Data(none.utf8))?.isEmpty == true)
+    }
+
+    /// An answer that is not the list `-plist` asks for, or no answer at all, leaves the snapshots unknown: never
+    /// read as a disk that keeps none, when they may be what holds its space.
+    @Test func anAnswerItCannotReadLeavesTheSnapshotsUnknown() async {
+        #expect(LocalSnapshots.parse(Data()) == nil)
+        #expect(LocalSnapshots.parse(Data("Unable to find disk".utf8)) == nil)
+        #expect(await LocalSnapshots.list(volume: "/Volumes/org.example.missing") == nil)
     }
 
     /// Lists the snapshots of the machine running the test. Listing reads and changes nothing.
-    @Test func readsThisMacWithoutTouchingIt() async {
-        let snapshots = await LocalSnapshots.list()
+    @Test func readsThisMacWithoutTouchingIt() async throws {
+        let snapshots = try #require(await LocalSnapshots.list())
         #expect(Set(snapshots.map(\.id)).count == snapshots.count)
     }
 

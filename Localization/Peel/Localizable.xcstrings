@@ -85612,6 +85612,218 @@
         }
       }
     },
+    "Peel couldn’t find out how much of the available space macOS clears by itself." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl zjistit, kolik z dostupného místa macOS uvolní sám."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht ermitteln, wie viel vom verfügbaren Speicherplatz macOS selbst freigibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido averiguar cuánto del espacio disponible libera macOS por su cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu déterminer quelle part de l’espace disponible macOS libère de lui-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a scoprire quanta parte dello spazio disponibile macOS libera da solo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、使用可能な領域のうちmacOSが自動的に消去する量を調べられませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 사용 가능한 공간 중 macOS가 스스로 비우는 공간의 양을 알아낼 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet nagaan hoeveel van de beschikbare ruimte macOS zelf opruimt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł ustalić, ile dostępnego miejsca macOS zwalnia sam."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu descobrir quanto do espaço disponível o macOS libera sozinho."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut afla cât din spațiul disponibil eliberează macOS singur."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось узнать, какую часть доступного пространства macOS очищает сама."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte ta reda på hur mycket av det tillgängliga utrymmet som macOS frigör på egen hand."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, kullanılabilir alanın ne kadarını macOS’in kendiliğinden temizlediğini öğrenemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зʼясувати, скільки доступного місця macOS очищає сама."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能查明可用空间中有多少是macOS会自行清除的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法得知可用空間中有多少是macOS會自行清除的。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t list the snapshots kept on this disk, which may hold some of its space." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl vypsat snímky uložené na tomto disku, které mohou zabírat část jeho místa."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die Snapshots nicht auflisten, die auf diesem Volume gespeichert sind und möglicherweise einen Teil des Speicherplatzes belegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido obtener la lista de las instantáneas guardadas en este disco, que pueden ocupar parte de su espacio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu répertorier les instantanés conservés sur ce disque, qui peuvent occuper une partie de son espace."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a elencare le istantanee conservate su questo disco, che potrebbero occupare parte del suo spazio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、このディスクに保存されているスナップショットを一覧にできませんでした。スナップショットがこのディスクの領域の一部を占めている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 디스크에 보관된 스냅샷을 나열할 수 없었습니다. 이 스냅샷이 디스크 공간의 일부를 차지하고 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de momentopnamen die op deze schijf worden bewaard niet opvragen, en die kunnen een deel van de schijfruimte innemen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać listy migawek przechowywanych na tym dysku, które mogą zajmować część jego miejsca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu listar as capturas guardadas neste disco, que podem ocupar parte do seu espaço."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut lista instantaneele păstrate pe acest disc, care pot ocupa o parte din spațiul său."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось получить список снимков, хранящихся на этом диске, а они могут занимать часть его пространства."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte lista ögonblicksbilderna som sparas på den här skivan, och de kan ta upp en del av dess utrymme."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu diskte tutulan ve diskin alanının bir kısmını kaplıyor olabilecek anlık görüntüleri listeleyemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося отримати список знімків, збережених на цьому диску, які можуть займати частину його місця."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能列出存放在此磁盘上的快照，这些快照可能占用了此磁盘的部分空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法列出保留在此磁碟上的快照，這些快照可能佔用此磁碟的部分空間。"
+          }
+        }
+      }
+    },
     "Peel couldn’t look in ^[%lld folder](inflect: true)" : {
       "localizations" : {
         "cs" : {

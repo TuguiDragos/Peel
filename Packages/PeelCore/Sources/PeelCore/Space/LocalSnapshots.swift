@@ -34,19 +34,20 @@ public enum LocalSnapshots {
 
     public static let deleteCommand = "tmutil deletelocalsnapshots \(volume)"
 
+    /// The volume's snapshots, or nil when `diskutil` gave no answer Peel can read, which is not a volume with none.
     @concurrent
-    public static func list(volume: String = LocalSnapshots.volume) async -> [LocalSnapshot] {
+    public static func list(volume: String = LocalSnapshots.volume) async -> [LocalSnapshot]? {
         let arguments = ["apfs", "listSnapshots", "-plist", volume]
         guard case .success(let output) = await Subprocess.run("/usr/sbin/diskutil", arguments, timeout: 30),
-              output.status == 0 else { return [] }
+              output.status == 0 else { return nil }
         return parse(output.standardOutput)
     }
 
     /// Reads what `diskutil apfs listSnapshots -plist` prints: a `Snapshots` array whose entries carry
     /// `SnapshotName` and, when `diskutil` knows it, `Purgeable`.
-    static func parse(_ data: Data) -> [LocalSnapshot] {
+    static func parse(_ data: Data) -> [LocalSnapshot]? {
         guard let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
-              let entries = plist["Snapshots"] as? [[String: Any]] else { return [] }
+              let entries = plist["Snapshots"] as? [[String: Any]] else { return nil }
         return entries.compactMap { entry in
             guard let name = entry["SnapshotName"] as? String else { return nil }
             let isPurgeable = entry["Purgeable"] as? Bool

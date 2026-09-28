@@ -272,6 +272,11 @@ struct SpaceInventoryTests {
         #expect(checked > 0, "nothing in the table can be emptied, so the test proves nothing")
     }
 
+    @Test func knowsNoPurgeableSpaceForAVolumeItCannotRead() {
+        #expect(SpaceInventory.purgeableSpace(of: URL(filePath: "/Volumes/org.example.missing")) == nil)
+        #expect(SpaceInventory.purgeableSpace(of: .homeDirectory) != nil)
+    }
+
     /// Scanning the real Mac must work and change nothing. It walks the real home folder, so it runs only when
     /// asked for (`PEEL_TEST_THIS_MAC=1`).
     @Test(.enabled(if: ProcessInfo.processInfo.environment["PEEL_TEST_THIS_MAC"] != nil))
@@ -279,8 +284,8 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan()
         #expect(report.storage.total > 0)
         #expect(report.storage.free <= report.storage.total)
-        #expect(report.purgeable <= report.storage.total)
-        #expect(report.snapshots.allSatisfy { !$0.name.isEmpty })
+        #expect((report.purgeable ?? 0) <= report.storage.total)
+        #expect(report.snapshots?.allSatisfy { !$0.name.isEmpty } == true)
         #expect(report.items.allSatisfy { !$0.urls.isEmpty })
     }
 }

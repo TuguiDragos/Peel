@@ -42,11 +42,11 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
 public struct SpaceReport: Sendable {
     public let items: [SpaceItem]
     public let storage: DeviceInfo.Storage
-    /// Space macOS can reclaim by itself, mostly local snapshots and caches.
-    public let purgeable: Int64
+    /// Space macOS can reclaim by itself, mostly local snapshots and caches. Nil when the volume did not say.
+    public let purgeable: Int64?
     /// Local snapshots: copies of the disk kept on the disk itself. Peel explains them but never removes one,
-    /// because deleting a snapshot cannot be undone.
-    public let snapshots: [LocalSnapshot]
+    /// because deleting a snapshot cannot be undone. Nil when `diskutil` did not say.
+    public let snapshots: [LocalSnapshot]?
     /// True when an area went unmeasured because macOS refused access, which Full Disk Access would grant.
     public let needsFullDiskAccess: Bool
 
@@ -390,10 +390,10 @@ public enum SpaceInventory {
         )
     }
 
-    static func purgeableSpace(of url: URL) -> Int64 {
+    static func purgeableSpace(of url: URL) -> Int64? {
         let values = try? url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey])
-        let important = values?.volumeAvailableCapacityForImportantUsage ?? 0
-        let free = Int64(values?.volumeAvailableCapacity ?? 0)
-        return max(0, important - free)
+        guard let important = values?.volumeAvailableCapacityForImportantUsage,
+              let free = values?.volumeAvailableCapacity else { return nil }
+        return max(0, important - Int64(free))
     }
 }
