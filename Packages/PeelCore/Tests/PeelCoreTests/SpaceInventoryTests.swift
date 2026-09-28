@@ -25,11 +25,16 @@ struct SpaceInventoryTests {
         try directory.file("Library/Logs/big.log", bytes: 400_000)
         try directory.file(".colima/machine/disk.img", bytes: 16)
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure)
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: root, minimumSize: 100_000, measure: FileSize.measure
+        )
         #expect(report.items.map(\.id) == ["logs"])
         #expect(report.items.first?.handling == .trash)
 
-        let everything = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure)
+        let everything = await SpaceInventory.scan(
+            home: directory.url, root: root, minimumSize: 1, measure: FileSize.measure
+        )
         #expect(Set(everything.items.map(\.id)) == ["logs", "colima"])
     }
 
@@ -192,6 +197,28 @@ struct SpaceInventoryTests {
         #expect(caches.handling == .trash)
         #expect(caches.leavesMacOSsOwn)
         #expect(caches.size.map { $0 >= 8_000 && $0 < 50_000 } == true)
+    }
+
+    /// The logs every account shares are measured without what macOS writes there for its own services, and the
+    /// crash reports without the folders macOS files them into.
+    @Test func findsTheLogsAndReportsEveryAccountSharesWithoutMacOSsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Logs/org.example.tool/run.log", bytes: 8_000)
+        try directory.file("root/Library/Logs/WindowServer/session.log", bytes: 50_000)
+        try directory.file("root/Library/Logs/DiagnosticReports/Example_2026-09-28.ips", bytes: 4_000)
+        try directory.file("root/Library/Logs/DiagnosticReports/Retired/panic-full.ips", bytes: 50_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: FileSize.measure
+        )
+
+        let logs = try #require(report.items.first { $0.id == "system-logs" })
+        #expect(logs.urls.map { $0.pathComponents.suffix(2).joined(separator: "/") } == [
+            "Library/Logs", "Logs/DiagnosticReports",
+        ])
+        #expect(logs.size.map { $0 >= 12_000 && $0 < 50_000 } == true)
     }
 
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {

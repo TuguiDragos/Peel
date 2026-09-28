@@ -10,6 +10,13 @@ struct SystemCachesTests {
         }
     }
 
+    @Test func everyLogIsNamedByThePartOfTheSealedSystemThatWritesIt() throws {
+        for (name, source) in SystemLogs.named {
+            let bytes = try Data(contentsOf: URL(filePath: source))
+            #expect(bytes.range(of: Data("/Library/Logs/\(name)".utf8)) != nil, "\(name): \(source)")
+        }
+    }
+
     @Test func knowsApplesCachesByTheirNameOrTheSystemsOwn() {
         #expect(SystemCaches.isMacOSs("com.apple.Spotlight"))
         #expect(SystemCaches.isMacOSs("CloudKit"))

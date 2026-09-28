@@ -109,11 +109,14 @@ public enum SpaceRemoval {
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
         let systemCaches = SystemCaches(environment: environment)
+        let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?) {
             let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            let onlyFiles = filesOnly.contains(PathPattern.comparablePath(of: folder))
             for child in children ?? [] {
                 let name = child.lastPathComponent
-                if item.leavesMacOSsOwn, SystemCaches.isMacOSs(name) { continue }
+                if item.leavesMacOSsOwn, SpaceInventory.isMacOSsOwn(name) { continue }
+                if onlyFiles, child.isRealFolder { continue }
                 let app = owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
                 if app == nil, !listed.isEmpty, !listed.contains(where: { $0.count == 1 }), child.isRealFolder {

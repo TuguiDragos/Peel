@@ -31,6 +31,8 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when what macOS keeps in its folders for its own services is neither measured nor offered: they run as
     /// other accounts, whose open files Peel cannot see.
     public var leavesMacOSsOwn = false
+    /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
+    public var onlyFilesIn: [URL] = []
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -66,6 +68,7 @@ public enum SpaceInventory {
         var groupContainerFolder: String?
         var heldBack: HoldBack?
         var leavesMacOSsOwn = false
+        var onlyFilesIn: [String] = []
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL) -> [URL] {
@@ -74,6 +77,10 @@ public enum SpaceInventory {
                     ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
                     : home.appending(path: path, directoryHint: .isDirectory)
             }
+        }
+
+        func onlyFilesIn(root: URL) -> [URL] {
+            onlyFilesIn.map { root.appending(path: String($0.dropFirst()), directoryHint: .isDirectory) }
         }
     }
 
@@ -250,6 +257,14 @@ public enum SpaceInventory {
             handling: .trash,
             leavesMacOSsOwn: true
         ),
+        Definition(
+            id: "system-logs",
+            category: .library,
+            paths: ["/Library/Logs", "/Library/Logs/DiagnosticReports"],
+            handling: .trash,
+            leavesMacOSsOwn: true,
+            onlyFilesIn: ["/Library/Logs/DiagnosticReports"]
+        ),
     ]
 
     /// The total size of `urls`, or nil when any of them could not be measured. A folder a file provider owns
@@ -282,9 +297,23 @@ public enum SpaceInventory {
             .filter { !ProtectedData.isApplesName($0.lastPathComponent) }
     }
 
-    private static func childrenNotMacOSs(of folder: URL) -> [URL] {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-        return names.filter { !SystemCaches.isMacOSs($0) }.map { folder.appending(path: $0) }
+    /// What an area that leaves macOS's own out can offer in its `folders`: every child not named for macOS and not
+    /// one of the folders themselves, and only the files where macOS files its reports into folders.
+    private static func offered(in folders: [URL], of definition: Definition, root: URL) -> [URL] {
+        let paths = Set(folders.map(PathPattern.comparablePath))
+        let filesOnly = Set(definition.onlyFilesIn(root: root).map(PathPattern.comparablePath))
+        return folders.flatMap { folder in
+            let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+            return names.filter { !isMacOSsOwn($0) }.map { folder.appending(path: $0) }.filter { child in
+                !paths.contains(PathPattern.comparablePath(of: child))
+                    && !(filesOnly.contains(PathPattern.comparablePath(of: folder)) && child.isRealFolder)
+            }
+        }
+    }
+
+    /// Whether macOS keeps `name` for its own services in a folder every account shares.
+    static func isMacOSsOwn(_ name: String) -> Bool {
+        SystemCaches.isMacOSs(name) || SystemLogs.isMacOSs(name)
     }
 
     private static func folders(in parent: URL) -> [URL] {
@@ -330,7 +359,7 @@ public enum SpaceInventory {
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
-                let measured = definition.leavesMacOSsOwn ? urls.flatMap(childrenNotMacOSs) : urls
+                let measured = definition.leavesMacOSsOwn ? offered(in: urls, of: definition, root: root) : urls
                 group.addTask { (definition, urls, await size(of: measured, measure: measure)) }
                 return true
             }
@@ -345,7 +374,8 @@ public enum SpaceInventory {
                     size: size,
                     handling: definition.handling,
                     heldBack: definition.heldBack,
-                    leavesMacOSsOwn: definition.leavesMacOSsOwn
+                    leavesMacOSsOwn: definition.leavesMacOSsOwn,
+                    onlyFilesIn: definition.onlyFilesIn(root: root)
                 ))
             }
         }

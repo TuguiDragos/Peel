@@ -149,6 +149,10 @@ extension SpaceItem {
             title: "Caches for All Users",
             detail: "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
         ),
+        "system-logs": Words(
+            title: "Logs for All Users",
+            detail: "Logs that apps wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
+        ),
         "battlenet-cache": Words(
             title: "Battle.net Cache",
             detail: "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected."

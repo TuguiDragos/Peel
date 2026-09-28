@@ -119,8 +119,9 @@ Peel is free and open source, and it speaks English and 17 other languages.
   iPhone backups hold. Nothing is selected for you.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
-- **Space:** what's taking up room, and which app it belongs to. The caches apps keep for every account, in the
-  Library at the top of the disk, go through Peel's helper, and what macOS keeps there is never listed.
+- **Space:** what's taking up room, and which app it belongs to. The caches and logs apps keep for every account,
+  and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
+  administrator owns them, and what macOS keeps there for its own services is never listed.
 - **File Search:** large or old files, found through Spotlight.
 
 What you select on these pages, iCloud Drive aside, stays selected while you look at the others, and Move to Trash

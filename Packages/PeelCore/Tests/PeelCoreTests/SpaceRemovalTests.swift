@@ -142,6 +142,31 @@ struct SpaceRemovalTests {
         #expect(plan.needsTheHelper.isEmpty, "a folder the person owns moves without the helper")
     }
 
+    @Test func offersTheLogsAndReportsEveryAccountSharesButMacOSsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            "org.example.tool/run.log", "WindowServer/session.log", "MCXTools.log",
+            "DiagnosticReports/Example_2026-09-28.ips", "DiagnosticReports/Retired/panic-full.ips",
+        ] {
+            try directory.file("root/Library/Logs/\(path)")
+        }
+        let logs = directory.url.appending(path: "root/Library/Logs", directoryHint: .isDirectory)
+        let reports = logs.appending(path: "DiagnosticReports", directoryHint: .isDirectory)
+        let shared = SpaceItem(
+            id: "system-logs",
+            category: .library,
+            urls: [logs, reports],
+            size: 0,
+            handling: .trash,
+            leavesMacOSsOwn: true,
+            onlyFilesIn: [reports]
+        )
+
+        let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
+    }
+
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/Caches/org.example.updater/data.bin")
