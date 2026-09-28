@@ -570,6 +570,10 @@ public enum ProjectArtifacts {
     /// Files Git updates whenever the repository changes: three reads can answer for a whole repository.
     private static let gitMarks = [".git/index", ".git/HEAD", ".git/logs/HEAD"]
 
+    /// What the read of a project's last change passes by besides its artifacts: Git's own store, which its marks
+    /// answer for, and installed packages, which change when they are installed rather than when anyone works.
+    private static let passedByForActivity: Set<String> = [".git", "node_modules"]
+
     /// Stops at the first change within `recentlyActive`, which alone answers the question.
     static func lastActivity(in project: URL, ignoring artifacts: Set<String>) -> (date: Date?, isCertain: Bool) {
         let cutoff = Date.now.addingTimeInterval(-recentlyActive)
@@ -593,7 +597,7 @@ public enum ProjectArtifacts {
         for case let url as URL in enumerator {
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
-            if artifacts.contains(name) || artifacts.contains(relative) || isSkipped(name) {
+            if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
                 enumerator.skipDescendants()
                 continue
             }

@@ -572,6 +572,37 @@ struct ProjectArtifactsTests {
         #expect(!artifact.isRecommended)
     }
 
+    /// Work in a hidden file, in `.github`, or in a folder of the person's own that a tool's table also names is
+    /// work: only the artifacts found and what installed packages bring along are passed by.
+    @Test func countsWorkInHiddenFilesAndFoldersNamedLikeArtifacts() async throws {
+        let directory = try TemporaryDirectory()
+        for project in ["dotenv", "workflow", "notes", "packages"] {
+            try directory.file("\(project)/package.json", bytes: 16)
+            try directory.file("\(project)/node_modules/dep/index.js", bytes: 400_000)
+        }
+        try directory.file("dotenv/.env", bytes: 16)
+        try directory.file("workflow/.github/workflows/ci.yml", bytes: 16)
+        try directory.file("notes/Carthage/notes.md", bytes: 16)
+        try directory.file("packages/tools/node_modules/other/index.js", bytes: 16)
+        try age(directory.url, days: 60)
+        for recent in ["dotenv/.env", "workflow/.github/workflows/ci.yml", "notes/Carthage/notes.md",
+                       "packages/tools/node_modules/other/index.js"] {
+            let path = directory.url.appending(path: recent).path(percentEncoded: false)
+            try FileManager.default.setAttributes([.modificationDate: Date.now], ofItemAtPath: path)
+        }
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+        func isActive(_ project: String) throws -> Bool {
+            try #require(found.first { $0.project.lastPathComponent == project && $0.name == "node_modules" })
+                .isRecentlyActive
+        }
+
+        #expect(try isActive("dotenv"))
+        #expect(try isActive("workflow"))
+        #expect(try isActive("notes"))
+        #expect(try !isActive("packages"), "a package install is not work on the project")
+    }
+
     /// Every git command that changes something writes under `.git`, so three files there tell when the whole
     /// repository was last used, without reading a sample of its files.
     @Test func readsWhenTheRepositoryWasLastUsed() throws {
