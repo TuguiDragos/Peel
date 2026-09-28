@@ -88,16 +88,16 @@ final class AppLibrary {
     private var updateRounds = UpdateRounds<InstalledApp.ID>() {
         didSet {
             if updateRounds.checking.isEmpty {
-                heldUpdateCount = nil
+                heldUpdates = nil
             } else if oldValue.checking.isEmpty {
-                heldUpdateCount = appsWithUpdates.count
+                heldUpdates = Set(appsWithUpdates.map(\.id))
             }
         }
     }
     var appsCheckingForUpdates: Set<InstalledApp.ID> { updateRounds.checking }
-    /// The update count when the current round of checks began. The menu bar shows it until the round ends,
-    /// rather than a count that climbs as answers arrive seconds apart.
-    private var heldUpdateCount: Int?
+    /// The apps with an update when the current round of checks began. The menu bar shows them until the round
+    /// ends, rather than a count that climbs as answers arrive seconds apart.
+    private var heldUpdates: Set<InstalledApp.ID>?
     private(set) var sizes: [InstalledApp.ID: Int64] = [:] {
         didSet { sizesRevision += 1 }
     }
@@ -569,11 +569,14 @@ final class AppLibrary {
 
     var appsWithUpdates: [InstalledApp] { apps.filter(hasUpdate) }
 
-    /// The count the menu bar shows. It follows `hasUpdate(_:)`, but while a round of checks runs it keeps
-    /// the count from when the round began.
-    var menuBarUpdateCount: Int {
-        heldUpdateCount ?? appsWithUpdates.count
+    /// The apps the menu bar item and its panel count. They follow `hasUpdate(_:)`, but while a round of checks runs
+    /// they are the ones from when the round began.
+    var menuBarUpdates: [InstalledApp] {
+        guard let heldUpdates else { return appsWithUpdates }
+        return apps.filter { heldUpdates.contains($0.id) }
     }
+
+    var menuBarUpdateCount: Int { menuBarUpdates.count }
 
     var updateSource: UpdateSource {
         UpdateSource(rawValue: UserDefaults.standard.string(forKey: SettingsKey.updateSource) ?? "") ?? .automatic

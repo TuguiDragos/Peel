@@ -99,7 +99,7 @@ struct MenuBarPanel: View {
     /// made room yet. Clipped, because a half-unfolded row would otherwise draw over the footer.
     @ViewBuilder
     private var updates: some View {
-        let waiting = library.appsWithUpdates
+        let waiting = library.menuBarUpdates
         VStack(spacing: 0) {
             if let first = waiting.first {
                 Divider().padding(.leading, Self.wordsInset)
