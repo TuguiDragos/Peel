@@ -103,6 +103,9 @@ struct AppList: View {
             isExcluded: isExcluded
         )
         .tag(app.id)
+        .contextMenu {
+            ItemMenu(url: app.url, appIdentifier: app.bundleIdentifier, isExcluded: isExcluded)
+        }
     }
 }
 
