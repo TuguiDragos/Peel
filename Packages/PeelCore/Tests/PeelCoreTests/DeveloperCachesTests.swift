@@ -963,6 +963,25 @@ struct DeveloperCachesTests {
         #expect(locations.first?.kind == .cache)
     }
 
+    /// GitHub documents the CLI's cache folder and its logs as safe to delete, and its sessions, secrets, and
+    /// history beside the logs as the person's.
+    @Test func offersCopilotCLIsCacheAndLogsAndNothingElseOfIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/copilot/pkg/1.0.0/index.js", bytes: 400_000)
+        try directory.file(".copilot/logs/session.log", bytes: 400_000)
+        try directory.file(".copilot/session-state/history.json", bytes: 400_000)
+        try directory.file(".copilot/mcp-secrets/index.json", bytes: 400_000)
+        let copilot = DeveloperCaches.definitions.filter { $0.id == "copilotcli" }
+
+        let locations = await DeveloperCaches.scan(copilot, homeDirectory: directory.url).flatMap(\.locations)
+
+        let home = directory.url.path(percentEncoded: false)
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            "Library/Caches/copilot", ".copilot/logs",
+        ])
+        #expect(locations.allSatisfy { $0.isRecommended })
+    }
+
     /// The editor downloads its export templates again, so they are listed and never selected, and its settings
     /// beside them are never listed.
     @Test func listsGodotsExportTemplatesWithoutSelectingThem() async throws {

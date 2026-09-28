@@ -802,6 +802,13 @@ public enum DeveloperCaches {
         Definition(id: "codex", name: "Codex CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".codex/log", .logs, source: "https://github.com/openai/codex/blob/main/codex-rs/core/src/config/mod.rs#L4063"),
         ]),
+        Definition(id: "copilotcli", name: "GitHub Copilot CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/copilot", .cache, source: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference"),
+            Folder(".copilot/logs", .logs, source: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference"),
+        ]),
+        Definition(id: "dotslash", name: "DotSlash", systemImage: "arrow.down.circle", appBundleIdentifiers: [], folders: [
+            Folder("Library/Caches/dotslash", .downloads, source: "https://github.com/facebook/dotslash/blob/main/src/dotslash_cache.rs#L76-L85"),
+        ]),
         Definition(id: "cursoragent", name: "Cursor CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(
                 ".local/share/cursor-agent/versions", .environments,
