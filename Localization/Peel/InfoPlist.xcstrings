@@ -459,6 +459,119 @@
         }
       }
     },
+    "NSFileProviderDomainUsageDescription" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel měří, kolik místa zabírají vaše cloudové složky v tomto Macu. Dokud k tomu nedáte pokyn, nic se neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel misst, wie viel Speicherplatz deine Cloud-Ordner auf diesem Mac belegen. Nichts wird entfernt, bevor du es sagst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel measures how much space your cloud folders take on this Mac. Nothing is removed until you say so."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mide cuánto espacio ocupan tus carpetas en la nube en este Mac. No se elimina nada hasta que tú lo digas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mesure l’espace qu’occupent vos dossiers dans le cloud sur ce Mac. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel misura quanto spazio occupano le tue cartelle cloud su questo Mac. Non viene rimosso nulla finché non lo dici tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、クラウドフォルダがこのMac上で使用している容量を計測します。指示するまで、何もゴミ箱に入れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 클라우드 폴더가 이 Mac에서 차지하는 공간을 측정합니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel meet hoeveel ruimte je cloudmappen op deze Mac innemen. Er wordt niets verwijderd totdat jij dat zegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mierzy, ile miejsca zajmują Twoje foldery w chmurze na tym Macu. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel mede quanto espaço suas pastas na nuvem ocupam neste Mac. Nada é removido até você pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel măsoară cât spațiu ocupă pe acest Mac dosarele dvs. din cloud. Nu se elimină nimic până nu cereți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel измеряет, сколько места Ваши облачные папки занимают на этом Mac. Ничего не удаляется без Вашего решения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mäter hur mycket utrymme dina molnmappar tar upp på den här datorn. Inget tas bort förrän du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bulut klasörlerinizin bu Mac’te ne kadar yer kapladığını ölçer. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel вимірює, скільки місця займають ваші хмарні папки на цьому Mac. Нічого не вилучається, доки ви не скажете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会测量你的云文件夹在这台Mac上占用了多少空间。在你确认之前，不会移除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會測量你的雲端檔案夾在這部Mac上佔用多少空間。在你下達指示之前，不會移除任何項目。"
+          }
+        }
+      }
+    },
     "NSHumanReadableCopyright" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
