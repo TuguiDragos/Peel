@@ -113,6 +113,8 @@ final class RemovalHistoryStore {
     /// What Peel was asked to move and did not, one removal to an entry, newest first.
     private(set) var refusalBatches: [RefusalBatch] = []
     private(set) var refusalSearchKeys: [RefusalBatch.ID: String] = [:]
+    /// What the last read or change of the refusal log met, which the Not Moved list says.
+    private(set) var refusalProblem: RefusalLogProblem?
     private(set) var problem: RemovalLogProblem?
     /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
     /// reading it: at launch, when Peel comes forward, and with every read or change of History.
@@ -162,7 +164,9 @@ final class RemovalHistoryStore {
     }
 
     private func loadRefusals() async {
-        refusalBatches = RefusalRecord.grouped(await refusals.load()).map(RefusalBatch.init)
+        let read = await refusals.load()
+        refusalProblem = read.problem
+        refusalBatches = RefusalRecord.grouped(read.records).map(RefusalBatch.init)
         refusalSearchKeys = Dictionary(uniqueKeysWithValues: refusalBatches.map {
             ($0.id, Self.searchKey(title: $0.title, names: $0.records.map(\.url.lastPathComponent)))
         })
@@ -196,9 +200,14 @@ final class RemovalHistoryStore {
         }
         // Refusals are logged whether or not anything moved: a removal where nothing moved is the one most worth a
         // record.
-        await refusals.add(result.failures, source: part.source, sourceKey: part.sourceKey, tool: part.tool, batch: removal.refusals)
+        let refusalProblem = await refusals.add(
+            result.failures, source: part.source, sourceKey: part.sourceKey, tool: part.tool, batch: removal.refusals
+        )
         if !result.failures.isEmpty {
             await loadRefusals()
+        }
+        if let refusalProblem {
+            self.refusalProblem = refusalProblem
         }
         checkReadability()
     }

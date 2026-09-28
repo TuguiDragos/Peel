@@ -220,7 +220,11 @@ struct HistoryCommand: AsyncParsableCommand {
             Output.line("Forgot every refusal on record.")
             return
         }
-        let removals = Array(RefusalRecord.grouped(await log.load()).prefix(limit))
+        let read = await log.load()
+        if let problem = read.problem {
+            Output.note(problem.summary)
+        }
+        let removals = Array(RefusalRecord.grouped(read.records).prefix(limit))
 
         if output.json {
             try Output.json(removals.map { removal in

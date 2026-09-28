@@ -226,6 +226,18 @@ extension RemovalLogProblem {
     }
 }
 
+extension RefusalLogProblem {
+    var summary: String {
+        switch self {
+        case .damaged(let setAside):
+            "The list of refusals was damaged, so it was kept as \(Output.plain(Output.path(setAside)))"
+                + " and started again."
+        case .unreadable: "The list of refusals couldn't be read, so Peel keeps it as it is and writes nothing to it."
+        case .couldNotRecord: "The list of refusals couldn't be saved, so what stayed this time isn't in it."
+        }
+    }
+}
+
 extension MatchReason {
     var summary: String {
         switch self {

@@ -21,7 +21,7 @@ struct RefusalLogTests {
             tool: "applications"
         )
 
-        let records = await RefusalLog(url: log.url).load()
+        let records = await RefusalLog(url: log.url).load().records
         #expect(records.count == 2)
         #expect(records.allSatisfy { $0.source == "Editor" && $0.tool == "applications" })
         #expect(Set(records.map(\.reason)) == ["protected-place", "failed"])
@@ -40,7 +40,7 @@ struct RefusalLogTests {
         #expect(await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals))
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["protected-place"])
+        #expect(await RefusalLog(url: refusals.url).load().records.map(\.reason) == ["protected-place"])
     }
 
     /// History is the way back for what just moved, so it is written before the refusals: while the refusal log
@@ -88,17 +88,21 @@ struct RefusalLogTests {
         #expect(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
     }
 
-    @Test func keepsTheNewestAndDropsTheOldest() async throws {
+    /// Past its cap the log drops the oldest removals whole, as History does: an entry cut in part would read as
+    /// all that was refused.
+    @Test func dropsTheOldestRemovalsWhole() async throws {
         let directory = try TemporaryDirectory()
         let log = RefusalLog(url: directory.url.appending(path: "refusals.json"))
-        let older = (0..<RefusalLog.maximumRecords).map { failure("/Users/me/old-\($0)", .lastCopy) }
+        let oldest = (0..<3_000).map { failure("/Users/me/oldest-\($0)", .lastCopy) }
+        let older = (0..<2_000).map { failure("/Users/me/older-\($0)", .lastCopy) }
 
-        await log.add(older, source: "Old", tool: "duplicates")
+        await log.add(oldest, source: "Oldest", tool: "duplicates", date: .now.addingTimeInterval(-120))
+        await log.add(older, source: "Older", tool: "duplicates", date: .now.addingTimeInterval(-60))
         await log.add([failure("/Users/me/new", .notPermitted)], source: "New", tool: "space")
 
-        let records = await log.load()
-        #expect(records.count == RefusalLog.maximumRecords)
-        #expect(records.contains { $0.source == "New" })
+        let records = await log.load().records
+        #expect(records.count == 2_001)
+        #expect(Set(records.map(\.source)) == ["Older", "New"])
     }
 
     /// The file is Peel's, but any process the user runs can rewrite it.
@@ -111,9 +115,11 @@ struct RefusalLogTests {
             """
         try Data("[\(good), {\"id\":\"not a uuid\"}]".utf8).write(to: url)
 
-        let records = await RefusalLog(url: url).load()
+        let outcome = await RefusalLog(url: url).load()
 
-        #expect(records.map(\.reason) == ["last-copy"])
+        #expect(outcome.records.map(\.reason) == ["last-copy"])
+        guard case .damaged(let setAside) = outcome.problem else { Issue.record("no damage reported"); return }
+        #expect(setAside.lastPathComponent.contains("damaged"))
         #expect(try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path(percentEncoded: false))
             .contains { $0.contains("damaged") }, "the file it could not read was thrown away")
     }
@@ -126,10 +132,27 @@ struct RefusalLogTests {
         try directory.setPermissions(0, of: url)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false)) }
 
-        await RefusalLog(url: url).add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
+        let problem = await RefusalLog(url: url)
+            .add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
+        let outcome = await RefusalLog(url: url).load()
 
         try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false))
         #expect(try Data(contentsOf: url) == Data("[]".utf8), "an unreadable record was written over")
+        #expect(problem == .unreadable)
+        #expect(outcome.problem == .unreadable && outcome.records.isEmpty)
+    }
+
+    /// A refusal that could not be written down is said, rather than lost without a word.
+    @Test(.permissionsHold) func saysWhenWhatWasRefusedCouldNotBeWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o700, of: "Peel") }
+
+        let problem = await RefusalLog(url: folder.appending(path: "refusals.json"))
+            .add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
+
+        #expect(problem == .couldNotRecord)
     }
 
     /// A record in a folder that cannot be searched may be there, so it is not called cleared.
@@ -149,7 +172,7 @@ struct RefusalLogTests {
         await log.add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
 
         #expect(await log.clear())
-        #expect(await log.load().isEmpty)
+        #expect(await log.load().records.isEmpty)
         #expect(await log.clear(), "forgetting what is already forgotten is no failure")
     }
 
@@ -191,7 +214,7 @@ struct RefusalLogTests {
         await log.add([failure("/Users/me/a", .lastCopy), failure("/Users/me/b", .lastCopy)], source: "Duplicates", sourceKey: "tool", tool: "duplicates")
         await log.add([failure("/Users/me/c", .notPermitted)], source: "Editor", tool: "applications")
 
-        let records = await log.load()
+        let records = await log.load().records
         let first = records.filter { $0.source == "Duplicates" }
         #expect(first.count == 2)
         #expect(Set(first.map(\.batch)).count == 1)
@@ -233,7 +256,7 @@ struct RefusalLogTests {
         try Data(stored.utf8).write(to: url)
 
         await RefusalLog(url: url).add([failure("/Users/me/new", .notPermitted)], source: "Editor", tool: "applications")
-        let records = await RefusalLog(url: url).load()
+        let records = await RefusalLog(url: url).load().records
 
         #expect(records.count == 4)
         #expect(RefusalRecord.grouped(records).first { $0.id == batch }?.parts.map(\.tool) == ["orphans", "duplicates"])

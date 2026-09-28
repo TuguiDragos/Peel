@@ -286,7 +286,7 @@ struct HistoryCommandTests {
 
         try await (command(["history", "--refused", "--clear"]) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
 
-        #expect(await logs.refusals.load().isEmpty)
+        #expect(await logs.refusals.load().records.isEmpty)
     }
 
     /// A History file that cannot be read is reported as an error, never shown as an empty History.

@@ -19,7 +19,9 @@ enum Removals {
             let part = RemovalPart(source: source, sourceKey: sourceKey, tool: tool)
             isRecorded = await log.add(part.records(of: result, sizes: sizes, batch: UUID())).records != nil
         }
-        await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool)
+        if let problem = await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool) {
+            Output.note(problem.summary)
+        }
         return isRecorded
     }
 }

@@ -88094,6 +88094,112 @@
         }
       }
     },
+    "Peel kept the old file and continued with what it could still read." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel starý soubor ponechal a pokračoval s tím, co se ještě dalo přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat die alte Datei behalten und mit dem weitergemacht, was noch lesbar war."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha conservado el archivo antiguo y ha seguido con lo que aún podía leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a conservé l’ancien fichier et a continué avec ce qu’il pouvait encore lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha conservato il vecchio file ed è andato avanti con ciò che riusciva ancora a leggere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは古いファイルを保管し、読み取れた部分で処理を続けました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이전 파일을 보관한 채 아직 읽을 수 있는 내용으로 계속 진행했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft het oude bestand bewaard en is verdergegaan met wat nog leesbaar was."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zachował stary plik i korzysta z tego, co dało się jeszcze odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel guardou o arquivo antigo e continuou com o que ainda conseguia ler."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a păstrat fișierul vechi și a continuat cu ce a mai putut citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel сохранил старый файл и продолжил работу с тем, что еще смог прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel behöll den gamla filen och fortsatte med det som fortfarande gick att läsa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel eski dosyayı sakladı ve hâlâ okuyabildikleriyle devam etti."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зберегла старий файл і працює далі з тим, що ще вдалося прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel保留了旧文件，并继续使用其中仍可读取的部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel保留了舊檔案，並以仍可讀取的內容繼續運作。"
+          }
+        }
+      }
+    },
     "Peel kept the old file and continued with what it could still read. Items already in the Trash are still there: you can drag them back out in Finder." : {
       "localizations" : {
         "cs" : {
@@ -89534,6 +89640,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會動它和它的檔案。你可以在「設定」中更改。"
+          }
+        }
+      }
+    },
+    "Peel leaves the file as it is and adds nothing to it, since it is the only record of what stayed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel soubor ponechává tak, jak je, a nic do něj nepřidává, protože je to jediný záznam o tom, co zůstalo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lässt die Datei, wie sie ist, und fügt ihr nichts hinzu, da sie die einzige Aufzeichnung dessen ist, was geblieben ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel deja el archivo tal como está y no le añade nada, ya que es el único registro de lo que se quedó sin trasladar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laisse le fichier tel quel et n’y ajoute rien, car c’est la seule trace de ce qui est resté en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lascia il file com’è e non vi aggiunge nulla, perché è l’unico registro di ciò che è rimasto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルは残った項目の唯一の記録であるため、Peelはファイルをそのままにし、何も書き加えません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 파일을 그대로 두고 아무것도 추가하지 않습니다. 이 파일이 그대로 남은 항목에 대한 유일한 기록이기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laat het bestand zoals het is en voegt er niets aan toe, omdat het de enige registratie is van wat er is blijven staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zostawia plik bez zmian i nic do niego nie dopisuje, bo to jedyny zapis tego, co zostało na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel deixa o arquivo como está e não acrescenta nada a ele, pois é o único registro do que permaneceu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lasă fișierul așa cum este și nu adaugă nimic în el, deoarece este singura evidență a ceea ce a rămas pe loc."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оставляет файл как есть и ничего в него не добавляет, поскольку это единственная запись о том, что осталось на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lämnar filen som den är och lägger inte till något i den, eftersom den är den enda förteckningen över det som blev kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel dosyayı olduğu gibi bırakır ve ona hiçbir şey eklemez, çünkü yerinde kalanların tek kaydı odur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel лишає файл без змін і нічого до нього не додає, бо лише в ньому записано те, що лишилося на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会保持该文件原样，不向其中添加任何内容，因为它是哪些项目留在原处的唯一记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會保持檔案原樣，不會加入任何內容，因為這是留在原處之項目的唯一記錄。"
           }
         }
       }
@@ -121702,6 +121914,324 @@
         }
       }
     },
+    "The Not Moved list can’t be read" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam Nepřesunuto nelze přečíst"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste „Nicht verschoben“ kann nicht gelesen werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se puede leer la lista “Sin trasladar”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de lire la liste « Non déplacés »"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile leggere l’elenco “Non spostati”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“移動されなかった項目”のリストを読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘이동되지 않음’ 목록을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst 'Niet verplaatst' kan niet worden gelezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można odczytać listy „Nie przeniesiono”"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível ler a lista “Não Movidos”"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Nu au fost mutate” nu poate fi citită"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удается прочитать список «Не перемещено»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listan Inte flyttat kan inte läsas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınmayanlar listesi okunamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдається прочитати список «Не переміщено»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法读取“未移动”列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法讀取「未移動」清單"
+          }
+        }
+      }
+    },
+    "The Not Moved list couldn’t be saved" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam Nepřesunuto se nepodařilo uložit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste „Nicht verschoben“ konnte nicht gesichert werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido guardar la lista “Sin trasladar”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’enregistrer la liste « Non déplacés »"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile salvare l’elenco “Non spostati”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“移動されなかった項目”のリストを保存できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘이동되지 않음’ 목록을 저장할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst 'Niet verplaatst' kon niet worden bewaard"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się zachować listy „Nie przeniesiono”"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível salvar a lista “Não Movidos”"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Nu au fost mutate” nu a putut fi salvată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось сохранить список «Не перемещено»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listan Inte flyttat kunde inte sparas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınmayanlar listesi kaydedilemedi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося зберегти список «Не переміщено»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能保存“未移动”列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法儲存「未移動」清單"
+          }
+        }
+      }
+    },
+    "The Not Moved list was damaged" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam Nepřesunuto byl poškozený"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste „Nicht verschoben“ war beschädigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La lista “Sin trasladar” estaba dañada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste « Non déplacés » était endommagée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’elenco “Non spostati” era danneggiato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“移動されなかった項目”のリストが破損していました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘이동되지 않음’ 목록이 손상됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst 'Niet verplaatst' was beschadigd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Nie przeniesiono” była uszkodzona"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lista “Não Movidos” estava danificada"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Nu au fost mutate” a fost deteriorată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список «Не перемещено» был поврежден"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listan Inte flyttat var skadad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınmayanlar listesi bozuktu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список «Не переміщено» пошкоджено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“未移动”列表已损坏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「未移動」清單已損毀"
+          }
+        }
+      }
+    },
     "The address written inside the app, and wherever it redirects." : {
       "localizations" : {
         "cs" : {
@@ -141261,6 +141791,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沙盒App（例如來自App Store的App）在自己的容器中快取或留作暫存檔案的內容，以及在與同一廠商的App共用的容器中快取的內容。已打開的App正在使用的內容會保留，而Apple自家App的快取會列出，但絕不會選取。"
+          }
+        }
+      }
+    },
+    "What stayed in the last removal is where it was, but it isn’t listed here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co při posledním odstranění zůstalo, je tam, kde bylo, ale není tu uvedeno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was beim letzten Entfernen geblieben ist, ist noch dort, wo es war, wird hier aber nicht angezeigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que se quedó sin trasladar en la última eliminación sigue donde estaba, pero no aparece aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui est resté en place lors de la dernière suppression s’y trouve toujours, mais n’est pas listé ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che è rimasto nell’ultima rimozione è ancora dov’era, ma non è elencato qui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前回ゴミ箱に入れた際に移動されなかった項目は元の場所にありますが、ここには表示されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 제거에서 그대로 남은 항목은 원래 위치에 있지만, 여기에는 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat bij de laatste verwijdering is blijven staan, staat nog op dezelfde plek, maar wordt hier niet vermeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co zostało przy ostatnim przeniesieniu do Kosza, jest tam, gdzie było, ale nie ma tego tutaj na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que permaneceu na última remoção continua onde estava, mas não está listado aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce a rămas pe loc la ultima eliminare este tot acolo unde era, dar nu este listat aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что осталось на месте при последнем удалении, находится там же, где и было, но здесь не показывается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som blev kvar vid den senaste borttagningen ligger kvar där det var, men det finns inte med i listan här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son kaldırma işleminde taşınmayan öğeler hâlâ yerinde, ancak burada listelenmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що лишилося після останнього вилучення, досі на своєму місці, але тут не показується."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一次移除中未移动的项目仍在原处，但此处没有列出它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一次移除中留下的項目仍在原處，但未列在此處。"
           }
         }
       }

@@ -192,19 +192,6 @@ public actor RemovalLog {
     /// to read. A batch is dropped whole, and never one in `protected`: a removal is recorded completely or not
     /// at all, because a half-recorded one looks complete to the user.
     static func trimmed(_ records: [RemovalRecord], keeping protected: Set<UUID>) -> [RemovalRecord] {
-        let sorted = records.sorted { $0.date > $1.date }
-        guard sorted.count > maximumRecords else { return sorted }
-
-        let batches = Dictionary(grouping: sorted, by: \.batch)
-        // Oldest first, by the date History shows for a batch.
-        let dates = batches.mapValues { $0.map(\.date).min() ?? .distantPast }
-        var total = sorted.count
-        var dropped: Set<UUID> = []
-        for batch in batches.keys.sorted(by: { dates[$0] ?? .distantPast < dates[$1] ?? .distantPast }) where total > maximumRecords {
-            guard !protected.contains(batch) else { continue }
-            dropped.insert(batch)
-            total -= batches[batch]?.count ?? 0
-        }
-        return sorted.filter { !dropped.contains($0.batch) }
+        Batches.trimmed(records, maximum: maximumRecords, batch: \.batch, date: \.date, keeping: protected)
     }
 }

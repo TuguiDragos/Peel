@@ -43,15 +43,20 @@ struct HistoryList: View {
         }
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .safeAreaBar(edge: .top) {
-            Group {
+            VStack(spacing: 8) {
                 if let problem = history.shownProblem {
                     HistoryProblemNotice(problem: problem)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 8)
+                        .transition(.opacity)
+                }
+                if let problem = history.refusalProblem {
+                    RefusalProblemNotice(problem: problem)
                         .transition(.opacity)
                 }
             }
+            .padding(.horizontal, 12)
+            .padding(.bottom, history.shownProblem != nil || history.refusalProblem != nil ? 8 : 0)
             .motion(.settle, .movement, value: history.shownProblem != nil)
+            .motion(.settle, .movement, value: history.refusalProblem != nil)
         }
         .overlay {
             if !history.hasLoaded {
@@ -115,6 +120,35 @@ private struct HistoryProblemNotice: View {
             Notice(
                 title: Text("History couldn’t be updated"),
                 detail: Text("What you put back or forgot may still be listed here, because the record couldn’t be saved.")
+            ) { EmptyView() }
+        }
+    }
+}
+
+/// What kept the list under Not Moved from being read or saved.
+private struct RefusalProblemNotice: View {
+    let problem: RefusalLogProblem
+
+    var body: some View {
+        switch problem {
+        case .damaged(let setAside):
+            Notice(
+                title: Text("The Not Moved list was damaged"),
+                detail: Text("Peel kept the old file and continued with what it could still read.")
+            ) {
+                Button("Show in Finder", systemImage: "folder") {
+                    NSWorkspace.shared.activateFileViewerSelecting([setAside])
+                }
+            }
+        case .unreadable:
+            Notice(
+                title: Text("The Not Moved list can’t be read"),
+                detail: Text("Peel leaves the file as it is and adds nothing to it, since it is the only record of what stayed.")
+            ) { EmptyView() }
+        case .couldNotRecord:
+            Notice(
+                title: Text("The Not Moved list couldn’t be saved"),
+                detail: Text("What stayed in the last removal is where it was, but it isn’t listed here.")
             ) { EmptyView() }
         }
     }

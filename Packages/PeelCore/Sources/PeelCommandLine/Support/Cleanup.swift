@@ -91,7 +91,9 @@ struct Cleanup {
         let refused = items.compactMap { item in item.refusal.map { TrashFailure(url: item.url, reason: $0) } }
         guard !moving.isEmpty else {
             Output.line("Nothing here can be moved.")
-            await refusals.add(refused, source: source, sourceKey: sourceKey, tool: tool)
+            if let problem = await refusals.add(refused, source: source, sourceKey: sourceKey, tool: tool) {
+                Output.note(problem.summary)
+            }
             return
         }
         if !yes {
