@@ -7,9 +7,22 @@ public import Observation
 @Observable
 public final class TextEditing {
     public private(set) var isEditing = false
+    /// What Undo and Redo would do to the text being typed, or nil while nothing is.
+    public private(set) var typing: Typing?
     @ObservationIgnored private let keyWindow: @MainActor () -> NSWindow?
+    @ObservationIgnored private var window: NSWindow?
     @ObservationIgnored private var responder: NSKeyValueObservation?
     @ObservationIgnored private var observers: [any NSObjectProtocol] = []
+    @ObservationIgnored private var followedUndoManager: UndoManager?
+    @ObservationIgnored private var undoObservers: [any NSObjectProtocol] = []
+
+    /// The items Undo and Redo show for the text being typed, titled by its undo manager as the standard items are.
+    public struct Typing: Equatable, Sendable {
+        public let undo: String
+        public let redo: String
+        public let canUndo: Bool
+        public let canRedo: Bool
+    }
 
     public init(keyWindow: @escaping @MainActor () -> NSWindow? = { NSApp.keyWindow }) {
         self.keyWindow = keyWindow
@@ -31,12 +44,55 @@ public final class TextEditing {
     }
 
     func follow(_ window: NSWindow?) {
+        self.window = window
         // `firstResponder` is KVO compliant (`NSWindow.h`), and AppKit changes it on the main thread.
-        responder = window?.observe(\.firstResponder, options: [.initial, .new]) { [weak self] window, _ in
-            MainActor.assumeIsolated { self?.isEditing = Self.edits(window.firstResponder) }
+        responder = window?.observe(\.firstResponder, options: [.initial, .new]) { [weak self] _, _ in
+            MainActor.assumeIsolated { self?.read() }
         }
         if window == nil {
-            isEditing = false
+            read()
+        }
+    }
+
+    public func undo() {
+        editedUndoManager?.undo()
+    }
+
+    public func redo() {
+        editedUndoManager?.redo()
+    }
+
+    private var editedUndoManager: UndoManager? {
+        guard let responder = window?.firstResponder, Self.edits(responder) else { return nil }
+        return responder.undoManager
+    }
+
+    private func read() {
+        isEditing = Self.edits(window?.firstResponder)
+        let undoManager = editedUndoManager
+        typing = undoManager.map {
+            Typing(undo: $0.undoMenuItemTitle, redo: $0.redoMenuItemTitle, canUndo: $0.canUndo, canRedo: $0.canRedo)
+        }
+        follow(undoManager)
+    }
+
+    /// Reads the titles again whenever the undo manager of the text being typed records, undoes or redoes
+    /// something. That undo manager is its window's, which AppKit uses on the main thread.
+    private func follow(_ undoManager: UndoManager?) {
+        guard undoManager !== followedUndoManager else { return }
+        undoObservers.forEach(NotificationCenter.default.removeObserver)
+        followedUndoManager = undoManager
+        guard let undoManager else {
+            undoObservers = []
+            return
+        }
+        let names: [Notification.Name] = [
+            .NSUndoManagerCheckpoint, .NSUndoManagerDidCloseUndoGroup, .NSUndoManagerDidUndoChange, .NSUndoManagerDidRedoChange,
+        ]
+        undoObservers = names.map { name in
+            NotificationCenter.default.addObserver(forName: name, object: undoManager, queue: nil) { [weak self] _ in
+                MainActor.assumeIsolated { self?.read() }
+            }
         }
     }
 

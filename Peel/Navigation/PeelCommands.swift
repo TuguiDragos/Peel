@@ -56,20 +56,32 @@ struct PeelCommands: Commands {
     @FocusedValue(\.moveToTrash) private var moveToTrash
 
     var body: some Commands {
-        // In an app with no documents, `@Environment(\.undoManager)` is nil, so the standard Undo item stays
-        // disabled. This one undoes the last removal, as Finder's Undo does after a move to the Trash.
+        // Undo takes back the typing while text is being edited, and otherwise the last removal, as Finder's
+        // Undo does after a move to the Trash.
         CommandGroup(replacing: .undoRedo) {
-            Button {
-                Task { await history?.undoLastRemoval() }
-            } label: {
-                if let name = history?.undoName {
-                    Text("Undo Remove \(name)")
-                } else {
-                    Text("Undo")
+            if let typing = textEditing.typing {
+                Button(typing.undo) { textEditing.undo() }
+                    .keyboardShortcut("z", modifiers: .command)
+                    .disabled(!typing.canUndo)
+                Button(typing.redo) { textEditing.redo() }
+                    .keyboardShortcut("z", modifiers: [.command, .shift])
+                    .disabled(!typing.canRedo)
+            } else {
+                Button {
+                    Task { await history?.undoLastRemoval() }
+                } label: {
+                    if let name = history?.undoName {
+                        Text("Undo Remove \(name)")
+                    } else {
+                        Text("Undo")
+                    }
                 }
+                .keyboardShortcut("z", modifiers: .command)
+                .disabled(history?.undoName == nil || history?.isRestoring == true)
+                Button("Redo") {}
+                    .keyboardShortcut("z", modifiers: [.command, .shift])
+                    .disabled(true)
             }
-            .keyboardShortcut("z", modifiers: .command)
-            .disabled(history?.undoName == nil || history?.isRestoring == true)
         }
 
         CommandGroup(replacing: .appInfo) {

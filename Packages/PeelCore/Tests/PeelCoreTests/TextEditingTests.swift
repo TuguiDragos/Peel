@@ -52,6 +52,45 @@ struct TextEditingTests {
         #expect(!editing.isEditing)
     }
 
+    /// Undo and Redo act on the typing in the field being edited, and say what they would take back in the
+    /// words of the field's undo manager.
+    @Test func undoesAndRedoesTheTypingInTheFieldBeingEdited() throws {
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.titled], backing: .buffered, defer: true)
+        let field = NSTextField(frame: NSRect(x: 10, y: 10, width: 200, height: 24))
+        window.contentView?.addSubview(field)
+        let editing = TextEditing()
+        editing.follow(window)
+        #expect(editing.typing == nil)
+
+        window.makeFirstResponder(field)
+        let editor = try #require(window.firstResponder as? NSTextView)
+        let undoManager = try #require(editor.undoManager)
+        let nothingTyped = TextEditing.Typing(
+            undo: undoManager.undoMenuItemTitle, redo: undoManager.redoMenuItemTitle, canUndo: false, canRedo: false
+        )
+        #expect(editing.typing == nothingTyped)
+
+        undoManager.beginUndoGrouping()
+        editor.insertText("Xcode", replacementRange: editor.selectedRange())
+        undoManager.endUndoGrouping()
+        #expect(editor.string == "Xcode")
+        #expect(editing.typing?.canUndo == true)
+        #expect(editing.typing?.undo == undoManager.undoMenuItemTitle)
+
+        editing.undo()
+        #expect(editor.string.isEmpty)
+        #expect(editing.typing?.canUndo == false)
+        #expect(editing.typing?.canRedo == true)
+
+        editing.redo()
+        #expect(editor.string == "Xcode")
+        #expect(editing.typing?.canUndo == true)
+        #expect(editing.typing?.canRedo == false)
+
+        window.makeFirstResponder(nil)
+        #expect(editing.typing == nil)
+    }
+
     /// Only text that can be typed in counts: selecting the words of a label, or a list holding the focus, edits
     /// nothing.
     @Test func countsOnlyTextThatCanBeTypedIn() {

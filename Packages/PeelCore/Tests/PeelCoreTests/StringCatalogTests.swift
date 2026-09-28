@@ -266,7 +266,7 @@ struct CatalogChecker {
     static let swiftUILanguages = ["zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "pt": "pt_BR"]
     /// The items Peel puts in menus SwiftUI builds, each with SwiftUI's key. Their words are SwiftUI's, whatever
     /// the English says: in Polish, About Peel reads "Peel…".
-    static let menuWords = ["About Peel": "About %@", "Quit Peel": "Quit %@", "Settings…": "Settings…", "Find": "Find", "Undo": "Undo", "Copy": "Copy", "Select All": "Select All"]
+    static let menuWords = ["About Peel": "About %@", "Quit Peel": "Quit %@", "Settings…": "Settings…", "Find": "Find", "Undo": "Undo", "Redo": "Redo", "Copy": "Copy", "Select All": "Select All"]
     /// Names SwiftUI looks up in the app's own strings, so an app without the key shows them in English: here, the
     /// name of the tab bar a `TabView` puts in the toolbar, which VoiceOver reads and the overflow menu shows.
     static let swiftUIWords = ["Navigation Tab Bar": "Navigation Tab Bar"]
