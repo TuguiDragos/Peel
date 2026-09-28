@@ -13,11 +13,11 @@ name, so each catalog is synced on a copy with the same name. InfoPlist has no `
 read from `Support/Peel-Info.plist`, and the app's name is marked as never translated.
 
 The script stops instead of guessing. It exits when there is no build output, because a sync against nothing
-would treat every string as gone. The app would still build and launch, so the damage could be committed
-unnoticed. It also exits when a run would remove or mark stale more than a quarter of a catalog. Run with
+would treat every string as gone, and when the build is older than the code, because a sync against it would
+miss what changed since. The app would still build and launch, so the damage could be committed unnoticed. It also exits when a run would remove or mark stale more than a quarter of a catalog. Run with
 `--force` to go ahead anyway.
 """
-import argparse, glob, json, pathlib, plistlib, shutil, subprocess, sys, tempfile
+import argparse, json, pathlib, platform, plistlib, shutil, subprocess, sys, tempfile
 
 PROJECT = pathlib.Path(__file__).resolve().parent.parent
 INTERMEDIATES = PROJECT / "build/DerivedData/Build/Intermediates.noindex/Peel.build/Debug"
@@ -88,17 +88,44 @@ def report(name, before, after):
     return bool(changed)
 
 
+def stringsdata(target):
+    """The `.stringsdata` files the last build wrote for `target` on this Mac's architecture. Exits when that build
+    is older than the code: a source changed or added since would leave its strings out or out of date."""
+    folder = INTERMEDIATES / f"{target}.build/Objects-normal/{platform.machine()}"
+    listed = folder / f"{target}.SwiftFileList"
+    if not listed.exists():
+        sys.exit(f"no build of {target} under {INTERMEDIATES}: build Debug into build/DerivedData first")
+    sources = [pathlib.Path(line) for line in listed.read_text(encoding="utf-8").splitlines() if line]
+    unbuilt = sorted(set((PROJECT / target).rglob("*.swift")) - set(sources))
+
+    # The build writes some of a source's outputs each time it looks at it after a change, not always the same ones:
+    # a change to a comment leaves the object and the strings as they were.
+    def built_since_changed(source):
+        outputs = [folder / f"{source.stem}{kind}" for kind in (".d", ".swiftdeps", ".o", ".stringsdata")]
+        times = [output.stat().st_mtime for output in outputs if output.exists()]
+        return (folder / f"{source.stem}.stringsdata").exists() and max(times) >= source.stat().st_mtime
+
+    changed = [source for source in sources if not built_since_changed(source)]
+    if unbuilt or changed:
+        names = ", ".join(path.name for path in unbuilt + changed)
+        sys.exit(f"{target} changed since its last build ({names}): build Debug into build/DerivedData first")
+    # A file that is no source's, such as the App Shortcuts phrases, counts only when this build wrote it: one left
+    # by a source since removed is older than the list of sources.
+    stems = {source.stem for source in sources}
+    others = [path for path in folder.glob("*.stringsdata")
+              if path.stem not in stems and path.stat().st_mtime >= listed.stat().st_mtime]
+    return [str(folder / f"{stem}.stringsdata") for stem in sorted(stems)] + [str(path) for path in sorted(others)]
+
+
 def synced(target, catalog_path):
     """Returns the catalog as `xcstringstool sync` would leave it, syncing a copy in a temporary folder."""
-    files = glob.glob(str(INTERMEDIATES / f"{target}.build/Objects-normal/*/*.stringsdata"))
-    if not files:
-        sys.exit(f"no .stringsdata under {INTERMEDIATES / target}.build: build Debug into build/DerivedData first")
+    files = stringsdata(target)
     with tempfile.TemporaryDirectory() as folder:
         copy = pathlib.Path(folder) / catalog_path.name
         if catalog_path.exists():
             shutil.copyfile(catalog_path, copy)
         else:
-            write(copy, {"sourceLanguage": "en", "strings": {}, "version": "1.0"})
+            write(copy, empty_catalog())
         subprocess.run(["xcrun", "xcstringstool", "sync", str(copy), "--stringsdata", *files], check=True)
         return json.loads(copy.read_text(encoding="utf-8"))
 
