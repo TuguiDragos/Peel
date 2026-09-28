@@ -68,6 +68,12 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         declaresAnAppleLabel || SystemDaemons.shipped.contains(label) || SystemAgents.shipped.contains(label)
     }
 
+    /// True when Peel may start, stop, enable and disable the job: never under a label of macOS, and a daemon only
+    /// under a label the helper takes, which also leaves out the helper itself.
+    public var canBeControlled: Bool {
+        !usesALabelOfMacOS && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
+    }
+
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }
 
     /// True for a job Peel sees only while it is loaded, so once stopped it would leave the list and could not be

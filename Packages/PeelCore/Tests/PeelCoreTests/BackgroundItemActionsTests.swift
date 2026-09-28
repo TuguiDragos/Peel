@@ -45,6 +45,26 @@ struct BackgroundItemActionsTests {
         #expect(BackgroundItemActions.refusal(for: agent("com.example.agent")) == nil)
     }
 
+    @Test func controlsADaemonOnlyUnderALabelTheHelperTakes() {
+        func job(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: kind, source: .systemLibrary, plistURL: nil, program: nil,
+                runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
+                isOwnerInstalled: false, isOrphan: false, state: .loaded, isDisabled: false
+            )
+        }
+
+        #expect(job("org.example.daemon", .daemon).canBeControlled)
+        #expect(!job("org.example.a daemon", .daemon).canBeControlled)
+        #expect(!job("-org.example.daemon", .daemon).canBeControlled)
+        #expect(!job(HelperIdentity.helperIdentifier, .daemon).canBeControlled)
+        #expect(!job("com.openssh.sshd", .daemon).canBeControlled)
+        #expect(BackgroundItemActions.refusal(for: job("org.example.a daemon", .daemon)) != nil)
+
+        #expect(job("org.example.an agent", .agent).canBeControlled, "`launchctl` runs an agent without the helper")
+        #expect(!job("com.apple.Finder.helper", .agent).canBeControlled)
+    }
+
     private func item(_ source: BackgroundItem.Source, state: BackgroundItem.State, plist: URL?) -> BackgroundItem {
         BackgroundItem(
             label: "com.example.agent", kind: source == .systemLibrary ? .daemon : .agent, source: source,

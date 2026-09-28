@@ -186,7 +186,11 @@ struct BackgroundItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Once the file is in the Trash, the item is stopped.")
+            if item.canBeControlled || item.state == .notLoaded {
+                Text("Once the file is in the Trash, the item is stopped.")
+            } else {
+                Text("macOS won’t start it again: it stops for good when the Mac restarts.")
+            }
         }
     }
 
@@ -290,13 +294,11 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of macOS's labels, a job whose
-    /// state Peel could not read, a file macOS can't load, and a job loaded from a file elsewhere don't have.
-    /// Disabled, that last one would leave the list at the next logout or restart with nothing left to Enable it
-    /// from.
+    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
+    /// file macOS can't load, and a job loaded from a file elsewhere don't have. Disabled, that last one would leave
+    /// the list at the next logout or restart with nothing left to Enable it from.
     private var hasOwnControls: Bool {
-        !item.isPeelsHelper && !item.usesALabelOfMacOS && item.state != .unknown && item.source != .otherFile
-            && !item.isUnreadable
+        item.canBeControlled && item.state != .unknown && item.source != .otherFile && !item.isUnreadable
     }
 
     private var controls: some View {
