@@ -294,6 +294,39 @@ struct InstallersTests {
         #expect(items.values.allSatisfy { $0.heldBack == .keptByAnApp })
     }
 
+    /// Sparkle and Squirrel keep a downloaded update in the app's caches until they install it. One whose app is
+    /// running may be installed when the app quits, and a folder Developer lists is left to it.
+    @Test func findsUpdatesAppsDownloadedAndLeavesARunningAppsOneToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let caches = "Library/Caches"
+        try directory.file("\(caches)/org.example.studio.ShipIt/update.a1/Studio.app/Contents/Studio", bytes: 400_000)
+        try directory.file(
+            "\(caches)/org.example.notes/org.sparkle-project.Sparkle/PersistentDownloads/b2/Notes.zip", bytes: 400_000
+        )
+        try directory.file("\(caches)/com.apple.finder.ShipIt/update.c3/Finder.zip", bytes: 400_000)
+        try directory.file("\(caches)/org.example.small.ShipIt/ShipIt_stdout.log", bytes: 1_000)
+        try directory.file("\(caches)/com.microsoft.VSCode.ShipIt/update.d4/Code.zip", bytes: 400_000)
+        try directory.directory("Applications")
+        let installed = [
+            app("Studio", bundleIdentifier: "org.example.studio"), app("Notes", bundleIdentifier: "org.example.notes"),
+        ]
+
+        let scan = await Installers.scan(
+            installedApps: installed, home: directory.url, root: directory.url, exclusions: .none,
+            minimumSize: 100_000, measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let updates = scan.items(in: .updateDownload)
+        let items = Dictionary(uniqueKeysWithValues: updates.map { ($0.url.lastPathComponent, $0) })
+        #expect(Set(items.keys) == [
+            "org.example.studio.ShipIt", "org.sparkle-project.Sparkle", "com.apple.finder.ShipIt",
+        ])
+        #expect(items["org.example.studio.ShipIt"]?.installedApp == "Studio")
+        #expect(items["org.sparkle-project.Sparkle"]?.installedApp == "Notes")
+        #expect(items["org.example.studio.ShipIt"]?.heldBack == .some(nil))
+        #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
+    }
+
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)

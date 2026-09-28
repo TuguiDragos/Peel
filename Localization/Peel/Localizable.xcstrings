@@ -27618,108 +27618,108 @@
         }
       }
     },
-    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
+    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and packages in the folders apps keep in Application Support. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
+            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají, a balíčky ve složkách, které si aplikace uchovávají v Application Support. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
+            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben, außerdem Pakete in den Ordnern, die Apps in „Application Support“ aufbewahren. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
+            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores, y paquetes en las carpetas que las apps guardan en Application Support. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
+            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général, ainsi que les paquets situés dans les dossiers que les apps conservent dans Application Support. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
+            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer, e i pacchetti nelle cartelle che le app conservano in Application Support. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
+            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。アプリがApplication Supportに保存しているフォルダ内のパッケージも対象です。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
+            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목, 그리고 앱이 Application Support에 보관하는 폴더에 있는 패키지입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
+            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven, en pakketten in de mappen die apps in Application Support bewaren. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
+            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także pakiety w folderach, które aplikacje przechowują w Application Support. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
+            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar, e pacotes nas pastas que os apps guardam em Application Support. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
+            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare, și pachete din dosarele pe care aplicațiile le păstrează în Application Support. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
+            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики, а кроме того, пакеты в папках, которые приложения хранят в Application Support. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
+            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande, och paket i mapparna som appar har i Application Support. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
+            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Ayrıca uygulamaların Application Support içinde tuttuğu klasörlerdeki paketler. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
+            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори, і пакети в папках, які програми зберігають в Application Support. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "位于“下载”、“桌面”、“文稿”、“公共”和“共享”及其下一层文件夹中、含有App或安装器的磁盘映像、软件包和归档，安装器通常就留在这些地方。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
+            "value" : "位于“下载”、“桌面”、“文稿”、“公共”和“共享”及其下一层文件夹中、含有App或安装器的磁盘映像、软件包和归档，安装器通常就留在这些地方，以及App保存在Application Support中的文件夹内的软件包。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，含有App或安裝程式的磁碟映像檔、套件和封存檔，安裝程式通常會留在這些地方。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
+            "value" : "位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，含有App或安裝程式的磁碟映像檔、套件和封存檔，安裝程式通常會留在這些地方，另外還有App在Application Support中保存的檔案夾內的套件。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
           }
         }
       }
@@ -28674,6 +28674,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已下載"
+          }
+        }
+      }
+    },
+    "Downloaded Updates" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stažené aktualizace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geladene Updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizaciones descargadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mises à jour téléchargées"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti scaricati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロード済みのアップデート"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다운로드된 업데이트"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gedownloade updates"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pobrane uaktualnienia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizações Baixadas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizări descărcate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загруженные обновления"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtade uppdateringar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirilen Güncellemeler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Викачані оновлення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已下载的更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已下載的更新項目"
           }
         }
       }
@@ -73145,6 +73251,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：此計畫案中有內容在過去7天內變更過。"
+          }
+        }
+      }
+    },
+    "Not selected: the app is running and may install this update when it quits." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: aplikace běží a při ukončení může tuto aktualizaci nainstalovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Die App läuft und installiert dieses Update möglicherweise, wenn sie beendet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: la app está en ejecución y puede que instale esta actualización al salir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : l’app est en cours d’exécution et installera peut-être cette mise à jour quand elle se fermera."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: l’app è in esecuzione e potrebbe installare questo aggiornamento quando esce."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アプリが実行中で、終了時にこのアップデートをインストールする可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 앱이 실행 중이며, 종료할 때 이 업데이트를 설치할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: de app is actief en installeert deze update misschien wanneer de app stopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: aplikacja jest uruchomiona i może zainstalować to uaktualnienie, gdy zakończy działanie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o app está em execução e pode instalar esta atualização quando for encerrado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: aplicația rulează și poate instala această actualizare când se închide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: приложение выполняется и может установить это обновление, когда завершит работу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: appen är igång och kan installera den här uppdateringen när den avslutas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: uygulama çalışıyor ve uygulamadan çıkıldığında bu güncellemeyi yükleyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: програма працює і може інсталювати це оновлення, коли завершить роботу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：该App正在运行，可能会在退出时安装此更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：該App正在執行，而且可能會在結束時安裝此更新。"
           }
         }
       }
@@ -133329,6 +133541,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有可用的更新項目"
+          }
+        }
+      }
+    },
+    "Updates an app downloaded with Sparkle or Squirrel and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizace, které aplikace stáhla pomocí Sparkle nebo Squirrel a uchovává je ve svých mezipamětech, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updates, die eine App mit Sparkle oder Squirrel geladen hat und in ihren Caches aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizaciones que una app descargó con Sparkle o Squirrel y guarda en sus cachés hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mises à jour qu’une app a téléchargées avec Sparkle ou Squirrel et qu’elle conserve dans ses caches jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti che un’app ha scaricato con Sparkle o Squirrel e conserva nelle sue cache finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがSparkleまたはSquirrelでダウンロードし、インストールするまでキャッシュに保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 Sparkle 또는 Squirrel로 다운로드하여 설치할 때까지 캐시에 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updates die een app met Sparkle of Squirrel heeft gedownload en in de eigen caches bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle lub Squirrel i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizações que um app baixou com o Sparkle ou o Squirrel e guarda nos seus caches até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizări pe care o aplicație le‑a descărcat cu Sparkle sau Squirrel și le păstrează în memoriile sale tampon până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновления, которые приложение загрузило с помощью Sparkle или Squirrel и хранит в своих кэшах, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppdateringar som en app har hämtat med Sparkle eller Squirrel och sparar i sina cachar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamanın Sparkle veya Squirrel ile indirdiği ve yükleyene kadar önbelleklerinde tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення, які програма викачала за допомогою Sparkle або Squirrel і зберігає у своїх кешах, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App通过Sparkle或Squirrel下载、并在安装之前保留在其缓存中的更新。如果某个更新已不在，该App会在下次更新时重新下载它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App透過Sparkle或Squirrel下載、並在安裝前保留在其快取中的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。"
           }
         }
       }

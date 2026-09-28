@@ -80,16 +80,18 @@ extension InstallerItem.Kind {
         case .firmware: "Device Firmware"
         case .deviceBackup: "iPhone and iPad Backups"
         case .incompleteDownload: "Unfinished Downloads"
+        case .updateDownload: "Downloaded Updates"
         }
     }
 
     var explanation: LocalizedStringResource {
         switch self {
-        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
+        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and packages in the folders apps keep in Application Support. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
         case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it."
         case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and leaves the rest to Finder."
         case .incompleteDownload: "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox."
+        case .updateDownload: "Updates an app downloaded with Sparkle or Squirrel and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates."
         }
     }
 
@@ -100,6 +102,7 @@ extension InstallerItem.Kind {
         case .firmware: "iphone.gen3"
         case .deviceBackup: "externaldrive"
         case .incompleteDownload: "arrow.down.circle.dotted"
+        case .updateDownload: "arrow.down.circle"
         }
     }
 }

@@ -1,3 +1,4 @@
+import AppKit
 public import Foundation
 
 /// A large installer or backup that is easy to forget: an app's disk image, package, or archive, a macOS
@@ -10,6 +11,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
         case deviceBackup
         /// A download a browser never finished, still under the name it writes to until the end.
         case incompleteDownload
+        /// An update an app downloaded with Sparkle or Squirrel, which it keeps in its caches until it installs it.
+        case updateDownload
     }
 
     public let url: URL
@@ -147,6 +150,15 @@ public enum Installers {
             openFiles: openFiles
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
+        items += await updateDownloads(
+            home: home,
+            installedApps: installedApps,
+            exclusions: exclusions,
+            minimumSize: minimumSize,
+            measure: measure,
+            isInTheCloud: isInTheCloud,
+            openFiles: openFiles
+        )
         items += await packagesKeptByApps(
             home: home,
             installedApps: installedApps,
@@ -371,6 +383,60 @@ public enum Installers {
                 guard isWorthARow(size, minimumSize) else { continue }
                 items.append(firmware(at: url, size: size, heldBack: heldBack))
             }
+        }
+        return items
+    }
+
+    /// The updates apps downloaded and keep in `~/Library/Caches`: Sparkle's folder inside the app's own,
+    /// `<identifier>/org.sparkle-project.Sparkle` (`SPULocalCacheDirectory.m`, which adds `.sparkle` to an identifier
+    /// ending like a bundle), and Squirrel's `<identifier>.ShipIt` (`SQRLShipItLauncher.m`). A folder the Developer
+    /// table lists is left to Developer.
+    static func updateDownloads(
+        home: URL,
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        minimumSize: Int64,
+        measure: LeftoverScanner.Measure,
+        isInTheCloud: (URL) -> Bool,
+        openFiles: OpenFiles
+    ) async -> [InstallerItem] {
+        let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
+        let developers = Set(DeveloperCaches.definitions.flatMap(\.folders).filter { $0.base == .home }.map {
+            $0.path.lowercased()
+        })
+        var found: [(url: URL, identifier: String)] = []
+        for url in files(in: caches) where url.isRealFolder {
+            let name = url.lastPathComponent
+            guard !developers.contains("library/caches/" + name.lowercased()) else { continue }
+            if name.hasSuffix(".ShipIt") {
+                found.append((url, String(name.dropLast(".ShipIt".count))))
+            }
+            let sparkle = url.appending(path: "org.sparkle-project.Sparkle", directoryHint: .isDirectory)
+            if sparkle.isRealFolder {
+                found.append((sparkle, name.removingSuffix(".sparkle")))
+            }
+        }
+        let place = Folder(url: caches, isSharedWithEveryone: false)
+        var items: [InstallerItem] = []
+        for (url, identifier) in found {
+            guard !Task.isCancelled else { return items }
+            guard !exclusions.excludes(url) else { continue }
+            let (size, seen) = await measured(url, by: measure)
+            guard isWorthARow(size, minimumSize) else { continue }
+            let isRunning = !NSRunningApplication.runningApplications(withBundleIdentifier: identifier).isEmpty
+            items.append(InstallerItem(
+                url: url,
+                kind: .updateDownload,
+                name: url.lastPathComponent,
+                size: size,
+                date: (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate,
+                installedApp: installedApps.first { $0.bundleIdentifier == identifier }?.name,
+                isReadOnly: false,
+                notes: [],
+                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
+                heldBack: heldBack(url, seen: seen, in: place, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                    ?? (isRunning ? .appIsRunning : nil)
+            ))
         }
         return items
     }

@@ -278,6 +278,7 @@ extension HoldBack {
         case .openInAProgram: "open in a program right now, which may still be downloading it"
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .keptByAnApp: "in an app's folder in Application Support, and the app may still need it"
+        case .appIsRunning: "its app is running and may install this update when it quits"
         }
     }
 }

@@ -220,6 +220,8 @@ extension HoldBack {
             "Not selected: this changed in the last day, so it may still be downloading."
         case .keptByAnApp:
             "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it."
+        case .appIsRunning:
+            "Not selected: the app is running and may install this update when it quits."
         }
     }
 }
