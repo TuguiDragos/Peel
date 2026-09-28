@@ -66,17 +66,25 @@ struct ResetSheet: View {
         return plan.items.isEmpty && !plan.canResetPrivacy ? .message : .content
     }
 
-    /// What the reset does, and what History can't undo.
+    /// What the reset moves and how much, what the chosen groups cost, and what History can't undo.
     private var confirmation: Text {
-        let resetsPrivacy = plan.resetsPrivacy && plan.canResetPrivacy
-        switch (plan.selectedURLs.isEmpty, resetsPrivacy) {
-        case (false, true):
-            return Text("Everything selected goes to the Trash, and the settings are copied first. \(plan.app.name) opens without what was selected. Its privacy permissions are reset too, and History can’t bring them back.")
-        case (true, _):
+        guard !plan.selectedURLs.isEmpty else {
             return Text("\(plan.app.name) asks you again for what it was allowed to access. History can’t undo this.")
-        case (false, false):
-            return Text("Everything selected goes to the Trash, and the settings are copied first. \(plan.app.name) opens without what was selected.")
         }
+        var sentences = [
+            Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash and copies the settings first. \(plan.app.name) opens without them."),
+        ]
+        let groups = plan.reset?.groups(in: plan.selectedURLs) ?? []
+        if groups.contains(.webData) {
+            sentences.append(Text(AppReset.Group.webData.explanation))
+        }
+        if groups.contains(.appData) {
+            sentences.append(Text("What the app keeps for you is selected too, and it can include your own work."))
+        }
+        if plan.resetsPrivacy && plan.canResetPrivacy {
+            sentences.append(Text("Its privacy permissions are reset too, and History can’t bring them back."))
+        }
+        return sentences.dropFirst().reduce(sentences[0]) { Text("\($0)\n\n\($1)") }
     }
 
     private var choices: some View {

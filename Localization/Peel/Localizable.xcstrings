@@ -30268,218 +30268,6 @@
         }
       }
     },
-    "Everything selected goes to the Trash, and the settings are copied first. %@ opens without what was selected." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vše vybrané se přesune do koše a nastavení se předtím zkopírují. Aplikace %@ se pak otevře bez toho, co bylo vybráno."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles Ausgewählte wird in den Papierkorb gelegt, und die Einstellungen werden vorher kopiert. „%@“ öffnet sich dann ohne das Ausgewählte."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo lo seleccionado va a la papelera, y antes se copian los ajustes. %@ se abrirá sin lo que estaba seleccionado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout ce qui est sélectionné est placé dans la corbeille, et les réglages sont d’abord copiés. %@ s’ouvrira sans ce qui a été sélectionné."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutto ciò che è selezionato va nel Cestino, e prima viene fatta una copia delle impostazioni. %@ si aprirà senza ciò che era selezionato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選択したものはすべてゴミ箱に入り、設定は先にコピーされます。“%@”は、選択したものがない状態で開きます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택한 모든 항목이 휴지통으로 이동하며, 설정은 먼저 복사됩니다. ‘%@’은(는) 선택한 항목 없이 열립니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles wat is geselecteerd, gaat naar de prullenmand, en de instellingen worden eerst gekopieerd. %@ start daarna zonder wat was geselecteerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wszystko, co zaznaczono, trafi do Kosza, a ustawienia zostaną najpierw skopiowane. Aplikacja %@ otworzy się bez tego, co zaznaczono."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo o que estiver selecionado vai para o Lixo, e os ajustes são copiados antes. %@ vai abrir sem o que foi selecionado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tot ce este selectat se mută în Coș, iar configurările sunt copiate mai întâi. Aplicația %@ se va deschide fără ce a fost selectat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все выбранное перемещается в Корзину, а настройки предварительно копируются. Приложение «%@» откроется без того, что было выбрано."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allt som är markerat flyttas till papperskorgen, och inställningarna kopieras först. %@ öppnas utan det som var markerat."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçili olan her şey Çöp Sepeti’ne gider ve ayarlar önce kopyalanır. %@, seçilenler olmadan açılır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Усе вибране буде переміщено в Смітник, а налаштування перед тим скопійовано. Програма «%@» відкриється без вибраного."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "所选内容都会移到废纸篓，并且会先拷贝一份设置。“%@”再次打开时将不再带有所选的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選取的所有項目都會丟到「垃圾桶」，設定會先拷貝一份。「%@」打開時將不再有選取的內容。"
-          }
-        }
-      }
-    },
-    "Everything selected goes to the Trash, and the settings are copied first. %@ opens without what was selected. Its privacy permissions are reset too, and History can’t bring them back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vše vybrané se přesune do koše a nastavení se předtím zkopírují. Aplikace %@ se pak otevře bez toho, co bylo vybráno. Její oprávnění pro soukromé údaje se také resetují a Historie je nemůže vrátit."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles Ausgewählte wird in den Papierkorb gelegt, und die Einstellungen werden vorher kopiert. „%@“ öffnet sich dann ohne das Ausgewählte. Auch die Datenschutzberechtigungen der App werden zurückgesetzt, und über den Verlauf lassen sie sich nicht zurückholen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo lo seleccionado va a la papelera, y antes se copian los ajustes. %@ se abrirá sin lo que estaba seleccionado. También se restablecen sus permisos de privacidad, e Historial no puede recuperarlos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout ce qui est sélectionné est placé dans la corbeille, et les réglages sont d’abord copiés. %@ s’ouvrira sans ce qui a été sélectionné. Ses autorisations de confidentialité sont aussi réinitialisées, et l’Historique ne peut pas les rétablir."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutto ciò che è selezionato va nel Cestino, e prima viene fatta una copia delle impostazioni. %@ si aprirà senza ciò che era selezionato. Vengono reimpostate anche le sue autorizzazioni per la privacy, e la Cronologia non può ripristinarle."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選択したものはすべてゴミ箱に入り、設定は先にコピーされます。“%@”は、選択したものがない状態で開きます。プライバシー権限もリセットされ、履歴から元に戻すことはできません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택한 모든 항목이 휴지통으로 이동하며, 설정은 먼저 복사됩니다. ‘%@’은(는) 선택한 항목 없이 열립니다. 앱의 개인정보 보호 권한도 재설정되며, 기록에서 되살릴 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles wat is geselecteerd, gaat naar de prullenmand, en de instellingen worden eerst gekopieerd. %@ start daarna zonder wat was geselecteerd. De privacytoestemmingen van de app worden ook opnieuw ingesteld, en Geschiedenis kan ze niet terugzetten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wszystko, co zaznaczono, trafi do Kosza, a ustawienia zostaną najpierw skopiowane. Aplikacja %@ otworzy się bez tego, co zaznaczono. Jej uprawnienia prywatności też zostaną wyzerowane, a Historia nie może ich przywrócić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo o que estiver selecionado vai para o Lixo, e os ajustes são copiados antes. %@ vai abrir sem o que foi selecionado. As permissões de privacidade do app também são redefinidas, e o Histórico não pode trazê-las de volta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tot ce este selectat se mută în Coș, iar configurările sunt copiate mai întâi. Aplicația %@ se va deschide fără ce a fost selectat. Se resetează și permisiunile ei de intimitate, iar acestea nu pot fi readuse din Istoric."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все выбранное перемещается в Корзину, а настройки предварительно копируются. Приложение «%@» откроется без того, что было выбрано. Его разрешения на доступ также сбрасываются, и История не сможет их вернуть."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allt som är markerat flyttas till papperskorgen, och inställningarna kopieras först. %@ öppnas utan det som var markerat. Appens integritetsbehörigheter nollställs också, och Historik kan inte få tillbaka dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçili olan her şey Çöp Sepeti’ne gider ve ayarlar önce kopyalanır. %@, seçilenler olmadan açılır. Gizlilik izinleri de sıfırlanır ve Geçmiş bunları geri getiremez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Усе вибране буде переміщено в Смітник, а налаштування перед тим скопійовано. Програма «%@» відкриється без вибраного. Її дозволи приватності також буде скинуто, і Історія не зможе їх повернути."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "所选内容都会移到废纸篓，并且会先拷贝一份设置。“%@”再次打开时将不再带有所选的内容。它的隐私权限也会被重置，“历史记录”无法将其恢复。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選取的所有項目都會丟到「垃圾桶」，設定會先拷貝一份。「%@」打開時將不再有選取的內容。它的隱私權限也會一併重置，而「歷史記錄」無法將其恢復。"
-          }
-        }
-      }
-    },
     "Everything selected here goes to the Trash together when you click Move to Trash. Nothing is deleted outright: History can put it back while it’s in the Trash." : {
       "localizations" : {
         "cs" : {
@@ -51793,6 +51581,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它的名稱以com.apple開頭，但不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
+          }
+        }
+      }
+    },
+    "Its privacy permissions are reset too, and History can’t bring them back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její oprávnění pro soukromé údaje se také resetují a Historie je nemůže vrátit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auch die Datenschutzberechtigungen der App werden zurückgesetzt, und über den Verlauf lassen sie sich nicht zurückholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "También se restablecen sus permisos de privacidad, e Historial no puede recuperarlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ses autorisations de confidentialité sont aussi réinitialisées, et l’Historique ne peut pas les rétablir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vengono reimpostate anche le sue autorizzazioni per la privacy, e la Cronologia non può ripristinarle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プライバシー権限もリセットされ、履歴から元に戻すことはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 개인정보 보호 권한도 재설정되며, 기록에서 되살릴 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De privacytoestemmingen van de app worden ook opnieuw ingesteld, en Geschiedenis kan ze niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej uprawnienia prywatności też zostaną wyzerowane, a Historia nie może ich przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões de privacidade do app também são redefinidas, e o Histórico não pode trazê-las de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se resetează și permisiunile ei de intimitate, iar acestea nu pot fi readuse din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его разрешения на доступ также сбрасываются, и История не сможет их вернуть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appens integritetsbehörigheter nollställs också, och Historik kan inte få tillbaka dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik izinleri de sıfırlanır ve Geçmiş bunları geri getiremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Її дозволи приватності також буде скинуто, і Історія не зможе їх повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的隐私权限也会被重置，“历史记录”无法将其恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的隱私權限也會一併重置，而「歷史記錄」無法將其恢復。"
           }
         }
       }
@@ -87928,6 +87822,352 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會在「應用程式」檔案夾和此列表中的檔案夾（例如另一個磁碟上的檔案夾）裡尋找App。該磁碟未連接時，其中的App仍算作已安裝，因此它們的檔案不會列為孤立檔案。"
+          }
+        }
+      }
+    },
+    "Peel moves ^[%lld item](inflect: true), %@, to the Trash and copies the settings first. %@ opens without them." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položky (%@) do koše a nastavení předtím zkopíruje. Aplikace %@ se pak otevře bez nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položky (%@) do koše a nastavení předtím zkopíruje. Aplikace %@ se pak otevře bez nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položku (%@) do koše a nastavení předtím zkopíruje. Aplikace %@ se pak otevře bez ní."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položek (%@) do koše a nastavení předtím zkopíruje. Aplikace %@ se pak otevře bez nich."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel legt %lld Objekt, %@, in den Papierkorb und kopiert vorher die Einstellungen. „%@“ öffnet sich dann ohne das Ausgewählte."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel legt %lld Objekte, %@, in den Papierkorb und kopiert vorher die Einstellungen. „%@“ öffnet sich dann ohne das Ausgewählte."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel moves ^[%1$lld item](inflect: true), %2$@, to the Trash and copies the settings first. %3$@ opens without them."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld de ítems, %@, a la papelera, y antes copia los ajustes. %@ se abrirá sin ellos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld ítem, %@, a la papelera, y antes copia los ajustes. %@ se abrirá sin él."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld ítems, %@, a la papelera, y antes copia los ajustes. %@ se abrirá sin ellos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld d’éléments (%@) dans la corbeille et copie d’abord les réglages. %@ s’ouvrira sans ces éléments."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld élément (%@) dans la corbeille et copie d’abord les réglages. %@ s’ouvrira sans cet élément."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld éléments (%@) dans la corbeille et copie d’abord les réglages. %@ s’ouvrira sans ces éléments."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld di elementi, %@, nel Cestino e prima fa una copia delle impostazioni. %@ si aprirà senza di essi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld elemento, %@, nel Cestino e prima fa una copia delle impostazioni. %@ si aprirà senza di esso."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld elementi, %@, nel Cestino e prima fa una copia delle impostazioni. %@ si aprirà senza di essi."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%lld項目（%@）をゴミ箱に入れ、設定は先にコピーします。“%@”は、それらの項目がない状態で開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 항목 %lld개(%@)를 휴지통으로 이동하며, 설정은 먼저 복사합니다. ‘%@’은(는) 선택한 항목 없이 열립니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel verplaatst %lld onderdeel, %@, naar de prullenmand en kopieert eerst de instellingen. %@ start daarna zonder dit onderdeel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel verplaatst %lld onderdelen, %@, naar de prullenmand en kopieert eerst de instellingen. %@ start daarna zonder deze onderdelen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza, a ustawienia najpierw skopiuje. Aplikacja %@ otworzy się bez nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza, a ustawienia najpierw skopiuje. Aplikacja %@ otworzy się bez nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzecz (%@) do Kosza, a ustawienia najpierw skopiuje. Aplikacja %@ otworzy się bez nich."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza, a ustawienia najpierw skopiuje. Aplikacja %@ otworzy się bez nich."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld de itens, %@, para o Lixo e copia os ajustes antes. %@ vai abrir sem eles."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld item, %@, para o Lixo e copia os ajustes antes. %@ vai abrir sem ele."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld itens, %@, para o Lixo e copia os ajustes antes. %@ vai abrir sem eles."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld articole, %@, în Coș și copiază mai întâi configurările. Aplicația %@ se va deschide fără ele."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld articol, %@, în Coș și copiază mai întâi configurările. Aplicația %@ se va deschide fără el."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld de articole, %@, în Coș și copiază mai întâi configurările. Aplicația %@ se va deschide fără ele."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объекта, %@, в Корзину, а настройки предварительно копирует. Приложение «%@» откроется без них."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объектов, %@, в Корзину, а настройки предварительно копирует. Приложение «%@» откроется без них."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объект, %@, в Корзину, а настройки предварительно копирует. Приложение «%@» откроется без них."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объекта, %@, в Корзину, а настройки предварительно копирует. Приложение «%@» откроется без них."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel flyttar %lld objekt, %@, till papperskorgen och kopierar inställningarna först. %@ öppnas utan det."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel flyttar %lld objekt, %@, till papperskorgen och kopierar inställningarna först. %@ öppnas utan dem."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğeyi (%@) Çöp Sepeti’ne taşır ve ayarları önce kopyalar. %@, bunlar olmadan açılır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğeyi (%@) Çöp Sepeti’ne taşır ve ayarları önce kopyalar. %@, bunlar olmadan açılır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елементи (%@) у Смітник, а налаштування перед тим скопіює. Програма «%@» відкриється без них."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елементів (%@) у Смітник, а налаштування перед тим скопіює. Програма «%@» відкриється без них."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елемент (%@) у Смітник, а налаштування перед тим скопіює. Програма «%@» відкриється без нього."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елемента (%@) у Смітник, а налаштування перед тим скопіює. Програма «%@» відкриється без них."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将%lld个项目（%@）移到废纸篓，并且会先拷贝一份设置。“%@”再次打开时将不再带有这些项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將%lld個項目（%@）丟到「垃圾桶」，設定會先拷貝一份。「%@」打開時將不再有這些項目。"
           }
         }
       }
@@ -138651,6 +138891,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建置留下的項目"
+          }
+        }
+      }
+    },
+    "What the app keeps for you is selected too, and it can include your own work." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybráno je také to, co pro vás aplikace uchovává, a může to zahrnovat i vaši vlastní práci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was die App für dich aufbewahrt, ist auch ausgewählt, und es kann deine eigene Arbeit enthalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que la app guarda para ti también está seleccionado, y puede incluir tu propio trabajo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que l’app conserve pour vous est aussi sélectionné, et cela peut inclure votre propre travail."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anche ciò che l’app conserva per te è selezionato, e può includere il tuo lavoro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが保管しているデータも選択されており、自分で作成したものが含まれている場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 사용자를 위해 보관하는 데이터도 선택되었으며, 사용자가 직접 작업한 내용이 포함될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat de app voor je bewaart, is ook geselecteerd, en daar kan je eigen werk bij zitten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co aplikacja przechowuje dla Ciebie, też jest zaznaczone i może obejmować Twoją własną pracę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que o app guarda para você também está selecionado, e isso pode incluir o seu próprio trabalho."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunt selectate și datele pe care aplicația le păstrează pentru dvs., iar acestea pot include propriile dvs. lucrări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что приложение хранит для Вас, тоже выбрано, и здесь может быть Ваша собственная работа."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det appen sparar åt dig är också markerat, och det kan omfatta ditt eget arbete."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamanın sizin için sakladıkları da seçili ve bunlar kendi çalışmalarınızı içerebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що програма зберігає для вас, також вибрано, і серед цього може бути ваша власна робота."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App为你保存的内容也已选择，其中可能包括你自己的工作成果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App為你保存的內容也已選取，其中可能包括你自己的工作成果。"
           }
         }
       }

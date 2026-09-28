@@ -65,6 +65,10 @@ public struct AppReset: Sendable {
         Set(items(in: .settings).map(\.url))
     }
 
+    public func groups(in selection: Set<URL>) -> Set<Group> {
+        Set(items.filter { selection.contains($0.url) }.map(\.group))
+    }
+
     public func size(of selection: Set<URL>) -> SizeTotal {
         SizeTotal(items.filter { selection.contains($0.url) }.map(\.size))
     }

@@ -37,6 +37,21 @@ struct AppResetTests {
         #expect(!reset.keepsAppData)
     }
 
+    /// The confirmation names what a group costs only when something of that group is selected.
+    @Test func tellsWhichGroupsASelectionReaches() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        try directory.file("Library/Cookies/com.example.app.binarycookies", bytes: 4096)
+        try directory.file("Library/Application Support/com.example.app/notes.db", bytes: 4096)
+
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let cookies = try #require(reset.items(in: .webData).first).url
+
+        #expect(reset.groups(in: reset.suggestedSelection) == [.settings])
+        #expect(reset.groups(in: reset.suggestedSelection.union([cookies])) == [.settings, .webData])
+        #expect(reset.groups(in: []).isEmpty)
+    }
+
     @Test func offersNothingForAnExcludedApp() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
