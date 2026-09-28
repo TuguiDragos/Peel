@@ -486,13 +486,13 @@ private struct HelperSettingsView: View {
             }
 
             Section {
-                switch helper.status {
-                case .notRegistered, .unavailable:
+                switch helper.standing {
+                case .notInstalled:
                     Button("Install Helper", systemImage: "lock.shield") {
                         helper.install()
                     }
                     .centeredInRow()
-                case .requiresApproval:
+                case .waitingForApproval:
                     Text("Allow Peel in System Settings under Login Items & Extensions.")
                         .font(.callout)
                     // Opens System Settings instead of registering again, which returns an error in this state
@@ -501,26 +501,25 @@ private struct HelperSettingsView: View {
                         PrivilegedHelper.openLoginItemsSettings()
                     }
                     .centeredInRow()
-                case .enabled:
-                    if !helper.isAvailableToThisAccount {
-                        Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
-                            .font(.callout)
-                    } else if helper.isStale {
-                        // `isStale` covers several causes, and they share this message: an older or newer
-                        // helper, a signature that doesn't match, or a helper that didn't start.
-                        Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
-                            .font(.callout)
-                        Button("Repair Helper", systemImage: "arrow.clockwise") {
-                            Task { await helper.repair() }
-                        }
-                        .disabled(helper.isChanging)
-                        .centeredInRow()
+                case .notThisAccount:
+                    Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
+                        .font(.callout)
+                    if helper.isEnabled {
+                        uninstallButton
                     }
-                    Button("Uninstall Helper", systemImage: "trash", role: .destructive) {
-                        Task { await helper.uninstall() }
+                case .notAnswering:
+                    // Several causes share this message: an older or newer helper, a signature that doesn't
+                    // match, or a helper that didn't start.
+                    Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
+                        .font(.callout)
+                    Button("Repair Helper", systemImage: "arrow.clockwise") {
+                        Task { await helper.repair() }
                     }
                     .disabled(helper.isChanging)
                     .centeredInRow()
+                    uninstallButton
+                case .ready:
+                    uninstallButton
                 }
             }
             .listRowBackground(Color.clear)
@@ -536,18 +535,26 @@ private struct HelperSettingsView: View {
         }
     }
 
+    private var uninstallButton: some View {
+        Button("Uninstall Helper", systemImage: "trash", role: .destructive) {
+            Task { await helper.uninstall() }
+        }
+        .disabled(helper.isChanging)
+        .centeredInRow()
+    }
+
     @ViewBuilder
     private var statusBadge: some View {
-        switch helper.status {
-        case .enabled where !helper.isAvailableToThisAccount:
+        switch helper.standing {
+        case .notThisAccount:
             state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
-        case .enabled where helper.isResponding == false:
+        case .notAnswering:
             state("Not answering", "exclamationmark.triangle", .orange)
-        case .enabled:
+        case .ready:
             state("Installed", "checkmark.circle", .green)
-        case .requiresApproval:
+        case .waitingForApproval:
             state("Needs approval, or was turned off", "clock", .orange)
-        case .notRegistered, .unavailable:
+        case .notInstalled:
             state("Not installed", "minus.circle", .secondary)
         }
     }

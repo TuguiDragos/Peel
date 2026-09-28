@@ -18,37 +18,20 @@ final class HelperModel {
     /// Whether the helper can move items: it is registered, this account may use it, and it has not failed to
     /// answer. Otherwise the items that need it stay locked.
     var canAct: Bool {
-        status == .enabled && isAvailableToThisAccount && isResponding != false
+        standing == .ready
     }
 
     var isEnabled: Bool {
         status == .enabled
     }
 
-    /// Whether the helper can act, and if not, why. Shown in the banner over a list that holds items needing it.
-    enum Standing {
-        case ready
-        case notInstalled
-        case waitingForApproval
-        case notThisAccount
-        case notAnswering
-    }
-
-    var standing: Standing {
-        if !isAvailableToThisAccount { return .notThisAccount }
-        return switch status {
-        case .enabled: isResponding == false ? .notAnswering : .ready
-        case .requiresApproval: .waitingForApproval
-        case .notRegistered, .unavailable: .notInstalled
-        }
+    var standing: PrivilegedHelper.Standing {
+        PrivilegedHelper.Standing(
+            status: status, isAvailableToThisAccount: isAvailableToThisAccount, isResponding: isResponding
+        )
     }
 
     let isAvailableToThisAccount = PrivilegedHelper.isAvailableToThisAccount
-
-    /// Registered, but not answering as the helper this version of Peel works with.
-    var isStale: Bool {
-        status == .enabled && isResponding == false && isAvailableToThisAccount
-    }
 
     /// True when a Peel helper is registered, but not by this copy of Peel. Registration belongs to a bundle,
     /// so a second copy (in a build folder, or a download beside the one in Applications) reads "not installed"

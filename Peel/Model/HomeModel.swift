@@ -86,9 +86,8 @@ final class HomeModel {
     private var isReadingModelName = false
     private(set) var greeting = Greeting.at(.now)
     private(set) var states: [Permission: State] = [:]
-    private(set) var helperStatus: PrivilegedHelper.Status = .notRegistered
+    private(set) var helperStanding = PrivilegedHelper.Standing.notInstalled
     private(set) var isHelperResponding: Bool?
-    private(set) var isHelperAvailable = true
     private(set) var notificationStatus: UNAuthorizationStatus = .notDetermined
     private(set) var appManagement: AccessState = .unknown
     /// The App Management state a removal revealed since Peel opened. That answer came from macOS itself,
@@ -149,10 +148,9 @@ final class HomeModel {
         async let bundles = AppManagement.state()
 
         await helper.checkConnection()
-        helperStatus = helper.status
+        helperStanding = helper.standing
         isHelperResponding = helper.isResponding
         isHelperFromAnotherCopy = helper.isRegisteredByAnotherCopy
-        isHelperAvailable = helper.isAvailableToThisAccount
         notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
         let isFinderExtensionEnabled = await Self.isFinderExtensionEnabled()
         isFinderExtensionFromAnotherCopy = isFinderExtensionEnabled ? false : await Self.finderExtensionRunsFromAnotherCopy()
@@ -283,11 +281,11 @@ final class HomeModel {
     /// The helper serves administrator accounts only, so on a standard account it is not missing: there is
     /// nothing for this account to install.
     private var helperState: State {
-        guard isHelperAvailable else { return .notThisAccount }
-        return switch helperStatus {
-        case .enabled: isHelperResponding == false ? .missing : .on
-        case .requiresApproval: .pending
-        case .notRegistered, .unavailable: .missing
+        switch helperStanding {
+        case .ready: .on
+        case .waitingForApproval: .pending
+        case .notInstalled, .notAnswering: .missing
+        case .notThisAccount: .notThisAccount
         }
     }
 

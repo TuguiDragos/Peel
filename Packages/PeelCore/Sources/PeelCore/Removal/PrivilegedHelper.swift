@@ -13,6 +13,29 @@ public enum PrivilegedHelper {
         case unavailable
     }
 
+    /// Whether the helper can act for this account, and if not, why.
+    public enum Standing: Sendable, Equatable {
+        case ready
+        case notInstalled
+        case waitingForApproval
+        case notThisAccount
+        case notAnswering
+
+        /// A standard account comes first: the helper serves administrators only, so its registration says nothing
+        /// that account could act on.
+        public init(status: Status, isAvailableToThisAccount: Bool, isResponding: Bool?) {
+            guard isAvailableToThisAccount else {
+                self = .notThisAccount
+                return
+            }
+            self = switch status {
+            case .enabled: isResponding == false ? .notAnswering : .ready
+            case .requiresApproval: .waitingForApproval
+            case .notRegistered, .unavailable: .notInstalled
+            }
+        }
+    }
+
     private static var service: SMAppService {
         .daemon(plistName: HelperIdentity.launchdPlistName)
     }
