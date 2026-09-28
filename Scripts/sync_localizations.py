@@ -44,6 +44,12 @@ parser.add_argument(
 options = parser.parse_args()
 CHECK = options.check
 FORCE = options.force
+
+
+def empty_catalog():
+    return {"sourceLanguage": "en", "strings": {}, "version": "1.0"}
+
+
 # Removing or marking stale more than this share of a catalog suggests the build output is not from this code.
 MOST_OF_IT = 0.25
 
@@ -57,7 +63,8 @@ def stale(entry):
 
 
 def write(path, catalog):
-    path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=True, separators=(",", " : ")) + "\n", encoding="utf-8")
+    text = json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=True, separators=(",", " : "))
+    path.write_text(text + "\n", encoding="utf-8")
 
 
 def report(name, before, after):
@@ -76,7 +83,8 @@ def report(name, before, after):
     for key in went_stale:
         print(f"  stale: {key!r}")
     if old and len(removed) + len(went_stale) > MOST_OF_IT * len(old) and not FORCE:
-        sys.exit(f"{name}: {len(removed) + len(went_stale)} of {len(old)} strings would go. Check the build, then run with --force.")
+        going = len(removed) + len(went_stale)
+        sys.exit(f"{name}: {going} of {len(old)} strings would go. Check the build, then run with --force.")
     return bool(changed)
 
 
@@ -111,7 +119,8 @@ def info_plist(current):
         if english is not None and english != plist[key]:
             print(f"  changed in English, translations to review: {key}")
             localizations = {
-                language: {"stringUnit": {**value["stringUnit"], "state": "needs_review"}} if "stringUnit" in value else value
+                language: {"stringUnit": {**value["stringUnit"], "state": "needs_review"}}
+                if "stringUnit" in value else value
                 for language, value in localizations.items()
             }
         localizations["en"] = {"stringUnit": {"state": "new", "value": plist[key]}}
@@ -128,7 +137,7 @@ def info_plist(current):
 
 differs = False
 for target, path in SYNCED:
-    before = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"sourceLanguage": "en", "strings": {}, "version": "1.0"}
+    before = json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_catalog()
     after = synced(target, path)
     name = f"{target} {path.stem}"
     if report(name, before, after):
@@ -136,7 +145,7 @@ for target, path in SYNCED:
         if not CHECK:
             write(path, after)
 
-before = json.loads(INFO_CATALOG.read_text(encoding="utf-8")) if INFO_CATALOG.exists() else {"sourceLanguage": "en", "strings": {}, "version": "1.0"}
+before = json.loads(INFO_CATALOG.read_text(encoding="utf-8")) if INFO_CATALOG.exists() else empty_catalog()
 after = info_plist(before)
 if report("Peel InfoPlist", before, after):
     differs = True
