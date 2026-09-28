@@ -195,6 +195,19 @@ struct RemovalHygieneTests {
         #expect(PreferenceCleanup.domains(for: urls, ownedBy: "com.apple").isEmpty)
     }
 
+    @Test func forgetsNoAppleDomainBehindAGroupOrTeamPrefix() {
+        let urls = [
+            URL(filePath: "/Users/x/Library/Preferences/group.com.apple.notes.plist"),
+            URL(filePath: "/Users/x/Library/Preferences/systemgroup.com.apple.example.plist"),
+            URL(filePath: "/Users/x/Library/Preferences/ABCDE12345.com.apple.example.plist"),
+            URL(filePath: "/Users/x/Library/Preferences/group.org.example.app.plist"),
+        ]
+
+        #expect(PreferenceCleanup.domains(for: urls, home: home) == [
+            PreferenceCleanup.Domain(name: "group.org.example.app", isByHost: false),
+        ])
+    }
+
     @Test func namesBackupFilesSoTheDomainReadsBack() {
         let plain = PreferenceCleanup.Domain(name: "com.example.app", isByHost: false)
         let byHost = PreferenceCleanup.Domain(name: "com.example.app", isByHost: true)

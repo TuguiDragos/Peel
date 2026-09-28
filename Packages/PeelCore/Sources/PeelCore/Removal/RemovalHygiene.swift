@@ -104,8 +104,8 @@ enum PreferenceCleanup {
             // a file another Mac left behind names no domain here.
             let fileHost = url.lastPathComponent.removingSuffix(".plist").dropFirst(name.count + 1)
             guard !isByHost || (!host.isEmpty && fileHost.caseInsensitiveCompare(host) == .orderedSame) else { return nil }
-            // The disk ignores case, so `COM.APPLE.DOCK` is the Dock's domain too.
-            guard !name.lowercased().hasPrefix("com.apple.") || isOwned(name, by: owner) else { return nil }
+            // Apple's name whatever its case, since the disk ignores it, and behind a team or group prefix too.
+            guard !ProtectedData.isApplesName(name) || isOwned(name, by: owner) else { return nil }
             let domain = Domain(name: name, isByHost: isByHost)
             guard !seen.contains(domain), !containerKeeps(domain, apartFrom: urls, home: home) else { return nil }
             seen.insert(domain)
