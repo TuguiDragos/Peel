@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Measures a text's longest word in the surrounding font, without drawing it. Words split where the language
-/// allows a line break, so a view at least this wide wraps only between words and never cuts one in two.
+/// Measures a text's longest word in the surrounding font, without drawing it. A word is the language's own, with
+/// the punctuation beside it, which a line never separates from it, so a view at least this wide wraps only between
+/// words and never cuts one in two.
 struct LongestWord: View {
     let text: String
     @Binding var width: CGFloat
@@ -18,9 +19,13 @@ struct LongestWord: View {
     }
 
     private static func words(in text: String) -> [String] {
+        let isAttached = { (character: Character) in character.isPunctuation || character.isSymbol }
         var words: [String] = []
-        text.enumerateSubstrings(in: text.startIndex..., options: .byWords) { word, _, _, _ in
-            if let word { words.append(word) }
+        text.enumerateSubstrings(in: text.startIndex..., options: [.byWords, .substringNotRequired]) { _, range, _, _ in
+            var start = range.lowerBound, end = range.upperBound
+            while start > text.startIndex, isAttached(text[text.index(before: start)]) { start = text.index(before: start) }
+            while end < text.endIndex, isAttached(text[end]) { end = text.index(after: end) }
+            words.append(String(text[start..<end]))
         }
         return words
     }
