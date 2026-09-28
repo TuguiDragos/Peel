@@ -79,6 +79,7 @@ extension InstallerItem.Kind {
         case .macOSInstaller: "macOS Installers"
         case .firmware: "Device Firmware"
         case .deviceBackup: "iPhone and iPad Backups"
+        case .incompleteDownload: "Unfinished Downloads"
         }
     }
 
@@ -88,6 +89,7 @@ extension InstallerItem.Kind {
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
         case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it."
         case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and leaves the rest to Finder."
+        case .incompleteDownload: "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox."
         }
     }
 
@@ -97,6 +99,7 @@ extension InstallerItem.Kind {
         case .macOSInstaller: "apple.logo"
         case .firmware: "iphone.gen3"
         case .deviceBackup: "externaldrive"
+        case .incompleteDownload: "arrow.down.circle.dotted"
         }
     }
 }

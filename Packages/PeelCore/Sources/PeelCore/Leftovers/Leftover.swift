@@ -69,6 +69,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case inTheCloud
     /// A file a program has open right now, which may still be downloading it.
     case openInAProgram
+    /// A download that changed within the last day, which may still be going.
+    case changedRecently
 
     /// True when the item cannot be selected at all, rather than only left unselected.
     public var cannotBeMoved: Bool {

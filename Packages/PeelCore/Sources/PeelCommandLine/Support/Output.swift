@@ -276,6 +276,7 @@ extension HoldBack {
         case .crashReport: "a crash report, which the app's developer may still ask for"
         case .inTheCloud: "in iCloud Drive, so moving it removes it from every device"
         case .openInAProgram: "open in a program right now, which may still be downloading it"
+        case .changedRecently: "changed in the last day, so it may still be downloading"
         }
     }
 }

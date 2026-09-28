@@ -247,6 +247,31 @@ struct InstallersTests {
         #expect(items["Install macOS Tahoe"]?.heldBack == .some(nil))
     }
 
+    /// A browser writes a download under a name of its own until it ends: `.crdownload` for Chromium, `.part` for
+    /// Firefox. One left behind is an unfinished download; one that changed in the last day may still be going.
+    @Test func findsUnfinishedDownloadsAndLeavesARecentOneToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let abandoned = try directory.file("Downloads/Video.mp4.crdownload", bytes: 400_000)
+        try directory.file("Downloads/Archive.zip.part", bytes: 400_000)
+        try directory.file("Downloads/notes.txt", bytes: 400_000)
+        try directory.directory("Applications")
+        let old = Date.now.addingTimeInterval(-3 * 24 * 60 * 60)
+        try FileManager.default.setAttributes(
+            [.modificationDate: old], ofItemAtPath: abandoned.path(percentEncoded: false)
+        )
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0) })
+        #expect(Set(items.keys) == ["Video.mp4.crdownload", "Archive.zip.part"])
+        #expect(items.values.allSatisfy { $0.kind == .incompleteDownload })
+        #expect(items["Video.mp4.crdownload"]?.heldBack == .some(nil))
+        #expect(items["Archive.zip.part"]?.heldBack == .changedRecently)
+    }
+
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)

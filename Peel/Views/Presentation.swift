@@ -214,6 +214,8 @@ extension HoldBack {
             "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be downloading it."
+        case .changedRecently:
+            "Not selected: this changed in the last day, so it may still be downloading."
         }
     }
 }
