@@ -60,8 +60,9 @@ final class ResetPlan {
         PrivacyReset.isAllowed(bundleIdentifier: app.bundleIdentifier)
     }
 
+    /// Nothing is, until the scan has said what the reset would take: `performReset()` has nothing to go on before.
     var hasAnythingToReset: Bool {
-        !selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy)
+        reset != nil && (!selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy))
     }
 
     /// Updates `isAppRunning`. Called when the sheet opens and whenever an app launches or quits.
