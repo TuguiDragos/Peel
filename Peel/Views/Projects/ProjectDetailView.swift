@@ -33,20 +33,9 @@ struct ProjectDetailView: View {
             }
 
             Section {
-                Toggle(isOn: Binding(
-                    get: { projects.isExcludedFromBackups(group) },
-                    set: { projects.setExcludedFromBackups($0, in: group) }
-                )) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Leave these out of Time Machine")
-                        Text("Backups keep the project and skip the folders listed here, installed packages and .terraform included. A folder whose name could mean anything is still backed up. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .toggleStyle(.checkbox)
-                .disabled(!projects.canMarkForBackups(group))
-                .listRowSeparator(.hidden)
+                backupsCheckbox
+                    .disabled(!projects.canMarkForBackups(group))
+                    .listRowSeparator(.hidden)
                 let failures = projects.backupMarkFailures(in: group)
                 if !failures.isEmpty {
                     Text("^[\(failures.count) folder](inflect: true) wouldn’t take the mark, usually because it belongs to another account.")
@@ -73,6 +62,30 @@ struct ProjectDetailView: View {
         .fadesInColumn(whenRowsChange: group.artifacts.map(\.url))
         .navigationTitle(group.project.lastPathComponent)
         .toolbar(removing: .title)
+    }
+
+    /// A checkbox beside its words rather than a `Toggle` that is the row, as the list's other rows are.
+    private var backupsCheckbox: some View {
+        let isOn = Binding(
+            get: { projects.isExcludedFromBackups(group) },
+            set: { projects.setExcludedFromBackups($0, in: group) }
+        )
+        let explanation = String(localized: "Backups keep the project and skip the folders listed here, installed packages and .terraform included. A folder whose name could mean anything is still backed up. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
+        return HStack(alignment: .checkboxTitleLine, spacing: 5) {
+            NativeCheckbox(isOn: isOn, label: String(localized: "Leave these out of Time Machine"), hint: explanation)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Leave these out of Time Machine")
+                    .checkboxTitleLine()
+                Text(verbatim: explanation)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .checkboxTitle()
+            .contentShape(.rect)
+            .onTapGesture { isOn.wrappedValue.toggle() }
+            // The checkbox's label already reads them.
+            .accessibilityHidden(true)
+        }
     }
 
     private var header: some View {
