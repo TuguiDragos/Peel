@@ -179,9 +179,11 @@ public struct Leftover: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
-    /// Returns the same leftover, held back for `reason`: shown, but never selected.
+    /// Returns the same leftover, held back for `reason`: shown, but never selected. A reason that already blocks
+    /// the move stays, since it outranks one that only leaves the item unselected.
     func heldBack(_ reason: HoldBack) -> Leftover {
-        Leftover(
+        guard match.heldBack?.cannotBeMoved != true else { return self }
+        return Leftover(
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings
         )
@@ -212,8 +214,7 @@ public struct LeftoverScan: Sendable {
             leftovers: leftovers.map { leftover in
                 let heldBack = leftover.match.heldBack
                 guard
-                    leftover.requiresPrivileges,
-                    heldBack?.cannotBeMoved != true, heldBack != .holdsAnExclusion,
+                    leftover.requiresPrivileges, heldBack != .holdsAnExclusion,
                     reach.isBeyond(leftover.url, leaving: app)
                 else { return leftover }
                 return leftover.heldBack(.beyondTheHelper)

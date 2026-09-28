@@ -614,6 +614,23 @@ struct LeftoverScannerTests {
         #expect(!found.isMeasured)
     }
 
+    /// Something excluded inside only leaves a folder unselected, so it never takes the place of a reason that blocks
+    /// the move: the row still says the folder cannot be moved at all.
+    @Test func anExclusionInsideNeverHidesAReasonThatBlocksTheMove() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Tunewell/Libraries/Main.musiclibrary/Library.musicdb")
+        try directory.file("home/Library/Application Support/Tunewell/logs/today.log")
+        let folder = directory.url.appending(path: "home/Library/Application Support/Tunewell")
+        let exclusions = Exclusions(paths: [folder.appending(path: "logs")])
+
+        let scanner = LeftoverScanner(environment: environment(in: directory), exclusions: exclusions)
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        let found = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Tunewell" })
+        #expect(found.match.heldBack == .holdsALibrary)
+        #expect(found.match.heldBack?.cannotBeMoved == true)
+    }
+
     /// An exclusion inside replaces `notMeasured` as the reason, but the folder's size stays unknown, not zero.
     @Test func aFolderHoldingAnExclusionKeepsASizeNobodyKnows() async throws {
         let directory = try TemporaryDirectory()
