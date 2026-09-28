@@ -18,6 +18,7 @@ struct DeveloperDetailView: View {
                         icon: .symbol(location.kind.symbolName),
                         detail: detail(for: location),
                         warning: warning(for: location),
+                        lastWritten: location.lastWritten,
                         size: location.size ?? 0,
                         isMeasured: location.size != nil,
                         isFirst: index == 0,

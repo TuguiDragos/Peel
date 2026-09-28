@@ -13,6 +13,8 @@ struct RemovalRow: View {
     /// column is left out.
     var kind: LocalizedStringResource?
     var warning: String?
+    /// The newest write inside the item, which its note tells when the page knows it.
+    var lastWritten: Date?
     /// On a page that lists several apps' files, the apps the item was found for, named first in its note.
     var foundFor: String?
     let size: Int64
@@ -52,7 +54,11 @@ struct RemovalRow: View {
     @State private var isNoteOpen = false
 
     private var hasNote: Bool {
-        hasNoteColumn && (detail != nil || warning != nil)
+        hasNoteColumn && hasExplanation
+    }
+
+    private var hasExplanation: Bool {
+        detail != nil || warning != nil || lastWritten != nil
     }
 
     var body: some View {
@@ -77,7 +83,7 @@ struct RemovalRow: View {
                 isOn: Binding(get: { isSelected }, set: { selection.setSelected($0, for: url) }),
                 label: spokenItem,
                 // What the note says, since its button takes no keyboard focus.
-                hint: detail != nil || warning != nil ? String(explanation.characters) : nil
+                hint: hasExplanation ? String(explanation.characters) : nil
             )
             clickableItem
                 .checkboxTitle()
@@ -217,7 +223,7 @@ struct RemovalRow: View {
 
     @ViewBuilder
     private var noteButton: some View {
-        if detail != nil || warning != nil {
+        if hasExplanation {
             InfoNote(
                 name: url.lastPathComponent,
                 detail: Text(explanation),
@@ -241,6 +247,10 @@ struct RemovalRow: View {
         }
         if let detail {
             text += AttributedString(String(localized: detail))
+        }
+        if let lastWritten {
+            let written = String(localized: "Last changed \(lastWritten, format: .relative(presentation: .named))")
+            text += AttributedString(text.characters.isEmpty ? written : "\n\n\(written)")
         }
         if let warning {
             var marked = Self.commandsMarked(text.characters.isEmpty ? warning : "\n\n\(warning)")

@@ -963,6 +963,32 @@ struct DeveloperCachesTests {
         #expect(locations.first?.kind == .cache)
     }
 
+    /// The newest write inside a folder is shown beside it and decides nothing: an old cache and a fresh one are
+    /// selected alike.
+    @Test func tellsTheNewestWriteInsideAndSelectsAlikeWhateverItsAge() async throws {
+        let directory = try TemporaryDirectory()
+        let old = try directory.file("Library/Caches/org.swift.swiftpm/repositories/a/pack", bytes: 400_000)
+        let fresh = try directory.file("Library/Caches/org.swift.swiftpm/repositories/b/pack", bytes: 400_000)
+        let written = Date(timeIntervalSince1970: 1_700_000_000)
+        let repositories = directory.url.appending(path: "Library/Caches/org.swift.swiftpm/repositories")
+        for item in [old, fresh, repositories, repositories.appending(path: "a"), repositories.appending(path: "b")] {
+            let path = item.path(percentEncoded: false)
+            try FileManager.default.setAttributes([.modificationDate: written], ofItemAtPath: path)
+        }
+        let swiftpm = DeveloperCaches.definitions.filter { $0.id == "swiftpm" }
+
+        let before = await DeveloperCaches.scan(swiftpm, homeDirectory: directory.url).flatMap(\.locations)
+        let freshPath = fresh.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.modificationDate: Date.now], ofItemAtPath: freshPath)
+        let after = await DeveloperCaches.scan(swiftpm, homeDirectory: directory.url).flatMap(\.locations)
+
+        let first = try #require(before.first)
+        let second = try #require(after.first)
+        #expect(first.lastWritten == written)
+        #expect(second.lastWritten.map { Date.now.timeIntervalSince($0) < 60 } == true)
+        #expect(first.isRecommended == second.isRecommended)
+    }
+
     /// GitHub documents the CLI's cache folder and its logs as safe to delete, and its sessions, secrets, and
     /// history beside the logs as the person's.
     @Test func offersCopilotCLIsCacheAndLogsAndNothingElseOfIt() async throws {

@@ -65,6 +65,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public var project: String?
         /// False for a folder among the tool's own that nothing shows the tool made. It is listed and never selected.
         public var isTheTools = true
+        /// The newest write inside, from the walk that measured it. It is shown and never decides what is selected.
+        public var lastWritten: Date?
 
         public var id: URL { url }
 
@@ -1168,7 +1170,8 @@ public enum DeveloperCaches {
                             archive: folder.kind == .archives ? Self.archive(at: url) : nil,
                             workspace: derived?.workspace,
                             project: project,
-                            isTheTools: derived?.isXcodes ?? true
+                            isTheTools: derived?.isXcodes ?? true,
+                            lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange }
                         ))
                     }
                     guard !locations.isEmpty else { return nil }
