@@ -352,11 +352,9 @@ struct RestoreCommand: AsyncParsableCommand {
         if !forgotten {
             Output.note("Peel couldn't write this to its History, so it may offer to put these back again.")
         }
-        guard failures.isEmpty else {
-            for (record, failure) in failures {
-                Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
-            }
-            throw ExitCode.failure
+        for (record, failure) in failures {
+            Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
         }
+        try Cleanup.end(failed: !failures.isEmpty, recorded: forgotten)
     }
 }

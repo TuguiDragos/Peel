@@ -157,20 +157,41 @@ struct CleanupTests {
         #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
     }
 
-    /// A plan with nothing to move is not a failure. Its refusals are still recorded, since a removal where
-    /// everything stayed is exactly what the refusal log is for.
-    @Test func nothingToMoveIsNoFailureAndIsWrittenDown() async throws {
+    /// A plan where everything stays exits 1, as `peel uninstall` does when its app stays, and as the tool's help
+    /// says of anything that stayed where it was. Its refusals are still recorded, since a removal where everything
+    /// stayed is exactly what the refusal log is for.
+    @Test func whenEverythingStaysTheRemovalFailsAndIsWrittenDown() async throws {
         let directory = try TemporaryDirectory()
         let documents = try directory.directory("home/Documents")
         let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
         let plan = cleanup(items: [(documents, nil)], service: try service(in: directory))
 
-        try await plan.run(question: "?", dryRun: false, yes: true, using: try service(in: directory), recordingIn: log, refusals: refusals)
+        await #expect(throws: ExitCode.failure) {
+            try await plan.run(
+                question: "?", dryRun: false, yes: true, using: try service(in: directory),
+                recordingIn: log, refusals: refusals
+            )
+        }
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
         #expect(await RefusalLog(url: refusals.url).load().records.map(\.reason) == ["stays-in-place"])
         #expect(FileManager.default.fileExists(atPath: documents.path(percentEncoded: false)))
+    }
+
+    /// What moved is only in the Trash when History cannot be written, so the removal ends as one that failed.
+    @Test func aRemovalHistoryCannotRecordFails() async throws {
+        let directory = try TemporaryDirectory()
+        let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
+        try directory.file("Peel", bytes: 1)
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let service = try service(in: directory)
+        let plan = cleanup(items: [(cache, 20)], service: service)
+
+        await #expect(throws: ExitCode.failure) {
+            try await plan.run(question: "?", dryRun: false, yes: true, using: service, recordingIn: log)
+        }
+        #expect(!FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
     }
 
     /// A dry run changes nothing, not even the refusal log.

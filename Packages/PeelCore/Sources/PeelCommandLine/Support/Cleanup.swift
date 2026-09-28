@@ -56,7 +56,8 @@ struct Cleanup {
     }
 
     /// Prints the list, with `notes` under it, and, unless `dryRun` is set, asks, moves what can go, and records it
-    /// in History. A declined answer exits 2, and a failed move exits 1.
+    /// in History. A declined answer exits 2; a failed move, a plan where everything stays, and a move History could
+    /// not record exit 1.
     func run(
         question: String,
         notes: [String] = [],
@@ -94,6 +95,7 @@ struct Cleanup {
             if let problem = await refusals.add(refused, source: source, sourceKey: sourceKey, tool: tool) {
                 Output.note(problem.summary)
             }
+            if !refused.isEmpty { throw ExitCode.failure }
             return
         }
         if !yes {
@@ -120,11 +122,15 @@ struct Cleanup {
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")
         }
-        guard result.failures.isEmpty else {
-            for failure in result.failures {
-                Output.note("\(Output.plain(Output.path(failure.url))) stayed: \(failure.reason.summary)")
-            }
-            throw ExitCode.failure
+        for failure in result.failures {
+            Output.note("\(Output.plain(Output.path(failure.url))) stayed: \(failure.reason.summary)")
         }
+        try Self.end(failed: !result.failures.isEmpty, recorded: recorded)
+    }
+
+    /// Ends a removal that ran: exit 1 when something failed, or when History could not record it, since then only
+    /// the Trash knows what moved.
+    static func end(failed: Bool, recorded: Bool) throws {
+        guard !failed, recorded else { throw ExitCode.failure }
     }
 }

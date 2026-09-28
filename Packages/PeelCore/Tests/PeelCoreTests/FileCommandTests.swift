@@ -266,7 +266,8 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: other.items[0].url.path(percentEncoded: false)))
     }
 
-    /// The command line never uses the helper, so what needs administrator access stays and is recorded as refused.
+    /// The command line never uses the helper, so what needs administrator access stays, is recorded as refused,
+    /// and, since nothing else moved, the command exits 1.
     @Test func leavesWhatNeedsAdministratorAccessAndSaysSo() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
@@ -274,9 +275,14 @@ struct FileCommandTests {
             try orphan("com.example.gone", in: directory, requiresPrivileges: true),
         ])
         let scan = OrphanScan(groups: [group], unreadableLocations: [])
+        let service = try service(in: directory)
 
-        try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-            .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        await #expect(throws: ExitCode.failure) {
+            try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand).clean(
+                "com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: service,
+                recordingIn: logs.removals, refusals: logs.refusals
+            )
+        }
 
         #expect(await moved(logs).isEmpty)
         #expect(await logs.refusals.load().records.map(\.reason) == ["needs-helper"])

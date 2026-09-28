@@ -487,13 +487,10 @@ struct UninstallCommand: AsyncParsableCommand {
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")
         }
-        guard result.failures.isEmpty else {
+        if !result.failures.isEmpty {
             Self.whatFailed(result, plan: plan, app: target).forEach(Output.note)
-            throw ExitCode.failure
         }
-        if privacy?.failed == true {
-            throw ExitCode.failure
-        }
+        try Cleanup.end(failed: !result.failures.isEmpty || privacy?.failed == true, recorded: recorded)
     }
 
     /// Returns the notes printed before the question: what the scan couldn't fully check, and files that
