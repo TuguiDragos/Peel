@@ -145,7 +145,7 @@ struct IntelDetailView: View {
                     NoteBadge(
                         title: Text("Intel only"), systemImage: "cpu", tint: .secondary,
                         name: String(localized: "Intel only"),
-                        detail: Text("Built for Intel processors only, so on Apple silicon it runs through Rosetta.")
+                        detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
                     )
                     Badge(title: Text(finding.kind.title), systemImage: finding.kind.systemImage)
                 }

@@ -16785,108 +16785,108 @@
         }
       }
     },
-    "Built for Intel processors only, so on Apple silicon it runs through Rosetta." : {
+    "Built for Intel processors only. On Apple silicon it needs Rosetta." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Určeno jen pro procesory Intel, takže na Macu s čipem Apple běží v prostředí Rosetta."
+            "value" : "Určeno jen pro procesory Intel. Na Macu s čipem Apple potřebuje prostředí Rosetta."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur für Intel-Prozessoren entwickelt, daher läuft es auf einem Mac mit Apple Chip über Rosetta."
+            "value" : "Nur für Intel-Prozessoren entwickelt. Auf einem Mac mit Apple Chip benötigt es Rosetta."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su código es solo para procesadores Intel, así que en un Mac con chip de Apple se ejecuta mediante Rosetta."
+            "value" : "Su código es solo para procesadores Intel. En un Mac con chip de Apple necesita Rosetta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conçu uniquement pour les processeurs Intel : sur un Mac équipé d’une puce Apple, il s’exécute donc grâce à Rosetta."
+            "value" : "Conçu uniquement pour les processeurs Intel. Sur un Mac équipé d’une puce Apple, il nécessite Rosetta."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo per processori Intel, quindi sui Mac con chip Apple funziona tramite Rosetta."
+            "value" : "Solo per processori Intel. Sui Mac con chip Apple richiede Rosetta."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Intelプロセッサ専用にビルドされているため、AppleシリコンではRosetta経由で動作します。"
+            "value" : "Intelプロセッサ専用にビルドされています。AppleシリコンではRosettaが必要です。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Intel 프로세서 전용으로 빌드되었으므로 Apple silicon에서는 Rosetta를 통해 실행됩니다."
+            "value" : "Intel 프로세서 전용으로 빌드되었습니다. Apple silicon에서는 Rosetta가 필요합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen gemaakt voor Intel-processors, dus op Apple silicon werkt het via Rosetta."
+            "value" : "Alleen gemaakt voor Intel-processors. Op Apple silicon heeft het Rosetta nodig."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skompilowano tylko dla procesorów Intel, więc na Macu z układem scalonym Apple działa za pomocą Rosetty."
+            "value" : "Skompilowano tylko dla procesorów Intel. Na Macu z układem scalonym Apple wymaga Rosetty."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Feito só para processadores Intel, então, em um Mac com Apple silicon, é executado pelo Rosetta."
+            "value" : "Feito só para processadores Intel. Em um Mac com Apple silicon, precisa do Rosetta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar pentru procesoare Intel, așa că pe un Mac cu cip Apple rulează prin Rosetta."
+            "value" : "Doar pentru procesoare Intel. Pe un Mac cu cip Apple are nevoie de Rosetta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собрано только для процессоров Intel, поэтому на Mac с чипом Apple работает через Rosetta."
+            "value" : "Собрано только для процессоров Intel. На Mac с чипом Apple требуется Rosetta."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Byggd enbart för Intel-processorer, så på Apple Silicon körs den via Rosetta."
+            "value" : "Byggd enbart för Intel-processorer. På Apple Silicon behöver den Rosetta."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yalnızca Intel işlemciler için derlendi, bu yüzden Apple Silicon çipli Mac’lerde Rosetta ile çalışır."
+            "value" : "Yalnızca Intel işlemciler için derlendi. Apple Silicon çipli Mac’lerde Rosetta gerektirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Створено лише для процесорів Intel, тож на Apple Silicon працює через Rosetta."
+            "value" : "Створено лише для процесорів Intel. На Apple Silicon потребує Rosetta."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅为Intel处理器构建，因此在Apple芯片上需通过Rosetta运行。"
+            "value" : "仅为Intel处理器构建。在Apple芯片上需要Rosetta。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "僅為Intel處理器建置，因此在Apple晶片上需透過Rosetta執行。"
+            "value" : "僅為Intel處理器建置。在Apple晶片上需要Rosetta。"
           }
         }
       }
