@@ -44,6 +44,8 @@ final class BackgroundItemLibrary {
         let label: String
         let action: Action
         let reason: BackgroundItemActions.Failure
+        /// The job's file is in the Trash, and `reason` is why launchd still runs the job.
+        var fileMoved = false
     }
 
     func dismissFailure() {
@@ -65,13 +67,17 @@ final class BackgroundItemLibrary {
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
-                let result = try await QuitGuard.shared.run { () async throws(BackgroundItemActions.Failure) -> TrashResult in
-                    let result = try await BackgroundItemActions.moveToTrash(item, exclusions: exclusions)
-                    await record(result)
-                    return result
+                let moved = try await QuitGuard.shared.run {
+                    () async throws(BackgroundItemActions.Failure) -> BackgroundItemActions.Moved in
+                    let moved = try await BackgroundItemActions.moveToTrash(item, exclusions: exclusions)
+                    await record(moved.result)
+                    return moved
                 }
-                if let refusal = result.failures.first {
+                if let refusal = moved.result.failures.first {
                     failures.add(ActionFailure(label: item.label, action: action, reason: .trash(refusal.reason)))
+                }
+                if let reason = moved.stillRunning {
+                    failures.add(ActionFailure(label: item.label, action: action, reason: reason, fileMoved: true))
                 }
             }
         } catch {

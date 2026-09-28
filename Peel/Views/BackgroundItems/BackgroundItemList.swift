@@ -74,11 +74,18 @@ struct BackgroundItemList: View {
         case .stop: Text("“\(label)” couldn’t be stopped.")
         case .enable: Text("“\(label)” couldn’t be enabled.")
         case .disable: Text("“\(label)” couldn’t be disabled.")
+        case .moveToTrash where failure.fileMoved: Text("“\(label)” is in the Trash but couldn’t be stopped.")
         case .moveToTrash: Text("“\(label)” couldn’t be moved to the Trash.")
         }
     }
 
     private var failureMessage: Text {
+        let reason = reasonMessage
+        guard backgroundItems.failures.current?.fileMoved == true else { return reason }
+        return Text("\(reason)\n\n\(Text("macOS won’t start it again: it stops for good when the Mac restarts."))")
+    }
+
+    private var reasonMessage: Text {
         switch backgroundItems.failures.current?.reason {
         case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")

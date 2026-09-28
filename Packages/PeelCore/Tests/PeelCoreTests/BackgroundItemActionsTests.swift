@@ -64,12 +64,16 @@ struct BackgroundItemActionsTests {
                 return url
             }
         }
-        let stop: (BackgroundItem) async -> Void = { _ in steps.withLock { $0.append("stop") } }
+        let stop: (BackgroundItem) async -> BackgroundItemActions.Failure? = { _ in
+            steps.withLock { $0.append("stop") }
+            return nil
+        }
 
-        let result = try await BackgroundItemActions.moveToTrash(
+        let moved = try await BackgroundItemActions.moveToTrash(
             item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: false), stop: stop
         )
-        #expect(result.trashed.count == 1)
+        #expect(moved.result.trashed.count == 1)
+        #expect(moved.stillRunning == nil)
         #expect(steps.withLock { $0 } == ["move", "stop"])
 
         // Refused: nothing is stopped, and the refusal comes back in the result, with the reason the guard gave, so
@@ -78,8 +82,8 @@ struct BackgroundItemActionsTests {
         let refused = try await BackgroundItemActions.moveToTrash(
             item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: true), stop: stop
         )
-        #expect(refused.trashed.isEmpty)
-        #expect(refused.failures.map(\.reason) == [.guarded(.protectedLocation)])
+        #expect(refused.result.trashed.isEmpty)
+        #expect(refused.result.failures.map(\.reason) == [.guarded(.protectedLocation)])
         #expect(steps.withLock { $0 } == ["move"])
 
         // A job launchd does not hold has nothing to stop.
@@ -88,6 +92,39 @@ struct BackgroundItemActionsTests {
             item(.userLibrary, state: .notLoaded, plist: plist), isHelperEnabled: false, trash: service(refusing: false), stop: stop
         )
         #expect(steps.withLock { $0 } == ["move"])
+    }
+
+    /// Once its file is in the Trash nothing loads the job again, but one launchd could not stop runs until the Mac
+    /// restarts, and the page has to say so.
+    @Test func saysWhenAJobKeepsRunningAfterItsFileMoved() async throws {
+        let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
+        let environment = SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
+        let trash = TrashService(environment: environment) { $0 }
+        let refused = BackgroundItemActions.Failure.launchctl("Boot-out failed: 5: Input/output error")
+
+        let moved = try await BackgroundItemActions.moveToTrash(
+            item(.userLibrary, state: .running(pid: 7), plist: plist),
+            isHelperEnabled: false, trash: trash, stop: { _ in refused }
+        )
+
+        #expect(moved.result.trashed.count == 1)
+        #expect(moved.stillRunning == refused)
+    }
+
+    /// `launchctl print` answers 113 for a job launchd does not have, in either domain, whoever asks.
+    @Test func asksLaunchdWhetherAJobIsGone() async {
+        func job(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: kind, source: kind == .daemon ? .systemLibrary : .userLibrary,
+                plistURL: nil, program: nil, runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil,
+                ownerName: nil, isOwnerInstalled: false, isOrphan: false, state: .notLoaded, isDisabled: false
+            )
+        }
+
+        #expect(await BackgroundItemActions.isGone(job("org.example.never-loaded", .agent)))
+        #expect(await BackgroundItemActions.isGone(job("org.example.never-loaded", .daemon)))
+        #expect(!(await BackgroundItemActions.isGone(job("com.apple.Finder", .agent))))
+        #expect(!(await BackgroundItemActions.isGone(job("com.apple.logd", .daemon))))
     }
 
     /// The helper moves what is in `/Library`, so without it nothing is touched and nothing is stopped.
@@ -101,12 +138,13 @@ struct BackgroundItemActionsTests {
 
         await #expect(throws: BackgroundItemActions.Failure.requiresPrivileges) {
             try await BackgroundItemActions.moveToTrash(
-                item(.systemLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: trash, stop: { _ in }
+                item(.systemLibrary, state: .running(pid: 7), plist: plist),
+                isHelperEnabled: false, trash: trash, stop: { _ in nil }
             )
         }
         await #expect(throws: BackgroundItemActions.Failure.noFileToMove) {
             try await BackgroundItemActions.moveToTrash(
-                item(.app, state: .running(pid: 7), plist: nil), isHelperEnabled: true, trash: trash, stop: { _ in }
+                item(.app, state: .running(pid: 7), plist: nil), isHelperEnabled: true, trash: trash, stop: { _ in nil }
             )
         }
         #expect(!touched.withLock { $0 })

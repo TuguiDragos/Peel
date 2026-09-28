@@ -163817,6 +163817,112 @@
         }
       }
     },
+    "macOS won’t start it again: it stops for good when the Mac restarts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji znovu nespustí: po restartu Macu se trvale zastaví."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startet es nicht erneut: Wenn der Mac neu startet, ist es endgültig gestoppt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no volverá a iniciarlo: se detendrá definitivamente cuando el Mac se reinicie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne le relancera plus : il s’arrêtera définitivement au redémarrage du Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non lo avvierà più: si interromperà definitivamente al riavvio del Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこれを再び起動することはありません。Macを再起動すると、完全に停止します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 항목을 다시 시작하지 않습니다. Mac을 재시동하면 영구적으로 중단됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS start het niet opnieuw: het stopt definitief als de Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS już go nie uruchomi: zatrzyma się na dobre po ponownym uruchomieniu Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não vai iniciá-lo novamente: ele é interrompido definitivamente quando o Mac reinicia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu îl va mai porni: se oprește definitiv când Mac‑ul repornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS больше не запустит этот объект: он окончательно остановится после перезагрузки Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startar det inte igen: det stoppas för gott när datorn startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onu bir daha başlatmaz: Mac yeniden başladığında kalıcı olarak durur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не запускатиме його знову: після перезапуску Mac він зупиниться назавжди."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不会再次启动它：Mac重新启动后，它会永久停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不會再啟動它：Mac重新開機後，它就會永久停止。"
+          }
+        }
+      }
+    },
     "minikube" : {
       "localizations" : {
         "cs" : {
@@ -165721,6 +165827,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法停止「%@」。"
+          }
+        }
+      }
+    },
+    "“%@” is in the Trash but couldn’t be stopped." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka „%@“ je v koši, ale nelze ji zastavit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ ist im Papierkorb, konnte aber nicht gestoppt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” está en la papelera, pero no se ha podido detener."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » est dans la corbeille, mais impossible de l’arrêter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” è nel Cestino, ma non è stato possibile interromperlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”はゴミ箱にありますが、停止できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 휴지통에 있지만 중단할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' staat in de prullenmand, maar kon niet worden gestopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” jest w Koszu, ale nie udało się go zatrzymać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” está no Lixo, mas não foi possível pará-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” este în Coș, dar nu a putut fi oprit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект «%@» в Корзине, но его не удалось остановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”%@” ligger i papperskorgen men kunde inte stoppas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” Çöp Sepeti’nde, ancak durdurulamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» у Смітнику, але його не вдалося зупинити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”已在废纸篓中，但未能停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」已丟到「垃圾桶」，但無法停止。"
           }
         }
       }

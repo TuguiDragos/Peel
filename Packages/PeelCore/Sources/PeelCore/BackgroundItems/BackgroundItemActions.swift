@@ -77,37 +77,55 @@ public enum BackgroundItemActions {
         }
     }
 
+    /// What moving a job to the Trash did.
+    public struct Moved: Sendable {
+        /// What moved and what was refused, to be written down like any other removal.
+        public let result: TrashResult
+        /// Why launchd still runs the job whose file moved. Nothing loads it again, but it runs until the Mac restarts.
+        public let stillRunning: Failure?
+    }
+
     /// Moves the job's property list to the Trash, then unloads the job. The move comes first, so a refused move
-    /// never leaves the job stopped with its file still in place. A refused move comes back in the result, to be
-    /// written down like any other refusal.
+    /// never leaves the job stopped with its file still in place.
     @concurrent
-    @discardableResult
-    public static func moveToTrash(_ item: BackgroundItem, exclusions: Exclusions = .none) async throws(Failure) -> TrashResult {
+    public static func moveToTrash(
+        _ item: BackgroundItem, exclusions: Exclusions = .none
+    ) async throws(Failure) -> Moved {
         try await moveToTrash(
             item,
             isHelperEnabled: PrivilegedHelper.status == .enabled,
-            trash: TrashService(exclusions: exclusions),
-            stop: { try? await stop($0) }
-        )
+            trash: TrashService(exclusions: exclusions)
+        ) { item in
+            do throws(Failure) {
+                try await stop(item)
+                return nil
+            } catch {
+                return await isGone(item) ? nil : error
+            }
+        }
     }
 
     static func moveToTrash(
         _ item: BackgroundItem,
         isHelperEnabled: Bool,
         trash: TrashService,
-        stop: (BackgroundItem) async -> Void
-    ) async throws(Failure) -> TrashResult {
+        stop: (BackgroundItem) async -> Failure?
+    ) async throws(Failure) -> Moved {
         guard item.canMoveToTrash, let plist = item.plistURL else { throw .noFileToMove }
         if item.removalRequiresPrivileges, !isHelperEnabled {
             throw .requiresPrivileges
         }
         let result = await trash.trash([plist], usingHelperFor: item.removalRequiresPrivileges ? [plist] : [])
         // `TrashService` stops a job only when `PrivilegedPathPolicy.isValidLabel` accepts its label. The user
-        // chose this job, so it is also stopped here by its own label. A job that is already gone is not a failure.
-        if !result.trashed.isEmpty, item.state != .notLoaded {
-            await stop(item)
-        }
-        return result
+        // chose this job, so it is also stopped here by its own label.
+        guard !result.trashed.isEmpty, item.state != .notLoaded else { return Moved(result: result, stillRunning: nil) }
+        return Moved(result: result, stillRunning: await stop(item))
+    }
+
+    /// Whether launchd no longer has `item`: `launchctl print` exits with 113 for a job it does not have, in either
+    /// domain and whoever asks. A job that went away by itself needed no stopping.
+    static func isGone(_ item: BackgroundItem) async -> Bool {
+        await Launchctl.run(["print", target(of: item)]).status == 113
     }
 
     private static func run(_ arguments: [String]) async throws(Failure) {
