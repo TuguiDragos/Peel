@@ -28,6 +28,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public let handling: Handling
     /// Why nothing in this area is selected for the person, whatever each item holds.
     public var heldBack: HoldBack?
+    /// True when what macOS keeps in its folders for its own services is neither measured nor offered: they run as
+    /// other accounts, whose open files Peel cannot see.
+    public var leavesMacOSsOwn = false
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -62,6 +65,7 @@ public enum SpaceInventory {
         /// to this area too.
         var groupContainerFolder: String?
         var heldBack: HoldBack?
+        var leavesMacOSsOwn = false
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL) -> [URL] {
@@ -239,6 +243,13 @@ public enum SpaceInventory {
             handling: .trash,
             heldBack: .sharedWithEveryone
         ),
+        Definition(
+            id: "system-caches",
+            category: .library,
+            paths: ["/Library/Caches"],
+            handling: .trash,
+            leavesMacOSsOwn: true
+        ),
     ]
 
     /// The total size of `urls`, or nil when any of them could not be measured. A folder a file provider owns
@@ -269,6 +280,11 @@ public enum SpaceInventory {
     static func groupContainers(in home: URL) -> [URL] {
         folders(in: home.appending(path: "Library/Group Containers", directoryHint: .isDirectory))
             .filter { !ProtectedData.isApplesName($0.lastPathComponent) }
+    }
+
+    private static func childrenNotMacOSs(of folder: URL) -> [URL] {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+        return names.filter { !SystemCaches.isMacOSs($0) }.map { folder.appending(path: $0) }
     }
 
     private static func folders(in parent: URL) -> [URL] {
@@ -314,7 +330,8 @@ public enum SpaceInventory {
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
-                group.addTask { (definition, urls, await size(of: urls, measure: measure)) }
+                let measured = definition.leavesMacOSsOwn ? urls.flatMap(childrenNotMacOSs) : urls
+                group.addTask { (definition, urls, await size(of: measured, measure: measure)) }
                 return true
             }
             for _ in 0..<4 where addNext() {}
@@ -327,7 +344,8 @@ public enum SpaceInventory {
                     urls: urls,
                     size: size,
                     handling: definition.handling,
-                    heldBack: definition.heldBack
+                    heldBack: definition.heldBack,
+                    leavesMacOSsOwn: definition.leavesMacOSsOwn
                 ))
             }
         }

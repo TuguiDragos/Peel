@@ -19,6 +19,8 @@ public enum SpaceRemoval {
         /// Why a removable item is left for the person to choose, from what measuring it saw. One missing here holds
         /// nothing that keeps it from being selected.
         public var heldBack: [URL: HoldBack] = [:]
+        /// The removable items only an administrator can move, which go through the helper.
+        public var needsTheHelper: Set<URL> = []
 
         /// The open apps whose folders are left alone, each named once and sorted, by the names the user knows, not
         /// the folder names. One app can write to several folders, by its name and by its identifier.
@@ -53,16 +55,22 @@ public enum SpaceRemoval {
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
         let systemCaches = SystemCaches(environment: environment)
+        let reach = HelperReach(environment: environment)
         var sizes: [URL: Int64] = [:]
         var heldBack: [URL: HoldBack] = [:]
+        var needsTheHelper: Set<URL> = []
         for child in children.removable where !Task.isCancelled {
             let contents = await measure(child)
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
-            heldBack[child] = item.heldBack ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
+            let needsAnAdministrator = FileAccess.requiresPrivilegesToRemove(child)
+            if needsAnAdministrator { needsTheHelper.insert(child) }
+            let beyond: HoldBack? = needsAnAdministrator && reach.isBeyond(child) ? .beyondTheHelper : nil
+            heldBack[child] = beyond ?? item.heldBack
+                ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
         }
         return Plan(
             removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
-            heldBack: heldBack
+            heldBack: heldBack, needsTheHelper: needsTheHelper
         )
     }
 
@@ -105,6 +113,7 @@ public enum SpaceRemoval {
             let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
             for child in children ?? [] {
                 let name = child.lastPathComponent
+                if item.leavesMacOSsOwn, SystemCaches.isMacOSs(name) { continue }
                 let app = owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
                 if app == nil, !listed.isEmpty, !listed.contains(where: { $0.count == 1 }), child.isRealFolder {

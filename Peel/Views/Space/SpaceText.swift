@@ -145,6 +145,10 @@ extension SpaceItem {
             title: "Mail Downloads",
             detail: "Copies of the attachments you opened in Mail. Mail deletes each with its message unless you edited it, so they are listed and never selected."
         ),
+        "system-caches": Words(
+            title: "Caches for All Users",
+            detail: "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
+        ),
         "battlenet-cache": Words(
             title: "Battle.net Cache",
             detail: "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected."

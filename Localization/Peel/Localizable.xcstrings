@@ -16552,6 +16552,112 @@
       },
       "shouldTranslate" : false
     },
+    "Caches for All Users" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mezipaměti pro všechny uživatele"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches für alle Benutzer:innen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cachés para todos los usuarios"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches pour tous les utilisateurs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache per tutti gli utenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのユーザのキャッシュ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 사용자의 캐시"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches voor alle gebruikers"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pamięci podręczne dla wszystkich użytkowników"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches para Todos os Usuários"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memorii tampon pentru toți utilizatorii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кэши для всех пользователей"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cachar för alla användare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Kullanıcılar İçin Önbellekler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кеші для всіх користувачів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有用户的缓存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有使用者的快取"
+          }
+        }
+      }
+    },
     "Caches from developer tools will appear here." : {
       "localizations" : {
         "cs" : {
@@ -134829,6 +134935,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建置時會重新產生的項目，以及它安裝的項目。Peel無法確定的項目（例如名稱可能屬於任何人的檔案夾）會列在這裡但不選取，並在旁邊註明原因。"
+          }
+        }
+      }
+    },
+    "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co aplikace uložily do mezipaměti pro všechny účty v tomto Macu, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was Apps für jeden Benutzeraccount auf diesem Mac zwischengespeichert haben, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt, und was eine geöffnete App verwendet, bleibt erhalten. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que las apps han guardado en caché para todas las cuentas de este Mac, en la carpeta Biblioteca de la raíz del disco. Lo que macOS guarda ahí para sus propios servicios no se muestra, y lo que usa una app abierta se queda donde está. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les apps ont mis en cache pour tous les comptes de ce Mac, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y conserve pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise reste en place. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che le app hanno messo in cache per tutti gli account di questo Mac, nella cartella Libreria al livello principale del disco. Ciò che macOS conserva lì per i propri servizi non è elencato, e ciò che usa un’app aperta resta al suo posto. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがこのMacのすべてのアカウントのためにキャッシュしたもので、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものはそのまま残ります。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 캐시한 항목입니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목은 그대로 유지됩니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' bovenaan de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co aplikacje zapisały w pamięci podręcznej dla wszystkich kont na tym Macu, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que os apps guardaram em cache para todas as contas deste Mac, na Biblioteca que fica no nível superior do disco. O que o macOS mantém ali para os próprios serviços não é listado, e o que um app aberto usa permanece. O que pertence a um administrador passa pelo auxiliar do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tot ce au păstrat aplicațiile în memoria tampon pentru toate conturile de pe acest Mac, în dosarul Bibliotecă de la rădăcina discului. Ce păstrează macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă rămâne pe loc. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все, что приложения кэшировали для всех учетных записей на этом Mac, в папке «Библиотека» в корне диска. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som appar har cachat för alla konton på den här datorn, i mappen Bibliotek på skivans översta nivå. Det som macOS sparar där för sina egna tjänster visas inte, och det som en öppen app använder stannar kvar. Det som en administratör äger går via Peels hjälpprogram."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaların bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasöründe önbelleğe aldıkları. macOS’in orada kendi hizmetleri için tuttukları listelenmez ve açık bir uygulamanın kullandıkları yerinde kalır. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що програми кешували для всіх облікових записів на цьому Mac, у Бібліотеці на верхньому рівні диска. Те, що macOS зберігає там для власних служб, не показується, а те, чим користується відкрита програма, лишається. Те, що належить адміністратору, переміщується через помічника Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App在磁盘顶层的资源库中为这台Mac上的所有账户缓存的内容。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容会保留。管理员拥有的内容会通过Peel的帮助程序移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App為這部Mac上的所有帳號儲存的快取，位於磁碟最上層的「資源庫」中。macOS為其自身服務保留在那裡的內容不會列出，打開中的App正在使用的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
           }
         }
       }

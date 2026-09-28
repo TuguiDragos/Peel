@@ -8,7 +8,9 @@ struct SystemCaches {
         "AMSDataMigratorTool": "/System/Library/PrivateFrameworks/AppleMediaServices.framework"
             + "/Versions/A/Resources/AMSDataMigratorTool",
         "CloudKit": "/System/Library/Frameworks/CloudKit.framework",
+        "ColorSync": "/System/Library/ColorSync",
         "containermanagerd": "/usr/libexec/containermanagerd",
+        "Desktop Pictures": "/System/Library/Desktop Pictures",
         "FamilyCircle": "/System/Library/PrivateFrameworks/FamilyCircle.framework",
         "familycircled": "/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled",
         "GameKit": "/System/Library/Frameworks/GameKit.framework",

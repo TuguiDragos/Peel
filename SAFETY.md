@@ -119,7 +119,8 @@ the Trash: Peel never does that for you.
 Right before anything moves, Peel looks at the files other programs of yours hold open, and leaves where it is any
 file or folder with one of them inside, naming the program: moving a database or a cache from under an agent, a
 daemon, or a server that is using it would break it. Programs that run as another account or as root, macOS's own
-among them, cannot be seen this way, which is why Space also leaves macOS's own caches unselected.
+among them, cannot be seen this way, which is why Space also leaves macOS's own caches unselected, and in the
+Library at the top of the disk, where those programs keep theirs, does not list them at all.
 
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a

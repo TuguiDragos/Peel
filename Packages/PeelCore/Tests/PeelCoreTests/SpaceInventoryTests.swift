@@ -40,7 +40,8 @@ struct SpaceInventoryTests {
         try directory.file("Library/Logs/big.log", bytes: 400_000)
         try directory.file("Library/Caches/com.example.app/blob", bytes: 400_000)
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000) { url in
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let report = await SpaceInventory.scan(home: directory.url, root: root, minimumSize: 100_000) { url in
             url.lastPathComponent == "Caches" ? nil : await FileSize.reclaimableSize(of: url, within: FileSize.budget)
         }
 
@@ -170,6 +171,27 @@ struct SpaceInventoryTests {
         #expect(cache.urls.map { $0.pathComponents.suffix(3).joined(separator: "/") } == ["Shared/Blizzard/Battle.net"])
         #expect(cache.handling == .trash)
         #expect(cache.heldBack == .sharedWithEveryone)
+    }
+
+    /// The caches apps keep for every account are measured without what macOS keeps there for its own services,
+    /// which belong to other accounts' processes and are never offered.
+    @Test func findsTheCachesAppsKeepForEveryAccountWithoutMacOSsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Caches/org.example.updater/package.bin", bytes: 8_000)
+        try directory.file("root/Library/Caches/com.apple.iconservices.store/icons.bin", bytes: 50_000)
+        try directory.file("root/Library/Caches/ColorSync/profiles.bin", bytes: 50_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: FileSize.measure
+        )
+
+        let caches = try #require(report.items.first { $0.id == "system-caches" })
+        #expect(caches.urls.map { $0.pathComponents.suffix(2).joined(separator: "/") } == ["Library/Caches"])
+        #expect(caches.handling == .trash)
+        #expect(caches.leavesMacOSsOwn)
+        #expect(caches.size.map { $0 >= 8_000 && $0 < 50_000 } == true)
     }
 
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {

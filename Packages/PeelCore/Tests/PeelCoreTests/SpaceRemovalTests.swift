@@ -119,6 +119,49 @@ struct SpaceRemovalTests {
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 
+    /// In the caches every account shares, what macOS keeps is left out of the plan altogether: its services run
+    /// as other accounts, whose open files Peel cannot see. What only an administrator can move goes through the
+    /// helper.
+    @Test func leavesMacOSsOwnOutOfTheCachesEveryAccountShares() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["com.apple.iconservices.store", "ColorSync", "Desktop Pictures", "org.example.updater"] {
+            try directory.file("root/Library/Caches/\(name)/data.bin")
+        }
+        let shared = SpaceItem(
+            id: "system-caches",
+            category: .library,
+            urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
+            size: 0,
+            handling: .trash,
+            leavesMacOSsOwn: true
+        )
+
+        let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["org.example.updater"])
+        #expect(plan.needsTheHelper.isEmpty, "a folder the person owns moves without the helper")
+    }
+
+    @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Caches/org.example.updater/data.bin")
+        try directory.setPermissions(0o555, of: "root/Library/Caches")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Caches") }
+        let shared = SpaceItem(
+            id: "system-caches",
+            category: .library,
+            urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
+            size: 0,
+            handling: .trash,
+            leavesMacOSsOwn: true
+        )
+
+        let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
+
+        #expect(plan.needsTheHelper.map(\.lastPathComponent) == ["org.example.updater"])
+        #expect(plan.heldBack.isEmpty, "the helper serves the caches every account shares")
+    }
+
     @Test func emptiesAContainersCachesUnlessItsAppIsOpenOrApples() async throws {
         let directory = try TemporaryDirectory()
         let containers = "home/Library/Containers"

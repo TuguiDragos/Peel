@@ -40,7 +40,7 @@ final class SpaceLibrary: RowSelection {
         let previous = plans[item.id]
         let chosen = choices[item.id, default: KeptSelection()].update(
             selectedURLs,
-            selectable: Set(plan.removable),
+            selectable: Set(plan.removable.filter { plan.heldBack[$0]?.cannotBeMoved != true }),
             suggested: plan.suggested
         )
         selectedURLs.subtract(previous?.removable ?? [])
@@ -96,8 +96,9 @@ extension SpaceLibrary: CarriesSelection {
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
         let removable = await SpaceRemoval.removable(in: item, exclusions: exclusions, running: RunningCopies.current)
+            .filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
         return await TrashService(exclusions: exclusions)
-            .trash(removable.filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) })
+            .trash(removable, usingHelperFor: Set(removable.filter(FileAccess.requiresPrivilegesToRemove)))
     }
 
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
