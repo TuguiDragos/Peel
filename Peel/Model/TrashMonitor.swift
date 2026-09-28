@@ -26,7 +26,9 @@ final class TrashMonitor {
     func start() {
         guard home == nil else { return }
         let trash = URL.homeDirectory.appending(path: ".Trash", directoryHint: .isDirectory)
-        let watch = TrashWatch(trash: trash, waitsForTheTrash: false) { [weak self] in self?.onApplicationTrashed?($0) }
+        // Finder makes the home's Trash again only when something is next thrown away, so while it is missing the
+        // home folder is watched for it.
+        let watch = TrashWatch(trash: trash, waitsIn: .homeDirectory) { [weak self] in self?.onApplicationTrashed?($0) }
         switch watch.start() {
         case .watching:
             home = watch
@@ -76,7 +78,8 @@ final class TrashMonitor {
                 // The list of apps changing, as it does when one leaves its folder, is when to look again.
                 watch.lookForTheTrash()
             } else {
-                let watch = TrashWatch(trash: trash, waitsForTheTrash: true) { [weak self] in
+                let volume = trash.deletingLastPathComponent().deletingLastPathComponent()
+                let watch = TrashWatch(trash: trash, waitsIn: volume) { [weak self] in
                     self?.onApplicationTrashed?($0)
                 }
                 _ = watch.start()
@@ -86,8 +89,9 @@ final class TrashMonitor {
     }
 }
 
-/// One Trash folder, watched for apps arriving. A disk's Trash appears only once something there first goes to
-/// the Trash, so until then the top of the disk is watched, where `.Trashes` appears.
+/// One Trash folder, watched for apps arriving. A Trash can be missing: a disk's appears only once something there
+/// first goes to the Trash, and the home's is made again only then after it is deleted. Until it is there, the folder
+/// it appears in is watched: the top of the disk, where `.Trashes` appears, or the home folder.
 @MainActor
 private final class TrashWatch {
     enum Start {
@@ -98,7 +102,7 @@ private final class TrashWatch {
     }
 
     let trash: URL
-    private let waitsForTheTrash: Bool
+    private let waitingPlace: URL
     private let onArrived: (URL) -> Void
     /// Told what came of starting again after the folder watched went away.
     var onRestart: ((Start) -> Void)?
@@ -112,9 +116,9 @@ private final class TrashWatch {
 
     var isActive: Bool { source != nil }
 
-    init(trash: URL, waitsForTheTrash: Bool, onArrived: @escaping (URL) -> Void) {
+    init(trash: URL, waitsIn waitingPlace: URL, onArrived: @escaping (URL) -> Void) {
         self.trash = trash
-        self.waitsForTheTrash = waitsForTheTrash
+        self.waitingPlace = waitingPlace
         self.onArrived = onArrived
     }
 
@@ -123,7 +127,7 @@ private final class TrashWatch {
         guard source == nil else { return .watching }
         let descriptor = open(trash.path(percentEncoded: false), O_EVTONLY)
         let failure = errno
-        if descriptor < 0, failure == ENOENT, waitsForTheTrash {
+        if descriptor < 0, failure == ENOENT {
             return waitForTheTrash()
         }
         guard descriptor >= 0, let applications = Self.names(in: trash) else {
@@ -150,12 +154,11 @@ private final class TrashWatch {
     func lookForTheTrash() {
         guard isWaitingForTheTrash else { return }
         stop()
-        _ = start(appeared: true)
+        onRestart?(start(appeared: true))
     }
 
     private func waitForTheTrash() -> Start {
-        let volume = trash.deletingLastPathComponent().deletingLastPathComponent()
-        let descriptor = open(volume.path(percentEncoded: false), O_EVTONLY)
+        let descriptor = open(waitingPlace.path(percentEncoded: false), O_EVTONLY)
         guard descriptor >= 0 else { return .unavailable }
         watch(descriptor)
         isWaitingForTheTrash = true

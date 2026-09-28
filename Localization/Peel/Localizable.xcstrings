@@ -89472,6 +89472,112 @@
         }
       }
     },
+    "Peel isn’t watching the Trash right now. It tries again each time you come back to Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel právě teď koš nesleduje. Zkusí to znovu pokaždé, když se do Peelu vrátíte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel beobachtet den Papierkorb derzeit nicht und versucht es jedes Mal erneut, wenn du zu Peel zurückkehrst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no está vigilando la papelera ahora mismo. Lo intenta de nuevo cada vez que vuelves a Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne surveille pas la corbeille pour l’instant. Il réessaie chaque fois que vous revenez à Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al momento Peel non sta monitorando il Cestino. Ci riprova ogni volta che torni su Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは現在、ゴミ箱を監視していません。Peelに戻るたびに再試行します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 지금은 휴지통을 지켜보고 있지 않습니다. Peel로 돌아올 때마다 다시 시도합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel houdt de prullenmand op dit moment niet in de gaten. Dit wordt opnieuw geprobeerd telkens wanneer je naar Peel terugkeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie obserwuje teraz Kosza. Próbuje ponownie za każdym razem, gdy wracasz do Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não está monitorando o Lixo agora. Ele tenta novamente sempre que você volta ao Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu urmărește momentan Coșul. Încearcă din nou de fiecare dată când reveniți la Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel сейчас не следит за Корзиной. Он пробует снова каждый раз, когда Вы возвращаетесь в Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bevakar inte papperskorgen just nu. Appen försöker igen varje gång du går tillbaka till Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu anda Çöp Sepeti’ni izlemiyor. Peel’e her geri döndüğünüzde yeniden dener."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зараз не стежить за Смітником. Вона пробує знову щоразу, коли ви повертаєтеся до Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel目前未在监视废纸篓。每次你回到Peel时，它都会再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel目前沒有監看「垃圾桶」。每次你回到Peel時，它都會再試一次。"
+          }
+        }
+      }
+    },
     "Peel kept the old file and continued with what it could still read." : {
       "localizations" : {
         "cs" : {

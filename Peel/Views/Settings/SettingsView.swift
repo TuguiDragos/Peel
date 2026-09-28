@@ -206,6 +206,8 @@ private struct GeneralSettingsView: View {
                             home.openFullDiskAccessSettings()
                         }
                     }
+                } else if watchesTrash, trashMonitor.status == .off {
+                    WarningLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
                        "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")

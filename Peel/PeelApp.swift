@@ -176,7 +176,8 @@ struct PeelApp: App {
                     await library.checkSigningTeams()
                 }
             }
-            if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
+            // A watch that could not start, for want of Full Disk Access or for any other reason, is tried again.
+            if watchesTrash, trashMonitor.status != .watching {
                 trashMonitor.start()
             }
         }
