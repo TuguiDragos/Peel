@@ -158,7 +158,7 @@ public enum SpaceInventory {
         Definition(
             id: "minikube",
             category: .virtualMachines,
-            paths: [".minikube/machines", ".minikube/cache"],
+            paths: [".minikube/machines", ".minikube/cache/images"],
             handling: .readOnly
         ),
         Definition(

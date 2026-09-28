@@ -877,6 +877,8 @@ public enum DeveloperCaches {
             Folder(".minikube/cache/iso", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
             Folder(".minikube/cache/kic", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
             Folder(".minikube/cache/preloaded-tarball", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
+            Folder(".minikube/cache/linux", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/site/content/en/docs/handbook/offline.md#L10-L17"),
+            Folder(".minikube/cache/darwin", .downloads, source: "https://github.com/kubernetes/minikube/blob/master/pkg/minikube/node/cache.go#L113-L121"),
         ]),
         Definition(id: "vagrant", name: "Vagrant", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder(".vagrant.d/boxes", .keptDownloads, source: "https://github.com/hashicorp/vagrant/blob/main/lib/vagrant/environment.rb#L140"),

@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct SpaceInventoryTests {
@@ -228,6 +229,22 @@ struct SpaceInventoryTests {
             #expect(!definition.paths.isEmpty || containers)
         }
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
+    }
+
+    /// Space says it leaves a read only area to the app that made it, so nothing in one is what Developer
+    /// selects for the person to remove.
+    @Test func noReadOnlyAreaHoldsWhatDeveloperSelects() {
+        let selected: Set<DeveloperEnvironment.ContentKind> = [.buildData, .downloads, .cache, .logs]
+        for area in SpaceInventory.definitions where area.handling == .readOnly {
+            for path in area.paths {
+                for tool in DeveloperCaches.definitions {
+                    for folder in tool.folders where selected.contains(folder.kind) {
+                        let isInside = PathComponents.isPath(folder.path, atOrInside: path)
+                        #expect(!isInside, "\(area.id) holds \(folder.path)")
+                    }
+                }
+            }
+        }
     }
 
     /// Space empties a folder's contents and never the folder, whose name macOS expects to find. So the guard
