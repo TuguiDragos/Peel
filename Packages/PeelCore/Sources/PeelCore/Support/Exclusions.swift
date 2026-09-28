@@ -121,6 +121,17 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
+    /// The excluded places inside `url`, leaving out one inside another, so what they hold is counted once.
+    public func places(inside url: URL) -> [URL] {
+        let asked = Self.spellings(of: url).map(PathComponents.of)
+        let inside = paths.filter { path in
+            Self.spellings(of: path).map(PathComponents.of).contains { names in
+                asked.contains { names.count > $0.count && names.starts(with: $0) }
+            }
+        }
+        return inside.filter { place in !inside.contains { $0 != place && Exclusions(paths: [$0]).excludes(place) } }
+    }
+
     /// Every way `url` can be written (see `PathPattern.spellings(of:)`). An exclusion has to match all of
     /// them, or an item under `/var`, `/tmp` or `/etc` would slip past it when named through `/private`.
     private static func spellings(of url: URL) -> Set<String> {

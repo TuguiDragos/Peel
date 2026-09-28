@@ -52,7 +52,8 @@ final class SpaceLibrary: RowSelection {
     /// Scans again, and makes again the plans of the areas in `replanning` and of every area that changed since
     /// its plan was made, so what is carried from them follows what is on disk.
     private func refresh(replanning: Set<SpaceItem.ID>) async {
-        guard let result = await scanRun.run({ await SpaceInventory.scan() }) else { return }
+        let exclusions = ExclusionsStore.shared.exclusions
+        guard let result = await scanRun.run({ await SpaceInventory.scan(exclusions: exclusions) }) else { return }
         report = result
         for id in plans.keys.filter({ id in !result.items.contains { $0.id == id } }) {
             selectedURLs.subtract(plans[id]?.removable ?? [])

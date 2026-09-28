@@ -267,14 +267,22 @@ public enum SpaceInventory {
         ),
     ]
 
-    /// The total size of `urls`, or nil when any of them could not be measured. A folder a file provider owns
-    /// can stall a directory read for minutes, and a very big folder can run out of time as well. An area with
-    /// an unknown size is still listed, since it may be the biggest one on the disk.
-    private static func size(of urls: [URL], measure: @escaping FileSize.Measure) async -> Int64? {
+    /// The total size of `urls` less what is excluded inside them, or nil when any of it could not be measured. A
+    /// folder a file provider owns can stall a directory read for minutes, and a very big folder can run out of
+    /// time as well. An area with an unknown size is still listed, since it may be the biggest one on the disk.
+    private static func size(
+        of urls: [URL],
+        leaving exclusions: Exclusions,
+        measure: @escaping FileSize.Measure
+    ) async -> Int64? {
         var total: Int64 = 0
         for url in urls {
-            guard let measured = await measure(url) else { return nil }
-            total += measured
+            guard var measured = await measure(url) else { return nil }
+            for place in exclusions.places(inside: url) where !place.isMissing {
+                guard let excluded = await measure(place) else { return nil }
+                measured -= excluded
+            }
+            total += max(0, measured)
         }
         return total
     }
@@ -324,9 +332,21 @@ public enum SpaceInventory {
     /// Anything smaller than this is noise in a report about space.
     public static let minimumSize: Int64 = 50 * 1_000_000
 
+    /// What is excluded is left out: an area that is excluded is not listed, and what is excluded inside one is
+    /// not counted in its size.
     @concurrent
-    public static func scan(home: URL = .homeDirectory, minimumSize: Int64 = SpaceInventory.minimumSize) async -> SpaceReport {
-        await scan(home: home, root: URL(filePath: "/", directoryHint: .isDirectory), minimumSize: minimumSize, measure: FileSize.measure)
+    public static func scan(
+        home: URL = .homeDirectory,
+        minimumSize: Int64 = SpaceInventory.minimumSize,
+        exclusions: Exclusions = .none
+    ) async -> SpaceReport {
+        await scan(
+            home: home,
+            root: URL(filePath: "/", directoryHint: .isDirectory),
+            minimumSize: minimumSize,
+            exclusions: exclusions,
+            measure: FileSize.measure
+        )
     }
 
     /// `root` is where the paths outside the home folder start, so a test can point it at a folder of its own.
@@ -335,6 +355,7 @@ public enum SpaceInventory {
         home: URL,
         root: URL = URL(filePath: "/", directoryHint: .isDirectory),
         minimumSize: Int64,
+        exclusions: Exclusions = .none,
         measure: @escaping FileSize.Measure
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
@@ -348,7 +369,8 @@ public enum SpaceInventory {
                 + (definition.groupContainerFolder.map { folder in
                     groups.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)
                 } ?? [])
-            return urls.isEmpty ? nil : (definition, urls)
+            let kept = urls.filter { !exclusions.excludes($0) }
+            return kept.isEmpty ? nil : (definition, kept)
         }
 
         // Four areas are measured at a time. One after another, the wait would be the sum of them all, and a
@@ -359,8 +381,9 @@ public enum SpaceInventory {
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
-                let measured = definition.leavesMacOSsOwn ? offered(in: urls, of: definition, root: root) : urls
-                group.addTask { (definition, urls, await size(of: measured, measure: measure)) }
+                let measured = definition.leavesMacOSsOwn
+                    ? offered(in: urls, of: definition, root: root).filter { !exclusions.excludes($0) } : urls
+                group.addTask { (definition, urls, await size(of: measured, leaving: exclusions, measure: measure)) }
                 return true
             }
             for _ in 0..<4 where addNext() {}

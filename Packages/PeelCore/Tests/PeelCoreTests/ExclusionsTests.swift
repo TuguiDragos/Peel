@@ -3,6 +3,22 @@ import Foundation
 import Testing
 
 struct ExclusionsTests {
+    @Test func findsTheExcludedPlacesInsideAFolderOnce() {
+        let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
+        let exclusions = Exclusions(paths: [
+            caches.appending(path: "org.example.one"),
+            caches.appending(path: "org.example.one/inner"),
+            caches.appending(path: "org.example.two"),
+            URL(filePath: "/Users/x/Documents"),
+        ])
+
+        let places = Set(exclusions.places(inside: caches).map(\.lastPathComponent))
+        #expect(places == ["org.example.one", "org.example.two"])
+        #expect(exclusions.places(inside: URL(filePath: "/Users/x/Library/Logs")).isEmpty)
+        let two = caches.appending(path: "org.example.two")
+        #expect(exclusions.places(inside: two).isEmpty, "a place is not inside itself")
+    }
+
     /// A slash and a combining mark after it are one `Character`, so a name that begins with the mark is not
     /// "inside" its folder to a comparison made on characters. Compared name by name, what sits in an excluded
     /// folder is excluded whatever its name begins with, and an excluded item inside a folder is still held.

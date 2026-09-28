@@ -69,6 +69,41 @@ struct SpaceInventoryTests {
         #expect(!report.needsFullDiskAccess, "ordinary permissions were read as a refusal Full Disk Access would lift")
     }
 
+    @Test func leavesOutWhatIsExcludedAndWhatItHolds() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Parallels/Example.pvm/disk.hdd", bytes: 400_000)
+        try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)
+        try directory.file("Library/Caches/org.example.excluded/blob", bytes: 500_000)
+        let exclusions = Exclusions(paths: [
+            directory.url.appending(path: "Parallels"),
+            directory.url.appending(path: "Library/Caches/org.example.excluded"),
+        ])
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1, exclusions: exclusions, measure: FileSize.measure
+        )
+
+        #expect(!report.items.contains { $0.id == "parallels" })
+        let caches = try #require(report.items.first { $0.id == "caches" })
+        let kept = await FileSize.reclaimableSize(of: directory.url.appending(path: "Library/Caches/org.example.kept"))
+        #expect(caches.size == kept)
+    }
+
+    @Test func anExcludedPlaceThatCannotBeMeasuredLeavesTheAreaUnknown() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)
+        try directory.file("Library/Caches/org.example.excluded/blob", bytes: 500_000)
+        let excluded = directory.url.appending(path: "Library/Caches/org.example.excluded")
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [excluded])
+        ) { url in
+            url.lastPathComponent == excluded.lastPathComponent ? nil : await FileSize.measure(url)
+        }
+
+        #expect(report.items.first { $0.id == "caches" }?.size == nil)
+    }
+
     @Test func leavesWhatOthersOwnToThem() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".colima/machine/disk.img", bytes: 4096)
