@@ -20,6 +20,8 @@ public struct SearchLocation: Sendable, Hashable {
         case launchAgents
         case launchDaemons
         case privilegedHelperTools
+        /// `/Library/StartupItems`, where older software keeps a folder that runs at startup.
+        case startupItems
         /// The folders macOS loads plug-ins from.
         case plugIns
         /// The two files that are an installer receipt, which is how macOS still counts a package as installed.
@@ -69,6 +71,7 @@ extension SearchLocation.Kind {
         case .launchAgents: self = .launchAgents
         case .launchDaemons: self = .launchDaemons
         case .privilegedHelperTools: self = .privilegedHelperTools
+        case .startupItems: self = .startupItems
         case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
              .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:

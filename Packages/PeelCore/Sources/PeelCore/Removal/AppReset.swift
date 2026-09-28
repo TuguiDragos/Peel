@@ -90,8 +90,8 @@ public struct AppReset: Sendable {
             .appData
         // A reset leaves these alone. What every account on the Mac shares is not one user's to reset, and a
         // plug-in is code that macOS loads, not a setting.
-        case .launchAgents, .launchDaemons, .privilegedHelperTools, .plugIns, .receipts, .library, .sharedFolder,
-             .hiddenHomeFiles, .homeFolder, .commandLineTools, .elsewhere:
+        case .launchAgents, .launchDaemons, .privilegedHelperTools, .startupItems, .plugIns, .receipts, .library,
+             .sharedFolder, .hiddenHomeFiles, .homeFolder, .commandLineTools, .elsewhere:
             nil
         }
     }

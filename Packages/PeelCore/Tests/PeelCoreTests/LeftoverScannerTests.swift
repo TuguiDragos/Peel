@@ -965,6 +965,30 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.count == 1, "the kext was reached twice or its folder was offered")
     }
 
+    /// A startup item an app's package installed in `/Library/StartupItems` is found by its folder's name and moved
+    /// through the helper, which serves that folder; the folder itself is never offered.
+    @Test(.permissionsHold) func findsTheAppsStartupItem() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        try directory.file("root/Library/StartupItems/Hexachord/Hexachord", bytes: 64)
+        try directory.file("root/Library/StartupItems/Hexachord/StartupParameters.plist", bytes: 64)
+        try directory.setPermissions(0o555, of: "root/Library/StartupItems")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/StartupItems") }
+
+        let found = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let scan = found.holdingBack(beyond: HelperReach(environment: environment(in: directory)), leaving: app.url)
+
+        let item = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Hexachord" })
+        #expect(item.kind == .startupItems)
+        #expect(item.requiresPrivileges)
+        #expect(item.match.heldBack != .beyondTheHelper)
+        #expect(scan.leftovers.count == 1)
+    }
+
     /// A file system an app's package installed stays in `/Library/Filesystems` after the app goes, and is listed the
     /// same way: found by the identifier it declares, never selected, since the helper does not serve that folder.
     @Test(.permissionsHold) func listsTheAppsFileSystemWithoutEverSelectingIt() async throws {
