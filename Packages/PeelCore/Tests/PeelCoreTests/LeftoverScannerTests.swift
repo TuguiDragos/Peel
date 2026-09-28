@@ -919,6 +919,32 @@ struct LeftoverScannerTests {
         #expect(found["home/Library/Example Audio/org.example.hexachord"]?.match.isRecommended == true)
     }
 
+    /// A kernel extension an app's driver installed stays in `/Library/Extensions` after the app goes. It is found by
+    /// the identifier it declares and listed, but only an administrator can move it and Peel's helper does not serve
+    /// that folder, so it can never be selected.
+    @Test(.permissionsHold) func listsTheAppsKernelExtensionWithoutEverSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.hexachord.driver"], format: .xml, options: 0
+        )
+        try info.write(to: directory.file("root/Library/Extensions/HexachordAudio.kext/Contents/Info.plist"))
+        try directory.setPermissions(0o555, of: "root/Library/Extensions")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Extensions") }
+
+        let found = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let scan = found.holdingBack(beyond: HelperReach(environment: environment(in: directory)), leaving: app.url)
+
+        let kext = try #require(scan.leftovers.first { $0.url.lastPathComponent == "HexachordAudio.kext" })
+        #expect(kext.requiresPrivileges)
+        #expect(kext.match.heldBack == .beyondTheHelper)
+        #expect(scan.leftovers.count == 1, "the kext was reached twice or its folder was offered")
+    }
+
     /// Apple: "The system automatically uninstalls any system extensions when the user deletes the corresponding
     /// app." The copy macOS activated in `/Library/SystemExtensions` is its own to remove, so it is never listed.
     @Test func neverListsASystemExtensionMacOSRemovesWithItsApp() async throws {

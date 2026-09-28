@@ -125,10 +125,14 @@ public struct SearchEnvironment: Sendable {
     /// The first folder of every Library path scanned as a location of its own, such as `Preferences`. The top of
     /// a Library never offers one of these whole: they are looked inside, never moved.
     static let libraryEntriesScannedElsewhere = Set(
-        ((userEntries + localEntries).map(\.1) + Plugins.folders.map(\.0)).map { name in
+        ((userEntries + localEntries).map(\.1) + Plugins.folders.map(\.0) + [kernelExtensions]).map { name in
             String(name.prefix { $0 != "/" })
         }
     )
+
+    /// Where a driver's kernel extensions stay in `/Library`. They are searched like plug-ins, named for what they
+    /// do, but the helper does not serve this folder, so what is found there is listed and never moved.
+    static let kernelExtensions = "Extensions"
 
     public var locations: [SearchLocation] {
         let userLibrary = homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
@@ -140,6 +144,9 @@ public struct SearchEnvironment: Sendable {
         locations += [userLibrary, localLibrary].flatMap { library in
             Plugins.folders.map { SearchLocation(kind: .plugIns, url: library.appending(path: $0.0, directoryHint: .isDirectory)) }
         }
+        locations.append(SearchLocation(
+            kind: .plugIns, url: localLibrary.appending(path: Self.kernelExtensions, directoryHint: .isDirectory)
+        ))
         if let userCacheDirectory {
             locations.append(SearchLocation(kind: .caches, url: userCacheDirectory))
         }
