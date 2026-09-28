@@ -203,6 +203,34 @@ struct OrphanScannerTests {
         #expect(group.confidence.level != .certain)
     }
 
+    /// A group the person said belongs to an installed app is not listed while that app is installed. Once the app
+    /// is gone, the files are orphaned again.
+    @Test func aGroupThePersonGaveToAnInstalledAppIsNotListed() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/org.example.helper/state.db")
+        try directory.file("home/Library/Caches/org.example.other/cache.db")
+        let scanner = scanner(in: directory)
+
+        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "com.installed.app"])
+        #expect(given.groups.map(\.identifier) == ["org.example.other"])
+
+        let ownerGone = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "org.example.gone"])
+        #expect(Set(ownerGone.groups.map(\.identifier)) == ["org.example.helper", "org.example.other"])
+    }
+
+    @Test func remembersWhichAppAGroupBelongsToUntilToldOtherwise() throws {
+        let directory = try TemporaryDirectory()
+        let owners = OrphanOwners(url: directory.url.appending(path: "orphan-owners.json"))
+        #expect(owners.load() == [:])
+
+        #expect(owners.give("org.example.Helper", to: "com.installed.app"))
+        #expect(owners.give("org.example.other", to: "com.microsoft.Word"))
+        #expect(owners.load() == ["org.example.helper": "com.installed.app", "org.example.other": "com.microsoft.Word"])
+
+        #expect(owners.take(["org.example.helper"]))
+        #expect(owners.load() == ["org.example.other": "com.microsoft.Word"])
+    }
+
     /// An app installed since the scan owns what the list still calls orphaned.
     @Test func whatAnAppInstalledSinceClaimsIsNoLongerOrphaned() async throws {
         let directory = try TemporaryDirectory()

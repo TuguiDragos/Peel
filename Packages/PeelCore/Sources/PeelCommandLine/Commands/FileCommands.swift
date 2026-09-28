@@ -71,7 +71,9 @@ struct OrphansCommand: AsyncParsableCommand {
         let running = Set(await RunningCopies.current.map(\.bundleIdentifier))
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
-        let scan = await scanner.scan(installedApps: apps, remembered: remembered, running: running)
+        let scan = await scanner.scan(
+            installedApps: apps, remembered: remembered, running: running, owners: OrphanOwners().load()
+        )
         if let group {
             return try await clean(group, in: scan, apps: apps, scanner: scanner, using: TrashService(exclusions: exclusions))
         }

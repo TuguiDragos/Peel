@@ -5,10 +5,12 @@ import UniformTypeIdentifiers
 struct ExclusionsSettingsView: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(AppLibrary.self) private var library
+    @Environment(OrphanLibrary.self) private var orphans
     @State private var isChoosingPaths = false
     @State private var refused: [String] = []
     @State private var selectedPaths: Set<URL> = []
     @State private var selectedApps: Set<String> = []
+    @State private var selectedGroups: Set<String> = []
 
     private var paths: [URL] {
         exclusions.exclusions.paths.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
@@ -146,6 +148,42 @@ struct ExclusionsSettingsView: View {
             } header: {
                 heading("Apps", "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. The Storage pages, Plug-ins, and Package Receipts go by files and folders only, so to protect an app’s files there, exclude its folders above as well.")
             }
+
+            Section {
+                let groups = orphans.owners.keys.sorted()
+                if groups.isEmpty {
+                    Text("No orphaned files are said to belong to an app.")
+                        .foregroundStyle(.secondary)
+                } else {
+                    List(selection: $selectedGroups) {
+                        ForEach(groups, id: \.self) { group in
+                            HStack(spacing: 8) {
+                                Text(verbatim: group)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                if let owner = orphans.owners[group] {
+                                    Text(verbatim: library.apps.first { $0.bundleIdentifier == owner }?.name ?? owner)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .lineLimit(1)
+                                }
+                            }
+                            .tag(group)
+                        }
+                    }
+                    .frame(height: Self.listHeight(rows: groups.count))
+                    .scrollContentBackground(.hidden)
+                    .onDeleteCommand { forgetSelectedGroups() }
+                }
+                HStack {
+                    Spacer()
+                    Button("Remove", systemImage: "minus") { forgetSelectedGroups() }
+                        .disabled(selectedGroups.isEmpty)
+                }
+                .editingControls()
+            } header: {
+                heading("Orphaned Files That Belong to an App", "Orphaned Files doesn’t list these while the app you said they belong to is installed. Nothing of them was moved. Remove one to list it again.")
+            }
         }
         .formStyle(.grouped)
         // `.folder` is listed as well as `.item`: with `.item` alone, the panel doesn't let the user choose a
@@ -168,6 +206,14 @@ struct ExclusionsSettingsView: View {
                 ? Text("That would hide too much from Peel. Choose the folders inside it that matter to you.\n\n\(paths)")
                 : Text("That would hide too much from Peel. Choose the folders inside them that matter to you.\n\n\(paths)")
         }
+    }
+}
+
+extension ExclusionsSettingsView {
+    private func forgetSelectedGroups() {
+        let forgotten = Array(selectedGroups)
+        selectedGroups = []
+        Task { await orphans.forget(forgotten, from: library) }
     }
 }
 

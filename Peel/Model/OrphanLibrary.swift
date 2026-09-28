@@ -15,6 +15,8 @@ final class OrphanLibrary {
 
     /// The revision of the apps list the scan was checked against. The page scans again when the list changes.
     private(set) var scannedRevision: Int?
+    /// The groups the person said belong to an app, by identifier, with that app's bundle identifier.
+    private(set) var owners = OrphanOwners().load()
 
     var selectedGroup: OrphanGroup? {
         scan?.groups.first { $0.id == selection }
@@ -29,13 +31,15 @@ final class OrphanLibrary {
         // check this too; checking here keeps a new caller from getting it wrong.
         guard !library.apps.isEmpty else { return }
         let (installedApps, revision) = (library.apps, library.revision)
+        let owners = OrphanOwners().load()
+        self.owners = owners
         guard let result = await scanRun.run({
             let remembered = await AppMemory().remember(installedApps)
             // What is currently running is better evidence than anything worked out from what is installed: a
             // helper or an agent can keep a folder that no app bundle claims.
             let running = Set(NSWorkspace.shared.runningApplications.compactMap(\.bundleIdentifier))
             return await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions)
-                .scan(installedApps: installedApps, remembered: remembered, running: running)
+                .scan(installedApps: installedApps, remembered: remembered, running: running, owners: owners)
         }) else { return }
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
@@ -46,6 +50,21 @@ final class OrphanLibrary {
         }
     }
 
+    /// Takes `group` out of the list, as the person said it belongs to `app`. Nothing moves, and the group stays
+    /// listed when the choice could not be saved.
+    func give(_ group: OrphanGroup, to app: InstalledApp) {
+        guard OrphanOwners().give(group.identifier, to: app.bundleIdentifier), let scan else { return }
+        owners[group.identifier.lowercased()] = app.bundleIdentifier
+        self.scan = scan.without(group.id)
+        selectedURLs.subtract(group.items.map(\.url))
+        if selection == group.id { selection = nil }
+    }
+
+    /// Lists `groups` again, forgetting the app each was given to.
+    func forget(_ groups: [String], from library: AppLibrary) async {
+        guard OrphanOwners().take(groups) else { return }
+        await refresh(from: library)
+    }
 }
 
 extension OrphanLibrary: CarriesSelection {

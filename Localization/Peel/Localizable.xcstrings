@@ -66633,6 +66633,112 @@
         }
       }
     },
+    "No orphaned files are said to belong to an app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U žádných osiřelých souborů jste zatím neuvedli, že patří některé aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für keine verwaisten Dateien wurde angegeben, dass sie zu einer App gehören."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No has indicado que ningún archivo huérfano pertenezca a una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun fichier orphelin n’a été attribué à une app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun file orfano è indicato come appartenente a un’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリに属すると指定した孤立ファイルはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 소유로 지정한 주인 없는 파일이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Van geen verweesde bestanden is aangegeven dat ze bij een app horen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie wskazano żadnych osieroconych plików jako należących do aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum arquivo órfão foi indicado como pertencente a um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niciun fișier orfan nu este indicat ca aparținând unei aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет осиротевших файлов, отмеченных как принадлежащие приложению."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du har inte angett att några övergivna filer hör till en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamaya ait olduğunu söylediğiniz sahipsiz dosya yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви ще не вказали, що якісь покинуті файли належать програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有被标为属于某个App的孤立文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你還沒有指定任何孤立檔案屬於某個App。"
+          }
+        }
+      }
+    },
     "No orphaned files were found, but Peel couldn’t look in ^[%lld folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too." : {
       "localizations" : {
         "cs" : {
@@ -77909,6 +78015,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "孤立檔案"
+          }
+        }
+      }
+    },
+    "Orphaned Files That Belong to an App" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Osiřelé soubory, které patří aplikaci"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwaiste Dateien, die zu einer App gehören"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos huérfanos que pertenecen a una app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichiers orphelins appartenant à une app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File orfani che appartengono a un’app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリに属する孤立ファイル"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 소유로 지정한 주인 없는 파일"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verweesde bestanden die bij een app horen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Osierocone pliki należące do aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivos Órfãos que Pertencem a um App"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișiere orfane care aparțin unei aplicații"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осиротевшие файлы, принадлежащие приложению"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Övergivna filer som hör till en app"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Uygulamaya Ait Sahipsiz Dosyalar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Покинуті файли, що належать програмі"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "属于某个App的孤立文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屬於某個App的孤立檔案"
+          }
+        }
+      }
+    },
+    "Orphaned Files doesn’t list these while the app you said they belong to is installed. Nothing of them was moved. Remove one to list it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Osiřelé soubory je nezobrazuje, dokud je nainstalovaná aplikace, o které jste uvedli, že jí patří. Nic z nich nebylo přesunuto. Chcete-li některou položku znovu zobrazit, odeberte ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Verwaiste Dateien“ zeigt diese nicht an, solange die App installiert ist, zu der sie laut deiner Angabe gehören. Nichts davon wurde verschoben. Entferne einen Eintrag, damit er dort wieder angezeigt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Archivos huérfanos no los muestra mientras esté instalada la app a la que has indicado que pertenecen. No se ha trasladado nada de ellos. Elimina uno para volver a mostrarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Fichiers orphelins ne les liste pas tant que l’app à laquelle vous les avez attribués est installée. Aucun d’eux n’a été déplacé. Retirez-en un pour qu’il soit de nouveau listé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“File orfani” non elenca questi file finché è installata l’app a cui hai detto che appartengono. Nessuno di questi è stato spostato. Rimuovine uno per elencarlo di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指定したアプリがインストールされている間は、“孤立ファイル”にこれらを表示しません。どの項目も移動していません。再び表示するには、リストから削除してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주인 없는 파일 페이지는 소유 앱으로 지정한 앱이 설치되어 있는 동안 이 파일들을 나열하지 않습니다. 이 파일은 하나도 이동되지 않았습니다. 다시 나열하려면 목록에서 제거하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Verweesde bestanden' toont deze niet zolang de app waarbij ze volgens jou horen, geïnstalleerd is. Niets ervan is verplaatst. Verwijder er een om die weer te tonen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strona Osierocone pliki nie wyświetla ich, dopóki aplikacja, do której według Ciebie należą, jest zainstalowana. Nic z nich nie przeniesiono. Usuń pozycję, aby znów była wyświetlana."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Arquivos Órfãos não lista estes itens enquanto o app ao qual você disse que eles pertencem estiver instalado. Nenhum deles foi movido. Remova um para que ele volte a ser listado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Fișiere orfane nu le listează cât timp aplicația căreia ați spus că îi aparțin este instalată. Niciunul dintre fișiere nu a fost mutat. Eliminați un grup pentru a‑l lista din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раздел «Осиротевшие файлы» не показывает эти файлы, пока установлено приложение, которому они, по Вашим словам, принадлежат. Ничего из них не перемещено. Уберите запись, и ее файлы снова появятся в списке."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Övergivna filer visar inte de här så länge appen du angav att de hör till är installerad. Inget av dem har flyttats. Ta bort en för att visa den igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sahipsiz Dosyalar, ait olduklarını söylediğiniz uygulama yüklü olduğu sürece bunları listelemez. Hiçbiri taşınmadı. Birini yeniden listelemek için onu kaldırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розділ «Покинуті файли» не показує їх, поки інстальовано програму, якій вони, за вашими словами, належать. Нічого з них не переміщено. Вилучіть запис, щоб розділ знову його показував."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要你指定它们所属的App仍已安装，“孤立文件”就不会列出这些项目。它们都没有被移动。移除其中一项即可再次列出它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要你指定它們所屬的App仍已安裝，「孤立檔案」就不會列出它們。這些檔案都沒有被移動。移除其中一項，即可再次列出它。"
           }
         }
       }
@@ -122582,6 +122900,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捲軸會保持顯示，而不是只在捲動時才出現。"
+          }
+        }
+      }
+    },
+    "This Belongs To" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patří aplikaci"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gehört zu"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pertenece a"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appartient à"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appartiene a"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所属先のアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소유한 앱 지정"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit hoort bij"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Należy do"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto Pertence a"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparține aplicației"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Принадлежит приложению"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här hör till"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şuna Ait"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Належить програмі"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "归属于"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屬於"
           }
         }
       }

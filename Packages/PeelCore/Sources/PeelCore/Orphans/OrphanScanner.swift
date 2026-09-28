@@ -37,12 +37,14 @@ public struct OrphanScanner: Sendable {
     /// `installedApps` must be the complete list: anything it does not claim can be reported as orphaned.
     /// `remembered` holds the apps Peel has seen installed before, so a group can be named after the app that
     /// left it. `running` holds the bundle identifiers of what is running now: a helper or an agent can keep a
-    /// folder that no app bundle claims, and while it runs, its group is marked unsure.
+    /// folder that no app bundle claims, and while it runs, its group is marked unsure. `owners` are the groups the
+    /// person said belong to an app (`OrphanOwners`), left out while that app is installed.
     @concurrent
     public func scan(
         installedApps: [InstalledApp],
         remembered: [RememberedApp] = [],
-        running: Set<String> = []
+        running: Set<String> = [],
+        owners: [String: String] = [:]
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
         let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
@@ -83,6 +85,7 @@ public struct OrphanScanner: Sendable {
         let reach = HelperReach(environment: environment)
         let kept = found.filter {
             !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url) && !exclusions.excludes(bundleIdentifier: $0.identifier)
+                && !(owners[$0.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false)
         }
         .map { entry in
             guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else { return entry }

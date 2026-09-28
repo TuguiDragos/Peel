@@ -50,4 +50,9 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
 public struct OrphanScan: Sendable {
     public let groups: [OrphanGroup]
     public let unreadableLocations: [SearchLocation]
+
+    /// The same scan without the group `id`, as when the person said it belongs to an app.
+    public func without(_ id: OrphanGroup.ID) -> OrphanScan {
+        OrphanScan(groups: groups.filter { $0.id != id }, unreadableLocations: unreadableLocations)
+    }
 }

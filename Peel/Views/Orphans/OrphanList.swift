@@ -15,6 +15,16 @@ struct OrphanList: View {
         List(filtered, selection: $orphans.selection) { group in
             OrphanGroupRow(group: group)
         }
+        .contextMenu(forSelectionType: OrphanGroup.ID.self) { ids in
+            if ids.count == 1, let group = filtered.first(where: { ids.contains($0.id) }) {
+                Menu("This Belongs To") {
+                    let apps = library.apps.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+                    ForEach(apps) { app in
+                        Button(app.name) { orphans.give(group, to: app) }
+                    }
+                }
+            }
+        }
         .scanState(phase(filtered), isRescanning: isRescanning, scan: orphans.scanRun) {
             if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
                 ContentUnavailableView {

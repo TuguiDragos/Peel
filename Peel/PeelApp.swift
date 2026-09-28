@@ -341,6 +341,7 @@ struct PeelApp: App {
                 .environment(history)
                 .environment(home)
                 .environment(background)
+                .environment(orphans)
         }
         .windowResizability(.contentSize)
 
