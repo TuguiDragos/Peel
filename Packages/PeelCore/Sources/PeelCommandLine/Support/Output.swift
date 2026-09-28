@@ -51,10 +51,12 @@ enum Output {
         PlainText.of(text)
     }
 
-    /// Returns `name` so the reader can paste it into a command: in single quotes when it contains a space.
+    /// Returns `name` so the reader can paste it into a command: in single quotes unless every character is a
+    /// letter, a digit, or one of `._/+-@%:=,`, which no shell reads as anything but itself.
     static func quoted(_ name: String) -> String {
         let name = plain(name)
-        return name.contains(" ") ? "'\(name.replacingOccurrences(of: "'", with: "'\\''"))'" : name
+        let isPlain = !name.isEmpty && name.allSatisfy { $0.isLetter || $0.isNumber || "._/+-@%:=,".contains($0) }
+        return isPlain ? name : "'\(name.replacingOccurrences(of: "'", with: "'\\''"))'"
     }
 
     /// Writes `text` to standard output unchanged, for output that already ends in a newline. When the write fails
