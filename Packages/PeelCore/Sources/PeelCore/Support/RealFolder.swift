@@ -27,4 +27,19 @@ extension URL {
     var isInTheCloud: Bool {
         (try? resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
     }
+
+    /// Whether this is a package, such as an app.
+    var isAPackage: Bool {
+        (try? resourceValues(forKeys: [.isPackageKey]).isPackage) == true
+    }
+
+    /// Whether this is a package or sits inside one. What is inside a package belongs to it.
+    var isOrIsInsideAPackage: Bool {
+        var folder = standardizedFileURL
+        while folder.pathComponents.count > 1 {
+            if folder.isAPackage { return true }
+            folder = folder.deletingLastPathComponent()
+        }
+        return false
+    }
 }

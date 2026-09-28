@@ -451,6 +451,8 @@ public enum ProjectArtifacts {
         case tooBroad
         case inTheCloud
         case notAFolder
+        /// An app or another package, or a folder inside one: what is inside belongs to it.
+        case inAPackage
     }
 
     /// The folders in the home folder where people usually keep projects, suggested until one is chosen: each is
@@ -477,8 +479,11 @@ public enum ProjectArtifacts {
         for spelling in spellings {
             var path = spelling
             while path.count > 1, path.hasSuffix("/") { path.removeLast() }
-            if path.contains("/library/mobile documents") || path.contains("/library/cloudstorage") { return .inTheCloud }
             let components = PathComponents.of(path)
+            let isInACloudFolder = zip(components, components.dropFirst()).contains { folder, inside in
+                folder == "library" && ["mobile documents", "cloudstorage"].contains(inside)
+            }
+            if isInACloudFolder { return .inTheCloud }
             // A home folder and a volume root both have two components, so they are recognized by name.
             if components.count < 2 || homes.contains(path) { return .tooBroad }
             if components.count == 2, ["users", "volumes"].contains(components[0]) { return .tooBroad }
@@ -488,7 +493,8 @@ public enum ProjectArtifacts {
 
         var isDirectory: ObjCBool = false
         let isThere = FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory) && isDirectory.boolValue
-        return isThere ? nil : .notAFolder
+        guard isThere else { return .notAFolder }
+        return root.isOrIsInsideAPackage ? .inAPackage : nil
     }
 
     static func isSearchable(_ root: URL, home: URL = .homeDirectory) -> Bool {

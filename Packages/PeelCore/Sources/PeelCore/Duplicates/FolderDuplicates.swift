@@ -166,7 +166,7 @@ struct FolderDuplicates: Sendable {
                     entry,
                     identity: FileIdentity(info),
                     depth: depth + 1,
-                    isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || DuplicateFinder.isAPackage(entry),
+                    isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || entry.isAPackage,
                     onListing: onListing
                 )
                 guard !child.isProject else {

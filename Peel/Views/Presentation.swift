@@ -165,6 +165,7 @@ extension ProjectArtifacts.Refusal {
         case .tooBroad: String(localized: "A whole home folder or disk is too much to search. Choose the folder your projects are in.")
         case .inTheCloud: String(localized: "It is in iCloud Drive or another cloud folder, which Peel leaves to the app that syncs it.")
         case .notAFolder: String(localized: "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too.")
+        case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
         }
     }
 }

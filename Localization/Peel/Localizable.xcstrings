@@ -49147,6 +49147,112 @@
         }
       }
     },
+    "It is an app or another package, or inside one, and what is inside belongs to it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to aplikace nebo jiný balíček, nebo se nachází uvnitř některého z nich, a co je uvnitř, patří k němu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist eine App oder ein anderes Paket oder liegt in einem, und was darin liegt, gehört zum Paket."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es una app u otro paquete, o está dentro de uno, y lo que hay dentro le pertenece."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est une app ou un autre paquet, ou il se trouve dans l’un d’eux, et ce qui s’y trouve lui appartient."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un’app o un altro pacchetto, oppure si trova all’interno di uno di essi, e ciò che contiene appartiene all’app o al pacchetto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリまたはほかのパッケージであるか、その中にあり、その内容はそのパッケージのものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이나 다른 패키지이거나 그 안에 있으며, 그 안에 있는 항목은 해당 앱이나 패키지에 속합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een app of een ander pakket, of het staat in zo’n pakket, en wat erin staat, hoort bij dat pakket."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To aplikacja lub inny pakiet albo folder wewnątrz jednego z nich, a to, co jest w środku, należy do tej aplikacji lub pakietu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um app ou outro pacote, ou está dentro de um, e o que está dentro pertence a ele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este o aplicație sau un alt pachet, ori se află într‑unul, iar conținutul îi aparține."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это приложение или другой пакет либо папка внутри него, а все, что внутри пакета, принадлежит ему."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den är en app eller ett annat paket, eller ligger i ett, och det som finns inuti hör till det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulama veya başka bir paket ya da bunlardan birinin içinde; içindekiler ona aittir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це програма або інший пакет чи папка всередині пакета, а вміст пакета належить йому."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是App或其他包，或者位于其中，而其中的内容都属于它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是App或其他套件，或位於其中，而其中的內容屬於該App或套件。"
+          }
+        }
+      }
+    },
     "It is an older version Homebrew kept beside the current one." : {
       "localizations" : {
         "cs" : {

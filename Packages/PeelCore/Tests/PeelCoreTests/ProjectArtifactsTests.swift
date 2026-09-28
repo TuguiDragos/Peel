@@ -503,6 +503,20 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/CLOUDSTORAGE/Dropbox"), home: home) == .inTheCloud)
     }
 
+    /// A cloud folder is known by its place, never by a name that only begins like one. What is inside an app or
+    /// another package belongs to it, as an Electron app keeps `package.json` beside `node_modules` in its bundle.
+    @Test func refusesACloudFolderByItsPlaceAndAPackageByWhatItIs() throws {
+        let directory = try TemporaryDirectory()
+        let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
+        let kit = try directory.directory("Code/Library/CloudStorageKit")
+        try directory.file("Sample.app/Contents/Resources/app/package.json")
+        let app = directory.url.appending(path: "Sample.app", directoryHint: .isDirectory)
+
+        #expect(ProjectArtifacts.refusal(for: kit, home: home) == nil)
+        #expect(ProjectArtifacts.refusal(for: app, home: home) == .inAPackage)
+        #expect(ProjectArtifacts.refusal(for: app.appending(path: "Contents/Resources/app"), home: home) == .inAPackage)
+    }
+
     @Test func refusesRootsThatAreTooBroadOrNotOurs() {
         #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/")))
         #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users")))

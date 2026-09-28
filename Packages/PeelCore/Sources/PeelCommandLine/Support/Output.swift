@@ -327,6 +327,7 @@ extension ProjectArtifacts.Refusal {
         case .tooBroad: "a whole home folder or disk is too much to search"
         case .inTheCloud: "it is in a cloud folder, which Peel leaves to the app that syncs it"
         case .notAFolder: "it isn't a folder Peel can reach"
+        case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         }
     }
 }
