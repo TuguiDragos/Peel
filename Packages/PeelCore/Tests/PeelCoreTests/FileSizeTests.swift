@@ -319,7 +319,11 @@ struct FileSizeTests {
         let folder = try directory.directory("late")
         try directory.file("late/a.bin", bytes: 4_096)
         let walks = Mutex(0)
+        // Each walk waits for its turn, so it lands only after the question that started it gave up.
+        let turn = DispatchSemaphore(value: 0)
+        defer { (0..<3).forEach { _ in turn.signal() } }
         let walking: FileSize.Walker = { url, scan, isStopped in
+            turn.wait()
             defer { walks.withLock { $0 += 1 } }
             return FileSize.walk(url, countingFor: scan, unless: isStopped)
         }
@@ -329,6 +333,7 @@ struct FileSizeTests {
         func landALateAnswer() async throws {
             let before = walks.withLock { $0 }
             #expect(await ask(within: 0, keepingLateAnswersFor: .zero) == nil)
+            turn.signal()
             while walks.withLock({ $0 }) == before { try await Task.sleep(for: .milliseconds(5)) }
             try await Task.sleep(for: .milliseconds(50))
         }
@@ -339,6 +344,7 @@ struct FileSizeTests {
 
         try await landALateAnswer()
         try await Task.sleep(for: .milliseconds(100))
+        turn.signal()
         #expect(await ask(within: 5, keepingLateAnswersFor: .milliseconds(50)) != nil)
         #expect(walks.withLock { $0 } == 3, "an old answer was handed over")
     }
