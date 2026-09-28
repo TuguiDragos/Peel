@@ -12,7 +12,8 @@ final class BackgroundItemLibrary {
     /// clears another row's busy state.
     private(set) var runningActionItemIDs: Set<BackgroundItem.ID> = []
     var selection: BackgroundItem.ID?
-    var failure: ActionFailure?
+    /// Actions run on several items at once, so their failures wait their turn rather than replace each other.
+    private(set) var failures = AlertQueue<ActionFailure>()
 
     var selectedItem: BackgroundItem? {
         items?.first { $0.id == selection }
@@ -40,8 +41,13 @@ final class BackgroundItemLibrary {
     }
 
     struct ActionFailure {
+        let label: String
         let action: Action
         let reason: BackgroundItemActions.Failure
+    }
+
+    func dismissFailure() {
+        failures.dismissCurrent()
     }
 
     /// Runs `action` on `item`, then scans again. What a move to the Trash moved and refused goes to `record` before
@@ -65,11 +71,11 @@ final class BackgroundItemLibrary {
                     return result
                 }
                 if let refusal = result.failures.first {
-                    failure = ActionFailure(action: action, reason: .trash(refusal.reason))
+                    failures.add(ActionFailure(label: item.label, action: action, reason: .trash(refusal.reason)))
                 }
             }
         } catch {
-            failure = ActionFailure(action: action, reason: error)
+            failures.add(ActionFailure(label: item.label, action: action, reason: error))
         }
         await refresh(installedApps: installedApps)
     }

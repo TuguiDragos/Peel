@@ -61,24 +61,25 @@ struct BackgroundItemList: View {
 
     private var isShowingFailure: Binding<Bool> {
         Binding(
-            get: { backgroundItems.failure != nil },
-            set: { if !$0 { backgroundItems.failure = nil } }
+            get: { backgroundItems.failures.current != nil },
+            set: { if !$0 { backgroundItems.dismissFailure() } }
         )
     }
 
     private var failureTitle: Text {
-        switch backgroundItems.failure?.action {
-        case .start: Text("The item couldn’t be started.")
-        case .stop: Text("The item couldn’t be stopped.")
-        case .enable: Text("The item couldn’t be enabled.")
-        case .disable: Text("The item couldn’t be disabled.")
-        case .moveToTrash: Text("The item couldn’t be moved to the Trash.")
-        case nil: Text(verbatim: "")
+        guard let failure = backgroundItems.failures.current else { return Text(verbatim: "") }
+        let label = failure.label
+        return switch failure.action {
+        case .start: Text("“\(label)” couldn’t be started.")
+        case .stop: Text("“\(label)” couldn’t be stopped.")
+        case .enable: Text("“\(label)” couldn’t be enabled.")
+        case .disable: Text("“\(label)” couldn’t be disabled.")
+        case .moveToTrash: Text("“\(label)” couldn’t be moved to the Trash.")
         }
     }
 
     private var failureMessage: Text {
-        switch backgroundItems.failure?.reason {
+        switch backgroundItems.failures.current?.reason {
         case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
