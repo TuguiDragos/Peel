@@ -85,7 +85,7 @@ struct ProjectDetailView: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
                 .truncationMode(.middle)
-            if group.isRecentlyActive {
+            if group.lastChange == .recently {
                 NoteBadge(
                     title: Text("Changed in the last 7 days"), systemImage: "hand.raised", tint: .secondary,
                     name: String(localized: "Changed in the last 7 days"),

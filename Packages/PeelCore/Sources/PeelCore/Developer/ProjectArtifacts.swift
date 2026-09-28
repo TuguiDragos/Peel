@@ -36,6 +36,22 @@ public enum ProjectArtifacts {
     /// A project changed within this time is in use, so none of its artifacts are selected for the user.
     public static let recentlyActive: TimeInterval = 7 * 24 * 60 * 60
 
+    /// When a project's own files last changed, as far as its artifacts' walks could tell.
+    public enum LastChange: Sendable, Equatable {
+        /// Seen within `recentlyActive`, which is true however much of the project was read.
+        case recently
+        case at(Date)
+        /// The project was too large to read whole, so the newest date seen is only a sample's.
+        case notKnown
+        case none
+    }
+
+    public static func lastChange(of artifacts: [ProjectArtifact]) -> LastChange {
+        if artifacts.contains(where: \.isRecentlyActive) { return .recently }
+        if artifacts.contains(where: { !$0.lastActivityIsCertain }) { return .notKnown }
+        return artifacts.compactMap(\.lastActivity).max().map { .at($0) } ?? .none
+    }
+
     /// The artifacts to leave out of Time Machine: never one with a generic name, since the mark travels with the
     /// folder, even into a copy of it (`man tmutil`).
     public static func markableForBackups(_ artifacts: [ProjectArtifact], excludedFromAbove: Set<URL>) -> [URL] {

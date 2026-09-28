@@ -56,6 +56,26 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.markableForBackups([modules], excludedFromAbove: [modules.url]).isEmpty)
     }
 
+    @Test func saysWhenAProjectLastChangedOnlyWhenItKnows() {
+        func artifact(_ name: String, changed: Date?, certain: Bool) -> ProjectArtifact {
+            let project = URL(filePath: "/Users/x/Code/App")
+            var artifact = ProjectArtifact(
+                url: project.appending(path: name), project: project, name: name, tool: "tool", size: 10,
+                lastActivity: changed, hasGenericName: false, isEnvironment: false
+            )
+            artifact.lastActivityIsCertain = certain
+            return artifact
+        }
+        let monthsAgo = Date.now.addingTimeInterval(-90 * 86_400)
+        let yesterday = Date.now.addingTimeInterval(-86_400)
+
+        let known = artifact("build", changed: monthsAgo, certain: true)
+        #expect(ProjectArtifacts.lastChange(of: [known]) == .at(monthsAgo))
+        #expect(ProjectArtifacts.lastChange(of: [artifact("build", changed: monthsAgo, certain: false)]) == .notKnown)
+        #expect(ProjectArtifacts.lastChange(of: [artifact("build", changed: yesterday, certain: false)]) == .recently)
+        #expect(ProjectArtifacts.lastChange(of: [artifact("build", changed: nil, certain: true)]) == .none)
+    }
+
     @Test(.permissionsHold) func doesNotBlameFullDiskAccessForOrdinaryPermissions() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Code/app/package.json", bytes: 16)

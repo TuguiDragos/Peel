@@ -10,8 +10,7 @@ struct ProjectGroup: Identifiable, Hashable {
 
     var id: URL { project }
     var total: SizeTotal { SizeTotal(artifacts.map(\.size)) }
-    var lastActivity: Date? { artifacts.compactMap(\.lastActivity).max() }
-    var isRecentlyActive: Bool { artifacts.contains { $0.isRecentlyActive } }
+    var lastChange: ProjectArtifacts.LastChange { ProjectArtifacts.lastChange(of: artifacts) }
 }
 
 @Observable

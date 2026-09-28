@@ -149,12 +149,17 @@ private struct ProjectRow: View {
             Text(verbatim: group.project.lastPathComponent)
                 .lineLimit(1)
         } details: {
-            if group.isRecentlyActive {
+            switch group.lastChange {
+            case .recently:
                 Text("Changed in the last 7 days")
                     .rowTint(Color.accentColor)
-            } else if let last = group.lastActivity {
+            case .at(let last):
                 Text("Last changed \(last, format: .relative(presentation: .named))")
                     .lineLimit(1)
+            case .notKnown:
+                Text("Too large to tell when it last changed")
+            case .none:
+                EmptyView()
             }
         } trailing: {
             Text(group.total.text)
