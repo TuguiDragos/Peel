@@ -135,18 +135,20 @@ public struct Uninstallation: Sendable {
     /// location, the kind is `.elsewhere`.
     static func place(of url: URL, in environment: SearchEnvironment) -> (kind: SearchLocation.Kind, components: [String]) {
         let path = PathPattern.comparablePath(of: url)
+        let names = PathComponents.of(path)
         let inside = environment.locations
             .map { (kind: $0.kind, root: PathPattern.comparablePath(of: $0.url)) }
             .filter { PathComponents.isPath(path, inside: $0.root) }
+            .map { (kind: $0.kind, root: $0.root, below: Array(names.dropFirst(PathComponents.of($0.root).count))) }
             // Two locations can share a root, like the hidden and plain halves of the home folder. The one that
             // considers this name is the one that would have found it.
             .filter { location in
-                guard let first = PathComponents.of(path.dropFirst(location.root.count + 1)).first else { return false }
+                guard let first = location.below.first else { return false }
                 return location.kind.considers(fileName: first)
             }
             .max { $0.root.count < $1.root.count }
         guard let inside else { return (.elsewhere, [url.lastPathComponent]) }
-        let components = PathComponents.of(path.dropFirst(inside.root.count + 1))
+        let components = inside.below
         // The home folder is a location only for what sits directly in it; below that is the user's own.
         guard inside.root != PathPattern.comparablePath(of: environment.homeDirectory) || components.count == 1 else {
             return (.elsewhere, [url.lastPathComponent])

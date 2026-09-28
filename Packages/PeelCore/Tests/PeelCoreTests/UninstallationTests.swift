@@ -384,6 +384,20 @@ struct UninstallationTests {
         #expect(place("/Users/me/Library/Thunderbird/profile") == .library)
     }
 
+    /// A name that starts with a combining mark is read whole: split by Swift's characters, the slash before it
+    /// and the mark are one, and the mark would be lost.
+    @Test func readsANameThatStartsWithACombiningMarkWhole() {
+        let home = URL(filePath: "/Users/me", directoryHint: .isDirectory)
+        let root = URL(filePath: "/", directoryHint: .isDirectory)
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: root)
+        let caches = PathPattern.comparablePath(of: home.appending(path: "Library/Caches"))
+
+        let place = Uninstallation.place(of: URL(filePath: caches + "/\u{301}Foo/cache.db"), in: environment)
+
+        #expect(place.kind == .caches)
+        #expect(place.components == ["\u{301}Foo", "cache.db"])
+    }
+
     @Test func movesLeftoversBeforeTheApp() {
         let first = leftover("first")
         let second = leftover("second")
