@@ -220,18 +220,48 @@ struct AppExtensionsTests {
     /// Each kind comes from its own tool, so a tool that gives no answer leaves out its own kind and nothing
     /// else, and the scan says which kind is missing: what it lists is then only part of what is installed.
     @Test func saysWhichKindMacOSGaveNoAnswerAbout() async {
-        let noSystemExtensions: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/pluginkit") ? "" : nil }
-        let noAppExtensions: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/systemextensionsctl") ? "" : nil }
+        let none = "0 extension(s)"
+        let appsOnly: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/pluginkit") ? Self.pluginkit : nil }
+        let systemOnly: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/systemextensionsctl") ? none : nil }
+        let both: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/pluginkit") ? Self.pluginkit : none }
 
-        #expect(await AppExtensions.scan(exclusions: .none, run: noSystemExtensions).unanswered == [.systemExtension])
-        #expect(await AppExtensions.scan(exclusions: .none, run: noAppExtensions).unanswered == [.appExtension])
+        #expect(await AppExtensions.scan(exclusions: .none, run: appsOnly).unanswered == [.systemExtension])
+        #expect(await AppExtensions.scan(exclusions: .none, run: systemOnly).unanswered == [.appExtension])
         #expect(await AppExtensions.scan(exclusions: .none, run: { _, _ in nil }).unanswered == Set(AppExtension.Kind.allCases))
-        #expect(await AppExtensions.scan(exclusions: .none, run: { _, _ in "" }).unanswered.isEmpty)
+        #expect(await AppExtensions.scan(exclusions: .none, run: both).unanswered.isEmpty)
+    }
+
+    private static let pluginkit = """
+             com.apple.example.Sample(1.0)\t6299ACC7-6EDA-4A38-9BD4-89444C604682\t2026-09-20 17:23:02 +0000\t\
+        /System/Library/Sample.appex
+         (1 plug-in)
+        """
+
+    /// `pluginkit` always lists macOS's own extensions and ends by counting them, and `systemextensionsctl` starts
+    /// by counting its rows. A listing read short of its count is one Peel no longer understands, not a Mac with none.
+    @Test func aListingReadShortOfItsCountIsNoAnswer() async {
+        let rows = """
+        2 extension(s)
+        enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+        *\t*\tTC3Q7MAJXF\torg.example.filter (1.0/100)\tExample Filter\t[activated enabled]
+        """
+        let spaced = Self.pluginkit.replacing("\t", with: "   ")
+
+        #expect(await AppExtensions.appExtensions { _, _ in Self.pluginkit } == [])
+        #expect(await AppExtensions.appExtensions { _, _ in spaced } == nil)
+        #expect(await AppExtensions.appExtensions { _, _ in "" } == nil)
+        #expect(await AppExtensions.systemExtensions { _, _ in "0 extension(s)" } == [])
+        #expect(await AppExtensions.systemExtensions { _, _ in rows } == nil)
+        let one = rows.replacing("2 extension(s)", with: "1 extension(s)")
+        #expect(await AppExtensions.systemExtensions { _, _ in one }?.count == 1)
+        #expect(await AppExtensions.systemExtensions { _, _ in "" } == nil)
     }
 
     /// Scans the Mac the test runs on. The scan only reads, so the test runs every time.
     @Test func readsThisMacWithoutTouchingIt() async {
-        let found = await AppExtensions.scan().extensions
+        let scan = await AppExtensions.scan()
+        let found = scan.extensions
+        #expect(scan.unanswered.isEmpty, "this Mac's listing was not read whole")
         #expect(found.allSatisfy { $0.url.map { !AppExtensions.isTheSystemsOwn($0.path(percentEncoded: false)) } ?? true })
         #expect(Set(found.map(\.id)).count == found.count, "the same extension was listed twice")
     }

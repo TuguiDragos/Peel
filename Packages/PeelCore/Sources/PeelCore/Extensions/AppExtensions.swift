@@ -125,10 +125,16 @@ public enum AppExtensions {
         )
     }
 
+    /// Returns what apps added, or nil when `pluginkit` gave no answer Peel can read. It always lists macOS's own
+    /// extensions and ends by counting what it listed, so a listing read short of that is not understood.
     static func appExtensions(run: Runner) async -> [AppExtension]? {
         guard let output = await run("/usr/bin/pluginkit", ["-m", "-v"]) else { return nil }
-        return output.split(whereSeparator: \.isNewline).compactMap { line in
-            guard let parsed = parse(String(line)), !isTheSystemsOwn(parsed.path) else { return nil }
+        let lines = output.split(whereSeparator: \.isNewline)
+        let rows = lines.compactMap { parse(String($0)) }
+        let listed = count(in: lines, /^ *\((\d+) plug-ins?\)$/)
+        guard !rows.isEmpty, listed == nil || listed == rows.count else { return nil }
+        return rows.compactMap { parsed in
+            guard !isTheSystemsOwn(parsed.path) else { return nil }
             let url = URL(filePath: parsed.path, directoryHint: .isDirectory)
             let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
             return AppExtension(
@@ -231,11 +237,15 @@ public enum AppExtensions {
         return AppInspector.displayName(of: URL(filePath: String(path[..<end.lowerBound]) + ".app"))
     }
 
+    /// Returns the system extensions, or nil when `systemextensionsctl` gave no answer Peel can read: its first
+    /// line counts the rows that follow, and a listing read short of it is not understood.
     static func systemExtensions(run: Runner) async -> [AppExtension]? {
         guard let output = await run("/usr/bin/systemextensionsctl", ["list"]) else { return nil }
+        let lines = output.split(whereSeparator: \.isNewline)
+        let rows = lines.compactMap { parseSystemExtension(String($0)) }
+        guard count(in: lines, /^(\d+) extension\(s\)$/) == rows.count else { return nil }
         let records = systemExtensionRecords()
-        return output.split(whereSeparator: \.isNewline).compactMap { line in
-            guard let row = parseSystemExtension(String(line)) else { return nil }
+        return rows.map { row in
             let record = record(for: row.identifier, version: row.version, among: records)
             return AppExtension(
                 // During an update, one identifier is listed twice, once for the old version and once for the new.
@@ -251,6 +261,11 @@ public enum AppExtensions {
                 reportedState: row.state
             )
         }
+    }
+
+    /// The number a tool's line of summary gives, or nil when no line reads that way.
+    private static func count(in lines: [Substring], _ summary: Regex<(Substring, Substring)>) -> Int? {
+        lines.lazy.compactMap { try? summary.wholeMatch(in: $0) }.first.flatMap { Int($0.1) }
     }
 
     /// Parses one row of `systemextensionsctl list`, laid out as
