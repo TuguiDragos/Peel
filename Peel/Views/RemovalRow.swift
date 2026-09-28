@@ -292,9 +292,9 @@ struct RemovalRow: View {
 
 extension View {
     /// Lays out a row of a removal table, with a divider above every row but the first in place of the list's
-    /// own separators. The `ForEach` that lists the rows hides those separators, never the row itself: a row
-    /// that hides its own separator, or that is itself a `Toggle`, makes `List` build far more rows than are
-    /// on screen as soon as it appears.
+    /// own separators. The `ForEach` that lists the rows hides those separators, never the row itself: a repeated
+    /// row that hides its own separator, or that is itself a `Toggle`, makes `List` build far more rows than are
+    /// on screen as soon as it appears. A row that stands alone, such as the column headers, costs nothing.
     func tableRow(isFirst: Bool) -> some View {
         padding(.vertical, 4)
             .overlay(alignment: .top) {

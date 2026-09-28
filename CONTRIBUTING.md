@@ -210,8 +210,9 @@ read in one sitting.
   row is `NativeCheckbox` beside the item, with `checkboxTitleLine()` on the first line of its title and
   `checkboxTitle()` on the title, rather than a checkbox `Toggle` whose label is the row, since SwiftUI asks a
   `Toggle`'s button for its size each time the row is measured. A button in each row takes `RowButtonStyle`: one
-  with a standard style changes the window's list of focusable views whenever a row scrolls in or out. A row never
-  hides its own separator and is never a `Toggle` itself; the `ForEach` that lists the rows hides the separators.
+  with a standard style changes the window's list of focusable views whenever a row scrolls in or out. A row a
+  `ForEach` repeats never hides its own separator and is never a `Toggle` itself; the `ForEach` hides the
+  separators. A row that stands alone, such as a header or a notice, may hide its own, which costs nothing.
 - **The interface follows Liquid Glass.** The sticker album look belongs to Home, the menu bar panel, and About
   only; every other screen reads as macOS (system type, `Form` and `Section`, native controls). Icons are SF
   Symbols, and the logo comes only from `Logo/`.
