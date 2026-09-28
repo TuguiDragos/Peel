@@ -963,6 +963,22 @@ struct DeveloperCachesTests {
         #expect(locations.first?.kind == .cache)
     }
 
+    /// The editor downloads its export templates again, so they are listed and never selected, and its settings
+    /// beside them are never listed.
+    @Test func listsGodotsExportTemplatesWithoutSelectingThem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Application Support/Godot/export_templates/4.4.stable/macos.zip", bytes: 400_000)
+        try directory.file("Library/Application Support/Godot/editor_settings-4.4.tres", bytes: 400_000)
+        let godot = DeveloperCaches.definitions.filter { $0.id == "godot" }
+
+        let locations = await DeveloperCaches.scan(godot, homeDirectory: directory.url).flatMap(\.locations)
+
+        let templates = try #require(locations.first { $0.url.lastPathComponent == "export_templates" })
+        #expect(locations.count == 1)
+        #expect(templates.kind == .keptDownloads)
+        #expect(!templates.isRecommended)
+    }
+
     /// Playwright removes the folders it makes in the temporary folder when the browser closes, so one that is still
     /// there was left by a run that ended early, unless a browser still has it open.
     @Test func offersWhatPlaywrightLeftInTheTemporaryFolderAndNothingInUse() async throws {

@@ -920,6 +920,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "godot", name: "Godot", systemImage: "cube.transparent", appBundleIdentifiers: ["org.godotengine.godot"], folders: [
             Folder("Library/Caches/Godot", .cache, source: "https://github.com/godotengine/godot-docs/blob/master/tutorials/io/data_paths.rst#L157-L166"),
+            Folder("Library/Application Support/Godot/export_templates", .keptDownloads, source: "https://github.com/godotengine/godot/blob/master/editor/file_system/editor_paths.h#L47"),
         ]),
         Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], folders: [
             Folder("Library/Caches/Blender", .cache, source: "https://projects.blender.org/blender/blender/src/branch/main/source/blender/blenkernel/intern/appdir.cc#L228"),

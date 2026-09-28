@@ -110,8 +110,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   on Electron, such as Slack or Discord (never what a browser or an app keeps for you), and the browser profiles a
   Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
   archives and the symbols it copied from your devices, model weights, installed packages, and what a tool keeps for
-  you to install again (Vagrant boxes, Asset Store packages) are listed but never selected for you, and toolchains or
-  anything holding an account are never listed.
+  you to install again (Vagrant boxes, Asset Store packages, Godot's export templates) are listed but never selected
+  for you, and toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
   `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
   when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
