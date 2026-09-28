@@ -175,7 +175,9 @@ public struct SearchEnvironment: Sendable {
         if let userTemporaryDirectory {
             locations.append(SearchLocation(kind: .temporaryItems, url: userTemporaryDirectory))
         }
-        locations += ["usr/local/bin", "usr/local/sbin"].map {
+        // Homebrew links a cask's commands into its own `bin`: `/usr/local/bin` on Intel, `/opt/homebrew/bin` on
+        // Apple silicon (Cask Cookbook, `binary`).
+        locations += ["usr/local/bin", "usr/local/sbin", "opt/homebrew/bin"].map {
             SearchLocation(kind: .commandLineTools, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
         }
         locations.append(SearchLocation(

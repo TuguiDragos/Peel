@@ -937,6 +937,33 @@ struct LeftoverScannerTests {
         #expect(try #require(found["tunewell-cli"]?.size) < 64_000)
     }
 
+    /// Homebrew links a cask's commands into its own `bin`, `/opt/homebrew/bin` on Apple silicon (Cask Cookbook,
+    /// `binary`). A link there that leads into the app is the app's, as one in `/usr/local/bin` is.
+    @Test func findsTheAppsLinkInHomebrewsBin() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client", name: "Tunewell"
+        )
+        try directory.file("root/Applications/Tunewell.app/Contents/MacOS/tunewell-cli")
+        let bin = try directory.directory("root/opt/homebrew/bin")
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "tunewell").path(percentEncoded: false),
+            withDestinationPath: app.url.appending(path: "Contents/MacOS/tunewell-cli").path(percentEncoded: false)
+        )
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "wget").path(percentEncoded: false),
+            withDestinationPath: "../Cellar/wget/1.25.0/bin/wget"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let links = scan.leftovers.filter { $0.kind == .commandLineTools }
+        #expect(links.map(\.url.lastPathComponent) == ["tunewell"])
+        #expect(links.first?.match.reason == .linksToTheApp)
+        #expect(links.first?.match.confidence == .certain)
+    }
+
     /// The top of a Library holds macOS's own folders beside vendors' folders. There is a real app called
     /// Developer, and `~/Library/Developer` belongs to Xcode, so a match on the name alone is shown but never
     /// selected. An identifier still names the app wherever it sits. A folder scanned as a location of its own,
