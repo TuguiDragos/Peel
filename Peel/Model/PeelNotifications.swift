@@ -73,8 +73,7 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
-        // No banner while Peel is the active app: the user is already looking at its window.
-        await MainActor.run { NSApp.isActive ? [] : [.banner] }
+        await MainActor.run { NotificationPresentation.options(whilePeelIsActive: NSApp.isActive) }
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
