@@ -104,7 +104,9 @@ struct MenuBarPanel: View {
             if let first = waiting.first {
                 Divider().padding(.leading, Self.wordsInset)
                 Button {
-                    library.selection = [first.id]
+                    // One update opens that app's page, where it is updated. Several open the list, which leads with
+                    // them, rather than one app's page with its files selected for removal.
+                    library.selection = waiting.count == 1 ? [first.id] : []
                     open(at: .applications)
                 } label: {
                     rowContent(
