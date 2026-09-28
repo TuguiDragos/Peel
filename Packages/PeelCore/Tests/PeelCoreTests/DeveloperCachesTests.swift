@@ -238,7 +238,7 @@ struct DeveloperCachesTests {
         // The only top-level entries in the table, each owned outright by the one tool that made it.
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
-            ".zcompdump*", ".pnpm-store",
+            ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -406,7 +406,11 @@ struct DeveloperCachesTests {
                 // that ends in `/` matches every folder beside, so what sits beside its match is a file.
                 let concrete = folder.path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
                 let foldersOnly = concrete.hasSuffix("/")
-                let base = folder.base == .userCache ? "UserCache/" : ""
+                let base = switch folder.base {
+                case .home: ""
+                case .userCache: "UserCache/"
+                case .userTemporary: "UserTemporary/"
+                }
                 let entry = base + (foldersOnly ? String(concrete.dropLast()) : concrete)
                 // A folder of versions lists those beside the one its launchers run.
                 if !folder.launchers.isEmpty {
@@ -438,7 +442,8 @@ struct DeveloperCachesTests {
 
         let userCache = directory.url.appending(path: "UserCache", directoryHint: .isDirectory)
         let environment = SearchEnvironment(
-            homeDirectory: directory.url, rootDirectory: directory.url, userCacheDirectory: userCache
+            homeDirectory: directory.url, rootDirectory: directory.url, userCacheDirectory: userCache,
+            userTemporaryDirectory: directory.url.appending(path: "UserTemporary", directoryHint: .isDirectory)
         )
         let environments = await DeveloperCaches.scan(in: environment)
         let home = directory.url.path(percentEncoded: false)
@@ -956,6 +961,30 @@ struct DeveloperCachesTests {
             PathPattern.comparablePath(of: userCache.appending(path: "clang/ModuleCache")),
         ])
         #expect(locations.first?.kind == .cache)
+    }
+
+    /// Playwright removes the folders it makes in the temporary folder when the browser closes, so one that is still
+    /// there was left by a run that ended early, unless a browser still has it open.
+    @Test func offersWhatPlaywrightLeftInTheTemporaryFolderAndNothingInUse() async throws {
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        try directory.file("var/T/playwright_chromiumdev_profile-a1b2c3/Default/Cookies", bytes: 400_000)
+        try directory.file("var/T/playwright-artifacts-d4e5f6/trace.zip", bytes: 400_000)
+        let live = try directory.file("var/T/playwright_firefoxdev_profile-g7h8i9/places.sqlite", bytes: 400_000)
+        try directory.file("var/T/other-tool-profile/data", bytes: 400_000)
+        let browser = try FileHandle(forWritingTo: live)
+        defer { try? browser.close() }
+        let playwright = DeveloperCaches.definitions.filter { $0.id == "playwright" }
+
+        let locations = await DeveloperCaches.scan(
+            playwright, homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary,
+            openFiles: OpenFiles(excluding: nil)
+        ).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == [
+            "playwright_chromiumdev_profile-a1b2c3", "playwright-artifacts-d4e5f6",
+        ])
+        #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 
     @Test func offersTheSonarScannersCacheAndNeverItsCertificates() async throws {

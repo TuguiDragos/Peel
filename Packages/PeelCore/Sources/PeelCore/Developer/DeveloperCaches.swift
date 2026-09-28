@@ -118,6 +118,9 @@ public enum DeveloperCaches {
             case home
             /// The folder macOS gives each user for caches, `getconf DARWIN_USER_CACHE_DIR`.
             case userCache
+            /// The folder macOS gives each user for temporary files, `getconf DARWIN_USER_TEMP_DIR`. What a program
+            /// still has open there is never listed: it is in use, not left behind.
+            case userTemporary
         }
 
         let path: String
@@ -193,8 +196,13 @@ public enum DeveloperCaches {
         }
 
         /// Where the folder is: at `path` in its base, and where the Xcode setting that moves it says.
-        func places(home: URL, userCache: URL?, preference: (String) -> String?) -> [URL] {
-            guard let root = base == .home ? home : userCache else { return [] }
+        func places(home: URL, userCache: URL?, userTemporary: URL?, preference: (String) -> String?) -> [URL] {
+            let root = switch base {
+            case .home: home
+            case .userCache: userCache
+            case .userTemporary: userTemporary
+            }
+            guard let root else { return [] }
             var places = PathPattern.expand(path, home: root)
             if let setting = movedByXcodeSetting.flatMap(preference).map({ NSString(string: $0).expandingTildeInPath }),
                setting.hasPrefix("/") {
@@ -427,6 +435,17 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "playwright", name: "Playwright", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ms-playwright", .environments, source: "https://github.com/microsoft/playwright/blob/main/docs/src/browsers.md#L958"),
+            // A browser's profile and a run's artifacts, which Playwright removes when the browser closes.
+            Folder(
+                "playwright_*dev_profile-*/", .cache,
+                source: "https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/browserType.ts#L171",
+                base: .userTemporary
+            ),
+            Folder(
+                "playwright-artifacts-*/", .cache,
+                source: "https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/browserType.ts#L161",
+                base: .userTemporary
+            ),
         ]),
         Definition(id: "playwrightgo", name: "Playwright for Go", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/ms-playwright-go", .environments, source: "https://github.com/playwright-community/playwright-go/blob/main/run.go#L370-L372"),
@@ -1044,7 +1063,8 @@ public enum DeveloperCaches {
         let electron = electronDefinitions(for: apps, home: environment.homeDirectory)
         return await scan(
             definitions + electron, homeDirectory: environment.homeDirectory,
-            userCacheDirectory: environment.userCacheDirectory, exclusions: exclusions
+            userCacheDirectory: environment.userCacheDirectory,
+            userTemporaryDirectory: environment.userTemporaryDirectory, exclusions: exclusions
         )
     }
 
@@ -1086,9 +1106,11 @@ public enum DeveloperCaches {
         _ definitions: [Definition],
         homeDirectory: URL,
         userCacheDirectory: URL? = nil,
+        userTemporaryDirectory: URL? = nil,
         exclusions: Exclusions = .none,
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
-        preference: @escaping @Sendable (String) -> String? = Self.xcodePreference
+        preference: @escaping @Sendable (String) -> String? = Self.xcodePreference,
+        openFiles: OpenFiles = OpenFiles()
     ) async -> [DeveloperEnvironment] {
         await withTaskGroup(of: DeveloperEnvironment?.self) { group in
             for definition in definitions {
@@ -1096,7 +1118,8 @@ public enum DeveloperCaches {
                     var found: [(url: URL, folder: Folder, project: String?)] = []
                     for folder in definition.folders {
                         let places = folder.places(
-                            home: homeDirectory, userCache: userCacheDirectory, preference: preference
+                            home: homeDirectory, userCache: userCacheDirectory, userTemporary: userTemporaryDirectory,
+                            preference: preference
                         )
                         let rows = places.flatMap { place in
                             folder.launchers.isEmpty
@@ -1112,6 +1135,7 @@ public enum DeveloperCaches {
                             // Skips a symbolic link, which is how people move a big cache to another disk.
                             // Moving the link frees nothing.
                             guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }
+                            guard folder.base != .userTemporary || openFiles.holders(of: url).isEmpty else { continue }
                             found.append((url, folder, project))
                         }
                     }
