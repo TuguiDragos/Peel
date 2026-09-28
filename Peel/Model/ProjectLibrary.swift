@@ -84,7 +84,18 @@ final class ProjectLibrary {
         panel.prompt = String(localized: "Choose")
         panel.message = String(localized: "Choose the folders your projects live in.")
         guard await panel.begin() == .OK else { return }
-        let chosen = panel.urls.filter { url in !folders.contains { $0.standardizedFileURL == url.standardizedFileURL } }
+        await add(panel.urls)
+    }
+
+    /// The usual project folders in the home folder that are not on the list yet.
+    var suggestedFolders: [URL] {
+        ProjectArtifacts.suggestedRoots().filter { url in
+            !folders.contains { $0.standardizedFileURL == url.standardizedFileURL }
+        }
+    }
+
+    func add(_ urls: [URL]) async {
+        let chosen = urls.filter { url in !folders.contains { $0.standardizedFileURL == url.standardizedFileURL } }
         // A folder that cannot be scanned is refused here, rather than saved and then silently skipped.
         refused = chosen.compactMap { url in ProjectArtifacts.refusal(for: url).map { (url, $0) } }
         let keeping = chosen.filter { url in !refused.contains { $0.url == url } }

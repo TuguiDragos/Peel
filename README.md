@@ -115,7 +115,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
   when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
   neither are installed packages (a Python environment, `vendor`, Terraform's `.terraform`) or a folder like `target`
-  whose name says nothing on its own.
+  whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`,
+  or `~/src` when you have one, and adds it only when you say so.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
 - **Installers and Backups:** installers of apps you already have, including packages an app keeps in Application
   Support, macOS installers, device firmware, downloads a browser never finished, and what your iPhone backups hold.

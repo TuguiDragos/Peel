@@ -47,6 +47,11 @@ struct ProjectList: View {
                         Task { await projects.addFolder() }
                     }
                     .buttonStyle(.borderedProminent)
+                    ForEach(projects.suggestedFolders, id: \.self) { folder in
+                        Button("Add “\(folder.lastPathComponent)”") {
+                            Task { await projects.add([folder]) }
+                        }
+                    }
                 }
             } else if !searchText.isEmpty, projects.groups?.isEmpty == false, filtered.isEmpty {
                 ContentUnavailableView.search(text: searchText)

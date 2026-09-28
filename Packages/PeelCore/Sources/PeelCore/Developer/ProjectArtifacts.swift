@@ -437,6 +437,15 @@ public enum ProjectArtifacts {
         case notAFolder
     }
 
+    /// The folders in the home folder where people usually keep projects, suggested until one is chosen: each is
+    /// offered only when it is a real folder there, never a link, and the person still confirms it.
+    public static func suggestedRoots(home: URL = .homeDirectory) -> [URL] {
+        ["Developer", "Projects", "Code", "src"].compactMap { name in
+            let url = home.appending(path: name, directoryHint: .isDirectory)
+            return url.isRealFolder && refusal(for: url, home: home) == nil ? url : nil
+        }
+    }
+
     /// Why `root` cannot be searched, or nil. Every spelling of the path is checked: `/users/me` and
     /// `/System/Volumes/Data/Users/me` are the same home folder, and a link into a cloud folder is that cloud folder.
     public static func refusal(for root: URL, home: URL = .homeDirectory) -> Refusal? {

@@ -20,6 +20,22 @@ struct ProjectArtifactsTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Developer")
+        try directory.directory("Code")
+        try directory.file("Projects", bytes: 1)
+        try directory.directory("Elsewhere/src")
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "src").path(percentEncoded: false),
+            withDestinationPath: directory.url.appending(path: "Elsewhere/src").path(percentEncoded: false)
+        )
+
+        let suggested = ProjectArtifacts.suggestedRoots(home: directory.url)
+
+        #expect(suggested.map(\.lastPathComponent) == ["Developer", "Code"])
+    }
+
     /// Full Disk Access does not open a folder closed by ordinary file permissions, so the scan must not ask for it.
     /// The Time Machine checkbox marks only what a build certainly makes again, and never an artifact Time
     /// Machine already leaves out through a folder above it, whose exclusion is not its own to change. A project
