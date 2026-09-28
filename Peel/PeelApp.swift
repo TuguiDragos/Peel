@@ -92,35 +92,53 @@ struct PeelApp: App {
         ))
     }
 
-    /// Keeps the app list current as apps are installed and removed while Peel is open.
+    /// Keeps the app list current as apps are installed and removed while Peel is open, and as folders are added to
+    /// or removed from the ones it looks in.
     private func followFolders() async {
-        for await _ in FolderWatch.changes(in: AppCatalog.defaultDirectories) {
+        var watch: Task<Void, Never>?
+        defer { watch?.cancel() }
+        for await folders in Observations({ library.folders }) {
+            let foldersChanged = watch != nil
+            watch?.cancel()
+            watch = Task { await followApps(in: AppCatalog.directories(adding: folders), readingNow: foldersChanged) }
+        }
+    }
+
+    private func followApps(in folders: [URL], readingNow: Bool) async {
+        if readingNow {
+            await appsMayHaveChanged()
+        }
+        for await _ in FolderWatch.changes(in: folders) {
             try? await Task.sleep(for: .seconds(1), tolerance: .milliseconds(250))
             guard !Task.isCancelled else { return }
-            let before = library.revision
-            let changed = await library.refresh()
-            // Any write inside a bundle wakes this loop, so Homebrew and the rest run only when the app list changed.
-            guard library.revision != before else { continue }
-            Task { await IconCache.warm(library.apps.map(\.url)) }
-            await homebrew.refresh()
-            // A newly installed app may match a cask Homebrew knows about, so the known casks are read again.
-            await homebrew.loadKnownCasks(for: library.apps)
-            library.loadHomebrewCasks(homebrew.caskEvidence)
-            // A bundle that changed on disk is a different build, and what was cached about it describes the old
-            // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
-            // `brew upgrade` in Terminal.
-            if checksForAppUpdates, !changed.isEmpty {
-                await library.checkForUpdates(changed, force: true)
-            }
-            // A new build may be signed by a different team.
-            if !changed.isEmpty {
-                await library.checkSigningTeams()
-            }
-            // A newly installed app has never been checked, so it is due. The round checks only the apps that
-            // are due.
-            if checksForAppUpdates {
-                await checkForUpdates()
-            }
+            await appsMayHaveChanged()
+        }
+    }
+
+    private func appsMayHaveChanged() async {
+        let before = library.revision
+        let changed = await library.refresh()
+        // Any write inside a bundle wakes the watch, so Homebrew and the rest run only when the app list changed.
+        guard library.revision != before else { return }
+        Task { await IconCache.warm(library.apps.map(\.url)) }
+        await homebrew.refresh()
+        // A newly installed app may match a cask Homebrew knows about, so the known casks are read again.
+        await homebrew.loadKnownCasks(for: library.apps)
+        library.loadHomebrewCasks(homebrew.caskEvidence)
+        // A bundle that changed on disk is a different build, and what was cached about it describes the old
+        // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
+        // `brew upgrade` in Terminal.
+        if checksForAppUpdates, !changed.isEmpty {
+            await library.checkForUpdates(changed, force: true)
+        }
+        // A new build may be signed by a different team.
+        if !changed.isEmpty {
+            await library.checkSigningTeams()
+        }
+        // A newly installed app has never been checked, so it is due. The round checks only the apps that
+        // are due.
+        if checksForAppUpdates {
+            await checkForUpdates()
         }
     }
 

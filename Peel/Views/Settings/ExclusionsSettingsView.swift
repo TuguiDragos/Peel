@@ -20,12 +20,6 @@ struct ExclusionsSettingsView: View {
         exclusions.exclusions.bundleIdentifiers.sorted()
     }
 
-    /// Returns the height of a list with `rows` entries, at 24 points a row: the list fits its entries, up to
-    /// eight rows, and scrolls beyond that.
-    private static func listHeight(rows: Int) -> CGFloat {
-        CGFloat(min(rows, 8)) * 24
-    }
-
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
@@ -65,7 +59,7 @@ struct ExclusionsSettingsView: View {
                             .tag(path)
                         }
                     }
-                    .frame(height: Self.listHeight(rows: paths.count))
+                    .frame(height: settingsListHeight(rows: paths.count))
                     .scrollContentBackground(.hidden)
                     // The Delete key does what the Remove button does, as in other Mac lists.
                     .onDeleteCommand {
@@ -116,7 +110,7 @@ struct ExclusionsSettingsView: View {
                             .tag(identifier)
                         }
                     }
-                    .frame(height: Self.listHeight(rows: apps.count))
+                    .frame(height: settingsListHeight(rows: apps.count))
                     .scrollContentBackground(.hidden)
                     .onDeleteCommand {
                         let removed = selectedApps
@@ -171,7 +165,7 @@ struct ExclusionsSettingsView: View {
                             .tag(group)
                         }
                     }
-                    .frame(height: Self.listHeight(rows: groups.count))
+                    .frame(height: settingsListHeight(rows: groups.count))
                     .scrollContentBackground(.hidden)
                     .onDeleteCommand { forgetSelectedGroups() }
                 }
@@ -214,15 +208,5 @@ extension ExclusionsSettingsView {
         let forgotten = Array(selectedGroups)
         selectedGroups = []
         Task { await orphans.forget(forgotten, from: library) }
-    }
-}
-
-private extension View {
-    /// Styles the buttons that add to a list and remove from it as small bordered buttons, 20 points high, the
-    /// HIG's minimum on the Mac. A borderless pull-down stays 16 points high at every control size, so all four
-    /// buttons use this style.
-    func editingControls() -> some View {
-        buttonStyle(.bordered)
-            .controlSize(.small)
     }
 }

@@ -7,10 +7,10 @@ public enum VendorRemoval {
     /// An uninstaller for `app`: one inside its bundle or beside it, or else one named for the app in the
     /// folders where makers keep their uninstallers.
     public static func uninstaller(for app: InstalledApp, applicationsFolders: [URL] = AppCatalog.defaultDirectories) -> URL? {
-        shippedOrBeside(app) ?? namedForIt(app, in: applicationsFolders)
+        shippedOrBeside(app, applicationsFolders: applicationsFolders) ?? namedForIt(app, in: applicationsFolders)
     }
 
-    private static func shippedOrBeside(_ app: InstalledApp) -> URL? {
+    private static func shippedOrBeside(_ app: InstalledApp, applicationsFolders: [URL]) -> URL? {
         let fileManager = FileManager.default
         let insideBundle = ["Contents/Resources", "Contents/MacOS", "Contents/Helpers"].map {
             app.url.appending(path: $0, directoryHint: .isDirectory)
@@ -18,7 +18,10 @@ public enum VendorRemoval {
         let parent = app.url.deletingLastPathComponent()
         // Inside the bundle, an uninstaller is the app's own even without the app's name. Beside the bundle it
         // must carry the app's name, because a vendor's folder holds its other products and their uninstallers.
-        let folders = insideBundle.map { ($0, true) } + (isApplicationsFolder(parent) ? [] : [(parent, false)])
+        let isEveryMakers = isApplicationsFolder(parent) || applicationsFolders.contains {
+            PathPattern.comparablePath(of: $0) == PathPattern.comparablePath(of: parent)
+        }
+        let folders = insideBundle.map { ($0, true) } + (isEveryMakers ? [] : [(parent, false)])
 
         for (folder, isInsideTheBundle) in folders {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []

@@ -257,7 +257,7 @@ struct OrphanScannerTests {
         try directory.file("home/Library/Caches/Sketchbook/cache.db")
         let figma = RememberedApp(
             bundleIdentifier: "com.figma.Desktop", name: "Figma", teamIdentifier: nil,
-            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/Figma.app"
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.Figma.app"
         )
         let scanner = scanner(in: directory)
 
@@ -467,6 +467,31 @@ struct OrphanScannerTests {
 
         #expect(Set(scan.groups.map(\.identifier)) == ["com.gonevendor.gone", "com.gonevendor.reverb"])
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
+    }
+
+    /// An app Peel no longer lists has left only when the place it was can be looked at and it is not there. One on
+    /// a disk that is not connected, or still in a folder Peel stopped looking in, is still installed, and its
+    /// files are not orphaned.
+    @Test func anAppThatIsOnlyOutOfSightHasNotLeft() async throws {
+        let directory = try TemporaryDirectory()
+        let info = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example-tools.app</string></dict></plist>
+        """
+        let tools = try directory.file("Tools/Tools.app/Contents/Info.plist", contents: Data(info.utf8))
+            .deletingLastPathComponent().deletingLastPathComponent()
+        for identifier in ["org.example-studio.app", "org.example-tools.app", "org.example-gone.app"] {
+            try directory.file("home/Library/Caches/\(identifier)/cache.db")
+        }
+        let remembered = [
+            ("org.example-studio.app", "/Volumes/org.example.NotConnected/Apps/Studio.app"),
+            ("org.example-tools.app", tools.path(percentEncoded: false)),
+            ("org.example-gone.app", "/Applications/org.example.Gone.app"),
+        ].map { RememberedApp(bundleIdentifier: $0, name: "App", teamIdentifier: nil, lastSeen: .now, lastPath: $1) }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: remembered)
+
+        #expect(scan.groups.map(\.identifier) == ["org.example-gone.app"])
     }
 
     /// What an item declares about itself is asked of the installed apps as its name is: a maker's plug-in, named for

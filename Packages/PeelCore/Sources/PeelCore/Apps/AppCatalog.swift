@@ -3,11 +3,24 @@ internal import PeelPrivileged
 import Synchronization
 
 public enum AppCatalog {
+    /// Where Peel looks for apps: the Applications folders and the folders the person chose (`AppFolders`).
     public static var defaultDirectories: [URL] {
+        directories(adding: AppFolders().load())
+    }
+
+    static var standardDirectories: [URL] {
+        standardDirectories(home: .homeDirectory)
+    }
+
+    static func standardDirectories(home: URL) -> [URL] {
         [
             URL(filePath: "/Applications", directoryHint: .isDirectory),
-            URL.homeDirectory.appending(path: "Applications", directoryHint: .isDirectory),
+            home.appending(path: "Applications", directoryHint: .isDirectory),
         ]
+    }
+
+    public static func directories(adding folders: [URL]) -> [URL] {
+        standardDirectories + folders
     }
 
     static var systemDirectories: [URL] {

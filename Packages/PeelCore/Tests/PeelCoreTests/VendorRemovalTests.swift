@@ -75,6 +75,24 @@ struct VendorRemovalTests {
         #expect(VendorRemoval.uninstaller(for: photos, applicationsFolders: [applications]) == nil, "Photoshop's uninstaller names more than Photos")
     }
 
+    /// A folder the person chose for apps holds every maker's apps, as an Applications folder does, whatever it is
+    /// called.
+    @Test func aFolderChosenForAppsIsReadLikeAnApplicationsFolder() throws {
+        let directory = try TemporaryDirectory()
+        let chosen = ["Studio Apps", "Tools"].map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        try directory.directory("Studio Apps/Studio.app")
+        try directory.directory("Studio Apps/Uninstall Studio One.app")
+        try directory.directory("Tools/Studio.app")
+        try directory.directory("Tools/Uninstall Studio One.app")
+        try directory.directory("Tools/Studio Uninstaller.app")
+        let inStudioApps = app(in: directory, path: "Studio Apps/Studio.app", name: "Studio")
+        let inTools = app(in: directory, path: "Tools/Studio.app", name: "Studio")
+
+        #expect(VendorRemoval.uninstaller(for: inStudioApps, applicationsFolders: [chosen[0]]) == nil)
+        let named = VendorRemoval.uninstaller(for: inTools, applicationsFolders: chosen)
+        #expect(named?.lastPathComponent == "Studio Uninstaller.app")
+    }
+
     @Test func listsSystemExtensionsInsideTheBundle() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Example.app/Contents/Library/SystemExtensions/com.example.app.filter.systemextension")

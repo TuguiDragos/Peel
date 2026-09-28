@@ -14,6 +14,20 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public var id: String { bundleIdentifier }
 }
 
+extension RememberedApp {
+    /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, or the
+    /// disk it was on is not connected. Nil once the place can be looked at and the app is not there.
+    func stillInstalled() -> InstalledApp? {
+        let place = URL(filePath: lastPath, directoryHint: .isDirectory)
+        if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
+        let names = PathComponents.of(lastPath)
+        guard names.count > 2, names[0] == "Volumes", URL(filePath: "/Volumes/\(names[1])").isMissing else {
+            return nil
+        }
+        return InstalledApp(url: place, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
+    }
+}
+
 public struct AppMemory: Sendable {
     /// The most apps remembered, which is enough for any Mac. The least recently seen are dropped first.
     public static let maximumApps = 2000

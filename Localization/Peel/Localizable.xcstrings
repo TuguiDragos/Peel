@@ -11971,6 +11971,112 @@
         }
       }
     },
+    "App Folders" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složky aplikací"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Ordner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carpetas de apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dossiers d’apps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartelle delle app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリのフォルダ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 폴더"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mappen met apps"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foldery z aplikacjami"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pastas de Apps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosare de aplicații"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки приложений"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appmappar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama Klasörleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки програм"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App檔案夾"
+          }
+        }
+      }
+    },
     "App Installers" : {
       "localizations" : {
         "cs" : {
@@ -67079,6 +67185,112 @@
         }
       }
     },
+    "No other folder is on this list yet." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto seznamu zatím není žádná další složka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf dieser Liste steht noch kein anderer Ordner."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay ninguna otra carpeta en esta lista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun autre dossier ne figure encore dans cette liste."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In questo elenco non ci sono ancora altre cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリストにはまだほかのフォルダがありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 이 목록에 다른 폴더가 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er staat nog geen andere map in deze lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tej liście nie ma jeszcze żadnego innego folderu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há nenhuma outra pasta nesta lista."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niciun alt dosar nu este încă în această listă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этом списке пока нет других папок."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det finns ingen annan mapp i listan än."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu listede henüz başka klasör yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цьому списку ще немає інших папок."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表中还没有其他文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表中還沒有其他檔案夾。"
+          }
+        }
+      }
+    },
     "No output." : {
       "localizations" : {
         "cs" : {
@@ -79826,6 +80038,112 @@
         }
       }
     },
+    "Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n%@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel už hledá ve složkách Aplikace a tak rozsáhlá složka jako celý disk, vaše domovská složka nebo složka Knihovna by zpomalila každé hledání aplikací. Zvolte složku, která aplikace obsahuje.\n\n%@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht bereits in den Ordnern „Programme“, und ein Ordner, der so umfassend ist wie ein ganzes Volume, dein Benutzerordner oder ein Library-Ordner, würde jede Suche nach Apps verlangsamen. Wähle den Ordner, in dem die Apps liegen.\n\n%@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ya busca en las carpetas Aplicaciones, y una carpeta tan amplia como un disco entero, tu carpeta de inicio o una carpeta Biblioteca ralentizaría cada búsqueda de apps. Elige la carpeta donde están las apps.\n\n%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel recherche déjà dans les dossiers Applications, et un dossier aussi vaste qu’un disque entier, votre dossier de départ ou un dossier Bibliothèque ralentirait chaque recherche d’apps. Choisissez le dossier qui contient les apps.\n\n%@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cerca già le app nelle cartelle Applicazioni, e una cartella ampia quanto un intero disco, la tua cartella Inizio o una cartella Libreria rallenterebbe ogni ricerca di app. Scegli la cartella che contiene le app.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはすでに“アプリケーション”フォルダを調べています。ディスク全体、ホームフォルダ、ライブラリフォルダのように範囲の広いフォルダを追加すると、アプリを探すたびに時間がかかるようになります。アプリが入っているフォルダを選択してください。\n\n%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이미 응용 프로그램 폴더를 살펴보며, 디스크 전체, 홈 폴더 또는 라이브러리 폴더처럼 넓은 폴더는 앱을 찾을 때마다 속도를 느리게 합니다. 앱이 들어 있는 폴더를 선택하십시오.\n\n%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt al in de mappen 'Apps', en een map zo groot als een hele schijf, je thuismap of een bibliotheekmap zou elke zoekactie naar apps vertragen. Kies de map waarin de apps staan.\n\n%@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel już szuka w folderach Aplikacje, a folder tak obszerny jak cały dysk, Twój folder domowy lub folder Biblioteki spowalniałby każde wyszukiwanie aplikacji. Wybierz folder, w którym są aplikacje.\n\n%@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel já procura nas pastas Aplicativos, e uma pasta tão ampla quanto um disco inteiro, a sua pasta pessoal ou uma pasta Biblioteca deixaria mais lenta cada busca por apps. Escolha a pasta que contém os apps.\n\n%@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută deja în dosarele Aplicații, iar un dosar la fel de cuprinzător ca un disc întreg, dosarul dvs. de reședință sau un dosar Bibliotecă ar încetini fiecare căutare de aplicații. Alegeți dosarul care conține aplicațiile.\n\n%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel уже ищет в папках «Программы», а папка размером с целый диск, Ваша папка пользователя или папка «Библиотека» замедлила бы каждый поиск приложений. Выберите папку, в которой находятся приложения.\n\n%@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar redan i mapparna Appar, och en mapp så omfattande som en hel skiva, din hemmapp eller en biblioteksmapp skulle göra varje sökning efter appar långsammare. Välj mappen där apparna finns.\n\n%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zaten Uygulamalar klasörlerinde arar; bütün bir disk, ana klasörünüz veya bir Kitaplık klasörü kadar geniş bir klasör ise uygulamalar için yapılan her aramayı yavaşlatır. Uygulamaların bulunduğu klasörü seçin.\n\n%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel уже шукає в папках «Програми», а папка завширшки з цілий диск, ваша Домівка чи папка «Бібліотека» сповільнила б кожен пошук програм. Виберіть папку, у якій містяться програми.\n\n%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已经会在“应用程序”文件夹中查找，而整个磁盘、你的个人文件夹或“资源库”文件夹这样宽泛的文件夹会拖慢每一次App查找。请选取存放这些App的文件夹。\n\n%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已會在「應用程式」檔案夾中尋找App，而像整個磁碟、你的個人專屬檔案夾或「資源庫」檔案夾這樣大的範圍，會拖慢每次尋找App的速度。請選擇存放App的檔案夾。\n\n%@"
+          }
+        }
+      }
+    },
     "Peel always keeps at least one copy." : {
       "localizations" : {
         "cs" : {
@@ -82578,6 +82896,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法儲存你的App簽署者記錄"
+          }
+        }
+      }
+    },
+    "Peel couldn’t save the app folders." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složky aplikací se Peelu nepodařilo uložit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die App-Ordner nicht sichern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar las carpetas de apps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’enregistrer les dossiers d’apps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile salvare le cartelle delle app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリのフォルダを保存できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱 폴더를 저장할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de mappen met apps niet bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować folderów z aplikacjami."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu salvar as pastas de apps."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut salva dosarele de aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить папки приложений."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara appmapparna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uygulama klasörlerini kaydedemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти папки програм."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存App文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法儲存App檔案夾。"
           }
         }
       }
@@ -85378,6 +85802,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel最多列出%lld個檔案：你的檔案優先，並由大到小排列。請縮小搜尋範圍以查看其餘檔案。"
+          }
+        }
+      }
+    },
+    "Peel looks for apps in the Applications folders and in the folders on this list, such as one on another disk. While that disk isn’t connected, its apps still count as installed, so their files aren’t listed as orphaned." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hledá aplikace ve složkách Aplikace a ve složkách na tomto seznamu, například ve složce na jiném disku. Dokud tento disk není připojený, jeho aplikace se stále počítají jako nainstalované, takže jejich soubory se neuvádějí jako osiřelé."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht in den Ordnern „Programme“ und in den Ordnern auf dieser Liste nach Apps, etwa in einem Ordner auf einem anderen Volume. Solange dieses Volume nicht verbunden ist, gelten seine Apps weiterhin als installiert, daher werden ihre Dateien nicht als verwaist aufgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel busca apps en las carpetas Aplicaciones y en las carpetas de esta lista, como una que esté en otro disco. Mientras ese disco no está conectado, sus apps siguen contando como instaladas, así que sus archivos no aparecen como huérfanos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel recherche les apps dans les dossiers Applications et dans les dossiers de cette liste, par exemple un dossier situé sur un autre disque. Tant que ce disque n’est pas connecté, ses apps sont toujours considérées comme installées, et leurs fichiers ne sont donc pas listés comme orphelins."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cerca le app nelle cartelle Applicazioni e nelle cartelle di questo elenco, ad esempio una su un altro disco. Finché quel disco non è collegato, le sue app risultano comunque installate, quindi i loro file non vengono elencati in “File orfani”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは“アプリケーション”フォルダと、このリストにあるフォルダ（別のディスク上のフォルダなど）でアプリを探します。そのディスクが接続されていない間も、そこにあるアプリはインストール済みとみなされるため、そのファイルが孤立ファイルとして表示されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 응용 프로그램 폴더와 이 목록에 있는 폴더(예: 다른 디스크에 있는 폴더)에서 앱을 찾습니다. 해당 디스크가 연결되어 있지 않은 동안에도 그 안의 앱은 설치된 것으로 간주되므로, 해당 앱의 파일은 주인 없는 파일로 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt naar apps in de mappen 'Apps' en in de mappen in deze lijst, zoals een map op een andere schijf. Zolang die schijf niet is aangesloten, gelden de apps erop nog als geïnstalleerd, dus worden hun bestanden niet als verweesd getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel szuka aplikacji w folderach Aplikacje i w folderach z tej listy, takich jak folder na innym dysku. Gdy ten dysk nie jest podłączony, jego aplikacje nadal są liczone jako zainstalowane, więc ich pliki nie są wyświetlane jako osierocone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel procura apps nas pastas Aplicativos e nas pastas desta lista, como uma em outro disco. Enquanto esse disco não estiver conectado, os apps dele continuam contando como instalados, então os arquivos deles não são listados como órfãos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel caută aplicații în dosarele Aplicații și în dosarele din această listă, de exemplu unul de pe alt disc. Cât timp acel disc nu este conectat, aplicațiile de pe el sunt considerate în continuare instalate, așa că fișierele lor nu sunt listate ca orfane."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ищет приложения в папках «Программы» и в папках из этого списка, например в папке на другом диске. Пока этот диск не подключен, его приложения по-прежнему считаются установленными, поэтому их файлы не показываются как осиротевшие."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar efter appar i mapparna Appar och i mapparna i den här listan, till exempel en mapp på en annan skiva. Medan den skivan inte är ansluten räknas dess appar fortfarande som installerade, så deras filer listas inte som övergivna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, uygulamaları Uygulamalar klasörlerinde ve bu listedeki klasörlerde, örneğin başka bir diskteki bir klasörde arar. O disk bağlı değilken diskteki uygulamalar yüklü sayılmaya devam eder, bu yüzden dosyaları sahipsiz olarak listelenmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel шукає програми в папках «Програми» та в папках із цього списку, як-от у папці на іншому диску. Поки цей диск не підʼєднано, його програми все одно вважаються інстальованими, тому їхні файли не показано як покинуті."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在“应用程序”文件夹和此列表中的文件夹（例如另一个磁盘上的文件夹）中查找App。该磁盘未连接时，其中的App仍算作已安装，因此它们的文件不会列为孤立文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在「應用程式」檔案夾和此列表中的檔案夾（例如另一個磁碟上的檔案夾）裡尋找App。該磁碟未連接時，其中的App仍算作已安裝，因此它們的檔案不會列為孤立檔案。"
           }
         }
       }
@@ -113786,6 +114316,112 @@
         }
       }
     },
+    "That folder can’t be added." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuto složku nelze přidat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner kann nicht hinzugefügt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esa carpeta no se puede añadir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’ajouter ce dossier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile aggiungere quella cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのフォルダは追加できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "해당 폴더는 추가할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die map kan niet worden toegevoegd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tego folderu nie można dodać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível adicionar essa pasta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acel dosar nu poate fi adăugat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту папку нельзя добавить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den mappen kan inte läggas till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O klasör eklenemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю папку не можна додати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法添加该文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法加入該檔案夾。"
+          }
+        }
+      }
+    },
     "That folder can’t be excluded." : {
       "localizations" : {
         "cs" : {
@@ -122370,6 +123006,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些副本共用儲存空間，因此移除它們所釋放的空間會少於其大小。"
+          }
+        }
+      }
+    },
+    "These folders can’t be added." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto složky nelze přidat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Ordner können nicht hinzugefügt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas carpetas no se pueden añadir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’ajouter ces dossiers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile aggiungere queste cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらのフォルダは追加できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더들은 추가할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze mappen kunnen niet worden toegevoegd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tych folderów nie można dodać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível adicionar estas pastas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceste dosare nu pot fi adăugate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эти папки нельзя добавить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här mapparna kan inte läggas till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu klasörler eklenemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ці папки не можна додати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法添加这些文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法加入這些檔案夾。"
           }
         }
       }

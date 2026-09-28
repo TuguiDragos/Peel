@@ -1,0 +1,34 @@
+import Foundation
+@testable import PeelCore
+import Testing
+
+struct AppFoldersTests {
+    /// A folder chosen for apps is looked through three levels deep. The whole disk, the home folder or a folder
+    /// Peel already looks in would only repeat or slow every reading of the apps.
+    @Test func refusesAFolderTooBroadOrAlreadyLookedIn() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
+        for path in ["/", "/Users", "/Volumes", "/System", "/Library", "/Users/someone", "/Users/someone/Library",
+                     "/Applications", "/Applications/Utilities", "/Users/someone/Applications"] {
+            let folder = URL(filePath: path, directoryHint: .isDirectory)
+            #expect(AppFolders.refusal(of: folder, home: home) != nil, "\(path)")
+        }
+        for path in ["/Volumes/Studio/Apps", "/Users/someone/Tools"] {
+            let folder = URL(filePath: path, directoryHint: .isDirectory)
+            #expect(AppFolders.refusal(of: folder, home: home) == nil, "\(path)")
+        }
+    }
+
+    @Test func remembersTheFoldersChosenForApps() throws {
+        let directory = try TemporaryDirectory()
+        let folders = AppFolders(url: directory.url.appending(path: "app-folders.json"))
+        let studio = directory.url.appending(path: "Studio Apps", directoryHint: .isDirectory)
+        #expect(folders.load().isEmpty)
+
+        #expect(folders.add([studio]))
+        #expect(folders.load().map(\.lastPathComponent) == ["Studio Apps"])
+        #expect(AppCatalog.directories(adding: folders.load()).count == AppCatalog.standardDirectories.count + 1)
+
+        #expect(folders.remove([studio]))
+        #expect(folders.load().isEmpty)
+    }
+}

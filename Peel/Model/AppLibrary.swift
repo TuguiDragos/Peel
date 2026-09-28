@@ -75,6 +75,10 @@ final class AppLibrary {
     private(set) var lastOpenedRevision = 0
     private(set) var isLoading = false
     private(set) var hasLoaded = false
+    /// The folders the person chose for apps, beside the Applications folders. `PeelApp` watches them and reads the
+    /// apps again when they change.
+    private(set) var folders = AppFolders().load()
+    private(set) var couldNotSaveFolders = false
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
         didSet { updatesRevision += 1 }
     }
@@ -182,6 +186,20 @@ final class AppLibrary {
     func refreshUnlessRecent() async -> [InstalledApp] {
         if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return [] }
         return await refresh()
+    }
+
+    func addFolders(_ urls: [URL]) {
+        changeFolders { $0.add(urls) }
+    }
+
+    func removeFolders(_ urls: [URL]) {
+        changeFolders { $0.remove(urls) }
+    }
+
+    private func changeFolders(_ change: (AppFolders) -> Bool) {
+        let store = AppFolders()
+        couldNotSaveFolders = !change(store)
+        folders = store.load()
     }
 
     /// Reads the folders again without emptying the list first, so an app installed while Peel is open

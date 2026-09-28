@@ -47,11 +47,15 @@ public struct OrphanScanner: Sendable {
         owners: [String: String] = [:]
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
+        // `remembered` also holds the apps installed now, and only an app that is gone can have left files behind.
+        let listed = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let unlisted = remembered.filter { !listed.contains($0.bundleIdentifier.lowercased()) }
+        let outOfSight = unlisted.compactMap { $0.stillInstalled() }
+        let installedApps = installedApps + outOfSight
+        let here = listed.union(outOfSight.map { $0.bundleIdentifier.lowercased() })
+        let gone = unlisted.filter { !here.contains($0.bundleIdentifier.lowercased()) }
         let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
-        // `remembered` also holds the apps installed now, and only an app that is gone can have left files behind.
-        let here = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
-        let gone = remembered.filter { !here.contains($0.bundleIdentifier.lowercased()) }
         let goneBundles = Dictionary(
             gone.map { (PathPattern.comparablePath(of: URL(filePath: $0.lastPath, directoryHint: .isDirectory)), $0.bundleIdentifier) },
             uniquingKeysWith: { first, _ in first }

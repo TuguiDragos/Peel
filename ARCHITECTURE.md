@@ -199,6 +199,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file isn't read again. |
 | `~/Library/Application Support/Peel/apps.json`, `teams.json` | What Peel remembers about apps and their signing teams between launches. |
 | `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an installed app. |
+| `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
 | Peel's preferences | Settings, the totals Home shows, what each tool found the last time it looked, and the last answer of each update check. |
 
