@@ -9,6 +9,14 @@ struct AppInspectorTests {
         + [0x01, 0x00, 0x00, 0x07] + [UInt8](repeating: 0, count: 16)
         + [0x01, 0x00, 0x00, 0x0C] + [UInt8](repeating: 0, count: 16)
 
+    @Test func aCopyInATrashIsNotInstalledWhateverItsNameBeginsWith() {
+        #expect(AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash/Example.app")))
+        #expect(AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash/\u{301}Example.app")))
+        #expect(AppInspector.isInATrash(URL(filePath: "/Volumes/Disk/.Trashes/501/Example.app")))
+        #expect(!AppInspector.isInATrash(URL(filePath: "/Applications/Example.app")))
+        #expect(!AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash Old/Example.app")))
+    }
+
     /// The shapes a binary comes in: thin (the usual shape of an Intel-only app), and fat with 20-byte or 32-byte
     /// entries. A fat header that claims too many architectures to be real is read as nothing: a Java class file
     /// also starts with `cafebabe`, and its version sits where the count would be.

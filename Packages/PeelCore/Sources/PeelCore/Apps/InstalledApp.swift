@@ -99,7 +99,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         let own = HelperIdentity.appIdentifier.lowercased()
         let identifier = bundleIdentifier.lowercased()
         if identifier == own || identifier.hasPrefix(own + ".") { return true }
-        return PathPattern.comparablePath(of: Bundle.main.bundleURL).hasPrefix(PathPattern.comparablePath(of: url) + "/")
+        let running = PathPattern.comparablePath(of: Bundle.main.bundleURL)
+        return PathComponents.isPath(running, inside: PathPattern.comparablePath(of: url))
     }
 
     /// The name Finder shows, which follows the user's language when the app translates it, and the bundle's file

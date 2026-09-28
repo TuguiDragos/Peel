@@ -3,6 +3,7 @@ import Darwin
 import AppKit
 public import Foundation
 import Security
+internal import PeelPrivileged
 
 public enum AppInspector {
     /// Where macOS thinks an app is, including folders Peel doesn't scan, such as a build folder.
@@ -15,9 +16,13 @@ public enum AppInspector {
     /// doesn't count as installed.
     static func applicationURLs(forBundleIdentifier identifier: String) -> [URL] {
         NSWorkspace.shared.urlsForApplications(withBundleIdentifier: identifier).filter { url in
-            let path = url.path(percentEncoded: false)
-            return !path.contains("/.Trash/") && !path.contains("/.Trashes/") && FileManager.default.fileExists(atPath: path)
+            !isInATrash(url) && FileManager.default.fileExists(atPath: url.path(percentEncoded: false))
         }
+    }
+
+    static func isInATrash(_ url: URL) -> Bool {
+        let names = PathComponents.of(url.path(percentEncoded: false))
+        return names.contains(".Trash") || names.contains(".Trashes")
     }
 
     /// The identifiers of the apps Spotlight has indexed whose identifier begins with `prefix`, wherever they are, such
