@@ -239,8 +239,11 @@ public struct LeftoverScanner: Sendable {
                 } catch CocoaError.fileReadNoSuchFile {
                     continue
                 } catch {
-                    // It may hold the app's files, so it is said rather than passed over as empty.
-                    unreadable.append(folder)
+                    // It may hold the app's files, so it is said rather than passed over as empty. A folder of
+                    // Apple's own holds none of another app's.
+                    if !ProtectedData.isApplesName(folder.lastPathComponent) {
+                        unreadable.append(folder)
+                    }
                     continue
                 }
                 ScanCount.current?.add(names.count)

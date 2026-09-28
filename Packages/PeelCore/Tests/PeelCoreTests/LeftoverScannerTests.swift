@@ -361,6 +361,20 @@ struct LeftoverScannerTests {
         #expect(!scan.needsFullDiskAccess)
     }
 
+    /// A folder of Apple's own the deep search cannot look into, such as macOS's icon store in the Caches, holds none
+    /// of another app's files, so saying so on every app's page would only be noise.
+    @Test(.permissionsHold) func leavesApplesOwnFoldersItCannotReadUnsaid() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.apple.iconservices.store/cache.db")
+        try directory.setPermissions(0o000, of: "home/Library/Caches/com.apple.iconservices.store")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Caches/com.apple.iconservices.store") }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")
