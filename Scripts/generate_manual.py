@@ -2,15 +2,15 @@
 
 Run after building the Debug configuration into `build/DerivedData`:
     python3 Scripts/generate_manual.py            writes the page when the tool says something new
-    python3 Scripts/generate_manual.py --check    writes nothing, and exits 1 when the page is behind
+    python3 Scripts/generate_manual.py --check    leaves the page as it is, and exits 1 when it is behind
 
 The page is written by `generate-manual`, the tool swift-argument-parser ships for its GenerateManual plugin, from
 what the built `peel` says about itself. The tool is built from the copy of swift-argument-parser the Debug build
-resolved, into `build/Tools`, so nothing is downloaded. The date on the page is the day its text last changed:
-a page whose text is the same keeps the date it has. The app build copies the page into Peel.app, and Homebrew
-installs it from there.
+resolved, into `build/Tools`, with or without `--check`, so nothing is downloaded. The date on the page is the day
+its text last changed: a page whose text is the same keeps the date it has. The app build copies the page into
+Peel.app, and Homebrew installs it from there.
 """
-import pathlib, subprocess, sys, tempfile
+import argparse, pathlib, subprocess, sys, tempfile
 
 PROJECT = pathlib.Path(__file__).resolve().parent.parent
 DERIVED = PROJECT / "build/DerivedData"
@@ -18,7 +18,6 @@ ARGUMENT_PARSER = DERIVED / "SourcePackages/checkouts/swift-argument-parser"
 TOOL = DERIVED / "Build/Products/Debug/Peel.app/Contents/Helpers/peel"
 SCRATCH = PROJECT / "build/Tools/argument-parser"
 PAGE = PROJECT / "Support/peel.1"
-CHECK = "--check" in sys.argv[1:]
 
 
 def without_date(page):
@@ -27,13 +26,20 @@ def without_date(page):
 
 
 def main():
+    # Anything else is refused: a mistyped --check would otherwise write the page.
+    parser = argparse.ArgumentParser(description="Keeps Support/peel.1 in step with the tool.", allow_abbrev=False)
+    parser.add_argument("--check", action="store_true", help="leave the page as it is, and exit 1 when it is behind")
+    check = parser.parse_args().check
     if not TOOL.exists() or not ARGUMENT_PARSER.exists():
         sys.exit("Build Peel's Debug configuration into build/DerivedData first.")
-    subprocess.run(
-        ["swift", "build", "--package-path", ARGUMENT_PARSER, "--scratch-path", SCRATCH,
-         "-c", "release", "--target", "generate-manual"],
-        check=True, stdout=subprocess.DEVNULL,
-    )
+    try:
+        subprocess.run(
+            ["swift", "build", "--package-path", ARGUMENT_PARSER, "--scratch-path", SCRATCH,
+             "-c", "release", "--target", "generate-manual"],
+            check=True, stdout=subprocess.DEVNULL,
+        )
+    except FileNotFoundError:
+        sys.exit("`swift` isn't on the PATH. Install Xcode or its command line tools, then run this again.")
     with tempfile.TemporaryDirectory() as folder:
         subprocess.run(
             [SCRATCH / "release/generate-manual", TOOL, "--output-directory", folder],
@@ -44,10 +50,11 @@ def main():
     if without_date(new) == without_date(old):
         print("Support/peel.1 is in step with the tool.")
         return
-    if CHECK:
+    if check:
         sys.exit("Support/peel.1 is behind the tool. Run python3 Scripts/generate_manual.py after a Debug build.")
     PAGE.write_text(new, encoding="utf-8")
     print("Wrote Support/peel.1.")
 
 
-main()
+if __name__ == "__main__":
+    main()
