@@ -150,10 +150,10 @@ struct ContentView: View {
             show(requested)
             navigator.requestedTool = nil
         }
-        .onChange(of: navigator.requestedAppName) { _, name in
-            guard let name, !name.isEmpty, library.hasLoaded else { return }
-            navigator.requestedAppName = nil
-            Task { await reveal(named: name) }
+        .onChange(of: navigator.requestedApp) { _, app in
+            guard let app, library.hasLoaded else { return }
+            navigator.requestedApp = nil
+            Task { await library.reveal([app]) }
         }
     }
 
@@ -341,19 +341,10 @@ struct ContentView: View {
             show(requested)
             navigator.requestedTool = nil
         }
-        if let name = navigator.requestedAppName, !name.isEmpty, library.hasLoaded {
-            navigator.requestedAppName = nil
-            Task { await reveal(named: name) }
+        if let app = navigator.requestedApp, library.hasLoaded {
+            navigator.requestedApp = nil
+            Task { await library.reveal([app]) }
         }
-    }
-
-    /// A Shortcut asks by name, so the closest installed app wins and nothing happens when there is no match.
-    private func reveal(named name: String) async {
-        let wanted = name.lowercased()
-        let match = library.apps.first { $0.names.contains { $0.lowercased() == wanted } }
-            ?? library.apps.first { $0.names.contains { SearchText.matches($0, name) } }
-        guard let match else { return }
-        await library.reveal([match.url])
     }
 
     @ViewBuilder

@@ -2,7 +2,7 @@ import AppKit
 import Observation
 import SwiftUI
 
-/// Requests to show a tool, or an app by name, that come from outside the sidebar: Shortcuts and Spotlight, the
+/// Requests to show a tool, or an app, that come from outside the sidebar: Shortcuts and Spotlight, the
 /// menu bar panel, or a button on another page. `ContentView` carries out each one and clears it. A request only
 /// opens a page, where the user can look and decide; it never removes anything.
 @Observable
@@ -10,8 +10,9 @@ final class Navigator {
     @MainActor static let shared = Navigator()
 
     var requestedTool: Tool?
-    /// The name of an app to open in Applications, as chosen in a Shortcut.
-    var requestedAppName: String?
+    /// An app to open in Applications, as a Shortcut found it on disk, so an app of the same name is never the one
+    /// opened, and one installed a moment ago opens before the list has it.
+    var requestedApp: URL?
     /// The app's own action for opening a window, given at launch, which works whatever window is open or closed.
     @ObservationIgnored var openWindow: OpenWindowAction?
 

@@ -149,10 +149,10 @@ struct ShowLeftoversInPeel: AppIntent {
     func perform() async throws -> some IntentResult {
         // Checked again here, because the app may have been removed after it was chosen. The error lets the
         // Shortcut handle that case, instead of opening an empty page.
-        guard await AppCatalog.installedApps().contains(where: { $0.bundleIdentifier == app.id }) else {
+        guard let installed = await AppCatalog.installedApps().first(where: { $0.bundleIdentifier == app.id }) else {
             throw NoSuchApp(name: app.name)
         }
-        Navigator.shared.requestedAppName = app.name
+        Navigator.shared.requestedApp = installed.url
         Navigator.shared.requestedTool = .applications
         return .result()
     }
