@@ -6,13 +6,9 @@ struct IntelDetailView: View {
     @Environment(AppLibrary.self) private var library
     let finding: IntelFinding
 
-    private var app: InstalledApp? {
-        AppCatalog.app(holding: finding.url, among: library.apps)
-    }
-
-    /// When the app was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
+    /// When `app` was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
     /// a new date is no reason to scan again.
-    private var lastOpened: Date? {
+    private func lastOpened(of app: InstalledApp?) -> Date? {
         switch finding.kind {
         case .app, .insideApp: app?.lastUsedDate
         case .plugin, .driver, .backgroundItem, .commandLineTool: nil
@@ -20,6 +16,8 @@ struct IntelDetailView: View {
     }
 
     var body: some View {
+        // Found once for the whole page: it walks every app.
+        let app = AppCatalog.app(holding: finding.url, among: library.apps)
         Form {
             Section {
                 header
@@ -71,7 +69,7 @@ struct IntelDetailView: View {
                 LabeledContent("Size") {
                     Text(finding.size.byteCount).monospacedDigit()
                 }
-                if let lastOpened {
+                if let lastOpened = lastOpened(of: app) {
                     LabeledContent("Last opened") {
                         Text(lastOpened, format: .relative(presentation: .named))
                     }
