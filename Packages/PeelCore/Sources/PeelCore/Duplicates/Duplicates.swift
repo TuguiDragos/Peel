@@ -147,6 +147,12 @@ public struct DuplicateScan: Sendable {
         Self.keepingOne(of: folderGroups.map { $0.folders.map(\.url) }, selection)
     }
 
+    /// Whether the copy at `url` may be selected or deselected, given the `selected` copies of its group: one copy of
+    /// every group always stays, so the last one not selected cannot be.
+    public static func canChange(_ url: URL, among copies: [URL], selected: Set<URL>) -> Bool {
+        selected.contains(url) || copies.count { !selected.contains($0) } > 1
+    }
+
     private static func keepingOne(of groups: [[URL]], _ selection: Set<URL>) -> Set<URL> {
         Set(groups.flatMap { copies in
             let chosen = copies.filter(selection.contains)

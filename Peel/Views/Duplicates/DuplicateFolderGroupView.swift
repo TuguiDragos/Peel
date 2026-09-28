@@ -5,10 +5,6 @@ struct DuplicateFolderGroupView: View {
     @Environment(DuplicateLibrary.self) private var duplicates
     let group: DuplicateFolderGroup
 
-    private var selectedSize: Int64 {
-        group.folders.filter { duplicates.selectedFolders.contains($0.url) }.map(\.reclaimableSize).cappedSum
-    }
-
     var body: some View {
         List {
             header
@@ -20,8 +16,9 @@ struct DuplicateFolderGroupView: View {
                     DuplicateFolderRow(
                         duplicates: duplicates,
                         folder: folder,
+                        group: group,
                         isSelected: duplicates.isSelected(folder),
-                        canChangeSelection: duplicates.selectedFolders.contains(folder.url) || keptCount > 1,
+                        canChangeSelection: duplicates.canChange(folder, in: group),
                         isFirst: index == 0
                     )
                 }
@@ -54,8 +51,7 @@ struct DuplicateFolderGroupView: View {
                 }
             }
             Spacer(minLength: 8)
-            TotalLabel(bytes: selectedSize, caption: Text("to free"))
-                .accessibilityLabel(Text("\(selectedSize.byteCount) can be freed"))
+            DuplicateSelectedTotal(bytes: duplicates.selectedSize(in: group))
         }
         .padding(.vertical, 8)
     }
@@ -72,22 +68,19 @@ struct DuplicateFolderGroupView: View {
         .frame(width: 92, height: 80)
         .accessibilityHidden(true)
     }
-
-    private var keptCount: Int {
-        group.folders.count { !duplicates.selectedFolders.contains($0.url) }
-    }
 }
 
 private struct DuplicateFolderRow: View {
     let duplicates: DuplicateLibrary
     let folder: DuplicateFolder
+    let group: DuplicateFolderGroup
     let isSelected: Bool
     let canChangeSelection: Bool
     var isFirst = false
 
     var body: some View {
         HStack(spacing: 0) {
-            Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, folder) })) {
+            Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, folder, in: group) })) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     Image(systemName: "folder.fill")
                         .foregroundStyle(Color.accentColor)

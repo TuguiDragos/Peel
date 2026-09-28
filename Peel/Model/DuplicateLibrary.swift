@@ -173,7 +173,13 @@ final class DuplicateLibrary {
         selectedURLs.contains(file.url)
     }
 
-    func setSelected(_ isSelected: Bool, _ file: DuplicateFile) {
+    func canChange(_ file: DuplicateFile, in group: DuplicateGroup) -> Bool {
+        DuplicateScan.canChange(file.url, among: group.files.map(\.url), selected: selectedURLs)
+    }
+
+    /// Changes nothing that would leave the group with no copy.
+    func setSelected(_ isSelected: Bool, _ file: DuplicateFile, in group: DuplicateGroup) {
+        guard canChange(file, in: group) else { return }
         if isSelected {
             selectedURLs.insert(file.url)
         } else {
@@ -181,16 +187,31 @@ final class DuplicateLibrary {
         }
     }
 
+    /// What the selection in `group` would free.
+    func selectedSize(in group: DuplicateGroup) -> Int64 {
+        group.files.filter { selectedURLs.contains($0.url) }.map(\.reclaimableSize).cappedSum
+    }
+
     func isSelected(_ folder: DuplicateFolder) -> Bool {
         selectedFolders.contains(folder.url)
     }
 
-    func setSelected(_ isSelected: Bool, _ folder: DuplicateFolder) {
+    func canChange(_ folder: DuplicateFolder, in group: DuplicateFolderGroup) -> Bool {
+        DuplicateScan.canChange(folder.url, among: group.folders.map(\.url), selected: selectedFolders)
+    }
+
+    /// Changes nothing that would leave the group with no copy.
+    func setSelected(_ isSelected: Bool, _ folder: DuplicateFolder, in group: DuplicateFolderGroup) {
+        guard canChange(folder, in: group) else { return }
         if isSelected {
             selectedFolders.insert(folder.url)
         } else {
             selectedFolders.remove(folder.url)
         }
+    }
+
+    func selectedSize(in group: DuplicateFolderGroup) -> Int64 {
+        group.folders.filter { selectedFolders.contains($0.url) }.map(\.reclaimableSize).cappedSum
     }
 }
 

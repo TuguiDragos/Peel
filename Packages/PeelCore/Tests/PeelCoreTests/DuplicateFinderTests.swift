@@ -5,6 +5,15 @@ import Synchronization
 import Testing
 
 struct DuplicateFinderTests {
+    @Test func oneCopyOfAGroupCanNeverBeSelected() {
+        let copies = ["/a/one", "/b/one", "/c/one"].map { URL(filePath: $0) }
+
+        #expect(DuplicateScan.canChange(copies[0], among: copies, selected: []))
+        #expect(DuplicateScan.canChange(copies[1], among: copies, selected: [copies[0]]))
+        #expect(!DuplicateScan.canChange(copies[2], among: copies, selected: [copies[0], copies[1]]))
+        #expect(DuplicateScan.canChange(copies[1], among: copies, selected: [copies[0], copies[1]]), "a selected copy can always go back")
+    }
+
     /// Verifying reads a mebibyte at a time, and each report is a transaction on the main actor. So reports are
     /// let through at most once every 50 ms, and the last one is always let through.
     @Test func reportsReadingAtARateTheScreenCanTake() {

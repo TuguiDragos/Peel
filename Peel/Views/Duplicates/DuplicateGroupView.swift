@@ -7,11 +7,6 @@ struct DuplicateGroupView: View {
     @State private var previewURL: URL?
     let group: DuplicateGroup
 
-    /// What the selection in this group would free.
-    private var selectedSize: Int64 {
-        group.files.filter { duplicates.selectedURLs.contains($0.url) }.map(\.reclaimableSize).cappedSum
-    }
-
     var body: some View {
         List {
             header
@@ -23,8 +18,9 @@ struct DuplicateGroupView: View {
                     DuplicateFileRow(
                         duplicates: duplicates,
                         file: file,
+                        group: group,
                         isSelected: duplicates.isSelected(file),
-                        canChangeSelection: duplicates.selectedURLs.contains(file.url) || keptCount > 1,
+                        canChangeSelection: duplicates.canChange(file, in: group),
                         isFirst: index == 0,
                         onPreview: { previewURL = file.url }
                     )
@@ -67,8 +63,7 @@ struct DuplicateGroupView: View {
             }
             Spacer(minLength: 8)
             // The selection's total, not the group's, so the figure changes as the user selects or deselects copies.
-            TotalLabel(bytes: selectedSize, caption: Text("to free"))
-                .accessibilityLabel(Text("\(selectedSize.byteCount) can be freed"))
+            DuplicateSelectedTotal(bytes: duplicates.selectedSize(in: group))
         }
         .padding(.vertical, 8)
     }
@@ -93,10 +88,6 @@ struct DuplicateGroupView: View {
         .accessibilityHidden(true)
     }
 
-    private var keptCount: Int {
-        group.files.count { !duplicates.selectedURLs.contains($0.url) }
-    }
-
     /// True when a copy other than the first, which Peel suggests keeping, shares its blocks with something else.
     /// This checks blocks, not sizes: a compressed or sparse file is smaller on disk without sharing anything.
     private var sharesStorage: Bool {
@@ -107,6 +98,7 @@ struct DuplicateGroupView: View {
 private struct DuplicateFileRow: View {
     let duplicates: DuplicateLibrary
     let file: DuplicateFile
+    let group: DuplicateGroup
     let isSelected: Bool
     let canChangeSelection: Bool
     var isFirst = false
@@ -114,7 +106,7 @@ private struct DuplicateFileRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, file) })) {
+            Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, file, in: group) })) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     FileThumbnail(url: file.url)
                         .frame(width: 20, height: 20)
@@ -155,5 +147,15 @@ private struct DuplicateFileRow: View {
             Button("Quick Look", systemImage: "eye", action: onPreview)
             ItemMenu(url: file.url)
         }
+    }
+}
+
+/// A group's total to free, which follows the copies selected in it.
+struct DuplicateSelectedTotal: View {
+    let bytes: Int64
+
+    var body: some View {
+        TotalLabel(bytes: bytes, caption: Text("to free"))
+            .accessibilityLabel(Text("\(bytes.byteCount) can be freed"))
     }
 }
