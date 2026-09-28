@@ -106,7 +106,7 @@ private struct OrphanGroupRow: View {
                     .rowTint(group.confidence.tint)
             }
             Spacer(minLength: 6)
-            Text(group.total.text)
+            Text(group.movable.text)
                 .rowFigure()
         }
         .padding(.vertical, 2)

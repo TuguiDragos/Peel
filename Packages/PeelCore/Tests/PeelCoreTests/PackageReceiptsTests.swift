@@ -171,7 +171,7 @@ struct PackageReceiptsTests {
         #expect(receipt.identifier == "com.example.quiet")
         #expect(!receipt.isFileListKnown)
         #expect(!receipt.holdsNothingToRemove, "an unknown file list read as \"Nothing Peel moves\"")
-        #expect(!receipt.total.isComplete, "an unknown file list read as a size of zero")
+        #expect(!receipt.movable.isComplete, "an unknown file list read as a size of zero")
     }
 
     /// A `pkgid` found that way says only that some package lists a path ending like this one.

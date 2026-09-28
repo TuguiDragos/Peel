@@ -44,6 +44,11 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         SizeTotal(items.map(\.size))
     }
 
+    /// What moving the group could free: items Peel leaves alone are listed but not counted, as on an app's page.
+    public var movable: SizeTotal {
+        SizeTotal(items.filter { $0.leftAlone == nil }.map(\.size))
+    }
+
     public var lastModified: Date? {
         items.compactMap(\.modificationDate).max()
     }

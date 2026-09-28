@@ -144,17 +144,11 @@ struct PackageDetailView: View {
                 }
             }
         } trailing: {
-            if movable.known > 0 || !movable.isComplete {
-                TotalLabel(total: movable, caption: Text("to remove"))
-                    .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
+            if receipt.movable.known > 0 || !receipt.movable.isComplete {
+                TotalLabel(total: receipt.movable, caption: Text("to remove"))
+                    .accessibilityLabel(Text("\(receipt.movable.text) can be moved to the Trash"))
             }
         }
-    }
-
-    /// The total size that can be moved to the Trash. Items Peel leaves alone are listed but not counted, as
-    /// on an app's page.
-    private var movable: SizeTotal {
-        SizeTotal(receipt.items.filter { !$0.isLeftAlone }.map(\.size))
     }
 
     /// The selected items of this receipt. `packages.selectedURLs` is one set shared by all receipts, so it is

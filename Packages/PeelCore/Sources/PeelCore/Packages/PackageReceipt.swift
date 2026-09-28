@@ -39,9 +39,11 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
 
     public var id: String { identifier }
 
-    /// Unknown when the file list is, since an empty list then says nothing about what is left.
-    public var total: SizeTotal {
-        isFileListKnown ? SizeTotal(items.map(\.size)) : SizeTotal(known: 0, isComplete: false)
+    /// What forgetting the package's files could free: items Peel leaves alone are listed but not counted. Unknown
+    /// when the file list is, since an empty list then says nothing about what is left.
+    public var movable: SizeTotal {
+        guard isFileListKnown else { return SizeTotal(known: 0, isComplete: false) }
+        return SizeTotal(items.filter { !$0.isLeftAlone }.map(\.size))
     }
 
     /// True when the package still has files on disk but none of them can be moved: each is excluded, protected,

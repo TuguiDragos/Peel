@@ -43,7 +43,7 @@ extension AppLibrary {
 
 extension OrphanLibrary {
     var looked: Looked? {
-        scan.map { Looked(count: $0.groups.count, size: SizeTotal(combining: $0.groups.map(\.total))) }
+        scan.map { Looked(count: $0.groups.count, size: SizeTotal(combining: $0.groups.map(\.movable))) }
     }
 }
 

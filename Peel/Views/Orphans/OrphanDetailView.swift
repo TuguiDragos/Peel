@@ -73,12 +73,6 @@ struct OrphanDetailView: View {
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
-    /// The total size that can be moved to the Trash. Items Peel leaves alone are listed but not counted, as
-    /// on an app's page.
-    private var movable: SizeTotal {
-        SizeTotal(group.items.filter { $0.leftAlone == nil }.map(\.size))
-    }
-
     private var header: some View {
         PageHeader(systemImage: "questionmark.folder") {
             Text(verbatim: group.title)
@@ -105,8 +99,8 @@ struct OrphanDetailView: View {
                     .foregroundStyle(.secondary)
             }
         } trailing: {
-            TotalLabel(total: movable, caption: Text("to remove"))
-                .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
+            TotalLabel(total: group.movable, caption: Text("to remove"))
+                .accessibilityLabel(Text("\(group.movable.text) can be moved to the Trash"))
         }
     }
 

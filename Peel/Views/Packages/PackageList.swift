@@ -31,7 +31,7 @@ struct PackageList: View {
                 }
                 Spacer(minLength: 6)
                 if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove {
-                    Text(receipt.total.text)
+                    Text(receipt.movable.text)
                         .rowFigure()
                 }
             }
