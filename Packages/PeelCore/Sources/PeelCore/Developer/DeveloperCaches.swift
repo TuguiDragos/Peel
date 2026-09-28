@@ -821,6 +821,13 @@ public enum DeveloperCaches {
             Folder(".cache/firebase", .downloads, source: "https://github.com/firebase/firebase-tools/blob/main/src/emulator/downloadableEmulators.ts#L29-L30"),
         ]),
         // Virtual machines
+        // Docker Desktop's own logs. Its disk image, `Data/vms`, is Space's to show and never offered here.
+        Definition(
+            id: "docker", name: "Docker Desktop", systemImage: "server.rack", appBundleIdentifiers: ["com.docker.docker"],
+            folders: [
+                Folder("Library/Containers/com.docker.docker/Data/log", .logs, source: "https://github.com/docker/docs/blob/main/content/manuals/engine/daemon/logs.md#L16"),
+            ]
+        ),
         Definition(id: "lima", name: "Lima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/lima", .downloads, source: "https://github.com/lima-vm/lima/blob/master/website/content/en/docs/dev/internals.md#L137-L145"),
         ]),

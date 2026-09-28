@@ -1013,6 +1013,18 @@ struct DeveloperCachesTests {
         #expect(rows.allSatisfy { !$0.isRecommended })
     }
 
+    @Test func offersDockerDesktopsLogsAndNeverItsDiskImage() async throws {
+        let directory = try TemporaryDirectory()
+        let data = "Library/Containers/com.docker.docker/Data"
+        try directory.file("\(data)/log/vm/init.log", bytes: 400_000)
+        try directory.file("\(data)/vms/0/data/Docker.raw", bytes: 400_000)
+
+        let docker = try #require(await scanned(directory.url).first { $0.id == "docker" })
+
+        #expect(docker.locations.map(\.url.lastPathComponent) == ["log"])
+        #expect(docker.appBundleIdentifiers == ["com.docker.docker"])
+    }
+
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".virtualenvs/web/bin/python", bytes: 400_000)
