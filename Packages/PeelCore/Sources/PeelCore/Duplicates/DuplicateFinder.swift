@@ -124,6 +124,7 @@ public struct DuplicateFinder: Sendable {
     private struct ContentKey: Hashable {
         let size: Int64
         let digest: ContentDigest
+        let extras: [UInt8]
     }
 
     private final class UnreadableLocations {
@@ -234,9 +235,12 @@ public struct DuplicateFinder: Sendable {
     }
 
     private static func grouped(_ hashed: [HashedCandidate]) -> [[HashedCandidate]] {
-        Dictionary(grouping: hashed) { ContentKey(size: $0.item.identity.size, digest: $0.digest) }
-            .values
-            .filter { $0.count > 1 }
+        let keyed = hashed.compactMap { candidate in
+            FileExtras.of(candidate.item.url).map { extras in
+                (candidate, ContentKey(size: candidate.item.identity.size, digest: candidate.digest, extras: extras))
+            }
+        }
+        return Dictionary(grouping: keyed, by: \.1).values.filter { $0.count > 1 }.map { $0.map(\.0) }
     }
 
     private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup {

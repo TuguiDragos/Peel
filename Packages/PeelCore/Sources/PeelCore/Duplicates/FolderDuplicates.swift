@@ -254,9 +254,13 @@ struct FolderDuplicates: Sendable {
 
     private func content(of folder: Folder, using contents: [FileIdentity: ContentDigest]) -> SHA256.Digest? {
         var hasher = SHA256()
+        guard let extras = FileExtras.of(folder.url) else { return nil }
+        hasher.update(data: Self.number(extras.count) + extras)
         for (name, identity) in folder.files.sorted(by: { $0.name < $1.name }) {
-            guard let digest = contents[identity] else { return nil }
-            hasher.update(data: Self.field("f", name, digest.bytes))
+            guard let digest = contents[identity], let extras = FileExtras.of(folder.url.appending(path: name)) else {
+                return nil
+            }
+            hasher.update(data: Self.field("f", name, digest.bytes + Self.number(extras.count) + extras))
         }
         for (name, child) in folder.children.sorted(by: { $0.name < $1.name }) {
             guard let digest = content(of: child, using: contents) else { return nil }

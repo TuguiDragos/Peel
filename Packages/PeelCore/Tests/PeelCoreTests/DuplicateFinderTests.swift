@@ -92,6 +92,36 @@ struct DuplicateFinderTests {
         #expect(result.suggestedSelection.map(\.lastPathComponent).sorted() == ["note.txt", "photo copy.jpg"])
     }
 
+    /// Moving a copy takes its Finder tags and its resource fork with it, so copies that differ in either are not
+    /// duplicates, on their own or inside folders.
+    @Test func copiesWithOtherTagsOrAnotherResourceForkAreNotDuplicates() async throws {
+        let directory = try TemporaryDirectory()
+        let contract = randomData(count: 4_000)
+        try directory.file("home/Documents/Contract.pdf", contents: contract)
+        var tagged = try directory.file("home/Desktop/Contract.pdf", contents: contract)
+        try directory.file("home/Downloads/Contract.pdf", contents: contract)
+        let sound = randomData(count: 4_000)
+        let forked = try directory.file("home/Music/sound.aiff", contents: sound)
+        try directory.file("home/Documents/sound.aiff", contents: sound)
+        let notes = randomData(count: 4_000)
+        try directory.file("home/Projects/a/notes.txt", contents: notes)
+        var taggedInside = try directory.file("home/Projects/b/notes.txt", contents: notes)
+        var red = URLResourceValues()
+        red.tagNames = ["Red"]
+        try tagged.setResourceValues(red)
+        try taggedInside.setResourceValues(red)
+        let fork = Data(randomData(count: 64))
+        let written = fork.withUnsafeBytes {
+            setxattr(forked.path(percentEncoded: false), "com.apple.ResourceFork", $0.baseAddress, fork.count, 0, 0)
+        }
+        #expect(written == 0)
+
+        let result = try await scan(directory)
+
+        #expect(Set(names(result)) == [["Documents/Contract.pdf", "Downloads/Contract.pdf"]])
+        #expect(result.folderGroups.isEmpty)
+    }
+
     /// Duplicates scans again only when asked, so what is excluded after a scan is taken out of it: the copy
     /// leaves its group, a group left with one copy goes, and a group that lost its kept copy keeps the next one.
     @Test func whatIsExcludedAfterTheScanLeavesIt() async throws {
