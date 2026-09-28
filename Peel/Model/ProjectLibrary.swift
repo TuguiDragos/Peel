@@ -28,8 +28,8 @@ final class ProjectLibrary {
     /// Artifacts excluded from backups by a folder above them or by a path rule. The exclusion is not their
     /// own, so it cannot be removed from here.
     private(set) var excludedFromAbove: Set<URL> = []
-    /// The folders the last change to backup exclusions could not update.
-    private(set) var backupMarkFailures: Set<URL> = []
+    /// The folders that would not take the mark the last time Peel changed it on them, whichever project they are in.
+    private var backupMarkFailures: Set<URL> = []
     /// True when the scan reached its limit on how many folders it reads, so the list may be incomplete.
     private(set) var wasCutShort = false
     private(set) var needsFullDiskAccess = false
@@ -121,6 +121,11 @@ final class ProjectLibrary {
         return !marked.isEmpty && marked.allSatisfy { excludedFromBackups.contains($0.url) }
     }
 
+    /// The group's folders that would not take the mark the last time Peel set it.
+    func backupMarkFailures(in group: ProjectGroup) -> [URL] {
+        group.artifacts.map(\.url).filter(backupMarkFailures.contains)
+    }
+
     /// False when no artifact of the group can take the mark, so the checkbox has nothing to change.
     func canMarkForBackups(_ group: ProjectGroup) -> Bool {
         !ProjectArtifacts.markableForBackups(group.artifacts, excludedFromAbove: excludedFromAbove).isEmpty
@@ -130,8 +135,9 @@ final class ProjectLibrary {
     /// project and not what a build can make again.
     func setExcludedFromBackups(_ isExcluded: Bool, in group: ProjectGroup) {
         let urls = ProjectArtifacts.markableForBackups(group.artifacts, excludedFromAbove: excludedFromAbove)
-        backupMarkFailures = TimeMachineExclusion.setExcluded(isExcluded, urls)
-        let changed = Set(urls).subtracting(backupMarkFailures)
+        let failed = TimeMachineExclusion.setExcluded(isExcluded, urls)
+        backupMarkFailures = backupMarkFailures.subtracting(urls).union(failed)
+        let changed = Set(urls).subtracting(failed)
         if isExcluded {
             excludedFromBackups.formUnion(changed)
         } else {

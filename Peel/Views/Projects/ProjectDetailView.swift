@@ -47,8 +47,9 @@ struct ProjectDetailView: View {
                 .toggleStyle(.checkbox)
                 .disabled(!projects.canMarkForBackups(group))
                 .listRowSeparator(.hidden)
-                if !projects.backupMarkFailures.isEmpty {
-                    Text("^[\(projects.backupMarkFailures.count) folder](inflect: true) wouldn’t take the mark, usually because it belongs to another account.")
+                let failures = projects.backupMarkFailures(in: group)
+                if !failures.isEmpty {
+                    Text("^[\(failures.count) folder](inflect: true) wouldn’t take the mark, usually because it belongs to another account.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
