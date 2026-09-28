@@ -53,9 +53,10 @@ public enum ProjectArtifacts {
     }
 
     /// The artifacts to leave out of Time Machine: never one with a generic name, since the mark travels with the
-    /// folder, even into a copy of it (`man tmutil`).
+    /// folder, even into a copy of it (`man tmutil`), and never an environment, which holds what no build makes
+    /// again (`.terraform` keeps the chosen workspace and the backend's settings).
     public static func markableForBackups(_ artifacts: [ProjectArtifact], excludedFromAbove: Set<URL>) -> [URL] {
-        artifacts.filter { !$0.hasGenericName && !excludedFromAbove.contains($0.url) }.map(\.url)
+        artifacts.filter { !$0.hasGenericName && !$0.isEnvironment && !excludedFromAbove.contains($0.url) }.map(\.url)
     }
 
     struct Definition: Sendable {

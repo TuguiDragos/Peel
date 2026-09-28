@@ -41,17 +41,19 @@ struct ProjectArtifactsTests {
     /// Machine already leaves out through a folder above it, whose exclusion is not its own to change. A project
     /// with nothing else gives the checkbox nothing to do.
     @Test func marksForBackupsOnlyWhatABuildCertainlyMakesAgain() {
-        func artifact(_ name: String, isGeneric: Bool) -> ProjectArtifact {
+        func artifact(_ name: String, isGeneric: Bool, isEnvironment: Bool = false) -> ProjectArtifact {
             ProjectArtifact(
                 url: URL(filePath: "/Users/x/Code/App/\(name)"), project: URL(filePath: "/Users/x/Code/App"), name: name,
-                tool: "tool", size: 10, lastActivity: nil, hasGenericName: isGeneric, isEnvironment: false
+                tool: "tool", size: 10, lastActivity: nil, hasGenericName: isGeneric, isEnvironment: isEnvironment
             )
         }
         let target = artifact("target", isGeneric: true)
         let modules = artifact("node_modules", isGeneric: false)
         let pods = artifact("Pods", isGeneric: false)
+        let terraform = artifact(".terraform", isGeneric: false, isEnvironment: true)
 
         #expect(ProjectArtifacts.markableForBackups([target], excludedFromAbove: []).isEmpty)
+        #expect(ProjectArtifacts.markableForBackups([terraform], excludedFromAbove: []).isEmpty, "no build makes it")
         #expect(ProjectArtifacts.markableForBackups([target, modules, pods], excludedFromAbove: [pods.url]) == [modules.url])
         #expect(ProjectArtifacts.markableForBackups([modules], excludedFromAbove: [modules.url]).isEmpty)
     }
