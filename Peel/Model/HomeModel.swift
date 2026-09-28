@@ -82,7 +82,8 @@ final class HomeModel {
     private(set) var isHelperFromAnotherCopy = false
     /// The Finder extension is on, but macOS runs the one inside another copy of Peel, so this copy reads it as off.
     private(set) var isFinderExtensionFromAnotherCopy = false
-    private var isRefreshing = false
+    private let refreshes = OneRunAtATime()
+    private var isReadingModelName = false
     private(set) var greeting = Greeting.at(.now)
     private(set) var states: [Permission: State] = [:]
     private(set) var helperStatus: PrivilegedHelper.Status = .notRegistered
@@ -124,12 +125,16 @@ final class HomeModel {
     }
 
     /// Reads again what Home shows: the Mac's details and the state of every permission. One call runs at a
-    /// time: the window's first task and the activation that follows both call this, and two overlapping
-    /// calls would both find nothing read yet.
+    /// time, since two overlapping calls would both find nothing read yet, and a call made meanwhile, such as the
+    /// one after the helper is installed, runs once more when it ends.
     func refresh(helper: HelperModel) async {
-        guard !isRefreshing else { return }
-        isRefreshing = true
-        defer { isRefreshing = false }
+        await refreshes.run { await read(helper: helper) }
+        // The model's marketing name is the only slow part (a `system_profiler` process), so it is read outside
+        // the runs, which it would otherwise hold up.
+        await readModelName()
+    }
+
+    private func read(helper: HelperModel) async {
         greeting = .at(.now)
         // The card needs none of the checks below, so it is read first and arrives with the window.
         let isFirstRead = device == nil
@@ -166,12 +171,8 @@ final class HomeModel {
         ]
         hasChecked = true
 
-        // The model's marketing name is the only slow part (a `system_profiler` process), so the card is drawn
-        // without it and the name arrives after. Free space is read every time, since it is how the user sees
-        // that a cleanup worked.
-        if isFirstRead {
-            await readModelName()
-        } else if let device {
+        // Free space is read every time, since it is how the user sees that a cleanup worked.
+        if !isFirstRead, let device {
             self.device = device.withStorageRead().named(modelName)
         }
     }
@@ -186,7 +187,10 @@ final class HomeModel {
 
     /// Reads the marketing name with `system_profiler` and saves it, when none is saved for this model yet.
     private func readModelName() async {
-        guard let identifier = device?.modelIdentifier, !identifier.isEmpty, modelName == nil else { return }
+        guard !isReadingModelName, let identifier = device?.modelIdentifier, !identifier.isEmpty, modelName == nil
+        else { return }
+        isReadingModelName = true
+        defer { isReadingModelName = false }
         guard let name = await DeviceInfo.marketingName() else { return }
         UserDefaults.standard.set(name, forKey: Self.modelNameKey + identifier)
         device = device?.named(name)
