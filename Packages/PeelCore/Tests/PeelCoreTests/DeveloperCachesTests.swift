@@ -286,6 +286,8 @@ struct DeveloperCachesTests {
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
             // Unity keeps its licenses beside its caches; SonarScanner the client certificates it signs in with.
             "Library/Unity", ".sonar",
+            // Claude Code and Codex keep every conversation and prompt beside their caches and logs.
+            ".claude", ".codex",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
         // of the public index, `trunk`, is a cache. nvm's, pyenv's, rbenv's and rustup's folders hold every version
@@ -307,6 +309,25 @@ struct DeveloperCachesTests {
                 }
             }
         }
+    }
+
+    /// Claude Code and Codex keep a person's conversations and prompts beside their caches and logs, so only those
+    /// are listed. A running session reads its shell snapshot for every command, so that folder stays too.
+    @Test func listsWhatCodingAgentsCacheAndLogButNeverTheirConversations() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            ".claude/cache/changelog.md", ".claude/debug/session.txt", ".claude/statsig/flags",
+            ".claude/shell-snapshots/snapshot-zsh.sh", ".claude/paste-cache/abc", ".claude/history.jsonl",
+            ".claude/projects/app/session.jsonl", ".codex/log/codex-tui.log", ".codex/sessions/rollout.jsonl",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let listed = environments.filter { ["claudecode", "codex"].contains($0.id) }
+            .flatMap(\.locations).map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
+        #expect(Set(listed) == [".claude/cache", ".claude/debug", ".claude/statsig", ".codex/log"])
     }
 
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names

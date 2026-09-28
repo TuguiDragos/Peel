@@ -769,11 +769,19 @@ public enum DeveloperCaches {
             Folder(".local/state/nvim/lazy", .cache, source: "https://github.com/folke/lazy.nvim/blob/main/lua/lazy/core/config.lua#L220-L225"),
             Folder(".local/state/nvim/logs", .logs, source: "https://github.com/neovim/neovim/blob/master/runtime/doc/starting.txt#L1409-L1410"),
         ]),
+        // A running Claude Code session reads its shell snapshot for every command, and the history names what is in
+        // `paste-cache`, so neither is listed.
         Definition(id: "claudecode", name: "Claude Code", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(
                 ".local/share/claude/versions", .environments,
                 source: "https://code.claude.com/docs/en/setup#auto-updates", launchers: [".local/bin/claude"]
             ),
+            Folder(".claude/cache", .cache, source: "https://code.claude.com/docs/en/claude-directory"),
+            Folder(".claude/debug", .logs, source: "https://code.claude.com/docs/en/claude-directory"),
+            Folder(".claude/statsig", .cache, source: "https://code.claude.com/docs/en/claude-directory"),
+        ]),
+        Definition(id: "codex", name: "Codex CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".codex/log", .logs, source: "https://github.com/openai/codex/blob/main/codex-rs/core/src/config/mod.rs#L4063"),
         ]),
         Definition(id: "cursoragent", name: "Cursor CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(
