@@ -34,6 +34,7 @@ struct MultipleAppsView: View {
                 }
 
                 Section {
+                    RemovalColumnHeaders()
                     ForEach(Array(applications.enumerated()), id: \.element.id) { index, item in
                         row(item, isFirst: index == 0)
                     }
@@ -44,6 +45,7 @@ struct MultipleAppsView: View {
 
                 if !recommendedFiles.isEmpty {
                     Section {
+                        RemovalColumnHeaders()
                         ForEach(Array(recommendedFiles.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
@@ -55,6 +57,7 @@ struct MultipleAppsView: View {
 
                 if !filesToReview.isEmpty {
                     Section {
+                        RemovalColumnHeaders()
                         ForEach(Array(filesToReview.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
@@ -196,7 +199,8 @@ struct MultipleAppsView: View {
         RemovalRow(
             url: item.url,
             icon: item.isApplication ? .file(item.url) : .symbol(item.kind?.symbolName ?? "doc"),
-            detail: item.isApplication ? "Application" : item.match?.reason.title,
+            detail: item.isApplication ? nil : item.match?.reason.title,
+            kind: item.isApplication ? "Application" : item.kind?.title,
             warning: warning(for: item),
             foundFor: item.isApplication ? nil : names(of: item.apps),
             size: item.size,
