@@ -104,11 +104,9 @@ struct PeelCommands: Commands {
                 .disabled(moveToTrash?.isEnabled != true || textEditing.isEditing)
             Divider()
             Menu("Export List of Apps") {
-                ForEach(Inventory.Format.offered(by: homebrew), id: \.self) { format in
-                    Button(String(localized: format.title)) { export(as: format) }
-                }
+                ExportListMenuContent(library: library, homebrew: homebrew)
             }
-            .disabled(!library.hasLoaded || (homebrew.isInstalled && homebrew.packages == nil))
+            .disabled(!InventoryExport.canExport(library: library, homebrew: homebrew))
         }
 
         CommandGroup(before: .textEditing) {
@@ -151,15 +149,3 @@ struct PeelCommands: Commands {
     }
 }
 
-extension PeelCommands {
-    private func export(as format: Inventory.Format) {
-        Task {
-            let failure = await InventoryExport.run(format: format, apps: library.apps, homebrew: homebrew)
-            guard let failure else { return }
-            let alert = NSAlert()
-            alert.messageText = String(localized: "The list couldn’t be saved.")
-            alert.informativeText = failure
-            alert.runModal()
-        }
-    }
-}

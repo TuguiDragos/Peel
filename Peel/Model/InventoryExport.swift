@@ -1,14 +1,31 @@
 import AppKit
 import Foundation
 import PeelCore
+import SwiftUI
 import UniformTypeIdentifiers
 
 /// Writes out what is installed and where it came from, to a file the user picks.
 enum InventoryExport {
-    /// Asks the user where to save the inventory, then writes it there. Returns nil when the file was written
-    /// or the user canceled, and the error message otherwise.
+    /// Whether the list can be written: once the apps are read, and while Homebrew is installed, once its list is
+    /// too, since without it every cask app's source would read "Unknown".
     @MainActor
-    static func run(format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async -> String? {
+    static func canExport(library: AppLibrary, homebrew: HomebrewLibrary) -> Bool {
+        library.hasLoaded && !(homebrew.isInstalled && homebrew.packages == nil)
+    }
+
+    /// Asks the user where to save the list, writes it there, and says in an alert when it could not.
+    @MainActor
+    static func save(_ format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async {
+        guard let failure = await run(format: format, apps: apps, homebrew: homebrew) else { return }
+        let alert = NSAlert()
+        alert.messageText = String(localized: "The list couldn’t be saved.")
+        alert.informativeText = failure
+        alert.runModal()
+    }
+
+    /// Returns nil when the file was written or the user canceled, and the error message otherwise.
+    @MainActor
+    private static func run(format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async -> String? {
         let contents: String
         var brewfile: String?
         // Homebrew writes the Brewfile, asked only once it has answered, so its definitions are on this Mac.
@@ -54,6 +71,20 @@ enum InventoryExport {
         case .csv: .commaSeparatedText
         case .text: .plainText
         case .brewfile: nil
+        }
+    }
+}
+
+/// The formats of Export List of Apps, as the toolbar and the File menu both offer them.
+struct ExportListMenuContent: View {
+    let library: AppLibrary
+    let homebrew: HomebrewLibrary
+
+    var body: some View {
+        ForEach(Inventory.Format.offered(by: homebrew), id: \.self) { format in
+            Button(String(localized: format.title)) {
+                Task { await InventoryExport.save(format, apps: library.apps, homebrew: homebrew) }
+            }
         }
     }
 }

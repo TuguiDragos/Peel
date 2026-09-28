@@ -143,31 +143,15 @@ private struct TeamRecordNotice: View {
 private struct ExportMenu: View {
     @Environment(AppLibrary.self) private var library
     @Environment(HomebrewLibrary.self) private var homebrew
-    @State private var failure: String?
 
     var body: some View {
         Menu {
-            // The whole menu waits for Homebrew's list, because without it every cask app's source would read
-            // "Unknown".
-            ForEach(Inventory.Format.offered(by: homebrew), id: \.self) { format in
-                Button(String(localized: format.title)) {
-                    Task { failure = await InventoryExport.run(format: format, apps: library.apps, homebrew: homebrew) }
-                }
-            }
+            ExportListMenuContent(library: library, homebrew: homebrew)
         } label: {
             ToolbarMenuLabel(title: "Export List of Apps", systemImage: "doc.badge.arrow.up")
         }
-        .disabled(!library.hasLoaded || (homebrew.isInstalled && homebrew.packages == nil))
+        .disabled(!InventoryExport.canExport(library: library, homebrew: homebrew))
         .help(Text("Save a list of what is installed and where it came from"))
-        .alert("The list couldn’t be saved.", isPresented: isShowingFailure) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(verbatim: failure ?? "")
-        }
-    }
-
-    private var isShowingFailure: Binding<Bool> {
-        Binding(get: { failure != nil }, set: { if !$0 { failure = nil } })
     }
 }
 
