@@ -330,11 +330,12 @@ public enum ProtectedData: Sendable {
         }
     }
 
-    /// The lowercase names a check should compare for `path`. macOS keeps `/var`, `/tmp`, and `/etc` as
-    /// symbolic links into `/private`, and disks are case-insensitive by default, so one file has several
-    /// names. A check that knew only one of them could be bypassed by writing another.
+    /// The lowercase names a check should compare for `path`: as written, with its `.` and `..` read, and with
+    /// links resolved. macOS keeps `/var`, `/tmp`, and `/etc` as symbolic links into `/private`, and disks are
+    /// case-insensitive by default, so one file has several names. A check that knew only one of them could be
+    /// bypassed by writing another.
     public static func spellings(of path: String) -> Set<String> {
-        var names = privateNames(of: (path as NSString).standardizingPath)
+        var names = privateNames(of: path).union(privateNames(of: (path as NSString).standardizingPath))
         let resolved = (path as NSString).resolvingSymlinksInPath
         if resolved != path {
             names.formUnion(privateNames(of: resolved))

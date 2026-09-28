@@ -65,6 +65,15 @@ struct AttackRemovalGuardTests {
 
     /// Attack 1: write the protected folder in a different case. APFS is case-insensitive by default, so the
     /// path still names the same file, and comparing strings must not miss it.
+    @Test func everySpellingOfAPathIsAsked() {
+        let parent = ProtectedData.spellings(of: "/Users/x/Library/Caches/../Mail/")
+        #expect(parent.contains("/users/x/library/caches/../mail"), "the path as written")
+        #expect(parent.contains("/users/x/library/mail"), "the path with its parent folder read")
+
+        let temporary = ProtectedData.spellings(of: "/private/tmp/org.example.app")
+        #expect(temporary.isSuperset(of: ["/private/tmp/org.example.app", "/tmp/org.example.app"]))
+    }
+
     @Test func caseSpellingOfAProtectedTree() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

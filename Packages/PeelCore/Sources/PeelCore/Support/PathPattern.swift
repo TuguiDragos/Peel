@@ -14,11 +14,6 @@ public enum PathPattern {
         return path
     }
 
-    /// macOS keeps `/var`, `/tmp` and `/etc` as symbolic links into `/private`, so the same file has two
-    /// names. Both are needed to compare paths, and resolving the link is no help for a file that is not
-    /// there to resolve.
-    private static let privateLinks = ["/var", "/tmp", "/etc"]
-
     /// The name the kernel gives the file at `url`: one spelling, with links resolved, or `url` unchanged when
     /// no name can be found. A path Peel is told about (by a cask, by an installer receipt) goes through this
     /// before it can become something to remove.
@@ -94,31 +89,6 @@ public enum PathPattern {
         let path = url.path(percentEncoded: false)
         return ProtectedData.refuses(path, home: home)
             || ProtectedData.refuses(canonical(url).path(percentEncoded: false), home: home)
-    }
-
-    /// Every name the same file answers to, in lowercase: with and without `/private`, and with links resolved.
-    /// A Mac disk is case-insensitive unless formatted otherwise, so `~/Library/mail` is `~/Library/Mail`.
-    /// Comparing one spelling only would let a protected path be reached by writing it differently.
-    static func spellings(of path: String) -> Set<String> {
-        var names = privateNames(of: path)
-        let resolved = (path as NSString).resolvingSymlinksInPath
-        if resolved != path {
-            names.formUnion(privateNames(of: resolved))
-        }
-        return Set(names.map { $0.lowercased() })
-    }
-
-    private static func privateNames(of path: String) -> Set<String> {
-        for link in privateLinks {
-            if PathComponents.isPath(path, atOrInside: link) {
-                return [path, "/private" + path]
-            }
-            let inPrivate = "/private" + link
-            if PathComponents.isPath(path, atOrInside: inPrivate) {
-                return [path, String(path.dropFirst("/private".count))]
-            }
-        }
-        return [path]
     }
 
     /// The existing files `pattern` names, at most `maximum`, leaving out irreplaceable ones (`isIrreplaceable`).

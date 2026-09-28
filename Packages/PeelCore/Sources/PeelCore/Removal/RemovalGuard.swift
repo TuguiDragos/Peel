@@ -82,7 +82,7 @@ struct RemovalGuard: Sendable {
     /// reached through a link, and Spotlight names files by the disk they are on, so both forms must match.
     private static func names(of path: String) -> Set<String> {
         let path = normalized(path)
-        return PathPattern.spellings(of: path).union(PathPattern.locatedWithoutOpening(path).map(PathPattern.spellings) ?? [])
+        return ProtectedData.spellings(of: path).union(PathPattern.locatedWithoutOpening(path).map(ProtectedData.spellings) ?? [])
     }
 
     func allowsRemoval(of url: URL) -> Bool {
@@ -134,7 +134,7 @@ struct RemovalGuard: Sendable {
             guard !ProtectedData.holds(name, home: home) else { return .holdsProtectedData }
         }
 
-        for spelling in names.reduce(into: Set<String>(), { $0.formUnion(PathPattern.spellings(of: $1)) }) {
+        for spelling in names.reduce(into: Set<String>(), { $0.formUnion(ProtectedData.spellings(of: $1)) }) {
             let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
             guard !protectedPaths.contains(spelling) else { return .staysItself }
             guard !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else { return .protectedLocation }

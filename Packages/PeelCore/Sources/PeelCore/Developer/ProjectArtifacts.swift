@@ -469,9 +469,9 @@ public enum ProjectArtifacts {
     /// `/System/Volumes/Data/Users/me` are the same home folder, and a link into a cloud folder is that cloud folder.
     public static func refusal(for root: URL, home: URL = .homeDirectory) -> Refusal? {
         let spellings = ([PathPattern.comparablePath(of: root), PathPattern.canonical(root).path(percentEncoded: false)]
-            + Array(PathPattern.spellings(of: PathPattern.comparablePath(of: root)))).map { $0.lowercased() }
+            + Array(ProtectedData.spellings(of: PathPattern.comparablePath(of: root)))).map { $0.lowercased() }
         let homes = ([PathPattern.comparablePath(of: home), PathPattern.canonical(home).path(percentEncoded: false)]
-            + Array(PathPattern.spellings(of: PathPattern.comparablePath(of: home)))).map { spelling in
+            + Array(ProtectedData.spellings(of: PathPattern.comparablePath(of: home)))).map { spelling in
                 var path = spelling.lowercased()
                 while path.count > 1, path.hasSuffix("/") { path.removeLast() }
                 return path

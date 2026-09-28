@@ -132,10 +132,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
         return inside.filter { place in !inside.contains { $0 != place && Exclusions(paths: [$0]).excludes(place) } }
     }
 
-    /// Every way `url` can be written (see `PathPattern.spellings(of:)`). An exclusion has to match all of
+    /// Every way `url` can be written (see `ProtectedData.spellings(of:)`). An exclusion has to match all of
     /// them, or an item under `/var`, `/tmp` or `/etc` would slip past it when named through `/private`.
     private static func spellings(of url: URL) -> Set<String> {
-        PathPattern.spellings(of: PathPattern.comparablePath(of: url))
+        ProtectedData.spellings(of: PathPattern.comparablePath(of: url))
     }
 
     /// Every spelling of every excluded path as its names. The root, which has none, is left out: it would
