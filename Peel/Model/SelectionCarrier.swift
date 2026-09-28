@@ -44,6 +44,9 @@ final class SelectionCarrier {
     private var carried = CarriedSelection()
     /// True while a Move to Trash moves the parts, one after another.
     private(set) var isMoving = false
+    /// How many of `toMove` items have moved, brought up to date ten times a second while a move runs.
+    private(set) var movedSoFar = 0
+    private(set) var toMove = 0
     @ObservationIgnored private let tools: [Tool: any CarriesSelection]
     @ObservationIgnored private let apps: AppLibrary
     @ObservationIgnored private let history: RemovalHistoryStore
@@ -87,17 +90,31 @@ final class SelectionCarrier {
     /// Peel stops halfway, and a part whose tool kept it stays selected, with the app to quit named after.
     func move(_ parts: [CarriedSelection.Part]) async {
         isMoving = true
-        defer { isMoving = false }
+        movedSoFar = 0
+        toMove = parts.reduce(0) { $0 + $1.count }
+        let count = MoveCount()
+        let watching = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .milliseconds(100))
+                self?.movedSoFar = count.value
+            }
+        }
+        defer {
+            watching.cancel()
+            isMoving = false
+        }
         var removal = RemovalInProgress()
         var appsToQuit: [String] = []
-        let pass = await QuitGuard.shared.run {
-            await CarriedSelection.pass(parts) { part in
-                guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
-                    appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
-                    return nil
+        let pass = await MoveCount.$current.withValue(count) {
+            await QuitGuard.shared.run {
+                await CarriedSelection.pass(parts) { part in
+                    guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
+                        appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
+                        return nil
+                    }
+                    await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
+                    return result
                 }
-                await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
-                return result
             }
         }
         history.finish(removal)

@@ -122,6 +122,23 @@ struct TrashServiceTests {
         #expect(result.failures.isEmpty, "the item inside the folder was moved again: \(result.failures)")
     }
 
+    /// A long removal says how far it got: every item that moved counts once, and one that stays counts nothing.
+    @Test func countsWhatMovedForWhoeverWatches() async throws {
+        let directory = try TemporaryDirectory()
+        let first = try directory.directory("home/Library/Caches/org.example.one")
+        let second = try directory.directory("home/Library/Caches/org.example.two")
+        let keychain = try directory.file("home/Library/Keychains/login.keychain-db")
+        let count = MoveCount()
+
+        let service = try service(in: directory)
+        let result = await MoveCount.$current.withValue(count) {
+            await service.trash([first, second, keychain])
+        }
+
+        #expect(result.trashed.count == 2)
+        #expect(count.value == 2)
+    }
+
     /// A job stopped before a move that then fails is a job left stopped with its file still in place.
     @Test func stopsAJobOnlyOnceItsFileHasMoved() async throws {
         let directory = try TemporaryDirectory()

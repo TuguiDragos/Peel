@@ -307,6 +307,7 @@ public struct TrashService: Sendable {
                 }
                 result.trashed.append(item)
                 moved.append(path)
+                MoveCount.current?.add(1)
             } catch {
                 result.failures.append(TrashFailure(url: url, reason: Self.reason(for: error)))
             }
@@ -353,6 +354,7 @@ public struct TrashService: Sendable {
         for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] where !batch.isEmpty {
             let moved = await moveThroughHelper(batch)
             journal?.note(moved.trashed, batch: removal)
+            MoveCount.current?.add(moved.trashed.count)
             helperResult.trashed += moved.trashed
             helperResult.failures += moved.failures
         }
