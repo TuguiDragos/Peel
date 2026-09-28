@@ -215,7 +215,9 @@ read in one sitting.
   separators. A row that stands alone, such as a header or a notice, may hide its own, which costs nothing.
 - **The interface follows Liquid Glass.** The sticker album look belongs to Home, the menu bar panel, and About
   only; every other screen reads as macOS (system type, `Form` and `Section`, native controls). Icons are SF
-  Symbols, and the logo comes only from `Logo/`.
+  Symbols, and the logo comes only from `Logo/`, but for the face at the head of the sidebar, which draws the logo's
+  shape in code so it can move (`Face` in `PeelFace.swift`) and peels it less on purpose, so its eyes have room: a
+  change to the logo's shape changes those numbers too.
 
 ## Proposing a change
 

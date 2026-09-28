@@ -653,7 +653,8 @@ nonisolated private struct PeelFlap: Shape {
 }
 
 /// The face's measurements, in a square 100 units wide with y running down, like an SVG `viewBox`. `radius`
-/// is a fraction of that side.
+/// is a fraction of that side. The shape is the logo's in `Logo/`, drawn here so it can move, and a change to the
+/// logo's shape changes these too.
 nonisolated private enum Face {
     static let radius = 0.4853
     /// How far the fold sits from the middle, in radii. Higher peels less; 0.606 is the logo's own.
