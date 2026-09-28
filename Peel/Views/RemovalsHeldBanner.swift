@@ -6,6 +6,7 @@ import SwiftUI
 struct RemovalsHeldBanner: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(\.openSettings) private var openSettings
     /// On History's own page, whose list says it with Start Over beside it, History is left unsaid here.
     var isOnHistoryPage = false
 
@@ -15,9 +16,7 @@ struct RemovalsHeldBanner: View {
                 title: Text("Peel couldn’t read your exclusions"),
                 detail: Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
             ) {
-                SettingsLink {
-                    Text("Open Peel Settings")
-                }
+                Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
             }
             .padding(.vertical, 6)
             .listRowSeparator(.hidden)

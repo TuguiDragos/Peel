@@ -11,6 +11,12 @@ enum SettingsPane: String {
     case exclusions
     case privacy
     case helper
+
+    /// Opens Settings at this tab, where the action that sent the person there is.
+    func open(with openSettings: OpenSettingsAction) {
+        UserDefaults.standard.set(rawValue, forKey: SettingsKey.pane)
+        openSettings()
+    }
 }
 
 /// The Settings tabs, shared by the Settings window (Command-Comma) and the Settings page in Peel's sidebar.

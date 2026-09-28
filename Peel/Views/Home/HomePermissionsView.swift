@@ -7,7 +7,6 @@ struct HomePermissionsContent: View {
     @Environment(HelperModel.self) private var helper
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.openSettings) private var openSettings
-    @AppStorage(SettingsKey.pane) private var settingsPane = SettingsPane.general.rawValue
     @State private var pointingAt: HomeModel.Permission?
 
     static let markSize: CGFloat = 36
@@ -145,8 +144,7 @@ struct HomePermissionsContent: View {
         if permission.isInSystemSettings {
             reveal(permission)
         } else {
-            settingsPane = SettingsPane.general.rawValue
-            openSettings()
+            SettingsPane.general.open(with: openSettings)
         }
     }
 
@@ -213,9 +211,19 @@ struct HomePermissionsContent: View {
         .accessibilityHidden(true)
     }
 
+    /// Unreadable exclusions come first: until they are read, nothing moves at all.
     @ViewBuilder
     private var banner: some View {
-        if home.needsAttention {
+        if exclusions.exclusions.isUnreadable {
+            Notice(
+                title: Text("Peel couldn’t read your exclusions"),
+                detail: Text("Peel removes nothing and puts nothing back until you start the list over in Settings."),
+                isAlbum: true
+            ) {
+                Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
+                    .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
+            }
+        } else if home.needsAttention {
             let missing = home.missingRequired.map { String(localized: $0.title) }.formatted(.list(type: .and))
             Notice(
                 title: Text("Peel can’t see or remove everything yet"),
@@ -226,17 +234,6 @@ struct HomePermissionsContent: View {
                     Button("Reopen Peel") { home.relaunch() }
                         .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
                 }
-            }
-        } else if exclusions.exclusions.isUnreadable {
-            Notice(
-                title: Text("Peel couldn’t read your exclusions"),
-                detail: Text("Peel removes nothing and puts nothing back until you start the list over in Settings."),
-                isAlbum: true
-            ) {
-                SettingsLink {
-                    Text("Open Peel Settings")
-                }
-                .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
         } else if !home.waitingRequired.isEmpty, home.hasChecked {
             // A required permission that is still pending is not set up. For example, a helper waiting for
