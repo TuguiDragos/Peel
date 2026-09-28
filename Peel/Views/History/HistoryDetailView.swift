@@ -7,10 +7,13 @@ struct HistoryDetailView: View {
     @Environment(HelperModel.self) private var helper
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.controlActiveState) private var controlActiveState
+    @Environment(\.openSettings) private var openSettings
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
     /// moment, and offer to forget records that are still there.
     @State private var standing: Standing?
     @State private var isAskingToForget = false
+    /// The alert after a Put Back that left items behind. Its reasons stay under the rows once it is closed.
+    @State private var isShowingFailures = false
     let batch: RemovalBatch
 
     /// Which records are still in the Trash, which are in the Trash of a disk that isn't connected, and which Peel
@@ -114,7 +117,14 @@ struct HistoryDetailView: View {
             // reports the rest must stay.
             history.failures = [:]
         }
-        .alert("Some items couldn’t be put back.", isPresented: isShowingFailures) {
+        .onChange(of: history.failures) { _, failures in
+            isShowingFailures = batch.records.contains { failures[$0.id] != nil }
+        }
+        .alert("Some items couldn’t be put back.", isPresented: $isShowingFailures) {
+            if failures.contains(where: { $0.failure == .needsHelper }) {
+                Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
+            }
+            Button("Copy Details") { copyFailureDetails() }
             Button("OK", role: .cancel) {}
         } message: {
             failureMessage
@@ -169,6 +179,7 @@ struct HistoryDetailView: View {
                     history: history,
                     record: record,
                     place: place(of: record, in: standing),
+                    failure: history.failures[record.id],
                     isSelected: history.isSelected(record),
                     isFirst: index == 0
                 )
@@ -221,21 +232,31 @@ struct HistoryDetailView: View {
         return .gone
     }
 
-    private var isShowingFailures: Binding<Bool> {
-        Binding(
-            get: { batch.records.contains { history.failures[$0.id] != nil } },
-            set: { if !$0 { history.failures = [:] } }
-        )
+    /// This batch's items that stayed in the Trash, in the order the page lists them.
+    private var failures: [(record: RemovalRecord, failure: RestoreFailure)] {
+        batch.records.compactMap { record in history.failures[record.id].map { (record, $0) } }
     }
 
-    /// The alert's message: each item that couldn't be put back, with its own reason, since items can fail
-    /// for different reasons.
+    /// The alert's message: the first few items that couldn't be put back, each with its own reason, since items
+    /// can fail for different reasons, and how many more there are.
     private var failureMessage: Text {
-        let lines = history.failures.compactMap { id, failure -> String? in
-            guard let record = batch.records.first(where: { $0.id == id }) else { return nil }
-            return "\(record.originalURL.abbreviatedPath)\n\(failure.explanation)"
+        let failures = failures
+        var lines = failures.prefix(RemovalFailureAlert.mostListed).map {
+            "\($0.record.originalURL.abbreviatedPath)\n\($0.failure.explanation)"
         }
-        return Text(verbatim: lines.sorted().joined(separator: "\n\n"))
+        let rest = failures.count - lines.count
+        if rest > 0 {
+            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
+        }
+        return Text(verbatim: lines.joined(separator: "\n\n"))
+    }
+
+    /// Copies every item with its full path, since the alert lists only the first few and its text can't be
+    /// selected.
+    private func copyFailureDetails() {
+        let lines = failures.map { "\($0.record.originalURL.path(percentEncoded: false))\n\($0.failure.explanation)" }
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
     }
 }
 
@@ -296,6 +317,8 @@ private struct HistoryRecordRow: View {
     let history: RemovalHistoryStore
     let record: RemovalRecord
     let place: RecordPlace
+    /// Why the last Put Back left this item in the Trash, said under it.
+    let failure: RestoreFailure?
     let isSelected: Bool
     var isFirst = false
 
@@ -304,7 +327,8 @@ private struct HistoryRecordRow: View {
             NativeCheckbox(
                 isOn: Binding(get: { isSelected }, set: { history.setSelected($0, record) }),
                 label: [record.originalURL.abbreviatedPath, String(localized: place.title), record.size.byteCount]
-                    .joined(separator: ", ")
+                    .joined(separator: ", "),
+                hint: failure?.explanation
             )
             item
                 .contentShape(.rect)
@@ -337,6 +361,11 @@ private struct HistoryRecordRow: View {
                 Text(place.title)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if let failure {
+                    Label(failure.explanation, systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                }
             }
             Spacer(minLength: 12)
             Text(record.size.byteCount)
