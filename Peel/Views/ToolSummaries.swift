@@ -8,13 +8,6 @@ import SwiftUI
 // order, as Japanese or Turkish need. The sentences avoid verbs that would have to agree with a number, and the
 // total comes first because `SizeTotal.text` ("Over X") is written to stand on its own.
 
-extension SizeTotal {
-    /// Adds totals together. The sum is complete only when every part is.
-    init(combining totals: [SizeTotal]) {
-        self.init(known: totals.reduce(0) { $0 + $1.known }, isComplete: totals.allSatisfy(\.isComplete))
-    }
-}
-
 extension Tool {
     /// What the tool found, as its pane says it and Home repeats it, or nil for a tool with no such sentence.
     func sentence(for looked: Looked) -> AttributedString? {
@@ -73,7 +66,7 @@ extension AppLibrary {
     var summary: AttributedString? {
         guard hasLoaded else { return nil }
         let count = apps.count
-        let known = sizes.values.reduce(0, +)
+        let known = sizes.values.cappedSum
         let total = SizeTotal(known: known, isComplete: sizes.count >= count)
         let size = known > 0 ? AttributedString(localized: "\(total.text) in ^[\(count) app](inflect: true).") : AttributedString(localized: "^[\(count) app](inflect: true).")
         guard let updates = Tool.applications.summary(of: Looked(count: appsWithUpdates.count, size: nil)) else { return size }
@@ -113,7 +106,7 @@ extension HomebrewLibrary {
 extension FileSearchLibrary {
     var summary: AttributedString? {
         results.flatMap { results in
-            Tool.fileSearch.summary(of: Looked(count: results.files.count, size: SizeTotal(known: results.files.reduce(0) { $0 + $1.size }, isComplete: true)))
+            Tool.fileSearch.summary(of: Looked(count: results.files.count, size: SizeTotal(known: results.files.map(\.size).cappedSum, isComplete: true)))
         }
     }
 }

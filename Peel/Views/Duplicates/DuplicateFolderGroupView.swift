@@ -6,7 +6,7 @@ struct DuplicateFolderGroupView: View {
     let group: DuplicateFolderGroup
 
     private var selectedSize: Int64 {
-        group.folders.filter { duplicates.selectedFolders.contains($0.url) }.reduce(0) { $0 + $1.reclaimableSize }
+        group.folders.filter { duplicates.selectedFolders.contains($0.url) }.map(\.reclaimableSize).cappedSum
     }
 
     var body: some View {

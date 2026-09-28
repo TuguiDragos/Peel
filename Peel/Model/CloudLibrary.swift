@@ -31,7 +31,7 @@ final class CloudLibrary {
 
     /// What the listed files take on this Mac, only the least it can be when there is more than the list shows.
     var total: SizeTotal {
-        SizeTotal(known: (files ?? []).reduce(0) { $0.addingCapped($1.size) }, isComplete: !wasCutShort)
+        SizeTotal(known: (files ?? []).map(\.size).cappedSum, isComplete: !wasCutShort)
     }
 
     /// The files whose folder or path holds `query`, every file for an empty one.
@@ -44,7 +44,7 @@ final class CloudLibrary {
     }
 
     private func updateSelectedSize() {
-        selectedSize = selectedURLs.reduce(0) { $0 + (sizes[$1] ?? 0) }
+        selectedSize = selectedURLs.map { sizes[$0] ?? 0 }.cappedSum
     }
 
     /// Scans again. What the last Free Up Space refused is cleared, since it described the old list.
@@ -67,6 +67,6 @@ final class CloudLibrary {
         let kept = Set(refused.map(\.url))
         await refresh()
         refusals = refused
-        return chosen.filter { !kept.contains($0.url) }.reduce(0) { $0 + $1.size }
+        return chosen.filter { !kept.contains($0.url) }.map(\.size).cappedSum
     }
 }

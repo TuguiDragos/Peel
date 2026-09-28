@@ -7,3 +7,10 @@ extension FixedWidthInteger {
         return other < 0 ? .min : .max
     }
 }
+
+extension Sequence where Element: FixedWidthInteger {
+    /// The sum of the elements, capped as `addingCapped` caps it.
+    public var cappedSum: Element {
+        reduce(0) { $0.addingCapped($1) }
+    }
+}

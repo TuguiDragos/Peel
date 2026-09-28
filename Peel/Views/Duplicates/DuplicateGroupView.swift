@@ -9,7 +9,7 @@ struct DuplicateGroupView: View {
 
     /// What the selection in this group would free.
     private var selectedSize: Int64 {
-        group.files.filter { duplicates.selectedURLs.contains($0.url) }.reduce(0) { $0 + $1.reclaimableSize }
+        group.files.filter { duplicates.selectedURLs.contains($0.url) }.map(\.reclaimableSize).cappedSum
     }
 
     var body: some View {

@@ -21,6 +21,11 @@ public struct SizeTotal: Sendable, Hashable, Comparable, Codable {
         self.init(known: known, isComplete: isComplete)
     }
 
+    /// Adds totals together. The sum is complete only when every part is.
+    public init(combining totals: some Sequence<SizeTotal>) {
+        self = totals.reduce(SizeTotal(known: 0, isComplete: true)) { $0.adding($1) }
+    }
+
     public func adding(_ other: SizeTotal) -> SizeTotal {
         SizeTotal(known: known.addingCapped(other.known), isComplete: isComplete && other.isComplete)
     }
