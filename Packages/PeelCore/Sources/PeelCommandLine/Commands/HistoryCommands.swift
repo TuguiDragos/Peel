@@ -7,31 +7,30 @@ extension RemovalPart {
     fileprivate var namedTool: String? { tool.isEmpty ? nil : tool }
 }
 
-/// One removal, as History shows it: everything that went in one go.
+/// One removal, as History shows it: everything that went in one go, grouped and dated as the app does.
 struct Batch {
-    let id: UUID
-    let records: [RemovalRecord]
+    let group: RemovalGroup
 
-    var date: Date { records.map(\.date).max() ?? .distantPast }
+    var id: UUID { group.id }
+    var records: [RemovalRecord] { group.records }
+    var date: Date { group.date }
     /// Where the removal moved from: one part, or one for each tool whose selection it moved.
-    var parts: [RemovalPart] { RemovalPart.of(records.map { ($0.date, $0.part) }) }
+    var parts: [RemovalPart] { group.parts }
     var source: String { Output.list(parts.map(\.source)) }
     /// The tool the removal moved from, or nil for one that moved from several or was interrupted.
     var tool: String? { parts.count == 1 ? parts[0].namedTool : nil }
-    var size: SizeTotal { records.totalSize }
+    var size: SizeTotal { group.size }
     /// The records whose items are still in the Trash. An item emptied from the Trash can't be put back.
     var restorable: [RemovalRecord] { records.filter(\.isStillInTrash) }
 
     static func all(in records: [RemovalRecord]) -> [Batch] {
-        Dictionary(grouping: records, by: \.batch)
-            .map { Batch(id: $0.key, records: $0.value.sorted { $0.date < $1.date }) }
-            .sorted { $0.date > $1.date }
+        RemovalRecord.grouped(records).map(Batch.init)
     }
 
     /// The first eight characters of the batch ID, which `peel history` shows and `peel restore` accepts.
     var shortID: String { String(id.uuidString.prefix(8)).lowercased() }
 
-    func state(among records: [RemovalRecord]) -> String {
+    var state: String {
         if records.allSatisfy(\.isStillInTrash) { return "in the Trash" }
         if records.contains(where: { !$0.isOnAConnectedDisk }) { return "on a disk that isn't connected" }
         if records.contains(where: { $0.standing == .notKnown }) { return "can't look in the Trash" }
@@ -198,7 +197,7 @@ struct HistoryCommand: AsyncParsableCommand {
                 batch.source,
                 Output.number(batch.records.count),
                 Output.size(batch.size),
-                batch.state(among: batch.records),
+                batch.state,
             ]
         }
     }

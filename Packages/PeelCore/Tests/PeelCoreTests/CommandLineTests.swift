@@ -846,6 +846,19 @@ struct CommandLineTests {
         #expect(batches[0].shortID == String(recent.uuidString.prefix(8)).lowercased())
     }
 
+    @Test func datesARemovalAsTheAppDoesByItsFirstItem() {
+        let removal = UUID()
+        let records = [
+            record(removal, "/Users/me/Library/Caches/one", at: Date(timeIntervalSince1970: 1_000)),
+            record(removal, "/Users/me/Library/Caches/two", at: Date(timeIntervalSince1970: 1_005)),
+        ]
+
+        let batch = Batch.all(in: records)[0]
+
+        #expect(batch.date == RemovalRecord.grouped(records)[0].date)
+        #expect(batch.date == Date(timeIntervalSince1970: 1_000))
+    }
+
     /// The first characters are enough, and an ID that fits two removals is refused rather than guessed at.
     @Test func findsARemovalByTheStartOfItsIdentifier() throws {
         let first = try #require(UUID(uuidString: "A955E2E4-0000-4000-8000-000000000001"))

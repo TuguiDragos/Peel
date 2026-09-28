@@ -179,7 +179,7 @@ struct HistoryCommandTests {
 
         let batch = try #require(Batch.all(in: [record]).first)
 
-        #expect(batch.state(among: batch.records) == "can't look in the Trash")
+        #expect(batch.state == "can't look in the Trash")
     }
 
     /// With nothing recorded, the command prints a sentence rather than an empty table, and `--json` prints an
