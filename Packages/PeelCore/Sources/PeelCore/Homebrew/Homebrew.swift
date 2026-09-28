@@ -125,6 +125,9 @@ public struct HomebrewInstallation: Sendable, Hashable {
     /// Homebrew has written sizes in powers of 1000 since 5.0.0 (`utils/formatter.rb`), and of 1024 before.
     var countsInThousands: Bool { isAtLeast(5, 0, 0) }
 
+    /// `brew bundle` is part of Homebrew since 4.4.25; before, it lived in a tap that asking for it would download.
+    public var writesABrewfile: Bool { isAtLeast(4, 4, 25) }
+
     public init(version: String, prefix: URL) {
         self.version = version
         self.prefix = prefix
@@ -464,12 +467,18 @@ public enum Homebrew {
         )
     }
 
-    /// What this Mac trusts from taps outside Homebrew's own. Empty when Homebrew is older than 6.0.0, which has
-    /// no `trust` command, or gives no answer: a Brewfile then declares no trust, as it did before.
+    /// Homebrew's own Brewfile for this Mac, from `brew bundle dump`: the taps with the addresses they came from,
+    /// what was installed on request, and what this Mac trusts, as `brew bundle` reads them back on a new Mac.
+    /// Like `installedPackages()`, it is asked only once Homebrew's definitions are on this Mac.
     @concurrent
-    public static func trust() async -> HomebrewTrust {
-        guard let output = try? await answer(["trust", "--json=v1"]) else { return HomebrewTrust() }
-        return (try? JSONDecoder().decode(HomebrewTrust.self, from: Data(output.utf8))) ?? HomebrewTrust()
+    public static func brewfile(from installation: HomebrewInstallation) async throws(CommandFailure) -> String {
+        guard installation.writesABrewfile else {
+            throw CommandFailure(
+                output: "Homebrew \(installation.version) keeps `brew bundle` in a tap it would download. "
+                    + "Run `brew update` first."
+            )
+        }
+        return try await answer(["bundle", "dump", "--file=-", "--tap", "--formula", "--cask"])
     }
 
     /// What `brew cleanup` would do, as its dry run says.

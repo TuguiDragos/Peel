@@ -47,34 +47,21 @@ public struct Inventory: Sendable {
     public struct HomebrewDidNotAnswer: Error {}
 
     public let entries: [InventoryEntry]
-    /// What Homebrew says was installed on request, which is what a Brewfile has to reproduce.
-    public let formulae: [String]
-    public let casks: [String]
-    /// The packages among them, by full name, that come from a tap outside Homebrew's own and are trusted.
-    public var trusted: Set<String> = []
-    /// False when Homebrew did not answer, so what it installed is not known.
-    public var knowsHomebrew = true
+    /// Homebrew's own Brewfile (`Homebrew.brewfile(from:)`), nil when it was not asked for or did not answer.
+    public var brewfile: String?
 
-    /// `casks` is what Homebrew installed, nil when it did not answer. `origins` looks up where downloaded apps
-    /// came from. The app and `peel` pass `DownloadOrigins.onThisMac`. `trust` is what this Mac trusts, which only
-    /// a Brewfile needs (`Homebrew.trust()`).
+    /// `casks` is what Homebrew installed. `origins` looks up where downloaded apps came from. The app and `peel`
+    /// pass `DownloadOrigins.onThisMac`.
     public static func build(
         apps: [InstalledApp],
-        casks: [HomebrewPackage]? = [],
+        casks: [HomebrewPackage] = [],
         origins: DownloadOrigins? = nil,
-        trust: HomebrewTrust = HomebrewTrust()
+        brewfile: String? = nil
     ) -> Inventory {
         let entries = apps
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-            .map { app in entry(for: app, casks: casks ?? [], origins: origins) }
-        let requested = (casks ?? []).filter(\.isInstalledOnRequest)
-        return Inventory(
-            entries: entries,
-            formulae: requested.filter { $0.kind == .formula }.map(\.fullName).sorted(),
-            casks: requested.filter { $0.kind == .cask }.map(\.fullName).sorted(),
-            trusted: Set(requested.filter(trust.trusts).map(\.fullName)),
-            knowsHomebrew: casks != nil
-        )
+            .map { app in entry(for: app, casks: casks, origins: origins) }
+        return Inventory(entries: entries, brewfile: brewfile)
     }
 
     static func entry(for app: InstalledApp, casks: [HomebrewPackage], origins: DownloadOrigins?) -> InventoryEntry {
@@ -121,7 +108,7 @@ public struct Inventory: Sendable {
         case .json: try json()
         case .csv: csv()
         case .text: text()
-        case .brewfile: try brewfile()
+        case .brewfile: try writtenBrewfile()
         }
     }
 
@@ -171,16 +158,9 @@ public struct Inventory: Sendable {
         .joined(separator: "\n") + "\n"
     }
 
-    /// Lists only what Homebrew can install again, taken from what Homebrew says is installed. Each package is
-    /// written under its full name, so Homebrew adds a third-party package's tap by itself, and one this Mac
-    /// trusts says so, as `brew bundle dump` writes it.
-    private func brewfile() throws -> String {
-        guard knowsHomebrew else { throw HomebrewDidNotAnswer() }
-        func line(_ kind: String, _ name: String) -> String {
-            "\(kind) \"\(name)\"" + (trusted.contains(name) ? ", trusted: true" : "")
-        }
-        let lines = formulae.map { line("brew", $0) } + casks.map { line("cask", $0) }
-        return lines.joined(separator: "\n") + (lines.isEmpty ? "" : "\n")
+    private func writtenBrewfile() throws -> String {
+        guard let brewfile else { throw HomebrewDidNotAnswer() }
+        return brewfile
     }
 
     /// Formats `date` as a day in `timeZone`, the user's by default. `ISO8601FormatStyle` counts in UTC unless

@@ -147,15 +147,11 @@ private struct ExportMenu: View {
 
     var body: some View {
         Menu {
-            // A Brewfile is written from Homebrew's list, so it is offered only when Homebrew is installed. The
-            // whole menu waits for that list, because without it every cask app's source would read "Unknown".
-            ForEach(Inventory.Format.allCases.filter { $0 != .brewfile || homebrew.isInstalled }, id: \.self) { format in
+            // The whole menu waits for Homebrew's list, because without it every cask app's source would read
+            // "Unknown".
+            ForEach(Inventory.Format.offered(by: homebrew), id: \.self) { format in
                 Button(String(localized: format.title)) {
-                    Task {
-                        failure = await InventoryExport.run(
-                            format: format, apps: library.apps, casks: homebrew.answeredPackages
-                        )
-                    }
+                    Task { failure = await InventoryExport.run(format: format, apps: library.apps, homebrew: homebrew) }
                 }
             }
         } label: {

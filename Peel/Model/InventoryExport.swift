@@ -8,12 +8,21 @@ enum InventoryExport {
     /// Asks the user where to save the inventory, then writes it there. Returns nil when the file was written
     /// or the user canceled, and the error message otherwise.
     @MainActor
-    static func run(format: Inventory.Format, apps: [InstalledApp], casks: [HomebrewPackage]?) async -> String? {
+    static func run(format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async -> String? {
         let contents: String
-        // Only a Brewfile says what this Mac trusts, and asking takes a call to `brew`.
-        let trust = format == .brewfile ? await Homebrew.trust() : HomebrewTrust()
+        var brewfile: String?
+        // Homebrew writes the Brewfile, asked only once it has answered, so its definitions are on this Mac.
+        if format == .brewfile, homebrew.hasAnswered, let installation = homebrew.installation {
+            do {
+                brewfile = try await Homebrew.brewfile(from: installation)
+            } catch {
+                return error.output
+            }
+        }
         do {
-            contents = try Inventory.build(apps: apps, casks: casks, origins: .onThisMac, trust: trust).written(as: format)
+            contents = try Inventory.build(
+                apps: apps, casks: homebrew.packages ?? [], origins: .onThisMac, brewfile: brewfile
+            ).written(as: format)
         } catch is Inventory.HomebrewDidNotAnswer {
             return String(localized: "Homebrew didn’t answer, so Peel has nothing to write a Brewfile from. Open Homebrew in Peel to see why.")
         } catch {
@@ -50,6 +59,12 @@ enum InventoryExport {
 }
 
 extension Inventory.Format {
+    /// What Export List of Apps offers: a Brewfile only while Homebrew is installed and not too old to write one.
+    @MainActor
+    static func offered(by homebrew: HomebrewLibrary) -> [Inventory.Format] {
+        allCases.filter { $0 != .brewfile || (homebrew.isInstalled && homebrew.installation?.writesABrewfile != false) }
+    }
+
     var title: LocalizedStringResource {
         switch self {
         case .json: "JSON…"

@@ -31,15 +31,36 @@ struct InventoryCommand: AsyncParsableCommand {
 
     func run() async throws {
         let chosen = format.format
+        guard chosen != .brewfile else {
+            Output.write(try Inventory.build(apps: [], brewfile: try await Self.brewfile()).written(as: chosen))
+            return
+        }
         let apps = await AppCatalog.installedApps()
-        // Only a Brewfile says what this Mac trusts, and asking takes a call to `brew`.
-        let trust = chosen == .brewfile ? await Homebrew.trust() : HomebrewTrust()
-        Output.write(try Inventory.build(apps: apps, casks: try await casks(for: chosen), origins: .onThisMac, trust: trust).written(as: chosen))
+        let inventory = Inventory.build(apps: apps, casks: await Self.casks(), origins: .onThisMac)
+        Output.write(try inventory.written(as: chosen))
     }
 
-    /// Returns the packages Homebrew installed. When Homebrew can't answer, a Brewfile fails, because an empty
-    /// one would look like a success until someone uses it. The other formats go on without Homebrew.
-    private func casks(for chosen: Inventory.Format) async throws -> [HomebrewPackage] {
+    /// Returns Homebrew's own Brewfile, or fails with why: an empty one would look like a success until someone
+    /// uses it.
+    private static func brewfile() async throws -> String {
+        let why: String
+        if !(await Homebrew.hasLocalDefinitions()) {
+            why = noDefinitions(isInstalled: Homebrew.executableURL != nil)
+        } else if let installation = await Homebrew.installation() {
+            do {
+                return try await Homebrew.brewfile(from: installation)
+            } catch {
+                why = error.output
+            }
+        } else {
+            why = "Homebrew didn't say which version it is."
+        }
+        throw CommandFailure("Homebrew didn't answer, so there is nothing to write a Brewfile from.\n\(why)")
+    }
+
+    /// Returns the packages Homebrew installed, so an app it installed says so. When Homebrew can't answer, the
+    /// list goes on without it and says why.
+    private static func casks() async -> [HomebrewPackage] {
         let why: String
         if await Homebrew.hasLocalDefinitions() {
             do {
@@ -48,12 +69,9 @@ struct InventoryCommand: AsyncParsableCommand {
                 why = error.output
             }
         } else {
-            why = Self.noDefinitions(isInstalled: Homebrew.executableURL != nil)
+            why = noDefinitions(isInstalled: Homebrew.executableURL != nil)
         }
-        guard chosen != .brewfile else {
-            throw CommandFailure("Homebrew didn't answer, so there is nothing to write a Brewfile from.\n\(why)")
-        }
-        if let note = Self.homebrewNote(isInstalled: Homebrew.executableURL != nil, why: why) {
+        if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil, why: why) {
             Output.note(note)
         }
         return []

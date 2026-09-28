@@ -98,12 +98,8 @@ final class HomebrewLibrary {
     var selection: HomebrewPackage.ID?
     var result: CommandResult?
 
+    /// Whether Homebrew answered the last reading, so its definitions are on this Mac.
     private(set) var hasAnswered = false
-
-    /// What Homebrew says is installed, or nil when it did not answer and nothing is known.
-    var answeredPackages: [HomebrewPackage]? {
-        hasAnswered ? packages : nil
-    }
 
     var selectedPackage: HomebrewPackage? {
         packages?.first { $0.id == selection }

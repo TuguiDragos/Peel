@@ -320,6 +320,27 @@ struct HomebrewTests {
         #expect(HomebrewInstallation(version: "8.1.0", prefix: URL(filePath: "/opt/homebrew")).reportsHealthAsJSON)
     }
 
+    /// Before 4.4.25 `brew bundle` lived in a tap, which asking for it would download.
+    @Test func asksForABrewfileOnlyOnceBundleIsPartOfHomebrew() async {
+        let prefix = URL(filePath: "/opt/homebrew")
+        let older = HomebrewInstallation(version: "4.4.24", prefix: prefix)
+
+        #expect(!older.writesABrewfile)
+        #expect(HomebrewInstallation(version: "4.4.25", prefix: prefix).writesABrewfile)
+        #expect(HomebrewInstallation(version: "7.0.6-82-g8e858db", prefix: prefix).writesABrewfile)
+        await #expect(throws: Homebrew.CommandFailure.self) { try await Homebrew.brewfile(from: older) }
+    }
+
+    @Test func homebrewsBrewfileNamesEveryPackageInstalledOnRequest() async throws {
+        guard let installation = await Homebrew.installation(), await Homebrew.hasLocalDefinitions() else { return }
+        let brewfile = try await Homebrew.brewfile(from: installation)
+
+        for package in try await Homebrew.installedPackages() where package.isInstalledOnRequest {
+            let line = "\(package.kind == .cask ? "cask" : "brew") \"\(package.fullName)\""
+            #expect(brewfile.split(separator: "\n").contains { $0.hasPrefix(line) }, "\(line) is missing")
+        }
+    }
+
     /// `brew vulns` arrived in 6.0.11, one release before the JSON diagnostics.
     @Test func keepsTheVulnerabilityScanForTheVersionThatAddedIt() {
         #expect(!HomebrewInstallation(version: "6.0.10", prefix: URL(filePath: "/opt/homebrew")).checksVulnerabilities)

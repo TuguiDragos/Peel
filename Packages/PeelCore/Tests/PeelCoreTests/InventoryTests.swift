@@ -105,28 +105,22 @@ struct InventoryTests {
         #expect(inventory.entries.first?.path == "/Applications/Bear.app")
     }
 
-    /// A Brewfile lists what Homebrew says was installed on request, even a cask whose app has been moved.
-    @Test func aBrewfileListsOnlyWhatHomebrewCanInstallAgain() throws {
-        let inventory = Inventory.build(
-            apps: [app("Sparkly", bundleIdentifier: "com.example.sparkly", feed: .sparkle(URL(string: "https://example.com/a.xml")!))],
-            casks: [
-                HomebrewPackage(name: "wget", kind: .formula),
-                HomebrewPackage(name: "sample", kind: .cask),
-                HomebrewPackage(name: "not-asked-for", kind: .formula, isInstalledOnRequest: false),
-            ]
-        )
+    @Test func aBrewfileIsWhatHomebrewWrote() throws {
+        let homebrews = """
+            tap "org-example/tools", "git@git.example.org:org-example/homebrew-tools.git", trusted: true
+            brew "org-example/tools/probe"
+            cask "sample"
 
-        let brewfile = try inventory.written(as: .brewfile)
-        #expect(brewfile == "brew \"wget\"\ncask \"sample\"\n")
-        #expect(!brewfile.contains("Sparkly"))
+            """
+
+        #expect(try Inventory.build(apps: [], brewfile: homebrews).written(as: .brewfile) == homebrews)
     }
 
     @Test func writesNoBrewfileWhenHomebrewDidNotAnswer() throws {
-        let unread = Inventory.build(apps: [], casks: nil)
+        let unread = Inventory.build(apps: [])
 
         #expect(throws: Inventory.HomebrewDidNotAnswer.self) { try unread.written(as: .brewfile) }
         #expect(try unread.written(as: .text) == "\n")
-        #expect(try Inventory.build(apps: [], casks: []).written(as: .brewfile) == "")
     }
 
     @Test func writesTheDayWhereTheReaderIs() throws {
@@ -135,41 +129,6 @@ struct InventoryTests {
 
         #expect(Inventory.day(halfPastOneInBucharest, timeZone: bucharest) == "2026-09-19")
         #expect(Inventory.day(halfPastOneInBucharest, timeZone: try #require(TimeZone(secondsFromGMT: 0))) == "2026-09-18")
-    }
-
-    /// A package from a third-party tap is written by its full name, as `brew bundle dump` writes it. By its short
-    /// name, the line would fail on the new Mac, or install a different package of that name from Homebrew's own.
-    @Test func aBrewfileNamesAPackageFromATapInFull() throws {
-        let inventory = Inventory.build(apps: [], casks: [
-            HomebrewPackage(name: "terraform", kind: .formula, fullName: "hashicorp/tap/terraform"),
-            HomebrewPackage(name: "aerospace", kind: .cask, fullName: "nikitabobko/tap/aerospace"),
-            HomebrewPackage(name: "wget", kind: .formula, fullName: "wget"),
-        ])
-
-        #expect(try inventory.written(as: .brewfile) == "brew \"hashicorp/tap/terraform\"\nbrew \"wget\"\ncask \"nikitabobko/tap/aerospace\"\n")
-    }
-
-    /// Since Homebrew 6.0.0 a package from a tap outside Homebrew's own loads only once trusted, and
-    /// `brew bundle dump` writes `trusted: true` beside each one this Mac trusts, by itself or through its tap. A
-    /// Brewfile from Peel does the same: without it, `brew bundle cleanup` run with the file takes that trust away.
-    @Test func aBrewfileSaysWhichPackagesFromATapAreTrusted() throws {
-        let trust = try JSONDecoder().decode(HomebrewTrust.self, from: Data("""
-            {"taps": ["nikitabobko/tap"], "formulae": ["hashicorp/tap/terraform"], "casks": [], "commands": []}
-            """.utf8))
-        let inventory = Inventory.build(apps: [], casks: [
-            HomebrewPackage(name: "terraform", kind: .formula, fullName: "hashicorp/tap/terraform"),
-            HomebrewPackage(name: "packer", kind: .formula, fullName: "hashicorp/tap/packer"),
-            HomebrewPackage(name: "aerospace", kind: .cask, fullName: "nikitabobko/tap/AeroSpace"),
-            HomebrewPackage(name: "wget", kind: .formula, fullName: "wget"),
-        ], trust: trust)
-
-        #expect(try inventory.written(as: .brewfile) == """
-            brew "hashicorp/tap/packer"
-            brew "hashicorp/tap/terraform", trusted: true
-            brew "wget"
-            cask "nikitabobko/tap/AeroSpace", trusted: true
-
-            """)
     }
 
     @Test func writesCsvThatSurvivesCommasAndQuotes() throws {
@@ -212,7 +171,7 @@ struct InventoryTests {
             lastOpened: nil
         )
 
-        let csv = try Inventory(entries: [hostile], formulae: [], casks: []).written(as: .csv)
+        let csv = try Inventory(entries: [hostile]).written(as: .csv)
         let fields = csv.split(separator: "\n")[1].split(separator: ",", omittingEmptySubsequences: false)
 
         for field in fields {
@@ -234,7 +193,7 @@ struct InventoryTests {
             architectures: [], path: "/Applications/Bare.app", installedOn: nil, lastOpened: nil
         )
 
-        let json = try Inventory(entries: [full, bare], formulae: [], casks: []).written(as: .json)
+        let json = try Inventory(entries: [full, bare]).written(as: .json)
         let records = try #require(
             try JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]]
         )
