@@ -63,7 +63,10 @@ public enum Subprocess {
         process.standardError = errorPipe
 
         let run = Run(process)
+        // The handler holds the run, which holds the process that holds the handler (`NSTask.h`), so it is let go
+        // once the run is over, and the pipes with it: a pipe's descriptor closes only with the pipe.
         process.terminationHandler = { _ in run.ended() }
+        defer { process.terminationHandler = nil }
         do {
             try process.run()
         } catch {
@@ -72,7 +75,9 @@ public enum Subprocess {
         let output = Reader(outputPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
         let errors = Reader(errorPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
         if let timeout {
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { run.stop(because: .timedOut) }
+            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { [weak run] in
+                run?.stop(because: .timedOut)
+            }
         }
 
         await withTaskCancellationHandler {
@@ -81,6 +86,9 @@ public enum Subprocess {
             run.stop(because: .canceled)
         }
         let (standardOutput, standardError) = (await output.data(within: drain), await errors.data(within: drain))
+        // Both readers have stopped by now, so nothing reads the descriptors any more.
+        try? outputPipe.fileHandleForReading.close()
+        try? errorPipe.fileHandleForReading.close()
         if let failure = run.failure { return .failure(failure) }
         return .success(Output(status: process.terminationStatus, standardOutput: standardOutput, standardError: standardError))
     }

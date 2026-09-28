@@ -26,6 +26,19 @@ struct SubprocessTests {
         #expect(output.standardError.count == 1_000_000)
     }
 
+    /// Package Receipts runs a tool per package, several at a time, and macOS lets a process keep few files open.
+    @Test func aRunLetsGoOfItsPipesWhenItEndsNotWhenItsTimeIsUp() async {
+        func openDescriptors() -> Int { (try? FileManager.default.contentsOfDirectory(atPath: "/dev/fd"))?.count ?? 0 }
+        let before = openDescriptors()
+
+        for _ in 0..<100 {
+            _ = await Subprocess.run("/usr/bin/true", [], timeout: 600)
+            _ = await Subprocess.run("/no/such/tool", [], timeout: 600)
+        }
+
+        #expect(openDescriptors() - before < 50)
+    }
+
     @Test func aToolThatIsNotThereIsAFailureAndNotACrash() async {
         let result = await Subprocess.run("/no/such/tool", [], timeout: 5)
         guard case .failure(.couldNotStart) = result else {
