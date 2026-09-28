@@ -236,6 +236,9 @@ public struct TrashService: Sendable {
 
     /// Why the guard would refuse to move `url`, or nil when it would move. A plan can show this before anything
     /// moves, since the move asks the same guard.
+    /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
+    public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
+
     public func refusal(of url: URL) -> TrashFailure.Reason? {
         guard removalGuard.allowsRemoval(of: url) else { return .protectedLocation }
         return historyCanBeRead ? nil : .historyUnreadable

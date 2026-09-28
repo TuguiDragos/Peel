@@ -302,6 +302,18 @@ struct HistoryCommandTests {
         }
     }
 
+    @Test func putsNothingBackWhileTheExclusionsCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let removal = try removal(in: directory)
+        _ = await logs.removals.add([removal.record])
+
+        await #expect(throws: AppLookup.Failure.self) {
+            try await (command(["restore", String(removal.record.batch.uuidString.prefix(8)), "-y"]) as RestoreCommand)
+                .run(in: logs.removals, using: TrashService(exclusions: .unreadable))
+        }
+    }
+
     @Test func refusesAnIdentifierThatNamesNothing() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

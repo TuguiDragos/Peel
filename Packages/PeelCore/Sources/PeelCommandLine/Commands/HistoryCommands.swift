@@ -291,6 +291,9 @@ struct RestoreCommand: AsyncParsableCommand {
     }
 
     func run(in log: RemovalLog, using service: TrashService) async throws {
+        guard service.knowsTheExclusions else {
+            throw AppLookup.Failure.exclusionsUnreadable(ExclusionStore.defaultURL.path(percentEncoded: false))
+        }
         let outcome = await log.load()
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")

@@ -14,6 +14,8 @@ struct RemovalGuard: Sendable {
     private let protectedTrees: [[String]]
     private let protectedObjects: ProtectedObjects
     private let exclusions: Exclusions
+
+    var knowsTheExclusions: Bool { exclusions.isKnown }
     private let home: String
 
     init(environment: SearchEnvironment, exclusions: Exclusions = .none) {

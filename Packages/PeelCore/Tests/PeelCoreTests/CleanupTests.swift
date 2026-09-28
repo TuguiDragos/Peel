@@ -7,13 +7,16 @@ import Testing
 
 /// Tests `Cleanup`, the one path every `peel` command that removes files goes through.
 struct CleanupTests {
-    private func service(in directory: borrowing TemporaryDirectory, onMove: @escaping @Sendable () -> Void = {}) throws -> TrashService {
+    private func service(
+        in directory: borrowing TemporaryDirectory, exclusions: Exclusions = .none,
+        onMove: @escaping @Sendable () -> Void = {}
+    ) throws -> TrashService {
         let trash = try directory.directory("Trash")
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        return TrashService(environment: environment) { url in
+        return TrashService(environment: environment, exclusions: exclusions) { url in
             onMove()
             let destination = trash.appending(path: UUID().uuidString)
             try FileManager.default.moveItem(at: url, to: destination)
@@ -36,6 +39,29 @@ struct CleanupTests {
         #expect(plan.staying.map(\.url) == [documents])
         #expect(plan.staying.first?.refusal == .protectedLocation)
         #expect(plan.total.known == 20)
+    }
+
+    /// While the saved exclusions can't be read nothing moves, and no item is blamed on a protected location or
+    /// recorded as refused: the cause is the list, which the command names.
+    @Test func movesNothingAndBlamesNoItemWhileTheExclusionsCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
+        let service = try service(in: directory, exclusions: .unreadable)
+        let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let plan = cleanup(items: [(cache, 20)], service: service)
+
+        #expect(plan.items.allSatisfy { $0.refusal == nil })
+        await #expect(throws: AppLookup.Failure.self) {
+            try await Output.$collected.withValue(Output.Collected()) {
+                try await plan.run(
+                    question: "?", dryRun: false, yes: true, using: service,
+                    recordingIn: removals, refusals: refusals
+                )
+            }
+        }
+        #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
+        #expect(await refusals.load().isEmpty)
     }
 
     /// While History cannot be read nothing moves, and the command says so above the list, with the way out.

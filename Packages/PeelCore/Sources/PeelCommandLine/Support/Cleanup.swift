@@ -39,7 +39,10 @@ struct Cleanup {
                 Item(
                     url: $0.url,
                     size: $0.size,
-                    refusal: needingAdministrator.contains($0.url) ? .needsHelper : service.refusal(of: $0.url)
+                    // While the exclusions can't be read the guard refuses everything, which says nothing of the
+                    // item itself: `run` then moves nothing and names the list.
+                    refusal: needingAdministrator.contains($0.url)
+                        ? .needsHelper : service.knowsTheExclusions ? service.refusal(of: $0.url) : nil
                 )
             },
             source: source,
@@ -79,6 +82,9 @@ struct Cleanup {
         guard !dryRun else {
             Output.line(moving.isEmpty ? "Nothing here can be moved." : "Dry run: nothing was moved.")
             return
+        }
+        guard service.knowsTheExclusions else {
+            throw AppLookup.Failure.exclusionsUnreadable(ExclusionStore.defaultURL.path(percentEncoded: false))
         }
         // Refused items never reach the move, so their failures are built here and recorded, just as the app
         // records the refusals its service reports.
