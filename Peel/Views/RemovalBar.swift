@@ -205,13 +205,16 @@ struct RemovalBar: View {
     }
 
     private func line(_ part: CarriedSelection.Part) -> String {
-        let total = part.total
-        if total.known == 0 {
-            return String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true)")
+        switch part.total.reading {
+        case .exactly(0):
+            String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true)")
+        case .exactly(let size):
+            String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true), \(size.byteCount)")
+        case .atLeast(let size):
+            String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true), over \(size.byteCount)")
+        case .unknown:
+            String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true), size unknown")
         }
-        return total.isComplete
-            ? String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true), \(total.known.byteCount)")
-            : String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true), over \(total.known.byteCount)")
     }
 }
 

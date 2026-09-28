@@ -2,6 +2,14 @@
 import Testing
 
 struct SizeTotalTests {
+    /// A total with nothing measured is unknown, never zero: two folders that did not answer are not two empty files.
+    @Test func readsAsExactAtLeastOrUnknown() {
+        #expect(SizeTotal([100, 20]).reading == .exactly(120))
+        #expect(SizeTotal([Int64?]()).reading == .exactly(0))
+        #expect(SizeTotal([100, nil]).reading == .atLeast(100))
+        #expect(SizeTotal([nil, nil]).reading == .unknown)
+    }
+
     @Test func addsUpWhatIsKnownAndSaysWhenThatIsNotAll() {
         #expect(SizeTotal([100, 20, 3]) == SizeTotal(known: 123, isComplete: true))
         #expect(SizeTotal([100, nil, 3]) == SizeTotal(known: 103, isComplete: false))

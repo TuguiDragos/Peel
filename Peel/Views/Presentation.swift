@@ -343,8 +343,11 @@ extension Int64? {
 
 extension SizeTotal {
     var text: String {
-        if isComplete { return known.byteCount }
-        return known > 0 ? String(localized: "Over \(known.byteCount)") : String(localized: "Unknown")
+        switch reading {
+        case .exactly(let size): size.byteCount
+        case .atLeast(let size): String(localized: "Over \(size.byteCount)")
+        case .unknown: String(localized: "Unknown")
+        }
     }
 
     /// The form `text` is in, used as the view's identity: within one form the digits roll, while a change to

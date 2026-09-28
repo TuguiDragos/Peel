@@ -21,6 +21,18 @@ public struct SizeTotal: Sendable, Hashable, Comparable {
         self.init(known: known, isComplete: isComplete)
     }
 
+    /// How the total reads: a size, the least it can be, or nothing known at all.
+    public enum Reading: Sendable, Hashable {
+        case exactly(Int64)
+        case atLeast(Int64)
+        case unknown
+    }
+
+    public var reading: Reading {
+        if isComplete { return .exactly(known) }
+        return known > 0 ? .atLeast(known) : .unknown
+    }
+
     /// An incomplete total counts as larger than a complete one, since what ran out of time is most likely the biggest.
     public static func < (lhs: SizeTotal, rhs: SizeTotal) -> Bool {
         lhs.isComplete != rhs.isComplete ? lhs.isComplete : lhs.known < rhs.known

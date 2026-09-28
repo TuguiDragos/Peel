@@ -7,21 +7,24 @@ extension Text {
     /// markup unresolved, so the markup is resolved here.
     static func movingToTrash(_ count: Int, _ total: SizeTotal) -> Text {
         let size = total.known.byteCount
-        if total.known == 0 {
-            return Text(verbatim: String(inflecting: "Move ^[\(count) item](inflect: true) to the Trash?"))
+        return switch total.reading {
+        case .exactly(0):
+            Text(verbatim: String(inflecting: "Move ^[\(count) item](inflect: true) to the Trash?"))
+        case .exactly:
+            Text(verbatim: String(inflecting: "Move ^[\(count) item](inflect: true) (\(size)) to the Trash?"))
+        case .atLeast:
+            Text(verbatim: String(inflecting: "Move ^[\(count) item](inflect: true) (over \(size)) to the Trash?"))
+        case .unknown:
+            Text(verbatim: String(inflecting: "Move ^[\(count) item](inflect: true) (size unknown) to the Trash?"))
         }
-        return Text(verbatim: total.isComplete
-            ? String(inflecting: "Move ^[\(count) item](inflect: true) (\(size)) to the Trash?")
-            : String(inflecting: "Move ^[\(count) item](inflect: true) (over \(size)) to the Trash?"))
     }
 
     static func movingToTrash(_ name: String, _ total: SizeTotal) -> Text {
-        let size = total.known.byteCount
-        if total.known == 0 {
-            return Text("Move \(name) to the Trash?")
+        switch total.reading {
+        case .exactly(0): Text("Move \(name) to the Trash?")
+        case .exactly(let size): Text("Move \(name) (\(size.byteCount)) to the Trash?")
+        case .atLeast(let size): Text("Move \(name) (over \(size.byteCount)) to the Trash?")
+        case .unknown: Text("Move \(name) (size unknown) to the Trash?")
         }
-        return total.isComplete
-            ? Text("Move \(name) (\(size)) to the Trash?")
-            : Text("Move \(name) (over \(size)) to the Trash?")
     }
 }
