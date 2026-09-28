@@ -110,6 +110,9 @@ final class AppLibrary {
     /// Incremented when a size arrives. Only the size sort depends on it, so other sorts keep their cached list.
     private(set) var sizesRevision = 0
     private(set) var lastUpdateChecks: [InstalledApp.ID: Date] = [:]
+    /// How the last upgrade run from each app's page went. Kept here rather than on the page: a successful upgrade
+    /// is another build, so the page is built again, and the new one shows the result.
+    private var upgrades: [InstalledApp.ID: Upgrade] = [:]
     /// Apps whose signing team changed without the user acknowledging it yet, by bundle identifier.
     private(set) var teamChanges: [String: TeamRegistry.Change] = [:]
     /// Why the record of who signs each app is not being kept, or nil while it is.
@@ -624,6 +627,21 @@ final class AppLibrary {
     /// main thread.
     /// `knowsItsOwnApps` is true when `packages` says of every app whether Homebrew installed it, and not while
     /// Homebrew could not be read.
+    struct Upgrade {
+        /// The app as the upgrade left it.
+        let app: InstalledApp
+        let succeeded: Bool
+    }
+
+    /// How the last upgrade of `app` went, while `app` is still the build it left.
+    func upgrade(of app: InstalledApp) -> Upgrade? {
+        upgrades[app.id].flatMap { Self.isTheSameBuild($0.app, app) ? $0 : nil }
+    }
+
+    func record(_ upgrade: Upgrade?, of app: InstalledApp) {
+        upgrades[app.id] = upgrade
+    }
+
     func loadHomebrewCasks(_ packages: [HomebrewPackage], knowsItsOwnApps: Bool) {
         let casks = packages.filter { $0.kind == .cask }
         if casks != self.casks {

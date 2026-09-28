@@ -17,18 +17,11 @@ struct AppDetailView: View {
     @State private var isConfirmingPrivacyReset = false
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
     @State private var privacyReset: PrivacyReset.Result?
-    @State private var upgrade: Upgrade?
     @State private var upgradeOutput: HomebrewLibrary.CommandResult?
     @Environment(\.notifications) private var notifications
     @Environment(\.openSettings) private var openSettings
     @State private var isShowingReset = false
     @State private var resetChangedFiles = false
-
-    /// The result of the last upgrade started from this page, shown under the buttons.
-    private enum Upgrade: Equatable {
-        case done(String?)
-        case failed
-    }
 
     init(app: InstalledApp) {
         _plan = State(initialValue: RemovalPlan(app: app))
@@ -382,7 +375,7 @@ struct AppDetailView: View {
                 }
                 moreMenu
             }
-            if let upgrade {
+            if let upgrade = library.upgrade(of: plan.app) {
                 outcome(of: upgrade)
             } else if let source = updateSource, waitingVersion != nil {
                 Text(updateExplanation(for: source))
@@ -498,38 +491,34 @@ struct AppDetailView: View {
     /// line under it shows the result, and a notification reports it too, in case the user has moved on.
     private func upgradeWithHomebrew() async {
         guard let cask = library.cask(for: plan.app) else { return }
-        upgrade = nil
+        let app = plan.app
+        library.record(nil, of: app)
         // Nil when Homebrew is already running a command. The button is disabled then, so this is only a safeguard.
         guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false) else { return }
         let succeeded = result.succeeded
         upgradeOutput = succeeded ? nil : result
 
-        // The bundle on disk is a different one now, so the page is built again around what is there.
-        // Homebrew's own answer is read again first: it is what says whether a version is behind, and the
-        // copy from before the upgrade still said this one was.
+        // Homebrew's own answer is read again first: it is what says whether a version is behind, and the copy from
+        // before the upgrade still said this one was. A new build gets a page of its own, which scans it.
         await library.refresh()
         library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
-        if let installed = library.apps.first(where: { $0.id == plan.app.id }) {
-            plan = RemovalPlan(app: installed)
-            await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
-        }
-        await library.checkForUpdates([plan.app], force: true)
+        let upgraded = library.apps.first { $0.id == app.id } ?? app
+        library.record(AppLibrary.Upgrade(app: upgraded, succeeded: succeeded), of: upgraded)
+        await library.checkForUpdates([upgraded], force: true)
 
-        upgrade = succeeded ? .done(plan.app.version) : .failed
         // A notification either way, so the user learns how it went even after leaving the page.
         if succeeded {
-            notifications?.notify(appUpgraded: plan.app.name, to: plan.app.version, app: plan.app.url)
+            notifications?.notify(appUpgraded: upgraded.name, to: upgraded.version, app: upgraded.url)
         } else {
-            notifications?.notify(appUpgradeFailed: plan.app.name, app: plan.app.url)
+            notifications?.notify(appUpgradeFailed: upgraded.name, app: upgraded.url)
         }
     }
 
     @ViewBuilder
-    private func outcome(of upgrade: Upgrade) -> some View {
-        switch upgrade {
-        case .done(let version):
+    private func outcome(of upgrade: AppLibrary.Upgrade) -> some View {
+        if upgrade.succeeded {
             Label {
-                if let version {
+                if let version = upgrade.app.version {
                     Text("Now on \(version).")
                 } else {
                     Text("Homebrew finished the upgrade.")
@@ -539,7 +528,7 @@ struct AppDetailView: View {
             }
             .font(.caption)
             .foregroundStyle(.green)
-        case .failed:
+        } else {
             Label("Homebrew couldn’t finish the upgrade.", systemImage: "exclamationmark.triangle.fill")
                 .font(.caption)
                 .foregroundStyle(.red)
