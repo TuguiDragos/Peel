@@ -289,7 +289,7 @@ public struct TrashService: Sendable {
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
 
         var result = TrashResult()
-        var moved: [String] = []
+        var moved = Folders()
         ownMoves.began()
         for url in urls {
             if let refusal = refusals[url] {
@@ -298,7 +298,7 @@ public struct TrashService: Sendable {
             }
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
-            guard !moved.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            guard !moved.hold(path) else { continue }
             let holders = openFiles.holders(of: url)
             guard holders.isEmpty else {
                 result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
@@ -311,7 +311,7 @@ public struct TrashService: Sendable {
                     journal?.note([item], batch: removal)
                 }
                 result.trashed.append(item)
-                moved.append(path)
+                moved.add(path)
                 MoveCount.current?.add(1)
             } catch {
                 result.failures.append(TrashFailure(url: url, reason: Self.reason(for: error)))
@@ -341,12 +341,12 @@ public struct TrashService: Sendable {
         }
         // An item inside another folder of this request goes with that folder. Sent on its own, the helper would
         // find it gone and report a failure.
-        let paths = permitted.map(PathPattern.comparablePath)
+        var paths = Folders()
+        permitted.forEach { paths.add(PathPattern.comparablePath(of: $0)) }
         let openFiles = OpenFiles()
         var allowed: [URL] = []
         for url in permitted {
-            let path = PathPattern.comparablePath(of: url)
-            guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            guard !paths.hold(PathPattern.comparablePath(of: url)) else { continue }
             let holders = openFiles.holders(of: url)
             guard holders.isEmpty else {
                 result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
@@ -571,5 +571,21 @@ public struct TrashService: Sendable {
     static func item(_ link: FileIdentity.Link, in trash: URL) -> URL? {
         let contents = (try? FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil)) ?? []
         return contents.first { FileIdentity.Link.of($0) == link }
+    }
+}
+
+/// Folders a request takes, looked up by a path's own names, one level at a time, rather than compared one by one
+/// with every folder: a request of thousands of items would otherwise compare each with all the others.
+private struct Folders {
+    private var names: Set<[String]> = []
+
+    mutating func add(_ path: String) {
+        names.insert(PathComponents.of(path))
+    }
+
+    /// Whether `path` sits inside one of the folders, as `PathComponents.isPath(_:inside:)` asks.
+    func hold(_ path: String) -> Bool {
+        let parts = PathComponents.of(path)
+        return (0..<parts.count).contains { names.contains(Array(parts[..<$0])) }
     }
 }

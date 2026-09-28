@@ -261,7 +261,12 @@ public enum ProtectedData: Sendable {
     /// inside, something protected. The two stay apart because scanners also use `refuses` to decide whether
     /// to look inside a folder, and every folder from `/` down to the home folder holds something protected.
     public static func holds(_ path: String, home: String) -> Bool {
-        spellings(of: path).contains { spelling in
+        holds(spellings: spellings(of: path), home: home)
+    }
+
+    /// `holds(_:home:)` for a path whose `spellings(of:)` are already worked out.
+    public static func holds(spellings: Set<String>, home: String) -> Bool {
+        spellings.contains { spelling in
             let names = PathComponents.of(spelling)
             let holdsIt = { (tree: [String]) in tree.count > names.count && tree.starts(with: names) }
             for home in homes(of: spelling, given: home) where trees(under: home).sitInside(names) {
@@ -364,7 +369,12 @@ public enum ProtectedData: Sendable {
     /// Running as root, the helper can see every account on the Mac, so a home folder is any folder directly
     /// inside `/Users`, as well as the one given.
     public static func refuses(_ path: String, home: String) -> Bool {
-        spellings(of: path).contains { spelling in
+        refuses(spellings: spellings(of: path), home: home)
+    }
+
+    /// `refuses(_:home:)` for a path whose `spellings(of:)` are already worked out.
+    public static func refuses(spellings: Set<String>, home: String) -> Bool {
+        spellings.contains { spelling in
             let names = PathComponents.of(spelling)
             if names.contains(where: { name in extensions.contains { name.hasSuffix("." + $0) } }) { return true }
             if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(spelling) { return true }

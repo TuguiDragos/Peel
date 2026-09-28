@@ -124,17 +124,19 @@ struct RemovalGuard: Sendable {
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.
         let names = Set([path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self))
-        for name in names {
-            let named = URL(filePath: name)
-            guard !exclusions.excludes(named), !exclusions.holds(named) else { return .excluded }
+        // Worked out once per name, since each resolves links on disk. The names are standardized already, so these
+        // are the spellings the exclusions would work out themselves.
+        let spelled = Dictionary(uniqueKeysWithValues: names.map { ($0, ProtectedData.spellings(of: $0)) })
+        for (name, spellings) in spelled {
+            guard !exclusions.excludes(spellings: spellings), !exclusions.holds(spellings: spellings) else { return .excluded }
             if let refusal = protectedObjects.refusal(of: name) { return refusal }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.
-            guard !ProtectedData.refuses(name, home: home) else { return .protectedLocation }
-            guard !ProtectedData.holds(name, home: home) else { return .holdsProtectedData }
+            guard !ProtectedData.refuses(spellings: spellings, home: home) else { return .protectedLocation }
+            guard !ProtectedData.holds(spellings: spellings, home: home) else { return .holdsProtectedData }
         }
 
-        for spelling in names.reduce(into: Set<String>(), { $0.formUnion(ProtectedData.spellings(of: $1)) }) {
+        for spelling in spelled.values.reduce(into: Set<String>(), { $0.formUnion($1) }) {
             let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
             guard !protectedPaths.contains(spelling) else { return .staysItself }
             guard !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else { return .protectedLocation }

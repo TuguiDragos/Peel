@@ -106,7 +106,12 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// inside its folder to a comparison of characters.
     public func excludes(_ url: URL) -> Bool {
         guard !spellings.isEmpty else { return false }
-        return Self.spellings(of: url).contains { path in
+        return excludes(spellings: Self.spellings(of: url))
+    }
+
+    /// `excludes(_:)` for a path whose spellings are already worked out.
+    func excludes(spellings asked: Set<String>) -> Bool {
+        asked.contains { path in
             let names = PathComponents.of(path)
             return spellings.contains { names.starts(with: $0) }
         }
@@ -115,7 +120,12 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// True when something excluded sits inside `url`, so moving `url` would take it along.
     public func holds(_ url: URL) -> Bool {
         guard !spellings.isEmpty else { return false }
-        let asked = Self.spellings(of: url).map(PathComponents.of)
+        return holds(spellings: Self.spellings(of: url))
+    }
+
+    /// `holds(_:)` for a path whose spellings are already worked out.
+    func holds(spellings asked: Set<String>) -> Bool {
+        let asked = asked.map(PathComponents.of)
         return spellings.contains { inside in
             asked.contains { inside.count > $0.count && inside.starts(with: $0) }
         }
