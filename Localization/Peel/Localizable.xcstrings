@@ -10337,6 +10337,112 @@
         }
       }
     },
+    "An editor’s state for a project that is gone, its chat history included" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stav editoru pro již neexistující projekt, včetně historie chatu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editorzustand eines nicht mehr vorhandenen Projekts, samt Chatverlauf"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado de un editor para un proyecto que ya no está, incluido su historial de chat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "État d’un éditeur pour un projet disparu, historique des conversations compris"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stato di un editor per un progetto che non c’è più, cronologia della chat inclusa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでになくなったプロジェクトのエディタの状態（チャット履歴を含む）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사라진 프로젝트의 편집기 상태, 채팅 기록 포함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editorstatus voor een project dat er niet meer is, inclusief de chatgeschiedenis"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stan edytora dla nieistniejącego już projektu, wraz z historią czatu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado de um editor para um projeto que não existe mais, incluindo o histórico de conversas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starea unui editor pentru un proiect care nu mai există, cu tot cu istoricul conversațiilor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Состояние редактора для проекта, которого больше нет, включая историю чата"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En kodredigerares tillstånd för ett projekt som är borta, chatthistoriken inräknad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artık var olmayan bir proje için bir düzenleyicinin durumu, sohbet geçmişi dahil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стан редактора для проєкту, якого вже немає, разом з історією чату"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已不存在的项目的编辑器状态，包括其聊天记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已不存在之計畫案的編輯器狀態，包括其聊天記錄"
+          }
+        }
+      }
+    },
     "And ^[%lld more file](inflect: true). Package Receipts lists them all." : {
       "localizations" : {
         "cs" : {
@@ -13465,108 +13571,108 @@
         }
       }
     },
-    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you." : {
+    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, an editor’s state for a project that is gone, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci, data sestavení projektu otevřeného během posledního týdne, složky, u kterých nic nenasvědčuje, že je nástroj vytvořil, a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
+            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci, data sestavení projektu otevřeného během posledního týdne, stav editoru pro již neexistující projekt, složky, u kterých nic nenasvědčuje, že je nástroj vytvořil, a vše, co Peel nedokázal změřit, jsou v seznamu, ale Peel je za vás nikdy nevybere."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren, die Build-Daten eines in der letzten Woche geöffneten Projekts, Ordner ohne Hinweis darauf, dass das Tool sie erstellt hat, und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
+            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren, die Build-Daten eines in der letzten Woche geöffneten Projekts, der Editorzustand eines nicht mehr vorhandenen Projekts, Ordner ohne Hinweis darauf, dass das Tool sie erstellt hat, und alles, was Peel nicht messen konnte, werden angezeigt, aber nie für dich ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, las carpetas que nada indica que haya creado la herramienta y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
+            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, el estado de un editor para un proyecto que ya no está, las carpetas que nada indica que haya creado la herramienta y todo lo que Peel no ha podido medir se muestran, pero nunca se seleccionan por ti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés, les données de compilation d’un projet ouvert au cours de la dernière semaine, les dossiers que rien ne rattache à l’outil et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
+            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés, les données de compilation d’un projet ouvert au cours de la dernière semaine, l’état d’un éditeur pour un projet disparu, les dossiers que rien ne rattache à l’outil et tout ce que Peel n’a pas pu mesurer sont listés, mais jamais sélectionnés à votre place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli, dati di build di un progetto aperto nell’ultima settimana, cartelle per cui nulla indica che le abbia create lo strumento e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
+            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli, dati di build di un progetto aperto nell’ultima settimana, stato di un editor per un progetto che non c’è più, cartelle per cui nulla indica che le abbia create lo strumento e tutto ciò che Peel non è riuscito a misurare sono elencati, ma non vengono mai selezionati al posto tuo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、過去1週間以内に開かれたプロジェクトのビルドデータ、ツールが作成したことを示すものがないフォルダ、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、過去1週間以内に開かれたプロジェクトのビルドデータ、すでになくなったプロジェクトのエディタの状態、ツールが作成したことを示すものがないフォルダ、Peelが計測できなかったものは、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일, 최근 일주일 이내에 연 프로젝트의 빌드 데이터, 도구가 만들었음을 보여 주는 항목이 없는 폴더 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일, 최근 일주일 이내에 연 프로젝트의 빌드 데이터, 사라진 프로젝트의 편집기 상태, 도구가 만들었음을 보여 주는 항목이 없는 폴더 및 Peel이 측정할 수 없었던 모든 항목은 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren, de buildgegevens van een project dat de afgelopen week is geopend, mappen waarvan niets erop wijst dat de tool ze heeft gemaakt en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
+            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren, de buildgegevens van een project dat de afgelopen week is geopend, de editorstatus voor een project dat er niet meer is, mappen waarvan niets erop wijst dat de tool ze heeft gemaakt en alles wat Peel niet kon meten, worden getoond maar nooit voor je geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji, dane kompilacji projektu otwartego w ciągu ostatniego tygodnia, foldery, których nic nie łączy z tym narzędziem, i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
+            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji, dane kompilacji projektu otwartego w ciągu ostatniego tygodnia, stan edytora dla nieistniejącego już projektu, foldery, których nic nie łączy z tym narzędziem, i wszystko, czego Peel nie mógł zmierzyć, są na liście, ale nigdy nie są zaznaczane za Ciebie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo, os dados de compilação de um projeto aberto na última semana, pastas que nada indica terem sido criadas pela ferramenta e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
+            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo, os dados de compilação de um projeto aberto na última semana, o estado de um editor para um projeto que não existe mais, pastas que nada indica terem sido criadas pela ferramenta e tudo o que o Peel não conseguiu medir aparecem na lista, mas o Peel nunca os seleciona por você."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou, datele de compilare ale unui proiect deschis în ultima săptămână, dosarele despre care nimic nu arată că au fost create de instrument și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
+            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou, datele de compilare ale unui proiect deschis în ultima săptămână, starea unui editor pentru un proiect care nu mai există, dosarele despre care nimic nu arată că au fost create de instrument și tot ce Peel nu a putut măsura sunt listate, dar nu sunt niciodată selectate pentru dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, данные сборки проектов, открывавшихся за последнюю неделю, папки без признаков того, что их создал этот инструмент, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
+            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, данные сборки проектов, открывавшихся за последнюю неделю, состояние редактора для проектов, которых больше нет, папки без признаков того, что их создал этот инструмент, и все, что Peel не смог измерить, показываются в списке, но никогда не выбираются за Вас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen, byggdata för ett projekt som öppnats under den senaste veckan, mappar som inget visar att verktyget skapat och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
+            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen, byggdata för ett projekt som öppnats under den senaste veckan, en kodredigerares tillstånd för ett projekt som är borta, mappar som inget visar att verktyget skapat och allt som Peel inte kunde mäta listas men markeras aldrig åt dig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler, son bir hafta içinde açılan bir projenin derleme verileri, aracın oluşturduğunu hiçbir şeyin göstermediği klasörler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler, son bir hafta içinde açılan bir projenin derleme verileri, artık var olmayan bir proje için bir düzenleyicinin durumu, aracın oluşturduğunu hiçbir şeyin göstermediği klasörler ve Peel’in ölçemediği her şey listelenir ama hiçbir zaman sizin yerinize seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, дані збірки проєктів, відкритих за останній тиждень, папки, щодо яких ніщо не вказує, що їх створив інструмент, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
+            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, дані збірки проєктів, відкритих за останній тиждень, стан редактора для проєктів, яких уже немає, папки, щодо яких ніщо не вказує, що їх створив інструмент, і все, що Peel не змогла виміряти, є в списку, але Peel ніколи не вибирає їх за вас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件、过去一周内打开过的项目的构建数据、没有迹象表明由该工具生成的文件夹，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
+            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件、过去一周内打开过的项目的构建数据、已不存在的项目的编辑器状态、没有迹象表明由该工具生成的文件夹，以及Peel无法测量的任何内容都会列出，但绝不会替你选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案、過去一週內打開過的計畫案建置資料、沒有跡象顯示由該工具產生的檔案夾，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
+            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案、過去一週內打開過的計畫案建置資料、已不存在之計畫案的編輯器狀態、沒有跡象顯示由該工具產生的檔案夾，以及Peel無法測量的任何項目都會列出，但絕不會替你選取。"
           }
         }
       }
@@ -50621,6 +50727,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保留"
+          }
+        }
+      }
+    },
+    "Kept for %@, a project no longer on this Mac" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uchováno pro projekt %@, který už v tomto Macu není"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufbewahrt für %@, ein Projekt, das nicht mehr auf diesem Mac ist"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se conserva para %@, un proyecto que ya no está en este Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservé pour %@, un projet qui n’est plus sur ce Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservato per %@, un progetto non più presente su questo Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacにはもうないプロジェクト%@のために保管"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에 더 이상 없는 프로젝트인 ‘%@’을(를) 위해 보관됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaard voor %@, een project dat niet meer op deze Mac staat"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zachowany dla projektu %@, którego nie ma już na tym Macu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardado para %@, um projeto que não está mais neste Mac"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Păstrată pentru %@, un proiect care nu mai este pe acest Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хранится для проекта «%@», которого больше нет на этом Mac"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparas för %@, ett projekt som inte längre finns på den här datorn"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artık bu Mac’te olmayan %@ projesi için saklanır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Збережено для «%@», проєкту, якого вже немає на цьому Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为%@保留，该项目已不在这台Mac上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為「%@」保留，此計畫案已不在這部Mac上"
           }
         }
       }

@@ -391,6 +391,11 @@ struct DeveloperCachesTests {
                 }
                 let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
                 try directory.file("\(row)/content", bytes: 400_000)
+                // An editor's state is listed only for a project that is gone.
+                if folder.rowsAreProjectState {
+                    let gone = directory.url.appending(path: "gone-\(definition.id)").absoluteString
+                    try directory.file("\(row)/workspace.json", contents: Data(#"{"folder": "\#(gone)"}"#.utf8))
+                }
                 expected.insert(row)
                 try directory.file("\(entry)/../elsewhere-\(definition.id)" + (foldersOnly ? "" : "/content"), bytes: 400_000)
             }
@@ -981,6 +986,33 @@ struct DeveloperCachesTests {
 
     /// virtualenvwrapper keeps the user's hook scripts beside the environments in `~/.virtualenvs`, so only the
     /// environments are offered, and a link among them is left where it is, never followed.
+    /// VS Code writes `workspace.json` in each folder of `workspaceStorage`, naming the folder or workspace file it
+    /// was made for. One whose project is gone from a folder that is still there is listed, never selected, since it
+    /// keeps that project's chat history. A project on a disk that is not connected, or on another machine, is not
+    /// known to be gone.
+    @Test func listsTheStateAnEditorKeptForAProjectThatIsGoneWithoutSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let storage = "Library/Application Support/Code/User/workspaceStorage"
+        let projects = directory.url.appending(path: "Projects", directoryHint: .isDirectory)
+        try directory.directory("Projects/kept")
+        func state(_ id: String, _ meta: String) throws {
+            try directory.file("\(storage)/\(id)/workspace.json", contents: Data(meta.utf8))
+            try directory.file("\(storage)/\(id)/state.vscdb", bytes: 4_096)
+        }
+        try state("a1", #"{"folder": "\#(projects.appending(path: "gone").absoluteString)"}"#)
+        try state("b2", #"{"folder": "\#(projects.appending(path: "kept").absoluteString)"}"#)
+        try state("c3", #"{"workspace": "\#(projects.appending(path: "team.code-workspace").absoluteString)"}"#)
+        try state("d4", #"{"folder": "file:///Volumes/org-example-disk/project"}"#)
+        try state("e5", #"{"folder": "vscode-remote://ssh-remote%2Bhost/home/me/project"}"#)
+        try directory.file("\(storage)/f6/state.vscdb", bytes: 4_096)
+
+        let rows = await scanned(directory.url).flatMap(\.locations).filter { $0.kind == .projectState }
+
+        #expect(rows.map(\.url.lastPathComponent).sorted() == ["a1", "c3"])
+        #expect(Set(rows.compactMap(\.project)) == ["gone", "team"])
+        #expect(rows.allSatisfy { !$0.isRecommended })
+    }
+
     @Test func offersVirtualenvwrappersEnvironmentsAndNotItsHooks() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".virtualenvs/web/bin/python", bytes: 400_000)

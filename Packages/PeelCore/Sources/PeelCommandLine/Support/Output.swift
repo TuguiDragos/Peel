@@ -359,6 +359,7 @@ extension DeveloperEnvironment.ContentKind {
         case .models: "models, kept by default"
         case .environments: "installed packages, kept by default"
         case .keptDownloads: "downloads to install again, kept by default"
+        case .projectState: "an editor's state for a project that is gone, kept by default"
         }
     }
 }

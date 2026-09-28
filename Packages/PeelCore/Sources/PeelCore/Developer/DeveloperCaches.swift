@@ -20,6 +20,9 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         case environments
         /// What a tool keeps for the person to install again: installers, store packages, virtual machine boxes.
         case keptDownloads
+        /// What an editor kept for a project that is no longer on this Mac, its chat history included. Nothing makes
+        /// it again.
+        case projectState
     }
 
     /// What an Xcode archive's own `Info.plist` says of the app inside it.
@@ -58,6 +61,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public var couldNotBeRead = false
         public var archive: Archive?
         public var workspace: Workspace?
+        /// The name of the project an editor kept this for, which is no longer on this Mac.
+        public var project: String?
         /// False for a folder among the tool's own that nothing shows the tool made. It is listed and never selected.
         public var isTheTools = true
 
@@ -69,7 +74,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
             guard isTheTools, workspace?.mayStillBeInUse != true else { return false }
             return switch kind {
             case .buildData, .downloads, .cache, .logs: size != nil
-            case .deviceSupport, .archives, .models, .environments, .keptDownloads: false
+            case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: false
             }
         }
     }
@@ -130,6 +135,8 @@ public enum DeveloperCaches {
         let rowEnding: String?
         /// True for Xcode's DerivedData, whose rows are the tool's own only when `derivedDataRow(at:)` shows it.
         let rowsAreDerivedData: Bool
+        /// True for an editor's `workspaceStorage`, whose rows are listed only when `goneProject(at:)` names one.
+        let rowsAreProjectState: Bool
         /// The Xcode setting that moves the folder elsewhere when it holds an absolute path. The folder is looked
         /// for there as well as at `path`, where an earlier Xcode may have left it.
         let movedByXcodeSetting: String?
@@ -141,7 +148,8 @@ public enum DeveloperCaches {
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
-            movedByXcodeSetting: String? = nil, base: Base = .home, launchers: [String] = []
+            rowsAreProjectState: Bool = false, movedByXcodeSetting: String? = nil, base: Base = .home,
+            launchers: [String] = []
         ) {
             self.path = path
             self.kind = kind
@@ -150,6 +158,7 @@ public enum DeveloperCaches {
             self.rowsDepth = rowsDepth
             self.rowEnding = rowEnding
             self.rowsAreDerivedData = rowsAreDerivedData
+            self.rowsAreProjectState = rowsAreProjectState
             self.movedByXcodeSetting = movedByXcodeSetting
             self.base = base
             self.launchers = launchers
@@ -244,6 +253,20 @@ public enum DeveloperCaches {
         else { return (nil, false) }
         let name = URL(filePath: path).deletingPathExtension().lastPathComponent
         return (DeveloperEnvironment.Workspace(name: name, lastUsed: info["LastAccessedDate"] as? Date), true)
+    }
+
+    /// The name of the project whose state VS Code, or an editor built on it, keeps at `url`, when that project is
+    /// gone: the `workspace.json` it writes names its folder or workspace file, which is missing from a folder that
+    /// is still there. A project on a disk that is not connected, or on another machine, is not known to be gone.
+    static func goneProject(at url: URL) -> String? {
+        guard
+            let data = BoundedRead.data(at: url.appending(path: "workspace.json"), maximum: 64 * 1_024),
+            let meta = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let written = meta["folder"] as? String ?? meta["workspace"] as? String,
+            let project = URL(string: written), project.isFileURL,
+            project.isMissing, !project.deletingLastPathComponent().isMissing
+        else { return nil }
+        return meta["folder"] != nil ? project.lastPathComponent : project.deletingPathExtension().lastPathComponent
     }
 
     static func archive(at url: URL) -> DeveloperEnvironment.Archive? {
@@ -667,6 +690,10 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Code/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
             Folder("Library/Application Support/Code/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/Code/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/Code/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
             Folder("Library/Caches/com.microsoft.VSCode.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/main/Squirrel/SQRLUpdater.m#L814-L829"),
         ]),
         Definition(id: "vscodium", name: "VSCodium", systemImage: "curlybraces", appBundleIdentifiers: ["com.vscodium"], folders: [
@@ -681,6 +708,10 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/VSCodium/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/main/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
             Folder("Library/Application Support/VSCodium/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/VSCodium/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/VSCodium/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
             Folder("Library/Caches/com.vscodium.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/main/Squirrel/SQRLShipItLauncher.m#L25-L26"),
         ]),
         Definition(id: "cursor", name: "Cursor", systemImage: "curlybraces", appBundleIdentifiers: ["com.todesktop.230313mzl4w4u92"], folders: [
@@ -694,6 +725,10 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Cursor/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/environment/common/environmentService.ts#L127"),
             Folder("Library/Application Support/Cursor/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/Cursor/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/main/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/Cursor/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/main/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
         ]),
         Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
             Folder("Library/Application Support/Devin/Cache", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),
@@ -1038,7 +1073,7 @@ public enum DeveloperCaches {
         await withTaskGroup(of: DeveloperEnvironment?.self) { group in
             for definition in definitions {
                 _ = group.addTaskUnlessCancelled {
-                    var found: [(url: URL, folder: Folder)] = []
+                    var found: [(url: URL, folder: Folder, project: String?)] = []
                     for folder in definition.folders {
                         let places = folder.places(
                             home: homeDirectory, userCache: userCacheDirectory, preference: preference
@@ -1049,20 +1084,22 @@ public enum DeveloperCaches {
                         }
                         for url in rows {
                             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+                            let project = folder.rowsAreProjectState ? Self.goneProject(at: url) : nil
+                            guard !folder.rowsAreProjectState || project != nil else { continue }
                             // Skips a folder that holds work kept nowhere else, such as the state Deno's
                             // scripts keep in `location_data`. Removing it would lose that work.
                             guard !ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) else { continue }
                             // Skips a symbolic link, which is how people move a big cache to another disk.
                             // Moving the link frees nothing.
                             guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }
-                            found.append((url, folder))
+                            found.append((url, folder, project))
                         }
                     }
                     // A pattern can reach inside a folder another pattern lists, as `*/GPUCache` reaches
                     // `GPUPersistentCache/GPUCache`, and that folder goes with the one around it.
                     let paths = found.map { PathPattern.comparablePath(of: $0.url) }
                     var locations: [DeveloperEnvironment.Location] = []
-                    for (url, folder) in found {
+                    for (url, folder, project) in found {
                         guard !Task.isCancelled else { return nil }
                         let path = PathPattern.comparablePath(of: url)
                         guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
@@ -1078,6 +1115,7 @@ public enum DeveloperCaches {
                             couldNotBeRead: contents?.couldNotBeRead == true,
                             archive: folder.kind == .archives ? Self.archive(at: url) : nil,
                             workspace: derived?.workspace,
+                            project: project,
                             isTheTools: derived?.isXcodes ?? true
                         ))
                     }

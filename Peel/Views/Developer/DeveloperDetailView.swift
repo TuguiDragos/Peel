@@ -52,7 +52,7 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("\(keptByDefault) kept"), systemImage: "hand.raised", tint: .secondary,
                         name: String(localized: "\(keptByDefault) kept"),
-                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you.")
+                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, an editor’s state for a project that is gone, folders nothing shows the tool made, and anything Peel couldn’t measure are listed but never selected for you.")
                     )
                 }
             }
@@ -63,6 +63,7 @@ struct DeveloperDetailView: View {
 
     private func detail(for location: DeveloperEnvironment.Location) -> LocalizedStringResource {
         if let workspace = location.workspace { return "Build data for \(workspace.name), made again when you build" }
+        if let project = location.project { return "Kept for \(project), a project no longer on this Mac" }
         guard let version = location.archive?.label else { return location.kind.title }
         return "Version \(version), needed to read its crash reports"
     }
@@ -97,6 +98,7 @@ extension DeveloperEnvironment.ContentKind {
         case .models: "Model weights or datasets, a long download to get back"
         case .environments: "Installed packages, put back by installing them again"
         case .keptDownloads: "Downloads kept so you can install them again"
+        case .projectState: "An editor’s state for a project that is gone, its chat history included"
         }
     }
 
@@ -111,6 +113,7 @@ extension DeveloperEnvironment.ContentKind {
         case .models: "brain"
         case .environments: "shippingbox.and.arrow.backward"
         case .keptDownloads: "tray.and.arrow.down"
+        case .projectState: "folder.badge.questionmark"
         }
     }
 }
