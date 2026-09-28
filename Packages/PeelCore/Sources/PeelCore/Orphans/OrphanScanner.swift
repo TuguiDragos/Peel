@@ -301,7 +301,7 @@ public struct OrphanScanner: Sendable {
         goneApps: [String],
         goneNames: [String: String],
         home: String,
-        walk: LeftoverScanner.Measure
+        walk: @escaping LeftoverScanner.Measure
     ) async -> LocationResult {
         let entries: [String]
         do {
@@ -314,7 +314,7 @@ public struct OrphanScanner: Sendable {
         }
 
         let parent = ParentAccess(location.url)
-        var found: [(identifier: String, item: OrphanItem)] = []
+        var candidates: [(url: URL, identifier: String, namedAfter: String?)] = []
         for name in entries where location.kind.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
@@ -329,11 +329,16 @@ public struct OrphanScanner: Sendable {
             }
             guard let identifier else { continue }
             guard !location.kind.isLoadedCode || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
+            candidates.append((url, identifier, namedAfter))
+        }
 
+        // A few walks at a time, so a few folders that never answer do not each hold the location for a whole budget.
+        let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) { await walk($0) }
+        var found: [(identifier: String, item: OrphanItem)] = []
+        for ((url, identifier, namedAfter), contents) in zip(candidates, walked) {
             // The item's own date changes when something is taken out of it, but not when a file inside is
             // rewritten in place, so the newest date inside comes from the walk.
             let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
-            let contents = await walk(url)
             let path = url.path(percentEncoded: false)
             let heldBack: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
                 .holdsDocuments

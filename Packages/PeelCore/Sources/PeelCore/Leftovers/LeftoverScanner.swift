@@ -164,7 +164,7 @@ public struct LeftoverScanner: Sendable {
         matcher: LeftoverMatcher,
         home: String,
         bundle: String,
-        measure: Measure,
+        measure: @escaping Measure,
         refuses: Refuses,
         nestedFolderLimit: Int
     ) async -> LocationResult {
@@ -181,7 +181,7 @@ public struct LeftoverScanner: Sendable {
         }
 
         let parent = ParentAccess(location.url)
-        var leftovers: [Leftover] = []
+        var toMeasure: [Found] = []
         var nobodysFolders: [(url: URL, isAnotherApps: Bool)] = []
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
@@ -193,13 +193,14 @@ public struct LeftoverScanner: Sendable {
             let path = url.path(percentEncoded: false)
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle), !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home) else { continue }
-                leftovers.append(await leftover(at: url, kind: location.kind, match: match, parent: parent, home: home, measure: measure))
+                toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
             } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home) {
                 // Not this app's. Whether it is somebody else's decides what a name inside it is worth.
                 nobodysFolders.append((url, isSomebodyElses(name, kind: location.kind, matcher: matcher)))
             }
         }
 
+        let leftovers = await measured(toMeasure, kind: location.kind, home: home, measure: measure)
         let inside = await nested(
             in: nobodysFolders, kind: location.kind, matcher: matcher, home: home, measure: measure, refuses: refuses,
             limit: nestedFolderLimit
@@ -217,11 +218,11 @@ public struct LeftoverScanner: Sendable {
         kind: SearchLocation.Kind,
         matcher: LeftoverMatcher,
         home: String,
-        measure: Measure,
+        measure: @escaping Measure,
         refuses: Refuses,
         limit: Int
     ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
-        var found: [Leftover] = []
+        var found: [Found] = []
         var unreadable: [URL] = []
         var pending = folders
         var visited = 0
@@ -229,8 +230,8 @@ public struct LeftoverScanner: Sendable {
         for depth in 0..<nestedDepth {
             var deeper: [(url: URL, isAnotherApps: Bool)] = []
             for (folder, isAnotherApps) in pending {
-                guard !Task.isCancelled else { return (found, false, unreadable) }
-                guard visited < limit else { return (found, true, unreadable) }
+                guard !Task.isCancelled else { return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable) }
+                guard visited < limit else { return (await measured(found, kind: kind, home: home, measure: measure), true, unreadable) }
                 visited += 1
                 let names: [String]
                 do {
@@ -255,7 +256,7 @@ public struct LeftoverScanner: Sendable {
                     if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
                         guard !refuses(path, home) else { continue }
-                        found.append(await leftover(at: url, kind: kind, match: match, parent: parent, home: home, isInsideAnotherAppsFolder: isAnotherApps, measure: measure))
+                        found.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps))
                     } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home) {
                         deeper.append((url, isAnotherApps || isSomebodyElses(name, kind: kind, matcher: matcher)))
                     }
@@ -263,7 +264,31 @@ public struct LeftoverScanner: Sendable {
             }
             pending = deeper
         }
-        return (found, false, unreadable)
+        return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable)
+    }
+
+    /// Something a search took as the app's, waiting to be measured.
+    private struct Found: Sendable {
+        let url: URL
+        let match: LeftoverMatch
+        let parent: ParentAccess
+        let isInsideAnotherAppsFolder: Bool
+    }
+
+    /// How many items of one location are measured at once. One after another, a few folders that never answer
+    /// would each hold the location for the whole budget of `FileSize`.
+    static let concurrentMeasurements = 4
+
+    /// Measures what one location found, a few at a time, and keeps the order it was found in.
+    private static func measured(
+        _ found: [Found], kind: SearchLocation.Kind, home: String, measure: @escaping Measure
+    ) async -> [Leftover] {
+        await found.concurrentMap(width: concurrentMeasurements) { item in
+            await leftover(
+                at: item.url, kind: kind, match: item.match, parent: item.parent, home: home,
+                isInsideAnotherAppsFolder: item.isInsideAnotherAppsFolder, measure: measure
+            )
+        }
     }
 
     /// Builds a leftover: measures it and decides whether to hold it back. The scan, cask paths, and installer

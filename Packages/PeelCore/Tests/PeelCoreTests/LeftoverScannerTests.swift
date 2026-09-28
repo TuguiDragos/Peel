@@ -277,8 +277,8 @@ struct LeftoverScannerTests {
         #expect(byPath["Nobody/Tunewell"]?.match.isRecommended == true, "a folder no installed app answers to is nobody's")
     }
 
-    /// Leaving a page cancels its scan, and a canceled scan stops measuring. Otherwise, moving through a list of
-    /// apps would leave a scan running for every app passed.
+    /// Leaving a page cancels its scan, and a canceled scan starts no other measurement, so only those already under
+    /// way can have begun. Otherwise, moving through a list of apps would leave a scan running for every app passed.
     @Test func aScanThatWasCanceledStopsMeasuring() async throws {
         let directory = try TemporaryDirectory()
         for index in 0..<40 {
@@ -297,7 +297,7 @@ struct LeftoverScannerTests {
         scan.cancel()
         _ = await scan.value
 
-        #expect(measured.withLock { $0 } == 1, "it went on measuring after it was canceled")
+        #expect(measured.withLock { $0 } <= LeftoverScanner.concurrentMeasurements, "it went on measuring after it was canceled")
     }
 
     /// An app can keep a whole photo, music, or video library beside its settings. `RemovalGuard` refuses to
