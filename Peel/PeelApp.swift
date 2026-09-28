@@ -263,6 +263,11 @@ struct PeelApp: App {
             ContentView()
                 // Above every page, because removing an app takes its page away, along with any alert attached to it.
                 .removalFailureAlert()
+                .alert("Peel couldn’t reopen itself", isPresented: $home.couldNotRelaunch) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text("Quit Peel and open it again, so it can use Full Disk Access.")
+                }
                 // Every bordered button is a capsule, the shape Liquid Glass gives the system's own controls.
                 .buttonBorderShape(.capsule)
                 .environment(outcome)
