@@ -29,14 +29,6 @@ SYNCED = [
 ]
 INFO_PLIST = PROJECT / "Support/Peel-Info.plist"
 INFO_CATALOG = LOCALIZATION / "Peel/InfoPlist.xcstrings"
-# Info.plist keys whose text macOS shows, in permission prompts and in Finder's Info window.
-INFO_KEYS = [
-    "NSAppDataUsageDescription",
-    "NSDesktopFolderUsageDescription",
-    "NSDocumentsFolderUsageDescription",
-    "NSDownloadsFolderUsageDescription",
-    "NSHumanReadableCopyright",
-]
 NAMES = ["CFBundleDisplayName", "CFBundleName"]
 CHECK = "--check" in sys.argv[1:]
 FORCE = "--force" in sys.argv[1:]
@@ -98,7 +90,9 @@ def info_plist(current):
     plist = plistlib.loads(INFO_PLIST.read_bytes())
     strings = {}
     old = keys(current)
-    for key in INFO_KEYS:
+    # The keys whose text macOS shows: the permission prompts, and the copyright in Finder's Info window.
+    shown = sorted(key for key in plist if key.endswith("UsageDescription") or key == "NSHumanReadableCopyright")
+    for key in shown:
         entry = dict(old.get(key, {}))
         localizations = dict(entry.get("localizations", {}))
         english = localizations.get("en", {}).get("stringUnit", {}).get("value")

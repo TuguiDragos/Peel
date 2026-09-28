@@ -20,6 +20,19 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.prefix(40).map(\.description).joined(separator: "\n"))")
     }
 
+    /// Every text of Info.plist that macOS shows, its permission prompts and its copyright, is in the InfoPlist
+    /// catalog, or macOS shows it in English in every language.
+    @Test func infoPlistTextIsInItsCatalog() throws {
+        let data = try Data(contentsOf: Self.repository.appending(path: "Support/Peel-Info.plist"))
+        let plist = try #require(try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
+        let shown = Set(plist.keys.filter { $0.hasSuffix("UsageDescription") || $0 == "NSHumanReadableCopyright" })
+        let checker = CatalogChecker(root: Self.repository, required: [])
+        let file = checker.load("Localization/Peel/InfoPlist.xcstrings")
+        let catalog = try #require(file?["strings"] as? [String: [String: Any]])
+        let translated = Set(catalog.filter { $0.value["shouldTranslate"] as? Bool != false }.keys)
+        #expect(shown == translated)
+    }
+
     /// Items Peel puts in menus SwiftUI builds use SwiftUI's own words in each language, or the menu reads as if
     /// two apps wrote it: German puts a no-break space before its ellipsis, and Traditional Chinese writes ⋯. The
     /// same goes for the one name SwiftUI looks up in Peel's own strings.
