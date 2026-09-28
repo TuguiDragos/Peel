@@ -183,8 +183,10 @@ struct MultipleAppsView: View {
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
-                Badge(title: Text("^[\(plan.items.count) item](inflect: true)"), systemImage: "doc.on.doc")
-                    .padding(.top, 2)
+                if plan.bulk != nil {
+                    Badge(title: Text("^[\(plan.items.count) item](inflect: true)"), systemImage: "doc.on.doc")
+                        .padding(.top, 2)
+                }
             }
             Spacer(minLength: 8)
             if plan.total.known > 0 || !plan.total.isComplete {
