@@ -73,9 +73,11 @@ final class HomebrewLibrary {
         CaskEvidence.combined(installed: packages ?? [], known: knownCasks, receipts: receipts)
     }
 
-    /// Incremented only when the known casks or receipts change. An app's page scans again when it does, so a
-    /// page opened before the evidence arrived picks it up, and a page the user is working on isn't scanned
-    /// again for nothing.
+    var knowsItsOwnApps: Bool { !isInstalled || hasAnswered }
+
+    /// Incremented only when the known casks or receipts change, or Homebrew leaves the Mac. An app's page scans
+    /// again when it does, so a page opened before the evidence arrived picks it up, and a page the user is working
+    /// on isn't scanned again for nothing.
     private(set) var evidenceRevision = 0
 
     func loadKnownCasks(for apps: [InstalledApp]) async {
@@ -131,8 +133,13 @@ final class HomebrewLibrary {
     /// `/Applications`.
     func refresh(includingReclaimable: Bool = false) async {
         isInstalled = Homebrew.executableURL != nil
-        guard isInstalled else { return }
-        guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }) else { return }
+        guard isInstalled else {
+            forgetHomebrew()
+            return
+        }
+        guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }),
+              isInstalled
+        else { return }
         guard let (found, installed, preview, overridden) = reading else {
             needsDefinitions = true
             hasAnswered = false
@@ -161,6 +168,20 @@ final class HomebrewLibrary {
         revision += 1
         if let selection, packages?.contains(where: { $0.id == selection }) != true {
             self.selection = nil
+        }
+    }
+
+    /// With no Homebrew on the Mac, nothing it said still holds, so the library becomes what it is when Peel starts
+    /// without one. The installer receipts stay: they are the Mac's, and an uninstall reads them on their own.
+    private func forgetHomebrew() {
+        guard packages != nil || installation != nil || !knownCasks.isEmpty else { return }
+        let hadEvidence = !caskEvidence.isEmpty
+        (packages, installation, hasAnswered, couldNotRead, needsDefinitions) = (nil, nil, false, nil, false)
+        (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
+        (knownCasks, selection) = ([], nil)
+        revision += 1
+        if hadEvidence {
+            evidenceRevision += 1
         }
     }
 

@@ -471,6 +471,17 @@ struct UpdateSourceTests {
         #expect(CaskEvidence.cask(for: firefox, in: casks)?.name == "firefox@esr")
     }
 
+    @Test func anUpdateHomebrewReportedHoldsOnlyWhileTheAppIsHomebrews() {
+        let homebrew = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew)
+        #expect(homebrew.holds(whileHomebrews: true))
+        #expect(!homebrew.holds(whileHomebrews: false))
+
+        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .developer).holds(whileHomebrews: false))
+        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .appStore).holds(whileHomebrews: false))
+        #expect(UpdateStatus.upToDate.holds(whileHomebrews: false))
+        #expect(UpdateStatus.failed.holds(whileHomebrews: false))
+    }
+
     @Test func showsAHomebrewVersionWithoutWhatTheDownloadNeeds() {
         let cask = UpdateStatus.updateAvailable(version: "26.10.22,802", source: .homebrew)
         #expect(cask.displayVersion == "26.10.22")

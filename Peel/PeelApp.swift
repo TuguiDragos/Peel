@@ -134,7 +134,7 @@ struct PeelApp: App {
         await homebrew.refresh()
         // A newly installed app may match a cask Homebrew knows about, so the known casks are read again.
         await homebrew.loadKnownCasks(for: library.apps)
-        library.loadHomebrewCasks(homebrew.caskEvidence)
+        library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         // A bundle that changed on disk is a different build, and what was cached about it describes the old
         // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
         // `brew upgrade` in Terminal.
@@ -339,7 +339,7 @@ struct PeelApp: App {
                     Task { await IconCache.warm(library.apps.map(\.url)) }
                     await homebrewPackages
                     await Marks.interval("Known casks") { await homebrew.loadKnownCasks(for: library.apps) }
-                    library.loadHomebrewCasks(homebrew.caskEvidence)
+                    library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
                     await Marks.interval("Signing teams") { await library.checkSigningTeams() }
                     if checksForAppUpdates {
                         await Marks.interval("Update checks") { await checkForUpdates() }

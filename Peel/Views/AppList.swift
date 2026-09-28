@@ -86,7 +86,7 @@ struct AppList: View {
             await library.loadSizes()
         }
         .task(id: homebrew.revision) {
-            library.loadHomebrewCasks(homebrew.caskEvidence)
+            library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         }
     }
 

@@ -508,7 +508,7 @@ struct AppDetailView: View {
         // Homebrew's own answer is read again first: it is what says whether a version is behind, and the
         // copy from before the upgrade still said this one was.
         await library.refresh()
-        library.loadHomebrewCasks(homebrew.caskEvidence)
+        library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         if let installed = library.apps.first(where: { $0.id == plan.app.id }) {
             plan = RemovalPlan(app: installed)
             await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)

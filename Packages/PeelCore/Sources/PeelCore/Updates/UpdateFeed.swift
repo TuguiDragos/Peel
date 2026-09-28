@@ -50,6 +50,12 @@ public enum UpdateStatus: Sendable, Hashable, Codable {
     public var source: UpdateSource? {
         if case .updateAvailable(_, let source, _) = self { source } else { nil }
     }
+
+    /// Whether this answer still holds for an app, given whether Homebrew counts the app as its own now: an update
+    /// Homebrew reported is about its cask, and says nothing once the app is not Homebrew's.
+    public func holds(whileHomebrews isHomebrews: Bool) -> Bool {
+        source != .homebrew || isHomebrews
+    }
 }
 
 extension UpdateFeed {

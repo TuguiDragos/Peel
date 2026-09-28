@@ -622,13 +622,31 @@ final class AppLibrary {
     /// Called often, including every time the Applications list appears. Apps are matched to casks again only
     /// when the casks changed, since `adopt` already does it when the apps change, and matching holds the
     /// main thread.
-    func loadHomebrewCasks(_ packages: [HomebrewPackage]) {
+    /// `knowsItsOwnApps` is true when `packages` says of every app whether Homebrew installed it, and not while
+    /// Homebrew could not be read.
+    func loadHomebrewCasks(_ packages: [HomebrewPackage], knowsItsOwnApps: Bool) {
         let casks = packages.filter { $0.kind == .cask }
         if casks != self.casks {
             self.casks = casks
             matchHomebrewApps()
         }
+        if knowsItsOwnApps {
+            forgetUpdatesHomebrewNoLongerOffers()
+        }
         applyHomebrewStatuses()
+    }
+
+    /// Forgets an update Homebrew reported for an app it no longer counts as its own, saved answer included, so the
+    /// app is due and its own feed answers at the next round.
+    private func forgetUpdatesHomebrewNoLongerOffers() {
+        let outlived = Set(updateStatuses.filter { !$0.value.holds(whileHomebrews: homebrewApps[$0.key] != nil) }.keys)
+        guard !outlived.isEmpty else { return }
+        updateStatuses = updateStatuses.filter { !outlived.contains($0.key) }
+        lastUpdateChecks = lastUpdateChecks.filter { !outlived.contains($0.key) }
+        for app in apps where outlived.contains(app.id) {
+            memory[app.bundleIdentifier] = nil
+        }
+        UpdateMemoryStore.save(memory)
     }
 
     /// Records an update for each app whose cask Homebrew marks outdated. Reading Homebrew costs no network
