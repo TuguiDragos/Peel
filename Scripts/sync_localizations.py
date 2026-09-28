@@ -17,7 +17,7 @@ would treat every string as gone. The app would still build and launch, so the d
 unnoticed. It also exits when a run would remove or mark stale more than a quarter of a catalog. Run with
 `--force` to go ahead anyway.
 """
-import glob, json, pathlib, plistlib, shutil, subprocess, sys, tempfile
+import argparse, glob, json, pathlib, plistlib, shutil, subprocess, sys, tempfile
 
 PROJECT = pathlib.Path(__file__).resolve().parent.parent
 INTERMEDIATES = PROJECT / "build/DerivedData/Build/Intermediates.noindex/Peel.build/Debug"
@@ -30,8 +30,20 @@ SYNCED = [
 INFO_PLIST = PROJECT / "Support/Peel-Info.plist"
 INFO_CATALOG = LOCALIZATION / "Peel/InfoPlist.xcstrings"
 NAMES = ["CFBundleDisplayName", "CFBundleName"]
-CHECK = "--check" in sys.argv[1:]
-FORCE = "--force" in sys.argv[1:]
+# Anything else is refused before a catalog is touched: a mistyped --check would otherwise write all four.
+parser = argparse.ArgumentParser(
+    description="Keeps the string catalogs in step with the strings in the code.", allow_abbrev=False
+)
+parser.add_argument(
+    "--check", action="store_true", help="write nothing, say what would change, exit 1 if anything would"
+)
+parser.add_argument(
+    "--force", action="store_true",
+    help="go ahead even when a run would remove or mark stale over a quarter of a catalog",
+)
+options = parser.parse_args()
+CHECK = options.check
+FORCE = options.force
 # Removing or marking stale more than this share of a catalog suggests the build output is not from this code.
 MOST_OF_IT = 0.25
 
