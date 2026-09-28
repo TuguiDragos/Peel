@@ -202,6 +202,25 @@ struct InstallersTests {
         #expect(scan.items.map(\.name) == ["Tool-2.dmg"])
     }
 
+    /// An installer that is a folder, with something the person excluded inside, is left out like any excluded
+    /// item: the guard would refuse to move it anyway.
+    @Test func leavesOutAnInstallerHoldingSomethingExcluded() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
+        let kept = try directory.file("Applications/Install macOS Tahoe.app/Contents/Resources/notes.txt", bytes: 16)
+        try directory.file("Downloads/Tool.pkg/Contents/Archive.pax.gz", bytes: 400_000)
+        let alsoKept = try directory.file("Downloads/Tool.pkg/Contents/Resources/license.txt", bytes: 16)
+        try directory.file("Downloads/Other-2.dmg", bytes: 400_000)
+
+        let exclusions = Exclusions(paths: [kept, alsoKept])
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: exclusions, minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        #expect(scan.items.map(\.name) == ["Other-2.dmg"])
+    }
+
     @Test func anInstallerInICloudDriveIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)

@@ -118,7 +118,7 @@ public enum Installers {
                 let isArchive = suffix == "zip"
                 let isIncomplete = incompleteDownloadExtensions.contains(suffix)
                 guard isInstaller || isArchive || isIncomplete || firmwareExtensions.contains(suffix),
-                      !exclusions.excludes(url), !Task.isCancelled
+                      !exclusions.excludes(url), !exclusions.holds(url), !Task.isCancelled
                 else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
@@ -349,7 +349,7 @@ public enum Installers {
             for url in files(in: folder.url)
             where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
                 guard !Task.isCancelled else { return items }
-                guard !exclusions.excludes(url) else { continue }
+                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let version = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))?["CFBundleShortVersionString"] as? String
@@ -378,7 +378,7 @@ public enum Installers {
         for folder in folders {
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
-                guard !exclusions.excludes(url) else { continue }
+                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, heldBack) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 items.append(firmware(at: url, size: size, heldBack: heldBack))
@@ -420,7 +420,7 @@ public enum Installers {
         var items: [InstallerItem] = []
         for (url, identifier) in found {
             guard !Task.isCancelled else { return items }
-            guard !exclusions.excludes(url) else { continue }
+            guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
             let (size, seen) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
             let isRunning = !NSRunningApplication.runningApplications(withBundleIdentifier: identifier).isEmpty
@@ -466,7 +466,7 @@ public enum Installers {
                     }
                     continue
                 }
-                guard !exclusions.excludes(url) else { continue }
+                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
