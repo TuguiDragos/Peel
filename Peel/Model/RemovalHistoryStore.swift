@@ -106,7 +106,7 @@ final class RemovalHistoryStore {
     /// The records grouped into batches. Worked out once when the records change, because the list reads this
     /// several times per render.
     private(set) var batches: [RemovalBatch] = []
-    /// Whether the log has been read at all, so an empty list is not taken for an empty History.
+    /// Whether the log and the refusals have been read at all, so an empty list is not taken for an empty History.
     private(set) var hasLoaded = false
     /// What a search looks through, built once with the batches rather than walked on every keystroke.
     private(set) var searchKeys: [RemovalBatch.ID: String] = [:]
@@ -142,6 +142,7 @@ final class RemovalHistoryStore {
     func load() async {
         apply(await log.load())
         await loadRefusals()
+        hasLoaded = true
     }
 
     /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the
@@ -250,7 +251,6 @@ final class RemovalHistoryStore {
         }
         problem = outcome.problem
         checkReadability()
-        hasLoaded = true
     }
 
     func restore(_ records: [RemovalRecord], canUseHelper: Bool) async {

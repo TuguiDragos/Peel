@@ -54,13 +54,15 @@ struct HistoryList: View {
             .motion(.settle, .movement, value: history.shownProblem != nil)
         }
         .overlay {
-            if history.batches.isEmpty, history.refusalBatches.isEmpty, history.hasLoaded {
+            if !history.hasLoaded {
+                ProgressView()
+            } else if history.batches.isEmpty, history.refusalBatches.isEmpty {
                 ContentUnavailableView(
                     "Nothing Removed Yet",
                     systemImage: "clock.arrow.circlepath",
                     description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
                 )
-            } else if listed.isEmpty, refused.isEmpty {
+            } else if listed.isEmpty, refused.isEmpty, !searchText.isEmpty {
                 ContentUnavailableView.search(text: searchText)
             }
         }
