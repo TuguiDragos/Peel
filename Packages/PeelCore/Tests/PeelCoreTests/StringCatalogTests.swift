@@ -205,7 +205,7 @@ import Testing
     /// for a name.
     @Test func noVerbatimTextIsAnInterfaceSentence() throws {
         let allowed: Set<String> = [
-            "Peel", "PEEL", "Țugui Dragoș-Constantin", "github.com/TuguiDragos/Peel", "© 2026", "·",
+            "Peel", "PEEL", "brew", "Țugui Dragoș-Constantin", "github.com/TuguiDragos/Peel", "© 2026", "·",
         ]
         let literal = try NSRegularExpression(pattern: #"Text\(verbatim: "((?:[^"\\]|\\.)*)"\)"#)
         var found: [String] = []

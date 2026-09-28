@@ -334,11 +334,16 @@ public enum Homebrew {
         public let output: String
     }
 
-    /// The `brew` executable, looked for only in the two places Homebrew installs itself. An app not started
-    /// from a shell doesn't get the login shell's `PATH`, so `which brew` would find nothing. Taking the prefix
-    /// from the environment would let anything that can set `HOMEBREW_PREFIX` choose which program Peel runs.
+    /// The `brew` executable: the one the person chose in Settings (`HomebrewChoice`), or else the one in either
+    /// place Homebrew installs itself by default. An app not started from a shell doesn't get the login shell's
+    /// `PATH`, so `which brew` would find nothing. Taking the prefix from the environment would let anything that
+    /// can set `HOMEBREW_PREFIX` choose which program Peel runs.
     public static var executableURL: URL? {
-        ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
+        executable(chosen: HomebrewChoice().load())
+    }
+
+    static func executable(chosen: URL?) -> URL? {
+        chosen ?? ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
             .map { URL(filePath: $0) }
             .first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
     }
@@ -693,7 +698,7 @@ public enum Homebrew {
             throw CommandFailure(output: Self.notInstalled)
         }
         let path = executable.path(percentEncoded: false)
-        let environment = environment(autoUpdate: autoUpdate, keeping: kept)
+        let environment = environment(autoUpdate: autoUpdate, keeping: kept, executable: executable)
         switch await Subprocess.run(path, arguments, environment: environment, timeout: timeout, onOutput: onOutput) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
@@ -745,9 +750,18 @@ public enum Homebrew {
     /// value set anywhere in the user's session would otherwise decide how Homebrew behaves, and
     /// `HOMEBREW_FORCE_API_AUTO_UPDATE` would undo the setting that keeps Peel off the network. Homebrew's own
     /// `brew.env` files are read after it and can still undo a setting here, which `overrides()` reports.
-    static func environment(autoUpdate: Bool, keeping kept: [String] = []) -> [String: String] {
+    static func environment(autoUpdate: Bool, keeping kept: [String] = [], executable: URL? = nil) -> [String: String] {
+        var path = "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        // A Homebrew in a prefix of its own finds its own programs first, as the default ones do.
+        if let executable {
+            let bin = (executable.path(percentEncoded: false) as NSString).deletingLastPathComponent
+            let sbin = ((bin as NSString).deletingLastPathComponent as NSString).appendingPathComponent("sbin")
+            if !path.split(separator: ":").contains(Substring(bin)) {
+                path = "\(bin):\(sbin):" + path
+            }
+        }
         var values = [
-            "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+            "PATH": path,
             "HOME": URL.homeDirectory.path(percentEncoded: false),
             "HOMEBREW_NO_ENV_HINTS": "1",
             // Without this every call pings Homebrew's analytics over the network.

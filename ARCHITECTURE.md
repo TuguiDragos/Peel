@@ -202,6 +202,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an installed app. |
 | `~/Library/Application Support/Peel/dock-tiles.json` | The Dock icons an uninstall took out, and where each was, so History puts them back with their app. |
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
+| `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
 | Peel's preferences | Settings, the totals Home shows, what each tool found the last time it looked, and the last answer of each update check. |
 

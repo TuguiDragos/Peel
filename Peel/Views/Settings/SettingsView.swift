@@ -191,6 +191,8 @@ private struct GeneralSettingsView: View {
 
             AppFoldersSection()
 
+            HomebrewSection()
+
             Section("While Peel Runs") {
                 toggle("Watch the Trash", isOn: $watchesTrash,
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel stays in the menu bar to do it.")

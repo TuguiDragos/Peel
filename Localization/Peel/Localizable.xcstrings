@@ -12429,6 +12429,112 @@
         }
       }
     },
+    "Anyone on this Mac can change it, so Peel won’t run it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Může ho změnit kdokoli v tomto Macu, a proto ho Peel nespustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeder Benutzeraccount auf diesem Mac kann diese Datei ändern, daher führt Peel sie nicht aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cualquiera en este Mac puede cambiarlo, así que Peel no lo ejecutará."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N’importe qui sur ce Mac peut le modifier, donc Peel ne l’exécutera pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiunque su questo Mac può modificarlo, quindi Peel non lo eseguirà."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのどのユーザでも変更できるため、Peelはこのファイルを実行しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 누구나 변경할 수 있는 파일이므로 Peel은 이 파일을 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iedereen op deze Mac kan het wijzigen, dus Peel voert het niet uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Każdy na tym Macu może go zmienić, więc Peel go nie uruchomi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualquer pessoa neste Mac pode alterá-lo, então o Peel não o executará."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oricine de pe acest Mac îl poate modifica, așa că Peel nu îl va rula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Любой пользователь этого Mac может его изменить, поэтому Peel не будет его запускать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alla på den här datorn kan ändra den, så Peel kör den inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki herkes onu değiştirebilir, bu yüzden Peel onu çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Будь-хто на цьому Mac може його змінити, тому Peel не запускатиме його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上的任何人都可以更改它，因此Peel不会运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上的任何人都能變更它，因此Peel不會執行它。"
+          }
+        }
+      }
+    },
     "App" : {
       "localizations" : {
         "cs" : {
@@ -21254,6 +21360,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇檔案夾並掃描。Peel會比對內容，因此只會找到完全相同的副本，包括檔案夾。"
+          }
+        }
+      }
+    },
+    "Choose the file called `brew`, in the bin folder of your Homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvolte soubor s názvem `brew` ve složce bin vašeho Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle die Datei namens `brew` im Ordner „bin“ deiner Homebrew-Installation."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona el archivo llamado `brew`, en la carpeta bin de tu Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez le fichier nommé `brew`, dans le dossier bin de votre Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli il file chiamato `brew`, nella cartella bin del tuo Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのbinフォルダにある、`brew`という名前のファイルを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 bin 폴더에 있는 `brew`라는 파일을 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies het bestand met de naam `brew`, in de map 'bin' van je Homebrew."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz plik o nazwie `brew` w folderze bin Twojego Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o arquivo chamado `brew`, na pasta bin do seu Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alegeți fișierul numit `brew`, din dosarul bin al instalării dvs. Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите файл с именем `brew` в папке bin Вашего Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj filen som heter `brew`, i mappen bin i ditt Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’unuzun bin klasöründeki `brew` adlı dosyayı seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть файл під назвою `brew` у папці bin вашого Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选取你的Homebrew的bin文件夹中名为`brew`的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請選擇你的Homebrew中bin檔案夾裡名為`brew`的檔案。"
           }
         }
       }
@@ -39373,6 +39585,112 @@
         }
       }
     },
+    "Homebrew Is in Another Folder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew je v jiné složce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew liegt in einem anderen Ordner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew está en otra carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew est dans un autre dossier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew è in un’altra cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは別のフォルダにあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 다른 폴더에 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew staat in een andere map"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew jest w innym folderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew Está em Outra Pasta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew se află în alt dosar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew в другой папке"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew finns i en annan mapp"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew Başka Bir Klasörde"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew в іншій папці"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew位于其他文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew位於其他檔案夾"
+          }
+        }
+      }
+    },
     "Homebrew Isn’t Installed" : {
       "localizations" : {
         "cs" : {
@@ -48087,6 +48405,112 @@
         }
       }
     },
+    "It belongs to another account, which could change what it runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patří jinému účtu, který by mohl změnit, co soubor spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei gehört einem anderen Benutzeraccount, der ändern könnte, was sie ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pertenece a otra cuenta, que podría cambiar lo que ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il appartient à un autre compte, qui pourrait modifier ce qu’il exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appartiene a un altro account, che potrebbe cambiare ciò che il file esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のアカウントのファイルなので、実行される内容をそのアカウントが変更できる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 계정의 파일이므로 그 계정이 이 파일이 실행하는 내용을 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hoort bij een andere account, die kan wijzigen wat het uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Należy do innego konta, a to konto mogłoby zmienić to, co ten plik uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele pertence a outra conta, que poderia alterar o que ele executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparține altui cont, care ar putea schimba ce rulează acest fișier."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он принадлежит другой учетной записи, которая может изменить то, что он запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den tillhör ett annat konto, som kan ändra vad den kör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başka bir hesaba ait ve o hesap, dosyanın ne çalıştırdığını değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл належить іншому обліковому запису, який може змінити те, що він виконує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它属于另一个账户，该账户可能会更改它所运行的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它屬於另一個帳號，該帳號可能會變更它所執行的內容。"
+          }
+        }
+      }
+    },
     "It came inside an app, and it goes when that app goes." : {
       "localizations" : {
         "cs" : {
@@ -49461,6 +49885,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這不是Peel能取用的檔案夾。未連接的磁碟也會顯示為這樣。"
+          }
+        }
+      }
+    },
+    "It isn’t a program Peel can run." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není to program, který může Peel spustit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist kein Programm, das Peel ausführen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No es un programa que Peel pueda ejecutar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas un programme que Peel peut exécuter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è un programma che Peel può eseguire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが実行できるプログラムではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 실행할 수 있는 프로그램이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is geen programma dat Peel kan uitvoeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To nie jest program, który Peel może uruchomić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é um programa que o Peel possa executar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu este un program pe care Peel să îl poată rula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это не программа, которую Peel может запустить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den är inte ett program som Peel kan köra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, Peel’in çalıştırabileceği bir program değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це не виконуваний файл, який Peel може запустити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它不是Peel可以运行的程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它不是Peel可以執行的程式。"
           }
         }
       }
@@ -84446,6 +84976,112 @@
         }
       }
     },
+    "Peel can’t run this file." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor Peel nemůže spustit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann diese Datei nicht ausführen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede ejecutar este archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’exécuter ce fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile eseguire questo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのファイルを実行できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 파일을 실행할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan dit bestand niet uitvoeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może uruchomić tego pliku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não pode executar este arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate rula acest fișier."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может запустить этот файл."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte köra den här filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu dosyayı çalıştıramaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може запустити цей файл."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法运行此文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法執行此檔案。"
+          }
+        }
+      }
+    },
     "Peel can’t see or remove everything yet" : {
       "localizations" : {
         "cs" : {
@@ -86818,6 +87454,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法儲存「%@」目前的設定，因此沒有還原任何設定。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t save which `brew` to run." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelu se nepodařilo uložit, který `brew` má spouštět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht sichern, welches `brew` ausgeführt werden soll."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar qué `brew` ejecutar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’enregistrer le `brew` à exécuter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile salvare il `brew` da eseguire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、実行する`brew`の選択を保存できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 실행할 `brew`를 저장할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet bewaren welke `brew` moet worden uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować, który `brew` ma uruchamiać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu salvar qual `brew` executar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut salva programul `brew` pe care să îl ruleze."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить, какой `brew` запускать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara vilken `brew` som ska köras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hangi `brew` programının çalıştırılacağını kaydedemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти, який `brew` запускати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存要运行的`brew`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法儲存要執行的`brew`。"
           }
         }
       }
@@ -92765,6 +93507,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel只會從該檔案夾移除連結。"
+          }
+        }
+      }
+    },
+    "Peel runs %@ whenever it asks Homebrew something, and so does `peel`. Choose it only if it belongs to your Homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel spouští %@ pokaždé, když od Homebrew něco zjišťuje, a stejně tak `peel`. Zvolte ho, jen pokud patří k vašemu Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel und `peel` führen %@ jedes Mal aus, wenn sie Homebrew etwas fragen. Wähle diese Datei nur, wenn sie zu deinem Homebrew gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ejecuta %@ cada vez que pregunta algo a Homebrew, y `peel` también. Selecciónalo solo si pertenece a tu Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel exécute %@ chaque fois qu’il interroge Homebrew, et `peel` aussi. Ne le choisissez que s’il appartient à votre Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel esegue %@ ogni volta che chiede qualcosa a Homebrew, e lo stesso fa `peel`. Sceglilo solo se appartiene al tuo Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PeelはHomebrewに何かを問い合わせるたびに“%@”を実行します。`peel`も同様です。使用しているHomebrewのものである場合にのみ選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 Homebrew에 무언가를 물을 때마다 %@을(를) 실행하며, `peel`도 마찬가지입니다. 사용자의 Homebrew에 속한 파일인 경우에만 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert %@ uit telkens als het Homebrew iets vraagt, en `peel` ook. Kies het alleen als het bij je Homebrew hoort."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uruchamia %@ za każdym razem, gdy o coś pyta Homebrew, i tak samo robi `peel`. Wybierz ten plik tylko wtedy, gdy należy do Twojego Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel executa %@ sempre que pergunta algo ao Homebrew, e o `peel` também. Escolha-o somente se ele pertencer ao seu Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează %@ ori de câte ori are o întrebare pentru Homebrew, iar `peel` face la fel. Alegeți‑l doar dacă aparține instalării dvs. Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускает %@ каждый раз, когда обращается к Homebrew, и `peel` тоже. Выбирайте его, только если он принадлежит Вашему Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör %@ varje gång appen frågar Homebrew något, och det gör även `peel`. Välj filen bara om den hör till ditt Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Homebrew’a bir şey sorduğu her seferde %@ dosyasını çalıştırır; `peel` de öyle. Bu dosyayı yalnızca sizin Homebrew’unuza aitse seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускає %@ щоразу, коли щось запитує в Homebrew, і `peel` теж. Вибирайте його, лише якщо він належить вашому Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel每次向Homebrew询问时都会运行“%@”，`peel`也是如此。请仅在它属于你的Homebrew时选取它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel每次詢問Homebrew時都會執行「%@」，`peel`也是如此。只有在它屬於你的Homebrew時才選擇它。"
+          }
+        }
+      }
+    },
+    "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel spouští `brew` ve složce /opt/homebrew nebo /usr/local. Pokud je váš Homebrew ve vlastní složce, například /opt/brew, zvolte jeho `brew` a Peel i `peel` pak budou spouštět právě ten."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt das `brew` in /opt/homebrew oder /usr/local aus. Liegt dein Homebrew in einem eigenen Ordner, etwa /opt/brew, wähle das zugehörige `brew`; dann führen Peel und `peel` dieses aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ejecuta el `brew` de /opt/homebrew o /usr/local. Si tu Homebrew está en una carpeta propia, como /opt/brew, selecciona su `brew`, y Peel y `peel` ejecutarán ese."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel exécute le `brew` situé dans /opt/homebrew ou /usr/local. Si votre Homebrew se trouve dans un dossier à part, comme /opt/brew, choisissez son `brew`, et Peel comme `peel` exécuteront celui-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel esegue il `brew` in /opt/homebrew o /usr/local. Se il tuo Homebrew è in una cartella tutta sua, come /opt/brew, scegli il suo `brew`, e Peel e `peel` eseguono quello."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは/opt/homebrewまたは/usr/localにある`brew`を実行します。Homebrewを/opt/brewなどの専用のフォルダに置いている場合は、そのHomebrewの`brew`を選択してください。Peelと`peel`がそれを実行するようになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 /opt/homebrew 또는 /usr/local에 있는 `brew`를 실행합니다. Homebrew가 /opt/brew처럼 별도의 폴더에 있다면 그 폴더의 `brew`를 선택하십시오. 그러면 Peel과 `peel`이 그것을 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert de `brew` in /opt/homebrew of /usr/local uit. Staat je Homebrew in een eigen map, zoals /opt/brew, kies dan de `brew` daarvan, en Peel en `peel` voeren die uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uruchamia `brew` z folderu /opt/homebrew lub /usr/local. Jeśli Twój Homebrew jest w osobnym folderze, takim jak /opt/brew, wybierz jego `brew`, a wtedy Peel i `peel` będą uruchamiać właśnie ten."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel executa o `brew` em /opt/homebrew ou /usr/local. Se o seu Homebrew estiver em uma pasta própria, como /opt/brew, escolha o `brew` dele, e o Peel e o `peel` passarão a executar esse."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează programul `brew` din /opt/homebrew sau din /usr/local. Dacă instalarea dvs. Homebrew se află într‑un dosar propriu, cum ar fi /opt/brew, alegeți programul `brew` al acesteia, iar Peel și `peel` îl vor rula pe acela."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускает `brew` из /opt/homebrew или /usr/local. Если Ваш Homebrew находится в отдельной папке, например /opt/brew, выберите его `brew`, и Peel, и `peel` будут запускать именно его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör `brew` i /opt/homebrew eller /usr/local. Om ditt Homebrew finns i en egen mapp, till exempel /opt/brew, väljer du dess `brew`, så kör Peel och `peel` just det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, /opt/homebrew veya /usr/local içindeki `brew` programını çalıştırır. Homebrew’unuz /opt/brew gibi kendine ait bir klasördeyse onun `brew` programını seçin; Peel ve `peel` o programı çalıştırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускає `brew` у /opt/homebrew або /usr/local. Якщо ваш Homebrew в окремій папці, як-от /opt/brew, виберіть його `brew`, і Peel та `peel` запускатимуть саме його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会运行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位于单独的文件夹中（例如/opt/brew），请选取其中的`brew`，Peel和`peel`随后便会运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會執行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位於自己的檔案夾中，例如/opt/brew，請選擇它的`brew`，Peel和`peel`就會執行那一個。"
           }
         }
       }
@@ -104916,6 +105870,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請先執行廠商的解除安裝程式：它知道Peel只能猜測的部分。"
+          }
+        }
+      }
+    },
+    "Run this brew for Homebrew?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spouštět pro Homebrew tento brew?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses brew für Homebrew ausführen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Ejecutar este brew para Homebrew?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécuter ce brew pour Homebrew ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi eseguire questo brew per Homebrew?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このbrewをHomebrewとして実行しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew용으로 이 brew를 실행하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze brew voor Homebrew uitvoeren?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchamiać ten program brew dla Homebrew?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Executar este brew para o Homebrew?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați acest brew pentru Homebrew?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускать этот brew для Homebrew?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du köra den här brew för Homebrew?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew için bu brew çalıştırılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускати цей brew для Homebrew?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要为Homebrew运行此brew吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要為Homebrew執行這個brew嗎？"
           }
         }
       }
@@ -138717,6 +139777,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在升級⋯"
+          }
+        }
+      }
+    },
+    "Use It" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použít"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usalo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți‑l"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd den"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullan"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Використовувати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
+        }
+      }
+    },
+    "Use the Usual Places" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použít obvyklá místa"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übliche Orte verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar las carpetas habituales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser les emplacements habituels"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa le cartelle abituali"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通常の場所を使用"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기본 위치 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de standaardmappen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szukaj w zwykłych miejscach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar os Locais Habituais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți locurile obișnuite"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать обычные папки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd de vanliga platserna"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olağan Yerleri Kullan"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Використовувати звичні місця"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用常规位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用常用位置"
           }
         }
       }
