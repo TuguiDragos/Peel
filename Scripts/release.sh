@@ -103,7 +103,8 @@ do
     [ -e "$binary" ] || { echo "   REFUSED: $binary is not there"; exit 1; }
     codesign -d --verbose=2 "$binary" 2>&1 | grep -E "Authority|TeamIdentifier|Timestamp|flags" || true
     # Stop if `codesign` cannot read the binary, since its entitlements then cannot be checked.
-    entitlements="$(codesign -d --entitlements - --xml "$binary" 2>/dev/null)" || { echo "   REFUSED: codesign cannot read $binary"; exit 1; }
+    entitlements="$(codesign -d --entitlements - --xml "$binary" 2>/dev/null)" \
+        || { echo "   REFUSED: codesign cannot read $binary"; exit 1; }
     # Nothing that ships may be debuggable: `get-task-allow` lets any process of the same user take control of it.
     # Read whole before it is searched: with `pipefail`, a `grep -q` that stops at its match could end `plutil` with
     # SIGPIPE and turn the match into a pass. A binary with no entitlements prints nothing, which passes.
@@ -132,10 +133,12 @@ echo "Every binary: arm64e, arm64, x86_64"
 echo "== Languages"
 # Every language in the project's `knownRegions` (besides `en` and `Base`) must ship in the app and in the Finder
 # extension. Without this check, a language missing from the build would quietly fall back to English.
-languages=(${(f)"$(sed -n '/knownRegions = (/,/);/p' Peel.xcodeproj/project.pbxproj | tr -d ' \t,;"' | grep -vE '^(knownRegions=\(|\)|en|Base)$')"})
+languages=(${(f)"$(sed -n '/knownRegions = (/,/);/p' Peel.xcodeproj/project.pbxproj | tr -d ' \t,;"' \
+    | grep -vE '^(knownRegions=\(|\)|en|Base)$')"})
 for language in $languages; do
     for bundle in "$app" "$app/Contents/PlugIns/PeelFinder.appex"; do
-        [ -d "$bundle/Contents/Resources/$language.lproj" ] || { echo "REFUSED: $bundle has no $language.lproj"; exit 1; }
+        [ -d "$bundle/Contents/Resources/$language.lproj" ] \
+            || { echo "REFUSED: $bundle has no $language.lproj"; exit 1; }
     done
 done
 echo "${#languages} languages besides English: $languages"
@@ -164,7 +167,8 @@ ditto -c -k --keepParent "$app" "$final"
 
 echo "== Disk image"
 # Signed with the identity that signed the app, then notarized and stapled itself, so it opens without a warning.
-identity="$(codesign -d --verbose=2 "$app" 2>&1 | sed -n 's/^Authority=\(Developer ID Application: .*\)$/\1/p' | head -1)"
+identity="$(codesign -d --verbose=2 "$app" 2>&1 \
+    | sed -n 's/^Authority=\(Developer ID Application: .*\)$/\1/p' | head -1)"
 [ -n "$identity" ] || { echo "REFUSED: the app's Developer ID identity could not be read"; exit 1; }
 image="$build/Peel-$version.dmg"
 zsh Scripts/make_dmg.sh "$app" "$image"
