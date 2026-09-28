@@ -43,6 +43,12 @@ public struct Hitches: Sendable {
         shortestPeriod = min(shortestPeriod ?? period, period)
     }
 
+    /// Marks a stretch the display asked for no frames, as for a window out of sight: the next frame starts afresh
+    /// instead of counting the wait as frames missed.
+    public mutating func pause() {
+        lastFrame = nil
+    }
+
     public var report: [String] {
         let runLoop = String(format: "run loop: %ld turns, longest %.1f ms, %ld over one frame",
                              turns, longestTurn * 1000, turnsOverAFrame)

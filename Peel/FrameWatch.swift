@@ -18,6 +18,7 @@ final class FrameWatch: NSObject {
     private var link: CADisplayLink?
     private var observer: CFRunLoopObserver?
     private var request: (any DispatchSourceSignal)?
+    private var sight: (any NSObjectProtocol)?
     private var hasDrawn = false
 
     private init(file: URL) {
@@ -30,6 +31,13 @@ final class FrameWatch: NSObject {
         let link = view.displayLink(target: self, selector: #selector(frame(_:)))
         link.add(to: .main, forMode: .common)
         self.link = link
+        // The display asks no frames for a window out of sight (minimized, hidden, or covered), which is no hitch.
+        sight = NotificationCenter.default.addObserver(
+            forName: NSWindow.didChangeOcclusionStateNotification, object: view.window, queue: .main
+        ) { [weak self] note in
+            guard let window = note.object as? NSWindow, !window.occlusionState.contains(.visible) else { return }
+            MainActor.assumeIsolated { self?.hitches.pause() }
+        }
         guard observer == nil else { return }
         watchTheMainThread()
         reportWhenAsked()
@@ -38,6 +46,8 @@ final class FrameWatch: NSObject {
     fileprivate func stop() {
         link?.invalidate()
         link = nil
+        sight.map(NotificationCenter.default.removeObserver)
+        sight = nil
     }
 
     @objc private func frame(_ link: CADisplayLink) {

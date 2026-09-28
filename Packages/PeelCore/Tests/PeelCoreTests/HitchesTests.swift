@@ -54,6 +54,18 @@ struct HitchesTests {
         #expect(hitches.report.last == "frames: 3 callbacks, period 8.33 ms, worst gap 16.7 ms, 0 missed")
     }
 
+    /// A window that cannot be seen gets no frames, and the wait is not frames missed: after a pause the next
+    /// frame starts afresh. A gap nothing paused, such as a busy main thread, still counts.
+    @Test func aWindowOutOfSightMissesNothing() {
+        var hitches = Hitches()
+        hitches.frame(at: 0, due: 0.010)
+        hitches.pause()
+        hitches.frame(at: 60, due: 60.010)
+        hitches.frame(at: 60.040, due: 60.050)
+
+        #expect(hitches.report.last == "frames: 3 callbacks, period 10.00 ms, worst gap 40.0 ms, 3 missed")
+    }
+
     @Test func aWindowTheDisplayNeverAskedForSaysSo() {
         #expect(Hitches().report == ["run loop: 0 turns, longest 0.0 ms, 0 over one frame", "frames: 0 callbacks"])
     }
