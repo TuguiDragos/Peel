@@ -509,7 +509,11 @@ struct UpdatesCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "updates",
         abstract: "Check installed apps for updates.",
-        discussion: "Peel reads the settings of the Peel app: which source it prefers, which apps it was told to leave alone, and which versions were skipped. Nothing is installed; apps with no feed are left out."
+        discussion: """
+            Peel reads the settings of the Peel app: which source it prefers, which apps it was told to leave alone, \
+            and which versions were skipped. Nothing is installed; apps with no feed are left out unless --all is \
+            given.
+            """
     )
 
     @Flag(help: "Show every app, not only those with an update.")
@@ -528,11 +532,11 @@ struct UpdatesCommand: AsyncParsableCommand {
             case availableVersion
         }
 
-        init(app: InstalledApp, status: UpdateStatus) {
+        init(app: InstalledApp, status: UpdateStatus, isWaiting: Bool) {
             self.app = AppRecord(app)
             switch status {
             case .updateAvailable(let version, _, _):
-                self.status = "updateAvailable"
+                self.status = isWaiting ? "updateAvailable" : "skipped"
                 availableVersion = version
             case .upToDate:
                 self.status = "upToDate"
@@ -600,9 +604,14 @@ struct UpdatesCommand: AsyncParsableCommand {
         let report = Self.report(apps: apps, statuses: statuses, preferences: preferences, all: all)
 
         if output.json {
-            try Output.json(report.rows.map { Record(app: $0.app, status: $0.status) })
+            try Output.json(report.rows.map { row in
+                Record(app: row.app, status: row.status, isWaiting: preferences.isWaiting(row.status, for: row.app))
+            })
         } else if !report.rows.isEmpty {
-            Output.table([["NAME", "INSTALLED", "STATUS"]] + report.rows.map { [$0.app.name, $0.app.version ?? "", Self.summary($0.status)] })
+            Output.table([["NAME", "INSTALLED", "STATUS"]] + report.rows.map { row in
+                let summary = Self.summary(row.status, isWaiting: preferences.isWaiting(row.status, for: row.app))
+                return [row.app.name, row.app.version ?? "", summary]
+            })
         } else {
             Output.line("Every app with an update feed is up to date.")
         }
@@ -621,9 +630,11 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
-    static func summary(_ status: UpdateStatus) -> String {
+    /// The status as the table writes it. An update the person skipped in the app reads as skipped.
+    static func summary(_ status: UpdateStatus, isWaiting: Bool) -> String {
         switch status {
-        case .updateAvailable(let version, _, _): "\(version) available"
+        case .updateAvailable:
+            "\(status.displayVersion ?? "") \(isWaiting ? "available" : "skipped")"
         case .upToDate: "up to date"
         case .unsupported: "can't check"
         case .failed: "check failed"

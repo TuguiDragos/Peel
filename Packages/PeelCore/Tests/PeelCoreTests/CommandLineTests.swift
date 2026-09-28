@@ -647,7 +647,15 @@ struct CommandLineTests {
     /// `--all` lists an app Peel can't check as the app does. "No update feed" was wrong for an app that came with
     /// macOS, an App Store app with no Mac version to read, and an app whose bundle names no version.
     @Test func saysAnAppItCannotCheckCannotBeChecked() {
-        #expect(UpdatesCommand.summary(.unsupported) == "can't check")
+        #expect(UpdatesCommand.summary(.unsupported, isWaiting: false) == "can't check")
+    }
+
+    /// The version reads as the app shows it, without what Homebrew adds for the download after a comma, and a
+    /// version skipped in the app reads as skipped, never as available.
+    @Test func showsTheVersionAsTheAppDoesAndASkippedOneAsSkipped() {
+        let update = UpdateStatus.updateAvailable(version: "26.10.22,802", source: .homebrew, releaseNotes: nil)
+        #expect(UpdatesCommand.summary(update, isWaiting: true) == "26.10.22 available")
+        #expect(UpdatesCommand.summary(update, isWaiting: false) == "26.10.22 skipped")
     }
 
     /// The same rule the app follows: an app the user told Peel to leave alone is not checked, and a skipped
