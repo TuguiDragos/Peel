@@ -45,6 +45,8 @@ struct PackageReceiptSection: View {
     @State private var filesOutside: [PackageReceipt.ID: [PackageReceipt.Item]] = [:]
     @State private var receiptToForget: PackageReceipt?
     @State private var isForgetting = false
+    /// The revision of the exclusions the last load read, nil before the first.
+    @State private var loadedUnder: Int?
 
     var body: some View {
         Group {
@@ -62,12 +64,14 @@ struct PackageReceiptSection: View {
             }
         }
         .task(id: app.id) { await load() }
-        .rescanOnExclusionChange("VendorNotes") { await load() }
+        .rescanOnExclusionChange(scannedUnder: loadedUnder) { await load() }
         .forgetReceiptDialog(for: $receiptToForget, forget: forget)
     }
 
     private func load() async {
+        let revision = ExclusionsStore.shared.revision
         (receipts, filesOutside) = await Self.receipts(of: app, exclusions: ExclusionsStore.shared.exclusions)
+        loadedUnder = revision
     }
 
     @concurrent

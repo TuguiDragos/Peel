@@ -64,19 +64,24 @@ final class BulkRemovalPlan {
         bulk?.staying(selected: selectedURLs) ?? []
     }
 
+    /// The revision of the exclusions the last scan read, nil before the first.
+    private(set) var exclusionsRevision: Int?
+
     func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
         self.canUseHelper = canUseHelper
         let apps = apps
-        guard let result = await scanRun.run({
-            await BulkUninstallation.prepare(
+        guard let (result, revision) = await scanRun.run({
+            let revision = ExclusionsStore.shared.revision
+            return (await BulkUninstallation.prepare(
                 apps,
                 installedApps: installedApps,
                 exclusions: ExclusionsStore.shared.exclusions,
                 casks: casks,
                 receipts: receipts
-            )
+            ), revision)
         }) else { return }
         bulk = result
+        exclusionsRevision = revision
         self.installedApps = installedApps
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
     }

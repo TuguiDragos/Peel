@@ -81,7 +81,7 @@ struct AppDetailView: View {
         .task(id: plan.app.url) {
             hasDockTile = !(await DockTiles().holding([plan.app.url])).isEmpty
         }
-        .rescanOnExclusionChange("AppDetailView") { await rescan() }
+        .rescanOnExclusionChange(scannedUnder: plan.exclusionsRevision) { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
             plan.follow(canUseHelper: canAct)
         }

@@ -88,10 +88,14 @@ final class RemovalPlan {
     /// What a checkbox can select now.
     var selectable: Set<URL> { choices.selectable }
 
+    /// The revision of the exclusions the last scan read, nil before the first.
+    private(set) var exclusionsRevision: Int?
+
     func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
         self.canUseHelper = canUseHelper
         let app = app
-        guard let (result, bundle) = await scanRun.run({
+        guard let (result, bundle, revision) = await scanRun.run({
+            let revision = ExclusionsStore.shared.revision
             let result = await Uninstallation.prepare(
                 app,
                 installedApps: installedApps,
@@ -99,9 +103,10 @@ final class RemovalPlan {
                 casks: casks,
                 receipts: receipts
             )
-            return (result, await Self.look(inside: app))
+            return (result, await Self.look(inside: app), revision)
         }) else { return }
         uninstallation = result
+        exclusionsRevision = revision
         let leftovers = result.scan.leftovers
         recommended = leftovers.filter(\.match.isRecommended)
         needsReview = leftovers.filter { !$0.match.isRecommended }

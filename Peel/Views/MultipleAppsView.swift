@@ -136,7 +136,7 @@ struct MultipleAppsView: View {
         .task(id: plan.apps.map(\.url)) {
             appsInTheDock = await DockTiles().holding(plan.apps.map(\.url))
         }
-        .rescanOnExclusionChange("MultipleAppsView") { await rescan() }
+        .rescanOnExclusionChange(scannedUnder: plan.exclusionsRevision) { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
             plan.follow(canUseHelper: canAct)
         }
