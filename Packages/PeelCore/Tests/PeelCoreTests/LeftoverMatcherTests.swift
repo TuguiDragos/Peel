@@ -413,7 +413,7 @@ struct LeftoverMatcherTests {
         let serum = app("com.xferrecords.serum", name: "Serum")
         for name in [
             "Serum.vst3", "Serum.vst", "Serum.component", "Serum.clap", "Serum.saver", "Serum.aaxplugin", "Serum.action",
-            "Serum.dictionary",
+            "Serum.dictionary", "Serum.appex", "Serum.prefPane", "Serum.colorPicker", "Serum.kext", "Serum.fs",
         ] {
             let found = try #require(match(name, in: .plugIns, for: serum), "\(name)")
             #expect(found.reason == .name, "\(name)")

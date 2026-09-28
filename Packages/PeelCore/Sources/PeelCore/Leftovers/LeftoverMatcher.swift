@@ -137,20 +137,14 @@ struct LeftoverMatcher: Sendable {
         }
     }
 
-    /// The extensions that say a plug-in's kind, listed one by one rather than cutting the name at its last dot:
-    /// an unknown kind is missed, never given to the wrong app.
-    private static let plugInExtensions = [
-        ".component", ".vst3", ".vst", ".clap", ".driver", ".plugin", ".webplugin", ".bundle", ".mailbundle",
-        ".prefPane", ".qlgenerator", ".saver", ".qtz", ".mdimporter", ".service", ".workflow", ".colorPicker",
-        ".menu", ".inputmethod", ".app", ".aaxplugin", ".dictionary", ".action", ".kext", ".fs",
-    ]
+    /// The extensions that say a plug-in's kind: the Plug-ins tool's own table, so the two cannot drift, and a
+    /// driver's and a file system's (`SearchEnvironment.systemCodeFolders`). A name is cut only at one of these,
+    /// never at any last dot: an unknown kind is missed, never given to the wrong app.
+    private static let plugInExtensions = Set(Plugins.extensions.values.joined()).union(["kext", "fs"])
 
     static func withoutPlugInExtension(_ fileName: String) -> String {
-        for suffix in plugInExtensions {
-            let trimmed = fileName.removingSuffix(suffix)
-            if trimmed != fileName { return trimmed }
-        }
-        return fileName
+        let name = fileName as NSString
+        return plugInExtensions.contains(name.pathExtension.lowercased()) ? name.deletingPathExtension : fileName
     }
 
     /// "com.example.app.0A1B2C3D-…" → "com.example.app"
