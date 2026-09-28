@@ -142,6 +142,19 @@ struct AppDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             }
+            if let change = library.teamChanges[plan.app.bundleIdentifier] {
+                Notice(
+                    title: change.current.isEmpty ? Text("No developer signs this app anymore") : Text("This app is signed by someone else now"),
+                    detail: change.current.isEmpty
+                        ? Text("It was first seen signed by \(change.previous). A copy someone has changed looks like this, and so does one built from source.")
+                        : Text("It was first seen signed by \(change.previous), and is signed by \(change.current) now."),
+                    kind: .caution,
+                    systemImage: "exclamationmark.shield.fill"
+                ) {
+                    Button("Got It") { Task { await library.acknowledgeTeamChange(for: plan.app) } }
+                }
+                .listRowSeparator(.hidden)
+            }
             if let scan = plan.scan {
                 if !scan.unreadableLocations.isEmpty {
                     FullDiskAccessBanner()
@@ -159,20 +172,6 @@ struct AppDetailView: View {
                 }
 
                 Group {
-                    if let change = library.teamChanges[plan.app.bundleIdentifier] {
-                        Notice(
-                            title: change.current.isEmpty ? Text("No developer signs this app anymore") : Text("This app is signed by someone else now"),
-                            detail: change.current.isEmpty
-                                ? Text("It was first seen signed by \(change.previous). A copy someone has changed looks like this, and so does one built from source.")
-                                : Text("It was first seen signed by \(change.previous), and is signed by \(change.current) now."),
-                            kind: .caution,
-                            systemImage: "exclamationmark.shield.fill"
-                        ) {
-                            Button("Got It") { Task { await library.acknowledgeTeamChange(for: plan.app) } }
-                        }
-                        .listRowSeparator(.hidden)
-                    }
-
                     SystemExtensionNotice(app: plan.app, extensions: plan.systemExtensions)
                         .listRowSeparator(.hidden)
 
