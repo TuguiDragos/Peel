@@ -6,6 +6,7 @@ struct HomebrewDetailView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var isConfirmingUninstall = false
+    @State private var isConfirmingUpgrade = false
     let package: HomebrewPackage
 
     var body: some View {
@@ -89,7 +90,7 @@ struct HomebrewDetailView: View {
                             CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
                         } else {
                             Button("Upgrade", systemImage: "arrow.down.circle") {
-                                Task { await homebrew.run(.upgrade(package.id)) }
+                                isConfirmingUpgrade = true
                             }
                             .buttonStyle(.borderedProminent)
                             .disabled(package.isPinned)
@@ -130,6 +131,13 @@ struct HomebrewDetailView: View {
         .formStyle(.grouped)
         .navigationTitle(package.name)
         .toolbar(removing: .title)
+        // Asked first, as Upgrade All is: an upgrade can run for a long time while Homebrew builds on this Mac.
+        .confirmationDialog("Upgrade \(package.name)?", isPresented: $isConfirmingUpgrade) {
+            Button("Upgrade") { Task { await homebrew.run(.upgrade(package.id)) } }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
+        }
         .confirmationDialog("Uninstall \(package.name)?", isPresented: $isConfirmingUninstall) {
             Button("Uninstall", role: .destructive) {
                 // Checks again, since the exclusions can change while the dialog is open.
