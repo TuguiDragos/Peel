@@ -38,8 +38,27 @@ public enum PrivilegedHelper {
     /// Unregisters the helper and registers it again. `SMAppService` refuses to register a service that is
     /// already registered, so a helper left by an older version of Peel can only be replaced this way.
     public static func repair() async throws {
-        try? await service.unregister()
-        try service.register()
+        var unregistering: (any Error)?
+        do {
+            try await service.unregister()
+        } catch {
+            unregistering = error
+        }
+        do {
+            try service.register()
+        } catch {
+            throw repairFailure(registering: error, afterUnregistering: unregistering)
+        }
+    }
+
+    /// Why a repair failed. A helper that could not be unregistered is still registered, and registering it again
+    /// only answers `kSMErrorAlreadyRegistered`, so the reason is what unregistering answered.
+    static func repairFailure(registering: any Error, afterUnregistering unregistering: (any Error)?) -> any Error {
+        let failure = registering as NSError
+        guard let unregistering, failure.domain == SMAppServiceErrorDomain,
+              failure.code == Int(kSMErrorAlreadyRegistered)
+        else { return registering }
+        return unregistering
     }
 
     /// True when this account is an administrator. The helper's Mach service can be reached from every account
