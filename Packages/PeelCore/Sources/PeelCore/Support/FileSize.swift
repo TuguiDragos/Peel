@@ -35,6 +35,11 @@ public enum FileSize {
     /// large folder. A folder that never answers costs this wait once and is not asked again.
     public static let budget: TimeInterval = 8
 
+    /// How long an answer that landed after its question gave up is handed to the next one. Long enough for a
+    /// question asked again soon after, as Applications asks again for an app it could not measure, and short
+    /// enough that no scan is fed a folder as it was long before.
+    static let lateAnswerLife = Duration.seconds(60)
+
     /// How a scanner asks for a size. Tests hand in their own, to stand in for a folder that does not answer.
     typealias Measure = @Sendable (URL) async -> Int64?
 
@@ -71,12 +76,15 @@ public enum FileSize {
     ) -> FolderContents?
 
     @concurrent
-    static func contents(of url: URL, within budget: TimeInterval, walking: @escaping Walker) async -> FolderContents? {
+    static func contents(
+        of url: URL, within budget: TimeInterval, walking: @escaping Walker,
+        keepingLateAnswersFor life: Duration = lateAnswerLife
+    ) async -> FolderContents? {
         guard let folder = folderToWalk(url) else { return immediateContents(of: url) }
         // A canceled task starts no walk.
         guard !Task.isCancelled else { return nil }
         let answer: Answer
-        switch Walks.ask(about: folder) {
+        switch Walks.ask(about: folder, keepingLateAnswersFor: life) {
         case .answered(let contents):
             return contents
         case .wait(let shared, let isNew):
@@ -271,7 +279,7 @@ private enum Walks {
     enum Entry {
         case walking(Answer)
         case abandoned(Answer)
-        case landed(FolderContents)
+        case landed(FolderContents, at: ContinuousClock.Instant)
     }
 
     enum Asked {
@@ -282,12 +290,13 @@ private enum Walks {
     private static let entries = Mutex<[String: Entry]>([:])
 
     /// Returns a known answer, or the walk to wait for (`isNew` when the caller has to start it). An answer
-    /// that landed late is handed over once, and the question after that walks the folder again.
-    static func ask(about folder: URL) -> Asked {
+    /// that landed late is handed over once, and only within `life` of landing; the question after that walks
+    /// the folder again.
+    static func ask(about folder: URL, keepingLateAnswersFor life: Duration) -> Asked {
         entries.withLock { entries in
             let path = PathPattern.comparablePath(of: folder)
             switch entries[path] {
-            case .landed(let contents):
+            case .landed(let contents, let landed) where ContinuousClock.now - landed <= life:
                 entries[path] = nil
                 return .answered(contents)
             case .abandoned:
@@ -295,7 +304,7 @@ private enum Walks {
             case .walking(let answer):
                 answer.join()
                 return .wait(answer, isNew: false)
-            case nil:
+            case .landed, nil:
                 let answer = Answer()
                 answer.join()
                 entries[path] = .walking(answer)
@@ -351,7 +360,7 @@ private enum Walks {
             }
             answer.give(contents)
             // With nobody left to take it, it is kept for whoever asks next.
-            if isCurrent, !answer.isAwaited { entries[path] = .landed(contents) }
+            if isCurrent, !answer.isAwaited { entries[path] = .landed(contents, at: .now) }
         }
     }
 }

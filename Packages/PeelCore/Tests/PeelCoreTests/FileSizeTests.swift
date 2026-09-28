@@ -312,6 +312,37 @@ struct FileSizeTests {
         #expect(ContinuousClock.now - asked < .seconds(4), "the question waited on the walk that was stopped")
     }
 
+    /// A late answer describes the folder as it was when the walk ended. It is handed over while that is recent,
+    /// and a question after that walks the folder again: a rescan an hour later is never fed the old size and date.
+    @Test func aLateAnswerIsHandedOverOnlyWhileItIsRecent() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("late")
+        try directory.file("late/a.bin", bytes: 4_096)
+        let walks = Mutex(0)
+        let walking: FileSize.Walker = { url, scan, isStopped in
+            defer { walks.withLock { $0 += 1 } }
+            return FileSize.walk(url, countingFor: scan, unless: isStopped)
+        }
+        func ask(within budget: TimeInterval, keepingLateAnswersFor life: Duration) async -> FolderContents? {
+            await FileSize.contents(of: folder, within: budget, walking: walking, keepingLateAnswersFor: life)
+        }
+        func landALateAnswer() async throws {
+            let before = walks.withLock { $0 }
+            #expect(await ask(within: 0, keepingLateAnswersFor: .zero) == nil)
+            while walks.withLock({ $0 }) == before { try await Task.sleep(for: .milliseconds(5)) }
+            try await Task.sleep(for: .milliseconds(50))
+        }
+
+        try await landALateAnswer()
+        #expect(await ask(within: 5, keepingLateAnswersFor: .seconds(60)) != nil)
+        #expect(walks.withLock { $0 } == 1, "a recent answer was walked for again")
+
+        try await landALateAnswer()
+        try await Task.sleep(for: .milliseconds(100))
+        #expect(await ask(within: 5, keepingLateAnswersFor: .milliseconds(50)) != nil)
+        #expect(walks.withLock { $0 } == 3, "an old answer was handed over")
+    }
+
     /// A walk nobody wants anymore stops at the next entry instead of reading the folder to its end.
     @Test func aWalkNobodyWantsStopsWhereItIs() throws {
         let directory = try TemporaryDirectory()
