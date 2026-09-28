@@ -9,8 +9,12 @@ public enum PackageActions {
     /// folder (empty, starting with `.`, or holding a `/`) gets no files.
     static func receiptFiles(of identifier: String, onVolume volume: URL) -> [URL] {
         guard !identifier.isEmpty, !identifier.hasPrefix("."), !identifier.contains("/") else { return [] }
-        let folder = volume.appending(path: "private/var/db/receipts", directoryHint: .isDirectory)
-        return ["bom", "plist"].map { folder.appending(path: identifier + "." + $0) }.filter(\.isThere)
+        return ["bom", "plist"].map { receiptsFolder(onVolume: volume).appending(path: identifier + "." + $0) }
+            .filter(\.isThere)
+    }
+
+    private static func receiptsFolder(onVolume volume: URL) -> URL {
+        volume.appending(path: "private/var/db/receipts", directoryHint: .isDirectory)
     }
 
     /// Moves the receipt to the Trash, so macOS stops counting the package as installed and History can put
@@ -24,7 +28,9 @@ public enum PackageActions {
     static func forget(_ receipt: PackageReceipt, through service: TrashService) async -> TrashResult {
         let files = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
         guard !files.isEmpty else {
-            return TrashResult(failures: [TrashFailure(url: receipt.volume, reason: .failed(Self.misplacedReceipt))])
+            // Named by the file macOS would keep, so the failure says which receipt rather than which disk.
+            let missing = receiptsFolder(onVolume: receipt.volume).appending(path: receipt.identifier + ".plist")
+            return TrashResult(failures: [TrashFailure(url: missing, reason: .failed(Self.misplacedReceipt))])
         }
         return await service.trash(files, usingHelperFor: Set(files))
     }

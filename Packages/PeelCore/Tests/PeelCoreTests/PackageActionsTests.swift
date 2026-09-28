@@ -59,7 +59,8 @@ struct PackageActionsTests {
         #expect(result.failures.isEmpty)
     }
 
-    /// A receipt that is not there is a failure the user is told about, not a silent success.
+    /// A receipt that is not there is a failure the user is told about, not a silent success, and it names the
+    /// receipt rather than the disk it was looked for on.
     @Test func aReceiptThatIsNotThereIsAFailure() async throws {
         let directory = try TemporaryDirectory()
         let service = TrashService(
@@ -70,6 +71,6 @@ struct PackageActionsTests {
         let result = await PackageActions.forget(receipt("com.example.gone", on: directory.url), through: service)
 
         #expect(result.trashed.isEmpty)
-        #expect(!result.failures.isEmpty)
+        #expect(result.failures.map(\.url.lastPathComponent) == ["com.example.gone.plist"])
     }
 }

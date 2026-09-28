@@ -5,12 +5,12 @@ import SwiftUI
 /// the app it installed. The receipt goes to the Trash and is recorded in History, like any other removal.
 struct ForgetReceiptDialog: ViewModifier {
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(RemovalOutcome.self) private var outcome
     @Binding var receipt: PackageReceipt?
     /// Forgets the receipt, records it with the closure it is given, then scans the receipts again, keeping its page
     /// busy until all three are done. History is written first, because a scan can take a while and History is how
     /// the user puts the receipt back.
     let forget: (PackageReceipt, _ record: (TrashResult) async -> Void) async -> TrashResult
-    @State private var failure: String?
 
     func body(content: Content) -> some View {
         content
@@ -24,19 +24,12 @@ struct ForgetReceiptDialog: ViewModifier {
                             }
                             await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
                         }
-                        if !result.failures.isEmpty {
-                            failure = result.failures.map { $0.url.abbreviatedPath }.joined(separator: "\n")
-                        }
+                        outcome.report(result)
                     }
                 }
                 Button("Cancel", role: .cancel) {}
             } message: { _ in
                 Text("The receipt goes to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is.")
-            }
-            .alert("The receipt couldn’t be moved to the Trash.", isPresented: isShowingFailure) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(verbatim: failure ?? "")
             }
     }
 
@@ -44,13 +37,6 @@ struct ForgetReceiptDialog: ViewModifier {
         Binding(
             get: { receipt != nil },
             set: { if !$0 { receipt = nil } }
-        )
-    }
-
-    private var isShowingFailure: Binding<Bool> {
-        Binding(
-            get: { failure != nil },
-            set: { if !$0 { failure = nil } }
         )
     }
 }
