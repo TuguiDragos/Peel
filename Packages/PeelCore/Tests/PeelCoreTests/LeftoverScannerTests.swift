@@ -69,6 +69,26 @@ struct LeftoverScannerTests {
     /// Another copy of an app that macOS knows outside the Applications folders uses the same files. Every Mac has one
     /// of the character palette in its input methods folder, so a copy of it in Applications shares its settings, and
     /// that copy is counted once when the list of apps holds it too.
+    /// A preference file whose bytes are not a property list holds settings nobody can read, so its row says so. A
+    /// file that reads as one does not.
+    @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        try directory.file("home/Library/Preferences/org.example.hexachord.plist", contents: Data("<plist".utf8))
+        let fine = try PropertyListSerialization.data(fromPropertyList: ["Volume": 3], format: .binary, options: 0)
+        try directory.file("home/Library/Preferences/org.example.hexachord.helper.plist", contents: fine)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let damaged = scan.leftovers.filter(\.holdsDamagedSettings).map(\.url.lastPathComponent)
+        #expect(damaged == ["org.example.hexachord.plist"])
+        #expect(scan.leftovers.contains { $0.url.lastPathComponent == "org.example.hexachord.helper.plist" })
+    }
+
     @Test func aCopyMacOSKnowsElsewhereSharesTheAppsFiles() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Preferences/com.apple.CharacterPaletteIM.plist", bytes: 4096)

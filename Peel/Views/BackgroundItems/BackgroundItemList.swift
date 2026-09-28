@@ -127,7 +127,12 @@ private struct BackgroundItemRow: View {
                 Text(item.label)
                     .lineLimit(1)
                     .truncationMode(.middle)
-                if item.isOrphan {
+                if item.isUnreadable {
+                    WarningLabel(title: Text("macOS can’t load this file"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                } else if item.isOrphan {
                     WarningLabel(title: Text("Nothing left to run"))
                         .font(.caption)
                         .foregroundStyle(.secondary)

@@ -129,7 +129,15 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            if item.state == .unknown {
+            if item.isUnreadable {
+                Section {
+                    Notice(
+                        title: Text("macOS can’t load this file"),
+                        detail: Text("It can’t be read as a property list, or it names no job, so macOS never loads it and nothing runs from it."),
+                        kind: .note
+                    ) {}
+                }
+            } else if item.state == .unknown {
                 Section {
                     Notice(
                         title: Text("Peel can’t tell whether this runs"),
@@ -238,7 +246,7 @@ struct BackgroundItemDetailView: View {
                     .help(Text(verbatim: item.label))
                 FlowLayout(spacing: 6) {
                     stateBadge
-                    if item.isOrphan {
+                    if item.isOrphan, !item.isUnreadable {
                         NoteBadge(
                             title: Text("Nothing left to run"), systemImage: "questionmark.circle", tint: .orange,
                             name: String(localized: "Nothing left to run"),
@@ -275,10 +283,12 @@ struct BackgroundItemDetailView: View {
     }
 
     /// Start, Stop, Enable, and Disable, which Peel's own helper, a job under one of macOS's labels, a job whose
-    /// state Peel could not read, and a job loaded from a file elsewhere don't have. Disabled, that last one would
-    /// leave the list at the next logout or restart with nothing left to Enable it from.
+    /// state Peel could not read, a file macOS can't load, and a job loaded from a file elsewhere don't have.
+    /// Disabled, that last one would leave the list at the next logout or restart with nothing left to Enable it
+    /// from.
     private var hasOwnControls: Bool {
         !item.isPeelsHelper && !item.usesALabelOfMacOS && item.state != .unknown && item.source != .otherFile
+            && !item.isUnreadable
     }
 
     private var controls: some View {

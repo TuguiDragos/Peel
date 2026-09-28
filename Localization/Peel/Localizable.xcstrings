@@ -16976,6 +16976,112 @@
         }
       }
     },
+    "Can’t be read as a property list, so nothing can read these settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nelze ho přečíst jako seznam vlastností, takže tato nastavení nedokáže přečíst nic."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kann nicht als Eigenschaftsliste gelesen werden, daher kann nichts diese Einstellungen lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se puede leer como lista de propiedades, así que nada puede leer estos ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier ne peut pas être lu comme une liste de propriétés : rien ne peut donc lire ces réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non si può leggere come property list, quindi nessun programma può leggere queste impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロパティリストとして読み取れないため、この設定を読み取れるものはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "속성 목록으로 읽을 수 없으므로 어떤 프로그램도 이 설정을 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan niet als eigenschappenlijst worden gelezen, dus niets kan deze instellingen lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tego pliku nie można odczytać jako listy właściwości, więc nic nie odczyta tych ustawień."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não pode ser lido como lista de propriedades, por isso nada consegue ler estes ajustes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu poate fi citit ca listă de proprietăți, deci nimic nu poate citi aceste configurări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удается прочитать как список свойств, поэтому эти настройки не может прочитать ни одна программа."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan inte läsas som en egenskapslista, så ingenting kan läsa de här inställningarna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özellik listesi olarak okunamıyor, bu yüzden bu ayarları hiçbir şey okuyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл не вдається прочитати як список властивостей, тож ці налаштування ніщо не може прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法作为属性列表读取，因此任何程序都无法读取这些设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法讀取為屬性列表，因此沒有任何程式能讀取這些設定。"
+          }
+        }
+      }
+    },
     "Can’t check for updates" : {
       "localizations" : {
         "cs" : {
@@ -47307,6 +47413,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它隨附在App中，該App移除時它也會一併移除。"
+          }
+        }
+      }
+    },
+    "It can’t be read as a property list, or it names no job, so macOS never loads it and nothing runs from it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nelze ho přečíst jako seznam vlastností, nebo neuvádí žádnou úlohu, takže ho systém macOS nikdy nenačte a nic se z něj nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei kann nicht als Eigenschaftsliste gelesen werden oder nennt keinen Job, daher lädt macOS sie nie, und es wird nichts aus ihr ausgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se puede leer como lista de propiedades o no nombra ninguna tarea, así que macOS nunca lo carga y no se ejecuta nada desde él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne peut pas être lu comme une liste de propriétés, ou il ne désigne aucune tâche : macOS ne le charge donc jamais, et rien ne s’exécute à partir de ce fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non si può leggere come property list, oppure non indica alcun elemento, quindi macOS non lo carica mai e da esso non viene eseguito nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロパティリストとして読み取れないか、ジョブが指定されていないため、macOSがこのファイルを読み込むことはなく、このファイルから実行されるものもありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "속성 목록으로 읽을 수 없거나 작업을 지정하지 않으므로 macOS가 이 파일을 불러오지 않으며, 이 파일로 실행되는 것은 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het kan niet als eigenschappenlijst worden gelezen, of het noemt geen taak, dus macOS laadt het nooit en er wordt niets mee uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można go odczytać jako listy właściwości albo nie wskazuje żadnego zadania, więc macOS nigdy go nie wczytuje i nic z niego nie jest uruchamiane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não pode ser lido como lista de propriedades, ou não nomeia nenhuma tarefa, por isso o macOS nunca o carrega e nada é executado a partir dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu poate fi citit ca listă de proprietăți sau nu denumește nicio sarcină, deci macOS nu îl încarcă niciodată și nimic nu rulează din el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его не удается прочитать как список свойств, или в нем не указано задание, поэтому macOS никогда его не загружает и из него ничего не запускается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den kan inte läsas som en egenskapslista, eller så anger den inget jobb, så macOS läser aldrig in den och ingenting körs från den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özellik listesi olarak okunamıyor veya hiçbir iş belirtmiyor, bu yüzden macOS onu hiçbir zaman yüklemez ve ondan hiçbir şey çalışmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його не вдається прочитати як список властивостей, або в ньому не названо жодного завдання, тож macOS ніколи його не завантажує і з нього нічого не запускається."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它无法作为属性列表读取，或者没有指明任何任务，因此macOS从不载入它，也不会有任何内容从它运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法將它讀取為屬性列表，或它未指名任何工作，因此macOS永遠不會載入它，也不會從它執行任何東西。"
           }
         }
       }
@@ -153671,6 +153883,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS稱之為"
+          }
+        }
+      }
+    },
+    "macOS can’t load this file" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nemůže načíst tento soubor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kann diese Datei nicht laden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no puede cargar este archivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne peut pas charger ce fichier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non riesce a caricare questo file"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこのファイルを読み込めません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 파일을 불러올 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kan dit bestand niet laden"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie może wczytać tego pliku"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não consegue carregar este arquivo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu poate încărca acest fișier"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не может загрузить этот файл"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kan inte läsa in den här filen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu dosyayı yükleyemiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не може завантажити цей файл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS无法载入此文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法載入此檔案"
           }
         }
       }

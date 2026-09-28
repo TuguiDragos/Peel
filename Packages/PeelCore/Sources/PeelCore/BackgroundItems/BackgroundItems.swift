@@ -149,7 +149,10 @@ public enum BackgroundItems {
             for plist in plists(in: folder) where !exclusions.excludes(plist) {
                 // A label of macOS's own is shown too, and marked (`usesALabelOfMacOS`): macOS keeps its jobs
                 // elsewhere, so a file here that borrows one is somebody else's, and a common way to hide a job.
-                guard let job = JobDefinition(contentsOf: plist) else { continue }
+                guard let job = JobDefinition(contentsOf: plist) else {
+                    items.append(unreadable(plist, kind: kind, source: source, ownership: ownership))
+                    continue
+                }
                 let owner = ownership.owner(label: job.label, associated: job.associated, program: job.program)
                 items.append(BackgroundItem(
                     label: job.label,
@@ -170,6 +173,31 @@ public enum BackgroundItems {
             }
         }
         return items
+    }
+
+    /// A job file launchd can't load, named by its file since it declares no label that can be read.
+    private static func unreadable(
+        _ plist: URL, kind: BackgroundItem.Kind, source: BackgroundItem.Source, ownership: BackgroundItemOwnership
+    ) -> BackgroundItem {
+        let name = plist.deletingPathExtension().lastPathComponent
+        let owner = ownership.owner(label: name, associated: [], program: nil)
+        return BackgroundItem(
+            label: name,
+            kind: kind,
+            source: source,
+            plistURL: plist,
+            program: nil,
+            runsAtLoad: false,
+            keepsAlive: false,
+            ownerBundleIdentifier: owner?.bundleIdentifier,
+            ownerName: owner?.name,
+            isOwnerInstalled: owner?.isInstalled ?? false,
+            isOrphan: ownership.isOrphan(label: name, program: nil, owner: owner),
+            state: .notLoaded,
+            isDisabled: false,
+            isOwnerConfirmed: owner?.isConfirmed ?? false,
+            isUnreadable: true
+        )
     }
 
     private static func appSubmittedItem(

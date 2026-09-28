@@ -469,6 +469,15 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/org.example.gone.plist", contents: Data("<plist".utf8))
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.map(\.holdsDamagedSettings) == [true])
+    }
+
     /// An app Peel no longer lists has left only when the place it was can be looked at and it is not there. One on
     /// a disk that is not connected, or still in a folder Peel stopped looking in, is still installed, and its
     /// files are not orphaned.

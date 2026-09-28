@@ -128,6 +128,29 @@ struct DeclaredBackgroundItemsTests {
         )
     }
 
+    /// A file in these folders that can't be read as a job, not a property list or one without a `Label`, is one
+    /// launchd can't load. It is listed under its file name so it can be moved to the Trash, and nothing else is
+    /// offered for it.
+    @Test func listsAJobFileLaunchdCannotRead() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/LaunchAgents/org.example.broken.plist", contents: Data("<plist".utf8))
+        let noLabel = try PropertyListSerialization.data(fromPropertyList: ["RunAtLoad": true], format: .xml, options: 0)
+        try directory.file("home/Library/LaunchAgents/org.example.nolabel.plist", contents: noLabel)
+        try directory.file("home/Library/LaunchAgents/org.example.agent.plist", contents: job("org.example.agent"))
+
+        let ownership = BackgroundItemOwnership(installedApps: [])
+        let items = BackgroundItems.declared(in: environment(directory), ownership: ownership)
+
+        let unreadable = items.filter(\.isUnreadable).sorted { $0.label < $1.label }
+        #expect(unreadable.map(\.label) == ["org.example.broken", "org.example.nolabel"])
+        for item in unreadable {
+            #expect(item.state == .notLoaded)
+            #expect(item.canMoveToTrash)
+            #expect(item.program == nil)
+        }
+        #expect(items.filter { !$0.isUnreadable }.map(\.label) == ["org.example.agent"])
+    }
+
     /// macOS keeps its own jobs under `/System/Library` and `/Library/Apple/System/Library`, so a file in these
     /// folders that uses one of their labels, or any `com.apple.` label, is not macOS's. A label names a job only
     /// in its own domain, so such a copy runs beside the real one: it is listed, marked, and never acted on.
@@ -144,8 +167,10 @@ struct DeclaredBackgroundItemsTests {
 
         let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []))
 
-        #expect(items.map(\.label).sorted() == ["com.apple.madeup.peeltest", "com.example.agent", "com.example.helper", "com.openssh.ssh-agent", shipped].sorted())
-        for borrowed in items where borrowed.label != "com.example.agent" && borrowed.label != "com.example.helper" {
+        let jobs = items.filter { !$0.isUnreadable }
+        let labels = ["com.apple.madeup.peeltest", "com.example.agent", "com.example.helper", "com.openssh.ssh-agent", shipped]
+        #expect(jobs.map(\.label).sorted() == labels.sorted())
+        for borrowed in jobs where borrowed.label != "com.example.agent" && borrowed.label != "com.example.helper" {
             #expect(borrowed.usesALabelOfMacOS, "\(borrowed.label)")
             #expect(!borrowed.canMoveToTrash, "\(borrowed.label)")
             #expect(BackgroundItemActions.refusal(for: borrowed) != nil, "\(borrowed.label)")

@@ -350,7 +350,8 @@ public struct OrphanScanner: Sendable {
                 modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
                 requiresPrivileges: parent.requiresPrivileges(toRemove: url),
                 heldBack: heldBack,
-                namedAfter: namedAfter
+                namedAfter: namedAfter,
+                holdsDamagedSettings: location.kind == .preferences && PreferenceFile.isDamaged(url)
             )
             found.append((identifier, item))
         }

@@ -13,6 +13,8 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     public var heldBack: HoldBack?
     /// The bundle identifier of the app that left, when the item bears its name and nothing else ties the two.
     public var namedAfter: String?
+    /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
+    public var holdsDamagedSettings = false
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {

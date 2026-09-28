@@ -27,6 +27,8 @@ public struct BulkUninstallation: Sendable {
         public var isPeels = false
         /// An app's bundle already in the Trash. Shown, never selected, never counted.
         public var isInTheTrash = false
+        /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
+        public var holdsDamagedSettings = false
 
         public var id: URL { url }
         public var isApplication: Bool { match == nil }
@@ -139,7 +141,8 @@ public struct BulkUninstallation: Sendable {
                     isMeasured: existing.isMeasured || item.isMeasured,
                     isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
                     isPeels: existing.isPeels || item.isPeels,
-                    isInTheTrash: existing.isInTheTrash || item.isInTheTrash
+                    isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
+                    holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings
                 )
             } else {
                 byURL[item.url] = item
@@ -163,7 +166,8 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,
                     isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper,
-                    isPeels: uninstallation.isPeel
+                    isPeels: uninstallation.isPeel,
+                    holdsDamagedSettings: leftover.holdsDamagedSettings
                 ))
             }
             add(Item(

@@ -290,7 +290,8 @@ public struct LeftoverScanner: Sendable {
             match: heldBack.map(match.forReview) ?? match,
             size: contents?.size ?? 0,
             isMeasured: contents.map { !$0.couldNotBeRead } ?? false,
-            requiresPrivileges: parent.requiresPrivileges(toRemove: url)
+            requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+            holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url)
         )
     }
 

@@ -168,12 +168,17 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     /// False for what did not answer in time or could not be read: `size` is then zero and means nothing.
     public let isMeasured: Bool
     public let requiresPrivileges: Bool
+    /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
+    public var holdsDamagedSettings = false
 
     public var id: URL { url }
 
     /// Returns the same leftover, held back for `reason`: shown, but never selected.
     func heldBack(_ reason: HoldBack) -> Leftover {
-        Leftover(url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured, requiresPrivileges: requiresPrivileges)
+        Leftover(
+            url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
+            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings
+        )
     }
 }
 

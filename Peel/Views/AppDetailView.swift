@@ -581,6 +581,9 @@ struct AppDetailView: View {
         if let heldBack = leftover.match.heldBack {
             lines.append(String(localized: heldBack.explanation))
         }
+        if leftover.holdsDamagedSettings {
+            lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
+        }
         if plan.isPeel {
             lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
         }

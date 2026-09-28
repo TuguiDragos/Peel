@@ -41,6 +41,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public let isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
+    /// True for a file launchd can't load: not a property list, or one without a `Label`. It is named by its file,
+    /// and nothing but moving it is offered.
+    public var isUnreadable = false
 
     /// Includes the file's path, because two files can declare one label (a per-user copy beside the
     /// system-wide one), and each file needs a row of its own.

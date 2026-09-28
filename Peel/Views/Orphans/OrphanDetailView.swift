@@ -27,7 +27,7 @@ struct OrphanDetailView: View {
                         icon: .symbol(item.kind.symbolName),
                         detail: item.modificationDate.map { "Modified \($0, format: .relative(presentation: .named))" },
                         kind: item.kind.title,
-                        warning: item.heldBack.map { String(localized: $0.explanation) },
+                        warning: warning(for: item),
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
                         isLocked: item.requiresPrivileges && !helper.canAct,
@@ -56,7 +56,17 @@ struct OrphanDetailView: View {
     }
 
     private var hasNoteColumn: Bool {
-        group.items.contains { $0.modificationDate != nil || $0.heldBack != nil }
+        group.items.contains { $0.modificationDate != nil || warning(for: $0) != nil }
+    }
+
+    private func warning(for item: OrphanItem) -> String? {
+        let lines = [
+            item.heldBack.map { String(localized: $0.explanation) },
+            item.holdsDamagedSettings
+                ? String(localized: "Can’t be read as a property list, so nothing can read these settings.")
+                : nil,
+        ].compactMap(\.self)
+        return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
     /// The total size that can be moved to the Trash. Items Peel leaves alone are listed but not counted, as

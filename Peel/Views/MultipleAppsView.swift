@@ -231,6 +231,9 @@ struct MultipleAppsView: View {
         if let heldBack = item.match?.heldBack {
             lines.append(String(localized: heldBack.explanation))
         }
+        if item.holdsDamagedSettings {
+            lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
+        }
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
         }
