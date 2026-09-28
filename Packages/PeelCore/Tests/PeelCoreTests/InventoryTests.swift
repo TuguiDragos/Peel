@@ -24,7 +24,7 @@ struct InventoryTests {
     /// An app's update feed says where Peel asks about new versions, not where the app came from. Only the
     /// receipt inside the bundle says App Store.
     @Test func namesWhereEachAppCameFrom() {
-        let cask = HomebrewPackage(name: "bear", kind: .cask, appNames: ["Bear.app"])
+        let cask = HomebrewPackage(name: "bear", kind: .cask, installedVersion: "2.0", appNames: ["Bear.app"])
         let inventory = Inventory.build(
             apps: [
                 app("Bear", bundleIdentifier: "net.shinyfrog.bear"),
@@ -46,6 +46,25 @@ struct InventoryTests {
         #expect(sources["Sample"] == "Setapp", "Setapp keeps the app up to date, whatever feed it also carries")
         #expect(inventory.entries.first { $0.name == "Bear" }?.sourceDetail == "bear")
         #expect(inventory.entries.first { $0.name == "AdGuard" }?.sourceDetail == "https://example.com/appcast.xml")
+    }
+
+    @Test func onlyTheCopyHomebrewInstalledIsHomebrews() {
+        let cask = HomebrewPackage(
+            name: "sample", kind: .cask, installedVersion: "1.0",
+            appNames: ["Sample.app"], appTargets: ["/Applications/Sample.app"]
+        )
+        let homebrews = app("Sample", bundleIdentifier: "org.example.Sample")
+        let copy = InstalledApp(
+            url: URL(filePath: "/Users/Shared/Applications/Sample.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.Sample",
+            name: "Sample",
+            updateFeed: .sparkle(URL(string: "https://example.org/appcast.xml")!)
+        )
+
+        let entries = Inventory.build(apps: [homebrews, copy], casks: [cask]).entries
+
+        #expect(entries.first { $0.path == "/Applications/Sample.app" }?.source == "Homebrew")
+        #expect(entries.first { $0.path == "/Users/Shared/Applications/Sample.app" }?.source == "Sparkle")
     }
 
     /// For an app with no receipt, cask, or feed, the source is the download macOS recorded: the address a

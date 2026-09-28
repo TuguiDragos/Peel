@@ -65,7 +65,7 @@ public struct Inventory: Sendable {
     }
 
     static func entry(for app: InstalledApp, casks: [HomebrewPackage], origins: DownloadOrigins?) -> InventoryEntry {
-        let cask = CaskEvidence.cask(for: app, in: casks)
+        let cask = CaskEvidence.installedCask(for: app, in: casks)
         let (source, detail) = origin(of: app, cask: cask, origins: origins)
         return InventoryEntry(
             name: app.name,
