@@ -53,8 +53,16 @@ struct InventoryCommand: AsyncParsableCommand {
         guard chosen != .brewfile else {
             throw CommandFailure("Homebrew didn't answer, so there is nothing to write a Brewfile from.\n\(why)")
         }
-        Output.note("Homebrew didn't answer, so no app is marked as installed by it.")
+        if let note = Self.homebrewNote(isInstalled: Homebrew.executableURL != nil, why: why) {
+            Output.note(note)
+        }
         return []
+    }
+
+    /// What a list other than a Brewfile says when Homebrew gave no packages: nothing on a Mac without Homebrew,
+    /// and why otherwise.
+    static func homebrewNote(isInstalled: Bool, why: String) -> String? {
+        isInstalled ? "Homebrew didn't answer, so no app is marked as installed by it.\n\(why)" : nil
     }
 
     /// Why Homebrew was not asked: without its local copy of the definitions it would download them. The copy is

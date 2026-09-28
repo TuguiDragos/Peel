@@ -13,6 +13,16 @@ struct CommandLineTests {
         #expect(InventoryCommand.noDefinitions(isInstalled: true) == "Homebrew has no list of packages on this Mac. Run `brew update` first.")
     }
 
+    /// A list of apps says nothing of Homebrew on a Mac without it, and says why when Homebrew is there and did
+    /// not answer.
+    @Test func speaksOfHomebrewOnlyWhereItIsInstalled() {
+        #expect(InventoryCommand.homebrewNote(isInstalled: false, why: "Homebrew isn't installed.") == nil)
+        #expect(
+            InventoryCommand.homebrewNote(isInstalled: true, why: "Error: no network")
+                == "Homebrew didn't answer, so no app is marked as installed by it.\nError: no network"
+        )
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)
