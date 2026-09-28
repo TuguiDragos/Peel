@@ -7,6 +7,7 @@ import UserNotifications
 
 final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     private nonisolated static let pathKey = "path"
+    private nonisolated static let toolKey = "tool"
 
     func activate() {
         UNUserNotificationCenter.current().delegate = self
@@ -59,6 +60,15 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(request)
     }
 
+    func notify(diskNearlyFull storage: DeviceInfo.Storage) {
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "Your disk is almost full")
+        content.body = String(localized: "\(storage.free.byteCount) available of \(storage.total.byteCount). Click to see what’s using it, under Space.")
+        content.userInfo = [Self.toolKey: Tool.space.rawValue]
+        let request = UNNotificationRequest(identifier: "disk-nearly-full", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+    }
+
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
@@ -68,6 +78,14 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        if let tool = response.notification.request.content.userInfo[Self.toolKey] as? String {
+            await MainActor.run {
+                if let tool = Tool(rawValue: tool) {
+                    Navigator.shared.show(tool)
+                }
+            }
+            return
+        }
         guard
             let path = response.notification.request.content.userInfo[Self.pathKey] as? String,
             let url = OpenRequest.link(toApplicationAt: path)

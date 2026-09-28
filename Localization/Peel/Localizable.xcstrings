@@ -221,6 +221,118 @@
         }
       }
     },
+    "%@ available of %@. Click to see what’s using it, under Space." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "K dispozici %1$@ z %2$@. Klikněte a na stránce Místo na disku uvidíte, co disk zaplňuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ von %2$@ verfügbar. Klicke, um unter „Speicherplatz“ zu sehen, was den Speicher belegt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ available of %2$@. Click to see what’s using it, under Space."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ disponibles de %2$@. Haz clic para ver lo que lo ocupa, en Espacio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ disponibles sur %2$@. Cliquez pour voir ce qui l’occupe, dans Espace."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ disponibili su %2$@. Fai clic per vedere cosa occupa il disco, in Spazio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@中%1$@が使用可能です。クリックすると、“容量”で使用している項目を確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "총 %2$@ 중 %1$@ 사용 가능. 클릭하면 공간에서 디스크를 사용 중인 항목을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ beschikbaar van %2$@. Klik om te zien wat er ruimte inneemt, onder 'Schijfruimte'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostępne %1$@ z %2$@. Kliknij, aby na stronie Miejsce zobaczyć, co zajmuje dysk."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ disponíveis de %2$@. Clique para ver o que está ocupando o disco, em Espaço."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ disponibili din %2$@. Faceți clic pentru a vedea ce ocupă discul, în pagina Spațiu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно %1$@ из %2$@. Нажмите, чтобы посмотреть, чем он занят, в разделе «Место на диске»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ tillgängligt av %2$@. Klicka för att se vad som använder skivan, under Utrymme."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ kullanılabilir (toplam %2$@). Alanı neyin kullandığını Disk Alanı’nda görmek için tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно %1$@ з %2$@. Натисніть, щоб побачити в розділі «Місце на диску», що використовує диск."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@可用（共%2$@）。点按即可在“空间占用”中查看占用空间的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@可用（共%2$@）。按一下即可在「空間」中查看佔用空間的項目。"
+          }
+        }
+      }
+    },
     "%@ came with macOS. Software Update is what keeps it current, so Peel has nothing to ask." : {
       "localizations" : {
         "cs" : {
@@ -115588,108 +115700,108 @@
         }
       }
     },
-    "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind." : {
+    "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upozorní vás, když jsou pro vaše aplikace nové aktualizace. Když je v Nastavení zapnutá volba „Sledovat koš“, upozorní vás také, když sami přesunete aplikaci do koše, abyste mohli odstranit, co po ní zůstalo."
+            "value" : "Upozorní vás, když jsou pro vaše aplikace nové aktualizace. Když je v Nastavení zapnutá volba „Sledovat koš“, upozorní vás také, když sami přesunete aplikaci do koše, abyste mohli odstranit, co po ní zůstalo. Když je zapnutá volba „Upozornit, když je disk téměř plný“, upozorní vás i na to."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informiert dich, wenn es neue Updates für deine Apps gibt. Ist „Papierkorb beobachten“ in den Einstellungen aktiviert, wirst du auch benachrichtigt, wenn du selbst eine App in den Papierkorb legst, damit du entfernen kannst, was sie hinterlassen hat."
+            "value" : "Informiert dich, wenn es neue Updates für deine Apps gibt. Ist „Papierkorb beobachten“ in den Einstellungen aktiviert, wirst du auch benachrichtigt, wenn du selbst eine App in den Papierkorb legst, damit du entfernen kannst, was sie hinterlassen hat. Ist „Warnen, wenn das Volume fast voll ist“ aktiviert, wirst du auch darüber benachrichtigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te avisa cuando tus apps tienen actualizaciones nuevas. Con “Vigilar la papelera” activado en Ajustes, también te avisa cuando trasladas una app a la papelera por tu cuenta, para que puedas eliminar lo que ha dejado."
+            "value" : "Te avisa cuando tus apps tienen actualizaciones nuevas. Con “Vigilar la papelera” activado en Ajustes, también te avisa cuando trasladas una app a la papelera por tu cuenta, para que puedas eliminar lo que ha dejado. Con “Avisar cuando el disco esté casi lleno” activado, también te avisa de eso."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous prévient lorsque vos apps ont de nouvelles mises à jour. Si « Surveiller la corbeille » est activé dans les Réglages, les notifications vous préviennent aussi lorsque vous placez vous-même une app dans la corbeille, pour que vous puissiez supprimer ce qu’elle a laissé derrière elle."
+            "value" : "Vous prévient lorsque vos apps ont de nouvelles mises à jour. Si « Surveiller la corbeille » est activé dans les Réglages, les notifications vous préviennent aussi lorsque vous placez vous-même une app dans la corbeille, pour que vous puissiez supprimer ce qu’elle a laissé derrière elle. Si « Avertir lorsque le disque est presque plein » est activé, elles vous signalent aussi que le disque est presque plein."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti avvisa quando le tue app hanno nuovi aggiornamenti. Con “Monitora il Cestino” attivo nelle Impostazioni, ti avvisa anche quando sposti un’app nel Cestino per conto tuo, così puoi rimuovere ciò che si è lasciata dietro."
+            "value" : "Ti avvisa quando le tue app hanno nuovi aggiornamenti. Con “Monitora il Cestino” attivo nelle Impostazioni, ti avvisa anche quando sposti un’app nel Cestino per conto tuo, così puoi rimuovere ciò che si è lasciata dietro. Con “Avvisa quando il disco è quasi pieno” attivo, ti avvisa anche di questo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに新しいアップデートがあると知らせます。“設定”で“ゴミ箱を監視”をオンにしていると、自分でアプリをゴミ箱に入れたときにも知らせるので、そのアプリが残したものを取り除けます。"
+            "value" : "アプリに新しいアップデートがあると知らせます。“設定”で“ゴミ箱を監視”をオンにしていると、自分でアプリをゴミ箱に入れたときにも知らせるので、そのアプリが残したものを取り除けます。“ディスクの空きが少なくなったら警告”をオンにしていると、ディスクの空きが少なくなったときにも知らせます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱에 새로운 업데이트가 있으면 알려 줍니다. 설정에서 ‘휴지통 지켜보기’가 켜져 있으면 사용자가 직접 앱을 휴지통으로 이동했을 때도 알려 주므로, 앱이 남긴 항목을 정리할 수 있습니다."
+            "value" : "앱에 새로운 업데이트가 있으면 알려 줍니다. 설정에서 ‘휴지통 지켜보기’가 켜져 있으면 사용자가 직접 앱을 휴지통으로 이동했을 때도 알려 주므로, 앱이 남긴 항목을 정리할 수 있습니다. ‘디스크가 거의 가득 차면 경고하기’가 켜져 있으면 디스크가 거의 가득 찼을 때도 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laat je weten wanneer er nieuwe updates voor je apps zijn. Als 'Houd prullenmand in de gaten' is ingeschakeld in Instellingen, laat Peel je ook weten wanneer je zelf een app naar de prullenmand verplaatst, zodat je kunt opruimen wat die heeft achtergelaten."
+            "value" : "Laat je weten wanneer er nieuwe updates voor je apps zijn. Als 'Houd prullenmand in de gaten' is ingeschakeld in Instellingen, laat Peel je ook weten wanneer je zelf een app naar de prullenmand verplaatst, zodat je kunt opruimen wat die heeft achtergelaten. Is 'Waarschuw als de schijf bijna vol is' ingeschakeld, dan laat Peel je ook weten wanneer je schijf bijna vol is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informuje, gdy Twoje aplikacje mają nowe uaktualnienia. Gdy w Ustawieniach jest włączona opcja „Obserwuj Kosz”, informuje też, gdy samodzielnie przeniesiesz aplikację do Kosza, aby można było pozbyć się także tego, co po sobie pozostawiła."
+            "value" : "Informuje, gdy Twoje aplikacje mają nowe uaktualnienia. Gdy w Ustawieniach jest włączona opcja „Obserwuj Kosz”, informuje też, gdy samodzielnie przeniesiesz aplikację do Kosza, aby można było pozbyć się także tego, co po sobie pozostawiła. Gdy jest włączona opcja „Ostrzegaj, gdy dysk jest prawie pełny”, informuje też o tym."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avisa quando os seus apps têm novas atualizações. Com “Monitorar o Lixo” ativado nos Ajustes, também avisa quando você mesmo move um app para o Lixo, para que você possa limpar o que ele deixou para trás."
+            "value" : "Avisa quando os seus apps têm novas atualizações. Com “Monitorar o Lixo” ativado nos Ajustes, também avisa quando você mesmo move um app para o Lixo, para que você possa limpar o que ele deixou para trás. Com “Avisar quando o disco estiver quase cheio” ativado, também avisa quando o disco está quase cheio."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vă anunță când aplicațiile dvs. au actualizări noi. Cu „Urmăriți Coșul” activat în Configurări, vă anunță și când mutați chiar dvs. o aplicație în Coș, ca să puteți elimina ce a lăsat în urmă."
+            "value" : "Vă anunță când aplicațiile dvs. au actualizări noi. Cu „Urmăriți Coșul” activat în Configurări, vă anunță și când mutați chiar dvs. o aplicație în Coș, ca să puteți elimina ce a lăsat în urmă. Cu „Avertizați când discul este aproape plin” activat, vă anunță și acest lucru."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сообщает, когда для Ваших приложений выходят обновления. Если в Настройках включен параметр «Следить за Корзиной», также сообщает, когда Вы сами перемещаете приложение в Корзину, чтобы Вы могли удалить его остатки."
+            "value" : "Сообщает, когда для Ваших приложений выходят обновления. Если в Настройках включен параметр «Следить за Корзиной», также сообщает, когда Вы сами перемещаете приложение в Корзину, чтобы Вы могли удалить его остатки. Если включен параметр «Предупреждать, когда диск почти заполнен», сообщает и об этом."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Talar om när dina appar har nya uppdateringar. När ”Bevaka papperskorgen” är på i Inställningar får du också veta när du själv flyttar en app till papperskorgen, så att du kan rensa bort det som den lämnade kvar."
+            "value" : "Talar om när dina appar har nya uppdateringar. När ”Bevaka papperskorgen” är på i Inställningar får du också veta när du själv flyttar en app till papperskorgen, så att du kan rensa bort det som den lämnade kvar. När ”Varna när skivan är nästan full” är på får du också veta det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamalarınızın yeni güncellemeleri olduğunda size bildirir. Ayarlar’da “Çöp Sepeti’ni izle” açıksa, bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda da bildirir; böylece geride bıraktıklarını temizleyebilirsiniz."
+            "value" : "Uygulamalarınızın yeni güncellemeleri olduğunda size bildirir. Ayarlar’da “Çöp Sepeti’ni izle” açıksa, bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda da bildirir; böylece geride bıraktıklarını temizleyebilirsiniz. “Disk neredeyse dolduğunda uyar” açıksa, diskiniz neredeyse dolduğunda da bildirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повідомляє, коли для ваших програм зʼявляються нові оновлення. Якщо в Параметрах увімкнено «Стежити за Смітником», також повідомляє, коли ви самі переміщуєте програму в Смітник, щоб ви могли вилучити те, що вона залишила по собі."
+            "value" : "Повідомляє, коли для ваших програм зʼявляються нові оновлення. Якщо в Параметрах увімкнено «Стежити за Смітником», також повідомляє, коли ви самі переміщуєте програму в Смітник, щоб ви могли вилучити те, що вона залишила по собі. Якщо увімкнено «Попереджати, коли диск майже заповнений», повідомляє й про це."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新更新时通知你。如果在“设置”中打开了“监视废纸篓”，你自己将App移到废纸篓时，它也会通知你，以便你清除该App留下的文件。"
+            "value" : "在你的App有新更新时通知你。如果在“设置”中打开了“监视废纸篓”，你自己将App移到废纸篓时，它也会通知你，以便你清除该App留下的文件。如果打开了“磁盘快满时发出警告”，磁盘快满时它也会通知你。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新的更新項目時通知你。若在「設定」中開啟「監看垃圾桶」，當你自行將App丟到「垃圾桶」時也會通知你，讓你可以清除它留下的檔案。"
+            "value" : "在你的App有新的更新項目時通知你。若在「設定」中開啟「監看垃圾桶」，當你自行將App丟到「垃圾桶」時也會通知你，讓你可以清除它留下的檔案。若開啟「磁碟幾乎已滿時發出警告」，也會在磁碟幾乎已滿時通知你。"
           }
         }
       }
@@ -135575,6 +135687,112 @@
         }
       }
     },
+    "Warn when the disk is almost full" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upozornit, když je disk téměř plný"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warnen, wenn das Volume fast voll ist"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avisar cuando el disco esté casi lleno"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avertir lorsque le disque est presque plein"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvisa quando il disco è quasi pieno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディスクの空きが少なくなったら警告"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디스크가 거의 가득 차면 경고하기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waarschuw als de schijf bijna vol is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostrzegaj, gdy dysk jest prawie pełny"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avisar quando o disco estiver quase cheio"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avertizați când discul este aproape plin"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждать, когда диск почти заполнен"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varna när skivan är nästan full"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk neredeyse dolduğunda uyar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попереджати, коли диск майже заповнений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁盘快满时发出警告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁碟幾乎已滿時發出警告"
+          }
+        }
+      }
+    },
     "Watch the Trash" : {
       "localizations" : {
         "cs" : {
@@ -138115,6 +138333,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當App自行調整視窗大小時，會立即完成。"
+          }
+        }
+      }
+    },
+    "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když je k dispozici méně než desetina disku, na kterém máte domovskou složku, Peel pošle oznámení, které otevře stránku Místo na disku. Kontroluje to, jen když běží."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn auf dem Volume mit deinem Benutzerordner weniger als ein Zehntel verfügbar ist, sendet Peel eine Mitteilung, die „Speicherplatz“ öffnet. Die Prüfung erfolgt nur, während Peel läuft."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando queda disponible menos de la décima parte del disco donde está tu carpeta de inicio, Peel envía una notificación que abre la página Espacio. Solo lo comprueba mientras está en ejecución."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque moins d’un dixième du disque sur lequel se trouve votre dossier de départ est disponible, Peel envoie une notification qui ouvre la page Espace. La vérification n’a lieu que lorsque Peel est en cours d’exécution."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando è disponibile meno di un decimo del disco su cui si trova la tua cartella Inizio, Peel invia una notifica che apre la pagina Spazio. Verifica solo mentre è in esecuzione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダがあるディスクの使用可能な領域が10分の1未満になると、Peelが“容量”を開く通知を送信します。確認はPeelの実行中にのみ行われます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더가 있는 디스크의 사용 가능한 공간이 10분의 1 미만이 되면 Peel이 공간 페이지를 여는 알림을 보냅니다. Peel이 실행 중일 때만 확인합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als er minder dan een tiende van de schijf met je thuismap beschikbaar is, stuurt Peel een melding die 'Schijfruimte' opent. Peel controleert dit alleen terwijl het actief is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy na dysku, na którym jest Twój folder domowy, dostępna jest mniej niż jedna dziesiąta miejsca, Peel wysyła powiadomienie, które otwiera stronę Miejsce. Sprawdza to tylko wtedy, gdy jest uruchomiony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando menos de um décimo do disco em que está a sua pasta pessoal estiver disponível, o Peel envia uma notificação que abre a página Espaço. Ele só verifica enquanto está em execução."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când mai puțin de o zecime din discul pe care se află dosarul dvs. de reședință este disponibilă, Peel trimite o notificare care deschide pagina Spațiu. Verifică doar cât timp rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда на диске, где находится Ваша папка пользователя, доступно меньше десятой части места, Peel присылает уведомление, которое открывает раздел «Место на диске». Peel проверяет это, только пока запущен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När mindre än en tiondel av skivan som din hemmapp ligger på är tillgänglig skickar Peel en notis som öppnar sidan Utrymme. Kontrollen görs bara medan Peel körs."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzün bulunduğu diskte kullanılabilir alan onda birin altına düştüğünde Peel, Disk Alanı’nı açan bir bildirim gönderir. Yalnızca çalışırken denetler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли на диску, де розташована ваша Домівка, доступно менше десятої частини обсягу, Peel надсилає сповіщення, яке відкриває розділ «Місце на диску». Peel перевіряє це лише тоді, коли працює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你的个人文件夹所在磁盘的可用空间不足十分之一时，Peel会发送一条通知，点按即可打开“空间占用”。仅在Peel运行时检查。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當你的個人專屬檔案夾所在磁碟的可用空間少於十分之一時，Peel會傳送一則可打開「空間」的通知。Peel只有在執行時才會檢查。"
           }
         }
       }
@@ -140665,6 +140989,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的資源庫"
+          }
+        }
+      }
+    },
+    "Your disk is almost full" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš disk je téměř plný"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Volume ist fast voll"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu disco está casi lleno"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre disque est presque plein"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il disco è quasi pieno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディスクの空きが少なくなっています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디스크가 거의 가득 찼습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je schijf is bijna vol"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój dysk jest prawie pełny"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu disco está quase cheio"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul dvs. este aproape plin"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш диск почти заполнен"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan är nästan full"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diskiniz neredeyse dolu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш диск майже заповнений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的磁盘快满了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的磁碟幾乎已滿"
           }
         }
       }

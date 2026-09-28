@@ -123,7 +123,9 @@ Peel is free and open source, and it speaks English and 17 other languages.
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
 - **Space:** what's taking up room, and which app it belongs to. The caches and logs apps keep for every account,
   and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
-  administrator owns them, and what macOS keeps there for its own services is never listed.
+  administrator owns them, and what macOS keeps there for its own services is never listed. Peel can also warn you,
+  with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >
+  General.
 - **File Search:** large or old files, found through Spotlight.
 
 What you select on these pages, iCloud Drive aside, stays selected while you look at the others, and Move to Trash
@@ -214,7 +216,7 @@ are on and takes you straight to the right place in System Settings.
 | Full Disk Access | Look inside the Trash and the private folders where apps keep their data. Without it, Peel can't find everything an app leaves behind. |
 | App Management | Move another developer's app to the Trash. Without it, Peel can still clear an app's files, but macOS may refuse to move the app itself. |
 | Helper | Move the leftovers that sit in folders only an administrator can change, and start or stop other developers' background items that run as root. macOS asks you to approve it once, in Login Items & Extensions. |
-| Notifications (optional) | Tell you when your apps have updates, and, with Watch the Trash on, when you move an app to the Trash yourself. |
+| Notifications (optional) | Tell you when your apps have updates, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. |
 | Finder extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
 | Open at Login (optional) | Start Peel when you log in, so Watch the Trash keeps working. |
 

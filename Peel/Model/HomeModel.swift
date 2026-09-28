@@ -43,7 +43,7 @@ final class HomeModel {
             case .fullDiskAccess: "Lets Peel look inside the Trash and the private folders where apps keep their data. Without it, Peel can’t find everything an app leaves behind."
             case .helper: "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it: a second copy, in another folder, has to install its own."
             case .appManagement: "macOS stops an app from moving another developer’s app to the Trash unless you allow it. Without this, Peel can still clear an app’s files, but macOS may refuse to move the app itself."
-            case .notifications: "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind."
+            case .notifications: "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too."
             case .finderExtension: "Adds Uninstall with Peel to the menu you get when you Control-click an app in Finder."
             case .openAtLogin: "Starts Peel when you log in. “Watch the Trash” works only while Peel is running."
             case .commandLine: "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Copy the install command and run it in Terminal: it asks for your password."

@@ -65,6 +65,8 @@ enum SettingsKey {
     static let pane = "settingsPane"
     static let checksForAppUpdates = "checksForAppUpdates"
     static let watchesTrash = "watchesTrash"
+    static let warnsWhenDiskIsNearlyFull = "lowDiskSpace.warns"
+    static let toldDiskIsNearlyFull = "lowDiskSpace.told"
     /// The tools the sidebar leaves out (`Tool.hidden(in:)`).
     static let hiddenTools = "sidebar.hiddenTools"
     /// The `peel` tool reads these three keys too, so they are defined once, in PeelCore.
@@ -100,6 +102,7 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
+    @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
     @Environment(AppLibrary.self) private var library
@@ -196,6 +199,8 @@ private struct GeneralSettingsView: View {
                         }
                     }
                 }
+                toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
+                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")
                 // A binding, not `onChange`: setting `opensAtLogin` to macOS's answer must not register or
                 // unregister again.
                 toggle("Open Peel at login", isOn: Binding(get: { opensAtLogin }, set: setOpensAtLogin),

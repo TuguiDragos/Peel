@@ -22,9 +22,12 @@ struct PeelApp: App {
     /// How often the update round runs. The shortest wait an app can have is six hours, after a failed check
     /// (`UpdateSchedule.afterFailure`), so an hourly round checks each app soon after it is due.
     private static let updateCheckInterval: TimeInterval = 60 * 60
+    private static let freeSpaceCheckInterval: TimeInterval = 5 * 60
 
+    @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
+    @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @State private var trashMonitor = TrashMonitor()
     @State private var notifications: PeelNotifications
     @State private var stats = LifetimeStats()
@@ -213,6 +216,29 @@ struct PeelApp: App {
         }
     }
 
+    private func watchFreeSpace() async {
+        while !Task.isCancelled {
+            if warnsWhenDiskIsNearlyFull {
+                await checkFreeSpace()
+            }
+            try? await Task.sleep(for: .seconds(Self.freeSpaceCheckInterval), tolerance: .seconds(60))
+        }
+    }
+
+    private func checkFreeSpace() async {
+        let storage = await LowDiskSpace.storage()
+        let defaults = UserDefaults.standard
+        let told = defaults.bool(forKey: SettingsKey.toldDiskIsNearlyFull)
+        let answer = LowDiskSpace.check(storage, told: told)
+        // Written only when it changes: every write to the defaults makes each `AppStorage` in the app read again.
+        if answer.told != told {
+            defaults.set(answer.told, forKey: SettingsKey.toldDiskIsNearlyFull)
+        }
+        if answer.tell {
+            notifications.notify(diskNearlyFull: storage)
+        }
+    }
+
     /// Checks the apps that are due, and posts one notification when updates appear that were not waiting before.
     private func checkForUpdates() async {
         let before = Set(library.appsWithUpdates.map(\.id))
@@ -309,7 +335,8 @@ struct PeelApp: App {
                 .task {
                     // Started once, and not as a child of this view's task, so the work goes on in the menu bar
                     // after the window closes.
-                    background.start([followFolders, askWhenDue, followFindings, followActivations])
+                    Navigator.shared.openWindow = openWindow
+                    background.start([followFolders, askWhenDue, followFindings, followActivations, watchFreeSpace])
                     textEditing.start()
                 }
         }
@@ -323,6 +350,15 @@ struct PeelApp: App {
                 Task { await notifications.requestAuthorization() }
             } else {
                 trashMonitor.stop()
+            }
+        }
+        .onChange(of: warnsWhenDiskIsNearlyFull) { _, warns in
+            // Turned on again, the warning is new: a disk that is already nearly full is told about at once.
+            UserDefaults.standard.removeObject(forKey: SettingsKey.toldDiskIsNearlyFull)
+            guard warns else { return }
+            Task {
+                await notifications.requestAuthorization()
+                await checkFreeSpace()
             }
         }
 
