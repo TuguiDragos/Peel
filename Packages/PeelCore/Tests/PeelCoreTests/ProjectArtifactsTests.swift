@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct ProjectArtifactsTests {
@@ -18,6 +19,29 @@ struct ProjectArtifactsTests {
         #expect(stop.took < .seconds(1))
         #expect(stop.askedBefore < 30)
         #expect(stop.askedAfter == 0)
+    }
+
+    @Test func aFolderThatNeverAnswersHoldsNeitherTheWalkNorItsStop() async throws {
+        let directory = try TemporaryDirectory()
+        let root = try directory.directory("Code")
+        let never = DispatchSemaphore(value: 0)
+        defer { never.signal() }
+        let listing = Mutex(false)
+        let walk = Task {
+            await ProjectArtifacts.artifacts(in: root, exclusions: .none, measure: { _ in nil }) { _ in
+                listing.withLock { $0 = true }
+                never.wait()
+                return nil
+            }
+        }
+        while !listing.withLock({ $0 }) { await Task.yield() }
+        let clock = ContinuousClock()
+        let stopped = clock.now
+
+        walk.cancel()
+        _ = await walk.value
+
+        #expect(clock.now - stopped < .seconds(1))
     }
 
     @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() throws {

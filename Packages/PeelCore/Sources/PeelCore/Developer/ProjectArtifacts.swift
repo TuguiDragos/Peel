@@ -502,7 +502,15 @@ public enum ProjectArtifacts {
         refusal(for: root, home: home) == nil
     }
 
-    static func artifacts(in root: URL, exclusions: Exclusions, measure: LeftoverScanner.Measure) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
+    /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a
+    /// folder on a network volume that stopped answering would otherwise hold one of the threads every scan
+    /// shares, where a Stop cannot reach it. `listing` stands in for the listing in a test.
+    static func artifacts(
+        in root: URL,
+        exclusions: Exclusions,
+        measure: LeftoverScanner.Measure,
+        listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
+    ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
         var found: [ProjectArtifact] = []
         var queue: [(url: URL, depth: Int)] = [(root, 0)]
         // An index, since `removeFirst` would make the walk quadratic.
@@ -514,56 +522,89 @@ public enum ProjectArtifacts {
             let (folder, depth) = queue[next]
             next += 1
             visited += 1
-            guard let entries = contents(of: folder) else { continue }
-            let names = Set(entries.map(\.lastPathComponent))
-            var artifactNames: Set<String> = []
+            // The folders already walked are let go now and then, so a long walk does not keep them all.
+            if next >= 4_096 {
+                queue.removeFirst(next)
+                next = 0
+            }
+            let answer = await SlowRead.answer(within: FileSize.budget) { _ in
+                look(in: folder, exclusions: exclusions, listing: listing)
+            }
+            guard let look = answer ?? nil else { continue }
+            ScanCount.current?.add(look.entries.count)
+            let artifactNames = Set(look.found.map(\.name))
+            for artifact in look.found {
+                reached.insert(Self.key(of: folder.appending(path: artifact.name)))
+            }
 
-            var matching: [(name: String, definition: Definition?)] = []
-            for definition in definitions {
-                for name in definition.candidates(among: names) {
-                    let url = folder.appending(path: name)
-                    guard isRealFolder(url), definition.matches(url, in: folder, besides: names) else { continue }
-                    guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                    guard artifactNames.insert(name).inserted else { continue }
-                    matching.append((name, definition))
-                    reached.insert(Self.key(of: url))
-                }
-            }
-            for entry in entries where !artifactNames.contains(entry.lastPathComponent) {
-                guard isRealFolder(entry), isTaggedAsACache(entry) else { continue }
-                guard !exclusions.excludes(entry), !exclusions.holds(entry) else { continue }
-                artifactNames.insert(entry.lastPathComponent)
-                matching.append((entry.lastPathComponent, nil))
-                reached.insert(Self.key(of: entry))
-            }
             // Read after all of the project's artifacts are found, so the walk skips every one of them.
-            let activity = matching.isEmpty ? (date: nil, isCertain: true) : lastActivity(in: folder, ignoring: artifactNames)
-            for (name, definition) in matching {
-                let url = folder.appending(path: name)
+            let activity = look.found.isEmpty
+                ? (date: nil, isCertain: true)
+                : await SlowRead.answer(within: FileSize.budget) { isGivenUp in
+                    lastActivity(in: folder, ignoring: artifactNames, isGivenUp: isGivenUp)
+                } ?? (date: nil, isCertain: false)
+            for artifact in look.found {
+                let url = folder.appending(path: artifact.name)
                 let contents = await measure(url)
                 let heldBack = HoldBack.seen(in: contents)
                 found.append(ProjectArtifact(
                     url: url,
                     project: folder,
-                    name: name,
-                    tool: definition?.tool,
+                    name: artifact.name,
+                    tool: artifact.definition?.tool,
                     size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                     lastActivity: activity.date,
                     lastActivityIsCertain: activity.isCertain,
-                    hasGenericName: definition?.isGeneric ?? false,
-                    isEnvironment: definition?.isEnvironment ?? false,
+                    hasGenericName: artifact.definition?.isGeneric ?? false,
+                    isEnvironment: artifact.definition?.isEnvironment ?? false,
                     // A tool that tags its folder as a cache makes everything in it again, its own clones included.
-                    heldBack: heldBack == .holdsRepository && isTaggedAsACache(url) ? nil : heldBack
+                    heldBack: heldBack == .holdsRepository && artifact.isTaggedAsACache ? nil : heldBack
                 ))
             }
 
             guard depth < maximumDepth else { continue }
-            for entry in entries where !reached.contains(Self.key(of: entry)) {
+            for entry in look.entries where !reached.contains(Self.key(of: entry)) {
                 guard isRealFolder(entry), !exclusions.excludes(entry), !isSkipped(entry.lastPathComponent) else { continue }
                 queue.append((entry, depth + 1))
             }
         }
         return (found, next < queue.count)
+    }
+
+    /// What one folder holds and which of its entries are artifacts.
+    private struct Look: Sendable {
+        let entries: [URL]
+        let found: [Found]
+    }
+
+    private struct Found: Sendable {
+        let name: String
+        let definition: Definition?
+        let isTaggedAsACache: Bool
+    }
+
+    /// Lists `folder` and finds the artifacts in it, or nil when it cannot be listed.
+    private static func look(in folder: URL, exclusions: Exclusions, listing: (URL) -> [URL]?) -> Look? {
+        guard let entries = listing(folder) else { return nil }
+        let names = Set(entries.map(\.lastPathComponent))
+        var artifactNames: Set<String> = []
+        var found: [Found] = []
+        for definition in definitions {
+            for name in definition.candidates(among: names) {
+                let url = folder.appending(path: name)
+                guard isRealFolder(url), definition.matches(url, in: folder, besides: names) else { continue }
+                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+                guard artifactNames.insert(name).inserted else { continue }
+                found.append(Found(name: name, definition: definition, isTaggedAsACache: isTaggedAsACache(url)))
+            }
+        }
+        for entry in entries where !artifactNames.contains(entry.lastPathComponent) {
+            guard isRealFolder(entry), isTaggedAsACache(entry) else { continue }
+            guard !exclusions.excludes(entry), !exclusions.holds(entry) else { continue }
+            artifactNames.insert(entry.lastPathComponent)
+            found.append(Found(name: entry.lastPathComponent, definition: nil, isTaggedAsACache: true))
+        }
+        return Look(entries: entries, found: found)
     }
 
     /// A hidden folder is usually a tool's own store, such as `~/.npm` with its many `node_modules`, which belong
@@ -582,7 +623,11 @@ public enum ProjectArtifacts {
     private static let passedByForActivity: Set<String> = [".git", "node_modules"]
 
     /// Stops at the first change within `recentlyActive`, which alone answers the question.
-    static func lastActivity(in project: URL, ignoring artifacts: Set<String>) -> (date: Date?, isCertain: Bool) {
+    static func lastActivity(
+        in project: URL,
+        ignoring artifacts: Set<String>,
+        isGivenUp: () -> Bool = { false }
+    ) -> (date: Date?, isCertain: Bool) {
         let cutoff = Date.now.addingTimeInterval(-recentlyActive)
         var newest: Date?
         for mark in gitMarks {
@@ -602,6 +647,7 @@ public enum ProjectArtifacts {
         let base = key(of: project)
         var samples = 0
         for case let url as URL in enumerator {
+            guard !isGivenUp() else { return (newest, false) }
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
             if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
@@ -639,14 +685,12 @@ public enum ProjectArtifacts {
         return values?.isUbiquitousItem != true
     }
 
-    private static func contents(of folder: URL) -> [URL]? {
-        let entries = try? FileManager.default.contentsOfDirectory(
+    static func contents(of folder: URL) -> [URL]? {
+        try? FileManager.default.contentsOfDirectory(
             at: folder,
             includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey, .isUbiquitousItemKey, .isPackageKey],
             options: []
         )
-        ScanCount.current?.add(entries?.count ?? 0)
-        return entries
     }
 }
 
