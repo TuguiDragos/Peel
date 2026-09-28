@@ -90,9 +90,13 @@ final class DuplicateLibrary {
         return urls.filter { !finder.canScan($0) }
     }
 
+    /// A scan clears the list, so none starts while a move to the Trash is taking what it lists.
+    var canScan: Bool { !folders.isEmpty && !isRemoving }
+
     /// Starts a new scan. The previous one is canceled but not waited for, since a read stuck on a network
     /// share would hold back every later scan. Whatever it returns is dropped by its `generation`.
     func startScan() {
+        guard canScan else { return }
         scanTask?.cancel()
         generation += 1
         let current = generation

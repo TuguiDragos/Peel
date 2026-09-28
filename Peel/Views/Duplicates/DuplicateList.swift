@@ -93,7 +93,7 @@ struct DuplicateList: View {
             ToolbarItem {
                 RescanButton(
                     isRunning: $isStartingScan,
-                    isDisabled: duplicates.folders.isEmpty || duplicates.isRemoving,
+                    isDisabled: !duplicates.canScan,
                     title: "Scan",
                     scan: duplicates
                 ) {

@@ -56,7 +56,7 @@ struct DuplicateScanForm: View {
                 Button("Scan", action: onScan)
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
-                    .disabled(duplicates.folders.isEmpty || duplicates.isScanning)
+                    .disabled(!duplicates.canScan || duplicates.isScanning)
             }
             .padding([.horizontal, .bottom], 20)
         }
