@@ -128,6 +128,15 @@ public struct SearchEnvironment: Sendable {
         )
     }
 
+    /// True for an app at `path` that a person keeps on its own. One inside the home's Library or the Mac's is part
+    /// of another app (a helper, an agent, an update being prepared, a build) and goes with that app.
+    func keepsOnItsOwn(appAt path: String) -> Bool {
+        ![homeDirectory, rootDirectory].contains { folder in
+            let library = folder.appending(path: "Library", directoryHint: .isDirectory)
+            return PathComponents.isPath(path, inside: PathPattern.comparablePath(of: library))
+        }
+    }
+
     static let userEntries = LibraryFolder.user.map { (SearchLocation.Kind($0), $0.rawValue) }
     static let localEntries = LibraryFolder.local.map { (SearchLocation.Kind($0), $0.rawValue) }
 

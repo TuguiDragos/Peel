@@ -65,16 +65,9 @@ public struct LeftoverScanner: Sendable {
         let listed = Set(known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
         return identifiers.flatMap(AppInspector.applicationURLs).filter { url in
             let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
-            return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle) && Self.standsOnItsOwn(path, in: environment)
+            return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle)
+                && environment.keepsOnItsOwn(appAt: path)
         }.compactMap(AppInspector.inspect)
-    }
-
-    /// True for an app at `path` that a person keeps on its own. One inside the home's Library or the Mac's is part of
-    /// another app (a helper, an agent, an update being prepared, a build) and goes with that app's folder.
-    static func standsOnItsOwn(_ path: String, in environment: SearchEnvironment) -> Bool {
-        ![environment.homeDirectory, environment.rootDirectory].contains { folder in
-            PathComponents.isPath(path, inside: PathPattern.comparablePath(of: folder.appending(path: "Library", directoryHint: .isDirectory)))
-        }
     }
 
     @concurrent

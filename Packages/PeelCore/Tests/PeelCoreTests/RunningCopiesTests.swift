@@ -77,6 +77,33 @@ struct RunningCopiesTests {
         #expect(RunningCopies.belonging(to: old, among: running, installedApps: [chrome, old], sharingItsSettings: true).count == 1)
     }
 
+    /// An app that continues the identifier and runs from somewhere Peel does not list apps, such as Chrome Canary
+    /// on another disk, is an app of its own. What runs from inside a Library, as an agent does, is the app's.
+    @Test func leavesAnAppOfItsOwnThatContinuesTheIdentifierWhereverItRuns() {
+        let running = [
+            process("com.google.Chrome.canary", at: "/Volumes/Disk/Google Chrome Canary.app"),
+            process("com.google.Chrome.agent", at: "/Users/x/Library/Application Support/Google/Agent.app"),
+        ]
+
+        let mac = SearchEnvironment(
+            homeDirectory: URL(filePath: "/Users/x", directoryHint: .isDirectory),
+            rootDirectory: URL(filePath: "/", directoryHint: .isDirectory)
+        )
+
+        let belonging = RunningCopies.belonging(to: chrome, among: running, installedApps: [chrome], environment: mac)
+
+        #expect(belonging.map(\.bundleIdentifier) == ["com.google.Chrome.agent"])
+    }
+
+    /// Bundle identifiers are case insensitive, so a process written in other capitals is still the app's.
+    @Test func readsIdentifiersWithoutCase() {
+        let chromeInCapitals = process("COM.GOOGLE.CHROME", at: "/Applications/Google Chrome.app")
+        #expect(belonging([chromeInCapitals]) == ["COM.GOOGLE.CHROME"])
+        #expect(belonging([process("com.google.chrome.helper", at: nil)]) == ["com.google.chrome.helper"])
+        #expect(belonging([process("com.google.keystone.agent", at: nil)]) == ["com.google.keystone.agent"])
+        #expect(belonging([process("COM.GOOGLE.CHROME.CANARY", at: nil)]).isEmpty)
+    }
+
     /// If it is not known where a process runs from, a matching identifier counts it as the app, to be safe.
     @Test func countsTheAppWhenWhereItRunsFromIsNotKnown() {
         #expect(belonging([process("com.google.Chrome", at: nil)]) == ["com.google.Chrome"])

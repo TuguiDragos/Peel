@@ -116,12 +116,12 @@ struct LeftoverScannerTests {
     @Test func anAppInALibraryFolderIsPartOfAnotherApp() {
         let mac = SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
 
-        #expect(!LeftoverScanner.standsOnItsOwn("/Users/x/Library/Application Support/Sketchpad/SketchpadAgent.app", in: mac))
-        #expect(!LeftoverScanner.standsOnItsOwn("/Library/Application Support/Sketchpad/Updater.app", in: mac))
-        #expect(LeftoverScanner.standsOnItsOwn("/Users/x/Downloads/Sketchpad Nightly.app", in: mac))
-        #expect(LeftoverScanner.standsOnItsOwn("/Volumes/Disk/Sketchpad.app", in: mac))
-        #expect(LeftoverScanner.standsOnItsOwn("/System/Library/Input Methods/CharacterPalette.app", in: mac))
-        #expect(LeftoverScanner.standsOnItsOwn("/Users/x/Libraryish/Sketchpad.app", in: mac))
+        #expect(!mac.keepsOnItsOwn(appAt: "/Users/x/Library/Application Support/Sketchpad/SketchpadAgent.app"))
+        #expect(!mac.keepsOnItsOwn(appAt: "/Library/Application Support/Sketchpad/Updater.app"))
+        #expect(mac.keepsOnItsOwn(appAt: "/Users/x/Downloads/Sketchpad Nightly.app"))
+        #expect(mac.keepsOnItsOwn(appAt: "/Volumes/Disk/Sketchpad.app"))
+        #expect(mac.keepsOnItsOwn(appAt: "/System/Library/Input Methods/CharacterPalette.app"))
+        #expect(mac.keepsOnItsOwn(appAt: "/Users/x/Libraryish/Sketchpad.app"))
     }
 
     /// The guard, which reads every spelling of a path from the disk, is asked only about what the scan would take
