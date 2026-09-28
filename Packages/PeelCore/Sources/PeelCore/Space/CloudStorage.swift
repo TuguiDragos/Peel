@@ -48,8 +48,8 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
 public enum CloudStorage {
     /// A file that frees less than this isn't worth a row in a list about space.
     public static let minimumSize: Int64 = 1_000_000
-    /// The most files listed. The cap counts listed files, not every entry walked, so a walk through many small
-    /// files still reaches the big ones after them.
+    /// The most files listed. The walk goes on past it, keeping the biggest files it finds, so a big file read late
+    /// is not left out for smaller ones read first.
     static let maximumFiles = 5_000
     /// How long the walk may take, in seconds. A folder iCloud manages can stall a directory read for minutes,
     /// and this walk also reads the sync state of every file.
@@ -126,15 +126,51 @@ public enum CloudStorage {
         }
 
         private let state = Mutex(Collected())
+        private let maximum: Int
+
+        init(maximum: Int = CloudStorage.maximumFiles) {
+            self.maximum = maximum
+        }
 
         var collected: Collected { state.withLock { $0 } }
 
-        /// Adds `file` to the list. Returns true once the list is full.
-        func add(_ file: CloudFile) -> Bool {
+        /// Adds `file` to the list. Once the list is full, `file` takes the place of the smallest one when it is
+        /// bigger, and the list says it is not all there is. The list is a min heap by size, so the smallest is
+        /// always first.
+        func add(_ file: CloudFile) {
             state.withLock { collected in
-                collected.files.append(file)
-                collected.wasCutShort = collected.wasCutShort || collected.files.count >= maximumFiles
-                return collected.files.count >= maximumFiles
+                if collected.files.count < maximum {
+                    collected.files.append(file)
+                    Self.siftUp(&collected.files, from: collected.files.count - 1)
+                    return
+                }
+                collected.wasCutShort = true
+                guard let smallest = collected.files.first, file.size > smallest.size else { return }
+                collected.files[0] = file
+                Self.siftDown(&collected.files, from: 0)
+            }
+        }
+
+        private static func siftUp(_ files: inout [CloudFile], from start: Int) {
+            var child = start
+            while child > 0 {
+                let parent = (child - 1) / 2
+                guard files[child].size < files[parent].size else { return }
+                files.swapAt(child, parent)
+                child = parent
+            }
+        }
+
+        private static func siftDown(_ files: inout [CloudFile], from start: Int) {
+            var parent = start
+            while true {
+                let left = 2 * parent + 1, right = left + 1
+                var smallest = parent
+                if left < files.count, files[left].size < files[smallest].size { smallest = left }
+                if right < files.count, files[right].size < files[smallest].size { smallest = right }
+                guard smallest != parent else { return }
+                files.swapAt(parent, smallest)
+                parent = smallest
             }
         }
 
@@ -202,7 +238,7 @@ public enum CloudStorage {
                 size: size,
                 modified: values.contentModificationDate
             )
-            if collector.add(file) { return }
+            collector.add(file)
         }
     }
 

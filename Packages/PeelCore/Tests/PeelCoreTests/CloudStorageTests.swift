@@ -157,6 +157,23 @@ struct CloudStorageTests {
         #expect(scan.wasCutShort)
     }
 
+    /// A full list keeps the biggest files the walk finds, wherever they are, and still says it is not all of it.
+    @Test func aFullListKeepsTheBiggestFilesFoundAnywhere() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/a/first.bin", bytes: 2_000)
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/b/second.bin", bytes: 30_000)
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/z/last.bin", bytes: 90_000)
+        let collector = CloudStorage.Collector(maximum: 2)
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(Set(collector.collected.files.map(\.name)) == ["last.bin", "second.bin"])
+        #expect(collector.collected.wasCutShort)
+    }
+
     /// A walk past its deadline stops on its own, without waiting for the timer that gives up on it. That timer
     /// runs on another thread and can fire late on a busy Mac, so a short walk could finish first and read as a
     /// complete list.
