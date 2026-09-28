@@ -130,6 +130,20 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == Set(caches))
     }
 
+    /// Opera is built on Chromium and keeps the same caches in the folder Opera itself names.
+    @Test func listsOperasCachesAsChromiumNamesThem() async throws {
+        let directory = try TemporaryDirectory()
+        let opera = "Library/Application Support/com.operasoftware.Opera"
+        for path in ["ShaderCache/data_0", "Default/GPUCache/data_0", "Default/History"] {
+            try directory.file("\(opera)/\(path)", bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let listed = try #require(environments.first { $0.id == "opera" }).locations.map(\.url.lastPathComponent)
+        #expect(Set(listed) == ["ShaderCache", "GPUCache"])
+    }
+
     @Test func neverListsAFolderInsideAnotherItAlreadyLists() async throws {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"

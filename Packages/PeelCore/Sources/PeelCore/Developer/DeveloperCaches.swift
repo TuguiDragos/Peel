@@ -968,8 +968,9 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),
-        // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, and Brave's own
-        // importer names Brave's. Their disk caches are in `Library/Caches`, which Space empties.
+        // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, Brave's own importer
+        // names Brave's, and Opera's desktop blog names Opera's (blogs.opera.com/desktop/2023/08). Their disk caches
+        // are in `Library/Caches`, which Space empties.
         Definition(
             id: "chrome", name: "Google Chrome", systemImage: "globe",
             appBundleIdentifiers: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev",
@@ -985,6 +986,10 @@ public enum DeveloperCaches {
         Definition(
             id: "brave", name: "Brave", systemImage: "globe", appBundleIdentifiers: ["com.brave.Browser"],
             folders: chromiumFolders(in: "Library/Application Support/BraveSoftware/Brave-Browser")
+        ),
+        Definition(
+            id: "opera", name: "Opera", systemImage: "globe", appBundleIdentifiers: ["com.operasoftware.Opera"],
+            folders: chromiumFolders(in: "Library/Application Support/com.operasoftware.Opera")
         ),
     ]
 

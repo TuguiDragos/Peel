@@ -106,11 +106,11 @@ Peel is free and open source, and it speaks English and 17 other languages.
 
 - **Orphaned Files:** files left behind by apps you already removed.
 - **Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
-  engines, and AI models, the graphics caches of Chrome, Chromium, and Brave, and the web caches of apps built on
-  Electron, such as Slack or Discord (never what a browser or an app keeps for you). Xcode's archives and the symbols
-  it copied from your devices, model weights, installed packages, and what a tool keeps for you to install again
-  (Vagrant boxes, Asset Store packages) are listed but never selected for you, and toolchains or anything holding an
-  account are never listed.
+  engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
+  on Electron, such as Slack or Discord (never what a browser or an app keeps for you). Xcode's archives and the
+  symbols it copied from your devices, model weights, installed packages, and what a tool keeps for you to install
+  again (Vagrant boxes, Asset Store packages) are listed but never selected for you, and toolchains or anything
+  holding an account are never listed.
 - **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
   `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
   when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
