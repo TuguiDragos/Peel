@@ -619,6 +619,10 @@ struct DuplicatesCommand: AsyncParsableCommand {
             Output.line("No duplicates found.")
             return
         }
+        // Where each group's kept copy is comes first: it is what the decision rests on.
+        let kept = scan.folderGroups.compactMap { $0.folders.first?.url }
+            + scan.groups.compactMap { $0.files.first?.url }
+        Output.table(kept.map { ["keep", Output.path($0)] })
         let cleanup = Cleanup.of(
             folders.map { (url: $0.url, size: $0.reclaimableSize) } + files.map { (url: $0.url, size: $0.reclaimableSize) },
             source: "Duplicates",

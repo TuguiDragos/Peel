@@ -190,6 +190,30 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: directory.url.appending(path: "home/Documents/a copy.bin").path(percentEncoded: false)))
     }
 
+    /// The plan says which copy of each group stays before it lists the copies that move: where the kept copy is
+    /// is what the decision rests on.
+    @Test func thePlanNamesTheCopyEachGroupKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        try directory.file("home/Documents/a.bin", contents: contents)
+        try directory.file("home/Documents/a copy.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let kept = try #require(scan.groups.first?.files.first?.url)
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await (command(["duplicates", "--remove", "--dry-run"]) as DuplicatesCommand)
+                .clean(scan, using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
+
+        let lines = collected.output.split(separator: "\n").map(String.init)
+        let keptLine = try #require(lines.firstIndex { $0.hasPrefix("keep") && $0.hasSuffix(Output.path(kept)) })
+        let movingLine = try #require(lines.firstIndex { !$0.hasPrefix("keep") && $0.hasSuffix("a copy.bin") })
+        #expect(keptLine < movingLine)
+    }
+
     // MARK: Orphaned files
 
     private func orphan(_ name: String, in directory: borrowing TemporaryDirectory, heldBack: HoldBack? = nil, requiresPrivileges: Bool = false) throws -> OrphanItem {
