@@ -344,6 +344,21 @@ struct LeftoverScannerTests {
         #expect(scan.unreadableLocations.map(\.kind) == [.logs])
     }
 
+    /// A vendor's folder the deep search cannot look into may hold the app's files, so the scan says it could not
+    /// read it rather than passing over it as if it held nothing.
+    @Test(.permissionsHold) func reportsAFolderTheDeepSearchCannotLookInto() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Vendor/Tunewell/state.db")
+        try directory.setPermissions(0o000, of: "home/Library/Application Support/Vendor")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/Vendor") }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Vendor"])
+        #expect(scan.unreadableLocations.map(\.kind) == [.applicationSupport])
+    }
+
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")

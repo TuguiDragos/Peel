@@ -91,9 +91,10 @@ public struct LeftoverScanner: Sendable {
         var cutShortLocations: [SearchLocation] = []
         for (location, result) in results {
             switch result {
-            case .found(let leftovers, let cutShort):
+            case .found(let leftovers, let cutShort, let unreadable):
                 found.append((location, leftovers))
                 if let cutShort { cutShortLocations.append(cutShort) }
+                unreadableLocations += unreadable
             case .unreadable(let location):
                 unreadableLocations.append(location)
             }
@@ -135,8 +136,9 @@ public struct LeftoverScanner: Sendable {
     }
 
     private enum LocationResult: Sendable {
-        /// `cutShort` is the location itself when the search inside its folders hit the limit.
-        case found([Leftover], cutShort: SearchLocation?)
+        /// `cutShort` is the location itself when the search inside its folders hit the limit, and `unreadable` the
+        /// folders inside it that search could not look into.
+        case found([Leftover], cutShort: SearchLocation?, unreadable: [SearchLocation])
         case unreadable(SearchLocation)
     }
 
@@ -169,7 +171,7 @@ public struct LeftoverScanner: Sendable {
             entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false)).sorted()
             ScanCount.current?.add(entries.count)
         } catch CocoaError.fileReadNoSuchFile {
-            return .found([], cutShort: nil)
+            return .found([], cutShort: nil, unreadable: [])
         } catch {
             return .unreadable(location)
         }
@@ -198,7 +200,10 @@ public struct LeftoverScanner: Sendable {
             in: nobodysFolders, kind: location.kind, matcher: matcher, home: home, measure: measure, refuses: refuses,
             limit: nestedFolderLimit
         )
-        return .found(leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil)
+        return .found(
+            leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil,
+            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
+        )
     }
 
     /// Looks up to two levels inside the folders not taken as the app's. Only a match strong enough to name the
@@ -211,18 +216,29 @@ public struct LeftoverScanner: Sendable {
         measure: Measure,
         refuses: Refuses,
         limit: Int
-    ) async -> (found: [Leftover], wasCutShort: Bool) {
+    ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
         var found: [Leftover] = []
+        var unreadable: [URL] = []
         var pending = folders
         var visited = 0
 
         for depth in 0..<nestedDepth {
             var deeper: [(url: URL, isAnotherApps: Bool)] = []
             for (folder, isAnotherApps) in pending {
-                guard !Task.isCancelled else { return (found, false) }
-                guard visited < limit else { return (found, true) }
+                guard !Task.isCancelled else { return (found, false, unreadable) }
+                guard visited < limit else { return (found, true, unreadable) }
                 visited += 1
-                guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)).sorted() else { continue }
+                let names: [String]
+                do {
+                    names = try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
+                        .sorted()
+                } catch CocoaError.fileReadNoSuchFile {
+                    continue
+                } catch {
+                    // It may hold the app's files, so it is said rather than passed over as empty.
+                    unreadable.append(folder)
+                    continue
+                }
                 ScanCount.current?.add(names.count)
 
                 let parent = ParentAccess(folder)
@@ -240,7 +256,7 @@ public struct LeftoverScanner: Sendable {
             }
             pending = deeper
         }
-        return (found, false)
+        return (found, false, unreadable)
     }
 
     /// Builds a leftover: measures it and decides whether to hold it back. The scan, cask paths, and installer
