@@ -243,8 +243,10 @@ final class RemovalHistoryStore {
     /// The name the Edit menu shows, and nil when there is nothing to undo.
     var undoName: String? { undoable?.source }
 
+    /// Puts the last batch back. Nothing happens while another Put Back runs, and the batch stays undoable: `restore`
+    /// takes one at a time and would drop this one without a word.
     func undoLastRemoval() async {
-        guard let undoable else { return }
+        guard let undoable, !isRestoring else { return }
         self.undoable = nil
         await restore(undoable.records, canUseHelper: canUseHelper)
     }
