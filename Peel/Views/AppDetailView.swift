@@ -602,15 +602,15 @@ struct AppDetailView: View {
     }
 
     /// The confirmation's message: the privacy reset, which History can't undo, and Homebrew's own record
-    /// of the app, which the move doesn't touch.
+    /// of the app, which moving the app doesn't touch.
     private var removalNote: Text? {
-        let privacy = resetting(plan.question.request?.urls ?? []).isEmpty
+        let urls = plan.question.request?.urls ?? []
+        let privacy = resetting(urls).isEmpty
             ? nil
             : Text("The app’s privacy permissions are cleared first, and History can’t bring them back.")
-        // Homebrew keeps its own record of what it installed, and moving the bundle does not touch it.
-        let cask = library.cask(for: plan.app).map {
+        let cask = urls.contains(plan.app.url) ? library.cask(for: plan.app).map {
             Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \($0.name)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good.")
-        }
+        } : nil
         switch (privacy, cask) {
         case let (privacy?, cask?): return Text("\(privacy)\n\n\(cask)")
         case let (privacy?, nil): return privacy
