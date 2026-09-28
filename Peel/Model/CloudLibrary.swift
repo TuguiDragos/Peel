@@ -29,8 +29,9 @@ final class CloudLibrary {
     }
     private(set) var selectedSize: Int64 = 0
 
-    var totalSize: Int64 {
-        files?.reduce(0) { $0 + $1.size } ?? 0
+    /// What the listed files take on this Mac, only the least it can be when there is more than the list shows.
+    var total: SizeTotal {
+        SizeTotal(known: (files ?? []).reduce(0) { $0.addingCapped($1.size) }, isComplete: !wasCutShort)
     }
 
     /// The files whose folder or path holds `query`, every file for an empty one.

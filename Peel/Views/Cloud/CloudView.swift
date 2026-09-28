@@ -188,7 +188,7 @@ struct CloudView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
         } trailing: {
-            TotalLabel(bytes: cloud.totalSize, caption: Text("on this Mac"))
+            TotalLabel(total: cloud.total, caption: Text("on this Mac"))
         }
     }
 }
