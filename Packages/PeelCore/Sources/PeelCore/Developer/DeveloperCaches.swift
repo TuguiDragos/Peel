@@ -1124,72 +1124,85 @@ public enum DeveloperCaches {
         preference: @escaping @Sendable (String) -> String? = Self.xcodePreference,
         openFiles: OpenFiles = OpenFiles()
     ) async -> [DeveloperEnvironment] {
-        await withTaskGroup(of: DeveloperEnvironment?.self) { group in
-            for definition in definitions {
-                _ = group.addTaskUnlessCancelled {
-                    var found: [(url: URL, folder: Folder, project: String?)] = []
-                    for folder in definition.folders {
-                        let places = folder.places(
-                            home: homeDirectory, userCache: userCacheDirectory, userTemporary: userTemporaryDirectory,
-                            preference: preference
-                        )
-                        let rows = places.flatMap { place in
-                            folder.launchers.isEmpty
-                                ? folder.rows(in: place) : folder.olderVersions(in: place, home: homeDirectory)
-                        }
-                        for url in rows {
-                            guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                            let project = folder.rowsAreProjectState ? Self.goneProject(at: url) : nil
-                            guard !folder.rowsAreProjectState || project != nil else { continue }
-                            // Skips a folder that holds work kept nowhere else, such as the state Deno's
-                            // scripts keep in `location_data`. Removing it would lose that work.
-                            guard !ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) else { continue }
-                            // Skips a symbolic link, which is how people move a big cache to another disk.
-                            // Moving the link frees nothing.
-                            guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }
-                            guard folder.base != .userTemporary || openFiles.holders(of: url).isEmpty else { continue }
-                            found.append((url, folder, project))
-                        }
-                    }
-                    // A pattern can reach inside a folder another pattern lists, as `*/GPUCache` reaches
-                    // `GPUPersistentCache/GPUCache`, and that folder goes with the one around it.
-                    let paths = found.map { PathPattern.comparablePath(of: $0.url) }
-                    var locations: [DeveloperEnvironment.Location] = []
-                    for (url, folder, project) in found {
-                        guard !Task.isCancelled else { return nil }
-                        let path = PathPattern.comparablePath(of: url)
-                        guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
-                        // Awaited, never blocked on: every tool in the table is measured at once, and a
-                        // blocked wait would hold one of the few threads that every scan in the app shares.
-                        let contents = await measure(url)
-                        let derived = folder.rowsAreDerivedData ? Self.derivedDataRow(at: url) : nil
-                        locations.append(DeveloperEnvironment.Location(
-                            url: url,
-                            kind: folder.kind(at: url),
-                            size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
-                            source: folder.source,
-                            couldNotBeRead: contents?.couldNotBeRead == true,
-                            archive: folder.kind == .archives ? Self.archive(at: url) : nil,
-                            workspace: derived?.workspace,
-                            project: project,
-                            isTheTools: derived?.isXcodes ?? true,
-                            lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange }
-                        ))
-                    }
-                    guard !locations.isEmpty else { return nil }
-                    return DeveloperEnvironment(
-                        id: definition.id,
-                        name: definition.name,
-                        systemImage: definition.systemImage,
-                        appBundleIdentifiers: definition.appBundleIdentifiers,
-                        locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
-                    )
-                }
-            }
-            return await group.reduce(into: [DeveloperEnvironment]()) { environments, environment in
-                if let environment { environments.append(environment) }
-            }
-            .sorted { $0.total != $1.total ? $0.total > $1.total : $0.name < $1.name }
+        // Four tools at a time: measured all at once, their big folders would share the disk and each run out of
+        // the time `FileSize` gives a walk, where alone they would finish.
+        await definitions.concurrentMap(width: 4) { definition in
+            await environment(
+                for: definition, homeDirectory: homeDirectory, userCacheDirectory: userCacheDirectory,
+                userTemporaryDirectory: userTemporaryDirectory, exclusions: exclusions, measure: measure,
+                preference: preference, openFiles: openFiles
+            )
         }
+        .compactMap(\.self)
+        .sorted { $0.total != $1.total ? $0.total > $1.total : $0.name < $1.name }
+    }
+
+    private static func environment(
+        for definition: Definition,
+        homeDirectory: URL,
+        userCacheDirectory: URL?,
+        userTemporaryDirectory: URL?,
+        exclusions: Exclusions,
+        measure: @escaping LeftoverScanner.Measure,
+        preference: @escaping @Sendable (String) -> String?,
+        openFiles: OpenFiles
+    ) async -> DeveloperEnvironment? {
+        var found: [(url: URL, folder: Folder, project: String?)] = []
+        for folder in definition.folders {
+            let places = folder.places(
+                home: homeDirectory, userCache: userCacheDirectory, userTemporary: userTemporaryDirectory,
+                preference: preference
+            )
+            let rows = places.flatMap { place in
+                folder.launchers.isEmpty
+                    ? folder.rows(in: place) : folder.olderVersions(in: place, home: homeDirectory)
+            }
+            for url in rows {
+                guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+                let project = folder.rowsAreProjectState ? Self.goneProject(at: url) : nil
+                guard !folder.rowsAreProjectState || project != nil else { continue }
+                // Skips a folder that holds work kept nowhere else, such as the state Deno's
+                // scripts keep in `location_data`. Removing it would lose that work.
+                guard !ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) else { continue }
+                // Skips a symbolic link, which is how people move a big cache to another disk.
+                // Moving the link frees nothing.
+                guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }
+                guard folder.base != .userTemporary || openFiles.holders(of: url).isEmpty else { continue }
+                found.append((url, folder, project))
+            }
+        }
+        // A pattern can reach inside a folder another pattern lists, as `*/GPUCache` reaches
+        // `GPUPersistentCache/GPUCache`, and that folder goes with the one around it.
+        let paths = found.map { PathPattern.comparablePath(of: $0.url) }
+        var locations: [DeveloperEnvironment.Location] = []
+        for (url, folder, project) in found {
+            guard !Task.isCancelled else { return nil }
+            let path = PathPattern.comparablePath(of: url)
+            guard !paths.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            // Awaited, never blocked on: a blocked wait would hold one of the few threads that every scan in the
+            // app shares.
+            let contents = await measure(url)
+            let derived = folder.rowsAreDerivedData ? Self.derivedDataRow(at: url) : nil
+            locations.append(DeveloperEnvironment.Location(
+                url: url,
+                kind: folder.kind(at: url),
+                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+                source: folder.source,
+                couldNotBeRead: contents?.couldNotBeRead == true,
+                archive: folder.kind == .archives ? Self.archive(at: url) : nil,
+                workspace: derived?.workspace,
+                project: project,
+                isTheTools: derived?.isXcodes ?? true,
+                lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange }
+            ))
+        }
+        guard !locations.isEmpty else { return nil }
+        return DeveloperEnvironment(
+            id: definition.id,
+            name: definition.name,
+            systemImage: definition.systemImage,
+            appBundleIdentifiers: definition.appBundleIdentifiers,
+            locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
+        )
     }
 }
