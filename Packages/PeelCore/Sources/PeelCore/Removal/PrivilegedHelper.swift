@@ -121,15 +121,14 @@ public enum PrivilegedHelper {
     /// How long the helper is waited for before the request counts as unanswered.
     private static let longestWait: TimeInterval = 120
 
-    /// The most items one request carries, which limits how many items an answer that never comes can affect.
-    private static let itemsInARequest = 100
-
     @concurrent
     public static func moveToTrash(_ urls: [URL]) async -> TrashResult {
         var result = TrashResult()
         let trash = URL.homeDirectory.appending(path: ".Trash", directoryHint: .isDirectory)
-        for start in stride(from: 0, to: urls.count, by: itemsInARequest) {
-            let batch = Array(urls[start..<min(start + itemsInARequest, urls.count)])
+        // The helper's own limit also bounds how many items an answer that never comes can affect.
+        let limit = HelperRequest.maximumItems
+        for start in stride(from: 0, to: urls.count, by: limit) {
+            let batch = Array(urls[start..<min(start + limit, urls.count)])
             // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
             let links = Dictionary(batch.map { ($0, FileIdentity.Link.of($0)) }, uniquingKeysWith: { first, _ in first })
             let paths = batch.map { $0.path(percentEncoded: false) }
@@ -237,8 +236,8 @@ public enum PrivilegedHelper {
                 }
             }
             // A helper that is running but never answers keeps the connection valid, so only this timer ends
-            // the wait. `longestWait` outlasts any request: at most `itemsInARequest` renames, or one `launchctl`
-            // run that the helper stops after 30 seconds.
+            // the wait. `longestWait` outlasts any request: at most `HelperRequest.maximumItems` renames, or one
+            // `launchctl` run that the helper stops after 30 seconds.
             DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + longestWait) { finish(fallback) }
             guard let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) }) as? any PeelHelperProtocol else {
                 finish(fallback)

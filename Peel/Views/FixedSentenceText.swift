@@ -9,6 +9,7 @@ extension FixedSentence {
         case .dotInPath: "The path has a . or .. in it."
         case .controlCharacter: "The path holds a character no real name has."
         case .folderNotFound: "The folder it’s in couldn’t be found."
+        case .tooManyOpenFolders: "Peel’s helper had too many folders open at once. Try again."
         case .outsideHelpersFolders: "It is outside the folders Peel’s helper may touch."
         case .onlyAppsThere: "Peel removes only apps from that folder."
         case .notThereAnymore: "It isn’t there anymore."

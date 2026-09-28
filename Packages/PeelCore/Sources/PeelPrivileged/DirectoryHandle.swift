@@ -23,11 +23,7 @@ public final class DirectoryHandle: Sendable {
 
     /// Opens a path that `realpath` has already resolved, so it holds no links of its own. A component
     /// that has become a link since then fails here rather than redirecting the operation.
-    static func at(canonical path: String) -> DirectoryHandle? {
-        try? open(canonical: path).get()
-    }
-
-    private static func open(canonical path: String) -> Result<DirectoryHandle, POSIXError> {
+    static func at(canonical path: String) -> Result<DirectoryHandle, POSIXError> {
         var descriptor = Darwin.open("/", O_SEARCH | O_CLOEXEC)
         guard descriptor >= 0 else { return .failure(.last) }
         for component in PathComponents.of(path) {
@@ -44,7 +40,7 @@ public final class DirectoryHandle: Sendable {
     /// without following any link.
     public static func at(_ path: String) -> Result<DirectoryHandle, POSIXError> {
         guard let real = PrivilegedPathPolicy.realPath(path) else { return .failure(.last) }
-        return open(canonical: real)
+        return at(canonical: real)
     }
 
     /// What the kernel calls this folder now, wherever it has been moved to since it was opened.

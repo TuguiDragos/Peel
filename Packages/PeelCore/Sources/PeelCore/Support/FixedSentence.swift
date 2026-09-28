@@ -6,7 +6,8 @@ internal import PeelPrivileged
 /// the app recognizes it here to show it translated. Anything else (a tool's own output, an error macOS
 /// wrote) is not one of these.
 public enum FixedSentence: CaseIterable, Sendable {
-    case notAFullPath, dotInPath, controlCharacter, folderNotFound, outsideHelpersFolders, onlyAppsThere
+    case notAFullPath, dotInPath, controlCharacter, folderNotFound, tooManyOpenFolders, outsideHelpersFolders
+    case onlyAppsThere
     case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder, onlyLinksThere, leadsSomewhere
     case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, cannotReadRecord
     case notInTrash, notMovedByHelper, invalidRequest, configurationMissing
@@ -25,6 +26,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .dotInPath: PrivilegedPathPolicy.Rejection.relativeComponent.explanation
         case .controlCharacter: PrivilegedPathPolicy.Rejection.controlCharacter.explanation
         case .folderNotFound: PrivilegedPathPolicy.Rejection.unresolvableParent.explanation
+        case .tooManyOpenFolders: PrivilegedPathPolicy.Rejection.tooManyOpenFolders.explanation
         case .outsideHelpersFolders: PrivilegedPathPolicy.Rejection.outsideAllowedLocations.explanation
         case .onlyAppsThere: PrivilegedPathPolicy.Rejection.notAnApplication.explanation
         case .notThereAnymore: PrivilegedPathPolicy.Rejection.missing.explanation

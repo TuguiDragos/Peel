@@ -94381,6 +94381,112 @@
         }
       }
     },
+    "Peel’s helper had too many folders open at once. Try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu měl otevřeno příliš mnoho složek najednou. Zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel hatte zu viele Ordner gleichzeitig geöffnet. Versuche es erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel tenía demasiadas carpetas abiertas a la vez. Vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel avait trop de dossiers ouverts à la fois. Réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel aveva troppe cartelle aperte contemporaneamente. Riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが同時に開いているフォルダが多すぎました。もう一度試してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 한 번에 너무 많은 폴더를 열어 두었습니다. 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel had te veel mappen tegelijk open. Probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel miał naraz otwartych zbyt wiele folderów. Spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel estava com pastas demais abertas ao mesmo tempo. Tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel avea prea multe dosare deschise în același timp. Încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У помощника Peel было открыто слишком много папок одновременно. Попробуйте еще раз."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram hade för många mappar öppna samtidigt. Försök igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı aynı anda çok fazla klasör açmıştı. Yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У помічника Peel було відкрито забагато папок одночасно. Спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序同时打开的文件夹过多。请再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式同時打開的檔案夾過多。請再試一次。"
+          }
+        }
+      }
+    },
     "Peel’s helper is out of date. Reinstall it in Settings." : {
       "localizations" : {
         "cs" : {

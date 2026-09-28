@@ -7,6 +7,8 @@ public struct PrivilegedPathPolicy: Sendable {
         case relativeComponent
         case controlCharacter
         case unresolvableParent
+        /// The folder it is in is there, but the helper had no descriptor left to open it with.
+        case tooManyOpenFolders
         case outsideAllowedLocations
         case notAnApplication
         case missing
@@ -24,6 +26,7 @@ public struct PrivilegedPathPolicy: Sendable {
             case .relativeComponent: "The path has a . or .. in it."
             case .controlCharacter: "The path holds a character no real name has."
             case .unresolvableParent: "The folder it’s in couldn’t be found."
+            case .tooManyOpenFolders: "Peel’s helper had too many folders open at once. Try again."
             case .outsideAllowedLocations: "It is outside the folders Peel’s helper may touch."
             case .notAnApplication: "Peel removes only apps from that folder."
             case .missing: "It isn’t there anymore."
@@ -34,6 +37,11 @@ public struct PrivilegedPathPolicy: Sendable {
             case .notALink: "Peel removes only links from that folder."
             case .leadsSomewhere: "It still leads to something on this Mac."
             }
+        }
+
+        /// Why a folder would not open: it is gone, or the helper had no descriptor left to open it with.
+        init(openingFolderFailedWith error: POSIXError) {
+            self = [.EMFILE, .ENFILE].contains(error.code) ? .tooManyOpenFolders : .unresolvableParent
         }
     }
 
@@ -156,7 +164,11 @@ public struct PrivilegedPathPolicy: Sendable {
         case .failure(let rejection):
             return .failure(rejection)
         case .success(let item):
-            guard let parent = DirectoryHandle.at(canonical: item.parent) else { return .failure(.unresolvableParent) }
+            let parent: DirectoryHandle
+            switch DirectoryHandle.at(canonical: item.parent) {
+            case .success(let opened): parent = opened
+            case .failure(let error): return .failure(Rejection(openingFolderFailedWith: error))
+            }
             var info = stat()
             guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
                 return .failure(.missing)
@@ -188,7 +200,11 @@ public struct PrivilegedPathPolicy: Sendable {
             if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
                 guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else { return .failure(.loadsCode) }
             }
-            guard let parent = DirectoryHandle.at(canonical: item.parent) else { return .failure(.unresolvableParent) }
+            let parent: DirectoryHandle
+            switch DirectoryHandle.at(canonical: item.parent) {
+            case .success(let opened): parent = opened
+            case .failure(let error): return .failure(Rejection(openingFolderFailedWith: error))
+            }
             var info = stat()
             guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) != 0 else {
                 return .failure(.alreadyExists)
@@ -202,7 +218,7 @@ public struct PrivilegedPathPolicy: Sendable {
     public func openTrash(ownedBy user: uid_t) -> DirectoryHandle? {
         guard
             let home = Self.realPath(homeDirectory),
-            let trash = DirectoryHandle.at(canonical: home)?.child(".Trash"),
+            let trash = (try? DirectoryHandle.at(canonical: home).get())?.child(".Trash"),
             trash.ownerIdentifier() == user
         else { return nil }
         return trash

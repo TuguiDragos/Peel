@@ -1,8 +1,16 @@
 import Foundation
-import PeelPrivileged
+@testable import PeelPrivileged
 import Testing
 
 struct PrivilegedPathPolicyTests {
+    /// A folder the helper could not open because it had no descriptor left is still there, so it is never
+    /// reported as a folder that could not be found.
+    @Test func aFolderOpenedWithNoDescriptorLeftIsNotCalledMissing() {
+        #expect(PrivilegedPathPolicy.Rejection(openingFolderFailedWith: POSIXError(.EMFILE)) == .tooManyOpenFolders)
+        #expect(PrivilegedPathPolicy.Rejection(openingFolderFailedWith: POSIXError(.ENFILE)) == .tooManyOpenFolders)
+        #expect(PrivilegedPathPolicy.Rejection(openingFolderFailedWith: POSIXError(.ENOENT)) == .unresolvableParent)
+    }
+
     /// A policy over a fabricated root and home folder. The helper trusts only root (`trustedOwner` 0), and a
     /// test cannot make a file root's, so a test may pass its own user ID instead.
     private func policy(in directory: borrowing TemporaryDirectory, trustedOwner: uid_t = 0) throws -> PrivilegedPathPolicy {

@@ -3,9 +3,11 @@ public import Darwin
 /// The checks every request to the helper passes before any work, in the order they are made: what costs nothing
 /// comes first, and the account behind the connection is asked last, once the request is known to be sound.
 public enum HelperRequest {
-    /// Limits on one request, so a client cannot hand the helper an unbounded amount of work. `PATH_MAX`
-    /// counts the terminating NUL, so the longest real path is 1,023 bytes.
-    public static let maximumItems = 10_000
+    /// Limits on one request, so a client cannot hand the helper an unbounded amount of work. Each item the helper
+    /// accepts keeps its folder open until the move ends, and launchd gives a daemon 256 descriptors
+    /// (`launchctl limit maxfiles`), so the app sends its items in requests of this size. `PATH_MAX` counts the
+    /// terminating NUL, so the longest real path is 1,023 bytes.
+    public static let maximumItems = 100
     public static let maximumPathLength = 1_023
 
     public struct Caller: Sendable {
