@@ -443,7 +443,8 @@ public enum Homebrew {
                 output += attempt.output
                 didFail = didFail || attempt.status != 0
             } catch {
-                // A failure is one sentence with no line ending, and the next call's report starts on a line of its own.
+                // A failure is one sentence with no line ending, and the next call's report starts on a line of
+                // its own.
                 output += error.output.hasSuffix("\n") ? error.output : error.output + "\n"
                 didFail = true
             }

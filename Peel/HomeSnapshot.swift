@@ -3,9 +3,10 @@ import SwiftUI
 
 #if DEBUG
 /// Renders Home, About and the menu bar panel to PNG files in light and dark, each also with Increase Contrast, when
-/// `PEEL_SNAPSHOT` names a folder, then quits. This lets their layouts be checked without a screenshot, in any language Peel runs in. Each view is
-/// drawn at the width the app gives it, on the background it has there: About on its paper, the menu bar panel on
-/// the paper it draws itself, and Home on the window's plain color, since `ImageRenderer` does not draw glass.
+/// `PEEL_SNAPSHOT` names a folder, then quits. This lets their layouts be checked without a screenshot, in any language
+/// Peel runs in. Each view is drawn at the width the app gives it, on the background it has there: About on its paper,
+/// the menu bar panel on the paper it draws itself, and Home on the window's plain color, since `ImageRenderer` does
+/// not draw glass.
 enum HomeSnapshot {
     static func runIfRequested() async {
         guard let directory = ProcessInfo.processInfo.environment["PEEL_SNAPSHOT"] else { return }

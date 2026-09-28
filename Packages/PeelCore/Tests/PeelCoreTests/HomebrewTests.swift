@@ -401,9 +401,9 @@ struct HomebrewTests {
         #expect(!HomebrewInstallation(version: "4.6.20", prefix: URL(filePath: "/opt/homebrew")).countsInThousands)
     }
 
-    /// Homebrew prints the total only when it is not zero (`unless cleanup.disk_cleanup_size.zero?` in `cmd/cleanup.rb`)
-    /// and lists each file it would remove (`Would remove: <path> (<size>)` in `cleanup.rb`), so a dry run that lists no
-    /// file has nothing to free. A broken link or an empty folder takes no room.
+    /// Homebrew prints the total only when it is not zero (`unless cleanup.disk_cleanup_size.zero?` in
+    /// `cmd/cleanup.rb`) and lists each file it would remove (`Would remove: <path> (<size>)` in `cleanup.rb`), so a
+    /// dry run that lists no file has nothing to free. A broken link or an empty folder takes no room.
     @Test func aCleanUpThatListsNothingFreesNothing() {
         #expect(Homebrew.reclaimableBytes(in: "", countsInThousands: true) == 0)
         #expect(Homebrew.reclaimableBytes(in: "Would remove (broken link): /opt/homebrew/bin/old\n", countsInThousands: true) == 0)
