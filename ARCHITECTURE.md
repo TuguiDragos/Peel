@@ -169,9 +169,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known
   sentences into the reader's language (`FixedSentence`).
-- **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash. `TrashService` tells it
-  about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up after
-  itself.
+- **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash: the home's, and the Trash of
+  each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
+  tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up
+  after itself.
 
 ## The `peel` tool
 

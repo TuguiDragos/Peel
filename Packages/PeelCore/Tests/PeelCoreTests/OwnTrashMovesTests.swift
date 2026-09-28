@@ -60,6 +60,18 @@ struct OwnTrashMovesTests {
         #expect(moves.arrivals(["Foo.app"], known: [], in: trash, since: moves.look()) == ["Foo.app"])
     }
 
+    /// Each Trash is looked at on its own, so a look at one keeps what landed in another until that one is seen.
+    @Test func aLookAtOneTrashKeepsWhatLandedInAnother() {
+        let moves = OwnTrashMoves()
+        let volume = URL(filePath: "/Volumes/Disk/.Trashes/501", directoryHint: .isDirectory)
+        moves.began()
+        moves.ended(landedAt: [volume.appending(path: "Foo.app")])
+
+        #expect(moves.arrivals([], known: [], in: trash, since: moves.look()) == [])
+        let arrived = moves.arrivals(["Foo.app"], known: [], in: volume, since: moves.look())
+        #expect(arrived == [], "Peel's own app was told")
+    }
+
     /// A listing that began before Peel's move landed may not show what it landed, so what landed after the
     /// look began is kept for the next one.
     @Test func keepsWhatLandedAfterTheLookBegan() {

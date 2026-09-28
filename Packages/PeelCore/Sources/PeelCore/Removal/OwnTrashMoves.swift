@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 import Synchronization
 
 /// Peel's own moves to the Trash, so a watch on the Trash can tell them from the user's. `TrashService`, which
@@ -57,8 +58,9 @@ public final class OwnTrashMoves: Sendable {
             guard state.underWay == 0 else { return nil }
             let folder = PathPattern.comparablePath(of: trash)
             let arrived = names.subtracting(known).sorted().filter { state.landed[folder + "/" + $0] == nil }
-            // What landed before the listing began has been seen by it, or has left the Trash since.
-            state.landed = state.landed.filter { $0.value > look }
+            // What landed in this Trash before the listing began has been seen by it, or has left since. Another
+            // Trash keeps what landed there until it is listed itself.
+            state.landed = state.landed.filter { $0.value > look || !PathComponents.isPath($0.key, inside: folder) }
             return arrived
         }
     }

@@ -95,6 +95,13 @@ struct PeelApp: App {
         ))
     }
 
+    /// Tells the Trash watch where the listed apps are, so it watches the Trash of each other disk they are on.
+    private func followAppsForTheTrash() async {
+        for await _ in Observations({ library.revision }) {
+            trashMonitor.follow(appsAt: library.apps.map(\.url))
+        }
+    }
+
     /// Keeps the app list current as apps are installed and removed while Peel is open, and as folders are added to
     /// or removed from the ones it looks in.
     private func followFolders() async {
@@ -341,7 +348,10 @@ struct PeelApp: App {
                     // Started once, and not as a child of this view's task, so the work goes on in the menu bar
                     // after the window closes.
                     Navigator.shared.openWindow = openWindow
-                    background.start([followFolders, askWhenDue, followFindings, followActivations, watchFreeSpace])
+                    background.start([
+                        followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations,
+                        watchFreeSpace,
+                    ])
                     textEditing.start()
                 }
         }
