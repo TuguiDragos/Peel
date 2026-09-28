@@ -121,6 +121,14 @@ struct InventoryTests {
         #expect(!brewfile.contains("Sparkly"))
     }
 
+    @Test func writesNoBrewfileWhenHomebrewDidNotAnswer() throws {
+        let unread = Inventory.build(apps: [], casks: nil)
+
+        #expect(throws: Inventory.HomebrewDidNotAnswer.self) { try unread.written(as: .brewfile) }
+        #expect(try unread.written(as: .text) == "\n")
+        #expect(try Inventory.build(apps: [], casks: []).written(as: .brewfile) == "")
+    }
+
     @Test func writesTheDayWhereTheReaderIs() throws {
         let halfPastOneInBucharest = try Date("2026-09-18T22:30:00Z", strategy: .iso8601)
         let bucharest = try #require(TimeZone(identifier: "Europe/Bucharest"))

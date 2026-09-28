@@ -98,6 +98,13 @@ final class HomebrewLibrary {
     var selection: HomebrewPackage.ID?
     var result: CommandResult?
 
+    private(set) var hasAnswered = false
+
+    /// What Homebrew says is installed, or nil when it did not answer and nothing is known.
+    var answeredPackages: [HomebrewPackage]? {
+        hasAnswered ? packages : nil
+    }
+
     var selectedPackage: HomebrewPackage? {
         packages?.first { $0.id == selection }
     }
@@ -132,6 +139,7 @@ final class HomebrewLibrary {
         guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }) else { return }
         guard let (found, installed, preview, overridden) = reading else {
             needsDefinitions = true
+            hasAnswered = false
             packages = packages ?? []
             return
         }
@@ -140,9 +148,11 @@ final class HomebrewLibrary {
         switch installed {
         case .success(let list):
             packages = list
+            hasAnswered = true
             couldNotRead = nil
         case .failure(let error):
             packages = packages ?? []
+            hasAnswered = false
             couldNotRead = error.output
         }
         self.installation = found

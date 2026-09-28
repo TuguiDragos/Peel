@@ -40327,6 +40327,112 @@
         }
       }
     },
+    "Homebrew didn’t answer, so Peel has nothing to write a Brewfile from. Open Homebrew in Peel to see why." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew neodpověděl, takže Peel nemá z čeho vytvořit Brewfile. Otevřete v Peelu stránku Homebrew a uvidíte proč."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat nicht geantwortet, daher fehlt Peel die Grundlage für ein Brewfile. Öffne die Seite „Homebrew“ in Peel, um zu sehen, warum."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew no ha respondido, así que Peel no tiene nada con lo que escribir un Brewfile. Abre Homebrew en Peel para ver por qué."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew n’a pas répondu : Peel n’a donc rien à écrire dans un Brewfile. Ouvrez la page Homebrew dans Peel pour savoir pourquoi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew non ha risposto, quindi Peel non ha nulla da cui scrivere un Brewfile. Apri la pagina Homebrew in Peel per vedere perché."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewが応答しなかったため、PeelにはBrewfileを作成する元になる情報がありません。理由を確認するには、PeelでHomebrewを開いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 응답하지 않아 Peel이 Brewfile을 작성할 내용이 없습니다. Peel에서 Homebrew 페이지를 열어 이유를 확인하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew reageerde niet, dus Peel heeft niets om een Brewfile op te baseren. Open de pagina 'Homebrew' in Peel om te zien waarom."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nie odpowiedział, więc Peel nie ma z czego utworzyć pliku Brewfile. Otwórz stronę Homebrew w Peel, aby zobaczyć, dlaczego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew não respondeu, então o Peel não tem nada para escrever em um Brewfile. Abra a página Homebrew no Peel para ver o motivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nu a răspuns, așa că Peel nu are din ce să scrie un Brewfile. Deschideți pagina Homebrew în Peel pentru a vedea de ce."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не ответил, поэтому у Peel нет данных для Brewfile. Откройте страницу Homebrew в Peel, чтобы узнать причину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew svarade inte, så Peel har inget underlag att skriva en Brewfile utifrån. Öppna sidan Homebrew i Peel för att se varför."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew yanıt vermedi, bu yüzden Peel’in bir Brewfile yazacağı hiçbir şey yok. Nedenini görmek için Peel’de Homebrew’u açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не відповів, тож Peel немає з чого записати Brewfile. Відкрийте сторінку «Homebrew» у Peel, щоб побачити, чому."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew没有回应，因此Peel没有内容可写入Brewfile。在Peel中打开Homebrew页面即可查看原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew沒有回應，因此Peel沒有可用來寫入Brewfile的內容。請在Peel中打開「Homebrew」頁面查看原因。"
+          }
+        }
+      }
+    },
     "Homebrew didn’t say what is installed" : {
       "localizations" : {
         "cs" : {

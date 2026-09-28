@@ -8,12 +8,14 @@ enum InventoryExport {
     /// Asks the user where to save the inventory, then writes it there. Returns nil when the file was written
     /// or the user canceled, and the error message otherwise.
     @MainActor
-    static func run(format: Inventory.Format, apps: [InstalledApp], casks: [HomebrewPackage]) async -> String? {
+    static func run(format: Inventory.Format, apps: [InstalledApp], casks: [HomebrewPackage]?) async -> String? {
         let contents: String
         // Only a Brewfile says what this Mac trusts, and asking takes a call to `brew`.
         let trust = format == .brewfile ? await Homebrew.trust() : HomebrewTrust()
         do {
             contents = try Inventory.build(apps: apps, casks: casks, origins: .onThisMac, trust: trust).written(as: format)
+        } catch is Inventory.HomebrewDidNotAnswer {
+            return String(localized: "Homebrew didn’t answer, so Peel has nothing to write a Brewfile from. Open Homebrew in Peel to see why.")
         } catch {
             return error.localizedDescription
         }

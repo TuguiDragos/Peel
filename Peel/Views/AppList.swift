@@ -151,7 +151,11 @@ private struct ExportMenu: View {
             // whole menu waits for that list, because without it every cask app's source would read "Unknown".
             ForEach(Inventory.Format.allCases.filter { $0 != .brewfile || homebrew.isInstalled }, id: \.self) { format in
                 Button(String(localized: format.title)) {
-                    Task { failure = await InventoryExport.run(format: format, apps: library.apps, casks: homebrew.packages ?? []) }
+                    Task {
+                        failure = await InventoryExport.run(
+                            format: format, apps: library.apps, casks: homebrew.answeredPackages
+                        )
+                    }
                 }
             }
         } label: {

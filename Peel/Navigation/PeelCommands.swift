@@ -154,7 +154,10 @@ struct PeelCommands: Commands {
 extension PeelCommands {
     private func export(as format: Inventory.Format) {
         Task {
-            guard let failure = await InventoryExport.run(format: format, apps: library.apps, casks: homebrew.packages ?? []) else { return }
+            let failure = await InventoryExport.run(
+                format: format, apps: library.apps, casks: homebrew.answeredPackages
+            )
+            guard let failure else { return }
             let alert = NSAlert()
             alert.messageText = String(localized: "The list couldn’t be saved.")
             alert.informativeText = failure
