@@ -400,7 +400,10 @@ struct LeftoverMatcherTests {
 
     @Test func aPlugInIsMatchedWithoutTheExtensionThatSaysItsKind() throws {
         let serum = app("com.xferrecords.serum", name: "Serum")
-        for name in ["Serum.vst3", "Serum.vst", "Serum.component", "Serum.clap", "Serum.saver"] {
+        for name in [
+            "Serum.vst3", "Serum.vst", "Serum.component", "Serum.clap", "Serum.saver", "Serum.aaxplugin", "Serum.action",
+            "Serum.dictionary",
+        ] {
             let found = try #require(match(name, in: .plugIns, for: serum), "\(name)")
             #expect(found.reason == .name, "\(name)")
             #expect(found.confidence == .likely, "\(name)")
@@ -412,7 +415,7 @@ struct LeftoverMatcherTests {
     /// then only a name prefix match: shown as a guess, never selected as the app's own.
     @Test func anUnknownPlugInKindIsNeverTakenForTheAppsOwn() throws {
         let serum = app("com.xferrecords.serum", name: "Serum")
-        let found = try #require(match("Serum.aaxplugin", in: .plugIns, for: serum))
+        let found = try #require(match("Serum.rtas", in: .plugIns, for: serum))
         #expect(found.reason == .namePrefix)
         #expect(found.confidence == .possible)
     }

@@ -33,11 +33,24 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     case colorPickers = "ColorPickers"
     case contextualMenuItems = "Contextual Menu Items"
     case mailBundles = "Mail/Bundles"
+    /// Avid's "Where is the Plug-Ins folder for Pro Tools located?" (kb.avid.com).
+    case aax = "Application Support/Avid/Audio/Plug-Ins"
+    /// MOTU's "What differences are there between MAS and AU plug-ins in Digital Performer?".
+    case mas = "Audio/Plug-Ins/MAS"
+    /// Apple's "Preparing an Image Unit for Distribution", Image Unit Tutorial.
+    case imageUnits = "Graphics/Image Units"
+    /// Apple's "Creating Dictionaries", Dictionary Services Programming Guide.
+    case dictionaries = "Dictionaries"
+    /// Apple's "Automator Overview", Automator Programming Guide.
+    case automatorActions = "Automator"
+    /// Apple's "Creating and Using Address Book Action Plug-ins", Address Book Programming Guide.
+    case contactsPlugIns = "Address Book Plug-Ins"
 
     /// The folders macOS loads plug-ins from, in each Library.
     public static let plugIns: [LibraryFolder] = [
         .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
-        .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
+        .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles, .aax,
+        .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns,
     ]
 
     /// The folders searched in the home's Library, besides the plug-in folders.

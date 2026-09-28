@@ -52,6 +52,33 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Parrot" }?.isInstalledForAllUsers == true)
     }
 
+    /// Avid, MOTU and Apple each document a folder their plug-ins are installed in: AAX, MAS, Core Image's image
+    /// units, dictionaries, Automator's actions and Contacts' action plug-ins.
+    @Test func findsThePlugInsOfEveryFolderTheirMakersDocument() async throws {
+        let directory = try TemporaryDirectory()
+        let bundles = [
+            "root/Library/Application Support/Avid/Audio/Plug-Ins/Echo.aaxplugin",
+            "root/Library/Audio/Plug-Ins/MAS/Delay.bundle",
+            "home/Library/Graphics/Image Units/Grain.plugin",
+            "home/Library/Dictionaries/Glossary.dictionary",
+            "root/Library/Automator/Resize.action",
+            "home/Library/Address Book Plug-Ins/Dial.bundle",
+        ]
+        for bundle in bundles { try directory.directory("\(bundle)/Contents") }
+
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let plugins = await Plugins.scan(environment: environment)
+        let found = Dictionary(uniqueKeysWithValues: plugins.map { ($0.name, $0.category) })
+
+        #expect(found == [
+            "Echo": .aax, "Delay": .mas, "Grain": .imageUnits, "Glossary": .dictionaries, "Resize": .automatorActions,
+            "Dial": .contactsPlugIns,
+        ])
+    }
+
     /// All of Mail in the user's own Library is protected, so a Mail bundle there is listed but never offered: moving
     /// it would only be refused. A plug-in anywhere else is offered as usual.
     @Test func showsAMailBundleInTheUsersLibraryButLeavesItAlone() async throws {

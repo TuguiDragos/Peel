@@ -19,6 +19,12 @@ public struct Plugin: Sendable, Hashable, Identifiable {
         case colorPickers
         case contextualMenuItems
         case mailBundles
+        case aax
+        case mas
+        case imageUnits
+        case dictionaries
+        case automatorActions
+        case contactsPlugIns
     }
 
     public let url: URL
@@ -56,6 +62,12 @@ extension Plugin.Category {
         case .colorPickers: self = .colorPickers
         case .contextualMenuItems: self = .contextualMenuItems
         case .mailBundles: self = .mailBundles
+        case .aax: self = .aax
+        case .mas: self = .mas
+        case .imageUnits: self = .imageUnits
+        case .dictionaries: self = .dictionaries
+        case .automatorActions: self = .automatorActions
+        case .contactsPlugIns: self = .contactsPlugIns
         case .applicationSupport, .applicationScripts, .caches, .containers, .groupContainers, .preferences,
              .preferencesByHost, .savedApplicationState, .recentDocuments, .logs, .httpStorages, .webKit, .cookies,
              .launchAgents, .launchDaemons, .privilegedHelperTools:
@@ -133,6 +145,12 @@ public enum Plugins {
         .colorPickers: ["colorpicker"],
         .contextualMenuItems: ["plugin"],
         .mailBundles: ["mailbundle"],
+        .aax: ["aaxplugin"],
+        .mas: ["bundle"],
+        .imageUnits: ["plugin"],
+        .dictionaries: ["dictionary"],
+        .automatorActions: ["action"],
+        .contactsPlugIns: ["bundle"],
     ]
 
     /// Returns the plug-ins in `directory`, looking one level down inside folders that are not plug-ins

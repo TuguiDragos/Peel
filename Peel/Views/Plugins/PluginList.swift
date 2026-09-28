@@ -108,6 +108,12 @@ extension Plugin.Category {
         case .colorPickers: "Color Pickers"
         case .contextualMenuItems: "Contextual Menu Items"
         case .mailBundles: "Mail Plug-ins"
+        case .aax: "AAX Plug-ins"
+        case .mas: "MAS Plug-ins"
+        case .imageUnits: "Image Units"
+        case .dictionaries: "Dictionaries"
+        case .automatorActions: "Automator Actions"
+        case .contactsPlugIns: "Contacts Plug-ins"
         }
     }
 }

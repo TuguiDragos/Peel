@@ -70,7 +70,8 @@ extension SearchLocation.Kind {
         case .launchDaemons: self = .launchDaemons
         case .privilegedHelperTools: self = .privilegedHelperTools
         case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
-             .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles:
+             .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
+             .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
             self = .plugIns
         }
     }
