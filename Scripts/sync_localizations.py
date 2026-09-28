@@ -12,10 +12,10 @@ and otherwise marked stale with its translations kept. The tool picks the string
 name, so each catalog is synced on a copy with the same name. InfoPlist has no `.stringsdata`: its English is
 read from `Support/Peel-Info.plist`, and the app's name is marked as never translated.
 
-The script stops instead of guessing. It exits when there is no build output, because a sync against nothing
-would treat every string as gone, and when the build is older than the code, because a sync against it would
-miss what changed since. The app would still build and launch, so the damage could be committed unnoticed. It also exits when a run would remove or mark stale more than a quarter of a catalog. Run with
-`--force` to go ahead anyway.
+The script stops instead of guessing. It exits when there is no build output, because a sync against nothing would
+treat every string as gone, and when the build is older than the code, because a sync against it would miss what
+changed since. The app would still build and launch, so the damage could be committed unnoticed. It also exits
+when a run would remove or mark stale more than a quarter of a catalog. Run with `--force` to go ahead anyway.
 """
 import argparse, json, pathlib, platform, plistlib, shutil, subprocess, sys, tempfile
 
