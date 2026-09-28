@@ -105,8 +105,12 @@ final class TrashMonitor {
                 let arrived = OwnTrashMoves.shared.arrivals(applications, known: knownApplications, in: trashURL, since: look)
             else { return }
             knownApplications = applications
+            // What Peel put there, from this process or from `peel` in Terminal, is no app the person threw away.
+            let placedByPeel = arrived.isEmpty ? [] : await RemovalLog().placesInTheTrash()
             for name in arrived {
-                onApplicationTrashed?(trashURL.appending(path: name, directoryHint: .isDirectory))
+                let url = trashURL.appending(path: name, directoryHint: .isDirectory)
+                guard !placedByPeel.contains(PathPattern.comparablePath(of: url)) else { continue }
+                onApplicationTrashed?(url)
             }
         }
     }

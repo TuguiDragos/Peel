@@ -221,4 +221,29 @@ struct RemovalJournalTests {
 
         #expect(!FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
     }
+
+    /// Every place in the Trash Peel put something, from any process: what History records and what a removal under
+    /// way has written down so far, as long as that item is still there.
+    @Test func knowsWhatPeelPutInTheTrashFromAnyProcess() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let recorded = try directory.directory("Trash/Recorded.app")
+        let underWay = try directory.directory("Trash/UnderWay.app")
+        let emptied = directory.url.appending(path: "Trash/Emptied.app")
+        try directory.directory("Trash/Thrown.app")
+        func item(_ trashed: URL) -> TrashedItem {
+            let original = URL(filePath: "/Applications/\(trashed.lastPathComponent)")
+            return TrashedItem(originalURL: original, trashedURL: trashed, date: .now)
+        }
+        _ = await log.add([
+            RemovalRecord(batch: UUID(), item: item(recorded), size: 1, source: "Recorded", tool: "applications"),
+            RemovalRecord(batch: UUID(), item: item(emptied), size: 1, source: "Emptied", tool: "applications"),
+        ])
+        RemovalJournal(beside: log.url).note([item(underWay)], batch: UUID(), by: .current)
+
+        let places = await log.placesInTheTrash()
+
+        #expect(places == Set([recorded, underWay].map(PathPattern.comparablePath(of:))))
+    }
+
 }

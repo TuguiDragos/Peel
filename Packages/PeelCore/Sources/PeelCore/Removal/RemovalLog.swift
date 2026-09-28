@@ -49,6 +49,13 @@ public actor RemovalLog {
         whileNoOtherProcessWrites { RemovalLogOutcome(records: current(), problem: problem) }
     }
 
+    /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
+    /// and what a removal under way has written down so far. Spelled as `PathPattern.comparablePath` spells them.
+    public func placesInTheTrash() -> Set<String> {
+        let items = (load().records ?? []).map(\.trashedItem) + journal.entries().map(\.item)
+        return Set(items.filter(\.isInTheTrash).map { PathPattern.comparablePath(of: $0.trashedURL) })
+    }
+
     public func add(_ records: [RemovalRecord]) -> RemovalLogOutcome {
         whileNoOtherProcessWrites {
             guard !records.isEmpty else { return RemovalLogOutcome(records: current(), problem: problem) }
