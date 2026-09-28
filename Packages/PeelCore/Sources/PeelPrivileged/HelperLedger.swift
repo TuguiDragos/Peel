@@ -5,7 +5,7 @@ public import Foundation
 /// record that any process running as the user can rewrite, so the helper trusts none of it: it puts back
 /// only an item this ledger knows, and only to the place it took it from. The ledger sits in a folder only
 /// root can use, outside every folder the helper serves, so the helper can never be asked to move it.
-public final class HelperLedger: @unchecked Sendable {
+public final class HelperLedger: Sendable {
     private struct Entry: Codable {
         let path: String
         let identity: ItemIdentity
