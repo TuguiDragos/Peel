@@ -37,11 +37,15 @@ enum AppLookup {
     /// the folder it runs from.
     typealias Inspect = (URL) -> InstalledApp?
 
-    /// Finds an app by path, bundle identifier, or name, tried in that order. A name may end in `.app`, like
-    /// the bundle's file name.
-    static func app(matching query: String, in apps: [InstalledApp], inspect: Inspect = AppInspector.inspect) throws(Failure) -> InstalledApp {
+    /// Finds an app by path, bundle identifier, or name, tried in that order, a path being read from `folder`. A name
+    /// may end in `.app`, like the bundle's file name; when a bundle of that name also sits in `folder` and is not
+    /// the app the name finds, the answer is ambiguous, since either may be meant (`./Foo.app` names the one there).
+    static func app(
+        matching query: String, in apps: [InstalledApp], from folder: URL = .currentFolder,
+        inspect: Inspect = AppInspector.inspect
+    ) throws(Failure) -> InstalledApp {
         if query.contains("/") {
-            return try app(at: query, in: apps, inspect: inspect)
+            return try app(at: query, in: apps, from: folder, inspect: inspect)
         }
         // Two bundles can share an identifier: a copy in `~/Applications` beside one in `/Applications`, or a
         // beta beside the release. Taking the first match would remove whichever sorted first, so this throws.
@@ -53,21 +57,37 @@ enum AppLookup {
         }
         // Compared without the user's locale: under Turkish rules, `iina` wouldn't match `IINA`.
         let named = apps.filter { names(of: $0).contains { $0.compare(bareName(query), options: [.caseInsensitive, .widthInsensitive]) == .orderedSame } }
+        let local = localBundle(named: query, in: folder).map(normalizedPath)
+        let paths = named.map { normalizedPath($0.url) }
+        if let local, !paths.isEmpty, !paths.contains(local) {
+            throw .ambiguous(query, paths + [local])
+        }
         switch named.count {
         case 0: break
         case 1: return named[0]
-        default: throw .ambiguous(query, named.map { normalizedPath($0.url) })
+        default: throw .ambiguous(query, paths)
         }
         // A name ending in `.app` may still be a bundle sitting in the current folder.
-        guard query.lowercased().hasSuffix(".app"), let app = try? app(at: query, in: apps, inspect: inspect) else {
+        guard local != nil, let app = try? app(at: query, in: apps, from: folder, inspect: inspect) else {
             throw .notFound(query)
         }
         return app
     }
 
+    /// The bundle named `query` in `folder`, when `query` ends in `.app` and one is there.
+    private static func localBundle(named query: String, in folder: URL) -> URL? {
+        guard query.lowercased().hasSuffix(".app") else { return nil }
+        let url = URL(argument: query, relativeTo: folder)
+        var isFolder: ObjCBool = false
+        let isThere = FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isFolder)
+        return isThere && isFolder.boolValue ? url : nil
+    }
+
     /// Finds the app at a path, which may be a bundle that isn't installed, such as one in the current folder.
-    private static func app(at query: String, in apps: [InstalledApp], inspect: Inspect) throws(Failure) -> InstalledApp {
-        let path = normalizedPath(URL(argument: query))
+    private static func app(
+        at query: String, in apps: [InstalledApp], from folder: URL, inspect: Inspect
+    ) throws(Failure) -> InstalledApp {
+        let path = normalizedPath(URL(argument: query, relativeTo: folder))
         if let app = apps.first(where: { normalizedPath($0.url) == path }) {
             return app
         }

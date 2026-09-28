@@ -84,7 +84,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
         @Argument(help: "Files or folders to leave alone.", completion: .file())
         var paths: [String] = []
 
-        @Option(help: "An app to leave alone: its path, bundle identifier, or name.")
+        @Option(help: "An app to leave alone: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.")
         var app: String?
 
         func validate() throws {
@@ -123,7 +123,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
         @Argument(help: "Files or folders to stop leaving alone.", completion: .file())
         var paths: [String] = []
 
-        @Option(help: "An app to stop leaving alone: its path, bundle identifier, or name.")
+        @Option(help: "An app to stop leaving alone: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.")
         var app: String?
 
         func validate() throws {

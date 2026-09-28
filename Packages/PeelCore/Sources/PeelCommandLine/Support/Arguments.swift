@@ -122,8 +122,16 @@ extension URL {
     /// A file, folder, or app given on the command line, relative to the current directory. What is there is
     /// named as a file or as a folder, as the disk says, so it compares equal to the same item named anywhere else.
     init(argument: String) {
-        let currentDirectory = URL(filePath: FileManager.default.currentDirectoryPath, directoryHint: .isDirectory)
+        self.init(argument: argument, relativeTo: .currentFolder)
+    }
+
+    init(argument: String, relativeTo folder: URL) {
         let path = (argument as NSString).expandingTildeInPath
-        self = URL(filePath: path, directoryHint: .checkFileSystem, relativeTo: currentDirectory).standardizedFileURL
+        self = URL(filePath: path, directoryHint: .checkFileSystem, relativeTo: folder).standardizedFileURL
+    }
+
+    /// The folder the command was run from.
+    static var currentFolder: URL {
+        URL(filePath: FileManager.default.currentDirectoryPath, directoryHint: .isDirectory)
     }
 }

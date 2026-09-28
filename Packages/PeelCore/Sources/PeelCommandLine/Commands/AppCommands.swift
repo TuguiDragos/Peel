@@ -94,7 +94,7 @@ struct LeftoversCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "leftovers",
         abstract: "Show the files an app leaves behind.",
-        discussion: "APP can be the path to the app, its bundle identifier, or its name."
+        discussion: "APP can be the path to the app, its bundle identifier, or its name. A bundle in the current folder is written ./Name.app."
     )
 
     @Argument(help: "The app to inspect.")
@@ -224,7 +224,7 @@ struct UninstallCommand: AsyncParsableCommand {
             """
     )
 
-    @Argument(help: "The app to remove: its path, bundle identifier, or name.")
+    @Argument(help: "The app to remove: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.")
     var app: String
 
     @Flag(help: "Move only the app, not its leftovers.")

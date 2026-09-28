@@ -117,6 +117,26 @@ struct CommandLineTests {
         }
     }
 
+    /// `cd ~/Downloads && peel uninstall Editor.app` could mean the installed Editor or the bundle in the current
+    /// folder, so neither is picked for the person; `./Editor.app` names the one there.
+    @Test func aBundleInTheCurrentFolderBesideAnInstalledOneIsNamedByItsPath() throws {
+        let directory = try TemporaryDirectory()
+        let local = try directory.directory("Downloads/Editor.app")
+        let downloads = directory.url.appending(path: "Downloads", directoryHint: .isDirectory)
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let copy = InstalledApp(url: local, bundleIdentifier: "org.example.editor", name: "Editor")
+        let paths = ["/Applications/Editor.app", PathPattern.comparablePath(of: local)]
+
+        #expect(throws: AppLookup.Failure.ambiguous("Editor.app", paths)) {
+            try AppLookup.app(matching: "Editor.app", in: [editor], from: downloads)
+        }
+        #expect(try AppLookup.app(matching: "Editor", in: [editor], from: downloads) == editor)
+        #expect(try AppLookup.app(matching: "./Editor.app", in: [editor], from: downloads) { _ in copy } == copy)
+    }
+
     @Test func refusesAnAppExcludedInSettings() throws {
         let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
 

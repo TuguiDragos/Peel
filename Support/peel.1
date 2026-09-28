@@ -53,7 +53,7 @@ Show help information.
 .It Em leftovers
 Show the files an app leaves behind.
 .Pp
-APP can be the path to the app, its bundle identifier, or its name.
+APP can be the path to the app, its bundle identifier, or its name. A bundle in the current folder is written ./Name.app.
 .Bl -tag -width 6n
 .It Ar app
 The app to inspect.
@@ -73,7 +73,7 @@ Only leftovers Peel suggests are included. Items that need administrator access 
 The app itself moves first, so nothing of it goes to the Trash while it stays installed. Answering no exits with code 2; a removal that couldn't finish exits 1, and so does a privacy reset that didn't happen.
 .Bl -tag -width 6n
 .It Ar app
-The app to remove: its path, bundle identifier, or name.
+The app to remove: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.
 .It Fl -keep-leftovers
 Move only the app, not its leftovers.
 .It Fl -reset-privacy
@@ -171,7 +171,7 @@ A whole disk, a home folder, or a Library is refused: excluding one would leave 
 .It Ar paths...
 Files or folders to leave alone.
 .It Fl -app Ar app
-An app to leave alone: its path, bundle identifier, or name.
+An app to leave alone: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.
 .It Fl -version
 Show the version.
 .It Fl h , -help
@@ -183,7 +183,7 @@ Stop leaving something alone.
 .It Ar paths...
 Files or folders to stop leaving alone.
 .It Fl -app Ar app
-An app to stop leaving alone: its path, bundle identifier, or name.
+An app to stop leaving alone: its path, bundle identifier, or name. Write ./Name.app for a bundle in the current folder.
 .It Fl -version
 Show the version.
 .It Fl h , -help
