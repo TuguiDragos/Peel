@@ -15,7 +15,9 @@ read from `Support/Peel-Info.plist`, and the app's name is marked as never trans
 The script stops instead of guessing. It exits when there is no build output, because a sync against nothing would
 treat every string as gone, and when the build is older than the code, because a sync against it would miss what
 changed since. The app would still build and launch, so the damage could be committed unnoticed. It also exits
-when a run would remove or mark stale more than a quarter of a catalog. Run with `--force` to go ahead anyway.
+when a run would remove or mark stale more than a quarter of a catalog and more than one string, or all of it.
+Every catalog is worked out before any is written, so a stop leaves them all as they were. Run with `--force` to
+go ahead anyway.
 """
 import argparse, json, pathlib, platform, plistlib, shutil, subprocess, sys, tempfile
 
@@ -68,24 +70,23 @@ def write(path, catalog):
 
 
 def report(name, before, after):
-    """Prints how two catalogs differ and returns True if they do. Exits if too many strings would go."""
+    """Prints how two catalogs differ and returns True if they do. Exits if too many strings would go: more than a
+    quarter of them and more than one, or all of them."""
     old, new = keys(before), keys(after)
     added = sorted(set(new) - set(old))
     removed = sorted(set(old) - set(new))
     went_stale = sorted(k for k in new if stale(new[k]) and k in old and not stale(old[k]))
-    changed = added or removed or went_stale or json.dumps(before, sort_keys=True) != json.dumps(after, sort_keys=True)
-    total = len(new)
-    print(f"{name}: {total} strings, {len(added)} added, {len(removed)} removed, {len(went_stale)} marked stale")
-    for key in added:
-        print(f"  added: {key!r}")
-    for key in removed:
-        print(f"  removed: {key!r}")
-    for key in went_stale:
-        print(f"  stale: {key!r}")
-    if old and len(removed) + len(went_stale) > MOST_OF_IT * len(old) and not FORCE:
-        going = len(removed) + len(went_stale)
+    changed = sorted(k for k in new if k in old and new[k] != old[k] and k not in went_stale)
+    differs = json.dumps(before, sort_keys=True) != json.dumps(after, sort_keys=True)
+    print(f"{name}: {len(new)} strings, {len(added)} added, {len(removed)} removed, {len(went_stale)} marked stale, "
+          f"{len(changed)} changed")
+    for kind, found in (("added", added), ("removed", removed), ("stale", went_stale), ("changed", changed)):
+        for key in found:
+            print(f"  {kind}: {key!r}")
+    going = len(removed) + len(went_stale)
+    if old and (going > max(1, MOST_OF_IT * len(old)) or going == len(old)) and not FORCE:
         sys.exit(f"{name}: {going} of {len(old)} strings would go. Check the build, then run with --force.")
-    return bool(changed)
+    return differs
 
 
 def stringsdata(target):
@@ -162,22 +163,22 @@ def info_plist(current):
     return {"sourceLanguage": "en", "strings": strings, "version": current.get("version", "1.0")}
 
 
-differs = False
+# Every catalog is worked out and judged before any is written, so a refusal or an error on one leaves them all
+# as they were.
+results = []
 for target, path in SYNCED:
     before = json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_catalog()
     after = synced(target, path)
-    name = f"{target} {path.stem}"
-    if report(name, before, after):
-        differs = True
-        if not CHECK:
-            write(path, after)
-
+    results.append((path, after, report(f"{target} {path.stem}", before, after)))
 before = json.loads(INFO_CATALOG.read_text(encoding="utf-8")) if INFO_CATALOG.exists() else empty_catalog()
 after = info_plist(before)
-if report("Peel InfoPlist", before, after):
-    differs = True
-    if not CHECK:
-        write(INFO_CATALOG, after)
+results.append((INFO_CATALOG, after, report("Peel InfoPlist", before, after)))
+
+differs = any(changed for _, _, changed in results)
+if not CHECK:
+    for path, after, changed in results:
+        if changed:
+            write(path, after)
 
 if CHECK and differs:
     sys.exit("the catalogs are not in step with the code: run python3 Scripts/sync_localizations.py")
