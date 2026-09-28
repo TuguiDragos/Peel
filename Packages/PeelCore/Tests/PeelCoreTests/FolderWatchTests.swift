@@ -66,6 +66,17 @@ struct FolderWatchTests {
         #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
+    /// Apple says an event stream ought always to start, and to fall back to looking again from time to time when
+    /// it does not. A watch that could not start still says, every so often, that the folders may have changed.
+    @Test func looksAgainFromTimeToTimeWhenTheWatchCannotStart() async throws {
+        let directory = try TemporaryDirectory()
+        let changes = FolderWatch.changes(in: [directory.url], starting: { _ in false }, orEvery: 0.1)
+        var iterator = changes.makeAsyncIterator()
+
+        #expect(await iterator.next() != nil, "the stream ended instead of looking again")
+        #expect(await iterator.next() != nil, "it looked again only once")
+    }
+
     private func firstChange(of changes: AsyncStream<Void>, within limit: Duration) async -> Bool {
         await withTaskGroup(of: Bool.self) { group in
             group.addTask {

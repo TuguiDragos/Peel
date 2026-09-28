@@ -6,12 +6,24 @@ public import Foundation
 public enum FolderWatch {
     /// A burst of changes is one change: macOS gathers them for this long before it says anything.
     private static let latency: CFTimeInterval = 1
+    /// How often, in seconds, the folders count as changed when macOS cannot watch them.
+    private static let lookingAgain: TimeInterval = 60
 
     /// Yields a value whenever something changes anywhere under `folders`, subfolders included, since the
     /// catalog finds apps a few folders down (`/Applications/Setapp/Foo.app`). A folder that does not exist yet
     /// (`~/Applications` on a new Mac) is watched from the moment it is created. The watch ends when the stream
     /// is dropped.
     public static func changes(in folders: [URL]) -> AsyncStream<Void> {
+        changes(in: folders, starting: FSEventStreamStart, orEvery: lookingAgain)
+    }
+
+    /// `start` starts the event stream. Apple says a stream ought always to start, and to fall back to looking at
+    /// the folders again when it does not (`FSEventStreamStart`), so then a change is reported every `interval`.
+    static func changes(
+        in folders: [URL],
+        starting start: @escaping @Sendable (FSEventStreamRef) -> Bool,
+        orEvery interval: TimeInterval
+    ) -> AsyncStream<Void> {
         AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
             let listener = Unmanaged.passRetained(Listener(continuation))
             var context = FSEventStreamContext(version: 0, info: listener.toOpaque(), retain: nil, release: nil, copyDescription: nil)
@@ -29,18 +41,27 @@ public enum FolderWatch {
                 FSEventStreamCreateFlags(kFSEventStreamCreateFlagWatchRoot)
             ) else {
                 listener.release()
-                continuation.finish()
+                lookAgain(every: interval, continuation)
                 return
             }
             let watch = Watch(stream: stream, listener: listener)
             FSEventStreamSetDispatchQueue(stream, DispatchQueue.global(qos: .utility))
-            guard FSEventStreamStart(stream) else {
+            guard start(stream) else {
                 watch.end()
-                continuation.finish()
+                lookAgain(every: interval, continuation)
                 return
             }
+            watch.isStarted = true
             continuation.onTermination = { _ in watch.end() }
         }
+    }
+
+    private static func lookAgain(every interval: TimeInterval, _ continuation: AsyncStream<Void>.Continuation) {
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .utility))
+        timer.schedule(deadline: .now() + interval, repeating: interval)
+        timer.setEventHandler { continuation.yield() }
+        timer.resume()
+        continuation.onTermination = { _ in timer.cancel() }
     }
 
     private final class Listener: Sendable {
@@ -52,10 +73,11 @@ public enum FolderWatch {
     }
 
     /// Owns the event stream and the listener its callback uses. `end()` stops and releases both, and must run
-    /// exactly once.
+    /// exactly once. Only a stream that started is stopped, as `FSEventStreamStop` requires.
     private final class Watch: @unchecked Sendable {
         private let stream: FSEventStreamRef
         private let listener: Unmanaged<Listener>
+        var isStarted = false
 
         init(stream: FSEventStreamRef, listener: Unmanaged<Listener>) {
             self.stream = stream
@@ -63,7 +85,9 @@ public enum FolderWatch {
         }
 
         func end() {
-            FSEventStreamStop(stream)
+            if isStarted {
+                FSEventStreamStop(stream)
+            }
             FSEventStreamInvalidate(stream)
             FSEventStreamRelease(stream)
             listener.release()
