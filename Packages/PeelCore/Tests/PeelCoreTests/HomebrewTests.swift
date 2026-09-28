@@ -13,6 +13,12 @@ struct HomebrewTests {
         }
     }
 
+    @Test func anUpgradeNeverWaitsForAnAnswer() {
+        for autoUpdate in [true, false] {
+            #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_ASK"] == "1")
+        }
+    }
+
     /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
     /// so the formulae the exclusions cover are named in `HOMEBREW_NO_CLEANUP_FORMULAE`, which Homebrew's own
     /// documentation says makes it refuse to clean up or autoremove them.

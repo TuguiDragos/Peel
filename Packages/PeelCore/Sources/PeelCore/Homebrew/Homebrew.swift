@@ -770,6 +770,9 @@ public enum Homebrew {
             // Otherwise an upgrade runs `brew cleanup` by itself, which deletes old versions and downloads for
             // good. Peel deletes those only through Clean Up, which asks first.
             "HOMEBREW_NO_INSTALL_CLEANUP": "1",
+            // `brew upgrade` asks before it goes on unless this is set, and nobody is there to answer. It skips
+            // the question only because no terminal is attached (`ask.rb`). A version without it ignores it.
+            "HOMEBREW_NO_ASK": "1",
         ]
         if !autoUpdate {
             values["HOMEBREW_NO_AUTO_UPDATE"] = "1"
