@@ -202,4 +202,33 @@ struct CleanupTests {
         #expect(await RemovalLog(url: log.url).load().records?.map(\.originalURL) == [cache])
         #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents])
     }
+
+    /// `peel uninstall` writes down what the guard refused before the move beside what moved, as every other
+    /// command does, and an app the guard keeps where it is is written down too, though nothing moved.
+    @Test func anUninstallWritesDownWhatTheGuardRefusedBeforeTheMove() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Editor.app")
+        let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
+        let documents = try directory.directory("home/Documents")
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let service = try service(in: directory)
+        let plan = UninstallPlan(app: app, items: [
+            UninstallPlan.Item(url: app, size: 4_096, refusal: nil),
+            UninstallPlan.Item(url: cache, size: 20, refusal: nil),
+            UninstallPlan.Item(url: documents, size: nil, refusal: service.refusal(of: documents)),
+        ], needsAdministrator: 0, needsReview: 0)
+
+        #expect(await plan.record(await plan.move(using: service), from: "Editor", in: log, refusals: refusals))
+
+        let moved = await RemovalLog(url: log.url).load().records?.map(\.originalURL.lastPathComponent)
+        #expect(Set(moved ?? []) == ["Editor.app", "blob"])
+        #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents])
+
+        let kept = UninstallPlan(app: documents, items: [
+            UninstallPlan.Item(url: documents, size: nil, refusal: service.refusal(of: documents)),
+        ], needsAdministrator: 0, needsReview: 0)
+        #expect(await kept.record(TrashResult(), from: "Documents", in: log, refusals: refusals))
+        #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents, documents])
+    }
 }

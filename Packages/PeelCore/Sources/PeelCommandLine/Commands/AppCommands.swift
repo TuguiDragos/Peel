@@ -430,6 +430,9 @@ struct UninstallCommand: AsyncParsableCommand {
         // The removal guard judges each item before printing, so the list shows what the move will really do.
         let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers, refusal: service.refusal(of:))
         if let refusal = plan.appStays {
+            if !dryRun {
+                _ = await plan.record(TrashResult(), from: target.name)
+            }
             throw CommandFailure("Peel won't move \(Output.plain(Output.path(target.url))): \(refusal.summary). Nothing of \(Output.plain(target.name)) was touched.")
         }
         let unreadable = uninstallation.scan.unreadableLocations
@@ -465,8 +468,7 @@ struct UninstallCommand: AsyncParsableCommand {
             // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
             let reset = resetPrivacy ? await PrivacyReset.reset(bundleIdentifier: target.bundleIdentifier) : nil
             let result = await plan.move(using: service)
-            let sizes = [URL: Int64](measured: plan.items.map { ($0.url, $0.size) })
-            return (reset, result, await Removals.record(result, from: target.name, sizes: sizes, tool: "applications"))
+            return (reset, result, await plan.record(result, from: target.name))
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
 

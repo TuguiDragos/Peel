@@ -57,6 +57,26 @@ struct UninstallPlan {
         )
     }
 
+    /// Writes `result` into History, with what the removal guard refused before the move beside what the move
+    /// reports, as `Cleanup` does, so `peel history --refused` and the app's Not Moved list it. False when History
+    /// could not be written.
+    func record(
+        _ result: TrashResult,
+        from source: String,
+        in log: RemovalLog = RemovalLog(),
+        refusals: RefusalLog = RefusalLog()
+    ) async -> Bool {
+        let refused = staying.compactMap { item in item.refusal.map { TrashFailure(url: item.url, reason: $0) } }
+        return await Removals.record(
+            TrashResult(trashed: result.trashed, failures: result.failures + refused),
+            from: source,
+            sizes: [URL: Int64](measured: items.map { ($0.url, $0.size) }),
+            tool: "applications",
+            in: log,
+            refusals: refusals
+        )
+    }
+
     /// Moves the bundle to the Trash on its own, then the rest only if the bundle really moved. Call it only when
     /// `appStays` is nil: it takes the first item that moves to be the bundle.
     func move(using service: TrashService) async -> TrashResult {
