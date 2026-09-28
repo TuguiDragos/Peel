@@ -149,9 +149,10 @@ public struct LeftoverScanner: Sendable {
 
     /// Kinds of location where an app's files can sit inside a folder that belongs to somebody else: a crash
     /// reporter's data folder, macOS's help cache, or a vendor's folder shared by several apps, such as
-    /// `VST3/Native Instruments` or `/Users/Shared/<Vendor>`. In `/Users/Shared`, everything found is held back.
+    /// `VST3/Native Instruments`, `~/Library/<Vendor>` or `/Users/Shared/<Vendor>`. In `/Users/Shared`, everything
+    /// found is held back.
     private static let nestedKinds: Set<SearchLocation.Kind> = [
-        .applicationSupport, .caches, .logs, .hiddenHomeFiles, .plugIns, .sharedFolder,
+        .applicationSupport, .caches, .logs, .hiddenHomeFiles, .plugIns, .sharedFolder, .library,
     ]
     private static let nestedDepth = 2
 
@@ -341,6 +342,8 @@ public struct LeftoverScanner: Sendable {
     /// crash report, and an item whose name answers nothing. The identifier says whose such an item is: a claim
     /// through it replaces a weaker one on the name, and a name it does not back makes the item only possible.
     private static func match(_ name: String, at url: URL, kind: SearchLocation.Kind, matcher: LeftoverMatcher) -> LeftoverMatch? {
+        // A system extension macOS activated is its own to remove: it uninstalls one with the app it came in.
+        guard url.pathExtension.lowercased() != "systemextension" else { return nil }
         let byName = matcher.match(fileName: name, kind: kind, at: url)
         guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }
         // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.

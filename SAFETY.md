@@ -157,12 +157,14 @@ macOS knows anywhere, such as an older copy in Downloads or one on another disk,
 the same maker kept outside the Applications folders, such as a Nightly build on another disk, counts like one
 inside them. Something matched by the app's name alone inside another app's folder, or one of Apple's, is shown and
 never selected, since it is most likely that app's data about this one; so is something matched by name alone at the
-top of your home folder or of a Library, where a name is only a guess. A plug-in's name says what it does rather than
-who made it, so a plug-in called like the app is selected only when the identifier it declares is the app's or its
-maker's: another maker's plug-in with the app's name is never selected. And nothing at all is selected for an app
-that would stay: one macOS keeps, one the helper may not move, or one that needs the helper while it cannot act.
-When you remove several apps at once and deselect one of them, it stays too: its files leave the selection, those it
-shares with the other apps included, and selecting it again brings them back.
+top of your home folder or of a Library, or in a maker's folder there, where a name is only a guess. A system
+extension the app installed is not listed at all: macOS uninstalls it itself when the app is deleted. A plug-in's
+name says what it does rather than who made it, so a plug-in called like the app is selected only when the
+identifier it declares is the app's or its maker's: another maker's plug-in with the app's name is never selected.
+And nothing at all is selected for an app that would stay: one macOS keeps, one the helper may not move, or one that
+needs the helper while it cannot act. When you remove several apps at once and deselect one of them, it stays too:
+its files leave the selection, those it shares with the other apps included, and selecting it again brings them
+back.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.

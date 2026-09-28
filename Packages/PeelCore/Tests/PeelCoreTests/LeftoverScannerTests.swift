@@ -889,6 +889,55 @@ struct LeftoverScannerTests {
         #expect(found["home/Library/Preferences"] == nil, "a folder scanned as a location of its own was offered whole")
     }
 
+    /// A vendor keeps each product's folder inside one of its own at the top of a Library. The product's folder is
+    /// found there, a name alone shown but never selected, and the vendor's folder, which holds its other
+    /// products, is never offered whole.
+    @Test func findsAProductsFolderInsideItsVendorsFolderAtTheTopOfALibrary() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        try directory.file("home/Library/Example Audio/Hexachord/presets.db", bytes: 64)
+        try directory.file("home/Library/Example Audio/org.example.hexachord/state.db", bytes: 64)
+        try directory.file("home/Library/Example Audio/Other Product/presets.db", bytes: 64)
+        try directory.file("root/Library/Example Audio/Hexachord/samples.db", bytes: 64)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let root = directory.url.path(percentEncoded: false)
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+            (String($0.url.path(percentEncoded: false).dropFirst(root.count)), $0)
+        })
+
+        #expect(Set(found.keys) == [
+            "home/Library/Example Audio/Hexachord", "home/Library/Example Audio/org.example.hexachord",
+            "root/Library/Example Audio/Hexachord",
+        ])
+        #expect(found["home/Library/Example Audio/Hexachord"]?.match.heldBack == .namedLikeTheApp)
+        #expect(found["root/Library/Example Audio/Hexachord"]?.match.heldBack == .namedLikeTheApp)
+        #expect(found["home/Library/Example Audio/org.example.hexachord"]?.match.isRecommended == true)
+    }
+
+    /// Apple: "The system automatically uninstalls any system extensions when the user deletes the corresponding
+    /// app." The copy macOS activated in `/Library/SystemExtensions` is its own to remove, so it is never listed.
+    @Test func neverListsASystemExtensionMacOSRemovesWithItsApp() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        try directory.file(
+            "root/Library/SystemExtensions/5DF88A99/org.example.hexachord.network.systemextension/Contents/Info.plist",
+            bytes: 64
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        #expect(scan.leftovers.isEmpty, "\(scan.leftovers.map(\.url.lastPathComponent))")
+    }
+
     /// A folder Apple named for itself, such as `~/Library/Caches/com.apple.python`, belongs to someone else,
     /// so an app's name found inside it is only a guess.
     @Test func doesNotTakeANameFoundInsideApplesOwnFolder() async throws {
