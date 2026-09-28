@@ -9807,6 +9807,112 @@
         }
       }
     },
+    "Also remove from the Dock" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit také z Docku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auch aus dem Dock entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar también del Dock"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer aussi du Dock"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi anche dal Dock"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockからも削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock에서도 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder ook uit Dock"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń też z Docka"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover também do Dock"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați și din Dock"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Также удалить из Dock"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta även bort från Dock"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock’tan da çıkar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Також вилучити з Dock"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同时从程序坞中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一併從Dock中移除"
+          }
+        }
+      }
+    },
     "Also reset privacy permissions" : {
       "localizations" : {
         "cs" : {
@@ -96262,6 +96368,112 @@
         }
       }
     },
+    "Remove from the Dock" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit z Docku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus dem Dock entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar del Dock"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer du Dock"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi dal Dock"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockから削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder uit Dock"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń z Docka"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover do Dock"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați din Dock"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить из Dock"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort från Dock"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock’tan çıkar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити з Dock"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从程序坞中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從Dock中移除"
+          }
+        }
+      }
+    },
     "Remove the downloads from this Mac?" : {
       "localizations" : {
         "cs" : {
@@ -115690,6 +115902,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dock出現和消失時不會滑動。"
+          }
+        }
+      }
+    },
+    "The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the app is in the Trash, and the Dock restarts. Putting the app back from History puts its icon back where it was." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když aplikace zmizí, Dock její ikonu ponechá jako otazník. Pokud je tato volba vybraná, Peel ikonu odstraní, jakmile bude aplikace v koši, a Dock se restartuje. Když aplikaci vrátíte zpět z Historie, vrátí se i její ikona tam, kde byla."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ist eine App nicht mehr da, behält das Dock ihr Symbol als Fragezeichen. Ist diese Option ausgewählt, entfernt Peel das Symbol, sobald die App im Papierkorb ist, und das Dock startet neu. Legst du die App im Verlauf zurück, kommt auch ihr Symbol wieder an seine alte Stelle."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Dock conserva el icono de una app cuando la app ya no está, como un signo de interrogación. Si esta opción está seleccionada, Peel quita el icono cuando la app ya está en la papelera, y el Dock se reinicia. Al restaurar la app desde Historial, su icono vuelve a donde estaba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Dock conserve l’icône d’une app après sa disparition, sous la forme d’un point d’interrogation. Si cette option est cochée, Peel supprime l’icône une fois l’app dans la corbeille, et le Dock redémarre. Si vous remettez l’app depuis l’Historique, son icône revient à sa place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Dock mantiene l’icona di un’app dopo che l’app non c’è più, come un punto interrogativo. Se questa opzione è selezionata, Peel rimuove l’icona una volta che l’app è nel Cestino, e il Dock si riavvia. Se ripristini l’app dalla Cronologia, la sua icona torna dov’era."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockは、アプリがなくなった後もそのアイコンを疑問符として残します。これを選択すると、アプリがゴミ箱に入った時点でPeelがアイコンを取り除き、Dockが再起動します。“履歴”からアプリを戻すと、アイコンも元の場所に戻ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock은 앱이 사라진 후에도 앱의 아이콘을 물음표로 남겨 둡니다. 이 항목을 선택하면 앱이 휴지통으로 이동된 후 Peel이 아이콘을 제거하고, Dock이 다시 시작됩니다. 기록에서 앱을 되돌려 놓으면 아이콘도 원래 있던 자리로 되돌아갑니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Dock bewaart het symbool van een app nadat de app weg is, als een vraagteken. Als dit is geselecteerd, haalt Peel het symbool weg zodra de app in de prullenmand staat, en start het Dock opnieuw. Als je de app vanuit Geschiedenis terugzet, komt het symbool terug op de plek waar het stond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock zachowuje ikonę aplikacji po jej zniknięciu, jako znak zapytania. Jeśli ta opcja jest zaznaczona, Peel usuwa ikonę, gdy aplikacja znajdzie się w Koszu, a Dock uruchamia się ponownie. Przywrócenie aplikacji z Historii przywraca jej ikonę tam, gdzie była."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Dock mantém o ícone de um app depois que o app deixa de existir, como um ponto de interrogação. Se esta opção estiver selecionada, o Peel remove o ícone assim que o app estiver no Lixo, e o Dock reinicia. Ao colocar o app de volta pelo Histórico, o ícone volta para onde estava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock‑ul păstrează pictograma unei aplicații după ce aplicația dispare, sub forma unui semn de întrebare. Dacă această opțiune este selectată, Peel elimină pictograma după ce aplicația a ajuns în Coș, iar Dock‑ul repornește. Dacă puneți aplicația înapoi din Istoric, pictograma ei revine unde era."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock сохраняет значок приложения и после его удаления, в виде вопросительного знака. Если этот параметр выбран, Peel убирает значок, как только приложение окажется в Корзине, и Dock перезапускается. Если восстановить приложение из Истории, его значок вернется на прежнее место."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock behåller en apps symbol som ett frågetecken när appen är borta. Om det här är markerat tar Peel bort symbolen när appen ligger i papperskorgen, och Dock startas om. Om du lägger tillbaka appen från Historik läggs symbolen tillbaka där den var."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock, bir uygulama gittikten sonra onun simgesini soru işareti olarak tutar. Bu seçiliyse, uygulama Çöp Sepeti’ne taşındıktan sonra Peel simgeyi Dock’tan çıkarır ve Dock yeniden başlar. Uygulamayı Geçmiş’ten yerine koyduğunuzda simgesi de eski yerine döner."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock зберігає іконку програми у вигляді знака питання, коли самої програми вже немає. Якщо цей параметр вибрано, Peel прибирає іконку, щойно програма опиняється в Смітнику, і Dock перезапускається. Якщо повернути програму з Історії, її іконка повернеться туди, де була."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App删除后，程序坞仍会以问号的形式保留它的图标。如果选择此项，Peel会在App移到废纸篓后移除它的图标，程序坞会重新启动。从“历史记录”中将App放回原处时，它的图标也会回到原来的位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App不在後，Dock仍會以問號保留它的圖像。若已選取此選項，Peel會在App丟到「垃圾桶」後移除該圖像，Dock也會重新啟動。從「歷史記錄」還原App時，其圖像也會放回原本的位置。"
           }
         }
       }

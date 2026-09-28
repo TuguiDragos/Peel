@@ -218,6 +218,31 @@ struct TrashServiceTests {
         #expect(await forgotten.calls.last == ["home/Library/Preferences/com.example.app.plist", "com.example.app"])
     }
 
+    /// Putting an app back puts back the Dock tiles an uninstall took out for it, and only once it is back.
+    @Test func puttingAnItemBackPutsBackItsDockTiles() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/org.example.Studio.app")
+        let trash = try directory.directory("home/.Trash")
+        let asked = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            putBackDockTiles: { url in asked.withLock { $0.append(url.lastPathComponent) } }
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let moved = try #require(await service.trash([app]).trashed.first)
+        #expect(asked.withLock { $0 }.isEmpty)
+        #expect(await service.restore(moved) == nil)
+        #expect(await service.restore(moved) != nil)
+        #expect(asked.withLock { $0 } == ["org.example.Studio.app"])
+    }
+
     @Test func movesItemsToTrashAndRestoresThem() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/com.example.app/cache.db")

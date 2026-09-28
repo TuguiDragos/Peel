@@ -158,12 +158,14 @@ public struct TrashService: Sendable {
     typealias StopJobs = @Sendable ([LaunchdCleanup.Job], _ canUseHelper: Bool) async -> Void
     typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
+    typealias PutBackDockTiles = @Sendable (URL) async -> Void
 
     private let environment: SearchEnvironment
     private let removalGuard: RemovalGuard
     private let stopJobs: StopJobs
     private let forgetDomains: ForgetDomains
     private let moveThroughHelper: MoveThroughHelper
+    private let putBackDockTiles: PutBackDockTiles
     private let moveToTrash: @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
@@ -177,6 +179,7 @@ public struct TrashService: Sendable {
             stopJobs: LaunchdCleanup.stop,
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
             moveThroughHelper: Self.moveThroughTheHelper,
+            putBackDockTiles: { await DockTiles().putBack($0) },
             moveToTrash: { try Self.moveToSystemTrash($0, isAllowed: removalGuard.allowsRemoval(of:)) },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
@@ -184,13 +187,14 @@ public struct TrashService: Sendable {
     }
 
     /// For tests. Unless a test passes its own, it stops no launchd job, forgets no preference domain, acts as if
-    /// there were no helper, and writes no journal.
+    /// there were no helper, changes no Dock, and writes no journal.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         stopJobs: @escaping StopJobs = { _, _ in },
         forgetDomains: @escaping ForgetDomains = { _, _ in },
         moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
+        putBackDockTiles: @escaping PutBackDockTiles = { _ in },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
@@ -201,6 +205,7 @@ public struct TrashService: Sendable {
             stopJobs: stopJobs,
             forgetDomains: forgetDomains,
             moveThroughHelper: moveThroughHelper,
+            putBackDockTiles: putBackDockTiles,
             moveToTrash: moveToTrash,
             ownMoves: ownMoves,
             journal: journal
@@ -213,6 +218,7 @@ public struct TrashService: Sendable {
         stopJobs: @escaping StopJobs,
         forgetDomains: @escaping ForgetDomains,
         moveThroughHelper: @escaping MoveThroughHelper,
+        putBackDockTiles: @escaping PutBackDockTiles,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -222,6 +228,7 @@ public struct TrashService: Sendable {
         self.stopJobs = stopJobs
         self.forgetDomains = forgetDomains
         self.moveThroughHelper = moveThroughHelper
+        self.putBackDockTiles = putBackDockTiles
         self.moveToTrash = moveToTrash
         self.ownMoves = ownMoves
         self.journal = journal
@@ -374,9 +381,17 @@ public struct TrashService: Sendable {
     }
 
     /// Moves an item from the Trash back where it came from, through the helper when the folder needs
-    /// administrator rights.
+    /// administrator rights, and puts back the Dock tiles an uninstall took out for it.
     @concurrent
     public func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
+        let failure = await moveBack(item, canUseHelper: canUseHelper)
+        if failure == nil {
+            await putBackDockTiles(item.originalURL)
+        }
+        return failure
+    }
+
+    private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
         // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
         guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }

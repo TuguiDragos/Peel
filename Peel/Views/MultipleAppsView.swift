@@ -10,6 +10,8 @@ struct MultipleAppsView: View {
     @State private var plan: BulkRemovalPlan
     @State private var quitting = QuitBeforeRemoving()
     @State private var resetsPrivacy = false
+    @State private var removesDockTiles = false
+    @State private var appsInTheDock: Set<URL> = []
     @State private var isRescanning = false
     @Environment(RemovalOutcome.self) private var outcome
 
@@ -68,6 +70,9 @@ struct MultipleAppsView: View {
                 if plan.apps.contains(where: { PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier) && !plan.appsInTheTrash.contains($0.url) }) {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
+                if !appsInTheDock.isEmpty {
+                    DockTileRow(isOn: $removesDockTiles)
+                }
             }
         }
         .disabled(plan.isRemoving)
@@ -122,6 +127,9 @@ struct MultipleAppsView: View {
             try? await Task.sleep(for: .milliseconds(300))
             guard !Task.isCancelled, !(plan.bulk == nil && plan.scanRun.wasStopped) else { return }
             await rescan()
+        }
+        .task(id: plan.apps.map(\.url)) {
+            appsInTheDock = await DockTiles().holding(plan.apps.map(\.url))
         }
         .rescanOnExclusionChange("MultipleAppsView") { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
@@ -288,6 +296,10 @@ struct MultipleAppsView: View {
             let privacy = await PrivacyReset.reset(resetting(request.urls))
             let result = await plan.move(request)
             outcome.report(result, privacy: privacy)
+            if removesDockTiles {
+                let moved = Set(result.trashed.map(\.originalURL))
+                _ = await DockTiles().takeOut(appsInTheDock.filter(moved.contains).sorted { $0.path < $1.path })
+            }
             if let state = AppManagement.state(after: result, appBundles: Set(plan.apps.map(\.url)), movedByTheHelper: plan.privilegedURLs) {
                 home.record(appManagement: state)
             }
