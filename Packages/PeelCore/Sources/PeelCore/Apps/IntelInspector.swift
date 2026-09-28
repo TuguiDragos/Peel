@@ -1,5 +1,6 @@
 import Darwin
 public import Foundation
+internal import PeelPrivileged
 
 /// Intel-only software, which needs Rosetta on Apple silicon. macOS 27 is the last release to offer Rosetta.
 public struct IntelFinding: Sendable, Hashable, Identifiable {
@@ -58,9 +59,13 @@ public enum IntelInspector {
     /// `Contents/Frameworks` is not one of them: a library there is loaded into the app's own process, so an
     /// Intel-only one matters only when the app itself runs as Intel code. The bundles beside the libraries are
     /// processes, and `frameworkProcesses` finds those.
+    /// `Contents/MacOS` holds helper tools beside the main executable, whose own architectures decide whether the
+    /// app is listed as a whole. A Quick Look generator, a Spotlight importer and a system extension run in a
+    /// process of their own as well.
     static let embeddedDirectories = [
-        "Contents/Library/LoginItems", "Contents/PlugIns", "Contents/Extensions", "Contents/XPCServices",
-        "Contents/Helpers", "Contents/Library/LaunchServices",
+        "Contents/MacOS", "Contents/Library/LoginItems", "Contents/PlugIns", "Contents/Extensions",
+        "Contents/XPCServices", "Contents/Helpers", "Contents/Library/LaunchServices",
+        "Contents/Library/SystemExtensions", "Contents/Library/QuickLook", "Contents/Library/Spotlight",
     ]
 
     /// The extensions of bundles that run as a process of their own.
@@ -154,13 +159,18 @@ public enum IntelInspector {
             ))
         }
 
-        for url in tools(in: toolDirectories) where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(executable: url) && isNew(url) {
+        // A command that leads into an app listed already is that app's.
+        let apps = findings.filter { $0.kind == .app }.map { PathPattern.comparablePath(of: $0.url) }
+        for tool in tools(in: toolDirectories) where !Task.isCancelled && !exclusions.excludes(tool.url) {
+            let path = PathPattern.comparablePath(of: tool.url)
+            guard !apps.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            guard isIntelOnly(executable: tool.url), isNew(tool.url) else { continue }
             findings.append(IntelFinding(
-                url: url,
+                url: tool.url,
                 kind: .commandLineTool,
-                name: url.lastPathComponent,
+                name: tool.name,
                 owner: nil,
-                size: await measure(url),
+                size: await measure(tool.url),
             ))
         }
 
@@ -178,7 +188,9 @@ public enum IntelInspector {
                 if info.st_mode & S_IFMT == S_IFDIR {
                     return !url.pathExtension.isEmpty && isIntelOnly(bundle: url)
                 }
+                // A library or a bundle kept beside the programs runs in the process that loads it.
                 return info.st_mode & S_IFMT == S_IFREG && isIntelOnly(executable: url)
+                    && MachOHeader.isProgram(at: url)
             }
         }
     }
@@ -241,17 +253,20 @@ public enum IntelInspector {
         }
     }
 
-    static func tools(in directories: [String]) -> [URL] {
-        directories.flatMap { directory -> [URL] in
-            let url = URL(filePath: directory, directoryHint: .isDirectory)
+    /// The programs the commands in `directories` run, each under the command's name. A command is often a link,
+    /// as every one a Homebrew in `/usr/local` makes into its `Cellar`, and the program it leads to is what runs.
+    static func tools(in directories: [String]) -> [(name: String, url: URL)] {
+        directories.flatMap { directory -> [(name: String, url: URL)] in
+            let folder = URL(filePath: directory, directoryHint: .isDirectory)
             let names = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
-            return names.map { url.appending(path: $0) }.filter { candidate in
-                // Only plain files, not links: a link takes a few bytes, and the binary it points to
-                // belongs to something else.
+            return names.compactMap { name in
+                let program = folder.appending(path: name).resolvingSymlinksInPath()
                 var info = stat()
-                let path = candidate.path(percentEncoded: false)
-                guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { return false }
-                return FileManager.default.isExecutableFile(atPath: path)
+                let path = program.path(percentEncoded: false)
+                guard stat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                      FileManager.default.isExecutableFile(atPath: path)
+                else { return nil }
+                return (name, program)
             }
         }
     }

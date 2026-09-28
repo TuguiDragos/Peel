@@ -21,6 +21,11 @@ struct IntelInspectorTests {
         return Data(bytes)
     }
 
+    /// A 64 bit Intel Mach-O header of the given file type: 2 is a program, 8 a bundle loaded into another one.
+    private func intelHeader(fileType: UInt8) -> Data {
+        Data([0xCF, 0xFA, 0xED, 0xFE, 0x07, 0x00, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00, fileType, 0x00, 0x00, 0x00])
+    }
+
     private let intel: UInt32 = 0x0100_0007
     private let appleSilicon: UInt32 = 0x0100_000C
 
@@ -104,11 +109,54 @@ struct IntelInspectorTests {
         _ = try bundle(directory, "Universal.app/Contents/XPCServices/Service.xpc", cpuTypes: [intel, appleSilicon])
         _ = try bundle(directory, "Universal.app/Contents/PlugIns/Old.appex", cpuTypes: [intel])
 
-        let plainHelper = try directory.file("Universal.app/Contents/Helpers/updater", contents: fatHeader([intel]))
+        let plainHelper = try directory.file(
+            "Universal.app/Contents/Helpers/updater", contents: intelHeader(fileType: 2)
+        )
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: plainHelper.path(percentEncoded: false))
 
         let found = IntelInspector.intelOnlyBundles(inside: directory.url.appending(path: "Universal.app", directoryHint: .isDirectory))
         #expect(Set(found.map(\.lastPathComponent)) == ["Launcher.app", "Old.appex", "updater"])
+    }
+
+    /// Apple's place for a helper tool is `Contents/MacOS` beside the main executable, and a Quick Look generator,
+    /// a Spotlight importer or a system extension the app carries runs in a process of its own too.
+    @Test func findsIntelToolsBesideTheMainExecutableAndInTheAppsLibrary() throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "Universal.app", cpuTypes: [intel, appleSilicon])
+        let tool = try directory.file("Universal.app/Contents/MacOS/ffmpeg", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: tool)
+        // A library the tool loads runs in the tool's process, not one of its own.
+        let library = try directory.file("Universal.app/Contents/MacOS/7z.so", contents: intelHeader(fileType: 8))
+        try directory.setPermissions(0o755, of: library)
+        let appLibrary = "Universal.app/Contents/Library"
+        _ = try bundle(directory, "\(appLibrary)/QuickLook/Preview.qlgenerator", cpuTypes: [intel])
+        _ = try bundle(directory, "\(appLibrary)/Spotlight/Importer.mdimporter", cpuTypes: [intel])
+        _ = try bundle(directory, "\(appLibrary)/SystemExtensions/Filter.systemextension", cpuTypes: [intel])
+
+        let app = directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
+        let found = IntelInspector.intelOnlyBundles(inside: app)
+
+        #expect(Set(found.map(\.lastPathComponent)) == [
+            "ffmpeg", "Preview.qlgenerator", "Importer.mdimporter", "Filter.systemextension",
+        ])
+    }
+
+    /// A Homebrew installed for Intel keeps every command in `/usr/local/bin` as a link into its `Cellar`. The
+    /// program the link leads to is what needs Rosetta, listed under the command's name.
+    @Test func findsTheIntelProgramACommandLinkLeadsTo() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("Cellar/tool/1.0/bin/tool", contents: fatHeader([intel]))
+        try directory.setPermissions(0o755, of: program)
+        let bin = try directory.directory("bin")
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "tool").path(percentEncoded: false),
+            withDestinationPath: "../Cellar/tool/1.0/bin/tool"
+        )
+
+        let tools = IntelInspector.tools(in: [bin.path(percentEncoded: false)])
+
+        #expect(tools.map(\.name) == ["tool"])
+        #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
     }
 
     /// Every Electron app keeps its helper processes under `Contents/Frameworks`, and Sparkle keeps its
