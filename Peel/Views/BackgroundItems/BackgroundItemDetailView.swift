@@ -282,15 +282,9 @@ struct BackgroundItemDetailView: View {
     /// The item's state, as one badge whose text, symbol, and color change with it. A badge per state would swap
     /// without a fade, because a form row shows a newly inserted view at once.
     private var stateBadge: some View {
-        let (title, symbol, tint): (Text, String, Color) = switch item.state {
-        case .unknown: (Text(.unknownBackgroundItemState), "questionmark.circle.dashed", .secondary)
-        case _ where item.isDisabled: (Text("Disabled"), "minus.circle", .orange)
-        case .running(let pid): (Text("Running · PID \(String(pid))"), "circle.fill", .green)
-        case .loaded: (Text("Not running"), "circle", .secondary)
-        case .notLoaded: (Text("Not loaded"), "circle.dashed", .secondary)
-        }
+        let look = item.stateLook(withProcess: true)
         // The state changes right after the user presses a button here, so the text and symbol crossfade.
-        return Badge(title: title, systemImage: symbol, tint: tint)
+        return Badge(title: look.title, systemImage: look.symbol, tint: look.tint)
             .contentTransition(.opacity)
     }
 

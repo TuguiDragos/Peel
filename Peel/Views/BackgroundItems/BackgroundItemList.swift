@@ -180,39 +180,25 @@ struct BackgroundItemStateIndicator: View {
     let item: BackgroundItem
 
     var body: some View {
-        Image(systemName: symbol)
-            .foregroundStyle(color)
+        let look = item.stateLook()
+        Image(systemName: look.symbol)
+            .foregroundStyle(look.tint)
             .imageScale(.small)
-            .accessibilityLabel(label)
+            .accessibilityLabel(look.title)
     }
+}
 
-    // A state Peel could not read comes first, since whether the job is disabled may not have been read either.
-    private var symbol: String {
-        switch item.state {
-        case .unknown: "questionmark.circle.dashed"
-        case _ where item.isDisabled: "minus.circle.fill"
-        case .running: "circle.fill"
-        case .loaded: "circle"
-        case .notLoaded: "circle.dashed"
-        }
-    }
-
-    private var color: Color {
-        switch item.state {
-        case .unknown: .secondary
-        case _ where item.isDisabled: .orange
-        case .running: .green
-        case .loaded, .notLoaded: .secondary
-        }
-    }
-
-    private var label: Text {
-        switch item.state {
-        case .unknown: Text(.unknownBackgroundItemState)
-        case _ where item.isDisabled: Text("Disabled")
-        case .running: Text("Running")
-        case .loaded: Text("Not running")
-        case .notLoaded: Text("Not loaded")
+extension BackgroundItem {
+    /// How the job's state is shown, in the list and on its page alike. A state Peel could not read comes first,
+    /// since whether the job is disabled may not have been read either. `withProcess` names a running job's process.
+    func stateLook(withProcess: Bool = false) -> (title: Text, symbol: String, tint: Color) {
+        switch state {
+        case .unknown: (Text(.unknownBackgroundItemState), "questionmark.circle.dashed", .secondary)
+        case _ where isDisabled: (Text("Disabled"), "minus.circle.fill", .orange)
+        case .running(let pid):
+            (withProcess ? Text("Running · PID \(String(pid))") : Text("Running"), "circle.fill", .green)
+        case .loaded: (Text("Not running"), "circle", .secondary)
+        case .notLoaded: (Text("Not loaded"), "circle.dashed", .secondary)
         }
     }
 }
