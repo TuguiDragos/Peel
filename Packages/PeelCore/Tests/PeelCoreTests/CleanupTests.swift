@@ -37,7 +37,7 @@ struct CleanupTests {
 
         #expect(plan.moving.map(\.url) == [cache])
         #expect(plan.staying.map(\.url) == [documents])
-        #expect(plan.staying.first?.refusal == .protectedLocation)
+        #expect(plan.staying.first?.refusal == .guarded(.staysItself))
         #expect(plan.total.known == 20)
     }
 
@@ -169,7 +169,7 @@ struct CleanupTests {
         try await plan.run(question: "?", dryRun: false, yes: true, using: try service(in: directory), recordingIn: log, refusals: refusals)
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["protected-location"])
+        #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["stays-in-place"])
         #expect(FileManager.default.fileExists(atPath: documents.path(percentEncoded: false)))
     }
 

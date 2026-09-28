@@ -81,7 +81,10 @@ struct HistoryCommandTests {
     @Test func writesEveryColumnOfARefusal() {
         let when = Date(timeIntervalSince1970: 1_790_000_000)
         let records = [
-            RefusalRecord(failure: TrashFailure(url: URL(filePath: "/Users/me/Library/Mail"), reason: .protectedLocation), date: when, source: "Editor", tool: "applications"),
+            RefusalRecord(
+                failure: TrashFailure(url: URL(filePath: "/Users/me/Library/Mail"), reason: .guarded(nil)),
+                date: when, source: "Editor", tool: "applications"
+            ),
             RefusalRecord(failure: TrashFailure(url: URL(filePath: "/Users/me/x.bin"), reason: .failed("no such file")), date: when, source: "Editor", tool: "applications"),
         ]
         let rows = HistoryCommand.rows(for: records)
@@ -250,7 +253,7 @@ struct HistoryCommandTests {
         await logs.refusals.add([old], source: "Old", tool: "duplicates", date: .now.addingTimeInterval(-60))
         await logs.refusals.add(
             [
-                TrashFailure(url: URL(filePath: "/Users/me/My Files/a.bin"), reason: .protectedLocation),
+                TrashFailure(url: URL(filePath: "/Users/me/My Files/a.bin"), reason: .guarded(.excluded)),
                 TrashFailure(url: URL(filePath: "/Users/me/b.bin"), reason: .failed("disk full")),
             ],
             source: "Editor", tool: "applications"
@@ -267,8 +270,8 @@ struct HistoryCommandTests {
         #expect(removal["batch"] is String)
         let items = try #require(removal["items"] as? [[String: Any]])
         #expect(items.map { $0["path"] as? String } == ["/Users/me/My Files/a.bin", "/Users/me/b.bin"])
-        #expect(items.map { $0["reason"] as? String } == ["protected-location", "failed"])
-        #expect(items.map { $0["why"] as? String } == ["protected location", "disk full"])
+        #expect(items.map { $0["reason"] as? String } == ["excluded", "failed"])
+        #expect(items.map { $0["why"] as? String } == ["excluded", "disk full"])
         #expect(items[0]["detail"] is NSNull)
     }
 

@@ -189,7 +189,7 @@ struct TrashServiceTests {
 
         let result = await service.trash([kept, going])
 
-        #expect(result.failures == [TrashFailure(url: kept, reason: .protectedLocation)])
+        #expect(result.failures == [TrashFailure(url: kept, reason: .guarded(.excluded))])
         #expect(await stopped.labels == ["com.example.going"])
         #expect(kept.isThere)
     }
@@ -341,7 +341,7 @@ struct TrashServiceTests {
         let item = TrashedItem(originalURL: original, trashedURL: first, date: .now, identity: identity)
 
         #expect(throws: TrashService.NotTheItemThatMoved.self) {
-            try TrashService.putBack(item) { _ in true }
+            try TrashService.putBack(item) { _ in nil }
         }
         #expect(!FileManager.default.fileExists(atPath: original.path(percentEncoded: false)))
     }
@@ -465,7 +465,7 @@ struct TrashServiceTests {
                 },
                 byName: byName
             ) { pinned in
-                let answer = removalGuard.allowsRemoval(of: pinned)
+                let answer = removalGuard.refusal(of: pinned)
                 afterTheGuard()
                 return answer
             }
@@ -505,7 +505,7 @@ struct TrashServiceTests {
         let removalGuard = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
 
         try TrashService.putBack(record) { held in
-            let answer = removalGuard.allowsRemoval(of: held)
+            let answer = removalGuard.refusal(of: held)
             try? FileManager.default.moveItem(at: caches.appending(path: "Vendor"), to: caches.appending(path: "Vendor.real"))
             try? FileManager.default.createSymbolicLink(atPath: caches.appending(path: "Vendor").path(percentEncoded: false), withDestinationPath: cloud.path(percentEncoded: false))
             return answer
@@ -638,8 +638,35 @@ struct TrashServiceTests {
         let result = try await service(in: directory).trash(protected)
 
         #expect(result.trashed.isEmpty)
-        #expect(result.failures.map(\.reason) == Array(repeating: TrashFailure.Reason.protectedLocation, count: protected.count))
+        let staying = TrashFailure.Reason.guarded(.staysItself), macOS = TrashFailure.Reason.guarded(.protectedLocation)
+        #expect(result.failures.map(\.reason) == [staying, staying, staying, staying, macOS, macOS])
         #expect(FileManager.default.fileExists(atPath: home.appending(path: "Library/Caches").path(percentEncoded: false)))
+    }
+
+    /// A refusal says which of the guard's rules kept the item, so a plan, History and the refusal log can say why.
+    @Test func saysWhichRuleKeepsEachItem() async throws {
+        let directory = try TemporaryDirectory()
+        let excluded = try directory.file("home/Library/Caches/org.example.Kept/cache.db").deletingLastPathComponent()
+        let work = try directory.file("home/Library/Caches/org.example.Editor/LocalHistory/changes.storageData")
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let library = try directory.file("home/Pictures/Trips/Summer.photoslibrary/database/Photos.sqlite")
+            .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let keychains = try directory.directory("home/Library/Keychains")
+        let documents = try directory.directory("home/Documents")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            exclusions: Exclusions(paths: [excluded])
+        ) { $0 }
+
+        let result = await service.trash([excluded, work, library, keychains, documents])
+
+        #expect(result.failures.map(\.reason) == [
+            .guarded(.excluded), .guarded(.holdsWorkKeptInACache), .guarded(.holdsALibrary),
+            .guarded(.protectedLocation), .guarded(.staysItself),
+        ])
     }
 
     @Test func leavesAFolderAnotherProcessHoldsAFileOpenIn() async throws {

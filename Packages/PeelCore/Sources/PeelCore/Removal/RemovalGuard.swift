@@ -3,7 +3,7 @@ import Foundation
 internal import PeelPrivileged
 
 /// Why `RemovalGuard` refuses to move an item.
-public enum GuardRefusal: String, Sendable, Hashable {
+public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
     /// The exclusions have not been read yet, or cannot be read, so nothing moves.
     case exclusionsNotKnown
     /// The person excluded it, or something inside it.
@@ -20,6 +20,25 @@ public enum GuardRefusal: String, Sendable, Hashable {
     case holdsALibrary
     /// Work an app keeps only in a cache folder is inside, such as an editor's local history.
     case holdsWorkKeptInACache
+
+    /// A fixed word for the reason, which the refusal log stores, so a record still reads in a later version.
+    public var name: String {
+        switch self {
+        case .exclusionsNotKnown: "exclusions-not-known"
+        case .excluded: "excluded"
+        case .staysItself: "stays-in-place"
+        case .protectedLocation: "protected-place"
+        case .holdsProtectedData: "holds-protected-data"
+        case .holdsDocuments: "holds-documents"
+        case .holdsALibrary: "holds-a-library"
+        case .holdsWorkKeptInACache: "holds-work-kept-in-a-cache"
+        }
+    }
+
+    public init?(name: String) {
+        guard let refusal = Self.allCases.first(where: { $0.name == name }) else { return nil }
+        self = refusal
+    }
 }
 
 struct RemovalGuard: Sendable {
@@ -77,7 +96,11 @@ struct RemovalGuard: Sendable {
     /// Whether `trashed` may go back to `destination`, which is judged as a removal from there would be, for the
     /// kind of item `trashed` is: nothing is there yet to tell.
     func allowsPuttingBack(_ trashed: URL, at destination: URL) -> Bool {
-        refusal(of: destination, isALink: Self.isALink(trashed.path(percentEncoded: false))) == nil
+        refusal(ofPuttingBack: trashed, at: destination) == nil
+    }
+
+    func refusal(ofPuttingBack trashed: URL, at destination: URL) -> GuardRefusal? {
+        refusal(of: destination, isALink: Self.isALink(trashed.path(percentEncoded: false)))
     }
 
     /// True for the lower-cased spelling of a link directly in a folder command-line tools are linked into.

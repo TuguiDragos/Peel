@@ -36,9 +36,9 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// Nil when measuring ran out of time or was refused. Unknown is not the same as empty.
     public let size: Int64?
     public let requiresPrivileges: Bool
-    /// True when Peel would refuse to move it, such as a Mail bundle in the user's own Library, where all of Mail
-    /// is protected. It is listed and never offered.
-    public let isLeftAlone: Bool
+    /// Why Peel would refuse to move it, such as a Mail bundle in the user's own Library, where all of Mail is
+    /// protected. Such a plug-in is listed and never offered.
+    public let refusal: GuardRefusal?
 
     public var id: URL { url }
 }
@@ -119,7 +119,7 @@ public enum Plugins {
                         isInstalledForAllUsers: isForAllUsers,
                         size: await measure(url),
                         requiresPrivileges: ParentAccess(url.deletingLastPathComponent()).requiresPrivileges(toRemove: url),
-                        isLeftAlone: !removalGuard.allowsRemoval(of: url)
+                        refusal: removalGuard.refusal(of: url)
                     ))
                 }
             }

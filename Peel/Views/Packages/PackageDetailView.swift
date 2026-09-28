@@ -29,8 +29,8 @@ struct PackageDetailView: View {
                     RemovalRow(
                         url: item.url,
                         icon: item.url.pathExtension == "app" ? .file(item.url) : .symbol("doc"),
-                        detail: item.isLeftAlone ? "Left alone: Peel won’t move this, because of where it sits or what is inside it." : nil,
-                        warning: item.isLeftAlone ? nil : item.heldBack.map { String(localized: $0.explanation) },
+                        detail: item.refusal?.explanation,
+                        warning: item.refusal == nil ? item.heldBack.map { String(localized: $0.explanation) } : nil,
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
                         isLocked: item.requiresPrivileges && !helper.canAct,

@@ -24,7 +24,7 @@ struct MovableTotalTests {
         var tool = PackageReceipt.Item(
             url: URL(filePath: "/usr/local/bin/org.example.tool"), size: 500, requiresPrivileges: true
         )
-        tool.isLeftAlone = true
+        tool.refusal = .protectedLocation
         let app = PackageReceipt.Item(
             url: URL(filePath: "/Applications/Example.app"), size: 20, requiresPrivileges: false
         )

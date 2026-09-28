@@ -98,7 +98,8 @@ struct AttackPathProducerTests {
             return destination
         }
         let result = await service.trash([url])
-        #expect(result.failures.map(\.reason) == [.protectedLocation], "the guard let a symlinked path through")
+        let reasons = result.failures.map(\.reason)
+        #expect(reasons == [.guarded(.protectedLocation)], "the guard let a symlinked path through")
         #expect(
             FileManager.default.fileExists(atPath: real.path(percentEncoded: false)),
             "ATTACK SUCCEEDED: an iCloud Drive folder was removed through a symbolic link"

@@ -135,12 +135,12 @@ struct RemovalJournalTests {
         }
 
         #expect(service.refusal(of: item) == .historyUnreadable)
-        #expect(service.refusal(of: keychains) == .protectedLocation)
+        #expect(service.refusal(of: keychains) == .guarded(.protectedLocation))
         let result = await service.trash([item, keychains])
         let throughTheHelper = await service.trash([item], usingHelperFor: [item])
 
         #expect(moved.withLock { $0 }.isEmpty)
-        #expect(result.failures.map(\.reason) == [.historyUnreadable, .protectedLocation])
+        #expect(result.failures.map(\.reason) == [.historyUnreadable, .guarded(.protectedLocation)])
         #expect(throughTheHelper.failures.map(\.reason) == [.historyUnreadable])
         #expect(await service.trashOwnFiles([item]).trashed.count == 1, "Peel's own files waited for History")
     }

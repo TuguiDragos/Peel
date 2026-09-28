@@ -14,12 +14,17 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         /// Unknown is not the same as empty.
         public let size: Int64?
         public let requiresPrivileges: Bool
-        /// True when Peel never moves this item: `RemovalGuard` refuses it (a file in `/usr/local/bin`, for
-        /// example), or it needs an administrator and the helper would refuse it. It is listed but never offered.
-        public var isLeftAlone = false
+        /// Why `RemovalGuard` never moves the item, such as a file in `/usr/local/bin`.
+        public var refusal: GuardRefusal?
         /// Why the item is left for the person to choose: what measuring it saw (not measured, not read, a wallet,
-        /// or a repository), or `/Users/Shared`, which every account on the Mac uses.
+        /// or a repository), or `/Users/Shared`, which every account on the Mac uses. Or why it cannot be moved at
+        /// all: it needs an administrator, and the helper would refuse it.
         public var heldBack: HoldBack?
+
+        /// True when Peel never moves this item. It is listed but never offered.
+        public var isLeftAlone: Bool {
+            refusal != nil || heldBack?.cannotBeMoved == true
+        }
 
         public var id: URL { url }
     }

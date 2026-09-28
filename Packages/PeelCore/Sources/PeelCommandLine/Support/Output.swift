@@ -257,6 +257,22 @@ extension MatchConfidence {
     }
 }
 
+extension GuardRefusal {
+    /// Why Peel never moves the item, in the command line's plain English.
+    var summary: String {
+        switch self {
+        case .exclusionsNotKnown: "your exclusions couldn't be read"
+        case .excluded: "excluded"
+        case .staysItself: "a folder that stays in place, though what is inside may go"
+        case .protectedLocation: "part of macOS, or inside something Peel protects"
+        case .holdsProtectedData: "holds something Peel protects, such as a keychain or a wallet"
+        case .holdsDocuments: "holds an app's documents"
+        case .holdsALibrary: "holds a photo, music, or video library"
+        case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
+        }
+    }
+}
+
 extension HoldBack {
     /// Why the item was held back, the same reason the app's rows give, in the command line's plain English.
     var summary: String {
@@ -336,7 +352,7 @@ extension PrivacyReset.Result {
 extension TrashFailure.Reason {
     var summary: String {
         switch self {
-        case .protectedLocation: "protected location"
+        case .guarded(let refusal): refusal?.summary ?? "protected location"
         case .changedSinceScan: "changed since the scan"
         case .claimedSinceScan: "claimed by an app that is installed now"
         case .lastCopy: "last copy"

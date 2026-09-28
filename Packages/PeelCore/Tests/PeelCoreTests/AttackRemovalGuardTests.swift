@@ -171,7 +171,8 @@ struct AttackRemovalGuardTests {
         let disguised = home.appending(path: "Library/mobile documents/com~apple~CloudDocs/Thesis.pages")
         let result = await service.trash([disguised])
 
-        #expect(result.failures.map(\.reason) == [.protectedLocation], "ATTACK SUCCEEDED: TrashService moved an iCloud Drive file")
+        let reasons = result.failures.map(\.reason)
+        #expect(reasons == [.guarded(.protectedLocation)], "ATTACK SUCCEEDED: TrashService moved an iCloud Drive file")
         #expect(
             FileManager.default.fileExists(atPath: real.path(percentEncoded: false)),
             "ATTACK SUCCEEDED: the real iCloud file is gone, which syncs the deletion to every device"

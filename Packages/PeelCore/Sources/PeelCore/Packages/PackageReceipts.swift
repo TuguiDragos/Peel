@@ -180,8 +180,9 @@ public enum PackageReceipts {
                 url: url,
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 requiresPrivileges: requiresPrivileges,
-                isLeftAlone: !removalGuard.allowsRemoval(of: url) || (requiresPrivileges && reach.isBeyond(url)),
-                heldBack: HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
+                refusal: removalGuard.refusal(of: url),
+                heldBack: requiresPrivileges && reach.isBeyond(url)
+                    ? .beyondTheHelper : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
             ))
         }
 

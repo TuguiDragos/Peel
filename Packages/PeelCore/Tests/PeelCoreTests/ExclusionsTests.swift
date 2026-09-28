@@ -107,7 +107,7 @@ struct ExclusionsTests {
 
         let result = await service.trash([folder])
         #expect(result.trashed.isEmpty)
-        #expect(result.failures.map(\.reason) == [.protectedLocation])
+        #expect(result.failures.map(\.reason) == [.guarded(.excluded)])
         #expect(FileManager.default.fileExists(atPath: kept.path(percentEncoded: false)))
     }
 
@@ -234,7 +234,7 @@ struct ExclusionsTests {
 
         let result = await service.trash([item])
         #expect(result.trashed.isEmpty)
-        #expect(result.failures.map(\.reason) == [.protectedLocation])
+        #expect(result.failures.map(\.reason) == [.guarded(.exclusionsNotKnown)])
     }
 
     /// A list Peel cannot reach is not known to be empty: a folder on the way that cannot be searched, or a link
@@ -262,7 +262,7 @@ struct ExclusionsTests {
 
         let result = await service.trash([item])
         #expect(result.trashed.isEmpty)
-        #expect(result.failures.map(\.reason) == [.protectedLocation])
+        #expect(result.failures.map(\.reason) == [.guarded(.exclusionsNotKnown)])
         #expect(!Exclusions.notYetRead.isKnown && !Exclusions.notYetRead.isUnreadable)
         #expect(Exclusions.none.isKnown && !Exclusions.unreadable.isKnown)
     }
@@ -295,7 +295,7 @@ struct ExclusionsTests {
 
         let result = await service.trash([kept, removable])
         #expect(result.trashed.map(\.originalURL) == [removable])
-        #expect(result.failures.map(\.reason) == [.protectedLocation])
+        #expect(result.failures.map(\.reason) == [.guarded(.excluded)])
         #expect(FileManager.default.fileExists(atPath: kept.path(percentEncoded: false)))
     }
 }

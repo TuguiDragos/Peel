@@ -332,6 +332,7 @@ struct PackageReceiptsTests {
 
         #expect(receipt.items.first { $0.url == app }?.isLeftAlone == false)
         #expect(receipt.items.first { $0.url == rules }?.isLeftAlone == true)
+        #expect(receipt.items.first { $0.url == rules }?.refusal == .protectedLocation)
     }
 
     /// An item that needs an administrator is left alone when the helper would refuse it. The helper refuses
@@ -378,6 +379,7 @@ struct PackageReceiptsTests {
         #expect(try item(served).isLeftAlone == false)
         #expect(try item(vendor).isLeftAlone == true)
         #expect(try item(tools).isLeftAlone == true)
+        #expect(try [item(vendor), item(tools)].map(\.heldBack) == [.beyondTheHelper, .beyondTheHelper])
         func tool(_ name: String) throws -> PackageReceipt.Item {
             try #require(receipt.items.first { $0.url.deletingLastPathComponent().lastPathComponent == "bin" && $0.url.lastPathComponent == name })
         }

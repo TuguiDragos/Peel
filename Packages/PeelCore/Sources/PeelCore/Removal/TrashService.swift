@@ -61,7 +61,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
 
 public struct TrashFailure: Sendable, Hashable {
     public enum Reason: Sendable, Hashable {
-        case protectedLocation
+        /// `RemovalGuard` refuses it, for that reason. Nil for a refusal recorded before Peel kept the reason.
+        case guarded(GuardRefusal?)
         case changedSinceScan
         /// Listed as an orphan, but an app installed since the scan claims it.
         case claimedSinceScan
@@ -94,7 +95,7 @@ extension TrashFailure.Reason {
     /// an old record still reads.
     public var name: String {
         switch self {
-        case .protectedLocation: "protected-location"
+        case .guarded(let refusal): refusal?.name ?? "protected-location"
         case .changedSinceScan: "changed-since-scan"
         case .claimedSinceScan: "claimed-since-scan"
         case .lastCopy: "last-copy"
@@ -119,8 +120,12 @@ extension TrashFailure.Reason {
 
     /// The reason a refusal log stored as `name` and `detail`, or nil for a word this version doesn't know.
     public init?(name: String, detail: String?) {
+        if let refusal = GuardRefusal(name: name) {
+            self = .guarded(refusal)
+            return
+        }
         switch name {
-        case "protected-location": self = .protectedLocation
+        case "protected-location": self = .guarded(nil)
         case "changed-since-scan": self = .changedSinceScan
         case "claimed-since-scan": self = .claimedSinceScan
         case "last-copy": self = .lastCopy
@@ -180,7 +185,7 @@ public struct TrashService: Sendable {
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
             moveThroughHelper: Self.moveThroughTheHelper,
             putBackDockTiles: { await DockTiles().putBack($0) },
-            moveToTrash: { try Self.moveToSystemTrash($0, isAllowed: removalGuard.allowsRemoval(of:)) },
+            moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
         )
@@ -234,13 +239,13 @@ public struct TrashService: Sendable {
         self.journal = journal
     }
 
-    /// Why the guard would refuse to move `url`, or nil when it would move. A plan can show this before anything
-    /// moves, since the move asks the same guard.
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
     public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
 
+    /// Why `url` would not move, or nil when it would. A plan can show this before anything moves, since the move
+    /// asks the same guard.
     public func refusal(of url: URL) -> TrashFailure.Reason? {
-        guard removalGuard.allowsRemoval(of: url) else { return .protectedLocation }
+        if let refusal = removalGuard.refusal(of: url) { return .guarded(refusal) }
         return historyCanBeRead ? nil : .historyUnreadable
     }
 
@@ -254,7 +259,7 @@ public struct TrashService: Sendable {
     /// which outlasts this one.
     private func refusingAllWhileHistoryCannotBeRead(_ urls: [URL]) -> TrashResult? {
         guard !historyCanBeRead else { return nil }
-        let refused = urls.map { TrashFailure(url: $0, reason: removalGuard.allowsRemoval(of: $0) ? .historyUnreadable : .protectedLocation) }
+        let refused = urls.map { TrashFailure(url: $0, reason: refusal(of: $0) ?? .historyUnreadable) }
         return TrashResult(failures: refused)
     }
 
@@ -277,8 +282,8 @@ public struct TrashService: Sendable {
     /// Moves `urls` as the current user, as part of `removal`, the move the journal groups them by, or of none.
     private func trash(_ urls: [URL], ownedBy owner: String?, removal: UUID?) async -> TrashResult {
         // The guard reads the disk, so it is asked once for each item.
-        let allowed = urls.filter(removalGuard.allowsRemoval(of:))
-        let isAllowed = Set(allowed)
+        let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
+        let allowed = urls.filter { refusals[$0] == nil }
         let openFiles = OpenFiles()
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
@@ -287,8 +292,8 @@ public struct TrashService: Sendable {
         var moved: [String] = []
         ownMoves.began()
         for url in urls {
-            guard isAllowed.contains(url) else {
-                result.failures.append(TrashFailure(url: url, reason: .protectedLocation))
+            if let refusal = refusals[url] {
+                result.failures.append(TrashFailure(url: url, reason: .guarded(refusal)))
                 continue
             }
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
@@ -326,9 +331,14 @@ public struct TrashService: Sendable {
         let helperURLs = urls.filter(privilegedURLs.contains)
         guard !helperURLs.isEmpty else { return result }
 
-        let permitted = helperURLs.filter(removalGuard.allowsRemoval(of:))
-        let isPermitted = Set(permitted)
-        result.failures += helperURLs.filter { !isPermitted.contains($0) }.map { TrashFailure(url: $0, reason: .protectedLocation) }
+        var permitted: [URL] = []
+        for url in helperURLs {
+            if let refusal = removalGuard.refusal(of: url) {
+                result.failures.append(TrashFailure(url: url, reason: .guarded(refusal)))
+            } else {
+                permitted.append(url)
+            }
+        }
         // An item inside another folder of this request goes with that folder. Sent on its own, the helper would
         // find it gone and report a failure.
         let paths = permitted.map(PathPattern.comparablePath)
@@ -414,7 +424,7 @@ public struct TrashService: Sendable {
         if fileManager.isWritableFile(atPath: ancestor) {
             do {
                 try fileManager.createDirectory(at: parent, withIntermediateDirectories: true)
-                try Self.putBack(item) { removalGuard.allowsPuttingBack(item.trashedURL, at: $0) }
+                try Self.putBack(item) { removalGuard.refusal(ofPuttingBack: item.trashedURL, at: $0) }
                 return nil
             } catch is RefusedOnceHeld {
                 return .notAllowed
@@ -433,7 +443,7 @@ public struct TrashService: Sendable {
 
     /// Moves `item` back from the Trash through a descriptor for its folder, which must already exist. The guard
     /// is asked again about the destination as the kernel names it, and the move never replaces an item there.
-    static func putBack(_ item: TrashedItem, isAllowed: (URL) -> Bool) throws {
+    static func putBack(_ item: TrashedItem, refusal: (URL) -> GuardRefusal?) throws {
         let trashed = try OpenItem.at(item.trashedURL.path(percentEncoded: false)).get()
         if let identity = item.identity, trashed.identity.map(TrashedItem.Identity.init) != identity {
             throw NotTheItemThatMoved()
@@ -441,7 +451,8 @@ public struct TrashService: Sendable {
         let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false)).get()
         guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
         let name = item.originalURL.lastPathComponent
-        guard isAllowed(URL(filePath: held, directoryHint: .isDirectory).appending(path: name)) else { throw RefusedOnceHeld() }
+        let destination = URL(filePath: held, directoryHint: .isDirectory).appending(path: name)
+        if let refused = refusal(destination) { throw RefusedOnceHeld(refusal: refused) }
         try TrashMover.rename(trashed, to: name, in: folder).get()
     }
 
@@ -476,7 +487,7 @@ public struct TrashService: Sendable {
     /// The failure reason for an error a move threw. macOS does not say which permission is missing, so any
     /// refusal is `.notPermitted`, and the caller decides what it means.
     static func reason(for error: any Error) -> TrashFailure.Reason {
-        if error is RefusedOnceHeld { return .protectedLocation }
+        if let refused = error as? RefusedOnceHeld { return .guarded(refused.refusal) }
         if error is MovedWithoutATrace { return .movedWithoutATrace }
         if let moved = error as? SomethingElseMoved { return .somethingElseMoved(named: moved.trashedURL.lastPathComponent) }
         let error = error as NSError
@@ -490,7 +501,9 @@ public struct TrashService: Sendable {
     struct MovedWithoutATrace: Error {}
 
     /// The guard refused the item once its folder was held open and named by the kernel.
-    struct RefusedOnceHeld: Error {}
+    struct RefusedOnceHeld: Error {
+        let refusal: GuardRefusal
+    }
 
     /// What sits where an item went in the Trash is another item: the Trash was emptied, and something of the same
     /// name landed there since.
@@ -509,12 +522,12 @@ public struct TrashService: Sendable {
         _ url: URL,
         trash: (URL) throws -> URL = Self.trashMacOSNames,
         byName: (URL) throws -> URL = Self.moveByName,
-        isAllowed: (URL) -> Bool
+        refusal: (URL) -> GuardRefusal?
     ) throws -> URL {
         let item = try OpenItem.at(url.path(percentEncoded: false)).get()
         guard let folder = item.parent.currentPath else { throw POSIXError(.ENOENT) }
         let held = URL(filePath: folder, directoryHint: .isDirectory).appending(path: item.name)
-        guard isAllowed(held) else { throw RefusedOnceHeld() }
+        if let refused = refusal(held) { throw RefusedOnceHeld(refusal: refused) }
 
         guard let named = try? trash(held) else {
             // A volume where nothing was ever trashed has no Trash yet, and only `FileManager.trashItem` creates

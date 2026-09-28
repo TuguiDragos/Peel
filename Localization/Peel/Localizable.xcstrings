@@ -54603,112 +54603,6 @@
         }
       }
     },
-    "Left alone: Peel won’t move this, because of where it sits or what is inside it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nedotčeno: Peel tuto položku nepřesune kvůli tomu, kde leží nebo co obsahuje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unangetastet: Peel verschiebt dies wegen seines Speicherorts oder seines Inhalts nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se toca: Peel no trasladará esto por el lugar donde está o por lo que contiene."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laissé en place : Peel refuse de déplacer cet élément, en raison de son emplacement ou de son contenu."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resta dov’è: Peel non lo sposta, per il posto in cui si trova o per ciò che contiene."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "対象外: 置かれている場所や中身のため、Peelはこれを移動しません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그대로 둠: 위치나 내용 때문에 Peel이 이 항목을 이동하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blijft staan: Peel verplaatst dit niet, vanwege de plek waar het staat of wat erin zit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nietknięte: Peel tego nie przeniesie ze względu na to, gdzie się znajduje lub co zawiera."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preservado: o Peel não vai mover isto, por causa do lugar onde está ou do que há dentro."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lăsat neatins: Peel nu mută acest articol, din cauza locului în care se află sau a ceea ce conține."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Остается на месте: Peel не станет перемещать этот объект из-за того, где он находится или что в нем."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rörs inte: Peel flyttar inte det här, på grund av var det ligger eller vad det innehåller."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde kalır: Peel bunu, bulunduğu yer veya içindekiler nedeniyle taşımaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лишається на місці: Peel не перемістить цей елемент через його розташування або вміст."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留在原处：由于它所在的位置或其中的内容，Peel不会移动它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原地保留：由於它所在的位置或其中的內容，Peel不會移動此項目。"
-          }
-        }
-      }
-    },
     "Left alone: a photo, music, or video library is inside, so Peel leaves this folder where it is." : {
       "localizations" : {
         "cs" : {
@@ -92769,6 +92663,642 @@
         }
       }
     },
+    "Peel won’t move this folder itself, since macOS expects to find it. What is inside it can go." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel samotnou tuto složku nepřesune, protože macOS počítá s tím, že ji najde. Její obsah přesunout lze."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt diesen Ordner selbst nicht, da macOS erwartet, ihn vorzufinden. Was darin liegt, kann in den Papierkorb gelegt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esta carpeta en sí, porque macOS espera encontrarla. Lo que hay dentro sí puede trasladarse."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer ce dossier lui-même, car macOS s’attend à le trouver. Son contenu, lui, peut être déplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non sposta questa cartella in sé, perché macOS si aspetta di trovarla. Ciò che contiene può essere spostato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのフォルダ自体は移動しません。macOSがそこにあるものと想定しているためです。中にあるものはゴミ箱に入れることができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 폴더 자체는 이동하지 않습니다. macOS가 이 폴더를 찾을 수 있어야 하기 때문입니다. 안에 있는 항목은 이동할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst deze map zelf niet, want macOS verwacht hem daar te vinden. Wat erin zit, mag weg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przeniesie samego tego folderu, ponieważ macOS oczekuje, że go tu znajdzie. To, co jest w środku, może trafić do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover esta pasta em si, porque o macOS espera encontrá-la. O que está dentro dela pode ir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest dosar în sine, deoarece macOS se așteaptă să îl găsească. Ce se află în el poate fi mutat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет перемещать саму эту папку, так как macOS рассчитывает ее найти. Ее содержимое можно переместить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte själva mappen, eftersom macOS räknar med att hitta den. Det som ligger i den kan flyttas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu klasörün kendisini taşımaz, çünkü macOS onu orada bulmayı bekler. İçindekiler gidebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить саму цю папку, бо macOS очікує її там знайти. Те, що в ній є, можна перемістити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此文件夹本身，因为macOS需要它存在。其中的内容可以移走。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此檔案夾本身，因為macOS預期它存在。其中的內容則可以移動。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this until it can read your exclusions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune, dokud nebude moci přečíst vaše výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht, solange Peel deine Ausschlüsse nicht lesen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto hasta que pueda leer tus exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément tant qu’il ne peut pas lire vos exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta finché non riesce a leggere le tue esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、除外リストを読み取れるまでこれを移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 먼저 제외 항목을 읽을 수 있어야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet zolang het je uitsluitingen niet kan lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie, dopóki nie odczyta Twoich wykluczeń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto até conseguir ler as suas exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol până când nu poate citi lista dvs. de excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать, пока не сможет прочитать Ваши исключения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här förrän appen kan läsa dina undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu, hariç tutulanlar listenizi okuyabilene kadar taşımaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це, доки не зможе прочитати ваші винятки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项，直到它能读取你的排除项为止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目，直到它能讀取你的排除項目為止。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: a photo, music, or video library is inside." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: uvnitř je knihovna fotek, hudby nebo videí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Darin liegt eine Foto-, Musik- oder Videomediathek."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: dentro hay una biblioteca de fotos, música o vídeo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il contient une bibliothèque de photos, de musique ou de vidéos."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: all’interno c’è una libreria di foto, musica o video."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。写真、音楽、またはビデオのライブラリが中にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 안에 사진, 음악 또는 비디오 보관함이 있기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: er zit een foto-, muziek- of videobibliotheek in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: w środku jest biblioteka zdjęć, muzyki lub wideo."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: há dentro uma biblioteca de fotos, músicas ou vídeos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: înăuntru se află o bibliotecă foto, muzicală sau video."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: внутри находится медиатека фото, музыки или видео."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: ett bild-, musik- eller videobibliotek ligger i det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: içinde bir fotoğraf, müzik veya video arşivi var."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: усередині є медіатека фото, музики чи відео."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：其中有照片、音乐或视频资料库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：其中有照片、音樂或影片資料庫。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: aplikace v ní uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Eine App bewahrt darin Arbeit auf, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: una app guarda dentro trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。エディタのローカル履歴など、ほかのどこにも存在しない作業内容をアプリが中に保管しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 편집기의 로컬 기록처럼 다른 곳에는 없는 작업을 앱이 안에 보관하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: een app bewaart er werk in dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: aplikacja przechowuje w środku pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: um app guarda dentro um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: o aplicație păstrează înăuntru lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: приложение хранит внутри результаты работы, которых больше нигде нет, например локальную историю редактора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: en app sparar arbete i det som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: bir uygulama içinde başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: програма зберігає всередині роботу, якої більше ніде немає, як-от локальну історію редактора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：有App在其中保存了在其他任何地方都不存在的内容，例如编辑器的本地历史记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：有App在其中保存不存在於其他任何地方的工作成果，例如編輯器的本機歷史記錄。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: an app’s documents are inside." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: uvnitř jsou dokumenty aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Darin liegen die Dokumente einer App."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: dentro están los documentos de una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il contient les documents d’une app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: all’interno ci sono i documenti di un’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。アプリの書類が中にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 안에 앱의 문서가 있기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: er zitten documenten van een app in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: w środku są dokumenty aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: há dentro os documentos de um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: înăuntru se află documentele unei aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: внутри находятся документы приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: en apps dokument ligger i det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: içinde bir uygulamanın belgeleri var."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: усередині є документи програми."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：其中有App的文稿。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：其中有App的文件。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: it is part of macOS, or inside something Peel protects." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: je součástí macOS nebo leží uvnitř něčeho, co Peel chrání."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Es ist Teil von macOS oder liegt in etwas, das Peel schützt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: forma parte de macOS o está dentro de algo que Peel protege."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il fait partie de macOS, ou se trouve dans un élément que Peel protège."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: fa parte di macOS, oppure si trova all’interno di qualcosa che Peel protegge."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。macOSの一部であるか、Peelが保護しているものの中にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. macOS의 일부이거나 Peel이 보호하는 항목 안에 있기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: het hoort bij macOS, of het zit in iets wat Peel beschermt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: jest częścią macOS albo znajduje się w czymś, co Peel chroni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: faz parte do macOS, ou está dentro de algo que o Peel protege."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: face parte din macOS sau se află în ceva protejat de Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: объект входит в macOS или находится внутри того, что защищает Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: det är en del av macOS, eller ligger i något som Peel skyddar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: macOS’in bir parçası ya da Peel’in koruduğu bir şeyin içinde."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: елемент є частиною macOS або лежить усередині того, що захищає Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：它是macOS的一部分，或者位于受Peel保护的项目中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：它是macOS的一部分，或位於受Peel保護的項目中。"
+          }
+        }
+      }
+    },
     "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is." : {
       "localizations" : {
         "cs" : {
@@ -92871,6 +93401,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：它受到保護，或是你在「設定」中的排除項目讓它留在原處。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: something Peel protects is inside, such as a keychain or a wallet." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: uvnitř je něco, co Peel chrání, například klíčenka nebo peněženka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Darin liegt etwas, das Peel schützt, etwa ein Schlüsselbund oder eine Wallet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: dentro hay algo que Peel protege, como un llavero o un monedero digital."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il contient un élément que Peel protège, comme un trousseau ou un portefeuille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: all’interno c’è qualcosa che Peel protegge, come un portachiavi o un wallet."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。キーチェーンやウォレットなど、Peelが保護しているものが中にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 키체인이나 지갑처럼 Peel이 보호하는 항목이 안에 있기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: er zit iets in wat Peel beschermt, zoals een sleutelhanger of een wallet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: w środku jest coś, co Peel chroni, na przykład pęk kluczy lub portfel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: há dentro algo que o Peel protege, como as chaves do macOS ou uma carteira."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: înăuntru se află ceva protejat de Peel, cum ar fi un portchei sau un portofel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: внутри находится то, что защищает Peel, например связка ключей или кошелек."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: något som Peel skyddar ligger i det, till exempel en nyckelring eller en plånbok."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: içinde Peel’in koruduğu bir şey var, örneğin bir anahtar zinciri veya bir cüzdan."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: усередині є те, що захищає Peel, як-от вʼязка ключів або гаманець."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：其中有受Peel保护的项目，例如钥匙串或钱包。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：其中有受Peel保護的項目，例如鑰匙圈或錢包。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: your exclusions in Settings keep it where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: na místě ji drží vaše výjimky v Nastavení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Deine Ausschlüsse in den Einstellungen halten es an seinem Ort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: tus exclusiones de Ajustes lo mantienen donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : vos exclusions dans les Réglages le maintiennent en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: le tue esclusioni nelle Impostazioni lo tengono dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。“設定”の除外リストによってそのまま残されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. 설정의 제외 항목에 따라 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: je uitsluitingen in Instellingen houden het waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: Twoje wykluczenia w Ustawieniach zatrzymują to na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: as suas exclusões nos Ajustes o mantêm onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: excluderile dvs. din Configurări îl păstrează unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: Ваши исключения в Настройках оставляют его на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: dina undantag i Inställningar håller det kvar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: Ayarlar’daki hariç tutulanlar listeniz onu yerinde tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: ваші винятки в Параметрах тримають його на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：你在“设置”中的排除项让它保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：你在「設定」中的排除項目讓它留在原處。"
           }
         }
       }

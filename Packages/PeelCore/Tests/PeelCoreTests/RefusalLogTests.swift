@@ -13,7 +13,10 @@ struct RefusalLogTests {
         let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
 
         await log.add(
-            [failure("/Users/me/Library/Mail", .protectedLocation), failure("/Users/me/x.bin", .failed("no such file"))],
+            [
+                failure("/Users/me/Library/Mail", .guarded(.protectedLocation)),
+                failure("/Users/me/x.bin", .failed("no such file")),
+            ],
             source: "Editor",
             tool: "applications"
         )
@@ -21,9 +24,9 @@ struct RefusalLogTests {
         let records = await RefusalLog(url: log.url).load()
         #expect(records.count == 2)
         #expect(records.allSatisfy { $0.source == "Editor" && $0.tool == "applications" })
-        #expect(Set(records.map(\.reason)) == ["protected-location", "failed"])
+        #expect(Set(records.map(\.reason)) == ["protected-place", "failed"])
         #expect(records.first { $0.reason == "failed" }?.detail == "no such file")
-        #expect(records.first { $0.reason == "protected-location" }?.detail == nil)
+        #expect(records.first { $0.reason == "protected-place" }?.detail == nil)
     }
 
     /// History records nothing when nothing moved, but the refusals are still written: a removal where
@@ -32,12 +35,12 @@ struct RefusalLogTests {
         let directory = try TemporaryDirectory()
         let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
-        let result = TrashResult(failures: [failure("/Users/me/Library/Mail", .protectedLocation)])
+        let result = TrashResult(failures: [failure("/Users/me/Library/Mail", .guarded(.protectedLocation))])
 
         #expect(await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals))
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["protected-location"])
+        #expect(await RefusalLog(url: refusals.url).load().map(\.reason) == ["protected-place"])
     }
 
     /// History is the way back for what just moved, so it is written before the refusals: while the refusal log
@@ -53,7 +56,9 @@ struct RefusalLogTests {
             trashedURL: URL(filePath: "/Users/me/.Trash/com.example.app"),
             date: .now
         )
-        let result = TrashResult(trashed: [moved], failures: [failure("/Users/me/Library/Mail", .protectedLocation)])
+        let result = TrashResult(
+            trashed: [moved], failures: [failure("/Users/me/Library/Mail", .guarded(.protectedLocation))]
+        )
         // Holds the refusal log's lock, as another process writing it would.
         let lockFile = folder.appending(path: "refusals.json.lock").path(percentEncoded: false)
         let lock = open(lockFile, O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
@@ -149,10 +154,10 @@ struct RefusalLogTests {
     }
 
     private static let everyReason: [TrashFailure.Reason] = [
-        .protectedLocation, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
+        .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable,
         .heldOpen(by: ["Figma Agent", "java"]), .failed("x"),
-    ]
+    ] + GuardRefusal.allCases.map { .guarded($0) }
 
     /// A record stores its reason as a word, not a sentence, so a later version of Peel can still read it.
     @Test func everyReasonHasAWordOfItsOwn() {
@@ -170,6 +175,11 @@ struct RefusalLogTests {
             #expect(TrashFailure.Reason(name: reason.name, detail: reason.detail) == reason)
         }
         #expect(TrashFailure.Reason(name: "a-word-from-later", detail: nil) == nil)
+    }
+
+    /// A refusal recorded before Peel kept the guard's reason reads as one whose reason is not known.
+    @Test func anOldRefusalOfTheGuardStillReads() {
+        #expect(TrashFailure.Reason(name: "protected-location", detail: nil) == .guarded(nil))
     }
 
     /// What one removal refused shares a batch and its source, so History shows it as one entry, in the words of

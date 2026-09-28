@@ -122,7 +122,7 @@ struct AttackDuplicateTests {
         #expect(found.groups.isEmpty, "iCloud Drive is offered for duplicate cleaning")
         guard !found.groups.isEmpty else { return }
         let result = await DuplicateRemoval.trash(found.suggestedSelection, from: found, using: try service(directory))
-        #expect(result.failures.map(\.reason) == [.protectedLocation], "and then every removal is refused")
+        #expect(result.failures.map(\.reason) == [.guarded(.protectedLocation)], "and then every removal is refused")
     }
 
     /// A media library whose app is not installed is a plain folder to the enumerator. A file inside one must not

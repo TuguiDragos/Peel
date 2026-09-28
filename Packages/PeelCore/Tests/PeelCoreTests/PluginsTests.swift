@@ -92,8 +92,8 @@ struct PluginsTests {
 
         let plugins = await Plugins.scan(environment: environment)
 
-        #expect(try #require(plugins.first { $0.category == .mailBundles }).isLeftAlone, "a Mail bundle the guard refuses was offered")
-        #expect(try #require(plugins.first { $0.category == .vst3 }).isLeftAlone == false)
+        #expect(try #require(plugins.first { $0.category == .mailBundles }).refusal == .protectedLocation)
+        #expect(try #require(plugins.first { $0.category == .vst3 }).refusal == nil)
     }
 
     /// Vendors keep their plug-ins in a folder of their own, and that folder's name can seem to have an

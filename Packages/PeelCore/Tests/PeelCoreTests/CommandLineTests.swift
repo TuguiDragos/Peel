@@ -294,7 +294,7 @@ struct CommandLineTests {
         let plan = UninstallPlan(app: app, items: [
             UninstallPlan.Item(url: app, size: 4_096, refusal: nil),
             UninstallPlan.Item(url: support, size: nil, refusal: nil),
-            UninstallPlan.Item(url: caches, size: 10, refusal: .protectedLocation),
+            UninstallPlan.Item(url: caches, size: 10, refusal: .guarded(.excluded)),
         ], needsAdministrator: 1, needsReview: 2)
         let result = TrashResult(trashed: [], failures: [TrashFailure(url: support, reason: .failed("disk full"))])
         let editor = InstalledApp(url: app, bundleIdentifier: "com.example.editor", name: "Editor")
@@ -303,7 +303,7 @@ struct CommandLineTests {
 
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         let items = try #require(report["items"] as? [[String: Any]])
-        #expect(items.map { $0["stays"] as? String } == [nil, nil, "protected-location"])
+        #expect(items.map { $0["stays"] as? String } == [nil, nil, "excluded"])
         #expect(items[0]["stays"] is NSNull)
         #expect(items[1]["size"] is NSNull)
         let failed = try #require(report["failed"] as? [[String: Any]])
@@ -491,7 +491,7 @@ struct CommandLineTests {
         let plan = UninstallPlan.make(
             uninstallation(app: app, leftovers: [leftover(cache)]),
             keepLeftovers: false,
-            refusal: { $0 == cache ? .protectedLocation : nil }
+            refusal: { $0 == cache ? .guarded(.protectedLocation) : nil }
         )
 
         #expect(plan.moving.map(\.url) == [app.url])
@@ -502,9 +502,9 @@ struct CommandLineTests {
         let refused = UninstallPlan.make(
             uninstallation(app: app, leftovers: [leftover(cache)]),
             keepLeftovers: false,
-            refusal: { $0 == app.url ? .protectedLocation : nil }
+            refusal: { $0 == app.url ? .guarded(.protectedLocation) : nil }
         )
-        #expect(refused.appStays == .protectedLocation)
+        #expect(refused.appStays == .guarded(.protectedLocation))
     }
 
     /// What stays is counted where the user can see it, and a size nobody knows is never added up as zero.

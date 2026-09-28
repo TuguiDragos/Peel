@@ -71,8 +71,8 @@ struct PluginDetailView: View {
 
             Section {
                 RemovalsHeldBanner()
-                if plugin.isLeftAlone {
-                    Text("Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.")
+                if let refusal = plugin.refusal {
+                    Text(refusal.explanation)
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
@@ -85,7 +85,10 @@ struct PluginDetailView: View {
                         isConfirmingRemoval = true
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(isLocked || plugin.isLeftAlone || plugins.isRemoving || plugins.isScanning || !exclusions.exclusions.isKnown || history.isUnreadable)
+                    .disabled(
+                        isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
+                            || !exclusions.exclusions.isKnown || history.isUnreadable
+                    )
                 }
             }
         }
@@ -109,6 +112,6 @@ struct PluginDetailView: View {
     }
 
     private var isLocked: Bool {
-        plugin.requiresPrivileges && !plugin.isLeftAlone && !helper.canAct
+        plugin.requiresPrivileges && plugin.refusal == nil && !helper.canAct
     }
 }

@@ -60,7 +60,7 @@ struct BackgroundItemActionsTests {
         func service(refusing: Bool) -> TrashService {
             TrashService(environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))) { url in
                 steps.withLock { $0.append("move") }
-                if refusing { throw TrashService.RefusedOnceHeld() }
+                if refusing { throw TrashService.RefusedOnceHeld(refusal: .protectedLocation) }
                 return url
             }
         }
@@ -79,7 +79,7 @@ struct BackgroundItemActionsTests {
             item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: true), stop: stop
         )
         #expect(refused.trashed.isEmpty)
-        #expect(refused.failures.map(\.reason) == [.protectedLocation])
+        #expect(refused.failures.map(\.reason) == [.guarded(.protectedLocation)])
         #expect(steps.withLock { $0 } == ["move"])
 
         // A job launchd does not hold has nothing to stop.

@@ -105,7 +105,7 @@ struct CarriedSelectionTests {
             var result = TrashResult()
             for url in part.sizes.keys {
                 if url.lastPathComponent == "ModuleCache" {
-                    result.failures.append(TrashFailure(url: url, reason: .protectedLocation))
+                    result.failures.append(TrashFailure(url: url, reason: .guarded(.protectedLocation)))
                 } else {
                     result.trashed.append(TrashedItem(originalURL: url, trashedURL: url, date: .now))
                 }

@@ -107,11 +107,28 @@ extension SearchLocation.Kind {
     }
 }
 
+extension GuardRefusal {
+    /// Why Peel never moves the item, in words for the person who asked to move it.
+    var explanation: LocalizedStringResource {
+        switch self {
+        case .exclusionsNotKnown: "Peel won’t move this until it can read your exclusions."
+        case .excluded: "Peel won’t move this: your exclusions in Settings keep it where it is."
+        case .staysItself: "Peel won’t move this folder itself, since macOS expects to find it. What is inside it can go."
+        case .protectedLocation: "Peel won’t move this: it is part of macOS, or inside something Peel protects."
+        case .holdsProtectedData: "Peel won’t move this: something Peel protects is inside, such as a keychain or a wallet."
+        case .holdsDocuments: "Peel won’t move this: an app’s documents are inside."
+        case .holdsALibrary: "Peel won’t move this: a photo, music, or video library is inside."
+        case .holdsWorkKeptInACache: "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
+        }
+    }
+}
+
 extension TrashFailure.Reason {
     /// What went wrong with one item of a removal, in words for the user who asked to move it.
     var explanation: String {
         switch self {
-        case .protectedLocation: String(localized: "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.")
+        case .guarded(let refusal?): String(localized: refusal.explanation)
+        case .guarded(nil): String(localized: "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.")
         case .changedSinceScan: String(localized: "It changed after Peel looked at it. Scan again to review it.")
         case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.")
         case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.")
