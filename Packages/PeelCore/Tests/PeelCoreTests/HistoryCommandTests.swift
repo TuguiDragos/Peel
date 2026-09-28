@@ -77,7 +77,7 @@ struct HistoryCommandTests {
         #expect(HistoryCommand.rows(for: Batch.all(in: [here, gone])).count == 2, "one removal is one row")
     }
 
-    /// The WHY column shows macOS's own message when macOS refused, and Peel's name for the rule when Peel did.
+    /// The WHY column shows macOS's own message when macOS refused, and Peel's words for the rule when Peel did.
     @Test func writesEveryColumnOfARefusal() {
         let when = Date(timeIntervalSince1970: 1_790_000_000)
         let records = [
@@ -87,8 +87,9 @@ struct HistoryCommandTests {
         let rows = HistoryCommand.rows(for: records)
 
         #expect(rows[0] == ["WHEN", "WHAT", "WHY", "PATH"])
-        #expect(rows[1] == [Inventory.day(when, timeZone: .current), "Editor", "protected-location", "/Users/me/Library/Mail"])
-        #expect(rows[2] == [Inventory.day(when, timeZone: .current), "Editor", "no such file", "/Users/me/x.bin"])
+        let day = Inventory.day(when, timeZone: .current)
+        #expect(rows[1] == [day, "Editor", "protected location", "/Users/me/Library/Mail"])
+        #expect(rows[2] == [day, "Editor", "no such file", "/Users/me/x.bin"])
     }
 
     /// What `arguments` print, read the way a person or a script would read it.
@@ -238,6 +239,41 @@ struct HistoryCommandTests {
 
         let records = try #require(await logs.removals.load().records)
         #expect(Dictionary(uniqueKeysWithValues: records.map { ($0.originalURL.lastPathComponent, $0.size) }) == ["a.txt": 5, "b": nil])
+    }
+
+    /// `--limit` counts removals, as the app lists refusals one removal to an entry, and `--json` writes each removal
+    /// with its items: a plain path, the reason's name and words, and every key present, `null` where nothing is known.
+    @Test func listsRefusalsOneRemovalAtATime() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let old = TrashFailure(url: URL(filePath: "/Users/me/old.bin"), reason: .lastCopy)
+        await logs.refusals.add([old], source: "Old", tool: "duplicates", date: .now.addingTimeInterval(-60))
+        await logs.refusals.add(
+            [
+                TrashFailure(url: URL(filePath: "/Users/me/My Files/a.bin"), reason: .protectedLocation),
+                TrashFailure(url: URL(filePath: "/Users/me/b.bin"), reason: .failed("disk full")),
+            ],
+            source: "Editor", tool: "applications"
+        )
+
+        let text = try await printed(["history", "--refused", "--limit", "1"], from: logs)
+        #expect(text.contains("a.bin") && text.contains("b.bin") && !text.contains("old.bin"))
+
+        let removals = try listed(try await printed(["history", "--refused", "--limit", "1", "--json"], from: logs))
+        let removal = try #require(removals.first as? [String: Any])
+        #expect(removals.count == 1)
+        #expect(removal["source"] as? String == "Editor")
+        #expect(removal["tool"] as? String == "applications")
+        #expect(removal["batch"] is String)
+        let items = try #require(removal["items"] as? [[String: Any]])
+        #expect(items.map { $0["path"] as? String } == ["/Users/me/My Files/a.bin", "/Users/me/b.bin"])
+        #expect(items.map { $0["reason"] as? String } == ["protected-location", "failed"])
+        #expect(items.map { $0["why"] as? String } == ["protected location", "disk full"])
+        #expect(items[0]["detail"] is NSNull)
+    }
+
+    @Test func refusesToClearAndWriteJSONTogether() throws {
+        #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--clear", "--json"]) }
     }
 
     @Test func forgetsTheRefusalsWhenAsked() async throws {

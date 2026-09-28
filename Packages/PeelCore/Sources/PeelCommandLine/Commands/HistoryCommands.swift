@@ -103,9 +103,55 @@ struct HistoryCommand: AsyncParsableCommand {
         }
     }
 
+    /// One removal's refusals, as `--refused --json` writes them.
+    private struct RefusedRemoval: Encodable {
+        struct Item: Encodable {
+            let path: String
+            let reason: String
+            let detail: String?
+            let why: String
+
+            private enum CodingKeys: String, CodingKey {
+                case path, reason, detail, why
+            }
+
+            /// Written by hand so a refusal with no detail says `"detail": null` rather than leaving the key out.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(reason, forKey: .reason)
+                try container.encode(detail, forKey: .detail)
+                try container.encode(why, forKey: .why)
+            }
+        }
+
+        let batch: String
+        let date: Date
+        let source: String
+        let tool: String?
+        let items: [Item]
+
+        private enum CodingKeys: String, CodingKey {
+            case batch, date, source, tool, items
+        }
+
+        /// Written by hand so a removal from several tools says `"tool": null` rather than leaving the key out.
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(batch, forKey: .batch)
+            try container.encode(date, forKey: .date)
+            try container.encode(source, forKey: .source)
+            try container.encode(tool, forKey: .tool)
+            try container.encode(items, forKey: .items)
+        }
+    }
+
     func validate() throws {
         guard limit > 0 else { throw ValidationError("--limit has to be at least 1.") }
         guard !clear || refused else { throw ValidationError("--clear only goes with --refused. What moved is forgotten from History in the Peel app.") }
+        guard !clear || !output.json else {
+            throw ValidationError("--clear writes nothing to read, so it doesn't go with --json.")
+        }
     }
 
     func run() async throws {
@@ -159,8 +205,13 @@ struct HistoryCommand: AsyncParsableCommand {
 
     static func rows(for records: [RefusalRecord]) -> [[String]] {
         [["WHEN", "WHAT", "WHY", "PATH"]] + records.map { record in
-            [Output.day(record.date), record.source, record.detail ?? record.reason, Output.path(record.url)]
+            [Output.day(record.date), record.source, why(record), Output.path(record.url)]
         }
+    }
+
+    /// Why an item stayed, in the words the rest of `peel` uses. A reason a newer Peel wrote reads as recorded.
+    static func why(_ record: RefusalRecord) -> String {
+        TrashFailure.Reason(name: record.reason, detail: record.detail)?.summary ?? record.detail ?? record.reason
     }
 
     private func listRefusals(in log: RefusalLog) async throws {
@@ -169,14 +220,27 @@ struct HistoryCommand: AsyncParsableCommand {
             Output.line("Forgot every refusal on record.")
             return
         }
-        let records = Array(await log.load().sorted { $0.date > $1.date }.prefix(limit))
+        let removals = Array(RefusalRecord.grouped(await log.load()).prefix(limit))
 
         if output.json {
-            try Output.json(records)
-        } else if records.isEmpty {
+            try Output.json(removals.map { removal in
+                RefusedRemoval(
+                    batch: removal.id.uuidString,
+                    date: removal.date,
+                    source: Output.list(removal.parts.map(\.source)),
+                    tool: removal.parts.count == 1 ? removal.parts[0].namedTool : nil,
+                    items: removal.records.map { record in
+                        RefusedRemoval.Item(
+                            path: Output.path(record.url), reason: record.reason, detail: record.detail,
+                            why: Self.why(record)
+                        )
+                    }
+                )
+            })
+        } else if removals.isEmpty {
             Output.line("Peel hasn't refused anything it was asked to move.")
         } else {
-            Output.table(Self.rows(for: records))
+            Output.table(Self.rows(for: removals.flatMap(\.records)))
         }
     }
 }
