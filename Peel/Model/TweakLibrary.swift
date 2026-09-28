@@ -8,6 +8,7 @@ final class TweakLibrary {
     private static let changedKey = "tweaksChangedByPeel"
     /// What each key held before Peel changed it, so a reset gives the user their own setting back.
     private static let previousKey = "tweaksValuesBeforePeel"
+    private static let writtenKey = "tweaksValuesWrittenByPeel"
     private static let waitingKey = "tweaksWaitingForLogOut"
     private static let sessionKey = "tweaksWaitingSession"
 
@@ -31,19 +32,21 @@ final class TweakLibrary {
     init() {
         ledger = TweakLedger(
             changedByPeel: Set(UserDefaults.standard.stringArray(forKey: Self.changedKey) ?? []),
-            previousValues: UserDefaults.standard.dictionary(forKey: Self.previousKey) ?? [:]
+            previousValues: UserDefaults.standard.dictionary(forKey: Self.previousKey) ?? [:],
+            writtenValues: UserDefaults.standard.dictionary(forKey: Self.writtenKey) ?? [:]
         )
         let isThisSession = UserDefaults.standard.integer(forKey: Self.sessionKey) == Self.loginSession
         waitingForLogOut = isThisSession ? Set(UserDefaults.standard.stringArray(forKey: Self.waitingKey) ?? []) : []
+        ledger.adoptStoredValuesAsWritten(in: store)
     }
 
     func isWaitingForLogOut(_ group: Tweak.Group) -> Bool {
         tweaks(in: group).contains { waitingForLogOut.contains($0.id) }
     }
 
-    /// True for a setting Peel itself made, which is what it can put back.
+    /// True for a setting Peel itself made and the person has not changed since, which is what it can put back.
     func isChangedByPeel(_ tweak: Tweak) -> Bool {
-        ledger.changedByPeel.contains(tweak.id)
+        ledger.holdsPeelsChange(tweak, stored: store.storedValue(of: tweak))
     }
 
     func tweaks(in group: Tweak.Group) -> [Tweak] {
@@ -88,6 +91,7 @@ final class TweakLibrary {
     private func save() {
         UserDefaults.standard.set(Array(ledger.changedByPeel), forKey: Self.changedKey)
         UserDefaults.standard.set(ledger.previousValues, forKey: Self.previousKey)
+        UserDefaults.standard.set(ledger.writtenValues, forKey: Self.writtenKey)
         UserDefaults.standard.set(Array(waitingForLogOut), forKey: Self.waitingKey)
         UserDefaults.standard.set(Self.loginSession, forKey: Self.sessionKey)
     }

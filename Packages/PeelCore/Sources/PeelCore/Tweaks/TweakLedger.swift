@@ -21,39 +21,70 @@ public struct TweakLedger {
 
     /// The tweaks Peel turned on and has not turned off since.
     public private(set) var changedByPeel: Set<Tweak.ID>
-    /// What each key held before Peel first changed it, so turning the tweak off can put it back. A key that
-    /// held nothing has no entry.
+    /// What each key held before Peel changed it, so turning the tweak off can put it back. A key that held
+    /// nothing has no entry.
     public private(set) var previousValues: [Tweak.ID: Any]
+    /// What Peel wrote to each key it changed. A key that holds anything else was changed outside Peel since, and
+    /// that choice is the person's: it is never written over with what was there before Peel.
+    public private(set) var writtenValues: [Tweak.ID: Any]
 
-    public init(changedByPeel: Set<Tweak.ID> = [], previousValues: [Tweak.ID: Any] = [:]) {
+    public init(
+        changedByPeel: Set<Tweak.ID> = [], previousValues: [Tweak.ID: Any] = [:], writtenValues: [Tweak.ID: Any] = [:]
+    ) {
         self.changedByPeel = changedByPeel
         self.previousValues = previousValues
+        self.writtenValues = writtenValues
+    }
+
+    /// Whether `tweak`'s key still holds what Peel wrote to it.
+    public func holdsPeelsChange(_ tweak: Tweak, stored: Any?) -> Bool {
+        changedByPeel.contains(tweak.id) && Self.isSame(stored, writtenValues[tweak.id])
+    }
+
+    /// Takes what each key Peel changed holds now as what Peel wrote, for a ledger saved before Peel kept that.
+    public mutating func adoptStoredValuesAsWritten(in store: some TweakStoring) {
+        for tweak in TweakCatalog.all where changedByPeel.contains(tweak.id) && writtenValues[tweak.id] == nil {
+            writtenValues[tweak.id] = store.storedValue(of: tweak)
+        }
     }
 
     public mutating func turnOn(_ tweak: Tweak, path: String? = nil, in store: some TweakStoring) -> Outcome {
         let before = store.storedValue(of: tweak)
+        let wasPeels = holdsPeelsChange(tweak, stored: before)
         guard store.turnOn(tweak, path: path) else { return .refused }
+        let after = store.storedValue(of: tweak)
         // A key that already held the value was not changed by Peel, so turning it off later removes the key,
         // as for any setting made outside Peel.
-        guard !Self.isSame(before, store.storedValue(of: tweak)) else { return .unchanged }
-        // The previous value is recorded only after the write succeeds, and only the first time. After a
-        // failed write, the user may still change the value. After the first write, the key holds Peel's value.
-        if !changedByPeel.contains(tweak.id), let before {
+        guard !Self.isSame(before, after) else { return .unchanged }
+        // What the key held is recorded once the write succeeds, unless it was Peel's own value: after a failed
+        // write the person may still change it, and a value they chose since Peel's change is theirs to get back.
+        if !wasPeels {
             previousValues[tweak.id] = before
         }
         changedByPeel.insert(tweak.id)
+        writtenValues[tweak.id] = after
         return .changed
     }
 
     /// Turns `tweak` off. A setting Peel changed gets back what its key held before. A setting made outside
-    /// Peel has its key removed, so macOS falls back to its default.
+    /// Peel has its key removed, so macOS falls back to its default. A key the person changed after Peel did is
+    /// left as it is, and Peel forgets its change.
     public mutating func turnOff(_ tweak: Tweak, in store: some TweakStoring) -> Outcome {
         let before = store.storedValue(of: tweak)
+        if changedByPeel.contains(tweak.id), !holdsPeelsChange(tweak, stored: before) {
+            forget(tweak)
+            return .unchanged
+        }
         let restored = changedByPeel.contains(tweak.id) ? previousValues[tweak.id] : nil
         guard store.restore(restored, for: tweak) else { return .refused }
+        forget(tweak)
+        return Self.isSame(before, store.storedValue(of: tweak)) ? .unchanged : .changed
+    }
+
+    private mutating func forget(_ tweak: Tweak) {
         changedByPeel.remove(tweak.id)
         previousValues.removeValue(forKey: tweak.id)
-        return Self.isSame(before, store.storedValue(of: tweak)) ? .unchanged : .changed
+        writtenValues.removeValue(forKey: tweak.id)
     }
 
     /// The result of turning several tweaks off. `restarts` lists each restart once, however many of its
@@ -71,7 +102,7 @@ public struct TweakLedger {
         guard !state.isManaged else { return false }
         switch tweak.kind {
         case .aSwitch: return state.isOn
-        case .folder: return changedByPeel.contains(tweak.id)
+        case .folder: return holdsPeelsChange(tweak, stored: state.path)
         }
     }
 

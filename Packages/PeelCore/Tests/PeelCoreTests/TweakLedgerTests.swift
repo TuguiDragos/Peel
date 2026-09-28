@@ -131,7 +131,50 @@ struct TweakLedgerTests {
         #expect(!ledger.isOn(aSwitch, state: TweakState(isOn: true, isManaged: true, path: nil)))
         let store = FakeStore()
         _ = ledger.turnOn(folder, path: "/Users/me/Peel", in: store)
-        #expect(ledger.isOn(folder, state: chosenByHand))
+        #expect(ledger.isOn(folder, state: TweakState(isOn: true, isManaged: false, path: "/Users/me/Peel")))
+        #expect(!ledger.isOn(folder, state: chosenByHand), "a folder chosen since is the person's")
+    }
+
+    /// A key the person changed in macOS after Peel did holds their choice now, never written over with what was
+    /// there before Peel: the folder chosen later stays, and Peel forgets its change.
+    @Test func aChoiceMadeOutsidePeelSinceIsNeverWrittenOver() throws {
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let store = FakeStore()
+        store.values[folder.id] = "/Users/me/Old"
+        var ledger = TweakLedger()
+        _ = ledger.turnOn(folder, path: "/Users/me/Peel", in: store)
+        store.values[folder.id] = "/Users/me/New"
+
+        #expect(!ledger.holdsPeelsChange(folder, stored: store.values[folder.id]))
+        #expect(ledger.turnOff(folder, in: store) == .unchanged)
+        #expect(store.values[folder.id] as? String == "/Users/me/New")
+        #expect(ledger.changedByPeel.isEmpty)
+        #expect(ledger.previousValues.isEmpty)
+    }
+
+    /// Turned on again after the person changed the key in macOS, the tweak later puts back their newer value.
+    @Test func turningOnAgainRemembersTheValueChosenSince() {
+        let store = FakeStore()
+        store.values[tweak.id] = 0.5
+        var ledger = TweakLedger()
+        _ = ledger.turnOn(tweak, in: store)
+        store.values[tweak.id] = 0.7
+
+        #expect(ledger.turnOn(tweak, in: store) == .changed)
+        #expect(ledger.turnOff(tweak, in: store) == .changed)
+        #expect(store.values[tweak.id] as? Double == 0.7)
+    }
+
+    /// A ledger saved before Peel kept what it wrote takes what each key holds as Peel's, which is how it read them.
+    @Test func aLedgerFromBeforeTakesWhatIsStoredAsPeels() {
+        let store = FakeStore()
+        store.values[tweak.id] = true
+        var ledger = TweakLedger(changedByPeel: [tweak.id], previousValues: [tweak.id: 0.5])
+
+        ledger.adoptStoredValuesAsWritten(in: store)
+
+        #expect(ledger.turnOff(tweak, in: store) == .changed)
+        #expect(store.values[tweak.id] as? Double == 0.5)
     }
 
     /// A write macOS refused leaves that switch where it was, says so, and restarts nothing for it.
