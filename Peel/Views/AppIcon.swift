@@ -17,21 +17,29 @@ struct AppIcon: View {
 
 /// The icons rows draw. `NSWorkspace.icon(forFile:)` doesn't promise to cache and builds a new image each
 /// time, and rows ask for icons in `body`, on the main thread, so a list scrolled quickly would build the same
-/// icons again and again. `NSCache` holds them and lets them go when memory is short.
+/// icons again and again. `NSCache` holds them and lets them go when memory is short. Apps are held apart from
+/// files, so a long list of files never pushes the apps' icons out.
 enum IconCache {
     /// "You can add, remove, and query items in the cache from different threads" (`NSCache.h`).
-    nonisolated(unsafe) private static let images: NSCache<NSString, NSImage> = {
+    nonisolated(unsafe) private static let apps = cache()
+    nonisolated(unsafe) private static let files = cache()
+
+    nonisolated private static func cache() -> NSCache<NSString, NSImage> {
         let cache = NSCache<NSString, NSImage>()
         cache.countLimit = 512
         return cache
-    }()
+    }
+
+    nonisolated private static func images(for url: URL) -> NSCache<NSString, NSImage> {
+        url.pathExtension.lowercased() == "app" ? apps : files
+    }
 
     @MainActor
     static func icon(for url: URL) -> NSImage {
         let path = url.path(percentEncoded: false)
-        if let image = images.object(forKey: path as NSString) { return image }
+        if let image = images(for: url).object(forKey: path as NSString) { return image }
         let image = NSWorkspace.shared.icon(forFile: path)
-        images.setObject(image, forKey: path as NSString)
+        images(for: url).setObject(image, forKey: path as NSString)
         return image
     }
 
@@ -41,16 +49,16 @@ enum IconCache {
     static func warm(_ urls: [URL]) async {
         for url in urls {
             let path = url.path(percentEncoded: false)
-            guard images.object(forKey: path as NSString) == nil else { continue }
-            images.setObject(NSWorkspace.shared.icon(forFile: path), forKey: path as NSString)
+            guard images(for: url).object(forKey: path as NSString) == nil else { continue }
+            images(for: url).setObject(NSWorkspace.shared.icon(forFile: path), forKey: path as NSString)
         }
     }
 
-    /// After a removal, what was at that path is not what is there now.
+    /// Icons are held by path, so once what was at a path is removed or replaced, its icon is let go.
     @MainActor
     static func forget(_ urls: some Sequence<URL>) {
         for url in urls {
-            images.removeObject(forKey: url.path(percentEncoded: false) as NSString)
+            images(for: url).removeObject(forKey: url.path(percentEncoded: false) as NSString)
         }
     }
 }

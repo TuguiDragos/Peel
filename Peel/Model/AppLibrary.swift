@@ -240,11 +240,12 @@ final class AppLibrary {
         let listed = AppCatalog.sorted(found + revealed)
         let previous = Dictionary(apps.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let changed = listed.filter { app in previous[app.id].map { !Self.isTheSameBuild($0, app) } ?? false }
+        let present = Set(listed.map(\.id))
+        IconCache.forget(previous.keys.filter { !present.contains($0) } + changed.map(\.url))
         apps = listed
         revision += 1
         matchHomebrewApps()
 
-        let present = Set(listed.map(\.id))
         let stale = Set(changed.map(\.id))
         let keeps = { (id: InstalledApp.ID) in present.contains(id) && !stale.contains(id) }
         sizes = sizes.filter { keeps($0.key) }
