@@ -65,8 +65,13 @@ public enum AppCatalog {
             }
         }
 
-        Reading.forget(except: bundles)
+        Reading.forget(inside: directories, except: bundles)
         return sorted(apps)
+    }
+
+    /// Whether what was read about `bundle` is kept, so the next reading of its folder does not read it again.
+    static func remembers(_ bundle: URL) -> Bool {
+        Reading.remembers(bundle)
     }
 
     /// A cache of what was read about each bundle. Reading a bundle costs its `Info.plist`, its signature, its
@@ -94,12 +99,20 @@ public enum AppCatalog {
             return app
         }
 
-        /// Forgets every bundle not in `bundles`, such as an app that was removed or moved.
-        static func forget(except bundles: Set<URL>) {
+        /// Forgets every bundle in `directories` that is not in `bundles`, such as an app that was removed or moved.
+        /// What other folders hold stays: the system apps are read on their own.
+        static func forget(inside directories: [URL], except bundles: Set<URL>) {
             let paths = Set(bundles.map(PathPattern.comparablePath))
+            let folders = directories.map(PathPattern.comparablePath)
             known.withLock { known in
-                known = known.filter { paths.contains($0.key) }
+                known = known.filter { path, _ in
+                    paths.contains(path) || !folders.contains { PathComponents.isPath(path, atOrInside: $0) }
+                }
             }
+        }
+
+        static func remembers(_ bundle: URL) -> Bool {
+            known.withLock { $0[PathPattern.comparablePath(of: bundle)] != nil }
         }
 
         private static func identity(of bundle: URL) -> Identity {

@@ -103,6 +103,23 @@ struct AppInspectorTests {
         #expect(third == second)
     }
 
+    /// The system apps are read on their own, and reading them must not forget what the Applications folders hold.
+    @Test func readingSomeFoldersForgetsOnlyWhatLeftThem() async throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.one", "CFBundleName": "One"], at: "One/One.app/Contents/Info.plist", in: directory)
+        try plist(["CFBundleIdentifier": "org.example.two", "CFBundleName": "Two"], at: "Two/Two.app/Contents/Info.plist", in: directory)
+        let (one, two) = (directory.url.appending(path: "One"), directory.url.appending(path: "Two"))
+
+        _ = await AppCatalog.installedApps(in: [one])
+        _ = await AppCatalog.installedApps(in: [two])
+        #expect(AppCatalog.remembers(one.appending(path: "One.app")))
+
+        try FileManager.default.moveItem(at: one.appending(path: "One.app"), to: directory.url.appending(path: "One.app"))
+        _ = await AppCatalog.installedApps(in: [one])
+        #expect(!AppCatalog.remembers(one.appending(path: "One.app")))
+        #expect(AppCatalog.remembers(two.appending(path: "Two.app")))
+    }
+
     /// A launchd plist too large to be a job is not read, and neither is a link to something that is not a file
     /// (reading `/dev/zero` never ends). A link to a real job is followed.
     @Test func readsThroughALinkedLaunchdJobAndRefusesWhatIsNoJob() throws {
