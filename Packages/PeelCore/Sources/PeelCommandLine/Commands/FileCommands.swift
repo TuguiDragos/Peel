@@ -164,7 +164,8 @@ struct OrphansCommand: AsyncParsableCommand {
                 items.filter { wanted.contains($0.url) },
                 installedApps: apps,
                 scanner: scanner,
-                using: service
+                using: service,
+                mayUseHelper: false
             )
         }
     }
