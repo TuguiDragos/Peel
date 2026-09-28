@@ -325,6 +325,30 @@ struct HistoryCommandTests {
         }
     }
 
+    /// An item in the Trash of a disk that isn't connected is still there to put back, so the command asks for the
+    /// disk rather than say nothing is left.
+    @Test func asksForTheDiskAnItemWaitsOn() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let record = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(
+                originalURL: URL(filePath: "/Volumes/org.example.Missing/Report.pdf"),
+                trashedURL: URL(filePath: "/Volumes/org.example.Missing/.Trashes/501/Report.pdf"),
+                date: .now
+            ),
+            size: 10, source: "Editor", tool: "applications"
+        )
+        _ = await logs.removals.add([record])
+
+        let failure = await #expect(throws: CommandFailure.self) {
+            try await (command(["restore", String(record.batch.uuidString.prefix(8)), "-y"]) as RestoreCommand)
+                .run(in: logs.removals, using: service(in: directory))
+        }
+        let asked = "1 item is on a disk that isn't connected. Connect it and run the command again."
+        #expect(failure?.description == asked)
+    }
+
     @Test func aDryRunPutsNothingBack() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

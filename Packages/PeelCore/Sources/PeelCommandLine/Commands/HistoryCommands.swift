@@ -297,14 +297,26 @@ struct RestoreCommand: AsyncParsableCommand {
         }
         let batch = try Self.batch(matching: id, in: Batch.all(in: records))
         let going = batch.restorable
+        // An item in the Trash of a disk that isn't connected is still there, once the disk is.
+        let waiting = batch.records.filter { !$0.isStillInTrash && !$0.isOnAConnectedDisk }
+        let items = Output.count(waiting.count, "item is", "items are")
+        let elsewhere = waiting.isEmpty
+            ? nil
+            : "\(items) on a disk that isn't connected. Connect it and run the command again."
         guard !going.isEmpty else {
-            throw CommandFailure("Nothing of that removal is in the Trash anymore, so there is nothing to put back.")
+            let nothing = "Nothing of that removal is in the Trash anymore, so there is nothing to put back."
+            throw CommandFailure(elsewhere ?? nothing)
         }
 
         Output.table(going.map { [Output.size($0.size), Output.path($0.originalURL)] })
         Output.line("Total: \(Output.size(going.totalSize))")
-        if going.count < batch.records.count {
-            Output.note("\(Output.count(batch.records.count - going.count, "item is", "items are")) no longer in the Trash and will stay as they are.")
+        let gone = batch.records.count - going.count - waiting.count
+        if gone > 0 {
+            let items = Output.count(gone, "item is", "items are")
+            Output.note("\(items) no longer in the Trash and will stay as they are.")
+        }
+        if let elsewhere {
+            Output.note(elsewhere)
         }
 
         guard !dryRun else {
