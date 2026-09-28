@@ -278,7 +278,8 @@ struct AppDetailView: View {
                     "Everything selected here goes to the Trash together when you click Move to Trash. Nothing is deleted outright: History can put it back while it’s in the Trash."
                 ),
                 movable: plan.recommendedMovable,
-                selectable: recommendedSelectable
+                selectable: recommendedSelectable,
+                rows: recommendedRows
             )
         }
     }
@@ -286,7 +287,11 @@ struct AppDetailView: View {
     /// The Recommended rows a checkbox can select, for its Select All. Review Before Removing has no Select All,
     /// because nothing there should be selected without being read.
     private var recommendedSelectable: [URL] {
-        ([plan.app.url] + plan.recommended.map(\.url)).filter(plan.selectable.contains)
+        recommendedRows.filter(plan.selectable.contains)
+    }
+
+    private var recommendedRows: [URL] {
+        [plan.app.url] + plan.recommended.map(\.url)
     }
 
     @ViewBuilder
@@ -325,7 +330,9 @@ struct AppDetailView: View {
 
     /// A section heading with, at its other end, how many of its items can move and their total size, so the
     /// user sees how much is about to move without adding up the rows.
-    private func sectionHeader(_ title: some View, movable: (count: Int, size: SizeTotal), selectable: [URL] = []) -> some View {
+    private func sectionHeader(
+        _ title: some View, movable: (count: Int, size: SizeTotal), selectable: [URL] = [], rows: [URL] = []
+    ) -> some View {
         SectionHeaderLine {
             title
         } count: {
@@ -334,7 +341,7 @@ struct AppDetailView: View {
                 .foregroundStyle(.secondary)
                 .monospacedDigit()
         } actions: {
-            SelectAllButton(selectable: selectable, selection: $plan.selectedURLs)
+            SelectAllButton(selectable: selectable, rows: rows, selection: $plan.selectedURLs)
         }
     }
 

@@ -42,7 +42,11 @@ struct OrphanDetailView: View {
                 SectionHeaderLine {
                     Text("Files")
                 } actions: {
-                    SelectAllButton(selectable: selectableURLs, selection: Bindable(orphans).selectedURLs)
+                    SelectAllButton(
+                        selectable: selectableURLs,
+                        rows: group.items.map(\.url),
+                        selection: Bindable(orphans).selectedURLs
+                    )
                 }
             }
         }

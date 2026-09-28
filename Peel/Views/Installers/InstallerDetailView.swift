@@ -47,6 +47,7 @@ struct InstallerDetailView: View {
                 } actions: {
                     SelectAllButton(
                         selectable: rows.filter { !$0.isReadOnly && $0.heldBack == nil && !($0.requiresPrivileges && !helper.canAct) }.map(\.url),
+                        rows: rows.map(\.url),
                         selection: Bindable(installers).selectedURLs
                     )
                 }

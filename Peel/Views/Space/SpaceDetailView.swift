@@ -122,6 +122,7 @@ struct SpaceDetailView: View {
             } actions: {
                 SelectAllButton(
                     selectable: rows.filter { plan.heldBack[$0] == nil && !isLocked($0, in: plan) },
+                    rows: rows,
                     selection: Bindable(space).selectedURLs
                 )
             }

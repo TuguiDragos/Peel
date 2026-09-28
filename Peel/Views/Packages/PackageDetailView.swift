@@ -45,7 +45,11 @@ struct PackageDetailView: View {
                 SectionHeaderLine {
                     Text("Installed Items")
                 } actions: {
-                    SelectAllButton(selectable: selectableURLs, selection: Bindable(packages).selectedURLs)
+                    SelectAllButton(
+                        selectable: selectableURLs,
+                        rows: receipt.items.map(\.url),
+                        selection: Bindable(packages).selectedURLs
+                    )
                 }
             }
 

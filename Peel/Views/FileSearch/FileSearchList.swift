@@ -45,7 +45,11 @@ struct FileSearchList: View {
                     SectionHeaderLine {
                         Text("Files")
                     } actions: {
-                        SelectAllButton(selectable: Array(search.selectableURLs), selection: Bindable(search).selectedURLs)
+                        SelectAllButton(
+                            selectable: Array(search.selectableURLs),
+                            rows: results.files.map(\.url),
+                            selection: Bindable(search).selectedURLs
+                        )
                     }
                 }
                 // Disables the section, not the list, so the list still scrolls and the user can review the selection.

@@ -178,7 +178,11 @@ struct HistoryDetailView: View {
             SectionHeaderLine {
                 Text("Items")
             } actions: {
-                SelectAllButton(selectable: restorable.map(\.id), selection: Bindable(history).selectedIDs)
+                SelectAllButton(
+                    selectable: restorable.map(\.id),
+                    rows: batch.records.map(\.id),
+                    selection: Bindable(history).selectedIDs
+                )
             }
         }
         .disabled(history.isRestoring)
