@@ -342,26 +342,34 @@ public enum Homebrew {
 
     /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, asking about a cask
     /// makes Homebrew download the copy, even with `HOMEBREW_NO_AUTO_UPDATE` set. So Peel looks for the copy
-    /// itself, and asks nothing about casks when it is missing.
+    /// itself, and asks nothing about casks when it is missing. Where Homebrew keeps it, the platform it is named
+    /// for, and whether Homebrew reads its taps instead are asked of Homebrew itself, which reads its own
+    /// settings, `brew.env` included (`api/internal.rb`, `env_config.rb` in 7.0).
     @concurrent
     public static func hasLocalDefinitions() async -> Bool {
         guard executableURL != nil else { return false }
-        guard let cache = try? await answer(["--cache"]).trimmingCharacters(in: .whitespacesAndNewlines),
-              !cache.isEmpty
-        else { return false }
-
-        return hasLocalDefinitions(inCache: URL(filePath: cache, directoryHint: .isDirectory))
+        let question = "puts HOMEBREW_CACHE; puts Utils::Bottles.tag; puts(Homebrew::EnvConfig.no_install_from_api? "
+            + "&& CoreTap.instance.installed? && CoreCaskTap.instance.installed?)"
+        guard let answer = try? await answer(["ruby", "-e", question]) else { return false }
+        let lines = answer.split(whereSeparator: \.isNewline).map(String.init)
+        guard lines.count == 3, !lines[0].isEmpty, !lines[1].isEmpty else { return false }
+        let cache = URL(filePath: lines[0], directoryHint: .isDirectory)
+        return hasLocalDefinitions(inCache: cache, tag: lines[1], readsTheTaps: lines[2] == "true")
     }
 
     /// Returns whether `cache` holds that copy. In Homebrew 6.0.0 and later, the copy is one file named for the
-    /// platform it was built for, like `api/internal/packages.arm64_tahoe.jws.json`. Earlier versions keep one
-    /// file for formulae and one for casks (`cmd/update.sh` in 5.1.9), and both must be there: a query of
-    /// either kind downloads its file when it is missing.
-    static func hasLocalDefinitions(inCache cache: URL) -> Bool {
+    /// platform Homebrew reads it for (`tag`), like `api/internal/packages.arm64_tahoe.jws.json`: a file left for
+    /// an older macOS is no copy, since Homebrew downloads the one it wants. Earlier versions keep one file for
+    /// formulae and one for casks (`cmd/update.sh` in 5.1.9), and both must be there: a query of either kind
+    /// downloads its file when it is missing. A Homebrew that reads its taps needs neither.
+    static func hasLocalDefinitions(inCache cache: URL, tag: String, readsTheTaps: Bool) -> Bool {
+        guard !readsTheTaps else { return true }
         let api = cache.appending(path: "api", directoryHint: .isDirectory)
-        let packages = (try? FileManager.default.contentsOfDirectory(atPath: api.appending(path: "internal").path(percentEncoded: false))) ?? []
-        if packages.contains(where: { $0.hasPrefix("packages.") && $0.hasSuffix(".jws.json") }) { return true }
-        return ["formula.jws.json", "cask.jws.json"].allSatisfy { FileManager.default.fileExists(atPath: api.appending(path: $0).path(percentEncoded: false)) }
+        let packages = api.appending(path: "internal/packages.\(tag).jws.json")
+        if FileManager.default.fileExists(atPath: packages.path(percentEncoded: false)) { return true }
+        return ["formula.jws.json", "cask.jws.json"].allSatisfy {
+            FileManager.default.fileExists(atPath: api.appending(path: $0).path(percentEncoded: false))
+        }
     }
 
     @concurrent

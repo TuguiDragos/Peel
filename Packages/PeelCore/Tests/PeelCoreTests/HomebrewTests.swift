@@ -489,21 +489,38 @@ struct HomebrewTests {
         #expect(report.skipped.isEmpty)
     }
 
-    /// From 6.0.0 Homebrew keeps its copy of the definitions in one file. Earlier versions keep one file for
-    /// formulae and one for casks. Either layout counts as a local copy.
+    /// From 6.0.0 Homebrew keeps its copy of the definitions in one file, named for the platform it reads it for.
+    /// Earlier versions keep one file for formulae and one for casks. Either layout counts as a local copy.
     @Test func findsHomebrewsCopyOfItsDefinitionsInEitherLayout() throws {
         let newer = try TemporaryDirectory()
         try newer.file("api/internal/packages.arm64_tahoe.jws.json")
-        #expect(Homebrew.hasLocalDefinitions(inCache: newer.url))
+        #expect(Homebrew.hasLocalDefinitions(inCache: newer.url, tag: "arm64_tahoe", readsTheTaps: false))
 
         let older = try TemporaryDirectory()
         try older.file("api/formula.jws.json")
-        #expect(!Homebrew.hasLocalDefinitions(inCache: older.url), "a cask query would still fetch the cask file")
+        #expect(!Homebrew.hasLocalDefinitions(inCache: older.url, tag: "arm64_tahoe", readsTheTaps: false))
         try older.file("api/cask.jws.json")
-        #expect(Homebrew.hasLocalDefinitions(inCache: older.url))
+        #expect(Homebrew.hasLocalDefinitions(inCache: older.url, tag: "arm64_tahoe", readsTheTaps: false))
 
         let empty = try TemporaryDirectory()
         try empty.directory("api/internal")
-        #expect(!Homebrew.hasLocalDefinitions(inCache: empty.url))
+        #expect(!Homebrew.hasLocalDefinitions(inCache: empty.url, tag: "arm64_tahoe", readsTheTaps: false))
+    }
+
+    /// After a move to a newer macOS, only the file for the old platform is left. Homebrew reads the new one and
+    /// downloads it when missing, so the old one is no local copy.
+    @Test func aCopyForAnotherPlatformIsNoLocalCopy() throws {
+        let cache = try TemporaryDirectory()
+        try cache.file("api/internal/packages.arm64_tahoe.jws.json")
+
+        #expect(!Homebrew.hasLocalDefinitions(inCache: cache.url, tag: "arm64_27", readsTheTaps: false))
+    }
+
+    /// With `HOMEBREW_NO_INSTALL_FROM_API`, Homebrew reads its taps and never the API files, so its taps are the
+    /// local copy.
+    @Test func readingTheTapsNeedsNoAPICopy() throws {
+        let cache = try TemporaryDirectory()
+
+        #expect(Homebrew.hasLocalDefinitions(inCache: cache.url, tag: "arm64_tahoe", readsTheTaps: true))
     }
 }
