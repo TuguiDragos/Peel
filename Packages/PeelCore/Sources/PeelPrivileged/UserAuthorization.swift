@@ -13,15 +13,17 @@ public enum UserAuthorization {
     /// neither `getpwuid` nor `getgrnam`, whose shared return buffer this daemon cannot rely on while it
     /// answers more than one connection.
     public static func isAdministrator(_ user: uid_t) -> Bool {
-        var account = uuid_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        var administrators = uuid_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        // Arrays, since an array passed in-out is a pointer to all of its storage, and a `uuid_t` tuple's first
+        // element promises nothing about the fifteen bytes after it.
+        var account = [UInt8](repeating: 0, count: MemoryLayout<uuid_t>.size)
+        var administrators = [UInt8](repeating: 0, count: MemoryLayout<uuid_t>.size)
         guard
-            mbr_uid_to_uuid(user, &account.0) == 0,
-            mbr_identifier_to_uuid(ID_TYPE_GROUPNAME, administratorsGroup, administratorsGroup.utf8.count, &administrators.0) == 0
+            mbr_uid_to_uuid(user, &account) == 0,
+            mbr_identifier_to_uuid(ID_TYPE_GROUPNAME, administratorsGroup, administratorsGroup.utf8.count, &administrators) == 0
         else { return false }
 
         var isMember: Int32 = 0
-        guard mbr_check_membership(&account.0, &administrators.0, &isMember) == 0 else { return false }
+        guard mbr_check_membership(&account, &administrators, &isMember) == 0 else { return false }
         return isMember != 0
     }
 
