@@ -92,12 +92,13 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, and macOS is told to
    forget the preference domains whose files went.
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
-   from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one
-   entry, even when it moved what was selected on several pages. Each item is also written down the moment it
-   moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches History the
-   next time it is read, as an interrupted removal, and quitting the app waits for a removal until History has it
-   (`QuitGuard`). While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService`
-   before a removal) until the History page starts it over. What Peel refused to move is recorded too
+   from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
+   even when it moved what was selected on several pages. As it records, History adds what moved to the totals Home
+   shows (`totals.json`, through `RemovalTotals`), so the app and `peel` count alike. Each item is also written down
+   the moment it moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches
+   History the next time it is read, as an interrupted removal, and quitting the app waits for a removal until
+   History has it (`QuitGuard`). While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by
+   `TrashService` before a removal) until the History page starts it over. What Peel refused to move is recorded too
    (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, only when it is the item that went (`TrashedItem.identity`,
@@ -195,6 +196,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/removals.json` | History: every removal, so it can be put back. |
 | `~/Library/Application Support/Peel/removals.journal` | What a removal has moved so far, item by item, until History has it. |
 | `~/Library/Application Support/Peel/refusals.json` | What Peel was asked to move and refused, and why. |
+| `~/Library/Application Support/Peel/totals.json` | The totals Home and the menu bar panel show: what the app and `peel` moved since Peel was installed. |
 | `~/Library/Application Support/Peel/exclusions.json` | The user's exclusions. |
 | `~/Library/Application Support/Peel/Preference Backups/` | The settings Peel saved before resetting an app. |
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file isn't read again. |
@@ -204,7 +206,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
 | `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
-| Peel's preferences | Settings, the totals Home shows, what each tool found the last time it looked, and the last answer of each update check. |
+| Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, and the last answer of each update check. |
 
 Remove Peel, in Settings, takes all of it to the Trash. The helper moves its own ledger there, since nothing else
 can, just before Peel unregisters it. It is the only way Peel is removed: Peel's own page in Applications, and

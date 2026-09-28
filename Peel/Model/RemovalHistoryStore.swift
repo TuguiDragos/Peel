@@ -93,7 +93,7 @@ struct RefusalBatch: Identifiable, Hashable {
 final class RemovalHistoryStore {
     private let log = RemovalLog()
     private let refusals = RefusalLog()
-    /// Updated here rather than by each tool, so no place that records a removal can forget to count it.
+    /// Read again here once History has counted a removal, rather than by each tool.
     var stats: LifetimeStats?
     /// The last batch moved, for Undo. `@Environment(\.undoManager)` is nil in an app with no documents,
     /// so the Edit menu's own item is replaced by one that asks this (`PeelCommands`).
@@ -174,20 +174,17 @@ final class RemovalHistoryStore {
 
     /// Records a removal from one place in History, as one entry. When Peel wrote the source itself, pass it in
     /// English along with a `sourceKey`, so History can show it in the user's language (see
-    /// `RemovalRecord.sourceKey`). An item missing from `sizes` is recorded as unknown. Remove Peel leaves out the
-    /// lifetime totals: they live in Peel's settings, which it has just cleared, and writing them would make those
-    /// settings again.
+    /// `RemovalRecord.sourceKey`). An item missing from `sizes` is recorded as unknown.
     func record(
         _ result: TrashResult,
         tool: Tool,
         source: String,
         sourceKey: String? = nil,
-        sizes: [URL: Int64],
-        countsTowardTotals: Bool = true
+        sizes: [URL: Int64]
     ) async {
         var removal = RemovalInProgress()
         await record(result, part: RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), sizes: sizes, in: &removal)
-        finish(removal, countsTowardTotals: countsTowardTotals)
+        finish(removal)
     }
 
     /// Records in History what one part of `removal` moved, and what it refused.
@@ -214,7 +211,7 @@ final class RemovalHistoryStore {
 
     /// Tells what `removal` moved once every part of it is recorded: the bar's "Moved", VoiceOver, the lifetime
     /// totals, and Undo.
-    func finish(_ removal: RemovalInProgress, countsTowardTotals: Bool = true) {
+    func finish(_ removal: RemovalInProgress) {
         guard !removal.records.isEmpty else { return }
         let moved = RemovalBatch(
             id: removal.batch,
@@ -224,12 +221,7 @@ final class RemovalHistoryStore {
         )
         justMoved = moved
         AccessibilityNotification.Announcement(moved.movedAnnouncement).post()
-        if countsTowardTotals {
-            stats?.add(
-                TrashResult(trashed: removal.records.map(\.trashedItem)),
-                sizes: [URL: Int64](measured: removal.records.map { ($0.originalURL, $0.size) })
-            )
-        }
+        stats?.reload()
         registerUndo(of: removal.records, source: moved.title)
     }
 

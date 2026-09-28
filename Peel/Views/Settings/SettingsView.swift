@@ -349,7 +349,7 @@ private struct GeneralSettingsView: View {
             Button("Remove Peel", role: .destructive) {
                 Task {
                     await selfUninstall.run(installedApps: library.apps, helper: helper, pausing: background) { result in
-                        await history.record(result, tool: .applications, source: "Peel", sizes: [:], countsTowardTotals: false)
+                        await history.record(result, tool: .applications, source: "Peel", sizes: [:])
                     }
                 }
             }

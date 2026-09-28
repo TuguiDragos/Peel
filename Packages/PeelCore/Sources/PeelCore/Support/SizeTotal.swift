@@ -1,6 +1,6 @@
 /// A sum of sizes, some of which may be unknown. An unknown size is never counted as zero: it marks the
 /// total incomplete.
-public struct SizeTotal: Sendable, Hashable, Comparable {
+public struct SizeTotal: Sendable, Hashable, Comparable, Codable {
     public let known: Int64
     /// False when some size is unknown, so `known` is only the least the total can be.
     public let isComplete: Bool
@@ -19,6 +19,10 @@ public struct SizeTotal: Sendable, Hashable, Comparable {
             if let size { known = known.addingCapped(size) } else { isComplete = false }
         }
         self.init(known: known, isComplete: isComplete)
+    }
+
+    public func adding(_ other: SizeTotal) -> SizeTotal {
+        SizeTotal(known: known.addingCapped(other.known), isComplete: isComplete && other.isComplete)
     }
 
     /// How the total reads: a size, the least it can be, or nothing known at all.

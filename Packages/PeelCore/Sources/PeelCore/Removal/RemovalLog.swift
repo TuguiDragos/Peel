@@ -37,10 +37,12 @@ public actor RemovalLog {
     public private(set) var problem: RemovalLogProblem?
     /// What removals moved and have not recorded yet, item by item.
     private let journal: RemovalJournal
+    private let totals: URL
 
     public init(url: URL = RemovalHistory.defaultURL) {
         self.url = url
         journal = RemovalJournal(beside: url)
+        totals = RemovalTotals.url(beside: url)
     }
 
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
@@ -62,11 +64,17 @@ public actor RemovalLog {
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
             let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
             guard write(updated, orNote: .couldNotRecord) else { return RemovalLogOutcome(records: nil, problem: problem) }
+            RemovalTotals.change(at: totals) { $0.add(records) }
             journal.forget(records.map(\.trashedItem))
             // A removal that is recorded clears an earlier `.couldNotRecord`.
             if problem == .couldNotRecord { problem = nil }
             return RemovalLogOutcome(records: updated, problem: problem)
         }
+    }
+
+    /// Adds totals the app kept before `peel` counted too. False when they could not be written.
+    public func takeIn(_ earlier: RemovalTotals) -> Bool {
+        whileNoOtherProcessWrites { RemovalTotals.change(at: totals) { $0.takeIn(earlier) } }
     }
 
     /// Whether History at `url` can be read, known without reading it: it is not there yet, or it opens as the file
@@ -130,6 +138,7 @@ public actor RemovalLog {
         if !interrupted.isEmpty {
             updated = Self.trimmed(records + interrupted, keeping: Set(interrupted.map(\.batch)))
             guard write(updated, orNote: .couldNotRecord) else { return records }
+            RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
         journal.forget(Set(left))
         return updated
