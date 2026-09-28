@@ -80,6 +80,21 @@ struct ExclusionCommandTests {
         #expect(await saved(store).isEmpty)
     }
 
+    /// One place is one exclusion however it is written: a file the app saved, the same path in capitals, never
+    /// added twice and taken off by any of its spellings.
+    @Test func treatsEverySpellingOfAPathAsOne() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let note = try directory.file("home/Documents/note.txt")
+        #expect(await store.save(Exclusions(paths: [note])))
+
+        try await add([note.path(percentEncoded: false).uppercased()], in: store)
+        #expect(await saved(store).paths.count == 1)
+
+        try await remove([note.path(percentEncoded: false)], in: store)
+        #expect(await saved(store).isEmpty)
+    }
+
     /// An app that is not installed stays in the list, so it can be removed by the identifier saved there.
     @Test func removesAnAppThatIsNoLongerInstalled() async throws {
         let directory = try TemporaryDirectory()

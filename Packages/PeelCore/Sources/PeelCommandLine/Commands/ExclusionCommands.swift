@@ -108,9 +108,9 @@ struct ExclusionsCommand: AsyncParsableCommand {
             if let app {
                 identifier = try await ExclusionsCommand.identifier(of: app, among: apps)
             }
-            let added = paths.map { URL(argument: $0).standardizedFileURL }
+            let added = paths.map(URL.init(argument:))
             try await ExclusionsCommand.change(in: store) { [identifier] exclusions in
-                exclusions.paths.formUnion(added)
+                exclusions.add(added)
                 if let identifier { exclusions.bundleIdentifiers.insert(identifier) }
             }
             Output.line("Peel will leave \(Output.count(paths.count + (app == nil ? 0 : 1), "item", "items")) alone.")
@@ -138,7 +138,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
 
         func run(in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
             let before = try await ExclusionsCommand.current(in: store)
-            let removed = Set(paths.map { URL(argument: $0).standardizedFileURL })
+            let removed = paths.map(URL.init(argument:))
             // `app` comes off exactly as written, so an app that isn't installed can still come off the list. Only
             // when the list has no such identifier is `app` looked up among the installed apps.
             var identifiers: Set<String> = []
@@ -149,11 +149,12 @@ struct ExclusionsCommand: AsyncParsableCommand {
                     identifiers.insert(identifier)
                 }
             }
-            guard !before.paths.isDisjoint(with: removed) || !before.bundleIdentifiers.isDisjoint(with: identifiers) else {
+            var remaining = before
+            guard remaining.remove(removed) || !before.bundleIdentifiers.isDisjoint(with: identifiers) else {
                 throw CommandFailure("Peel wasn't leaving that alone. See `peel exclusions list`.")
             }
             try await ExclusionsCommand.change(in: store) { [identifiers] exclusions in
-                exclusions.paths.subtract(removed)
+                exclusions.remove(removed)
                 exclusions.bundleIdentifiers.subtract(identifiers)
             }
             Output.line("Peel will treat it like anything else again.")

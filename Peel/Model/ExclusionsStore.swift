@@ -39,8 +39,7 @@ final class ExclusionsStore {
     }
 
     func add(paths: [URL]) async {
-        let added = paths.map(\.standardizedFileURL)
-        await change { $0.paths.formUnion(added) }
+        await change { $0.add(paths) }
     }
 
     func add(bundleIdentifier: String) async {
@@ -48,8 +47,7 @@ final class ExclusionsStore {
     }
 
     func remove(paths: [URL]) async {
-        let removed = paths.map(\.standardizedFileURL)
-        await change { $0.paths.subtract(removed) }
+        await change { $0.remove(paths) }
     }
 
     func remove(bundleIdentifiers: [String]) async {

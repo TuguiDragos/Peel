@@ -82,6 +82,25 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     public var isEmpty: Bool { paths.isEmpty && bundleIdentifiers.isEmpty }
 
+    /// Adds `urls`, leaving out any already on the list under another spelling, as `/private/var` is `/var`.
+    public mutating func add(_ urls: [URL]) {
+        for url in urls where !paths.contains(where: { Self.isSamePlace($0, url) }) {
+            paths.insert(url.standardizedFileURL)
+        }
+    }
+
+    /// Takes `urls` off the list, however each entry was written. Returns whether anything came off.
+    @discardableResult
+    public mutating func remove(_ urls: [URL]) -> Bool {
+        let removed = paths.filter { entry in urls.contains { Self.isSamePlace(entry, $0) } }
+        paths.subtract(removed)
+        return !removed.isEmpty
+    }
+
+    private static func isSamePlace(_ one: URL, _ other: URL) -> Bool {
+        !spellings(of: one).isDisjoint(with: spellings(of: other))
+    }
+
     /// True when `url` is excluded or sits inside something excluded. Compared name by name: a slash and a
     /// combining mark after it are one `Character`, so a name beginning with the mark would never read as
     /// inside its folder to a comparison of characters.

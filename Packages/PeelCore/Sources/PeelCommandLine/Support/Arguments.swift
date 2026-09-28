@@ -119,9 +119,11 @@ func isAFolder(_ url: URL) -> Bool {
 }
 
 extension URL {
-    /// A folder or app given on the command line, relative to the current directory.
+    /// A file, folder, or app given on the command line, relative to the current directory. What is there is
+    /// named as a file or as a folder, as the disk says, so it compares equal to the same item named anywhere else.
     init(argument: String) {
         let currentDirectory = URL(filePath: FileManager.default.currentDirectoryPath, directoryHint: .isDirectory)
-        self = URL(filePath: (argument as NSString).expandingTildeInPath, directoryHint: .isDirectory, relativeTo: currentDirectory).standardizedFileURL
+        let path = (argument as NSString).expandingTildeInPath
+        self = URL(filePath: path, directoryHint: .checkFileSystem, relativeTo: currentDirectory).standardizedFileURL
     }
 }
