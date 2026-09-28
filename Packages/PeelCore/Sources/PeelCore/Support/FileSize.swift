@@ -62,6 +62,16 @@ public enum FileSize {
     /// costs a trip to the disk, which is never made on the caller's actor.
     @concurrent
     public static func contents(of url: URL, within budget: TimeInterval = FileSize.budget) async -> FolderContents? {
+        await contents(of: url, within: budget, walking: walk)
+    }
+
+    /// Walks a folder for `contents(of:within:)`. A parameter so a test can stand in for a walk held inside a read.
+    typealias Walker = @Sendable (
+        _ folder: URL, _ scan: ScanCount?, _ isStopped: @escaping @Sendable () -> Bool
+    ) -> FolderContents?
+
+    @concurrent
+    static func contents(of url: URL, within budget: TimeInterval, walking: @escaping Walker) async -> FolderContents? {
         guard let folder = folderToWalk(url) else { return immediateContents(of: url) }
         // A canceled task starts no walk.
         guard !Task.isCancelled else { return nil }
@@ -71,7 +81,10 @@ public enum FileSize {
             return contents
         case .wait(let shared, let isNew):
             answer = shared
-            if isNew { start(walking: folder, into: answer, for: Task.currentPriority, countingFor: ScanCount.current) }
+            if isNew {
+                let scan = ScanCount.current
+                start(walking: folder, with: walking, into: answer, for: Task.currentPriority, countingFor: scan)
+            }
         }
         await answer.wait(budget)
         return Walks.leave(folder, answer, isWithdrawn: Task.isCancelled)
@@ -80,9 +93,12 @@ public enum FileSize {
     /// Starts the walk on a thread of its own, not a shared pool: a walk that never returns would keep its
     /// pool thread, and enough of them would starve every other walk. The thread runs at the priority of the
     /// task that asked, so a scan the user is watching is not throttled as background work.
-    private static func start(walking folder: URL, into answer: Answer, for priority: TaskPriority, countingFor scan: ScanCount?) {
+    private static func start(
+        walking folder: URL, with walking: @escaping Walker, into answer: Answer, for priority: TaskPriority,
+        countingFor scan: ScanCount?
+    ) {
         let thread = Thread {
-            let contents = walk(folder, countingFor: scan, unless: { answer.isStopped })
+            let contents = walking(folder, scan) { answer.isStopped }
             Walks.finish(folder, with: contents, into: answer)
         }
         thread.qualityOfService = switch priority {
@@ -249,7 +265,8 @@ public enum FileSize {
 /// A folder whose walk runs past the budget is marked abandoned and answered with nil from then on, since
 /// asking again would only start another thread that may never return. If the walk does finish late, its
 /// answer is kept for whoever asks next, so a big folder is unknown only once. A folder being walked is
-/// never walked twice: everyone who asks waits for the same answer, so each folder has one thread at most.
+/// never walked twice: everyone who asks waits for the same answer, so each folder has one thread at most, besides
+/// a walk nobody waits for anymore, which stops at its next entry.
 private enum Walks {
     enum Entry {
         case walking(Answer)
@@ -302,7 +319,12 @@ private enum Walks {
                 return found
             }
             if isWithdrawn {
-                if isLastToLeave { answer.stop() }
+                // Forgotten as well as stopped: the walk may be held inside a read where it cannot see it was
+                // stopped, and the next question walks the folder again rather than wait on it.
+                if isLastToLeave {
+                    answer.stop()
+                    if case .walking(let current) = entries[path], current === answer { entries[path] = nil }
+                }
             } else if case .walking(let current) = entries[path], current === answer {
                 entries[path] = .abandoned(answer)
             }

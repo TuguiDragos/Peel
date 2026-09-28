@@ -284,6 +284,34 @@ struct FileSizeTests {
         #expect(try #require(await FileSize.reclaimableSize(of: folder)) >= 100_000)
     }
 
+    /// A walk can be held inside one read for minutes (a file provider's folder), where it cannot see it was
+    /// stopped. The question after a withdrawn one, which is how a rescan follows the scan it cancels, walks the
+    /// folder again instead of waiting its whole budget on that walk.
+    @Test func aQuestionAfterAWithdrawnOneWalksTheFolderAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("held")
+        try directory.file("held/a.bin", bytes: 4_096)
+        let read = DispatchSemaphore(value: 0)
+        let walks = Mutex(0)
+        let walking: FileSize.Walker = { url, scan, isStopped in
+            guard walks.withLock({ walks in walks += 1; return walks > 1 }) else {
+                read.wait()
+                return nil
+            }
+            return FileSize.walk(url, countingFor: scan, unless: isStopped)
+        }
+        defer { read.signal() }
+
+        let withdrawn = Task { await FileSize.contents(of: folder, within: 60, walking: walking) }
+        while walks.withLock({ $0 }) == 0 { await Task.yield() }
+        withdrawn.cancel()
+        #expect(await withdrawn.value == nil)
+
+        let asked = ContinuousClock.now
+        #expect(await FileSize.contents(of: folder, within: 5, walking: walking) != nil)
+        #expect(ContinuousClock.now - asked < .seconds(4), "the question waited on the walk that was stopped")
+    }
+
     /// A walk nobody wants anymore stops at the next entry instead of reading the folder to its end.
     @Test func aWalkNobodyWantsStopsWhereItIs() throws {
         let directory = try TemporaryDirectory()
