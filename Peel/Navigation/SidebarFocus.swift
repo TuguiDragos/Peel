@@ -22,6 +22,7 @@ private struct ListFocus: NSViewRepresentable {
 
     final class Anchor: NSView {
         private var observation: NSKeyValueObservation?
+        private var hasFoundTheList = false
 
         // Takes the focus at once, never on a later turn of the run loop, so no frame is drawn with the
         // selection in the unfocused gray first.
@@ -37,6 +38,10 @@ private struct ListFocus: NSViewRepresentable {
         /// before the frame is drawn.
         override func layout() {
             super.layout()
+            if !hasFoundTheList {
+                hasFoundTheList = list(in: enclosingSplitViewItem?.viewController.view) != nil
+                hasFoundTheList ? PrivateStructure.found(.sidebarFocus) : PrivateStructure.check(.sidebarFocus)
+            }
             takeFocusIfNothingHasIt()
         }
 

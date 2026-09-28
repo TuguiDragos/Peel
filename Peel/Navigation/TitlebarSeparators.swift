@@ -66,26 +66,30 @@ private struct TitlebarSeparators: NSViewRepresentable {
 }
 
 
-/// Reports when SwiftUI stops building the columns from an `NSSplitViewController`. This file,
-/// `FixedSplitViewColumn`, and `ListColumn` rely on that structure, which is not API. If it changes, their fixes
-/// stop working without any error: the line under the title bar comes back, the sidebar can be dragged to any
-/// width, and the list's title bar section runs past its divider.
+/// Reports when SwiftUI stops building its views the way Peel's AppKit adjustments expect. This file,
+/// `FixedSplitViewColumn` and `ListColumn` rely on the columns coming from an `NSSplitViewController`, `ColumnFade`
+/// on a column's view sitting two levels under the split view, and `SidebarFocus` on the sidebar's list being an
+/// `NSOutlineView`. None of that is API, and if it changes, those adjustments stop working without any error.
 ///
-/// In Debug builds, a probe that has not found its structure three seconds after its first layout logs a fault,
-/// once. It waits because the columns are not connected yet during that first layout. Each probe is tracked on
-/// its own, so one that works cannot hide one that has stopped. It only logs and never stops the app.
+/// In every build, a probe that has not found its structure three seconds after its first check logs a fault, once.
+/// It waits because the columns are not connected yet during the first layout. Each probe is tracked on its own, so
+/// one that works cannot hide one that has stopped. It only logs and never stops the app.
 @MainActor
 enum PrivateStructure {
     enum Probe {
         case titlebarSeparators
         case fixedColumn
         case listColumn
+        case columnFade
+        case sidebarFocus
 
         var consequence: String {
             switch self {
             case .titlebarSeparators: "the line under the title bar is back"
             case .fixedColumn: "the sidebar can be dragged to any width"
             case .listColumn: "with the sidebar aside, the list's title bar runs past its divider"
+            case .columnFade: "a list that changes no longer fades in"
+            case .sidebarFocus: "the sidebar no longer takes the keyboard focus when nothing holds it"
             }
         }
     }
@@ -98,15 +102,13 @@ enum PrivateStructure {
     }
 
     static func check(_ probe: Probe) {
-        #if DEBUG
         guard !seen.contains(probe), !watched.contains(probe) else { return }
         watched.insert(probe)
         Task {
             try? await Task.sleep(for: .seconds(3))
             guard !seen.contains(probe) else { return }
             Logger(subsystem: "com.tuguidragos.Peel", category: "layout")
-                .fault("SwiftUI no longer builds the columns from NSSplitViewController: \(probe.consequence, privacy: .public)")
+                .fault("SwiftUI no longer builds its views as Peel expects: \(probe.consequence, privacy: .public)")
         }
-        #endif
     }
 }

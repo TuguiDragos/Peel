@@ -59,6 +59,16 @@ private struct ColumnFade: NSViewRepresentable {
             return view
         }
 
+        /// A column in a split view should find its view; in a sheet there is no split view, and nothing to find.
+        override func layout() {
+            super.layout()
+            if column != nil {
+                PrivateStructure.found(.columnFade)
+            } else if sequence(first: superview, next: { $0?.superview }).contains(where: { $0 is NSSplitView }) {
+                PrivateStructure.check(.columnFade)
+            }
+        }
+
         override func hitTest(_ point: NSPoint) -> NSView? {
             nil
         }
