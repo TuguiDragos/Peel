@@ -20,6 +20,7 @@ struct AppDetailView: View {
     @State private var upgrade: Upgrade?
     @State private var upgradeOutput: HomebrewLibrary.CommandResult?
     @Environment(\.notifications) private var notifications
+    @Environment(\.openSettings) private var openSettings
     @State private var isShowingReset = false
     @State private var resetChangedFiles = false
 
@@ -127,9 +128,7 @@ struct AppDetailView: View {
                     detail: Text("Peel leaves it and its files alone. Change that in Settings."),
                     kind: .note
                 ) {
-                    SettingsLink {
-                        Text("Open Peel Settings")
-                    }
+                    Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
                 }
                 .listRowSeparator(.hidden)
             }
@@ -139,9 +138,7 @@ struct AppDetailView: View {
                     detail: Text("Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind."),
                     kind: .note
                 ) {
-                    SettingsLink {
-                        Text("Open Peel Settings")
-                    }
+                    Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
                 }
                 .listRowSeparator(.hidden)
             }

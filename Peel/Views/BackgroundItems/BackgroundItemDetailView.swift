@@ -92,7 +92,7 @@ struct BackgroundItemDetailView: View {
                         kind: .note
                     ) {
                         Button("Open Peel Settings") {
-                            openSettings()
+                            SettingsPane.helper.open(with: openSettings)
                         }
                     }
                     .padding(.vertical, 6)

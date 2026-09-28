@@ -18,7 +18,7 @@ struct RemovalFailureAlert: ViewModifier {
                 Button("Open System Settings") { NSWorkspace.shared.open(AppManagement.settingsURL) }
             }
             if needsHelper {
-                Button("Open Peel Settings") { openSettings() }
+                Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
             }
             if !outcome.failures.isEmpty {
                 Button("Copy Details") { copyDetails() }

@@ -14,7 +14,7 @@ struct HelperRequiredBanner: View {
                     if helper.standing == .waitingForApproval {
                         PrivilegedHelper.openLoginItemsSettings()
                     } else {
-                        openSettings()
+                        SettingsPane.helper.open(with: openSettings)
                     }
                 }
             }
