@@ -171,9 +171,7 @@ struct RemovalGuard: Sendable {
 
     /// True for anything at or inside a photo, music or video library package. The path arrives lower-cased.
     private static func isInsideAUserLibrary(_ path: String) -> Bool {
-        PathComponents.of(path).contains { component in
-            ProtectedData.extensions.contains { component.hasSuffix("." + $0) }
-        }
+        PathComponents.of(path).contains(where: ProtectedData.isALibrary)
     }
 
     private static func normalized(_ path: String) -> String {

@@ -151,6 +151,7 @@ public enum ProtectedData: Sendable {
 
     /// Folders outside any home that hold work nothing can bring back, for every account on the Mac.
     public static let systemFolders = ["/Library/Keychains"]
+    private static let systemFolderNames = systemFolders.map { PathComponents.of($0.lowercased()) }
 
     /// True for a name Apple writes for its own things: `com.apple.` after an optional team and an optional
     /// `group.`, `groups.`, or `systemgroup.`.
@@ -169,8 +170,11 @@ public enum ProtectedData: Sendable {
     /// such as notes, reminders, recordings, and calendars. Apple moves them between releases, so they are
     /// recognized by the shape of their name, not by a list. Expects the path in lowercase.
     public static func isInAnApplesGroupContainer(_ spelling: String) -> Bool {
-        let names = PathComponents.of(spelling)
-        return names.indices.contains { index in
+        isInAnApplesGroupContainer(PathComponents.of(spelling))
+    }
+
+    private static func isInAnApplesGroupContainer(_ names: [String]) -> Bool {
+        names.indices.contains { index in
             index + 2 < names.endIndex && names[index] == "library" && names[index + 1] == "group containers"
                 && isApplesName(names[index + 2])
         }
@@ -269,28 +273,52 @@ public enum ProtectedData: Sendable {
         spellings.contains { spelling in
             let names = PathComponents.of(spelling)
             let holdsIt = { (tree: [String]) in tree.count > names.count && tree.starts(with: names) }
-            for home in homes(of: spelling, given: home) where trees(under: home).sitInside(names) {
+            for home in homes(of: names, given: home) where trees(under: home).sitInside(names) {
                 return true
             }
-            return systemFolders.contains { holdsIt(PathComponents.of($0.lowercased())) }
+            return systemFolderNames.contains(where: holdsIt)
         }
     }
 
     /// The protected trees under one home, looked up by a path's own names rather than compared with each tree.
     /// Names compare as strings, so a composed letter still matches its decomposed spelling.
     private struct Trees {
-        let trees: Set<[String]>
+        /// The trees name by name, from the root down.
+        private let root: Branch
         /// Every folder a tree sits in, from the root down.
         let ancestors: Set<[String]>
 
+        private struct Branch {
+            var endsATree = false
+            var next: [String: Branch] = [:]
+
+            mutating func add(_ names: ArraySlice<String>) {
+                guard let name = names.first else {
+                    endsATree = true
+                    return
+                }
+                next[name, default: Branch()].add(names.dropFirst())
+            }
+        }
+
         init(_ trees: [[String]]) {
-            self.trees = Set(trees)
+            var root = Branch()
+            for tree in trees {
+                root.add(tree[...])
+            }
+            self.root = root
             ancestors = Set(trees.flatMap { tree in (0..<tree.count).map { Array(tree[..<$0]) } })
         }
 
         /// True when `names` is a tree or sits inside one.
         func contain(_ names: [String]) -> Bool {
-            names.indices.contains { trees.contains(Array(names[...$0])) }
+            var branch = root
+            for name in names {
+                guard let next = branch.next[name] else { return false }
+                if next.endsATree { return true }
+                branch = next
+            }
+            return false
         }
 
         /// True when a tree sits inside `names`.
@@ -319,19 +347,24 @@ public enum ProtectedData: Sendable {
         "photoslibrary", "photolibrary", "migratedphotolibrary", "musiclibrary", "tvlibrary", "imovielibrary",
         "fcpbundle", "aplibrary",
     ]
+    private static let librarySuffixes = extensions.map { "." + $0 }
+
+    /// True for the lowercase name of one of those libraries or packages.
+    public static func isALibrary(_ name: String) -> Bool {
+        librarySuffixes.contains { name.hasSuffix($0) }
+    }
 
     /// True for a folder that holds one of those libraries a level or two down, as in
     /// `<year>/<name>.photoslibrary`. A library can sit anywhere, so no list of places can protect the folder
     /// around one, and this looks inside the folder instead. It reads the disk.
     public static func holdsALibrary(_ path: String) -> Bool {
-        let isALibrary = { (name: String) in extensions.contains { name.lowercased().hasSuffix("." + $0) } }
         let folder = URL(filePath: path, directoryHint: .isDirectory)
         let children = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey])) ?? []
         return children.contains { child in
-            if isALibrary(child.lastPathComponent) { return true }
+            if isALibrary(child.lastPathComponent.lowercased()) { return true }
             guard (try? child.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true else { return false }
             let deeper = (try? FileManager.default.contentsOfDirectory(atPath: child.path(percentEncoded: false))) ?? []
-            return deeper.contains(where: isALibrary)
+            return deeper.contains { isALibrary($0.lowercased()) }
         }
     }
 
@@ -380,23 +413,22 @@ public enum ProtectedData: Sendable {
     public static func refuses(spellings: Set<String>, home: String) -> Bool {
         spellings.contains { spelling in
             let names = PathComponents.of(spelling)
-            if names.contains(where: { name in extensions.contains { name.hasSuffix("." + $0) } }) { return true }
-            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(spelling) { return true }
+            if names.contains(where: isALibrary) { return true }
+            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) { return true }
             if isInsideAWalletExtension(names) { return true }
 
-            for home in homes(of: spelling, given: home) where trees(under: home).contain(names) {
+            for home in homes(of: names, given: home) where trees(under: home).contain(names) {
                 return true
             }
-            return systemFolders.contains { names.starts(with: PathComponents.of($0.lowercased())) }
+            return systemFolderNames.contains { names.starts(with: $0) }
         }
     }
 
-    /// The home the caller named, plus whichever account the path itself sits in.
-    private static func homes(of path: String, given home: String) -> [String] {
+    /// The home the caller named, plus whichever account the path, given by its names, sits in.
+    private static func homes(of names: [String], given home: String) -> [String] {
         var homes = [((home as NSString).standardizingPath).lowercased()]
-        let components = PathComponents.of(path)
-        if components.count >= 2, components[0] == "users" {
-            homes.append("/users/" + components[1])
+        if names.count >= 2, names[0] == "users" {
+            homes.append("/users/" + names[1])
         }
         return homes
     }
