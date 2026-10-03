@@ -27,16 +27,31 @@ struct SubprocessTests {
     }
 
     /// Package Receipts runs a tool per package, several at a time, and macOS lets a process keep few files open.
+    /// A run that kept its pipes would leave two for each of the hundred tools that end here.
     @Test func aRunLetsGoOfItsPipesWhenItEndsNotWhenItsTimeIsUp() async {
-        func openDescriptors() -> Int { (try? FileManager.default.contentsOfDirectory(atPath: "/dev/fd"))?.count ?? 0 }
-        let before = openDescriptors()
+        let before = pipesOfToolsThatEnded()
 
         for _ in 0..<100 {
             _ = await Subprocess.run("/usr/bin/true", [], timeout: 600)
             _ = await Subprocess.run("/no/such/tool", [], timeout: 600)
         }
 
-        #expect(openDescriptors() - before < 50)
+        #expect(pipesOfToolsThatEnded() - before < 100)
+    }
+
+    /// The pipes this process still reads whose other end has closed, as a tool's do once it ends. Counted rather
+    /// than every open file, since the tests running beside this one open and close files of their own all along.
+    private func pipesOfToolsThatEnded() -> Int {
+        let size = proc_pidinfo(getpid(), PROC_PIDLISTFDS, 0, nil, 0)
+        var descriptors = [proc_fdinfo](repeating: proc_fdinfo(), count: Int(size) / MemoryLayout<proc_fdinfo>.size)
+        let filled = proc_pidinfo(getpid(), PROC_PIDLISTFDS, 0, &descriptors, size)
+        return descriptors.prefix(Int(max(filled, 0)) / MemoryLayout<proc_fdinfo>.size).count { descriptor in
+            guard descriptor.proc_fdtype == PROX_FDTYPE_PIPE else { return false }
+            var info = pipe_fdinfo()
+            let expected = Int32(MemoryLayout<pipe_fdinfo>.size)
+            return proc_pidfdinfo(getpid(), descriptor.proc_fd, PROC_PIDFDPIPEINFO, &info, expected) == expected
+                && info.pipeinfo.pipe_peerhandle == 0
+        }
     }
 
     @Test func aToolThatIsNotThereIsAFailureAndNotACrash() async {
