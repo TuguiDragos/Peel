@@ -72,7 +72,7 @@ extension InstallerLibrary: CarriesSelection {
     }
 }
 
-extension InstallerItem.Kind {
+nonisolated extension InstallerItem.Kind {
     var title: LocalizedStringResource {
         switch self {
         case .appInstaller: "App Installers"

@@ -17,10 +17,12 @@ extension RemovalRecord {
     public static func grouped(_ records: [RemovalRecord]) -> [RemovalGroup] {
         Dictionary(grouping: records, by: \.batch)
             .map { batch, records in
-                let sorted = records.sorted {
-                    let (lhs, rhs) = (SizeTotal([$0.size]), SizeTotal([$1.size]))
-                    return lhs != rhs ? lhs > rhs : $0.originalURL.path(percentEncoded: false) < $1.originalURL.path(percentEncoded: false)
-                }
+                // Each record's size and path are worked out once rather than at every comparison: History holds
+                // up to `RemovalLog.maximumRecords` records, and one removal can hold thousands.
+                let sorted = records
+                    .map { (size: SizeTotal([$0.size]), path: $0.originalURL.path(percentEncoded: false), record: $0) }
+                    .sorted { $0.size != $1.size ? $0.size > $1.size : $0.path < $1.path }
+                    .map(\.record)
                 return RemovalGroup(
                     id: batch,
                     parts: RemovalPart.of(sorted.map { ($0.date, $0.part) }),
@@ -45,7 +47,9 @@ extension RefusalRecord {
     public static func grouped(_ records: [RefusalRecord]) -> [RefusalGroup] {
         Dictionary(grouping: records, by: { $0.batch ?? $0.id })
             .map { batch, records in
-                let sorted = records.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+                let sorted = records.map { (path: $0.url.path(percentEncoded: false), record: $0) }
+                    .sorted { $0.path < $1.path }
+                    .map(\.record)
                 return RefusalGroup(
                     id: batch,
                     parts: RemovalPart.of(sorted.map { ($0.date, $0.part) }),

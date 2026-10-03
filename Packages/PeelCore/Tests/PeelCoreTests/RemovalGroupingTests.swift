@@ -89,6 +89,19 @@ struct RemovalGroupingTests {
         #expect(groups.first?.size == SizeTotal(known: 110, isComplete: false))
     }
 
+    @Test func itemsOfTheSameSizeAreListedByPath() {
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let batch = UUID()
+        let groups = RemovalRecord.grouped([
+            record(batch, "b.bin", size: 10, at: now),
+            record(batch, "d.bin", size: nil, at: now),
+            record(batch, "a.bin", size: 10, at: now),
+            record(batch, "c.bin", size: nil, at: now),
+        ])
+
+        #expect(groups.first?.records.map(\.originalURL.lastPathComponent) == ["c.bin", "d.bin", "a.bin", "b.bin"])
+    }
+
     /// Two removals made at the same moment must keep their order from one render to the next.
     @Test func keepsTheOrderOfTwoRemovalsAtTheSameMoment() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)

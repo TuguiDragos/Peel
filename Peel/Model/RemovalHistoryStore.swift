@@ -3,7 +3,7 @@ import Foundation
 import Observation
 import PeelCore
 
-struct RemovalBatch: Identifiable, Hashable {
+nonisolated struct RemovalBatch: Identifiable, Hashable {
     let id: UUID
     /// Every tool the batch moved from, in the order they moved: one, or several for a batch that moved what was
     /// selected in more than one tool.
@@ -56,6 +56,7 @@ struct RemovalBatch: Identifiable, Hashable {
 
     var size: SizeTotal { records.totalSize }
 
+    @MainActor
     var movedAnnouncement: AttributedString {
         size.isComplete && size.known > 0
             ? AttributedString(localized: "Moved ^[\(records.count) item](inflect: true) to the Trash, \(size.known.byteCount).")
@@ -74,7 +75,7 @@ struct RemovalInProgress {
 }
 
 /// What Peel was asked to move in one removal and did not.
-struct RefusalBatch: Identifiable, Hashable {
+nonisolated struct RefusalBatch: Identifiable, Hashable {
     let id: UUID
     let date: Date
     let records: [RefusalRecord]
@@ -125,13 +126,10 @@ final class RemovalHistoryStore {
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
-
-    /// Groups `records` into batches. The rule lives in `RemovalRecord.grouped`, where it is tested.
-    private static func batches(of records: [RemovalRecord]) -> [RemovalBatch] {
-        RemovalRecord.grouped(records).map { group in
-            RemovalBatch(id: group.id, parts: group.parts, date: group.date, records: group.records)
-        }
-    }
+    /// Counts each change of what History lists. The lists are prepared off the main actor, and one prepared for an
+    /// older change must never replace a newer one.
+    private var listedChange = 0
+    private var refusalChange = 0
 
     var selectedBatch: RemovalBatch? {
         batches.first { $0.id == selection }
@@ -142,7 +140,7 @@ final class RemovalHistoryStore {
     }
 
     func load() async {
-        apply(await log.load())
+        await apply(await log.load())
         await loadRefusals()
         hasLoaded = true
     }
@@ -160,16 +158,18 @@ final class RemovalHistoryStore {
 
     /// Keeps a History that cannot be read beside a new one, and records again.
     func startOver() async {
-        apply(await log.startOver())
+        await apply(await log.startOver())
     }
 
     private func loadRefusals() async {
         let read = await refusals.load()
         refusalProblem = read.problem
-        refusalBatches = RefusalRecord.grouped(read.records).map(RefusalBatch.init)
-        refusalSearchKeys = Dictionary(uniqueKeysWithValues: refusalBatches.map {
-            ($0.id, Self.searchKey(title: $0.title, names: $0.records.map(\.url.lastPathComponent)))
-        })
+        refusalChange += 1
+        let change = refusalChange
+        let listed = await Self.listed(read.records)
+        guard change == refusalChange else { return }
+        refusalBatches = listed.batches
+        refusalSearchKeys = listed.searchKeys
     }
 
     /// Records a removal from one place in History, as one entry. When Peel wrote the source itself, pass it in
@@ -193,7 +193,7 @@ final class RemovalHistoryStore {
         if !result.trashed.isEmpty {
             let new = part.records(of: result, sizes: sizes, batch: removal.batch)
             removal.records += new
-            apply(await log.add(new))
+            await apply(await log.add(new))
         }
         // Refusals are logged whether or not anything moved: a removal where nothing moved is the one most worth a
         // record.
@@ -243,17 +243,46 @@ final class RemovalHistoryStore {
         await restore(undoable.records, canUseHelper: canUseHelper)
     }
 
-    /// Shows the log's records, or keeps what is already on screen when the log was left untouched.
-    private func apply(_ outcome: RemovalLogOutcome) {
-        if let records = outcome.records {
-            self.records = records
-            batches = Self.batches(of: records)
-            searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
-                ($0.id, Self.searchKey(title: $0.title, names: $0.records.map(\.originalURL.lastPathComponent)))
-            })
-        }
+    /// Shows the log's records, or keeps what is already on screen when the log was left untouched or holds the
+    /// records listed already.
+    private func apply(_ outcome: RemovalLogOutcome) async {
         problem = outcome.problem
         checkReadability()
+        guard let records = outcome.records else { return }
+        listedChange += 1
+        let change = listedChange
+        guard let listed = await Self.listed(records, unless: self.records), change == listedChange else { return }
+        self.records = records
+        batches = listed.batches
+        searchKeys = listed.searchKeys
+    }
+
+    /// History's batches, newest first, and what a search looks through, or nil when `records` are those listed
+    /// already. Worked out off the main actor, since History keeps up to `RemovalLog.maximumRecords` records.
+    @concurrent
+    private static func listed(
+        _ records: [RemovalRecord], unless shown: [RemovalRecord]
+    ) async -> (batches: [RemovalBatch], searchKeys: [RemovalBatch.ID: String])? {
+        guard records != shown else { return nil }
+        let batches = RemovalRecord.grouped(records).map { group in
+            RemovalBatch(id: group.id, parts: group.parts, date: group.date, records: group.records)
+        }
+        let searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
+            ($0.id, searchKey(title: $0.title, names: $0.records.map(\.originalURL.lastPathComponent)))
+        })
+        return (batches, searchKeys)
+    }
+
+    /// What was refused, one removal to an entry, and what a search looks through, worked out off the main actor.
+    @concurrent
+    private static func listed(
+        _ records: [RefusalRecord]
+    ) async -> (batches: [RefusalBatch], searchKeys: [RefusalBatch.ID: String]) {
+        let batches = RefusalRecord.grouped(records).map(RefusalBatch.init)
+        let searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
+            ($0.id, searchKey(title: $0.title, names: $0.records.map(\.url.lastPathComponent)))
+        })
+        return (batches, searchKeys)
     }
 
     func restore(_ records: [RemovalRecord], canUseHelper: Bool) async {
@@ -276,7 +305,7 @@ final class RemovalHistoryStore {
             failures = problems
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
-                apply(await log.remove(restored))
+                await apply(await log.remove(restored))
                 // A move is announced, and so is its undoing: the rows only vanish from the list.
                 AccessibilityNotification.Announcement(
                     AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true).")
@@ -287,7 +316,7 @@ final class RemovalHistoryStore {
 
     /// Removes `records` from History. The page offers this for items that have left the Trash.
     func forget(_ records: [RemovalRecord]) async {
-        apply(await log.remove(Set(records.map(\.id))))
+        await apply(await log.remove(Set(records.map(\.id))))
         selectedIDs.subtract(records.map(\.id))
     }
 
@@ -306,7 +335,7 @@ final class RemovalHistoryStore {
 
     /// A batch's title and the name of each item in it, joined into one string, so a search makes one call
     /// per batch rather than one per record.
-    private static func searchKey(title: String, names: [String]) -> String {
+    nonisolated private static func searchKey(title: String, names: [String]) -> String {
         ([title] + names).joined(separator: "\n")
     }
 

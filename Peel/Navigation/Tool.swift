@@ -2,7 +2,7 @@ import Foundation
 
 /// A tool in the sidebar. The order of the cases is the order within each group, in the sidebar and in the View
 /// menu, where the first nine tools get ⌘1 to ⌘9. The `.home` group (Home, Tweaks, History) comes first.
-enum Tool: String, CaseIterable, Identifiable {
+nonisolated enum Tool: String, CaseIterable, Identifiable {
     case home
 
     // Apps: what is installed, where it came from, and what it left behind.

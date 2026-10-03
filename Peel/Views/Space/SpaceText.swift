@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// They live in the app, not beside the paths in PeelCore, because the package has no string catalog: a
 /// `String(localized:)` there would resolve against whichever bundle loaded it.
-extension SpaceItem {
+nonisolated extension SpaceItem {
     struct Words {
         let title: LocalizedStringResource
         let detail: LocalizedStringResource

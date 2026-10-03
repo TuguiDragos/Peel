@@ -1,6 +1,6 @@
 import Foundation
 
-extension String {
+nonisolated extension String {
     /// Builds a localized string with automatic grammar agreement applied.
     ///
     /// `String(localized:)` leaves inflection markup such as `^[2 app](inflect: true)` in the text as written.
