@@ -80,7 +80,8 @@ struct PackageDetailView: View {
                 RemovalBar(
                     selectedSize: SizeTotal(selectedItems.map(\.size)).known,
                     isSelectionMeasured: SizeTotal(selectedItems.map(\.size)).isComplete,
-                    isScanning: packages.isScanning || packages.isWorking,
+                    isScanning: packages.isScanning,
+                    isWorking: packages.isWorking,
                     scan: packages.scanRun,
                     isEnabled: !selectedItems.isEmpty,
                     onRemove: { isConfirmingRemoval = true }
