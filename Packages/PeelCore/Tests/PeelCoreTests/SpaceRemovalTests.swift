@@ -100,7 +100,7 @@ struct SpaceRemovalTests {
 
     @Test func neverSelectsACacheMacOSKeepsForItself() async throws {
         let directory = try TemporaryDirectory()
-        for name in ["com.apple.Spotlight", "CloudKit", "familycircled", "org.example.notes", "com.gone.app"] {
+        for name in ["com.apple.Spotlight", "CloudKit", "familycircled", "GameStoreKit", "org.example.notes", "com.gone.app"] {
             try directory.file("home/Library/Caches/\(name)/data.db")
         }
         try directory.file("home/Library/Logs/com.apple.example/run.log")
@@ -116,11 +116,11 @@ struct SpaceRemovalTests {
         let caches = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
         let logged = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
 
-        let all = ["CloudKit", "com.apple.Spotlight", "com.gone.app", "familycircled", "org.example.notes"]
+        let all = ["CloudKit", "GameStoreKit", "com.apple.Spotlight", "com.gone.app", "familycircled", "org.example.notes"]
         #expect(names(caches.removable) == all)
         #expect(names(Array(caches.suggested)) == ["com.gone.app", "org.example.notes"])
         let keptByMacOS = caches.heldBack.filter { $0.value == .keptByMacOS }.map(\.key)
-        #expect(names(keptByMacOS) == ["CloudKit", "com.apple.Spotlight", "familycircled"])
+        #expect(names(keptByMacOS) == ["CloudKit", "GameStoreKit", "com.apple.Spotlight", "familycircled"])
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 

@@ -14,6 +14,7 @@ struct SystemCaches {
         "FamilyCircle": "/System/Library/PrivateFrameworks/FamilyCircle.framework",
         "familycircled": "/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled",
         "GameKit": "/System/Library/Frameworks/GameKit.framework",
+        "GameStoreKit": "/System/Library/PrivateFrameworks/GameStoreKit.framework",
         "GeoServices": "/System/Library/PrivateFrameworks/GeoServices.framework",
         "homed": "/System/Library/PrivateFrameworks/HomeKitDaemon.framework/Support/homed",
         "HomeKit": "/System/Library/Frameworks/HomeKit.framework",
