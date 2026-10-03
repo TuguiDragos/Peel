@@ -680,6 +680,28 @@ struct LeftoverScannerTests {
         #expect(!found.isMeasured, "a folder nobody measured was given a size of zero")
     }
 
+    @Test func measuresNothingExcluded() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/net.example.client/cache.db")
+        try directory.file("home/Library/Application Support/Vendor/Tunewell/state.db")
+        try directory.file("home/Library/Application Support/Tunewell/settings.json")
+        let library = directory.url.appending(path: "home/Library")
+        let exclusions = Exclusions(paths: [
+            library.appending(path: "Caches/net.example.client"), library.appending(path: "Application Support/Vendor"),
+        ])
+        let measured = Mutex<Set<String>>([])
+
+        let scanner = LeftoverScanner(environment: environment(in: directory), exclusions: exclusions) { url in
+            measured.withLock { _ = $0.insert(url.path(percentEncoded: false)) }
+            return FolderContents(size: 1, holdsRepository: false)
+        }
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        let kept = library.appending(path: "Application Support/Tunewell").path(percentEncoded: false)
+        #expect(measured.withLock { $0 } == [kept])
+        #expect(scan.leftovers.map { $0.url.path(percentEncoded: false) } == [kept])
+    }
+
     /// A Homebrew cask can name a cryptocurrency app's whole data folder, which is where its private keys are:
     /// Litecoin Core's `zap trash:` does exactly that.
     @Test func aLeftoverHoldingAWalletIsShownAndNeverSelected() async throws {

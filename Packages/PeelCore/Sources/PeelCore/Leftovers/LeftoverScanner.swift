@@ -76,10 +76,10 @@ public struct LeftoverScanner: Sendable {
             for location in environment.locations {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let bundle = PathPattern.comparablePath(of: app.url)
-                _ = group.addTaskUnlessCancelled { [measure, refuses, nestedFolderLimit] in
+                _ = group.addTaskUnlessCancelled { [exclusions, measure, refuses, nestedFolderLimit] in
                     (location, await Self.scan(
-                        location, matcher: matcher, home: home, bundle: bundle, measure: measure, refuses: refuses,
-                        nestedFolderLimit: nestedFolderLimit
+                        location, matcher: matcher, home: home, bundle: bundle, exclusions: exclusions, measure: measure,
+                        refuses: refuses, nestedFolderLimit: nestedFolderLimit
                     ))
                 }
             }
@@ -105,7 +105,7 @@ public struct LeftoverScanner: Sendable {
             $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
         return LeftoverScan(
-            leftovers: exclusions.keeping(leftovers, url: \.url)
+            leftovers: leftovers
                 .map { exclusions.holds($0.url) ? $0.heldBack(.holdsAnExclusion) : $0 }
                 .sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations.sorted(by: byPath),
@@ -164,6 +164,7 @@ public struct LeftoverScanner: Sendable {
         matcher: LeftoverMatcher,
         home: String,
         bundle: String,
+        exclusions: Exclusions,
         measure: @escaping Measure,
         refuses: Refuses,
         nestedFolderLimit: Int
@@ -185,16 +186,16 @@ public struct LeftoverScanner: Sendable {
         var nobodysFolders: [(url: URL, isAnotherApps: Bool)] = []
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
-        // take or walk into, and what it refuses is left out of both.
+        // take or walk into, and what it refuses is left out of both, as is what the person excluded.
         for name in entries where location.kind.considers(fileName: name) {
             // A canceled scan stops here, since nobody will read what it finds.
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             let path = url.path(percentEncoded: false)
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle), !isSharedWithTheWholeMac(url, home: home) {
-                guard !refuses(path, home) else { continue }
+                guard !refuses(path, home), !exclusions.excludes(url) else { continue }
                 toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
-            } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home) {
+            } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) {
                 // Not this app's. Whether it is somebody else's decides what a name inside it is worth.
                 nobodysFolders.append((url, isSomebodyElses(name, kind: location.kind, matcher: matcher)))
             }
@@ -202,8 +203,8 @@ public struct LeftoverScanner: Sendable {
 
         let leftovers = await measured(toMeasure, kind: location.kind, home: home, measure: measure)
         let inside = await nested(
-            in: nobodysFolders, kind: location.kind, matcher: matcher, home: home, measure: measure, refuses: refuses,
-            limit: nestedFolderLimit
+            in: nobodysFolders, kind: location.kind, matcher: matcher, home: home, exclusions: exclusions,
+            measure: measure, refuses: refuses, limit: nestedFolderLimit
         )
         return .found(
             leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil,
@@ -218,6 +219,7 @@ public struct LeftoverScanner: Sendable {
         kind: SearchLocation.Kind,
         matcher: LeftoverMatcher,
         home: String,
+        exclusions: Exclusions,
         measure: @escaping Measure,
         refuses: Refuses,
         limit: Int
@@ -255,9 +257,9 @@ public struct LeftoverScanner: Sendable {
                     let path = url.path(percentEncoded: false)
                     if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
-                        guard !refuses(path, home) else { continue }
+                        guard !refuses(path, home), !exclusions.excludes(url) else { continue }
                         found.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps))
-                    } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home) {
+                    } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) {
                         deeper.append((url, isAnotherApps || isSomebodyElses(name, kind: kind, matcher: matcher)))
                     }
                 }
