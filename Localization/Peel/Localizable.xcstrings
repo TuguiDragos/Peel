@@ -84595,13 +84595,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible d’exécuter ce fichier."
+            "value" : "Peel ne peut pas exécuter ce fichier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile eseguire questo file."
+            "value" : "Peel non può eseguire questo file."
           }
         },
         "ja" : {
@@ -87077,13 +87077,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible d’enregistrer les dossiers d’apps."
+            "value" : "Peel n’a pas pu enregistrer les dossiers d’apps."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile salvare le cartelle delle app."
+            "value" : "Peel non è riuscito a salvare le cartelle delle app."
           }
         },
         "ja" : {
@@ -87289,13 +87289,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible d’enregistrer le `brew` à exécuter."
+            "value" : "Peel n’a pas pu enregistrer le `brew` à exécuter."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile salvare il `brew` da eseguire."
+            "value" : "Peel non è riuscito a salvare il `brew` da eseguire."
           }
         },
         "ja" : {
