@@ -100,6 +100,26 @@ struct InventoryTests {
         #expect(entries["Plain"]?.source == "Unknown")
     }
 
+    @Test func everyDownloadedAppGetsItsOwnAddress() throws {
+        let directory = try TemporaryDirectory()
+        let events = directory.url.appending(path: "QuarantineEventsV2")
+        let identifiers = (0..<3).map { _ in UUID().uuidString }
+        try sqlite(events, [
+            "CREATE TABLE LSQuarantineEvent (LSQuarantineEventIdentifier TEXT PRIMARY KEY NOT NULL, LSQuarantineTimeStamp REAL, LSQuarantineAgentBundleIdentifier TEXT, LSQuarantineAgentName TEXT, LSQuarantineDataURLString TEXT, LSQuarantineSenderName TEXT, LSQuarantineSenderAddress TEXT, LSQuarantineTypeNumber INTEGER, LSQuarantineOriginTitle TEXT, LSQuarantineOriginURLString TEXT, LSQuarantineOriginAlias BLOB)",
+            "INSERT INTO LSQuarantineEvent (LSQuarantineEventIdentifier, LSQuarantineDataURLString) VALUES ('\(identifiers[0])', 'https://example.org/First.zip'), ('\(identifiers[2])', 'https://example.org/Third.zip')",
+        ])
+        let names = ["First", "Second", "Third"]
+        let apps = try zip(names, identifiers).map { name, identifier in
+            let bundle = try directory.directory("Applications/\(name).app")
+            try setAttribute("com.apple.quarantine", Data("0083;66f0f0f0;Safari;\(identifier)".utf8), on: bundle)
+            return InstalledApp(url: bundle, bundleIdentifier: "org.example.\(name.lowercased())", name: name)
+        }
+
+        let entries = Inventory.build(apps: apps, origins: DownloadOrigins(events: events)).entries
+
+        #expect(entries.map(\.sourceDetail) == ["https://example.org/First.zip", nil, "https://example.org/Third.zip"])
+    }
+
     private func setAttribute(_ name: String, _ value: Data, on url: URL) throws {
         let status = value.withUnsafeBytes { setxattr(url.path(percentEncoded: false), name, $0.baseAddress, value.count, 0, XATTR_NOFOLLOW) }
         #expect(status == 0)

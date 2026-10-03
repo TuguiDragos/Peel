@@ -17,33 +17,36 @@ public struct DownloadOrigins: Sendable {
         self.events = events
     }
 
-    func address(of bundle: URL) -> URL? {
-        whereFrom(bundle) ?? quarantinedDownload(of: bundle)
+    /// A reader for one list of apps, which opens the quarantine database once for all of them.
+    func reader() -> Reader {
+        Reader(events: QuarantineEvents(at: events))
     }
 
-    /// The attribute is a binary property list of addresses: the file's own address, then the page it was on.
-    private func whereFrom(_ bundle: URL) -> URL? {
-        guard let data = Self.attribute("com.apple.metadata:kMDItemWhereFroms", of: bundle),
-              let addresses = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String] else { return nil }
-        return addresses.lazy.compactMap(Self.shareable).first
-    }
+    final class Reader {
+        private let events: QuarantineEvents
 
-    /// The quarantine attribute reads `flags;time;agent;identifier`, and the identifier names the download's row.
-    private func quarantinedDownload(of bundle: URL) -> URL? {
-        guard let data = Self.attribute("com.apple.quarantine", of: bundle) else { return nil }
-        let fields = String(decoding: data, as: UTF8.self).split(separator: ";", omittingEmptySubsequences: false)
-        guard fields.count >= 4, let identifier = UUID(uuidString: String(fields[3]))?.uuidString else { return nil }
+        fileprivate init(events: QuarantineEvents) {
+            self.events = events
+        }
 
-        var database: OpaquePointer?
-        defer { sqlite3_close(database) }
-        guard sqlite3_open_v2(events.path(percentEncoded: false), &database, SQLITE_OPEN_READONLY, nil) == SQLITE_OK else { return nil }
-        var statement: OpaquePointer?
-        defer { sqlite3_finalize(statement) }
-        let query = "SELECT LSQuarantineDataURLString, LSQuarantineOriginURLString FROM LSQuarantineEvent WHERE LSQuarantineEventIdentifier = ?"
-        guard sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK,
-              sqlite3_bind_text(statement, 1, identifier, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self)) == SQLITE_OK,
-              sqlite3_step(statement) == SQLITE_ROW else { return nil }
-        return [Int32(0), 1].lazy.compactMap { sqlite3_column_text(statement, $0).map { String(cString: $0) } }.compactMap(Self.shareable).first
+        func address(of bundle: URL) -> URL? {
+            whereFrom(bundle) ?? quarantinedDownload(of: bundle)
+        }
+
+        /// The attribute is a binary property list of addresses: the file's own address, then the page it was on.
+        private func whereFrom(_ bundle: URL) -> URL? {
+            guard let data = DownloadOrigins.attribute("com.apple.metadata:kMDItemWhereFroms", of: bundle),
+                  let addresses = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String] else { return nil }
+            return addresses.lazy.compactMap(DownloadOrigins.shareable).first
+        }
+
+        /// The quarantine attribute reads `flags;time;agent;identifier`, and the identifier names the download's row.
+        private func quarantinedDownload(of bundle: URL) -> URL? {
+            guard let data = DownloadOrigins.attribute("com.apple.quarantine", of: bundle) else { return nil }
+            let fields = String(decoding: data, as: UTF8.self).split(separator: ";", omittingEmptySubsequences: false)
+            guard fields.count >= 4, let identifier = UUID(uuidString: String(fields[3]))?.uuidString else { return nil }
+            return events.addresses(of: identifier).lazy.compactMap(DownloadOrigins.shareable).first
+        }
     }
 
     private static func shareable(_ address: String) -> URL? {
@@ -63,5 +66,40 @@ public struct DownloadOrigins: Sendable {
         var data = Data(count: size)
         let read = data.withUnsafeMutableBytes { getxattr(path, name, $0.baseAddress, size, 0, XATTR_NOFOLLOW) }
         return read == size ? data : nil
+    }
+}
+
+/// Launch Services' list of downloads, opened read-only at the first record looked up, and closed with this.
+private final class QuarantineEvents {
+    private let url: URL
+    private var database: OpaquePointer?
+    private var statement: OpaquePointer?
+    private var hasOpened = false
+
+    init(at url: URL) {
+        self.url = url
+    }
+
+    deinit {
+        sqlite3_finalize(statement)
+        sqlite3_close(database)
+    }
+
+    /// The download's own address and the page it was on, as recorded for the event `identifier`.
+    func addresses(of identifier: String) -> [String] {
+        guard let statement = prepared() else { return [] }
+        defer { sqlite3_reset(statement) }
+        guard sqlite3_bind_text(statement, 1, identifier, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self)) == SQLITE_OK,
+              sqlite3_step(statement) == SQLITE_ROW else { return [] }
+        return [Int32(0), 1].compactMap { sqlite3_column_text(statement, $0).map { String(cString: $0) } }
+    }
+
+    private func prepared() -> OpaquePointer? {
+        guard !hasOpened else { return statement }
+        hasOpened = true
+        let query = "SELECT LSQuarantineDataURLString, LSQuarantineOriginURLString FROM LSQuarantineEvent WHERE LSQuarantineEventIdentifier = ?"
+        guard sqlite3_open_v2(url.path(percentEncoded: false), &database, SQLITE_OPEN_READONLY, nil) == SQLITE_OK,
+              sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK else { return nil }
+        return statement
     }
 }

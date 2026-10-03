@@ -37,9 +37,7 @@ enum InventoryExport {
             }
         }
         do {
-            contents = try Inventory.build(
-                apps: apps, casks: homebrew.packages ?? [], origins: .onThisMac, brewfile: brewfile
-            ).written(as: format)
+            contents = try await written(format, apps: apps, casks: homebrew.packages ?? [], brewfile: brewfile)
         } catch is Inventory.HomebrewDidNotAnswer {
             return String(localized: "Homebrew didn’t answer, so Peel has nothing to write a Brewfile from. Open Homebrew in Peel to see why.")
         } catch {
@@ -63,6 +61,14 @@ enum InventoryExport {
         } catch {
             return error.localizedDescription
         }
+    }
+
+    /// The list as `format` writes it, worked out off the main actor, since it reads every app's download records.
+    @concurrent
+    private static func written(
+        _ format: Inventory.Format, apps: [InstalledApp], casks: [HomebrewPackage], brewfile: String?
+    ) async throws -> String {
+        try Inventory.build(apps: apps, casks: casks, origins: .onThisMac, brewfile: brewfile).written(as: format)
     }
 
     private static func contentType(for format: Inventory.Format) -> UTType? {

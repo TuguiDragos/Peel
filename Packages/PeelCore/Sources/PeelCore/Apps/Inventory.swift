@@ -58,13 +58,14 @@ public struct Inventory: Sendable {
         origins: DownloadOrigins? = nil,
         brewfile: String? = nil
     ) -> Inventory {
+        let reader = origins?.reader()
         let entries = apps
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-            .map { app in entry(for: app, casks: casks, origins: origins) }
+            .map { app in entry(for: app, casks: casks, origins: reader) }
         return Inventory(entries: entries, brewfile: brewfile)
     }
 
-    static func entry(for app: InstalledApp, casks: [HomebrewPackage], origins: DownloadOrigins?) -> InventoryEntry {
+    static func entry(for app: InstalledApp, casks: [HomebrewPackage], origins: DownloadOrigins.Reader?) -> InventoryEntry {
         let cask = CaskEvidence.installedCask(for: app, in: casks)
         let (source, detail) = origin(of: app, cask: cask, origins: origins)
         return InventoryEntry(
@@ -83,7 +84,7 @@ public struct Inventory: Sendable {
     }
 
     /// Homebrew comes first: a cask says exactly how to install the app again.
-    static func origin(of app: InstalledApp, cask: HomebrewPackage?, origins: DownloadOrigins?) -> (String, String?) {
+    static func origin(of app: InstalledApp, cask: HomebrewPackage?, origins: DownloadOrigins.Reader?) -> (String, String?) {
         if let cask {
             return ("Homebrew", cask.name)
         }
