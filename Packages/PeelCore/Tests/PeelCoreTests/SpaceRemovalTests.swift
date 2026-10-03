@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 /// Space empties a folder by listing what is inside it. Each item listed still goes through the guard and the
@@ -460,6 +461,24 @@ struct SpaceRemovalTests {
         #expect(Set(plan.removable.map(\.lastPathComponent)) == ["com.slow.app", "com.gone.app"])
         #expect(plan.sizes.keys.map(\.lastPathComponent) == ["com.gone.app"])
         #expect(plan.heldBack.map { "\($0.key.lastPathComponent): \($0.value.rawValue)" } == ["com.slow.app: notMeasured"])
+    }
+
+    @Test func measuresAFewChildrenAtATime() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<8 {
+            try directory.file("home/Library/Caches/org.example.app\(index)/blob", bytes: 4_000)
+        }
+        let running = Mutex((now: 0, most: 0))
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), exclusions: .none, running: [:]) { _ in
+            running.withLock { $0.now += 1; $0.most = max($0.most, $0.now) }
+            try? await Task.sleep(for: .milliseconds(500))
+            running.withLock { $0.now -= 1 }
+            return FolderContents(size: 4_000, holdsRepository: false)
+        }
+
+        #expect(plan.sizes.count == 8)
+        #expect(running.withLock { $0.most } == LeftoverScanner.concurrentMeasurements)
     }
 
     /// An area's plan is made again when the disk changes, and what the person chose in it stays chosen: a child

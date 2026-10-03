@@ -54,7 +54,7 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:],
-        measure: LeftoverScanner.Measure = LeftoverScanner.walk
+        measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
         let systemCaches = SystemCaches(environment: environment)
@@ -62,8 +62,10 @@ public enum SpaceRemoval {
         var sizes: [URL: Int64] = [:]
         var heldBack: [URL: HoldBack] = [:]
         var needsTheHelper: Set<URL> = []
-        for child in children.removable where !Task.isCancelled {
-            let contents = await measure(child)
+        let measured = await children.removable.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { child in
+            (child, await measure(child))
+        }
+        for (child, contents) in measured {
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
             let needsAnAdministrator = FileAccess.requiresPrivilegesToRemove(child)
             if needsAnAdministrator { needsTheHelper.insert(child) }
