@@ -4,7 +4,7 @@ import SwiftUI
 
 struct DuplicateGroupView: View {
     @Environment(DuplicateLibrary.self) private var duplicates
-    @State private var previewURL: URL?
+    @State private var preview = QuickLookTarget()
     let group: DuplicateGroup
 
     var body: some View {
@@ -17,12 +17,12 @@ struct DuplicateGroupView: View {
                 ForEach(Array(group.files.enumerated()), id: \.element.id) { index, file in
                     DuplicateFileRow(
                         duplicates: duplicates,
+                        preview: preview,
                         file: file,
                         group: group,
                         isSelected: duplicates.isSelected(file),
                         canChangeSelection: duplicates.canChange(file, in: group),
-                        isFirst: index == 0,
-                        onPreview: { previewURL = file.url }
+                        isFirst: index == 0
                     )
                 }
                 .listRowSeparator(.hidden)
@@ -37,7 +37,7 @@ struct DuplicateGroupView: View {
         .fadesInColumn(whenRowsChange: group.files.map(\.id))
         .navigationTitle(Text(verbatim: group.files[0].url.lastPathComponent))
         .toolbar(removing: .title)
-        .quickLookPreview($previewURL, in: group.files.map(\.url))
+        .quickLookPreview(Bindable(preview).url, in: group.files.map(\.url))
     }
 
     private var header: some View {
@@ -97,12 +97,14 @@ struct DuplicateGroupView: View {
 
 private struct DuplicateFileRow: View {
     let duplicates: DuplicateLibrary
+    /// An object, as `duplicates` is, so the row compares equal from one change of the page to the next: a closure
+    /// made in the page's body never would, and every row would be built again at every check (`RowSelection`).
+    let preview: QuickLookTarget
     let file: DuplicateFile
     let group: DuplicateGroup
     let isSelected: Bool
     let canChangeSelection: Bool
     var isFirst = false
-    let onPreview: () -> Void
 
     var body: some View {
         HStack(spacing: 10) {
@@ -134,7 +136,9 @@ private struct DuplicateFileRow: View {
             .disabled(!canChangeSelection)
             .help(canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy."))
 
-            Button(action: onPreview) {
+            Button {
+                preview.url = file.url
+            } label: {
                 Label("Quick Look", systemImage: "eye")
                     .minimumTarget()
             }
@@ -144,10 +148,16 @@ private struct DuplicateFileRow: View {
         }
         .tableRow(isFirst: isFirst)
         .contextMenu {
-            Button("Quick Look", systemImage: "eye", action: onPreview)
+            Button("Quick Look", systemImage: "eye") { preview.url = file.url }
             ItemMenu(url: file.url)
         }
     }
+}
+
+/// The copy Quick Look shows, held by the page.
+@Observable
+private final class QuickLookTarget {
+    var url: URL?
 }
 
 /// A group's total to free, which follows the copies selected in it.

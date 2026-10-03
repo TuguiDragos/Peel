@@ -132,7 +132,6 @@ struct FileThumbnail: View {
 
     init(url: URL) {
         self.url = url
-        _made = State(initialValue: ThumbnailCache.image(for: url).map { (url, $0) })
     }
 
     private var thumbnail: NSImage? {
@@ -166,7 +165,8 @@ struct FileThumbnail: View {
         .motion(value: thumbnail == nil)
         .task(id: url) {
             guard thumbnail == nil else { return }
-            if let cached = ThumbnailCache.image(for: url) {
+            let key = await ThumbnailCache.key(for: url)
+            if let key, let cached = ThumbnailCache.image(forKey: key) {
                 made = (url, cached)
                 return
             }
@@ -181,8 +181,8 @@ struct FileThumbnail: View {
             for await image in Self.representations(of: request) {
                 made = (url, NSImage(cgImage: image, size: CGSize(width: 64, height: 64)))
             }
-            if let thumbnail {
-                ThumbnailCache.keep(thumbnail, for: url)
+            if let thumbnail, let key {
+                ThumbnailCache.keep(thumbnail, forKey: key)
             }
         }
     }
@@ -198,21 +198,22 @@ enum ThumbnailCache {
     }()
 
     @MainActor
-    static func image(for url: URL) -> NSImage? {
-        key(for: url).flatMap(images.object(forKey:))
+    static func image(forKey key: String) -> NSImage? {
+        images.object(forKey: key as NSString)
     }
 
     @MainActor
-    static func keep(_ image: NSImage, for url: URL) {
-        guard let key = key(for: url) else { return }
-        images.setObject(image, forKey: key)
+    static func keep(_ image: NSImage, forKey key: String) {
+        images.setObject(image, forKey: key as NSString)
     }
 
-    /// The path with the item's device, inode, size and modification time. Nil for an item that is gone.
-    private static func key(for url: URL) -> NSString? {
+    /// The path with the item's device, inode, size and modification time, or nil for an item that is gone. Read
+    /// off the main actor, since a network volume can be slow to answer.
+    @concurrent
+    static func key(for url: URL) async -> String? {
         let path = url.path(percentEncoded: false)
         var info = stat()
         guard lstat(path, &info) == 0 else { return nil }
-        return "\(path)\n\(info.st_dev) \(info.st_ino) \(info.st_size) \(info.st_mtimespec.tv_sec) \(info.st_mtimespec.tv_nsec)" as NSString
+        return "\(path)\n\(info.st_dev) \(info.st_ino) \(info.st_size) \(info.st_mtimespec.tv_sec) \(info.st_mtimespec.tv_nsec)"
     }
 }
