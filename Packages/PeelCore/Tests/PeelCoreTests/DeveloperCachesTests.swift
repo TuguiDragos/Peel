@@ -77,7 +77,7 @@ struct DeveloperCachesTests {
         try FileManager.default.createSymbolicLink(at: directory.url.appending(path: "link"), withDestinationURL: directory.url.appending(path: "home"))
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
-        let left = { (folder: URL) in DeveloperCaches.foldersLeftToDeveloper(inside: folder, home: home) }
+        let left = DeveloperCaches.FoldersLeftToDeveloper(home: home).inside
         let asWritten = left(home.appending(path: "Library/Caches", directoryHint: .isDirectory))
         let otherCase = left(home.appending(path: "library/caches", directoryHint: .isDirectory))
         let throughALink = left(directory.url.appending(path: "link/Library/Caches", directoryHint: .isDirectory))
@@ -672,7 +672,7 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["CoreSimulator"])
         #expect(locations.first?.kind == .logs)
-        #expect(DeveloperCaches.foldersLeftToDeveloper(inside: logs, home: directory.url).contains(["CoreSimulator"]))
+        #expect(DeveloperCaches.FoldersLeftToDeveloper(home: directory.url).inside(logs).contains(["CoreSimulator"]))
     }
 
     @Test func listsDerivedDataByWorkspaceAndLeavesTheOnesUsedThisWeek() async throws {

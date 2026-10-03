@@ -290,25 +290,33 @@ public enum DeveloperCaches {
         return DeveloperEnvironment.Archive(version: version, build: build)
     }
 
-    /// The tools' own folders inside `folder`, as the name patterns leading to each (`["Google", "AndroidStudio*"]`),
-    /// which Space leaves to the Developer page. Both folders are read as the kernel names them, so another spelling
-    /// of the same folder (another case, a link) finds the same.
-    static func foldersLeftToDeveloper(inside folder: URL, home: URL) -> [[String]] {
-        // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
-        // paths in the table don't.
-        let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
-        let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
-        let owned = definitions.flatMap { definition in
-            let ownFolders = definition.ownFolders.map { home + PathComponents.of($0) }
-            return definition.folders.filter { $0.base == .home }.compactMap { folder -> [String]? in
-                let full = home + PathComponents.of(folder.path)
-                guard full.count > base.count, full.starts(with: base) else { return nil }
-                let declared = ownFolders.first { $0.count > base.count && full.starts(with: $0) }
-                let own = declared ?? Array(full.prefix(base.count + 1))
-                return Array(own[base.count...])
+    /// The table's folders under one home, which Space leaves to the Developer page, worked out once for all the
+    /// folders of an area.
+    struct FoldersLeftToDeveloper {
+        private let folders: [(path: [String], own: [[String]])]
+
+        init(home: URL) {
+            // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
+            // paths in the table don't.
+            let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
+            folders = DeveloperCaches.definitions.flatMap { definition in
+                let own = definition.ownFolders.map { home + PathComponents.of($0) }
+                return definition.folders.filter { $0.base == .home }.map { (home + PathComponents.of($0.path), own) }
             }
         }
-        return Set(owned).sorted { $0.joined(separator: "/") < $1.joined(separator: "/") }
+
+        /// The tools' own folders inside `folder`, as the name patterns leading to each (`["Google",
+        /// "AndroidStudio*"]`). The folder is read as the kernel names it, as the home is, so another spelling of the
+        /// same folder (another case, a link) finds the same.
+        func inside(_ folder: URL) -> [[String]] {
+            let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
+            let owned = folders.compactMap { path, own -> [String]? in
+                guard path.count > base.count, path.starts(with: base) else { return nil }
+                let declared = own.first { $0.count > base.count && path.starts(with: $0) }
+                return Array((declared ?? Array(path.prefix(base.count + 1)))[base.count...])
+            }
+            return Set(owned).sorted { $0.joined(separator: "/") < $1.joined(separator: "/") }
+        }
     }
 
     /// The folders the Developer page offers, relative to the home folder. Only folders one tool owns outright

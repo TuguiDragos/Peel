@@ -154,11 +154,11 @@ public enum SpaceRemoval {
                 }
             }
         }
+        let developerFolders = DeveloperCaches.FoldersLeftToDeveloper(home: environment.homeDirectory)
         for url in item.urls {
             // Everything in an app's container is that app's, whatever its name.
             let owner = systemCaches.container(holding: url).flatMap { running[Naming.normalized($0)] }
-            let owned = DeveloperCaches.foldersLeftToDeveloper(inside: url, home: environment.homeDirectory)
-            sort(url, leaving: owned, owner: owner)
+            sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
         return (removable, inUse, leftToDeveloper, refused)
     }
