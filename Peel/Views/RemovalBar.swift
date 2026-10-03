@@ -13,6 +13,8 @@ struct RemovalBar: View {
     @State private var appToQuit = ""
     @State private var isAskingToQuit = false
     @State private var isShowingPages = false
+    /// The page's own words under the question, worked out when Move to Trash was pressed.
+    @State private var pageMessage: Text?
     private let purpose: Purpose
     /// True while the page scans. The bar then moves nothing, whatever is selected.
     let isScanning: Bool
@@ -29,8 +31,9 @@ struct RemovalBar: View {
         /// What the page itself selected, which `onRemove` acts on.
         case own(SizeTotal, isEnabled: Bool, onRemove: () -> Void)
         /// A storage tool's page: the bar counts and moves what is selected there and on every such page seen
-        /// before (`SelectionCarrier`). `message` goes under the question when only this page's selection moves.
-        case carried(CarriedSelection.Page, message: Text?)
+        /// before (`SelectionCarrier`). `message` goes under the question when only this page's selection moves,
+        /// and is asked for only then, since it can walk all the page holds.
+        case carried(CarriedSelection.Page, message: (() -> Text)?)
     }
 
     private struct Reading {
@@ -63,7 +66,7 @@ struct RemovalBar: View {
     }
 
     /// A bar for a page of the storage tools, whose selection travels to the others' pages.
-    init(page: CarriedSelection.Page, isScanning: Bool, scan: ScanRun? = nil, message: Text? = nil) {
+    init(page: CarriedSelection.Page, isScanning: Bool, scan: ScanRun? = nil, message: (() -> Text)? = nil) {
         purpose = .carried(page, message: message)
         self.isScanning = isScanning
         self.scan = scan
@@ -204,6 +207,9 @@ struct RemovalBar: View {
             isAskingToQuit = true
         } else {
             question = parts
+            if case .carried(_, let message) = purpose {
+                pageMessage = message?()
+            }
             isAsking = true
         }
     }
@@ -211,8 +217,8 @@ struct RemovalBar: View {
     /// Under the question: the page's own words when only its selection moves, and otherwise a line for each page.
     @ViewBuilder
     private var questionMessage: some View {
-        if case .carried(let page, let message) = purpose, question.map(\.page) == [page] {
-            message
+        if case .carried(let page, _) = purpose, question.map(\.page) == [page] {
+            pageMessage
         } else {
             Text(verbatim: question.map(line).joined(separator: "\n"))
         }

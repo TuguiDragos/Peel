@@ -36,8 +36,11 @@ final class DuplicateLibrary {
     private(set) var isScanning = false
     private(set) var isRemoving = false
     var selection: DuplicateRow?
-    var selectedURLs: Set<URL> = []
-    var selectedFolders: Set<URL> = []
+    private(set) var selectedURLs: Set<URL> = []
+    private(set) var selectedFolders: Set<URL> = []
+    /// What each selected copy frees, kept with the selection: a check changes one entry, so the move bar does not
+    /// walk a selection that can reach a hundred thousand copies at every check.
+    @ObservationIgnored private var selectedSizes: [URL: Int64?] = [:]
     /// The exclusions the list is filtered by: those the scan ran under, or those it was narrowed to since.
     private var filteredBy = Exclusions.none
 
@@ -110,8 +113,7 @@ final class DuplicateLibrary {
     func clearResults() {
         scan = nil
         selection = nil
-        selectedURLs = []
-        selectedFolders = []
+        select([], folders: [])
     }
 
     /// Narrows the list to what `exclusions` leave. Duplicates scans only when asked, so without this a copy
@@ -125,8 +127,7 @@ final class DuplicateLibrary {
         guard !excluded.isEmpty else { return }
         let remaining = latest.removing(excluded)
         self.scan = remaining
-        selectedURLs = remaining.keepingOneOfEach(selectedURLs)
-        selectedFolders = remaining.keepingOneOfEachFolder(selectedFolders)
+        select(remaining.keepingOneOfEach(selectedURLs), folders: remaining.keepingOneOfEachFolder(selectedFolders))
         if let selection, !remaining.holds(selection) {
             self.selection = nil
         }
@@ -157,8 +158,7 @@ final class DuplicateLibrary {
             guard current == generation else { return }
             scan = result
             filteredBy = exclusions
-            selectedURLs = result.suggestedSelection
-            selectedFolders = result.suggestedFolderSelection
+            select(result.suggestedSelection, folders: result.suggestedFolderSelection)
         } catch {}
         continuation.finish()
         await progressUpdates.value
@@ -182,8 +182,9 @@ final class DuplicateLibrary {
         guard canChange(file, in: group) else { return }
         if isSelected {
             selectedURLs.insert(file.url)
+            selectedSizes.updateValue(reclaimable[file.url], forKey: file.url)
         } else {
-            selectedURLs.remove(file.url)
+            unselect([file.url])
         }
     }
 
@@ -205,13 +206,29 @@ final class DuplicateLibrary {
         guard canChange(folder, in: group) else { return }
         if isSelected {
             selectedFolders.insert(folder.url)
+            selectedSizes.updateValue(reclaimableFolders[folder.url], forKey: folder.url)
         } else {
-            selectedFolders.remove(folder.url)
+            unselect([folder.url])
         }
     }
 
     func selectedSize(in group: DuplicateFolderGroup) -> Int64 {
         group.folders.filter { selectedFolders.contains($0.url) }.map(\.reclaimableSize).cappedSum
+    }
+
+    /// Selects exactly `files` and `folders`.
+    private func select(_ files: Set<URL>, folders: Set<URL>) {
+        selectedURLs = files
+        selectedFolders = folders
+        selectedSizes = [:]
+        for url in files { selectedSizes.updateValue(reclaimable[url], forKey: url) }
+        for url in folders { selectedSizes.updateValue(reclaimableFolders[url], forKey: url) }
+    }
+
+    private func unselect(_ urls: some Collection<URL>) {
+        selectedURLs.subtract(urls)
+        selectedFolders.subtract(urls)
+        for url in urls { selectedSizes.removeValue(forKey: url) }
     }
 }
 
@@ -231,14 +248,12 @@ extension DuplicateLibrary: StoppableWork {
 extension DuplicateLibrary: CarriesSelection {
     var carriedParts: [CarriedSelection.Part] {
         guard selectedCount > 0 else { return [] }
-        let files = selectedURLs.map { ($0, reclaimable[$0]) }
-        let folders = selectedFolders.map { ($0, reclaimableFolders[$0]) }
         return [CarriedSelection.Part(
             page: Tool.duplicates.page(),
             title: String(localized: Tool.duplicates.title),
             source: Tool.duplicates.title.inEnglish,
             sourceKey: "tool",
-            sizes: Dictionary(files + folders, uniquingKeysWith: { first, _ in first })
+            sizes: selectedSizes
         )]
     }
 
@@ -257,8 +272,7 @@ extension DuplicateLibrary: CarriesSelection {
         guard let latest = self.scan else { return result }
         let remaining = latest.removing(trashed)
         self.scan = remaining
-        selectedURLs.subtract(trashed)
-        selectedFolders.subtract(trashed)
+        unselect(trashed)
         if let selection, !remaining.holds(selection) {
             self.selection = nil
         }
@@ -269,7 +283,6 @@ extension DuplicateLibrary: CarriesSelection {
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
 
     func deselect(_ part: CarriedSelection.Part) {
-        selectedURLs.subtract(part.sizes.keys)
-        selectedFolders.subtract(part.sizes.keys)
+        unselect(part.sizes.keys)
     }
 }

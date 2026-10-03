@@ -109,7 +109,7 @@ struct DuplicateRemovalBar: View {
         RemovalBar(
             page: Tool.duplicates.page(),
             isScanning: false,
-            message: Text("From ^[\(groupsAffected) group](inflect: true). A selected folder goes with everything in it.")
+            message: { Text("From ^[\(groupsAffected) group](inflect: true). A selected folder goes with everything in it.") }
         )
     }
 }
