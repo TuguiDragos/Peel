@@ -142,13 +142,15 @@ struct LeftoversCommand: AsyncParsableCommand {
         let exclusions = await ExclusionStore().load()
         try AppLookup.refuseIfExcluded(target, by: exclusions)
         let homebrew = await CaskLookup.evidence(for: target)
-        let uninstallation = await Uninstallation.prepare(
-            target,
-            installedApps: apps,
-            exclusions: exclusions,
-            casks: homebrew.casks,
-            receipts: homebrew.receipts
-        )
+        let uninstallation = await ProgressLine.counting {
+            await Uninstallation.prepare(
+                target,
+                installedApps: apps,
+                exclusions: exclusions,
+                casks: homebrew.casks,
+                receipts: homebrew.receipts
+            )
+        }
         let leftovers = uninstallation.scan.leftovers.filter { all || $0.match.isRecommended }
 
         // Printed in JSON mode too, on standard error, so a script that reads an empty list still learns what
@@ -413,13 +415,15 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         try await Self.refuseWhileRunning(target, among: apps)
         let homebrew = await CaskLookup.evidence(for: target)
-        let uninstallation = await Uninstallation.prepare(
-            target,
-            installedApps: apps,
-            exclusions: exclusions,
-            casks: homebrew.casks,
-            receipts: homebrew.receipts
-        )
+        let uninstallation = await ProgressLine.counting {
+            await Uninstallation.prepare(
+                target,
+                installedApps: apps,
+                exclusions: exclusions,
+                casks: homebrew.casks,
+                receipts: homebrew.receipts
+            )
+        }
         guard !uninstallation.appRequiresPrivileges else {
             throw CommandFailure("Moving \(Output.plain(target.name)) to the Trash needs administrator access. Remove it with the Peel app.")
         }
@@ -624,11 +628,12 @@ struct UpdatesCommand: AsyncParsableCommand {
         // The Peel app's own update settings, so `peel` and the app agree on which updates are waiting.
         let preferences = UpdatePreferences.asTheAppSeesThem()
         let homebrew = await CaskLookup.installed()
-        let statuses = await Self.statuses(
-            for: apps.filter { !preferences.isIgnored($0) },
-            preference: preferences.source,
-            casks: homebrew.casks
-        )
+        let toCheck = apps.filter { !preferences.isIgnored($0) }
+        let statuses = await ProgressLine.reporting { show in
+            await Self.statuses(for: toCheck, preference: preferences.source, casks: homebrew.casks) { answered in
+                show(Self.progress(checked: answered, of: toCheck.count))
+            }
+        }
         let report = Self.report(apps: apps, statuses: statuses, preferences: preferences, all: all)
 
         if output.json {
@@ -658,6 +663,10 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
+    static func progress(checked: Int, of total: Int) -> String {
+        "Checked \(Output.number(checked)) of \(Output.count(total, "app", "apps"))"
+    }
+
     /// The status as the table writes it. An update the person skipped in the app reads as skipped.
     static func summary(_ status: UpdateStatus, isWaiting: Bool) -> String {
         switch status {
@@ -672,7 +681,8 @@ struct UpdatesCommand: AsyncParsableCommand {
     private static func statuses(
         for apps: [InstalledApp],
         preference: UpdateSource,
-        casks: [HomebrewPackage]
+        casks: [HomebrewPackage],
+        answered: (Int) -> Void
     ) async -> [InstalledApp.ID: UpdateStatus] {
         let checker = UpdateChecker()
         return await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
@@ -684,6 +694,7 @@ struct UpdatesCommand: AsyncParsableCommand {
             }
             while case let (id, status)? = await group.next() {
                 statuses[id] = status
+                answered(statuses.count)
                 if let app = pending.next() {
                     group.addTask { (app.id, await checker.status(for: app, preference: preference, casks: casks)) }
                 }

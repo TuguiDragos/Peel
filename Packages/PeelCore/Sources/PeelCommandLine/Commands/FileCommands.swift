@@ -71,9 +71,9 @@ struct OrphansCommand: AsyncParsableCommand {
         let running = Set(await RunningCopies.current.map(\.bundleIdentifier))
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
-        let scan = await scanner.scan(
-            installedApps: apps, remembered: remembered, running: running, owners: OrphanOwners().load()
-        )
+        let scan = await ProgressLine.counting {
+            await scanner.scan(installedApps: apps, remembered: remembered, running: running, owners: OrphanOwners().load())
+        }
         if let group {
             return try await clean(group, in: scan, apps: apps, scanner: scanner, using: TrashService(exclusions: exclusions))
         }
@@ -208,7 +208,8 @@ struct CachesCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let all = await DeveloperCaches.scan(exclusions: UnreadableExclusions.load())
+        let exclusions = await UnreadableExclusions.load()
+        let all = await ProgressLine.counting { await DeveloperCaches.scan(exclusions: exclusions) }
         let environments = try Self.chosen(from: all, named: tools)
         guard !remove else {
             return try await clean(environments, using: TrashService(exclusions: await ExclusionStore().load()))
@@ -379,7 +380,8 @@ struct ProjectsCommand: AsyncParsableCommand {
                 Output.note("\(Output.plain(Output.path(root))): \(refusal.summary)")
             }
         }
-        let scan = await ProjectArtifacts.scan(roots: roots, exclusions: UnreadableExclusions.load())
+        let exclusions = await UnreadableExclusions.load()
+        let scan = await ProgressLine.counting { await ProjectArtifacts.scan(roots: roots, exclusions: exclusions) }
         let artifacts = scan.artifacts
         if remove {
             Self.notes(for: scan).forEach(Output.note)
@@ -544,7 +546,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
         var options = DuplicateScanOptions(folders: urls)
         options.kind = kind?.fileKind ?? .any
         options.minimumSize = minimumSize?.bytes ?? 1
-        let scan = try await finder.scan(options)
+        let scan = try await ProgressLine.reporting { show in
+            try await finder.scan(options) { show(Self.progress($0)) }
+        }
         if remove {
             Self.notes(for: scan).forEach(Output.note)
             return try await clean(scan, using: TrashService(exclusions: await ExclusionStore().load()))
@@ -599,6 +603,17 @@ struct DuplicatesCommand: AsyncParsableCommand {
             unreadableLocations: scan.unreadableLocations.map(Output.path),
             skippedLocations: scan.skippedLocations.map(Output.path)
         )
+    }
+
+    /// The progress line for each step of the scan. The folders are compared by the files inside them, so both
+    /// steps compare and read files.
+    static func progress(_ report: DuplicateScanProgress) -> String {
+        switch report {
+        case .listing(let found): "Looking through folders: \(Output.number(found)) found"
+        case .collecting(let found): "Looking for files: \(Output.number(found)) found"
+        case .comparing(let compared, let total): "Comparing files: \(Output.number(compared)) of \(Output.number(total))"
+        case .verifying(let read, let total): "Reading contents: \(Output.size(read)) of \(Output.size(total))"
+        }
     }
 
     static func heading(for group: DuplicateFolderGroup) -> String {
