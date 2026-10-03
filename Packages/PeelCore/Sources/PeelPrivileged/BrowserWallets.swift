@@ -241,13 +241,21 @@ extension ProtectedData {
         if isAProfileWithAWallet(path) { return true }
 
         let folder = components.last?.lowercased() ?? ""
-        let children = (try? FileManager.default.contentsOfDirectory(atPath: path)) ?? []
-        return children.contains { child in
-            let inside = path + "/" + child
-            if isAWalletsStorage(child.lowercased(), in: folder) || isAProfileWithAWallet(inside) { return true }
-            let deeper = (try? FileManager.default.contentsOfDirectory(atPath: inside)) ?? []
-            return deeper.contains { isAProfileWithAWallet(inside + "/" + $0) }
+        return entries(of: path).contains { child in
+            if isAWalletsStorage(child.name.lowercased(), in: folder) { return true }
+            guard !child.isAFile else { return false }
+            let inside = path + "/" + child.name
+            return isAProfileWithAWallet(inside)
+                || entries(of: inside).contains { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }
         }
+    }
+
+    /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none. The kind
+    /// comes with the listing, so a folder of many files costs no call for each file.
+    private static func entries(of folder: String) -> [(name: String, isAFile: Bool)] {
+        let url = URL(filePath: folder, directoryHint: .isDirectory)
+        let found = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey])) ?? []
+        return found.map { ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true) }
     }
 
     /// True for `name`, inside a folder called `folder`, when it is a wallet extension's storage. Both lowercase.
