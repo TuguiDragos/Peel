@@ -340,7 +340,11 @@ public enum ProtectedData: Sendable {
     /// case-insensitive by default, so one file has several names. A check that knew only one of them could be
     /// bypassed by writing another.
     public static func spellings(of path: String) -> Set<String> {
-        var names = privateNames(of: path).union(privateNames(of: (path as NSString).standardizingPath))
+        var names = privateNames(of: path)
+        let standardized = (path as NSString).standardizingPath
+        if standardized != path {
+            names.formUnion(privateNames(of: standardized))
+        }
         let resolved = (path as NSString).resolvingSymlinksInPath
         if resolved != path {
             names.formUnion(privateNames(of: resolved))
@@ -351,15 +355,15 @@ public enum ProtectedData: Sendable {
         })
     }
 
+    private static let linkedIntoPrivate: Set<String> = ["var", "tmp", "etc"]
+
     private static func privateNames(of path: String) -> Set<String> {
-        for link in ["/var", "/tmp", "/etc"] {
-            if PathComponents.isPath(path, atOrInside: link) {
-                return [path, "/private" + path]
-            }
-            let inPrivate = "/private" + link
-            if PathComponents.isPath(path, atOrInside: inPrivate) {
-                return [path, String(path.dropFirst("/private".count))]
-            }
+        let names = PathComponents.of(path)
+        if let first = names.first, linkedIntoPrivate.contains(first) {
+            return [path, "/private" + path]
+        }
+        if names.count > 1, names[0] == "private", linkedIntoPrivate.contains(names[1]) {
+            return [path, String(path.dropFirst("/private".count))]
         }
         return [path]
     }

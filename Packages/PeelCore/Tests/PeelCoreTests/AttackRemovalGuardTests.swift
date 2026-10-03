@@ -74,6 +74,14 @@ struct AttackRemovalGuardTests {
         #expect(temporary.isSuperset(of: ["/private/tmp/org.example.app", "/tmp/org.example.app"]))
     }
 
+    @Test func theFoldersLinkedIntoPrivateAreAskedBothWays() {
+        #expect(ProtectedData.spellings(of: "/var/db/org.example.app").isSuperset(of: ["/var/db/org.example.app", "/private/var/db/org.example.app"]))
+        #expect(ProtectedData.spellings(of: "/private/etc/org.example.conf").isSuperset(of: ["/private/etc/org.example.conf", "/etc/org.example.conf"]))
+        #expect(ProtectedData.spellings(of: "/tmp").isSuperset(of: ["/tmp", "/private/tmp"]))
+        #expect(ProtectedData.spellings(of: "/variable/org.example.app") == ["/variable/org.example.app"])
+        #expect(ProtectedData.spellings(of: "/private/variable/org.example.app") == ["/private/variable/org.example.app"])
+    }
+
     @Test func caseSpellingOfAProtectedTree() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
