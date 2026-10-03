@@ -181,9 +181,8 @@ struct AppDetailView: View {
                     defaultsSection
                     PackageReceiptSection(app: plan.app, isExcluded: plan.isExcluded)
                 }
-                .opacity(isAtWork ? Busy.dimmed : 1)
-                .disabled(isAtWork)
-                .motion(value: isAtWork)
+                .dimmedWhileBusy(isAtWork)
+                .disabled(plan.isRemoving)
             }
         }
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
@@ -587,7 +586,7 @@ struct AppDetailView: View {
         isRescanning || (plan.isScanning && plan.scan != nil)
     }
 
-    /// True while the page scans again or a removal runs, when its rows take no clicks.
+    /// True while the page scans again or a removal runs, when its rows dim on the `Busy` timing.
     private var isAtWork: Bool {
         isBusy || plan.isRemoving
     }
