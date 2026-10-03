@@ -513,8 +513,18 @@ struct ContentView: View {
             MultipleAppsView(apps: library.selectedApps)
                 .id(library.selectedApps.map(Self.build))
         } else {
-            DetailPlaceholder(tool: .applications, summary: library.summary, instruction: "Choose an app to see what it leaves behind.")
+            ApplicationsPlaceholder()
         }
+    }
+}
+
+/// The Applications pane with no app chosen. A view of its own because its summary reads every app's size and
+/// update: read in the window's body, each size measured would build the whole window again.
+private struct ApplicationsPlaceholder: View {
+    @Environment(AppLibrary.self) private var library
+
+    var body: some View {
+        DetailPlaceholder(tool: .applications, summary: library.summary, instruction: "Choose an app to see what it leaves behind.")
     }
 }
 

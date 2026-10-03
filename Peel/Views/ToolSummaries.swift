@@ -160,10 +160,11 @@ extension RemovalHistoryStore {
 
 extension View {
     /// Tells VoiceOver how a scan ended, since the list fills in silently: what it found, that it was stopped, or
-    /// `couldNotLook`, the title of the page's message, in place of "Nothing found." when it could not look.
+    /// `couldNotLook`, the title of the page's message, in place of "Nothing found." when it could not look. The
+    /// summary is worked out only then, so the page does not depend on everything it reads.
     func announcesScan(
         _ isScanning: Bool,
-        found summary: AttributedString?,
+        found summary: @autoclosure @escaping () -> AttributedString?,
         couldNotLook: LocalizedStringResource? = nil,
         wasStopped: Bool = false
     ) -> some View {
@@ -171,7 +172,7 @@ extension View {
             guard wasScanning, !scanning else { return }
             let nothing = couldNotLook.map { AttributedString(localized: $0) }
                 ?? AttributedString(localized: "Nothing found.")
-            let words = wasStopped ? AttributedString(localized: "Scan stopped.") : summary ?? nothing
+            let words = wasStopped ? AttributedString(localized: "Scan stopped.") : summary() ?? nothing
             AccessibilityNotification.Announcement(words).post()
         }
     }
