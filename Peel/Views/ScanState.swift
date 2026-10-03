@@ -51,28 +51,30 @@ private struct ScanStateModifier<Message: View>: ViewModifier {
             // Rebuilds the list when the first scan ends, under the fade that follows. Rows inserted all at once
             // into an empty `List` after a section header keep the table's default height and are never measured.
             .id(fadesInResults && isScanning)
-            .opacity(isRescanning ? Busy.dimmed : 1)
+            // Only the dim and the overlay are animated. The column's own layout, its search field included, changes
+            // at once: a text field laid out under an animation gets a size SwiftUI reports as invalid every frame.
+            .animation(Motion.step.animation) { $0.opacity(isRescanning ? Busy.dimmed : 1) }
             .overlay {
-                switch phase {
-                case .scanning(let work):
-                    ProgressView {
-                        switch work {
-                        case .walk: WalkLabel(scan: scan)
-                        case .spotlight: Text("Searching…")
-                        case .homebrewUpdate: Text("Updating Homebrew…")
+                Group {
+                    switch phase {
+                    case .scanning(let work):
+                        ProgressView {
+                            switch work {
+                            case .walk: WalkLabel(scan: scan)
+                            case .spotlight: Text("Searching…")
+                            case .homebrewUpdate: Text("Updating Homebrew…")
+                            }
                         }
+                    case .stopped:
+                        StoppedScan()
+                    case .message:
+                        message
+                    case .content:
+                        EmptyView()
                     }
-                case .stopped:
-                    StoppedScan()
-                case .message:
-                    message
-                case .content:
-                    EmptyView()
                 }
+                .motion(.step, value: phase)
             }
-            // After the overlay, so the overlay is inside the animation.
-            .motion(.step, value: phase)
-            .motion(.step, value: isRescanning)
             // SwiftUI doesn't fade in rows built in the update that shows them, so the whole column fades instead.
             .fadesInColumn(on: fadesInResults && isScanning)
     }
