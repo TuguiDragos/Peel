@@ -25,6 +25,14 @@ final class TrashMonitor {
 
     func start() {
         guard home == nil else { return }
+        // The setting is about apps the user moves to the Trash, so Peel's own moves are told apart, from
+        // before the first listing, and every Trash is looked at again once one ends.
+        OwnTrashMoves.shared.whenSettled { [weak self] in
+            Task { @MainActor in
+                self?.home?.changed()
+                self?.volumes.values.forEach { $0.changed() }
+            }
+        }
         let trash = URL.homeDirectory.appending(path: ".Trash", directoryHint: .isDirectory)
         // Finder makes the home's Trash again only when something is next thrown away, so while it is missing the
         // home folder is watched for it.
@@ -34,9 +42,11 @@ final class TrashMonitor {
             home = watch
             status = .watching
         case .refused:
+            OwnTrashMoves.shared.whenSettled(nil)
             status = .needsFullDiskAccess
             return
         case .unavailable:
+            OwnTrashMoves.shared.whenSettled(nil)
             status = .off
             return
         }
@@ -45,18 +55,11 @@ final class TrashMonitor {
             self?.stop()
             self?.status = result == .refused ? .needsFullDiskAccess : .off
         }
-        // The setting is about apps the user moves to the Trash, so Peel's own moves are told apart, and every
-        // Trash is looked at again once one ends.
-        OwnTrashMoves.shared.whenSettled { [weak self] in
-            Task { @MainActor in
-                self?.home?.changed()
-                self?.volumes.values.forEach { $0.changed() }
-            }
-        }
         startVolumes()
     }
 
     func stop() {
+        OwnTrashMoves.shared.whenSettled(nil)
         home?.stop()
         home = nil
         volumes.values.forEach { $0.stop() }

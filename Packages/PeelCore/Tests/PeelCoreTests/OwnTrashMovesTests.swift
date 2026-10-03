@@ -8,10 +8,16 @@ import Testing
 struct OwnTrashMovesTests {
     private let trash = URL(filePath: "/Users/x/.Trash", directoryHint: .isDirectory)
 
+    private func watched() -> OwnTrashMoves {
+        let moves = OwnTrashMoves()
+        moves.whenSettled {}
+        return moves
+    }
+
     /// The Trash renames an item whose name is taken, so Peel's own move can land as `Foo 2.app` beside the
     /// `Foo.app` already there. What counts is where it landed, not the name it had.
     @Test func anAppPeelMovedIsNotToldUnderTheNameItLandedWith() {
-        let moves = OwnTrashMoves()
+        let moves = watched()
         let look = moves.look()
         moves.began()
         moves.ended(landedAt: [trash.appending(path: "Foo 2.app")])
@@ -49,7 +55,7 @@ struct OwnTrashMovesTests {
     /// What Peel landed is forgotten once a look that began after it has run: the item was seen, or it has left
     /// the Trash since. The same name moved there later by the user is then told.
     @Test func forgetsWhatItLandedOnceALookHasSeenIt() {
-        let moves = OwnTrashMoves()
+        let moves = watched()
         moves.began()
         moves.ended(landedAt: [trash.appending(path: "Foo.app")])
         let first = moves.look()
@@ -62,7 +68,7 @@ struct OwnTrashMovesTests {
 
     /// Each Trash is looked at on its own, so a look at one keeps what landed in another until that one is seen.
     @Test func aLookAtOneTrashKeepsWhatLandedInAnother() {
-        let moves = OwnTrashMoves()
+        let moves = watched()
         let volume = URL(filePath: "/Volumes/Disk/.Trashes/501", directoryHint: .isDirectory)
         moves.began()
         moves.ended(landedAt: [volume.appending(path: "Foo.app")])
@@ -75,7 +81,7 @@ struct OwnTrashMovesTests {
     /// A listing that began before Peel's move landed may not show what it landed, so what landed after the
     /// look began is kept for the next one.
     @Test func keepsWhatLandedAfterTheLookBegan() {
-        let moves = OwnTrashMoves()
+        let moves = watched()
         let look = moves.look()
         moves.began()
         moves.ended(landedAt: [trash.appending(path: "Foo.app")])
@@ -86,12 +92,26 @@ struct OwnTrashMovesTests {
 
     /// Every removal goes through `TrashService`, so every tool's moves are Peel's own, whichever page made them.
     @Test func everyMoveThroughTheTrashServiceIsPeelsOwn() async {
-        let moves = OwnTrashMoves()
+        let moves = watched()
         let environment = SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
         let service = TrashService(environment: environment, ownMoves: moves) { [trash] _ in trash.appending(path: "Install macOS 2.app") }
 
         _ = await service.trash([URL(filePath: "/Users/x/Downloads/Install macOS.app")])
 
         #expect(moves.arrivals(["Install macOS 2.app"], known: [], in: trash, since: 0) == [])
+    }
+
+    @Test func keepsNothingWhileNobodyWatches() {
+        let moves = OwnTrashMoves()
+        moves.began()
+        moves.ended(landedAt: [trash.appending(path: "Foo.app")])
+        moves.whenSettled {}
+        #expect(moves.arrivals(["Foo.app"], known: [], in: trash, since: moves.look()) == ["Foo.app"])
+
+        moves.began()
+        moves.ended(landedAt: [trash.appending(path: "Bar.app")])
+        moves.whenSettled(nil)
+        moves.whenSettled {}
+        #expect(moves.arrivals(["Bar.app"], known: [], in: trash, since: moves.look()) == ["Bar.app"])
     }
 }

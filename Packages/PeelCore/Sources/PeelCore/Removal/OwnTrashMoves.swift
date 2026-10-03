@@ -22,9 +22,14 @@ public final class OwnTrashMoves: Sendable {
 
     public init() {}
 
-    /// `action` runs whenever the last move under way ends, so the watch can look at the Trash again.
-    public func whenSettled(_ action: @escaping @Sendable () -> Void) {
+    /// `action` runs whenever the last move under way ends, so the watch can look at the Trash again. Where moves
+    /// land is kept only while a watch is set, which it is before its first listing, and nil when the watch stops:
+    /// what landed before a watch began is in that listing already.
+    public func whenSettled(_ action: (@Sendable () -> Void)?) {
         settled.withLock { $0 = action }
+        if action == nil {
+            state.withLock { $0.landed = [:] }
+        }
     }
 
     func began() {
@@ -32,16 +37,19 @@ public final class OwnTrashMoves: Sendable {
     }
 
     func ended(landedAt urls: [URL]) {
+        let action = settled.withLock { $0 }
         let isSettled = state.withLock { state in
             state.ended += 1
-            for url in urls {
-                state.landed[PathPattern.comparablePath(of: url)] = state.ended
+            if action != nil {
+                for url in urls {
+                    state.landed[PathPattern.comparablePath(of: url)] = state.ended
+                }
             }
             state.underWay -= 1
             return state.underWay == 0
         }
         if isSettled {
-            settled.withLock { $0 }?()
+            action?()
         }
     }
 
