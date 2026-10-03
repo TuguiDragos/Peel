@@ -80,8 +80,9 @@ struct MultipleAppsView: View {
                 }
             }
         }
+        .dimmedWhileBusy(plan.isRemoving)
         .disabled(plan.isRemoving)
-        .scanState(phase, isRescanning: isRescanning || plan.isRemoving, fadesInResults: false, scan: plan.scanRun)
+        .scanState(phase, isRescanning: isRescanning, fadesInResults: false, scan: plan.scanRun)
         .safeAreaBar(edge: .bottom) {
             if plan.bulk != nil {
                 let selected = plan.request.total
