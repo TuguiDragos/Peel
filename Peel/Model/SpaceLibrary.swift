@@ -29,14 +29,23 @@ final class SpaceLibrary: RowSelection {
 
     /// Makes the area's plan from what is on disk now, keeping what was chosen in it.
     func plan(_ item: SpaceItem) async {
+        let made = await newPlan(for: item)
+        // A plan cut short measured only part of the area, and would read the rest as unknown.
+        guard !Task.isCancelled else { return }
+        keep(made.plan, for: item, madeWith: made.exclusions)
+    }
+
+    private func newPlan(for item: SpaceItem) async -> (plan: SpaceRemoval.Plan, exclusions: Int) {
         let revision = ExclusionsStore.shared.revision
         let plan = await SpaceRemoval.plan(
             for: item,
             exclusions: ExclusionsStore.shared.exclusions,
             running: RunningCopies.current
         )
-        // A plan cut short measured only part of the area, and would read the rest as unknown.
-        guard !Task.isCancelled else { return }
+        return (plan, revision)
+    }
+
+    private func keep(_ plan: SpaceRemoval.Plan, for item: SpaceItem, madeWith revision: Int) {
         let previous = plans[item.id]
         let chosen = choices[item.id, default: KeptSelection()].update(
             selectedURLs,
@@ -50,10 +59,23 @@ final class SpaceLibrary: RowSelection {
     }
 
     /// Scans again, and makes again the plans of the areas in `replanning` and of every area that changed since
-    /// its plan was made, so what is carried from them follows what is on disk.
+    /// its plan was made, so what is carried from them follows what is on disk. The plans are part of the scan, so
+    /// an area's page stays busy until it shows what is there now.
     private func refresh(replanning: Set<SpaceItem.ID>) async {
         let exclusions = ExclusionsStore.shared.exclusions
-        guard let result = await scanRun.run({ await SpaceInventory.scan(exclusions: exclusions) }) else { return }
+        let answer = await scanRun.run {
+            let result = await SpaceInventory.scan(exclusions: exclusions)
+            var made: [(item: SpaceItem, plan: SpaceRemoval.Plan, exclusions: Int)] = []
+            for item in result.items where self.plans[item.id] != nil && !Task.isCancelled {
+                let planned = self.plannedFor[item.id]
+                let changed = planned?.item != item || planned?.exclusions != ExclusionsStore.shared.revision
+                guard replanning.contains(item.id) || changed else { continue }
+                let new = await self.newPlan(for: item)
+                made.append((item, new.plan, new.exclusions))
+            }
+            return (result, made)
+        }
+        guard let (result, made) = answer else { return }
         report = result
         for id in plans.keys.filter({ id in !result.items.contains { $0.id == id } }) {
             selectedURLs.subtract(plans[id]?.removable ?? [])
@@ -64,11 +86,8 @@ final class SpaceLibrary: RowSelection {
         if let selection, !result.items.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
-        for item in result.items where plans[item.id] != nil {
-            let made = plannedFor[item.id]
-            if replanning.contains(item.id) || made?.item != item || made?.exclusions != ExclusionsStore.shared.revision {
-                await plan(item)
-            }
+        for (item, plan, revision) in made {
+            keep(plan, for: item, madeWith: revision)
         }
     }
 }
