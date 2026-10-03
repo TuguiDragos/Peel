@@ -78,7 +78,13 @@ struct SpaceDetailView: View {
         .dimmedWhileBusy(space.isScanning)
         .safeAreaBar(edge: .bottom) {
             if !item.isReadOnly {
-                RemovalBar(page: Tool.space.page(item.id), isScanning: plan == nil || space.isScanning)
+                // The count is Space's scan's, so it is shown only while that scan runs: the area's first plan is no
+                // part of it, and would show the count the last scan ended with.
+                RemovalBar(
+                    page: Tool.space.page(item.id),
+                    isScanning: plan == nil || space.isScanning,
+                    scan: space.isScanning ? space.scanRun : nil
+                )
             }
         }
         // Made again each time the page opens, since what is inside changes as apps run. A rescan that finds the
