@@ -163,6 +163,15 @@ extension Tweak {
             title: "Seconds on the menu bar clock",
             detail: "The clock shows seconds instead of changing once a minute."
         ),
+        "windows-save-expanded": Words(
+            title: "Save dialogs open expanded",
+            detail: "A Save dialog opens with your folders showing, instead of only a name and where to save it."
+        ),
+        "windows-print-expanded": Words(
+            title: "Print dialogs open expanded",
+            detail: "The Print dialog opens with its details showing.",
+            caution: "Only Preview and ColorSync Utility read this setting."
+        ),
         "privacy-save-locally": Words(
             title: "New documents save to this Mac",
             detail: "The save panel starts on this Mac instead of iCloud Drive."

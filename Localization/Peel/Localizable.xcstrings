@@ -6979,6 +6979,112 @@
         }
       }
     },
+    "A Save dialog opens with your folders showing, instead of only a name and where to save it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogové okno Uložit při otevření zobrazí vaše složky, a ne jen název a místo uložení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Dialog „Sichern“ öffnet sich mit deinen Ordnern statt nur mit Namen und Speicherort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cuadro de diálogo Guardar se abre mostrando tus carpetas, en vez de solo el nombre y dónde guardarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La zone de dialogue Enregistrer s’ouvre en affichant vos dossiers, au lieu de ne demander qu’un nom et un emplacement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La finestra di dialogo Salva si apre mostrando le tue cartelle, invece che solo il nome del file e dove salvarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”ダイアログが、名前と保存場所だけでなく、フォルダも表示した状態で開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장 대화상자가 이름과 저장 위치만 표시되는 대신 폴더까지 보이는 상태로 열립니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een bewaarvenster toont meteen je mappen, in plaats van alleen een naam en een locatie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okno dialogowe Zachowaj otwiera się, pokazując Twoje foldery, a nie tylko nazwę i miejsce zachowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A caixa de diálogo Salvar abre mostrando as suas pastas, em vez de só o nome e o local onde salvar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogul Salvați se deschide cu dosarele dvs. afișate, în loc să arate doar un nume și unde să‑l salvați."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диалоговое окно сохранения сразу показывает Ваши папки, а не только имя и место сохранения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogrutan Spara öppnas med dina mappar synliga, i stället för att bara visa ett namn och var dokumentet ska sparas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet sorgu kutusu, yalnızca bir ad ve nereye kaydedileceğini sormak yerine klasörlerinizi göstererek açılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Діалогове вікно «Зберегти» відкривається й показує ваші папки, а не лише назву та місце збереження."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”对话框打开时会显示你的文件夹，而不是只显示名称和保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「儲存」對話框打開時會顯示你的檔案夾，而不是只顯示名稱和儲存位置。"
+          }
+        }
+      }
+    },
     "A brew.env file sets this, in /etc/homebrew, in %@, or in ~/.homebrew." : {
       "localizations" : {
         "cs" : {
@@ -79372,6 +79478,112 @@
         }
       }
     },
+    "Only Preview and ColorSync Utility read this setting." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto nastavení čtou jen aplikace Náhled a Utilita ColorSync."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur die Apps „Vorschau“ und „ColorSync-Dienstprogramm“ lesen diese Einstellung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Vista Previa y Utilidad ColorSync leen este ajuste."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seuls Aperçu et Utilitaire ColorSync tiennent compte de ce réglage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Anteprima e Utility ColorSync leggono questa impostazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この設定を読み取るのは、“プレビュー”と“ColorSyncユーティリティ”だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정을 읽는 앱은 미리보기와 ColorSync 유틸리티뿐입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Voorvertoning en ColorSync-hulpprogramma lezen deze instelling."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ustawienie odczytują tylko aplikacje Podgląd i Narzędzie ColorSync."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só os apps Pré-Visualização e Utilitário ColorSync leem este ajuste."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar aplicațiile Previzualizare și Utilitar ColorSync citesc această configurare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот параметр учитывают только приложения «Просмотр» и «Утилита ColorSync»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Förhandsvisning och ColorSync-verktyg läser den här inställningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayarı yalnızca Önizleme ve ColorSync İzlencesi okur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це налаштування враховують лише Оглядач і Утиліта ColorSync."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有“预览”和“色彩同步实用工具”会读取此设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有「預覽程式」和「色彩同步工具程式」會讀取此設定。"
+          }
+        }
+      }
+    },
     "Only an administrator can use Peel’s helper, so Peel can’t remove these from this account." : {
       "localizations" : {
         "cs" : {
@@ -99404,6 +99616,112 @@
       "comment" : "The name of a folder in Library, shown in the Kind column beside an item's path. Finder shows this name in English in every language, so it stays in English.",
       "shouldTranslate" : false
     },
+    "Print dialogs open expanded" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogová okna Tisk se otevírají rozbalená"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Dialog „Drucken“ öffnet sich erweitert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los cuadros de diálogo Imprimir se abren expandidos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les zones de dialogue Imprimer s’ouvrent développées"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le finestre di dialogo Stampa si aprono espanse"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“プリント”ダイアログを展開した状態で開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프린트 대화상자가 확장된 상태로 열림"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afdrukvensters openen uitgevouwen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okna dialogowe Drukuj otwierają się rozwinięte"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As caixas de diálogo Imprimir abrem expandidas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogurile Tipărire se deschid extinse"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диалоговые окна печати открываются в развернутом виде"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogrutan Skriv ut öppnas utvidgad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdır sorgu kutuları genişletilmiş olarak açılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Діалогові вікна «Друкувати» відкриваються розгорнутими"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“打印”对话框默认展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「列印」對話框打開時即展開"
+          }
+        }
+      }
+    },
     "Privacy" : {
       "localizations" : {
         "cs" : {
@@ -107915,6 +108233,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存已安裝項目及其來源的列表"
+          }
+        }
+      }
+    },
+    "Save dialogs open expanded" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogová okna Uložit se otevírají rozbalená"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Dialog „Sichern“ öffnet sich erweitert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los cuadros de diálogo Guardar se abren expandidos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les zones de dialogue Enregistrer s’ouvrent développées"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le finestre di dialogo Salva si aprono espanse"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”ダイアログを展開した状態で開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장 대화상자가 확장된 상태로 열림"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaarvensters openen uitgevouwen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okna dialogowe Zachowaj otwierają się rozwinięte"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As caixas de diálogo Salvar abrem expandidas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogurile Salvați se deschid extinse"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диалоговые окна сохранения открываются в развернутом виде"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogrutan Spara öppnas utvidgad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet sorgu kutuları genişletilmiş olarak açılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Діалогові вікна «Зберегти» відкриваються розгорнутими"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”对话框默认展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「儲存」對話框打開時即展開"
           }
         }
       }
@@ -125545,6 +125969,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「未移動」清單已損毀"
+          }
+        }
+      }
+    },
+    "The Print dialog opens with its details showing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogové okno Tisk při otevření zobrazí i podrobnosti."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Dialog „Drucken“ öffnet sich mit eingeblendeten Details."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cuadro de diálogo Imprimir se abre mostrando los detalles."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La zone de dialogue Imprimer s’ouvre en affichant les détails."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La finestra di dialogo Stampa si apre mostrando i dettagli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“プリント”ダイアログが、詳細を表示した状態で開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프린트 대화상자가 세부사항이 보이는 상태로 열립니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het afdrukvenster toont meteen de details."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okno dialogowe Drukuj otwiera się, pokazując szczegóły."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A caixa de diálogo Imprimir abre mostrando os detalhes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogul Tipărire se deschide cu detaliile afișate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диалоговое окно печати сразу показывает подробные настройки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogrutan Skriv ut öppnas med detaljerna synliga."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdır sorgu kutusu ayrıntılarını göstererek açılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Діалогове вікно «Друкувати» відкривається й показує деталі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“打印”对话框打开时会显示详细信息。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「列印」對話框打開時會顯示詳細資訊。"
           }
         }
       }

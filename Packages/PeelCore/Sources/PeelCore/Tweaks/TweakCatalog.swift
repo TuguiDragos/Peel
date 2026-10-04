@@ -348,6 +348,26 @@ public enum TweakCatalog {
             hasASystemControl: true,
             documentation: .undocumented
         ),
+        Tweak(
+            id: "windows-save-expanded",
+            domain: "NSGlobalDomain",
+            key: "NSNavPanelExpandedStateForSaveMode",
+            kind: .aSwitch(.boolean(true)),
+            restart: .none,
+            group: .windows,
+            hasASystemControl: false,
+            documentation: .undocumented
+        ),
+        Tweak(
+            id: "windows-print-expanded",
+            domain: "NSGlobalDomain",
+            key: "PMPrintingExpandedStateForPrint",
+            kind: .aSwitch(.boolean(true)),
+            restart: .none,
+            group: .windows,
+            hasASystemControl: false,
+            documentation: .undocumented
+        ),
     ]
 
     static let privacy: [Tweak] = [

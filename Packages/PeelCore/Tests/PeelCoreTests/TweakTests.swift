@@ -34,6 +34,14 @@ struct TweakTests {
         #expect(documented == applesOwn)
     }
 
+    @Test func dialogsOpenExpandedThroughTheKeysMacOSReads() {
+        let keys = TweakCatalog.all.filter { $0.domain == TweakStore.globalDomain }.map(\.key)
+        #expect(keys.contains("NSNavPanelExpandedStateForSaveMode"))
+        #expect(keys.contains("PMPrintingExpandedStateForPrint"))
+        #expect(!keys.contains("NSNavPanelExpandedStateForSaveMode2"))
+        #expect(!keys.contains("PMPrintingExpandedStateForPrint2"))
+    }
+
     @Test func asksForALogOutOnlyWhereAppleSaysItIsNeeded() {
         let logOut = TweakCatalog.all.filter { $0.restart == .logOut }.map(\.id)
         #expect(logOut == ["finder-network-stores"], "a log out is asked for where reopening the app is enough")
