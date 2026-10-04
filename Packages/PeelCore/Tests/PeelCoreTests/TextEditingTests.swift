@@ -103,13 +103,3 @@ struct TextEditingTests {
         #expect(!TextEditing.edits(nil))
     }
 }
-
-/// The window a test says is key, read by `TextEditing` each time a window says it became key.
-@MainActor
-private final class KeyWindow {
-    var window: NSWindow?
-
-    init(_ window: NSWindow?) {
-        self.window = window
-    }
-}

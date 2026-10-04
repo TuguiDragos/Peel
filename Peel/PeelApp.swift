@@ -55,6 +55,7 @@ struct PeelApp: App {
     @State private var carrier: SelectionCarrier
     @State private var background = StandingWork()
     @State private var textEditing = TextEditing()
+    @State private var sheetInFront = SheetInFront()
     @State private var hasLaunched = false
     private let exclusions = ExclusionsStore.shared
 
@@ -243,6 +244,7 @@ struct PeelApp: App {
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
         ])
         textEditing.start()
+        sheetInFront.start()
         // Work for Peel coming forward is in `followActivations`.
         guard !hasLaunched else { return }
         hasLaunched = true
@@ -352,7 +354,7 @@ struct PeelApp: App {
         }
         .defaultSize(width: 1120, height: 764)
         .commands {
-            PeelCommands(library: library, homebrew: homebrew, textEditing: textEditing)
+            PeelCommands(library: library, homebrew: homebrew, textEditing: textEditing, sheetInFront: sheetInFront)
         }
         .onChange(of: watchesTrash) { _, isWatching in
             if isWatching {

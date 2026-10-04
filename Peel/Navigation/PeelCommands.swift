@@ -49,6 +49,7 @@ struct PeelCommands: Commands {
     let library: AppLibrary
     let homebrew: HomebrewLibrary
     let textEditing: TextEditing
+    let sheetInFront: SheetInFront
     @Environment(\.openWindow) private var openWindow
     @FocusedValue(\.removalHistory) private var history
     @FocusedBinding(\.selectedTool) private var selectedTool
@@ -77,7 +78,7 @@ struct PeelCommands: Commands {
                     }
                 }
                 .keyboardShortcut("z", modifiers: .command)
-                .disabled(history?.undoName == nil || history?.isRestoring == true)
+                .disabled(history?.undoName == nil || history?.isRestoring == true || sheetInFront.isShowing)
                 Button("Redo") {}
                     .keyboardShortcut("z", modifiers: [.command, .shift])
                     .disabled(true)
@@ -101,18 +102,18 @@ struct PeelCommands: Commands {
             Divider()
             Button(String(localized: moveToTrash?.title ?? "Move to Trash")) { moveToTrash?.perform() }
                 .keyboardShortcut(.delete, modifiers: .command)
-                .disabled(moveToTrash?.isEnabled != true || textEditing.isEditing)
+                .disabled(moveToTrash?.isEnabled != true || textEditing.isEditing || sheetInFront.isShowing)
             Divider()
             Menu("Export List of Apps") {
                 ExportListMenuContent(library: library, homebrew: homebrew)
             }
-            .disabled(!InventoryExport.canExport(library: library, homebrew: homebrew))
+            .disabled(!InventoryExport.canExport(library: library, homebrew: homebrew) || sheetInFront.isShowing)
         }
 
         CommandGroup(before: .textEditing) {
             Button("Find") { searchField = true }
                 .keyboardShortcut("f", modifiers: .command)
-                .disabled(searchField == nil)
+                .disabled(searchField == nil || sheetInFront.isShowing)
             Divider()
         }
 
@@ -121,15 +122,15 @@ struct PeelCommands: Commands {
             let rescan = PageCommands.shared.rescan
             Button(String(localized: rescan?.title ?? "Rescan")) { rescan?.perform() }
                 .keyboardShortcut("r", modifiers: .command)
-                .disabled(rescan?.isEnabled != true)
+                .disabled(rescan?.isEnabled != true || sheetInFront.isShowing)
             let stop = PageCommands.shared.stop
             Button(String(localized: stop?.title ?? "Stop")) { stop?.perform() }
                 .keyboardShortcut(".", modifiers: .command)
-                .disabled(stop?.isEnabled != true)
+                .disabled(stop?.isEnabled != true || sheetInFront.isShowing)
             Menu("Sort and Filter") {
                 AppListMenuContent(library: library)
             }
-            .disabled(selectedTool != .applications)
+            .disabled(selectedTool != .applications || sheetInFront.isShowing)
             Divider()
             let ordered = Tool.Group.allCases.flatMap(\.tools)
             ForEach(Tool.Group.allCases, id: \.self) { group in
@@ -141,7 +142,7 @@ struct PeelCommands: Commands {
                         Text(tool.title)
                     }
                     .keyboardShortcut(index < 9 ? KeyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command) : nil)
-                    .disabled(selectedTool == nil)
+                    .disabled(selectedTool == nil || sheetInFront.isShowing)
                 }
                 Divider()
             }
