@@ -5,7 +5,8 @@ import PeelLink
 final class FinderExtension: FIFinderSync {
     override init() {
         super.init()
-        // Finder reports selected items only inside the watched folders, and an app can be anywhere.
+        // Finder tells the extension what is selected only inside the folders it watches (`selectedItemURLs` in
+        // FinderSync.h). An app can sit anywhere, so the extension watches the whole disk.
         FIFinderSyncController.default().directoryURLs = [URL(filePath: "/", directoryHint: .isDirectory)]
     }
 
