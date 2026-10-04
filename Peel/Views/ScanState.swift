@@ -21,8 +21,9 @@ enum ScanWork: Equatable {
 
 extension View {
     /// Shows a column's scan state: dims the list while a rescan runs, and fades between the spinner, a message,
-    /// and the list. Pass `fadesInResults: false` where a header stays on screen through the scan, since the fade
-    /// covers the whole column. `scan` provides the count of items read.
+    /// and the list. Pass `fadesInResults: false` where a header or a search field stays on screen through the scan:
+    /// the fade covers the whole column, and the list rebuilt under it takes the field's focus. `scan` provides the
+    /// count of items read.
     func scanState(
         _ phase: ScanPhase,
         isRescanning: Bool = false,

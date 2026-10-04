@@ -56,7 +56,7 @@ struct FileSearchList: View {
                 .disabled(search.isSearching || search.isRemoving)
             }
         }
-        .scanState(phase, isRescanning: search.isSearching, scan: search.scanRun) {
+        .scanState(phase, isRescanning: search.isSearching, fadesInResults: false, scan: search.scanRun) {
             if search.results == nil {
                 ContentUnavailableView(
                     "Search for Files",
