@@ -236,6 +236,51 @@ struct PeelApp: App {
         }
     }
 
+    /// Starts what Peel does from launch to quit, from whichever shows first: the main window, or the menu bar item.
+    /// Each piece starts once, and none is a child of the view that called it, so closing the window stops nothing.
+    private func start() {
+        Navigator.shared.openWindow = openWindow
+        background.start([
+            followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
+        ])
+        textEditing.start()
+        // Work for Peel coming forward is in `followActivations`.
+        guard !hasLaunched else { return }
+        hasLaunched = true
+        Task { await launch() }
+    }
+
+    /// Loads what every page needs once, at launch: the exclusions, the apps, Homebrew, and Home's checks.
+    private func launch() async {
+        history.stats = stats
+        history.checkReadability()
+        Task { await stats.takeInEarlierTotals() }
+        // Read beside the rest and behind nothing: until the exclusions are read, nothing moves.
+        async let exclusionsRead: Void = Marks.interval("Exclusions") { await exclusions.load() }
+        // The apps and Homebrew don't depend on Home's checks, so they load in parallel with them.
+        async let homebrewPackages: Void = Marks.interval("Homebrew") { await homebrew.refresh() }
+        async let apps: Void = Marks.interval("Applications") { await library.load() }
+        // Home's checks run at launch, whichever page opens first. They ask the helper whether it can act,
+        // which every page reads to lock the rows that need it.
+        await Marks.interval("Home checks") { await home.refresh(helper: helper) }
+        await exclusionsRead
+        trashMonitor.onApplicationTrashed = { [notifications] url in
+            notifications.notify(applicationTrashed: url)
+        }
+        if watchesTrash {
+            trashMonitor.start()
+        }
+        await apps
+        Task { await IconCache.warm(library.apps.map(\.url)) }
+        await homebrewPackages
+        await Marks.interval("Known casks") { await homebrew.loadKnownCasks(for: library.apps) }
+        library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
+        await Marks.interval("Signing teams") { await library.checkSigningTeams() }
+        if checksForAppUpdates {
+            await Marks.interval("Update checks") { await checkForUpdates() }
+        }
+    }
+
     /// Checks the apps that are due, and posts one notification when updates appear that were not waiting before.
     private func checkForUpdates() async {
         let before = Set(library.appsWithUpdates.map(\.id))
@@ -303,47 +348,7 @@ struct PeelApp: App {
                     FixedSentence.checkWords()
                     await HomeSnapshot.runIfRequested()
                     #endif
-                    // While Peel watches the Trash it keeps running after its window closes, so reopening the window
-                    // must not run the launch work again. Work for Peel coming forward is in `followActivations`.
-                    guard !hasLaunched else { return }
-                    hasLaunched = true
-                    history.stats = stats
-                    history.checkReadability()
-                    Task { await stats.takeInEarlierTotals() }
-                    // Read beside the rest and behind nothing: until the exclusions are read, nothing moves.
-                    async let exclusionsRead: Void = Marks.interval("Exclusions") { await exclusions.load() }
-                    // The apps and Homebrew don't depend on Home's checks, so they load in parallel with them.
-                    async let homebrewPackages: Void = Marks.interval("Homebrew") { await homebrew.refresh() }
-                    async let apps: Void = Marks.interval("Applications") { await library.load() }
-                    // Home's checks run at launch, whichever page opens first. They ask the helper whether it can act,
-                    // which every page reads to lock the rows that need it.
-                    await Marks.interval("Home checks") { await home.refresh(helper: helper) }
-                    await exclusionsRead
-                    trashMonitor.onApplicationTrashed = { [notifications] url in
-                        notifications.notify(applicationTrashed: url)
-                    }
-                    if watchesTrash {
-                        trashMonitor.start()
-                    }
-                    await apps
-                    Task { await IconCache.warm(library.apps.map(\.url)) }
-                    await homebrewPackages
-                    await Marks.interval("Known casks") { await homebrew.loadKnownCasks(for: library.apps) }
-                    library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
-                    await Marks.interval("Signing teams") { await library.checkSigningTeams() }
-                    if checksForAppUpdates {
-                        await Marks.interval("Update checks") { await checkForUpdates() }
-                    }
-                }
-                .task {
-                    // Started once, and not as a child of this view's task, so the work goes on in the menu bar
-                    // after the window closes.
-                    Navigator.shared.openWindow = openWindow
-                    background.start([
-                        followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations,
-                        watchFreeSpace,
-                    ])
-                    textEditing.start()
+                    start()
                 }
         }
         .defaultSize(width: 1120, height: 764)
@@ -387,6 +392,8 @@ struct PeelApp: App {
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(count == 0 ? Text("Peel") : Text("Peel, ^[\(count) update](inflect: true) waiting"))
+            // A launch that restores no window shows only this item, while Peel watches the Trash.
+            .task { start() }
         }
         .menuBarExtraStyle(.window)
 

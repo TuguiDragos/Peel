@@ -44,11 +44,6 @@ struct HomeView: View {
             }
         }
         .task {
-            // The app runs the first check and one on each activation, so Home checks only if no check has finished.
-            guard !home.hasChecked else { return }
-            await home.refresh(helper: helper)
-        }
-        .task {
             while !Task.isCancelled {
                 let change = Greeting.change(after: .now)
                 try? await Task.sleep(until: .now + .seconds(max(1, change.timeIntervalSinceNow)), clock: .continuous)
