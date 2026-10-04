@@ -151,14 +151,13 @@ struct PeelApp: App {
     private func followActivations() async {
         for await _ in NotificationCenter.default.notifications(named: NSApplication.didBecomeActiveNotification) {
             guard !Task.isCancelled else { return }
-            helper.refresh()
             // `peel exclusions` may have changed the list while another app was in front.
             Task { await exclusions.load() }
             // History may have become readable again meanwhile, or stopped being, and `peel` may have moved something.
             history.checkReadability()
             stats.reload()
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
-            // badge on Home in the sidebar shows a missing one.
+            // badge on Home in the sidebar shows a missing one. They read the helper's status again too.
             Task { await home.refresh(helper: helper) }
             Task {
                 // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
