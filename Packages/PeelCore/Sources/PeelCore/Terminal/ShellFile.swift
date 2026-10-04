@@ -1,5 +1,4 @@
 public import Foundation
-import PeelPrivileged
 
 /// The zsh file Peel writes the Shell tab's settings into. The shell reads it only through the line the person
 /// adds to their own startup file, so Peel never edits that file, and putting the settings back empties this one.
@@ -62,25 +61,18 @@ public enum ShellFile {
     }
 
     public static func line(sourcing url: URL, home: URL) -> String {
-        let path = "\"" + (insideHome(url, home: home).map { "$HOME/" + escaped($0) } ?? escaped(url.path(percentEncoded: false))) + "\""
+        let path = "\"" + (url.path(below: home).map { "$HOME/" + escaped($0) } ?? escaped(url.path(percentEncoded: false))) + "\""
         return "[[ -r \(path) ]] && source \(path)"
     }
 
     /// Whether a line of `startupFile` that is not a comment names the file, however its spaces are written.
     public static func isSourced(_ url: URL, from startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
-        let name = insideHome(url, home: home) ?? url.path(percentEncoded: false)
+        let name = url.path(below: home) ?? url.path(percentEncoded: false)
         return String(decoding: data, as: UTF8.self).split(separator: "\n").contains { line in
             let code = line.trimmingCharacters(in: .whitespaces)
             return !code.hasPrefix("#") && code.replacing("\\ ", with: " ").contains(name)
         }
-    }
-
-    private static func insideHome(_ url: URL, home: URL) -> String? {
-        let names = PathComponents.of(url.path(percentEncoded: false))
-        let homeNames = PathComponents.of(home.path(percentEncoded: false))
-        guard PathComponents.isPath(url.path(percentEncoded: false), inside: home.path(percentEncoded: false)) else { return nil }
-        return names.dropFirst(homeNames.count).joined(separator: "/")
     }
 
     private static func escaped(_ text: String) -> String {
