@@ -9071,7 +9071,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "О приложении «Peel»"
+            "value" : "О приложении «Peel»"
           }
         },
         "sv" : {
@@ -17605,7 +17605,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собрано только для процессоров Intel. На Mac с чипом Apple требуется Rosetta."
+            "value" : "Собрано только для процессоров Intel. На Mac с чипом Apple требуется Rosetta."
           }
         },
         "sv" : {
@@ -21376,7 +21376,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Níže zvolte motiv a Terminál se s ním bude otevírat."
+            "value" : "Níže zvolte motiv a Terminál se s ním bude otevírat."
           }
         },
         "de" : {
@@ -21424,7 +21424,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybierz poniżej motyw, a Terminal będzie się z nim otwierał."
+            "value" : "Wybierz poniżej motyw, a Terminal będzie się z nim otwierał."
           }
         },
         "pt" : {
@@ -21442,7 +21442,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите тему ниже, и Терминал будет открываться с ней."
+            "value" : "Выберите тему ниже, и Терминал будет открываться с ней."
           }
         },
         "sv" : {
@@ -28982,7 +28982,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także pakiety w folderach, które aplikacje przechowują w Application Support. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
+            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także pakiety w folderach, które aplikacje przechowują w Application Support. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
           }
         },
         "pt" : {
@@ -29998,7 +29998,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stahování, která prohlížeč nikdy nedokončil a která stále nesou název, jaký souboru dává do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox."
+            "value" : "Stahování, která prohlížeč nikdy nedokončil a která stále nesou název, jaký souboru dává do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox."
           }
         },
         "de" : {
@@ -46671,7 +46671,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W użyciu"
+            "value" : "W użyciu"
           }
         },
         "pt" : {
@@ -48425,7 +48425,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instalátory a zálohy"
+            "value" : "Instalátory a zálohy"
           }
         },
         "de" : {
@@ -49445,7 +49445,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Его не удается прочитать как список свойств, или в нем не указано задание, поэтому macOS никогда его не загружает и из него ничего не запускается."
+            "value" : "Его не удается прочитать как список свойств, или в нем не указано задание, поэтому macOS никогда его не загружает и из него ничего не запускается."
           }
         },
         "sv" : {
@@ -49909,7 +49909,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to aplikace nebo jiný balíček, nebo se nachází uvnitř některého z nich, a co je uvnitř, patří k němu."
+            "value" : "Je to aplikace nebo jiný balíček, nebo se nachází uvnitř některého z nich, a co je uvnitř, patří k němu."
           }
         },
         "de" : {
@@ -49957,7 +49957,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To aplikacja lub inny pakiet albo folder wewnątrz jednego z nich, a to, co jest w środku, należy do tej aplikacji lub pakietu."
+            "value" : "To aplikacja lub inny pakiet albo folder wewnątrz jednego z nich, a to, co jest w środku, należy do tej aplikacji lub pakietu."
           }
         },
         "pt" : {
@@ -52188,25 +52188,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Odinstalowuje %lld formula, której nic już nie potrzebuje: %@."
+                  "value" : "Odinstalowuje %lld formula, której nic już nie potrzebuje: %@."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
+                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
                 }
               }
             }
@@ -58138,7 +58138,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které aplikace zapsaly pro všechny účty v tomto Macu, a zprávy o haváriích, které uchovává systém macOS, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS zapisuje pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
+            "value" : "Protokoly, které aplikace zapsaly pro všechny účty v tomto Macu, a zprávy o haváriích, které uchovává systém macOS, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS zapisuje pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
           }
         },
         "de" : {
@@ -58186,7 +58186,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisane przez aplikacje dla wszystkich kont na tym Macu oraz raporty o awariach przechowywane przez macOS, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS zapisuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
+            "value" : "Dzienniki zapisane przez aplikacje dla wszystkich kont na tym Macu oraz raporty o awariach przechowywane przez macOS, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS zapisuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
           }
         },
         "pt" : {
@@ -58204,7 +58204,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые приложения записали для всех учетных записей на этом Mac, и отчеты о сбоях, которые хранит macOS, в папке «Библиотека» в корне диска. То, что macOS записывает там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
+            "value" : "Журналы, которые приложения записали для всех учетных записей на этом Mac, и отчеты о сбоях, которые хранит macOS, в папке «Библиотека» в корне диска. То, что macOS записывает там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
           }
         },
         "sv" : {
@@ -70304,25 +70304,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
+                  "value" : "Nenašly se žádné instalátory, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
                 }
               }
             }
@@ -70454,25 +70454,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
+                  "value" : "Nie znaleziono instalatorów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
                 }
               }
             }
@@ -70532,25 +70532,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папок, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папок, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папку, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папку, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
+                  "value" : "Установщики не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
                 }
               }
             }
@@ -71471,7 +71471,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В этом списке пока нет других папок."
+            "value" : "В этом списке пока нет других папок."
           }
         },
         "sv" : {
@@ -76139,7 +76139,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: aplikacja jest uruchomiona i może zainstalować to uaktualnienie, gdy zakończy działanie."
+            "value" : "Nie zaznaczono: aplikacja jest uruchomiona i może zainstalować to uaktualnienie, gdy zakończy działanie."
           }
         },
         "pt" : {
@@ -76669,7 +76669,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: ten plik jest w folderze, który aplikacja przechowuje w Application Support, i może go ona jeszcze potrzebować."
+            "value" : "Nie zaznaczono: ten plik jest w folderze, który aplikacja przechowuje w Application Support, i może go ona jeszcze potrzebować."
           }
         },
         "pt" : {
@@ -84151,7 +84151,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Záznamy o instalaci"
+            "value" : "Záznamy o instalaci"
           }
         },
         "de" : {
@@ -84645,7 +84645,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Входит в состав приложения «%@», поэтому остается на месте."
+            "value" : "Входит в состав приложения «%@», поэтому остается на месте."
           }
         },
         "sv" : {
@@ -85326,7 +85326,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se na ni zeptal systému macOS a nedostal odpověď, kterou by dokázal přečíst, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Peel se na ni zeptal systému macOS a nedostal odpověď, kterou by dokázal přečíst, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
           }
         },
         "de" : {
@@ -85374,7 +85374,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał o to macOS i nie otrzymał odpowiedzi, którą mógłby odczytać, więc Peel tego tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "Peel zapytał o to macOS i nie otrzymał odpowiedzi, którą mógłby odczytać, więc Peel tego tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
           }
         },
         "pt" : {
@@ -85392,7 +85392,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel спросил macOS о нем, но не получил ответа, который смог бы прочитать, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+            "value" : "Peel спросил macOS о нем, но не получил ответа, который смог бы прочитать, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
           }
         },
         "sv" : {
@@ -86492,7 +86492,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemůže přečíst svůj záznam o tom, kdo podepisuje vaše aplikace"
+            "value" : "Peel nemůže přečíst svůj záznam o tom, kdo podepisuje vaše aplikace"
           }
         },
         "de" : {
@@ -88126,7 +88126,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemohl ověřit, že Homebrew ponechá formulae, na které se vztahují vaše výjimky, a proto nic nespustil. Soubor brew.env, který nastavuje HOMEBREW_NO_CLEANUP_FORMULAE, nahradí seznam, který Peel předává Homebrew."
+            "value" : "Peel nemohl ověřit, že Homebrew ponechá formulae, na které se vztahují vaše výjimky, a proto nic nespustil. Soubor brew.env, který nastavuje HOMEBREW_NO_CLEANUP_FORMULAE, nahradí seznam, který Peel předává Homebrew."
           }
         },
         "de" : {
@@ -88974,7 +88974,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemohl uložit svůj záznam o tom, kdo podepisuje vaše aplikace"
+            "value" : "Peel nemohl uložit svůj záznam o tom, kdo podepisuje vaše aplikace"
           }
         },
         "de" : {
@@ -91094,7 +91094,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel starý soubor ponechal a pokračoval s tím, co se ještě dalo přečíst."
+            "value" : "Peel starý soubor ponechal a pokračoval s tím, co se ještě dalo přečíst."
           }
         },
         "de" : {
@@ -97593,7 +97593,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocník Peelu nemůže přečíst svůj záznam o tom, co přesunul, a proto se nic nevrátilo zpět."
+            "value" : "Pomocník Peelu nemůže přečíst svůj záznam o tom, co přesunul, a proto se nic nevrátilo zpět."
           }
         },
         "de" : {
@@ -97871,7 +97871,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У помощника Peel было открыто слишком много папок одновременно. Попробуйте еще раз."
+            "value" : "У помощника Peel было открыто слишком много папок одновременно. Попробуйте еще раз."
           }
         },
         "sv" : {
@@ -99189,7 +99189,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Místo v Peelu"
+            "value" : "Místo v Peelu"
           }
         },
         "de" : {
@@ -101320,25 +101320,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Z koše byly vráceny zpět %lld položky."
+                  "value" : "Z koše byly vráceny zpět %lld položky."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Z koše bylo vráceno zpět %lld položky."
+                  "value" : "Z koše bylo vráceno zpět %lld položky."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Z koše byla vrácena zpět %lld položka."
+                  "value" : "Z koše byla vrácena zpět %lld položka."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Z koše bylo vráceno zpět %lld položek."
+                  "value" : "Z koše bylo vráceno zpět %lld položek."
                 }
               }
             }
@@ -101470,25 +101470,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Przywrócono z Kosza %lld rzeczy."
+                  "value" : "Przywrócono z Kosza %lld rzeczy."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Przywrócono z Kosza %lld rzeczy."
+                  "value" : "Przywrócono z Kosza %lld rzeczy."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Przywrócono z Kosza %lld rzecz."
+                  "value" : "Przywrócono z Kosza %lld rzecz."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Przywrócono z Kosza %lld rzeczy."
+                  "value" : "Przywrócono z Kosza %lld rzeczy."
                 }
               }
             }
@@ -118128,7 +118128,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "V umístění %@ je něco jiného a Peel nenabízí žádný příkaz, který by to nahradil."
+            "value" : "V umístění %@ je něco jiného a Peel nenabízí žádný příkaz, který by to nahradil."
           }
         },
         "de" : {
@@ -118176,7 +118176,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
+            "value" : "W %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
           }
         },
         "pt" : {
@@ -118188,13 +118188,13 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La %@ se află altceva, iar Peel nu oferă nicio comandă care l-ar înlocui."
+            "value" : "La %@ se află altceva, iar Peel nu oferă nicio comandă care l‑ar înlocui."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "По пути %@ уже находится что-то другое, и Peel не предлагает команду, которая бы это заменила."
+            "value" : "По пути %@ уже находится что-то другое, и Peel не предлагает команду, которая бы это заменила."
           }
         },
         "sv" : {
@@ -124918,7 +124918,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminál se otevírá s tímto motivem a používá ho každé nové okno."
+            "value" : "Terminál se otevírá s tímto motivem a používá ho každé nové okno."
           }
         },
         "de" : {
@@ -124966,7 +124966,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal otwiera się z tym motywem i używa go w każdym nowym oknie."
+            "value" : "Terminal otwiera się z tym motywem i używa go w każdym nowym oknie."
           }
         },
         "pt" : {
@@ -124984,7 +124984,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Терминал открывается с этой темой, и она используется в каждом новом окне."
+            "value" : "Терминал открывается с этой темой, и она используется в каждом новом окне."
           }
         },
         "sv" : {
@@ -142183,7 +142183,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle lub Squirrel i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
+            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle lub Squirrel i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
           }
         },
         "pt" : {
@@ -144493,7 +144493,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verze %@, potřebná ke čtení jejích zpráv o haváriích"
+            "value" : "Verze %@, potřebná ke čtení jejích zpráv o haváriích"
           }
         },
         "de" : {
@@ -144541,7 +144541,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wersja %@, potrzebna do odczytywania raportów o awariach tej wersji"
+            "value" : "Wersja %@, potrzebna do odczytywania raportów o awariach tej wersji"
           }
         },
         "pt" : {
@@ -144559,7 +144559,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Версия %@, которая нужна для чтения ее отчетов о сбоях"
+            "value" : "Версия %@, которая нужна для чтения ее отчетов о сбоях"
           }
         },
         "sv" : {
@@ -146723,7 +146723,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti nebo zanechaly jako dočasné soubory ve svých vlastních kontejnerech, a co uložily do mezipaměti v kontejnerech, které sdílejí s aplikacemi od stejného výrobce. Co používá otevřená aplikace, zůstává na místě, a mezipaměti vlastních aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
+            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti nebo zanechaly jako dočasné soubory ve svých vlastních kontejnerech, a co uložily do mezipaměti v kontejnerech, které sdílejí s aplikacemi od stejného výrobce. Co používá otevřená aplikace, zůstává na místě, a mezipaměti vlastních aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
           }
         },
         "de" : {
@@ -146789,7 +146789,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
+            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {
@@ -147213,7 +147213,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То, что приложение Battle.net кэширует для всех учетных записей на этом Mac. По словам Blizzard, удаление этого кэша не влияет на Ваши игры, а приложение создает его заново. Поскольку он принадлежит всем учетным записям, он показывается в списке, но никогда не выбирается."
+            "value" : "То, что приложение Battle.net кэширует для всех учетных записей на этом Mac. По словам Blizzard, удаление этого кэша не влияет на Ваши игры, а приложение создает его заново. Поскольку он принадлежит всем учетным записям, он показывается в списке, но никогда не выбирается."
           }
         },
         "sv" : {
@@ -170731,7 +170731,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не удалось переместить объект «%@» в Корзину."
+            "value" : "Не удалось переместить объект «%@» в Корзину."
           }
         },
         "sv" : {
@@ -171049,7 +171049,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Объект «%@» в Корзине, но его не удалось остановить."
+            "value" : "Объект «%@» в Корзине, но его не удалось остановить."
           }
         },
         "sv" : {

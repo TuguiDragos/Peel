@@ -187,6 +187,14 @@ import Testing
             "Open in Photos": ["localizations": ["ro": unit("Deschide în Poze"), "fr": unit("Ouvrir dans Photos"), "nl": unit("Open in Foto's")]],
             "%@: links": ["localizations": ["ro": unit("Linkuri %@:"), "fr": unit("liens %@")]],
             "%@ used": ["localizations": ["ro": unit("%@ folosiți"), "fr": unit("%@ utilisés")]],
+            "In the Trash": ["localizations": ["ro": unit("În Coș"), "fr": unit("Dans la Corbeille"), "cs": unit("V koši")]],
+            "With Peel": ["localizations": ["ro": unit("Cu Peel"), "fr": unit("Avec Peel"), "ru": unit("С\u{00A0}Peel"), "pl": unit("Z\u{00A0}Peel")]],
+            "Run `a b`": ["localizations": ["ro": unit("Rulați `a b`"), "fr": unit("Exécutez `a b`"), "cs": unit("Spusťte `a b`")]],
+            "^[%lld folder](inflect: true) here": ["localizations": ["ro": plural(["one": "%lld dosar aici", "few": "%lld dosare aici", "other": "%lld de dosare aici"]), "fr": plural(["one": "%lld dossier ici", "many": "%lld de dossiers ici", "other": "%lld dossiers ici"]), "pl": plural(["one": "%lld folder tutaj", "few": "%lld\u{00A0}foldery tutaj", "many": "%lld\u{00A0}folderów tutaj", "other": "%lld\u{00A0}folderu tutaj"])]],
+            "It would replace it": ["localizations": ["ro": unit("L-ar înlocui"), "fr": unit("Il le remplacerait")]],
+            "Plug-ins in [a folder](peel-license:a-b)": ["localizations": ["ro": unit("Plug-inuri în [un dosar-nou](peel-license:a-b)"), "fr": unit("Plug-ins dans [un dossier](peel-license:a-b)")]],
+            "About Peel": ["localizations": ["ro": unit("Despre Peel"), "fr": unit("À propos de Peel"), "ru": unit("О приложении «Peel»")]],
+            "Made by Ana-Maria": ["localizations": ["ro": unit("Făcut de Ana-Maria"), "fr": unit("Fait par Ana-Maria")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -221,6 +229,14 @@ import Testing
         #expect(caught["apostrophe"]?.contains("Open in Photos") != true, "Dutch writes the straight one, as its macOS does")
         #expect(caught["case"]?.contains("%@: links") == true, "a word that starts the line takes a capital")
         #expect(caught["case"]?.contains("%@ used") != true, "the line starts with the figure")
+        #expect(caught["space"]?.contains("In the Trash") == true, "a line could end with a one-letter word")
+        #expect(caught["space"]?.contains("With Peel") != true, "a no-break space keeps it with the next word")
+        #expect(caught["space"]?.contains("Run `a b`") != true, "code is written as it is typed")
+        #expect(caught["space"]?.contains("^[%lld folder](inflect: true) here") == true, "Polish keeps a count with its noun")
+        #expect(caught["space"]?.contains("About Peel") != true, "SwiftUI's own words stay SwiftUI's")
+        #expect(caught["hyphen"]?.contains("It would replace it") == true, "a hyphen that splits a Romanian word")
+        #expect(caught["hyphen"]?.contains("Plug-ins in [a folder](peel-license:a-b)") != true, "plug-in and a link keep theirs")
+        #expect(caught["hyphen"]?.contains("Made by Ana-Maria") != true, "a compound name keeps its own hyphen")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -315,6 +331,27 @@ struct CatalogChecker {
     /// Names SwiftUI looks up in the app's own strings, so an app without the key shows them in English: here, the
     /// name of the tab bar a `TabView` puts in the toolbar, which VoiceOver reads and the overflow menu shows.
     static let swiftUIWords = ["Navigation Tab Bar": "Navigation Tab Bar"]
+    static let oneLetterWords: [String: String] = ["cs": "vkszaiou", "ru": "вксиоуа", "pl": "wziaou"]
+    static let countBeforeASpace = try! NSRegularExpression(pattern: #"%(\d+\$)?(ll|l)?d (?=\p{L})"#)
+
+    static func oneLetterWordBeforeASpace(in text: String, language: String) -> String? {
+        guard let letters = oneLetterWords[language] else { return nil }
+        let prose = text.replacing(/`[^`]*`/, with: "")
+        let pattern = try! NSRegularExpression(pattern: "(?<![\\p{L}\\p{N}\\-’'])([\(letters)\(letters.uppercased())]) (?=\\S)")
+        guard let match = pattern.firstMatch(in: prose, range: NSRange(prose.startIndex..., in: prose)) else { return nil }
+        return String(prose[Range(match.range(at: 1), in: prose)!])
+    }
+
+    static func hyphenInsideAWord(_ text: String) -> String? {
+        let prose = text.replacing(/`[^`]*`/, with: "").replacing(/\[[^\]]*\]\([^)]*\)/, with: "")
+        for match in prose.matches(of: /(\p{L}+)-(\p{L}+)/) {
+            let (first, second) = (match.output.1, match.output.2)
+            guard first.lowercased() != "plug", !(first.first!.isUppercase && second.first!.isUppercase) else { continue }
+            return String(match.output.0)
+        }
+        return nil
+    }
+
     /// A named count comes first in the pattern: read as a specifier, `%#@selected@` would be a `%@` with a `#` flag.
     static let specifier = try! NSRegularExpression(
         pattern: #"%#@[A-Za-z0-9_]+@|\$\{[A-Za-z]+\}|%(?:(\d+)\$)?[-+ #0']*\d*(?:\.\d+)?(hh|h|ll|l|q|L|z|t|j)?([@dDiuUxXoOfFeEgGcCsSpaA])|%%"#
@@ -543,6 +580,15 @@ struct CatalogChecker {
         if let broken = Self.brokenInflection(text) { fail(path, key, language, "inflect", broken) }
         if text.contains("^["), !source.contains("^[") { fail(path, key, language, "inflect", "markup only where the English has it") }
         if text.contains("^["), !Self.keepsInflection(language) { fail(path, key, language, "inflect", "this language cannot inflect: use a plural variation") }
+        if Self.menuWords[key] == nil, Self.swiftUIWords[key] == nil, let word = Self.oneLetterWordBeforeASpace(in: text, language: language) {
+            fail(path, key, language, "space", "a no-break space after “\(word)”, so a line never ends with it")
+        }
+        if language == "pl", Self.countBeforeASpace.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil {
+            fail(path, key, language, "space", "a no-break space between a count and its noun")
+        }
+        if language == "ro", let word = Self.hyphenInsideAWord(text) {
+            fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
+        }
         if catalog.table == .appShortcuts {
             if text.components(separatedBy: "${applicationName}").count != 2 { fail(path, key, language, "phrase", "needs ${applicationName} exactly once") }
             if Self.slots(text).named.filter({ $0 != "${applicationName}" }).count > 1 { fail(path, key, language, "phrase", "one parameter at most") }

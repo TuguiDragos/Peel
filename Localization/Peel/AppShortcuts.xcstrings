@@ -8,8 +8,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Zobrazit stránku ${place} v aplikaci ${applicationName}",
-              "Otevřít stránku ${place} v aplikaci ${applicationName}"
+              "Zobrazit stránku ${place} v aplikaci ${applicationName}",
+              "Otevřít stránku ${place} v aplikaci ${applicationName}"
             ]
           }
         },
@@ -89,8 +89,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Pokaż ${place} w ${applicationName}",
-              "Otwórz ${place} w ${applicationName}"
+              "Pokaż ${place} w ${applicationName}",
+              "Otwórz ${place} w ${applicationName}"
             ]
           }
         },
@@ -117,7 +117,7 @@
             "state" : "translated",
             "values" : [
               "Показать ${place} в ${applicationName}",
-              "Открыть ${place} в ${applicationName}"
+              "Открыть ${place} в ${applicationName}"
             ]
           }
         },
@@ -256,8 +256,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Pokaż w ${applicationName}, co pozostawia aplikacja",
-              "Znajdź pozostałości w ${applicationName}"
+              "Pokaż w ${applicationName}, co pozostawia aplikacja",
+              "Znajdź pozostałości w ${applicationName}"
             ]
           }
         },
@@ -284,7 +284,7 @@
             "state" : "translated",
             "values" : [
               "Показать, что остается после приложения, с помощью ${applicationName}",
-              "Найти остатки с помощью ${applicationName}"
+              "Найти остатки с помощью ${applicationName}"
             ]
           }
         },
