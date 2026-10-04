@@ -133,7 +133,13 @@ struct KnownCasksTests {
         #expect(artifact.appNames == ["Firefox.app"])
         #expect(artifact.appTargets == ["/Applications/Firefox.app"])
 
-        let cask = HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "130.0", appNames: artifact.appNames, appTargets: artifact.appTargets)
+        let cask = HomebrewPackage(
+            name: "firefox",
+            kind: .cask,
+            installedVersion: "130.0",
+            appNames: artifact.appNames,
+            appTargets: artifact.appTargets
+        )
         let brewed = app("Firefox", "org.mozilla.firefox")
         let copy = InstalledApp(url: URL(filePath: "/Users/me/Applications/Firefox.app", directoryHint: .isDirectory), bundleIdentifier: "org.mozilla.firefox", name: "Firefox")
 

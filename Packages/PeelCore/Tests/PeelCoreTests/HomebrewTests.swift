@@ -57,7 +57,10 @@ struct HomebrewTests {
     /// Formulae and casks are upgraded in two calls, and the second is made even when the first never finished,
     /// as when it ran out of time: the casks were otherwise never tried, and the report left them out.
     @Test func upgradesTheCasksEvenWhenTheFormulaeNeverFinished() async {
-        let packages = [HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"), HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0")]
+        let packages = [
+            HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"),
+            HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
+        ]
         let asked = Mutex<[String]>([])
 
         do {
@@ -101,7 +104,10 @@ struct HomebrewTests {
 
     /// A stop is the person's: once the formulae were stopped, the casks are not started.
     @Test func aStoppedUpgradeStartsNothingMore() async {
-        let packages = [HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"), HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0")]
+        let packages = [
+            HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"),
+            HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
+        ]
         let asked = Mutex<[String]>([])
 
         let run = Task { () -> String? in
@@ -218,7 +224,9 @@ struct HomebrewTests {
         """
         let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
         let needs = { (name: String) in
-            packages.first { $0.name == name }.map { [$0.upgradeNeedsAnAdministrator, $0.uninstallNeedsAnAdministrator] }
+            packages.first { $0.name == name }.map {
+                [$0.upgradeNeedsAnAdministrator, $0.uninstallNeedsAnAdministrator]
+            }
         }
 
         #expect(needs("meeting") == [true, true], "an installer package and `pkgutil` both run with sudo")
@@ -276,10 +284,42 @@ struct HomebrewTests {
         func retirement(_ name: String) -> HomebrewRetirement? { packages.first { $0.name == name }?.retirement }
         func day(_ text: String) -> Date { try! Date(text, strategy: .iso8601.year().month().day()) }
 
-        #expect(retirement("aces_container") == HomebrewRetirement(stage: .deprecated, reason: .repositoryArchived, disableDate: day("2027-06-05"), replacement: .formula("openimageio")))
-        #expect(retirement("aescrypt-packetizer") == HomebrewRetirement(stage: .disabled, reason: .written("switched to a commercial license in v4"), disableDate: day("2026-03-17"), replacement: nil))
-        #expect(retirement("1kc-razer") == HomebrewRetirement(stage: .disabled, reason: .failsGatekeeperCheck, disableDate: day("2026-09-01"), replacement: .cask("razer-synapse")))
-        #expect(retirement("active-trader-pro") == HomebrewRetirement(stage: .deprecated, reason: .discontinued, disableDate: day("2026-12-17"), replacement: nil))
+        #expect(
+            retirement("aces_container")
+                == HomebrewRetirement(
+                    stage: .deprecated,
+                    reason: .repositoryArchived,
+                    disableDate: day("2027-06-05"),
+                    replacement: .formula("openimageio")
+                )
+        )
+        #expect(
+            retirement("aescrypt-packetizer")
+                == HomebrewRetirement(
+                    stage: .disabled,
+                    reason: .written("switched to a commercial license in v4"),
+                    disableDate: day("2026-03-17"),
+                    replacement: nil
+                )
+        )
+        #expect(
+            retirement("1kc-razer")
+                == HomebrewRetirement(
+                    stage: .disabled,
+                    reason: .failsGatekeeperCheck,
+                    disableDate: day("2026-09-01"),
+                    replacement: .cask("razer-synapse")
+                )
+        )
+        #expect(
+            retirement("active-trader-pro")
+                == HomebrewRetirement(
+                    stage: .deprecated,
+                    reason: .discontinued,
+                    disableDate: day("2026-12-17"),
+                    replacement: nil
+                )
+        )
         #expect(retirement("abricate") == nil, "a deprecation dated ahead has not happened yet")
         #expect(retirement("sample") == nil)
     }

@@ -29,7 +29,13 @@ struct GreetingTests {
         #expect(Greeting.change(after: date(3), calendar: calendar) == date(5))
         #expect(Greeting.change(after: date(5), calendar: calendar) == date(12))
         #expect(Greeting.change(after: date(12, 30), calendar: calendar) == date(18))
-        #expect(Greeting.change(after: date(19), calendar: calendar) == calendar.date(byAdding: .day, value: 1, to: date(5))!)
+        #expect(
+            Greeting.change(after: date(19), calendar: calendar) == calendar.date(
+                byAdding: .day,
+                value: 1,
+                to: date(5)
+            )!
+        )
     }
 }
 
@@ -47,7 +53,10 @@ struct DeviceInfoTests {
     /// What is free is the room macOS would make for an important file, which counts what it can purge. A volume
     /// that does not report that answers zero, and its plain free space is then what is free.
     @Test func freeSpaceIsThePlainFreeSpaceWhereTheVolumeDoesNotSayMore() {
-        #expect(DeviceInfo.storage(total: 245_107_195_904, available: 48_015_052_800, important: 58_789_408_280).free == 58_789_408_280)
+        #expect(
+            DeviceInfo.storage(total: 245_107_195_904, available: 48_015_052_800, important: 58_789_408_280).free
+                == 58_789_408_280
+        )
         #expect(DeviceInfo.storage(total: 536_829_952, available: 459_358_208, important: 0).free == 459_358_208)
         #expect(DeviceInfo.storage(total: nil, available: nil, important: nil) == DeviceInfo.Storage(total: 0, free: 0))
     }
@@ -66,8 +75,14 @@ struct DeviceInfoTests {
     }
 
     @Test func leavesOutAZeroPatchVersion() {
-        #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 0)) == "26.7")
-        #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 1)) == "26.7.1")
+        #expect(
+            DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 0))
+                == "26.7"
+        )
+        #expect(
+            DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 1))
+                == "26.7.1"
+        )
     }
 
     @Test func readsTheModelNameFromSystemProfiler() {
@@ -172,7 +187,10 @@ struct AccessTests {
 struct PrivacyDatabaseTests {
     private func database(at url: URL, rows: [(service: String, client: String, type: Int32, auth: Int32)]) throws {
         var handle: OpaquePointer?
-        try #require(sqlite3_open_v2(url.path(percentEncoded: false), &handle, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil) == SQLITE_OK)
+        try #require(
+            sqlite3_open_v2(url.path(percentEncoded: false), &handle, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil)
+                == SQLITE_OK
+        )
         defer { sqlite3_close(handle) }
         try #require(sqlite3_exec(handle, "CREATE TABLE access (service TEXT, client TEXT, client_type INTEGER, auth_value INTEGER)", nil, nil, nil) == SQLITE_OK)
         for row in rows {
@@ -210,7 +228,13 @@ struct PrivacyDatabaseTests {
         #expect(PrivacyDatabase.decision(on: AppManagement.service, for: "com.example.App", in: missing) == .unknown)
 
         let notADatabase = try directory.file("other.db", contents: Data("not a database".utf8))
-        #expect(PrivacyDatabase.decision(on: AppManagement.service, for: "com.example.App", in: notADatabase.path(percentEncoded: false)) == .unknown)
+        #expect(
+            PrivacyDatabase.decision(
+                on: AppManagement.service,
+                for: "com.example.App",
+                in: notADatabase.path(percentEncoded: false)
+            ) == .unknown
+        )
     }
 
     /// The root helper needs no permission of Peel's, so a bundle it moved proves nothing about App Management.
@@ -227,7 +251,10 @@ struct PrivacyDatabaseTests {
     @Test func knowsItsOwnCommandLineTool() throws {
         let directory = try TemporaryDirectory()
         let embedded = try directory.file("Peel.app/Contents/Helpers/peel", bytes: 16)
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: embedded.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: embedded.path(percentEncoded: false)
+        )
         let link = directory.url.appending(path: "peel").path(percentEncoded: false)
         let bundle = directory.url.appending(path: "Peel.app", directoryHint: .isDirectory)
         func standing() -> CommandLineTool.Standing {
@@ -235,11 +262,18 @@ struct PrivacyDatabaseTests {
         }
 
         #expect(standing() == .missing)
-        try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: embedded.path(percentEncoded: false))
+        try FileManager.default.createSymbolicLink(
+            atPath: link,
+            withDestinationPath: embedded.path(percentEncoded: false)
+        )
         #expect(standing() == .installed)
 
         try FileManager.default.removeItem(atPath: link)
-        try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: directory.url.appending(path: "Gone.app/Contents/Helpers/peel").path(percentEncoded: false))
+        try FileManager.default.createSymbolicLink(
+            atPath: link,
+            withDestinationPath: directory.url.appending(path: "Gone.app/Contents/Helpers/peel")
+                .path(percentEncoded: false)
+        )
         #expect(standing() == .otherPeel, "a link to a Peel that is gone read as installed")
 
         try FileManager.default.removeItem(atPath: link)
@@ -248,7 +282,10 @@ struct PrivacyDatabaseTests {
 
         try FileManager.default.removeItem(atPath: link)
         let stranger = try directory.file("stranger", bytes: 16)
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: stranger.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: stranger.path(percentEncoded: false)
+        )
         try FileManager.default.copyItem(atPath: stranger.path(percentEncoded: false), toPath: link)
         #expect(standing() == .somethingElse, "somebody else's executable read as Peel's tool")
     }
@@ -269,7 +306,10 @@ struct PrivacyDatabaseTests {
     @Test func findsTheCommandWhereHomebrewLinkedIt() throws {
         let directory = try TemporaryDirectory()
         let embedded = try directory.file("Peel.app/Contents/Helpers/peel", bytes: 16)
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: embedded.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: embedded.path(percentEncoded: false)
+        )
         let peels = directory.url.appending(path: "usr-local-bin-peel").path(percentEncoded: false)
         let homebrews = directory.url.appending(path: "opt-homebrew-bin-peel").path(percentEncoded: false)
         func isOnThePath() -> Bool {
@@ -277,7 +317,10 @@ struct PrivacyDatabaseTests {
         }
 
         #expect(!isOnThePath())
-        try FileManager.default.createSymbolicLink(atPath: homebrews, withDestinationPath: embedded.path(percentEncoded: false))
+        try FileManager.default.createSymbolicLink(
+            atPath: homebrews,
+            withDestinationPath: embedded.path(percentEncoded: false)
+        )
         #expect(isOnThePath(), "Homebrew's link was not counted")
         #expect(CommandLineTool.paths == ["/usr/local/bin/peel", "/opt/homebrew/bin/peel"])
     }

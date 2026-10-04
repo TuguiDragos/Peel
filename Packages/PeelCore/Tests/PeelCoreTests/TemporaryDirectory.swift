@@ -16,7 +16,10 @@ struct TemporaryDirectory: ~Copyable {
     @discardableResult
     func file(_ path: String, bytes: Int = 16) throws -> URL {
         let fileURL = url.appending(path: path)
-        try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: fileURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try Data(count: bytes).write(to: fileURL)
         return fileURL
     }
@@ -24,7 +27,10 @@ struct TemporaryDirectory: ~Copyable {
     @discardableResult
     func file(_ path: String, contents: Data) throws -> URL {
         let fileURL = url.appending(path: path)
-        try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: fileURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try contents.write(to: fileURL)
         return fileURL
     }
@@ -41,7 +47,10 @@ struct TemporaryDirectory: ~Copyable {
     func compressedTextFile(_ path: String) throws -> URL {
         let fileURL = url.appending(path: path)
         let source = fileURL.deletingLastPathComponent().appending(path: ".source-\(fileURL.lastPathComponent)")
-        try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: fileURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try Data(String(repeating: "hello world ", count: 20_000).utf8).write(to: source)
         let ditto = try Process.run(URL(filePath: "/usr/bin/ditto"), arguments: ["--hfsCompression", source.path, fileURL.path])
         ditto.waitUntilExit()

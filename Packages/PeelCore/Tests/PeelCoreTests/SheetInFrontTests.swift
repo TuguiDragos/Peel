@@ -5,8 +5,18 @@ import Testing
 @MainActor
 struct SheetInFrontTests {
     @Test func isShowingWhileTheKeyWindowIsASheet() {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 200), styleMask: [.titled], backing: .buffered, defer: true)
-        let sheet = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 200, height: 100), styleMask: [.titled], backing: .buffered, defer: true)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 300, height: 200),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: true
+        )
+        let sheet = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 200, height: 100),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: true
+        )
         let key = KeyWindow(window)
         let sheetInFront = SheetInFront(keyWindow: { key.window })
         sheetInFront.start()

@@ -93,7 +93,9 @@ struct AttackRemovalGuardTests {
         #expect(inode(real.path(percentEncoded: false)) != nil)
         #expect(inode(real.path(percentEncoded: false))! == inode(disguised.path(percentEncoded: false))!)
 
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         #expect(!guardian.allowsRemoval(of: real), "canonical spelling must be refused")
         #expect(!guardian.allowsRemoval(of: disguised), "ATTACK SUCCEEDED: lower-cased iCloud Drive is allowed")
     }
@@ -103,7 +105,9 @@ struct AttackRemovalGuardTests {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.directory("home/Library")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         let disguises = [
             "Library/mobile documents/com~apple~CloudDocs/Thesis.pages",
@@ -154,7 +158,9 @@ struct AttackRemovalGuardTests {
         #expect(FileManager.default.fileExists(atPath: disguised.path(percentEncoded: false)), "the kernel reaches the iCloud file")
         #expect(inode(real.path(percentEncoded: false))! == inode(disguised.path(percentEncoded: false))!)
 
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         #expect(!guardian.allowsRemoval(of: disguised), "ATTACK SUCCEEDED: `..` out of a link reaches iCloud Drive")
     }
 
@@ -167,7 +173,9 @@ struct AttackRemovalGuardTests {
         try link("../Mobile Documents/com~apple~CloudDocs", at: home.appending(path: "Library/Caches/Vendor").path(percentEncoded: false))
 
         let disguised = home.appending(path: "Library/Caches/Vendor/Thesis.pages")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         #expect(!guardian.allowsRemoval(of: disguised), "ATTACK SUCCEEDED: a symlinked cache folder reaches iCloud Drive")
     }
 
@@ -233,7 +241,9 @@ struct AttackRemovalGuardTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.file("home/Library/Keychains/login.keychain-db")
         try directory.file("home/Library/Mobile Documents/com~apple~CloudDocs/Thesis.pages")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         #expect(!guardian.allowsRemoval(of: home.appending(path: "Library")), "ATTACK SUCCEEDED: the folder holding the keychains is allowed")
         #expect(!guardian.allowsRemoval(of: home), "ATTACK SUCCEEDED: the home folder is allowed")
@@ -255,7 +265,9 @@ struct AttackRemovalGuardTests {
         try directory.file("home/.local/share/local/state.json")
         try directory.file("home/.kube/config")
         try directory.file("home/.zshrc")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         for item in [".local", ".config", ".cache", ".kube", ".kube/config", ".zshrc", ".gitconfig", ".npmrc"] {
             #expect(!guardian.allowsRemoval(of: home.appending(path: item)), "\(item) may be removed")
@@ -278,7 +290,9 @@ struct AttackRemovalGuardTests {
         try directory.file("home/.electrum/blockchain_headers", bytes: 4_096)
         try directory.file("home/Library/Application Support/Bitcoin/wallets/wallet.dat")
         try directory.file("home/Library/Application Support/Bitcoin/blocks/blk00000.dat", bytes: 4_096)
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         let homePath = home.path(percentEncoded: false)
 
         for key in ProtectedData.homeKeys + ProtectedData.walletKeys {
@@ -306,7 +320,9 @@ struct AttackRemovalGuardTests {
         try directory.directory("home/Library/Messages")
         try directory.directory("home/Library/Caches")
         try link(cloud.path(percentEncoded: false), at: home.appending(path: "Library/Caches/Vendor").path(percentEncoded: false))
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         let destinations = [
             "Library/Caches/Vendor/not-there-yet.pdf",
@@ -328,7 +344,9 @@ struct AttackRemovalGuardTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.file("home/Library/Application Support/Bitcoin/wallets/default/wallet.dat")
         try directory.file("home/Library/Messages/chat.db")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         let folded = [
             "Library/Application Support/Bitcoin/walletſ",
@@ -350,8 +368,13 @@ struct AttackRemovalGuardTests {
         let thesis = try directory.file("disk/me/Library/Mobile Documents/com~apple~CloudDocs/Thesis.pages")
         let cache = try directory.file("disk/me/Library/Caches/com.example.app/cache.db")
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        try link(directory.url.appending(path: "disk/me").path(percentEncoded: false), at: directory.url.appending(path: "home").path(percentEncoded: false))
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        try link(
+            directory.url.appending(path: "disk/me").path(percentEncoded: false),
+            at: directory.url.appending(path: "home").path(percentEncoded: false)
+        )
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         #expect(!guardian.allowsRemoval(of: thesis), "ATTACK SUCCEEDED: iCloud Drive is allowed under the name of the disk it is on")
         #expect(!guardian.allowsRemoval(of: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Thesis.pages")))
@@ -371,7 +394,9 @@ struct AttackRemovalGuardTests {
         try directory.directory("home/Library/Application Support")
         let bitcoin = disk.appending(path: "Bitcoin", directoryHint: .isDirectory)
         try link(bitcoin.path(percentEncoded: false), at: home.appending(path: "Library/Application Support/Bitcoin").path(percentEncoded: false))
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         for item in [key, wallet, disk.appending(path: "Bitcoin/wallets"), bitcoin, disk] {
             #expect(!guardian.allowsRemoval(of: item), "ATTACK SUCCEEDED: \(item.path(percentEncoded: false)) may be removed under the name of its disk")
@@ -388,7 +413,9 @@ struct AttackRemovalGuardTests {
         let harmless = try directory.file("elsewhere/note.txt")
         try link(harmless.path(percentEncoded: false), at: mail.appending(path: "V10").path(percentEncoded: false))
         try link(mail.path(percentEncoded: false), at: home.appending(path: "shortcut").path(percentEncoded: false))
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         #expect(!guardian.allowsRemoval(of: home.appending(path: "shortcut/V10")), "ATTACK SUCCEEDED: a file inside Mail can be removed through a link")
     }
@@ -400,7 +427,9 @@ struct AttackRemovalGuardTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.directory("home/Library/Group Containers")
         try directory.directory("home/Library/Containers")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         let homePath = home.path(percentEncoded: false)
 
         let stores = [
@@ -442,7 +471,9 @@ struct AttackRemovalGuardTests {
         try directory.file("home/Library/Containers/com.example.notes/Data/Library/Caches/cache.db")
         try directory.file("home/Library/Containers/com.example.empty/Data/Documents/.DS_Store")
         try directory.file("home/Library/Containers/com.example.empty/Data/Library/Caches/cache.db")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         for path in ["Library/Containers/com.example.notes", "Library/containers/COM.EXAMPLE.NOTES/data", "Library/Containers/com.example.notes/Data/Documents/thesis.txt"] {
             #expect(!guardian.allowsRemoval(of: home.appending(path: path)), "ATTACK SUCCEEDED: \(path) goes, and the thesis with it")
@@ -466,7 +497,9 @@ struct AttackRemovalGuardTests {
     @Test func whatAnotherAccountKeeps() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         for path in ["/Users/somebody/Library/Keychains/login.keychain-db", "/Users/somebody/Library/Mail", "/Users/somebody/.ssh/id_ed25519", "/Users/somebody/Library"] {
             #expect(!guardian.allowsRemoval(of: URL(filePath: path)), "ATTACK SUCCEEDED: \(path) is allowed")
@@ -482,7 +515,9 @@ struct AttackRemovalGuardTests {
         try directory.file("home/Movies/Archive/Family.photoslibrary/database/Photos.sqlite")
         try directory.file("home/Movies/Old/2019/Trip.tvlibrary/Library.db")
         try directory.file("home/Movies/Clips/holiday.mov")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         for path in ["Movies/Archive", "Movies/Old", "Movies/Old/2019", "Movies/Archive/Family.photoslibrary"] {
             #expect(!guardian.allowsRemoval(of: home.appending(path: path)), "ATTACK SUCCEEDED: \(path) goes, and a library with it")
@@ -500,7 +535,9 @@ struct AttackRemovalGuardTests {
         try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/names.dat")
         try directory.file("home/Library/Caches/deno/location_data/abc/kv.sqlite3")
         try directory.file("home/Library/Caches/deno/deps/https/x.ts")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         let kept = [
             "Library/Caches/JetBrains", "Library/Caches/JetBrains/IntelliJIdea2026.2",
@@ -525,7 +562,9 @@ struct AttackRemovalGuardTests {
         let mail = try directory.directory("home/Library/Mail")
         let letter = try directory.file("home/Library/Mail/V10/letter.emlx")
         let cache = try directory.file("home/Library/Caches/com.example.app/cache.db")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         let (device, number) = try #require(inode(mail.path(percentEncoded: false)))
         let library = try #require(inode(home.appending(path: "Library").path(percentEncoded: false)))
 
@@ -560,7 +599,9 @@ struct AttackRemovalGuardTests {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let letter = try directory.file("home/Library/Mail/\u{301}letter.emlx")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         #expect(!guardian.allowsRemoval(of: letter), "ATTACK SUCCEEDED: a letter in Mail whose name begins with a combining mark")
         #expect(!guardian.allowsRemoval(of: home.appending(path: "Library/Mail/\u{301}not there yet")), "ATTACK SUCCEEDED: Put Back into Mail")
@@ -571,7 +612,9 @@ struct AttackRemovalGuardTests {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.directory("home/Library/Preferences/ByHost")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         let homePath = home.path(percentEncoded: false)
 
         let global = [

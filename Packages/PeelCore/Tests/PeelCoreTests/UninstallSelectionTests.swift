@@ -5,7 +5,11 @@ import Testing
 struct UninstallSelectionTests {
     private let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
 
-    private func leftover(_ name: String, confidence: MatchConfidence = .certain, requiresPrivileges: Bool = false) -> Leftover {
+    private func leftover(
+        _ name: String,
+        confidence: MatchConfidence = .certain,
+        requiresPrivileges: Bool = false
+    ) -> Leftover {
         Leftover(
             url: URL(filePath: "/Users/me/Library/Caches/\(name)"),
             kind: .caches,
@@ -18,7 +22,11 @@ struct UninstallSelectionTests {
 
     private let other = InstalledApp(url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "com.example.other", name: "Other")
 
-    private func uninstallation(of app: InstalledApp? = nil, appRequiresPrivileges: Bool = false, _ leftovers: [Leftover]) -> Uninstallation {
+    private func uninstallation(
+        of app: InstalledApp? = nil,
+        appRequiresPrivileges: Bool = false,
+        _ leftovers: [Leftover]
+    ) -> Uninstallation {
         Uninstallation(
             app: app ?? self.app,
             appSize: 10_000,
@@ -150,7 +158,9 @@ struct UninstallSelectionTests {
         let own = leftover("com.example.app")
         let others = leftover("com.example.other")
         let shared = leftover("com.example.shared")
-        let bulk = BulkUninstallation(uninstallations: [uninstallation([own, shared]), uninstallation(of: other, [others, shared])])
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation([own, shared]), uninstallation(of: other, [others, shared]),
+        ])
         var choices = UninstallSelection()
         let suggested = choices.update([], in: bulk, canUseHelper: true)
         #expect(suggested == [app.url, own.url, shared.url, other.url, others.url])
@@ -172,7 +182,11 @@ struct UninstallSelectionTests {
 
         selected = choices.personChanged(from: selected, to: selected.subtracting([other.url]), in: bulk)
         #expect(selected == [app.url])
-        #expect(choices.personChanged(from: selected, to: selected.union([other.url]), in: bulk) == [app.url, other.url, others.url])
+        #expect(
+            choices.personChanged(from: selected, to: selected.union([other.url]), in: bulk) == [
+                app.url, other.url, others.url,
+            ]
+        )
     }
 
     /// An app the person keeps stays kept through the page's scans: a file of it found later is not selected.
@@ -184,7 +198,9 @@ struct UninstallSelectionTests {
         var selected = choices.update([], in: before, canUseHelper: true)
         selected = choices.personChanged(from: selected, to: selected.subtracting([other.url]), in: before)
 
-        let after = BulkUninstallation(uninstallations: [uninstallation([]), uninstallation(of: other, [others, later])])
+        let after = BulkUninstallation(uninstallations: [
+            uninstallation([]), uninstallation(of: other, [others, later]),
+        ])
         #expect(choices.update(selected, in: after, canUseHelper: true) == [app.url])
     }
 
@@ -215,6 +231,10 @@ struct UninstallSelectionTests {
         selected = choices.personChanged(from: selected, to: selected.subtracting([app.url]), in: bulk)
         selected = choices.personChanged(from: selected, to: selected.union([app.url]), in: bulk)
         #expect(selected == [app.url])
-        #expect(choices.personChanged(from: selected, to: selected.union([copy.url]), in: bulk) == [app.url, copy.url, own.url])
+        #expect(
+            choices.personChanged(from: selected, to: selected.union([copy.url]), in: bulk) == [
+                app.url, copy.url, own.url,
+            ]
+        )
     }
 }

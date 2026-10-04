@@ -86,7 +86,9 @@ struct CarriedSelectionTests {
         let pass = await CarriedSelection.pass(parts) { part in
             tried.append(part.page.scope)
             guard part.page.tool != "developer" else { return nil }
-            return TrashResult(trashed: part.sizes.keys.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            return TrashResult(
+                trashed: part.sizes.keys.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) }
+            )
         }
 
         #expect(tried == ["Xcode", "Peel"])
@@ -127,7 +129,9 @@ struct CarriedSelectionTests {
         let batch = UUID()
         var records: [RemovalRecord] = []
         _ = await CarriedSelection.pass(parts) { part in
-            let result = TrashResult(trashed: part.sizes.keys.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            let result = TrashResult(
+                trashed: part.sizes.keys.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) }
+            )
             records += part.removalPart.records(of: result, sizes: part.measuredSizes, batch: batch)
             return result
         }

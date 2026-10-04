@@ -7,7 +7,12 @@ struct BulkUninstallationTests {
         InstalledApp(url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: identifier, name: name)
     }
 
-    private func leftover(_ path: String, size: Int64, sharedWith: [String] = [], confidence: MatchConfidence = .certain) -> Leftover {
+    private func leftover(
+        _ path: String,
+        size: Int64,
+        sharedWith: [String] = [],
+        confidence: MatchConfidence = .certain
+    ) -> Leftover {
         Leftover(
             url: URL(filePath: path),
             kind: .applicationSupport,
@@ -47,12 +52,17 @@ struct BulkUninstallationTests {
         var excludedApp = uninstallation(app("com.example.excluded", "Excluded"), [])
         excludedApp.isExcluded = true
         let peel = uninstallation(app("com.tuguidragos.Peel", "Peel"), [leftover("/Users/x/Library/Caches/com.tuguidragos.Peel", size: 100)])
-        let bulk = BulkUninstallation(uninstallations: [needsHelper, uninstallation(chess, [chessData]), beyond, excludedApp, peel])
+        let bulk = BulkUninstallation(uninstallations: [
+            needsHelper, uninstallation(chess, [chessData]), beyond, excludedApp, peel,
+        ])
 
         #expect(bulk.selectable(canUseHelper: false) == [own.url, chessData.url])
         #expect(bulk.selectable(canUseHelper: true) == [notes.url, own.url, chessData.url])
         for canUseHelper in [false, true] {
-            #expect(bulk.suggestedSelection(canUseHelper: canUseHelper).isSubset(of: bulk.selectable(canUseHelper: canUseHelper)))
+            #expect(
+                bulk.suggestedSelection(canUseHelper: canUseHelper)
+                    .isSubset(of: bulk.selectable(canUseHelper: canUseHelper))
+            )
         }
     }
 
@@ -64,7 +74,9 @@ struct BulkUninstallationTests {
         let mail = app("com.example.mail", "Mail")
         let own = leftover("/Users/x/Library/Caches/com.example.notes", size: 100)
         let shared = leftover("/Users/x/Library/Group Containers/group.com.example", size: 100)
-        let bulk = BulkUninstallation(uninstallations: [uninstallation(notes, [own, shared]), uninstallation(copy, [own]), uninstallation(mail, [shared])])
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(notes, [own, shared]), uninstallation(copy, [own]), uninstallation(mail, [shared]),
+        ])
 
         #expect(bulk.staying(selected: [notes.url, copy.url, mail.url]).isEmpty)
         #expect(bulk.staying(selected: [notes.url, mail.url]) == [notes.bundleIdentifier])
@@ -88,7 +100,9 @@ struct BulkUninstallationTests {
         let bulk = BulkUninstallation(uninstallations: [uninstallation(notes, [preferences]), uninstallation(mail, [])])
         #expect(!bulk.suggestedSelection(canUseHelper: true).contains(preferences.url))
 
-        let bothCopies = BulkUninstallation(uninstallations: [uninstallation(notes, [preferences]), uninstallation(copy, [preferences])])
+        let bothCopies = BulkUninstallation(uninstallations: [
+            uninstallation(notes, [preferences]), uninstallation(copy, [preferences]),
+        ])
         #expect(bothCopies.suggestedSelection(canUseHelper: true).contains(preferences.url))
     }
 
@@ -97,7 +111,14 @@ struct BulkUninstallationTests {
     @Test func listsWhatCouldNotBeMeasuredFirst() {
         let notes = app("com.example.notes", "Notes")
         var slow = leftover("/Users/x/Library/Application Support/Notes", size: 0)
-        slow = Leftover(url: slow.url, kind: slow.kind, match: slow.match, size: 0, isMeasured: false, requiresPrivileges: false)
+        slow = Leftover(
+            url: slow.url,
+            kind: slow.kind,
+            match: slow.match,
+            size: 0,
+            isMeasured: false,
+            requiresPrivileges: false
+        )
         let bulk = BulkUninstallation(uninstallations: [
             uninstallation(notes, [leftover("/Users/x/Library/Caches/com.example.notes", size: 900), slow]),
         ])
@@ -130,15 +151,28 @@ struct BulkUninstallationTests {
         let folder = "/Users/x/Library/Application Support/Shared Work"
         let named = Leftover(
             url: URL(filePath: folder), kind: .applicationSupport,
-            match: LeftoverMatch(reason: .homebrewCask, confidence: .certain, sharedWith: []), size: 100, isMeasured: true, requiresPrivileges: false
+            match: LeftoverMatch(reason: .homebrewCask, confidence: .certain, sharedWith: []),
+            size: 100,
+            isMeasured: true,
+            requiresPrivileges: false
         )
         let held = Leftover(
             url: URL(filePath: folder), kind: .applicationSupport,
-            match: LeftoverMatch(reason: .name, confidence: .likely, sharedWith: [], heldBack: .holdsRepository), size: 100, isMeasured: true, requiresPrivileges: false
+            match: LeftoverMatch(reason: .name, confidence: .likely, sharedWith: [], heldBack: .holdsRepository),
+            size: 100,
+            isMeasured: true,
+            requiresPrivileges: false
         )
 
-        for uninstallations in [[uninstallation(tool, [named]), uninstallation(editor, [held])], [uninstallation(editor, [held]), uninstallation(tool, [named])]] {
-            let item = try #require(BulkUninstallation(uninstallations: uninstallations).items.first { $0.url.path(percentEncoded: false) == folder })
+        for uninstallations in [
+            [uninstallation(tool, [named]), uninstallation(editor, [held])],
+            [uninstallation(editor, [held]), uninstallation(tool, [named])],
+        ] {
+            let item = try #require(
+                BulkUninstallation(uninstallations: uninstallations).items.first {
+                    $0.url.path(percentEncoded: false) == folder
+                }
+            )
             #expect(!item.isRecommended, "selected with \(uninstallations[0].app.name) first")
             #expect(item.match?.heldBack == .holdsRepository)
             #expect(item.match?.confidence == .likely)
@@ -202,7 +236,8 @@ struct BulkUninstallationTests {
         let refused = Leftover(
             url: URL(filePath: "/Users/x/Library/Containers/com.example.gone"),
             kind: .containers,
-            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []).forReview(.holdsDocuments),
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
+                .forReview(.holdsDocuments),
             size: 700,
             isMeasured: true,
             requiresPrivileges: false
@@ -210,7 +245,8 @@ struct BulkUninstallationTests {
         let unmeasured = Leftover(
             url: URL(filePath: "/Users/x/Library/Application Support/com.example.gone"),
             kind: .applicationSupport,
-            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []).forReview(.notMeasured),
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
+                .forReview(.notMeasured),
             size: 0,
             isMeasured: false,
             requiresPrivileges: false

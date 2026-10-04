@@ -36,7 +36,9 @@ struct DuplicateFinderTests {
         configure: (inout DuplicateScanOptions) -> Void = { _ in }
     ) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        var options = DuplicateScanOptions(folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) })
+        var options = DuplicateScanOptions(
+            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        )
         configure(&options)
         return try await DuplicateFinder(homeDirectory: home).scan(options)
     }
@@ -82,7 +84,10 @@ struct DuplicateFinderTests {
         ]
 
         var asked: [String] = []
-        let movable = try DuplicateFinder.movable(groups, names: [refused.identity.link: [refused, try candidate("linked")]]) { url in
+        let movable = try DuplicateFinder.movable(
+            groups,
+            names: [refused.identity.link: [refused, try candidate("linked")]]
+        ) { url in
             asked.append(url.lastPathComponent)
             return !["refused", "partner"].contains(url.lastPathComponent)
         }
@@ -148,7 +153,9 @@ struct DuplicateFinderTests {
         try directory.file("home/Documents/note.txt", contents: Data("hello".utf8))
         let result = try await scan(directory)
         let photos = try #require(result.groups.first { $0.files.count == 3 }).files.map(\.url)
-        let note = try #require(result.groups.flatMap(\.files).first { $0.url.path(percentEncoded: false).contains("/Notes/") }).url
+        let note = try #require(
+            result.groups.flatMap(\.files).first { $0.url.path(percentEncoded: false).contains("/Notes/") }
+        ).url
 
         let excluded = await result.excluded(by: Exclusions(paths: [photos[0], note.deletingLastPathComponent()]))
         let remaining = result.removing(excluded)
@@ -321,7 +328,11 @@ struct DuplicateFinderTests {
 
         #expect(result.groups.count == 1)
         #expect(result.groups.first?.files.count == 2)
-        #expect(result.groups.first?.files.contains { $0.url.lastPathComponent == "copy.bin" && $0.url.path(percentEncoded: false).contains("/home/Pictures/") } == true)
+        #expect(
+            result.groups.first?.files.contains {
+                $0.url.lastPathComponent == "copy.bin" && $0.url.path(percentEncoded: false).contains("/home/Pictures/")
+            } == true
+        )
         #expect(result.folderGroups.map { $0.folders.map(\.url.lastPathComponent) } == [])
     }
 
@@ -534,16 +545,25 @@ struct DuplicateFinderTests {
     func aCopyOnADiskThatSharesNothingFreesAllItTakes(fileSystem: String) async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
-        let volume = try ScratchVolume(fileSystem: fileSystem, mountedAt: home.appending(path: "Stick", directoryHint: .isDirectory))
+        let volume = try ScratchVolume(
+            fileSystem: fileSystem,
+            mountedAt: home.appending(path: "Stick", directoryHint: .isDirectory)
+        )
         let photo = randomData(count: 1_048_576)
         for (path, contents) in [("one/photo.bin", photo), ("two/photo.bin", photo), ("two/other.bin", randomData(count: 4_096))] {
             let url = volume.url.appending(path: path)
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try contents.write(to: url)
         }
         for folder in ["a", "b"] {
             let url = volume.url.appending(path: "\(folder)/scan.bin")
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try photo.prefix(524_288).write(to: url)
         }
 
@@ -573,7 +593,9 @@ struct DuplicateRemovalTests {
     }
 
     /// Creates and scans two identical files. The first is the copy Peel suggests keeping.
-    private func duplicates(in directory: borrowing TemporaryDirectory) async throws -> (scan: DuplicateScan, kept: URL, copy: URL) {
+    private func duplicates(
+        in directory: borrowing TemporaryDirectory
+    ) async throws -> (scan: DuplicateScan, kept: URL, copy: URL) {
         let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
         try directory.file("home/Documents/kept.bin", contents: contents)
         try directory.file("home/Documents/kept copy.bin", contents: contents)
@@ -643,7 +665,11 @@ struct DuplicateRemovalTests {
 
         // What Finder does when a file is tagged, and what a sync client does for its own bookkeeping.
         let value = Data("peel".utf8)
-        try #require(value.withUnsafeBytes { setxattr(kept.path(percentEncoded: false), "com.peel.test", $0.baseAddress, $0.count, 0, 0) } == 0)
+        try #require(
+            value.withUnsafeBytes {
+                setxattr(kept.path(percentEncoded: false), "com.peel.test", $0.baseAddress, $0.count, 0, 0)
+            } == 0
+        )
 
         let result = await DuplicateRemoval.trash([copy], from: scan, using: try service(in: directory))
 

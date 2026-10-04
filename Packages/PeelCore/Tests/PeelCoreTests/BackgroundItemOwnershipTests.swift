@@ -22,8 +22,19 @@ struct BackgroundItemOwnershipTests {
     @Test func knowsTheJobTheHelperWillNotActOn() {
         func item(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {
             BackgroundItem(
-                label: label, kind: kind, source: .app, plistURL: nil, program: nil, runsAtLoad: false, keepsAlive: false,
-                ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded, isDisabled: false
+                label: label,
+                kind: kind,
+                source: .app,
+                plistURL: nil,
+                program: nil,
+                runsAtLoad: false,
+                keepsAlive: false,
+                ownerBundleIdentifier: nil,
+                ownerName: nil,
+                ownerURL: nil,
+                isOrphan: false,
+                state: .loaded,
+                isDisabled: false
             )
         }
         let helper = item(HelperIdentity.helperIdentifier, .daemon)
@@ -81,7 +92,12 @@ struct BackgroundItemOwnershipTests {
             installedApps: [InstalledApp(url: installed, bundleIdentifier: "com.example.app", name: "Example", teamIdentifier: "ABCDE12345"), app("com.other.tool", "Tool")],
             teamOfProgram: { Self.teams[$0] }
         )
-        func owner(_ label: String, registeredBy: String? = nil, associated: [String] = [], program: String?) -> BackgroundItemOwnership.Owner? {
+        func owner(
+            _ label: String,
+            registeredBy: String? = nil,
+            associated: [String] = [],
+            program: String?
+        ) -> BackgroundItemOwnership.Owner? {
             ownership.owner(label: label, registeredBy: registeredBy, associated: associated, program: program)
         }
 

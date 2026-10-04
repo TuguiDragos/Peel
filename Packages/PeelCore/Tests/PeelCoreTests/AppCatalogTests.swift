@@ -6,7 +6,12 @@ struct AppCatalogTests {
     private let yesterday = Date(timeIntervalSince1970: 1_800_000_000)
     private let today = Date(timeIntervalSince1970: 1_800_086_400)
 
-    private func app(_ name: String, version: String = "1.0", lastUsed: Date? = nil, isRecorded: Bool = true) -> InstalledApp {
+    private func app(
+        _ name: String,
+        version: String = "1.0",
+        lastUsed: Date? = nil,
+        isRecorded: Bool = true
+    ) -> InstalledApp {
         InstalledApp(
             url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
             bundleIdentifier: "org.example.\(name)", name: name, version: version, lastUsedDate: lastUsed,

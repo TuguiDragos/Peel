@@ -19,12 +19,31 @@ struct BackgroundItemActionsTests {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let marked = { (_: URL) in true }
 
-        #expect(BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: plist), isRefusedByLaunchd: marked) == .blockedByQuarantine)
-        #expect(BackgroundItemActions.plan(toStart: item(state: .loaded, plist: plist), isRefusedByLaunchd: marked) == .kickstart)
-        #expect(BackgroundItemActions.plan(toStart: item(state: .running(pid: 42), plist: plist), isRefusedByLaunchd: marked) == .kickstart)
-        #expect(BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: plist), isRefusedByLaunchd: { _ in false }) == .bootstrap(plist))
+        #expect(
+            BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: plist), isRefusedByLaunchd: marked)
+                == .blockedByQuarantine
+        )
+        #expect(
+            BackgroundItemActions.plan(toStart: item(state: .loaded, plist: plist), isRefusedByLaunchd: marked)
+                == .kickstart
+        )
+        #expect(
+            BackgroundItemActions.plan(
+                toStart: item(state: .running(pid: 42), plist: plist),
+                isRefusedByLaunchd: marked
+            ) == .kickstart
+        )
+        #expect(
+            BackgroundItemActions.plan(
+                toStart: item(state: .notLoaded, plist: plist),
+                isRefusedByLaunchd: { _ in false }
+            ) == .bootstrap(plist)
+        )
         // Nothing to load from: an app submitted this one, and launchctl is asked for it by name.
-        #expect(BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: nil), isRefusedByLaunchd: marked) == .kickstart)
+        #expect(
+            BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: nil), isRefusedByLaunchd: marked)
+                == .kickstart
+        )
     }
 
     /// Starting, stopping and switching a job go by its label, so a label macOS itself uses would reach macOS's own
@@ -78,7 +97,12 @@ struct BackgroundItemActionsTests {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let steps = Mutex<[String]>([])
         func service(refusing: Bool) -> TrashService {
-            TrashService(environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))) { url in
+            TrashService(
+                environment: SearchEnvironment(
+                    homeDirectory: URL(filePath: "/Users/x"),
+                    rootDirectory: URL(filePath: "/")
+                )
+            ) { url in
                 steps.withLock { $0.append("move") }
                 if refusing { throw TrashService.RefusedOnceHeld(refusal: .protectedLocation) }
                 return url
@@ -90,7 +114,10 @@ struct BackgroundItemActionsTests {
         }
 
         let moved = try await BackgroundItemActions.moveToTrash(
-            item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: false), stop: stop
+            item(.userLibrary, state: .running(pid: 7), plist: plist),
+            isHelperEnabled: false,
+            trash: service(refusing: false),
+            stop: stop
         )
         #expect(moved.result.trashed.count == 1)
         #expect(moved.stillRunning == nil)
@@ -100,7 +127,10 @@ struct BackgroundItemActionsTests {
         // it is written down like any other.
         steps.withLock { $0 = [] }
         let refused = try await BackgroundItemActions.moveToTrash(
-            item(.userLibrary, state: .running(pid: 7), plist: plist), isHelperEnabled: false, trash: service(refusing: true), stop: stop
+            item(.userLibrary, state: .running(pid: 7), plist: plist),
+            isHelperEnabled: false,
+            trash: service(refusing: true),
+            stop: stop
         )
         #expect(refused.result.trashed.isEmpty)
         #expect(refused.result.failures.map(\.reason) == [.guarded(.protectedLocation)])
@@ -109,7 +139,10 @@ struct BackgroundItemActionsTests {
         // A job launchd does not hold has nothing to stop.
         steps.withLock { $0 = [] }
         _ = try await BackgroundItemActions.moveToTrash(
-            item(.userLibrary, state: .notLoaded, plist: plist), isHelperEnabled: false, trash: service(refusing: false), stop: stop
+            item(.userLibrary, state: .notLoaded, plist: plist),
+            isHelperEnabled: false,
+            trash: service(refusing: false),
+            stop: stop
         )
         #expect(steps.withLock { $0 } == ["move"])
     }
@@ -151,7 +184,9 @@ struct BackgroundItemActionsTests {
     @Test func movesNothingFromTheSystemLibraryWithoutTheHelper() async {
         let plist = URL(filePath: "/Library/LaunchDaemons/com.example.agent.plist")
         let touched = Mutex(false)
-        let trash = TrashService(environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))) { url in
+        let trash = TrashService(
+            environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
+        ) { url in
             touched.withLock { $0 = true }
             return url
         }
@@ -249,7 +284,10 @@ struct DeclaredBackgroundItemsTests {
         try directory.file("home/Library/LaunchAgents/unnamed.plist", contents: Data())
         try directory.file("home/Library/LaunchAgents/notes.txt")
 
-        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []))
+        let items = BackgroundItems.declared(
+            in: environment(directory),
+            ownership: BackgroundItemOwnership(installedApps: [])
+        )
 
         let jobs = items.filter { !$0.isUnreadable }
         let labels = ["com.apple.madeup.peeltest", "com.example.agent", "com.example.helper", "com.openssh.ssh-agent", shipped]
@@ -273,7 +311,13 @@ struct DeclaredBackgroundItemsTests {
         let ownership = BackgroundItemOwnership(installedApps: [])
         let stray = try directory.file("home/Desktop/org.example.stray.plist", contents: job("org.example.stray", program: "/bin/sh"))
         func item(_ label: String, _ details: Launchctl.JobDetails, exclusions: Exclusions = .none) -> BackgroundItem? {
-            BackgroundItems.undeclaredItem((label, .agent, "gui/501/\(label)"), details: details, ownership: ownership, loaded: .init(), exclusions: exclusions)
+            BackgroundItems.undeclaredItem(
+                (label, .agent, "gui/501/\(label)"),
+                details: details,
+                ownership: ownership,
+                loaded: .init(),
+                exclusions: exclusions
+            )
         }
 
         let loadedElsewhere = try #require(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh")))
@@ -286,7 +330,13 @@ struct DeclaredBackgroundItemsTests {
         #expect(nobodys.ownerBundleIdentifier == nil)
 
         #expect(item("com.openssh.ssh-agent", .init(path: "/System/Library/LaunchAgents/com.openssh.ssh-agent.plist", program: "/usr/bin/ssh-agent")) == nil)
-        #expect(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh"), exclusions: Exclusions(paths: [stray])) == nil)
+        #expect(
+            item(
+                "org.example.stray",
+                .init(path: stray.path(percentEncoded: false), program: "/bin/sh"),
+                exclusions: Exclusions(paths: [stray])
+            ) == nil
+        )
     }
 
     /// A job an app registered is known only while it is loaded, so after Disable and a restart it would leave the
@@ -322,7 +372,10 @@ struct DeclaredBackgroundItemsTests {
         try directory.file("home/Library/LaunchAgents/org.example.gone.helper.plist", contents: job("org.example.gone.helper"))
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example")
 
-        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: [app]))
+        let items = BackgroundItems.declared(
+            in: environment(directory),
+            ownership: BackgroundItemOwnership(installedApps: [app])
+        )
 
         #expect(items.first { $0.label == "org.example.app.helper" }?.ownerURL == app.url)
         #expect(items.first { $0.label == "org.example.gone.helper" }?.ownerURL == nil)
@@ -335,7 +388,10 @@ struct DeclaredBackgroundItemsTests {
             try directory.file("\(folder)/com.example.agent.plist", contents: job("com.example.agent"))
         }
 
-        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []))
+        let items = BackgroundItems.declared(
+            in: environment(directory),
+            ownership: BackgroundItemOwnership(installedApps: [])
+        )
 
         #expect(items.count == 2)
         #expect(Set(items.map(\.id)).count == 2)
@@ -362,7 +418,11 @@ struct DeclaredBackgroundItemsTests {
         try directory.file("home/Library/LaunchAgents/named-after-something-else.plist", contents: job("com.example.agent"))
         let loaded = BackgroundItems.Loaded(user: ["com.example.agent": 91], userDisabled: ["com.example.agent": true])
 
-        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []), loaded: loaded)
+        let items = BackgroundItems.declared(
+            in: environment(directory),
+            ownership: BackgroundItemOwnership(installedApps: []),
+            loaded: loaded
+        )
 
         #expect(items.first?.state == .running(pid: 91))
         #expect(items.first?.isDisabled == true)
@@ -390,7 +450,11 @@ struct DeclaredBackgroundItemsTests {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/updater.plist", contents: job("com.example.agent"))
         let loaded = BackgroundItems.Loaded(user: ["com.example.agent": 91, "com.example.submitted": nil, "com.apple.Finder": 1])
-        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []), loaded: loaded)
+        let items = BackgroundItems.declared(
+            in: environment(directory),
+            ownership: BackgroundItemOwnership(installedApps: []),
+            loaded: loaded
+        )
 
         let undeclared = BackgroundItems.undeclared(in: loaded, declared: items, userDomain: "gui/501")
 

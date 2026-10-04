@@ -16,7 +16,12 @@ struct OrphanScannerTests {
             userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
         )
         let unanswered = Unanswered()
-        let scanner = OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [], walk: unanswered.walk)
+        let scanner = OrphanScanner(
+            environment: environment,
+            isRegisteredApp: { _ in false },
+            systemApps: [],
+            walk: unanswered.walk
+        )
 
         let stop = try await unanswered.stop {
             _ = await scanner.scan(installedApps: [])
@@ -56,7 +61,11 @@ struct OrphanScannerTests {
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        return OrphanScanner(environment: environment, isRegisteredApp: { registered.contains($0) }, systemApps: systemApps)
+        return OrphanScanner(
+            environment: environment,
+            isRegisteredApp: { registered.contains($0) },
+            systemApps: systemApps
+        )
     }
 
     /// What an app left behind can be the biggest folder in the Library. A folder that did not answer in time
@@ -108,13 +117,20 @@ struct OrphanScannerTests {
         }
         defer {
             for folder in [served, beyond] {
-                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false))
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
             }
         }
 
-        let group = try #require(await scanner(in: directory).scan(installedApps: installed).groups.first { $0.identifier == "com.gone.app" })
+        let group = try #require(
+            await scanner(in: directory).scan(installedApps: installed).groups.first { $0.identifier == "com.gone.app" }
+        )
         func item(_ url: URL) throws -> OrphanItem {
-            try #require(group.items.first { PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url) })
+            try #require(
+                group.items.first { PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url) }
+            )
         }
 
         #expect(try item(served).requiresPrivileges)
@@ -179,7 +195,10 @@ struct OrphanScannerTests {
         let folder = log.deletingLastPathComponent().deletingLastPathComponent()
         let lastYear = Date(timeIntervalSinceNow: -400 * 24 * 60 * 60)
         for old in [log.deletingLastPathComponent(), folder] {
-            try FileManager.default.setAttributes([.modificationDate: lastYear], ofItemAtPath: old.path(percentEncoded: false))
+            try FileManager.default.setAttributes(
+                [.modificationDate: lastYear],
+                ofItemAtPath: old.path(percentEncoded: false)
+            )
         }
 
         let group = try #require(await scanner(in: directory).scan(installedApps: installed).groups.first)
@@ -197,7 +216,9 @@ struct OrphanScannerTests {
             RememberedApp(bundleIdentifier: "com.installed.app", name: "Installed", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Installed.app"),
         ]
 
-        let group = try #require(await scanner(in: directory).scan(installedApps: installed, remembered: remembered).groups.first)
+        let group = try #require(
+            await scanner(in: directory).scan(installedApps: installed, remembered: remembered).groups.first
+        )
 
         #expect(group.rememberedApp == nil)
         #expect(group.confidence.level != .certain)
@@ -594,7 +615,10 @@ struct OrphanScannerTests {
         try directory.file("root/Applications/Here.app/Contents/MacOS/here")
         try directory.file("home/Library/Application Support/com.remembered.app/state.db")
         func link(_ name: String, to destination: String) throws {
-            try FileManager.default.createSymbolicLink(atPath: bin.appending(path: name).path(percentEncoded: false), withDestinationPath: destination)
+            try FileManager.default.createSymbolicLink(
+                atPath: bin.appending(path: name).path(percentEncoded: false),
+                withDestinationPath: destination
+            )
         }
         try link("docker", to: root.appending(path: "Applications/Gone.app/Contents/MacOS/xbin/docker").path(percentEncoded: false))
         try link("orb", to: "../../../Applications/Gone.app/Contents/MacOS/bin/orb")
@@ -602,7 +626,13 @@ struct OrphanScannerTests {
         try link("node", to: root.appending(path: "opt/node/bin/node").path(percentEncoded: false))
         try link("rem", to: root.appending(path: "Applications/Remembered.app/Contents/MacOS/rem").path(percentEncoded: false))
         let remembered = [
-            RememberedApp(bundleIdentifier: "com.remembered.app", name: "Remembered", teamIdentifier: nil, lastSeen: .now, lastPath: root.appending(path: "Applications/Remembered.app").path(percentEncoded: false)),
+            RememberedApp(
+                bundleIdentifier: "com.remembered.app",
+                name: "Remembered",
+                teamIdentifier: nil,
+                lastSeen: .now,
+                lastPath: root.appending(path: "Applications/Remembered.app").path(percentEncoded: false)
+            )
         ]
 
         let scan = await scanner(in: directory).scan(installedApps: installed, remembered: remembered)
@@ -625,7 +655,12 @@ struct OrphanScannerTests {
         let link = bin.appending(path: "docker")
         try FileManager.default.createSymbolicLink(atPath: link.path(percentEncoded: false), withDestinationPath: "../../../Applications/Gone.app/Contents/MacOS/docker")
         try directory.setPermissions(0o555, of: bin)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: bin.path(percentEncoded: false)
+            )
+        }
 
         let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
         let item = try #require(items.first { $0.url.lastPathComponent == "docker" })
@@ -650,7 +685,9 @@ struct OrphanScannerTests {
             path.copyBytes(from: temporary.appending(path: "jb.station.someone.sock").path(percentEncoded: false).utf8.prefix(path.count - 1))
         }
         let bound = withUnsafePointer(to: address) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { bind(listening, $0, socklen_t(MemoryLayout<sockaddr_un>.size)) }
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                bind(listening, $0, socklen_t(MemoryLayout<sockaddr_un>.size))
+            }
         }
         try #require(bound == 0)
         try #require(mkfifo(temporary.appending(path: "com.gone.pipe").path(percentEncoded: false), 0o600) == 0)
@@ -660,7 +697,8 @@ struct OrphanScannerTests {
             userTemporaryDirectory: temporary
         )
 
-        let scan = await OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: []).scan(installedApps: installed)
+        let scan = await OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [])
+            .scan(installedApps: installed)
 
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["com.gone.app"])
     }

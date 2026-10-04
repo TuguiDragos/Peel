@@ -96,7 +96,10 @@ struct HistoryCommandTests {
     }
 
     /// What `arguments` print, read the way a person or a script would read it.
-    private func printed(_ arguments: [String], from logs: (removals: RemovalLog, refusals: RefusalLog)) async throws -> String {
+    private func printed(
+        _ arguments: [String],
+        from logs: (removals: RemovalLog, refusals: RefusalLog)
+    ) async throws -> String {
         let collected = Output.Collected()
         try await Output.$collected.withValue(collected) {
             try await (command(arguments) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
@@ -216,7 +219,11 @@ struct HistoryCommandTests {
         let known = try removal(in: directory).record
         let unknown = RemovalRecord(
             batch: known.batch,
-            item: TrashedItem(originalURL: directory.url.appending(path: "home/Documents/notes.txt"), trashedURL: try directory.file("home/.Trash/notes.txt", bytes: 3), date: .now),
+            item: TrashedItem(
+                originalURL: directory.url.appending(path: "home/Documents/notes.txt"),
+                trashedURL: try directory.file("home/.Trash/notes.txt", bytes: 3),
+                date: .now
+            ),
             size: nil,
             source: "Editor",
             tool: "applications"
@@ -238,10 +245,23 @@ struct HistoryCommandTests {
         let measured = TrashedItem(originalURL: URL(filePath: "/Users/me/a.txt"), trashedURL: URL(filePath: "/Users/me/.Trash/a.txt"), date: .now)
         let unmeasured = TrashedItem(originalURL: URL(filePath: "/Users/me/b"), trashedURL: URL(filePath: "/Users/me/.Trash/b"), date: .now)
 
-        #expect(await Removals.record(TrashResult(trashed: [measured, unmeasured]), from: "Editor", sizes: [measured.originalURL: 5], tool: "applications", in: logs.removals, refusals: logs.refusals))
+        #expect(
+            await Removals.record(
+                TrashResult(trashed: [measured, unmeasured]),
+                from: "Editor",
+                sizes: [measured.originalURL: 5],
+                tool: "applications",
+                in: logs.removals,
+                refusals: logs.refusals
+            )
+        )
 
         let records = try #require(await logs.removals.load().records)
-        #expect(Dictionary(uniqueKeysWithValues: records.map { ($0.originalURL.lastPathComponent, $0.size) }) == ["a.txt": 5, "b": nil])
+        #expect(
+            Dictionary(uniqueKeysWithValues: records.map { ($0.originalURL.lastPathComponent, $0.size) }) == [
+                "a.txt": 5, "b": nil,
+            ]
+        )
     }
 
     /// `--limit` counts removals, as the app lists refusals one removal to an entry, and `--json` writes each removal
@@ -295,7 +315,12 @@ struct HistoryCommandTests {
         let logs = logs(in: directory)
         let file = try directory.file("Peel/removals.json", contents: Data("not json".utf8))
         try directory.setPermissions(0, of: file)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: file.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o644],
+                ofItemAtPath: file.path(percentEncoded: false)
+            )
+        }
 
         await #expect(throws: CommandFailure.self) {
             try await (command(["history"]) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)

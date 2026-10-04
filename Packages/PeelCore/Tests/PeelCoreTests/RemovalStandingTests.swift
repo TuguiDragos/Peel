@@ -16,8 +16,16 @@ struct RemovalStandingTests {
         let closed = try directory.directory("closed")
         let notKnown = record(try directory.file("closed/hidden.txt"), size: 3)
         let alsoKept = record(try directory.file(".Trash/also kept.txt"), size: nil)
-        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: closed.path(percentEncoded: false))
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: closed.path(percentEncoded: false)) }
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o000],
+            ofItemAtPath: closed.path(percentEncoded: false)
+        )
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: closed.path(percentEncoded: false)
+            )
+        }
         let records = [kept, gone, away, notKnown, alsoKept]
 
         let standing = RemovalStanding(records)

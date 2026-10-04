@@ -19,7 +19,14 @@ struct InstallersTests {
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
-            _ = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 0, measure: unanswered.walk)
+            _ = await Installers.scan(
+                installedApps: [],
+                home: directory.url,
+                root: directory.url,
+                exclusions: .none,
+                minimumSize: 0,
+                measure: unanswered.walk
+            )
         }
 
         #expect(stop.took < .seconds(1))
@@ -389,7 +396,13 @@ struct InstallersTests {
         try directory.directory("Applications")
         let asked = Mutex<[String]>([])
 
-        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000) { url in
+        let scan = await Installers.scan(
+            installedApps: [],
+            home: directory.url,
+            root: directory.url,
+            exclusions: .none,
+            minimumSize: 100_000
+        ) { url in
             asked.withLock { $0.append(url.lastPathComponent) }
             return await FileSize.contents(of: url)
         }
@@ -409,7 +422,13 @@ struct InstallersTests {
         let home = directory.url
 
         let scan = Task {
-            await Installers.scan(installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000) { _ in
+            await Installers.scan(
+                installedApps: [],
+                home: home,
+                root: home,
+                exclusions: .none,
+                minimumSize: 100_000
+            ) { _ in
                 measured.withLock { $0 += 1 }
                 while !Task.isCancelled { await Task.yield() }
                 return FolderContents(size: 400_000, holdsRepository: false)
@@ -431,7 +450,13 @@ struct InstallersTests {
         try directory.file("Library/Application Support/MobileSync/Backup/quick/blob", bytes: 400_000)
         try directory.directory("Applications")
 
-        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000) { url in
+        let scan = await Installers.scan(
+            installedApps: [],
+            home: directory.url,
+            root: directory.url,
+            exclusions: .none,
+            minimumSize: 100_000
+        ) { url in
             url.lastPathComponent == "slow" ? nil : await FileSize.contents(of: url)
         }
 
@@ -448,7 +473,13 @@ struct InstallersTests {
         try directory.file("Downloads/Suite.mpkg/Contents/Packages/one.pkg", bytes: 16)
         try directory.directory("Applications")
 
-        let scan = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000) { _ in nil }
+        let scan = await Installers.scan(
+            installedApps: [],
+            home: directory.url,
+            root: directory.url,
+            exclusions: .none,
+            minimumSize: 100_000
+        ) { _ in nil }
 
         #expect(scan.items(in: .appInstaller).map(\.name) == ["Suite.mpkg"])
         #expect(scan.items.first?.size == nil)
@@ -470,7 +501,10 @@ struct InstallersTests {
         try (PropertyListSerialization.data(fromPropertyList: ["IsEncrypted": true], format: .xml, options: 0))
             .write(to: backup.appending(path: "Manifest.plist"))
 
-        let items = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: LeftoverScanner.walk)
+        let items = await Installers.backups(
+            in: directory.url.appending(path: "Backup", directoryHint: .isDirectory),
+            measure: LeftoverScanner.walk
+        )
         let item = try #require(items.first)
 
         #expect(item.name == "Zoë's iPhone")
@@ -480,7 +514,10 @@ struct InstallersTests {
         let tablet = try directory.directory("Backup/00008112-00AB")
         try (PropertyListSerialization.data(fromPropertyList: ["Product Type": "iPad13,4", "Product Version": "26.1"], format: .xml, options: 0))
             .write(to: tablet.appending(path: "Info.plist"))
-        let tablets = await Installers.backups(in: directory.url.appending(path: "Backup", directoryHint: .isDirectory), measure: LeftoverScanner.walk)
+        let tablets = await Installers.backups(
+            in: directory.url.appending(path: "Backup", directoryHint: .isDirectory),
+            measure: LeftoverScanner.walk
+        )
         #expect(tablets.first { $0.url.lastPathComponent == "00008112-00AB" }?.notes == [.name("iPad13,4"), .name("iPadOS 26.1")])
         #expect(item.date == Date(timeIntervalSince1970: 1_700_000_000))
         #expect(item.isReadOnly)
@@ -501,14 +538,22 @@ struct InstallersTests {
         )
         #expect(kept.items.isEmpty)
 
-        let tooSmall = await Installers.scan(installedApps: [], home: directory.url, root: directory.url, minimumSize: 1_000_000)
+        let tooSmall = await Installers.scan(
+            installedApps: [],
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 1_000_000
+        )
         #expect(tooSmall.items.isEmpty)
     }
 
     /// `/Library/Updates` belongs to Software Update, and a backup is never Peel's to move.
     @Test func theGuardRefusesStagedSystemUpdates() throws {
         let directory = try TemporaryDirectory()
-        let environment = SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url,
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let guardian = RemovalGuard(environment: environment)
 
         #expect(!guardian.allowsRemoval(of: URL(filePath: "/Library/Updates")))

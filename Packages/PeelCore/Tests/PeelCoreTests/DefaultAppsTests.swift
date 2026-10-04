@@ -56,8 +56,14 @@ struct DefaultAppsTests {
     /// include it, and reading them must change nothing.
     @Test func findsTheRoleOfWhateverOpensMailOnThisMac() async throws {
         let mailto = try #require(URL(string: "mailto:"))
-        guard let handler = await MainActor.run(body: { NSWorkspace.shared.urlForApplication(toOpen: mailto) }) else { return }
-        let subject = InstalledApp(url: handler, bundleIdentifier: "", name: handler.deletingPathExtension().lastPathComponent)
+        guard let handler = await MainActor.run(body: { NSWorkspace.shared.urlForApplication(toOpen: mailto) }) else {
+            return
+        }
+        let subject = InstalledApp(
+            url: handler,
+            bundleIdentifier: "",
+            name: handler.deletingPathExtension().lastPathComponent
+        )
 
         let roles = await DefaultApps.roles(of: subject)
 

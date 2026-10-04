@@ -24,7 +24,11 @@ struct VersionComparisonTests {
 
 struct AppcastTests {
     private func latestItem(in feed: String, systemVersion: String = "26.7.0") -> AppcastItem? {
-        if case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: systemVersion, isAppleSilicon: true) { item } else { nil }
+        if case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: systemVersion, isAppleSilicon: true) {
+            item
+        } else {
+            nil
+        }
     }
 
     /// A feed shared with WinSparkle lists a Windows build beside the Mac one, and the last release for an
@@ -51,7 +55,9 @@ struct AppcastTests {
         <item><sparkle:version>500</sparkle:version><sparkle:hardwareRequirements>metal</sparkle:hardwareRequirements></item>
         </channel></rss>
         """
-        let read = { (isAppleSilicon: Bool) in Appcast.read(Data(feed.utf8), systemVersion: "26.7.0", isAppleSilicon: isAppleSilicon) }
+        let read = { (isAppleSilicon: Bool) in
+            Appcast.read(Data(feed.utf8), systemVersion: "26.7.0", isAppleSilicon: isAppleSilicon)
+        }
         guard case .latest(let onIntel) = read(false), case .latest(let onAppleSilicon) = read(true) else {
             Issue.record("the feed was not read")
             return
@@ -65,7 +71,10 @@ struct AppcastTests {
         <item><sparkle:version>600</sparkle:version><sparkle:hardwareRequirements>arm64 metal</sparkle:hardwareRequirements></item>
         </channel></rss>
         """
-        #expect(Appcast.read(Data(onlyForAppleSilicon.utf8), systemVersion: "26.7.0", isAppleSilicon: false) == .nothingForThisMac)
+        #expect(
+            Appcast.read(Data(onlyForAppleSilicon.utf8), systemVersion: "26.7.0", isAppleSilicon: false)
+                == .nothingForThisMac
+        )
     }
 
     /// The parser under `XMLParser` refuses a feed whose internal entities would grow it ten billion times.
@@ -231,7 +240,11 @@ struct AppStoreLookupTests {
 }
 
 struct UpdateFeedDetectionTests {
-    private func bundle(info: [String: String], files: [String: String] = [:], in directory: borrowing TemporaryDirectory) throws -> URL {
+    private func bundle(
+        info: [String: String],
+        files: [String: String] = [:],
+        in directory: borrowing TemporaryDirectory
+    ) throws -> URL {
         var plist = info
         plist["CFBundleIdentifier"] = "com.example.app"
         let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
@@ -281,8 +294,13 @@ struct UpdateFeedDetectionTests {
         let contents = try directory.directory("Example.app/Contents")
         let info = ["SUFeedURL": "https://example.com/appcast.xml"]
 
-        #expect(UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: true) == nil)
-        #expect(UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: false) == .sparkle(try #require(URL(string: "https://example.com/appcast.xml"))))
+        #expect(
+            UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: true) == nil
+        )
+        #expect(
+            UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: false)
+                == .sparkle(try #require(URL(string: "https://example.com/appcast.xml")))
+        )
     }
 
     /// Peel's own copy is checked against its releases on GitHub. No other app says where it is released, so no
@@ -292,7 +310,14 @@ struct UpdateFeedDetectionTests {
         let contents = try directory.directory("Peel.app/Contents")
         let peel = UpdateFeed.detect(info: ["CFBundleIdentifier": "com.tuguidragos.Peel"], contents: contents, isFromAppStore: false, isSystemProtected: false)
         #expect(peel == .gitHubRelease(GitHubRelease.peel))
-        #expect(UpdateFeed.detect(info: ["CFBundleIdentifier": "com.example.editor"], contents: contents, isFromAppStore: false, isSystemProtected: false) == nil)
+        #expect(
+            UpdateFeed.detect(
+                info: ["CFBundleIdentifier": "com.example.editor"],
+                contents: contents,
+                isFromAppStore: false,
+                isSystemProtected: false
+            ) == nil
+        )
     }
 }
 
@@ -355,7 +380,10 @@ struct TeamRegistryTests {
         _ = await registry.check([app("com.example.app", team: "AAAA111111")], now: start)
 
         #expect(await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60)).changes.isEmpty, "said at once, which an update in progress would trigger")
-        let later = await registry.check([app("com.example.app", team: nil)], now: start.addingTimeInterval(60 + TeamRegistry.settlingTime + 1)).changes
+        let later = await registry.check(
+            [app("com.example.app", team: nil)],
+            now: start.addingTimeInterval(60 + TeamRegistry.settlingTime + 1)
+        ).changes
         #expect(later.map(\.previous) == ["AAAA111111"])
         #expect(later.map(\.current) == [""])
 
@@ -380,12 +408,17 @@ struct TeamRegistryTests {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "teams.json")
         _ = await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")])
-        let written = try FileManager.default.attributesOfItem(atPath: url.path(percentEncoded: false))[.modificationDate] as? Date
+        let written =
+            try FileManager.default.attributesOfItem(atPath: url.path(percentEncoded: false))[.modificationDate]
+            as? Date
         try await Task.sleep(for: .milliseconds(50))
 
         _ = await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")])
 
-        #expect(try FileManager.default.attributesOfItem(atPath: url.path(percentEncoded: false))[.modificationDate] as? Date == written)
+        #expect(
+            try FileManager.default.attributesOfItem(atPath: url.path(percentEncoded: false))[.modificationDate]
+                as? Date == written
+        )
     }
 
     /// A registry that cannot be read is never written over. Rebuilt from today's apps, it would hide for good a
@@ -487,11 +520,21 @@ struct UpdateSourceTests {
     @Test func asksTheCaskThatIsInstalledNotItsBetterKnownSibling() {
         let firefox = InstalledApp(url: URL(filePath: "/Applications/Firefox.app"), bundleIdentifier: "org.mozilla.firefox", name: "Firefox")
         let known = HomebrewPackage(name: "firefox", kind: .cask, latestVersion: "140.0", appNames: ["Firefox.app"])
-        let installed = HomebrewPackage(name: "firefox@esr", kind: .cask, installedVersion: "128.1", latestVersion: "128.2", isOutdated: true, appNames: ["Firefox.app"])
+        let installed = HomebrewPackage(
+            name: "firefox@esr",
+            kind: .cask,
+            installedVersion: "128.1",
+            latestVersion: "128.2",
+            isOutdated: true,
+            appNames: ["Firefox.app"]
+        )
         let casks = CaskEvidence.combined(installed: [installed], known: [known], receipts: [])
 
         #expect(casks.map(\.name) == ["firefox", "firefox@esr"], "the base cask sorts first, which is what hid the other")
-        #expect(UpdateChecker().homebrewStatus(for: firefox, casks: casks) == .updateAvailable(version: "128.2", source: .homebrew, releaseNotes: nil))
+        #expect(
+            UpdateChecker().homebrewStatus(for: firefox, casks: casks)
+                == .updateAvailable(version: "128.2", source: .homebrew, releaseNotes: nil)
+        )
         #expect(CaskEvidence.cask(for: firefox, in: casks)?.name == "firefox@esr")
     }
 
@@ -534,8 +577,18 @@ struct UpdatePreferencesTests {
     /// An app's page shows the last answer about it, but not an update the user muted: a skipped version, or an
     /// app Peel was told never to check, is not announced there again.
     @Test func aMutedUpdateIsNotShownAsAvailable() {
-        let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor", version: "1.0")
-        let notes = InstalledApp(url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.notes", name: "Notes", version: "2.0")
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor",
+            version: "1.0"
+        )
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes",
+            version: "2.0"
+        )
         let waiting = UpdateStatus.updateAvailable(version: "3.0")
         let newer = UpdateStatus.updateAvailable(version: "4.0")
         let preferences = UpdatePreferences(source: .automatic, ignoredIdentifiers: ["com.example.notes"], skippedVersions: ["com.example.editor": "3.0"])

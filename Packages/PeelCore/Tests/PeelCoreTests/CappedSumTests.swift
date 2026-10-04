@@ -17,9 +17,13 @@ struct CappedSumTests {
     }
 
     @Test func combinesTotalsUpToTheLargestNumber() {
-        let whole = SizeTotal(combining: [SizeTotal(known: .max, isComplete: true), SizeTotal(known: 1, isComplete: true)])
+        let whole = SizeTotal(combining: [
+            SizeTotal(known: .max, isComplete: true), SizeTotal(known: 1, isComplete: true),
+        ])
         #expect(whole == SizeTotal(known: .max, isComplete: true))
-        let part = SizeTotal(combining: [SizeTotal(known: 10, isComplete: true), SizeTotal(known: 5, isComplete: false)])
+        let part = SizeTotal(combining: [
+            SizeTotal(known: 10, isComplete: true), SizeTotal(known: 5, isComplete: false),
+        ])
         #expect(part == SizeTotal(known: 15, isComplete: false))
     }
 

@@ -37,7 +37,10 @@ struct InventoryTests {
             casks: [cask]
         )
 
-        let sources = Dictionary(inventory.entries.map { ($0.name, $0.source) }, uniquingKeysWith: { first, _ in first })
+        let sources = Dictionary(
+            inventory.entries.map { ($0.name, $0.source) },
+            uniquingKeysWith: { first, _ in first }
+        )
         #expect(sources["Bear"] == "Homebrew")
         #expect(sources["Shazam"] == "App Store")
         #expect(sources["AdGuard"] == "Sparkle")
@@ -77,7 +80,15 @@ struct InventoryTests {
         let quarantined = try directory.directory("Applications/Quarantined.app")
         let local = try directory.directory("Applications/Local.app")
         try directory.directory("Applications/Plain.app")
-        try setAttribute("com.apple.metadata:kMDItemWhereFroms", PropertyListSerialization.data(fromPropertyList: ["https://example.com/Tagged-2.dmg?token=secret#top", "https://example.com/"], format: .binary, options: 0), on: tagged)
+        try setAttribute(
+            "com.apple.metadata:kMDItemWhereFroms",
+            PropertyListSerialization.data(
+                fromPropertyList: ["https://example.com/Tagged-2.dmg?token=secret#top", "https://example.com/"],
+                format: .binary,
+                options: 0
+            ),
+            on: tagged
+        )
         try setAttribute("com.apple.metadata:kMDItemWhereFroms", PropertyListSerialization.data(fromPropertyList: ["file:///Users/me/Tagged.dmg"], format: .binary, options: 0), on: local)
         try setAttribute("com.apple.quarantine", Data("0083;66f0f0f0;Safari;7F3A6E0C-1B2D-4C5E-8F90-A1B2C3D4E5F6".utf8), on: quarantined)
         let events = directory.url.appending(path: "QuarantineEventsV2")
@@ -86,7 +97,11 @@ struct InventoryTests {
             "INSERT INTO LSQuarantineEvent (LSQuarantineEventIdentifier, LSQuarantineDataURLString, LSQuarantineOriginURLString) VALUES ('7F3A6E0C-1B2D-4C5E-8F90-A1B2C3D4E5F6', 'https://downloads.example.org/Quarantined.zip?Expires=1', 'https://example.org/download')",
         ])
         let apps = ["Tagged", "Quarantined", "Local", "Plain"].map { name in
-            InstalledApp(url: directory.url.appending(path: "Applications/\(name).app", directoryHint: .isDirectory), bundleIdentifier: "com.example.\(name.lowercased())", name: name)
+            InstalledApp(
+                url: directory.url.appending(path: "Applications/\(name).app", directoryHint: .isDirectory),
+                bundleIdentifier: "com.example.\(name.lowercased())",
+                name: name
+            )
         }
 
         let inventory = Inventory.build(apps: apps, origins: DownloadOrigins(events: events))
@@ -121,7 +136,9 @@ struct InventoryTests {
     }
 
     private func setAttribute(_ name: String, _ value: Data, on url: URL) throws {
-        let status = value.withUnsafeBytes { setxattr(url.path(percentEncoded: false), name, $0.baseAddress, value.count, 0, XATTR_NOFOLLOW) }
+        let status = value.withUnsafeBytes {
+            setxattr(url.path(percentEncoded: false), name, $0.baseAddress, value.count, 0, XATTR_NOFOLLOW)
+        }
         #expect(status == 0)
     }
 

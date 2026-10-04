@@ -3,8 +3,17 @@ import Foundation
 import Testing
 
 struct VendorRemovalTests {
-    private func app(in directory: borrowing TemporaryDirectory, path: String, name: String, identifier: String = "com.example.app") -> InstalledApp {
-        InstalledApp(url: directory.url.appending(path: path, directoryHint: .isDirectory), bundleIdentifier: identifier, name: name)
+    private func app(
+        in directory: borrowing TemporaryDirectory,
+        path: String,
+        name: String,
+        identifier: String = "com.example.app"
+    ) -> InstalledApp {
+        InstalledApp(
+            url: directory.url.appending(path: path, directoryHint: .isDirectory),
+            bundleIdentifier: identifier,
+            name: name
+        )
     }
 
     @Test func findsAnUninstallerShippedWithTheApp() throws {
@@ -147,7 +156,11 @@ struct VendorRemovalTests {
         let tool = try directory.file("usr/local/bin/example")
         let plain = { (url: URL) in URL(filePath: url.path(percentEncoded: false).removingSuffix("/")) }
 
-        let example = InstalledApp(url: URL(filePath: bundle.path(percentEncoded: false), directoryHint: .isDirectory), bundleIdentifier: "com.example.app", name: "Example")
+        let example = InstalledApp(
+            url: URL(filePath: bundle.path(percentEncoded: false), directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.app",
+            name: "Example"
+        )
         let receipt = PackageReceipt(
             identifier: "com.example.app.pkg",
             version: "1.0",

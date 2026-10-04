@@ -19,7 +19,9 @@ struct TerminalWindowsTests {
 
     @Test func aSwitchForOneAppNeverReadsTheGlobalDomain() throws {
         let domain = "org.example.peel.windows"
-        let globalKeys = CFPreferencesCopyKeyList(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost) as? [String] ?? []
+        let globalKeys =
+            CFPreferencesCopyKeyList(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+            as? [String] ?? []
         let held = try #require(globalKeys.lazy.compactMap { key -> (key: String, value: Tweak.Value)? in
             switch CFPreferencesCopyAppValue(key as CFString, domain as CFString) {
             case let text as String: (key, .text(text))
@@ -28,7 +30,16 @@ struct TerminalWindowsTests {
             }
         }.first)
         func tweak(_ kind: Tweak.Kind) -> Tweak {
-            Tweak(id: "test", domain: domain, key: held.key, kind: kind, restart: .none, group: .terminal, hasASystemControl: false, documentation: .undocumented)
+            Tweak(
+                id: "test",
+                domain: domain,
+                key: held.key,
+                kind: kind,
+                restart: .none,
+                group: .terminal,
+                hasASystemControl: false,
+                documentation: .undocumented
+            )
         }
         let store = TweakStore()
         #expect(store.state(of: tweak(.aSwitch(held.value))).isOn)

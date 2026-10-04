@@ -74,7 +74,10 @@ struct RunningCopiesTests {
         #expect(RunningCopies.belonging(to: old, among: running, installedApps: [chrome, old]).isEmpty)
         #expect(RunningCopies.belonging(to: chrome, among: running, installedApps: [chrome, old]).count == 1)
         // A reset clears settings both copies write, so for a reset the other copy counts.
-        #expect(RunningCopies.belonging(to: old, among: running, installedApps: [chrome, old], sharingItsSettings: true).count == 1)
+        #expect(
+            RunningCopies.belonging(to: old, among: running, installedApps: [chrome, old], sharingItsSettings: true)
+                .count == 1
+        )
     }
 
     /// An app that continues the identifier and runs from somewhere Peel does not list apps, such as Chrome Canary

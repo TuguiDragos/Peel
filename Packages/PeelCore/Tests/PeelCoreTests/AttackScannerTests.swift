@@ -102,7 +102,11 @@ struct AttackScannerTests {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Group Containers/group.is.workflow.shortcuts/Shortcuts.sqlite")
         try directory.file("home/Library/Group Containers/group.com.gone.app/data.db")
-        let scanner = OrphanScanner(environment: environment(directory), isRegisteredApp: { _ in false }, systemApps: [])
+        let scanner = OrphanScanner(
+            environment: environment(directory),
+            isRegisteredApp: { _ in false },
+            systemApps: []
+        )
 
         let found = await scanner.scan(installedApps: []).groups.map(\.identifier)
 

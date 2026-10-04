@@ -15,7 +15,10 @@ struct FoundLastTimeTests {
         let read = FoundLastTime(data: found.data)
 
         #expect(read == found)
-        #expect(read.findings["orphans"] == FoundLastTime.Finding(count: 7, size: SizeTotal(known: 1_200_000, isComplete: true), date: monday))
+        #expect(
+            read.findings["orphans"]
+                == FoundLastTime.Finding(count: 7, size: SizeTotal(known: 1_200_000, isComplete: true), date: monday)
+        )
         #expect(read.findings["applications"] == FoundLastTime.Finding(count: 3, size: nil, date: tuesday))
     }
 
@@ -47,7 +50,15 @@ struct FoundLastTimeTests {
 
         let read = FoundLastTime(data: Data(json.utf8))
 
-        #expect(read.findings == ["space": FoundLastTime.Finding(count: 2, size: SizeTotal(known: 10, isComplete: true), date: Date(timeIntervalSinceReferenceDate: 0))])
+        #expect(
+            read.findings == [
+                "space": FoundLastTime.Finding(
+                    count: 2,
+                    size: SizeTotal(known: 10, isComplete: true),
+                    date: Date(timeIntervalSinceReferenceDate: 0)
+                )
+            ]
+        )
         #expect(FoundLastTime(data: Data("not a list".utf8)).findings.isEmpty)
         #expect(FoundLastTime(data: nil).findings.isEmpty)
     }

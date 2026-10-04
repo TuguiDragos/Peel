@@ -120,8 +120,12 @@ struct RefusalLogTests {
         #expect(outcome.records?.map(\.reason) == ["last-copy"])
         guard case .damaged(let setAside) = outcome.problem else { Issue.record("no damage reported"); return }
         #expect(setAside.lastPathComponent.contains("damaged"))
-        #expect(try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path(percentEncoded: false))
-            .contains { $0.contains("damaged") }, "the file it could not read was thrown away")
+        #expect(
+            try FileManager.default.contentsOfDirectory(
+                atPath: url.deletingLastPathComponent().path(percentEncoded: false)
+            ).contains { $0.contains("damaged") },
+            "the file it could not read was thrown away"
+        )
     }
 
     /// The file is the only copy of what was refused, so when it cannot be read it is never written over.
@@ -130,7 +134,12 @@ struct RefusalLogTests {
         let url = try directory.directory("Peel").appending(path: "refusals.json")
         try Data("[]".utf8).write(to: url)
         try directory.setPermissions(0, of: url)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o644],
+                ofItemAtPath: url.path(percentEncoded: false)
+            )
+        }
 
         let problem = await RefusalLog(url: url)
             .add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")

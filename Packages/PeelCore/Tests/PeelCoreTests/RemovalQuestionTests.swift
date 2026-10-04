@@ -72,7 +72,12 @@ struct RemovalQuestionTests {
         let measured = URL(filePath: "/Users/me/Library/Caches/measured")
         let unknown = URL(filePath: "/Users/me/Library/Caches/unknown")
 
-        #expect(RemovalRequest(urls: [measured], sizes: [measured: 100]).total == SizeTotal(known: 100, isComplete: true))
-        #expect(RemovalRequest(urls: [measured, unknown], sizes: [measured: 100]).total == SizeTotal(known: 100, isComplete: false))
+        #expect(
+            RemovalRequest(urls: [measured], sizes: [measured: 100]).total == SizeTotal(known: 100, isComplete: true)
+        )
+        #expect(
+            RemovalRequest(urls: [measured, unknown], sizes: [measured: 100]).total
+                == SizeTotal(known: 100, isComplete: false)
+        )
     }
 }

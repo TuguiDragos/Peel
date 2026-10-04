@@ -47,7 +47,9 @@ private final class OneRequestServer: Sendable {
         address.sin_addr.s_addr = inet_addr("127.0.0.1")
         var length = socklen_t(MemoryLayout<sockaddr_in>.size)
         let bound = withUnsafeMutablePointer(to: &address) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { bind(listening, $0, length) == 0 && getsockname(listening, $0, &length) == 0 }
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                bind(listening, $0, length) == 0 && getsockname(listening, $0, &length) == 0
+            }
         }
         guard bound, listen(listening, 1) == 0 else {
             close(listening)
@@ -84,7 +86,9 @@ private final class OneRequestServer: Sendable {
         let lines = String(decoding: request, as: UTF8.self).components(separatedBy: "\r\n").dropFirst()
         headers.withLock { found in
             found = Dictionary(lines.compactMap { line in
-                line.firstIndex(of: ":").map { (String(line[..<$0]), line[line.index(after: $0)...].trimmingCharacters(in: .whitespaces)) }
+                line.firstIndex(of: ":").map {
+                    (String(line[..<$0]), line[line.index(after: $0)...].trimmingCharacters(in: .whitespaces))
+                }
             }, uniquingKeysWith: { first, _ in first })
         }
         _ = Array(reply.utf8).withUnsafeBytes { write(connection, $0.baseAddress, $0.count) }

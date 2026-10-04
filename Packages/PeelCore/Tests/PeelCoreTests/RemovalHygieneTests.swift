@@ -13,15 +13,26 @@ struct RemovalHygieneTests {
     /// The host UUID of the Mac these tests pretend to run on, as its ByHost file names carry it.
     private let host = "0A1B2C3D-4E5F-6071-8293-A4B5C6D7E8F9"
 
-    private func launchdPlist(_ path: String, label: String?, in directory: borrowing TemporaryDirectory) throws -> URL {
-        let contents = try PropertyListSerialization.data(fromPropertyList: label.map { ["Label": $0] } ?? [:], format: .xml, options: 0)
+    private func launchdPlist(
+        _ path: String,
+        label: String?,
+        in directory: borrowing TemporaryDirectory
+    ) throws -> URL {
+        let contents = try PropertyListSerialization.data(
+            fromPropertyList: label.map { ["Label": $0] } ?? [:],
+            format: .xml,
+            options: 0
+        )
         return try directory.file(path, contents: contents)
     }
 
     /// launchd knows a job by the `Label` inside its file, which the file name only usually repeats.
     @Test func findsTheJobsBehindLaunchdPlists() throws {
         let directory = try TemporaryDirectory()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let agent = try launchdPlist("home/Library/LaunchAgents/updater.plist", label: "com.example.agent", in: directory)
         let shared = try launchdPlist("root/Library/LaunchAgents/com.example.shared.plist", label: "com.example.shared", in: directory)
         let daemon = try launchdPlist("root/Library/LaunchDaemons/com.example.helper.plist", label: "com.example.helper", in: directory)
@@ -131,7 +142,9 @@ struct RemovalHygieneTests {
         #expect(PreferenceCleanup.domains(for: [stray, strayByHost, contained], home: home, host: host) == [
             PreferenceCleanup.Domain(name: "com.example.app", isByHost: false),
         ])
-        #expect(PreferenceCleanup.domains(for: [stray, strayByHost, contained, containedByHost], home: home, host: host) == [
+        #expect(
+            PreferenceCleanup.domains(for: [stray, strayByHost, contained, containedByHost], home: home, host: host)
+                == [
             PreferenceCleanup.Domain(name: "com.example.app", isByHost: false),
             PreferenceCleanup.Domain(name: "com.example.app", isByHost: true),
         ])
@@ -236,9 +249,20 @@ struct RemovalHygieneTests {
             return .no
         }
 
-        #expect(await PreferenceBackup.save([URL.homeDirectory.appending(path: "Library/Caches/com.example.app")], for: app, in: backups, through: Self.service, run: notThere) == .nothingToSave)
+        #expect(
+            await PreferenceBackup.save(
+                [URL.homeDirectory.appending(path: "Library/Caches/com.example.app")],
+                for: app,
+                in: backups,
+                through: Self.service,
+                run: notThere
+            ) == .nothingToSave
+        )
         #expect(asked.withLock { $0 }.isEmpty, "a folder that names no domain was asked about")
-        #expect(await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: notThere) == .nothingToSave)
+        #expect(
+            await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: notThere)
+                == .nothingToSave
+        )
         #expect(asked.withLock { $0 } == [["read", "com.example.app"]])
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty)
     }
@@ -259,7 +283,14 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false })
+        let restored = await PreferenceBackup.restore(
+            from: folder,
+            of: "com.example.app",
+            in: backups,
+            through: Self.service,
+            run: run,
+            isOpen: { false }
+        )
 
         #expect(restored == .incomplete(clearedSome: false), "a copy that could not be read was reported as put back, or as cleared")
         let commands = asked.withLock { $0 }
@@ -268,7 +299,16 @@ struct RemovalHygieneTests {
 
         // An import that fails after the delete has cleared that domain, and the result says so.
         let failingImport: PreferenceBackup.Run = { arguments in arguments.first == "import" ? .no : Self.exporting(arguments) }
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: failingImport, isOpen: { false }) == .incomplete(clearedSome: true))
+        #expect(
+            await PreferenceBackup.restore(
+                from: folder,
+                of: "com.example.app",
+                in: backups,
+                through: Self.service,
+                run: failingImport,
+                isOpen: { false }
+            ) == .incomplete(clearedSome: true)
+        )
     }
 
     /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
@@ -285,7 +325,14 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let restored = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false })
+        let restored = await PreferenceBackup.restore(
+            from: folder,
+            of: "com.example.app",
+            in: backups,
+            through: Self.service,
+            run: run,
+            isOpen: { false }
+        )
 
         #expect(restored == .complete)
         let copies = PreferenceBackup.copies(in: backups)
@@ -310,12 +357,25 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        let open = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { true })
+        let open = await PreferenceBackup.restore(
+            from: folder,
+            of: "com.example.app",
+            in: backups,
+            through: Self.service,
+            run: run,
+            isOpen: { true }
+        )
         #expect(open == .appIsOpen)
         #expect(asked.withLock { $0 }.isEmpty)
 
         let checks = Mutex(0)
-        let opensMeanwhile = await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run) {
+        let opensMeanwhile = await PreferenceBackup.restore(
+            from: folder,
+            of: "com.example.app",
+            in: backups,
+            through: Self.service,
+            run: run
+        ) {
             checks.withLock { count in
                 count += 1
                 return count > 1
@@ -340,7 +400,16 @@ struct RemovalHygieneTests {
             return arguments.first == "export" ? .no : .yes
         }
 
-        #expect(await PreferenceBackup.restore(from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false }) == .notSaved)
+        #expect(
+            await PreferenceBackup.restore(
+                from: folder,
+                of: "com.example.app",
+                in: backups,
+                through: Self.service,
+                run: run,
+                isOpen: { false }
+            ) == .notSaved
+        )
         #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
     }
 
@@ -360,11 +429,18 @@ struct RemovalHygieneTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
 
-        let refused = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { arguments in arguments.contains("export") ? .no : .yes }
+        let refused = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { arguments in
+            arguments.contains("export") ? .no : .yes
+        }
         #expect(refused == .failed)
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty, "an empty copy was left behind")
 
-        let nothing = await PreferenceBackup.save([URL(filePath: "/Users/x/Library/Caches/com.example.app")], for: app, in: backups, through: Self.service) { _ in .yes }
+        let nothing = await PreferenceBackup.save(
+            [URL(filePath: "/Users/x/Library/Caches/com.example.app")],
+            for: app,
+            in: backups,
+            through: Self.service
+        ) { _ in .yes }
         #expect(nothing == .nothingToSave)
     }
 
@@ -423,7 +499,13 @@ struct RemovalHygieneTests {
         for identifier in ["company.thebrowser.Browser", "md.obsidian"] {
             let app = InstalledApp(url: URL(filePath: "/Applications/\(identifier).app"), bundleIdentifier: identifier, name: identifier)
             let plist = URL.homeDirectory.appending(path: "Library/Preferences/\(identifier).plist")
-            let saved = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service, run: exporting)
+            let saved = await PreferenceBackup.save(
+                [plist],
+                for: app,
+                in: backups,
+                through: Self.service,
+                run: exporting
+            )
             guard case .saved = saved else {
                 Issue.record("no copy of \(identifier)'s settings: \(saved)")
                 continue
@@ -448,7 +530,11 @@ struct RemovalHygieneTests {
 
         #expect(copies.map(\.bundleIdentifier) == ["com.example.app", "com.example.app", "com.other.tool", "com.example.app"])
         #expect(copies.map(\.folder.lastPathComponent).prefix(2) == ["com.example.app 2026-09-20 093000 2", "com.example.app 2026-09-20 093000"])
-        #expect(copies.first?.date == DateComponents(calendar: .current, year: 2026, month: 9, day: 20, hour: 9, minute: 30, second: 0).date)
+        #expect(
+            copies.first?.date == DateComponents(
+                calendar: .current, year: 2026, month: 9, day: 20, hour: 9, minute: 30, second: 0
+            ).date
+        )
     }
 
     /// A saved copy can hold a license key or an account, and once the Trash is emptied it may be the only way
@@ -461,7 +547,10 @@ struct RemovalHygieneTests {
         }
         let moved = Mutex<[String]>([])
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
             moveToTrash: { url in
                 moved.withLock { $0.append(url.lastPathComponent) }
                 return url
@@ -554,7 +643,10 @@ struct PrivacyResetTests {
             failures: [TrashFailure(url: notes.url, reason: .notPermitted)]
         )
 
-        let told = PrivacyReset.worthTelling([(editor, .reset), (notes, .reset), (viewer, .notKnownToTheSystem)], after: removal)
+        let told = PrivacyReset.worthTelling(
+            [(editor, .reset), (notes, .reset), (viewer, .notKnownToTheSystem)],
+            after: removal
+        )
 
         #expect(told.map(\.app.name) == ["Notes", "Viewer"])
     }

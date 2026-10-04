@@ -100,7 +100,8 @@ struct AppMemoryTests {
         let remembered = await memory.remember([app("Arc", "company.thebrowser.Browser")])
 
         #expect(Set(remembered.map(\.bundleIdentifier)) == ["net.shinyfrog.bear", "dev.zed.Zed", "company.thebrowser.Browser"])
-        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false)).filter { $0.contains("damaged") }
+        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false)).filter
+        { $0.contains("damaged") }
         #expect(kept.count == 1, "the file as it was is not kept: \(kept)")
     }
 

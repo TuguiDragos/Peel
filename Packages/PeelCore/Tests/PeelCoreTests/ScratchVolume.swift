@@ -23,6 +23,8 @@ final class ScratchVolume {
     private static func hdiutil(_ arguments: String...) throws {
         let process = try Process.run(URL(filePath: "/usr/bin/hdiutil"), arguments: arguments)
         process.waitUntilExit()
-        guard process.terminationStatus == 0 else { throw CocoaError(.fileWriteUnknown, userInfo: [NSLocalizedDescriptionKey: arguments.joined(separator: " ")]) }
+        guard process.terminationStatus == 0 else {
+            throw CocoaError(.fileWriteUnknown, userInfo: [NSLocalizedDescriptionKey: arguments.joined(separator: " ")])
+        }
     }
 }

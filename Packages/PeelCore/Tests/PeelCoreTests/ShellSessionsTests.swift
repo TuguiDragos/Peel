@@ -55,7 +55,13 @@ struct ShellSessionsTests {
 
     @Test func readsTerminalsShellSettingAsDefaultsDoes() async {
         let setting = TerminalSettings().shell()
-        guard case .success(let output) = await Subprocess.run("/usr/bin/defaults", ["read", TerminalSettings.identifier, "Shell"], timeout: 10), output.status == 0 else {
+        guard
+            case .success(let output) = await Subprocess.run(
+                "/usr/bin/defaults",
+                ["read", TerminalSettings.identifier, "Shell"],
+                timeout: 10
+            ), output.status == 0
+        else {
             #expect(setting == nil)
             return
         }

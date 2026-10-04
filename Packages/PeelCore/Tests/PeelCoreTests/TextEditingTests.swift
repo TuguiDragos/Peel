@@ -7,7 +7,12 @@ struct TextEditingTests {
     /// A text field being typed in makes its window's field editor the first responder, and while it is, a command
     /// whose key is also a text editing key leaves that key to the text.
     @Test func followsTheFieldEditorOfTheWindowItWatches() {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.titled], backing: .buffered, defer: true)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: true
+        )
         let field = NSTextField(frame: NSRect(x: 10, y: 10, width: 200, height: 24))
         let label = NSTextField(labelWithString: "Name")
         window.contentView?.addSubview(field)
@@ -30,11 +35,21 @@ struct TextEditingTests {
     /// A window that is not key can still say it became key, as the list macOS shows to complete a word does
     /// while a field is typed in. The field's window is still the key one, so the text is still being edited.
     @Test func asksWhichWindowIsKeyWheneverOneSaysItBecameKey() {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.titled], backing: .buffered, defer: true)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: true
+        )
         let field = NSTextField(frame: NSRect(x: 10, y: 10, width: 200, height: 24))
         window.contentView?.addSubview(field)
         window.makeFirstResponder(field)
-        let completions = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100), styleMask: [], backing: .buffered, defer: true)
+        let completions = NSPanel(
+            contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+            styleMask: [],
+            backing: .buffered,
+            defer: true
+        )
         let key = KeyWindow(window)
         let editing = TextEditing(keyWindow: { key.window })
         editing.start()
@@ -55,7 +70,12 @@ struct TextEditingTests {
     /// Undo and Redo act on the typing in the field being edited, and say what they would take back in the
     /// words of the field's undo manager.
     @Test func undoesAndRedoesTheTypingInTheFieldBeingEdited() throws {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.titled], backing: .buffered, defer: true)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: true
+        )
         let field = NSTextField(frame: NSRect(x: 10, y: 10, width: 200, height: 24))
         window.contentView?.addSubview(field)
         let editing = TextEditing()

@@ -19,7 +19,12 @@ private struct SSHHome {
 
     /// The options ssh would use for `host`, by their names in lowercase, as `ssh -G` prints them.
     func options(for host: String) async throws -> [String: String] {
-        let answer = await Subprocess.run("/usr/bin/ssh", ["-G", "-F", config.path(percentEncoded: false), host], environment: [:], timeout: 10)
+        let answer = await Subprocess.run(
+            "/usr/bin/ssh",
+            ["-G", "-F", config.path(percentEncoded: false), host],
+            environment: [:],
+            timeout: 10
+        )
         guard case .success(let output) = answer else { throw POSIXError(.EIO) }
         #expect(output.status == 0, "\(output.errorText)")
         return Dictionary(output.text.split(separator: "\n").compactMap { line in

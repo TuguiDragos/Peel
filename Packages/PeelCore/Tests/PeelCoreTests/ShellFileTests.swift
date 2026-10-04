@@ -158,7 +158,12 @@ struct ZshRequirementsTests {
 
 struct PeelLinesCommandTests {
     private func run(_ command: String, home: URL) async throws -> Int32 {
-        let answer = await Subprocess.run("/bin/zsh", ["-f", "-c", command], environment: ["HOME": home.path(percentEncoded: false), "PATH": "/usr/bin:/bin"], timeout: 10)
+        let answer = await Subprocess.run(
+            "/bin/zsh",
+            ["-f", "-c", command],
+            environment: ["HOME": home.path(percentEncoded: false), "PATH": "/usr/bin:/bin"],
+            timeout: 10
+        )
         guard case .success(let output) = answer else { throw POSIXError(.EIO) }
         #expect(output.errorText.isEmpty, "\(output.errorText)")
         return output.status
@@ -191,7 +196,9 @@ struct PeelLinesCommandTests {
         let config = home.appending(path: ".ssh/config")
         let lines = SSHFile.lines(including: file, home: home)
         #expect(try await run(SSHFile.command(adding: lines, to: config, home: home), home: home) == 0)
-        let folder = try FileManager.default.attributesOfItem(atPath: config.deletingLastPathComponent().path(percentEncoded: false))
+        let folder = try FileManager.default.attributesOfItem(
+            atPath: config.deletingLastPathComponent().path(percentEncoded: false)
+        )
         #expect((folder[.posixPermissions] as? Int) == 0o700)
         #expect(try String(contentsOf: config, encoding: .utf8) == "\n" + lines.joined(separator: "\n") + "\n")
         #expect(SSHFile.isIncluded(file, from: config, home: home))

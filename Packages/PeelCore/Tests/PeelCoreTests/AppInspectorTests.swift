@@ -95,7 +95,10 @@ struct AppInspectorTests {
         try plist(["CFBundleIdentifier": "org.example.unindexed"], at: "Unindexed.app/Contents/Info.plist", in: directory)
         let bundle = directory.url.appending(path: "Unindexed.app")
         let written = Date(timeIntervalSince1970: 1_700_000_000)
-        try FileManager.default.setAttributes([.modificationDate: written], ofItemAtPath: bundle.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.modificationDate: written],
+            ofItemAtPath: bundle.path(percentEncoded: false)
+        )
 
         let app = try #require(AppInspector.inspect(bundle))
 
@@ -216,12 +219,18 @@ struct AppInspectorTests {
 
     /// Copies `original`, an app Apple signed, and writes `identifier` into the copy's `Info.plist` when one is
     /// given. That breaks the signature, but what it says, Apple's team included, can still be read as a string.
-    private func copy(of original: String, claiming identifier: String?, in directory: borrowing TemporaryDirectory) throws -> URL {
+    private func copy(
+        of original: String,
+        claiming identifier: String?,
+        in directory: borrowing TemporaryDirectory
+    ) throws -> URL {
         let copy = directory.url.appending(path: UUID().uuidString + ".app", directoryHint: .isDirectory)
         try FileManager.default.copyItem(at: URL(filePath: original), to: copy)
         if let identifier {
             let info = copy.appending(path: "Contents/Info.plist")
-            var contents = try #require(try PropertyListSerialization.propertyList(from: Data(contentsOf: info), format: nil) as? [String: Any])
+            var contents = try #require(
+                try PropertyListSerialization.propertyList(from: Data(contentsOf: info), format: nil) as? [String: Any]
+            )
             contents["CFBundleIdentifier"] = identifier
             try PropertyListSerialization.data(fromPropertyList: contents, format: .xml, options: 0).write(to: info)
         }
@@ -255,7 +264,11 @@ struct AppInspectorTests {
     }
 
     @discardableResult
-    private func plist(_ dictionary: [String: String], at path: String, in directory: borrowing TemporaryDirectory) throws -> URL {
+    private func plist(
+        _ dictionary: [String: String],
+        at path: String,
+        in directory: borrowing TemporaryDirectory
+    ) throws -> URL {
         let data = try PropertyListSerialization.data(fromPropertyList: dictionary, format: .xml, options: 0)
         let url = try directory.file(path)
         try data.write(to: url)

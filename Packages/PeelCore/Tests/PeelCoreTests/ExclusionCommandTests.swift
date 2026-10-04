@@ -25,7 +25,11 @@ struct ExclusionCommandTests {
         try await (command(["exclusions", "add"] + arguments) as ExclusionsCommand.AddCommand).run(in: store, among: apps)
     }
 
-    private func remove(_ arguments: [String], in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
+    private func remove(
+        _ arguments: [String],
+        in store: ExclusionStore,
+        among apps: [InstalledApp]? = nil
+    ) async throws {
         try await (command(["exclusions", "remove"] + arguments) as ExclusionsCommand.RemoveCommand).run(in: store, among: apps)
     }
 
@@ -162,7 +166,12 @@ struct ExclusionCommandTests {
         let folder = try directory.directory("Peel")
         let store = store(in: directory)
         try directory.setPermissions(0o500, of: folder)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: folder.path(percentEncoded: false)
+            )
+        }
 
         await #expect(throws: CommandFailure.self) {
             try await add(["/Users/me/thing"], in: store)

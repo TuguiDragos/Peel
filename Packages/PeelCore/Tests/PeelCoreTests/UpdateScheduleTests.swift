@@ -49,7 +49,9 @@ struct UpdateScheduleTests {
             waits.append(schedule.wait)
         }
         let hour: TimeInterval = 3600
-        let expected: [TimeInterval] = [UpdateSchedule.afterFailure, 12 * hour, 24 * hour, UpdateSchedule.longestAfterFailure]
+        let expected: [TimeInterval] = [
+            UpdateSchedule.afterFailure, 12 * hour, 24 * hour, UpdateSchedule.longestAfterFailure,
+        ]
         #expect(Array(waits.prefix(4)) == expected)
         #expect(schedule.wait == UpdateSchedule.longestAfterFailure)
         #expect(waits.allSatisfy { $0 <= UpdateSchedule.longestAfterFailure })

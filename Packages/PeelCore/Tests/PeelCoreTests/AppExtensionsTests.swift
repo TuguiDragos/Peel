@@ -75,7 +75,13 @@ struct AppExtensionsTests {
         // The same folder reached through a link is still this copy.
         let link = directory.url.appending(path: "Link.appex")
         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: own)
-        #expect(!AppExtensions.runsAnotherCopy(of: identifier, than: link, in: listing("+", own.path(percentEncoded: false))))
+        #expect(
+            !AppExtensions.runsAnotherCopy(
+                of: identifier,
+                than: link,
+                in: listing("+", own.path(percentEncoded: false))
+            )
+        )
         // Unless the user turned the extension on, the answer is no, even when the listed copy is another one.
         #expect(!runsAnother(listing("-", other.path(percentEncoded: false))))
         #expect(!runsAnother(listing(" ", other.path(percentEncoded: false))))
@@ -102,7 +108,9 @@ struct AppExtensionsTests {
         *\t*\tTC3Q7MAJXF\tcom.adguard.mac.adguard.network-extension (2.19.0/2258)\tAdGuard Network Extension\t[activated enabled]
         \t*\t2MMRE5MTB8\tcom.obsproject.obs-studio.mac-camera-extension (32.2.2/31845296735)\tOBS Virtual Camera\t[activated waiting for user]
         """
-        let parsed = rows.split(whereSeparator: \.isNewline).compactMap { AppExtensions.parseSystemExtension(String($0)) }
+        let parsed = rows.split(whereSeparator: \.isNewline).compactMap {
+            AppExtensions.parseSystemExtension(String($0))
+        }
 
         #expect(parsed.count == 2, "the header row was read as an extension")
         #expect(parsed.first?.identifier == "com.adguard.mac.adguard.network-extension")
@@ -121,7 +129,9 @@ struct AppExtensionsTests {
         *\t*\tTC3Q7MAJXF\tcom.example.filter (1.0/100)\tExample Filter\t[activated waiting to upgrade]
         \t\tTC3Q7MAJXF\tcom.example.filter (2.0/200)\tExample Filter\t[activated enabled]
         """
-        let parsed = rows.split(whereSeparator: \.isNewline).compactMap { AppExtensions.parseSystemExtension(String($0)) }
+        let parsed = rows.split(whereSeparator: \.isNewline).compactMap {
+            AppExtensions.parseSystemExtension(String($0))
+        }
         #expect(parsed.map(\.version) == ["1.0/100", "2.0/200"])
 
         let made = parsed.map { row in
@@ -147,7 +157,10 @@ struct AppExtensionsTests {
             ],
             ["identifier": "com.example.broken"],
         ]]
-        let url = try directory.file("db.plist", contents: PropertyListSerialization.data(fromPropertyList: database, format: .xml, options: 0))
+        let url = try directory.file(
+            "db.plist",
+            contents: PropertyListSerialization.data(fromPropertyList: database, format: .xml, options: 0)
+        )
 
         let records = AppExtensions.systemExtensionRecords(at: url)
 
@@ -227,7 +240,10 @@ struct AppExtensionsTests {
 
         #expect(await AppExtensions.scan(exclusions: .none, run: appsOnly).unanswered == [.systemExtension])
         #expect(await AppExtensions.scan(exclusions: .none, run: systemOnly).unanswered == [.appExtension])
-        #expect(await AppExtensions.scan(exclusions: .none, run: { _, _ in nil }).unanswered == Set(AppExtension.Kind.allCases))
+        #expect(
+            await AppExtensions.scan(exclusions: .none, run: { _, _ in nil }).unanswered
+                == Set(AppExtension.Kind.allCases)
+        )
         #expect(await AppExtensions.scan(exclusions: .none, run: both).unanswered.isEmpty)
     }
 
@@ -262,7 +278,9 @@ struct AppExtensionsTests {
         let scan = await AppExtensions.scan()
         let found = scan.extensions
         #expect(scan.unanswered.isEmpty, "this Mac's listing was not read whole")
-        #expect(found.allSatisfy { $0.url.map { !AppExtensions.isTheSystemsOwn($0.path(percentEncoded: false)) } ?? true })
+        #expect(
+            found.allSatisfy { $0.url.map { !AppExtensions.isTheSystemsOwn($0.path(percentEncoded: false)) } ?? true }
+        )
         #expect(Set(found.map(\.id)).count == found.count, "the same extension was listed twice")
     }
 }

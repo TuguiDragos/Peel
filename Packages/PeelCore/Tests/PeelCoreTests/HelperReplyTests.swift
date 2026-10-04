@@ -7,7 +7,11 @@ import Testing
 /// The helper's trash method as a dishonest helper would answer it: the same selector, with replies of any kind.
 @objc private protocol LooseTrashReplies {
     @objc(moveItemsToTrashWithVersion:atPaths:withReply:)
-    func moveItemsToTrash(version: Int, atPaths paths: [String], withReply reply: @escaping (NSDictionary, NSDictionary) -> Void)
+    func moveItemsToTrash(
+        version: Int,
+        atPaths paths: [String],
+        withReply reply: @escaping (NSDictionary, NSDictionary) -> Void
+    )
 }
 
 private final class Answers: NSObject, LooseTrashReplies, NSXPCListenerDelegate {
@@ -17,7 +21,11 @@ private final class Answers: NSObject, LooseTrashReplies, NSXPCListenerDelegate 
         self.moved = moved
     }
 
-    func moveItemsToTrash(version: Int, atPaths paths: [String], withReply reply: @escaping (NSDictionary, NSDictionary) -> Void) {
+    func moveItemsToTrash(
+        version: Int,
+        atPaths paths: [String],
+        withReply reply: @escaping (NSDictionary, NSDictionary) -> Void
+    ) {
         reply(moved, [:] as NSDictionary)
     }
 

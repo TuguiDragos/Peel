@@ -5,7 +5,11 @@ import Testing
 
 struct RemovalJournalTests {
     /// An item that moved at a time with more than milliseconds in it, as every real move has.
-    private func item(_ name: String, in directory: borrowing TemporaryDirectory, at date: Date = Date(timeIntervalSince1970: 1_800_000_000.002_07)) -> TrashedItem {
+    private func item(
+        _ name: String,
+        in directory: borrowing TemporaryDirectory,
+        at date: Date = Date(timeIntervalSince1970: 1_800_000_000.002_07)
+    ) -> TrashedItem {
         TrashedItem(
             originalURL: directory.url.appending(path: "home/Library/Caches/\(name)"),
             trashedURL: directory.url.appending(path: "home/.Trash/\(name)"),
@@ -22,9 +26,16 @@ struct RemovalJournalTests {
         return RemovalJournal.Writer(pid: process.processIdentifier, started: 1)
     }
 
-    private func service(in directory: borrowing TemporaryDirectory, journal: RemovalJournal, moveToTrash: @escaping @Sendable (URL) throws -> URL) -> TrashService {
+    private func service(
+        in directory: borrowing TemporaryDirectory,
+        journal: RemovalJournal,
+        moveToTrash: @escaping @Sendable (URL) throws -> URL
+    ) -> TrashService {
         TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
             journal: journal,
             moveToTrash: moveToTrash
         )
@@ -202,7 +213,10 @@ struct RemovalJournalTests {
         let directory = try TemporaryDirectory()
         let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
         let moved = item("com.example.app", in: directory)
-        try FileManager.default.createDirectory(at: journal.url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: journal.url.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         try Data(#"{"batch":"#.utf8).write(to: journal.url)
 
         journal.note([moved], batch: UUID())

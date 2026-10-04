@@ -13,7 +13,11 @@ struct ProjectArtifactsTests {
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
-            _ = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)], exclusions: .none, measure: unanswered.walk)
+            _ = await ProjectArtifacts.scan(
+                roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)],
+                exclusions: .none,
+                measure: unanswered.walk
+            )
         }
 
         #expect(stop.took < .seconds(1))
@@ -78,7 +82,9 @@ struct ProjectArtifactsTests {
 
         #expect(ProjectArtifacts.markableForBackups([target], excludedFromAbove: []).isEmpty)
         #expect(ProjectArtifacts.markableForBackups([terraform], excludedFromAbove: []).isEmpty, "no build makes it")
-        #expect(ProjectArtifacts.markableForBackups([target, modules, pods], excludedFromAbove: [pods.url]) == [modules.url])
+        #expect(
+            ProjectArtifacts.markableForBackups([target, modules, pods], excludedFromAbove: [pods.url]) == [modules.url]
+        )
         #expect(ProjectArtifacts.markableForBackups([modules], excludedFromAbove: [modules.url]).isEmpty)
     }
 
@@ -339,7 +345,10 @@ struct ProjectArtifactsTests {
         let date = Date.now.addingTimeInterval(-Double(days) * 24 * 60 * 60)
         guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) else { return }
         for case let item as URL in enumerator {
-            try FileManager.default.setAttributes([.modificationDate: date], ofItemAtPath: item.path(percentEncoded: false))
+            try FileManager.default.setAttributes(
+                [.modificationDate: date],
+                ofItemAtPath: item.path(percentEncoded: false)
+            )
         }
         try FileManager.default.setAttributes([.modificationDate: date], ofItemAtPath: url.path(percentEncoded: false))
     }
@@ -464,7 +473,10 @@ struct ProjectArtifactsTests {
         try directory.file("app/node_modules/dep/index.js", bytes: 400_000)
         try age(directory.url, days: 60)
 
-        #expect(await ProjectArtifacts.scan(roots: [directory.url], exclusions: Exclusions(paths: [modules])).artifacts.isEmpty)
+        #expect(
+            await ProjectArtifacts.scan(roots: [directory.url], exclusions: Exclusions(paths: [modules]))
+                .artifacts.isEmpty
+        )
         #expect(await ProjectArtifacts.scan(roots: [directory.url]).artifacts.count == 1)
     }
 
@@ -582,7 +594,9 @@ struct ProjectArtifactsTests {
         try directory.file("Tools/Editor.app/Contents/Resources/app/package.json")
         try directory.file("Tools/Editor.app/Contents/Resources/app/node_modules/left-pad/index.js", bytes: 1_000)
 
-        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Tools", directoryHint: .isDirectory)]).artifacts
+        let found = await ProjectArtifacts.scan(roots: [
+            directory.url.appending(path: "Tools", directoryHint: .isDirectory)
+        ]).artifacts
 
         #expect(found.isEmpty, "part of an installed app was offered")
     }
@@ -649,10 +663,16 @@ struct ProjectArtifactsTests {
         let directory = try TemporaryDirectory()
         try directory.file("Project/package.json")
         let old = Date(timeIntervalSinceNow: -60 * 24 * 60 * 60)
-        try FileManager.default.setAttributes([.modificationDate: old], ofItemAtPath: try directory.file("Project/src/main.swift").path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.modificationDate: old],
+            ofItemAtPath: try directory.file("Project/src/main.swift").path(percentEncoded: false)
+        )
         try directory.file("Project/.git/index")
 
-        let activity = ProjectArtifacts.lastActivity(in: directory.url.appending(path: "Project", directoryHint: .isDirectory), ignoring: ["node_modules"])
+        let activity = ProjectArtifacts.lastActivity(
+            in: directory.url.appending(path: "Project", directoryHint: .isDirectory),
+            ignoring: ["node_modules"]
+        )
 
         #expect(activity.isCertain)
         #expect(try #require(activity.date).timeIntervalSinceNow > -60)

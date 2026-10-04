@@ -22,7 +22,13 @@ struct OrphanRemovalTests {
         }
 
         let back = InstalledApp(url: URL(filePath: "/Applications/Back.app"), bundleIdentifier: "com.back.again", name: "Back")
-        let result = await OrphanRemoval.trash(listed, installedApps: [back], scanner: scanner, using: trash, mayUseHelper: true)
+        let result = await OrphanRemoval.trash(
+            listed,
+            installedApps: [back],
+            scanner: scanner,
+            using: trash,
+            mayUseHelper: true
+        )
 
         #expect(moved.withLock { $0 } == ["com.gone.app"])
         #expect(result.trashed.map(\.originalURL.lastPathComponent) == ["com.gone.app"])
@@ -35,7 +41,12 @@ struct OrphanRemovalTests {
         try directory.file("home/Library/Caches/com.gone.app/cache.db")
         let served = try directory.directory("root/Library/Application Support/com.gone.app")
         try directory.setPermissions(0o555, of: served)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: served.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: served.path(percentEncoded: false)
+            )
+        }
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
@@ -50,7 +61,13 @@ struct OrphanRemovalTests {
         let privileged = listed.filter(\.requiresPrivileges).map(\.url)
         #expect(!privileged.isEmpty, "the fixture needs an item only an administrator can move")
 
-        let result = await OrphanRemoval.trash(listed, installedApps: [], scanner: scanner, using: trash, mayUseHelper: false)
+        let result = await OrphanRemoval.trash(
+            listed,
+            installedApps: [],
+            scanner: scanner,
+            using: trash,
+            mayUseHelper: false
+        )
 
         #expect(helperWasAsked.withLock { $0 }.isEmpty)
         #expect(result.failures.map(\.url) == privileged)

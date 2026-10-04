@@ -10,7 +10,8 @@ struct DigestMemoryTests {
 
     private func scan(_ directory: borrowing TemporaryDirectory, memory: DigestMemory) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        return try await DuplicateFinder(homeDirectory: home, digestMemory: memory).scan(DuplicateScanOptions(folders: [home]))
+        return try await DuplicateFinder(homeDirectory: home, digestMemory: memory)
+            .scan(DuplicateScanOptions(folders: [home]))
     }
 
     private func names(_ scan: DuplicateScan) -> [[String]] {
@@ -49,7 +50,11 @@ struct DigestMemoryTests {
         try directory.file("home/Pictures/second.bin", contents: contents)
         let excluded = try directory.file("home/Desktop/excluded.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let finder = DuplicateFinder(homeDirectory: home, exclusions: Exclusions(paths: [excluded]), digestMemory: memory)
+        let finder = DuplicateFinder(
+            homeDirectory: home,
+            exclusions: Exclusions(paths: [excluded]),
+            digestMemory: memory
+        )
 
         let result = try await finder.scan(DuplicateScanOptions(folders: [home]))
 
@@ -67,7 +72,8 @@ struct DigestMemoryTests {
         try directory.file("home/Pictures/second.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
-        let result = try await DuplicateFinder(homeDirectory: home, exclusions: .notYetRead, digestMemory: memory).scan(DuplicateScanOptions(folders: [home]))
+        let result = try await DuplicateFinder(homeDirectory: home, exclusions: .notYetRead, digestMemory: memory)
+            .scan(DuplicateScanOptions(folders: [home]))
 
         #expect(result.groups.isEmpty)
         #expect(memory.load().sample(of: try #require(FileIdentity.of(first))) == nil, "a file was read")
@@ -118,7 +124,9 @@ struct DigestMemoryTests {
         var times = [original.st_atimespec, original.st_mtimespec]
         #expect(utimensat(AT_FDCWD, path, &times, 0) == 0)
         let after = try #require(FileIdentity.of(second))
-        #expect(after.link == before.link && after.size == before.size && after.modificationTime == before.modificationTime)
+        #expect(
+            after.link == before.link && after.size == before.size && after.modificationTime == before.modificationTime
+        )
 
         #expect(names(try await scan(directory, memory: memory)).isEmpty)
     }

@@ -5,7 +5,12 @@ import Testing
 struct AppOrderTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
-    private func app(_ name: String, lastUsed: Date? = nil, isRecorded: Bool = true, added: Date? = nil) -> InstalledApp {
+    private func app(
+        _ name: String,
+        lastUsed: Date? = nil,
+        isRecorded: Bool = true,
+        added: Date? = nil
+    ) -> InstalledApp {
         InstalledApp(
             url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "com.example.\(name)", name: name,
             lastUsedDate: lastUsed, isUseRecorded: isRecorded, dateAdded: added

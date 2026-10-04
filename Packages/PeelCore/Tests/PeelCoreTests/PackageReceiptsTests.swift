@@ -12,7 +12,12 @@ struct PackageReceiptsTests {
             "Library/LaunchDaemons", "Library/LaunchDaemons/com.adguard.helper.plist",
             "./usr/local/bin/adguard-cli",
         ]
-        let items = PackageReceipts.topLevel(files: files, installLocation: "/", namesInside: { _ in nil }, exists: { _ in true }).offered
+        let items = PackageReceipts.topLevel(
+            files: files,
+            installLocation: "/",
+            namesInside: { _ in nil },
+            exists: { _ in true }
+        ).offered
         #expect(items == [
             "/Adguard.app",
             "/Library/Application Support/AdGuard Software",
@@ -223,9 +228,14 @@ struct PackageReceiptsTests {
             default: ""
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
-        let receipt = try #require(await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first)
+        let receipt = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
 
         #expect(receipt.items.map(\.url.lastPathComponent) == ["tool", "tool3"])
         #expect(Set(receipt.items.map(\.id)).count == 2)
@@ -271,14 +281,22 @@ struct PackageReceiptsTests {
             default: ""
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
-        let excluded = try #require(await PackageReceipts.list(exclusions: Exclusions(paths: [app]), pkgutil: pkgutil, environment: environment).receipts.first)
+        let excluded = try #require(
+            await PackageReceipts.list(exclusions: Exclusions(paths: [app]), pkgutil: pkgutil, environment: environment)
+                .receipts.first
+        )
         #expect(excluded.items.isEmpty)
         #expect(!excluded.nothingLeftOnDisk)
 
         try FileManager.default.removeItem(at: app)
-        let gone = try #require(await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first)
+        let gone = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
         #expect(gone.nothingLeftOnDisk)
     }
 
@@ -298,9 +316,14 @@ struct PackageReceiptsTests {
             default: nil
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
-        let receipt = try #require(await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first)
+        let receipt = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
 
         #expect(!receipt.isFileListKnown)
         #expect(!receipt.nothingLeftOnDisk)
@@ -326,9 +349,14 @@ struct PackageReceiptsTests {
             default: ""
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
-        let receipt = try #require(await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first)
+        let receipt = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
 
         #expect(receipt.items.first { $0.url == app }?.isLeftAlone == false)
         #expect(receipt.items.first { $0.url == rules }?.isLeftAlone == true)
@@ -346,14 +374,23 @@ struct PackageReceiptsTests {
         let tools = PathPattern.canonical(try directory.directory("root/Applications/Example Tools"))
         let bin = PathPattern.canonical(try directory.directory("root/usr/local/bin"))
         try directory.file("root/usr/local/bin/tool")
-        try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "linked").path(percentEncoded: false), withDestinationPath: "tool")
-        try FileManager.default.createSymbolicLink(atPath: bin.appending(path: "gone").path(percentEncoded: false), withDestinationPath: "/Applications/Gone.app/Contents/MacOS/gone")
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "linked").path(percentEncoded: false),
+            withDestinationPath: "tool"
+        )
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "gone").path(percentEncoded: false),
+            withDestinationPath: "/Applications/Gone.app/Contents/MacOS/gone"
+        )
         for folder in [served, vendor, tools, bin] {
             try directory.setPermissions(0o555, of: folder)
         }
         defer {
             for folder in [served, vendor, tools, bin] {
-                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false))
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
             }
         }
         let info = try #require(String(
@@ -368,9 +405,14 @@ struct PackageReceiptsTests {
             default: ""
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
-        let receipt = try #require(await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first)
+        let receipt = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
         func item(_ url: URL) throws -> PackageReceipt.Item {
             try #require(receipt.items.first { $0.url == url })
         }
@@ -381,7 +423,11 @@ struct PackageReceiptsTests {
         #expect(try item(tools).isLeftAlone == true)
         #expect(try [item(vendor), item(tools)].map(\.heldBack) == [.beyondTheHelper, .beyondTheHelper])
         func tool(_ name: String) throws -> PackageReceipt.Item {
-            try #require(receipt.items.first { $0.url.deletingLastPathComponent().lastPathComponent == "bin" && $0.url.lastPathComponent == name })
+            try #require(
+                receipt.items.first {
+                    $0.url.deletingLastPathComponent().lastPathComponent == "bin" && $0.url.lastPathComponent == name
+                }
+            )
         }
         #expect(try tool("tool").isLeftAlone == true, "a file in a folder only links leave was offered")
         #expect(try tool("linked").isLeftAlone == true, "a link that leads somewhere was offered")

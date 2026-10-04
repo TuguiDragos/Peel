@@ -55,7 +55,14 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
         let antarctic = UpdateChecker(session: URLSession(configuration: configuration), locale: Locale(identifier: "en_AQ"))
-        let sold = InstalledApp(url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro", version: "1.0", isFromAppStore: true, updateFeed: .appStore)
+        let sold = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes Pro",
+            version: "1.0",
+            isFromAppStore: true,
+            updateFeed: .appStore
+        )
         reply("itunes.apple.com", status: 400, #"{"errorMessage":"Invalid value(s) for key(s): [country]"}"#)
         #expect(await antarctic.status(for: sold) == .failed)
         #expect(CannedProtocol.asked.withLock { $0 } == ["itunes.apple.com", "itunes.apple.com"])
@@ -83,7 +90,10 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     /// Sparkle compares build numbers, so a feed's `sparkle:version` is compared with the app's `CFBundleVersion`.
     @Test func comparesTheFeedsBuildWithTheAppsBuild() async {
         reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"101\" sparkle:shortVersionString=\"1.0\" /></item>"))
-        #expect(await checker.status(for: sparkleApp()) == .updateAvailable(version: "1.0", source: .developer, releaseNotes: nil))
+        #expect(
+            await checker.status(for: sparkleApp())
+                == .updateAvailable(version: "1.0", source: .developer, releaseNotes: nil)
+        )
 
         reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /></item>"))
         #expect(await checker.status(for: sparkleApp()) == .upToDate)
@@ -109,7 +119,9 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     /// it has an Intel processor.
     @Test func aReleaseForAppleSiliconIsAnUpdateOnlyOnAppleSilicon() async {
         reply("feed.example.com", appcast("<item><sparkle:version>200</sparkle:version><sparkle:shortVersionString>2.0</sparkle:shortVersionString><sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements></item>"))
-        let expected: UpdateStatus = HostArchitecture.isAppleSilicon ? .updateAvailable(version: "2.0", source: .developer, releaseNotes: nil) : .upToDate
+        let expected: UpdateStatus = HostArchitecture.isAppleSilicon
+            ? .updateAvailable(version: "2.0", source: .developer, releaseNotes: nil)
+            : .upToDate
         #expect(await checker.status(for: sparkleApp()) == expected)
     }
 
@@ -117,7 +129,14 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     /// answer is used for them rather than "Can't check for updates".
     @Test func automaticFallsBackToWhatHomebrewKnows() async {
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example", version: "1.0")
-        let current = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "1.0", isOutdated: false, appNames: ["Example.app"])
+        let current = HomebrewPackage(
+            name: "example",
+            kind: .cask,
+            installedVersion: "1.0",
+            latestVersion: "1.0",
+            isOutdated: false,
+            appNames: ["Example.app"]
+        )
         reply("nowhere.example.com", "")
 
         #expect(await checker.status(for: app, preference: .automatic, casks: [current]) == .upToDate)
@@ -127,7 +146,13 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         // Its own feed fails: Homebrew's answer still stands.
         reply("feed.example.com", status: 500, "")
         var fed = sparkleApp()
-        fed = InstalledApp(url: app.url, bundleIdentifier: app.bundleIdentifier, name: app.name, version: "1.0", updateFeed: fed.updateFeed)
+        fed = InstalledApp(
+            url: app.url,
+            bundleIdentifier: app.bundleIdentifier,
+            name: app.name,
+            version: "1.0",
+            updateFeed: fed.updateFeed
+        )
         #expect(await checker.status(for: fed, preference: .automatic, casks: [current]) == .upToDate)
     }
 
@@ -135,11 +160,20 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     /// newer one is out with the release's page, where it is downloaded. A page anywhere but GitHub is not believed,
     /// and an answer in another form, or none, is a failed check.
     @Test func peelLearnsOfItsOwnNewReleaseFromGitHub() async {
-        let peel = InstalledApp(url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel", version: "1.0.1", updateFeed: .gitHubRelease(GitHubRelease.peel))
+        let peel = InstalledApp(
+            url: URL(filePath: "/Applications/Peel.app"),
+            bundleIdentifier: "com.tuguidragos.Peel",
+            name: "Peel",
+            version: "1.0.1",
+            updateFeed: .gitHubRelease(GitHubRelease.peel)
+        )
         let page = "https://github.com/TuguiDragos/Peel/releases/tag/v1.0.2"
 
         reply("api.github.com", #"{"tag_name":"v1.0.2","html_url":"\#(page)","draft":false,"prerelease":false}"#)
-        #expect(await checker.status(for: peel) == .updateAvailable(version: "1.0.2", source: .developer, releaseNotes: URL(string: page)))
+        #expect(
+            await checker.status(for: peel)
+                == .updateAvailable(version: "1.0.2", source: .developer, releaseNotes: URL(string: page))
+        )
         #expect(CannedProtocol.asked.withLock { $0 } == ["api.github.com"])
 
         reply("api.github.com", #"{"tag_name":"v1.0.2","html_url":"https://example.com/peel.dmg"}"#)
@@ -160,13 +194,27 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     /// all. Neither is a failed check: there is no Mac version to read, so the app is `.unsupported` and is asked
     /// about again in a week, rather than read as a feed that is down and asked again every few hours.
     @Test func aUniversalPurchaseIsNotAFailedCheck() async {
-        let sold = InstalledApp(url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro", version: "1.0", isFromAppStore: true, updateFeed: .appStore)
+        let sold = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes Pro",
+            version: "1.0",
+            isFromAppStore: true,
+            updateFeed: .appStore
+        )
 
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"3.6.7","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
         #expect(await checker.status(for: sold) == .unsupported)
 
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
-        #expect(await checker.status(for: sold) == .updateAvailable(version: "2.0", source: .appStore, releaseNotes: URL(string: "https://apps.apple.com/app/id1")))
+        #expect(
+            await checker.status(for: sold)
+                == .updateAvailable(
+                    version: "2.0",
+                    source: .appStore,
+                    releaseNotes: URL(string: "https://apps.apple.com/app/id1")
+                )
+        )
 
         reply("itunes.apple.com", #"{"resultCount":0,"results":[]}"#)
         #expect(await checker.status(for: sold) == .unsupported)

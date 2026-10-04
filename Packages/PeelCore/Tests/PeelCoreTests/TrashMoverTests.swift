@@ -9,7 +9,9 @@ import Testing
 /// tests run on an exFAT disk made for them.
 struct TrashMoverTests {
     private func contents(of url: URL) throws -> [String] {
-        try FileManager.default.contentsOfDirectory(atPath: url.path(percentEncoded: false)).filter { !$0.hasPrefix(".") }.sorted()
+        try FileManager.default.contentsOfDirectory(atPath: url.path(percentEncoded: false)).filter {
+            !$0.hasPrefix(".")
+        }.sorted()
     }
 
     private func write(_ text: String, at url: URL) throws {
@@ -24,12 +26,18 @@ struct TrashMoverTests {
 
     @Test func aFileMovesWhereTheDiskCannotRefuseToReplace() throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory))
+        let disk = try ScratchVolume(
+            fileSystem: "ExFAT",
+            mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
+        )
         let file = disk.url.appending(path: "folder/notes.txt")
         try write("mine", at: file)
         let trash = disk.url.appending(path: "Trash", directoryHint: .isDirectory)
 
-        let landed = try TrashMover.move(try OpenItem.at(file.path(percentEncoded: false)).get(), into: try folder(trash)).get()
+        let landed = try TrashMover.move(
+            try OpenItem.at(file.path(percentEncoded: false)).get(),
+            into: try folder(trash)
+        ).get()
 
         #expect(URL(filePath: landed).lastPathComponent == "notes.txt")
         #expect(try String(contentsOfFile: landed, encoding: .utf8) == "mine")
@@ -39,7 +47,10 @@ struct TrashMoverTests {
 
     @Test func whatIsAlreadyThereIsNeverReplaced() throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory))
+        let disk = try ScratchVolume(
+            fileSystem: "ExFAT",
+            mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
+        )
         let file = disk.url.appending(path: "folder/notes.txt")
         let earlier = disk.url.appending(path: "Trash/notes.txt")
         try write("mine", at: file)
@@ -55,7 +66,10 @@ struct TrashMoverTests {
 
     @Test func aFolderMovesWithEverythingInIt() throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory))
+        let disk = try ScratchVolume(
+            fileSystem: "ExFAT",
+            mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
+        )
         try write("1", at: disk.url.appending(path: "folder/Project/one.txt"))
         try write("2", at: disk.url.appending(path: "folder/Project/deeper/two.txt"))
         let trash = disk.url.appending(path: "Trash", directoryHint: .isDirectory)
@@ -70,7 +84,10 @@ struct TrashMoverTests {
 
     @Test func putBackNeverReplacesWhatCameBackInTheMeantime() throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory))
+        let disk = try ScratchVolume(
+            fileSystem: "ExFAT",
+            mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
+        )
         let trashed = disk.url.appending(path: "Trash/notes.txt")
         let another = disk.url.appending(path: "Trash/other.txt")
         try write("from the Trash", at: trashed)

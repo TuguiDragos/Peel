@@ -13,7 +13,10 @@ struct PrivilegedPathPolicyTests {
 
     /// A policy over a fabricated root and home folder. The helper trusts only root (`trustedOwner` 0), and a
     /// test cannot make a file root's, so a test may pass its own user ID instead.
-    private func policy(in directory: borrowing TemporaryDirectory, trustedOwner: uid_t = 0) throws -> PrivilegedPathPolicy {
+    private func policy(
+        in directory: borrowing TemporaryDirectory,
+        trustedOwner: uid_t = 0
+    ) throws -> PrivilegedPathPolicy {
         try directory.directory("root/Library/LaunchDaemons")
         try directory.directory("root/Applications")
         try directory.directory("root/Library/Caches")
@@ -31,7 +34,12 @@ struct PrivilegedPathPolicyTests {
     }
 
     /// Creates a file in the fabricated Trash and opens it the way the helper does.
-    private func trashed(_ name: String, permissions: Int = 0o644, in directory: borrowing TemporaryDirectory, by policy: PrivilegedPathPolicy) throws -> OpenItem {
+    private func trashed(
+        _ name: String,
+        permissions: Int = 0o644,
+        in directory: borrowing TemporaryDirectory,
+        by policy: PrivilegedPathPolicy
+    ) throws -> OpenItem {
         try directory.file("home/.Trash/\(name)")
         try directory.setPermissions(permissions, of: "home/.Trash/\(name)")
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
@@ -122,7 +130,8 @@ struct PrivilegedPathPolicyTests {
         ]
         for (relative, expected) in answers {
             let item = path(relative, in: directory)
-            let opened: PrivilegedPathPolicy.Rejection? = if case .failure(let rejection) = policy.open(item) { rejection } else { nil }
+            let opened: PrivilegedPathPolicy.Rejection? =
+                if case .failure(let rejection) = policy.open(item) { rejection } else { nil }
             #expect(policy.refusal(of: item) == expected, "\(relative)")
             #expect(policy.refusal(of: item) == opened, "\(relative): opening answers \(String(describing: opened))")
         }
@@ -193,11 +202,22 @@ struct PrivilegedPathPolicyTests {
         let destination = path("root/Library/LaunchDaemons/com.example.helper.plist", in: directory)
 
         let helper = try policy(in: directory)
-        #expect(helper.openDestination(destination, for: try trashed("users.plist", in: directory, by: helper)).rejection == .loadsCode)
+        #expect(
+            helper.openDestination(destination, for: try trashed("users.plist", in: directory, by: helper)).rejection
+                == .loadsCode
+        )
 
         let trusting = try policy(in: directory, trustedOwner: getuid())
-        #expect(trusting.openDestination(destination, for: try trashed("writable.plist", permissions: 0o664, in: directory, by: trusting)).rejection == .loadsCode)
-        #expect(try trusting.openDestination(destination, for: try trashed("roots.plist", in: directory, by: trusting)).get().path.hasSuffix("/LaunchDaemons/com.example.helper.plist"))
+        #expect(
+            trusting.openDestination(
+                destination,
+                for: try trashed("writable.plist", permissions: 0o664, in: directory, by: trusting)
+            ).rejection == .loadsCode
+        )
+        #expect(
+            try trusting.openDestination(destination, for: try trashed("roots.plist", in: directory, by: trusting))
+                .get().path.hasSuffix("/LaunchDaemons/com.example.helper.plist")
+        )
     }
 
     @Test func refusesRestoreDestinationsThatAreWrong() throws {
@@ -273,12 +293,25 @@ struct PrivilegedPathPolicyTests {
         let daemons = try directory.directory("Library/LaunchDaemons").path(percentEncoded: false)
         @discardableResult
         func plist(_ name: String, label: String) throws -> URL {
-            try directory.file("Library/LaunchDaemons/\(name)", contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0))
+            try directory.file(
+                "Library/LaunchDaemons/\(name)",
+                contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0)
+            )
         }
         let real = try plist("vendor-daemon.plist", label: "com.vendor.daemon")
         try plist("com.vendor.daemon.plist", label: "com.somebody.else")
-        let linked = try directory.file("elsewhere.plist", contents: PropertyListSerialization.data(fromPropertyList: ["Label": "com.linked.daemon"], format: .xml, options: 0))
-        try FileManager.default.createSymbolicLink(atPath: daemons + "/linked.plist", withDestinationPath: linked.path(percentEncoded: false))
+        let linked = try directory.file(
+            "elsewhere.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["Label": "com.linked.daemon"],
+                format: .xml,
+                options: 0
+            )
+        )
+        try FileManager.default.createSymbolicLink(
+            atPath: daemons + "/linked.plist",
+            withDestinationPath: linked.path(percentEncoded: false)
+        )
         try plist("one.plist", label: "com.twice.daemon")
         try plist("two.plist", label: "com.twice.daemon")
 

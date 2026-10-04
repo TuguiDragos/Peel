@@ -75,7 +75,13 @@ struct CleanupTests {
 
         try await Output.$collected.withValue(collected) {
             try await cleanup(items: [(cache, 20)], service: try service(in: directory))
-                .run(question: "?", dryRun: true, yes: true, using: try service(in: directory), recordingIn: RemovalLog(url: history))
+                .run(
+                    question: "?",
+                    dryRun: true,
+                    yes: true,
+                    using: try service(in: directory),
+                    recordingIn: RemovalLog(url: history)
+                )
         }
 
         #expect(collected.notes.hasPrefix("Peel couldn't read its History at \(history.path(percentEncoded: false)), so nothing will be moved."))
@@ -147,7 +153,14 @@ struct CleanupTests {
         let plan = cleanup(items: [(cache, 20)], service: service)
 
         await #expect(throws: ExitCode.failure) {
-            try await plan.run(question: "?", dryRun: false, yes: true, using: service, recordingIn: log, refusals: refusals) { _, urls in
+            try await plan.run(
+                question: "?",
+                dryRun: false,
+                yes: true,
+                using: service,
+                recordingIn: log,
+                refusals: refusals
+            ) { _, urls in
                 TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .changedSinceScan) })
             }
         }

@@ -3,7 +3,10 @@ import Foundation
 import Testing
 
 struct SelfRemovalTests {
-    private func service(in directory: borrowing TemporaryDirectory, exclusions: Exclusions = .none) throws -> TrashService {
+    private func service(
+        in directory: borrowing TemporaryDirectory,
+        exclusions: Exclusions = .none
+    ) throws -> TrashService {
         let trash = try directory.directory("Trash")
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -27,13 +30,22 @@ struct SelfRemovalTests {
         let cache = try directory.directory("home/Library/Caches/com.example.peel")
         let folder = try directory.directory("home/Library/Application Support/Peel")
 
-        let result = await SelfRemoval.move([cache, app], app: app, folder: folder, using: try service(in: directory)) { result in
+        let result = await SelfRemoval.move(
+            [cache, app],
+            app: app,
+            folder: folder,
+            using: try service(in: directory)
+        ) { result in
             try? Data("\(result.trashed.count)".utf8).write(to: folder.appending(path: "removals.json"))
         }
 
         #expect(paths(result.trashed.map(\.originalURL)) == paths([cache, app, folder]))
         #expect(!FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
-        let moved = try #require(result.trashed.first { PathPattern.comparablePath(of: $0.originalURL) == PathPattern.comparablePath(of: folder) })
+        let moved = try #require(
+            result.trashed.first {
+                PathPattern.comparablePath(of: $0.originalURL) == PathPattern.comparablePath(of: folder)
+            }
+        )
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
@@ -44,7 +56,12 @@ struct SelfRemovalTests {
         let cache = try directory.directory("home/Library/Caches/com.example.peel")
         let folder = try directory.directory("home/Library/Application Support/Peel")
 
-        let result = await SelfRemoval.move([cache, app], app: app, folder: folder, using: try service(in: directory, exclusions: Exclusions(paths: [app]))) { _ in }
+        let result = await SelfRemoval.move(
+            [cache, app],
+            app: app,
+            folder: folder,
+            using: try service(in: directory, exclusions: Exclusions(paths: [app]))
+        ) { _ in }
 
         #expect(paths(result.failures.map(\.url)) == paths([app]))
         #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))

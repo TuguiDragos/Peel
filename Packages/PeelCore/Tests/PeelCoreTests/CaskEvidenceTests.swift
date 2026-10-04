@@ -160,7 +160,13 @@ struct CaskEvidenceTests {
         #expect(evidence.items.filter(\.isInLibrary).count == 1)
 
         let matcher = LeftoverMatcher(app: app, installedApps: [app])
-        let leftovers = await Uninstallation.caskLeftovers(evidence, app: app, exclusions: .none, matcher: matcher, environment: environment(home))
+        let leftovers = await Uninstallation.caskLeftovers(
+            evidence,
+            app: app,
+            exclusions: .none,
+            matcher: matcher,
+            environment: environment(home)
+        )
         #expect(leftovers.count == 2)
         #expect(leftovers.allSatisfy { $0.match.reason == .homebrewCask })
         #expect(leftovers.filter(\.match.isRecommended).count == 1)
@@ -187,7 +193,11 @@ struct CaskEvidenceTests {
 
         let evidence = try #require(CaskEvidence.evidence(for: word, casks: [cask], home: home))
         let leftovers = await Uninstallation.caskLeftovers(
-            evidence, app: word, exclusions: .none, matcher: LeftoverMatcher(app: word, installedApps: [word]), environment: environment(home)
+            evidence,
+            app: word,
+            exclusions: .none,
+            matcher: LeftoverMatcher(app: word, installedApps: [word]),
+            environment: environment(home)
         )
         let found = Dictionary(uniqueKeysWithValues: leftovers.map { ($0.url.lastPathComponent, $0) })
 
@@ -225,7 +235,11 @@ struct CaskEvidenceTests {
 
         let evidence = try #require(CaskEvidence.evidence(for: app, casks: [cask], home: home))
         let leftovers = await Uninstallation.caskLeftovers(
-            evidence, app: app, exclusions: .none, matcher: LeftoverMatcher(app: app, installedApps: [app]), environment: environment(home)
+            evidence,
+            app: app,
+            exclusions: .none,
+            matcher: LeftoverMatcher(app: app, installedApps: [app]),
+            environment: environment(home)
         )
 
         #expect(leftovers.first?.match.heldBack == .holdsRepository)
@@ -248,7 +262,13 @@ struct CaskEvidenceTests {
 
         let evidence = try #require(CaskEvidence.evidence(for: app, casks: [cask], home: home))
         let matcher = LeftoverMatcher(app: app, installedApps: [app, other])
-        let leftovers = await Uninstallation.caskLeftovers(evidence, app: app, exclusions: .none, matcher: matcher, environment: environment(home))
+        let leftovers = await Uninstallation.caskLeftovers(
+            evidence,
+            app: app,
+            exclusions: .none,
+            matcher: matcher,
+            environment: environment(home)
+        )
 
         #expect(leftovers.first?.match.sharedWith == ["com.vendor.shared"])
         #expect(leftovers.first?.match.isRecommended == false)

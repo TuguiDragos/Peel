@@ -14,13 +14,17 @@ struct FolderDuplicateTests {
         configure: (inout DuplicateScanOptions) -> Void = { _ in }
     ) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        var options = DuplicateScanOptions(folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) })
+        var options = DuplicateScanOptions(
+            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        )
         configure(&options)
         return try await DuplicateFinder(homeDirectory: home).scan(options)
     }
 
     private func names(_ scan: DuplicateScan) -> [[String]] {
-        scan.folderGroups.map { $0.folders.map { $0.url.pathComponents.drop { $0 != "home" }.dropFirst().joined(separator: "/") } }
+        scan.folderGroups.map {
+            $0.folders.map { $0.url.pathComponents.drop { $0 != "home" }.dropFirst().joined(separator: "/") }
+        }
     }
 
     /// Makes two folders that hold the same files under the same names, and nothing else.
@@ -388,7 +392,9 @@ struct FolderDuplicateRemovalTests {
     }
 
     /// Makes two identical folders and scans them. `kept` is the one the scan suggests keeping.
-    private func duplicates(in directory: borrowing TemporaryDirectory) async throws -> (scan: DuplicateScan, kept: URL, copy: URL) {
+    private func duplicates(
+        in directory: borrowing TemporaryDirectory
+    ) async throws -> (scan: DuplicateScan, kept: URL, copy: URL) {
         let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
         try directory.file("home/Documents/Trip/photo.jpg", contents: contents)
         try directory.file("home/Pictures/Trip/photo.jpg", contents: contents)
@@ -403,7 +409,12 @@ struct FolderDuplicateRemovalTests {
         let directory = try TemporaryDirectory()
         let (scan, kept, copy) = try await duplicates(in: directory)
 
-        let result = await DuplicateRemoval.trash([], folders: [kept, copy], from: scan, using: try service(in: directory))
+        let result = await DuplicateRemoval.trash(
+            [],
+            folders: [kept, copy],
+            from: scan,
+            using: try service(in: directory)
+        )
 
         #expect(result.trashed.isEmpty)
         #expect(Set(result.failures.map(\.reason)) == [.lastCopy])

@@ -72,7 +72,13 @@ struct LeftoverMatcherTests {
         let sketchpad = app("org.example.Sketchpad", name: "Sketchpad")
         let folder = URL(filePath: "/Users/x/Library/Application Support/Sketchpad")
         func claim(besides rivals: [InstalledApp]) throws -> LeftoverMatch {
-            try #require(LeftoverMatcher(app: sketchpad, installedApps: [sketchpad] + rivals).match(fileName: "Sketchpad", kind: .applicationSupport, at: folder))
+            try #require(
+                LeftoverMatcher(app: sketchpad, installedApps: [sketchpad] + rivals).match(
+                    fileName: "Sketchpad",
+                    kind: .applicationSupport,
+                    at: folder
+                )
+            )
         }
         func agent(at url: URL) -> InstalledApp {
             InstalledApp(url: url, bundleIdentifier: "org.example.agent", name: "SketchpadAgent")
@@ -81,7 +87,12 @@ struct LeftoverMatcherTests {
             InstalledApp(url: url, bundleIdentifier: sketchpad.bundleIdentifier, name: "Sketchpad")
         }
 
-        #expect(try claim(besides: [agent(at: folder.appending(path: "SketchpadAgent.app")), update(at: folder.appending(path: "Updates/Sketchpad.app"))]).isRecommended)
+        #expect(
+            try claim(besides: [
+                agent(at: folder.appending(path: "SketchpadAgent.app")),
+                update(at: folder.appending(path: "Updates/Sketchpad.app")),
+            ]).isRecommended
+        )
         #expect(try claim(besides: [agent(at: URL(filePath: "/Volumes/Disk/SketchpadAgent.app"))]).sharedWith == ["org.example.agent"])
         #expect(try claim(besides: [update(at: URL(filePath: "/Users/x/Downloads/Sketchpad.app"))]).otherCopies.count == 1)
     }
@@ -186,7 +197,9 @@ struct LeftoverMatcherTests {
         let orders = [[word, excel, outlook], [outlook, excel, word], [excel, word, outlook]]
 
         for (fileName, kind) in [("UBF8T346G9.Office", SearchLocation.Kind.groupContainers), ("com.microsoft.Word.plist", .preferences), ("com.microsoft.autoupdate2.plist", .preferences)] {
-            let answers = orders.map { LeftoverMatcher(app: word, installedApps: $0) { _ in nil }.match(fileName: fileName, kind: kind) }
+            let answers = orders.map {
+                LeftoverMatcher(app: word, installedApps: $0) { _ in nil }.match(fileName: fileName, kind: kind)
+            }
             #expect(Set(answers).count == 1, "\(fileName) is judged differently depending on the order")
         }
     }
@@ -396,7 +409,11 @@ struct LeftoverMatcherTests {
 
         let claimed = try #require(match("com.example.notes", in: .caches, for: target, with: [namesake]))
         #expect(claimed.sharedWith == [namesake.bundleIdentifier])
-        #expect(try #require(match("com.example.notes", in: .caches, for: namesake, with: [target])).sharedWith == [target.bundleIdentifier])
+        #expect(
+            try #require(match("com.example.notes", in: .caches, for: namesake, with: [target])).sharedWith == [
+                target.bundleIdentifier
+            ]
+        )
     }
 
     /// Any developer can write one of Apple's groups into an app's entitlements. macOS would not grant it, and

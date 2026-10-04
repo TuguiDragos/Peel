@@ -130,11 +130,26 @@ struct GitSettingsTests {
         let developer = folder.appending(path: "Developer", directoryHint: .isDirectory)
         let homebrew = folder.appending(path: "homebrew", directoryHint: .isDirectory)
         for git in [developer.appending(path: "usr/bin/git"), homebrew.appending(path: "bin/git")] {
-            try FileManager.default.createDirectory(at: git.deletingLastPathComponent(), withIntermediateDirectories: true)
-            #expect(FileManager.default.createFile(atPath: git.path(percentEncoded: false), contents: Data(), attributes: [.posixPermissions: 0o755]))
+            try FileManager.default.createDirectory(
+                at: git.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            #expect(
+                FileManager.default.createFile(
+                    atPath: git.path(percentEncoded: false),
+                    contents: Data(),
+                    attributes: [.posixPermissions: 0o755]
+                )
+            )
         }
-        #expect(GitConfig.find(developerFolder: developer, homebrewPrefix: homebrew, home: folder)?.executable == developer.appending(path: "usr/bin/git"))
-        #expect(GitConfig.find(developerFolder: nil, homebrewPrefix: homebrew, home: folder)?.executable == homebrew.appending(path: "bin/git"))
+        #expect(
+            GitConfig.find(developerFolder: developer, homebrewPrefix: homebrew, home: folder)?.executable
+                == developer.appending(path: "usr/bin/git")
+        )
+        #expect(
+            GitConfig.find(developerFolder: nil, homebrewPrefix: homebrew, home: folder)?.executable
+                == homebrew.appending(path: "bin/git")
+        )
         #expect(GitConfig.find(developerFolder: folder.appending(path: "Missing"), homebrewPrefix: nil, home: folder) == nil)
     }
 }

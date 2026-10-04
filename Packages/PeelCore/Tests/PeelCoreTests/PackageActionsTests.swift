@@ -44,7 +44,10 @@ struct PackageActionsTests {
         try directory.file("private/var/db/receipts/com.example.tool.plist")
         let asked = Mutex<[String]>([])
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url
+            ),
             moveThroughHelper: { urls in
                 asked.withLock { $0 += urls.map(\.lastPathComponent) }
                 return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
@@ -64,7 +67,10 @@ struct PackageActionsTests {
     @Test func aReceiptThatIsNotThereIsAFailure() async throws {
         let directory = try TemporaryDirectory()
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url
+            ),
             moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
         )
 

@@ -81,7 +81,8 @@ import Testing
         var problems: [String] = []
         for language in try Self.declaredLanguages() {
             for key in Self.sidebarNames {
-                guard let text = Self.value(of: key, in: language, catalog), Self.width(text, in: language) > room else { continue }
+                guard let text = Self.value(of: key, in: language, catalog), Self.width(text, in: language) > room
+                else { continue }
                 problems.append("\(language): \(text.debugDescription) is \(Int(Self.width(text, in: language))) points, and a sidebar row has \(Int(room))")
             }
         }
@@ -106,14 +107,21 @@ import Testing
                 let titles = keys.map { Self.value(of: $0, in: language, catalog) ?? $0 }
                 let widest = titles.indices.map { index in
                     let end = index == 0 || index == titles.count - 1
-                    return ceil((titles[index] as NSString).size(withAttributes: [.font: font]).width + (end ? 27 : 23.5))
+                    return ceil(
+                        (titles[index] as NSString).size(withAttributes: [.font: font]).width + (end ? 27 : 23.5)
+                    )
                 }.max() ?? 0
                 return CGFloat(titles.count) * widest
             }
-            let widestName = Self.sidebarNames.map { Self.width(Self.value(of: $0, in: language, catalog) ?? $0, in: language) }.max() ?? 0
+            let widestName =
+                Self.sidebarNames.map { Self.width(Self.value(of: $0, in: language, catalog) ?? $0, in: language) }
+                .max() ?? 0
             // Plus a scroll bar's width, which `ToolSidebar` adds where scroll bars show beside the content.
             let scroller = NSScroller.scrollerWidth(for: .regular, scrollerStyle: .legacy)
-            let sidebar = max(min(ceil(widestName + Self.sidebarSymbol) + Self.sidebarRowInsets, Self.sidebarMaximum) + scroller, 220)
+            let sidebar = max(
+                min(ceil(widestName + Self.sidebarSymbol) + Self.sidebarRowInsets, Self.sidebarMaximum) + scroller,
+                220
+            )
             let checks: [(needs: CGFloat, room: CGFloat, what: String)] = [
                 (sidebar + bar(settings) + 24, 960, "Settings' tabs beside the sidebar at the narrowest window"),
                 (sidebar + bar(terminal) + 24, 1120, "Terminal's tabs beside the sidebar at the default window"),
@@ -157,7 +165,8 @@ import Testing
     /// characters the font lacks. In an English process, Japanese kana would come from a Chinese font and draw wider.
     static func font(_ font: NSFont, in language: String) -> NSFont {
         let cascade = CTFontCopyDefaultCascadeListForLanguages(font, [language] as CFArray) as? [CTFontDescriptor] ?? []
-        return NSFont(descriptor: font.fontDescriptor.addingAttributes([.cascadeList: cascade]), size: font.pointSize) ?? font
+        return NSFont(descriptor: font.fontDescriptor.addingAttributes([.cascadeList: cascade]), size: font.pointSize)
+            ?? font
     }
 
     /// With no language declared, the checks above would have nothing to look at, so this runs them on a
@@ -270,9 +279,14 @@ import Testing
         let literal = try NSRegularExpression(pattern: #"Text\(verbatim: "((?:[^"\\]|\\.)*)"\)"#)
         var found: [String] = []
         for folder in ["Peel", "PeelFinder"] {
-            let enumerator = FileManager.default.enumerator(at: Self.repository.appending(path: folder), includingPropertiesForKeys: nil)
+            let enumerator = FileManager.default.enumerator(
+                at: Self.repository.appending(path: folder),
+                includingPropertiesForKeys: nil
+            )
             while let url = enumerator?.nextObject() as? URL {
-                guard url.pathExtension == "swift", let source = try? String(contentsOf: url, encoding: .utf8) else { continue }
+                guard url.pathExtension == "swift", let source = try? String(contentsOf: url, encoding: .utf8) else {
+                    continue
+                }
                 for match in literal.matches(in: source, range: NSRange(source.startIndex..., in: source)) {
                     let text = String(source[Range(match.range(at: 1), in: source)!])
                     guard !allowed.contains(text), text.contains(where: \.isLetter), !text.contains("\\(") else { continue }
@@ -360,7 +374,9 @@ struct CatalogChecker {
         guard let letters = oneLetterWords[language] else { return nil }
         let prose = text.replacing(/`[^`]*`/, with: "")
         let pattern = try! NSRegularExpression(pattern: "(?<![\\p{L}\\p{N}\\-’'])([\(letters)\(letters.uppercased())]) (?=\\S)")
-        guard let match = pattern.firstMatch(in: prose, range: NSRange(prose.startIndex..., in: prose)) else { return nil }
+        guard let match = pattern.firstMatch(in: prose, range: NSRange(prose.startIndex..., in: prose)) else {
+            return nil
+        }
         return String(prose[Range(match.range(at: 1), in: prose)!])
     }
 
@@ -414,7 +430,8 @@ struct CatalogChecker {
             let whole = String(text[Range(match.range, in: text)!])
             if whole == "%%" { continue }
             if whole.hasPrefix("${") || whole.hasPrefix("%#@") { named.append(whole); continue }
-            let length = match.range(at: 2).location == NSNotFound ? "" : String(text[Range(match.range(at: 2), in: text)!])
+            let length =
+                match.range(at: 2).location == NSNotFound ? "" : String(text[Range(match.range(at: 2), in: text)!])
             let conversion = String(text[Range(match.range(at: 3), in: text)!])
             let kind = conversion == "@" ? "@" : length + conversion
             if match.range(at: 1).location != NSNotFound {
@@ -443,7 +460,11 @@ struct CatalogChecker {
         let opened = text.components(separatedBy: "^[").count - 1
         guard opened > 0 || text.contains("(inflect") else { return nil }
         do {
-            let parsed = try AttributedString(markdown: text, including: \.foundation, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
+            let parsed = try AttributedString(
+                markdown: text,
+                including: \.foundation,
+                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+            )
             let runs = parsed.runs.filter { $0.inflect != nil }.count
             let left = String(parsed.characters)
             if runs != opened { return "\(opened) ^[ but \(runs) inflected runs" }
@@ -479,7 +500,14 @@ struct CatalogChecker {
     func leaves(_ node: [String: Any], category: String? = nil, isSubstitution: Bool = false) -> [Leaf] {
         var found: [Leaf] = []
         if let unit = node["stringUnit"] as? [String: Any] {
-            found.append(Leaf(category: category, state: unit["state"] as? String, text: unit["value"] as? String ?? "", isSubstitution: isSubstitution))
+            found.append(
+                Leaf(
+                    category: category,
+                    state: unit["state"] as? String,
+                    text: unit["value"] as? String ?? "",
+                    isSubstitution: isSubstitution
+                )
+            )
         }
         if let set = node["stringSet"] as? [String: Any] {
             found += (set["values"] as? [String] ?? [""]).map { Leaf(category: category, state: set["state"] as? String, text: $0) }
@@ -547,12 +575,20 @@ struct CatalogChecker {
                 }
                 let categories = Set(found.filter { !$0.isSubstitution }.compactMap(\.category))
                 let forms = found.filter { $0.category != nil && !$0.isSubstitution }
-                if !forms.isEmpty, !forms.contains(where: { Self.integer.firstMatch(in: $0.text, range: NSRange($0.text.startIndex..., in: $0.text)) != nil }) {
+                if !forms.isEmpty,
+                   !forms.contains(where: {
+                       Self.integer.firstMatch(in: $0.text, range: NSRange($0.text.startIndex..., in: $0.text)) != nil
+                   }) {
                     fail(path, key, language, "plural", "no form shows the number, which Xcode refuses to build: write a key for one and one for more")
                 }
                 if Self.oneIsMoreThanOne.contains(language) {
                     let ones = found.filter { $0.category == "one" }
-                    if ones.contains(where: { $0.isSubstitution ? !$0.text.contains("%arg") : Self.integer.firstMatch(in: $0.text, range: NSRange($0.text.startIndex..., in: $0.text)) == nil }) {
+                    if ones.contains(where: {
+                        $0.isSubstitution
+                            ? !$0.text.contains("%arg")
+                            : Self.integer.firstMatch(in: $0.text, range: NSRange($0.text.startIndex..., in: $0.text))
+                                == nil
+                    }) {
                         fail(path, key, language, "plural", "`one` is not only 1 in this language, so its form shows the number")
                     }
                 }
@@ -563,7 +599,15 @@ struct CatalogChecker {
                     if !extra.isEmpty { fail(path, key, language, "plural", "\(extra.sorted()) is no category of this language") }
                 }
                 for leaf in found {
-                    check(leaf, key: key, source: source, sourceSlots: sourceSlots, substitutions: substitutions, language: language, catalog: catalog)
+                    check(
+                        leaf,
+                        key: key,
+                        source: source,
+                        sourceSlots: sourceSlots,
+                        substitutions: substitutions,
+                        language: language,
+                        catalog: catalog
+                    )
                 }
                 for (name, forms) in Self.substitutionCategories(node) {
                     guard let cldr = Self.plurals[language], !forms.isEmpty else { continue }
@@ -577,7 +621,10 @@ struct CatalogChecker {
     }
 
     private mutating func check(
-        _ leaf: Leaf, key: String, source: String, sourceSlots: (slots: [Slot], numbered: Int, unnumbered: Int, named: [String]),
+        _ leaf: Leaf,
+        key: String,
+        source: String,
+        sourceSlots: (slots: [Slot], numbered: Int, unnumbered: Int, named: [String]),
         substitutions: [String: Slot], language: String, catalog: Catalog
     ) {
         let path = catalog.path
@@ -603,17 +650,20 @@ struct CatalogChecker {
         if Self.menuWords[key] == nil, text.filter({ $0 == ellipsis }).count != source.filter({ $0 == "…" }).count {
             fail(path, key, language, "ellipsis", "the English has \(source.filter { $0 == "…" }.count), written \(ellipsis) in this language")
         }
-        for mark in ["`", "*", "_"] where text.components(separatedBy: mark).count != source.components(separatedBy: mark).count {
+        for mark in ["`", "*", "_"]
+        where text.components(separatedBy: mark).count != source.components(separatedBy: mark).count {
             fail(path, key, language, "markdown", "\(mark) is formatting: as many as the English has")
         }
         if Self.linkTargets(text) != Self.linkTargets(source) { fail(path, key, language, "markdown", "a link's address has to stay as the English has it") }
         if let broken = Self.brokenInflection(text) { fail(path, key, language, "inflect", broken) }
         if text.contains("^["), !source.contains("^[") { fail(path, key, language, "inflect", "markup only where the English has it") }
         if text.contains("^["), !Self.keepsInflection(language) { fail(path, key, language, "inflect", "this language cannot inflect: use a plural variation") }
-        if Self.menuWords[key] == nil, Self.swiftUIWords[key] == nil, let word = Self.oneLetterWordBeforeASpace(in: text, language: language) {
+        if Self.menuWords[key] == nil, Self.swiftUIWords[key] == nil,
+           let word = Self.oneLetterWordBeforeASpace(in: text, language: language) {
             fail(path, key, language, "space", "a no-break space after “\(word)”, so a line never ends with it")
         }
-        if language == "pl", Self.countBeforeASpace.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil {
+        if language == "pl",
+           Self.countBeforeASpace.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil {
             fail(path, key, language, "space", "a no-break space between a count and its noun")
         }
         if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
@@ -641,7 +691,8 @@ struct CatalogChecker {
             let added = Set(slots.slots).subtracting(sourceSlots.slots)
             // A plural form may leave its count out ("one file"), but never a name, and only when what is
             // left is numbered: an unnumbered %@ would then read the count.
-            let safeDrop = leaf.category != nil && added.isEmpty && dropped.allSatisfy { $0.kind != "@" } && slots.unnumbered == 0
+            let safeDrop =
+                leaf.category != nil && added.isEmpty && dropped.allSatisfy { $0.kind != "@" } && slots.unnumbered == 0
             if !safeDrop {
                 fail(path, key, language, "placeholder", "\(slots.slots.map { "\($0.position):\($0.kind)" }) against \(sourceSlots.slots.map { "\($0.position):\($0.kind)" })")
             }
@@ -682,7 +733,11 @@ struct CatalogChecker {
             }
             for (language, node) in localizations where language != "en" {
                 let swiftUILanguage = Self.appleLanguages[language] ?? language
-                guard let expected = (plist[swiftUILanguage] as? [String: String])?[apple]?.replacingOccurrences(of: "%@", with: "Peel"),
+                guard
+                    let expected = (plist[swiftUILanguage] as? [String: String])?[apple]?.replacingOccurrences(
+                        of: "%@",
+                        with: "Peel"
+                    ),
                       let value = leaves(node as? [String: Any] ?? [:]).first?.text else { continue }
                 if value != expected { fail("Localization/Peel/Localizable.xcstrings", key, language, rule, "SwiftUI says \(expected.debugDescription)") }
             }
@@ -698,13 +753,17 @@ struct CatalogChecker {
         }
         for word in Self.systemWords {
             guard let data = try? Data(contentsOf: URL(filePath: word.table)),
-                  let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+                  let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+            else {
                 fail("Localization/Peel/Localizable.xcstrings", word.key, "en", "system", "\(word.table) is not on this Mac")
                 continue
             }
             let localizations = catalog[word.key]?["localizations"] as? [String: Any] ?? [:]
             for language in required {
-                guard let expected = (plist[Self.appleLanguages[language] ?? language] as? [String: Any])?[word.apple] as? String else {
+                guard
+                    let expected = (plist[Self.appleLanguages[language] ?? language] as? [String: Any])?[word.apple]
+                        as? String
+                else {
                     fail("Localization/Peel/Localizable.xcstrings", word.key, language, "system", "macOS has no \(word.apple) in this language")
                     continue
                 }

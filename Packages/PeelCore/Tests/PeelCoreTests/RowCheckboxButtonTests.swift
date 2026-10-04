@@ -5,7 +5,12 @@ import Testing
 @MainActor
 struct RowCheckboxButtonTests {
     @Test func showMenuOpensWhatARightClickOnItOpensEvenWhileItCannotBeChanged() {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.titled], backing: .buffered, defer: false)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false
+        )
         let row = RightClicks(frame: NSRect(x: 0, y: 0, width: 300, height: 100))
         window.contentView = row
         let checkbox = RowCheckboxButton(frame: NSRect(x: 20, y: 30, width: 16, height: 16))

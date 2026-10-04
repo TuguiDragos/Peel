@@ -5,7 +5,12 @@ import Testing
 struct UninstallationTests {
     private let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
 
-    private func leftover(_ name: String, confidence: MatchConfidence = .certain, sharedWith: [String] = [], requiresPrivileges: Bool = false) -> Leftover {
+    private func leftover(
+        _ name: String,
+        confidence: MatchConfidence = .certain,
+        sharedWith: [String] = [],
+        requiresPrivileges: Bool = false
+    ) -> Leftover {
         Leftover(
             url: URL(filePath: "/Users/me/Library/Caches/\(name)"),
             kind: .caches,
@@ -16,7 +21,11 @@ struct UninstallationTests {
         )
     }
 
-    private func uninstallation(app: InstalledApp? = nil, appRequiresPrivileges: Bool = false, leftovers: [Leftover]) -> Uninstallation {
+    private func uninstallation(
+        app: InstalledApp? = nil,
+        appRequiresPrivileges: Bool = false,
+        leftovers: [Leftover]
+    ) -> Uninstallation {
         Uninstallation(
             app: app ?? self.app,
             appSize: 10_000,
@@ -58,9 +67,19 @@ struct UninstallationTests {
 
         #expect(uninstallation(app: protectedApp, leftovers: []).suggestedSelection(canUseHelper: true).isEmpty)
         // An app macOS keeps stays, so what it holds is data in use, not a leftover. For Notes, that is every note.
-        #expect(uninstallation(app: protectedApp, leftovers: [leftover("com.apple.Chess")]).suggestedSelection(canUseHelper: true).isEmpty)
-        #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: false).isEmpty)
-        #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: true) == [app.url])
+        #expect(
+            uninstallation(app: protectedApp, leftovers: [leftover("com.apple.Chess")]).suggestedSelection(
+                canUseHelper: true
+            ).isEmpty
+        )
+        #expect(
+            uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: false).isEmpty
+        )
+        #expect(
+            uninstallation(appRequiresPrivileges: true, leftovers: []).suggestedSelection(canUseHelper: true) == [
+                app.url
+            ]
+        )
         #expect(uninstallation(appRequiresPrivileges: true, leftovers: []).privilegedURLs == [app.url])
     }
 
@@ -77,9 +96,14 @@ struct UninstallationTests {
         let plan = uninstallation(leftovers: [plain, possible, keys, excluded, unmeasured, privileged])
 
         #expect(plan.selectable(canUseHelper: false) == [app.url, plain.url, possible.url, unmeasured.url])
-        #expect(plan.selectable(canUseHelper: true) == [app.url, plain.url, possible.url, unmeasured.url, privileged.url])
+        #expect(
+            plan.selectable(canUseHelper: true) == [app.url, plain.url, possible.url, unmeasured.url, privileged.url]
+        )
         for canUseHelper in [false, true] {
-            #expect(plan.suggestedSelection(canUseHelper: canUseHelper).isSubset(of: plan.selectable(canUseHelper: canUseHelper)))
+            #expect(
+                plan.suggestedSelection(canUseHelper: canUseHelper)
+                    .isSubset(of: plan.selectable(canUseHelper: canUseHelper))
+            )
         }
 
         let needsHelper = uninstallation(appRequiresPrivileges: true, leftovers: [plain])
@@ -117,9 +141,14 @@ struct UninstallationTests {
         let shared = leftover("shared", sharedWith: [other.bundleIdentifier])
         let otherPlan = Uninstallation(
             app: other, appSize: 10_000, appRequiresPrivileges: false,
-            scan: LeftoverScan(leftovers: [leftover("com.example.other"), leftover("shared", sharedWith: [app.bundleIdentifier])], unreadableLocations: [])
+            scan: LeftoverScan(
+                leftovers: [leftover("com.example.other"), leftover("shared", sharedWith: [app.bundleIdentifier])],
+                unreadableLocations: []
+            )
         )
-        let bulk = BulkUninstallation(uninstallations: [uninstallation(appRequiresPrivileges: true, leftovers: [own, shared]), otherPlan])
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(appRequiresPrivileges: true, leftovers: [own, shared]), otherPlan,
+        ])
 
         #expect(bulk.suggestedSelection(canUseHelper: false) == [other.url, URL(filePath: "/Users/me/Library/Caches/com.example.other")])
         #expect(bulk.suggestedSelection(canUseHelper: true).isSuperset(of: [app.url, own.url, shared.url, other.url]))
@@ -161,10 +190,16 @@ struct UninstallationTests {
         }
         defer {
             for bundle in [inReach, beyond] {
-                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bundle.path(percentEncoded: false))
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: bundle.path(percentEncoded: false)
+                )
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
         for (bundle, isBeyond) in [(inReach, false), (beyond, true)] {
             for isKept in [false, true] {
@@ -195,7 +230,8 @@ struct UninstallationTests {
         let slow = Leftover(
             url: URL(filePath: "/Users/me/Library/Caches/slow"),
             kind: .caches,
-            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []).forReview(.notMeasured),
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
+                .forReview(.notMeasured),
             size: 0,
             isMeasured: false,
             requiresPrivileges: false
@@ -253,7 +289,11 @@ struct UninstallationTests {
         #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 1)
         #expect(!plan.privilegedURLs.contains(bundle))
 
-        let several = await BulkUninstallation.prepare([installed], installedApps: [installed], environment: environment)
+        let several = await BulkUninstallation.prepare(
+            [installed],
+            installedApps: [installed],
+            environment: environment
+        )
         #expect(several.suggestedSelection(canUseHelper: true).map(\.lastPathComponent) == ["org.example.app.plist"])
         #expect(!several.selectable(canUseHelper: true).contains(bundle))
         #expect(several.staying(selected: []).isEmpty, "an app already in the Trash held its leftovers back")
@@ -281,7 +321,11 @@ struct UninstallationTests {
         #expect(!plan.selectable(canUseHelper: true).contains(bundle))
         #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == plan.scan.leftovers.count)
 
-        let several = await BulkUninstallation.prepare([installed], installedApps: [installed], environment: environment)
+        let several = await BulkUninstallation.prepare(
+            [installed],
+            installedApps: [installed],
+            environment: environment
+        )
         #expect(several.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(!several.selectable(canUseHelper: true).contains(bundle))
         #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
@@ -300,7 +344,12 @@ struct UninstallationTests {
         #expect(free.suggestedSelection(canUseHelper: true).count == 2)
 
         for exclusions in [Exclusions(bundleIdentifiers: ["com.example.app"]), Exclusions(paths: [bundle])] {
-            let plan = await Uninstallation.prepare(installed, installedApps: [installed], exclusions: exclusions, environment: environment)
+            let plan = await Uninstallation.prepare(
+                installed,
+                installedApps: [installed],
+                exclusions: exclusions,
+                environment: environment
+            )
             #expect(plan.isExcluded)
             #expect(plan.scan.leftovers.isEmpty)
             #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
@@ -319,8 +368,16 @@ struct UninstallationTests {
         let link = bin.appending(path: "scribble")
         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: app.url.appending(path: "Contents/MacOS/scribble"))
         try directory.setPermissions(0o555, of: bin)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: bin.path(percentEncoded: false)) }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: bin.path(percentEncoded: false)
+            )
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
         let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
         let leftover = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "scribble" })
@@ -343,14 +400,24 @@ struct UninstallationTests {
         }
         defer {
             for folder in [served, named, identified] {
-                try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path(percentEncoded: false))
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
             }
         }
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
 
         let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
         func leftover(_ url: URL) throws -> Leftover {
-            try #require(plan.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url) })
+            try #require(
+                plan.scan.leftovers.first {
+                    PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url)
+                }
+            )
         }
         let suggested = plan.suggestedSelection(canUseHelper: true)
         let bulk = BulkUninstallation(uninstallations: [plan])
@@ -383,10 +450,20 @@ struct UninstallationTests {
         let cache = try directory.directory("home/Library/Caches/com.example.app")
         let installed = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
         let path = PathPattern.comparablePath(of: bundle)
-        let cask = HomebrewPackage(name: "example", kind: .cask, appNames: ["Example.app"], leftoverPatterns: [path, path + "/", PathPattern.comparablePath(of: cache) + "/"])
+        let cask = HomebrewPackage(
+            name: "example",
+            kind: .cask,
+            appNames: ["Example.app"],
+            leftoverPatterns: [path, path + "/", PathPattern.comparablePath(of: cache) + "/"]
+        )
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
 
-        let plan = await Uninstallation.prepare(installed, installedApps: [installed], casks: [cask], environment: environment)
+        let plan = await Uninstallation.prepare(
+            installed,
+            installedApps: [installed],
+            casks: [cask],
+            environment: environment
+        )
 
         #expect(!plan.scan.leftovers.contains { PathPattern.comparablePath(of: $0.url) == path }, "the app is listed as its own leftover")
         #expect(plan.scan.leftovers.count { $0.url.lastPathComponent == "com.example.app" } == 1, "one folder, two rows")
@@ -397,7 +474,10 @@ struct UninstallationTests {
     /// both of the first two checks right.
     @Test func readsAPathByTheLocationThatWouldHaveFoundIt() {
         let home = URL(filePath: "/Users/me", directoryHint: .isDirectory)
-        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: URL(filePath: "/", directoryHint: .isDirectory))
+        let environment = SearchEnvironment(
+            homeDirectory: home,
+            rootDirectory: URL(filePath: "/", directoryHint: .isDirectory)
+        )
 
         func place(_ path: String) -> SearchLocation.Kind {
             Uninstallation.place(of: URL(filePath: path), in: environment).kind
@@ -519,7 +599,8 @@ struct SuggestedSelectionOnThisMacTests {
             let app = uninstallation.app
             let suggested = uninstallation.suggestedSelection(canUseHelper: true)
             for leftover in uninstallation.scan.leftovers where suggested.contains(leftover.url) {
-                let users = leftover.match.sharedWith + leftover.match.otherCopies.map { $0.path(percentEncoded: false) }
+                let users =
+                    leftover.match.sharedWith + leftover.match.otherCopies.map { $0.path(percentEncoded: false) }
                 #expect(!leftover.match.isShared, "\(app.name): \(leftover.url.lastPathComponent) is shared with \(users)")
                 #expect(leftover.match.confidence >= .likely, "\(app.name): \(leftover.url.lastPathComponent) is only a guess")
             }

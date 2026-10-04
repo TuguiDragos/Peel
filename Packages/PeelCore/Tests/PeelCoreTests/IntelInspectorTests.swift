@@ -7,7 +7,9 @@ struct IntelInspectorTests {
     private func fatHeader(_ cpuTypes: [UInt32]) -> Data {
         var bytes: [UInt8] = []
         func append(_ value: UInt32) {
-            bytes += [UInt8(value >> 24 & 0xFF), UInt8(value >> 16 & 0xFF), UInt8(value >> 8 & 0xFF), UInt8(value & 0xFF)]
+            bytes += [
+                UInt8(value >> 24 & 0xFF), UInt8(value >> 16 & 0xFF), UInt8(value >> 8 & 0xFF), UInt8(value & 0xFF),
+            ]
         }
         append(0xCAFE_BABE)
         append(UInt32(cpuTypes.count))
@@ -50,7 +52,14 @@ struct IntelInspectorTests {
         let installed = apps
 
         let stop = try await unanswered.stop {
-            _ = await IntelInspector.scan(installedApps: installed, plugins: [], backgroundItems: [], exclusions: .none, environment: environment, measure: unanswered.measure)
+            _ = await IntelInspector.scan(
+                installedApps: installed,
+                plugins: [],
+                backgroundItems: [],
+                exclusions: .none,
+                environment: environment,
+                measure: unanswered.measure
+            )
         }
 
         #expect(stop.took < .seconds(1))
@@ -62,7 +71,10 @@ struct IntelInspectorTests {
         let name = (path as NSString).lastPathComponent
         let executableName = (name as NSString).deletingPathExtension
         let executable = try directory.file("\(path)/Contents/MacOS/\(executableName)", contents: fatHeader(cpuTypes))
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: executable.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: executable.path(percentEncoded: false)
+        )
         try directory.file("\(path)/Contents/Info.plist", contents: Data("<plist></plist>".utf8))
         return directory.url.appending(path: path, directoryHint: .isDirectory)
     }
@@ -163,9 +175,14 @@ struct IntelInspectorTests {
         let plainHelper = try directory.file(
             "Universal.app/Contents/Helpers/updater", contents: intelHeader(fileType: 2)
         )
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: plainHelper.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: plainHelper.path(percentEncoded: false)
+        )
 
-        let found = IntelInspector.intelOnlyBundles(inside: directory.url.appending(path: "Universal.app", directoryHint: .isDirectory))
+        let found = IntelInspector.intelOnlyBundles(
+            inside: directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
+        )
         #expect(Set(found.map(\.lastPathComponent)) == ["Launcher.app", "Old.appex", "updater"])
     }
 
@@ -220,9 +237,14 @@ struct IntelInspectorTests {
         _ = try bundle(directory, "Electron.app/Contents/Library/LaunchServices/com.example.helper.app", cpuTypes: [intel])
         // A library is loaded into the app, never run on its own.
         let library = try directory.file("Electron.app/Contents/Frameworks/libswiftCore.dylib", contents: fatHeader([intel]))
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: library.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: library.path(percentEncoded: false)
+        )
 
-        let found = IntelInspector.intelOnlyBundles(inside: directory.url.appending(path: "Electron.app", directoryHint: .isDirectory))
+        let found = IntelInspector.intelOnlyBundles(
+            inside: directory.url.appending(path: "Electron.app", directoryHint: .isDirectory)
+        )
 
         #expect(Set(found.map(\.lastPathComponent)) == ["Electron Helper (GPU).app", "Installer.xpc", "com.example.helper.app"])
     }
@@ -235,10 +257,18 @@ struct IntelInspectorTests {
         _ = try bundle(directory, "Updater.app", cpuTypes: [intel, appleSilicon])
         _ = try bundle(directory, "Updater.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc", cpuTypes: [intel])
         let framework = directory.url.appending(path: "Updater.app/Contents/Frameworks/Sparkle.framework")
-        try FileManager.default.createSymbolicLink(atPath: framework.appending(path: "Versions/Current").path(percentEncoded: false), withDestinationPath: "B")
-        try FileManager.default.createSymbolicLink(atPath: framework.appending(path: "XPCServices").path(percentEncoded: false), withDestinationPath: "Versions/Current/XPCServices")
+        try FileManager.default.createSymbolicLink(
+            atPath: framework.appending(path: "Versions/Current").path(percentEncoded: false),
+            withDestinationPath: "B"
+        )
+        try FileManager.default.createSymbolicLink(
+            atPath: framework.appending(path: "XPCServices").path(percentEncoded: false),
+            withDestinationPath: "Versions/Current/XPCServices"
+        )
 
-        let found = IntelInspector.intelOnlyBundles(inside: directory.url.appending(path: "Updater.app", directoryHint: .isDirectory))
+        let found = IntelInspector.intelOnlyBundles(
+            inside: directory.url.appending(path: "Updater.app", directoryHint: .isDirectory)
+        )
 
         #expect(found.filter { $0.lastPathComponent == "Installer.xpc" }.count == 1, "listed under \(found.map { $0.path(percentEncoded: false) })")
     }
@@ -247,7 +277,10 @@ struct IntelInspectorTests {
     @Test func reportsOneProgramOnceHoweverManyJobsRunIt() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("usr/local/bin/agent", contents: fatHeader([intel]))
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: program.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: program.path(percentEncoded: false)
+        )
         func job(_ label: String) -> BackgroundItem {
             BackgroundItem(
                 label: label, kind: .agent, source: .userLibrary, plistURL: nil,
@@ -305,7 +338,8 @@ struct IntelInspectorTests {
         #expect(SizeTotal(scan.findings.map(\.size)).known > 0)
 
         // An app that did not answer in time is still Intel only: it is listed, with a size nobody knows.
-        let slow = await IntelInspector.scan(installedApps: [app], plugins: [], backgroundItems: [], exclusions: .none) { _ in nil }
+        let slow = await IntelInspector.scan(installedApps: [app], plugins: [], backgroundItems: [], exclusions: .none)
+        { _ in nil }
         #expect(slow.findings.map(\.kind) == [.app])
         #expect(slow.findings.first?.size == nil)
         #expect(!SizeTotal(slow.findings.map(\.size)).isComplete)
@@ -322,7 +356,10 @@ struct IntelInspectorTests {
         // Real Intel only binaries, executable, so they would be reported if the folder were searched.
         for path in ["Universal.app/Contents/Frameworks/libswiftCore.dylib", "Universal.app/Contents/Frameworks/Vendor.framework/Vendor"] {
             let library = try directory.file(path, contents: fatHeader([intel]))
-            try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: library.path(percentEncoded: false))
+            try FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: library.path(percentEncoded: false)
+            )
         }
 
         let found = IntelInspector.intelOnlyBundles(inside: app)

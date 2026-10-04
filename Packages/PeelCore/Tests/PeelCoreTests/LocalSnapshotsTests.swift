@@ -58,7 +58,10 @@ struct LocalSnapshotsTests {
 
     @Test func readsTheMomentATimeMachineSnapshotWasTaken() throws {
         let date = try #require(LocalSnapshots.date(in: "com.apple.TimeMachine.2026-09-17-120000.local"))
-        let parts = Calendar(identifier: .gregorian).dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let parts = Calendar(identifier: .gregorian).dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: date
+        )
 
         #expect(parts.year == 2026)
         #expect(parts.month == 9)

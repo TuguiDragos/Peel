@@ -18,7 +18,13 @@ struct DeveloperCachesTests {
         for path in paths {
             try directory.directory(path)
         }
-        let tool = DeveloperCaches.Definition(id: "tool", name: "Tool", systemImage: "hammer", appBundleIdentifiers: [], folders: paths.map { DeveloperCaches.Folder($0, .cache, source: "https://example.com") })
+        let tool = DeveloperCaches.Definition(
+            id: "tool",
+            name: "Tool",
+            systemImage: "hammer",
+            appBundleIdentifiers: [],
+            folders: paths.map { DeveloperCaches.Folder($0, .cache, source: "https://example.com") }
+        )
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
@@ -39,7 +45,11 @@ struct DeveloperCachesTests {
         try directory.setPermissions(0o000, of: ".npm/_cacache")
         defer { try? directory.setPermissions(0o755, of: ".npm/_cacache") }
 
-        let environments = await DeveloperCaches.scan(DeveloperCaches.definitions, homeDirectory: directory.url, exclusions: .none) { url in
+        let environments = await DeveloperCaches.scan(
+            DeveloperCaches.definitions,
+            homeDirectory: directory.url,
+            exclusions: .none
+        ) { url in
             url.lastPathComponent == "_npx" ? nil : await FileSize.contents(of: url)
         }
 
@@ -87,7 +97,10 @@ struct DeveloperCachesTests {
     @Test func findsWhatItListsInsideAFolderSpelledAnotherWay() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Caches/Coursier/v1")
-        try FileManager.default.createSymbolicLink(at: directory.url.appending(path: "link"), withDestinationURL: directory.url.appending(path: "home"))
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "link"),
+            withDestinationURL: directory.url.appending(path: "home")
+        )
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
         let left = DeveloperCaches.FoldersLeftToDeveloper(home: home).inside
@@ -226,7 +239,11 @@ struct DeveloperCachesTests {
         try directory.file(".npm/_npx/package/index.js", bytes: 8_000)
         try directory.file("Library/Developer/Xcode/DerivedData/ModuleCache.noindex/module.pcm", bytes: 20_000)
 
-        let environments = await DeveloperCaches.scan(DeveloperCaches.definitions, homeDirectory: directory.url, exclusions: .none) { url in
+        let environments = await DeveloperCaches.scan(
+            DeveloperCaches.definitions,
+            homeDirectory: directory.url,
+            exclusions: .none
+        ) { url in
             url.lastPathComponent == "_npx" ? nil : await FileSize.contents(of: url)
         }
 
@@ -417,7 +434,9 @@ struct DeveloperCachesTests {
 
     /// A path inside another would count the same bytes twice, and moving the outer folder would take the inner.
     @Test func noPathIsInsideAnother() {
-        let paths = DeveloperCaches.definitions.flatMap { definition in definition.folders.map { ($0.path, definition.id) } }
+        let paths = DeveloperCaches.definitions.flatMap { definition in
+            definition.folders.map { ($0.path, definition.id) }
+        }
         for (path, owner) in paths {
             for (other, otherOwner) in paths where other != path {
                 #expect(!path.hasPrefix(other + "/"), "\(owner) lists \(path) inside \(otherOwner)'s \(other)")
@@ -439,7 +458,10 @@ struct DeveloperCachesTests {
         try directory.file("Library/Caches/deno/latest.txt", bytes: 64)
         let deno = DeveloperCaches.definitions.filter { $0.id == "deno" }
 
-        let offered = Set(await DeveloperCaches.scan(deno, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent))
+        let offered = Set(
+            await DeveloperCaches.scan(deno, homeDirectory: directory.url).flatMap(\.locations)
+                .map(\.url.lastPathComponent)
+        )
 
         #expect(offered == ["remote", "npm", "deps", "gen", "registries", "dl", "check_cache_v2", "dep_analysis_cache_v1"])
     }
@@ -495,7 +517,9 @@ struct DeveloperCachesTests {
         )
         let environments = await DeveloperCaches.scan(in: environment)
         let home = directory.url.path(percentEncoded: false)
-        let found = Set(environments.flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) })
+        let found = Set(
+            environments.flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }
+        )
         #expect(found == expected, "missing \(expected.subtracting(found).sorted()), extra \(found.subtracting(expected).sorted())")
         #expect(environments.count == DeveloperCaches.definitions.count)
         #expect(environments.flatMap(\.locations).allSatisfy { ($0.size ?? 0) >= 400_000 })
@@ -671,7 +695,8 @@ struct DeveloperCachesTests {
         try directory.file("Library/Developer/Xcode/UserData/Previews/other/state", bytes: 400_000)
         let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
 
-        let offered = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+        let offered = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
+            .map(\.url.lastPathComponent)
 
         #expect(offered == ["Simulator Devices"])
     }
@@ -1208,7 +1233,8 @@ struct DeveloperCachesTests {
         try FileManager.default.createSymbolicLink(at: directory.url.appending(path: ".virtualenvs/fast"), withDestinationURL: elsewhere)
         let wrapper = DeveloperCaches.definitions.filter { $0.id == "virtualenvwrapper" }
 
-        let offered = await DeveloperCaches.scan(wrapper, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+        let offered = await DeveloperCaches.scan(wrapper, homeDirectory: directory.url).flatMap(\.locations)
+            .map(\.url.lastPathComponent)
 
         #expect(offered == ["web"])
     }
@@ -1222,7 +1248,8 @@ struct DeveloperCachesTests {
         try directory.file(".nx/sockets/daemon", bytes: 16)
         let nx = DeveloperCaches.definitions.filter { $0.id == "nx" }
 
-        let offered = await DeveloperCaches.scan(nx, homeDirectory: directory.url).flatMap(\.locations).map(\.url.lastPathComponent)
+        let offered = await DeveloperCaches.scan(nx, homeDirectory: directory.url).flatMap(\.locations)
+            .map(\.url.lastPathComponent)
 
         #expect(offered == ["5d41402abc4b2a76"])
     }
@@ -1236,7 +1263,10 @@ struct DeveloperCachesTests {
             try directory.file(".bun/install/cache/react@18.3.1@@@1/package.json", bytes: 400_000)
             if storeIsALink {
                 let elsewhere = try directory.directory("Volumes/Fast/bun-links")
-                try FileManager.default.createSymbolicLink(at: directory.url.appending(path: ".bun/install/cache/links"), withDestinationURL: elsewhere)
+                try FileManager.default.createSymbolicLink(
+                    at: directory.url.appending(path: ".bun/install/cache/links"),
+                    withDestinationURL: elsewhere
+                )
             } else if hasStore {
                 try directory.file(".bun/install/cache/links/react@18.3.1-5664d3cd670b3205/node_modules/react/index.js", bytes: 4_096)
             }

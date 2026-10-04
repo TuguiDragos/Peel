@@ -80,7 +80,11 @@ struct OrphanConfidenceTests {
     @Test("Having watched the app go does not settle it either: a maker's other app may only ever read what they share")
     func aMakerStillHereOutranksHavingWatchedTheAppGo() {
         let removed = left("Example", team: "S8EX82NJP6", daysAgo: 40)
-        let judged = OrphanConfidence.judge(group(written: 40 * 24 * 60 * 60, remembered: removed), installedTeams: ["S8EX82NJP6"], now: now)
+        let judged = OrphanConfidence.judge(
+            group(written: 40 * 24 * 60 * 60, remembered: removed),
+            installedTeams: ["S8EX82NJP6"],
+            now: now
+        )
         #expect(judged.level == .unsure)
         #expect(judged.reasons == [.sameMakerStillInstalled])
     }
@@ -107,14 +111,20 @@ struct OrphanConfidenceTests {
 
     @Test("Something that wrote here weeks after the app was gone may still use the files, and the write is the reason")
     func aWriteWeeksAfterTheAppLeft() {
-        let judged = OrphanConfidence.judge(group(written: 20 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 60)), now: now)
+        let judged = OrphanConfidence.judge(
+            group(written: 20 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 60)),
+            now: now
+        )
         #expect(judged.level == .unsure)
         #expect(judged.reasons == [.writtenAfterItLeft(name: "Numi", written: now.addingTimeInterval(-20 * 24 * 60 * 60))])
     }
 
     @Test("Months of nothing touching it settle it even when something wrote after the app was gone")
     func aWriteAfterTheAppLeftLongAgo() throws {
-        let judged = OrphanConfidence.judge(group(written: 250 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 400)), now: now)
+        let judged = OrphanConfidence.judge(
+            group(written: 250 * 24 * 60 * 60, remembered: left("Numi", daysAgo: 400)),
+            now: now
+        )
         #expect(judged.level == .certain)
         #expect(judged.reasons.count == 1)
         guard case .untouched(let months) = try #require(judged.reasons.first) else {
@@ -143,7 +153,11 @@ struct OrphanConfidenceTests {
     func longUntouched() {
         let judged = OrphanConfidence.judge(group(written: 400 * 24 * 60 * 60), now: now)
         #expect(judged.level == .certain)
-        #expect(judged.reasons.contains { if case .untouched(let months) = $0 { months >= OrphanConfidence.longUntouched } else { false } })
+        #expect(
+            judged.reasons.contains {
+                if case .untouched(let months) = $0 { months >= OrphanConfidence.longUntouched } else { false }
+            }
+        )
     }
 
     @Test("A plug-in's date does not move when it is used, so its age says nothing")
@@ -168,8 +182,17 @@ struct OrphanConfidenceTests {
 
         // Nor is its own date read as the removal: what is inside may have been written since.
         let removed = left("Example", daysAgo: 4)
-        let recent = OrphanItem(url: item.url, kind: .applicationSupport, size: nil, modificationDate: now.addingTimeInterval(-4 * 24 * 60 * 60), requiresPrivileges: false)
-        let judged = OrphanConfidence.judge(OrphanGroup(identifier: "com.example.app", items: [recent], rememberedApp: removed), now: now)
+        let recent = OrphanItem(
+            url: item.url,
+            kind: .applicationSupport,
+            size: nil,
+            modificationDate: now.addingTimeInterval(-4 * 24 * 60 * 60),
+            requiresPrivileges: false
+        )
+        let judged = OrphanConfidence.judge(
+            OrphanGroup(identifier: "com.example.app", items: [recent], rememberedApp: removed),
+            now: now
+        )
         #expect(judged.level == .unsure)
     }
 

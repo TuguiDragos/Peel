@@ -20,7 +20,13 @@ struct PromptStyleTests {
                 let shown = try shell.output(
                     of: "cd ~/Projects/peel; (( $+functions[vcs_info] )) && vcs_info; \(failed ? "false" : "true"); print -rnP -- \"${(e)PROMPT}\""
                 )
-                let sample = style.sample(user: NSUserName(), host: PromptStyle.hostName(), path: "~/Projects/peel", branch: "main", failed: failed)
+                let sample = style.sample(
+                    user: NSUserName(),
+                    host: PromptStyle.hostName(),
+                    path: "~/Projects/peel",
+                    branch: "main",
+                    failed: failed
+                )
                 #expect(Self.merged(Self.segments(in: shown)) == Self.merged(sample), "\(style), failed: \(failed), shown: \(shown.debugDescription)")
             }
         }

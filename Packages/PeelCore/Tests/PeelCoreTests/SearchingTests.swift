@@ -10,7 +10,13 @@ struct SearchingTests {
         DuplicateGroup(
             id: paths[0],
             files: paths.map {
-                DuplicateFile(url: URL(filePath: $0), size: 10, reclaimableSize: 10, allocatedSize: 10, identity: FileIdentity(stat()))
+                DuplicateFile(
+                    url: URL(filePath: $0),
+                    size: 10,
+                    reclaimableSize: 10,
+                    allocatedSize: 10,
+                    identity: FileIdentity(stat())
+                )
             }
         )
     }
@@ -121,7 +127,9 @@ struct SearchingTests {
         )
         try Data(repeating: 7, count: 2_000).write(to: url)
         let moved = Mutex<[URL]>([])
-        let service = TrashService(environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)) { url in
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        ) { url in
             moved.withLock { $0.append(url) }
             return url
         }

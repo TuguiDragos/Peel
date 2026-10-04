@@ -9,7 +9,10 @@ struct TerminalThemeTests {
     }
 
     @Test func everyThemeIsTerminalsClearDarkWithItsOwnColors() throws {
-        let apple = try #require(PropertyListSerialization.propertyList(from: Data(contentsOf: Self.clearDark), format: nil) as? [String: Any])
+        let apple = try #require(
+            PropertyListSerialization.propertyList(from: Data(contentsOf: Self.clearDark), format: nil)
+                as? [String: Any]
+        )
         for theme in TerminalThemeCatalog.all {
             let profile = try TerminalProfile.settings(for: theme)
             #expect(Set(profile.keys) == Set(apple.keys).union(["CursorColor"]), "\(theme.name)")
@@ -36,7 +39,9 @@ struct TerminalThemeTests {
         let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "TERMINAL.md"), encoding: .utf8)
         for theme in themes {
             let data = try Data(contentsOf: folder.appending(path: "Themes/\(theme.profileName).terminal"))
-            let published = try #require(PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
+            let published = try #require(
+                PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+            )
             let profile = try TerminalProfile.settings(for: theme)
             #expect(Set(published.keys) == Set(profile.keys), "\(theme.name)")
             for (key, value) in profile where !key.hasSuffix("Color") {
@@ -54,11 +59,15 @@ struct TerminalThemeTests {
         let pictures = try FileManager.default.contentsOfDirectory(atPath: folder.path).filter { $0.hasSuffix(".png") }
         #expect(Set(pictures) == Set(PromptStyle.allCases.map { "\($0).png" }))
         let homebrew = URL(filePath: "/opt/homebrew", directoryHint: .isDirectory)
-        var lines = ShellSetting.allCases.flatMap(\.lines) + [ShellFile.completionSystem] + PromptStyle.allCases.flatMap(\.lines)
+        var lines =
+            ShellSetting.allCases.flatMap(\.lines) + [ShellFile.completionSystem]
+            + PromptStyle.allCases.flatMap(\.lines)
         lines += GitSetting.allCases.filter { $0 != .signCommits }.flatMap { $0.values(signingKey: nil) }.map { "git config --global \($0.key) \($0.value)" }
         lines += ["git config --global gpg.format ssh", "git config --global commit.gpgSign true"]
         lines += SSHSetting.allCases.flatMap(\.lines)
-        lines += TerminalTool.allCases.flatMap { $0.setup(prefix: homebrew) }.flatMap(\.lines).map { $0.replacing("/opt/homebrew", with: "$HOMEBREW_PREFIX") }
+        lines += TerminalTool.allCases.flatMap { $0.setup(prefix: homebrew) }.flatMap(\.lines).map {
+            $0.replacing("/opt/homebrew", with: "$HOMEBREW_PREFIX")
+        }
         let pageLines = Set(page.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) })
         for line in lines {
             #expect(pageLines.contains(line), "\(line)")
@@ -78,8 +87,12 @@ struct TerminalThemeTests {
         ] + zip(ansiKeys, theme.ansi)
         for (key, expected) in colors {
             let data = try #require(profile[key] as? Data, "\(theme.name): \(key)")
-            let color = try #require(try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: data)?.usingColorSpace(.sRGB))
-            let channels = [color.redComponent, color.greenComponent, color.blueComponent].map { Int(($0 * 255).rounded()) }
+            let color = try #require(
+                try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: data)?.usingColorSpace(.sRGB)
+            )
+            let channels = [color.redComponent, color.greenComponent, color.blueComponent].map {
+                Int(($0 * 255).rounded())
+            }
             #expect(channels == [Int(expected >> 16 & 0xFF), Int(expected >> 8 & 0xFF), Int(expected & 0xFF)], "\(theme.name): \(key)")
             #expect(color.alphaComponent == (key == "BackgroundColor" ? 0.95 : 1), "\(theme.name): \(key)")
         }

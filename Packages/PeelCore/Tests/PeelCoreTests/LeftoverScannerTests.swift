@@ -17,7 +17,10 @@ struct LeftoverScannerTests {
         func found(in location: SearchLocation) -> (location: SearchLocation, leftovers: [Leftover]) {
             let leftover = Leftover(
                 url: recent.url.appending(path: "com.example.app.sfl3"), kind: location.kind,
-                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .likely, sharedWith: []), size: 10, isMeasured: true, requiresPrivileges: false
+                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .likely, sharedWith: []),
+                size: 10,
+                isMeasured: true,
+                requiresPrivileges: false
             )
             return (location, [leftover])
         }
@@ -100,13 +103,22 @@ struct LeftoverScannerTests {
             name: "Character Palette",
             teamIdentifier: "59GAB85EFG"
         )
-        let listed = InstalledApp(url: elsewhere, bundleIdentifier: palette.bundleIdentifier, name: palette.name, isSystemProtected: true)
+        let listed = InstalledApp(
+            url: elsewhere,
+            bundleIdentifier: palette.bundleIdentifier,
+            name: palette.name,
+            isSystemProtected: true
+        )
         let scanner = LeftoverScanner(environment: environment(in: directory))
 
         for installedApps in [[palette], [palette, listed]] {
             let scan = await scanner.scan(palette, installedApps: installedApps)
             let preferences = try #require(scan.leftovers.first { $0.kind == .preferences })
-            #expect(preferences.match.otherCopies.map(PathPattern.comparablePath) == [PathPattern.comparablePath(of: elsewhere)])
+            #expect(
+                preferences.match.otherCopies.map(PathPattern.comparablePath) == [
+                    PathPattern.comparablePath(of: elsewhere)
+                ]
+            )
             #expect(!preferences.match.isRecommended)
         }
     }
@@ -170,7 +182,10 @@ struct LeftoverScannerTests {
         try directory.file("root/Library/LaunchAgents/net.example.webhelper.plist")
         try directory.directory("var/C/net.example.client")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
@@ -198,7 +213,10 @@ struct LeftoverScannerTests {
         try directory.directory("home/Library/Application Support/Music")
         let namesake = InstalledApp(url: URL(filePath: "/Applications/Music.app"), bundleIdentifier: "com.acme.music", name: "Music")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(namesake, installedApps: [namesake])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            namesake,
+            installedApps: [namesake]
+        )
 
         let folder = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Music" })
         #expect(folder.match.sharedWith == ["com.apple.Music"])
@@ -239,7 +257,10 @@ struct LeftoverScannerTests {
         let list = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/net.example.client.sfl3"
         try directory.file(list)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let found = scan.leftovers.filter { $0.url.lastPathComponent == "net.example.client.sfl3" }
         #expect(found.count == 1, "listed \(found.count) times")
@@ -251,7 +272,14 @@ struct LeftoverScannerTests {
     /// the same folder, and `adding(_:)` compares paths rather than URLs, so it stays one row.
     @Test func aPathACaskSpellsWithASlashIsNotASecondRow() {
         let match = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
-        let found = Leftover(url: URL(filePath: "/Users/x/Library/Caches/net.example.client"), kind: .caches, match: match, size: 10, isMeasured: true, requiresPrivileges: false)
+        let found = Leftover(
+            url: URL(filePath: "/Users/x/Library/Caches/net.example.client"),
+            kind: .caches,
+            match: match,
+            size: 10,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
         let named = Leftover(
             url: URL(filePath: "/Users/x/Library/Caches/net.example.client/", directoryHint: .isDirectory),
             kind: .caches,
@@ -277,8 +305,15 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Application Support/Nobody/Tunewell/notes.db")
         let other = InstalledApp(url: URL(filePath: "/Applications/SomeVendor.app"), bundleIdentifier: "com.somevendor.app", name: "SomeVendor")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell, other])
-        let byPath = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.path(percentEncoded: false).components(separatedBy: "Application Support/").last ?? "", $0) })
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell, other]
+        )
+        let byPath = Dictionary(
+            uniqueKeysWithValues: scan.leftovers.map {
+                ($0.url.path(percentEncoded: false).components(separatedBy: "Application Support/").last ?? "", $0)
+            }
+        )
 
         #expect(byPath["SomeVendor/Tunewell"]?.match.heldBack == .insideAnotherAppsFolder)
         #expect(byPath["SomeVendor/Tunewell"]?.match.isRecommended == false)
@@ -316,7 +351,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Application Support/Tunewell/Libraries/Main.musiclibrary/Library.musicdb")
         try directory.file("home/Library/Caches/net.example.client/cache.db")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let support = try #require(scan.leftovers.first { $0.kind == .applicationSupport })
         #expect(support.match.heldBack == .holdsALibrary)
@@ -330,14 +368,20 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Containers/net.example.client/Data/Documents/playlist.txt")
         try directory.file("home/Library/Group Containers/ABCDE12345.net.example.client/cache.db")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let container = try #require(scan.leftovers.first { $0.kind == .containers })
         #expect(container.match.heldBack == .holdsDocuments)
         #expect(!container.match.isRecommended)
 
         try FileManager.default.removeItem(at: container.url.appending(path: "Data/Documents/playlist.txt"))
-        let emptied = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let emptied = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         #expect(try #require(emptied.leftovers.first { $0.kind == .containers }).match.isRecommended)
     }
 
@@ -347,7 +391,10 @@ struct LeftoverScannerTests {
         try directory.setPermissions(0o000, of: "home/Library/Logs")
         defer { try? directory.setPermissions(0o755, of: "home/Library/Logs") }
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.isEmpty)
         #expect(scan.unreadableLocations.map(\.kind) == [.logs])
@@ -391,7 +438,10 @@ struct LeftoverScannerTests {
         try directory.setPermissions(0o555, of: "root/Library/LaunchDaemons")
         defer { try? directory.setPermissions(0o755, of: "root/Library/LaunchDaemons") }
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let privileges = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.kind, $0.requiresPrivileges) })
         #expect(privileges == [.launchDaemons: true, .preferences: false])
@@ -405,7 +455,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Caches/com.apple.helpd/Generated/net.example.client.help-1.0/index.html")
         try directory.file("home/Library/Application Support/SomeVendor/Tunewell/state.json")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
@@ -428,14 +481,21 @@ struct LeftoverScannerTests {
             try directory.directory("home/Library/Application Support/Aardvark \(index)")
         }
         try directory.file("home/Library/Application Support/SomeVendor/Tunewell/state.json")
-        let scanner = LeftoverScanner(environment: environment(in: directory), measure: LeftoverScanner.walk, nestedFolderLimit: 5)
+        let scanner = LeftoverScanner(
+            environment: environment(in: directory),
+            measure: LeftoverScanner.walk,
+            nestedFolderLimit: 5
+        )
 
         let scan = await scanner.scan(tunewell, installedApps: [tunewell])
 
         #expect(scan.leftovers.isEmpty, "the folder past the limit was looked into")
         #expect(scan.cutShortLocations.map(\.kind) == [.applicationSupport])
 
-        let whole = await LeftoverScanner(environment: environment(in: directory), measure: LeftoverScanner.walk).scan(tunewell, installedApps: [tunewell])
+        let whole = await LeftoverScanner(environment: environment(in: directory), measure: LeftoverScanner.walk).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         #expect(whole.leftovers.map(\.url.lastPathComponent) == ["Tunewell"])
         #expect(whole.cutShortLocations.isEmpty)
     }
@@ -448,7 +508,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Caches/SomeVendor/Tunewell Installer Log.txt")
         try directory.file("home/Library/Caches/SomeVendor/Tunewell")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["Tunewell"])
     }
@@ -458,7 +521,10 @@ struct LeftoverScannerTests {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/net.example.client/net.example.client.db")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["net.example.client"])
     }
@@ -468,7 +534,10 @@ struct LeftoverScannerTests {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Containers/com.example.other/Data/net.example.client.plist")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.isEmpty)
     }
@@ -479,7 +548,10 @@ struct LeftoverScannerTests {
         try directory.file("root/Users/Shared/Tunewell/library.db", bytes: 4_000)
         try directory.file("root/Users/Shared/Something Else/notes.txt")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["Tunewell"])
         #expect(scan.leftovers.first?.kind == .sharedFolder)
@@ -497,7 +569,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Tunewell/my own notes.txt")
         try directory.file("home/Documents/Tunewell")
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(
@@ -605,7 +680,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Application Support/Tunewell/workspaces/a/b/project/.git/HEAD")
         try directory.file("home/Library/Caches/net.example.client/cache.db", bytes: 64_000)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
@@ -627,9 +705,17 @@ struct LeftoverScannerTests {
         let container = try directory.directory("home/Library/Containers/net.example.client")
         try directory.file("home/Library/Containers/net.example.client/Data/Library/Caches/blob", bytes: 64_000)
         try directory.setPermissions(0o000, of: container)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: container.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: container.path(percentEncoded: false)
+            )
+        }
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         let found = try #require(scan.leftovers.first { $0.url.lastPathComponent == "net.example.client" })
 
         #expect(found.match.heldBack == .couldNotBeRead, "a folder nothing could be read from was taken for an empty one")
@@ -646,7 +732,10 @@ struct LeftoverScannerTests {
         try directory.setPermissions(0, of: "home/Library/Application Support/net.example.client/Private")
         defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/net.example.client/Private") }
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         let found = try #require(scan.leftovers.first { $0.url.path(percentEncoded: false).hasSuffix("Application Support/net.example.client") })
 
         #expect(found.match.heldBack == .couldNotBeRead, "a folder read only in part was taken for all it holds")
@@ -772,7 +861,9 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Containers/com.example.notes/Data/Documents/novel.txt")
         let photos = try directory.directory("home/Library/Application Support/Example")
         try directory.file("home/Library/Application Support/Example/2024/Trip.photoslibrary/database/Photos.sqlite")
-        let unread: LeftoverScanner.Measure = { _ in FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
+        let unread: LeftoverScanner.Measure = { _ in
+            FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true)
+        }
         func leftover(_ url: URL, _ kind: SearchLocation.Kind) async -> Leftover {
             await LeftoverScanner.leftover(
                 at: url,
@@ -809,9 +900,14 @@ struct LeftoverScannerTests {
         let cask = HomebrewPackage(name: "tunewell", kind: .cask, appNames: ["Tunewell.app"], leftoverPatterns: ["~/Library/TUNEWELL"])
         let environment = environment(in: directory)
         let scan = await LeftoverScanner(environment: environment).scan(tunewell, installedApps: [tunewell])
-        let evidence = try #require(CaskEvidence.evidence(for: tunewell, casks: [cask], home: environment.homeDirectory))
+        let evidence = try #require(
+            CaskEvidence.evidence(for: tunewell, casks: [cask], home: environment.homeDirectory)
+        )
         let fromTheCask = await Uninstallation.caskLeftovers(
-            evidence, app: tunewell, exclusions: .none, matcher: LeftoverMatcher(app: tunewell, installedApps: [tunewell]),
+            evidence,
+            app: tunewell,
+            exclusions: .none,
+            matcher: LeftoverMatcher(app: tunewell, installedApps: [tunewell]),
             environment: environment
         )
 
@@ -835,7 +931,10 @@ struct LeftoverScannerTests {
         try directory.file("root/Library/Audio/Plug-Ins/VST/Native Instruments/Massive.vst/Contents/Info.plist", contents: plist("com.native-instruments.massive.vst"))
         try directory.file("root/Library/QuickLook/Somebody Else.qlgenerator/Contents/Info.plist", bytes: 512)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(massive, installedApps: [massive])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            massive,
+            installedApps: [massive]
+        )
 
         let root = directory.url.path(percentEncoded: false)
         let found = Set(scan.leftovers.map { String($0.url.path(percentEncoded: false).dropFirst(root.count)) })
@@ -859,7 +958,10 @@ struct LeftoverScannerTests {
         try directory.file("root/Library/Audio/Plug-Ins/VST3/Q10.vst3/Contents/Info.plist", contents: plist("com.waves.Q10"))
         try directory.file("root/Library/Audio/Plug-Ins/VST3/Pro-Q.vst3/Contents/Info.plist", contents: plist("com.fabfilter.proq"))
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(central, installedApps: [central])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            central,
+            installedApps: [central]
+        )
 
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["Q10.vst3"])
         #expect(scan.leftovers.first?.match.reason == .vendorPrefix)
@@ -881,7 +983,10 @@ struct LeftoverScannerTests {
         try directory.file("\(plugIns)/VST3/Dynamics/Compressor.vst3/Contents/Info.plist", contents: plist("org.example.dynamics.compressor"))
         try directory.file("\(plugIns)/VST3/Compressor.vst3/Contents/Info.plist", contents: plist("net.example.compressor.vst3"))
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(compressor, installedApps: [compressor])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            compressor,
+            installedApps: [compressor]
+        )
 
         let folder = directory.url.appending(path: plugIns).path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
@@ -907,7 +1012,10 @@ struct LeftoverScannerTests {
         try directory.file("\(plugIns)/Components/Tunewell Reverb.component/Contents/Info.plist", contents: plist("net.example.tunewell.reverb"))
         try directory.file("\(plugIns)/VST3/Example Audio/Space.vst3/Contents/Info.plist", contents: plist("net.example.tunewell.space"))
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(Set(scan.leftovers.map(\.url.lastPathComponent)) == ["Tunewell Reverb.component", "Space.vst3"])
         #expect(scan.leftovers.allSatisfy { $0.match.reason == .bundleIdentifierPrefix && $0.match.isRecommended })
@@ -959,7 +1067,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/LaunchAgents/com.elsewhere.agent.plist", contents: job(program: "/Applications/Other.app/Contents/MacOS/Agent"))
         try directory.file("home/Library/LaunchAgents/com.relative.agent.plist", contents: job(program: "sleep"))
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
 
         #expect(Set(found.keys) == ["com.acmesoft.updater.plist", "net.example.nagger.plist"])
@@ -974,12 +1085,19 @@ struct LeftoverScannerTests {
     /// which says nothing about whose it is. Where it leads does.
     @Test func findsALinkToAToolInsideTheApp() async throws {
         let directory = try TemporaryDirectory()
-        let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory), bundleIdentifier: "net.example.client", name: "Tunewell")
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
         try directory.file("root/Applications/Tunewell.app/Contents/MacOS/tunewell-cli", bytes: 1_000_000)
         let bin = try directory.directory("root/usr/local/bin")
         let sbin = try directory.directory("root/usr/local/sbin")
         func link(_ name: String, in folder: URL, to destination: String) throws {
-            try FileManager.default.createSymbolicLink(atPath: folder.appending(path: name).path(percentEncoded: false), withDestinationPath: destination)
+            try FileManager.default.createSymbolicLink(
+                atPath: folder.appending(path: name).path(percentEncoded: false),
+                withDestinationPath: destination
+            )
         }
         try link("tunewell-cli", in: bin, to: app.url.appending(path: "Contents/MacOS/tunewell-cli").path(percentEncoded: false))
         try link("spotd", in: sbin, to: "../../../Applications/Tunewell.app/Contents/MacOS/spotd")
@@ -1041,7 +1159,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/developer.example.app-Release/state.db", bytes: 64)
         try directory.file("home/Library/Preferences/unrelated.plist", bytes: 64)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(developer, installedApps: [developer])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            developer,
+            installedApps: [developer]
+        )
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
             (String($0.url.path(percentEncoded: false).dropFirst(root.count)), $0)
@@ -1188,7 +1309,10 @@ struct LeftoverScannerTests {
         try directory.file("home/Library/Caches/com.apple.python/Developer/wheel.whl", bytes: 64)
         try directory.file("home/Library/Caches/CrashReporter/Developer/report.txt", bytes: 64)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(developer, installedApps: [developer])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            developer,
+            installedApps: [developer]
+        )
         let root = directory.url.path(percentEncoded: false)
         let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
             (String($0.url.path(percentEncoded: false).dropFirst(root.count)), $0)
@@ -1205,7 +1329,10 @@ struct LeftoverScannerTests {
         let directory = try TemporaryDirectory()
         try directory.file("root/Users/Shared/Acme/net.example.client/licence.dat", bytes: 64)
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
         let found = try #require(scan.leftovers.first)
 
         #expect(found.url.lastPathComponent == "net.example.client")
@@ -1230,7 +1357,10 @@ struct LeftoverScannerTests {
             contents: Data(metadata.replacingOccurrences(of: "%@", with: "com.example.other").utf8)
         )
 
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
 
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["3F2504E0-4F89-11D3-9A0C-0305E82C3301"])
         #expect(scan.leftovers.first?.match.reason == .bundleIdentifier)

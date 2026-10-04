@@ -8,7 +8,8 @@ struct PeelFolderTests {
         let folder = PathPattern.comparablePath(of: PeelFolder.url)
         let written = [
             TeamRegistry.defaultURL, ExclusionStore.defaultURL, AppMemory.defaultURL,
-            RemovalHistory.defaultURL, RemovalHistory.refusalsURL, RemovalJournal(beside: RemovalHistory.defaultURL).url,
+            RemovalHistory.defaultURL, RemovalHistory.refusalsURL,
+            RemovalJournal(beside: RemovalHistory.defaultURL).url,
             PreferenceBackup.defaultDirectory, DigestMemory.defaultURL,
         ]
         for url in written {

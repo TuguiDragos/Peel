@@ -28,7 +28,9 @@ struct FileLockTests {
     @Test func theTerminalCannotStopAProcessThatHoldsTheLock() throws {
         let directory = try TemporaryDirectory()
 
-        let ignored = FileLock.whileHeld(beside: directory.url.appending(path: "Peel/removals.json")) { SignalDisposition.isIgnored(SIGTSTP) }
+        let ignored = FileLock.whileHeld(beside: directory.url.appending(path: "Peel/removals.json")) {
+            SignalDisposition.isIgnored(SIGTSTP)
+        }
 
         #expect(ignored)
     }

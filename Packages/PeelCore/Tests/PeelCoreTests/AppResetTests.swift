@@ -57,7 +57,12 @@ struct AppResetTests {
         try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
         let exclusions = Exclusions(bundleIdentifiers: ["com.example.app"])
 
-        let reset = await AppReset.prepare(app(), installedApps: [app()], exclusions: exclusions, environment: home(directory))
+        let reset = await AppReset.prepare(
+            app(),
+            installedApps: [app()],
+            exclusions: exclusions,
+            environment: home(directory)
+        )
 
         #expect(reset.items.isEmpty)
         #expect(reset.suggestedSelection.isEmpty)
@@ -253,7 +258,12 @@ struct AppResetTests {
         try directory.file("Library/Containers/com.example.app/Data/Library/Caches/cache", bytes: 400_000)
         try directory.file("Library/Containers/com.example.app/Data/Library/Logs/app.log", bytes: 4096)
 
-        let reset = await AppReset.prepare(app(), installedApps: [app()], exclusions: .none, environment: home(directory)) { url in
+        let reset = await AppReset.prepare(
+            app(),
+            installedApps: [app()],
+            exclusions: .none,
+            environment: home(directory)
+        ) { url in
             url.lastPathComponent == "Caches" ? nil : await FileSize.contents(of: url)
         }
 

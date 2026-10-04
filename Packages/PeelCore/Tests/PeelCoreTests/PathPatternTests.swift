@@ -25,7 +25,11 @@ struct PathPatternTests {
         let matches = PathPattern.expand(".virtualenvs/*/", home: directory.url).map { $0.path(percentEncoded: false) }
 
         #expect(Set(matches) == Set([web, link].map(PathPattern.comparablePath(of:))))
-        #expect(PathPattern.expand(".virtualenvs/web/", home: directory.url).map { $0.path(percentEncoded: false) } == [PathPattern.comparablePath(of: web)])
+        #expect(
+            PathPattern.expand(".virtualenvs/web/", home: directory.url).map { $0.path(percentEncoded: false) } == [
+                PathPattern.comparablePath(of: web)
+            ]
+        )
     }
 
     @Test func expandsWildcardsIntoEveryFolderThatExists() throws {

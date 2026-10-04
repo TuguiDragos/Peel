@@ -37,7 +37,11 @@ enum TerminalThemeAudit {
         expect(lc(theme.cursor) >= 45, "cursor Lc \(lc(theme.cursor))")
         expect(apcaLc(theme.background, on: theme.cursor) >= 45, "the letter under the cursor is hard to read")
         for slot in 1...6 {
-            let best = max(apcaLc(theme.text, on: ansi[slot]), apcaLc(ansi[0], on: ansi[slot]), apcaLc(theme.background, on: ansi[slot]))
+            let best = max(
+                apcaLc(theme.text, on: ansi[slot]),
+                apcaLc(ansi[0], on: ansi[slot]),
+                apcaLc(theme.background, on: ansi[slot])
+            )
             expect(best >= 45, "no text reads on ANSI \(slot)")
         }
         return issues
@@ -134,7 +138,8 @@ enum TerminalThemeAudit {
         let sh = 1 + 0.015 * chromaPrimeMean * t
         let rt = -2 * (pow(chromaPrimeMean, 7) / (pow(chromaPrimeMean, 7) + pow(25, 7))).squareRoot()
             * sin(60 * exp(-pow((hueMean - 275) / 25, 2)) * radians)
-        return (pow(deltaL / sl, 2) + pow(deltaC / sc, 2) + pow(deltaH / sh, 2) + rt * (deltaC / sc) * (deltaH / sh)).squareRoot()
+        return (pow(deltaL / sl, 2) + pow(deltaC / sc, 2) + pow(deltaH / sh, 2) + rt * (deltaC / sc) * (deltaH / sh))
+            .squareRoot()
     }
 
     static func colorBlind(_ color: UInt32, protanopia: Bool) -> UInt32 {

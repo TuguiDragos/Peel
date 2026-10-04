@@ -113,7 +113,10 @@ struct ExclusionsTests {
         let kept = try directory.file("home/Library/Application Support/Example/keep.db")
         try directory.file("home/Library/Application Support/Example/cache.db")
         let folder = kept.deletingLastPathComponent()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let trash = try directory.directory("Trash")
         let service = TrashService(environment: environment, exclusions: Exclusions(paths: [kept])) { url in
             let destination = trash.appending(path: url.lastPathComponent)
@@ -209,7 +212,12 @@ struct ExclusionsTests {
         let store = ExclusionStore(url: folder.appending(path: "exclusions.json"))
         await store.save(Exclusions(paths: [URL(filePath: "/Users/x/Kept")]))
         try directory.setPermissions(0o500, of: folder)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: folder.path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o700],
+                ofItemAtPath: folder.path(percentEncoded: false)
+            )
+        }
 
         let outcome = await store.change { $0.paths.insert(URL(filePath: "/Users/x/Added")) }
 
@@ -245,7 +253,10 @@ struct ExclusionsTests {
     @Test func movesNothingWhileTheListCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let service = TrashService(environment: environment, exclusions: .unreadable) { $0 }
 
         let result = await service.trash([item])
@@ -273,7 +284,10 @@ struct ExclusionsTests {
     @Test func movesNothingBeforeTheListIsRead() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let service = TrashService(environment: environment, exclusions: .notYetRead) { $0 }
 
         let result = await service.trash([item])
@@ -292,7 +306,8 @@ struct ExclusionsTests {
         #expect(await store.save(Exclusions(bundleIdentifiers: ["com.example.app"])))
 
         #expect(await store.load().bundleIdentifiers == ["com.example.app"])
-        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false)).filter { $0.contains("damaged") }
+        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false)).filter
+        { $0.contains("damaged") }
         #expect(kept.count == 1)
         #expect(try String(contentsOf: directory.url.appending(path: try #require(kept.first)), encoding: .utf8) == "not json")
     }
@@ -301,7 +316,10 @@ struct ExclusionsTests {
         let directory = try TemporaryDirectory()
         let kept = try directory.file("home/Library/Caches/com.example.keep/cache.db").deletingLastPathComponent()
         let removable = try directory.file("home/Library/Caches/com.example.other/cache.db").deletingLastPathComponent()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let trash = try directory.directory("Trash")
         let service = TrashService(environment: environment, exclusions: Exclusions(paths: [kept])) { url in
             let destination = trash.appending(path: url.lastPathComponent)
@@ -334,7 +352,10 @@ struct ExclusionsReachEveryScannerTests {
         """.utf8))
 
         let listed = await BackgroundItems.scan(environment: environment(in: directory))
-        let kept = await BackgroundItems.scan(environment: environment(in: directory), exclusions: Exclusions(paths: [plist]))
+        let kept = await BackgroundItems.scan(
+            environment: environment(in: directory),
+            exclusions: Exclusions(paths: [plist])
+        )
 
         #expect(listed.contains { $0.label == "com.example.keepme" })
         #expect(!kept.contains { $0.label == "com.example.keepme" }, "the scanner spells the path with /private and the exclusion does not")
@@ -359,7 +380,11 @@ struct ExclusionsReachEveryScannerTests {
         }
 
         let listed = await PackageReceipts.receipts(installing: app, exclusions: .none, pkgutil: pkgutil)
-        let excluded = await PackageReceipts.receipts(installing: app, exclusions: Exclusions(paths: [app]), pkgutil: pkgutil)
+        let excluded = await PackageReceipts.receipts(
+            installing: app,
+            exclusions: Exclusions(paths: [app]),
+            pkgutil: pkgutil
+        )
 
         #expect(listed.first?.items.count == 1)
         #expect(excluded.first?.items.isEmpty == true)
@@ -372,9 +397,18 @@ struct ExclusionsReachEveryScannerTests {
         try directory.file("home/Library/Caches/com.example.app/cache.db")
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
 
-        let plan = await Uninstallation.prepare(app, installedApps: [app], exclusions: Exclusions(paths: [kept]), environment: environment(in: directory))
+        let plan = await Uninstallation.prepare(
+            app,
+            installedApps: [app],
+            exclusions: Exclusions(paths: [kept]),
+            environment: environment(in: directory)
+        )
 
-        let holder = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "com.example.app" && $0.kind == .applicationSupport })
+        let holder = try #require(
+            plan.scan.leftovers.first {
+                $0.url.lastPathComponent == "com.example.app" && $0.kind == .applicationSupport
+            }
+        )
         #expect(holder.match.heldBack == .holdsAnExclusion)
         #expect(!holder.match.isRecommended)
         let suggested = plan.suggestedSelection(canUseHelper: true).map { $0.path(percentEncoded: false) }

@@ -17,7 +17,10 @@ struct HelperLedgerTests {
         )
     }
 
-    private func ledger(in directory: borrowing TemporaryDirectory, maximumEntries: Int = 20_000) throws -> HelperLedger {
+    private func ledger(
+        in directory: borrowing TemporaryDirectory,
+        maximumEntries: Int = 20_000
+    ) throws -> HelperLedger {
         try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist"), maximumEntries: maximumEntries))
     }
 
@@ -26,7 +29,12 @@ struct HelperLedgerTests {
     }
 
     /// Moves a file the way the helper does: written down first, then renamed into the Trash.
-    private func move(_ relative: String, with ledger: HelperLedger, policy: PrivilegedPathPolicy, in directory: borrowing TemporaryDirectory) throws -> String {
+    private func move(
+        _ relative: String,
+        with ledger: HelperLedger,
+        policy: PrivilegedPathPolicy,
+        in directory: borrowing TemporaryDirectory
+    ) throws -> String {
         try directory.file(relative)
         let item = try policy.open(path(relative, in: directory)).get()
         #expect(ledger.record([item], movedBy: getuid()))
@@ -156,7 +164,9 @@ struct HelperLedgerTests {
         #expect(aside.count == 1, "the damaged ledger was written over")
         let kept = try aside.map { try Data(contentsOf: directory.url.appending(path: "private/\($0)")) }
         #expect(kept == [Data("damaged".utf8)])
-        #expect(try ledger.origin(of: try #require(policy.openInTrash(trashedPath, trash: trash)), movedBy: getuid()) != nil)
+        #expect(
+            try ledger.origin(of: try #require(policy.openInTrash(trashedPath, trash: trash)), movedBy: getuid()) != nil
+        )
     }
 
     @Test func oneEntryItCannotReadCostsThatEntryOnly() throws {
@@ -167,7 +177,9 @@ struct HelperLedgerTests {
         let trashedPath = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
 
         let url = directory.url.appending(path: "private/moved.plist")
-        var entries = try #require(try PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil) as? [Any])
+        var entries = try #require(
+            try PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil) as? [Any]
+        )
         entries.append(["path": 1])
         try PropertyListSerialization.data(fromPropertyList: entries, format: .binary, options: 0).write(to: url)
 
@@ -228,7 +240,9 @@ struct HelperLedgerTests {
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
 
         let paths = try ["a.plist", "b.plist", "c.plist"].map { try move("root/Library/Caches/\($0)", with: ledger, policy: policy, in: directory) }
-        let origins = try paths.map { try ledger.origin(of: try #require(policy.openInTrash($0, trash: trash)), movedBy: getuid()) }
+        let origins = try paths.map {
+            try ledger.origin(of: try #require(policy.openInTrash($0, trash: trash)), movedBy: getuid())
+        }
         #expect(origins.map { $0 != nil } == [false, true, true])
 
         let attributes = try FileManager.default.attributesOfItem(atPath: path("private/moved.plist", in: directory))

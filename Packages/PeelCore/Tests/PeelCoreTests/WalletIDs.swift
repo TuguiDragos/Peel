@@ -32,9 +32,14 @@ enum WalletIDs {
         for line in text[start.upperBound..<end.lowerBound].split(separator: "\n") {
             let line = line.trimmingCharacters(in: .whitespaces)
             if line.hasPrefix("// "), let colon = line.range(of: ": ", options: .backwards) {
-                named = (String(line[line.index(line.startIndex, offsetBy: 3)..<colon.lowerBound]), String(line[colon.upperBound...]))
+                named = (
+                    String(line[line.index(line.startIndex, offsetBy: 3)..<colon.lowerBound]),
+                    String(line[colon.upperBound...])
+                )
             } else if line.hasPrefix("\""), let wallet = named {
-                entries.append(Entry(name: wallet.name, id: wallet.id, fingerprint: String(line.dropFirst().prefix(64))))
+                entries.append(
+                    Entry(name: wallet.name, id: wallet.id, fingerprint: String(line.dropFirst().prefix(64)))
+                )
                 named = nil
             }
         }

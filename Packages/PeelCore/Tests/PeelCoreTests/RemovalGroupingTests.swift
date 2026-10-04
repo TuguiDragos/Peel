@@ -4,7 +4,14 @@ import Testing
 
 /// What History shows: one row per removal, newest first, and inside it the largest item first.
 struct RemovalGroupingTests {
-    private func record(_ batch: UUID, _ name: String, size: Int64?, at date: Date, source: String = "Example", tool: String = "applications") -> RemovalRecord {
+    private func record(
+        _ batch: UUID,
+        _ name: String,
+        size: Int64?,
+        at date: Date,
+        source: String = "Example",
+        tool: String = "applications"
+    ) -> RemovalRecord {
         RemovalRecord(
             batch: batch,
             item: TrashedItem(
@@ -21,7 +28,11 @@ struct RemovalGroupingTests {
     /// A source title Peel writes itself is also stored as a key, so History can show it in the user's current
     /// language. A record saved without a key still decodes, with `source` as it was written.
     @Test func aSourceKeyIsKeptAndAnOldRecordReadsWithoutOne() throws {
-        let item = TrashedItem(originalURL: URL(filePath: "/Users/x/a"), trashedURL: URL(filePath: "/Users/x/.Trash/a"), date: Date(timeIntervalSince1970: 1_800_000_000))
+        let item = TrashedItem(
+            originalURL: URL(filePath: "/Users/x/a"),
+            trashedURL: URL(filePath: "/Users/x/.Trash/a"),
+            date: Date(timeIntervalSince1970: 1_800_000_000)
+        )
         let keyed = RemovalRecord(batch: UUID(), item: item, size: 1, source: "Duplicates", sourceKey: "tool", tool: "duplicates")
         let copy = try JSONDecoder().decode(RemovalRecord.self, from: JSONEncoder().encode(keyed))
         #expect(copy.sourceKey == "tool")

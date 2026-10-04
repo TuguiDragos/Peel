@@ -49,7 +49,12 @@ struct FileCommandTests {
             systemImage: "hammer",
             appBundleIdentifiers: apps,
             locations: try locations.map { path, kind in
-                DeveloperEnvironment.Location(url: try directory.file("home/\(path)/blob", bytes: 30).deletingLastPathComponent(), kind: kind, size: 30, source: "https://example.com/\(path)")
+                DeveloperEnvironment.Location(
+                    url: try directory.file("home/\(path)/blob", bytes: 30).deletingLastPathComponent(),
+                    kind: kind,
+                    size: 30,
+                    source: "https://example.com/\(path)"
+                )
             }
         )
     }
@@ -102,7 +107,12 @@ struct FileCommandTests {
         let collected = Output.Collected()
         try await Output.$collected.withValue(collected) {
             try await (command(["caches", "--remove", "-y"]) as CachesCommand)
-                .clean([open, closed], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+                .clean(
+                    [open, closed],
+                    using: try service(in: directory),
+                    recordingIn: logs.removals,
+                    refusals: logs.refusals
+                )
         }
         #expect(await moved(logs) == ["cargo"])
         #expect(collected.notes.contains("Quit Finder first"))
@@ -149,7 +159,12 @@ struct FileCommandTests {
         let fresh = try artifact("build", lastActivity: .now)
 
         try await (command(["projects", "~/Developer", "--remove", "-y"]) as ProjectsCommand)
-            .clean([stale, fresh], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+            .clean(
+                [stale, fresh],
+                using: try service(in: directory),
+                recordingIn: logs.removals,
+                refusals: logs.refusals
+            )
 
         #expect(await moved(logs) == ["DerivedData"])
         #expect(FileManager.default.fileExists(atPath: fresh.url.path(percentEncoded: false)))
@@ -222,7 +237,12 @@ struct FileCommandTests {
 
     // MARK: Orphaned files
 
-    private func orphan(_ name: String, in directory: borrowing TemporaryDirectory, heldBack: HoldBack? = nil, requiresPrivileges: Bool = false) throws -> OrphanItem {
+    private func orphan(
+        _ name: String,
+        in directory: borrowing TemporaryDirectory,
+        heldBack: HoldBack? = nil,
+        requiresPrivileges: Bool = false
+    ) throws -> OrphanItem {
         OrphanItem(
             url: try directory.file("home/Library/Application Support/\(name)/blob", bytes: 10).deletingLastPathComponent(),
             kind: .applicationSupport,
@@ -265,7 +285,15 @@ struct FileCommandTests {
         let scan = OrphanScan(groups: [wanted, other], unreadableLocations: [])
 
         try await (command(["orphans", "--remove", "COM.EXAMPLE.GONE", "-y"]) as OrphansCommand)
-            .clean("COM.EXAMPLE.GONE", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+            .clean(
+                "COM.EXAMPLE.GONE",
+                in: scan,
+                apps: [],
+                scanner: scanner(in: directory),
+                using: try service(in: directory),
+                recordingIn: logs.removals,
+                refusals: logs.refusals
+            )
 
         #expect(await moved(logs) == ["com.example.gone"])
         #expect(FileManager.default.fileExists(atPath: wanted.items[1].url.path(percentEncoded: false)))
@@ -308,7 +336,15 @@ struct FileCommandTests {
 
         try await Output.$collected.withValue(collected) {
             try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-                .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+                .clean(
+                    "com.example.gone",
+                    in: scan,
+                    apps: [],
+                    scanner: scanner(in: directory),
+                    using: try service(in: directory),
+                    recordingIn: logs.removals,
+                    refusals: logs.refusals
+                )
         }
 
         #expect(await moved(logs).isEmpty)
@@ -331,7 +367,15 @@ struct FileCommandTests {
 
         try await Output.$collected.withValue(collected) {
             try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-                .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+                .clean(
+                    "com.example.gone",
+                    in: scan,
+                    apps: [],
+                    scanner: scanner(in: directory),
+                    using: try service(in: directory),
+                    recordingIn: logs.removals,
+                    refusals: logs.refusals
+                )
         }
 
         #expect(await moved(logs) == ["com.example.gone"])
@@ -455,7 +499,9 @@ struct FileCommandTests {
         ])
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
 
-        let json = try Output.jsonText(OrphansCommand.report(for: OrphanScan(groups: [group], unreadableLocations: [unread])))
+        let json = try Output.jsonText(
+            OrphansCommand.report(for: OrphanScan(groups: [group], unreadableLocations: [unread]))
+        )
 
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         let files = try #require((report["groups"] as? [[String: Any]])?.first?["files"] as? [[String: Any]])

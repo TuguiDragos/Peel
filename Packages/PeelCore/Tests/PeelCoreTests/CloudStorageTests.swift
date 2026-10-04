@@ -8,19 +8,55 @@ struct CloudStorageTests {
         #expect(CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: false, hasConflicts: false))
         #expect(CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: nil, hasConflicts: nil))
 
-        #expect(!CloudStorage.isSafeToFree(status: .current, isUploaded: false, isUploading: false, hasConflicts: false), "it wasn't uploaded yet")
-        #expect(!CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: true, hasConflicts: false), "it was still uploading")
-        #expect(!CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: false, hasConflicts: true), "it has a conflict to settle")
-        #expect(!CloudStorage.isSafeToFree(status: .downloaded, isUploaded: true, isUploading: false, hasConflicts: false), "an older copy is on this Mac")
-        #expect(!CloudStorage.isSafeToFree(status: .notDownloaded, isUploaded: true, isUploading: false, hasConflicts: false), "there is nothing here to free")
+        #expect(
+            !CloudStorage.isSafeToFree(status: .current, isUploaded: false, isUploading: false, hasConflicts: false),
+            "it wasn't uploaded yet"
+        )
+        #expect(
+            !CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: true, hasConflicts: false),
+            "it was still uploading"
+        )
+        #expect(
+            !CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: false, hasConflicts: true),
+            "it has a conflict to settle"
+        )
+        #expect(
+            !CloudStorage.isSafeToFree(status: .downloaded, isUploaded: true, isUploading: false, hasConflicts: false),
+            "an older copy is on this Mac"
+        )
+        #expect(
+            !CloudStorage.isSafeToFree(
+                status: .notDownloaded,
+                isUploaded: true,
+                isUploading: false,
+                hasConflicts: false
+            ),
+            "there is nothing here to free"
+        )
         #expect(!CloudStorage.isSafeToFree(status: nil, isUploaded: nil, isUploading: nil, hasConflicts: nil))
     }
 
     /// On macOS 26, syncing can be paused for an item. A paused item with local edits is not uploading, yet it
     /// still reads as uploaded (`NSURL.h`: `NSURLUbiquitousItemIsSyncPausedKey`).
     @Test func leavesAloneAFileWhoseSyncIsPaused() {
-        #expect(!CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: false, hasConflicts: false, isSyncPaused: true))
-        #expect(CloudStorage.isSafeToFree(status: .current, isUploaded: true, isUploading: false, hasConflicts: false, isSyncPaused: false))
+        #expect(
+            !CloudStorage.isSafeToFree(
+                status: .current,
+                isUploaded: true,
+                isUploading: false,
+                hasConflicts: false,
+                isSyncPaused: true
+            )
+        )
+        #expect(
+            CloudStorage.isSafeToFree(
+                status: .current,
+                isUploaded: true,
+                isUploading: false,
+                hasConflicts: false,
+                isSyncPaused: false
+            )
+        )
         #expect(!CloudStorage.isSafeToFree(
             status: .current, isUploaded: true, isUploading: false, hasConflicts: false,
             uploadingError: CocoaError(.fileWriteNoPermission)
@@ -124,7 +160,12 @@ struct CloudStorageTests {
         let directory = try TemporaryDirectory()
         try directory.directory("Library/Mobile Documents")
         try directory.setPermissions(0o000, of: "Library/Mobile Documents")
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: directory.url.appending(path: "Library/Mobile Documents").path(percentEncoded: false)) }
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755],
+                ofItemAtPath: directory.url.appending(path: "Library/Mobile Documents").path(percentEncoded: false)
+            )
+        }
 
         let scan = await CloudStorage.downloaded(home: directory.url)
 
@@ -184,7 +225,15 @@ struct CloudStorageTests {
         }
         let collector = CloudStorage.Collector()
 
-        CloudStorage.collect(home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now, countingFor: nil, unless: { false })
+        CloudStorage.collect(
+            home: directory.url,
+            minimumSize: 1,
+            exclusions: .none,
+            into: collector,
+            deadline: .now,
+            countingFor: nil,
+            unless: { false }
+        )
 
         #expect(collector.collected.wasCutShort)
         #expect(collector.collected.files.isEmpty)

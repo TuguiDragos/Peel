@@ -15,11 +15,16 @@ struct AttackDuplicateTests {
 
     private func scan(_ directory: borrowing TemporaryDirectory, folders: [String]) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let options = DuplicateScanOptions(folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) })
+        let options = DuplicateScanOptions(
+            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        )
         return try await DuplicateFinder(homeDirectory: home).scan(options)
     }
 
-    private func service(_ directory: borrowing TemporaryDirectory, onTrash: @escaping @Sendable () -> Void = {}) throws -> TrashService {
+    private func service(
+        _ directory: borrowing TemporaryDirectory,
+        onTrash: @escaping @Sendable () -> Void = {}
+    ) throws -> TrashService {
         let trash = try directory.directory("FakeTrash")
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -71,7 +76,11 @@ struct AttackDuplicateTests {
         let found = try await scan(directory, folders: ["home"])
         let group = try #require(found.groups.first)
 
-        let result = await DuplicateRemoval.trash(Set(group.files.map(\.url)), from: found, using: try service(directory))
+        let result = await DuplicateRemoval.trash(
+            Set(group.files.map(\.url)),
+            from: found,
+            using: try service(directory)
+        )
 
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.reason) == [.lastCopy, .lastCopy])
@@ -105,7 +114,9 @@ struct AttackDuplicateTests {
 
         _ = await DuplicateRemoval.trash(selection, from: found, using: trashService)
 
-        let left = group.files.map(\.url).filter { FileManager.default.fileExists(atPath: $0.path(percentEncoded: false)) }
+        let left = group.files.map(\.url).filter {
+            FileManager.default.fileExists(atPath: $0.path(percentEncoded: false))
+        }
         #expect(!left.isEmpty, "ATTACK SUCCEEDED: the group lost every copy")
     }
 
@@ -145,7 +156,13 @@ struct AttackDuplicateTests {
         // Two rules stop it, and each is checked: the walk does not go into a library, and the guard refuses what
         // is inside one.
         #expect(DuplicateFinder.isAUserLibrary(directory.url.appending(path: "home/Movies/Old.\(kind)")))
-        #expect(!RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        #expect(
+            !RemovalGuard(
+                environment: SearchEnvironment(
+                    homeDirectory: home,
+                    rootDirectory: directory.url.appending(path: "root")
+                )
+            )
             .allowsRemoval(of: directory.url.appending(path: "home/Movies/Old.\(kind)/clip.mov")))
     }
 

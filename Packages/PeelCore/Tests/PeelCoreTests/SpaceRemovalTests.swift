@@ -335,7 +335,11 @@ struct SpaceRemovalTests {
         let running = ["comspotifyclient": "Spotify"]
 
         let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: running)
-        let removable = await SpaceRemoval.removable(in: item(directory), environment: environment(directory), running: running)
+        let removable = await SpaceRemoval.removable(
+            in: item(directory),
+            environment: environment(directory),
+            running: running
+        )
 
         #expect(removable.map(\.lastPathComponent) == ["com.gone.app"])
         #expect(removable == plan.removable)
@@ -370,7 +374,11 @@ struct SpaceRemovalTests {
         try directory.file("home/Library/Caches/dev.zed.Zed/index.db")
         let running = [RunningCopies.Process(identifier: 2, bundleIdentifier: "dev.zed.Zed", bundleURL: URL(filePath: "/Applications/Zed.app"))]
 
-        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: SpaceRemoval.namesOfRunningApps(running))
+        let plan = await SpaceRemoval.plan(
+            for: item(directory),
+            environment: environment(directory),
+            running: SpaceRemoval.namesOfRunningApps(running)
+        )
 
         #expect(plan.appsToQuit == ["Zed"], "the note would read \(plan.appsToQuit.formatted(.list(type: .and)))")
     }
@@ -474,7 +482,12 @@ struct SpaceRemovalTests {
         try directory.file("home/Library/Caches/com.slow.app/blob", bytes: 40_000)
         try directory.file("home/Library/Caches/com.gone.app/small.db", bytes: 4_000)
 
-        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), exclusions: .none, running: [:]) { url in
+        let plan = await SpaceRemoval.plan(
+            for: item(directory),
+            environment: environment(directory),
+            exclusions: .none,
+            running: [:]
+        ) { url in
             url.lastPathComponent == "com.slow.app" ? nil : await FileSize.contents(of: url)
         }
 
@@ -490,7 +503,12 @@ struct SpaceRemovalTests {
         }
         let running = Mutex((now: 0, most: 0))
 
-        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), exclusions: .none, running: [:]) { _ in
+        let plan = await SpaceRemoval.plan(
+            for: item(directory),
+            environment: environment(directory),
+            exclusions: .none,
+            running: [:]
+        ) { _ in
             running.withLock { $0.now += 1; $0.most = max($0.most, $0.now) }
             try? await Task.sleep(for: .milliseconds(500))
             running.withLock { $0.now -= 1 }
@@ -519,7 +537,11 @@ struct SpaceRemovalTests {
             sizes: [kept: 1, deselected: 2, gone: 5, noLongerMeasured: 7]
         )
         var choices = KeptSelection()
-        #expect(choices.update([], selectable: Set(first.removable), suggested: first.suggested) == [kept, deselected, gone, noLongerMeasured])
+        #expect(
+            choices.update([], selectable: Set(first.removable), suggested: first.suggested) == [
+                kept, deselected, gone, noLongerMeasured,
+            ]
+        )
 
         let again = SpaceRemoval.Plan(
             removable: [kept, deselected, chosenByHand, unmeasured, new, noLongerMeasured],
@@ -528,6 +550,10 @@ struct SpaceRemovalTests {
             sizes: [kept: 1, deselected: 2, chosenByHand: 3, unmeasured: 4, new: 6]
         )
         let selected: Set = [kept, chosenByHand, gone, noLongerMeasured]
-        #expect(choices.update(selected, selectable: Set(again.removable), suggested: again.suggested) == [kept, chosenByHand, new])
+        #expect(
+            choices.update(selected, selectable: Set(again.removable), suggested: again.suggested) == [
+                kept, chosenByHand, new,
+            ]
+        )
     }
 }

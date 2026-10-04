@@ -41,7 +41,10 @@ struct TerminalThemeLedgerTests {
 
         #expect(try ledger.use(theme, in: terminal) == .changed)
         let written = try #require(terminal.storedProfiles[theme.profileName])
-        #expect(TerminalProfile.fingerprint(of: written) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+        #expect(
+            TerminalProfile.fingerprint(of: written)
+                == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme))
+        )
         #expect(terminal.storedProfiles["Basic"] != nil)
         #expect(terminal.names == [.newWindows: theme.profileName, .startup: theme.profileName])
         #expect(ledger.theme(in: terminal) == theme)
@@ -182,7 +185,10 @@ struct TerminalThemeLedgerTests {
 
         #expect(try ledger.use(theme, in: terminal) == .changed)
         let current = try #require(terminal.storedProfiles[theme.profileName])
-        #expect(TerminalProfile.fingerprint(of: current) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+        #expect(
+            TerminalProfile.fingerprint(of: current)
+                == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme))
+        )
     }
 
     @Test func theLedgerReadsBackWhatItStored() throws {
@@ -227,7 +233,10 @@ struct TerminalOptionTests {
         #expect(profile["useOptionAsMetaKey"] as? Bool == true)
         #expect(ledger.options(in: terminal) == [.optionAsMeta])
         profile["useOptionAsMetaKey"] = nil
-        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+        #expect(
+            TerminalProfile.fingerprint(of: profile)
+                == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme))
+        )
 
         #expect(ledger.set(.noAlertSound, to: true, in: terminal) == .changed)
         #expect(terminal.storedProfiles[theme.profileName]?["Bell"] as? Bool == false)
@@ -236,7 +245,10 @@ struct TerminalOptionTests {
     }
 
     @Test func anOptionTurnedOffLeavesTheKeyToTerminalAsApplesOwnProfilesDo() throws {
-        let apple = try #require(PropertyListSerialization.propertyList(from: Data(contentsOf: TerminalThemeTests.clearDark), format: nil) as? [String: Any])
+        let apple = try #require(
+            PropertyListSerialization.propertyList(from: Data(contentsOf: TerminalThemeTests.clearDark), format: nil)
+                as? [String: Any]
+        )
         for option in TerminalOption.allCases {
             #expect(apple[option.rawValue] == nil)
         }
@@ -247,7 +259,10 @@ struct TerminalOptionTests {
         #expect(ledger.set(.optionAsMeta, to: false, in: terminal) == .changed)
         #expect(ledger.set(.noAlertSound, to: false, in: terminal) == .changed)
         let profile = try #require(terminal.storedProfiles[theme.profileName])
-        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+        #expect(
+            TerminalProfile.fingerprint(of: profile)
+                == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme))
+        )
         #expect(ledger.options(in: terminal) == [])
     }
 
@@ -259,7 +274,12 @@ struct TerminalOptionTests {
         #expect(try ledger.use(otherTheme, in: terminal) == .changed)
         #expect(ledger.options(in: terminal) == [.optionAsMeta, .noAlertSound])
         let profile = try #require(terminal.storedProfiles[otherTheme.profileName])
-        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: otherTheme, options: [.optionAsMeta, .noAlertSound])))
+        #expect(
+            TerminalProfile.fingerprint(of: profile)
+                == TerminalProfile.fingerprint(
+                    of: try TerminalProfile.settings(for: otherTheme, options: [.optionAsMeta, .noAlertSound])
+                )
+        )
 
         _ = ledger.set(.optionAsMeta, to: false, in: terminal)
         #expect(try ledger.use(theme, in: terminal) == .changed)

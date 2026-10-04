@@ -25,9 +25,15 @@ struct AttackSideEffectTests {
     /// copies are real files that declare a job, so only where they sit can refuse them.
     @Test func trashingABackupCopyStopsTheLiveAgent() throws {
         let directory = try TemporaryDirectory()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         func plist(_ path: String, label: String) throws -> URL {
-            try directory.file(path, contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0))
+            try directory.file(
+                path,
+                contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0)
+            )
         }
         let live = try plist("home/Library/LaunchAgents/com.vendor.updater.plist", label: "com.vendor.updater")
         let copies = [
@@ -45,7 +51,10 @@ struct AttackSideEffectTests {
     /// that declares it must not stop the one macOS runs.
     @Test func movingACopyOfMacOSsOwnAgentStopsNothing() throws {
         let directory = try TemporaryDirectory()
-        let environment = SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let copy = try directory.file(
             "home/Library/LaunchAgents/ssh.plist",
             contents: PropertyListSerialization.data(fromPropertyList: ["Label": "com.openssh.ssh-agent"], format: .xml, options: 0)

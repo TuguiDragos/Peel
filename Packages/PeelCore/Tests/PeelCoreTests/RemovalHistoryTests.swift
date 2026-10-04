@@ -23,12 +23,17 @@ struct RemovalHistoryTests {
     }
 
     @Test func historyStaysWhereItAlwaysWas() throws {
-        let support = try #require(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first)
+        let support = try #require(
+            FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        )
 
         #expect(RemovalHistory.defaultURL == support.appending(path: "Peel/removals.json"))
         #expect(RemovalHistory.defaultURL.path(percentEncoded: false).hasSuffix("/Peel/removals.json"))
         #expect(RemovalHistory.refusalsURL == support.appending(path: "Peel/refusals.json"))
-        #expect(RemovalHistory.refusalsURL.deletingLastPathComponent() == RemovalHistory.defaultURL.deletingLastPathComponent())
+        #expect(
+            RemovalHistory.refusalsURL.deletingLastPathComponent()
+                == RemovalHistory.defaultURL.deletingLastPathComponent()
+        )
     }
 
     @Test func keepsRecordsAcrossLoads() async throws {
@@ -57,7 +62,11 @@ struct RemovalHistoryTests {
         let batch = UUID()
         let moment = Date(timeIntervalSince1970: 1_800_000_000)
         for (offset, source, tool) in [(0.1, "com.gone.app", "orphans"), (0.2, "App Caches", "space"), (0.3, "SwiftTool", "projects"), (0.4, "Duplicates", "duplicates")] {
-            let item = TrashedItem(originalURL: URL(filePath: "/Users/x/\(source)"), trashedURL: URL(filePath: "/Users/x/.Trash/\(source)"), date: moment.addingTimeInterval(offset))
+            let item = TrashedItem(
+                originalURL: URL(filePath: "/Users/x/\(source)"),
+                trashedURL: URL(filePath: "/Users/x/.Trash/\(source)"),
+                date: moment.addingTimeInterval(offset)
+            )
             _ = await log.add([RemovalRecord(batch: batch, item: item, size: 1, source: source, tool: tool)])
         }
 

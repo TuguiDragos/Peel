@@ -13,7 +13,12 @@ struct SpaceInventoryTests {
         let unanswered = Unanswered()
 
         let stop = try await unanswered.stop {
-            _ = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 1, measure: unanswered.measure)
+            _ = await SpaceInventory.scan(
+                home: directory.url,
+                root: directory.url,
+                minimumSize: 1,
+                measure: unanswered.measure
+            )
         }
 
         #expect(stop.took < .seconds(1))
@@ -63,7 +68,12 @@ struct SpaceInventoryTests {
         try directory.setPermissions(0, of: "Library/Logs")
         defer { try? directory.setPermissions(0o755, of: "Library/Logs") }
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure)
+        let report = await SpaceInventory.scan(
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 100_000,
+            measure: FileSize.measure
+        )
         #expect(report.items.map(\.id) == ["logs"])
         #expect(report.items.first?.size == nil)
         #expect(!report.needsFullDiskAccess, "ordinary permissions were read as a refusal Full Disk Access would lift")
@@ -108,7 +118,12 @@ struct SpaceInventoryTests {
         let directory = try TemporaryDirectory()
         try directory.file(".colima/machine/disk.img", bytes: 4096)
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure)
+        let report = await SpaceInventory.scan(
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 1,
+            measure: FileSize.measure
+        )
         let machines = try #require(report.items.first { $0.id == "colima" })
         #expect(machines.isReadOnly)
         #expect(machines.category == .virtualMachines)
@@ -119,7 +134,12 @@ struct SpaceInventoryTests {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Application Support/com.apple.wallpaper/aerials/videos/a.mov", bytes: 400_000)
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure)
+        let report = await SpaceInventory.scan(
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 100_000,
+            measure: FileSize.measure
+        )
         #expect(report.items.map(\.id) == ["wallpapers"])
     }
 
@@ -131,7 +151,12 @@ struct SpaceInventoryTests {
         try directory.file("Library/Developer/CoreSimulator/Caches/dyld/shared.bin", bytes: 400_000)
         try directory.file("Library/Developer/CoreSimulator/Images/runtime.dmg", bytes: 400_000)
 
-        let report = await SpaceInventory.scan(home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure)
+        let report = await SpaceInventory.scan(
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 100_000,
+            measure: FileSize.measure
+        )
         let simulators = try #require(report.items.first { $0.id == "simulators" })
         let paths = simulators.urls.map { $0.lastPathComponent }
 

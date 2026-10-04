@@ -37,7 +37,9 @@ struct HushLoginTests {
         defer { try? FileManager.default.removeItem(at: home) }
 
         #expect(HushLogin.turnOn(in: home))
-        let attributes = try FileManager.default.attributesOfItem(atPath: HushLogin.url(in: home).path(percentEncoded: false))
+        let attributes = try FileManager.default.attributesOfItem(
+            atPath: HushLogin.url(in: home).path(percentEncoded: false)
+        )
         #expect(attributes[.type] as? FileAttributeType == .typeRegular)
         #expect(attributes[.size] as? Int == 0)
         let permissions = try #require(attributes[.posixPermissions] as? Int)
@@ -50,11 +52,16 @@ struct HushLoginTests {
         defer { try? FileManager.default.removeItem(at: home) }
         let file = HushLogin.url(in: home)
         try Data("kept".utf8).write(to: file)
-        let before = try FileManager.default.attributesOfItem(atPath: file.path(percentEncoded: false))[.systemFileNumber] as? Int
+        let before =
+            try FileManager.default.attributesOfItem(atPath: file.path(percentEncoded: false))[.systemFileNumber]
+            as? Int
 
         #expect(HushLogin.turnOn(in: home))
         #expect(try Data(contentsOf: file) == Data("kept".utf8))
-        #expect(try FileManager.default.attributesOfItem(atPath: file.path(percentEncoded: false))[.systemFileNumber] as? Int == before)
+        #expect(
+            try FileManager.default.attributesOfItem(atPath: file.path(percentEncoded: false))[.systemFileNumber]
+                as? Int == before
+        )
     }
 
     @Test func turningOnNeverWritesThroughALink() throws {

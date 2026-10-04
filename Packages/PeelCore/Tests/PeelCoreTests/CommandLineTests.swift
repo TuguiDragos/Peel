@@ -75,7 +75,12 @@ struct CommandLineTests {
         let installed = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
 
         #expect(try AppLookup.app(matching: link.path(percentEncoded: false), in: [installed]) == installed)
-        #expect(try AppLookup.app(matching: directory.url.appending(path: "applications/example.app").path(percentEncoded: false), in: [installed]) == installed)
+        #expect(
+            try AppLookup.app(
+                matching: directory.url.appending(path: "applications/example.app").path(percentEncoded: false),
+                in: [installed]
+            ) == installed
+        )
     }
 
     /// `peel` runs with the user's locale, and under Turkish rules `iina` does not match `IINA`. App names are
@@ -227,7 +232,11 @@ struct CommandLineTests {
     }
 
     @Test func spellsAPathTheSameWayAsTheInventory() {
-        let app = InstalledApp(url: URL(filePath: NSHomeDirectory() + "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
+        let app = InstalledApp(
+            url: URL(filePath: NSHomeDirectory() + "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor"
+        )
         let inventoried = Inventory.build(apps: [app]).entries[0].path
 
         #expect(Output.path(app.url) == inventoried)
@@ -236,7 +245,12 @@ struct CommandLineTests {
     }
 
     @Test func writesEveryKeyOfEveryRecord() throws {
-        let known = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor", version: "1.0")
+        let known = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor",
+            version: "1.0"
+        )
         let unknown = InstalledApp(url: URL(filePath: "/Applications/Widget.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.widget", name: "Widget")
         let json = try Output.jsonText([AppRecord(known), AppRecord(unknown)])
         let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
@@ -272,8 +286,22 @@ struct CommandLineTests {
     @Test func writesAnUnknownSizeAsNull() throws {
         let match = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
         let folder = URL(filePath: "/Users/me/Library/Application Support/Editor")
-        let measured = Leftover(url: folder, kind: .applicationSupport, match: match, size: 4_096, isMeasured: true, requiresPrivileges: false)
-        let unmeasured = Leftover(url: folder, kind: .applicationSupport, match: match.forReview(.notMeasured), size: 0, isMeasured: false, requiresPrivileges: false)
+        let measured = Leftover(
+            url: folder,
+            kind: .applicationSupport,
+            match: match,
+            size: 4_096,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+        let unmeasured = Leftover(
+            url: folder,
+            kind: .applicationSupport,
+            match: match.forReview(.notMeasured),
+            size: 0,
+            isMeasured: false,
+            requiresPrivileges: false
+        )
 
         let json = try Output.jsonText([LeftoverRecord(measured), LeftoverRecord(unmeasured)])
         let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
@@ -284,9 +312,21 @@ struct CommandLineTests {
 
     /// Another copy of the app shares its identifier, so the JSON names it by its place.
     @Test func namesAnotherCopyByItsPlace() throws {
-        let match = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [], otherCopies: [URL(filePath: "/Volumes/Disk/Editor.app")])
+        let match = LeftoverMatch(
+            reason: .bundleIdentifier,
+            confidence: .certain,
+            sharedWith: [],
+            otherCopies: [URL(filePath: "/Volumes/Disk/Editor.app")]
+        )
         let folder = URL(filePath: "/Users/me/Library/Application Support/Editor")
-        let leftover = Leftover(url: folder, kind: .applicationSupport, match: match, size: 4_096, isMeasured: true, requiresPrivileges: false)
+        let leftover = Leftover(
+            url: folder,
+            kind: .applicationSupport,
+            match: match,
+            size: 4_096,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
 
         let json = try Output.jsonText([LeftoverRecord(leftover)])
         let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
@@ -301,7 +341,9 @@ struct CommandLineTests {
 
         let report = LeftoversCommand.Report(app: app, appSize: nil, leftovers: [], unreadableLocations: [unread])
 
-        let json = try #require(JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any])
+        let json = try #require(
+            JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any]
+        )
         #expect(json["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
         #expect(json["appSize"] is NSNull)
     }
@@ -319,7 +361,9 @@ struct CommandLineTests {
         let result = TrashResult(trashed: [], failures: [TrashFailure(url: support, reason: .failed("disk full"))])
         let editor = InstalledApp(url: app, bundleIdentifier: "com.example.editor", name: "Editor")
 
-        let json = try Output.jsonText(UninstallCommand.report(app: editor, plan: plan, result: result, privacy: .reset, unreadable: []))
+        let json = try Output.jsonText(
+            UninstallCommand.report(app: editor, plan: plan, result: result, privacy: .reset, unreadable: [])
+        )
 
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         let items = try #require(report["items"] as? [[String: Any]])
@@ -336,7 +380,9 @@ struct CommandLineTests {
         #expect(report["needsReview"] as? Int == 2)
         #expect(report["unreadableLocations"] as? [String] == [])
 
-        let dryRun = try Output.jsonText(UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, unreadable: []))
+        let dryRun = try Output.jsonText(
+            UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, unreadable: [])
+        )
         let planned = try #require(JSONSerialization.jsonObject(with: Data(dryRun.utf8)) as? [String: Any])
         #expect(planned["dryRun"] as? Bool == true)
         #expect(planned["moved"] as? [String] == [])
@@ -350,7 +396,10 @@ struct CommandLineTests {
         struct Row: Encodable {
             let size: MeasuredSize
         }
-        let rows = [Row(size: MeasuredSize(4_096)), Row(size: MeasuredSize(nil)), Row(size: MeasuredSize(SizeTotal([10, nil])))]
+        let rows = [
+            Row(size: MeasuredSize(4_096)), Row(size: MeasuredSize(nil)),
+            Row(size: MeasuredSize(SizeTotal([10, nil]))),
+        ]
         let records = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(rows)) as? [[String: Any]])
 
         #expect(records[0]["size"] as? Int == 4_096)
@@ -417,7 +466,14 @@ struct CommandLineTests {
     ) -> Leftover {
         var match = LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith)
         if let heldBack { match = match.forReview(heldBack) }
-        return Leftover(url: url, kind: .caches, match: match, size: size, isMeasured: true, requiresPrivileges: requiresPrivileges)
+        return Leftover(
+            url: url,
+            kind: .caches,
+            match: match,
+            size: size,
+            isMeasured: true,
+            requiresPrivileges: requiresPrivileges
+        )
     }
 
     /// The notes shown before the user agrees to a removal. Each one names something that will still be on
@@ -466,7 +522,12 @@ struct CommandLineTests {
             refusal: { _ in nil }
         )
 
-        let notes = UninstallCommand.whatStays(plan, app: app, homebrew: CaskLookup.Answer(), scan: LeftoverScan(leftovers: [], unreadableLocations: []))
+        let notes = UninstallCommand.whatStays(
+            plan,
+            app: app,
+            homebrew: CaskLookup.Answer(),
+            scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+        )
 
         #expect(notes.isEmpty)
     }
@@ -511,7 +572,11 @@ struct CommandLineTests {
         #expect(plan.total == SizeTotal(known: 13_000, isComplete: true))
         #expect(plan.staying.isEmpty)
 
-        let alone = UninstallPlan.make(uninstallation(app: app, leftovers: [leftover(cache)]), keepLeftovers: true, refusal: { _ in nil })
+        let alone = UninstallPlan.make(
+            uninstallation(app: app, leftovers: [leftover(cache)]),
+            keepLeftovers: true,
+            refusal: { _ in nil }
+        )
         #expect(alone.items.map(\.url) == [app.url])
         #expect(alone.needsReview == 0)
     }
@@ -676,8 +741,18 @@ struct CommandLineTests {
     /// A check that failed is listed, in the table and in `--json`, so the report never reads as "every app is up to
     /// date", which a script would take as the all clear, while some apps did not answer.
     @Test func doesNotCallAFailedCheckAnAllClear() {
-        let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor", version: "1.0")
-        let notes = InstalledApp(url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.notes", name: "Notes", version: "2.0")
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor",
+            version: "1.0"
+        )
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes",
+            version: "2.0"
+        )
         let widget = InstalledApp(url: URL(filePath: "/Applications/Widget.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.widget", name: "Widget")
         let apps = [editor, notes, widget]
 
@@ -720,8 +795,18 @@ struct CommandLineTests {
     /// The same rule the app follows: an app the user told Peel to leave alone is not checked, and a skipped
     /// version is not an update waiting.
     @Test func readsTheSameUpdateSettingsTheAppDoes() {
-        let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor", version: "1.0")
-        let notes = InstalledApp(url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.notes", name: "Notes", version: "2.0")
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor",
+            version: "1.0"
+        )
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes",
+            version: "2.0"
+        )
         let waiting = UpdateStatus.updateAvailable(version: "3.0", source: .developer, releaseNotes: nil)
         let preferences = UpdatePreferences(
             source: .homebrew,
@@ -742,7 +827,10 @@ struct CommandLineTests {
         #expect(!preferences.isWaiting(waiting, for: editor))
         #expect(!preferences.isWaiting(waiting, for: notes))
         #expect(preferences.isWaiting(.updateAvailable(version: "4.0", source: .developer, releaseNotes: nil), for: editor))
-        #expect(UpdatesCommand.report(apps: [editor, notes], statuses: [:], preferences: preferences, all: true).rows.count == 1)
+        #expect(
+            UpdatesCommand.report(apps: [editor, notes], statuses: [:], preferences: preferences, all: true).rows.count
+                == 1
+        )
     }
 
     @Test func readsTheUpdateSettingsFromTheAppsOwnKeys() throws {
@@ -765,10 +853,29 @@ struct CommandLineTests {
     /// match is only possible.
     @Test func saysWhyARowIsOnlyShown() {
         let folder = URL(filePath: "/Users/me/Library/Application Support/Editor")
-        func row(_ confidence: MatchConfidence, sharedWith: [String] = [], otherCopies: [URL] = [], heldBack: HoldBack? = nil) -> String {
-            var match = LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith, otherCopies: otherCopies)
+        func row(
+            _ confidence: MatchConfidence,
+            sharedWith: [String] = [],
+            otherCopies: [URL] = [],
+            heldBack: HoldBack? = nil
+        ) -> String {
+            var match = LeftoverMatch(
+                reason: .bundleIdentifier,
+                confidence: confidence,
+                sharedWith: sharedWith,
+                otherCopies: otherCopies
+            )
             if let heldBack { match = match.forReview(heldBack) }
-            return LeftoversCommand.summary(of: Leftover(url: folder, kind: .applicationSupport, match: match, size: 1, isMeasured: true, requiresPrivileges: false))
+            return LeftoversCommand.summary(
+                of: Leftover(
+                    url: folder,
+                    kind: .applicationSupport,
+                    match: match,
+                    size: 1,
+                    isMeasured: true,
+                    requiresPrivileges: false
+                )
+            )
         }
 
         #expect(row(.certain) == "bundle identifier")
@@ -784,7 +891,10 @@ struct CommandLineTests {
         let orphans = OrphansCommand.helpMessage(columns: 200)
         #expect(orphans.contains("Move the named group to the Trash, leaving out what Peel holds back."))
         #expect(!orphans.contains("Move what Peel suggests"))
-        for help in [CachesCommand.helpMessage(columns: 200), ProjectsCommand.helpMessage(columns: 200), DuplicatesCommand.helpMessage(columns: 200)] {
+        for help in [
+            CachesCommand.helpMessage(columns: 200), ProjectsCommand.helpMessage(columns: 200),
+            DuplicatesCommand.helpMessage(columns: 200),
+        ] {
             #expect(help.contains("Move what Peel suggests to the Trash."))
         }
     }

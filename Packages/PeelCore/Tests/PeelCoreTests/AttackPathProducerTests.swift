@@ -48,7 +48,12 @@ struct AttackPathProducerTests {
             leftoverPatterns: ["~/Library/mobile documents/iCloud~com~acme~Notes"]
         )
 
-        let uninstallation = await Uninstallation.prepare(app, installedApps: [app], casks: [cask], environment: environment(directory))
+        let uninstallation = await Uninstallation.prepare(
+            app,
+            installedApps: [app],
+            casks: [cask],
+            environment: environment(directory)
+        )
         let named = uninstallation.scan.leftovers.map { $0.url.path(percentEncoded: false) }
         #expect(named.isEmpty, "the cask path was accepted: \(named)")
 
@@ -90,7 +95,8 @@ struct AttackPathProducerTests {
         let offered = environments.flatMap(\.locations).map { $0.url.path(percentEncoded: false) }
         #expect(!offered.contains { $0.hasSuffix("/.config/gcloud/logs") }, "the developer page offers a path that lands in iCloud Drive")
 
-        guard let url = environments.flatMap(\.locations).first(where: { $0.url.lastPathComponent == "logs" })?.url else { return }
+        guard let url = environments.flatMap(\.locations).first(where: { $0.url.lastPathComponent == "logs" })?.url
+        else { return }
         let trash = try directory.directory("FakeTrash")
         let service = TrashService(environment: environment(directory)) { url in
             let destination = trash.appending(path: url.lastPathComponent)

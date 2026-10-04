@@ -19,7 +19,10 @@ import Testing
     }
 
     @Test func theInstallerIsStillKnownAsTheApps() {
-        #expect(Installers.installedApp(for: URL(filePath: "/Users/me/Downloads/Latest-2.1.dmg"), in: [latest])?.bundleIdentifier == latest.bundleIdentifier)
+        #expect(
+            Installers.installedApp(for: URL(filePath: "/Users/me/Downloads/Latest-2.1.dmg"), in: [latest])?
+                .bundleIdentifier == latest.bundleIdentifier
+        )
     }
 
     @Test func theUninstallerBesideItIsStillItsOwn() {

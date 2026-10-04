@@ -41,7 +41,9 @@ final class Unanswered: Sendable {
     /// Runs `scan` and cancels it 50 ms after its first request, once everything it asks at the same time is
     /// waiting. Returns how long the scan took to return after the cancel, and how many folders it asked about
     /// before and after it.
-    func stop(_ scan: @escaping @Sendable () async -> Void) async throws -> (took: Duration, askedBefore: Int, askedAfter: Int) {
+    func stop(
+        _ scan: @escaping @Sendable () async -> Void
+    ) async throws -> (took: Duration, askedBefore: Int, askedAfter: Int) {
         let running = Task { [self] in
             await scan()
             finished.withLock { $0 = true }

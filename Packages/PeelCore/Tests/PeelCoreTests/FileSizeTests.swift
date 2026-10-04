@@ -54,7 +54,13 @@ struct FileSizeTests {
             try handle.close()
         }
         let project = directory.url.appending(path: "project", directoryHint: .isDirectory)
-        #expect(clonefile(stored.path(percentEncoded: false), project.appending(path: "clone.bin").path(percentEncoded: false), 0) == 0)
+        #expect(
+            clonefile(
+                stored.path(percentEncoded: false),
+                project.appending(path: "clone.bin").path(percentEncoded: false),
+                0
+            ) == 0
+        )
         try FileManager.default.linkItem(at: shared, to: project.appending(path: "linked.bin"))
         try FileManager.default.linkItem(at: own, to: project.appending(path: "own again.bin"))
 
@@ -241,7 +247,9 @@ struct FileSizeTests {
             let read = ScanCount()
             let isAnswered = Mutex(false)
             let patient = Task {
-                let contents = await ScanCount.$current.withValue(read) { await FileSize.contents(of: folder, within: 60) }
+                let contents = await ScanCount.$current.withValue(read) {
+                    await FileSize.contents(of: folder, within: 60)
+                }
                 isAnswered.withLock { $0 = true }
                 return contents
             }
@@ -478,9 +486,15 @@ struct FileSizeTests {
         let log = try directory.file("support/logs/agent.log")
         let lastYear = Date(timeIntervalSinceNow: -365 * 24 * 60 * 60)
         let lastMonth = Date(timeIntervalSinceNow: -30 * 24 * 60 * 60)
-        try FileManager.default.setAttributes([.modificationDate: lastMonth], ofItemAtPath: log.path(percentEncoded: false))
+        try FileManager.default.setAttributes(
+            [.modificationDate: lastMonth],
+            ofItemAtPath: log.path(percentEncoded: false)
+        )
         for old in [log.deletingLastPathComponent(), folder] {
-            try FileManager.default.setAttributes([.modificationDate: lastYear], ofItemAtPath: old.path(percentEncoded: false))
+            try FileManager.default.setAttributes(
+                [.modificationDate: lastYear],
+                ofItemAtPath: old.path(percentEncoded: false)
+            )
         }
 
         let newest = try #require(await FileSize.contents(of: folder)?.newestChange)

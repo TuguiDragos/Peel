@@ -48,12 +48,19 @@ struct TrashServiceTests {
 
     private func launchdPlist(_ path: String, in directory: borrowing TemporaryDirectory) throws -> URL {
         let label = URL(filePath: path).deletingPathExtension().lastPathComponent
-        return try directory.file(path, contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0))
+        return try directory.file(
+            path,
+            contents: PropertyListSerialization.data(fromPropertyList: ["Label": label], format: .xml, options: 0)
+        )
     }
 
     /// A service that moves everything except `stuck` into the test's own Trash, both as the user and through
     /// the helper. The jobs it would stop are recorded in `stopped`.
-    private func service(in directory: borrowing TemporaryDirectory, stopped: Stopped, stuck: URL) throws -> TrashService {
+    private func service(
+        in directory: borrowing TemporaryDirectory,
+        stopped: Stopped,
+        stuck: URL
+    ) throws -> TrashService {
         let trash = try directory.directory("home/.Trash")
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -177,7 +184,10 @@ struct TrashServiceTests {
         let going = try launchdPlist("home/Library/LaunchAgents/com.example.going.plist", in: directory)
         let stopped = Stopped()
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
             exclusions: Exclusions(paths: [kept]),
             stopJobs: { jobs, _ in await stopped.record(jobs) },
             moveToTrash: { url in
@@ -218,9 +228,18 @@ struct TrashServiceTests {
             return destination
         }
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
             forgetDomains: { await forgotten.record($0, owner: $1) },
-            moveThroughHelper: { urls in TrashResult(trashed: urls.compactMap { url in (try? move(url)).map { TrashedItem(originalURL: url, trashedURL: $0, date: .now) } }) },
+            moveThroughHelper: { urls in
+                TrashResult(
+                    trashed: urls.compactMap { url in
+                        (try? move(url)).map { TrashedItem(originalURL: url, trashedURL: $0, date: .now) }
+                    }
+                )
+            },
             moveToTrash: move
         )
 
@@ -347,7 +366,10 @@ struct TrashServiceTests {
     @Test func putBackLeavesAnotherItemInThePlaceItHolds() throws {
         let directory = try TemporaryDirectory()
         let original = directory.url.appending(path: "home/Projects/One/node_modules")
-        try FileManager.default.createDirectory(at: original.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: original.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
         let first = try directory.directory("home/.Trash/node_modules")
         let identity = try #require(TrashedItem.Identity(ofItemAt: first))
         try FileManager.default.moveItem(at: first, to: directory.url.appending(path: "emptied"))
@@ -367,7 +389,10 @@ struct TrashServiceTests {
         let service = try service(in: directory)
         let secret = try directory.file("home/Library/Messages/chat.db")
         try directory.directory("drop")
-        try FileManager.default.createSymbolicLink(at: directory.url.appending(path: "drop/.Trash"), withDestinationURL: secret.deletingLastPathComponent())
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "drop/.Trash"),
+            withDestinationURL: secret.deletingLastPathComponent()
+        )
         let thesis = try directory.file("home/Documents/.Trash/thesis.pages")
         let nested = try directory.file("home/.Trash/folder/inside.txt")
 
@@ -495,7 +520,10 @@ struct TrashServiceTests {
         let caches = directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory)
         let service = try realService(in: directory, afterTheGuard: {
             try? FileManager.default.moveItem(at: caches.appending(path: "com.evil"), to: caches.appending(path: "com.evil.real"))
-            try? FileManager.default.createSymbolicLink(atPath: caches.appending(path: "com.evil").path(percentEncoded: false), withDestinationPath: "../Messages")
+            try? FileManager.default.createSymbolicLink(
+                atPath: caches.appending(path: "com.evil").path(percentEncoded: false),
+                withDestinationPath: "../Messages"
+            )
         })
 
         let result = await service.trash([decoy])
@@ -516,12 +544,17 @@ struct TrashServiceTests {
         try directory.directory("home/Library/Caches/Vendor")
         let trashed = try directory.file("home/.Trash/x.pdf")
         let record = TrashedItem(originalURL: home.appending(path: "Library/Caches/Vendor/x.pdf"), trashedURL: trashed, date: .now)
-        let removalGuard = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let removalGuard = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
 
         try TrashService.putBack(record) { held in
             let answer = removalGuard.refusal(of: held)
             try? FileManager.default.moveItem(at: caches.appending(path: "Vendor"), to: caches.appending(path: "Vendor.real"))
-            try? FileManager.default.createSymbolicLink(atPath: caches.appending(path: "Vendor").path(percentEncoded: false), withDestinationPath: cloud.path(percentEncoded: false))
+            try? FileManager.default.createSymbolicLink(
+                atPath: caches.appending(path: "Vendor").path(percentEncoded: false),
+                withDestinationPath: cloud.path(percentEncoded: false)
+            )
             return answer
         }
 
@@ -593,7 +626,9 @@ struct TrashServiceTests {
     private static var scratchVolume: URL? {
         guard let path = ProcessInfo.processInfo.environment["PEEL_TEST_VOLUME"], !path.isEmpty else { return nil }
         var isDirectory: ObjCBool = false
-        guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue else { return nil }
+        guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue else {
+            return nil
+        }
         return URL(filePath: path, directoryHint: .isDirectory)
     }
 
@@ -629,7 +664,10 @@ struct TrashServiceTests {
         let userItem = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
         let privilegedItem = try directory.file("root/Library/LaunchDaemons/com.example.helper.plist")
 
-        let result = try await service(in: directory).trash([userItem, privilegedItem], usingHelperFor: [privilegedItem])
+        let result = try await service(in: directory).trash(
+            [userItem, privilegedItem],
+            usingHelperFor: [privilegedItem]
+        )
 
         #expect(result.trashed.map(\.originalURL) == [userItem])
         #expect(result.failures == [TrashFailure(url: privilegedItem, reason: .needsHelper)])
@@ -711,7 +749,10 @@ struct TrashServiceTests {
     /// be bypassed by writing the other.
     @Test func refusesTheSystemsRootsHoweverTheyAreSpelled() throws {
         let directory = try TemporaryDirectory()
-        let environment = SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url.appending(path: "root"))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url,
+            rootDirectory: directory.url.appending(path: "root")
+        )
         let guardian = RemovalGuard(environment: environment)
 
         for path in ["/var", "/private/var", "/tmp", "/private/tmp", "/etc", "/private/etc", "/Users/Shared", "/cores",
@@ -728,7 +769,9 @@ struct TrashServiceTests {
         let keychains = home.appending(path: "Library/Keychains", directoryHint: .isDirectory)
         let folders = try [keychains] + (0..<3).map { try directory.directory("home/Library/Keychains/\($0)") }
         try directory.directory("home/Library/Keychains/0/inner")
-        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")))
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
         let longAgo = timespec(tv_sec: 946_684_800, tv_nsec: 0)
         let accessed = { (folder: URL) in
             var info = stat()
@@ -812,7 +855,10 @@ struct TrashServiceTests {
         let folder = try directory.directory("home/Library/Application Support/Vendor")
         let inside = try directory.file("home/Library/Application Support/Vendor/App/state.db")
         let service = TrashService(
-            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url.appending(path: "root")),
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
             moveToTrash: { url in
                 guard url.isThere else { throw CocoaError(.fileNoSuchFile) }
                 let moved = directory.url.appending(path: "trash-\(url.lastPathComponent)")

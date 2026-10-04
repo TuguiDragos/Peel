@@ -7,7 +7,11 @@ struct RemovalTotalsTests {
         let url = URL(filePath: path)
         return RemovalRecord(
             batch: batch,
-            item: TrashedItem(originalURL: url, trashedURL: URL(filePath: "/Users/x/.Trash").appending(path: url.lastPathComponent), date: .now),
+            item: TrashedItem(
+                originalURL: url,
+                trashedURL: URL(filePath: "/Users/x/.Trash").appending(path: url.lastPathComponent),
+                date: .now
+            ),
             size: size,
             source: "Example",
             tool: "applications"
@@ -85,7 +89,11 @@ struct RemovalTotalsTests {
             trashedURL: URL(filePath: "/Users/x/.Trash/org.example.app"),
             date: .now
         )
-        RemovalJournal(beside: history).note([moved], batch: UUID(), by: RemovalJournal.Writer(pid: process.processIdentifier, started: 1))
+        RemovalJournal(beside: history).note(
+            [moved],
+            batch: UUID(),
+            by: RemovalJournal.Writer(pid: process.processIdentifier, started: 1)
+        )
 
         _ = await RemovalLog(url: history).load()
 
@@ -135,7 +143,9 @@ struct RemovalTotalsTests {
         _ = await RemovalLog(url: history).add([record("/Users/x/Library/Caches/org.example.tool", size: 200, batch: UUID())])
 
         #expect(RemovalTotals.read(beside: history).items == 1)
-        let kept = try FileManager.default.contentsOfDirectory(atPath: file.deletingLastPathComponent().path(percentEncoded: false))
+        let kept = try FileManager.default.contentsOfDirectory(
+            atPath: file.deletingLastPathComponent().path(percentEncoded: false)
+        )
         #expect(kept.contains { $0.hasPrefix("totals-damaged-") })
     }
 
