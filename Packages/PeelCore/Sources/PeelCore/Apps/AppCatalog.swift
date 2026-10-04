@@ -92,7 +92,8 @@ public enum AppCatalog {
             let path = PathPattern.comparablePath(of: bundle)
             let identity = identity(of: bundle)
             if let remembered = known.withLock({ $0[path] }), remembered.identity == identity {
-                return remembered.app.withLastUsedDate(AppInspector.lastUsedDate(of: bundle))
+                let use = AppInspector.use(of: bundle)
+                return remembered.app.withUse(lastUsedDate: use.lastUsedDate, isUseRecorded: use.isRecorded)
             }
             guard let app = AppInspector.inspect(bundle) else { return nil }
             known.withLock { $0[path] = (identity, app) }
@@ -142,7 +143,10 @@ public enum AppCatalog {
     /// installed. Both are in the order `sorted` keeps.
     public static func listsTheSameApps(_ reading: [InstalledApp], as listed: [InstalledApp]) -> Bool {
         reading.count == listed.count
-            && zip(reading, listed).allSatisfy { $0.withLastUsedDate(nil) == $1.withLastUsedDate(nil) }
+            && zip(reading, listed).allSatisfy { read, known in
+                read.withUse(lastUsedDate: nil, isUseRecorded: true)
+                    == known.withUse(lastUsedDate: nil, isUseRecorded: true)
+            }
     }
 
     static func appBundles(in directory: URL, maximumDepth: Int = 3) -> [URL] {

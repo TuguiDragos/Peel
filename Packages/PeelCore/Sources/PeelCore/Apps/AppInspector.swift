@@ -70,6 +70,7 @@ public enum AppInspector {
             atPath: contents.appending(path: "_MASReceipt/receipt").path(percentEncoded: false)
         )
         let isSystemProtected = isSystemProtected(url)
+        let use = use(of: url)
 
         return InstalledApp(
             url: url,
@@ -86,7 +87,8 @@ public enum AppInspector {
             architectures: executable.map(MachOHeader.architectures(ofExecutableAt:)) ?? [],
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
-            lastUsedDate: lastUsedDate(of: url),
+            lastUsedDate: use.lastUsedDate,
+            isUseRecorded: use.isRecorded,
             dateAdded: dateAdded(of: url),
             updateFeed: UpdateFeed.detect(info: info, contents: contents, isFromAppStore: isFromAppStore, isSystemProtected: isSystemProtected)
         )
@@ -178,9 +180,19 @@ public enum AppInspector {
         return info.st_flags & UInt32(SF_RESTRICTED) != 0
     }
 
-    static func lastUsedDate(of url: URL) -> Date? {
-        guard let item = MDItemCreateWithURL(kCFAllocatorDefault, url as CFURL) else { return nil }
-        return MDItemCopyAttribute(item, kMDItemLastUsedDate) as? Date
+    /// When the app was last opened, and whether Spotlight records it at all. An item outside Spotlight's index holds
+    /// only what the file system says (`kMDItemFS…`), yet asked for its last used date it answers with its
+    /// modification date. So the date is read only when the item holds it, and the index holds the item when it holds
+    /// a content type.
+    static func use(of url: URL) -> (lastUsedDate: Date?, isRecorded: Bool) {
+        guard
+            let item = MDItemCreateWithURL(kCFAllocatorDefault, url as CFURL),
+            let names = MDItemCopyAttributeNames(item) as? [String]
+        else { return (nil, false) }
+        let lastUsedDate = names.contains(kMDItemLastUsedDate as String)
+            ? MDItemCopyAttribute(item, kMDItemLastUsedDate) as? Date
+            : nil
+        return (lastUsedDate, names.contains(kMDItemContentType as String))
     }
 
     /// When the app appeared in its folder, which is the closest thing to an install date.

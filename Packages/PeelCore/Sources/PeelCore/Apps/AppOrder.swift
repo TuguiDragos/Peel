@@ -19,10 +19,14 @@ public enum AppOrder {
     }
 
     /// Whether `app` has not been opened in the last `months` months. An app with no record of being opened
-    /// counts from the day it was added, since it is exactly the kind of app this filter is meant to find. With
-    /// neither date, the app does not count as unused.
+    /// counts from the day it was added, since it is exactly the kind of app this filter is meant to find. An app
+    /// whose openings nothing records, or one with neither date, does not count as unused.
     public static func isUnused(_ app: InstalledApp, forMonths months: Int, now: Date = .now, calendar: Calendar = .current) -> Bool {
-        guard let last = app.lastUsedDate ?? app.dateAdded, let limit = calendar.date(byAdding: .month, value: -months, to: now) else { return false }
+        guard
+            app.isUseRecorded,
+            let last = app.lastUsedDate ?? app.dateAdded,
+            let limit = calendar.date(byAdding: .month, value: -months, to: now)
+        else { return false }
         return last < limit
     }
 }

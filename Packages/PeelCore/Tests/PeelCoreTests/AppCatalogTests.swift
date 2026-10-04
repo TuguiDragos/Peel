@@ -6,10 +6,11 @@ struct AppCatalogTests {
     private let yesterday = Date(timeIntervalSince1970: 1_800_000_000)
     private let today = Date(timeIntervalSince1970: 1_800_086_400)
 
-    private func app(_ name: String, version: String = "1.0", lastUsed: Date? = nil) -> InstalledApp {
+    private func app(_ name: String, version: String = "1.0", lastUsed: Date? = nil, isRecorded: Bool = true) -> InstalledApp {
         InstalledApp(
             url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
-            bundleIdentifier: "org.example.\(name)", name: name, version: version, lastUsedDate: lastUsed
+            bundleIdentifier: "org.example.\(name)", name: name, version: version, lastUsedDate: lastUsed,
+            isUseRecorded: isRecorded
         )
     }
 
@@ -20,6 +21,7 @@ struct AppCatalogTests {
         let reading = [app("Tunewell", lastUsed: today), app("Zed", lastUsed: today)]
 
         #expect(AppCatalog.listsTheSameApps(reading, as: listed))
+        #expect(AppCatalog.listsTheSameApps([app("Tunewell", isRecorded: false), app("Zed")], as: listed))
     }
 
     @Test func anotherBuildAnAppAddedOrAnAppGoneIsAnotherList() {

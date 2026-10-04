@@ -17,7 +17,11 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let architectures: Set<Architecture>
     public let isFromAppStore: Bool
     public let isSystemProtected: Bool
+    /// When the app was last opened, as Spotlight records it. Nil when it never was, or when nothing records it.
     public let lastUsedDate: Date?
+    /// Whether Spotlight records when the app is opened, so that no `lastUsedDate` means it never was. Spotlight
+    /// keeps no record for an app in a folder it does not index.
+    public let isUseRecorded: Bool
     public let dateAdded: Date?
     public let updateFeed: UpdateFeed?
 
@@ -36,6 +40,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         isFromAppStore: Bool = false,
         isSystemProtected: Bool = false,
         lastUsedDate: Date? = nil,
+        isUseRecorded: Bool = true,
         dateAdded: Date? = nil,
         updateFeed: UpdateFeed? = nil
     ) {
@@ -53,6 +58,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.isFromAppStore = isFromAppStore
         self.isSystemProtected = isSystemProtected
         self.lastUsedDate = lastUsedDate
+        self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
         self.updateFeed = updateFeed
     }
@@ -69,9 +75,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             || (folder.lastPathComponent == "Setapp" && folder.deletingLastPathComponent().lastPathComponent == "Applications")
     }
 
-    /// Returns a copy with `date` as the last used date, which can change while the bundle stays the same.
-    func withLastUsedDate(_ date: Date?) -> InstalledApp {
-        guard date != lastUsedDate else { return self }
+    /// Returns a copy with what Spotlight records of the app's use, which can change while the bundle stays the same.
+    func withUse(lastUsedDate date: Date?, isUseRecorded isRecorded: Bool) -> InstalledApp {
+        guard date != lastUsedDate || isRecorded != isUseRecorded else { return self }
         return InstalledApp(
             url: url,
             bundleIdentifier: bundleIdentifier,
@@ -87,6 +93,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
             lastUsedDate: date,
+            isUseRecorded: isRecorded,
             dateAdded: dateAdded,
             updateFeed: updateFeed
         )

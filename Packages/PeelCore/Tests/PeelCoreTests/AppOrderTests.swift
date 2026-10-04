@@ -5,8 +5,11 @@ import Testing
 struct AppOrderTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
-    private func app(_ name: String, lastUsed: Date? = nil, added: Date? = nil) -> InstalledApp {
-        InstalledApp(url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "com.example.\(name)", name: name, lastUsedDate: lastUsed, dateAdded: added)
+    private func app(_ name: String, lastUsed: Date? = nil, isRecorded: Bool = true, added: Date? = nil) -> InstalledApp {
+        InstalledApp(
+            url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "com.example.\(name)", name: name,
+            lastUsedDate: lastUsed, isUseRecorded: isRecorded, dateAdded: added
+        )
     }
 
     @Test func breaksATieTheWayTheListByNameReads() {
@@ -35,5 +38,11 @@ struct AppOrderTests {
         #expect(AppOrder.isUnused(app("Never", added: longAgo), forMonths: 6, now: now), "never opened, and left out of the filter meant to find it")
         #expect(!AppOrder.isUnused(app("New", added: lastWeek), forMonths: 6, now: now))
         #expect(!AppOrder.isUnused(app("Unknown"), forMonths: 6, now: now))
+    }
+
+    @Test func anAppWhoseOpeningsNothingRecordsIsNeverCalledUnused() {
+        let longAgo = now.addingTimeInterval(-400 * 86_400)
+
+        #expect(!AppOrder.isUnused(app("Elsewhere", isRecorded: false, added: longAgo), forMonths: 6, now: now))
     }
 }

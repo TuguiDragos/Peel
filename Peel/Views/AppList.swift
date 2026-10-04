@@ -308,7 +308,7 @@ private struct AppRow: View {
             } else if let version = app.version {
                 Text(verbatim: version)
             } else {
-                Text("Never opened")
+                app.isUseRecorded ? Text("Never opened") : Text(verbatim: "")
             }
         case .dateAdded:
             if let dateAdded = app.dateAdded {

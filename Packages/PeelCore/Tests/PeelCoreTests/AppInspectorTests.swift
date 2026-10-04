@@ -88,6 +88,21 @@ struct AppInspectorTests {
         #expect(!app.isSystemProtected)
     }
 
+    /// Spotlight does not index the temporary folder, and answers there with the bundle's modification date for when
+    /// it was last used.
+    @Test func anAppSpotlightDoesNotIndexHasNoRecordOfBeingOpened() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.unindexed"], at: "Unindexed.app/Contents/Info.plist", in: directory)
+        let bundle = directory.url.appending(path: "Unindexed.app")
+        let written = Date(timeIntervalSince1970: 1_700_000_000)
+        try FileManager.default.setAttributes([.modificationDate: written], ofItemAtPath: bundle.path(percentEncoded: false))
+
+        let app = try #require(AppInspector.inspect(bundle))
+
+        #expect(app.lastUsedDate == nil)
+        #expect(!app.isUseRecorded)
+    }
+
     /// Reading a bundle costs its `Info.plist`, its signature, its Mach-O header, and a Spotlight lookup, and the
     /// list of apps is read again often. So a bundle is read again only when it has changed.
     @Test func readsABundleAgainOnlyWhenItChanged() async throws {
