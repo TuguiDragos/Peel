@@ -124,17 +124,18 @@ private struct TerminalThemeInUse: View {
                     Button("Put Back") {
                         terminal.perform(.putBack)
                     }
+                    .disabled(terminal.isManaged)
                     .transition(.opacity)
                 }
             }
             .buttonStyle(.bordered)
             .disabled(terminal.isQuittingTerminal)
             .padding(.top, 4)
-            if terminal.problem == .managed {
+            if terminal.isManaged {
                 Label("Locked by a profile", systemImage: "lock")
                     .font(.caption)
                     .foregroundStyle(Color.accentColor)
-            } else if terminal.problem == .refused {
+            } else if terminal.wasRefused {
                 Label("macOS refused it", systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(Color.accentColor)
@@ -161,7 +162,7 @@ private struct TerminalThemeGrid: View {
                 .accessibilityAddTraits(isInUse ? .isSelected : [])
             }
         }
-        .disabled(terminal.isQuittingTerminal)
+        .disabled(terminal.isQuittingTerminal || terminal.isManaged)
         .padding(.vertical, 8)
     }
 }
@@ -199,7 +200,7 @@ private struct TerminalSettingsForm: View {
                     Text("Choose one of Peel’s themes to change these settings.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                } else if terminal.problem == .refused {
+                } else if terminal.wasRefused {
                     Label("macOS refused it", systemImage: "exclamationmark.triangle")
                         .font(.caption)
                         .foregroundStyle(Color.accentColor)

@@ -26,7 +26,7 @@ final class TerminalLibrary {
     private(set) var shellSessions: ShellSessions?
     private(set) var options: Set<TerminalOption>?
     private(set) var isManaged = false
-    private(set) var problem: TerminalThemeLedger.Outcome?
+    private(set) var wasRefused = false
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
 
@@ -56,7 +56,7 @@ final class TerminalLibrary {
         case .set(let option, let isOn): ledger.set(option, to: isOn, in: settings)
         }
         UserDefaults.standard.set(ledger.stored, forKey: Self.ledgerKey)
-        problem = outcome == .managed || outcome == .refused ? outcome : nil
+        wasRefused = outcome == .refused
         refresh()
     }
 
