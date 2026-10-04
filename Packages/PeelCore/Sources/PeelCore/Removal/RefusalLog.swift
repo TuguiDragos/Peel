@@ -52,11 +52,10 @@ public actor RefusalLog {
         self.url = url
     }
 
-    public func load() -> (records: [RefusalRecord], problem: RefusalLogProblem?) {
-        FileLock.whileHeld(beside: url) {
-            let read = current()
-            return (read.records ?? [], read.problem)
-        }
+    /// The records, with what went wrong reading them. Nil records when the file could not be read: what was refused
+    /// is then not known, which is not the same as nothing refused.
+    public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
+        FileLock.whileHeld(beside: url) { current() }
     }
 
     /// Writes down what one removal refused, and says what kept it from being written. The parts of one pass

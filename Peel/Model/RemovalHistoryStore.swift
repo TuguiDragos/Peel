@@ -166,7 +166,7 @@ final class RemovalHistoryStore {
         refusalProblem = read.problem
         refusalChange += 1
         let change = refusalChange
-        let listed = await Self.listed(read.records)
+        let listed = await Self.listed(read.records ?? [])
         guard change == refusalChange else { return }
         refusalBatches = listed.batches
         refusalSearchKeys = listed.searchKeys

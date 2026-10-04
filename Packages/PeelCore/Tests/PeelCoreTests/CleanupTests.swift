@@ -61,7 +61,7 @@ struct CleanupTests {
             }
         }
         #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
-        #expect(await refusals.load().records.isEmpty)
+        #expect(await refusals.load().records?.isEmpty == true)
     }
 
     /// While History cannot be read nothing moves, and the command says so above the list, with the way out.
@@ -134,7 +134,7 @@ struct CleanupTests {
         #expect(!FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
         #expect(records.map(\.originalURL) == [cache])
         #expect(records.allSatisfy { $0.source == "Editor" && $0.tool == "developer" && $0.size == 20 })
-        #expect(await RefusalLog(url: refusals.url).load().records.isEmpty)
+        #expect(await RefusalLog(url: refusals.url).load().records?.isEmpty == true)
     }
 
     /// A removal that could not finish exits 1, and every item that stayed is recorded as refused.
@@ -153,7 +153,7 @@ struct CleanupTests {
         }
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.reason) == ["changed-since-scan"])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.reason) == ["changed-since-scan"])
         #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
     }
 
@@ -175,7 +175,7 @@ struct CleanupTests {
         }
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.reason) == ["stays-in-place"])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.reason) == ["stays-in-place"])
         #expect(FileManager.default.fileExists(atPath: documents.path(percentEncoded: false)))
     }
 
@@ -203,7 +203,7 @@ struct CleanupTests {
 
         try await plan.run(question: "?", dryRun: true, yes: true, using: try service(in: directory), refusals: refusals)
 
-        #expect(await RefusalLog(url: refusals.url).load().records.isEmpty)
+        #expect(await RefusalLog(url: refusals.url).load().records?.isEmpty == true)
     }
 
     /// A refusal known before the move is shown in the plan, and is still recorded when the other items move.
@@ -221,7 +221,7 @@ struct CleanupTests {
         try await plan.run(question: "?", dryRun: false, yes: true, using: service, recordingIn: log, refusals: refusals)
 
         #expect(await RemovalLog(url: log.url).load().records?.map(\.originalURL) == [cache])
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.url) == [documents])
     }
 
     /// `peel uninstall` writes down what the guard refused before the move beside what moved, as every other
@@ -244,12 +244,12 @@ struct CleanupTests {
 
         let moved = await RemovalLog(url: log.url).load().records?.map(\.originalURL.lastPathComponent)
         #expect(Set(moved ?? []) == ["Editor.app", "blob"])
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.url) == [documents])
 
         let kept = UninstallPlan(app: documents, items: [
             UninstallPlan.Item(url: documents, size: nil, refusal: service.refusal(of: documents)),
         ], needsAdministrator: 0, needsReview: 0)
         #expect(await kept.record(TrashResult(), from: "Documents", in: log, refusals: refusals))
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.url) == [documents, documents])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.url) == [documents, documents])
     }
 }

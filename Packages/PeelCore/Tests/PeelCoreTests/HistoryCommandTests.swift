@@ -286,7 +286,7 @@ struct HistoryCommandTests {
 
         try await (command(["history", "--refused", "--clear"]) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
 
-        #expect(await logs.refusals.load().records.isEmpty)
+        #expect(await logs.refusals.load().records?.isEmpty == true)
     }
 
     /// A History file that cannot be read is reported as an error, never shown as an empty History.
@@ -303,6 +303,15 @@ struct HistoryCommandTests {
         await #expect(throws: CommandFailure.self) {
             try await (command(["restore", "abcd", "-y"]) as RestoreCommand).run(in: logs.removals, using: service(in: directory))
         }
+    }
+
+    @Test func refusesToListRefusalsItCannotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        try directory.file("Peel/refusals.json/kept.txt")
+
+        await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused"], from: logs) }
+        await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused", "--json"], from: logs) }
     }
 
     @Test func putsNothingBackWhileTheExclusionsCannotBeRead() async throws {

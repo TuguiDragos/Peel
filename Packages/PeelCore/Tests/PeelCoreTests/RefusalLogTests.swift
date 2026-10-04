@@ -21,7 +21,7 @@ struct RefusalLogTests {
             tool: "applications"
         )
 
-        let records = await RefusalLog(url: log.url).load().records
+        let records = try #require(await RefusalLog(url: log.url).load().records)
         #expect(records.count == 2)
         #expect(records.allSatisfy { $0.source == "Editor" && $0.tool == "applications" })
         #expect(Set(records.map(\.reason)) == ["protected-place", "failed"])
@@ -40,7 +40,7 @@ struct RefusalLogTests {
         #expect(await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals))
 
         #expect(await RemovalLog(url: log.url).load().records?.isEmpty == true)
-        #expect(await RefusalLog(url: refusals.url).load().records.map(\.reason) == ["protected-place"])
+        #expect(await RefusalLog(url: refusals.url).load().records?.map(\.reason) == ["protected-place"])
     }
 
     /// History is the way back for what just moved, so it is written before the refusals: while the refusal log
@@ -100,7 +100,7 @@ struct RefusalLogTests {
         await log.add(older, source: "Older", tool: "duplicates", date: .now.addingTimeInterval(-60))
         await log.add([failure("/Users/me/new", .notPermitted)], source: "New", tool: "space")
 
-        let records = await log.load().records
+        let records = try #require(await log.load().records)
         #expect(records.count == 2_001)
         #expect(Set(records.map(\.source)) == ["Older", "New"])
     }
@@ -117,7 +117,7 @@ struct RefusalLogTests {
 
         let outcome = await RefusalLog(url: url).load()
 
-        #expect(outcome.records.map(\.reason) == ["last-copy"])
+        #expect(outcome.records?.map(\.reason) == ["last-copy"])
         guard case .damaged(let setAside) = outcome.problem else { Issue.record("no damage reported"); return }
         #expect(setAside.lastPathComponent.contains("damaged"))
         #expect(try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path(percentEncoded: false))
@@ -139,7 +139,7 @@ struct RefusalLogTests {
         try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false))
         #expect(try Data(contentsOf: url) == Data("[]".utf8), "an unreadable record was written over")
         #expect(problem == .unreadable)
-        #expect(outcome.problem == .unreadable && outcome.records.isEmpty)
+        #expect(outcome.problem == .unreadable && outcome.records == nil)
     }
 
     /// A refusal that could not be written down is said, rather than lost without a word.
@@ -172,7 +172,7 @@ struct RefusalLogTests {
         await log.add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
 
         #expect(await log.clear())
-        #expect(await log.load().records.isEmpty)
+        #expect(await log.load().records?.isEmpty == true)
         #expect(await log.clear(), "forgetting what is already forgotten is no failure")
     }
 
@@ -224,7 +224,7 @@ struct RefusalLogTests {
         await log.add([failure("/Users/me/a", .lastCopy), failure("/Users/me/b", .lastCopy)], source: "Duplicates", sourceKey: "tool", tool: "duplicates")
         await log.add([failure("/Users/me/c", .notPermitted)], source: "Editor", tool: "applications")
 
-        let records = await log.load().records
+        let records = try #require(await log.load().records)
         let first = records.filter { $0.source == "Duplicates" }
         #expect(first.count == 2)
         #expect(Set(first.map(\.batch)).count == 1)
@@ -266,7 +266,7 @@ struct RefusalLogTests {
         try Data(stored.utf8).write(to: url)
 
         await RefusalLog(url: url).add([failure("/Users/me/new", .notPermitted)], source: "Editor", tool: "applications")
-        let records = await RefusalLog(url: url).load().records
+        let records = try #require(await RefusalLog(url: url).load().records)
 
         #expect(records.count == 4)
         #expect(RefusalRecord.grouped(records).first { $0.id == batch }?.parts.map(\.tool) == ["orphans", "duplicates"])

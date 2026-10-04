@@ -291,7 +291,7 @@ struct FileCommandTests {
         }
 
         #expect(await moved(logs).isEmpty)
-        #expect(await logs.refusals.load().records.map(\.reason) == ["needs-helper"])
+        #expect(await logs.refusals.load().records?.map(\.reason) == ["needs-helper"])
         #expect(FileManager.default.fileExists(atPath: group.items[0].url.path(percentEncoded: false)))
     }
 
@@ -312,7 +312,7 @@ struct FileCommandTests {
         }
 
         #expect(await moved(logs).isEmpty)
-        #expect(await logs.refusals.load().records.isEmpty)
+        #expect(await logs.refusals.load().records?.isEmpty == true)
         #expect(FileManager.default.fileExists(atPath: group.items[0].url.path(percentEncoded: false)))
         #expect(collected.notes == "\(Output.path(group.items[0].url)) stays: holds a photo, music, or video library\n")
     }
@@ -335,7 +335,7 @@ struct FileCommandTests {
         }
 
         #expect(await moved(logs) == ["com.example.gone"])
-        #expect(await logs.refusals.load().records.isEmpty)
+        #expect(await logs.refusals.load().records?.isEmpty == true)
         #expect(FileManager.default.fileExists(atPath: group.items[1].url.path(percentEncoded: false)))
         #expect(collected.notes == "\(Output.path(group.items[1].url)) stays: holds a wallet or a signing key\n")
     }
