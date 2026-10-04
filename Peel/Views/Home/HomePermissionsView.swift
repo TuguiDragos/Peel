@@ -87,6 +87,7 @@ struct HomePermissionsContent: View {
                 }
                 .buttonStyle(.plain)
                 .focusable(false)
+                .accessibilityHidden(true)
                 .pointerStyle(.link)
                 .motion(.touch, .movement, value: pointingAt == permission)
                 .onHover { pointingAt = $0 ? permission : nil }
@@ -208,7 +209,6 @@ struct HomePermissionsContent: View {
             }
         }
         .frame(width: Self.markSize, height: Self.markSize)
-        .accessibilityHidden(true)
     }
 
     /// Unreadable exclusions come first: until they are read, nothing moves at all.
