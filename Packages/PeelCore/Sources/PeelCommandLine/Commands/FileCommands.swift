@@ -72,10 +72,21 @@ struct OrphansCommand: AsyncParsableCommand {
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
         let scan = await ProgressLine.counting {
-            await scanner.scan(installedApps: apps, remembered: remembered, running: running, owners: OrphanOwners().load())
+            await scanner.scan(
+                installedApps: apps,
+                remembered: remembered,
+                running: running,
+                owners: OrphanOwners().load()
+            )
         }
         if let group {
-            return try await clean(group, in: scan, apps: apps, scanner: scanner, using: TrashService(exclusions: exclusions))
+            return try await clean(
+                group,
+                in: scan,
+                apps: apps,
+                scanner: scanner,
+                using: TrashService(exclusions: exclusions)
+            )
         }
 
         if output.json {
@@ -248,7 +259,10 @@ struct CachesCommand: AsyncParsableCommand {
     /// Returns the environments named in `tools`, by the name the listing shows or by its identifier, ignoring
     /// case. All of them when `tools` is empty. A name that matches none fails the command, even beside one that
     /// matches: shown the rest, a typo would read as a tool with nothing to show.
-    static func chosen(from environments: [DeveloperEnvironment], named tools: [String]) throws -> [DeveloperEnvironment] {
+    static func chosen(
+        from environments: [DeveloperEnvironment],
+        named tools: [String]
+    ) throws -> [DeveloperEnvironment] {
         guard !tools.isEmpty else { return environments }
         func isNamed(_ environment: DeveloperEnvironment, _ tool: String) -> Bool {
             [environment.name, environment.id].contains { tool.caseInsensitiveCompare($0) == .orderedSame }
@@ -567,7 +581,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
                 Output.line(Self.heading(for: group))
                 Output.table(Self.rows(for: group.files.map(\.url)), indent: "  ")
             }
-            let total = scan.groups.reduce(0) { $0 + $1.reclaimableSize } + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
+            let total =
+                scan.groups.reduce(0) { $0 + $1.reclaimableSize }
+                + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
             Output.line("Total to free: \(Output.size(total))")
         }
         Self.notes(for: scan).forEach(Output.note)
@@ -599,7 +615,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
                     folders: group.folders.map { Output.path($0.url) }
                 )
             },
-            files: scan.groups.map { Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) }) },
+            files: scan.groups.map {
+                Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) })
+            },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
             skippedLocations: scan.skippedLocations.map(Output.path)
         )
@@ -646,7 +664,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
             + scan.groups.compactMap { $0.files.first?.url }
         Output.table(kept.map { ["keep", Output.path($0)] })
         let cleanup = Cleanup.of(
-            folders.map { (url: $0.url, size: $0.reclaimableSize) } + files.map { (url: $0.url, size: $0.reclaimableSize) },
+            folders.map { (url: $0.url, size: $0.reclaimableSize) }
+                + files.map { (url: $0.url, size: $0.reclaimableSize) },
             source: "Duplicates",
             sourceKey: "tool",
             tool: "duplicates",
@@ -723,11 +742,17 @@ struct SearchCommand: AsyncParsableCommand {
         }
 
         if output.json {
-            try Output.json(results.files.map { Record(path: Output.path($0.url), size: $0.size, modificationDate: $0.modificationDate) })
+            try Output.json(
+                results.files.map {
+                    Record(path: Output.path($0.url), size: $0.size, modificationDate: $0.modificationDate)
+                }
+            )
         } else if results.files.isEmpty {
             Output.line("No files found.")
         } else {
-            Output.table(results.files.map { [Output.size($0.size), Output.day($0.modificationDate), Output.path($0.url)] })
+            Output.table(
+                results.files.map { [Output.size($0.size), Output.day($0.modificationDate), Output.path($0.url)] }
+            )
         }
         if results.isTruncated {
             Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown. Narrow the search to see the rest.")

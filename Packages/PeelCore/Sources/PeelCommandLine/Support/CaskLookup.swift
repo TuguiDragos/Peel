@@ -25,9 +25,16 @@ enum CaskLookup {
         async let installed = Homebrew.installedPackages()
         let known = await CaskEvidence.knownCasks(for: [app], receipts: receipts)
         do {
-            return Answer(casks: CaskEvidence.combined(installed: try await installed, known: known, receipts: receipts), receipts: receipts)
+            return Answer(
+                casks: CaskEvidence.combined(installed: try await installed, known: known, receipts: receipts),
+                receipts: receipts
+            )
         } catch {
-            return Answer(casks: CaskEvidence.combined(installed: [], known: known, receipts: receipts), receipts: receipts, failure: why(error))
+            return Answer(
+                casks: CaskEvidence.combined(installed: [], known: known, receipts: receipts),
+                receipts: receipts,
+                failure: why(error)
+            )
         }
     }
 

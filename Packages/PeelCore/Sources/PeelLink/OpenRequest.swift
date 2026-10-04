@@ -28,7 +28,8 @@ public enum OpenRequest {
         guard
             url.scheme?.lowercased() == "peel",
             url.host()?.lowercased() == "open",
-            let path = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "path" })?.value,
+            let path = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?
+                .first(where: { $0.name == "path" })?.value,
             path.hasPrefix("/"),
             !path.unicodeScalars.contains(where: { $0.properties.generalCategory == .control })
         else { return nil }

@@ -12,7 +12,10 @@ enum ProgressLine {
     private static let redraw = DispatchTimeInterval.milliseconds(100)
 
     /// Runs a scan that counts what it reads (`ScanCount`), and shows how much it has read.
-    static func counting<Answer>(on descriptor: Int32 = STDERR_FILENO, _ scan: () async throws -> Answer) async rethrows -> Answer {
+    static func counting<Answer>(
+        on descriptor: Int32 = STDERR_FILENO,
+        _ scan: () async throws -> Answer
+    ) async rethrows -> Answer {
         let count = ScanCount()
         return try await showing({ lookedAt(count.value) }, on: descriptor) {
             try await ScanCount.$current.withValue(count) { try await scan() }

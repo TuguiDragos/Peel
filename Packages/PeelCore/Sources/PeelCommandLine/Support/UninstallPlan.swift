@@ -39,7 +39,10 @@ struct UninstallPlan {
         let app = uninstallation.app.url
         let selection = keepLeftovers ? [app] : uninstallation.suggestedSelection(canUseHelper: false)
         let ordered = [app] + uninstallation.removalOrder(of: selection).filter { $0 != app }
-        let leftovers = Dictionary(uninstallation.scan.leftovers.map { ($0.url, $0) }, uniquingKeysWith: { first, _ in first })
+        let leftovers = Dictionary(
+            uninstallation.scan.leftovers.map { ($0.url, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
 
         let items = ordered.filter(selection.contains).map { url in
             let leftover = leftovers[url]

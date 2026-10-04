@@ -27,7 +27,11 @@ enum AppLookup {
 
     /// Throws when `app` is excluded in Peel's settings, so the command line leaves it alone as the app does.
     /// While the saved list can't be read, it throws for every app, since what the user excluded is unknown.
-    static func refuseIfExcluded(_ app: InstalledApp, by exclusions: Exclusions, savedAt url: URL = ExclusionStore.defaultURL) throws(Failure) {
+    static func refuseIfExcluded(
+        _ app: InstalledApp,
+        by exclusions: Exclusions,
+        savedAt url: URL = ExclusionStore.defaultURL
+    ) throws(Failure) {
         guard !exclusions.isUnreadable else { throw .exclusionsUnreadable(url.path(percentEncoded: false)) }
         guard exclusions.excludes(app) else { return }
         throw .excluded(app.name)
@@ -56,7 +60,11 @@ enum AppLookup {
         default: throw .ambiguous(query, byIdentifier.map { normalizedPath($0.url) })
         }
         // Compared without the user's locale: under Turkish rules, `iina` wouldn't match `IINA`.
-        let named = apps.filter { names(of: $0).contains { $0.compare(bareName(query), options: [.caseInsensitive, .widthInsensitive]) == .orderedSame } }
+        let named = apps.filter {
+            names(of: $0).contains {
+                $0.compare(bareName(query), options: [.caseInsensitive, .widthInsensitive]) == .orderedSame
+            }
+        }
         let local = localBundle(named: query, in: folder).map(normalizedPath)
         let paths = named.map { normalizedPath($0.url) }
         if let local, !paths.isEmpty, !paths.contains(local) {

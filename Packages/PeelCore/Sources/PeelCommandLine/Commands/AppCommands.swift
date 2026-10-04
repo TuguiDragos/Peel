@@ -508,7 +508,12 @@ struct UninstallCommand: AsyncParsableCommand {
 
     /// Returns the notes printed before the question: what the scan couldn't fully check, and files that
     /// will stay. The user needs to see them before agreeing to the move.
-    static func whatStays(_ plan: UninstallPlan, app: InstalledApp, homebrew: CaskLookup.Answer, scan: LeftoverScan) -> [String] {
+    static func whatStays(
+        _ plan: UninstallPlan,
+        app: InstalledApp,
+        homebrew: CaskLookup.Answer,
+        scan: LeftoverScan
+    ) -> [String] {
         var notes: [String] = []
         if let note = homebrew.note {
             notes.append(note)

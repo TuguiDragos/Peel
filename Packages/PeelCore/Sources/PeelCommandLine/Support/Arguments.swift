@@ -105,7 +105,9 @@ struct ByteSize: ExpressibleByArgument, Equatable {
         let text = argument.trimmingCharacters(in: .whitespaces).uppercased()
         let unit = Self.units.first { text.hasSuffix($0.suffix) }
         let number = unit.map { String(text.dropLast($0.suffix.count)) } ?? text
-        guard let value = Double(number.trimmingCharacters(in: .whitespaces)), value.isFinite, value >= 0 else { return nil }
+        guard let value = Double(number.trimmingCharacters(in: .whitespaces)), value.isFinite, value >= 0 else {
+            return nil
+        }
         let bytes = (value * (unit?.multiplier ?? 1)).rounded()
         guard bytes < Double(Int64.max) else { return nil }
         self.bytes = Int64(bytes)
@@ -115,7 +117,8 @@ struct ByteSize: ExpressibleByArgument, Equatable {
 /// Returns whether `url` is an existing folder, so a wrong path gets an error rather than an empty result.
 func isAFolder(_ url: URL) -> Bool {
     var isDirectory: ObjCBool = false
-    return FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isDirectory) && isDirectory.boolValue
+    return FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isDirectory)
+        && isDirectory.boolValue
 }
 
 extension URL {

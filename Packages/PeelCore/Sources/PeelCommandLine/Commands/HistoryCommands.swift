@@ -176,7 +176,9 @@ struct HistoryCommand: AsyncParsableCommand {
                     size: MeasuredSize(batch.size),
                     itemCount: batch.records.count,
                     restorableCount: batch.restorable.count,
-                    files: batch.records.map { FileRecord(path: Output.path($0.originalURL), size: MeasuredSize($0.size)) }
+                    files: batch.records.map {
+                        FileRecord(path: Output.path($0.originalURL), size: MeasuredSize($0.size))
+                    }
                 )
             })
         } else if batches.isEmpty {
