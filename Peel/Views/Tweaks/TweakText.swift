@@ -175,6 +175,10 @@ extension Tweak {
             title: "No crash report window",
             detail: "When an app crashes, macOS stops asking you about it."
         ),
+        "terminal-fresh-windows": Words(
+            title: "Terminal doesn’t reopen its windows",
+            detail: "When Terminal quits, it keeps no windows to open again, even though Desktop & Dock keeps other apps’ windows."
+        ),
     ]
 }
 

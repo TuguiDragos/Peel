@@ -123,8 +123,10 @@ final class TweakLibrary {
 
     /// Whether Turn All Off has anything to change.
     var hasSomethingOn: Bool {
-        TweakCatalog.all.contains { ledger.isOn($0, state: state(of: $0)) }
+        Self.onTweaksPage.contains { ledger.isOn($0, state: state(of: $0)) }
     }
+
+    private static let onTweaksPage = TweakCatalog.all.filter { Tweak.Group.onTweaksPage.contains($0.group) }
 
     /// Turns off every tweak that is on, as its own switch would, and restarts each affected process once.
     func turnAllOff() async {
@@ -132,7 +134,7 @@ final class TweakLibrary {
         defer { isTurningAllOff = false }
         // Read again: System Settings may have changed any of these after the page was drawn.
         refresh()
-        let batch = ledger.turnOff(TweakCatalog.all.filter { ledger.isOn($0, state: state(of: $0)) }, in: store)
+        let batch = ledger.turnOff(Self.onTweaksPage.filter { ledger.isOn($0, state: state(of: $0)) }, in: store)
         refused = Set(batch.refused.map(\.id))
         for tweak in batch.changed where tweak.restart == .logOut {
             waitingForLogOut.formSymmetricDifference([tweak.id])
@@ -167,6 +169,8 @@ final class TweakLibrary {
 }
 
 extension Tweak.Group {
+    static let onTweaksPage = allCases.filter { $0 != .terminal }
+
     var title: LocalizedStringResource {
         switch self {
         case .dock: "Dock"
@@ -175,6 +179,7 @@ extension Tweak.Group {
         case .typing: "Typing"
         case .windows: "Windows"
         case .privacy: "Privacy"
+        case .terminal: "Terminal"
         }
     }
 
@@ -186,6 +191,7 @@ extension Tweak.Group {
         case .typing: "keyboard"
         case .windows: "macwindow"
         case .privacy: "hand.raised"
+        case .terminal: "terminal"
         }
     }
 }
@@ -200,6 +206,7 @@ extension Tweak.Restart {
         case .windowManager: "Window tiling restarts"
         case .relaunchApps: "Open apps keep the old setting until you reopen them"
         case .logOut: "Takes effect after you log out"
+        case .terminalQuits: "Takes effect the next time Terminal quits"
         }
     }
 
@@ -214,6 +221,7 @@ extension Tweak.Restart {
         case .windowManager: "Window tiling restarts."
         case .relaunchApps: "Open apps keep the old setting until you reopen them."
         case .logOut: "Takes effect after you log out."
+        case .terminalQuits: "Takes effect the next time Terminal quits."
         }
     }
 }

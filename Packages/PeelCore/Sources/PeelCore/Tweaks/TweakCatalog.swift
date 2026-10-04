@@ -3,7 +3,7 @@ import Foundation
 /// The settings Peel offers. On macOS 26, each key belongs to the domain it names, and removing the key gives
 /// the setting back to macOS. None of them needs administrator rights or a change to a system file.
 public enum TweakCatalog {
-    public static let all: [Tweak] = dock + screenshots + finder + typing + windows + privacy
+    public static let all: [Tweak] = dock + screenshots + finder + typing + windows + privacy + terminal
 
     static let dock: [Tweak] = [
         Tweak(
@@ -382,4 +382,17 @@ public enum TweakCatalog {
             documentation: .undocumented
         ),
     ]
+
+    public static let terminalWindows = Tweak(
+        id: "terminal-fresh-windows",
+        domain: TerminalSettings.identifier,
+        key: "NSQuitAlwaysKeepsWindows",
+        kind: .aSwitchForThisAppAlone(.boolean(false)),
+        restart: .terminalQuits,
+        group: .terminal,
+        hasASystemControl: false,
+        documentation: .undocumented
+    )
+
+    static let terminal = [terminalWindows]
 }

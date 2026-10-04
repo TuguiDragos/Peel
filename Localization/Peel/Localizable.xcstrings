@@ -65822,6 +65822,112 @@
         }
       }
     },
+    "New Terminal windows start at the prompt, without the line that says when you last logged in. Logins to this Mac over SSH leave it out too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová okna Terminálu se otevírají rovnou s výzvou k zadání příkazu, bez řádku, který uvádí, kdy jste se naposledy přihlásili. Tento řádek se nezobrazí ani při přihlášení k tomuto Macu přes SSH."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Terminal-Fenster beginnen direkt mit der Eingabeaufforderung, ohne die Zeile, die angibt, wann du dich zuletzt angemeldet hast. Wenn du dich über SSH bei diesem Mac anmeldest, fehlt diese Zeile ebenfalls."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las ventanas nuevas de Terminal empiezan con el indicador de la línea de comandos, sin la línea que dice cuándo iniciaste sesión por última vez. Tampoco aparece al iniciar sesión en este Mac mediante SSH."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les nouvelles fenêtres de Terminal s’ouvrent directement sur l’invite de commande, sans la ligne qui indique quand vous avez ouvert une session pour la dernière fois. Cette ligne n’apparaît pas non plus lorsqu’une session est ouverte sur ce Mac via SSH."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le nuove finestre di Terminale si aprono direttamente sul prompt, senza la riga che indica quando hai eseguito l’ultimo login. Quella riga non compare nemmeno nei login a questo Mac tramite SSH."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルの新規ウインドウは、前回ログインした日時を示す行なしで、プロンプトから始まります。SSHでこのMacにログインした場合も、この行は表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 터미널 윈도우는 마지막으로 로그인한 시간을 알려 주는 줄 없이 프롬프트부터 시작됩니다. SSH로 이 Mac에 로그인할 때도 이 줄이 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuwe Terminal-vensters beginnen met de prompt, zonder de regel die laat zien wanneer je voor het laatst bent ingelogd. Ook als je via SSH op deze Mac inlogt, blijft die regel weg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nowe okna Terminala zaczynają się od znaku zachęty, bez wiersza z datą i godziną Twojego ostatniego logowania. Przy logowaniu do tego Maca przez SSH ten wiersz również się nie pojawia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As novas janelas do Terminal abrem direto no prompt, sem a linha que mostra quando você iniciou a sessão pela última vez. Essa linha também não aparece quando você acessa este Mac por SSH."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noile ferestre Terminal încep cu promptul, fără linia care arată când ați făcut login ultima dată. Linia lipsește și la login prin SSH pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новые окна Терминала открываются сразу с приглашением ввода, без строки о том, когда Вы в последний раз входили в систему. При входе на этот Mac по SSH эта строка тоже не выводится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nya Terminal-fönster börjar med prompten, utan raden som visar när du senast loggade in. Den visas inte heller vid inloggning på den här datorn via SSH."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Terminal pencereleri, en son ne zaman oturum açtığınızı belirten satır olmadan doğrudan bilgi istemiyle başlar. SSH üzerinden bu Mac’te oturum açıldığında da bu satır gösterilmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нові вікна Термінала починаються із запрошення до введення команди, без рядка про те, коли ви востаннє входили в систему. Під час входу на цей Mac через SSH цього рядка теж не буде."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新的“终端”窗口会直接从提示符开始，不显示说明你上次登录时间的那一行。通过SSH登录这台Mac时，也不会显示这一行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新的「終端機」視窗會直接從提示行開始，不會顯示你上次登入時間的那一行。透過SSH登入這部Mac時，也會省略這一行。"
+          }
+        }
+      }
+    },
     "New documents save to this Mac" : {
       "localizations" : {
         "cs" : {
@@ -71608,6 +71714,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更改副檔名時不顯示警告"
+          }
+        }
+      }
+    },
+    "No “Last login” line" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez řádku „Last login“"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Zeile „Last login“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin la línea “Last login”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de ligne « Last login »"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna riga “Last login”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Last login”の行を表示しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘Last login’ 줄 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen regel 'Last login'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez wiersza „Last login”"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem a linha “Last login”"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fără linia „Last login”"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без строки «Last login»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen rad med ”Last login”"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Last login” satırı yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без рядка «Last login»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不显示“Last login”行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不顯示「Last login」行"
           }
         }
       }
@@ -122475,6 +122687,324 @@
         }
       }
     },
+    "Takes effect in new windows" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projeví se v nových oknech"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird in neuen Fenstern wirksam"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplica a las ventanas nuevas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prend effet dans les nouvelles fenêtres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha effetto nelle nuove finestre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ウインドウに反映されます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 윈도우에서 적용됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wordt van kracht in nieuwe vensters"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zacznie działać w nowych oknach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem efeito nas novas janelas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplică în ferestrele noi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вступает в силу в новых окнах"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Börjar gälla i nya fönster"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni pencerelerde geçerli olur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Набуде чинності в нових вікнах"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新窗口中生效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新視窗中生效"
+          }
+        }
+      }
+    },
+    "Takes effect the next time Terminal quits" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projeví se při příštím ukončení Terminálu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird beim nächsten Beenden von Terminal wirksam"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplica la próxima vez que Terminal se cierre"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prend effet à la prochaine fermeture de Terminal"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha effetto alla prossima chiusura di Terminale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次にターミナルを終了したときに反映されます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음에 터미널이 종료될 때 적용됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wordt van kracht de volgende keer dat Terminal stopt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zacznie działać, gdy Terminal następnym razem zakończy pracę"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem efeito na próxima vez que o Terminal for encerrado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplică data viitoare când Terminal se închide"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вступает в силу, когда Терминал в следующий раз завершит работу"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Börjar gälla nästa gång Terminal avslutas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’den bir sonraki çıkışta geçerli olur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Набуде чинності, коли Термінал наступного разу завершить роботу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”下次退出时生效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」下次結束時生效"
+          }
+        }
+      }
+    },
+    "Takes effect the next time Terminal quits." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projeví se při příštím ukončení Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird beim nächsten Beenden von Terminal wirksam."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplica la próxima vez que Terminal se cierre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prend effet à la prochaine fermeture de Terminal."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha effetto alla prossima chiusura di Terminale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次にターミナルを終了したときに反映されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음에 터미널이 종료될 때 적용됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wordt van kracht de volgende keer dat Terminal stopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zacznie działać, gdy Terminal następnym razem zakończy pracę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem efeito na próxima vez que o Terminal for encerrado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se aplică data viitoare când Terminal se închide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вступает в силу, когда Терминал в следующий раз завершит работу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Börjar gälla nästa gång Terminal avslutas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’den bir sonraki çıkışta geçerli olur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Набуде чинності, коли Термінал наступного разу завершить роботу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”下次退出时生效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」下次結束時生效。"
+          }
+        }
+      }
+    },
     "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
         "cs" : {
@@ -122895,6 +123425,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「終端機」尚未結束。"
+          }
+        }
+      }
+    },
+    "Terminal doesn’t reopen its windows" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminál neotevírá svá okna znovu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öffnet seine Fenster nicht erneut"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal no vuelve a abrir sus ventanas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal ne rouvre pas ses fenêtres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminale non riapre le finestre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルのウインドウを再度開かない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널이 윈도우를 다시 열지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal opent zijn vensters niet opnieuw"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal nie otwiera ponownie swoich okien"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Terminal não reabre as janelas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal nu își redeschide ferestrele"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Терминал не открывает свои окна заново"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öppnar inte sina fönster igen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal pencerelerini yeniden açmaz"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Термінал не відкриває знову свої вікна"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”不重新打开之前的窗口"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」不重新打開視窗"
           }
         }
       }
@@ -145336,6 +145972,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由於無法儲存記錄，你已還原或移除記錄的項目可能仍會列在此處。"
+          }
+        }
+      }
+    },
+    "When Terminal Opens" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Při otevření Terminálu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Öffnen von Terminal"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al abrir Terminal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À l’ouverture de Terminal"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All’apertura di Terminale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルを開いたとき"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널을 열 때"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wanneer Terminal wordt geopend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy Terminal się otwiera"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao Abrir o Terminal"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când se deschide Terminal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При открытии Терминала"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När Terminal öppnas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal Açıldığında"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час відкриття Термінала"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”打开时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」打開時"
+          }
+        }
+      }
+    },
+    "When Terminal quits, it keeps no windows to open again, even though Desktop & Dock keeps other apps’ windows." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Při ukončení si Terminál neponechá žádná okna k opětovnému otevření, přestože nastavení v části Plocha a Dock ponechává okna ostatních aplikací."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Beenden behält Terminal keine Fenster zum erneuten Öffnen, obwohl andere Apps ihre Fenster behalten, wie unter „Schreibtisch & Dock“ eingestellt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando Terminal se cierra, no guarda ninguna ventana para volver a abrirla, aunque Escritorio y Dock conserva las ventanas de las demás apps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque Terminal se ferme, il ne conserve aucune fenêtre à rouvrir, même si les réglages Bureau et Dock conservent celles des autres apps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando Terminale si chiude, non conserva nessuna finestra da riaprire, anche se con le impostazioni “Scrivania e Dock” le altre app conservano le loro finestre."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“デスクトップとDock”でほかのアプリのウインドウを残す設定になっていても、ターミナルは終了するときに、再度開くためのウインドウを残しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데스크탑 및 Dock 설정에 따라 다른 앱의 윈도우는 유지되지만, 터미널은 종료될 때 다시 열 윈도우를 남겨 두지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Terminal stopt, bewaart de app geen vensters om opnieuw te openen, ook al laat 'Bureaublad en Dock' andere apps hun vensters bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy Terminal kończy pracę, nie zachowuje żadnych okien do ponownego otwarcia, mimo że inne aplikacje zachowują swoje okna zgodnie z ustawieniem w panelu Biurko i Dock."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao ser encerrado, o Terminal não guarda nenhuma janela para reabrir, mesmo que o ajuste em Mesa e Dock mantenha as janelas dos outros apps."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când Terminal se închide, nu păstrează nicio fereastră de redeschis, deși celelalte aplicații își păstrează ferestrele, conform configurării din Desktop și Dock."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда Терминал завершает работу, он не сохраняет окна, чтобы открыть их заново, хотя окна других приложений сохраняются, как задано в разделе «Рабочий стол и Dock»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När Terminal avslutas behåller den inga fönster att öppna igen, trots att inställningen i Skrivbord och Dock låter andra appar behålla sina fönster."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’den çıkıldığında, Masaüstü ve Dock’taki ayar diğer uygulamaların pencerelerini korusa da Terminal yeniden açmak üzere hiçbir pencere saklamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли Термінал завершує роботу, він не зберігає жодних вікон, щоб відкрити їх знову, хоча в розділі «Робочий стіл і Dock» налаштовано зберігати вікна інших програм."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”退出时不会保留任何窗口以供再次打开，即使“桌面与程序坞”中的设置会为其他App保留窗口。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雖然「桌面與Dock」中的設定會保留其他App的視窗，但「終端機」結束時不會保留任何視窗供重新打開。"
           }
         }
       }

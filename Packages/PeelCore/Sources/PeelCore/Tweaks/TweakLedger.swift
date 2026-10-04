@@ -101,7 +101,7 @@ public struct TweakLedger {
     public func isOn(_ tweak: Tweak, state: TweakState) -> Bool {
         guard !state.isManaged else { return false }
         switch tweak.kind {
-        case .aSwitch: return state.isOn
+        case .aSwitch, .aSwitchForThisAppAlone: return state.isOn
         case .folder: return holdsPeelsChange(tweak, stored: state.path)
         }
     }

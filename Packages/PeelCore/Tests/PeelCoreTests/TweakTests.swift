@@ -62,7 +62,7 @@ struct TweakTests {
     @Test func everySwitchReadsBackAsWhatItWrites() {
         for tweak in TweakCatalog.all {
             switch tweak.kind {
-            case .aSwitch(let value):
+            case .aSwitch(let value), .aSwitchForThisAppAlone(let value):
                 #expect(TweakStore.matches(TweakStore.property(value), value), "\(tweak.id) does not read back as what it writes")
             case .folder:
                 #expect(tweak.group == .screenshots, "\(tweak.id) is a folder somewhere unexpected")

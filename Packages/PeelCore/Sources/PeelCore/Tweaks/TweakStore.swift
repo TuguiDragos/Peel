@@ -43,12 +43,16 @@ public struct TweakStore: Sendable, TweakStoring {
         synchronizeOnce(tweak.domain)
 
         let isManaged = Self.isForced(key, in: tweak.domain)
-        guard let current = Self.copy(key, from: tweak.domain) else {
+        let read = switch tweak.kind {
+        case .aSwitchForThisAppAlone: Self.copyStored(key, from: tweak.domain)
+        case .aSwitch, .folder: Self.copy(key, from: tweak.domain)
+        }
+        guard let current = read else {
             return TweakState(isOn: false, isManaged: isManaged, path: nil)
         }
 
         switch tweak.kind {
-        case .aSwitch(let wanted):
+        case .aSwitch(let wanted), .aSwitchForThisAppAlone(let wanted):
             return TweakState(isOn: Self.matches(current, wanted), isManaged: isManaged, path: nil)
         case .folder:
             let path = current as? String
@@ -64,7 +68,13 @@ public struct TweakStore: Sendable, TweakStoring {
     /// later changes would not take effect.
     public func storedValue(of tweak: Tweak) -> Any? {
         _ = Self.synchronize(tweak.domain)
-        return CFPreferencesCopyValue(tweak.key as CFString, Self.domain(tweak.domain), kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        return Self.copyStored(tweak.key as CFString, from: tweak.domain)
+    }
+
+    func valueInEffect(of tweak: Tweak) -> CFPropertyList? {
+        _ = Self.synchronize(Self.globalDomain)
+        _ = Self.synchronize(tweak.domain)
+        return Self.copy(tweak.key as CFString, from: tweak.domain)
     }
 
     /// Writes back `value`, or removes the key when `value` is `nil`, so macOS falls back to its default.
@@ -77,7 +87,7 @@ public struct TweakStore: Sendable, TweakStoring {
     @discardableResult
     public func turnOn(_ tweak: Tweak, path: String? = nil) -> Bool {
         let value: CFPropertyList? = switch tweak.kind {
-        case .aSwitch(let wanted): Self.property(wanted)
+        case .aSwitch(let wanted), .aSwitchForThisAppAlone(let wanted): Self.property(wanted)
         case .folder: path.map { $0 as CFString }
         }
         guard let value else { return false }
@@ -99,6 +109,10 @@ public struct TweakStore: Sendable, TweakStoring {
         name == globalDomain
             ? CFPreferencesCopyValue(key, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
             : CFPreferencesCopyAppValue(key, name as CFString)
+    }
+
+    private static func copyStored(_ key: CFString, from name: String) -> CFPropertyList? {
+        CFPreferencesCopyValue(key, domain(name), kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
     }
 
     private static func set(_ key: CFString, to value: CFPropertyList?, in name: String) {
@@ -168,7 +182,7 @@ public enum TweakRestart {
         case .finder: name = "Finder"
         case .controlCenter: name = "ControlCenter"
         case .windowManager: name = "WindowManager"
-        case .none, .relaunchApps, .logOut: return
+        case .none, .relaunchApps, .logOut, .terminalQuits: return
         }
         _ = await Subprocess.run("/usr/bin/killall", [name], timeout: 10)
     }

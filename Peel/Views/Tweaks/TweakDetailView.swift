@@ -24,7 +24,7 @@ struct TweakDetailContent: View {
     }
 }
 
-private struct TweakRow: View {
+struct TweakRow: View {
     @Environment(TweakLibrary.self) private var tweaks
     let tweak: Tweak
 
@@ -113,7 +113,7 @@ private struct TweakRow: View {
     @ViewBuilder
     private func control(_ state: TweakState) -> some View {
         switch tweak.kind {
-        case .aSwitch:
+        case .aSwitch, .aSwitchForThisAppAlone:
             Toggle(isOn: Binding(
                 get: { tweaks.isOn(tweak, state: state) },
                 set: { tweaks.set(tweak, on: $0) }

@@ -83,6 +83,7 @@ import Testing
         let catalog = try Self.localizable()
         let settings = ["General", "Exclusions", "Privacy", "Helper"]
         let tweaks = ["Dock", "Screenshots", "Finder", "Typing", "Windows", "Privacy"]
+        let terminal = ["Themes", "Settings"]
         var problems: [String] = []
         for language in try Self.declaredLanguages() {
             let font = Self.font(NSFont.systemFont(ofSize: NSFont.systemFontSize), in: language)
@@ -100,6 +101,7 @@ import Testing
             let sidebar = max(min(ceil(widestName + Self.sidebarSymbol) + Self.sidebarRowInsets, Self.sidebarMaximum) + scroller, 220)
             let checks: [(needs: CGFloat, room: CGFloat, what: String)] = [
                 (sidebar + bar(settings) + 24, 960, "Settings' tabs beside the sidebar at the narrowest window"),
+                (sidebar + bar(terminal) + 24, 960, "Terminal's tabs beside the sidebar at the narrowest window"),
                 (sidebar + bar(tweaks) + 24, 1120, "Tweaks' tabs beside the sidebar at the default window"),
                 (bar(tweaks) + 160, 960, "Tweaks' tabs alone at the narrowest window"),
             ]

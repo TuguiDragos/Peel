@@ -12,7 +12,7 @@ struct TweakPage: View {
     /// control only while the column is 24 points wider than it, and otherwise moves it into the overflow menu.
     /// `ContentView` moves the sidebar aside when the window is too narrow for both.
     static let tabBarWidth: CGFloat = {
-        let titles = Tweak.Group.allCases.map { String(localized: $0.title) }
+        let titles = Tweak.Group.onTweaksPage.map { String(localized: $0.title) }
         let font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
         let widest = titles.indices.map { index in
             let end = index == 0 || index == titles.count - 1
@@ -23,7 +23,7 @@ struct TweakPage: View {
 
     var body: some View {
         TabView {
-            ForEach(Tweak.Group.allCases, id: \.self) { group in
+            ForEach(Tweak.Group.onTweaksPage, id: \.self) { group in
                 // Made from a title and a symbol, as in `SettingsTabs`. With a `label:` closure, the toolbar
                 // lays the tabs out differently and makes them wider than their titles need.
                 Tab(group.title, systemImage: group.systemImage) {

@@ -12,6 +12,7 @@ public struct Tweak: Sendable, Hashable, Identifiable {
     public enum Kind: Sendable, Hashable {
         /// A switch. Turning it on writes this value.
         case aSwitch(Value)
+        case aSwitchForThisAppAlone(Value)
         /// A folder the user picks, written as an absolute path.
         case folder
     }
@@ -25,6 +26,7 @@ public struct Tweak: Sendable, Hashable, Identifiable {
         /// Apps read the setting when they start, so apps already open keep the old value until they are reopened.
         case relaunchApps
         case logOut
+        case terminalQuits
     }
 
     public enum Group: String, Sendable, Hashable, CaseIterable {
@@ -34,6 +36,7 @@ public struct Tweak: Sendable, Hashable, Identifiable {
         case typing
         case windows
         case privacy
+        case terminal
     }
 
     public let id: String

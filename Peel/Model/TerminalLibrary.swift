@@ -20,6 +20,8 @@ final class TerminalLibrary {
     private(set) var canPutBack = false
     private(set) var isTerminalOpen = false
     private(set) var isQuittingTerminal = false
+    private(set) var quietsLogin = false
+    private(set) var isMovingQuietLogin = false
     private(set) var problem: TerminalThemeLedger.Outcome?
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
@@ -33,6 +35,7 @@ final class TerminalLibrary {
         themeInUse = ledger.theme(in: settings)
         canPutBack = ledger.canPutBack
         isTerminalOpen = settings.isTerminalOpen
+        quietsLogin = HushLogin.isOn(in: .homeDirectory)
     }
 
     func perform(_ action: Action) {
@@ -67,6 +70,24 @@ final class TerminalLibrary {
             return
         }
         perform(action)
+    }
+
+    func turnOnQuietLogin() {
+        quietsLogin = HushLogin.turnOn(in: .homeDirectory)
+    }
+
+    func moveQuietLoginToTrash(recording record: (TrashResult, [URL: Int64]) async -> Void) async -> TrashResult {
+        isMovingQuietLogin = true
+        defer { isMovingQuietLogin = false }
+        let file = HushLogin.url(in: .homeDirectory)
+        let sizes = [URL: Int64](measured: [(file, await FileSize.reclaimableSize(of: file))])
+        let result = await QuitGuard.shared.run {
+            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([file])
+            await record(result, sizes)
+            return result
+        }
+        quietsLogin = HushLogin.isOn(in: .homeDirectory)
+        return result
     }
 
     func openTerminal() {
