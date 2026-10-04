@@ -22,18 +22,43 @@ struct TerminalThemeTests {
 
     @Test func everyColorShowsInTerminalAsTheThemeDefinesIt() throws {
         for theme in TerminalThemeCatalog.all {
+            try Self.expectColors(of: theme, in: TerminalProfile.settings(for: theme))
+        }
+    }
+
+    @Test func everyThemeInTheRepositoryIsWhatTheTerminalExportWrites() throws {
+        let themes = TerminalThemeCatalog.all
+        let folder = StringCatalogTests.repository.appending(path: "Terminal", directoryHint: .isDirectory)
+        let files = try FileManager.default.contentsOfDirectory(atPath: folder.appending(path: "Themes").path)
+        let renders = try FileManager.default.contentsOfDirectory(atPath: folder.appending(path: "Renders").path)
+        #expect(Set(files.filter { $0.hasSuffix(".terminal") }) == Set(themes.map { "\($0.profileName).terminal" }))
+        #expect(Set(renders.filter { $0.hasSuffix(".png") }) == Set(themes.map { "\($0.name).png" }))
+        let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "TERMINAL.md"), encoding: .utf8)
+        for theme in themes {
+            let data = try Data(contentsOf: folder.appending(path: "Themes/\(theme.profileName).terminal"))
+            let published = try #require(PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
             let profile = try TerminalProfile.settings(for: theme)
-            let colors = [
-                ("BackgroundColor", theme.background), ("TextColor", theme.text), ("TextBoldColor", theme.text),
-                ("CursorColor", theme.cursor), ("SelectionColor", theme.selection),
-            ] + zip(Self.ansiKeys, theme.ansi)
-            for (key, expected) in colors {
-                let data = try #require(profile[key] as? Data, "\(theme.name): \(key)")
-                let color = try #require(try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: data)?.usingColorSpace(.sRGB))
-                let channels = [color.redComponent, color.greenComponent, color.blueComponent].map { Int(($0 * 255).rounded()) }
-                #expect(channels == [Int(expected >> 16 & 0xFF), Int(expected >> 8 & 0xFF), Int(expected & 0xFF)], "\(theme.name): \(key)")
-                #expect(color.alphaComponent == (key == "BackgroundColor" ? 0.95 : 1), "\(theme.name): \(key)")
+            #expect(Set(published.keys) == Set(profile.keys), "\(theme.name)")
+            for (key, value) in profile where !key.hasSuffix("Color") {
+                #expect((published[key] as? NSObject)?.isEqual(value) == true, "\(theme.name): \(key)")
             }
+            try Self.expectColors(of: theme, in: published)
+            #expect(page.contains("Terminal/Themes/\(theme.profileName.replacing(" ", with: "%20")).terminal"), "\(theme.name)")
+            #expect(page.contains("Terminal/Renders/\(theme.name.replacing(" ", with: "%20")).png"), "\(theme.name)")
+        }
+    }
+
+    static func expectColors(of theme: TerminalTheme, in profile: [String: Any]) throws {
+        let colors = [
+            ("BackgroundColor", theme.background), ("TextColor", theme.text), ("TextBoldColor", theme.text),
+            ("CursorColor", theme.cursor), ("SelectionColor", theme.selection),
+        ] + zip(ansiKeys, theme.ansi)
+        for (key, expected) in colors {
+            let data = try #require(profile[key] as? Data, "\(theme.name): \(key)")
+            let color = try #require(try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: data)?.usingColorSpace(.sRGB))
+            let channels = [color.redComponent, color.greenComponent, color.blueComponent].map { Int(($0 * 255).rounded()) }
+            #expect(channels == [Int(expected >> 16 & 0xFF), Int(expected >> 8 & 0xFF), Int(expected & 0xFF)], "\(theme.name): \(key)")
+            #expect(color.alphaComponent == (key == "BackgroundColor" ? 0.95 : 1), "\(theme.name): \(key)")
         }
     }
 

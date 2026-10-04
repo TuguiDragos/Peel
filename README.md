@@ -167,6 +167,18 @@ every file extension in Finder, keep straight quotes as you type, drag a window 
 seconds on the menu bar clock. Each tweak says what it changes, and turning it off puts back what was there
 before, or leaves it to macOS.
 
+### Give Terminal a theme
+
+<p align="center">
+  <img src="Terminal/Renders/Hadal.png" width="49%" alt="The Hadal theme in Terminal">
+  <img src="Terminal/Renders/Noctiluca.png" width="49%" alt="The Noctiluca theme in Terminal">
+</p>
+
+Peel comes with 29 dark themes for Terminal, built on Apple's own Clear Dark. Choose one, and Terminal opens with it
+in every new window; Put Back gives Terminal its own profile again. The same page can leave out the "Last login"
+line, make Option the Meta key, and silence the bell. [TERMINAL.md](TERMINAL.md) shows every theme, each with its
+file for Terminal on a Mac without Peel.
+
 ### Stay in control
 
 - **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and

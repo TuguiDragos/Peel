@@ -3,7 +3,7 @@
 Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can
 take something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what
 it selects for you and what it leaves to you, how it keeps crypto wallets, how a reset stays within an app's
-settings, and what its helper, which runs as root, may do.
+settings, what it changes in Terminal's settings, and what its helper, which runs as root, may do.
 
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
@@ -269,6 +269,19 @@ Messages, Notes, or Photos. Inside a sandboxed app's container, a reset touches 
 caches, logs, and web data, never `Documents`, `Application Support`, or `Autosave Information`; web data, which signs
 you out of websites, is offered but never selected for you. A folder that holds a wallet's keys is never offered, even
 among those: BlueWallet keeps its wallet in its container's caches.
+
+## Terminal's settings
+
+The Terminal page changes Terminal's own preferences and nothing else there: it adds Peel's themes as profiles of
+their own, named "Peel" and the theme's name, chooses the profile Terminal opens with, and sets Option as Meta and
+the bell in the Peel theme in use. It never changes or removes a profile it did not write, or one you changed since.
+Put Back gives Terminal the profiles it used before and takes away only Peel's own, still as Peel wrote them. Peel
+writes nothing while Terminal is open, since Terminal would not see the change and would write its own settings over
+it.
+
+Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off again
+moves that file to the Trash, recorded in History. Peel never edits your shell's files: to stop the shell from saving
+its sessions, it shows the line to add yourself.
 
 ## The helper that runs as root
 

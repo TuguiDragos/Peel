@@ -170,6 +170,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known
   sentences into the reader's language (`FixedSentence`).
+- **Terminal.** The Terminal page writes only Terminal's own preferences: Peel's themes as profiles of their own,
+  each built by `TerminalProfile` from Apple's Clear Dark, the profile Terminal opens with, and two keys in the Peel
+  theme in use (`TerminalOption`). `TerminalThemeLedger` keeps what Terminal used before and the fingerprint of each
+  profile Peel wrote, so Put Back takes away only a profile still as Peel wrote it. Peel writes only while Terminal is
+  closed: an open Terminal does not read a change made outside it, and writes its own settings over it.
 - **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash: the home's, and the Trash of
   each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
   tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up

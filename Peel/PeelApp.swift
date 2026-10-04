@@ -350,6 +350,7 @@ struct PeelApp: App {
                     AppExtension.checkWords()
                     FixedSentence.checkWords()
                     await HomeSnapshot.runIfRequested()
+                    TerminalExport.runIfRequested()
                     #endif
                     start()
                 }
