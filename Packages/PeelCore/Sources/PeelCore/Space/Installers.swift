@@ -82,7 +82,14 @@ public enum Installers {
         exclusions: Exclusions = .none,
         minimumSize: Int64 = Installers.minimumSize
     ) async -> InstallerScan {
-        await scan(installedApps: installedApps, home: home, root: root, exclusions: exclusions, minimumSize: minimumSize, measure: LeftoverScanner.walk)
+        await scan(
+            installedApps: installedApps,
+            home: home,
+            root: root,
+            exclusions: exclusions,
+            minimumSize: minimumSize,
+            measure: LeftoverScanner.walk
+        )
     }
 
     @concurrent
@@ -128,7 +135,13 @@ public enum Installers {
                 } else if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
                     items.append(
-                        appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: inside)
+                        appInstaller(
+                            at: url,
+                            size: size,
+                            heldBack: heldBack,
+                            installedApps: installedApps,
+                            named: inside
+                        )
                     )
                 } else {
                     items.append(
@@ -223,7 +236,10 @@ public enum Installers {
     }
 
     /// What measuring `url` gave: its size, and why what it saw leaves the item for the person to choose.
-    private static func measured(_ url: URL, by measure: LeftoverScanner.Measure) async -> (size: Int64?, heldBack: HoldBack?) {
+    private static func measured(
+        _ url: URL,
+        by measure: LeftoverScanner.Measure
+    ) async -> (size: Int64?, heldBack: HoldBack?) {
         let contents = await measure(url)
         return (contents.flatMap { $0.couldNotBeRead ? nil : $0.size }, HoldBack.seen(in: contents))
     }
@@ -235,7 +251,13 @@ public enum Installers {
 
     /// Makes the item for an app installer. For an archive, `name` is what is inside it, which is matched
     /// instead of the file name: a download can be called anything, such as `download (3).zip`.
-    static func appInstaller(at url: URL, size: Int64?, heldBack: HoldBack?, installedApps: [InstalledApp], named name: String? = nil) -> InstallerItem {
+    static func appInstaller(
+        at url: URL,
+        size: Int64?,
+        heldBack: HoldBack?,
+        installedApps: [InstalledApp],
+        named name: String? = nil
+    ) -> InstallerItem {
         let match = installedApp(named: name ?? url.deletingPathExtension().lastPathComponent, in: installedApps)
         return InstallerItem(
             url: url,
@@ -352,7 +374,9 @@ public enum Installers {
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                let version = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))?["CFBundleShortVersionString"] as? String
+                let version = AppInspector.infoDictionary(
+                    in: url.appending(path: "Contents", directoryHint: .isDirectory)
+                )?["CFBundleShortVersionString"] as? String
                 items.append(InstallerItem(
                     url: url,
                     kind: .macOSInstaller,
@@ -370,7 +394,12 @@ public enum Installers {
         return items
     }
 
-    static func firmwareFiles(home: URL, exclusions: Exclusions, minimumSize: Int64, measure: LeftoverScanner.Measure) async -> [InstallerItem] {
+    static func firmwareFiles(
+        home: URL,
+        exclusions: Exclusions,
+        minimumSize: Int64,
+        measure: LeftoverScanner.Measure
+    ) async -> [InstallerItem] {
         let folders = ["iPhone", "iPad", "iPod", "Apple TV", "HomePod", "Watch"].map {
             home.appending(path: "Library/iTunes/\($0) Software Updates", directoryHint: .isDirectory)
         }
@@ -519,7 +548,9 @@ public enum Installers {
     static func backups(in folder: URL, measure: LeftoverScanner.Measure) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for url in files(in: folder) {
-            guard (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true, !Task.isCancelled else { continue }
+            guard (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true, !Task.isCancelled else {
+                continue
+            }
             let info = plist(at: url.appending(path: "Info.plist"))
             let manifest = plist(at: url.appending(path: "Manifest.plist"))
             var notes: [InstallerItem.Note] = []

@@ -41,7 +41,10 @@ enum ReclaimableSpace {
         request.bitmapcount = u_short(ATTR_BIT_MAP_COUNT)
         request.volattr = attrgroup_t(ATTR_VOL_INFO) | attrgroup_t(ATTR_VOL_CAPABILITIES)
         // Layout: UInt32 length, then the capabilities, whose interfaces word holds cloning and snapshots.
-        var buffer = [UInt8](repeating: 0, count: MemoryLayout<UInt32>.size + MemoryLayout<vol_capabilities_attr_t>.size)
+        var buffer = [UInt8](
+            repeating: 0,
+            count: MemoryLayout<UInt32>.size + MemoryLayout<vol_capabilities_attr_t>.size
+        )
         let status = buffer.withUnsafeMutableBytes { bytes in
             getattrlist(path, &request, bytes.baseAddress, bytes.count, 0)
         }
@@ -67,15 +70,25 @@ enum ReclaimableSpace {
         let flagsOffset = sizeOffset + MemoryLayout<Int64>.size
         var buffer = [UInt8](repeating: 0, count: 64)
         let status = buffer.withUnsafeMutableBytes { bytes in
-            getattrlist(path, &request, bytes.baseAddress, bytes.count, UInt32(FSOPT_ATTR_CMN_EXTENDED | FSOPT_NOFOLLOW | FSOPT_PACK_INVAL_ATTRS))
+            getattrlist(
+                path,
+                &request,
+                bytes.baseAddress,
+                bytes.count,
+                UInt32(FSOPT_ATTR_CMN_EXTENDED | FSOPT_NOFOLLOW | FSOPT_PACK_INVAL_ATTRS)
+            )
         }
         guard status == 0 else { return nil }
         return buffer.withUnsafeBytes { bytes in
             let returned = bytes.loadUnaligned(fromByteOffset: returnedExtendedOffset, as: UInt32.self)
             return (
-                returned & UInt32(ATTR_CMNEXT_PRIVATESIZE) != 0 ? bytes.loadUnaligned(fromByteOffset: sizeOffset, as: Int64.self) : nil,
+                returned & UInt32(ATTR_CMNEXT_PRIVATESIZE) != 0
+                    ? bytes.loadUnaligned(fromByteOffset: sizeOffset, as: Int64.self)
+                    : nil,
                 returned & UInt32(ATTR_CMNEXT_EXT_FLAGS) != 0
-                    ? bytes.loadUnaligned(fromByteOffset: flagsOffset, as: UInt64.self) & UInt64(EF_MAY_SHARE_BLOCKS) != 0 : nil
+                    ? bytes.loadUnaligned(fromByteOffset: flagsOffset, as: UInt64.self)
+                        & UInt64(EF_MAY_SHARE_BLOCKS) != 0
+                    : nil
             )
         }
     }

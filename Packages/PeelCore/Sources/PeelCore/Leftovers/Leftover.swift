@@ -136,7 +136,14 @@ public struct LeftoverMatch: Sendable, Hashable {
 
     /// Returns the same match, held back for `heldBack`: shown, but never selected.
     public func forReview(_ heldBack: HoldBack) -> LeftoverMatch {
-        LeftoverMatch(reason: reason, confidence: confidence, sharedWith: sharedWith, otherCopies: otherCopies, heldBack: heldBack, isAWord: isAWord)
+        LeftoverMatch(
+            reason: reason,
+            confidence: confidence,
+            sharedWith: sharedWith,
+            otherCopies: otherCopies,
+            heldBack: heldBack,
+            isAWord: isAWord
+        )
     }
 
     /// Returns the same match, no surer than `ceiling`.
@@ -151,7 +158,9 @@ public struct LeftoverMatch: Sendable, Hashable {
     /// and if either one is held back, so is the result.
     func combined(with other: LeftoverMatch) -> LeftoverMatch {
         let weaker = [self, other].min { lhs, rhs in
-            lhs.confidence != rhs.confidence ? lhs.confidence < rhs.confidence : lhs.reason.rawValue < rhs.reason.rawValue
+            lhs.confidence != rhs.confidence
+                ? lhs.confidence < rhs.confidence
+                : lhs.reason.rawValue < rhs.reason.rawValue
         } ?? self
         // A reason that blocks the move outranks one that only leaves the item unselected.
         let heldBack = [heldBack, other.heldBack].compactMap(\.self).min { lhs, rhs in

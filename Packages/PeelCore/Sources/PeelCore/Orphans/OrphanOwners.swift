@@ -37,7 +37,10 @@ public struct OrphanOwners: Sendable {
             guard var owners = read() ?? (url.isMissing ? [:] : nil) else { return false }
             edit(&owners)
             guard let data = try? JSONEncoder().encode(owners) else { return false }
-            try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             return (try? data.write(to: url, options: .atomic)) != nil
         }
     }

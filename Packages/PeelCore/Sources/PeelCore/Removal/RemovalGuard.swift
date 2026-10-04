@@ -82,7 +82,9 @@ struct RemovalGuard: Sendable {
     /// reached through a link, and Spotlight names files by the disk they are on, so both forms must match.
     private static func names(of path: String) -> Set<String> {
         let path = normalized(path)
-        return ProtectedData.spellings(of: path).union(PathPattern.locatedWithoutOpening(path).map(ProtectedData.spellings) ?? [])
+        return ProtectedData.spellings(of: path).union(
+            PathPattern.locatedWithoutOpening(path).map(ProtectedData.spellings) ?? []
+        )
     }
 
     func allowsRemoval(of url: URL) -> Bool {
@@ -128,7 +130,9 @@ struct RemovalGuard: Sendable {
         // are the spellings the exclusions would work out themselves.
         let spelled = Dictionary(uniqueKeysWithValues: names.map { ($0, ProtectedData.spellings(of: $0)) })
         for (name, spellings) in spelled {
-            guard !exclusions.excludes(spellings: spellings), !exclusions.holds(spellings: spellings) else { return .excluded }
+            guard !exclusions.excludes(spellings: spellings), !exclusions.holds(spellings: spellings) else {
+                return .excluded
+            }
             if let refusal = protectedObjects.refusal(of: name) { return refusal }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.

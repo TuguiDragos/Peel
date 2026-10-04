@@ -97,13 +97,21 @@ enum PreferenceCleanup {
             guard path.hasSuffix(".plist") else { return nil }
             let parent = PathPattern.comparablePath(of: url.deletingLastPathComponent())
             let isByHost = parent == byHost
-            let name = LeftoverMatcher.key(from: url.lastPathComponent, kind: isByHost ? .preferencesByHost : .preferences)
-            guard isByHost || parent == plain || isTheSettingsFile(name, in: parent, ofTheAppBeingReset: owner, home: home) else { return nil }
+            let name = LeftoverMatcher.key(
+                from: url.lastPathComponent,
+                kind: isByHost ? .preferencesByHost : .preferences
+            )
+            guard
+                isByHost || parent == plain
+                    || isTheSettingsFile(name, in: parent, ofTheAppBeingReset: owner, home: home)
+            else { return nil }
             guard isUsableName(name) else { return nil }
             // A ByHost file is named `<domain>.<host UUID>.plist`. `-currentHost` always means the current Mac, so
             // a file another Mac left behind names no domain here.
             let fileHost = url.lastPathComponent.removingSuffix(".plist").dropFirst(name.count + 1)
-            guard !isByHost || (!host.isEmpty && fileHost.caseInsensitiveCompare(host) == .orderedSame) else { return nil }
+            guard !isByHost || (!host.isEmpty && fileHost.caseInsensitiveCompare(host) == .orderedSame) else {
+                return nil
+            }
             // Apple's name whatever its case, since the disk ignores it, and behind a team or group prefix too.
             guard !ProtectedData.isApplesName(name) || isOwned(name, by: owner) else { return nil }
             let domain = Domain(name: name, isByHost: isByHost)
@@ -116,7 +124,12 @@ enum PreferenceCleanup {
     /// Whether `name` is the settings file of the app being reset, inside that app's container. A sandboxed app
     /// keeps its settings there, and `defaults` reads the app's domain from that file. No other file in a
     /// container has a name `defaults` would find it by.
-    private static func isTheSettingsFile(_ name: String, in parent: String, ofTheAppBeingReset owner: String?, home: URL) -> Bool {
+    private static func isTheSettingsFile(
+        _ name: String,
+        in parent: String,
+        ofTheAppBeingReset owner: String?,
+        home: URL
+    ) -> Bool {
         guard isOwned(name, by: owner) else { return false }
         let container = PathPattern.comparablePath(of: home.appending(path: "Library/Containers/\(name)/Data/Library/Preferences", directoryHint: .isDirectory))
         return parent.caseInsensitiveCompare(container) == .orderedSame
@@ -138,7 +151,8 @@ enum PreferenceCleanup {
         if domain.isByHost {
             folder.append(path: "ByHost", directoryHint: .isDirectory)
         }
-        guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)) else {
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
+        else {
             // A folder that exists but cannot be read may hold the file, and an unknown answer is not safe. It
             // does not matter whether TCC or the file permissions refused the read.
             var info = stat()
@@ -146,7 +160,8 @@ enum PreferenceCleanup {
         }
         let kind: SearchLocation.Kind = domain.isByHost ? .preferencesByHost : .preferences
         let kept = names.filter {
-            $0.hasSuffix(".plist") && LeftoverMatcher.key(from: $0, kind: kind).caseInsensitiveCompare(domain.name) == .orderedSame
+            $0.hasSuffix(".plist")
+                && LeftoverMatcher.key(from: $0, kind: kind).caseInsensitiveCompare(domain.name) == .orderedSame
         }
         guard !kept.isEmpty else { return false }
         let going = urls.map(PathPattern.comparablePath)

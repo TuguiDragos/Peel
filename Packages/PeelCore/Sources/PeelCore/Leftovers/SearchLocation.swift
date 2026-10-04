@@ -75,7 +75,8 @@ extension SearchLocation.Kind {
         case .privilegedHelperTools: self = .privilegedHelperTools
         case .startupItems: self = .startupItems
         case .frameworks: self = .frameworks
-        case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
+        case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes,
+            .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
              .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
             self = .plugIns
@@ -160,11 +161,17 @@ public struct SearchEnvironment: Sendable {
         let userLibrary = homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
         let localLibrary = rootDirectory.appending(path: "Library", directoryHint: .isDirectory)
 
-        var locations = Self.userEntries.map { SearchLocation(kind: $0.0, url: userLibrary.appending(path: $0.1, directoryHint: .isDirectory)) }
-        locations += Self.localEntries.map { SearchLocation(kind: $0.0, url: localLibrary.appending(path: $0.1, directoryHint: .isDirectory)) }
+        var locations = Self.userEntries.map {
+            SearchLocation(kind: $0.0, url: userLibrary.appending(path: $0.1, directoryHint: .isDirectory))
+        }
+        locations += Self.localEntries.map {
+            SearchLocation(kind: $0.0, url: localLibrary.appending(path: $0.1, directoryHint: .isDirectory))
+        }
         // The Plug-ins tool's own table, so the two cannot diverge.
         locations += [userLibrary, localLibrary].flatMap { library in
-            Plugins.folders.map { SearchLocation(kind: .plugIns, url: library.appending(path: $0.0, directoryHint: .isDirectory)) }
+            Plugins.folders.map {
+                SearchLocation(kind: .plugIns, url: library.appending(path: $0.0, directoryHint: .isDirectory))
+            }
         }
         locations += Self.systemCodeFolders.map {
             SearchLocation(kind: .plugIns, url: localLibrary.appending(path: $0, directoryHint: .isDirectory))

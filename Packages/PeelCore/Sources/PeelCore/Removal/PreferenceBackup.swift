@@ -39,7 +39,13 @@ public enum PreferenceBackup {
     /// Exports every existing preference domain among `urls` into a new folder in `directory`. If any one
     /// cannot be copied, the result is `failed` and nothing may be cleared: the copy is what makes clearing safe.
     @concurrent
-    static func save(_ urls: [URL], for app: InstalledApp, in directory: URL, through service: TrashService, run: Run) async -> Saved {
+    static func save(
+        _ urls: [URL],
+        for app: InstalledApp,
+        in directory: URL,
+        through service: TrashService,
+        run: Run
+    ) async -> Saved {
         let domains = PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier)
         return await save(domains, of: app.bundleIdentifier, in: directory, through: service, run: run)
     }
@@ -115,7 +121,14 @@ public enum PreferenceBackup {
         isOpen: @Sendable () async -> Bool
     ) async -> Restored {
         let service = TrashService(exclusions: exclusions)
-        return await restore(from: folder, of: bundleIdentifier, in: directory, through: service, run: run, isOpen: isOpen)
+        return await restore(
+            from: folder,
+            of: bundleIdentifier,
+            in: directory,
+            through: service,
+            run: run,
+            isOpen: isOpen
+        )
     }
 
     static func restore(
@@ -128,7 +141,9 @@ public enum PreferenceBackup {
     ) async -> Restored {
         guard await !isOpen() else { return .appIsOpen }
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
-        let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in domain(from: file.lastPathComponent).map { ($0, file) } }
+        let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in
+            domain(from: file.lastPathComponent).map { ($0, file) }
+        }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
         // settings in use, so it is refused before anything is cleared.
         let readable = saved.filter { isAPropertyList($0.1) }
@@ -165,7 +180,8 @@ public enum PreferenceBackup {
     /// (bundle identifier, then time, then a number for a second copy in the same second) count; anything else is
     /// ignored.
     public static func copies(in directory: URL = PreferenceBackup.defaultDirectory) -> [Copy] {
-        let folders = (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
+        let folders =
+            (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
         return folders.compactMap { folder -> (copy: Copy, number: Int)? in
             // An identifier has no space, so the name reads as the identifier, the day, the time, and a number.
             let parts = folder.lastPathComponent.split(separator: " ", omittingEmptySubsequences: false)
@@ -210,7 +226,12 @@ public enum PreferenceBackup {
     }
 
     /// Formats a time as `2026-09-20 093000`, in local time, since people read the folder name in Finder.
-    private static let stampStyle = Date.ISO8601FormatStyle(dateSeparator: .dash, dateTimeSeparator: .space, timeSeparator: .omitted, timeZone: .current)
+    private static let stampStyle = Date.ISO8601FormatStyle(
+        dateSeparator: .dash,
+        dateTimeSeparator: .space,
+        timeSeparator: .omitted,
+        timeZone: .current
+    )
         .year().month().day().time(includingFractionalSeconds: false)
 
     private static func stamp() -> String {

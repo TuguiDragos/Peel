@@ -449,14 +449,22 @@ public enum Homebrew {
     @concurrent
     public static func caskTokens() async -> Set<String> {
         guard let output = try? await answer(["casks"]) else { return [] }
-        return Set(output.split(whereSeparator: \.isNewline).map { String($0).trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty })
+        return Set(
+            output.split(whereSeparator: \.isNewline)
+                .map { String($0).trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty }
+        )
     }
 
     /// Returns the name of every formula Homebrew knows of, read from its local copy of the definitions.
     @concurrent
     public static func formulaNames() async -> Set<String> {
         guard let output = try? await answer(["formulae"]) else { return [] }
-        return Set(output.split(whereSeparator: \.isNewline).map { String($0).trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty })
+        return Set(
+            output.split(whereSeparator: \.isNewline)
+                .map { String($0).trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty }
+        )
     }
 
     /// Asks about several formulae in one call. A single unknown name makes the whole call fail, so only names from
@@ -481,14 +489,20 @@ public enum Homebrew {
     /// hours: `onOutput` is handed what Homebrew writes as it writes it, so the person can follow it, and the
     /// upgrade stops when its task is canceled.
     @concurrent
-    public static func upgrade(_ package: HomebrewPackage, onOutput: @escaping @Sendable (Data) -> Void) async throws(CommandFailure) -> String {
+    public static func upgrade(
+        _ package: HomebrewPackage,
+        onOutput: @escaping @Sendable (Data) -> Void
+    ) async throws(CommandFailure) -> String {
         let arguments = ["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name]
         return try await execute(arguments, autoUpdate: true, timeout: nil, onOutput: onOutput).transcript()
     }
 
     /// Upgrades `packages` the same way.
     @concurrent
-    public static func upgrade(_ packages: [HomebrewPackage], onOutput: @escaping @Sendable (Data) -> Void) async throws(CommandFailure) -> String {
+    public static func upgrade(
+        _ packages: [HomebrewPackage],
+        onOutput: @escaping @Sendable (Data) -> Void
+    ) async throws(CommandFailure) -> String {
         // Said once: both calls below would fail the same way.
         guard executableURL != nil else { throw CommandFailure(output: notInstalled) }
         return try await upgrade(packages) { arguments throws(CommandFailure) in
@@ -621,7 +635,9 @@ public enum Homebrew {
     @concurrent
     public static func vulnerabilities() async throws(CommandFailure) -> HomebrewVulnerabilityReport {
         let attempt = try await execute(["vulns", "--json"], autoUpdate: false, timeout: longestCommand)
-        guard var report = (try? JSONDecoder().decode(VulnsReport.self, from: Data(attempt.standardOutput.utf8)))?.report else {
+        guard
+            var report = (try? JSONDecoder().decode(VulnsReport.self, from: Data(attempt.standardOutput.utf8)))?.report
+        else {
             throw CommandFailure(output: attempt.output)
         }
         report.caveats = attempt.standardError.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -715,7 +731,9 @@ public enum Homebrew {
                 quitIdentifiers: cask.artifacts?.flatMap(\.quitIdentifiers) ?? [],
                 packageIdentifiers: cask.artifacts?.flatMap(\.packageIdentifiers) ?? [],
                 retirement: cask.retirement.value,
-                upgradeNeedsAnAdministrator: cask.artifacts?.contains { $0.installNeedsAnAdministrator || $0.uninstallNeedsAnAdministrator } ?? false,
+                upgradeNeedsAnAdministrator: cask.artifacts?.contains {
+                    $0.installNeedsAnAdministrator || $0.uninstallNeedsAnAdministrator
+                } ?? false,
                 uninstallNeedsAnAdministrator: cask.artifacts?.contains(where: \.uninstallNeedsAnAdministrator) ?? false
             )
         }

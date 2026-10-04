@@ -25,7 +25,14 @@ public struct DeviceInfo: Sendable, Hashable {
     public let memory: Int64
     public let storage: Storage
 
-    public init(model: String, modelIdentifier: String, chip: String, systemVersion: String, memory: Int64, storage: Storage) {
+    public init(
+        model: String,
+        modelIdentifier: String,
+        chip: String,
+        systemVersion: String,
+        memory: Int64,
+        storage: Storage
+    ) {
         self.model = model
         self.modelIdentifier = modelIdentifier
         self.chip = chip
@@ -96,7 +103,9 @@ public struct DeviceInfo: Sendable, Hashable {
     }
 
     public static func storage(of url: URL) -> Storage {
-        let values = try? url.resourceValues(forKeys: [.volumeTotalCapacityKey, .volumeAvailableCapacityKey, .volumeAvailableCapacityForImportantUsageKey])
+        let values = try? url.resourceValues(forKeys: [
+            .volumeTotalCapacityKey, .volumeAvailableCapacityKey, .volumeAvailableCapacityForImportantUsageKey,
+        ])
         return storage(
             total: values?.volumeTotalCapacity,
             available: values?.volumeAvailableCapacity,

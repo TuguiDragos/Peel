@@ -120,7 +120,8 @@ public enum IntelInspector {
                 ))
                 continue
             }
-            for url in intelOnlyBundles(inside: app.url) where !Task.isCancelled && !exclusions.excludes(url) && isNew(url) {
+            for url in intelOnlyBundles(inside: app.url)
+            where !Task.isCancelled && !exclusions.excludes(url) && isNew(url) {
                 findings.append(IntelFinding(
                     url: url,
                     kind: .insideApp,
@@ -131,7 +132,9 @@ public enum IntelInspector {
             }
         }
 
-        for plugin in plugins where !Task.isCancelled && !exclusions.excludes(plugin.url) && isIntelOnly(bundle: plugin.url) && isNew(plugin.url) {
+        for plugin in plugins
+        where !Task.isCancelled && !exclusions.excludes(plugin.url) && isIntelOnly(bundle: plugin.url)
+            && isNew(plugin.url) {
             findings.append(IntelFinding(
                 url: plugin.url,
                 kind: .plugin,
@@ -141,7 +144,8 @@ public enum IntelInspector {
             ))
         }
 
-        for url in bundles(in: driverDirectories(environment)) where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(bundle: url) && isNew(url) {
+        for url in bundles(in: driverDirectories(environment))
+        where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(bundle: url) && isNew(url) {
             findings.append(IntelFinding(
                 url: url,
                 kind: .driver,
@@ -152,7 +156,8 @@ public enum IntelInspector {
         }
 
         let printerDirectories = driverDirectories(environment, folders: [printers])
-        for url in programs(in: printerDirectories) where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(executable: url) && isNew(url) {
+        for url in programs(in: printerDirectories)
+        where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(executable: url) && isNew(url) {
             findings.append(IntelFinding(
                 url: url,
                 kind: .driver,
@@ -189,25 +194,31 @@ public enum IntelInspector {
             ))
         }
 
-        return IntelScan(findings: findings.sorted { $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.name < $1.name })
+        return IntelScan(
+            findings: findings.sorted {
+                $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.name < $1.name
+            }
+        )
     }
 
     /// Helpers, plug-ins, and plain binaries inside an app that only have Intel code.
     static func intelOnlyBundles(inside bundle: URL) -> [URL] {
-        frameworkProcesses(inside: bundle).filter(isIntelOnly(bundle:)) + embeddedDirectories.flatMap { directory -> [URL] in
-            let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
-            let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-            return names.map { folder.appending(path: $0) }.filter { url in
-                var info = stat()
-                guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
-                if info.st_mode & S_IFMT == S_IFDIR {
-                    return !url.pathExtension.isEmpty && isIntelOnly(bundle: url)
+        frameworkProcesses(inside: bundle).filter(isIntelOnly(bundle:))
+            + embeddedDirectories.flatMap { directory -> [URL] in
+                let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
+                let names =
+                    (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+                return names.map { folder.appending(path: $0) }.filter { url in
+                    var info = stat()
+                    guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+                    if info.st_mode & S_IFMT == S_IFDIR {
+                        return !url.pathExtension.isEmpty && isIntelOnly(bundle: url)
+                    }
+                    // A library or a bundle kept beside the programs runs in the process that loads it.
+                    return info.st_mode & S_IFMT == S_IFREG && isIntelOnly(executable: url)
+                        && MachOHeader.isProgram(at: url)
                 }
-                // A library or a bundle kept beside the programs runs in the process that loads it.
-                return info.st_mode & S_IFMT == S_IFREG && isIntelOnly(executable: url)
-                    && MachOHeader.isProgram(at: url)
             }
-        }
     }
 
     /// Returns the processes under `Contents/Frameworks`: apps and XPC services kept there directly, as every

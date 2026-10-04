@@ -33,7 +33,8 @@ public enum TerminalProfile {
     }
 
     public static func fingerprint(of settings: [String: Any]) -> String? {
-        guard let data = try? PropertyListSerialization.data(fromPropertyList: settings, format: .xml, options: 0) else { return nil }
+        guard let data = try? PropertyListSerialization.data(fromPropertyList: settings, format: .xml, options: 0)
+        else { return nil }
         return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 

@@ -13,7 +13,11 @@ public struct CaskEvidence: Sendable, Hashable {
 
     public let items: [Item]
 
-    public static func evidence(for app: InstalledApp, casks: [HomebrewPackage], home: URL = .homeDirectory) -> CaskEvidence? {
+    public static func evidence(
+        for app: InstalledApp,
+        casks: [HomebrewPackage],
+        home: URL = .homeDirectory
+    ) -> CaskEvidence? {
         guard let cask = cask(for: app, in: casks) else { return nil }
         var seen: Set<ItemKey> = []
         let named = cask.leftoverPatterns.flatMap { expand($0, home: home) }
@@ -34,7 +38,8 @@ public struct CaskEvidence: Sendable, Hashable {
         let path = PathPattern.comparablePath(of: app.url)
         return casks.first { cask in
             guard cask.installedVersion != nil, proves(cask, isThe: app) else { return false }
-            return cask.appTargets.isEmpty || cask.appTargets.contains { $0.caseInsensitiveCompare(path) == .orderedSame }
+            return cask.appTargets.isEmpty
+                || cask.appTargets.contains { $0.caseInsensitiveCompare(path) == .orderedSame }
         }
     }
 
@@ -52,7 +57,10 @@ public struct CaskEvidence: Sendable, Hashable {
         var tokens: [String] = []
         for name in app.names {
             let plain = tokenize(name)
-            let candidates = [plain, tokenize(separatingWords(in: name)), plain.replacingOccurrences(of: "-", with: ""), plain + "-app"]
+            let candidates = [
+                plain, tokenize(separatingWords(in: name)), plain.replacingOccurrences(of: "-", with: ""),
+                plain + "-app",
+            ]
             for candidate in candidates where candidate.count >= 2 && !tokens.contains(candidate) {
                 tokens.append(candidate)
             }
@@ -103,7 +111,9 @@ public struct CaskEvidence: Sendable, Hashable {
         let bundleName = app.url.lastPathComponent
         if cask.appNames.contains(where: { $0.caseInsensitiveCompare(bundleName) == .orderedSame }) {
             let maker = Identifier.vendor(of: identifier)
-            if quits.isEmpty || quits.contains(where: { maker != nil && Identifier.vendor(of: $0) == maker }) { return true }
+            if quits.isEmpty || quits.contains(where: { maker != nil && Identifier.vendor(of: $0) == maker }) {
+                return true
+            }
         }
 
         guard !identifier.isEmpty else { return false }
@@ -137,8 +147,15 @@ public struct CaskEvidence: Sendable, Hashable {
     /// Merges installed packages with the casks Homebrew only knows of, keeping the installed one when both
     /// share an ID. `receipts`, the installer receipts on the Mac, are noted on each installed package, since
     /// a receipt is what proves a cask that installs its app from a `.pkg`.
-    public static func combined(installed: [HomebrewPackage], known: [HomebrewPackage], receipts: Set<String>) -> [HomebrewPackage] {
-        var byID = Dictionary(installed.map { ($0.id, $0.noting(receipts: receipts)) }, uniquingKeysWith: { first, _ in first })
+    public static func combined(
+        installed: [HomebrewPackage],
+        known: [HomebrewPackage],
+        receipts: Set<String>
+    ) -> [HomebrewPackage] {
+        var byID = Dictionary(
+            installed.map { ($0.id, $0.noting(receipts: receipts)) },
+            uniquingKeysWith: { first, _ in first }
+        )
         for cask in known where byID[cask.id] == nil {
             byID[cask.id] = cask
         }

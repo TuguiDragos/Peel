@@ -21,7 +21,8 @@ public enum DuplicateRemoval {
             let kept = group.files.filter { !selection.contains($0.url) }
 
             for file in selected {
-                guard kept.contains(where: { FileIdentity.of($0.url)?.holdsTheSameContents(as: $0.identity) == true }) else {
+                guard kept.contains(where: { FileIdentity.of($0.url)?.holdsTheSameContents(as: $0.identity) == true })
+                else {
                     result.failures.append(TrashFailure(url: file.url, reason: .lastCopy))
                     continue
                 }
@@ -40,7 +41,11 @@ public enum DuplicateRemoval {
     /// Moves the selected folders to the Trash. A folder moves only while it and at least one unselected folder
     /// of its group still hold exactly what was compared: the same entries, each the same file with the same size
     /// and times, with nothing added or removed.
-    private static func trash(folders: Set<URL>, from scan: DuplicateScan, using trashService: TrashService) async -> TrashResult {
+    private static func trash(
+        folders: Set<URL>,
+        from scan: DuplicateScan,
+        using trashService: TrashService
+    ) async -> TrashResult {
         var result = TrashResult()
 
         for group in scan.folderGroups {

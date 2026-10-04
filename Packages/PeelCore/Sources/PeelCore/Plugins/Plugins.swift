@@ -93,12 +93,19 @@ public enum Plugins {
     }
 
     @concurrent
-    public static func scan(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) async -> [Plugin] {
+    public static func scan(
+        environment: SearchEnvironment = .current,
+        exclusions: Exclusions = .none
+    ) async -> [Plugin] {
         await scan(environment: environment, exclusions: exclusions, measure: FileSize.measure)
     }
 
     @concurrent
-    static func scan(environment: SearchEnvironment, exclusions: Exclusions, measure: FileSize.Measure) async -> [Plugin] {
+    static func scan(
+        environment: SearchEnvironment,
+        exclusions: Exclusions,
+        measure: FileSize.Measure
+    ) async -> [Plugin] {
         let libraries = [
             (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
             (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
@@ -108,7 +115,9 @@ public enum Plugins {
         for (library, isForAllUsers) in libraries {
             for (folder, category) in folders {
                 let directory = library.appending(path: folder, directoryHint: .isDirectory)
-                for url in bundles(in: directory, category: category) where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url) && !AppleCode.isApples(url) {
+                for url in bundles(in: directory, category: category)
+                where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url)
+                    && !AppleCode.isApples(url) {
                     let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
                     plugins.append(Plugin(
                         url: url,
@@ -118,7 +127,8 @@ public enum Plugins {
                         category: category,
                         isInstalledForAllUsers: isForAllUsers,
                         size: await measure(url),
-                        requiresPrivileges: ParentAccess(url.deletingLastPathComponent()).requiresPrivileges(toRemove: url),
+                        requiresPrivileges: ParentAccess(url.deletingLastPathComponent())
+                            .requiresPrivileges(toRemove: url),
                         refusal: removalGuard.refusal(of: url)
                     ))
                 }
@@ -163,7 +173,8 @@ public enum Plugins {
     }
 
     private static func entries(of directory: URL) -> [URL] {
-        (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.isDirectoryKey])) ?? []
+        (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.isDirectoryKey]))
+            ?? []
     }
 
     private static func isFolder(_ url: URL) -> Bool {

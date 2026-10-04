@@ -3,7 +3,10 @@ import Foundation
 public enum TerminalWindows {
     public static func switchMatters(in store: TweakStore = TweakStore()) -> Bool {
         let tweak = TweakCatalog.terminalWindows
-        return switchMatters(keptByTerminal: store.storedValue(of: tweak), readByTerminal: store.valueInEffect(of: tweak))
+        return switchMatters(
+            keptByTerminal: store.storedValue(of: tweak),
+            readByTerminal: store.valueInEffect(of: tweak)
+        )
     }
 
     static func switchMatters(keptByTerminal: Any?, readByTerminal: CFPropertyList?) -> Bool {

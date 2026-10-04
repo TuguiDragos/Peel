@@ -28,7 +28,8 @@ enum ZipDirectory {
         var directoryOffset = UInt64(tail.number(UInt32.self, at: end + 16))
         if entries == 0xFFFF || directorySize == 0xFFFF_FFFF || directoryOffset == 0xFFFF_FFFF {
             let locator = Int64(tailStart) + Int64(end) - 20
-            guard locator >= 0, let located = read(handle, at: UInt64(locator), count: 20), located.number(UInt32.self, at: 0) == zip64Locator,
+            guard locator >= 0, let located = read(handle, at: UInt64(locator), count: 20),
+                  located.number(UInt32.self, at: 0) == zip64Locator,
                   let record = read(handle, at: located.number(UInt64.self, at: 8), count: 56),
                   record.number(UInt32.self, at: 0) == zip64EndRecord else { return nil }
             entries = record.number(UInt64.self, at: 32)
@@ -42,7 +43,9 @@ enum ZipDirectory {
         var names: [String] = []
         var offset = 0
         for _ in 0..<entries {
-            guard offset + 46 <= directory.count, directory.number(UInt32.self, at: offset) == directoryEntry else { return nil }
+            guard offset + 46 <= directory.count, directory.number(UInt32.self, at: offset) == directoryEntry else {
+                return nil
+            }
             let nameLength = Int(directory.number(UInt16.self, at: offset + 28))
             let extraLength = Int(directory.number(UInt16.self, at: offset + 30))
             let commentLength = Int(directory.number(UInt16.self, at: offset + 32))

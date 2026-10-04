@@ -20,7 +20,15 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
 
-    public init(id: UUID = UUID(), batch: UUID, item: TrashedItem, size: Int64?, source: String, sourceKey: String? = nil, tool: String) {
+    public init(
+        id: UUID = UUID(),
+        batch: UUID,
+        item: TrashedItem,
+        size: Int64?,
+        source: String,
+        sourceKey: String? = nil,
+        tool: String
+    ) {
         self.id = id
         self.batch = batch
         originalURL = item.originalURL

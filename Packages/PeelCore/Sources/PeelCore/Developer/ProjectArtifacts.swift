@@ -404,7 +404,9 @@ public enum ProjectArtifacts {
     private static let exactMarkers = Set(
         definitions.flatMap(\.markers).filter { !$0.hasPrefix("*") }.compactMap { PathComponents.of($0).first }
     )
-    private static let markerSuffixes = Set(definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) })
+    private static let markerSuffixes = Set(
+        definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) }
+    )
 
     static let maximumDepth = 8
     static let maximumFolders = 40_000
@@ -493,7 +495,9 @@ public enum ProjectArtifacts {
         }
 
         var isDirectory: ObjCBool = false
-        let isThere = FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory) && isDirectory.boolValue
+        let isThere =
+            FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory)
+            && isDirectory.boolValue
         guard isThere else { return .notAFolder }
         return root.isOrIsInsideAPackage ? .inAPackage : nil
     }
@@ -564,7 +568,9 @@ public enum ProjectArtifacts {
 
             guard depth < maximumDepth else { continue }
             for entry in look.entries where !reached.contains(Self.key(of: entry)) {
-                guard isRealFolder(entry), !exclusions.excludes(entry), !isSkipped(entry.lastPathComponent) else { continue }
+                guard isRealFolder(entry), !exclusions.excludes(entry), !isSkipped(entry.lastPathComponent) else {
+                    continue
+                }
                 queue.append((entry, depth + 1))
             }
         }
@@ -632,7 +638,8 @@ public enum ProjectArtifacts {
         var newest: Date?
         for mark in gitMarks {
             let url = project.appending(path: mark)
-            guard let date = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate else { continue }
+            guard let date = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+            else { continue }
             if newest == nil || date > newest! { newest = date }
             if date > cutoff { return (date, true) }
         }
@@ -656,7 +663,8 @@ public enum ProjectArtifacts {
             }
             samples += 1
             guard samples <= maximumActivitySamples else { return (newest, false) }
-            guard let date = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate else { continue }
+            guard let date = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+            else { continue }
             if newest == nil || date > newest! { newest = date }
             if date > cutoff { return (date, true) }
         }
@@ -680,8 +688,12 @@ public enum ProjectArtifacts {
     /// Not a link, a cloud placeholder, or a package: an Electron app ships `package.json` beside `node_modules`
     /// inside its bundle.
     static func isRealFolder(_ url: URL) -> Bool {
-        let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey, .isUbiquitousItemKey, .isPackageKey])
-        guard values?.isDirectory == true, values?.isSymbolicLink != true, values?.isPackage != true else { return false }
+        let values = try? url.resourceValues(forKeys: [
+            .isDirectoryKey, .isSymbolicLinkKey, .isUbiquitousItemKey, .isPackageKey,
+        ])
+        guard values?.isDirectory == true, values?.isSymbolicLink != true, values?.isPackage != true else {
+            return false
+        }
         return values?.isUbiquitousItem != true
     }
 

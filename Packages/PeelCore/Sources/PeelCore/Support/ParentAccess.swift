@@ -20,7 +20,10 @@ struct ParentAccess {
         let path = url.path(percentEncoded: false)
         var info = stat()
         guard lstat(path, &info) == 0 else { return false }
-        if let stickyOwner, Self.stickyFolderKeeps(itemOwnedBy: info.st_uid, folderOwnedBy: stickyOwner, from: getuid()) { return true }
+        if let stickyOwner,
+           Self.stickyFolderKeeps(itemOwnedBy: info.st_uid, folderOwnedBy: stickyOwner, from: getuid()) {
+            return true
+        }
         if info.st_mode & S_IFMT == S_IFDIR { return access(path, W_OK) != 0 }
         return false
     }

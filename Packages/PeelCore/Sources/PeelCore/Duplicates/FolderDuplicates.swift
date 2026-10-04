@@ -64,7 +64,9 @@ struct FolderDuplicates: Sendable {
         for root in roots.map({ $0.resolvingSymlinksInPath() })
         where visited.insert(DuplicateFinder.path(of: root)).inserted {
             var info = stat()
-            guard lstat(root.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { continue }
+            guard lstat(root.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else {
+                continue
+            }
             let folder = try list(root, identity: FileIdentity(info), depth: 0, isNeverOffered: false) {
                 found += 1
                 if listing.allows(isLast: false) { progress(.listing(foldersFound: found)) }
@@ -80,7 +82,10 @@ struct FolderDuplicates: Sendable {
 
         let files = Self.files(in: candidates)
         let comparing = ReportThrottle()
-        let sampled = await FileDigest.many(files, digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }) { completed in
+        let sampled = await FileDigest.many(
+            files,
+            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }
+        ) { completed in
             if comparing.allows(isLast: completed == files.count) {
                 progress(.comparing(filesCompared: completed, filesToCompare: files.count))
             }
@@ -90,7 +95,10 @@ struct FolderDuplicates: Sendable {
         let alike = grouped(candidates, by: samples).flatMap(\.folders)
 
         let toRead = Self.files(in: alike).filter { FileDigest.isSampled(size: $0.identity.size) }
-        let reading = ReadProgress(bytesToRead: FileDigest.bytesToRead(toRead.map(\.identity), known: known), report: progress)
+        let reading = ReadProgress(
+            bytesToRead: FileDigest.bytesToRead(toRead.map(\.identity), known: known),
+            report: progress
+        )
         let read = await FileDigest.many(toRead) { file in
             FileDigest.full(of: file.url, identity: file.identity, known: known, onRead: reading.add)
         }
@@ -104,13 +112,15 @@ struct FolderDuplicates: Sendable {
     /// Whether `folder` still holds exactly what the scan compared, listed again the same way. The exclusions and
     /// managed folders are not needed: a folder that held an excluded or managed item was never offered.
     static func holdsTheSameContents(_ folder: DuplicateFolder) -> Bool {
-        FolderDuplicates(neverProjects: folder.neverProjects).contents(of: folder.url).map { $0 == folder.contents } ?? false
+        FolderDuplicates(neverProjects: folder.neverProjects).contents(of: folder.url).map { $0 == folder.contents }
+            ?? false
     }
 
     private func contents(of url: URL) -> String? {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
-        guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, onListing: {}) else { return nil }
+        guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, onListing: {})
+        else { return nil }
         return identity(of: folder).map(Self.hexadecimal)
     }
 
@@ -139,7 +149,8 @@ struct FolderDuplicates: Sendable {
         onListing()
         // The listing and each entry get an autorelease pool of their own, or what Foundation reads for every entry
         // would pile up in memory until the walk ends.
-        guard depth < Self.depthLimit, let contents = autoreleasepool(invoking: { entries(of: url, depth: depth) }) else {
+        guard depth < Self.depthLimit, let contents = autoreleasepool(invoking: { entries(of: url, depth: depth) })
+        else {
             folder.isWhole = false
             return folder
         }
@@ -151,7 +162,13 @@ struct FolderDuplicates: Sendable {
         for entry in contents.entries {
             switch autoreleasepool(invoking: { look(at: entry, isNeverOffered: isNeverOffered) }) {
             case .folder(let name, let identity, let isNeverOffered):
-                let child = try list(entry, identity: identity, depth: depth + 1, isNeverOffered: isNeverOffered, onListing: onListing)
+                let child = try list(
+                    entry,
+                    identity: identity,
+                    depth: depth + 1,
+                    isNeverOffered: isNeverOffered,
+                    onListing: onListing
+                )
                 guard !child.isProject else {
                     folder.isWhole = false
                     continue
@@ -169,7 +186,8 @@ struct FolderDuplicates: Sendable {
     }
 
     private func entries(of url: URL, depth: Int) -> (entries: [URL], isProject: Bool)? {
-        guard let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
+        guard let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+        else {
             return nil
         }
         let isProject = depth > 0 && !neverProjects.contains(DuplicateFinder.path(of: url))

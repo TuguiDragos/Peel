@@ -310,7 +310,12 @@ public struct TrashService: Sendable {
             }
             do {
                 let trashedURL = try moveToTrash(url)
-                let item = TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now, identity: .init(ofItemAt: trashedURL))
+                let item = TrashedItem(
+                    originalURL: url,
+                    trashedURL: trashedURL,
+                    date: .now,
+                    identity: .init(ofItemAt: trashedURL)
+                )
                 if let removal {
                     journal?.note([item], batch: removal)
                 }
@@ -384,7 +389,12 @@ public struct TrashService: Sendable {
     /// Stops the jobs and forgets the preference domains of what really moved. It runs after the move: a job
     /// stopped before a move that fails would stay stopped with its file in place, and cfprefsd would forget
     /// settings that are still on disk.
-    private func finish(_ result: TrashResult, stopping jobs: [LaunchdCleanup.Job], canUseHelper: Bool, owner: String?) async {
+    private func finish(
+        _ result: TrashResult,
+        stopping jobs: [LaunchdCleanup.Job],
+        canUseHelper: Bool,
+        owner: String?
+    ) async {
         let moved = result.trashed.map(\.originalURL)
         await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
         await forgetDomains(moved, owner)
@@ -415,7 +425,9 @@ public struct TrashService: Sendable {
     private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
         // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
-        guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else { return .notAllowed }
+        guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else {
+            return .notAllowed
+        }
 
         let fileManager = FileManager.default
         guard item.isInTheTrash else { return .missingFromTrash }
@@ -454,7 +466,8 @@ public struct TrashService: Sendable {
         if let identity = item.identity, trashed.identity.map(TrashedItem.Identity.init) != identity {
             throw NotTheItemThatMoved()
         }
-        let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false)).get()
+        let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false))
+            .get()
         guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
         let name = item.originalURL.lastPathComponent
         let destination = URL(filePath: held, directoryHint: .isDirectory).appending(path: name)
@@ -483,7 +496,9 @@ public struct TrashService: Sendable {
 
     /// The Trashes an item in `folder` could be in, with links resolved: the home's, and its volume's.
     private func trashes(forItemsIn folder: String) -> [String] {
-        var trashes = [URL.homeDirectory, environment.homeDirectory].map { $0.appending(path: ".Trash", directoryHint: .isDirectory) }
+        var trashes = [URL.homeDirectory, environment.homeDirectory].map {
+            $0.appending(path: ".Trash", directoryHint: .isDirectory)
+        }
         if let volume = try? URL(filePath: folder).resourceValues(forKeys: [.volumeURLKey]).volume {
             trashes.append(volume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory))
         }
@@ -495,10 +510,16 @@ public struct TrashService: Sendable {
     static func reason(for error: any Error) -> TrashFailure.Reason {
         if let refused = error as? RefusedOnceHeld { return .guarded(refused.refusal) }
         if error is MovedWithoutATrace { return .movedWithoutATrace }
-        if let moved = error as? SomethingElseMoved { return .somethingElseMoved(named: moved.trashedURL.lastPathComponent) }
+        if let moved = error as? SomethingElseMoved {
+            return .somethingElseMoved(named: moved.trashedURL.lastPathComponent)
+        }
         let error = error as NSError
-        if error.domain == NSCocoaErrorDomain, [NSFileWriteNoPermissionError, NSFileReadNoPermissionError].contains(error.code) { return .notPermitted }
-        let codes = ([error] + error.underlyingErrors.map { $0 as NSError }).filter { $0.domain == NSPOSIXErrorDomain }.map(\.code)
+        if error.domain == NSCocoaErrorDomain,
+           [NSFileWriteNoPermissionError, NSFileReadNoPermissionError].contains(error.code) {
+            return .notPermitted
+        }
+        let codes = ([error] + error.underlyingErrors.map { $0 as NSError }).filter { $0.domain == NSPOSIXErrorDomain }
+            .map(\.code)
         if codes.contains(Int(EPERM)) || codes.contains(Int(EACCES)) { return .notPermitted }
         return .failed(error.localizedDescription)
     }
@@ -565,7 +586,12 @@ public struct TrashService: Sendable {
         let folder = url.deletingLastPathComponent()
         guard
             let link,
-            let trash = try? FileManager.default.url(for: .trashDirectory, in: .userDomainMask, appropriateFor: folder, create: false),
+            let trash = try? FileManager.default.url(
+                for: .trashDirectory,
+                in: .userDomainMask,
+                appropriateFor: folder,
+                create: false
+            ),
             let trashedURL = item(link, in: trash)
         else { throw MovedWithoutATrace() }
         return trashedURL

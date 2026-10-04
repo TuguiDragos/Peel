@@ -41,7 +41,8 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// Compares what is excluded. `spellings` is left out, since it is worked out from `paths`.
     public static func == (one: Exclusions, other: Exclusions) -> Bool {
-        one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers && one.isUnreadable == other.isUnreadable
+        one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers
+            && one.isUnreadable == other.isUnreadable
             && one.hasBeenRead == other.hasBeenRead
     }
 
@@ -76,7 +77,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             paths: Set(try container.decodeIfPresent([Entry<URL>].self, forKey: .paths)?.compactMap(\.value) ?? []),
-            bundleIdentifiers: Set(try container.decodeIfPresent([Entry<String>].self, forKey: .bundleIdentifiers)?.compactMap(\.value) ?? [])
+            bundleIdentifiers: Set(
+                try container.decodeIfPresent([Entry<String>].self, forKey: .bundleIdentifiers)?.compactMap(\.value)
+                    ?? []
+            )
         )
     }
 
@@ -271,7 +275,8 @@ public struct ExclusionStore: Sendable {
 
     private func read() -> Exclusions {
         guard !url.isMissing else { return .none }
-        guard let data = BoundedRead.data(at: url), let saved = try? JSONDecoder().decode(Exclusions.self, from: data) else {
+        guard let data = BoundedRead.data(at: url), let saved = try? JSONDecoder().decode(Exclusions.self, from: data)
+        else {
             return .unreadable
         }
         return saved
@@ -283,7 +288,10 @@ public struct ExclusionStore: Sendable {
         guard let data = try? encoder.encode(exclusions) else { return false }
         if read().isUnreadable, DamagedFile.setAside(url) == nil { return false }
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try data.write(to: url, options: .atomic)
             return true
         } catch {

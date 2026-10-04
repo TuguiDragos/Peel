@@ -13,7 +13,11 @@ public struct TerminalThemeLedger {
 
     public init(stored: [String: Any] = [:]) {
         before = (stored["before"] as? [String: String]).map { names in
-            Dictionary(uniqueKeysWithValues: names.compactMap { role, name in TerminalProfileRole(rawValue: role).map { ($0, name) } })
+            Dictionary(
+                uniqueKeysWithValues: names.compactMap { role, name in
+                    TerminalProfileRole(rawValue: role).map { ($0, name) }
+                }
+            )
         }
         chosen = stored["chosen"] as? String
         written = stored["written"] as? [String: String] ?? [:]
@@ -44,7 +48,11 @@ public struct TerminalThemeLedger {
         return Set(TerminalOption.allCases.filter { $0.isOn(in: profile) })
     }
 
-    public mutating func set(_ option: TerminalOption, to isOn: Bool, in terminal: some TerminalSettingsStoring) -> Outcome {
+    public mutating func set(
+        _ option: TerminalOption,
+        to isOn: Bool,
+        in terminal: some TerminalSettingsStoring
+    ) -> Outcome {
         guard !terminal.isTerminalOpen else { return .terminalIsOpen }
         guard !terminal.isManaged else { return .managed }
         guard let name = theme(in: terminal)?.profileName else { return .unchanged }
@@ -67,7 +75,8 @@ public struct TerminalThemeLedger {
         let settings = try TerminalProfile.settings(for: theme, options: options(in: terminal) ?? [])
         guard let fingerprint = TerminalProfile.fingerprint(of: settings) else { return .refused }
         var profiles = terminal.profiles()
-        let isStillPeels = written[name] != nil && profiles[name].flatMap(TerminalProfile.fingerprint(of:)) == written[name]
+        let isStillPeels =
+            written[name] != nil && profiles[name].flatMap(TerminalProfile.fingerprint(of:)) == written[name]
         let rewritesProfile = profiles[name] == nil || (isStillPeels && written[name] != fingerprint)
         let isInUse = TerminalProfileRole.allCases.allSatisfy { terminal.profileName(for: $0) == name }
         guard rewritesProfile || !isInUse else { return .unchanged }

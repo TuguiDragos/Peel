@@ -52,7 +52,10 @@ public enum ShellFile {
 
     public static func write(_ choices: Choices, to url: URL) -> Bool {
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try Data(contents(of: choices).utf8).write(to: url, options: .atomic)
             return true
         } catch {

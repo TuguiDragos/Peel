@@ -75,7 +75,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         // A folder's own date changes when files are taken out of it, so the last write on a leftover is often
         // the uninstall itself. If nothing was written later than `settling` after Peel last saw the app, a
         // recent date is the removal, not a sign that something still uses the folder.
-        if !makerIsStillHere, let app = group.rememberedApp, let written = lastWrite(in: group), written <= app.lastSeen.addingTimeInterval(settling) {
+        if !makerIsStillHere, let app = group.rememberedApp, let written = lastWrite(in: group),
+           written <= app.lastSeen.addingTimeInterval(settling) {
             return OrphanConfidence(level: .certain, reasons: [.appLeft(name: app.name, lastSeen: app.lastSeen)])
         }
         if let written = group.lastModified, now.timeIntervalSince(written) < recentlyWritten, written <= now {
@@ -115,7 +116,9 @@ public struct OrphanConfidence: Sendable, Hashable {
     /// loads keeps its date, so a group of plug-ins alone says nothing this way.
     static func monthsUntouched(_ group: OrphanGroup, now: Date) -> Int? {
         let used = group.items.filter { !$0.kind.isLoadedCode }
-        guard group.total.isComplete, let written = used.compactMap(\.modificationDate).max(), written <= now else { return nil }
+        guard group.total.isComplete, let written = used.compactMap(\.modificationDate).max(), written <= now else {
+            return nil
+        }
         // Counts Gregorian months, whatever calendar the user has set. In a lunar calendar, the default in Saudi
         // Arabia, six months end several days sooner.
         var calendar = Calendar(identifier: .gregorian)

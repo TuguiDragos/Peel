@@ -25,7 +25,11 @@ enum AppStoreLookup {
     static func answer(in data: Data) -> Answer {
         guard let results = (try? JSONDecoder().decode(Response.self, from: data))?.results else { return .unreadable }
         guard let mac = results.first(where: { $0.kind == "mac-software" }), let version = mac.version else { return .noMacRecord }
-        return .mac(version: version, page: mac.trackViewUrl.flatMap(URL.init(string:)), developer: mac.artistName.flatMap { $0.isEmpty ? nil : $0 })
+        return .mac(
+            version: version,
+            page: mac.trackViewUrl.flatMap(URL.init(string:)),
+            developer: mac.artistName.flatMap { $0.isEmpty ? nil : $0 }
+        )
     }
 
     private struct Response: Decodable {

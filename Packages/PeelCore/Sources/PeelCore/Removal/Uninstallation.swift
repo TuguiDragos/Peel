@@ -45,9 +45,19 @@ public struct Uninstallation: Sendable {
         let matcher = await scanner.matcher(for: app, installedApps: installedApps)
         var scan = await scanner.scan(app, matcher: matcher)
         if let evidence = CaskEvidence.evidence(for: app, casks: casks, home: environment.homeDirectory) {
-            scan = scan.adding(await caskLeftovers(evidence, app: app, exclusions: exclusions, matcher: matcher, environment: environment))
+            scan = scan.adding(
+                await caskLeftovers(
+                    evidence,
+                    app: app,
+                    exclusions: exclusions,
+                    matcher: matcher,
+                    environment: environment
+                )
+            )
         }
-        scan = scan.adding(await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment))
+        scan = scan.adding(
+            await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment)
+        )
         let reach = HelperReach(environment: environment)
         scan = scan.holdingBack(beyond: reach, leaving: app.url)
         let appRequiresPrivileges = FileAccess.requiresPrivilegesToRemove(app.url)
@@ -74,7 +84,8 @@ public struct Uninstallation: Sendable {
         let identifier = app.bundleIdentifier.lowercased()
         var leftovers: [Leftover] = []
         for receipt in receipts.filter({ PackageReceipts.proves($0, isThe: identifier) }).sorted() {
-            for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory) where !exclusions.excludes(url) {
+            for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory)
+            where !exclusions.excludes(url) {
                 leftovers.append(await LeftoverScanner.leftover(
                     at: url,
                     kind: .receipts,
@@ -133,7 +144,10 @@ public struct Uninstallation: Sendable {
     /// The kind of scanned location `url` sits in, which says how its name is read (a `.plist` in Preferences
     /// names a domain), and the path components from that location down to the item. Outside every scanned
     /// location, the kind is `.elsewhere`.
-    static func place(of url: URL, in environment: SearchEnvironment) -> (kind: SearchLocation.Kind, components: [String]) {
+    static func place(
+        of url: URL,
+        in environment: SearchEnvironment
+    ) -> (kind: SearchLocation.Kind, components: [String]) {
         let path = PathPattern.comparablePath(of: url)
         let names = PathComponents.of(path)
         let inside = environment.locations
@@ -169,7 +183,9 @@ public struct Uninstallation: Sendable {
     /// an app that would stay (`appStays(canUseHelper:)`).
     public func suggestedSelection(canUseHelper: Bool) -> Set<URL> {
         guard !appStays(canUseHelper: canUseHelper) else { return [] }
-        var selection = Set(scan.leftovers.filter { $0.match.isRecommended && (canUseHelper || !$0.requiresPrivileges) }.map(\.url))
+        var selection = Set(
+            scan.leftovers.filter { $0.match.isRecommended && (canUseHelper || !$0.requiresPrivileges) }.map(\.url)
+        )
         if !isAppInTheTrash {
             selection.insert(app.url)
         }
@@ -201,7 +217,8 @@ public struct Uninstallation: Sendable {
         let namespace = app.bundleIdentifier.lowercased() + "."
         let own = scan.leftovers.filter { leftover in
             leftover.match.isRecommended && !leftover.requiresPrivileges
-                && (leftover.match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
+                && (leftover.match.confidence == .certain
+                    || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
         }
         return order(of: Set(own.map(\.url)).union([app.url]))
     }
@@ -222,7 +239,9 @@ public struct Uninstallation: Sendable {
 
     public var privilegedURLs: Set<URL> {
         guard !isExcluded, !isPeel else { return [] }
-        var urls = Set(scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url))
+        var urls = Set(
+            scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url)
+        )
         if appRequiresPrivileges, !app.isSystemProtected, app.enclosingPackage == nil, !isAppBeyondTheHelper,
            !isAppInTheTrash {
             urls.insert(app.url)

@@ -16,7 +16,14 @@ public struct RefusalRecord: Sendable, Codable, Hashable, Identifiable {
     public let sourceKey: String?
     public let tool: String
 
-    public init(failure: TrashFailure, date: Date = .now, source: String, sourceKey: String? = nil, tool: String, batch: UUID? = nil) {
+    public init(
+        failure: TrashFailure,
+        date: Date = .now,
+        source: String,
+        sourceKey: String? = nil,
+        tool: String,
+        batch: UUID? = nil
+    ) {
         id = UUID()
         self.batch = batch
         url = failure.url

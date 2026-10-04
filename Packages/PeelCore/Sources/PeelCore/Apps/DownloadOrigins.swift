@@ -36,7 +36,8 @@ public struct DownloadOrigins: Sendable {
         /// The attribute is a binary property list of addresses: the file's own address, then the page it was on.
         private func whereFrom(_ bundle: URL) -> URL? {
             guard let data = DownloadOrigins.attribute("com.apple.metadata:kMDItemWhereFroms", of: bundle),
-                  let addresses = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String] else { return nil }
+                  let addresses = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String]
+            else { return nil }
             return addresses.lazy.compactMap(DownloadOrigins.shareable).first
         }
 
@@ -44,7 +45,9 @@ public struct DownloadOrigins: Sendable {
         private func quarantinedDownload(of bundle: URL) -> URL? {
             guard let data = DownloadOrigins.attribute("com.apple.quarantine", of: bundle) else { return nil }
             let fields = String(decoding: data, as: UTF8.self).split(separator: ";", omittingEmptySubsequences: false)
-            guard fields.count >= 4, let identifier = UUID(uuidString: String(fields[3]))?.uuidString else { return nil }
+            guard fields.count >= 4, let identifier = UUID(uuidString: String(fields[3]))?.uuidString else {
+                return nil
+            }
             return events.addresses(of: identifier).lazy.compactMap(DownloadOrigins.shareable).first
         }
     }
@@ -89,7 +92,9 @@ private final class QuarantineEvents {
     func addresses(of identifier: String) -> [String] {
         guard let statement = prepared() else { return [] }
         defer { sqlite3_reset(statement) }
-        guard sqlite3_bind_text(statement, 1, identifier, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self)) == SQLITE_OK,
+        guard
+            sqlite3_bind_text(statement, 1, identifier, -1, unsafeBitCast(-1, to: sqlite3_destructor_type.self))
+                == SQLITE_OK,
               sqlite3_step(statement) == SQLITE_ROW else { return [] }
         return [Int32(0), 1].compactMap { sqlite3_column_text(statement, $0).map { String(cString: $0) } }
     }

@@ -53,14 +53,25 @@ enum FileDigest {
         let digest = isSampled(size: identity.size)
             ? read(url, bufferLength: sampleLength, identity: identity) { descriptor, buffer, hasher in
                 readFully(descriptor, count: sampleLength, offset: 0, buffer: buffer, into: &hasher)
-                    && readFully(descriptor, count: sampleLength, offset: identity.size - Int64(sampleLength), buffer: buffer, into: &hasher)
+                    && readFully(
+                        descriptor,
+                        count: sampleLength,
+                        offset: identity.size - Int64(sampleLength),
+                        buffer: buffer,
+                        into: &hasher
+                    )
             }
             : whole(url, identity: identity)
         if let digest { known?.keep(sample: digest, of: identity) }
         return digest
     }
 
-    static func full(of url: URL, identity: FileIdentity, known: KnownDigests? = nil, onRead: (Int) -> Void = { _ in }) -> ContentDigest? {
+    static func full(
+        of url: URL,
+        identity: FileIdentity,
+        known: KnownDigests? = nil,
+        onRead: (Int) -> Void = { _ in }
+    ) -> ContentDigest? {
         if let digest = known?.full(of: identity) { return digest }
         let digest = whole(url, identity: identity, onRead: onRead)
         if let digest { known?.keep(full: digest, of: identity) }
@@ -68,12 +79,18 @@ enum FileDigest {
     }
 
     private static func whole(_ url: URL, identity: FileIdentity, onRead: (Int) -> Void = { _ in }) -> ContentDigest? {
-        read(url, bufferLength: Int(min(Int64(chunkLength), max(identity.size, 1))), identity: identity) { descriptor, buffer, hasher in
+        read(
+            url,
+            bufferLength: Int(min(Int64(chunkLength), max(identity.size, 1))),
+            identity: identity
+        ) { descriptor, buffer, hasher in
             var offset: Int64 = 0
             while offset < identity.size {
                 guard !Task.isCancelled else { return false }
                 let count = Int(min(Int64(buffer.count), identity.size - offset))
-                guard readFully(descriptor, count: count, offset: offset, buffer: buffer, into: &hasher) else { return false }
+                guard readFully(descriptor, count: count, offset: offset, buffer: buffer, into: &hasher) else {
+                    return false
+                }
                 offset += Int64(count)
                 onRead(count)
             }

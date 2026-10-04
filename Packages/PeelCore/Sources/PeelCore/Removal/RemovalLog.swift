@@ -63,7 +63,9 @@ public actor RemovalLog {
             guard !records.isEmpty else { return RemovalLogOutcome(records: current(), problem: problem) }
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
             let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
-            guard write(updated, orNote: .couldNotRecord) else { return RemovalLogOutcome(records: nil, problem: problem) }
+            guard write(updated, orNote: .couldNotRecord) else {
+                return RemovalLogOutcome(records: nil, problem: problem)
+            }
             RemovalTotals.change(at: totals) { $0.add(records) }
             journal.forget(records.map(\.trashedItem))
             // A removal that is recorded clears an earlier `.couldNotRecord`.
@@ -186,7 +188,10 @@ public actor RemovalLog {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let data = try encoder.encode(records)
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             // `.atomic` writes a temporary file and renames it, so a crash leaves either the old log or the new one.
             try data.write(to: url, options: .atomic)
             return true

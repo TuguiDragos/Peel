@@ -6,7 +6,10 @@ internal import PeelPrivileged
 public enum VendorRemoval {
     /// An uninstaller for `app`: one inside its bundle or beside it, or else one named for the app in the
     /// folders where makers keep their uninstallers.
-    public static func uninstaller(for app: InstalledApp, applicationsFolders: [URL] = AppCatalog.defaultDirectories) -> URL? {
+    public static func uninstaller(
+        for app: InstalledApp,
+        applicationsFolders: [URL] = AppCatalog.defaultDirectories
+    ) -> URL? {
         shippedOrBeside(app, applicationsFolders: applicationsFolders) ?? namedForIt(app, in: applicationsFolders)
     }
 
@@ -25,7 +28,8 @@ public enum VendorRemoval {
 
         for (folder, isInsideTheBundle) in folders {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-            if let match = names.sorted().first(where: { isUninstallerName($0, app: app, isInsideTheBundle: isInsideTheBundle) }) {
+            if let match = names.sorted()
+                .first(where: { isUninstallerName($0, app: app, isInsideTheBundle: isInsideTheBundle) }) {
                 return folder.appending(path: match)
             }
         }
@@ -41,7 +45,10 @@ public enum VendorRemoval {
         let utilities = applicationsFolders.map { $0.appending(path: "Utilities", directoryHint: .isDirectory) }
         let makers = utilities.flatMap { folder in
             ((try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey])) ?? [])
-                .filter { $0.pathExtension != "app" && (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true }
+                .filter {
+                    $0.pathExtension != "app"
+                        && (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
+                }
         }
         for folder in applicationsFolders + utilities + makers {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
@@ -88,10 +95,17 @@ public enum VendorRemoval {
     /// What a package installed outside the app's bundle and is still there, folders included: a support folder
     /// is the most common thing a package leaves outside. Items another receipt also lists are left out, since
     /// they are not this package's alone.
-    public static func filesOutsideBundle(of receipt: PackageReceipt, app: InstalledApp, otherReceipts: [PackageReceipt]) -> [PackageReceipt.Item] {
+    public static func filesOutsideBundle(
+        of receipt: PackageReceipt,
+        app: InstalledApp,
+        otherReceipts: [PackageReceipt]
+    ) -> [PackageReceipt.Item] {
         // Compared as paths: the catalog writes an app's URL with a trailing slash, and a receipt's items without.
         let bundle = PathPattern.comparablePath(of: app.url)
-        let claimedElsewhere = Set(otherReceipts.filter { $0.identifier != receipt.identifier }.flatMap(\.items).map { PathPattern.comparablePath(of: $0.url) })
+        let claimedElsewhere = Set(
+            otherReceipts.filter { $0.identifier != receipt.identifier }.flatMap(\.items)
+                .map { PathPattern.comparablePath(of: $0.url) }
+        )
         return receipt.items.filter { item in
             let path = PathPattern.comparablePath(of: item.url)
             guard !PathComponents.isPath(path, atOrInside: bundle) else { return false }

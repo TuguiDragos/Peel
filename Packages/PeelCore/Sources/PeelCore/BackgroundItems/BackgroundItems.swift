@@ -35,12 +35,16 @@ public enum BackgroundItems {
             var results: [BackgroundItem] = []
             for _ in 0..<concurrentDetailQueries {
                 guard let next = pending.next() else { break }
-                group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions) }
+                group.addTask {
+                    await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions)
+                }
             }
             while let result = await group.next() {
                 if let result { results.append(result) }
                 if !Task.isCancelled, let next = pending.next() {
-                    group.addTask { await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions) }
+                    group.addTask {
+                        await appSubmittedItem(next, ownership: ownership, loaded: loaded, exclusions: exclusions)
+                    }
                 }
             }
             return results
@@ -72,7 +76,11 @@ public enum BackgroundItems {
     /// The jobs launchd keeps disabled that no row lists, because they are not loaded and no file here declares
     /// them, when they belong to an installed app. A job an app registered is seen only while it is loaded, so without
     /// this row, one disabled here would leave the list after a restart, with no way to Enable it again.
-    static func disabledJobs(in loaded: Loaded, listed: [BackgroundItem], ownership: BackgroundItemOwnership) -> [BackgroundItem] {
+    static func disabledJobs(
+        in loaded: Loaded,
+        listed: [BackgroundItem],
+        ownership: BackgroundItemOwnership
+    ) -> [BackgroundItem] {
         let known = Set(listed.map { "\($0.kind.rawValue)/\($0.label)" })
         let overrides = (loaded.userDisabled ?? [:]).map { ($0.key, $0.value, BackgroundItem.Kind.agent) }
             + (loaded.systemDisabled ?? [:]).map { ($0.key, $0.value, BackgroundItem.Kind.daemon) }

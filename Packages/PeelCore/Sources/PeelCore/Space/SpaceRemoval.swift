@@ -74,7 +74,10 @@ public enum SpaceRemoval {
                 ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
         }
         return Plan(
-            removable: children.removable, inUse: children.inUse, leftToDeveloper: children.leftToDeveloper, sizes: sizes,
+            removable: children.removable,
+            inUse: children.inUse,
+            leftToDeveloper: children.leftToDeveloper,
+            sizes: sizes,
             heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused
         )
     }

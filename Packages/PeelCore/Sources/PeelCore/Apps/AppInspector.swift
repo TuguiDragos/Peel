@@ -44,7 +44,10 @@ public enum AppInspector {
             else { return [] }
             return Set((0..<MDQueryGetResultCount(query)).compactMap { index in
                 guard let result = MDQueryGetResultAtIndex(query, index) else { return nil }
-                return MDItemCopyAttribute(Unmanaged<MDItem>.fromOpaque(result).takeUnretainedValue(), kMDItemCFBundleIdentifier) as? String
+                return MDItemCopyAttribute(
+                    Unmanaged<MDItem>.fromOpaque(result).takeUnretainedValue(),
+                    kMDItemCFBundleIdentifier
+                ) as? String
             })
         }
         return found ?? []
@@ -91,7 +94,12 @@ public enum AppInspector {
             lastUsedDate: use.lastUsedDate,
             isUseRecorded: use.isRecorded,
             dateAdded: dateAdded(of: url),
-            updateFeed: UpdateFeed.detect(info: info, contents: contents, isFromAppStore: isFromAppStore, isSystemProtected: isSystemProtected)
+            updateFeed: UpdateFeed.detect(
+                info: info,
+                contents: contents,
+                isFromAppStore: isFromAppStore,
+                isSystemProtected: isSystemProtected
+            )
         )
     }
 
@@ -118,13 +126,17 @@ public enum AppInspector {
         return name.hasSuffix(".app") ? String(name.dropLast(4)) : name
     }
 
-    private static func signingInformation(for url: URL) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String]) {
+    private static func signingInformation(
+        for url: URL
+    ) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String]) {
         guard let information = CodeSignature.information(at: url) else { return (nil, nil, []) }
         let team = information[kSecCodeInfoTeamIdentifier as String] as? String
         let leaf = (information[kSecCodeInfoCertificates as String] as? [SecCertificate])?.first
         return (
             team,
-            leaf.flatMap { SecCertificateCopySubjectSummary($0) as String? }.flatMap { CodeSignature.developer(fromLeaf: $0, team: team) },
+            leaf.flatMap { SecCertificateCopySubjectSummary($0) as String? }.flatMap {
+                CodeSignature.developer(fromLeaf: $0, team: team)
+            },
             applicationGroups(in: information)
         )
     }
@@ -145,7 +157,8 @@ public enum AppInspector {
 
         for directory in embeddedBundleDirectories {
             let folder = contents.appending(path: directory, directoryHint: .isDirectory)
-            guard let children = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil) else {
+            guard let children = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            else {
                 continue
             }
             for child in children where embeddedBundleExtensions.contains(child.pathExtension.lowercased()) {

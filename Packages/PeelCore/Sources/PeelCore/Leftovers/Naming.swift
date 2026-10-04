@@ -24,7 +24,8 @@ enum Naming {
     static func withoutTrailingVersion(_ name: String) -> String? {
         guard let space = name.lastIndex(of: " ") else { return nil }
         let version = name[name.index(after: space)...]
-        guard !version.isEmpty, version.allSatisfy({ $0.isNumber || $0 == "." }), version.contains(where: \.isNumber) else { return nil }
+        guard !version.isEmpty, version.allSatisfy({ $0.isNumber || $0 == "." }), version.contains(where: \.isNumber)
+        else { return nil }
         var base = String(name[..<space])
         while base.hasSuffix(" ") { base.removeLast() }
         return isSignificant(base) ? base : nil
@@ -62,7 +63,8 @@ enum Identifier {
         let components = identifier.split(separator: ".", omittingEmptySubsequences: false)
         guard components.count >= 2, !identifier.hasPrefix("-") else { return false }
         return components.allSatisfy { component in
-            !component.isEmpty && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
+            !component.isEmpty
+                && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
         }
     }
 
@@ -78,14 +80,16 @@ enum Identifier {
             domain.allSatisfy({ $0.isASCII && $0.isLowercase })
         else { return false }
         return components.allSatisfy { component in
-            !component.isEmpty && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
+            !component.isEmpty
+                && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
         }
     }
 
     /// True for a group name in one of the forms macOS uses: a team identifier and a dot in front, or `group.`
     /// and then a reverse DNS name. Expects the name lowercased, as the matcher keeps its keys.
     static func isGroup(_ name: String) -> Bool {
-        if let dot = name.firstIndex(of: "."), name[..<dot].count == 10, name[..<dot].allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber) }) {
+        if let dot = name.firstIndex(of: "."), name[..<dot].count == 10,
+           name[..<dot].allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber) }) {
             return name.index(after: dot) < name.endIndex
         }
         return name.hasPrefix("group.") && isReverseDNS(String(name.dropFirst("group.".count)))
@@ -96,7 +100,8 @@ enum Identifier {
         guard let dot = name.firstIndex(of: ".") else { return nil }
         let team = name[..<dot]
         let remainder = name[name.index(after: dot)...]
-        guard team.count == 10, team.allSatisfy({ $0.isASCII && ($0.isUppercase || $0.isNumber) }), !remainder.isEmpty else { return nil }
+        guard team.count == 10, team.allSatisfy({ $0.isASCII && ($0.isUppercase || $0.isNumber) }), !remainder.isEmpty
+        else { return nil }
         return (String(team), String(remainder))
     }
 

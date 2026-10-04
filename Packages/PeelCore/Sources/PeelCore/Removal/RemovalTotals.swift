@@ -88,7 +88,9 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
     }
 
     private static func startedAgain(at url: URL) -> RemovalTotals? {
-        guard BoundedRead.data(at: url, maximum: maximumBytes) != nil, DamagedFile.setAside(url) != nil else { return nil }
+        guard BoundedRead.data(at: url, maximum: maximumBytes) != nil, DamagedFile.setAside(url) != nil else {
+            return nil
+        }
         return RemovalTotals()
     }
 }

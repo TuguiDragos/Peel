@@ -44,14 +44,22 @@ public struct UpdateChecker: Sendable {
     /// Returns the update status of `app`, without installing anything. `preference` decides which source to
     /// believe when an app can be updated in more than one way.
     @concurrent
-    public func status(for app: InstalledApp, preference: UpdateSource = .automatic, casks: [HomebrewPackage] = []) async -> UpdateStatus {
+    public func status(
+        for app: InstalledApp,
+        preference: UpdateSource = .automatic,
+        casks: [HomebrewPackage] = []
+    ) async -> UpdateStatus {
         await answer(for: app, preference: preference, casks: casks).status
     }
 
     /// Returns the update status, and the developer's name when the App Store answered. An App Store app is
     /// signed by Apple, so its signature does not name the developer, but the store's record does.
     @concurrent
-    public func answer(for app: InstalledApp, preference: UpdateSource = .automatic, casks: [HomebrewPackage] = []) async -> UpdateAnswer {
+    public func answer(
+        for app: InstalledApp,
+        preference: UpdateSource = .automatic,
+        casks: [HomebrewPackage] = []
+    ) async -> UpdateAnswer {
         switch preference {
         case .homebrew:
             // A cask Homebrew knows but never installed says nothing about this app's version, so the
@@ -70,7 +78,9 @@ public struct UpdateChecker: Sendable {
             // An app from a cask may have no feed of its own, and a feed can be down. In both cases what Homebrew
             // knows is used rather than "Can't check for updates".
             let feed = await feedAnswer(for: app)
-            if let homebrew, feed.status == .unsupported || feed.status == .failed { return UpdateAnswer(status: homebrew, developer: feed.developer) }
+            if let homebrew, feed.status == .unsupported || feed.status == .failed {
+                return UpdateAnswer(status: homebrew, developer: feed.developer)
+            }
             return feed
         }
     }
@@ -113,7 +123,9 @@ public struct UpdateChecker: Sendable {
         } else {
             VersionComparison.isNewer(latest, than: installed)
         }
-        return isNewer ? .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes) : .upToDate
+        return isNewer
+            ? .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes)
+            : .upToDate
     }
 
     private func electronStatus(installed: String, at url: URL) async -> UpdateStatus {

@@ -50,7 +50,8 @@ public struct LookAround: Sendable {
     ]
 
     private static let cycle = places.indices.reduce(0) { total, index in
-        total + places[index].seconds + travel(from: places[index].moment, to: places[(index + 1) % places.count].moment)
+        total + places[index].seconds
+            + travel(from: places[index].moment, to: places[(index + 1) % places.count].moment)
     }
 
     private let start: Moment

@@ -31,7 +31,9 @@ public struct FoundLastTime: Sendable, Equatable {
     }
 
     public var data: Data {
-        let entries = findings.mapValues { Stored(count: $0.count, bytes: $0.size?.known, complete: $0.size?.isComplete, date: $0.date) }
+        let entries = findings.mapValues {
+            Stored(count: $0.count, bytes: $0.size?.known, complete: $0.size?.isComplete, date: $0.date)
+        }
         return (try? JSONEncoder().encode(entries)) ?? Data()
     }
 

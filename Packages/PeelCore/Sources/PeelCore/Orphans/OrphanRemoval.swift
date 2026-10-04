@@ -18,9 +18,13 @@ public enum OrphanRemoval {
         let moving = mayUseHelper ? orphaned.map(\.url) : orphaned.map(\.url).filter { !privileged.contains($0) }
         var result = await trashService.trash(moving, usingHelperFor: mayUseHelper ? privileged : [])
         if !mayUseHelper {
-            result.failures += orphaned.filter(\.requiresPrivileges).map { TrashFailure(url: $0.url, reason: .needsHelper) }
+            result.failures += orphaned.filter(\.requiresPrivileges).map {
+                TrashFailure(url: $0.url, reason: .needsHelper)
+            }
         }
-        result.failures += items.filter { !kept.contains($0.url) }.map { TrashFailure(url: $0.url, reason: .claimedSinceScan) }
+        result.failures += items.filter { !kept.contains($0.url) }.map {
+            TrashFailure(url: $0.url, reason: .claimedSinceScan)
+        }
         return result
     }
 }

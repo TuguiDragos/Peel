@@ -93,7 +93,9 @@ public enum GitSetting: CaseIterable, Sendable {
         default:
             values(signingKey: nil).allSatisfy { wanted in
                 let found = settings[wanted.key.lowercased()]
-                return wanted.value == "true" ? Self.isTrue(found) : Self.value(found)?.lowercased() == wanted.value.lowercased()
+                return wanted.value == "true"
+                    ? Self.isTrue(found)
+                    : Self.value(found)?.lowercased() == wanted.value.lowercased()
             }
         }
     }

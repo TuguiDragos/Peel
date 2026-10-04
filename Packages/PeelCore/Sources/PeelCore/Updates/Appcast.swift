@@ -37,9 +37,15 @@ enum Appcast {
         guard parser.parse() else { return .unreadable }
 
         let releases = delegate.items.filter { item in
-            guard item.channel == nil, item.displayVersion != nil, item.system == nil || item.system == "macos" else { return false }
-            if let minimum = item.minimumSystemVersion, VersionComparison.isNewer(minimum, than: systemVersion) { return false }
-            if let maximum = item.maximumSystemVersion, VersionComparison.isNewer(systemVersion, than: maximum) { return false }
+            guard item.channel == nil, item.displayVersion != nil, item.system == nil || item.system == "macos" else {
+                return false
+            }
+            if let minimum = item.minimumSystemVersion, VersionComparison.isNewer(minimum, than: systemVersion) {
+                return false
+            }
+            if let maximum = item.maximumSystemVersion, VersionComparison.isNewer(systemVersion, than: maximum) {
+                return false
+            }
             if !isAppleSilicon, item.hardwareRequirements.contains("arm64") { return false }
             return true
         }
@@ -49,7 +55,10 @@ enum Appcast {
     /// Picks the release notes link in the user's language, then a link with no language, then the first link.
     /// `Bundle.preferredLocalizations` returns a language even when none matches (the first one offered, or `en`
     /// when none is offered), so its pick is used only when the user reads that language and a link has it.
-    static func preferred(_ links: [(language: String, url: URL)], languages: [String] = Locale.preferredLanguages) -> URL? {
+    static func preferred(
+        _ links: [(language: String, url: URL)],
+        languages: [String] = Locale.preferredLanguages
+    ) -> URL? {
         func base(_ tag: String) -> String { Locale(identifier: tag).language.languageCode?.identifier ?? tag }
         let tagged = links.map(\.language).filter { !$0.isEmpty }
         if let best = Bundle.preferredLocalizations(from: tagged, forPreferences: languages).first,
@@ -78,7 +87,13 @@ enum Appcast {
         private var notes: [String: [(language: String, url: URL)]] = [:]
         private var noteLanguage = ""
 
-        func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName: String?, attributes: [String: String] = [:]) {
+        func parser(
+            _ parser: XMLParser,
+            didStartElement elementName: String,
+            namespaceURI: String?,
+            qualifiedName: String?,
+            attributes: [String: String] = [:]
+        ) {
             text = ""
             switch elementName {
             case "item":
@@ -87,7 +102,9 @@ enum Appcast {
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
                 noteLanguage = attributes["xml:lang"] ?? ""
             case "enclosure":
-                guard var item = current, item.version == nil, item.shortVersion == nil, item.system == nil else { break }
+                guard var item = current, item.version == nil, item.shortVersion == nil, item.system == nil else {
+                    break
+                }
                 item.version = attributes["sparkle:version"]
                 item.shortVersion = attributes["sparkle:shortVersionString"]
                 item.system = attributes["sparkle:os"]
@@ -105,14 +122,21 @@ enum Appcast {
             text += String(decoding: CDATABlock, as: UTF8.self)
         }
 
-        func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {
+        func parser(
+            _ parser: XMLParser,
+            didEndElement elementName: String,
+            namespaceURI: String?,
+            qualifiedName: String?
+        ) {
             let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
             switch elementName {
             case "item":
                 if var item = current {
                     item.version = item.version ?? elementVersion
                     item.shortVersion = item.shortVersion ?? elementShortVersion
-                    item.releaseNotes = ["sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link"].lazy.compactMap { self.notes[$0].flatMap { Appcast.preferred($0) } }.first
+                    item.releaseNotes =
+                        ["sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link"]
+                        .lazy.compactMap { self.notes[$0].flatMap { Appcast.preferred($0) } }.first
                     items.append(item)
                 }
                 current = nil
@@ -128,7 +152,9 @@ enum Appcast {
                 current?.channel = value
             case "sparkle:hardwareRequirements":
                 let separators = CharacterSet.whitespaces.union(CharacterSet(charactersIn: ","))
-                current?.hardwareRequirements = Set(value.lowercased().components(separatedBy: separators).filter { !$0.isEmpty })
+                current?.hardwareRequirements = Set(
+                    value.lowercased().components(separatedBy: separators).filter { !$0.isEmpty }
+                )
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
                 if current != nil, let url = URL(string: value), url.scheme == "https",
                    notes[elementName]?.contains(where: { $0.language == noteLanguage }) != true {

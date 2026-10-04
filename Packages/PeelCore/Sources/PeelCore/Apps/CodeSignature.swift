@@ -19,10 +19,14 @@ enum CodeSignature {
     /// are covered without them, and hashing them costs seconds per app.
     static func information(at url: URL) -> [String: Any]? {
         var staticCode: SecStaticCode?
-        guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else { return nil }
+        guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else {
+            return nil
+        }
         var copied: CFDictionary?
         let flags = SecCSFlags(rawValue: UInt32(kSecCSSigningInformation))
-        guard SecCodeCopySigningInformation(staticCode, flags, &copied) == errSecSuccess, let information = copied as? [String: Any] else {
+        guard SecCodeCopySigningInformation(staticCode, flags, &copied) == errSecSuccess,
+              let information = copied as? [String: Any]
+        else {
             return nil
         }
 
@@ -35,7 +39,8 @@ enum CodeSignature {
         var requirement: SecRequirement?
         guard
             SecRequirementCreateWithString(text as CFString, [], &requirement) == errSecSuccess, let requirement,
-            SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(kSecCSBasicValidateOnly)), requirement) == errSecSuccess
+            SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(kSecCSBasicValidateOnly)), requirement)
+                == errSecSuccess
         else { return nil }
         return information
     }

@@ -35,7 +35,12 @@ public struct UpdateSchedule: Sendable, Equatable, Codable {
         // An "up to date" found before the app was due (Rescan, or a bundle that changed) says nothing about how
         // often the app ships, so the wait stays the same and only restarts from `now`.
         if let previous, !previous.isDue(at: now), status == .upToDate, !previous.isRetrying {
-            return UpdateSchedule(wait: previous.wait, due: now.addingTimeInterval(previous.wait), isRetrying: false, healthyWait: nil)
+            return UpdateSchedule(
+                wait: previous.wait,
+                due: now.addingTimeInterval(previous.wait),
+                isRetrying: false,
+                healthyWait: nil
+            )
         }
         let wait = wait(after: status, following: previous)
         return UpdateSchedule(

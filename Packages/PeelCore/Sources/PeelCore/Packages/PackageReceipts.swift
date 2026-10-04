@@ -52,7 +52,11 @@ public enum PackageReceipts {
     /// Lists every installed package except Apple's, sorted by identifier. `pkgutil` is a parameter so a test
     /// can say what is installed instead of asking the real tool.
     @concurrent
-    static func list(exclusions: Exclusions, pkgutil: @escaping Pkgutil, environment: SearchEnvironment = .current) async -> PackageScan {
+    static func list(
+        exclusions: Exclusions,
+        pkgutil: @escaping Pkgutil,
+        environment: SearchEnvironment = .current
+    ) async -> PackageScan {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let reach = HelperReach(environment: environment)
         let shared = sharedFolders(in: environment)
@@ -66,17 +70,37 @@ public enum PackageReceipts {
             var results: [PackageReceipt] = []
             for _ in 0..<concurrentReceipts {
                 guard let identifier = pending.next() else { break }
-                group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared).receipt }
+                group.addTask {
+                    await Self.receipt(
+                        identifier,
+                        exclusions: exclusions,
+                        pkgutil: pkgutil,
+                        removalGuard: removalGuard,
+                        reach: reach,
+                        shared: shared
+                    ).receipt
+                }
             }
             while let result = await group.next() {
                 results.append(result)
                 if let identifier = pending.next() {
-                    group.addTask { await Self.receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared).receipt }
+                    group.addTask {
+                        await Self.receipt(
+                            identifier,
+                            exclusions: exclusions,
+                            pkgutil: pkgutil,
+                            removalGuard: removalGuard,
+                            reach: reach,
+                            shared: shared
+                        ).receipt
+                    }
                 }
             }
             return results
         }
-        return PackageScan(receipts: receipts.sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending })
+        return PackageScan(
+            receipts: receipts.sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending }
+        )
     }
 
     /// Returns the receipts of the packages that installed `url`, asking `pkgutil` about that one path instead
@@ -91,7 +115,11 @@ public enum PackageReceipts {
     /// the leading folders are dropped one at a time until a package answers, and the answer counts only if that
     /// package really installed this path.
     @concurrent
-    static func receipts(installing url: URL, exclusions: Exclusions, pkgutil: @escaping Pkgutil) async -> [PackageReceipt] {
+    static func receipts(
+        installing url: URL,
+        exclusions: Exclusions,
+        pkgutil: @escaping Pkgutil
+    ) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
         var identifiers: Set<String> = []
         for path in Self.spellings(of: wanted) where identifiers.isEmpty && !Task.isCancelled {
@@ -103,7 +131,14 @@ public enum PackageReceipts {
         let reach = HelperReach(environment: .current)
         let shared = sharedFolders(in: .current)
         for identifier in identifiers.sorted() where !Task.isCancelled {
-            let found = await receipt(identifier, exclusions: exclusions, pkgutil: pkgutil, removalGuard: removalGuard, reach: reach, shared: shared)
+            let found = await receipt(
+                identifier,
+                exclusions: exclusions,
+                pkgutil: pkgutil,
+                removalGuard: removalGuard,
+                reach: reach,
+                shared: shared
+            )
             guard found.installs(wanted) else { continue }
             receipts.append(found.receipt)
         }
@@ -152,7 +187,10 @@ public enum PackageReceipts {
             // `pkgutil` named the package but did not describe it. It stays listed, with what it installed unknown,
             // rather than vanishing from the page.
             let unknown = PackageReceipt(
-                identifier: identifier, version: nil, installDate: nil, volume: URL(filePath: "/", directoryHint: .isDirectory),
+                identifier: identifier,
+                version: nil,
+                installDate: nil,
+                volume: URL(filePath: "/", directoryHint: .isDirectory),
                 items: [], nothingLeftOnDisk: false, isFileListKnown: false
             )
             return Found(receipt: unknown, paths: [])

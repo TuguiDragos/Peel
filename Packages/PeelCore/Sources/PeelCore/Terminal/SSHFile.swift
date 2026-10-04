@@ -26,12 +26,17 @@ public enum SSHFile {
         if url.isMissing {
             return []
         }
-        return BoundedRead.data(at: url, maximum: maximumBytes).map { settings(in: String(decoding: $0, as: UTF8.self)) }
+        return BoundedRead.data(at: url, maximum: maximumBytes).map {
+            settings(in: String(decoding: $0, as: UTF8.self))
+        }
     }
 
     public static func write(_ settings: Set<SSHSetting>, to url: URL) -> Bool {
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
             try Data(contents(of: settings).utf8).write(to: url, options: .atomic)
             return true
         } catch {

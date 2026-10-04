@@ -84,7 +84,9 @@ public struct RemovalPart: Sendable, Hashable {
             first[part] = min(first[part] ?? date, date)
         }
         return first
-            .sorted { $0.value != $1.value ? $0.value < $1.value : ($0.key.tool, $0.key.source) < ($1.key.tool, $1.key.source) }
+            .sorted {
+                $0.value != $1.value ? $0.value < $1.value : ($0.key.tool, $0.key.source) < ($1.key.tool, $1.key.source)
+            }
             .map(\.key)
     }
 }
@@ -94,7 +96,14 @@ extension RemovalPart {
     /// where it was not measured.
     public func records(of result: TrashResult, sizes: [URL: Int64], batch: UUID) -> [RemovalRecord] {
         result.trashed.map {
-            RemovalRecord(batch: batch, item: $0, size: sizes[$0.originalURL], source: source, sourceKey: sourceKey, tool: tool)
+            RemovalRecord(
+                batch: batch,
+                item: $0,
+                size: sizes[$0.originalURL],
+                source: source,
+                sourceKey: sourceKey,
+                tool: tool
+            )
         }
     }
 }

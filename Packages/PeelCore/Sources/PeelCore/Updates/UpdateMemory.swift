@@ -17,7 +17,13 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     /// does not name the developer, and the next check may be a week away.
     public let developer: String?
 
-    public init(status: UpdateStatus, schedule: UpdateSchedule, checked: Date?, describing app: InstalledApp, developer: String? = nil) {
+    public init(
+        status: UpdateStatus,
+        schedule: UpdateSchedule,
+        checked: Date?,
+        describing app: InstalledApp,
+        developer: String? = nil
+    ) {
         self.status = status
         self.schedule = schedule
         self.checked = checked
@@ -37,7 +43,11 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     /// Returns the entries that still apply to `apps`. An entry is dropped when no installed copy is the build it
     /// describes, which also makes that app due at once, or when the app is not installed and the entry is more
     /// than `longestAbsence` past due. With two copies at two builds, the entry describes one of them and stays.
-    public static func recalled(from memory: [String: UpdateMemory], for apps: [InstalledApp], now: Date = .now) -> [String: UpdateMemory] {
+    public static func recalled(
+        from memory: [String: UpdateMemory],
+        for apps: [InstalledApp],
+        now: Date = .now
+    ) -> [String: UpdateMemory] {
         let installed = Dictionary(grouping: apps, by: \.bundleIdentifier)
         return memory.filter { identifier, entry in
             guard let copies = installed[identifier] else {

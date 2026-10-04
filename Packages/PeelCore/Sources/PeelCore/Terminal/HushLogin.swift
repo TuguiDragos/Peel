@@ -10,7 +10,11 @@ public enum HushLogin {
     }
 
     public static func turnOn(in home: URL) -> Bool {
-        let descriptor = open(url(in: home).path(percentEncoded: false), O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o644)
+        let descriptor = open(
+            url(in: home).path(percentEncoded: false),
+            O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC,
+            0o644
+        )
         if descriptor >= 0 {
             close(descriptor)
         }

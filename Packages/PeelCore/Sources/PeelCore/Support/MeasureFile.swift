@@ -14,7 +14,11 @@ public struct MeasureFile: Sendable {
     /// Appends `lines`, making the folder and the file when needed, and never through a link put at that name.
     public func append(_ lines: [String]) {
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let descriptor = open(url.path(percentEncoded: false), O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        let descriptor = open(
+            url.path(percentEncoded: false),
+            O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC,
+            0o600
+        )
         guard descriptor >= 0 else { return }
         defer { close(descriptor) }
         let data = Data(lines.map { $0 + "\n" }.joined().utf8)

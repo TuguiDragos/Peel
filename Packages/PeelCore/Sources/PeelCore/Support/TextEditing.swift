@@ -87,7 +87,8 @@ public final class TextEditing {
             return
         }
         let names: [Notification.Name] = [
-            .NSUndoManagerCheckpoint, .NSUndoManagerDidCloseUndoGroup, .NSUndoManagerDidUndoChange, .NSUndoManagerDidRedoChange,
+            .NSUndoManagerCheckpoint, .NSUndoManagerDidCloseUndoGroup, .NSUndoManagerDidUndoChange,
+            .NSUndoManagerDidRedoChange,
         ]
         undoObservers = names.map { name in
             NotificationCenter.default.addObserver(forName: name, object: undoManager, queue: nil) { [weak self] _ in

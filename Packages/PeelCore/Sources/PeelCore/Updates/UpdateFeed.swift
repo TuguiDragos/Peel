@@ -59,7 +59,12 @@ public enum UpdateStatus: Sendable, Hashable, Codable {
 }
 
 extension UpdateFeed {
-    static func detect(info: [String: Any], contents: URL, isFromAppStore: Bool, isSystemProtected: Bool) -> UpdateFeed? {
+    static func detect(
+        info: [String: Any],
+        contents: URL,
+        isFromAppStore: Bool,
+        isSystemProtected: Bool
+    ) -> UpdateFeed? {
         guard !isSystemProtected else { return nil }
         if isFromAppStore {
             return .appStore

@@ -68,7 +68,8 @@ public enum FileSearch {
     public static func trash(_ files: [FoundFile], using trashService: TrashService) async -> TrashResult {
         var result = TrashResult()
         for file in files {
-            guard let identity = file.identity, FileIdentity.of(file.url)?.holdsTheSameContents(as: identity) == true else {
+            guard let identity = file.identity, FileIdentity.of(file.url)?.holdsTheSameContents(as: identity) == true
+            else {
                 result.failures.append(TrashFailure(url: file.url, reason: .changedSinceScan))
                 continue
             }
@@ -83,7 +84,11 @@ public enum FileSearch {
     /// removal guard allows. Files in a Library folder come after the rest, and each part is sorted largest first.
     /// Stopping the task stops the query.
     @concurrent
-    public static func run(_ criteria: FileSearchCriteria, environment: SearchEnvironment = .current, exclusions: Exclusions = .none) async -> FileSearchResults {
+    public static func run(
+        _ criteria: FileSearchCriteria,
+        environment: SearchEnvironment = .current,
+        exclusions: Exclusions = .none
+    ) async -> FileSearchResults {
         await run(criteria, environment: environment, exclusions: exclusions) { await SpotlightGathering($0).paths() }
     }
 
@@ -94,7 +99,9 @@ public enum FileSearch {
         exclusions: Exclusions = .none,
         gather: Gather
     ) async -> FileSearchResults {
-        guard criteria.isSearchable, let query = makeQuery(for: criteria) else { return FileSearchResults(didRun: false) }
+        guard criteria.isSearchable, let query = makeQuery(for: criteria) else {
+            return FileSearchResults(didRun: false)
+        }
         let scope = criteria.scope == .home ? kMDQueryScopeHome : kMDQueryScopeComputer
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
         guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
@@ -116,7 +123,9 @@ public enum FileSearch {
         for path in paths {
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
-            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, holdsItsContentsHere(info) else { continue }
+            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, holdsItsContentsHere(info) else {
+                continue
+            }
             candidates.append((path, info, appData.holds(path)))
         }
         // In the list's order before the guard is asked, so it is asked only about files that can make the list.
@@ -200,7 +209,9 @@ public enum FileSearch {
         guard count > 0, count <= 4 else { return "kMDItemFSName == \"*\(escaped(name))*\"cd" }
         var variants = [""]
         for character in name {
-            variants = letters.contains(character) ? variants.flatMap { [$0 + "i", $0 + "I"] } : variants.map { $0 + String(character) }
+            variants = letters.contains(character)
+                ? variants.flatMap { [$0 + "i", $0 + "I"] }
+                : variants.map { $0 + String(character) }
         }
         let names = [name] + variants.filter { $0 != name }
         return "(" + names.map { "kMDItemFSName == \"*\(escaped($0))*\"cd" }.joined(separator: " || ") + ")"

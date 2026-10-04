@@ -189,7 +189,9 @@ extension LeftoverMatcher {
             isAWord = false
             rank = Self.tier(of: reason) * 10_000 + specificity
             family = switch reason {
-            case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix, .launchdJob, .linksToTheApp, .installerReceipt: .identifier
+            case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
+                .launchdJob, .linksToTheApp, .installerReceipt:
+                .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix: .maker
             }
@@ -251,7 +253,10 @@ extension LeftoverMatcher {
             identifier = app.bundleIdentifier.lowercased()
             let vendor = Identifier.vendor(of: identifier)
             embeddedIdentifiers = app.embeddedBundleIdentifiers.map {
-                EmbeddedIdentifier(value: $0.lowercased(), sharesVendor: vendor != nil && Identifier.vendor(of: $0) == vendor)
+                EmbeddedIdentifier(
+                    value: $0.lowercased(),
+                    sharesVendor: vendor != nil && Identifier.vendor(of: $0) == vendor
+                )
             }
             prefixes = ([identifier] + embeddedIdentifiers.map(\.value))
                 .filter { Identifier.componentCount(of: $0) >= 3 }
@@ -295,7 +300,11 @@ extension LeftoverMatcher {
             }
             if let embedded = embeddedIdentifiers.first(where: { $0.value == key }) {
                 guard Identifier.isValid(key) else { return unproven(.embeddedBundleIdentifier, candidate) }
-                return Evidence(.embeddedBundleIdentifier, embedded.sharesVendor ? .certain : .likely, specificity: key.count)
+                return Evidence(
+                    .embeddedBundleIdentifier,
+                    embedded.sharesVendor ? .certain : .likely,
+                    specificity: key.count
+                )
             }
             if applicationGroups.contains(key) {
                 guard Identifier.isGroup(key) else { return unproven(.applicationGroup, candidate) }

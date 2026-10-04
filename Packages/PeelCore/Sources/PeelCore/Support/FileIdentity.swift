@@ -39,7 +39,10 @@ public struct FileIdentity: Sendable, Hashable {
         modificationTime = Self.nanoseconds(info.st_mtimespec)
         statusChangeTime = Self.nanoseconds(info.st_ctimespec)
         creationTime = Self.nanoseconds(info.st_birthtimespec)
-        modificationDate = Date(timeIntervalSince1970: TimeInterval(info.st_mtimespec.tv_sec) + TimeInterval(info.st_mtimespec.tv_nsec) / 1_000_000_000)
+        modificationDate = Date(
+            timeIntervalSince1970: TimeInterval(info.st_mtimespec.tv_sec)
+                + TimeInterval(info.st_mtimespec.tv_nsec) / 1_000_000_000
+        )
     }
 
     public static func of(_ url: URL) -> FileIdentity? {

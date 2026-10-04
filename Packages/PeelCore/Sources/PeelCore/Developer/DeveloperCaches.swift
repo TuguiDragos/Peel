@@ -97,7 +97,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     /// folders. Asked each time, since an app can be opened at any moment.
     public var runningApp: String? {
         appBundleIdentifiers.lazy.compactMap { identifier in
-            NSRunningApplication.runningApplications(withBundleIdentifier: identifier).lazy.compactMap(\.localizedName).first
+            NSRunningApplication.runningApplications(withBundleIdentifier: identifier)
+                .lazy.compactMap(\.localizedName).first
         }.first
     }
 }

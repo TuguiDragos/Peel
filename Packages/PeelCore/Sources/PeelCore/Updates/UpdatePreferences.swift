@@ -15,7 +15,11 @@ public struct UpdatePreferences: Sendable, Hashable {
     /// The version the user chose to skip for each app, by bundle identifier.
     public var skippedVersions: [String: String]
 
-    public init(source: UpdateSource = .automatic, ignoredIdentifiers: Set<String> = [], skippedVersions: [String: String] = [:]) {
+    public init(
+        source: UpdateSource = .automatic,
+        ignoredIdentifiers: Set<String> = [],
+        skippedVersions: [String: String] = [:]
+    ) {
         self.source = source
         self.ignoredIdentifiers = ignoredIdentifiers
         self.skippedVersions = skippedVersions

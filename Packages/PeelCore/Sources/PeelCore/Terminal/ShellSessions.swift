@@ -5,7 +5,12 @@ public enum ShellSessions: Sendable, Equatable {
     case bash
 
     public static func inTerminal(_ terminal: TerminalSettings, home: URL = .homeDirectory) -> ShellSessions? {
-        of(terminalSetting: terminal.shell(), loginShell: loginShell(), zdotdir: ProcessInfo.processInfo.environment["ZDOTDIR"], home: home)
+        of(
+            terminalSetting: terminal.shell(),
+            loginShell: loginShell(),
+            zdotdir: ProcessInfo.processInfo.environment["ZDOTDIR"],
+            home: home
+        )
     }
 
     static func of(terminalSetting: String?, loginShell: String?, zdotdir: String?, home: URL) -> ShellSessions? {

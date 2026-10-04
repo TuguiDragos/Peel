@@ -21,7 +21,13 @@ public struct FolderContents: Sendable, Hashable {
     /// container is refused outright.
     public let couldNotBeRead: Bool
 
-    init(size: Int64, holdsRepository: Bool, holdsWallet: Bool = false, newestChange: Date? = nil, couldNotBeRead: Bool = false) {
+    init(
+        size: Int64,
+        holdsRepository: Bool,
+        holdsWallet: Bool = false,
+        newestChange: Date? = nil,
+        couldNotBeRead: Bool = false
+    ) {
         self.size = size
         self.holdsRepository = holdsRepository
         self.holdsWallet = holdsWallet
@@ -129,7 +135,9 @@ public enum FileSize {
     private static func immediateContents(of url: URL) -> FolderContents {
         ScanCount.current?.add(1)
         do {
-            let values = try url.resourceValues(forKeys: [.totalFileAllocatedSizeKey, .contentModificationDateKey, .linkCountKey, .mayShareFileContentKey])
+            let values = try url.resourceValues(forKeys: [
+                .totalFileAllocatedSizeKey, .contentModificationDateKey, .linkCountKey, .mayShareFileContentKey,
+            ])
             return FolderContents(
                 size: (values.linkCount ?? 1) > 1 ? 0 : freed(by: url, values),
                 holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
@@ -157,7 +165,8 @@ public enum FileSize {
     /// Walks everything under `url`. Nil when `isStopped` turns true on the way, since half a walk is no answer.
     static func walk(_ url: URL, countingFor scan: ScanCount? = nil, unless isStopped: () -> Bool) -> FolderContents? {
         let fileKeys: Set<URLResourceKey> = [
-            .isRegularFileKey, .totalFileAllocatedSizeKey, .linkCountKey, .fileIdentifierKey, .contentModificationDateKey,
+            .isRegularFileKey, .totalFileAllocatedSizeKey, .linkCountKey, .fileIdentifierKey,
+            .contentModificationDateKey,
             .mayShareFileContentKey,
         ]
         // Notes whether the folder, or a folder inside it, failed to open. The enumerator reports that only to the
@@ -194,7 +203,9 @@ public enum FileSize {
                 if repositoryMarkers.contains(file.lastPathComponent) { holdsRepository = true }
                 if isWallet(file.lastPathComponent) { holdsWallet = true }
                 guard let values = try? file.resourceValues(forKeys: fileKeys) else { return .next }
-                if let written = values.contentModificationDate, written > newestChange ?? .distantPast { newestChange = written }
+                if let written = values.contentModificationDate, written > newestChange ?? .distantPast {
+                    newestChange = written
+                }
                 guard values.isRegularFile == true else {
                     if isDataless(file) { enumerator.skipDescendants() }
                     return .next

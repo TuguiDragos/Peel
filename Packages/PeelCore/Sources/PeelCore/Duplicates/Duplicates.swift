@@ -133,7 +133,9 @@ public struct DuplicateScan: Sendable {
     public func excluded(by exclusions: Exclusions) async -> Set<URL> {
         guard !exclusions.paths.isEmpty else { return [] }
         let files = groups.flatMap(\.files).map(\.url).filter(exclusions.excludes)
-        let folders = folderGroups.flatMap(\.folders).map(\.url).filter { exclusions.excludes($0) || exclusions.holds($0) }
+        let folders = folderGroups.flatMap(\.folders).map(\.url).filter {
+            exclusions.excludes($0) || exclusions.holds($0)
+        }
         return Set(files + folders)
     }
 

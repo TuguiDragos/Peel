@@ -25,7 +25,10 @@ public enum PrivacyReset {
 
         switch await Subprocess.run("/usr/bin/tccutil", ["reset", "All", bundleIdentifier], timeout: 10) {
         case .success(let output):
-            return result(status: output.status, output: (output.text + output.errorText).trimmingCharacters(in: .whitespacesAndNewlines))
+            return result(
+                status: output.status,
+                output: (output.text + output.errorText).trimmingCharacters(in: .whitespacesAndNewlines)
+            )
         case .failure(let failure):
             return .couldNotAsk(failure.explanation)
         }

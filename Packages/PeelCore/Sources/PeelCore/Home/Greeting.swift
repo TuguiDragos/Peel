@@ -18,7 +18,12 @@ public enum Greeting: String, Sendable, Hashable, CaseIterable {
     /// When the greeting changes next, so a view can schedule its update.
     public static func change(after date: Date, calendar: Calendar = .autoupdatingCurrent) -> Date {
         let changes = startHours.compactMap {
-            calendar.nextDate(after: date, matching: DateComponents(hour: $0), matchingPolicy: .nextTime, direction: .forward)
+            calendar.nextDate(
+                after: date,
+                matching: DateComponents(hour: $0),
+                matchingPolicy: .nextTime,
+                direction: .forward
+            )
         }
         return changes.min() ?? date.addingTimeInterval(3600)
     }

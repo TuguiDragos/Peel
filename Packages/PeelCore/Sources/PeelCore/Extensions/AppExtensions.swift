@@ -121,7 +121,9 @@ public enum AppExtensions {
                 guard one == other else { return one.localizedStandardCompare(other) == .orderedAscending }
                 return $0.name.localizedStandardCompare($1.name) == .orderedAscending
             },
-            unanswered: Set([apps == nil ? .appExtension : nil, system == nil ? .systemExtension : nil].compactMap(\.self))
+            unanswered: Set(
+                [apps == nil ? .appExtension : nil, system == nil ? .systemExtension : nil].compactMap(\.self)
+            )
         )
     }
 
@@ -166,7 +168,9 @@ public enum AppExtensions {
             .compactMap { parse(String($0)) }
             .first { $0.identifier == identifier && $0.election == .on }
         guard let chosen else { return false }
-        let theirs = FileIdentity.Link.of(URL(filePath: chosen.path, directoryHint: .isDirectory).resolvingSymlinksInPath())
+        let theirs = FileIdentity.Link.of(
+            URL(filePath: chosen.path, directoryHint: .isDirectory).resolvingSymlinksInPath()
+        )
         return theirs != FileIdentity.Link.of(own.resolvingSymlinksInPath())
     }
 
@@ -233,7 +237,10 @@ public enum AppExtensions {
     /// The name of the app the extension came with. This is the outermost app, so an extension inside
     /// Instruments inside Xcode belongs to Xcode.
     static func owner(ofExtensionAt path: String) -> String? {
-        guard let end = path.range(of: ".app/") ?? (path.hasSuffix(".app") ? path.range(of: ".app", options: .backwards) : nil) else { return nil }
+        guard
+            let end = path.range(of: ".app/")
+                ?? (path.hasSuffix(".app") ? path.range(of: ".app", options: .backwards) : nil)
+        else { return nil }
         return AppInspector.displayName(of: URL(filePath: String(path[..<end.lowerBound]) + ".app"))
     }
 
@@ -274,8 +281,12 @@ public enum AppExtensions {
     static func parseSystemExtension(
         _ line: String
     ) -> (identifier: String, version: String?, name: String, teamIdentifier: String?, state: String)? {
-        let fields = line.split(separator: "\t", omittingEmptySubsequences: false).map { String($0).trimmingCharacters(in: .whitespaces) }
-        guard fields.count >= 6, let bracketed = fields.last, bracketed.hasPrefix("["), bracketed.hasSuffix("]") else { return nil }
+        let fields = line.split(separator: "\t", omittingEmptySubsequences: false).map {
+            String($0).trimmingCharacters(in: .whitespaces)
+        }
+        guard fields.count >= 6, let bracketed = fields.last, bracketed.hasPrefix("["), bracketed.hasSuffix("]") else {
+            return nil
+        }
         let identifier = String(fields[3].prefix { $0 != " " })
         guard identifier.contains(".") else { return nil }
         let version = fields[3].dropFirst(identifier.count).trimmingCharacters(in: .whitespaces)
@@ -318,7 +329,11 @@ public enum AppExtensions {
     /// The record of the extension `systemextensionsctl` listed: the one of its version, or the only one of its
     /// identifier. During an update an identifier has a record per version, and the other version's copy is not
     /// this one: no path is better than a wrong one.
-    static func record(for identifier: String, version: String?, among records: [SystemExtensionRecord]) -> SystemExtensionRecord? {
+    static func record(
+        for identifier: String,
+        version: String?,
+        among records: [SystemExtensionRecord]
+    ) -> SystemExtensionRecord? {
         let named = records.filter { $0.identifier == identifier }
         return named.first { $0.version == version } ?? (named.count == 1 ? named.first : nil)
     }

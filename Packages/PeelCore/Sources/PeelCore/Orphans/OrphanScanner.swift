@@ -15,7 +15,11 @@ public struct OrphanScanner: Sendable {
     private let walk: LeftoverScanner.Measure
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
-        self.init(environment: environment, exclusions: exclusions, isRegisteredApp: AppOwnership.launchServicesKnowsApp(withBundleIdentifier:))
+        self.init(
+            environment: environment,
+            exclusions: exclusions,
+            isRegisteredApp: AppOwnership.launchServicesKnowsApp(withBundleIdentifier:)
+        )
     }
 
     init(
@@ -57,12 +61,20 @@ public struct OrphanScanner: Sendable {
         let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
         let goneBundles = Dictionary(
-            gone.map { (PathPattern.comparablePath(of: URL(filePath: $0.lastPath, directoryHint: .isDirectory)), $0.bundleIdentifier) },
+            gone.map {
+                (
+                    PathPattern.comparablePath(of: URL(filePath: $0.lastPath, directoryHint: .isDirectory)),
+                    $0.bundleIdentifier
+                )
+            },
             uniquingKeysWith: { first, _ in first }
         )
 
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
-        let goneNames = Dictionary(gone.map { ($0.name.lowercased(), $0.bundleIdentifier) }, uniquingKeysWith: { first, _ in first })
+        let goneNames = Dictionary(
+            gone.map { ($0.name.lowercased(), $0.bundleIdentifier) },
+            uniquingKeysWith: { first, _ in first }
+        )
 
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
@@ -88,11 +100,14 @@ public struct OrphanScanner: Sendable {
 
         let reach = HelperReach(environment: environment)
         let kept = found.filter {
-            !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url) && !exclusions.excludes(bundleIdentifier: $0.identifier)
+            !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url)
+                && !exclusions.excludes(bundleIdentifier: $0.identifier)
                 && !(owners[$0.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false)
         }
         .map { entry in
-            guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else { return entry }
+            guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else {
+                return entry
+            }
             var item = entry.item
             item.heldBack = .beyondTheHelper
             return (entry.identifier, item)
@@ -116,7 +131,12 @@ public struct OrphanScanner: Sendable {
         var kept: [OrphanItem] = []
         for item in items {
             let isStillOrphaned = if let app = item.namedAfter {
-                await Self.goneApp(named: item.url, kind: item.kind, goneNames: [item.url.lastPathComponent.lowercased(): app], ownership: ownership) != nil
+                await Self.goneApp(
+                    named: item.url,
+                    kind: item.kind,
+                    goneNames: [item.url.lastPathComponent.lowercased(): app],
+                    ownership: ownership
+                ) != nil
             } else {
                 await Self.orphanIdentifier(of: item.url, kind: item.kind, ownership: ownership, jobs: jobs) != nil
             }
@@ -165,7 +185,9 @@ public struct OrphanScanner: Sendable {
         return grouped.map { root, entries in
             let identifier = entries.map { groupingKey(for: $0.identifier) }.first { $0.lowercased() == root } ?? root
             let items = entries.map(\.item).sorted {
-                $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+                $0.size != $1.size
+                    ? SizeTotal([$0.size]) > SizeTotal([$1.size])
+                    : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
             }
             var group = OrphanGroup(
                 identifier: identifier,
@@ -198,7 +220,11 @@ public struct OrphanScanner: Sendable {
     /// keep one folder per app inside their own, so a folder named after nobody can still hold an app's files.
     /// A folder that did not answer in time, or that macOS will not list, counts as holding one, so it is never
     /// reported as nobody's.
-    static func holdsFilesOfAnInstalledApp(_ url: URL, kind: SearchLocation.Kind, ownership: AppOwnership) async -> Bool {
+    static func holdsFilesOfAnInstalledApp(
+        _ url: URL,
+        kind: SearchLocation.Kind,
+        ownership: AppOwnership
+    ) async -> Bool {
         guard let names = await SlowRead.names(in: url) else { return true }
         return names.contains { name in
             let key = LeftoverMatcher.key(from: name, kind: kind)
@@ -228,10 +254,18 @@ public struct OrphanScanner: Sendable {
     /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
     /// there, or into no app at all.
     static func goneApp(behind link: URL) -> URL? {
-        guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: link.path(percentEncoded: false)) else { return nil }
-        let components = URL(filePath: destination, relativeTo: link.deletingLastPathComponent()).standardizedFileURL.pathComponents
+        guard
+            let destination = try? FileManager.default.destinationOfSymbolicLink(
+                atPath: link.path(percentEncoded: false)
+            )
+        else { return nil }
+        let components = URL(filePath: destination, relativeTo: link.deletingLastPathComponent())
+            .standardizedFileURL.pathComponents
         guard let app = components.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
-        let bundle = URL(filePath: NSString.path(withComponents: Array(components[...app])), directoryHint: .isDirectory)
+        let bundle = URL(
+            filePath: NSString.path(withComponents: Array(components[...app])),
+            directoryHint: .isDirectory
+        )
         return FileManager.default.fileExists(atPath: bundle.path(percentEncoded: false)) ? nil : bundle
     }
 
@@ -246,7 +280,8 @@ public struct OrphanScanner: Sendable {
     ) async -> String? {
         if kind == .commandLineTools {
             guard let bundle = goneApp(behind: url) else { return nil }
-            return goneBundles[PathPattern.comparablePath(of: bundle)] ?? bundle.deletingPathExtension().lastPathComponent
+            return goneBundles[PathPattern.comparablePath(of: bundle)]
+                ?? bundle.deletingPathExtension().lastPathComponent
         }
         let name = url.lastPathComponent
         guard
@@ -267,7 +302,12 @@ public struct OrphanScanner: Sendable {
     ]
 
     /// The app that left whose name `url` bears, in one of `namedPlaces`, while no installed app claims that name.
-    static func goneApp(named url: URL, kind: SearchLocation.Kind, goneNames: [String: String], ownership: AppOwnership) async -> String? {
+    static func goneApp(
+        named url: URL,
+        kind: SearchLocation.Kind,
+        goneNames: [String: String],
+        ownership: AppOwnership
+    ) async -> String? {
         let name = url.lastPathComponent
         guard
             namedPlaces.contains(kind), !isSensitive(fileName: name),
@@ -322,7 +362,13 @@ public struct OrphanScanner: Sendable {
             // What the guard refuses outright is never listed, whether an installed app claims it or not.
             guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
             var namedAfter: String?
-            var identifier = await orphanIdentifier(of: url, kind: location.kind, ownership: ownership, jobs: jobs, goneBundles: goneBundles)
+            var identifier = await orphanIdentifier(
+                of: url,
+                kind: location.kind,
+                ownership: ownership,
+                jobs: jobs,
+                goneBundles: goneBundles
+            )
             if identifier == nil {
                 namedAfter = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
                 identifier = namedAfter
@@ -333,7 +379,9 @@ public struct OrphanScanner: Sendable {
         }
 
         // A few walks at a time, so a few folders that never answer do not each hold the location for a whole budget.
-        let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) { await walk($0) }
+        let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) {
+            await walk($0)
+        }
         var found: [(identifier: String, item: OrphanItem)] = []
         for ((url, identifier, namedAfter), contents) in zip(candidates, walked) {
             // The item's own date changes when something is taken out of it, but not when a file inside is

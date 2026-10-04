@@ -86,7 +86,8 @@ public struct AppReset: Sendable {
 
     static func group(for kind: SearchLocation.Kind) -> Group? {
         switch kind {
-        case .preferences, .preferencesByHost, .savedApplicationState, .caches, .logs, .recentDocuments, .temporaryItems:
+        case .preferences, .preferencesByHost, .savedApplicationState, .caches, .logs, .recentDocuments,
+            .temporaryItems:
             .settings
         case .cookies, .httpStorages, .webKit:
             .webData
@@ -111,7 +112,13 @@ public struct AppReset: Sendable {
         exclusions: Exclusions = .none,
         environment: SearchEnvironment = .current
     ) async -> AppReset {
-        await prepare(app, installedApps: installedApps, exclusions: exclusions, environment: environment, measure: LeftoverScanner.walk)
+        await prepare(
+            app,
+            installedApps: installedApps,
+            exclusions: exclusions,
+            environment: environment,
+            measure: LeftoverScanner.walk
+        )
     }
 
     @concurrent
@@ -125,7 +132,10 @@ public struct AppReset: Sendable {
         guard !exclusions.excludes(app) else {
             return AppReset(app: app, items: [], keepsAppData: false, needsFullDiskAccess: false)
         }
-        let scan = await LeftoverScanner(environment: environment, exclusions: exclusions).scan(app, installedApps: installedApps)
+        let scan = await LeftoverScanner(environment: environment, exclusions: exclusions).scan(
+            app,
+            installedApps: installedApps
+        )
         let keepsAppData = dataIsNeverOffered.contains(app.bundleIdentifier)
         // A container held back because of the documents or a wallet's keys inside it is still looked into: a reset
         // never touches `Documents`, never offers a folder that holds keys, and the settings beside them are what a
@@ -156,7 +166,13 @@ public struct AppReset: Sendable {
                 needsFullDiskAccess = needsFullDiskAccess || access == .missing
                 continue
             }
-            items += await itemsInside(container.url, of: app, exclusions: exclusions, home: environment.homeDirectory, measure: measure)
+            items += await itemsInside(
+                container.url,
+                of: app,
+                exclusions: exclusions,
+                home: environment.homeDirectory,
+                measure: measure
+            )
         }
 
         return AppReset(
@@ -177,7 +193,8 @@ public struct AppReset: Sendable {
         var items: [Item] = []
         for folder in containerFolders {
             let url = container.appending(path: folder.path, directoryHint: .isDirectory)
-            guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url), !holdsKeys(url, home: home) else { continue }
+            guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url), !holdsKeys(url, home: home)
+            else { continue }
             // What the uninstall would hold back is never offered: a wallet or a repository inside, or a folder that
             // was not measured or not read.
             let seen = await measure(url)
@@ -189,9 +206,14 @@ public struct AppReset: Sendable {
         // Only the file named after the app, or after the container when it is a helper's: that is the file
         // `defaults` reads. A name that merely starts the same (`com.foo.AppOther`) belongs to another app.
         let names = Set([app.bundleIdentifier, container.lastPathComponent].map { $0.lowercased() + ".plist" })
-        let contents = (try? FileManager.default.contentsOfDirectory(at: preferences, includingPropertiesForKeys: [.isSymbolicLinkKey])) ?? []
+        let contents = (try? FileManager.default.contentsOfDirectory(
+            at: preferences,
+            includingPropertiesForKeys: [.isSymbolicLinkKey]
+        )) ?? []
         for file in contents where names.contains(file.lastPathComponent.lowercased()) {
-            guard (try? file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true, !exclusions.excludes(file) else { continue }
+            guard (try? file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true,
+                  !exclusions.excludes(file)
+            else { continue }
             let seen = await measure(file)
             guard let seen, HoldBack.seen(in: seen) == nil else { continue }
             items.append(Item(url: file, kind: .preferences, group: .settings, size: seen.size))
@@ -204,6 +226,7 @@ public struct AppReset: Sendable {
     private static func holdsKeys(_ url: URL, home: URL) -> Bool {
         let path = url.path(percentEncoded: false)
         let home = home.path(percentEncoded: false)
-        return ProtectedData.refuses(path, home: home) || ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path)
+        return ProtectedData.refuses(path, home: home) || ProtectedData.holds(path, home: home)
+            || ProtectedData.holdsABrowserWallet(path)
     }
 }

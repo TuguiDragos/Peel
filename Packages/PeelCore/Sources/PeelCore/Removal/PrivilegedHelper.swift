@@ -136,7 +136,10 @@ public enum PrivilegedHelper {
         for start in stride(from: 0, to: urls.count, by: limit) {
             let batch = Array(urls[start..<min(start + limit, urls.count)])
             // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
-            let links = Dictionary(batch.map { ($0, FileIdentity.Link.of($0)) }, uniquingKeysWith: { first, _ in first })
+            let links = Dictionary(
+                batch.map { ($0, FileIdentity.Link.of($0)) },
+                uniquingKeysWith: { first, _ in first }
+            )
             let paths = batch.map { $0.path(percentEncoded: false) }
             let reply: HelperTrashReply? = await withHelper(fallback: nil) { helper, finish in
                 helper.moveItemsToTrash(version: HelperIdentity.protocolVersion, atPaths: paths) { moved, failed in
@@ -154,15 +157,30 @@ public enum PrivilegedHelper {
     /// once, at the end. With no answer (the helper was uninstalled midway or crashed), the items that did move
     /// are found in the Trash by identity: History is the only way back for what the helper moved, and
     /// reporting them all as failed would leave them out of History.
-    static func result(for urls: [URL], reply: HelperTrashReply?, links: [URL: FileIdentity.Link?], trash: URL) -> TrashResult {
+    static func result(
+        for urls: [URL],
+        reply: HelperTrashReply?,
+        links: [URL: FileIdentity.Link?],
+        trash: URL
+    ) -> TrashResult {
         var result = TrashResult()
         for url in urls {
             let path = url.path(percentEncoded: false)
             if let destination = reply?.moved[path] {
                 let trashedURL = URL(filePath: destination)
-                result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashedURL, date: .now, identity: .init(ofItemAt: trashedURL)))
-            } else if reply == nil, !url.isThere, let link = links[url] ?? nil, let found = TrashService.item(link, in: trash) {
-                result.trashed.append(TrashedItem(originalURL: url, trashedURL: found, date: .now, identity: .init(ofItemAt: found)))
+                result.trashed.append(
+                    TrashedItem(
+                        originalURL: url,
+                        trashedURL: trashedURL,
+                        date: .now,
+                        identity: .init(ofItemAt: trashedURL)
+                    )
+                )
+            } else if reply == nil, !url.isThere, let link = links[url] ?? nil,
+                      let found = TrashService.item(link, in: trash) {
+                result.trashed.append(
+                    TrashedItem(originalURL: url, trashedURL: found, date: .now, identity: .init(ofItemAt: found))
+                )
             } else {
                 result.failures.append(TrashFailure(url: url, reason: .failed(reply?.failed[path] ?? Self.unavailable)))
             }
@@ -174,7 +192,11 @@ public enum PrivilegedHelper {
     @concurrent
     static func runDaemonCommand(_ command: DaemonCommand, label: String) async -> String? {
         await withHelper(fallback: Self.unavailable) { helper, finish in
-            helper.runDaemonCommand(version: HelperIdentity.protocolVersion, command: command.rawValue, label: label) { failure in
+            helper.runDaemonCommand(
+                version: HelperIdentity.protocolVersion,
+                command: command.rawValue,
+                label: label
+            ) { failure in
                 finish(failure)
             }
         }
@@ -258,7 +280,10 @@ public enum PrivilegedHelper {
             // the wait. `longestWait` outlasts any request: at most `HelperRequest.maximumItems` renames, or one
             // `launchctl` run that the helper stops after 30 seconds.
             DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + longestWait) { finish(fallback) }
-            guard let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) }) as? any PeelHelperProtocol else {
+            guard
+                let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
+                    as? any PeelHelperProtocol
+            else {
                 finish(fallback)
                 return
             }

@@ -58,7 +58,10 @@ public struct AppMemory: Sendable {
     /// `known` is nil when the file cannot be read or reached. Its contents are then unknown, so it is never
     /// written over, and the apps currently installed are still returned for this run.
     private func remember(_ apps: [InstalledApp], now: Date, onTopOf known: [RememberedApp]?) -> [RememberedApp] {
-        var byIdentifier = Dictionary((known ?? []).map { ($0.bundleIdentifier, $0) }, uniquingKeysWith: { first, _ in first })
+        var byIdentifier = Dictionary(
+            (known ?? []).map { ($0.bundleIdentifier, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
         for app in apps where !app.bundleIdentifier.isEmpty && !app.isSystemProtected {
             byIdentifier[app.bundleIdentifier] = RememberedApp(
                 bundleIdentifier: app.bundleIdentifier,
@@ -70,7 +73,9 @@ public struct AppMemory: Sendable {
         }
 
         let kept = byIdentifier.values
-            .sorted { $0.lastSeen != $1.lastSeen ? $0.lastSeen > $1.lastSeen : $0.bundleIdentifier < $1.bundleIdentifier }
+            .sorted {
+                $0.lastSeen != $1.lastSeen ? $0.lastSeen > $1.lastSeen : $0.bundleIdentifier < $1.bundleIdentifier
+            }
             .prefix(Self.maximumApps)
             .map { $0 }
         if known != nil { write(kept) }
@@ -111,7 +116,10 @@ public struct AppMemory: Sendable {
             return exact
         }
         return remembered
-            .filter { Identifier.componentCount(of: $0.bundleIdentifier) >= 3 && lowercased.hasPrefix($0.bundleIdentifier.lowercased() + ".") }
+            .filter {
+                Identifier.componentCount(of: $0.bundleIdentifier) >= 3
+                    && lowercased.hasPrefix($0.bundleIdentifier.lowercased() + ".")
+            }
             .max { $0.bundleIdentifier.count < $1.bundleIdentifier.count }
     }
 

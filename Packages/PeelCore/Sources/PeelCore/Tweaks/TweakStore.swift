@@ -107,7 +107,12 @@ public struct TweakStore: Sendable, TweakStoring {
 
     private static func copy(_ key: CFString, from name: String) -> CFPropertyList? {
         name == globalDomain
-            ? CFPreferencesCopyValue(key, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+            ? CFPreferencesCopyValue(
+                key,
+                kCFPreferencesAnyApplication,
+                kCFPreferencesCurrentUser,
+                kCFPreferencesAnyHost
+            )
             : CFPreferencesCopyAppValue(key, name as CFString)
     }
 
@@ -117,7 +122,13 @@ public struct TweakStore: Sendable, TweakStoring {
 
     private static func set(_ key: CFString, to value: CFPropertyList?, in name: String) {
         if name == globalDomain {
-            CFPreferencesSetValue(key, value, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+            CFPreferencesSetValue(
+                key,
+                value,
+                kCFPreferencesAnyApplication,
+                kCFPreferencesCurrentUser,
+                kCFPreferencesAnyHost
+            )
         } else {
             CFPreferencesSetAppValue(key, value, name as CFString)
         }

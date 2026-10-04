@@ -16,7 +16,11 @@ public struct DuplicateFinder: Sendable {
 
     /// Without a `digestMemory`, every file is read and no digest is saved, so tests never touch the user's
     /// saved digests.
-    public init(homeDirectory: URL = .homeDirectory, exclusions: Exclusions = .none, digestMemory: DigestMemory? = nil) {
+    public init(
+        homeDirectory: URL = .homeDirectory,
+        exclusions: Exclusions = .none,
+        digestMemory: DigestMemory? = nil
+    ) {
         self.exclusions = exclusions
         self.homeDirectory = homeDirectory.resolvingSymlinksInPath()
         self.digestMemory = digestMemory
@@ -71,7 +75,11 @@ public struct DuplicateFinder: Sendable {
 
         // Folders are compared only when no file kind is chosen: a kind, such as images, applies to files alone.
         let folderGroups = options.kind == .any
-            ? try await FolderDuplicates(managed: Self.managedPaths(home: homeDirectory), exclusions: exclusions, neverProjects: neverProjects).groups(
+            ? try await FolderDuplicates(
+                managed: Self.managedPaths(home: homeDirectory),
+                exclusions: exclusions,
+                neverProjects: neverProjects
+            ).groups(
                 in: scannable,
                 minimumSize: options.minimumSize,
                 downloads: Self.path(of: homeDirectory.appending(path: "Downloads")),
@@ -82,7 +90,13 @@ public struct DuplicateFinder: Sendable {
             : []
         let spokenFor = Set(folderGroups.flatMap { $0.folders.map { Self.path(of: $0.url) } })
 
-        let collected = try collect(options, in: scannable, spokenFor: spokenFor, neverProjects: neverProjects, progress: progress)
+        let collected = try collect(
+            options,
+            in: scannable,
+            spokenFor: spokenFor,
+            neverProjects: neverProjects,
+            progress: progress
+        )
         // Each file is read once, under the first of its names, and an excluded name is never read.
         var names: [FileIdentity.Link: [Candidate]] = [:]
         var files: [Candidate] = []
@@ -93,17 +107,26 @@ public struct DuplicateFinder: Sendable {
         let sameSize = Dictionary(grouping: files, by: \.identity.size).values.filter { $0.count > 1 }.flatMap { $0 }
 
         let comparing = ReportThrottle()
-        let sampled = await FileDigest.many(sameSize, digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }) { completed in
+        let sampled = await FileDigest.many(
+            sameSize,
+            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }
+        ) { completed in
             if comparing.allows(isLast: completed == sameSize.count) {
                 progress(.comparing(filesCompared: completed, filesToCompare: sameSize.count))
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
-        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names) { removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud }
+        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names) {
+            removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud
+        }
         let finalGroups = sampledGroups.filter { !FileDigest.isSampled(size: $0[0].item.identity.size) }
 
-        let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }.flatMap { $0.map(\.item) }
-        let reading = ReadProgress(bytesToRead: FileDigest.bytesToRead(toVerify.map(\.identity), known: known), report: progress)
+        let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }
+            .flatMap { $0.map(\.item) }
+        let reading = ReadProgress(
+            bytesToRead: FileDigest.bytesToRead(toVerify.map(\.identity), known: known),
+            report: progress
+        )
         let verified = await FileDigest.many(toVerify) { candidate in
             FileDigest.full(of: candidate.url, identity: candidate.identity, known: known, onRead: reading.add)
         }
@@ -265,7 +288,12 @@ public struct DuplicateFinder: Sendable {
     private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup {
         let downloads = Self.path(of: homeDirectory.appending(path: "Downloads"))
         let files = members
-            .map { ($0.item, Self.keepRank(of: $0.item.url, creationTime: $0.item.identity.creationTime, downloads: downloads)) }
+            .map {
+                (
+                    $0.item,
+                    Self.keepRank(of: $0.item.url, creationTime: $0.item.identity.creationTime, downloads: downloads)
+                )
+            }
             .sorted { $0.1 < $1.1 }
             .map { candidate, _ in
                 DuplicateFile(
@@ -299,7 +327,10 @@ public struct DuplicateFinder: Sendable {
     /// out of the scan.
     static func neverProjects(chosen: [URL], home: URL) -> Set<String> {
         let home = path(of: home.resolvingSymlinksInPath())
-        return Set(chosen.map { path(of: $0.resolvingSymlinksInPath()) } + [home] + ProtectedData.accountFolders.map { home + "/" + $0 })
+        return Set(
+            chosen.map { path(of: $0.resolvingSymlinksInPath()) } + [home]
+                + ProtectedData.accountFolders.map { home + "/" + $0 }
+        )
     }
 
     static func managedPaths(home: URL) -> Set<String> {

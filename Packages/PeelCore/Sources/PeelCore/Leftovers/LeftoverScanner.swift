@@ -60,7 +60,10 @@ public struct LeftoverScanner: Sendable {
         let identifiers = [app.bundleIdentifier] + makers.filter { $0.lowercased() != own }.sorted()
         let wanted = Set(identifiers.map { $0.lowercased() })
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
-        let listed = Set(known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
+        let listed = Set(
+            known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }
+                .map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) }
+        )
         return identifiers.flatMap(AppInspector.applicationURLs).filter { url in
             let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
             return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle)
@@ -86,7 +89,12 @@ public struct LeftoverScanner: Sendable {
                 let bundle = PathPattern.comparablePath(of: app.url)
                 _ = group.addTaskUnlessCancelled { [exclusions, measure, refuses, nestedFolderLimit] in
                     (location, await Self.scan(
-                        location, matcher: matcher, home: home, bundle: bundle, exclusions: exclusions, measure: measure,
+                        location,
+                        matcher: matcher,
+                        home: home,
+                        bundle: bundle,
+                        exclusions: exclusions,
+                        measure: measure,
                         refuses: refuses, nestedFolderLimit: nestedFolderLimit
                     ))
                 }
@@ -131,7 +139,9 @@ public struct LeftoverScanner: Sendable {
             PathComponents.of(location.url.path(percentEncoded: false)).count
         }
         let nearestFirst = found.sorted { one, other in
-            guard depth(one.location) == depth(other.location) else { return depth(one.location) > depth(other.location) }
+            guard depth(one.location) == depth(other.location) else {
+                return depth(one.location) > depth(other.location)
+            }
             // Two locations as deep never reach the same file; any fixed order will do.
             return (one.location.url.path(percentEncoded: false), one.location.kind.rawValue)
                 < (other.location.url.path(percentEncoded: false), other.location.kind.rawValue)
@@ -181,7 +191,8 @@ public struct LeftoverScanner: Sendable {
         do {
             // Sorted, because Apple documents the order of a listing as undefined, and with a limit on how many
             // folders are looked into, the order decides which ones.
-            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false)).sorted()
+            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
+                .sorted()
             ScanCount.current?.add(entries.count)
         } catch CocoaError.fileReadNoSuchFile {
             return .found([], cutShort: nil, unreadable: [])
@@ -200,10 +211,12 @@ public struct LeftoverScanner: Sendable {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             let path = url.path(percentEncoded: false)
-            if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle), !isSharedWithTheWholeMac(url, home: home) {
+            if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle),
+               !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { continue }
                 toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
-            } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) {
+            } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
+                      !exclusions.excludes(url) {
                 // Not this app's. Whether it is somebody else's decides what a name inside it is worth.
                 nobodysFolders.append((url, isSomebodyElses(name, kind: location.kind, matcher: matcher)))
             }
@@ -240,8 +253,12 @@ public struct LeftoverScanner: Sendable {
         for depth in 0..<nestedDepth {
             var deeper: [(url: URL, isAnotherApps: Bool)] = []
             for (folder, isAnotherApps) in pending {
-                guard !Task.isCancelled else { return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable) }
-                guard visited < limit else { return (await measured(found, kind: kind, home: home, measure: measure), true, unreadable) }
+                guard !Task.isCancelled else {
+                    return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable)
+                }
+                guard visited < limit else {
+                    return (await measured(found, kind: kind, home: home, measure: measure), true, unreadable)
+                }
                 visited += 1
                 let names: [String]
                 do {
@@ -266,8 +283,11 @@ public struct LeftoverScanner: Sendable {
                     if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
                        !isSharedWithTheWholeMac(url, home: home) {
                         guard !refuses(path, home), !exclusions.excludes(url) else { continue }
-                        found.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps))
-                    } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) {
+                        found.append(
+                            Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps)
+                        )
+                    } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home),
+                              !exclusions.excludes(url) {
                         deeper.append((url, isAnotherApps || isSomebodyElses(name, kind: kind, matcher: matcher)))
                     }
                 }
@@ -393,13 +413,20 @@ public struct LeftoverScanner: Sendable {
     /// This app's claim on an item from its name and from the identifier it declares, which is read for a plug-in, a
     /// crash report, and an item whose name answers nothing. The identifier says whose such an item is: a claim
     /// through it replaces a weaker one on the name, and a name it does not back makes the item only possible.
-    private static func match(_ name: String, at url: URL, kind: SearchLocation.Kind, matcher: LeftoverMatcher) -> LeftoverMatch? {
+    private static func match(
+        _ name: String,
+        at url: URL,
+        kind: SearchLocation.Kind,
+        matcher: LeftoverMatcher
+    ) -> LeftoverMatch? {
         // A system extension macOS activated is its own to remove: it uninstalls one with the app it came in.
         guard url.pathExtension.lowercased() != "systemextension" else { return nil }
         let byName = matcher.match(fileName: name, kind: kind, at: url)
         guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }
         // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
-        let declared = DeclaredIdentifier.of(url, kind: kind).flatMap { matcher.match(fileName: $0, kind: .elsewhere, at: url) }
+        let declared = DeclaredIdentifier.of(url, kind: kind).flatMap {
+            matcher.match(fileName: $0, kind: .elsewhere, at: url)
+        }
         guard let byName else { return declared }
         guard let declared else { return byName.restsOnAName ? byName.atMost(.possible) : byName }
         return declared.confidence >= byName.confidence ? declared : byName
@@ -415,7 +442,11 @@ public struct LeftoverScanner: Sendable {
     /// A job that runs a program inside the app is that app's, whatever it is called: `com.maker.updater.plist`
     /// carries no name of the app it keeps up to date. No rival is named, because a path inside one bundle
     /// cannot be inside another.
-    private static func runsSomethingInside(_ bundle: String, job url: URL, kind: SearchLocation.Kind) -> LeftoverMatch? {
+    private static func runsSomethingInside(
+        _ bundle: String,
+        job url: URL,
+        kind: SearchLocation.Kind
+    ) -> LeftoverMatch? {
         guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist" else { return nil }
         guard let program = JobDefinition(contentsOf: url)?.program, program.hasPrefix("/") else { return nil }
         let path = PathPattern.comparablePath(of: URL(filePath: program))
@@ -426,7 +457,11 @@ public struct LeftoverScanner: Sendable {
     /// A link that leads inside the app is that app's, whatever the tool is called. A link that leads anywhere
     /// else is not claimed. The link is read without following it, and a relative one is taken from its folder.
     private static func leadsInside(_ bundle: String, link url: URL) -> LeftoverMatch? {
-        guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: url.path(percentEncoded: false)) else { return nil }
+        guard
+            let destination = try? FileManager.default.destinationOfSymbolicLink(
+                atPath: url.path(percentEncoded: false)
+            )
+        else { return nil }
         let target = URL(filePath: destination, relativeTo: url.deletingLastPathComponent()).standardizedFileURL
         let path = PathPattern.comparablePath(of: target)
         guard PathComponents.isPath(path, inside: bundle) else { return nil }

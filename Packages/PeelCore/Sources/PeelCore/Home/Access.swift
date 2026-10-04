@@ -105,7 +105,8 @@ public enum CommandLineTool {
             // A file that is not a link: something else named `peel`, not Peel's tool.
             return .somethingElse
         }
-        let target = URL(filePath: destination, relativeTo: URL(filePath: path).deletingLastPathComponent()).standardizedFileURL
+        let target = URL(filePath: destination, relativeTo: URL(filePath: path).deletingLastPathComponent())
+            .standardizedFileURL
         guard target.path(percentEncoded: false) == embedded.standardizedFileURL.path(percentEncoded: false) else {
             return isAPeelsTool(target) ? .otherPeel : .somethingElse
         }
@@ -136,7 +137,11 @@ public enum AppManagement {
     /// What a removal shows about App Management, or nil when it shows nothing. An app bundle Peel moved means
     /// granted. A bundle macOS refused to move from a folder the user can write to, when nothing locks it, means
     /// missing. Bundles the root helper moved don't count, since the helper doesn't need Peel's permission.
-    public static func state(after result: TrashResult, appBundles: Set<URL>, movedByTheHelper: Set<URL> = []) -> AccessState? {
+    public static func state(
+        after result: TrashResult,
+        appBundles: Set<URL>,
+        movedByTheHelper: Set<URL> = []
+    ) -> AccessState? {
         let asked = appBundles.subtracting(movedByTheHelper)
         if result.trashed.contains(where: { asked.contains($0.originalURL) }) {
             return .granted

@@ -41,7 +41,10 @@ public enum BackgroundItemActions {
         case blockedByQuarantine
     }
 
-    static func plan(toStart item: BackgroundItem, isRefusedByLaunchd: (URL) -> Bool = Quarantine.stopsLaunchd) -> Start {
+    static func plan(
+        toStart item: BackgroundItem,
+        isRefusedByLaunchd: (URL) -> Bool = Quarantine.stopsLaunchd
+    ) -> Start {
         guard item.state == .notLoaded, let plist = item.plistURL else { return .kickstart }
         return isRefusedByLaunchd(plist) ? .blockedByQuarantine : .bootstrap(plist)
     }

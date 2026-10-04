@@ -19,7 +19,8 @@ enum Batches {
         let dates = batches.mapValues { $0.map(date).min() ?? .distantPast }
         var total = sorted.count
         var dropped: Set<Batch> = []
-        for key in batches.keys.sorted(by: { dates[$0] ?? .distantPast < dates[$1] ?? .distantPast }) where total > maximum {
+        for key in batches.keys.sorted(by: { dates[$0] ?? .distantPast < dates[$1] ?? .distantPast })
+        where total > maximum {
             guard !protected.contains(key) else { continue }
             dropped.insert(key)
             total -= batches[key]?.count ?? 0

@@ -126,7 +126,9 @@ public enum TerminalTool: CaseIterable, Sendable {
     }
 
     public func isInstalled(prefix: URL) -> Bool {
-        formulae.allSatisfy { FileManager.default.fileExists(atPath: prefix.appending(path: "opt/\($0)").path(percentEncoded: false)) }
+        formulae.allSatisfy {
+            FileManager.default.fileExists(atPath: prefix.appending(path: "opt/\($0)").path(percentEncoded: false))
+        }
     }
 
     /// Whether Homebrew still offers the tool: `known` is every formula name it knows, and `packages` what it said

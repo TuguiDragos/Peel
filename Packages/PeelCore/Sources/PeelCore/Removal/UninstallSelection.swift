@@ -26,7 +26,11 @@ public struct UninstallSelection: Sendable {
 
     public init() {}
 
-    public mutating func update(_ selected: Set<URL>, in uninstallation: Uninstallation, canUseHelper: Bool) -> Set<URL> {
+    public mutating func update(
+        _ selected: Set<URL>,
+        in uninstallation: Uninstallation,
+        canUseHelper: Bool
+    ) -> Set<URL> {
         let app = App(
             stays: uninstallation.appStays(canUseHelper: canUseHelper),
             files: Set(uninstallation.scan.leftovers.map(\.url)),

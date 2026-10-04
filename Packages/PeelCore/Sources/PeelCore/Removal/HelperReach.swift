@@ -36,7 +36,9 @@ struct HelperReach: Sendable {
         var info = stat()
         guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFLNK else { return true }
         guard let destination = PrivilegedPathPolicy.resolvedPath(path) else { return false }
-        guard let leaving, let app = PrivilegedPathPolicy.resolvedPath(leaving.path(percentEncoded: false)) else { return true }
+        guard let leaving, let app = PrivilegedPathPolicy.resolvedPath(leaving.path(percentEncoded: false)) else {
+            return true
+        }
         return !PathComponents.isPath(destination, atOrInside: app)
     }
 }

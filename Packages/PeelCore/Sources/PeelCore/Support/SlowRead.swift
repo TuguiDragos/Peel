@@ -30,7 +30,10 @@ enum SlowRead {
 
     /// Runs `read` on a thread of its own and returns its answer, or nil when it does not come within `budget`
     /// or the task is canceled. A read that works in steps can check `isGivenUp` and stop once nobody waits.
-    static func answer<T: Sendable>(within budget: TimeInterval, _ read: @escaping @Sendable (_ isGivenUp: @escaping @Sendable () -> Bool) -> T) async -> T? {
+    static func answer<T: Sendable>(
+        within budget: TimeInterval,
+        _ read: @escaping @Sendable (_ isGivenUp: @escaping @Sendable () -> Bool) -> T
+    ) async -> T? {
         guard !Task.isCancelled else { return nil }
         let answer = Answer<T>()
         let thread = Thread { answer.give(read { answer.isGivenUp }) }

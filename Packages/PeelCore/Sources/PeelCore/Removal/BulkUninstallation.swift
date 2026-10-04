@@ -36,11 +36,13 @@ public struct BulkUninstallation: Sendable {
         public var id: URL { url }
         public var isApplication: Bool { match == nil }
         public var isRecommended: Bool {
-            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash, enclosingPackage == nil else {
+            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash, enclosingPackage == nil
+            else {
                 return false
             }
             guard let match else { return true }
-            return sharedWithOthers.isEmpty && otherCopies.isEmpty && match.confidence >= .likely && match.heldBack == nil
+            return sharedWithOthers.isEmpty && otherCopies.isEmpty && match.confidence >= .likely
+                && match.heldBack == nil
         }
     }
 
@@ -57,7 +59,9 @@ public struct BulkUninstallation: Sendable {
         uninstallations.contains { $0.scan.needsFullDiskAccess }
     }
     public var unreadableLocations: [SearchLocation] {
-        Array(Set(uninstallations.flatMap { $0.scan.unreadableLocations })).sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+        Array(Set(uninstallations.flatMap { $0.scan.unreadableLocations })).sorted {
+            $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+        }
     }
 
     public init(uninstallations: [Uninstallation]) {
@@ -65,9 +69,17 @@ public struct BulkUninstallation: Sendable {
         self.uninstallations = uninstallations
         self.items = items
         total = SizeTotal(items
-            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true }
+            .filter {
+                !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper
+                    && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true
+            }
             .map { $0.isMeasured ? $0.size : nil })
-        privilegedURLs = Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.enclosingPackage == nil && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
+        privilegedURLs = Set(
+            items.filter {
+                $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash
+                    && $0.enclosingPackage == nil && !($0.isApplication && $0.isKeptByMacOS)
+            }.map(\.url)
+        )
     }
 
     @concurrent
@@ -81,7 +93,16 @@ public struct BulkUninstallation: Sendable {
     ) async -> BulkUninstallation {
         var prepared: [Uninstallation] = []
         for app in apps where !Task.isCancelled {
-            prepared.append(await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions, casks: casks, receipts: receipts, environment: environment))
+            prepared.append(
+                await Uninstallation.prepare(
+                    app,
+                    installedApps: installedApps,
+                    exclusions: exclusions,
+                    casks: casks,
+                    receipts: receipts,
+                    environment: environment
+                )
+            )
         }
         return BulkUninstallation(uninstallations: prepared)
     }
@@ -89,9 +110,12 @@ public struct BulkUninstallation: Sendable {
     /// What is selected for the user at first. Nothing of an app that would stay, as on its own page, and that
     /// includes what it shares with another chosen app: it goes on using it.
     public func suggestedSelection(canUseHelper: Bool) -> Set<URL> {
-        let staying = Set(uninstallations.filter { $0.appStays(canUseHelper: canUseHelper) }.map(\.app.bundleIdentifier))
+        let staying = Set(
+            uninstallations.filter { $0.appStays(canUseHelper: canUseHelper) }.map(\.app.bundleIdentifier)
+        )
         return Set(items.filter { item in
-            item.isRecommended && (canUseHelper || !item.requiresPrivileges) && !item.apps.contains(where: staying.contains)
+            item.isRecommended && (canUseHelper || !item.requiresPrivileges)
+                && !item.apps.contains(where: staying.contains)
         }.map(\.url))
     }
 
@@ -100,7 +124,8 @@ public struct BulkUninstallation: Sendable {
     /// another package, or that the helper may not move, and nothing of Peel.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
-            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !item.isInTheTrash && item.enclosingPackage == nil
+            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !item.isInTheTrash
+                && item.enclosingPackage == nil
                 && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
@@ -116,7 +141,9 @@ public struct BulkUninstallation: Sendable {
     /// includes an app that cannot go (`Uninstallation.appStays(canUseHelper:)`), since its bundle never is, and
     /// leaves out a copy already in the Trash, which stays nowhere.
     public func staying(selected: Set<URL>) -> Set<String> {
-        Set(uninstallations.filter { !$0.isAppInTheTrash && !selected.contains($0.app.url) }.map(\.app.bundleIdentifier))
+        Set(
+            uninstallations.filter { !$0.isAppInTheTrash && !selected.contains($0.app.url) }.map(\.app.bundleIdentifier)
+        )
     }
 
     /// Returns the selection in the order it is moved: leftovers first, then the apps. Excluded items and Peel's
@@ -140,7 +167,8 @@ public struct BulkUninstallation: Sendable {
                     kind: existing.kind ?? item.kind,
                     requiresPrivileges: existing.requiresPrivileges || item.requiresPrivileges,
                     apps: existing.apps + item.apps.filter { !existing.apps.contains($0) },
-                    match: existing.match.flatMap { known in item.match.map(known.combined) } ?? existing.match ?? item.match,
+                    match: existing.match.flatMap { known in item.match.map(known.combined) } ?? existing.match
+                        ?? item.match,
                     sharedWithOthers: existing.sharedWithOthers.filter(item.sharedWithOthers.contains),
                     otherCopies: existing.otherCopies + item.otherCopies.filter { !existing.otherCopies.contains($0) },
                     isExcluded: existing.isExcluded || item.isExcluded,
@@ -169,7 +197,9 @@ public struct BulkUninstallation: Sendable {
                     apps: [identifier],
                     match: leftover.match,
                     sharedWithOthers: leftover.match.sharedWith.filter { !chosen.contains($0) },
-                    otherCopies: leftover.match.otherCopies.filter { !chosenBundles.contains(PathPattern.comparablePath(of: $0)) },
+                    otherCopies: leftover.match.otherCopies.filter {
+                        !chosenBundles.contains(PathPattern.comparablePath(of: $0))
+                    },
                     isExcluded: leftover.match.heldBack == .holdsAnExclusion,
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,

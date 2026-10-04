@@ -423,12 +423,16 @@ public enum SpaceInventory {
             storage: DeviceInfo.storage(of: home),
             purgeable: purgeableSpace(of: home),
             snapshots: await LocalSnapshots.list(),
-            needsFullDiskAccess: items.contains { $0.size == nil && $0.urls.contains { FullDiskAccess.canList($0) == .missing } }
+            needsFullDiskAccess: items.contains {
+                $0.size == nil && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
+            }
         )
     }
 
     static func purgeableSpace(of url: URL) -> Int64? {
-        let values = try? url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey])
+        let values = try? url.resourceValues(forKeys: [
+            .volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey,
+        ])
         guard let important = values?.volumeAvailableCapacityForImportantUsage,
               let free = values?.volumeAvailableCapacity else { return nil }
         return max(0, important - Int64(free))

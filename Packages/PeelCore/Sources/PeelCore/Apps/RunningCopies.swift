@@ -19,7 +19,9 @@ public enum RunningCopies {
     @MainActor
     public static var current: [Process] {
         NSWorkspace.shared.runningApplications.compactMap { running in
-            running.bundleIdentifier.map { Process(identifier: running.processIdentifier, bundleIdentifier: $0, bundleURL: running.bundleURL) }
+            running.bundleIdentifier.map {
+                Process(identifier: running.processIdentifier, bundleIdentifier: $0, bundleURL: running.bundleURL)
+            }
         }
     }
 

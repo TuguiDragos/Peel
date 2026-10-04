@@ -206,7 +206,9 @@ public enum CloudStorage {
                 // Only an error on the root counts: without Full Disk Access nothing under it can be read. A
                 // missing root (`NSFileReadNoSuchFileError`) means iCloud Drive was never set up, which is
                 // nothing to list rather than a refusal.
-                let isMissing = (error as NSError).domain == NSCocoaErrorDomain && (error as NSError).code == NSFileReadNoSuchFileError
+                let isMissing =
+                    (error as NSError).domain == NSCocoaErrorDomain
+                    && (error as NSError).code == NSFileReadNoSuchFileError
                 if PathPattern.comparablePath(of: url) == rootPath, !isMissing { collector.unreadable() }
                 return true
             }
@@ -319,7 +321,9 @@ public enum CloudStorage {
 
         if folder == "com~apple~CloudDocs" {
             // Finder's name for the folder, in the user's language (iCloud云盘 in Simplified Chinese), for search.
-            let shown = FileManager.default.displayName(atPath: root.appending(path: folder).path(percentEncoded: false))
+            let shown = FileManager.default.displayName(
+                atPath: root.appending(path: folder).path(percentEncoded: false)
+            )
             return shown == folder ? "iCloud Drive" : shown
         }
         var name = folder.replacingOccurrences(of: "~", with: ".")

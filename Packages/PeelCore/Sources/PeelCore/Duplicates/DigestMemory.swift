@@ -80,7 +80,9 @@ public struct DigestMemory: Sendable {
             while offset < body {
                 let key = KnownDigests.Key(
                     device: next(Int64.self), inode: next(UInt64.self), size: next(Int64.self),
-                    modificationTime: next(Int64.self), statusChangeTime: next(Int64.self), creationTime: next(Int64.self)
+                    modificationTime: next(Int64.self),
+                    statusChangeTime: next(Int64.self),
+                    creationTime: next(Int64.self)
                 )
                 let lastUsed = next(UInt32.self)
                 let parts = next(UInt32.self)
@@ -107,7 +109,10 @@ public struct DigestMemory: Sendable {
         }
         let none = [UInt8](repeating: 0, count: ContentDigest.byteCount)
         for (key, entry) in kept {
-            for number in [key.device, Int64(bitPattern: key.inode), key.size, key.modificationTime, key.statusChangeTime, key.creationTime] {
+            for number in [
+                key.device, Int64(bitPattern: key.inode), key.size, key.modificationTime, key.statusChangeTime,
+                key.creationTime,
+            ] {
                 append(number)
             }
             append(entry.lastUsed)
@@ -131,7 +136,14 @@ final class KnownDigests: Sendable {
         let statusChangeTime: Int64
         let creationTime: Int64
 
-        init(device: Int64, inode: UInt64, size: Int64, modificationTime: Int64, statusChangeTime: Int64, creationTime: Int64) {
+        init(
+            device: Int64,
+            inode: UInt64,
+            size: Int64,
+            modificationTime: Int64,
+            statusChangeTime: Int64,
+            creationTime: Int64
+        ) {
             self.device = device
             self.inode = inode
             self.size = size

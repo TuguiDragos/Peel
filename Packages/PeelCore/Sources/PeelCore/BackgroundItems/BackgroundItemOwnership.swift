@@ -29,7 +29,10 @@ public struct BackgroundItemOwnership: Sendable {
     init(installedApps: [InstalledApp], teamOfProgram: @escaping @Sendable (String) -> String?) {
         self.teamOfProgram = teamOfProgram
         apps = installedApps
-        byIdentifier = Dictionary(installedApps.map { ($0.bundleIdentifier.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
+        byIdentifier = Dictionary(
+            installedApps.map { ($0.bundleIdentifier.lowercased(), $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
         byTeam = Dictionary(grouping: installedApps.compactMap { app in app.teamIdentifier.map { ($0, app) } }, by: \.0)
             .mapValues { $0.map(\.1) }
     }
@@ -49,7 +52,9 @@ public struct BackgroundItemOwnership: Sendable {
             return owner(forIdentifier: registeredBy)
         }
         let team = program.flatMap(teamOfProgram)
-        if let team, let app = associated.lazy.compactMap({ byIdentifier[$0.lowercased()] }).first(where: { $0.teamIdentifier == team }) {
+        if let team,
+           let app = associated.lazy.compactMap({ byIdentifier[$0.lowercased()] })
+               .first(where: { $0.teamIdentifier == team }) {
             return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, url: app.url)
         }
         if let identifier = Self.bundleIdentifier(inProgramPath: program) {
@@ -58,14 +63,25 @@ public struct BackgroundItemOwnership: Sendable {
             return owner
         }
         if let app = appMatching(label: label) {
-            return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, url: app.url, isConfirmed: proves(program, app, team: team))
+            return Owner(
+                bundleIdentifier: app.bundleIdentifier,
+                name: app.name,
+                url: app.url,
+                isConfirmed: proves(program, app, team: team)
+            )
         }
         if let team, let candidates = byTeam[team], candidates.count == 1 {
-            return Owner(bundleIdentifier: candidates[0].bundleIdentifier, name: candidates[0].name, url: candidates[0].url)
+            return Owner(
+                bundleIdentifier: candidates[0].bundleIdentifier,
+                name: candidates[0].name,
+                url: candidates[0].url
+            )
         }
         // No installed app claims the job. An app the plist names that is gone is still returned, so the user
         // can see which app it was. That app is not installed, so it keeps nothing from being called orphaned.
-        let gone = associated.first { byIdentifier[$0.lowercased()] == nil && AppInspector.applicationURL(forBundleIdentifier: $0) == nil }
+        let gone = associated.first {
+            byIdentifier[$0.lowercased()] == nil && AppInspector.applicationURL(forBundleIdentifier: $0) == nil
+        }
         return gone.map { Owner(bundleIdentifier: $0, name: nil, url: nil, isConfirmed: false) }
     }
 
@@ -100,14 +116,21 @@ public struct BackgroundItemOwnership: Sendable {
             return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, url: app.url)
         }
         let elsewhere = AppInspector.applicationURL(forBundleIdentifier: identifier)
-        return Owner(bundleIdentifier: identifier, name: elsewhere?.deletingPathExtension().lastPathComponent, url: elsewhere)
+        return Owner(
+            bundleIdentifier: identifier,
+            name: elsewhere?.deletingPathExtension().lastPathComponent,
+            url: elsewhere
+        )
     }
 
     /// Whether `program` is `app`'s own: signed by its team, or inside its bundle.
     private func proves(_ program: String?, _ app: InstalledApp, team: String?) -> Bool {
         if let team, team == app.teamIdentifier { return true }
         guard let program else { return false }
-        return PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: program)), inside: PathPattern.comparablePath(of: app.url))
+        return PathComponents.isPath(
+            PathPattern.comparablePath(of: URL(filePath: program)),
+            inside: PathPattern.comparablePath(of: app.url)
+        )
     }
 
     /// Returns the installed app whose bundle identifier is the label, or else the longest one the label
