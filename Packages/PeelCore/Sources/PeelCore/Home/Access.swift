@@ -57,9 +57,12 @@ public enum CommandLineTool {
     public enum Standing: Sendable, Hashable {
         case installed
         case missing
-        /// Something else is at the path: a link to another place or to a Peel that is gone, or a file that is
-        /// not a link. It may not be Peel's, so Peel never offers a command that removes it.
-        case pointsElsewhere
+        /// A link to the tool inside another copy of Peel, moved or gone, or to this copy's tool when it does not run.
+        /// Replacing it takes nothing but the link.
+        case otherPeel
+        /// A file that is not a link, or a link to anything but a Peel's tool. It may not be Peel's, so Peel never
+        /// offers a command that replaces it.
+        case somethingElse
     }
 
     /// Where Peel is running from. It decides whether a link to the tool inside Peel keeps working.
@@ -80,11 +83,18 @@ public enum CommandLineTool {
         return applications.contains { PathComponents.isPath(path, inside: $0) } ? .applications : .elsewhere
     }
 
-    /// The shell command that links the tool, built from where Peel really is rather than a fixed path. A single
-    /// quote in the path is closed, escaped, and reopened, so the shell reads the path as written.
-    public static func installCommand(embedded: URL) -> String {
+    /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil
+    /// where something that may not be Peel's is in the link's place. `ln -f` deletes what is there, so only a link
+    /// to another Peel's tool is replaced. A single quote in the path is closed, escaped, and reopened, so the shell
+    /// reads the path as written.
+    public static func installCommand(embedded: URL, standing: Standing) -> String? {
         let path = embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
-        return "sudo mkdir -p /usr/local/bin && sudo ln -sf '\(path)' \(CommandLineTool.path)"
+        let link = switch standing {
+        case .installed, .missing: "ln -s"
+        case .otherPeel: "ln -sf"
+        case .somethingElse: nil as String?
+        }
+        return link.map { "sudo mkdir -p /usr/local/bin && sudo \($0) '\(path)' \(CommandLineTool.path)" }
     }
 
     public static func standing(at path: String = CommandLineTool.path, embedded: URL) -> Standing {
@@ -93,13 +103,19 @@ public enum CommandLineTool {
             var info = stat()
             guard lstat(path, &info) == 0 else { return .missing }
             // A file that is not a link: something else named `peel`, not Peel's tool.
-            return .pointsElsewhere
+            return .somethingElse
         }
         let target = URL(filePath: destination, relativeTo: URL(filePath: path).deletingLastPathComponent()).standardizedFileURL
         guard target.path(percentEncoded: false) == embedded.standardizedFileURL.path(percentEncoded: false) else {
-            return .pointsElsewhere
+            return isAPeelsTool(target) ? .otherPeel : .somethingElse
         }
-        return manager.isExecutableFile(atPath: target.path(percentEncoded: false)) ? .installed : .pointsElsewhere
+        return manager.isExecutableFile(atPath: target.path(percentEncoded: false)) ? .installed : .otherPeel
+    }
+
+    /// Whether `url` is where a copy of Peel keeps its tool: `<name>.app/Contents/Helpers/peel`.
+    private static func isAPeelsTool(_ url: URL) -> Bool {
+        let names = url.pathComponents
+        return names.count >= 4 && names.suffix(3) == ["Contents", "Helpers", "peel"] && names[names.count - 4].hasSuffix(".app")
     }
 }
 

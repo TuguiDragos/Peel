@@ -115579,6 +115579,112 @@
         }
       }
     },
+    "Something else is at %@, and Peel offers no command that would replace it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V umístění %@ je něco jiného a Peel nenabízí žádný příkaz, který by to nahradil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter %@ liegt etwas anderes, und Peel bietet keinen Befehl an, der es ersetzen würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay otra cosa en %@ y Peel no ofrece ningún comando que la sustituya."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autre chose se trouve à l’emplacement %@, et Peel ne propose aucune commande qui le remplacerait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ c’è qualcos’altro e Peel non offre alcun comando che lo sostituisca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@には別のものがあります。Peelはそれを置き換えるコマンドを提示しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 다른 항목이 있으며, Peel은 이를 대체하는 명령을 제공하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op %@ staat iets anders, en Peel biedt geen commando aan dat het zou vervangen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há outra coisa em %@, e o Peel não oferece nenhum comando que a substitua."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La %@ se află altceva, iar Peel nu oferă nicio comandă care l-ar înlocui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По пути %@ уже находится что-то другое, и Peel не предлагает команду, которая бы это заменила."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något annat finns på %@, och Peel erbjuder inget kommando som skulle ersätta det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ konumunda başka bir şey var ve Peel onu değiştirecek bir komut sunmuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За шляхом %@ уже є щось інше, і Peel не пропонує команди, яка б це замінила."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@位置已有其他内容，Peel不提供会替换它的命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@已有其他項目，Peel不提供會取代它的指令。"
+          }
+        }
+      }
+    },
     "Something else is there" : {
       "localizations" : {
         "cs" : {

@@ -227,13 +227,27 @@ struct PrivacyDatabaseTests {
 
         try FileManager.default.removeItem(atPath: link)
         try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: directory.url.appending(path: "Gone.app/Contents/Helpers/peel").path(percentEncoded: false))
-        #expect(standing() == .pointsElsewhere, "a link to a Peel that is gone read as installed")
+        #expect(standing() == .otherPeel, "a link to a Peel that is gone read as installed")
+
+        try FileManager.default.removeItem(atPath: link)
+        try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: "/opt/other/bin/peel")
+        #expect(standing() == .somethingElse, "a link to another program read as Peel's")
 
         try FileManager.default.removeItem(atPath: link)
         let stranger = try directory.file("stranger", bytes: 16)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: stranger.path(percentEncoded: false))
         try FileManager.default.copyItem(atPath: stranger.path(percentEncoded: false), toPath: link)
-        #expect(standing() == .pointsElsewhere, "somebody else's executable read as Peel's tool")
+        #expect(standing() == .somethingElse, "somebody else's executable read as Peel's tool")
+    }
+
+    /// `ln -f` deletes what is in the link's place, for good, so it replaces only a link to another Peel's tool,
+    /// and Peel offers no command at all where something else is.
+    @Test func neverOffersACommandThatReplacesWhatIsNotPeels() throws {
+        let embedded = URL(filePath: "/Applications/Peel.app/Contents/Helpers/peel")
+
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .missing) == "sudo mkdir -p /usr/local/bin && sudo ln -s '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .otherPeel) == "sudo mkdir -p /usr/local/bin && sudo ln -sf '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .somethingElse) == nil)
     }
 
     /// Installed with Homebrew on a Mac with Apple silicon, the `peel` command is Homebrew's link in
@@ -270,8 +284,8 @@ struct PrivacyDatabaseTests {
         #expect(place("/Volumes/Peel 1.0/Peel.app") == .elsewhere)
         #expect(place("/private/var/folders/x2/abc/d/AppTranslocation/41B9A/d/Peel.app") == .temporaryCopy)
 
-        let command = CommandLineTool.installCommand(embedded: URL(filePath: "/Users/me/Sam's Apps/Peel.app/Contents/Helpers/peel"))
-        #expect(command.hasSuffix("sudo ln -sf '/Users/me/Sam'\\''s Apps/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel"))
+        let command = CommandLineTool.installCommand(embedded: URL(filePath: "/Users/me/Sam's Apps/Peel.app/Contents/Helpers/peel"), standing: .missing)
+        #expect(command?.hasSuffix("sudo ln -s '/Users/me/Sam'\\''s Apps/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel") == true)
     }
 }
 /// The engine that turns "^[1 item](inflect: true)" into "1 item". It corrects a plural noun as well, so both

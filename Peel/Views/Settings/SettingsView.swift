@@ -81,8 +81,9 @@ enum SettingsKey {
     static let skippedUpdateVersions = UpdatePreferences.Key.skippedVersions
     static let updateMemory = "updateMemory"
 
-    static var commandLineInstallCommand: String {
-        CommandLineTool.installCommand(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"))
+    /// Nil while something that may not be Peel's is where the link goes.
+    static var commandLineInstallCommand: String? {
+        CommandLineTool.installCommand(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"), standing: HomeModel.commandLineStanding)
     }
 }
 
@@ -102,7 +103,7 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
 }
 
 private struct GeneralSettingsView: View {
-    private static var installCommand: String { SettingsKey.commandLineInstallCommand }
+    private var installCommand: String? { SettingsKey.commandLineInstallCommand }
     private static let place = CommandLineTool.place()
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
@@ -262,8 +263,8 @@ private struct GeneralSettingsView: View {
                 }
                 LabeledContent {
                     // Not offered from a temporary copy: a link into it would break as soon as Peel quits.
-                    if Self.place != .temporaryCopy {
-                        CopyButton(text: Self.installCommand)
+                    if Self.place != .temporaryCopy, let installCommand {
+                        CopyButton(text: installCommand)
                     }
                 } label: {
                     titled("Command-line tool",
@@ -282,10 +283,16 @@ private struct GeneralSettingsView: View {
                         .foregroundStyle(.secondary)
                 }
                 if Self.place != .temporaryCopy {
-                    Text(verbatim: Self.installCommand)
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
+                    if let installCommand {
+                        Text(verbatim: installCommand)
+                            .font(.caption.monospaced())
+                            .foregroundStyle(.secondary)
+                            .textSelection(.enabled)
+                    } else {
+                        Text("Something else is at \(Text(verbatim: CommandLineTool.path)), and Peel offers no command that would replace it.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
