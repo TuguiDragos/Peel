@@ -23,7 +23,7 @@ struct BackgroundItemOwnershipTests {
         func item(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {
             BackgroundItem(
                 label: label, kind: kind, source: .app, plistURL: nil, program: nil, runsAtLoad: false, keepsAlive: false,
-                ownerBundleIdentifier: nil, ownerName: nil, isOwnerInstalled: false, isOrphan: false, state: .loaded, isDisabled: false
+                ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded, isDisabled: false
             )
         }
         let helper = item(HelperIdentity.helperIdentifier, .daemon)
@@ -97,6 +97,16 @@ struct BackgroundItemOwnershipTests {
         let planted = try #require(owner("org.unrelated.label", program: directory.url.appending(path: "tmp/Fake.app/Contents/MacOS/x").path(percentEncoded: false)))
         #expect(planted.bundleIdentifier == "com.example.app")
         #expect(!planted.isConfirmed)
+    }
+
+    @Test func knowsWhereTheOwnerIs() {
+        #expect(ownership.owner(label: "com.other.tool.helper", associated: [], program: nil)?.url == URL(filePath: "/Applications/Tool.app"))
+        let associated = ownership.owner(label: "org.unrelated.label", associated: ["com.example.app"], program: "/usr/local/bin/example-helper")
+        #expect(associated?.url == URL(filePath: "/Applications/Example.app"))
+        let elsewhere = ownership.owner(label: "org.unrelated.label", registeredBy: "com.apple.CharacterPaletteIM", associated: [], program: nil)
+        #expect(elsewhere?.url?.lastPathComponent == "CharacterPalette.app")
+        #expect(elsewhere?.isInstalled == true)
+        #expect(ownership.owner(label: "com.missing.app.agent", registeredBy: "com.missing.app", associated: [], program: nil)?.url == nil)
     }
 
     @Test func fallsBackToTheLabelWhenNothingElseMatches() {

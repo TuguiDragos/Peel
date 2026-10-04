@@ -252,7 +252,7 @@ struct IntelInspectorTests {
             BackgroundItem(
                 label: label, kind: .agent, source: .userLibrary, plistURL: nil,
                 program: program.path(percentEncoded: false), runsAtLoad: false, keepsAlive: false,
-                ownerBundleIdentifier: nil, ownerName: nil, isOwnerInstalled: false, isOrphan: false,
+                ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
                 state: .loaded, isDisabled: false
             )
         }

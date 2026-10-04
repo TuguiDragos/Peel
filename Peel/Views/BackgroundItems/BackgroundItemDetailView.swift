@@ -11,10 +11,8 @@ struct BackgroundItemDetailView: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
-    /// Reading this and `ownerIconURL` asks macOS, so both are read once per item rather than on every
-    /// evaluation of `body`.
+    /// Reading this asks macOS, so it is read once per item rather than on every evaluation of `body`.
     @State private var legacyStatus: LocalizedStringResource?
-    @State private var ownerIconURL: URL?
     let item: BackgroundItem
 
     var body: some View {
@@ -166,8 +164,7 @@ struct BackgroundItemDetailView: View {
         .motion(value: item.state)
         .motion(value: item.isDisabled)
         .task(id: item.id) {
-            legacyStatus = status(ofLegacyPlistOf: item)
-            ownerIconURL = iconURL(ofOwnerOf: item)
+            legacyStatus = await Self.legacyStatus(of: item)
         }
         .navigationTitle(item.label)
         .toolbar(removing: .title)
@@ -208,19 +205,11 @@ struct BackgroundItemDetailView: View {
         backgroundItems.runningActionItemIDs.contains(item.id) || backgroundItems.isScanning
     }
 
-    /// Returns the URL of the app that owns `item`, for its icon. That app may sit outside the folders Peel scans,
-    /// so macOS is asked where it is when `library` doesn't list it.
-    private func iconURL(ofOwnerOf item: BackgroundItem) -> URL? {
-        if let app = library.apps.first(where: { $0.bundleIdentifier == item.ownerBundleIdentifier }) {
-            return app.url
-        }
-        guard let identifier = item.ownerBundleIdentifier else { return nil }
-        return AppInspector.applicationURL(forBundleIdentifier: identifier)
-    }
-
     /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file.
     /// Per `SMAppService.h`, `.requiresApproval` also means the user turned the job off, so the text says both.
-    private func status(ofLegacyPlistOf item: BackgroundItem) -> LocalizedStringResource? {
+    /// Off the main thread: `SMAppService` asks Background Task Management over XPC.
+    @concurrent
+    private static func legacyStatus(of item: BackgroundItem) async -> LocalizedStringResource? {
         guard let plistURL = item.plistURL else { return nil }
         return switch SMAppService.statusForLegacyPlist(at: plistURL) {
         case .enabled: "Allowed"
@@ -233,8 +222,8 @@ struct BackgroundItemDetailView: View {
 
     private var header: some View {
         HStack(spacing: 18) {
-            if let ownerIconURL {
-                AppIcon(url: ownerIconURL)
+            if let ownerURL = item.ownerURL {
+                AppIcon(url: ownerURL)
                     .frame(width: 56, height: 56)
             } else {
                 Image(systemName: "gearshape.2")

@@ -9,7 +9,7 @@ struct BackgroundItemActionsTests {
         BackgroundItem(
             label: "com.example.agent", kind: .agent, source: .userLibrary, plistURL: plist, program: nil,
             runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
-            isOwnerInstalled: false, isOrphan: false, state: state, isDisabled: false
+            ownerURL: nil, isOrphan: false, state: state, isDisabled: false
         )
     }
 
@@ -35,7 +35,7 @@ struct BackgroundItemActionsTests {
             BackgroundItem(
                 label: label, kind: .agent, source: .userLibrary, plistURL: nil, program: nil,
                 runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
-                isOwnerInstalled: false, isOrphan: false, state: .loaded, isDisabled: false
+                ownerURL: nil, isOrphan: false, state: .loaded, isDisabled: false
             )
         }
         let refused = BackgroundItemActions.Failure.launchctl(HelperRefusal.invalidRequest.rawValue)
@@ -50,7 +50,7 @@ struct BackgroundItemActionsTests {
             BackgroundItem(
                 label: label, kind: kind, source: .systemLibrary, plistURL: nil, program: nil,
                 runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
-                isOwnerInstalled: false, isOrphan: false, state: .loaded, isDisabled: false
+                ownerURL: nil, isOrphan: false, state: .loaded, isDisabled: false
             )
         }
 
@@ -69,7 +69,7 @@ struct BackgroundItemActionsTests {
         BackgroundItem(
             label: "com.example.agent", kind: source == .systemLibrary ? .daemon : .agent, source: source,
             plistURL: plist, program: nil, runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil,
-            ownerName: nil, isOwnerInstalled: false, isOrphan: false, state: state, isDisabled: false
+            ownerName: nil, ownerURL: nil, isOrphan: false, state: state, isDisabled: false
         )
     }
 
@@ -137,7 +137,7 @@ struct BackgroundItemActionsTests {
             BackgroundItem(
                 label: label, kind: kind, source: kind == .daemon ? .systemLibrary : .userLibrary,
                 plistURL: nil, program: nil, runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil,
-                ownerName: nil, isOwnerInstalled: false, isOrphan: false, state: .notLoaded, isDisabled: false
+                ownerName: nil, ownerURL: nil, isOrphan: false, state: .notLoaded, isDisabled: false
             )
         }
 
@@ -311,8 +311,21 @@ struct DeclaredBackgroundItemsTests {
             #expect(item.state == .notLoaded)
             #expect(item.source == .app)
             #expect(item.ownerBundleIdentifier == "org.example.app")
+            #expect(item.ownerURL == app.url)
         }
         #expect(items.first { $0.label == "org.example.app.daemon" }?.kind == .daemon)
+    }
+
+    @Test func knowsWhereEachJobsOwnerIs() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/LaunchAgents/org.example.app.helper.plist", contents: job("org.example.app.helper"))
+        try directory.file("home/Library/LaunchAgents/org.example.gone.helper.plist", contents: job("org.example.gone.helper"))
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example")
+
+        let items = BackgroundItems.declared(in: environment(directory), ownership: BackgroundItemOwnership(installedApps: [app]))
+
+        #expect(items.first { $0.label == "org.example.app.helper" }?.ownerURL == app.url)
+        #expect(items.first { $0.label == "org.example.gone.helper" }?.ownerURL == nil)
     }
 
     /// One label declared in two folders is two files, and each row opens its own.

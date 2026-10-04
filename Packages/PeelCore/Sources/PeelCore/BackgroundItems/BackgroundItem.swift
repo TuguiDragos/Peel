@@ -33,7 +33,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public let keepsAlive: Bool
     public let ownerBundleIdentifier: String?
     public let ownerName: String?
-    public let isOwnerInstalled: Bool
+    /// Where the app that owns the job is, or nil when no app does or it is gone.
+    public let ownerURL: URL?
     /// True when no installed app claims the job and its program is gone from disk, or it names none of its own.
     /// The full rule is `BackgroundItemOwnership.isOrphan(label:program:owner:)`.
     public let isOrphan: Bool
@@ -46,6 +47,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isUnreadable = false
     /// What in the job's command is worth a second look, if anything.
     public var unusualCommand: UnusualCommand?
+
+    public var isOwnerInstalled: Bool { ownerURL != nil }
 
     /// Includes the file's path, because two files can declare one label (a per-user copy beside the
     /// system-wide one), and each file needs a row of its own.
