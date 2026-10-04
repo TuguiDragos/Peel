@@ -68,6 +68,30 @@ struct AppcastTests {
         #expect(Appcast.read(Data(onlyForAppleSilicon.utf8), systemVersion: "26.7.0", isAppleSilicon: false) == .nothingForThisMac)
     }
 
+    /// The parser under `XMLParser` refuses a feed whose internal entities would grow it ten billion times.
+    @Test func aFeedOfNestedEntitiesIsRefusedAtOnce() {
+        func feed(using entity: String) -> Data {
+            var entities = #"<!ENTITY a0 "1">"#
+            for level in 1...10 {
+                entities += "<!ENTITY a\(level) \"" + String(repeating: "&a\(level - 1);", count: 10) + "\">"
+            }
+            return Data("""
+            <?xml version="1.0"?><!DOCTYPE rss [\(entities)]>
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+            <item><sparkle:version>\(entity)</sparkle:version></item>
+            </channel></rss>
+            """.utf8)
+        }
+        let clock = ContinuousClock()
+        var reading: Appcast.Reading?
+
+        let took = clock.measure { reading = Appcast.read(feed(using: "&a10;"), systemVersion: "26.7.0", isAppleSilicon: true) }
+
+        #expect(reading == .unreadable)
+        #expect(took < .seconds(1))
+        #expect(Appcast.read(feed(using: "&a1;"), systemVersion: "26.7.0", isAppleSilicon: true) != .unreadable)
+    }
+
     @Test func tellsAHealthyFeedWithNothingForThisMacFromOneItCannotRead() {
         let future = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
