@@ -92,7 +92,7 @@ struct HistoryDetailView: View {
                 .tint(.red)
             }
             .listRowSeparator(.hidden)
-            .confirmationDialog(Text("Forget ^[\(standing.missingCount) item](inflect: true)?"), isPresented: $isAskingToForget) {
+            .confirmationDialog(Text(verbatim: String(inflecting: "Forget ^[\(standing.missingCount) item](inflect: true)?")), isPresented: $isAskingToForget) {
                 Button("Forget", role: .destructive) {
                     // Looked at again first: an item can come back to the Trash, or stop being visible, meanwhile.
                     let missing = standing.missing(among: batch.records)
