@@ -7,19 +7,7 @@ struct TweakPage: View {
     @Environment(TweakLibrary.self) private var tweaks
     @State private var isConfirmingTurnAllOff = false
 
-    /// The width the tabs need in the title bar. On macOS 26 the toolbar draws them as one segmented control
-    /// with equal segments: the widest title plus 23.5 points, or plus 27 at either end. The toolbar shows the
-    /// control only while the column is 24 points wider than it, and otherwise moves it into the overflow menu.
-    /// `ContentView` moves the sidebar aside when the window is too narrow for both.
-    static let tabBarWidth: CGFloat = {
-        let titles = Tweak.Group.onTweaksPage.map { String(localized: $0.title) }
-        let font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
-        let widest = titles.indices.map { index in
-            let end = index == 0 || index == titles.count - 1
-            return ceil((titles[index] as NSString).size(withAttributes: [.font: font]).width + (end ? 27 : 23.5))
-        }.max() ?? 0
-        return CGFloat(titles.count) * widest + 24
-    }()
+    static let tabBarWidth = TabBar.width(of: Tweak.Group.onTweaksPage.map { String(localized: $0.title) })
 
     var body: some View {
         TabView {
@@ -44,21 +32,12 @@ struct TweakPage: View {
         }
         // Shown once for every tab, at the foot of the page, rather than under each group's section.
         .safeAreaBar(edge: .bottom) {
-            VStack(spacing: 10) {
-                Button("Turn All Off") {
-                    isConfirmingTurnAllOff = true
-                }
-                .buttonStyle(.glass)
-                .disabled(!tweaks.hasSomethingOn || tweaks.isTurningAllOff)
-                Text("Each of these is a setting macOS already has. Turning one off puts back what was there before Peel, or leaves it to macOS.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    // The English sentence is 642 points wide at this size, so a narrower frame would wrap it.
-                    .frame(maxWidth: 680)
+            TurnAllOffBar(
+                explanation: "Each of these is a setting macOS already has. Turning one off puts back what was there before Peel, or leaves it to macOS.",
+                isEnabled: tweaks.hasSomethingOn && !tweaks.isTurningAllOff
+            ) {
+                isConfirmingTurnAllOff = true
             }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 10)
         }
         .alert("Turn off all tweaks?", isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") {
