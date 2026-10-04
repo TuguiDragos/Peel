@@ -103511,7 +103511,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tuto položku nepřesune: uvnitř je něco, co Peel chrání, například klíčenka nebo peněženka."
+            "value" : "Peel tuto položku nepřesune: uvnitř je něco, co Peel chrání, například svazek klíčů nebo peněženka."
           }
         },
         "de" : {
@@ -124238,7 +124238,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shift‑Comandă‑Punct în Finder face același lucru."
+            "value" : "Shift-Comandă-Punct în Finder face același lucru."
           }
         },
         "ru" : {
@@ -162291,7 +162291,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли Термінал знову відкриває вікно, %@ починає його з рядка «Restored session» і повертає вікну його власну історію команд. Для цього кожен командний процесор, завершуючи роботу, виводить рядок «Saving session» і зберігає свій сеанс на два тижні. Peel не змінює файли вашого командного процесора."
+            "value" : "Коли Термінал знову відкриває вікно, %@ починає його з рядка «Restored session» і повертає вікну його власну історію команд. Для цього кожна оболонка, завершуючи роботу, виводить рядок «Saving session» і зберігає свій сеанс на два тижні. Peel не змінює файли вашої оболонки."
           }
         },
         "zh-Hans" : {
@@ -162355,7 +162355,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als een programma Terminal een signaal laat geven, zoals met Control-G, speelt Terminal geen geluid af."
+            "value" : "Als een programma Terminal een signaal laat geven, zoals met Control + G, speelt Terminal geen geluid af."
           }
         },
         "pl" : {
@@ -162373,7 +162373,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când un program declanșează alerta Terminal, de exemplu cu Control‑G, Terminal nu redă niciun sunet."
+            "value" : "Când un program declanșează alerta Terminal, de exemplu cu Control-G, Terminal nu redă niciun sunet."
           }
         },
         "ru" : {
