@@ -60,30 +60,35 @@ struct DuplicateFinderTests {
         #expect(FileIdentity(late).modificationDate == Date(timeIntervalSince1970: 10_000_000_000.000000005))
     }
 
-    /// Only a file with another of its size can be a copy, so only those are asked whether they may move, which
-    /// opens the file and the folders above it. A name that may not move leaves the file to its next name.
-    @Test func asksWhetherAFileMayMoveOnlyWhenAnotherHasItsSize() throws {
+    /// A name that may not move leaves the file to its next name, and a group left with one file is no group.
+    @Test func asksWhetherAFileMayMoveOnlyOnceItsBytesMatchAnother() throws {
         let directory = try TemporaryDirectory()
-        let sizes = ["a": 10, "b": 10, "lonely": 11, "refused": 12, "other": 12]
-        for (name, size) in sizes {
-            try directory.file("files/\(name)", contents: randomData(count: size))
+        for name in ["a", "b", "refused", "other", "alone", "partner"] {
+            try directory.file("files/\(name)", contents: randomData(count: 10))
         }
         try FileManager.default.linkItem(at: directory.url.appending(path: "files/refused"), to: directory.url.appending(path: "files/linked"))
-        let files = try ["a", "b", "lonely", "refused", "linked", "other"].map { name in
+        func candidate(_ name: String) throws -> DuplicateFinder.Candidate {
             let url = directory.url.appending(path: "files/\(name)")
             var info = stat()
             try #require(lstat(url.path(percentEncoded: false), &info) == 0)
             return DuplicateFinder.Candidate(url: url, identity: FileIdentity(info))
         }
+        let digest = try #require(ContentDigest(bytes: [UInt8](repeating: 7, count: 32)))
+        let refused = try candidate("refused")
+        let groups: [[DuplicateFinder.HashedCandidate]] = [
+            [(try candidate("a"), digest), (try candidate("b"), digest)],
+            [(refused, digest), (try candidate("other"), digest)],
+            [(try candidate("alone"), digest), (try candidate("partner"), digest)],
+        ]
 
         var asked: [String] = []
-        let movable = try DuplicateFinder.movable(files) { url in
+        let movable = try DuplicateFinder.movable(groups, names: [refused.identity.link: [refused, try candidate("linked")]]) { url in
             asked.append(url.lastPathComponent)
-            return url.lastPathComponent != "refused"
+            return !["refused", "partner"].contains(url.lastPathComponent)
         }
 
-        #expect(asked == ["a", "b", "refused", "linked", "other"])
-        #expect(movable.map(\.url.lastPathComponent) == ["a", "b", "linked", "other"])
+        #expect(asked == ["a", "b", "refused", "linked", "other", "alone", "partner"])
+        #expect(movable.map { $0.map(\.item.url.lastPathComponent) } == [["a", "b"], ["linked", "other"]])
     }
 
     @Test func groupsFilesWithIdenticalContents() async throws {

@@ -82,8 +82,15 @@ public struct DuplicateFinder: Sendable {
             : []
         let spokenFor = Set(folderGroups.flatMap { $0.folders.map { Self.path(of: $0.url) } })
 
-        let collected = try collect(options, in: scannable, spokenFor: spokenFor, neverProjects: neverProjects, removalGuard: removalGuard, progress: progress)
-        let sameSize = Dictionary(grouping: collected.candidates, by: \.identity.size).values.filter { $0.count > 1 }.flatMap { $0 }
+        let collected = try collect(options, in: scannable, spokenFor: spokenFor, neverProjects: neverProjects, progress: progress)
+        // Each file is read once, under the first of its names, and an excluded name is never read.
+        var names: [FileIdentity.Link: [Candidate]] = [:]
+        var files: [Candidate] = []
+        for candidate in collected.candidates where exclusions.isKnown && !exclusions.excludes(candidate.url) {
+            if names[candidate.identity.link] == nil { files.append(candidate) }
+            names[candidate.identity.link, default: []].append(candidate)
+        }
+        let sameSize = Dictionary(grouping: files, by: \.identity.size).values.filter { $0.count > 1 }.flatMap { $0 }
 
         let comparing = ReportThrottle()
         let sampled = await FileDigest.many(sameSize, digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }) { completed in
@@ -92,7 +99,7 @@ public struct DuplicateFinder: Sendable {
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
-        let sampledGroups = Self.grouped(sampled)
+        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names) { removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud }
         let finalGroups = sampledGroups.filter { !FileDigest.isSampled(size: $0[0].item.identity.size) }
 
         let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }.flatMap { $0.map(\.item) }
@@ -119,7 +126,7 @@ public struct DuplicateFinder: Sendable {
         let identity: FileIdentity
     }
 
-    private typealias HashedCandidate = (item: Candidate, digest: ContentDigest)
+    typealias HashedCandidate = (item: Candidate, digest: ContentDigest)
 
     private struct ContentKey: Hashable {
         let size: Int64
@@ -136,7 +143,6 @@ public struct DuplicateFinder: Sendable {
         in folders: [URL],
         spokenFor: Set<String>,
         neverProjects: Set<String>,
-        removalGuard: RemovalGuard,
         progress: (DuplicateScanProgress) -> Void
     ) throws(CancellationError) -> (candidates: [Candidate], unreadableLocations: [URL]) {
         // The kind of a file is asked for only when a kind was chosen: working it out costs a lookup per
@@ -203,26 +209,35 @@ public struct DuplicateFinder: Sendable {
         guard !Task.isCancelled else { throw CancellationError() }
         let outsideProjects = projects.isEmpty ? walked : walked.filter { !Self.isInside(projects, $0.url) }
         progress(.collecting(filesFound: outsideProjects.count))
-        let movable = try Self.movable(outsideProjects) { removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud }
-        return (movable, unreadable.urls)
+        return (outsideProjects, unreadable.urls)
     }
 
-    /// The files that could be a copy of another and may be moved, each file once whatever names it has. Only a
-    /// file of the same size as another can be a copy, so `isMovable`, the guard and the cloud check, which open the
-    /// file and the folders above it, is asked of those alone, in the order the walk found them: a name it refuses
-    /// leaves the file to its next name.
-    static func movable(_ files: [Candidate], isMovable: (URL) -> Bool) throws(CancellationError) -> [Candidate] {
-        let sizes = Dictionary(files.map { ($0.identity.size, 1) }, uniquingKeysWith: +)
-        var seen = Set<FileIdentity.Link>()
-        var movable: [Candidate] = []
+    /// The groups as they may move: each file under the first of its `names`, in the order the walk found them,
+    /// that `isMovable` allows, and a group only while two files are left. `isMovable`, the guard and the cloud
+    /// check, which open the file and the folders above it, is asked only here, of files whose first and last
+    /// bytes already match another's.
+    static func movable(
+        _ groups: [[HashedCandidate]],
+        names: [FileIdentity.Link: [Candidate]],
+        isMovable: (URL) -> Bool
+    ) throws(CancellationError) -> [[HashedCandidate]] {
         var asked = 0
-        for file in files where sizes[file.identity.size, default: 0] > 1 {
-            asked += 1
-            if asked.isMultiple(of: 256) {
-                guard !Task.isCancelled else { throw CancellationError() }
+        var movable: [[HashedCandidate]] = []
+        for group in groups {
+            var kept: [HashedCandidate] = []
+            for member in group {
+                for name in names[member.item.identity.link] ?? [member.item] {
+                    asked += 1
+                    if asked.isMultiple(of: 256) {
+                        guard !Task.isCancelled else { throw CancellationError() }
+                    }
+                    if isMovable(name.url) {
+                        kept.append((item: name, digest: member.digest))
+                        break
+                    }
+                }
             }
-            guard isMovable(file.url), seen.insert(file.identity.link).inserted else { continue }
-            movable.append(file)
+            if kept.count > 1 { movable.append(kept) }
         }
         return movable
     }

@@ -41,6 +41,38 @@ struct DigestMemoryTests {
         memory.save(known)
     }
 
+    @Test func neverReadsAnExcludedFile() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let contents = randomData(count: FileDigest.sampleLength * 4)
+        let first = try directory.file("home/Documents/first.bin", contents: contents)
+        try directory.file("home/Pictures/second.bin", contents: contents)
+        let excluded = try directory.file("home/Desktop/excluded.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let finder = DuplicateFinder(homeDirectory: home, exclusions: Exclusions(paths: [excluded]), digestMemory: memory)
+
+        let result = try await finder.scan(DuplicateScanOptions(folders: [home]))
+
+        #expect(names(result).map(Set.init) == [["Documents/first.bin", "Pictures/second.bin"]])
+        let known = memory.load()
+        #expect(known.sample(of: try #require(FileIdentity.of(excluded))) == nil, "the excluded file was read")
+        #expect(known.sample(of: try #require(FileIdentity.of(first))) != nil)
+    }
+
+    @Test func readsNothingBeforeTheExclusionsAreKnown() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let contents = randomData(count: FileDigest.sampleLength * 4)
+        let first = try directory.file("home/Documents/first.bin", contents: contents)
+        try directory.file("home/Pictures/second.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        let result = try await DuplicateFinder(homeDirectory: home, exclusions: .notYetRead, digestMemory: memory).scan(DuplicateScanOptions(folders: [home]))
+
+        #expect(result.groups.isEmpty)
+        #expect(memory.load().sample(of: try #require(FileIdentity.of(first))) == nil, "a file was read")
+    }
+
     @Test func aScanRemembersWhatItRead() async throws {
         let directory = try TemporaryDirectory()
         let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
