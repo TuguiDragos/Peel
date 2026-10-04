@@ -697,12 +697,13 @@ public enum DeveloperCaches {
         // A JetBrains IDE keeps `LocalHistory` beside its caches: the edits it recorded while a project was
         // open, which are in no repository and nowhere else. The cache folders are listed one by one, so
         // `LocalHistory` is never removed with them.
-        Definition(id: "jetbrains", name: "JetBrains IDEs", systemImage: "curlybraces", appBundleIdentifiers: [
+        Definition(id: "jetbrains", name: "JetBrains IDEs", systemImage: "curlybraces", appBundleIdentifiers: withEarlyAccess([
             "com.jetbrains.intellij", "com.jetbrains.intellij.ce", "com.jetbrains.pycharm", "com.jetbrains.pycharm.ce",
             "com.jetbrains.WebStorm", "com.jetbrains.PhpStorm", "com.jetbrains.goland", "com.jetbrains.rubymine",
             "com.jetbrains.CLion", "com.jetbrains.rider", "com.jetbrains.datagrip", "com.jetbrains.AppCode",
-            "com.jetbrains.rustrover", "com.google.android.studio",
-        ], folders: [
+            "com.jetbrains.rustrover", "com.jetbrains.dataspell", "com.jetbrains.gateway", "com.jetbrains.writerside",
+            "com.jetbrains.mps", "com.google.android.studio",
+        ]), folders: [
             Folder("Library/Caches/JetBrains/*/caches", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/vfs-impl/src/com/intellij/openapi/vfs/newvfs/persistent/FSRecords.java#L80"),
             Folder("Library/Caches/JetBrains/*/index", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/util/src/com/intellij/openapi/application/PathManager.java#L648-L651"),
             Folder("Library/Caches/JetBrains/*/tmp", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/util/src/com/intellij/openapi/application/PathManager.java#L634-L636"),
@@ -782,7 +783,7 @@ public enum DeveloperCaches {
             Folder("Library/Caches/com.sublimetext.4", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
             Folder("Library/Caches/com.sublimetext.3", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
         ]),
-        Definition(id: "androidstudio", name: "Android Studio", systemImage: "curlybraces", appBundleIdentifiers: ["com.google.android.studio"], folders: [
+        Definition(id: "androidstudio", name: "Android Studio", systemImage: "curlybraces", appBundleIdentifiers: withEarlyAccess(["com.google.android.studio"]), folders: [
             Folder("Library/Caches/Google/AndroidStudio*/caches", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Caches/Google/AndroidStudio*/index", .cache, source: "https://developer.android.com/studio/troubleshoot"),
             Folder("Library/Caches/Google/AndroidStudio*/tmp", .cache, source: "https://developer.android.com/studio/troubleshoot"),
@@ -1039,6 +1040,12 @@ public enum DeveloperCaches {
             folders: chromiumFolders(in: "Library/Application Support/com.operasoftware.Opera")
         ),
     ]
+
+    /// The identifiers of apps built on IntelliJ, each also as its early access build, whose identifier IntelliJ's
+    /// build ends in `-EAP` (`platform/build-scripts/resources/mac/Contents/Info.plist`).
+    private static func withEarlyAccess(_ identifiers: [String]) -> [String] {
+        identifiers + identifiers.map { $0 + "-EAP" }
+    }
 
     /// The caches and models Chromium keeps in a browser's user data folder, beside its profiles and in each of them,
     /// named where Chromium names them. What a profile holds for the person, its site data included, is never listed.

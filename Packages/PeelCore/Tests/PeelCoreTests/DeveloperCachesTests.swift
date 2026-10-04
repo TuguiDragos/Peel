@@ -68,6 +68,19 @@ struct DeveloperCachesTests {
         #expect(environment(["org.example.closed"]).runningApp == nil)
     }
 
+    @Test func everyIntelliJIDEKeepsItsCachesWhileItRuns() throws {
+        let jetbrains = try #require(DeveloperCaches.definitions.first { $0.id == "jetbrains" })
+        let androidStudio = try #require(DeveloperCaches.definitions.first { $0.id == "androidstudio" })
+
+        for identifier in [
+            "com.jetbrains.dataspell", "com.jetbrains.gateway", "com.jetbrains.mps", "com.jetbrains.writerside-EAP",
+            "com.jetbrains.intellij-EAP", "com.jetbrains.CLion-EAP", "com.jetbrains.pycharm-EAP",
+        ] {
+            #expect(jetbrains.appBundleIdentifiers.contains(identifier), "\(identifier)")
+        }
+        #expect(androidStudio.appBundleIdentifiers.contains("com.google.android.studio-EAP"))
+    }
+
     /// Space asks about a folder however it was spelled, so another spelling of the same folder (another case, or
     /// the home folder through a link) must still find what the table lists inside it. Finding nothing, Space
     /// would move Coursier's folder whole, the JVMs beside its cache included.
