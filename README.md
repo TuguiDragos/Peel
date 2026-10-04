@@ -67,8 +67,8 @@ files scattered across your Library, sometimes gigabytes of them. Peel finds wha
 file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing is deleted, and History can
 put all of it back.
 
-Peel's menu bar item lists what each tool found the last time it looked, a line per tool that opens it in Peel. It
-never adds them up into one figure and never selects anything for you.
+With Show in Menu Bar on, Peel's menu bar item lists what each tool found the last time it looked, a line per tool
+that opens it in Peel. It never adds them up into one figure and never selects anything for you.
 
 Peel is free and open source, and it speaks English and 17 other languages.
 
@@ -242,7 +242,7 @@ are on and takes you straight to the right place in System Settings.
 | Helper | Move the leftovers that sit in folders only an administrator can change, and start or stop other developers' background items that run as root. macOS asks you to approve it once, in Login Items & Extensions. |
 | Notifications (optional) | Tell you when your apps have updates, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. |
 | Finder extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
-| Open at Login (optional) | Start Peel when you log in, so Watch the Trash keeps working. |
+| Open at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
 
 ## Languages
 

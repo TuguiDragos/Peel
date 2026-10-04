@@ -3,11 +3,11 @@ import SwiftUI
 
 /// Decides whether Peel quits when its window closes, and when a quit goes ahead (`QuitGuard`). SwiftUI's
 /// documentation for `Window` says an app whose primary scene is a single window quits when that window closes.
-/// Peel keeps running in the menu bar while it watches the Trash, so it quits only when that setting is off.
+/// Peel keeps running without a window only while it shows in the menu bar, so it is never running unseen.
 @MainActor
 final class PeelAppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ application: NSApplication) -> Bool {
-        !UserDefaults.standard.bool(forKey: SettingsKey.watchesTrash)
+        !UserDefaults.standard.bool(forKey: SettingsKey.showsInMenuBar)
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
@@ -27,6 +27,7 @@ struct PeelApp: App {
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
+    @AppStorage(SettingsKey.showsInMenuBar) private var showsInMenuBar = false
     @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @State private var trashMonitor = TrashMonitor()
     @State private var notifications: PeelNotifications
@@ -64,6 +65,7 @@ struct PeelApp: App {
     /// clicks on notifications to reach it. A view's task can run later than that. The storage tools are made here
     /// too, so the carrier of their selection reads the same libraries their pages show.
     init() {
+        SettingsKey.showInMenuBarAsBefore()
         let notifications = PeelNotifications()
         notifications.activate()
         _notifications = State(initialValue: notifications)
@@ -296,9 +298,9 @@ struct PeelApp: App {
     /// `AppStorage` makes every `AppStorage` in the app read again, so a write of the value it holds is left out.
     private var menuBarItemIsInserted: Binding<Bool> {
         Binding {
-            watchesTrash
+            showsInMenuBar
         } set: { isInserted in
-            if isInserted != watchesTrash { watchesTrash = isInserted }
+            if isInserted != showsInMenuBar { showsInMenuBar = isInserted }
         }
     }
 
@@ -367,6 +369,11 @@ struct PeelApp: App {
                 trashMonitor.stop()
             }
         }
+        .onChange(of: showsInMenuBar) { _, shows in
+            if !shows, !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) {
+                QuitGuard.quit()
+            }
+        }
         .onChange(of: warnsWhenDiskIsNearlyFull) { _, warns in
             // Turned on again, the warning is new: a disk that is already nearly full is told about at once.
             UserDefaults.standard.removeObject(forKey: SettingsKey.toldDiskIsNearlyFull)
@@ -396,7 +403,7 @@ struct PeelApp: App {
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(count == 0 ? Text("Peel") : Text("Peel, ^[\(count) update](inflect: true) waiting"))
-            // A launch that restores no window shows only this item, while Peel watches the Trash.
+            // A launch that restores no window shows only this item, while Peel shows in the menu bar.
             .task { start() }
         }
         .menuBarExtraStyle(.window)

@@ -71,6 +71,7 @@ enum SettingsKey {
     static let pane = "settingsPane"
     static let checksForAppUpdates = "checksForAppUpdates"
     static let watchesTrash = "watchesTrash"
+    static let showsInMenuBar = "showsInMenuBar"
     static let warnsWhenDiskIsNearlyFull = "lowDiskSpace.warns"
     static let toldDiskIsNearlyFull = "lowDiskSpace.told"
     /// The tools the sidebar leaves out (`Tool.hidden(in:)`).
@@ -84,6 +85,15 @@ enum SettingsKey {
     /// Nil while something that may not be Peel's is where the link goes.
     static var commandLineInstallCommand: String? {
         CommandLineTool.installCommand(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"), standing: HomeModel.commandLineStanding)
+    }
+}
+
+extension SettingsKey {
+    /// With no value yet, Peel shows in the menu bar exactly when it watches the Trash.
+    static func showInMenuBarAsBefore() {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: showsInMenuBar) == nil else { return }
+        defaults.set(defaults.bool(forKey: watchesTrash), forKey: showsInMenuBar)
     }
 }
 
@@ -109,6 +119,7 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
+    @AppStorage(SettingsKey.showsInMenuBar) private var showsInMenuBar = false
     @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
@@ -195,8 +206,10 @@ private struct GeneralSettingsView: View {
             HomebrewSection()
 
             Section("While Peel Runs") {
+                toggle("Show in Menu Bar", isOn: $showsInMenuBar,
+                       "Peel stays in the menu bar after you close its window, with what each tool found and the updates waiting. Without it, Peel quits when you close its window.")
                 toggle("Watch the Trash", isOn: $watchesTrash,
-                       "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel stays in the menu bar to do it.")
+                       "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
                     HStack {
                         WarningLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")

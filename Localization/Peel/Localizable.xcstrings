@@ -102556,6 +102556,112 @@
         }
       }
     },
+    "Peel stays in the menu bar after you close its window, with what each tool found and the updates waiting. Without it, Peel quits when you close its window." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel po zavření svého okna zůstane v řádku nabídek, kde uvidíte čekající aktualizace a to, co našly jednotlivé nástroje. Bez této volby se Peel po zavření okna ukončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bleibt in der Menüleiste, nachdem du sein Fenster geschlossen hast, und zeigt dort, was jedes Tool gefunden hat, sowie die ausstehenden Updates. Ist diese Option deaktiviert, wird Peel beendet, wenn du sein Fenster schließt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se queda en la barra de menús después de que cierres su ventana, con lo que ha encontrado cada herramienta y las actualizaciones pendientes. Con esto desactivado, Peel se cierra cuando cierras su ventana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel reste dans la barre des menus une fois sa fenêtre fermée, et y affiche ce que chaque outil a trouvé ainsi que les mises à jour en attente. Sans cette option, Peel se ferme lorsque vous fermez sa fenêtre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel resta nella barra dei menu dopo che ne hai chiuso la finestra, con ciò che ogni strumento ha trovato e gli aggiornamenti in attesa. Senza questa opzione, Peel esce quando ne chiudi la finestra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ウインドウを閉じた後も、Peelはメニューバーに常駐し、各ツールの検出結果と待機中のアップデートを表示します。これをオフにすると、ウインドウを閉じたときにPeelが終了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "윈도우를 닫은 후에도 Peel이 메뉴 막대에 남아 각 도구가 찾은 항목과 대기 중인 업데이트를 표시합니다. 이 기능이 꺼져 있으면 윈도우를 닫을 때 Peel이 종료됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel blijft in de menubalk staan nadat je het venster hebt gesloten, met wat elke tool heeft gevonden en de wachtende updates. Zonder deze instelling stopt Peel wanneer je het venster sluit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel pozostaje na pasku menu po zamknięciu swojego okna i pokazuje tam to, co znalazło każde narzędzie, oraz czekające uaktualnienia. Bez tego Peel kończy działanie, gdy zamkniesz jego okno."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel fica na barra de menus depois que você fecha a janela dele, com o que cada ferramenta encontrou e as atualizações pendentes. Sem isso, o Peel é encerrado quando você fecha a janela dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce îi închideți fereastra, Peel rămâne în bara de meniu, unde arată ce a găsit fiecare instrument, precum și actualizările în așteptare. Fără această opțiune, Peel se închide când îi închideți fereastra."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel остается в строке меню после того, как Вы закроете его окно, и показывает там найденное в каждом разделе и ожидающие обновления. Если этот параметр выключен, Peel завершает работу, когда Вы закрываете его окно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När du har stängt Peels fönster stannar Peel kvar i menyraden, med det som varje verktyg har hittat och de uppdateringar som väntar. Utan den här inställningen avslutas Peel när du stänger fönstret."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, penceresini kapattığınızda da menü çubuğunda kalır; her aracın bulduklarını ve bekleyen güncellemeleri orada görürsünüz. Bu ayar kapalıyken, penceresini kapattığınızda Peel de kapanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel лишається на смузі меню після того, як ви закриєте її вікно, і показує, що знайдено в кожному розділі та які оновлення очікують. Без цього Peel завершує роботу, коли ви закриваєте її вікно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在你关闭其窗口后继续留在菜单栏中，并在那里列出每个工具找到的内容和等待中的更新。如果未打开此项，Peel会在你关闭其窗口时退出。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在你關閉其視窗後保留在選單列中，並顯示各工具找到的內容和等待中的更新項目。若未開啟此選項，Peel會在你關閉其視窗時結束。"
+          }
+        }
+      }
+    },
     "Peel stopped before it had looked everywhere, so nothing is listed." : {
       "localizations" : {
         "cs" : {
@@ -125763,6 +125869,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示於Finder"
+          }
+        }
+      }
+    },
+    "Show in Menu Bar" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit v řádku nabídek"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Menüleiste anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar en la barra de menús"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher dans la barre des menus"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra nella barra dei menu"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メニューバーに表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴 막대에서 보기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon in menubalk"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj na pasku menu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar na Barra de Menus"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afișați în bara de meniu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать в строке меню"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visa i menyrad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü Çubuğunda Göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показувати на смузі меню"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在菜单栏显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在選單列中顯示"
           }
         }
       }
@@ -162948,108 +163160,108 @@
         }
       }
     },
-    "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel stays in the menu bar to do it." : {
+    "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když sami přesunete aplikaci do koše, Peel nabídne odstranění souborů, které po ní zůstaly. Aby to mohl dělat, zůstává Peel v řádku nabídek."
+            "value" : "Když sami přesunete aplikaci do koše, Peel nabídne odstranění souborů, které po ní zůstaly. Sleduje koš, když je Peel otevřený nebo když je v řádku nabídek."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn du selbst eine App in den Papierkorb legst, bietet Peel an, die Dateien zu entfernen, die sie hinterlassen hat. Dafür bleibt Peel in der Menüleiste."
+            "value" : "Wenn du selbst eine App in den Papierkorb legst, bietet Peel an, die Dateien zu entfernen, die sie hinterlassen hat. Der Papierkorb wird beobachtet, solange Peel geöffnet ist oder in der Menüleiste angezeigt wird."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando trasladas una app a la papelera por tu cuenta, Peel te ofrece eliminar los archivos que ha dejado. Para ello, Peel se queda en la barra de menús."
+            "value" : "Cuando trasladas una app a la papelera por tu cuenta, Peel te ofrece eliminar los archivos que ha dejado. Peel vigila la papelera mientras está abierto o mientras está en la barra de menús."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque vous placez vous-même une app dans la corbeille, Peel propose de supprimer les fichiers qu’elle a laissés derrière elle. Pour cela, Peel reste dans la barre des menus."
+            "value" : "Lorsque vous placez vous-même une app dans la corbeille, Peel propose de supprimer les fichiers qu’elle a laissés derrière elle. Peel surveille la corbeille tant qu’il est ouvert, ou tant qu’il est dans la barre des menus."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando sposti un’app nel Cestino per conto tuo, Peel propone di rimuovere i file che si è lasciata dietro. Per farlo, Peel resta nella barra dei menu."
+            "value" : "Quando sposti un’app nel Cestino per conto tuo, Peel propone di rimuovere i file che si è lasciata dietro. Peel lo monitora mentre è aperto, o mentre è nella barra dei menu."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自分でアプリをゴミ箱に入れたときに、そのアプリが残したファイルを取り除くようPeelが提案します。そのために、Peelはメニューバーに常駐します。"
+            "value" : "自分でアプリをゴミ箱に入れたときに、そのアプリが残したファイルを取り除くようPeelが提案します。Peelが開いている間、またはメニューバーに常駐している間は、ゴミ箱を監視します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사용자가 직접 앱을 휴지통으로 이동하면 Peel이 그 앱이 남긴 파일의 제거를 제안합니다. 이를 위해 Peel이 메뉴 막대에 남아 있습니다."
+            "value" : "사용자가 직접 앱을 휴지통으로 이동하면 Peel이 그 앱이 남긴 파일의 제거를 제안합니다. Peel은 열려 있거나 메뉴 막대에 있는 동안 휴지통을 지켜봅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wanneer je zelf een app naar de prullenmand verplaatst, biedt Peel aan om de bestanden te verwijderen die de app heeft achtergelaten. Peel blijft daarvoor in de menubalk staan."
+            "value" : "Wanneer je zelf een app naar de prullenmand verplaatst, biedt Peel aan om de bestanden te verwijderen die de app heeft achtergelaten. Peel houdt de prullenmand in de gaten zolang het open is of in de menubalk staat."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy samodzielnie przeniesiesz aplikację do Kosza, Peel zaproponuje przeniesienie do Kosza plików, które po sobie pozostawiła. W tym celu Peel pozostaje na pasku menu."
+            "value" : "Gdy samodzielnie przeniesiesz aplikację do Kosza, Peel zaproponuje przeniesienie do Kosza plików, które po sobie pozostawiła. Obserwuje Kosz, gdy Peel jest otwarty lub gdy jest na pasku menu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando você mesmo move um app para o Lixo, o Peel oferece remover os arquivos que ele deixou para trás. Para isso, o Peel fica na barra de menus."
+            "value" : "Quando você mesmo move um app para o Lixo, o Peel oferece remover os arquivos que ele deixou para trás. O Peel monitora o Lixo enquanto está aberto ou enquanto está na barra de menus."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când mutați chiar dvs. o aplicație în Coș, Peel se oferă să elimine fișierele pe care le‑a lăsat în urmă. Pentru asta, Peel rămâne în bara de meniu."
+            "value" : "Când mutați chiar dvs. o aplicație în Coș, Peel se oferă să elimine fișierele pe care le‑a lăsat în urmă. Urmărește Coșul cât timp Peel este deschis sau cât timp se află în bara de meniu."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда Вы сами перемещаете приложение в Корзину, Peel предлагает удалить оставшиеся после него файлы. Для этого Peel остается в строке меню."
+            "value" : "Когда Вы сами перемещаете приложение в Корзину, Peel предлагает удалить оставшиеся после него файлы. Peel следит за Корзиной, пока он открыт или пока находится в строке меню."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När du själv flyttar en app till papperskorgen erbjuder sig Peel att ta bort filerna som den lämnade kvar. Peel stannar kvar i menyraden för att kunna göra det."
+            "value" : "När du själv flyttar en app till papperskorgen erbjuder sig Peel att ta bort filerna som den lämnade kvar. Bevakningen pågår medan Peel är öppen eller finns i menyraden."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda Peel, uygulamanın geride bıraktığı dosyaları kaldırmayı önerir. Bunu yapabilmek için Peel menü çubuğunda kalır."
+            "value" : "Bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda Peel, uygulamanın geride bıraktığı dosyaları kaldırmayı önerir. Peel, açıkken veya menü çubuğundayken Çöp Sepeti’ni izler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли ви самі переміщуєте програму в Смітник, Peel пропонує вилучити файли, які вона залишила по собі. Для цього Peel лишається на смузі меню."
+            "value" : "Коли ви самі переміщуєте програму в Смітник, Peel пропонує вилучити файли, які вона залишила по собі. Peel стежить за Смітником, поки вона відкрита або поки вона на смузі меню."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当你自己将App移到废纸篓时，Peel会提出移除它留下的文件。为此，Peel会一直保留在菜单栏中。"
+            "value" : "当你自己将App移到废纸篓时，Peel会提出移除它留下的文件。只要Peel已打开或在菜单栏中，就会监视废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當你自行將App丟到「垃圾桶」時，Peel會提議移除它留下的檔案。為此，Peel會保留在選單列中。"
+            "value" : "當你自行將App丟到「垃圾桶」時，Peel會提議移除它留下的檔案。Peel打開時，或在選單列中時，都會監看「垃圾桶」。"
           }
         }
       }
