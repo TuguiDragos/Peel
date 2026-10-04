@@ -452,8 +452,20 @@ MIT License. Both licenses ship inside the app and are kept in `Peel/Licenses/`.
 
 ## More from Țugui Dragoș
 
-Spend your days in VS Code, or in an editor built on it? Try [Tapetum](https://github.com/TuguiDragos/tapetum), my
-free theme pack: 58 themes in 28 families, each in dark and light, with every color placed by hand and its contrast
-measured on the surface it sits on. Install it from the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=tuguidragos.tapetum) or
-[Open VSX](https://open-vsx.org/extension/tuguidragos/tapetum).
+<p align="center">
+  <a href="https://github.com/TuguiDragos/tapetum"><img src="readme-assets/tapetum-fan-512.png" width="128" alt="Tapetum icon: a fan of color swatches"></a>
+</p>
+
+<h3 align="center">Tapetum</h3>
+
+<p align="center">
+  Spend your days in VS Code, or in an editor built on it? Try Tapetum, my free theme pack: 58 themes in 28
+  families, each in dark and light, with every color placed by hand and its contrast measured on the surface it sits
+  on.
+</p>
+
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=tuguidragos.tapetum"><img src="https://img.shields.io/badge/Visual%20Studio%20Marketplace-201F1D?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY5OTMzIiBzdHJva2Utd2lkdGg9IjEuOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgNHYxMU03LjUgMTAuNSAxMiAxNWw0LjUtNC41TTUgMTkuNWgxNCIvPjwvZz48L3N2Zz4%3D" height="30" alt="Install Tapetum from the Visual Studio Marketplace"></a>
+  <a href="https://open-vsx.org/extension/tuguidragos/tapetum"><img src="https://img.shields.io/badge/Open%20VSX-201F1D?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY5OTMzIiBzdHJva2Utd2lkdGg9IjEuOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgNHYxMU03LjUgMTAuNSAxMiAxNWw0LjUtNC41TTUgMTkuNWgxNCIvPjwvZz48L3N2Zz4%3D" height="30" alt="Install Tapetum from Open VSX"></a>
+  <a href="https://github.com/TuguiDragos/tapetum"><img src="https://img.shields.io/badge/GitHub-201F1D?style=flat&logo=github&logoColor=FF9933" height="30" alt="Tapetum on GitHub"></a>
+</p>
