@@ -1,7 +1,7 @@
 import Foundation
 
 /// A tool in the sidebar. The order of the cases is the order within each group, in the sidebar and in the View
-/// menu, where the first nine tools get ⌘1 to ⌘9. The `.home` group (Home, Tweaks, History) comes first.
+/// menu, where the first nine tools get ⌘1 to ⌘9. The `.home` group (Home, Tweaks, Terminal, History) comes first.
 nonisolated enum Tool: String, CaseIterable, Identifiable {
     case home
 
@@ -27,6 +27,7 @@ nonisolated enum Tool: String, CaseIterable, Identifiable {
     case plugins
 
     case tweaks
+    case terminal
     case history
 
     enum Group: CaseIterable {
@@ -40,7 +41,7 @@ nonisolated enum Tool: String, CaseIterable, Identifiable {
 
     var group: Group {
         switch self {
-        case .home, .tweaks, .history: .home
+        case .home, .tweaks, .terminal, .history: .home
         case .applications, .orphans, .intel, .packages, .homebrew: .apps
         case .space, .developer, .projects, .installers, .duplicates, .cloud, .fileSearch: .storage
         case .backgroundItems, .extensions, .plugins: .system
@@ -66,6 +67,7 @@ nonisolated enum Tool: String, CaseIterable, Identifiable {
         case .extensions: "Extensions"
         case .plugins: "Plug-ins"
         case .tweaks: "Tweaks"
+        case .terminal: "Terminal"
         case .history: "History"
         }
     }
@@ -89,6 +91,7 @@ nonisolated enum Tool: String, CaseIterable, Identifiable {
         case .extensions: "puzzlepiece.extension"
         case .plugins: "powerplug"
         case .tweaks: "slider.horizontal.3"
+        case .terminal: "terminal"
         case .history: "clock.arrow.circlepath"
         }
     }

@@ -57,11 +57,11 @@ struct ContentView: View {
             .fixedSplitViewColumn(width: sidebarWidth)
     }
 
-    /// Home, Tweaks, iCloud Drive, Settings, and About are each one page rather than a list beside a detail, so
-    /// they are shown in a split view with no content column: `NavigationSplitViewVisibility` cannot hide one of
-    /// three. iCloud Drive's list is all it has, and its rows are the widest in the app.
+    /// Home, Tweaks, Terminal, iCloud Drive, Settings, and About are each one page rather than a list beside a
+    /// detail, so they are shown in a split view with no content column: `NavigationSplitViewVisibility` cannot hide
+    /// one of three. iCloud Drive's list is all it has, and its rows are the widest in the app.
     private var isWholePage: Bool {
-        drawn.page != nil || drawn.tool == .home || drawn.tool == .tweaks || drawn.tool == .cloud
+        drawn.page != nil || [Tool.home, .tweaks, .terminal, .cloud].contains(drawn.tool)
     }
 
     @ViewBuilder
@@ -79,6 +79,8 @@ struct ContentView: View {
         case .tool, nil:
             if drawn.tool == .tweaks {
                 TweakPage()
+            } else if drawn.tool == .terminal {
+                TerminalPage()
             } else if drawn.tool == .cloud {
                 CloudView()
             } else {
@@ -275,8 +277,8 @@ struct ContentView: View {
             case .intel:
                 IntelList()
                     .listColumn()
-            // Tweaks is shown as a whole page, never as a column.
-            case .tweaks:
+            // Tweaks and Terminal are shown as whole pages, never as a column.
+            case .tweaks, .terminal:
                 EmptyView()
             case .history:
                 HistoryList()
@@ -322,7 +324,7 @@ struct ContentView: View {
                     spaceDetail
                 case .intel:
                     intelDetail
-                case .tweaks:
+                case .tweaks, .terminal:
                     EmptyView()
                 case .history:
                     historyDetail

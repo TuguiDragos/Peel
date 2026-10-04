@@ -111,9 +111,9 @@ import Testing
     }
 
     static let sidebarNames = [
-        "Home", "Tweaks", "History", "Settings", "Applications", "Orphaned Files", "Intel Software", "Package Receipts", "Space",
-        "Developer", "Build Artifacts", "Installers and Backups", "Duplicates", "iCloud Drive", "File Search", "Background Items",
-        "Extensions", "Plug-ins",
+        "Home", "Tweaks", "Terminal", "History", "Settings", "Applications", "Orphaned Files", "Intel Software",
+        "Package Receipts", "Space", "Developer", "Build Artifacts", "Installers and Backups", "Duplicates",
+        "iCloud Drive", "File Search", "Background Items", "Extensions", "Plug-ins",
     ]
     static let sidebarMaximum: CGFloat = 320
     static let sidebarRowInsets: CGFloat = 37

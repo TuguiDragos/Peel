@@ -37,6 +37,7 @@ struct PeelApp: App {
     @State private var projects: ProjectLibrary
     @State private var installers: InstallerLibrary
     @State private var tweaks = TweakLibrary()
+    @State private var terminal = TerminalLibrary()
     @State private var extensions = ExtensionLibrary()
     @State private var cloud = CloudLibrary()
     @State private var backgroundItems = BackgroundItemLibrary()
@@ -321,6 +322,7 @@ struct PeelApp: App {
                 .environment(projects)
                 .environment(installers)
                 .environment(tweaks)
+                .environment(terminal)
                 .environment(extensions)
                 .environment(cloud)
                 .environment(backgroundItems)

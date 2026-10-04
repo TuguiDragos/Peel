@@ -33,7 +33,7 @@ extension Tool {
                 ?? AttributedString(localized: "^[\(count) item](inflect: true).")
         case .intel:
             return AttributedString(localized: "^[\(count) item](inflect: true) built for Intel.")
-        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .history:
+        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .terminal, .history:
             return nil
         }
     }
@@ -50,7 +50,7 @@ extension Tool {
         case .projects: AttributedString(localized: "^[\(count) project](inflect: true)")
         case .space: AttributedString(localized: "^[\(count) area](inflect: true)")
         case .installers, .cloud, .fileSearch, .intel: AttributedString(localized: "^[\(count) item](inflect: true)")
-        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .history: nil
+        case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .terminal, .history: nil
         }
         return words.map { String($0.characters) }
     }

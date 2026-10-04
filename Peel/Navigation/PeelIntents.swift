@@ -24,6 +24,7 @@ enum PeelPlace: String, AppEnum {
     case extensions
     case plugins
     case tweaks
+    case terminal
 
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Place in Peel")
 
@@ -46,6 +47,7 @@ enum PeelPlace: String, AppEnum {
         .extensions: "Extensions",
         .plugins: "Plug-ins",
         .tweaks: "Tweaks",
+        .terminal: "Terminal",
     ]
 
     var tool: Tool {
@@ -68,6 +70,7 @@ enum PeelPlace: String, AppEnum {
         case .extensions: .extensions
         case .plugins: .plugins
         case .tweaks: .tweaks
+        case .terminal: .terminal
         }
     }
 }

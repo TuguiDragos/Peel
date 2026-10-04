@@ -91,7 +91,7 @@ final class QuitBeforeRemoving {
 
     /// Returns once every one of `processes` has exited, or the task is canceled. `isTerminated` is followed through
     /// key-value observing, which Apple documents for it, since the workspace does not post a notice for every end.
-    private static func untilGone(_ processes: [NSRunningApplication]) async {
+    static func untilGone(_ processes: [NSRunningApplication]) async {
         let (changes, continuation) = AsyncStream.makeStream(of: Void.self, bufferingPolicy: .bufferingNewest(1))
         let observations = processes.map { $0.observe(\.isTerminated) { _, _ in continuation.yield() } }
         defer { observations.forEach { $0.invalidate() } }
