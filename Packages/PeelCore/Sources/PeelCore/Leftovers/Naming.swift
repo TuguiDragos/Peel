@@ -38,6 +38,10 @@ enum Naming {
 }
 
 enum Identifier {
+    /// What Xcode puts in front of an iPad app's identifier when it builds the app for the Mac under an identifier
+    /// of its own (`DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER`). The maker's name begins after it.
+    static let catalystPrefix = "maccatalyst."
+
     /// Leading pairs of components that name no single developer, so for these the vendor takes three components.
     /// On a code host the third is the account, and under a country's registry (`uk.co`, which is `co.uk`
     /// reversed) it is the company. All of these are in the Public Suffix List.
@@ -63,9 +67,10 @@ enum Identifier {
     }
 
     /// Whether a name found on disk reads as an app's identifier, "com.example.app": at least three components and a
-    /// lowercase top-level domain. Stricter than `isValid`, since a name nobody declared is only a guess.
+    /// lowercase top-level domain after any `catalystPrefix`. Stricter than `isValid`, since a name nobody declared
+    /// is only a guess.
     static func isReverseDNS(_ identifier: String) -> Bool {
-        let components = identifier.split(separator: ".", omittingEmptySubsequences: false)
+        let components = withoutCatalystPrefix(identifier).split(separator: ".", omittingEmptySubsequences: false)
         guard
             components.count >= 3,
             let domain = components.first,
@@ -96,11 +101,15 @@ enum Identifier {
     }
 
     static func vendor(of identifier: String) -> String? {
-        let components = identifier.lowercased().split(separator: ".")
+        let components = withoutCatalystPrefix(identifier.lowercased()).split(separator: ".")
         guard components.count >= 3 else { return nil }
         let domain = components.prefix(2).joined(separator: ".")
         guard sharedDomains.contains(domain) else { return domain }
         return components.count >= 4 ? components.prefix(3).joined(separator: ".") : nil
+    }
+
+    static func withoutCatalystPrefix(_ identifier: String) -> Substring {
+        identifier.hasPrefix(catalystPrefix) ? identifier.dropFirst(catalystPrefix.count) : identifier[...]
     }
 }
 

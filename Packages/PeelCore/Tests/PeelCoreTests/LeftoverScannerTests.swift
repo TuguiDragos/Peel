@@ -111,6 +111,15 @@ struct LeftoverScannerTests {
         }
     }
 
+    @Test func asksSpotlightForTheMakersAppsButNeverApples() {
+        let makers = ["org.example.", "maccatalyst.org.example."]
+        #expect(LeftoverScanner.makersPrefixes(of: "org.example.notes") == makers)
+        #expect(LeftoverScanner.makersPrefixes(of: "maccatalyst.org.example.notes") == makers)
+        #expect(LeftoverScanner.makersPrefixes(of: "com.apple.Safari").isEmpty)
+        #expect(LeftoverScanner.makersPrefixes(of: "maccatalyst.com.apple.news").isEmpty)
+        #expect(LeftoverScanner.makersPrefixes(of: "org.example").isEmpty)
+    }
+
     /// An app inside the home's Library or the Mac's is part of another app, such as an agent kept in its maker's
     /// support folder or a build, so it keeps no file of an app it resembles. macOS's own Library is not one of them.
     @Test func anAppInALibraryFolderIsPartOfAnotherApp() {

@@ -53,13 +53,11 @@ public struct LeftoverScanner: Sendable {
     /// The apps macOS knows, outside `known`, that may use `app`'s files: every other copy of it, such as an older one
     /// kept in Downloads or one on another disk, and the apps of the same maker, such as a Nightly build beside it.
     /// Spotlight names the maker's apps and Launch Services says where each is installed, so a copy inside a backup
-    /// never counts. Apple's own apps are left to the list of what macOS ships, which Spotlight would name whole.
+    /// never counts.
     private func appsElsewhere(like app: InstalledApp, besides known: [InstalledApp]) async -> [InstalledApp] {
-        var identifiers = [app.bundleIdentifier]
-        if !ProtectedData.isApplesName(app.bundleIdentifier), let vendor = Identifier.vendor(of: app.bundleIdentifier) {
-            let own = app.bundleIdentifier.lowercased()
-            identifiers += await AppInspector.indexedIdentifiers(beginningWith: vendor + ".").filter { $0.lowercased() != own }.sorted()
-        }
+        let own = app.bundleIdentifier.lowercased()
+        let makers = await AppInspector.indexedIdentifiers(beginningWith: Self.makersPrefixes(of: app.bundleIdentifier))
+        let identifiers = [app.bundleIdentifier] + makers.filter { $0.lowercased() != own }.sorted()
         let wanted = Set(identifiers.map { $0.lowercased() })
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
         let listed = Set(known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }.map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) })
@@ -68,6 +66,16 @@ public struct LeftoverScanner: Sendable {
             return !listed.contains(path) && !PathComponents.isPath(path, atOrInside: bundle)
                 && environment.keepsOnItsOwn(appAt: path)
         }.compactMap(AppInspector.inspect)
+    }
+
+    /// How the identifiers of the maker's apps begin, its Mac Catalyst builds' included. None for Apple's own apps:
+    /// the list of what macOS ships holds them, and Spotlight would name them whole.
+    static func makersPrefixes(of identifier: String) -> [String] {
+        guard
+            let vendor = Identifier.vendor(of: identifier),
+            !ProtectedData.isApplesName(vendor + ".")
+        else { return [] }
+        return [vendor + ".", Identifier.catalystPrefix + vendor + "."]
     }
 
     @concurrent

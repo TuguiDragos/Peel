@@ -221,6 +221,21 @@ struct LeftoverMatcherTests {
         #expect(match("jp.co.other.Thing", in: .caches, for: canon) == nil)
     }
 
+    @Test func aMacCatalystBuildIsItsMakersApp() throws {
+        #expect(Identifier.vendor(of: "maccatalyst.org.example.notes") == "org.example")
+
+        let notes = app("maccatalyst.org.example.notes", name: "Notes Probe")
+        let mail = app("org.example.mail", name: "Mail Probe")
+        #expect(match("org.example.mail.helper", in: .caches, for: notes)?.confidence == .possible)
+        #expect(match("maccatalyst.org.example.notes", in: .containers, for: mail)?.confidence == .possible)
+        #expect(match("maccatalyst.org.other.reader", in: .containers, for: notes) == nil)
+
+        let writer = app("maccatalyst.org.alpha.writer", name: "Writer")
+        let writerPro = app("maccatalyst.org.beta.writerpro", name: "Writer Pro")
+        let folder = try #require(match("Writer", in: .applicationSupport, for: writer, with: [writerPro]))
+        #expect(folder.sharedWith.isEmpty, "another maker's app took a share")
+    }
+
     @Test func appleItemsOnlyMatchExactIdentifiers() throws {
         let xcode = app("com.apple.dt.Xcode", name: "Xcode", team: "59GAB85EFG")
 

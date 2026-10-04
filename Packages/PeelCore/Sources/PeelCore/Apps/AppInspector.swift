@@ -25,15 +25,19 @@ public enum AppInspector {
         return names.contains(".Trash") || names.contains(".Trashes")
     }
 
-    /// The identifiers of the apps Spotlight has indexed whose identifier begins with `prefix`, wherever they are, such
-    /// as every app of one maker. Empty when Spotlight is off, has none, or does not answer within `budget`, and for a
-    /// prefix that is not made of an identifier's characters, since it goes into the query as it is.
+    /// The identifiers of the apps Spotlight has indexed whose identifier begins with one of `prefixes`, wherever they
+    /// are, such as every app of one maker. Empty when Spotlight is off, has none, or does not answer within `budget`,
+    /// and when a prefix is not made of an identifier's characters, since each goes into the query as it is.
     static func indexedIdentifiers(
-        beginningWith prefix: String,
+        beginningWith prefixes: [String],
         within budget: TimeInterval = spotlightBudget
     ) async -> Set<String> {
-        guard !prefix.isEmpty, prefix.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || "._-".contains($0)) }) else { return [] }
-        let text = "kMDItemContentTypeTree == \"com.apple.application-bundle\" && kMDItemCFBundleIdentifier == \"\(prefix)*\"c"
+        let isAnIdentifiersStart = { (prefix: String) in
+            !prefix.isEmpty && prefix.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "._-".contains($0)) }
+        }
+        guard !prefixes.isEmpty, prefixes.allSatisfy(isAnIdentifiersStart) else { return [] }
+        let identifiers = prefixes.map { "kMDItemCFBundleIdentifier == \"\($0)*\"c" }.joined(separator: " || ")
+        let text = "kMDItemContentTypeTree == \"com.apple.application-bundle\" && (\(identifiers))"
         let found = await SlowRead.answer(within: budget) { _ -> Set<String> in
             guard let query = MDQueryCreate(kCFAllocatorDefault, text as CFString, nil, nil),
                   MDQueryExecute(query, CFOptionFlags(kMDQuerySynchronous.rawValue))

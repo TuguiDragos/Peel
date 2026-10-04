@@ -403,9 +403,23 @@ struct OrphanScannerTests {
         ("Spotify", .applicationSupport, nil),
         ("com.example", .caches, nil),
         ("Com.Example.App", .caches, nil),
+        ("maccatalyst.org.example.notes", .containers, "maccatalyst.org.example.notes"),
+        ("maccatalyst.org.example", .caches, nil),
+        ("maccatalyst.com.apple.news", .containers, nil),
     ] as [(String, SearchLocation.Kind, String?)])
     func identifiesAppShapedNames(key: String, kind: SearchLocation.Kind, expected: String?) {
         #expect(OrphanScanner.orphanIdentifier(forKey: key, kind: kind) == expected)
+    }
+
+    @Test func findsWhatAMacCatalystBuildLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Containers/maccatalyst.org.example.notes/Data/Library/Caches/cache.db")
+        try directory.file("home/Library/Preferences/maccatalyst.org.example.notes.plist")
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["maccatalyst.org.example.notes"])
+        #expect(scan.groups.first?.items.count == 2)
     }
     /// A crash reporter keeps a folder per app inside its own. The folder is named after the reporter, which
     /// nothing installed answers to, but what is inside belongs to an app that is still here.

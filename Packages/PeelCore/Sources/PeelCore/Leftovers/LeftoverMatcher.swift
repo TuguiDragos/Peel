@@ -312,7 +312,7 @@ extension LeftoverMatcher {
             if let teamPrefix, key.hasPrefix(teamPrefix) {
                 return Evidence(.teamIdentifier, .possible, specificity: teamPrefix.count)
             }
-            if let vendorPrefix, key.hasPrefix(vendorPrefix) {
+            if let vendorPrefix, Identifier.withoutCatalystPrefix(key).hasPrefix(vendorPrefix) {
                 return Evidence(.vendorPrefix, .possible, specificity: vendorPrefix.count)
             }
             if let name = names.filter({ Naming.hasNamePrefix(key, name: $0) }).max(by: { $0.count < $1.count }) {
