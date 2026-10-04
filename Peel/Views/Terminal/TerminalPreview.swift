@@ -10,34 +10,62 @@ extension Color {
 struct TerminalSession: View {
     let theme: TerminalTheme
 
+    private static let windowButtons: [UInt32] = [0xFF5F57, 0xFEBC2E, 0x28C840]
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            line(prompt("ls"))
-            line(run("Peel/", 4) + run("  ") + run("PeelCLI/", 4) + run("  README.md  ") + run("build.sh*", 2))
-            line(prompt("git status -s"))
-            line(run(" M", 1) + run(" ContentView.swift"))
-            line(run("??", 1) + run(" notes.md"))
-            line(prompt("swift test"))
-            line(run("✓", 2) + run(" 1549 tests passed ") + run("(17 s)", 8))
-            line(run("⚠", 3) + run(" 2 warnings"))
-            line(run("✗ 1 failure", 1) + run(":", 8) + run(" ThemeTests"))
-            swatches(0..<8)
-                .padding(.top, 4)
-            swatches(8..<16)
-            HStack(spacing: 0) {
-                line(prompt(""))
-                Rectangle()
-                    .fill(Color(terminal: theme.cursor))
-                    .frame(width: 7, height: 13)
+        VStack(alignment: .leading, spacing: 0) {
+            titleBar
+            VStack(alignment: .leading, spacing: 3) {
+                line(prompt("ls"))
+                line(run("Packages", 4) + run("  ") + run("Peel", 4) + run("  README.md  ") + run("build.sh", 2))
+                line(prompt("git log --oneline"))
+                line(run("e29c61b", 3) + run(" Add a Terminal page"))
+                line(run("8ab8c43", 3) + run(" Hello, Peel"))
+                line(prompt("swift build"))
+                line(run("Build complete!", 2) + run(" (4.21s)", 8))
+                swatches(0..<8)
+                    .padding(.top, 5)
+                swatches(8..<16)
+                HStack(spacing: 0) {
+                    line(prompt(""))
+                    Rectangle()
+                        .fill(Color(terminal: theme.cursor))
+                        .frame(width: 7, height: 13)
+                }
+                .padding(.top, 5)
             }
-            .padding(.top, 4)
+            .padding(12)
         }
         .font(.system(size: 11, design: .monospaced))
-        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(terminal: theme.background), in: .rect(cornerRadius: 10))
+        .background(Color(terminal: theme.background))
+        .clipShape(.rect(cornerRadius: 10))
         .overlay { RoundedRectangle(cornerRadius: 10).strokeBorder(.separator) }
         .accessibilityHidden(true)
+    }
+
+    private var titleBar: some View {
+        HStack(spacing: 6) {
+            ForEach(Self.windowButtons, id: \.self) { color in
+                Circle()
+                    .fill(Color(terminal: color))
+                    .frame(width: 10, height: 10)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay {
+            Text(AttributedString("peel"))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(Color(terminal: theme.text).opacity(0.6))
+        }
+        .padding(.horizontal, 10)
+        .frame(height: 26)
+        .background(Color(terminal: theme.text).opacity(0.06))
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color(terminal: theme.text).opacity(0.1))
+                .frame(height: 1)
+        }
     }
 
     private func line(_ text: AttributedString) -> some View {
@@ -53,7 +81,7 @@ struct TerminalSession: View {
     }
 
     private func prompt(_ command: String) -> AttributedString {
-        run("~/Projects/peel", 6) + run(" main", 3) + run(" ❯ ", 2) + run(command)
+        run("~/Projects/peel", 6) + run(" main", 5) + run(" ❯ ", 2) + run(command)
     }
 
     private func swatches(_ slots: Range<Int>) -> some View {
