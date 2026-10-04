@@ -4,15 +4,15 @@ import PeelCore
 import QuartzCore
 import SwiftUI
 
-/// Counts hitches while `PEEL_MEASURE=<file>` is set: main thread turns longer than a frame, and missed frames.
-/// Peel appends to that file how long after exec its first frame came, then a report (`Hitches`) on every SIGUSR1
-/// and when it quits. Long turns also go to the log as Points of Interest events. It is in every build, not only
-/// Debug, because Release timings are the ones that count. Its display link wakes Peel every frame, so leave it
-/// off when measuring idle CPU.
+/// Counts hitches while `PEEL_MEASURE=<name>` is set: main thread turns longer than a frame, and missed frames.
+/// Peel appends to `~/Library/Logs/Peel/<name>` (`MeasureFile`) how long after exec its first frame came, then a
+/// report (`Hitches`) on every SIGUSR1 and when it quits. Long turns also go to the log as Points of Interest events.
+/// It is in every build, not only Debug, because Release timings are the ones that count. Its display link wakes
+/// Peel every frame, so leave it off when measuring idle CPU.
 final class FrameWatch: NSObject {
-    static let shared = ProcessInfo.processInfo.environment["PEEL_MEASURE"].map { FrameWatch(file: URL(filePath: $0)) }
+    static let shared = ProcessInfo.processInfo.environment["PEEL_MEASURE"].flatMap { MeasureFile(named: $0) }.map { FrameWatch(file: $0) }
 
-    private let file: URL
+    private let file: MeasureFile
     private var hitches = Hitches()
     private var busySince: CFTimeInterval?
     private var link: CADisplayLink?
@@ -21,7 +21,7 @@ final class FrameWatch: NSObject {
     private var sight: (any NSObjectProtocol)?
     private var hasDrawn = false
 
-    private init(file: URL) {
+    private init(file: MeasureFile) {
         self.file = file
     }
 
@@ -57,7 +57,7 @@ final class FrameWatch: NSObject {
         if !hasDrawn {
             hasDrawn = true
             if let started = Self.processStart() {
-                write([String(format: "first frame: %.1f ms after exec", (Date().timeIntervalSince1970 - started) * 1000)])
+                file.append([String(format: "first frame: %.1f ms after exec", (Date().timeIntervalSince1970 - started) * 1000)])
             }
         }
         hitches.frame(at: link.timestamp, due: link.targetTimestamp)
@@ -103,18 +103,8 @@ final class FrameWatch: NSObject {
     }
 
     private func report() {
-        write(hitches.report)
+        file.append(hitches.report)
         hitches = Hitches()
-    }
-
-    private func write(_ lines: [String]) {
-        if !FileManager.default.fileExists(atPath: file.path) {
-            FileManager.default.createFile(atPath: file.path, contents: nil)
-        }
-        guard let handle = try? FileHandle(forWritingTo: file) else { return }
-        defer { try? handle.close() }
-        _ = try? handle.seekToEnd()
-        try? handle.write(contentsOf: Data(lines.map { $0 + "\n" }.joined().utf8))
     }
 
     /// Returns when the kernel started this process, in seconds since 1970. Nothing the process times itself can be
