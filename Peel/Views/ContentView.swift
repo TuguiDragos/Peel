@@ -127,10 +127,14 @@ struct ContentView: View {
         .quietTitlebarSeparators()
         .measuresFrames()
         .focusedSceneValue(\.selectedTool, shownTool)
+        // The page changes only for a bundle that is an app, since any app or web page can send the link.
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
-            show(.applications)
-            Task { await library.reveal([applicationURL]) }
+            Task {
+                if await library.reveal([applicationURL]) {
+                    show(.applications)
+                }
+            }
         }
         // A request made while the window was closed (from a Shortcut, the Finder extension, or the menu bar
         // panel) is already set when this view appears, and `onChange` only fires on a change, so anything

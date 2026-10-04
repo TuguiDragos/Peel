@@ -39,6 +39,22 @@ struct OpenRequestTests {
         #expect(OpenRequest.applicationURL(from: URL(filePath: "/Users/x/Documents/notes.txt")) == nil)
     }
 
+    /// macOS hands Peel a link whatever the case of its scheme and host, which RFC 3986 says are case insensitive.
+    @Test func opensALinkWhateverTheCaseOfItsSchemeAndHost() throws {
+        for text in ["PEEL://open?path=/Applications/Foo.app", "Peel://OPEN?path=/Applications/Foo.app"] {
+            let link = try #require(URL(string: text))
+            let opened = try #require(OpenRequest.applicationURL(from: link), "\(text) was refused")
+            #expect(opened.lastPathComponent == "Foo.app")
+        }
+    }
+
+    @Test func refusesALinkWhosePathHoldsAControlCharacter() throws {
+        for name in ["Foo\n.app", "Fo\u{7F}o.app", "Foo\u{0}.app", "Foo\u{85}.app"] {
+            let app = URL(filePath: "/Users/x/Downloads/\(name)", directoryHint: .isDirectory)
+            #expect(OpenRequest.applicationURL(from: try link(for: app)) == nil, "\(name.debugDescription) was opened")
+        }
+    }
+
     @Test func theFinderMenuIsForExactlyOneApp() {
         let app = URL(filePath: "/Applications/Foo.app", directoryHint: .isDirectory)
         let other = URL(filePath: "/Applications/Bar.app", directoryHint: .isDirectory)

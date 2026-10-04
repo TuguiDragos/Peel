@@ -728,16 +728,18 @@ final class AppLibrary {
     }
 
     /// Selects the apps together, adding each first when it lives outside the scanned folders, for example in
-    /// the Trash. What is not an app is passed over.
-    func reveal(_ urls: [URL]) async {
+    /// the Trash. What is not an app is passed over, and false means none was.
+    @discardableResult
+    func reveal(_ urls: [URL]) async -> Bool {
         var chosen: Set<InstalledApp.ID> = []
         for url in urls {
             if let id = await listed(url) {
                 chosen.insert(id)
             }
         }
-        guard !chosen.isEmpty else { return }
+        guard !chosen.isEmpty else { return false }
         selection = chosen
+        return true
     }
 
     private func listed(_ url: URL) async -> InstalledApp.ID? {

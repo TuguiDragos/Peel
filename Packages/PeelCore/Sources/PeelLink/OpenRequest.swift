@@ -22,11 +22,15 @@ public enum OpenRequest {
         if url.isFileURL {
             return url.pathExtension == "app" ? url : nil
         }
+        // A scheme and a host are case insensitive (RFC 3986), and macOS hands Peel the link however they are
+        // written. Any app or web page can send one, so a path a control character would make read as another
+        // is refused.
         guard
-            url.scheme == "peel",
-            url.host() == "open",
+            url.scheme?.lowercased() == "peel",
+            url.host()?.lowercased() == "open",
             let path = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "path" })?.value,
-            path.hasPrefix("/")
+            path.hasPrefix("/"),
+            !path.unicodeScalars.contains(where: { $0.properties.generalCategory == .control })
         else { return nil }
         // The extension is read from a URL, not from the string: a bundle is a folder, and every sender of this
         // link writes its path with a trailing slash.
