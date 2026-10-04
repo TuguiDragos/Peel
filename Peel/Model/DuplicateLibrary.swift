@@ -106,8 +106,13 @@ final class DuplicateLibrary {
         scanTask = Task { await runScan(current) }
     }
 
+    /// Shows the scan stopped at once, as the other pages do. The scan itself ends a moment later, or once a read
+    /// stuck on a network share returns, and what it found is dropped by its `generation`.
     func stop() {
         scanTask?.cancel()
+        generation += 1
+        progress = nil
+        isScanning = false
     }
 
     func clearResults() {
@@ -146,6 +151,8 @@ final class DuplicateLibrary {
         let (updates, continuation) = AsyncStream.makeStream(of: DuplicateScanProgress.self, bufferingPolicy: .bufferingNewest(1))
         let progressUpdates = Task {
             for await update in updates {
+                // A scan stopped or replaced reports on until it notices, over the newer scan's progress otherwise.
+                guard current == generation else { break }
                 if case .collecting = update {
                     isOnFiles = true
                 }
