@@ -102,6 +102,37 @@ struct IntelInspectorTests {
         #expect(scan.findings.allSatisfy { $0.kind == .driver })
     }
 
+    @Test func findsTheIntelProgramsAPrinterDriverKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        let vendor = "root/Library/Printers/Vendor"
+        let filter = try directory.file("\(vendor)/Filter/rastertovendor", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: filter)
+        let tool = try directory.file("\(vendor)/Tools/lowinktool", contents: fatHeader([intel, appleSilicon]))
+        try directory.setPermissions(0o755, of: tool)
+        let library = try directory.file("\(vendor)/Filter/libvendor.dylib", contents: intelHeader(fileType: 6))
+        try directory.setPermissions(0o755, of: library)
+        _ = try directory.file("\(vendor)/Filter/notrunnable", contents: intelHeader(fileType: 2))
+        // A `.driver` is no package to macOS, so the walk goes inside it.
+        let inside = try directory.file("\(vendor)/Port.driver/Contents/MacOS/Port", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: inside)
+        _ = try bundle(directory, "root/Library/Audio/Plug-Ins/HAL/Device.driver", cpuTypes: [intel])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            plugins: [],
+            backgroundItems: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        #expect(Set(scan.findings.map(\.name)) == ["rastertovendor", "Port.driver", "Device.driver"])
+        #expect(scan.findings.allSatisfy { $0.kind == .driver })
+    }
+
     @Test func findsIntelHelpersInsideAUniversalApp() throws {
         let directory = try TemporaryDirectory()
         _ = try bundle(directory, "Universal.app", cpuTypes: [intel, appleSilicon])

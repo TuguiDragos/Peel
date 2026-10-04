@@ -40,15 +40,19 @@ public enum IntelInspector {
     static let driverFolders = [
         "Image Capture/Devices",
         "Image Capture/TWAIN Data Sources",
-        "Printers",
+        printers,
         "Audio/Plug-Ins",
         "ColorPickers",
     ]
 
-    static func driverDirectories(_ environment: SearchEnvironment) -> [String] {
+    /// A printer driver keeps programs of its own beside its bundles: the filters and the tools its PPD names, as
+    /// CUPS's PPD specification shows with `/Library/Printers/vendor/Tools/lowinktool`.
+    static let printers = "Printers"
+
+    static func driverDirectories(_ environment: SearchEnvironment, folders: [String] = driverFolders) -> [String] {
         [environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory),
          environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory)]
-            .flatMap { library in driverFolders.map { library.appending(path: $0).path(percentEncoded: false) } }
+            .flatMap { library in folders.map { library.appending(path: $0).path(percentEncoded: false) } }
     }
 
     static let toolDirectories = ["/usr/local/bin", "/usr/local/sbin", "/usr/local/libexec"]
@@ -138,6 +142,17 @@ public enum IntelInspector {
         }
 
         for url in bundles(in: driverDirectories(environment)) where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(bundle: url) && isNew(url) {
+            findings.append(IntelFinding(
+                url: url,
+                kind: .driver,
+                name: url.lastPathComponent,
+                owner: nil,
+                size: await measure(url),
+            ))
+        }
+
+        let printerDirectories = driverDirectories(environment, folders: [printers])
+        for url in programs(in: printerDirectories) where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(executable: url) && isNew(url) {
             findings.append(IntelFinding(
                 url: url,
                 kind: .driver,
@@ -241,6 +256,8 @@ public enum IntelInspector {
         return candidates.first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
     }
 
+    static let driverExtensions: Set<String> = ["app", "plugin", "bundle", "driver", "qlgenerator", "mdimporter"]
+
     static func bundles(in directories: [String]) -> [URL] {
         directories.flatMap { directory -> [URL] in
             let url = URL(filePath: directory, directoryHint: .isDirectory)
@@ -249,7 +266,32 @@ public enum IntelInspector {
                 includingPropertiesForKeys: [.isDirectoryKey],
                 options: [.skipsHiddenFiles, .skipsPackageDescendants]
             ) else { return [] }
-            return enumerator.compactMap { $0 as? URL }.filter { ["app", "plugin", "bundle", "driver", "qlgenerator", "mdimporter"].contains($0.pathExtension) }
+            return enumerator.compactMap { $0 as? URL }.filter { driverExtensions.contains($0.pathExtension) }
+        }
+    }
+
+    /// The programs in `directories` that sit outside every bundle: one inside a bundle is the bundle's.
+    static func programs(in directories: [String]) -> [URL] {
+        let keys: Set<URLResourceKey> = [.isRegularFileKey, .isExecutableKey]
+        return directories.flatMap { directory -> [URL] in
+            let url = URL(filePath: directory, directoryHint: .isDirectory)
+            guard let enumerator = FileManager.default.enumerator(
+                at: url,
+                includingPropertiesForKeys: Array(keys),
+                options: [.skipsHiddenFiles, .skipsPackageDescendants]
+            ) else { return [] }
+            var programs: [URL] = []
+            for case let item as URL in enumerator {
+                if driverExtensions.contains(item.pathExtension) {
+                    enumerator.skipDescendants()
+                    continue
+                }
+                let values = try? item.resourceValues(forKeys: keys)
+                if values?.isRegularFile == true, values?.isExecutable == true, MachOHeader.isProgram(at: item) {
+                    programs.append(item)
+                }
+            }
+            return programs
         }
     }
 
