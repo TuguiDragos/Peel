@@ -57,6 +57,21 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
     }
 
+    @Test func aCommandLineToolHasOneName() throws {
+        let catalog = try Self.localizable()
+        var problems: [String] = []
+        for language in try Self.declaredLanguages() {
+            guard let kind = Self.value(of: "Command-Line Tool", in: language, catalog),
+                  let name = Self.value(of: "Command-line tool", in: language, catalog) else { continue }
+            // Some languages capitalize every word of a kind, as Portuguese and Turkish do.
+            let locale = Locale(identifier: language)
+            if kind.lowercased(with: locale) != name.lowercased(with: locale) {
+                problems.append("\(language): a table's kind reads \(kind.debugDescription), Settings \(name.debugDescription)")
+            }
+        }
+        #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
+    }
+
     /// Each sidebar name fits in the font the sidebar draws with, at both weights for Bold Text. The sidebar grows
     /// to 320 points for its longest name and cuts a longer one: 37 of those points are the row's insets, and 26
     /// are the symbol and its gap.

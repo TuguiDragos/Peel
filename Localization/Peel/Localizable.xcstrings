@@ -26150,7 +26150,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Příkazový nástroj"
+            "value" : "Nástroj příkazového řádku"
           }
         },
         "de" : {
@@ -26162,7 +26162,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comando de terminal"
+            "value" : "Herramienta de línea de comandos"
           }
         },
         "fr" : {
@@ -26174,7 +26174,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comando da terminale"
+            "value" : "Strumento da riga di comando"
           }
         },
         "ja" : {
@@ -26198,25 +26198,25 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Narzędzie terminala"
+            "value" : "Narzędzie wiersza polecenia"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Linha de Comando"
+            "value" : "Ferramenta de Linha de Comando"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comandă de terminal"
+            "value" : "Instrument în linie de comandă"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Утилита командной строки"
+            "value" : "Инструмент командной строки"
           }
         },
         "sv" : {
@@ -26234,7 +26234,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Консольна утиліта"
+            "value" : "Інструмент командного рядка"
           }
         },
         "zh-Hans" : {
