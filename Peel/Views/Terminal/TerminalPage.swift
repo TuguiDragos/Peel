@@ -53,12 +53,8 @@ struct TerminalPage: View {
                 Task { await terminal.quitTerminal(andThen: action) }
             }
             Button("Cancel", role: .cancel) {}
-        } message: { action in
-            if case .set = action {
-                Text("While Terminal is open, it doesn’t see a changed setting, and can undo it the next time it saves its settings.")
-            } else {
-                Text("While Terminal is open, it doesn’t see a new theme, and can undo it the next time it saves its settings.")
-            }
+        } message: { _ in
+            Text("While Terminal is open, it doesn’t see a change to its settings, and can undo it the next time it saves them.")
         }
         .alert("Terminal didn’t quit.", isPresented: Bindable(terminal).terminalDidNotQuit) {
             Button("OK", role: .cancel) {}

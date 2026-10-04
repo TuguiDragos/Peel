@@ -149368,214 +149368,108 @@
         }
       }
     },
-    "While Terminal is open, it doesn’t see a changed setting, and can undo it the next time it saves its settings." : {
+    "While Terminal is open, it doesn’t see a change to its settings, and can undo it the next time it saves them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dokud je Terminál otevřený, o změněném nastavení neví a při příštím uložení svých nastavení ho může zrušit."
+            "value" : "Dokud je Terminál otevřený, o změně svých nastavení neví a při jejich příštím uložení ji může zrušit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solange Terminal geöffnet ist, bemerkt die App keine geänderte Einstellung und kann die Änderung rückgängig machen, wenn sie ihre Einstellungen das nächste Mal sichert."
+            "value" : "Solange Terminal geöffnet ist, bemerkt die App keine Änderung an ihren Einstellungen und kann sie rückgängig machen, wenn sie ihre Einstellungen das nächste Mal sichert."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mientras Terminal está abierta, no ve el ajuste cambiado y puede deshacerlo la próxima vez que guarde sus ajustes."
+            "value" : "Mientras Terminal está abierta, no ve el cambio en sus ajustes y puede deshacerlo la próxima vez que los guarde."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tant que Terminal est ouvert, il ne s’aperçoit pas d’un changement de réglage et peut l’annuler la prochaine fois qu’il enregistre ses réglages."
+            "value" : "Tant que Terminal est ouvert, il ne s’aperçoit pas d’un changement apporté à ses réglages et peut l’annuler la prochaine fois qu’il les enregistre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mentre Terminale è aperto, non vede un’impostazione modificata e può annullarla la prossima volta che salva le sue impostazioni."
+            "value" : "Mentre Terminale è aperto, non vede una modifica alle sue impostazioni e può annullarla la prossima volta che le salva."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルは、開いている間は変更された設定を認識せず、次に設定を保存するときにその変更を取り消すことがあります。"
+            "value" : "ターミナルは、開いている間は設定の変更を認識せず、次に設定を保存するときにその変更を取り消すことがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널은 열려 있는 동안 변경된 설정을 인식하지 못하며, 다음에 설정을 저장할 때 설정 변경을 되돌릴 수 있습니다."
+            "value" : "터미널은 열려 있는 동안 설정 변경 사항을 인식하지 못하며, 다음에 설정을 저장할 때 그 변경 사항을 되돌릴 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zolang Terminal open is, ziet de app een gewijzigde instelling niet, en kan die het ongedaan maken de volgende keer dat die de instellingen bewaart."
+            "value" : "Zolang Terminal open is, ziet de app een wijziging in zijn instellingen niet, en kan die de wijziging ongedaan maken de volgende keer dat die ze bewaart."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dopóki Terminal jest otwarty, nie widzi zmiany ustawienia i może ją cofnąć, gdy następnym razem zachowa swoje ustawienia."
+            "value" : "Dopóki Terminal jest otwarty, nie widzi zmiany w swoich ustawieniach i może ją cofnąć, gdy następnym razem je zachowa."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enquanto estiver aberto, o Terminal não percebe uma mudança de ajuste e pode desfazê-la na próxima vez que salvar os próprios ajustes."
+            "value" : "Enquanto estiver aberto, o Terminal não percebe uma mudança nos próprios ajustes e pode desfazê-la na próxima vez que os salvar."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cât timp Terminal este deschis, nu vede o configurare modificată și o poate anula data viitoare când își salvează configurările."
+            "value" : "Cât timp Terminal este deschis, nu vede o modificare a configurărilor sale și o poate anula data viitoare când le salvează."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пока Терминал открыт, он не видит измененный параметр и может отменить его, когда в следующий раз сохранит свои настройки."
+            "value" : "Пока Терминал открыт, он не видит изменение в своих настройках и может отменить его, когда в следующий раз сохранит их."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medan Terminal är öppen ser den inte en ändrad inställning och kan ångra den nästa gång den sparar sina inställningar."
+            "value" : "Medan Terminal är öppen ser den inte en ändring av sina inställningar och kan ångra den nästa gång den sparar dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal açıkken değiştirilen bir ayarı görmez ve bir dahaki sefere ayarlarını kaydettiğinde onu geri alabilir."
+            "value" : "Terminal açıkken ayarlarında yapılan bir değişikliği görmez ve bir dahaki sefere ayarlarını kaydettiğinde onu geri alabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поки Термінал відкритий, він не бачить зміненого налаштування й може відмінити його, коли наступного разу збереже свої налаштування."
+            "value" : "Поки Термінал відкритий, він не бачить зміни своїх налаштувань і може відмінити її, коли наступного разу збереже їх."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“终端”在打开期间看不到更改后的设置，并且可能会在下次保存设置时将其撤销。"
+            "value" : "“终端”在打开期间看不到对其设置所做的更改，并且可能会在下次保存设置时将其撤销。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「終端機」打開期間看不到更改後的設定，而且可能會在下次儲存設定時把設定改回來。"
-          }
-        }
-      }
-    },
-    "While Terminal is open, it doesn’t see a new theme, and can undo it the next time it saves its settings." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dokud je Terminál otevřený, o novém motivu neví a při příštím uložení svých nastavení ho může zrušit."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solange Terminal geöffnet ist, bemerkt die App kein neues Thema und kann die Änderung rückgängig machen, wenn sie ihre Einstellungen das nächste Mal sichert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mientras Terminal está abierta, no ve el tema nuevo y puede deshacerlo la próxima vez que guarde sus ajustes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tant que Terminal est ouvert, il ne s’aperçoit pas d’un changement de thème et peut l’annuler la prochaine fois qu’il enregistre ses réglages."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mentre Terminale è aperto, non vede un nuovo tema e può annullarlo la prossima volta che salva le sue impostazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ターミナルは、開いている間は新しいテーマを認識せず、次に設定を保存するときにテーマの変更を取り消すことがあります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "터미널은 열려 있는 동안 새로운 테마를 인식하지 못하며, 다음에 설정을 저장할 때 테마 변경을 되돌릴 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zolang Terminal open is, ziet de app een nieuw thema niet, en kan die het ongedaan maken de volgende keer dat die de instellingen bewaart."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dopóki Terminal jest otwarty, nie widzi zmiany motywu i może ją cofnąć, gdy następnym razem zachowa swoje ustawienia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enquanto estiver aberto, o Terminal não percebe uma mudança de tema e pode desfazê-la na próxima vez que salvar os próprios ajustes."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cât timp Terminal este deschis, nu vede o temă nouă și o poate anula data viitoare când își salvează configurările."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пока Терминал открыт, он не видит новую тему и может отменить ее, когда в следующий раз сохранит свои настройки."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medan Terminal är öppen ser den inte ett nytt tema och kan ångra det nästa gång den sparar sina inställningar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminal açıkken yeni bir temayı görmez ve bir dahaki sefere ayarlarını kaydettiğinde onu geri alabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поки Термінал відкритий, він не бачить нової теми й може відмінити її, коли наступного разу збереже свої налаштування."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“终端”在打开期间看不到新主题，并且可能会在下次保存设置时将其撤销。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「終端機」打開期間看不到新主題，而且可能會在下次儲存設定時把主題改回來。"
+            "value" : "「終端機」打開期間看不到設定的變更，而且可能會在下次儲存設定時把設定改回來。"
           }
         }
       }
