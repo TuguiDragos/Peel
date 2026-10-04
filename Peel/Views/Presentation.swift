@@ -133,6 +133,7 @@ extension TrashFailure.Reason {
         case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.")
         case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.")
         case .notPermitted: String(localized: "macOS didn’t allow it.")
+        case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.")
         case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.")
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.")
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.")

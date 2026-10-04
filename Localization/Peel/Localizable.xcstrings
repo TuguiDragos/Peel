@@ -49480,6 +49480,112 @@
         }
       }
     },
+    "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je zamčená. Ve Finderu zvolte Soubor > Informace, zrušte zaškrtnutí políčka Zamčeno a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist geschützt. Wähle im Finder „Ablage“ > „Informationen“, deaktiviere „Geschützt“ und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está bloqueado. En el Finder, elige Archivo > Obtener información, anula la selección de “Bloquear” y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est verrouillé. Dans le Finder, choisissez Fichier > Lire les informations, désélectionnez « Verrouillé », puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È bloccato. Nel Finder, scegli File > Ottieni informazioni, deseleziona Bloccato e riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックされています。Finderで“ファイル”＞“情報を見る”と選択し、“ロック”を選択解除してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠겨 있습니다. Finder에서 파일 > 정보 가져오기를 선택하고, ‘잠금’을 선택 해제한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is beveiligd. Kies in Finder Archief > Toon info, deselecteer 'Beveiligd' en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest zablokowane. W Finderze wybierz polecenie Plik > Informacje, usuń zaznaczenie pola Zablokowany i spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está bloqueado. No Finder, escolha Arquivo > Obter Informações, desmarque a opção “Bloqueado” e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este blocat. În Finder, alegeți Fișier > Obțineți informații și deselectați „Blocat”, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект защищен. В Finder выберите «Файл» > «Свойства», снимите флажок «Защита», а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är låst. Välj Arkiv > Visa info i Finder, avmarkera Låst och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilitli. Finder’da Dosya > Bilgi Ver komutunu seçin, Kilitli onay kutusunun seçimini kaldırın ve yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Елемент замкнено. У Finder виберіть Файл > Досьє, зніміть прапорець «Замкнено» і спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已被锁定。请在“访达”中选取“文件”>“显示简介”，取消选择“已锁定”，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已鎖定。請在Finder中選擇「檔案」>「取得資訊」，取消勾選「已鎖定」，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is no longer in the Trash, so there is nothing to put back." : {
       "localizations" : {
         "cs" : {

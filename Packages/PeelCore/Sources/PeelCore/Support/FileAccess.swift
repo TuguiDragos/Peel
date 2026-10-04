@@ -5,4 +5,12 @@ public enum FileAccess {
     public static func requiresPrivilegesToRemove(_ url: URL) -> Bool {
         ParentAccess(url.deletingLastPathComponent()).requiresPrivileges(toRemove: url)
     }
+
+    /// True when `url` itself is locked as Finder's Get Info locks it (`UF_IMMUTABLE`, `chflags(2)`): the file
+    /// may not be changed until its owner takes the lock off.
+    static func isLockedInFinder(_ url: URL) -> Bool {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+        return info.st_flags & UInt32(UF_IMMUTABLE) != 0
+    }
 }

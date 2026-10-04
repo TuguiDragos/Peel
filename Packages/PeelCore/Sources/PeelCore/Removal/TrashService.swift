@@ -68,6 +68,8 @@ public struct TrashFailure: Sendable, Hashable {
         case claimedSinceScan
         case lastCopy
         case notPermitted
+        /// It is locked, as Finder's Get Info locks an item, so it cannot move until the lock is taken off.
+        case locked
         /// It needs administrator rights, and the helper that has them is not installed or not allowed.
         case needsHelper
         /// It is in the Trash, but macOS did not say where and Peel could not find it, so only Finder can put it back.
@@ -100,6 +102,7 @@ extension TrashFailure.Reason {
         case .claimedSinceScan: "claimed-since-scan"
         case .lastCopy: "last-copy"
         case .notPermitted: "not-permitted"
+        case .locked: "locked"
         case .needsHelper: "needs-helper"
         case .movedWithoutATrace: "moved-without-a-trace"
         case .somethingElseMoved: "something-else-moved"
@@ -130,6 +133,7 @@ extension TrashFailure.Reason {
         case "claimed-since-scan": self = .claimedSinceScan
         case "last-copy": self = .lastCopy
         case "not-permitted": self = .notPermitted
+        case "locked": self = .locked
         case "needs-helper": self = .needsHelper
         case "moved-without-a-trace": self = .movedWithoutATrace
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
@@ -314,7 +318,9 @@ public struct TrashService: Sendable {
                 moved.add(path)
                 MoveCount.current?.add(1)
             } catch {
-                result.failures.append(TrashFailure(url: url, reason: Self.reason(for: error)))
+                let reason = Self.reason(for: error)
+                let isLocked = reason == .notPermitted && FileAccess.isLockedInFinder(url)
+                result.failures.append(TrashFailure(url: url, reason: isLocked ? .locked : reason))
             }
         }
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))

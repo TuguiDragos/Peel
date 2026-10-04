@@ -282,6 +282,20 @@ struct TrashServiceTests {
         #expect(await service.restore(planted) == .notAllowed)
     }
 
+    @Test func aMoveRefusedForAnItemLockedInFinderSaysItIsLocked() async throws {
+        let directory = try TemporaryDirectory()
+        let locked = try directory.file("home/Library/Preferences/org.example.locked.plist")
+        let path = locked.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.immutable: true], ofItemAtPath: path)
+        defer { try? FileManager.default.setAttributes([.immutable: false], ofItemAtPath: path) }
+        let service = try service(in: directory)
+
+        let result = await service.trash([locked])
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.locked])
+    }
+
     /// Once the Trash is emptied, another item of the same name can land where an old record's item was. It is not
     /// that item: History no longer counts the old record as in the Trash, and Put Back leaves the new one where it is.
     @Test func anItemLandingLaterWhereAnotherWasIsNotTakenForIt() async throws {

@@ -380,6 +380,7 @@ extension TrashFailure.Reason {
         case .claimedSinceScan: "claimed by an app that is installed now"
         case .lastCopy: "last copy"
         case .notPermitted: "not permitted"
+        case .locked: "locked; unlock it in Finder's Get Info"
         case .needsHelper: "needs administrator access"
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
