@@ -550,4 +550,41 @@ struct HomebrewTests {
 
         #expect(Homebrew.hasLocalDefinitions(inCache: cache.url, tag: "arm64_tahoe", readsTheTaps: true))
     }
+
+    @Test func askingAboutTheDefinitionsDownloadsNothing() async throws {
+        guard Homebrew.executableURL != nil else { return }
+        let home = try TemporaryDirectory()
+
+        #expect(await !Homebrew.hasLocalDefinitions(home: home.url))
+        let api = home.url.appending(path: "Library/Caches/Homebrew/api")
+        #expect(!FileManager.default.fileExists(atPath: api.path(percentEncoded: false)), "Homebrew went online")
+    }
+
+    @Test func readsTheTapsOnlyWhereTheLastBrewEnvLineSaysSo() throws {
+        let folder = try TemporaryDirectory()
+        let system = try folder.file("etc/homebrew/brew.env", contents: Data("# a comment\nHOMEBREW_NO_ANALYTICS=1\n".utf8))
+        let prefix = try folder.file("prefix/brew.env", contents: Data("  HOMEBREW_NO_INSTALL_FROM_API=1\t\n".utf8))
+        let user = try folder.file("home/.homebrew/brew.env", contents: Data("HOMEBREW_NO_INSTALL_FROM_API=\n".utf8))
+        let unfinished = try folder.file("other/brew.env", contents: Data("HOMEBREW_NO_INSTALL_FROM_API=1".utf8))
+        let missing = folder.url.appending(path: "nowhere/brew.env")
+
+        #expect(!Homebrew.readsTheTaps(settingsIn: [system, missing]))
+        #expect(Homebrew.readsTheTaps(settingsIn: [system, prefix]))
+        #expect(!Homebrew.readsTheTaps(settingsIn: [system, prefix, user]))
+        #expect(!Homebrew.readsTheTaps(settingsIn: [unfinished]), "a last line with no line end is never read")
+    }
+
+    @Test func readsTheSystemsSettingsLastWhenTheyTakePriority() throws {
+        let folder = try TemporaryDirectory()
+        let priority = Data("HOMEBREW_SYSTEM_ENV_TAKES_PRIORITY=1\n".utf8)
+        let system = try folder.file("etc/homebrew/brew.env", contents: priority)
+        let prefix = folder.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let user = folder.url.appending(path: "home/.homebrew", directoryHint: .isDirectory)
+
+        let files = Homebrew.settingsFiles(system: system, prefix: prefix, userConfiguration: user)
+        #expect(files.map(\.lastPathComponent) == ["brew.env", "brew.env", "brew.env", "brew.env"])
+        #expect(files.first == system && files.last == system)
+        try folder.file("etc/homebrew/brew.env", contents: Data("HOMEBREW_NO_ANALYTICS=1\n".utf8))
+        #expect(Homebrew.settingsFiles(system: system, prefix: prefix, userConfiguration: user).count == 3)
+    }
 }

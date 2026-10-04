@@ -348,21 +348,73 @@ public enum Homebrew {
             .first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
     }
 
-    /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, asking about a cask
-    /// makes Homebrew download the copy, even with `HOMEBREW_NO_AUTO_UPDATE` set. So Peel looks for the copy
-    /// itself, and asks nothing about casks when it is missing. Where Homebrew keeps it, the platform it is named
-    /// for, and whether Homebrew reads its taps instead are asked of Homebrew itself, which reads its own
-    /// settings, `brew.env` included (`api/internal.rb`, `env_config.rb` in 7.0).
+    /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, any command that may read
+    /// them makes Homebrew download the copy first, even with `HOMEBREW_NO_AUTO_UPDATE` set (`fetch_api_files!` in
+    /// `brew.rb`, 7.0). So Peel looks for the copy itself, and runs nothing else when it is missing. Where Homebrew
+    /// keeps it and the platform it is named for are asked of Homebrew with its API turned off, which keeps that
+    /// question from downloading. Whether it reads its taps instead is what its `brew.env` files say, since Peel's
+    /// own environment never sets it.
     @concurrent
     public static func hasLocalDefinitions() async -> Bool {
+        await hasLocalDefinitions(home: .homeDirectory)
+    }
+
+    static func hasLocalDefinitions(home: URL) async -> Bool {
         guard executableURL != nil else { return false }
-        let question = "puts HOMEBREW_CACHE; puts Utils::Bottles.tag; puts(Homebrew::EnvConfig.no_install_from_api? "
-            + "&& CoreTap.instance.installed? && CoreCaskTap.instance.installed?)"
-        guard let answer = try? await answer(["ruby", "-e", question]) else { return false }
+        let question = "puts HOMEBREW_CACHE; puts Utils::Bottles.tag; puts HOMEBREW_PREFIX; "
+            + "puts ENV.fetch('HOMEBREW_USER_CONFIG_HOME', ''); "
+            + "puts(CoreTap.instance.installed? && CoreCaskTap.instance.installed?)"
+        guard let answer = try? await answer(["ruby", "-e", question], readsTheAPI: false, home: home) else {
+            return false
+        }
         let lines = answer.split(whereSeparator: \.isNewline).map(String.init)
-        guard lines.count == 3, !lines[0].isEmpty, !lines[1].isEmpty else { return false }
+        guard lines.count == 5, !lines[0].isEmpty, !lines[1].isEmpty, !lines[2].isEmpty, !lines[3].isEmpty else {
+            return false
+        }
+        let files = settingsFiles(
+            system: URL(filePath: "/etc/homebrew/brew.env"),
+            prefix: URL(filePath: lines[2], directoryHint: .isDirectory),
+            userConfiguration: URL(filePath: lines[3], directoryHint: .isDirectory)
+        )
         let cache = URL(filePath: lines[0], directoryHint: .isDirectory)
-        return hasLocalDefinitions(inCache: cache, tag: lines[1], readsTheTaps: lines[2] == "true")
+        let readsItsTaps = lines[4] == "true" && readsTheTaps(settingsIn: files)
+        return hasLocalDefinitions(inCache: cache, tag: lines[1], readsTheTaps: readsItsTaps)
+    }
+
+    /// The `brew.env` files `bin/brew` reads before every command, in its order: the system's, the prefix's, the
+    /// user's, and the system's once more when it says it takes priority.
+    static func settingsFiles(system: URL, prefix: URL, userConfiguration: URL) -> [URL] {
+        let files = [
+            system,
+            prefix.appending(path: "etc/homebrew/brew.env"),
+            userConfiguration.appending(path: "brew.env"),
+        ]
+        let takesPriority = setting("HOMEBREW_SYSTEM_ENV_TAKES_PRIORITY", in: [system]).map { !$0.isEmpty } == true
+        return files + (takesPriority ? [system] : [])
+    }
+
+    /// Whether the last line among `files` that sets `HOMEBREW_NO_INSTALL_FROM_API` sets it to anything but blank,
+    /// which makes Homebrew read its taps. Peel's own environment never sets it.
+    static func readsTheTaps(settingsIn files: [URL]) -> Bool {
+        let value = setting("HOMEBREW_NO_INSTALL_FROM_API", in: files) ?? ""
+        return !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    /// The value the last line of `files` gives `name`, read as `bin/brew` reads them (`read -r`): a line counts only
+    /// once it ends, trimmed of spaces and tabs, and the value is what follows the equals sign.
+    private static func setting(_ name: String, in files: [URL]) -> String? {
+        var value: String?
+        for file in files {
+            guard let data = BoundedRead.data(at: file, maximum: 64 * 1_024) else { continue }
+            let lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
+            for line in lines.dropLast() {
+                let trimmed = line.trimmingCharacters(in: CharacterSet(charactersIn: " \t"))
+                if trimmed.hasPrefix(name + "=") {
+                    value = String(trimmed.dropFirst(name.count + 1))
+                }
+            }
+        }
+        return value
     }
 
     /// Returns whether `cache` holds that copy. In Homebrew 6.0.0 and later, the copy is one file named for the
@@ -662,8 +714,11 @@ public enum Homebrew {
     }
 
     /// Runs a command whose output Peel reads (JSON, a path, a list, or a version), and returns its stdout.
-    private static func answer(_ arguments: [String]) async throws(CommandFailure) -> String {
-        try await execute(arguments, autoUpdate: false, timeout: longestAnswer).answer()
+    private static func answer(
+        _ arguments: [String], readsTheAPI: Bool = true, home: URL = .homeDirectory
+    ) async throws(CommandFailure) -> String {
+        try await execute(arguments, autoUpdate: false, timeout: longestAnswer, readsTheAPI: readsTheAPI, home: home)
+            .answer()
     }
 
     struct Attempt {
@@ -693,13 +748,17 @@ public enum Homebrew {
         keeping kept: [String] = [],
         timeout: TimeInterval?,
         onOutput: (@Sendable (Data) -> Void)? = nil,
-        executable: URL? = executableURL
+        executable: URL? = executableURL,
+        readsTheAPI: Bool = true,
+        home: URL = .homeDirectory
     ) async throws(CommandFailure) -> Attempt {
         guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
         }
         let path = executable.path(percentEncoded: false)
-        let environment = environment(autoUpdate: autoUpdate, keeping: kept, executable: executable)
+        let environment = environment(
+            autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home
+        )
         switch await Subprocess.run(path, arguments, environment: environment, timeout: timeout, onOutput: onOutput) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
@@ -751,7 +810,10 @@ public enum Homebrew {
     /// value set anywhere in the user's session would otherwise decide how Homebrew behaves, and
     /// `HOMEBREW_FORCE_API_AUTO_UPDATE` would undo the setting that keeps Peel off the network. Homebrew's own
     /// `brew.env` files are read after it and can still undo a setting here, which `overrides()` reports.
-    static func environment(autoUpdate: Bool, keeping kept: [String] = [], executable: URL? = nil) -> [String: String] {
+    static func environment(
+        autoUpdate: Bool, keeping kept: [String] = [], executable: URL? = nil, readsTheAPI: Bool = true,
+        home: URL = .homeDirectory
+    ) -> [String: String] {
         var path = "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         // A Homebrew in a prefix of its own finds its own programs first, as the default ones do.
         if let executable {
@@ -763,7 +825,7 @@ public enum Homebrew {
         }
         var values = [
             "PATH": path,
-            "HOME": URL.homeDirectory.path(percentEncoded: false),
+            "HOME": home.path(percentEncoded: false),
             "HOMEBREW_NO_ENV_HINTS": "1",
             // Without this every call pings Homebrew's analytics over the network.
             "HOMEBREW_NO_ANALYTICS": "1",
@@ -780,6 +842,9 @@ public enum Homebrew {
         }
         if !kept.isEmpty {
             values["HOMEBREW_NO_CLEANUP_FORMULAE"] = kept.joined(separator: ",")
+        }
+        if !readsTheAPI {
+            values["HOMEBREW_NO_INSTALL_FROM_API"] = "1"
         }
         return values
     }
