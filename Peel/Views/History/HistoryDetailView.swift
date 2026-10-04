@@ -10,42 +10,13 @@ struct HistoryDetailView: View {
     @Environment(\.openSettings) private var openSettings
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
     /// moment, and offer to forget records that are still there.
-    @State private var standing: Standing?
+    @State private var standing: RemovalStanding?
     @State private var isAskingToForget = false
     /// The alert after a Put Back that left items behind. Its reasons stay under the rows once it is closed.
     @State private var isShowingFailures = false
+    /// This batch's items that stayed in the Trash, in the order the page lists them.
+    @State private var failures: [(record: RemovalRecord, failure: RestoreFailure)] = []
     let batch: RemovalBatch
-
-    /// Which records are still in the Trash, which are in the Trash of a disk that isn't connected, and which Peel
-    /// can't look at. Any other record has left the Trash. It is read off the main actor, so drawing the page never
-    /// touches the disk.
-    private struct Standing {
-        var inTrash: Set<RemovalRecord.ID> = []
-        var away: Set<RemovalRecord.ID> = []
-        var notKnown: Set<RemovalRecord.ID> = []
-
-        @concurrent
-        static func of(_ records: [RemovalRecord]) async -> Standing {
-            var standing = Standing()
-            for record in records {
-                let place = record.standing
-                if place == .inTheTrash {
-                    standing.inTrash.insert(record.id)
-                } else if !record.isOnAConnectedDisk {
-                    standing.away.insert(record.id)
-                } else if place == .notKnown {
-                    standing.notKnown.insert(record.id)
-                }
-            }
-            return standing
-        }
-
-        /// The records among `records` that have left the Trash, looked at again.
-        @concurrent
-        static func stillGone(_ records: [RemovalRecord]) async -> [RemovalRecord] {
-            records.filter { $0.standing == .gone && $0.isOnAConnectedDisk }
-        }
-    }
 
     /// The id of the page's task: the batch, and whether the window is key. When either changes, the page reads
     /// the disk again, since the Trash may have been emptied in the meantime.
@@ -54,36 +25,9 @@ struct HistoryDetailView: View {
         let isActive: Bool
     }
 
-    private var restorable: [RemovalRecord] {
-        batch.records.filter { standing?.inTrash.contains($0.id) == true }
-    }
-
-    private var selected: [RemovalRecord] {
-        restorable.filter { history.selectedIDs.contains($0.id) }
-    }
-
     /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
     private var restorableSize: SizeTotal {
-        standing == nil ? batch.size : restorable.totalSize
-    }
-
-    private var missing: [RemovalRecord] {
-        guard let standing else { return [] }
-        return batch.records.filter {
-            !standing.inTrash.contains($0.id) && !standing.away.contains($0.id) && !standing.notKnown.contains($0.id)
-        }
-    }
-
-    /// Records Peel can't look at in the Trash. Whether they are still there is not known, so the page never offers
-    /// to forget them.
-    private var notKnown: [RemovalRecord] {
-        batch.records.filter { standing?.notKnown.contains($0.id) == true }
-    }
-
-    /// Records in the Trash of a disk that isn't connected. They may still be there, so the page never offers
-    /// to forget them.
-    private var away: [RemovalRecord] {
-        batch.records.filter { standing?.away.contains($0.id) == true }
+        standing?.restorableSize ?? batch.size
     }
 
     var body: some View {
@@ -98,18 +42,21 @@ struct HistoryDetailView: View {
             }
         }
         .safeAreaBar(edge: .bottom) {
+            let selectedCount = standing?.selectedCount(in: history.selectedIDs) ?? 0
             RestoreBar(
-                count: selected.count,
+                count: selectedCount,
                 isRestoring: history.isRestoring,
-                isEnabled: !selected.isEmpty && !history.isRestoring && exclusions.exclusions.isKnown && !history.isUnreadable
+                isEnabled: selectedCount > 0 && !history.isRestoring && exclusions.exclusions.isKnown && !history.isUnreadable
             ) {
+                guard let standing else { return }
+                let selected = standing.selected(among: batch.records, in: history.selectedIDs)
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
         }
         .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
         .task(id: Look(batch: batch, isActive: controlActiveState == .key)) {
-            standing = await Standing.of(batch.records)
+            standing = await RemovalStanding.of(batch.records)
         }
         .task(id: batch.id) {
             // Failures belong to the batch they happened in, so another batch's page starts without them. Keyed to
@@ -117,8 +64,9 @@ struct HistoryDetailView: View {
             // reports the rest must stay.
             history.failures = [:]
         }
-        .onChange(of: history.failures) { _, failures in
-            isShowingFailures = batch.records.contains { failures[$0.id] != nil }
+        .onChange(of: history.failures) { _, all in
+            failures = batch.records.compactMap { record in all[record.id].map { (record, $0) } }
+            isShowingFailures = !failures.isEmpty
         }
         .alert("Some items couldn’t be put back.", isPresented: $isShowingFailures) {
             if failures.contains(where: { $0.failure == .needsHelper }) {
@@ -132,10 +80,10 @@ struct HistoryDetailView: View {
     }
 
     @ViewBuilder
-    private func records(in standing: Standing) -> some View {
-        if !missing.isEmpty {
+    private func records(in standing: RemovalStanding) -> some View {
+        if standing.missingCount > 0 {
             Notice(
-                title: Text("^[\(missing.count) item](inflect: true) left the Trash"),
+                title: Text("^[\(standing.missingCount) item](inflect: true) left the Trash"),
                 detail: Text("Peel can only put back what is still there.")
             ) {
                 Button("Forget") {
@@ -144,10 +92,11 @@ struct HistoryDetailView: View {
                 .tint(.red)
             }
             .listRowSeparator(.hidden)
-            .confirmationDialog(Text("Forget ^[\(missing.count) item](inflect: true)?"), isPresented: $isAskingToForget) {
+            .confirmationDialog(Text("Forget ^[\(standing.missingCount) item](inflect: true)?"), isPresented: $isAskingToForget) {
                 Button("Forget", role: .destructive) {
                     // Looked at again first: an item can come back to the Trash, or stop being visible, meanwhile.
-                    Task { await history.forget(await Standing.stillGone(missing)) }
+                    let missing = standing.missing(among: batch.records)
+                    Task { await history.forget(await RemovalStanding.stillGone(missing)) }
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
@@ -155,7 +104,8 @@ struct HistoryDetailView: View {
             }
         }
 
-        if !notKnown.isEmpty {
+        // Whether these are still in the Trash is not known, so the page never offers to forget them.
+        if !standing.notKnown.isEmpty {
             Notice(
                 title: Text("Peel can’t look in the Trash right now"),
                 detail: Text("History keeps what it can’t see until Peel can look again."),
@@ -164,9 +114,10 @@ struct HistoryDetailView: View {
             .listRowSeparator(.hidden)
         }
 
-        if !away.isEmpty {
+        // They may still be in the Trash of their disk, so the page never offers to forget them.
+        if !standing.away.isEmpty {
             Notice(
-                title: Text("^[\(away.count) item](inflect: true) on a disk that isn’t connected"),
+                title: Text("^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected"),
                 detail: Text("Connect the disk to put them back from its Trash."),
                 kind: .note
             ) {}
@@ -174,14 +125,14 @@ struct HistoryDetailView: View {
         }
 
         Section {
-            ForEach(Array(batch.records.enumerated()), id: \.element.id) { index, record in
+            ForEach(batch.records) { record in
                 HistoryRecordRow(
                     history: history,
                     record: record,
                     place: place(of: record, in: standing),
                     failure: history.failures[record.id],
                     isSelected: history.isSelected(record),
-                    isFirst: index == 0
+                    isFirst: record.id == batch.records.first?.id
                 )
             }
             .listRowSeparator(.hidden)
@@ -190,7 +141,7 @@ struct HistoryDetailView: View {
                 Text("Items")
             } actions: {
                 SelectAllButton(
-                    selectable: restorable.map(\.id),
+                    selectable: standing.restorable,
                     rows: batch.records.map(\.id),
                     selection: Bindable(history).selectedIDs
                 )
@@ -225,16 +176,11 @@ struct HistoryDetailView: View {
         }
     }
 
-    private func place(of record: RemovalRecord, in standing: Standing) -> RecordPlace {
+    private func place(of record: RemovalRecord, in standing: RemovalStanding) -> RecordPlace {
         if standing.inTrash.contains(record.id) { return .inTrash }
         if standing.away.contains(record.id) { return .onADiskThatIsAway }
         if standing.notKnown.contains(record.id) { return .notKnown }
         return .gone
-    }
-
-    /// This batch's items that stayed in the Trash, in the order the page lists them.
-    private var failures: [(record: RemovalRecord, failure: RestoreFailure)] {
-        batch.records.compactMap { record in history.failures[record.id].map { (record, $0) } }
     }
 
     /// The alert's message: the first few items that couldn't be put back, each with its own reason, since items
