@@ -72039,7 +72039,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Necesită atenția dumneavoastră"
+            "value" : "Necesită atenția dvs."
           }
         },
         "ru" : {
@@ -102511,7 +102511,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă. Un singur lucru trimite o listă cu ce este instalat și îl porniți chiar dumneavoastră: scanarea vulnerabilităților din Homebrew trimite sursa și versiunea fiecărei formule instalate către api.osv.dev."
+            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă. Un singur lucru trimite o listă cu ce este instalat și îl porniți chiar dvs.: scanarea vulnerabilităților din Homebrew trimite sursa și versiunea fiecărei formule instalate către api.osv.dev."
           }
         },
         "ru" : {
@@ -146718,7 +146718,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acestea sunt aici deoarece Peel este mai puțin sigur de ele, le folosește și o altă aplicație de pe acest Mac sau Peel le‑a reținut din motivul indicat pe fiecare rând. Aici nu se selectează nimic pentru dumneavoastră: citiți fiecare rând și selectați doar ce recunoașteți."
+            "value" : "Acestea sunt aici deoarece Peel este mai puțin sigur de ele, le folosește și o altă aplicație de pe acest Mac sau Peel le‑a reținut din motivul indicat pe fiecare rând. Aici nu se selectează nimic pentru dvs.: citiți fiecare rând și selectați doar ce recunoașteți."
           }
         },
         "ru" : {

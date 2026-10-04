@@ -198,6 +198,7 @@ import Testing
             "Made by Ana-Maria": ["localizations": ["ro": unit("Făcut de Ana-Maria"), "fr": unit("Fait par Ana-Maria")]],
             "Before zsh-autosuggestions, without --set-upstream": ["localizations": ["ro": unit("Înainte de zsh-autosuggestions, fără --set-upstream"), "fr": unit("Avant zsh-autosuggestions, sans --set-upstream")]],
             "Control-click an app": ["localizations": ["ro": unit("Faceți Control-clic pe o aplicație"), "fr": unit("Cliquez sur une app en maintenant Contrôle")]],
+            "Needs your attention": ["localizations": ["ro": unit("Necesită atenția dumneavoastră"), "fr": unit("Requiert votre attention")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -242,6 +243,7 @@ import Testing
         #expect(caught["hyphen"]?.contains("Made by Ana-Maria") != true, "a compound name keeps its own hyphen")
         #expect(caught["hyphen"]?.contains("Before zsh-autosuggestions, without --set-upstream") != true, "a name or an option the English has is typed as it is")
         #expect(caught["hyphen"]?.contains("Control-click an app") == true, "only a whole word the English has, never a part of one")
+        #expect(caught["address"]?.contains("Needs your attention") == true, "Romanian writes dvs., as macOS does")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -601,6 +603,9 @@ struct CatalogChecker {
         }
         if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
             fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
+        }
+        if language == "ro", text.range(of: "dumneavoastr", options: .caseInsensitive) != nil {
+            fail(path, key, language, "address", "dvs., as macOS writes it")
         }
         if catalog.table == .appShortcuts {
             if text.components(separatedBy: "${applicationName}").count != 2 { fail(path, key, language, "phrase", "needs ${applicationName} exactly once") }
