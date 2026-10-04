@@ -22,7 +22,7 @@ private final class Answers: NSObject, LooseTrashReplies, NSXPCListenerDelegate 
     }
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
-        connection.exportedInterface = NSXPCInterface(with: LooseTrashReplies.self)
+        connection.exportedInterface = NSXPCInterface(with: (any LooseTrashReplies).self)
         connection.exportedObject = self
         connection.resume()
         return true
