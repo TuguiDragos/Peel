@@ -131,6 +131,17 @@ struct FolderDuplicateTests {
         #expect(try await scan(directory).folderGroups.isEmpty)
     }
 
+    @Test func leavesAloneAFolderHoldingNodeModules() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 2_000)
+        for folder in ["home/Documents/Web", "home/Pictures/Web"] {
+            try directory.file("\(folder)/report.pdf", contents: contents)
+            try directory.file("\(folder)/node_modules/package/index.js", contents: contents)
+        }
+
+        #expect(try await scan(directory).folderGroups.isEmpty)
+    }
+
     /// Folders holding a project are left to Build Artifacts, unless the projects themselves were chosen. A stray
     /// build file in Desktop or another folder every account starts with does not make that folder a project.
     @Test func leavesAloneAFolderHoldingAProject() async throws {
