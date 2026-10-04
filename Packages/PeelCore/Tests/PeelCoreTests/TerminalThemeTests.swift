@@ -48,6 +48,29 @@ struct TerminalThemeTests {
         }
     }
 
+    @Test func terminalMDShowsEveryLinePeelWritesAndEveryPromptAndTool() throws {
+        let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "TERMINAL.md"), encoding: .utf8)
+        let folder = StringCatalogTests.repository.appending(path: "Terminal/Prompts", directoryHint: .isDirectory)
+        let pictures = try FileManager.default.contentsOfDirectory(atPath: folder.path).filter { $0.hasSuffix(".png") }
+        #expect(Set(pictures) == Set(PromptStyle.allCases.map { "\($0).png" }))
+        let homebrew = URL(filePath: "/opt/homebrew", directoryHint: .isDirectory)
+        var lines = ShellSetting.allCases.flatMap(\.lines) + [ShellFile.completionSystem] + PromptStyle.allCases.flatMap(\.lines)
+        lines += GitSetting.allCases.filter { $0 != .signCommits }.flatMap { $0.values(signingKey: nil) }.map { "git config --global \($0.key) \($0.value)" }
+        lines += ["git config --global gpg.format ssh", "git config --global commit.gpgSign true"]
+        lines += SSHSetting.allCases.flatMap(\.lines)
+        lines += TerminalTool.allCases.flatMap { $0.setup(prefix: homebrew) }.flatMap(\.lines).map { $0.replacing("/opt/homebrew", with: "$HOMEBREW_PREFIX") }
+        let pageLines = Set(page.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) })
+        for line in lines {
+            #expect(pageLines.contains(line), "\(line)")
+        }
+        for tool in TerminalTool.allCases {
+            #expect(page.contains("`\(tool.installCommand)`"), "\(tool)")
+        }
+        for style in PromptStyle.allCases {
+            #expect(page.contains("Terminal/Prompts/\(style).png"), "\(style)")
+        }
+    }
+
     static func expectColors(of theme: TerminalTheme, in profile: [String: Any]) throws {
         let colors = [
             ("BackgroundColor", theme.background), ("TextColor", theme.text), ("TextBoldColor", theme.text),

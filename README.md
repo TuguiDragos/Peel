@@ -167,7 +167,7 @@ every file extension in Finder, keep straight quotes as you type, drag a window 
 seconds on the menu bar clock. Each tweak says what it changes, and turning it off puts back what was there
 before, or leaves it to macOS.
 
-### Give Terminal a theme
+### Set up Terminal
 
 <p align="center">
   <img src="Terminal/Renders/Hadal.png" width="49%" alt="The Hadal theme in Terminal">
@@ -176,8 +176,14 @@ before, or leaves it to macOS.
 
 Peel comes with 29 dark themes for Terminal, built on Apple's own Clear Dark. Choose one, and Terminal opens with it
 in every new window; Put Back gives Terminal its own profile again. The same page can leave out the "Last login"
-line, make Option the Meta key, and silence the bell. [TERMINAL.md](TERMINAL.md) shows every theme, each with its
-file for Terminal on a Mac without Peel.
+line, make Option the Meta key, and silence the bell.
+
+It sets up the command line as well. Choose a prompt, or keep the one macOS sets, and turn on settings zsh, Git, and
+ssh already have, each with a switch: a longer history shared between windows, Up and Down that find what you started
+typing, Tab completion with a menu, rebase when pulling, and connections that stay alive. Peel writes them to files of
+its own, which zsh and ssh read through a line you add, and changes Git's with `git config`, so Turn All Off puts
+everything back. The Tools tab suggests command-line tools worth having, with the Homebrew command and the lines to
+add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what each one writes.
 
 ### Stay in control
 
@@ -408,6 +414,10 @@ In Settings > General, choose Remove Peel. It has its helper move its record of 
 its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application
 Support to the Trash, clears its settings, and quits. That
 folder holds History, your exclusions, and the settings Peel saved when you reset an app.
+
+What Peel changed for you stays as it is: tweaks, Terminal's theme, and Git's settings. Turn them off first if you
+want them gone. The shell and ssh settings live in Peel's folder, so they go with it, and the line you added to
+`~/.zshrc` and the two at the end of `~/.ssh/config` then do nothing. You can delete them.
 
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
 in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the

@@ -3,7 +3,8 @@
 Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can
 take something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what
 it selects for you and what it leaves to you, how it keeps crypto wallets, how a reset stays within an app's
-settings, what it changes in Terminal's settings, and what its helper, which runs as root, may do.
+settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings, and what its helper, which runs as
+root, may do.
 
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
@@ -282,6 +283,12 @@ it.
 Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off again
 moves that file to the Trash, recorded in History. Peel never edits your shell's files: to stop the shell from saving
 its sessions, it shows the line to add yourself.
+
+The Shell and SSH tabs write only two files of Peel's own, in its folder. zsh and ssh read them only through the line
+you add to `~/.zshrc` and the two lines you add at the end of `~/.ssh/config`, and Peel never edits those files. Turn
+All Off empties Peel's files, and a line left in yours then does nothing. The Git tab changes Git's settings only with
+`git config --global`, Git's own command, after noting what each key held: turning a setting off puts that back, and
+a value you changed since is left as it is. The Tools tab installs nothing: it shows the commands to copy.
 
 ## The helper that runs as root
 
