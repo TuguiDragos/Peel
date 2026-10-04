@@ -36,12 +36,15 @@ struct MenuBarPanel: View {
 
     private var header: some View {
         HStack(spacing: 9) {
+            // The mark is drawn for the eye; VoiceOver hears the name, as a name rather than in capitals.
             Image(.peelGlyph)
                 .renderingMode(.template)
                 .foregroundStyle(Album.orange)
+                .accessibilityHidden(true)
             Text(verbatim: "PEEL")
                 .font(.system(size: 15, weight: .bold, design: .rounded))
                 .kerning(1.2)
+                .accessibilityLabel(Text(verbatim: "Peel"))
             Spacer()
             Menu {
                 SettingsLink { Text("Settings…") }
