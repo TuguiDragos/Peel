@@ -109,6 +109,8 @@ public enum SpaceRemoval {
         exclusions: Exclusions,
         running: [String: String]
     ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal]) {
+        // An area only its own app or tool should empty, such as a virtual machine's disks, offers nothing.
+        guard item.handling == .trash else { return ([], [], [], [:]) }
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []

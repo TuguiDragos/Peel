@@ -23,6 +23,26 @@ struct SpaceRemovalTests {
         )
     }
 
+    /// An area only its own app or tool should empty, such as a virtual machine's disks, is never planned for the
+    /// Trash, whoever asks.
+    @Test func plansNothingInAnAreaItsOwnToolEmpties() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Containers/org.example.vm/Data/vms/0/disk.img", bytes: 64)
+        let machines = SpaceItem(
+            id: "virtual-machines",
+            category: .virtualMachines,
+            urls: [directory.url.appending(path: "home/Library/Containers/org.example.vm/Data/vms", directoryHint: .isDirectory)],
+            size: 64,
+            handling: .readOnly
+        )
+
+        let plan = await SpaceRemoval.plan(for: machines, environment: environment(directory))
+        let removable = await SpaceRemoval.removable(in: machines, environment: environment(directory))
+
+        #expect(plan.removable.isEmpty)
+        #expect(removable.isEmpty)
+    }
+
     /// Space moves each folder inside Caches whole, but Coursier's folder holds the JVMs that `JAVA_HOME` points
     /// at, and Poetry's holds its virtual environments. Only Developer knows which part of such a folder is a cache.
     @Test func leavesToDeveloperEveryFolderDeveloperListsSomethingInside() async throws {
