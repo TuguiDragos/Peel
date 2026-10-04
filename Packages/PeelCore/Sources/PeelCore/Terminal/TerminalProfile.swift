@@ -2,7 +2,7 @@ import AppKit
 import CryptoKit
 
 public enum TerminalProfile {
-    public static func settings(for theme: TerminalTheme) throws -> [String: Any] {
+    public static func settings(for theme: TerminalTheme, options: Set<TerminalOption> = []) throws -> [String: Any] {
         var settings: [String: Any] = [
             "name": theme.profileName,
             "type": "Window Settings",
@@ -25,6 +25,9 @@ public enum TerminalProfile {
         ]
         for (index, color) in theme.ansi.enumerated() {
             settings["ANSI\(index < 8 ? "" : "Bright")\(ansiNames[index % 8])Color"] = try archive(color)
+        }
+        for option in options {
+            option.set(true, in: &settings)
         }
         return settings
     }

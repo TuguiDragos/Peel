@@ -53,8 +53,12 @@ struct TerminalPage: View {
                 Task { await terminal.quitTerminal(andThen: action) }
             }
             Button("Cancel", role: .cancel) {}
-        } message: { _ in
-            Text("While Terminal is open, it doesn’t see a new theme, and can undo it the next time it saves its settings.")
+        } message: { action in
+            if case .set = action {
+                Text("While Terminal is open, it doesn’t see a changed setting, and can undo it the next time it saves its settings.")
+            } else {
+                Text("While Terminal is open, it doesn’t see a new theme, and can undo it the next time it saves its settings.")
+            }
         }
         .alert("Terminal didn’t quit.", isPresented: Bindable(terminal).terminalDidNotQuit) {
             Button("OK", role: .cancel) {}
@@ -180,8 +184,100 @@ private struct TerminalSettingsForm: View {
                     TweakRow(tweak: TweakCatalog.terminalWindows)
                 }
             }
+            Section {
+                ForEach(TerminalOption.allCases, id: \.self) { option in
+                    TerminalOptionRow(option: option)
+                }
+            } header: {
+                Text("Theme in Use")
+            } footer: {
+                if terminal.isManaged {
+                    Label("Locked by a profile", systemImage: "lock")
+                        .font(.caption)
+                        .foregroundStyle(Color.accentColor)
+                } else if terminal.options == nil {
+                    Text("Choose one of Peel’s themes to change these settings.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else if terminal.problem == .refused {
+                    Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(Color.accentColor)
+                }
+            }
         }
         .formStyle(.grouped)
+    }
+}
+
+private struct TerminalSwitchRow: View {
+    let title: LocalizedStringResource
+    let detail: LocalizedStringResource
+    let footnote: String
+    var caption: LocalizedStringResource?
+    let isOn: Binding<Bool>
+    let isDisabled: Bool
+
+    var body: some View {
+        HStack(spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 5) {
+                    Text(title)
+                        .font(.body.weight(.semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    InfoNote(name: String(localized: title), detail: Text(detail), footnote: Text(verbatim: footnote))
+                }
+                if let caption {
+                    Text(caption)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            }
+            Spacer(minLength: 8)
+            Toggle(isOn: isOn) { EmptyView() }
+                .labelsHidden()
+                .accessibilityRepresentation {
+                    Toggle(isOn: isOn) { Text(title) }
+                }
+                .disabled(isDisabled)
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+private struct TerminalOptionRow: View {
+    @Environment(TerminalLibrary.self) private var terminal
+    let option: TerminalOption
+
+    var body: some View {
+        TerminalSwitchRow(
+            title: option.title,
+            detail: option.detail,
+            footnote: option.rawValue,
+            isOn: Binding(
+                get: { terminal.options?.contains(option) == true },
+                set: { terminal.perform(.set(option, $0)) }
+            ),
+            isDisabled: terminal.options == nil || terminal.isManaged || terminal.isQuittingTerminal
+        )
+    }
+}
+
+extension TerminalOption {
+    fileprivate var title: LocalizedStringResource {
+        switch self {
+        case .optionAsMeta: "Use Option as Meta key"
+        case .noAlertSound: "No alert sound"
+        }
+    }
+
+    fileprivate var detail: LocalizedStringResource {
+        switch self {
+        case .optionAsMeta: "The Option key works as the Meta key, which some text editors use for their commands. Option then no longer types the characters it types on your keyboard, such as @ and [ on a German keyboard."
+        case .noAlertSound: "When a program rings Terminal’s bell, as with Control-G, Terminal plays no sound."
+        }
     }
 }
 
@@ -193,33 +289,14 @@ private struct QuietLoginRow: View {
     @State private var asked: Bool?
 
     var body: some View {
-        HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
-                    Text("No “Last login” line")
-                        .font(.body.weight(.semibold))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                    InfoNote(
-                        name: String(localized: "No “Last login” line"),
-                        detail: Text("New Terminal windows start at the prompt, without the line that says when you last logged in. Logins to this Mac over SSH leave it out too."),
-                        footnote: Text(verbatim: HushLogin.url(in: .homeDirectory).abbreviatedPath)
-                    )
-                }
-                Text("Takes effect in new windows")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-            Spacer(minLength: 8)
-            Toggle(isOn: isOn) { EmptyView() }
-                .labelsHidden()
-                .accessibilityRepresentation {
-                    Toggle(isOn: isOn) { Text("No “Last login” line") }
-                }
-                .disabled(terminal.isMovingQuietLogin || terminal.quietsLogin && !canMoveToTrash)
-        }
-        .padding(.vertical, 4)
+        TerminalSwitchRow(
+            title: "No “Last login” line",
+            detail: "New Terminal windows start at the prompt, without the line that says when you last logged in. Logins to this Mac over SSH leave it out too.",
+            footnote: HushLogin.url(in: .homeDirectory).abbreviatedPath,
+            caption: "Takes effect in new windows",
+            isOn: isOn,
+            isDisabled: terminal.isMovingQuietLogin || terminal.quietsLogin && !canMoveToTrash
+        )
     }
 
     private var canMoveToTrash: Bool {

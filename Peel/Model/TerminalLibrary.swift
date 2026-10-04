@@ -8,6 +8,7 @@ final class TerminalLibrary {
     enum Action: Equatable {
         case use(TerminalTheme)
         case putBack
+        case set(TerminalOption, Bool)
     }
 
     private static let ledgerKey = "terminalThemes"
@@ -23,6 +24,8 @@ final class TerminalLibrary {
     private(set) var quietsLogin = false
     private(set) var isMovingQuietLogin = false
     private(set) var shellSessions: ShellSessions?
+    private(set) var options: Set<TerminalOption>?
+    private(set) var isManaged = false
     private(set) var problem: TerminalThemeLedger.Outcome?
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
@@ -38,6 +41,8 @@ final class TerminalLibrary {
         isTerminalOpen = settings.isTerminalOpen
         quietsLogin = HushLogin.isOn(in: .homeDirectory)
         shellSessions = ShellSessions.inTerminal(settings)
+        options = ledger.options(in: settings)
+        isManaged = settings.isManaged
     }
 
     func perform(_ action: Action) {
@@ -48,6 +53,7 @@ final class TerminalLibrary {
         let outcome = switch action {
         case .use(let theme): (try? ledger.use(theme, in: settings)) ?? .refused
         case .putBack: ledger.putBack(in: settings)
+        case .set(let option, let isOn): ledger.set(option, to: isOn, in: settings)
         }
         UserDefaults.standard.set(ledger.stored, forKey: Self.ledgerKey)
         problem = outcome == .managed || outcome == .refused ? outcome : nil

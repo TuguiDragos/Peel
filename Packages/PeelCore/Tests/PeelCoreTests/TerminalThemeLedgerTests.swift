@@ -207,3 +207,120 @@ struct TerminalThemeLedgerTests {
         #expect(TerminalProfile.fingerprint(of: changed) != fingerprint)
     }
 }
+
+struct TerminalOptionTests {
+    private let theme = TerminalThemeCatalog.all[0]
+    private let otherTheme = TerminalThemeCatalog.all[1]
+
+    private func terminalUsing(_ theme: TerminalTheme) throws -> (InMemoryTerminalSettings, TerminalThemeLedger) {
+        let terminal = InMemoryTerminalSettings()
+        var ledger = TerminalThemeLedger()
+        _ = try ledger.use(theme, in: terminal)
+        return (terminal, ledger)
+    }
+
+    @Test func anOptionChangesOnlyItsOwnKeyInTheThemeInUse() throws {
+        var (terminal, ledger) = try terminalUsing(theme)
+
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .changed)
+        var profile = try #require(terminal.storedProfiles[theme.profileName])
+        #expect(profile["useOptionAsMetaKey"] as? Bool == true)
+        #expect(ledger.options(in: terminal) == [.optionAsMeta])
+        profile["useOptionAsMetaKey"] = nil
+        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+
+        #expect(ledger.set(.noAlertSound, to: true, in: terminal) == .changed)
+        #expect(terminal.storedProfiles[theme.profileName]?["Bell"] as? Bool == false)
+        #expect(ledger.options(in: terminal) == [.optionAsMeta, .noAlertSound])
+        #expect(ledger.set(.noAlertSound, to: true, in: terminal) == .unchanged)
+    }
+
+    @Test func anOptionTurnedOffLeavesTheKeyToTerminalAsApplesOwnProfilesDo() throws {
+        let apple = try #require(PropertyListSerialization.propertyList(from: Data(contentsOf: TerminalThemeTests.clearDark), format: nil) as? [String: Any])
+        for option in TerminalOption.allCases {
+            #expect(apple[option.rawValue] == nil)
+        }
+        var (terminal, ledger) = try terminalUsing(theme)
+        _ = ledger.set(.optionAsMeta, to: true, in: terminal)
+        _ = ledger.set(.noAlertSound, to: true, in: terminal)
+
+        #expect(ledger.set(.optionAsMeta, to: false, in: terminal) == .changed)
+        #expect(ledger.set(.noAlertSound, to: false, in: terminal) == .changed)
+        let profile = try #require(terminal.storedProfiles[theme.profileName])
+        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: theme)))
+        #expect(ledger.options(in: terminal) == [])
+    }
+
+    @Test func theOptionsGoWithThePersonToAnotherTheme() throws {
+        var (terminal, ledger) = try terminalUsing(theme)
+        _ = ledger.set(.optionAsMeta, to: true, in: terminal)
+        _ = ledger.set(.noAlertSound, to: true, in: terminal)
+
+        #expect(try ledger.use(otherTheme, in: terminal) == .changed)
+        #expect(ledger.options(in: terminal) == [.optionAsMeta, .noAlertSound])
+        let profile = try #require(terminal.storedProfiles[otherTheme.profileName])
+        #expect(TerminalProfile.fingerprint(of: profile) == TerminalProfile.fingerprint(of: try TerminalProfile.settings(for: otherTheme, options: [.optionAsMeta, .noAlertSound])))
+
+        _ = ledger.set(.optionAsMeta, to: false, in: terminal)
+        #expect(try ledger.use(theme, in: terminal) == .changed)
+        #expect(ledger.options(in: terminal) == [.noAlertSound])
+    }
+
+    @Test func peelStillTakesItsThemesAwayAfterChangingAnOption() throws {
+        var (terminal, ledger) = try terminalUsing(theme)
+        _ = ledger.set(.optionAsMeta, to: true, in: terminal)
+
+        #expect(ledger.putBack(in: terminal) == .changed)
+        #expect(Set(terminal.storedProfiles.keys) == ["Basic", "Pro"])
+        #expect(terminal.names == [.newWindows: "Basic", .startup: "Basic"])
+    }
+
+    @Test func aThemeThePersonChangedKeepsTheirChangesAndStaysTheirs() throws {
+        var (terminal, ledger) = try terminalUsing(theme)
+        terminal.storedProfiles[theme.profileName]?["columnCount"] = 80
+
+        #expect(ledger.set(.noAlertSound, to: true, in: terminal) == .changed)
+        #expect(terminal.storedProfiles[theme.profileName]?["columnCount"] as? Int == 80)
+        #expect(terminal.storedProfiles[theme.profileName]?["Bell"] as? Bool == false)
+        #expect(ledger.putBack(in: terminal) == .changed)
+        #expect(terminal.storedProfiles[theme.profileName] != nil)
+    }
+
+    @Test func theOptionsBelongToPeelsThemesAlone() throws {
+        let terminal = InMemoryTerminalSettings()
+        var ledger = TerminalThemeLedger()
+
+        #expect(ledger.options(in: terminal) == nil)
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .unchanged)
+        #expect(terminal.storedProfiles["Basic"]?["useOptionAsMetaKey"] == nil)
+    }
+
+    @Test func nothingChangesWhileTerminalIsOpenOrLockedOrRefusing() throws {
+        var (terminal, ledger) = try terminalUsing(theme)
+        let written = ledger.written
+
+        terminal.isTerminalOpen = true
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .terminalIsOpen)
+        terminal.isTerminalOpen = false
+        terminal.isManaged = true
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .managed)
+        terminal.isManaged = false
+        terminal.refusesWrites = true
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .refused)
+
+        #expect(terminal.storedProfiles[theme.profileName]?["useOptionAsMetaKey"] == nil)
+        #expect(ledger.written == written)
+    }
+
+    @Test func readsTheOptionsTerminalStoresAsNumbers() throws {
+        let terminal = InMemoryTerminalSettings()
+        var ledger = TerminalThemeLedger()
+        _ = try ledger.use(theme, in: terminal)
+        terminal.storedProfiles[theme.profileName]?["useOptionAsMetaKey"] = 1
+        terminal.storedProfiles[theme.profileName]?["Bell"] = 0
+
+        #expect(ledger.options(in: terminal) == [.optionAsMeta, .noAlertSound])
+        terminal.storedProfiles[theme.profileName]?["Bell"] = 1
+        #expect(ledger.options(in: terminal) == [.optionAsMeta])
+    }
+}

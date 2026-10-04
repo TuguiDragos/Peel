@@ -39,11 +39,32 @@ public struct TerminalThemeLedger {
         return TerminalThemeCatalog.all.first { $0.profileName == name }
     }
 
+    public func options(in terminal: some TerminalSettingsStoring) -> Set<TerminalOption>? {
+        guard let theme = theme(in: terminal), let profile = terminal.profiles()[theme.profileName] else { return nil }
+        return Set(TerminalOption.allCases.filter { $0.isOn(in: profile) })
+    }
+
+    public mutating func set(_ option: TerminalOption, to isOn: Bool, in terminal: some TerminalSettingsStoring) -> Outcome {
+        guard !terminal.isTerminalOpen else { return .terminalIsOpen }
+        guard !terminal.isManaged else { return .managed }
+        guard let name = theme(in: terminal)?.profileName else { return .unchanged }
+        var profiles = terminal.profiles()
+        guard var profile = profiles[name], option.isOn(in: profile) != isOn else { return .unchanged }
+        let isStillPeels = written[name] != nil && TerminalProfile.fingerprint(of: profile) == written[name]
+        option.set(isOn, in: &profile)
+        profiles[name] = profile
+        guard terminal.setProfiles(profiles) else { return .refused }
+        if isStillPeels {
+            written[name] = TerminalProfile.fingerprint(of: profile)
+        }
+        return .changed
+    }
+
     public mutating func use(_ theme: TerminalTheme, in terminal: some TerminalSettingsStoring) throws -> Outcome {
         guard !terminal.isTerminalOpen else { return .terminalIsOpen }
         guard !terminal.isManaged else { return .managed }
         let name = theme.profileName
-        let settings = try TerminalProfile.settings(for: theme)
+        let settings = try TerminalProfile.settings(for: theme, options: options(in: terminal) ?? [])
         guard let fingerprint = TerminalProfile.fingerprint(of: settings) else { return .refused }
         var profiles = terminal.profiles()
         let isStillPeels = written[name] != nil && profiles[name].flatMap(TerminalProfile.fingerprint(of:)) == written[name]

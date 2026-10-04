@@ -22007,6 +22007,112 @@
         }
       }
     },
+    "Choose one of Peel’s themes to change these settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li tato nastavení změnit, zvolte jeden z motivů Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eines der Themen von Peel, um diese Einstellungen zu ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige uno de los temas de Peel para cambiar estos ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez l’un des thèmes de Peel pour modifier ces réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli uno dei temi di Peel per modificare queste impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの設定を変更するには、Peelのテーマのいずれかを選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정을 변경하려면 Peel의 테마 중 하나를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een van de thema's van Peel om deze instellingen te wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz jeden z motywów Peel, aby zmienić te ustawienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um dos temas do Peel para alterar estes ajustes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alegeți una dintre temele Peel pentru a modifica aceste configurări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите одну из тем Peel, чтобы изменить эти параметры."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj ett av Peels teman för att kunna ändra de här inställningarna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayarları değiştirmek için Peel’in temalarından birini seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть одну з тем Peel, щоб змінити ці налаштування."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选取Peel的一个主题即可更改这些设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要更改這些設定，請選擇Peel的其中一個主題。"
+          }
+        }
+      }
+    },
     "Choose the file called `brew`, in the bin folder of your Homebrew." : {
       "localizations" : {
         "cs" : {
@@ -67726,6 +67832,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有外掛模組"
+          }
+        }
+      }
+    },
+    "No alert sound" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez výstražného zvuku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Hinweiston"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin sonido de aviso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de son d’alerte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun suono di avviso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知音を鳴らさない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "경고음 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen waarschuwingssignaal"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez dźwięku alertu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem som de alerta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fără sunet de alertă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без звука предупреждения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget varningsljud"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uyarı sesi yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без звуку оповісток"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不播放提醒声音"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不播放提示聲"
           }
         }
       }
@@ -126715,6 +126927,112 @@
         }
       }
     },
+    "The Option key works as the Meta key, which some text editors use for their commands. Option then no longer types the characters it types on your keyboard, such as @ and [ on a German keyboard." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klávesa Option funguje jako meta klávesa, kterou některé textové editory používají pro své příkazy. Option pak už nepíše znaky, které na vaší klávesnici jinak píše, například @ a [ na německé klávesnici."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Option-Taste dient als Meta-Taste, die manche Texteditoren für ihre Befehle verwenden. Mit der Option-Taste kannst du dann nicht mehr die Zeichen eingeben, die sie sonst auf deiner Tastatur erzeugt, etwa @ und [ auf einer deutschen Tastatur."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tecla Opción funciona como la tecla modificadora que algunos editores de texto usan para sus comandos. Así, Opción ya no escribe los caracteres que normalmente escribe en tu teclado, como @ y [ en un teclado alemán."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La touche « Option » fonctionne comme la touche Meta, que certains éditeurs de texte utilisent pour leurs commandes. Elle ne permet alors plus de saisir les caractères qu’elle produit habituellement sur votre clavier, comme @ et [ sur un clavier allemand."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tasto Opzione funziona come tasto Meta, che alcuni editor di testo usano per i propri comandi. Di conseguenza, Opzione non digita più i caratteri che di solito digita sulla tua tastiera, come @ e [ su una tastiera tedesca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optionキーが、一部のテキストエディタでコマンドに使われるメタキーとして機能します。そのため、お使いのキーボードでOptionキーを使って入力する文字（ドイツ語キーボードの@や[など）は入力できなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option 키가 일부 텍스트 편집기에서 명령에 사용하는 Meta 키로 작동합니다. 그러면 키보드에서 Option 키로 입력하던 문자(예: 독일어 키보드의 @ 및 [ 등)를 더 이상 입력할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Option-toets werkt als de metatoets, die sommige teksteditors voor hun commando's gebruiken. Met Option typ je dan niet meer de tekens die je er anders op je toetsenbord mee typt, zoals @ en [ op een Duits toetsenbord."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klawisz Option działa jako metaklawisz, którego niektóre edytory tekstu używają do wywoływania swoich poleceń. Przestaje on wtedy wpisywać znaki, które zwykle wpisuje na Twojej klawiaturze, takie jak @ i [ na niemieckiej klawiaturze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A tecla Option funciona como a Metatecla, que alguns editores de texto usam nos comandos deles. Com isso, a tecla Option deixa de digitar os caracteres que normalmente digita no seu teclado, como @ e [ em um teclado alemão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasta Opțiune funcționează ca meta‑tastă, pe care unele editoare de text o folosesc pentru comenzile lor. Atunci, tasta Opțiune nu mai introduce caracterele pe care le introduce în mod normal pe tastatura dvs., cum ar fi @ și [ pe o tastatură germană."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиша Option работает как метаклавиша, которую некоторые текстовые редакторы используют для своих команд. При этом клавиша Option больше не вводит символы, которые она обычно вводит на Вашей клавиатуре, например @ и [ на немецкой клавиатуре."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternativtangenten fungerar som metatangent, en tangent som vissa textredigerare använder för sina kommandon. Alternativtangenten skriver då inte längre de tecken som den annars skriver på ditt tangentbord, till exempel @ och [ på ett tyskt tangentbord."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option tuşu, bazı metin düzenleyicilerin komutları için kullandığı Meta tuş olarak çalışır. Bu durumda Option tuşu, klavyenizde yazdığı karakterleri, örneğin Almanca bir klavyede @ ve [ işaretlerini, artık yazmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавіша Option працює як метаклавіша, яку деякі текстові редактори використовують для своїх команд. Тоді Option більше не вводитиме символів, які вводить на вашій клавіатурі, як-от @ і [ на німецькій клавіатурі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option键会用作Meta键，某些文本编辑器使用Meta键来执行命令。这样，Option键就不再输入它在你的键盘上原本输入的字符，例如德语键盘上的@和[。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option鍵會作為Meta鍵使用，而有些文字編輯器的指令會用到Meta鍵。如此一來，Option鍵就不會再輸入它在你的鍵盤上原本會輸入的字元，例如德文鍵盤上的@和[。"
+          }
+        }
+      }
+    },
     "The Print dialog opens with its details showing." : {
       "localizations" : {
         "cs" : {
@@ -132543,6 +132861,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "工具未及時回應，因此已被停止。"
+          }
+        }
+      }
+    },
+    "Theme in Use" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používaný motiv"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thema in Verwendung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema en uso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thème en cours d’utilisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema in uso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中のテーマ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 중인 테마"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thema in gebruik"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motyw w użyciu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema em Uso"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema în uz"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используемая тема"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema som används"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanımdaki Tema"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тема, що використовується"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中的主题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中的主題"
           }
         }
       }
@@ -143000,6 +143424,112 @@
         }
       }
     },
+    "Use Option as Meta key" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použít Option jako meta klávesu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option-Taste als Meta-Taste verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar Opción como tecla modificadora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser « Option » comme touche Meta"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizza il tasto Opzione come tasto Meta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メタキーとしてOptionキーを使用"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option을 Meta 키로 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik Option-toets als metatoets"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj klawisza Option jako metaklawisza"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar Option como Metatecla"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizați Opțiune ca meta‑tastă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать клавишу Option как метаклавишу"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd alternativ som metatangent"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Option Tuşunu Meta Tuş Olarak Kullan"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавіша Option як метаклавіша"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将Option键用作Meta键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用Option鍵作為Meta鍵"
+          }
+        }
+      }
+    },
     "Use the Usual Places" : {
       "localizations" : {
         "cs" : {
@@ -147672,6 +148202,112 @@
         }
       }
     },
+    "When a program rings Terminal’s bell, as with Control-G, Terminal plays no sound." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když program vyvolá upozornění Terminálu, například po stisknutí kláves Control-G, Terminál nepřehraje žádný zvuk."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ein Programm die Glocke von Terminal läutet, etwa mit Control-G, spielt Terminal keinen Ton ab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando un programa activa el aviso de Terminal, como con Control + G, Terminal no reproduce ningún sonido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsqu’un programme fait sonner la cloche de Terminal, par exemple avec Contrôle + G, Terminal n’émet aucun son."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando un programma fa scattare l’avviso di Terminale, come con Ctrl-G, Terminale non riproduce alcun suono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プログラムがControl＋Gなどでターミナルのベルを鳴らしても、ターミナルは音を再生しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로그램이 Control-G 등으로 터미널의 벨을 울릴 때 터미널은 사운드를 재생하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als een programma Terminal een signaal laat geven, zoals met Control-G, speelt Terminal geen geluid af."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy program dzwoni dzwonkiem Terminala, jak przy Control-G, Terminal nie odtwarza żadnego dźwięku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando um programa toca o sino do Terminal, como acontece com Control + G, o Terminal não reproduz nenhum som."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când un program declanșează alerta Terminal, de exemplu cu Control‑G, Terminal nu redă niciun sunet."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда программа звонит в колокол Терминала, например с помощью Control-G, Терминал не воспроизводит звук."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När ett program ringer i Terminals klocka, till exempel med kontroll-G, spelar Terminal inte upp något ljud."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir program Terminal’in zilini örneğin Kontrol-G ile çaldığında, Terminal hiçbir ses çalmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли програма викликає сигнал Термінала, як-от за допомогою Control+G, Термінал не відтворює жодного звуку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当程序触发“终端”的报警声（例如通过Control-G）时，“终端”不会播放声音。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當程式讓「終端機」的提示鈴響起時（例如按下Control + G），「終端機」不會播放聲音。"
+          }
+        }
+      }
+    },
     "When an app crashes, macOS stops asking you about it." : {
       "localizations" : {
         "cs" : {
@@ -148728,6 +149364,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel執行時"
+          }
+        }
+      }
+    },
+    "While Terminal is open, it doesn’t see a changed setting, and can undo it the next time it saves its settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud je Terminál otevřený, o změněném nastavení neví a při příštím uložení svých nastavení ho může zrušit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange Terminal geöffnet ist, bemerkt die App keine geänderte Einstellung und kann die Änderung rückgängig machen, wenn sie ihre Einstellungen das nächste Mal sichert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras Terminal está abierta, no ve el ajuste cambiado y puede deshacerlo la próxima vez que guarde sus ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que Terminal est ouvert, il ne s’aperçoit pas d’un changement de réglage et peut l’annuler la prochaine fois qu’il enregistre ses réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentre Terminale è aperto, non vede un’impostazione modificata e può annullarla la prossima volta che salva le sue impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルは、開いている間は変更された設定を認識せず、次に設定を保存するときにその変更を取り消すことがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널은 열려 있는 동안 변경된 설정을 인식하지 못하며, 다음에 설정을 저장할 때 설정 변경을 되돌릴 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zolang Terminal open is, ziet de app een gewijzigde instelling niet, en kan die het ongedaan maken de volgende keer dat die de instellingen bewaart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki Terminal jest otwarty, nie widzi zmiany ustawienia i może ją cofnąć, gdy następnym razem zachowa swoje ustawienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enquanto estiver aberto, o Terminal não percebe uma mudança de ajuste e pode desfazê-la na próxima vez que salvar os próprios ajustes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cât timp Terminal este deschis, nu vede o configurare modificată și o poate anula data viitoare când își salvează configurările."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Терминал открыт, он не видит измененный параметр и может отменить его, когда в следующий раз сохранит свои настройки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medan Terminal är öppen ser den inte en ändrad inställning och kan ångra den nästa gång den sparar sina inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal açıkken değiştirilen bir ayarı görmez ve bir dahaki sefere ayarlarını kaydettiğinde onu geri alabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки Термінал відкритий, він не бачить зміненого налаштування й може відмінити його, коли наступного разу збереже свої налаштування."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”在打开期间看不到更改后的设置，并且可能会在下次保存设置时将其撤销。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」打開期間看不到更改後的設定，而且可能會在下次儲存設定時把設定改回來。"
           }
         }
       }
