@@ -6,6 +6,15 @@ import Testing
 struct TerminalToolTests {
     static let prefix = URL(filePath: "/opt/homebrew", directoryHint: .isDirectory)
 
+    @Test func aPrefixEndingInASlashGivesPathsWithOneSlashBetweenNames() {
+        let prefix = URL(filePath: "/opt/homebrew/", directoryHint: .isDirectory)
+        let lines = TerminalTool.allCases.flatMap { $0.setup(prefix: prefix) }.flatMap(\.lines)
+        #expect(lines.contains { $0.contains("/opt/homebrew/share/zsh-completions") })
+        for line in lines {
+            #expect(!line.replacing("://", with: "").contains("//"), "\(line)")
+        }
+    }
+
     @Test func everyLineForZshrcIsZshThatParses() async throws {
         for tool in TerminalTool.allCases {
             for setup in tool.setup(prefix: Self.prefix) where setup.place != .terminal {

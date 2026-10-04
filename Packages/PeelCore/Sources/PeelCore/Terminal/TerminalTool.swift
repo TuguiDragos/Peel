@@ -102,16 +102,16 @@ public enum TerminalTool: CaseIterable, Sendable {
     }
 
     public func setup(prefix: URL) -> [Setup] {
-        let prefix = prefix.path(percentEncoded: false)
+        let path = { (below: String) in prefix.appending(path: below).path(percentEncoded: false) }
         return switch self {
-        case .zshCompletions: [Setup(place: .zshrc, lines: ["FPATH=\"\(prefix)/share/zsh-completions:$FPATH\"", "autoload -Uz compinit && compinit"])]
-        case .fzfTab: [Setup(place: .zshrc, lines: ["source \"\(prefix)/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh\"", "zstyle ':completion:*' menu no"])]
+        case .zshCompletions: [Setup(place: .zshrc, lines: ["FPATH=\"\(path("share/zsh-completions")):$FPATH\"", "autoload -Uz compinit && compinit"])]
+        case .fzfTab: [Setup(place: .zshrc, lines: ["source \"\(path("opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"))\"", "zstyle ':completion:*' menu no"])]
         case .zoxide: [Setup(place: .zshrc, lines: ["eval \"$(zoxide init zsh)\""])]
         case .fzf: [Setup(place: .zshrc, lines: ["source <(fzf --zsh)", "export FZF_DEFAULT_OPTS=\"$FZF_DEFAULT_OPTS --color=16\""])]
         case .direnv: [Setup(place: .zshrc, lines: ["eval \"$(direnv hook zsh)\""])]
-        case .zshAutosuggestions: [Setup(place: .zshrc, lines: ["source \"\(prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh\""])]
+        case .zshAutosuggestions: [Setup(place: .zshrc, lines: ["source \"\(path("share/zsh-autosuggestions/zsh-autosuggestions.zsh"))\""])]
         case .zshSyntaxHighlighting:
-            [Setup(place: .lastLineOfZshrc, lines: ["source \"\(prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh\""])]
+            [Setup(place: .lastLineOfZshrc, lines: ["source \"\(path("share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"))\""])]
         case .delta:
             [Setup(place: .terminal, lines: [
                 "git config --global core.pager delta",
