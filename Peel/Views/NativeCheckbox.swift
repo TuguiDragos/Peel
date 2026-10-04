@@ -1,4 +1,5 @@
 import AppKit
+import PeelCore
 import SwiftUI
 
 /// AppKit's checkbox, for the rows of a list. A checkbox `Toggle` is the same button, but SwiftUI asks it for its size
@@ -13,21 +14,38 @@ struct NativeCheckbox: NSViewRepresentable {
         Coordinator(isOn: $isOn)
     }
 
-    func makeNSView(context: Context) -> NSButton {
-        let button = Self.checkbox()
-        button.target = context.coordinator
-        button.action = #selector(Coordinator.toggle(_:))
-        update(button, in: context)
-        return button
+    func makeNSView(context: Context) -> Host {
+        let host = Host()
+        host.button.target = context.coordinator
+        host.button.action = #selector(Coordinator.toggle(_:))
+        update(host.button, in: context)
+        return host
     }
 
-    func updateNSView(_ button: NSButton, context: Context) {
+    func updateNSView(_ host: Host, context: Context) {
         context.coordinator.isOn = $isOn
-        update(button, in: context)
+        update(host.button, in: context)
     }
 
-    func sizeThatFits(_ proposal: ProposedViewSize, nsView: NSButton, context: Context) -> CGSize? {
-        Self.size(at: nsView.controlSize)
+    func sizeThatFits(_ proposal: ProposedViewSize, nsView host: Host, context: Context) -> CGSize? {
+        Self.size(at: host.button.controlSize)
+    }
+
+    /// Holds the button one level below the view SwiftUI hosts, so the button answers VoiceOver's Show Menu itself.
+    /// SwiftUI answers it for the view it hosts and opens nothing while that view is disabled, which would take the
+    /// row's menu away from a row that cannot be selected.
+    final class Host: NSView {
+        let button = NativeCheckbox.checkbox()
+
+        init() {
+            super.init(frame: .zero)
+            button.autoresizingMask = [.width, .height]
+            addSubview(button)
+        }
+
+        required init?(coder: NSCoder) {
+            nil
+        }
     }
 
     private func update(_ button: NSButton, in context: Context) {
@@ -43,7 +61,7 @@ struct NativeCheckbox: NSViewRepresentable {
 
     /// Not `init(checkboxWithTitle:target:action:)`, which sizes the button to its title twice on the way.
     private static func checkbox() -> NSButton {
-        let button = NSButton(frame: .zero)
+        let button = RowCheckboxButton(frame: .zero)
         button.setButtonType(.switch)
         button.title = ""
         return button
