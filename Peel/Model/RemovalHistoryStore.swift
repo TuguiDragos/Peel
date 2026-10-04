@@ -114,6 +114,8 @@ final class RemovalHistoryStore {
     /// What Peel was asked to move and did not, one removal to an entry, newest first.
     private(set) var refusalBatches: [RefusalBatch] = []
     private(set) var refusalSearchKeys: [RefusalBatch.ID: String] = [:]
+    /// Moves only when the removals or refusals listed change, so a search over the earlier lists is made again.
+    private(set) var revision = 0
     /// What the last read or change of the refusal log met, which the Not Moved list says.
     private(set) var refusalProblem: RefusalLogProblem?
     private(set) var problem: RemovalLogProblem?
@@ -170,6 +172,7 @@ final class RemovalHistoryStore {
         guard change == refusalChange else { return }
         refusalBatches = listed.batches
         refusalSearchKeys = listed.searchKeys
+        revision += 1
     }
 
     /// Records a removal from one place in History, as one entry. When Peel wrote the source itself, pass it in
@@ -255,6 +258,7 @@ final class RemovalHistoryStore {
         self.records = records
         batches = listed.batches
         searchKeys = listed.searchKeys
+        revision += 1
     }
 
     /// History's batches, newest first, and what a search looks through, or nil when `records` are those listed

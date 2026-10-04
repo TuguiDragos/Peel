@@ -6,17 +6,27 @@ struct HistoryList: View {
     @Environment(RemovalHistoryStore.self) private var history
     @State private var isReloading = false
     @State private var searchText = ""
+    /// What the search found, worked out off the main actor, since a removal's key names every item in it. Kept while
+    /// the next answer is worked out.
+    @State private var found: Found?
 
-    /// The batches that match the search, or all of them when the search is empty. History keeps up to
-    /// `RemovalLog.maximumRecords` records, so this list can be long.
+    private struct Found {
+        let batches: [RemovalBatch]
+        let refusals: [RefusalBatch]
+    }
+
+    /// What starts the search again: other words, or other lists.
+    private struct Search: Hashable {
+        let text: String
+        let revision: Int
+    }
+
     private var batches: [RemovalBatch] {
-        guard !searchText.isEmpty else { return history.batches }
-        return history.batches.filter { batch in history.searchKeys[batch.id].map { SearchText.matches($0, searchText) } == true }
+        searchText.isEmpty ? history.batches : found?.batches ?? history.batches
     }
 
     private var refusals: [RefusalBatch] {
-        guard !searchText.isEmpty else { return history.refusalBatches }
-        return history.refusalBatches.filter { batch in history.refusalSearchKeys[batch.id].map { SearchText.matches($0, searchText) } == true }
+        searchText.isEmpty ? history.refusalBatches : found?.refusals ?? history.refusalBatches
     }
 
     var body: some View {
@@ -83,6 +93,16 @@ struct HistoryList: View {
         }
         .task {
             await history.load()
+        }
+        .task(id: Search(text: searchText, revision: history.revision)) {
+            guard !searchText.isEmpty else {
+                found = nil
+                return
+            }
+            guard let batches = await SearchText.matching(searchText, among: history.batches, keys: history.searchKeys),
+                  let refusals = await SearchText.matching(searchText, among: history.refusalBatches, keys: history.refusalSearchKeys)
+            else { return }
+            found = Found(batches: batches, refusals: refusals)
         }
     }
 }

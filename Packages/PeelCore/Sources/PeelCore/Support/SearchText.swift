@@ -9,6 +9,23 @@ public enum SearchText {
         return text.range(of: query, options: options, locale: locale) != nil
             || text.range(of: query, options: options) != nil
     }
+
+    /// The items whose key holds `query`, in their order, worked out off the main actor for keys that are long, such
+    /// as History's, where a removal's key names every item in it. Nil when the task that asked was canceled first, as
+    /// it is when another key is typed.
+    @concurrent
+    public static func matching<Item: Identifiable & Sendable>(
+        _ query: String, among items: [Item], keys: [Item.ID: String]
+    ) async -> [Item]? where Item.ID: Sendable {
+        var found: [Item] = []
+        for item in items {
+            if Task.isCancelled { return nil }
+            if let key = keys[item.id], matches(key, query) {
+                found.append(item)
+            }
+        }
+        return found
+    }
 }
 
 /// A list and what a search looks in for each of its items, read once: typing in a search field would otherwise

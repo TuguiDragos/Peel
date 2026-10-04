@@ -25,6 +25,27 @@ import Testing
         #expect(SearchText.matches("Safari", "ｓａｆａｒｉ", locale: Locale(identifier: "ja_JP")))
     }
 
+    private struct Entry: Identifiable, Equatable {
+        let id: Int
+    }
+
+    @Test func findsTheItemsWhoseKeyHoldsTheQueryInTheirOrder() async {
+        let items = (0..<5).map(Entry.init)
+        let keys = [0: "Duplicates\nReport 1.pdf", 1: "Developer\nnotes.txt", 2: "Duplicates\nRÉPORT 2.pdf", 4: "report"]
+
+        #expect(await SearchText.matching("report", among: items, keys: keys) == [items[0], items[2], items[4]])
+        #expect(await SearchText.matching("nothing", among: items, keys: keys) == [])
+    }
+
+    @Test func givesUpWhenTheSearchIsCanceled() async {
+        let items = (0..<5).map(Entry.init)
+        let task = Task { () -> [Entry]? in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return await SearchText.matching("report", among: items, keys: [0: "report"])
+        }
+        #expect(await task.value == nil)
+    }
+
     @Test func findsNothingThatIsNotThere() {
         #expect(!SearchText.matches("Safari", "chrome", locale: Self.turkish))
         #expect(!SearchText.matches("Safari", "", locale: Self.turkish))
