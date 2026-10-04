@@ -162,8 +162,9 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 - **The privileged helper**: `PrivilegedPathPolicyTests`, and for any change to the helper a bump of
   `HelperIdentity.protocolVersion`.
 - **`DeveloperCaches.definitions`**: a source showing the folder is a cache, and a `DeveloperCachesTests` run.
-  Never a toolchain, never an installation, never a file holding an account or a token, and never a path inside
-  another path already in the table.
+  A link into a repository's files names the commit you read it at, not a branch, whose lines move with every
+  commit. Never a toolchain, never an installation, never a file holding an account or a token, and never a path
+  inside another path already in the table.
 - **Anything that decides what may be removed**: a test that fails without your fix, written to get past the
   rule rather than to confirm it. The `Attack*Tests` files hold these.
 

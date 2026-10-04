@@ -341,6 +341,41 @@ struct DeveloperCachesTests {
         }
     }
 
+    /// A link into a repository's files names the commit it was read at: on a branch, the lines it points at move
+    /// with every commit.
+    @Test func everySourceInARepositoryNamesItsCommit() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Applications/Chat.app/Contents/Frameworks/Electron Framework.framework")
+        _ = try directory.file("home/Library/Application Support/Chat/Local State")
+        let chat = InstalledApp(
+            url: directory.url.appending(path: "Applications/Chat.app"), bundleIdentifier: "org.example.chat", name: "Chat",
+            bundleName: "Chat"
+        )
+        let electron = DeveloperCaches.electronDefinitions(for: [chat], home: directory.url.appending(path: "home"))
+        try #require(!electron.isEmpty)
+        let sources = (DeveloperCaches.definitions + electron).flatMap { $0.folders.map(\.source) }
+            + ProjectArtifacts.definitions.map(\.source)
+
+        for source in sources {
+            #expect(Self.namesItsCommit(source), "\(source) follows a branch")
+        }
+    }
+
+    /// Where a repository's address carries the version of a file: GitHub's `blob/<ref>`, Gitiles' `+/<ref>` and
+    /// Gitea's `src/commit/<ref>`.
+    private static func namesItsCommit(_ source: String) -> Bool {
+        guard let url = URL(string: source), let host = url.host() else { return true }
+        let parts = url.path(percentEncoded: false).split(separator: "/").map(String.init)
+        let ref: String? = switch host {
+        case "github.com": parts.count > 3 && ["blob", "tree"].contains(parts[2]) ? parts[3] : nil
+        case "projects.blender.org": parts.count > 4 && parts[2] == "src" ? (parts[3] == "commit" ? parts[4] : parts[3]) : nil
+        case _ where host.hasSuffix(".googlesource.com"): parts.firstIndex(of: "+").flatMap { parts.dropFirst($0 + 1).first }
+        default: nil
+        }
+        guard let ref else { return true }
+        return ref.count == 40 && ref.allSatisfy(\.isHexDigit)
+    }
+
     @Test func everyOwnFolderHoldsWhatItsToolLists() {
         for definition in DeveloperCaches.definitions {
             for own in definition.ownFolders {

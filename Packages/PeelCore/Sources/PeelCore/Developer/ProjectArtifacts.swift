@@ -153,7 +153,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: "Carthage", markers: ["Cartfile"], tool: "Carthage", isGeneric: false,
-            source: "https://github.com/Carthage/Carthage/blob/master/README.md"
+            source: "https://github.com/Carthage/Carthage/blob/e33e133a5427129b38bfb1ae18d8f56b29a93204/README.md"
         ),
         Definition(
             name: "DerivedData", markers: ["*.xcodeproj", "*.xcworkspace"], tool: "Xcode", isGeneric: false,
@@ -189,7 +189,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: "storybook-static", markers: [".storybook"], tool: "Storybook", isGeneric: false,
-            source: "https://github.com/storybookjs/storybook/blob/next/code/core/src/cli/build.ts"
+            source: "https://github.com/storybookjs/storybook/blob/dc9b30e8fd8a71383ec01b9510f38bee51457e8a/code/core/src/cli/build.ts"
         ),
         Definition(
             name: "dist", markers: viteConfigFiles, tool: "Vite", isGeneric: true,
@@ -367,7 +367,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: ".elixir_ls", markers: ["mix.exs"], tool: "ElixirLS", isGeneric: false,
-            source: "https://github.com/elixir-lsp/elixir-ls/blob/master/README.md"
+            source: "https://github.com/elixir-lsp/elixir-ls/blob/68df44b681ee0dbef91b8008b0354003a9a451fa/README.md"
         ),
         Definition(
             name: "lib", markers: ["shard.lock"], tool: "Shards", isGeneric: true, isEnvironment: true,
