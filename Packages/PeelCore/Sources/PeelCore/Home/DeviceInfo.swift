@@ -35,8 +35,10 @@ public struct DeviceInfo: Sendable, Hashable {
     }
 
     /// Returns a copy with the disk's total and free space read again. The other details don't change while
-    /// Peel is open, and the marketing name is slow to read.
-    public func withStorageRead(of home: URL = .homeDirectory) -> DeviceInfo {
+    /// Peel is open, and the marketing name is slow to read. The free space for important use takes tens of
+    /// milliseconds to read, so it is read away from the caller's actor.
+    @concurrent
+    public func withStorageRead(of home: URL = .homeDirectory) async -> DeviceInfo {
         DeviceInfo(
             model: model,
             modelIdentifier: modelIdentifier,

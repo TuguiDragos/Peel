@@ -52,6 +52,19 @@ struct DeviceInfoTests {
         #expect(DeviceInfo.storage(total: nil, available: nil, important: nil) == DeviceInfo.Storage(total: 0, free: 0))
     }
 
+    @MainActor @Test func readsTheFreeSpaceAwayFromTheMainActor() async {
+        final class Turn {
+            var taken = false
+        }
+        let device = await DeviceInfo.withoutTheModelName()
+        let turn = Turn()
+        Task { @MainActor in turn.taken = true }
+
+        _ = await device.withStorageRead()
+
+        #expect(turn.taken)
+    }
+
     @Test func leavesOutAZeroPatchVersion() {
         #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 0)) == "26.7")
         #expect(DeviceInfo.versionString(OperatingSystemVersion(majorVersion: 26, minorVersion: 7, patchVersion: 1)) == "26.7.1")

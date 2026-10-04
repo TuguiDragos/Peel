@@ -171,7 +171,7 @@ final class HomeModel {
 
         // Free space is read every time, since it is how the user sees that a cleanup worked.
         if !isFirstRead, let device {
-            self.device = device.withStorageRead().named(modelName)
+            self.device = await device.withStorageRead().named(modelName)
         }
     }
 
