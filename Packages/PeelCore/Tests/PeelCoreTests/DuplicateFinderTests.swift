@@ -412,6 +412,20 @@ struct DuplicateFinderTests {
         #expect(!finder.canScan(URL(filePath: "/Volumes/")))
     }
 
+    @Test func aFolderSpelledInAnotherCaseIsJudgedAsTheDiskSpellsIt() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.directory("home/Library/Application Support")
+        try directory.directory("home/Music/Music")
+        let finder = DuplicateFinder(homeDirectory: home)
+
+        for path in ["library", "LIBRARY/application support", "music/MUSIC"] {
+            let url = home.appending(path: path)
+            try #require(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)), "this disk does not fold \(path)")
+            #expect(!finder.canScan(url), "\(path) was offered")
+        }
+    }
+
     @Test func stopsWhenCanceled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Documents/a.txt", contents: Data("same".utf8))
