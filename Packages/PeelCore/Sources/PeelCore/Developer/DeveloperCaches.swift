@@ -760,10 +760,10 @@ public enum DeveloperCaches {
             ),
         ]),
         Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
-            Folder("Library/Application Support/Devin/Cache", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),
-            Folder("Library/Application Support/Devin/CachedData", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),
-            Folder("Library/Application Support/Windsurf/Cache", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),
-            Folder("Library/Application Support/Windsurf/CachedData", .cache, source: "https://docs.devin.ai/desktop/cascade/workflows"),
+            Folder("Library/Application Support/Devin/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
+            Folder("Library/Application Support/Devin/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
+            Folder("Library/Application Support/Windsurf/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
+            Folder("Library/Application Support/Windsurf/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
         ]),
         Definition(id: "nova", name: "Nova", systemImage: "curlybraces", appBundleIdentifiers: ["com.panic.Nova"], folders: [
             Folder("Library/Caches/com.panic.Nova", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
