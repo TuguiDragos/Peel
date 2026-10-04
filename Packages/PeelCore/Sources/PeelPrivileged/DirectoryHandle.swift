@@ -110,15 +110,24 @@ public final class OpenItem: Sendable {
     /// The item at `path`, held through a descriptor on the folder it sits in. Links in the folder's path are
     /// resolved once, here, and the last component is never followed.
     public static func at(_ path: String) -> Result<OpenItem, POSIXError> {
-        guard path.hasPrefix("/"), PrivilegedPathPolicy.isPlainlyReadable(path) else { return .failure(POSIXError(.EINVAL)) }
+        guard path.hasPrefix("/"), PrivilegedPathPolicy.isPlainlyReadable(path) else {
+            return .failure(POSIXError(.EINVAL))
+        }
         let components = PathComponents.of(path)
         guard let name = components.last, !components.contains(where: { $0 == "." || $0 == ".." }) else {
             return .failure(POSIXError(.EINVAL))
         }
         return DirectoryHandle.at("/" + components.dropLast().joined(separator: "/")).flatMap { parent in
             var info = stat()
-            guard name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else { return .failure(.last) }
-            return .success(OpenItem(path: (parent.path == "/" ? "" : parent.path) + "/" + name, name: name, parent: parent, status: info))
+            guard name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
+                return .failure(.last)
+            }
+            return .success(OpenItem(
+                path: (parent.path == "/" ? "" : parent.path) + "/" + name,
+                name: name,
+                parent: parent,
+                status: info
+            ))
         }
     }
 }

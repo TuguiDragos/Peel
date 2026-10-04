@@ -180,7 +180,9 @@ public struct PrivilegedPathPolicy: Sendable {
                 var target = stat()
                 let leads = item.name.withCString { fstatat(parent.descriptor, $0, &target, 0) } == 0
                 let error = errno
-                guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else { return .failure(.leadsSomewhere) }
+                guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else {
+                    return .failure(.leadsSomewhere)
+                }
             }
             return .success(OpenItem(path: item.path, name: item.name, parent: parent, status: info))
         }
@@ -198,7 +200,9 @@ public struct PrivilegedPathPolicy: Sendable {
                 guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
             }
             if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
-                guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else { return .failure(.loadsCode) }
+                guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else {
+                    return .failure(.loadsCode)
+                }
             }
             let parent: DirectoryHandle
             switch DirectoryHandle.at(canonical: item.parent) {
@@ -245,7 +249,8 @@ public struct PrivilegedPathPolicy: Sendable {
     public static func isValidLabel(_ label: String) -> Bool {
         guard (1...255).contains(label.utf8.count), !label.hasPrefix("com.apple.") else { return false }
         return label.utf8.allSatisfy { byte in
-            (byte >= 0x30 && byte <= 0x39) || (byte >= 0x41 && byte <= 0x5A) || (byte >= 0x61 && byte <= 0x7A) || byte == 0x2E || byte == 0x2D || byte == 0x5F
+            (byte >= 0x30 && byte <= 0x39) || (byte >= 0x41 && byte <= 0x5A) || (byte >= 0x61 && byte <= 0x7A)
+                || byte == 0x2E || byte == 0x2D || byte == 0x5F
         } && label.first != "." && label.first != "-"
     }
 

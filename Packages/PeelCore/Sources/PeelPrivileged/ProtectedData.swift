@@ -157,7 +157,8 @@ public enum ProtectedData: Sendable {
     /// `group.`, `groups.`, or `systemgroup.`.
     public static func isApplesName(_ name: String) -> Bool {
         var name = Substring(name.lowercased())
-        if let dot = name.firstIndex(of: "."), name[..<dot].count == 10, name[..<dot].allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber) }) {
+        if let dot = name.firstIndex(of: "."), name[..<dot].count == 10,
+           name[..<dot].allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber) }) {
             name = name[name.index(after: dot)...]
         }
         if let prefix = ["group.", "groups.", "systemgroup."].first(where: name.hasPrefix) {
@@ -255,7 +256,9 @@ public enum ProtectedData: Sendable {
         let homeNames = PathComponents.of(home)
         return spellings(of: path).contains { spelling in
             let names = PathComponents.of(spelling)
-            guard names.count == homeNames.count + 1, names.starts(with: homeNames), let name = names.last else { return false }
+            guard names.count == homeNames.count + 1, names.starts(with: homeNames), let name = names.last else {
+                return false
+            }
             return sharedHomeItemNames.contains(name)
         }
     }
@@ -334,7 +337,9 @@ public enum ProtectedData: Sendable {
     private static func trees(under home: String) -> Trees {
         treesByHome.withLock { cache in
             if let trees = cache[home] { return trees }
-            let trees = Trees(homeTrees.map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) })
+            let trees = Trees(
+                homeTrees.map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) }
+            )
             if cache.count >= 32 { cache.removeAll() }
             cache[home] = trees
             return trees
@@ -359,7 +364,9 @@ public enum ProtectedData: Sendable {
     /// around one, and this looks inside the folder instead. It reads the disk.
     public static func holdsALibrary(_ path: String) -> Bool {
         let folder = URL(filePath: path, directoryHint: .isDirectory)
-        let children = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey])) ?? []
+        let children =
+            (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey]))
+            ?? []
         return children.contains { child in
             if isALibrary(child.lastPathComponent.lowercased()) { return true }
             guard (try? child.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true else { return false }

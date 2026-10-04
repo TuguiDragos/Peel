@@ -19,7 +19,12 @@ public enum UserAuthorization {
         var administrators = [UInt8](repeating: 0, count: MemoryLayout<uuid_t>.size)
         guard
             mbr_uid_to_uuid(user, &account) == 0,
-            mbr_identifier_to_uuid(ID_TYPE_GROUPNAME, administratorsGroup, administratorsGroup.utf8.count, &administrators) == 0
+            mbr_identifier_to_uuid(
+                ID_TYPE_GROUPNAME,
+                administratorsGroup,
+                administratorsGroup.utf8.count,
+                &administrators
+            ) == 0
         else { return false }
 
         var isMember: Int32 = 0

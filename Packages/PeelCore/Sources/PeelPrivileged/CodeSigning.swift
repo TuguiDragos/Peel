@@ -23,7 +23,11 @@ public enum CodeSigning {
         guard SecCodeCopyStaticCode(code, [], &staticCode) == errSecSuccess, let staticCode else { return nil }
         var information: CFDictionary?
         guard
-            SecCodeCopySigningInformation(staticCode, SecCSFlags(rawValue: UInt32(kSecCSSigningInformation)), &information) == errSecSuccess,
+            SecCodeCopySigningInformation(
+                staticCode,
+                SecCSFlags(rawValue: UInt32(kSecCSSigningInformation)),
+                &information
+            ) == errSecSuccess,
             let team = (information as? [String: Any])?[kSecCodeInfoTeamIdentifier as String] as? String,
             isValidTeamIdentifier(team)
         else { return nil }

@@ -72,7 +72,10 @@ public final class HelperLedger: Sendable {
     /// Moves the folder the ledger lives in to `trash` and returns where it went, or nil when there is none. It is
     /// for Remove Peel, just before the helper goes, since nothing else can move it, and it moves only a folder that
     /// is the helper's own and closed to everyone else, as the ledger keeps its folder.
-    public static func moveFolder(_ folder: String = defaultFolder, into trash: DirectoryHandle) -> Result<String?, POSIXError> {
+    public static func moveFolder(
+        _ folder: String = defaultFolder,
+        into trash: DirectoryHandle
+    ) -> Result<String?, POSIXError> {
         lock.withLock {
             switch OpenItem.at(folder) {
             case .failure(let error):
@@ -130,7 +133,9 @@ public final class HelperLedger: Sendable {
     private func write(_ entries: some Sequence<Entry>) -> Bool {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
-        guard let data = try? encoder.encode(Array(entries)), (try? data.write(to: url, options: .atomic)) != nil else { return false }
+        guard let data = try? encoder.encode(Array(entries)), (try? data.write(to: url, options: .atomic)) != nil else {
+            return false
+        }
         return chmod(url.path(percentEncoded: false), 0o600) == 0
     }
 }

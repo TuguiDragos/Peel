@@ -254,8 +254,12 @@ extension ProtectedData {
     /// comes with the listing, so a folder of many files costs no call for each file.
     private static func entries(of folder: String) -> [(name: String, isAFile: Bool)] {
         let url = URL(filePath: folder, directoryHint: .isDirectory)
-        let found = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey])) ?? []
-        return found.map { ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true) }
+        let found =
+            (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey]))
+            ?? []
+        return found.map {
+            ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true)
+        }
     }
 
     /// True for `name`, inside a folder called `folder`, when it is a wallet extension's storage. Both lowercase.

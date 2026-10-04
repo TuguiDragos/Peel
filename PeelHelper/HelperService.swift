@@ -34,7 +34,11 @@ final class HelperService: NSObject, PeelHelperProtocol {
         reply(HelperIdentity.protocolVersion)
     }
 
-    func moveItemsToTrash(version: Int, atPaths paths: [String], withReply finish: @escaping @Sendable ([String: String], [String: String]) -> Void) {
+    func moveItemsToTrash(
+        version: Int,
+        atPaths paths: [String],
+        withReply finish: @escaping @Sendable ([String: String], [String: String]) -> Void
+    ) {
         lifetime.requestStarted()
         let reply: @Sendable ([String: String], [String: String]) -> Void = { [lifetime] moved, failed in
             finish(moved, failed)
@@ -67,13 +71,21 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
         // Recorded before anything moves, so no item reaches the Trash without a record. The helper puts
         // back only what its ledger lists.
-        guard let ledger = HelperLedger(), let result = TrashMover.moveRecorded(items, into: trash, ledger: ledger, movedBy: caller.user) else {
+        guard
+            let ledger = HelperLedger(),
+            let result = TrashMover.moveRecorded(items, into: trash, ledger: ledger, movedBy: caller.user)
+        else {
             return refuse(HelperRefusal.cannotKeepRecord.rawValue)
         }
         reply(result.moved, failed.merging(result.failed) { refused, _ in refused })
     }
 
-    func restoreItem(version: Int, fromTrashPath trashPath: String, toPath destination: String, withReply finish: @escaping @Sendable (String?) -> Void) {
+    func restoreItem(
+        version: Int,
+        fromTrashPath trashPath: String,
+        toPath destination: String,
+        withReply finish: @escaping @Sendable (String?) -> Void
+    ) {
         lifetime.requestStarted()
         let reply = tracked(finish)
         let caller: HelperRequest.Caller
@@ -122,7 +134,8 @@ final class HelperService: NSObject, PeelHelperProtocol {
         } catch {
             return reply(error.rawValue)
         }
-        guard let trash = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory).openTrash(ownedBy: caller.user) else {
+        guard let trash = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory).openTrash(ownedBy: caller.user)
+        else {
             return reply(HelperRefusal.noTrash.rawValue)
         }
         switch HelperLedger.moveFolder(into: trash) {
@@ -131,7 +144,12 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
     }
 
-    func runDaemonCommand(version: Int, command: String, label: String, withReply finish: @escaping @Sendable (String?) -> Void) {
+    func runDaemonCommand(
+        version: Int,
+        command: String,
+        label: String,
+        withReply finish: @escaping @Sendable (String?) -> Void
+    ) {
         lifetime.requestStarted()
         let reply = tracked(finish)
         if case .failure(let refusal) = HelperRequest.admit(version: version, caller: Self.caller) {

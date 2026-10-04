@@ -20,15 +20,29 @@ public enum HelperIdentity {
 
     /// Replies with two dictionaries keyed by original path: where each moved item now is in the user's
     /// Trash, and why each other item failed.
-    func moveItemsToTrash(version: Int, atPaths paths: [String], withReply reply: @escaping @Sendable ([String: String], [String: String]) -> Void)
+    func moveItemsToTrash(
+        version: Int,
+        atPaths paths: [String],
+        withReply reply: @escaping @Sendable ([String: String], [String: String]) -> Void
+    )
 
     /// Runs `launchctl` with `command` for the system daemon `label`. Replies with nil on success, or a
     /// failure description.
-    func runDaemonCommand(version: Int, command: String, label: String, withReply reply: @escaping @Sendable (String?) -> Void)
+    func runDaemonCommand(
+        version: Int,
+        command: String,
+        label: String,
+        withReply reply: @escaping @Sendable (String?) -> Void
+    )
 
     /// Moves an item back from the user's Trash, when the helper's own ledger says it moved that item from
     /// exactly there. Replies with nil on success, or a failure description.
-    func restoreItem(version: Int, fromTrashPath trashPath: String, toPath destination: String, withReply reply: @escaping @Sendable (String?) -> Void)
+    func restoreItem(
+        version: Int,
+        fromTrashPath trashPath: String,
+        toPath destination: String,
+        withReply reply: @escaping @Sendable (String?) -> Void
+    )
 
     /// Moves the helper's own ledger to the user's Trash, for Remove Peel just before it unregisters the helper.
     /// Replies with nil once it is there or when there is none, or a failure description.

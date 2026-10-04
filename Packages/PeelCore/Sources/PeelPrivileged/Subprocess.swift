@@ -90,7 +90,9 @@ public enum Subprocess {
         try? outputPipe.fileHandleForReading.close()
         try? errorPipe.fileHandleForReading.close()
         if let failure = run.failure { return .failure(failure) }
-        return .success(Output(status: process.terminationStatus, standardOutput: standardOutput, standardError: standardError))
+        return .success(
+            Output(status: process.terminationStatus, standardOutput: standardOutput, standardError: standardError)
+        )
     }
 
     /// One tool being run: whoever waits for it is woken once, and it is stopped once, for one reason.
@@ -143,7 +145,9 @@ public enum Subprocess {
                 guard !state.withLock({ $0.hasEnded }), process.isRunning else { return }
                 kill(process.processIdentifier, SIGKILL)
                 // A tool stuck in the kernel survives even `SIGKILL`, so the waiter is let go anyway.
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + Subprocess.grace) { [self] in ended() }
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+                    ended()
+                }
             }
         }
     }

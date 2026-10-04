@@ -22,15 +22,20 @@ public enum SystemDaemons {
     /// two files declare returns nil.
     public static func file(declaring label: String, in directory: String = installed) -> String? {
         let contents = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
-        let declaring = contents.lazy.filter { $0.hasSuffix(".plist") }.map { (directory as NSString).appendingPathComponent($0) }.filter { path in
-            var info = stat()
-            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= 1_024 * 1_024 else { return false }
-            guard
-                let data = FileManager.default.contents(atPath: path),
-                let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
-            else { return false }
-            return plist["Label"] as? String == label
-        }
+        let declaring = contents.lazy
+            .filter { $0.hasSuffix(".plist") }
+            .map { (directory as NSString).appendingPathComponent($0) }
+            .filter { path in
+                var info = stat()
+                guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= 1_024 * 1_024 else {
+                    return false
+                }
+                guard
+                    let data = FileManager.default.contents(atPath: path),
+                    let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+                else { return false }
+                return plist["Label"] as? String == label
+            }
         let found = Array(declaring.prefix(2))
         return found.count == 1 ? found[0] : nil
     }

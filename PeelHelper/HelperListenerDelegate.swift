@@ -34,7 +34,12 @@ final class HelperListenerDelegate: NSObject, NSXPCListenerDelegate {
         let trash = #selector((any PeelHelperProtocol).moveItemsToTrash(version:atPaths:withReply:))
         interface.setClasses(classes(NSArray.self, NSString.self), for: trash, argumentIndex: 1, ofReply: false)
         for index in 0...1 {
-            interface.setClasses(classes(NSDictionary.self, NSString.self), for: trash, argumentIndex: index, ofReply: true)
+            interface.setClasses(
+                classes(NSDictionary.self, NSString.self),
+                for: trash,
+                argumentIndex: index,
+                ofReply: true
+            )
         }
         return interface
     }
