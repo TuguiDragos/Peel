@@ -42,6 +42,14 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
     }
 
+    /// The places and commands Peel names most read as macOS names them in each language, from the system's own
+    /// tables on this Mac.
+    @Test func placesAndCommandsAreMacOSsWords() throws {
+        var checker = CatalogChecker(root: Self.repository, required: try Self.declaredLanguages())
+        checker.checkSystemWords()
+        #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
+    }
+
     /// The app quotes the Finder extension's menu item by name, so both catalogs have to agree on it.
     @Test func theFinderItemIsQuotedAsTranslated() throws {
         var checker = CatalogChecker(root: Self.repository, required: try Self.declaredLanguages())
@@ -290,8 +298,15 @@ struct CatalogChecker {
     /// counts. In French and Portuguese 0 takes `one`, and in Russian and Ukrainian 21 and 101 do.
     static let oneIsMoreThanOne: Set<String> = ["fr", "pt", "ru", "uk"]
     static let integer = try! NSRegularExpression(pattern: #"%(\d+\$)?(ll|l)?d"#)
-    /// The language codes SwiftUI's tables use where they differ from Peel's.
-    static let swiftUILanguages = ["zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "pt": "pt_BR"]
+    /// The language codes Apple's tables use where they differ from Peel's.
+    static let appleLanguages = ["zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "pt": "pt_BR"]
+    /// What Peel calls by macOS's own names, each with the system table and key that hold that name.
+    static let systemWords: [(key: String, table: String, apple: String)] = [
+        ("Full Disk Access", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "ALL_FILES"),
+        ("App Management", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "APPLICATION_BUNDLES"),
+        ("Show in Finder", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "REVEAL_IN_FINDER"),
+        ("Login Items & Extensions", "/System/Library/ExtensionKit/Extensions/LoginItems.appex/Contents/Resources/Localizable.loctable", "Login Items & Extensions"),
+    ]
     /// The items Peel puts in menus SwiftUI builds, each with SwiftUI's key. Their words are SwiftUI's, whatever
     /// the English says: in Polish, About Peel reads "Peel…".
     static let menuWords = ["About Peel": "About %@", "Quit Peel": "Quit %@", "Settings…": "Settings…", "Find": "Find", "Undo": "Undo", "Redo": "Redo", "Copy": "Copy", "Select All": "Select All"]
@@ -585,10 +600,37 @@ struct CatalogChecker {
                 continue
             }
             for (language, node) in localizations where language != "en" {
-                let swiftUILanguage = Self.swiftUILanguages[language] ?? language
+                let swiftUILanguage = Self.appleLanguages[language] ?? language
                 guard let expected = (plist[swiftUILanguage] as? [String: String])?[apple]?.replacingOccurrences(of: "%@", with: "Peel"),
                       let value = leaves(node as? [String: Any] ?? [:]).first?.text else { continue }
                 if value != expected { fail("Localization/Peel/Localizable.xcstrings", key, language, rule, "SwiftUI says \(expected.debugDescription)") }
+            }
+        }
+    }
+
+    /// Compares each of `systemWords` in Peel's catalog with the name macOS gives it in that language. A no-break
+    /// space counts as a space: some languages keep a short word on the line of the next one.
+    mutating func checkSystemWords() {
+        guard let catalog = load("Localization/Peel/Localizable.xcstrings")?["strings"] as? [String: [String: Any]] else { return }
+        func spaced(_ text: String) -> String {
+            text.replacingOccurrences(of: "\u{00A0}", with: " ").replacingOccurrences(of: "\u{202F}", with: " ")
+        }
+        for word in Self.systemWords {
+            guard let data = try? Data(contentsOf: URL(filePath: word.table)),
+                  let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+                fail("Localization/Peel/Localizable.xcstrings", word.key, "en", "system", "\(word.table) is not on this Mac")
+                continue
+            }
+            let localizations = catalog[word.key]?["localizations"] as? [String: Any] ?? [:]
+            for language in required {
+                guard let expected = (plist[Self.appleLanguages[language] ?? language] as? [String: Any])?[word.apple] as? String else {
+                    fail("Localization/Peel/Localizable.xcstrings", word.key, language, "system", "macOS has no \(word.apple) in this language")
+                    continue
+                }
+                let value = leaves(localizations[language] as? [String: Any] ?? [:]).first?.text
+                if value.map(spaced) != spaced(expected) {
+                    fail("Localization/Peel/Localizable.xcstrings", word.key, language, "system", "macOS says \(expected.debugDescription)")
+                }
             }
         }
     }
