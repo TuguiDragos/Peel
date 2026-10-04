@@ -3,15 +3,26 @@ import Foundation
 
 /// An advisory lock (`flock`) on a `.lock` file beside the file being changed, so a read and the write that
 /// follows it are one step for every process and task that goes through here. When the lock file cannot be
-/// opened, the change still runs, without the lock.
+/// opened or locked, the change still runs, without the lock.
 enum FileLock {
+    /// While a process waits for a lock or holds it, the terminal cannot stop it (Ctrl-Z): stopped there, it would
+    /// keep every other process that needs the file waiting until it went on.
+    private static let unstoppable = IgnoredSignals([SIGTSTP])
+
     static func whileHeld<T>(beside url: URL, _ change: () -> T) -> T {
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         let descriptor = open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
         guard descriptor >= 0 else { return change() }
         defer { close(descriptor) }
-        flock(descriptor, LOCK_EX)
-        defer { flock(descriptor, LOCK_UN) }
-        return change()
+        return unstoppable.run {
+            // A signal caught while waiting ends the wait early (EINTR), without the lock.
+            var locked = flock(descriptor, LOCK_EX)
+            while locked != 0, errno == EINTR {
+                locked = flock(descriptor, LOCK_EX)
+            }
+            guard locked == 0 else { return change() }
+            defer { flock(descriptor, LOCK_UN) }
+            return change()
+        }
     }
 }
