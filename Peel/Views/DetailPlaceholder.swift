@@ -1,15 +1,17 @@
 import SwiftUI
 
 extension View {
-    /// Centers this on a surface that covers its column from top to bottom.
+    /// Centers this on a surface that covers its column from top to bottom, and scrolls it when the column is
+    /// shorter than it.
     ///
-    /// The empty list is that surface. A pane whose root is a plain view paints nothing of its own, so the
-    /// surface changes at the title bar, and that edge reads as a line across the pane. A scroll view with its
-    /// background hidden covers the whole column instead, so no line shows.
+    /// A pane whose root is a plain view paints nothing of its own, so the surface changes at the title bar, and
+    /// that edge reads as a line across the pane. A scroll view covers the whole column instead, so no line shows.
     func centeredOnColumn() -> some View {
-        List {}
-            .scrollContentBackground(.hidden)
-            .overlay { self }
+        ScrollView {
+            frame(maxWidth: .infinity)
+        }
+        .defaultScrollAnchor(.center, for: .alignment)
+        .scrollBounceBehavior(.basedOnSize)
     }
 }
 
