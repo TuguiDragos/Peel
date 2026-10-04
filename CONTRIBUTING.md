@@ -215,6 +215,10 @@ read in one sitting.
   `.borderless`: one of another style changes the window's list of focusable views whenever a row scrolls in or out.
   A row a `ForEach` repeats never hides its own separator and is never a `Toggle` itself; the `ForEach` hides the
   separators. A row that stands alone, such as a header or a notice, may hide its own, which costs nothing.
+- **Every switch can be pressed without a pointer.** SwiftUI gives a switch whose label is hidden with
+  `labelsHidden()` no action an assistive technology can perform, so such a switch carries an
+  `accessibilityRepresentation`: a `Toggle` labeled with the row's title, which VoiceOver, Voice Control, and Switch
+  Control can press. AppKit's `NSAccessibilityCheckBox` protocol requires every checkbox and switch to answer a press.
 - **The interface follows Liquid Glass.** The sticker album look belongs to Home, the menu bar panel, and About
   only; every other screen reads as macOS (system type, `Form` and `Section`, native controls). Icons are SF
   Symbols, and the logo comes only from `Logo/`, but for the face at the head of the sidebar, which draws the logo's

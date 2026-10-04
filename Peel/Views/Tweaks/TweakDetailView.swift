@@ -114,13 +114,16 @@ struct TweakRow: View {
     private func control(_ state: TweakState) -> some View {
         switch tweak.kind {
         case .aSwitch, .aSwitchForThisAppAlone:
-            Toggle(isOn: Binding(
+            let isOn = Binding(
                 get: { tweaks.isOn(tweak, state: state) },
                 set: { tweaks.set(tweak, on: $0) }
-            )) { EmptyView() }
-            .labelsHidden()
-            .accessibilityLabel(Text(tweak.words.title))
-            .disabled(state.isManaged)
+            )
+            Toggle(isOn: isOn) { EmptyView() }
+                .labelsHidden()
+                .accessibilityRepresentation {
+                    Toggle(isOn: isOn) { Text(tweak.words.title) }
+                }
+                .disabled(state.isManaged)
         case .folder:
             // The folder row has no switch to turn off, so Put Back is how the user undoes Peel's change.
             // It fades in and out, since it takes room in the row as it comes and goes.
