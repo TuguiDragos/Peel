@@ -82,10 +82,10 @@ public actor RefusalLog {
         }
     }
 
+    /// Deletes the file for good, so `unlink`, which never takes a folder put in its place.
     public func clear() -> Bool {
         FileLock.whileHeld(beside: url) {
-            guard !url.isMissing else { return true }
-            return (try? FileManager.default.removeItem(at: url)) != nil
+            url.isMissing || unlink(url.path(percentEncoded: false)) == 0
         }
     }
 

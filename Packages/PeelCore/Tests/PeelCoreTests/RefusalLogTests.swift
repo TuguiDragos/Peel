@@ -176,6 +176,16 @@ struct RefusalLogTests {
         #expect(await log.clear(), "forgetting what is already forgotten is no failure")
     }
 
+    /// Forgetting refusals deletes for good, so it takes the file and never a folder put in its place.
+    @Test func clearNeverDeletesAFolderInThePlaceOfTheFile() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "Peel/refusals.json")
+        try directory.file("Peel/refusals.json/kept.txt", contents: Data("work".utf8))
+
+        #expect(await RefusalLog(url: url).clear() == false)
+        #expect(FileManager.default.fileExists(atPath: url.appending(path: "kept.txt").path(percentEncoded: false)))
+    }
+
     private static let everyReason: [TrashFailure.Reason] = [
         .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable,
