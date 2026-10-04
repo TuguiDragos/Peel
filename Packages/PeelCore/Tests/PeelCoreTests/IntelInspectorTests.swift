@@ -102,6 +102,26 @@ struct IntelInspectorTests {
         #expect(scan.findings.allSatisfy { $0.kind == .driver })
     }
 
+    @Test func findsAnIntelTWAINDataSource() async throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "root/Library/Image Capture/TWAIN Data Sources/Scanner.ds", cpuTypes: [intel])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            plugins: [],
+            backgroundItems: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.map(\.name) == ["Scanner.ds"])
+        #expect(scan.findings.allSatisfy { $0.kind == .driver })
+    }
+
     @Test func findsTheIntelProgramsAPrinterDriverKeeps() async throws {
         let directory = try TemporaryDirectory()
         let vendor = "root/Library/Printers/Vendor"

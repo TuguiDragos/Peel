@@ -256,7 +256,8 @@ public enum IntelInspector {
         return candidates.first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
     }
 
-    static let driverExtensions: Set<String> = ["app", "plugin", "bundle", "driver", "qlgenerator", "mdimporter"]
+    /// `ds` is a TWAIN data source, which Apple's Technical Note TN2088 puts in `Image Capture/TWAIN Data Sources`.
+    static let driverExtensions: Set<String> = ["app", "plugin", "bundle", "driver", "qlgenerator", "mdimporter", "ds"]
 
     static func bundles(in directories: [String]) -> [URL] {
         directories.flatMap { directory -> [URL] in
