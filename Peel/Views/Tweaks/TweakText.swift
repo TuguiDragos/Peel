@@ -178,7 +178,7 @@ extension Tweak {
         ),
         "privacy-save-locally": Words(
             title: "New documents save to this Mac",
-            detail: "The save panel starts on this Mac instead of iCloud Drive."
+            detail: "A Save dialog starts on this Mac instead of iCloud Drive."
         ),
         "privacy-personalised-ads": Words(
             title: "No personalized Apple ads",

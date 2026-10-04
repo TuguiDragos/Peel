@@ -7085,6 +7085,112 @@
         }
       }
     },
+    "A Save dialog starts on this Mac instead of iCloud Drive." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogové okno Uložit se otevře v tomto Macu, a ne na iCloud Drivu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Dialog „Sichern“ zeigt zuerst diesen Mac statt iCloud Drive."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cuadro de diálogo Guardar empieza en este Mac en vez de en iCloud Drive."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La zone de dialogue Enregistrer s’ouvre sur ce Mac plutôt que sur iCloud Drive."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La finestra di dialogo Salva parte da questo Mac invece che da iCloud Drive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”ダイアログが、iCloud DriveではなくこのMacの場所から始まります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장 대화상자가 iCloud Drive 대신 이 Mac에서 시작됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een bewaarvenster opent op deze Mac in plaats van op iCloud Drive."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okno dialogowe Zachowaj otwiera się na tym Macu zamiast na iCloud Drive."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A caixa de diálogo Salvar abre neste Mac, e não no iCloud Drive."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogul Salvați pornește pe acest Mac în loc de iCloud Drive."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диалоговое окно сохранения открывается на этом Mac, а не в iCloud Drive."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dialogrutan Spara börjar på den här datorn i stället för i iCloud Drive."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet sorgu kutusu iCloud Drive yerine bu Mac’te açılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Діалогове вікно «Зберегти» відкривається на цьому Mac, а не в iCloud Drive."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“保存”对话框默认打开这台Mac上的位置，而不是iCloud云盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「儲存」對話框的預設位置會是這部Mac，而不是「iCloud雲碟」。"
+          }
+        }
+      }
+    },
     "A brew.env file sets this, in /etc/homebrew, in %@, or in ~/.homebrew." : {
       "localizations" : {
         "cs" : {
@@ -132119,112 +132225,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與「隱私權與安全性」中的「個人化廣告」是同一個設定，但只有在那裡切換開關，才會立即將變更通知這部Mac上的廣告服務。"
-          }
-        }
-      }
-    },
-    "The save panel starts on this Mac instead of iCloud Drive." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Panel pro ukládání se otevře v tomto Macu, a ne na iCloud Drivu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Dialog zum Sichern zeigt zuerst diesen Mac statt iCloud Drive."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El panel de guardar empieza en este Mac en vez de en iCloud Drive."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La fenêtre d’enregistrement s’ouvre sur ce Mac plutôt que sur iCloud Drive."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La finestra di salvataggio parte da questo Mac invece che da iCloud Drive."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存パネルが、iCloud DriveではなくこのMacの場所から始まります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장 패널이 iCloud Drive 대신 이 Mac에서 시작됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het bewaarvenster opent op deze Mac in plaats van op iCloud Drive."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Okno zachowywania otwiera się na tym Macu zamiast na iCloud Drive."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O painel Salvar abre neste Mac, e não no iCloud Drive."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Panoul de salvare pornește pe acest Mac în loc de iCloud Drive."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Окно сохранения открывается на этом Mac, а не в iCloud Drive."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dialogrutan Spara börjar på den här datorn i stället för i iCloud Drive."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydetme paneli iCloud Drive yerine bu Mac’te açılır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Панель збереження відкривається на цьому Mac, а не в iCloud Drive."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存面板默认打开这台Mac上的位置，而不是iCloud云盘。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存面板的預設位置會是這部Mac，而不是「iCloud雲碟」。"
           }
         }
       }
