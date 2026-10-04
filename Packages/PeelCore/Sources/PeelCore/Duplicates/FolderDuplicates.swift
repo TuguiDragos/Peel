@@ -168,7 +168,6 @@ struct FolderDuplicates: Sendable {
         return folder
     }
 
-    /// The entries of `url`, and whether a build file among them makes it a project.
     private func entries(of url: URL, depth: Int) -> (entries: [URL], isProject: Bool)? {
         guard let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
             return nil
