@@ -32,7 +32,9 @@ nonisolated extension SpaceItem {
         "simulators": Words(
             title: "Simulators",
             detail: "Devices and runtimes Xcode keeps for testing.",
-            hint: "Xcode > Settings > Components, or xcrun simctl delete unavailable"
+            hint: LocalizedStringResource(
+                "Xcode > Settings > Components", comment: "Xcode's own menus, which are English in every language."
+            )
         ),
         "android-sdk": Words(
             title: "Android Emulators",
@@ -47,17 +49,18 @@ nonisolated extension SpaceItem {
         "docker": Words(
             title: LocalizedStringResource("Docker Desktop", comment: "A product's name, never translated."),
             detail: "Docker’s disk image holds every image, container, and volume.",
-            hint: "docker system prune, or Docker Desktop > Settings > Resources"
+            hint: LocalizedStringResource(
+                "Docker Desktop > Settings > Resources",
+                comment: "Docker Desktop's own menus, which are English in every language."
+            )
         ),
         "orbstack": Words(
             title: LocalizedStringResource("OrbStack", comment: "A product's name, never translated."),
-            detail: "OrbStack’s machines and images.",
-            hint: "orb delete <name> for a machine, and docker image prune -a for images nothing uses"
+            detail: "OrbStack’s machines and images."
         ),
         "colima": Words(
             title: LocalizedStringResource("Colima", comment: "A product's name, never translated."),
-            detail: "Colima’s virtual machines.",
-            hint: LocalizedStringResource("colima delete --data", comment: "A command, typed as it is.")
+            detail: "Colima’s virtual machines."
         ),
         "utm": Words(
             title: LocalizedStringResource("UTM", comment: "A product's name, never translated."),
@@ -76,18 +79,15 @@ nonisolated extension SpaceItem {
         ),
         "podman": Words(
             title: LocalizedStringResource("Podman", comment: "A product's name, never translated."),
-            detail: "Podman’s virtual machine and the images inside it.",
-            hint: "podman machine rm <name>"
+            detail: "Podman’s virtual machine and the images inside it."
         ),
         "lima": Words(
             title: LocalizedStringResource("Lima", comment: "A product's name, never translated."),
-            detail: "Lima virtual machines.",
-            hint: "limactl delete <name>"
+            detail: "Lima virtual machines."
         ),
         "minikube": Words(
             title: LocalizedStringResource("minikube", comment: "A product's name, never translated."),
-            detail: "minikube clusters and the images they downloaded.",
-            hint: LocalizedStringResource("minikube delete --all --purge", comment: "A command, typed as it is.")
+            detail: "minikube clusters and the images they downloaded."
         ),
         "virtualbox": Words(
             title: LocalizedStringResource("VirtualBox", comment: "A product's name, never translated."),
@@ -96,8 +96,7 @@ nonisolated extension SpaceItem {
         ),
         "vagrant": Words(
             title: "Vagrant Boxes",
-            detail: "Base boxes Vagrant downloaded.",
-            hint: "vagrant box remove <name>, or vagrant box prune for old versions"
+            detail: "Base boxes Vagrant downloaded."
         ),
         "podcasts": Words(
             title: "Podcast Downloads",
@@ -175,10 +174,6 @@ extension SpaceItem {
             assert(found.detail.key.hasSuffix("."), "\(id) doesn't explain itself")
             if let hint = found.hint {
                 assert(!hint.key.isEmpty, "\(id) has an empty hint")
-            }
-            // Without `--data`, `colima delete` keeps the container data (images and volumes) on disk.
-            if id == "colima" {
-                assert(found.hint?.key.contains("--data") == true, "colima's hint must delete the runtime's data disk too")
             }
         }
     }

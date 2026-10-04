@@ -33,6 +33,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public var leavesMacOSsOwn = false
     /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
     public var onlyFilesIn: [URL] = []
+    /// The commands that free an area Peel leaves alone, as its tool's documentation gives them. Peel shows them to
+    /// copy and never runs them: they delete for good.
+    public var commands: [String] = []
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -69,6 +72,7 @@ public enum SpaceInventory {
         var heldBack: HoldBack?
         var leavesMacOSsOwn = false
         var onlyFilesIn: [String] = []
+        var commands: [String] = []
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL) -> [URL] {
@@ -93,7 +97,8 @@ public enum SpaceInventory {
             id: "simulators",
             category: .development,
             paths: ["Library/Developer/CoreSimulator/Devices", "/Library/Developer/CoreSimulator/Images"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["xcrun simctl runtime delete --outdated", "xcrun simctl delete unavailable"]
         ),
         Definition(
             id: "android-sdk",
@@ -111,19 +116,23 @@ public enum SpaceInventory {
             id: "docker",
             category: .virtualMachines,
             paths: ["Library/Containers/com.docker.docker/Data/vms"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["docker system prune"]
         ),
         Definition(
             id: "orbstack",
             category: .virtualMachines,
             paths: ["Library/Group Containers/HUAQ24HBR6.dev.orbstack/data"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["orb delete <name>", "docker image prune -a"]
         ),
         Definition(
             id: "colima",
             category: .virtualMachines,
             paths: [".colima"],
-            handling: .readOnly
+            handling: .readOnly,
+            // Without --data, colima delete keeps the images and volumes on the disk.
+            commands: ["colima delete --data"]
         ),
         Definition(
             id: "utm",
@@ -147,19 +156,22 @@ public enum SpaceInventory {
             id: "podman",
             category: .virtualMachines,
             paths: [".local/share/containers/podman/machine"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["podman machine rm <name>"]
         ),
         Definition(
             id: "lima",
             category: .virtualMachines,
             paths: [".lima"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["limactl delete <name>"]
         ),
         Definition(
             id: "minikube",
             category: .virtualMachines,
             paths: [".minikube/machines", ".minikube/cache/images"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["minikube delete --all --purge"]
         ),
         Definition(
             id: "virtualbox",
@@ -171,7 +183,8 @@ public enum SpaceInventory {
             id: "vagrant",
             category: .virtualMachines,
             paths: [".vagrant.d/boxes"],
-            handling: .readOnly
+            handling: .readOnly,
+            commands: ["vagrant box remove <name>", "vagrant box prune"]
         ),
         Definition(
             id: "podcasts",
@@ -398,7 +411,8 @@ public enum SpaceInventory {
                     handling: definition.handling,
                     heldBack: definition.heldBack,
                     leavesMacOSsOwn: definition.leavesMacOSsOwn,
-                    onlyFilesIn: definition.onlyFilesIn(root: root)
+                    onlyFilesIn: definition.onlyFilesIn(root: root),
+                    commands: definition.commands
                 ))
             }
         }

@@ -28,18 +28,28 @@ struct SpaceDetailView: View {
             Section {
                 Text(item.words.detail)
                     .font(.callout)
-                if let hint = item.words.hint {
+                if item.words.hint != nil || !item.commands.isEmpty {
                     LabeledContent {
-                        Text(hint)
-                            .font(.callout.monospaced())
-                            .textSelection(.enabled)
-                            .multilineTextAlignment(.trailing)
+                        if let hint = item.words.hint {
+                            Text(hint)
+                                .font(.callout)
+                                .textSelection(.enabled)
+                                .multilineTextAlignment(.trailing)
+                        }
                     } label: {
                         heading(
                             "How to free it",
                             "Space doesn’t touch this: the app that made it knows what is still needed."
                         )
                     }
+                }
+                if !item.commands.isEmpty {
+                    CopyableLines(
+                        caption: item.commands.count == 1
+                            ? Text("Run this in Terminal. It deletes for good, without the Trash.")
+                            : Text("Run these in Terminal. They delete for good, without the Trash."),
+                        lines: item.commands
+                    )
                 }
             } header: {
                 Text("What It Is")

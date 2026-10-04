@@ -124,7 +124,9 @@ Peel is free and open source, and it speaks English and 17 other languages.
   until they install them, and what your iPhone backups hold. Nothing is selected for you.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
-- **Space:** what's taking up room, and which app it belongs to. The caches and logs apps keep for every account,
+- **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
+  simulators or Docker's disk, Space measures and leaves to that app, with the command that frees it for you to copy
+  into Terminal: Peel never runs it, since it deletes for good. The caches and logs apps keep for every account,
   and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
   administrator owns them, and what macOS keeps there for its own services is never listed. Peel can also warn you,
   with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >

@@ -32431,6 +32431,10 @@
       "comment" : "A product's name, never translated.",
       "shouldTranslate" : false
     },
+    "Docker Desktop > Settings > Resources" : {
+      "comment" : "Docker Desktop's own menus, which are English in every language.",
+      "shouldTranslate" : false
+    },
     "Docker’s disk image holds every image, container, and volume." : {
       "localizations" : {
         "cs" : {
@@ -116615,6 +116619,112 @@
         }
       }
     },
+    "Run these in Terminal. They delete for good, without the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spusťte tyto příkazy v Terminálu. Mažou trvale, bez přesunutí do koše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diese Befehle im Terminal aus. Sie löschen endgültig, ohne Umweg über den Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta estos comandos en Terminal. Borran definitivamente, sin pasar por la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez ces commandes dans Terminal. Elles suppriment définitivement, sans passer par la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui in Terminale questi comandi, che eliminano definitivamente senza passare dal Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで以下のコマンドを実行してください。これらのコマンドは、ゴミ箱に入れずに完全に削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널에서 이 명령들을 실행하십시오. 이 명령들은 휴지통을 거치지 않고 영구적으로 삭제합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer deze uit in Terminal. Wat ze verwijderen, is definitief weg: er gaat niets naar de prullenmand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchom te polecenia w Terminalu. Usuwają one dane trwale, z pominięciem Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute estes comandos no Terminal. Eles apagam definitivamente, sem passar pelo Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați aceste comenzi în Terminal. Comenzile șterg definitiv, fără să mute nimic în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполните эти команды в Терминале. Они удаляют безвозвратно, минуя Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör de här kommandona i Terminal. De raderar permanent, utan att något hamnar i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları Terminal’de çalıştırın. Çöp Sepeti’ne taşımadan kalıcı olarak silerler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконайте ці команди в Терміналі. Вони видаляють назавжди, оминаючи Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行这些命令。它们会永久删除内容，不经过废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」中執行這些指令。它們會永久刪除，不經過「垃圾桶」。"
+          }
+        }
+      }
+    },
     "Run this brew for Homebrew?" : {
       "localizations" : {
         "cs" : {
@@ -116929,6 +117039,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「終端機」中執行此指令，即可安裝Apple的命令列開發者工具，其中包含Git。"
+          }
+        }
+      }
+    },
+    "Run this in Terminal. It deletes for good, without the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spusťte tento příkaz v Terminálu. Maže trvale, bez přesunutí do koše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diesen Befehl im Terminal aus. Er löscht endgültig, ohne Umweg über den Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta esto en Terminal. Borra definitivamente, sin pasar por la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez cette commande dans Terminal. Elle supprime définitivement, sans passer par la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui in Terminale questo comando, che elimina definitivamente senza passare dal Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで以下のコマンドを実行してください。このコマンドは、ゴミ箱に入れずに完全に削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널에서 이 명령을 실행하십시오. 이 명령은 휴지통을 거치지 않고 영구적으로 삭제합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit uit in Terminal. Wat het verwijdert, is definitief weg: er gaat niets naar de prullenmand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchom to polecenie w Terminalu. Usuwa ono dane trwale, z pominięciem Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute este comando no Terminal. Ele apaga definitivamente, sem passar pelo Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați această comandă în Terminal. Comanda șterge definitiv, fără să mute nimic în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполните эту команду в Терминале. Она удаляет безвозвратно, минуя Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här kommandot i Terminal. Det raderar permanent, utan att något hamnar i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu Terminal’de çalıştırın. Çöp Sepeti’ne taşımadan kalıcı olarak siler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконайте цю команду в Терміналі. Вона видаляє назавжди, оминаючи Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行此命令。它会永久删除内容，不经过废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」中執行此指令。它會永久刪除，不經過「垃圾桶」。"
           }
         }
       }
@@ -165064,111 +165280,9 @@
         }
       }
     },
-    "Xcode > Settings > Components, or xcrun simctl delete unavailable" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components nebo xcrun simctl delete unavailable"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components oder xcrun simctl delete unavailable"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, o xcrun simctl delete unavailable"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, ou xcrun simctl delete unavailable"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, oppure xcrun simctl delete unavailable"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components、またはxcrun simctl delete unavailable"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components 또는 xcrun simctl delete unavailable"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, of xcrun simctl delete unavailable"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components lub xcrun simctl delete unavailable"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, ou xcrun simctl delete unavailable"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components sau xcrun simctl delete unavailable"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components или xcrun simctl delete unavailable"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components, eller xcrun simctl delete unavailable"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components veya xcrun simctl delete unavailable"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components або xcrun simctl delete unavailable"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components，或xcrun simctl delete unavailable"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode > Settings > Components，或xcrun simctl delete unavailable"
-          }
-        }
-      }
+    "Xcode > Settings > Components" : {
+      "comment" : "Xcode's own menus, which are English in every language.",
+      "shouldTranslate" : false
     },
     "Yes" : {
       "localizations" : {
@@ -179450,116 +179564,6 @@
         }
       }
     },
-    "colima delete --data" : {
-      "comment" : "A command, typed as it is.",
-      "shouldTranslate" : false
-    },
-    "docker system prune, or Docker Desktop > Settings > Resources" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune nebo Docker Desktop > Settings > Resources"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune oder Docker Desktop > Settings > Resources"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, o Docker Desktop > Settings > Resources"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, ou Docker Desktop > Settings > Resources"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, oppure Docker Desktop > Settings > Resources"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune、またはDocker Desktop > Settings > Resources"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune 또는 Docker Desktop > Settings > Resources"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, of Docker Desktop > Settings > Resources"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune lub Docker Desktop > Settings > Resources"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, ou Docker Desktop > Settings > Resources"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune sau Docker Desktop > Settings > Resources"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune или Docker Desktop > Settings > Resources"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune, eller Docker Desktop > Settings > Resources"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune veya Docker Desktop > Settings > Resources"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune або Docker Desktop > Settings > Resources"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune，或Docker Desktop > Settings > Resources"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "docker system prune，或Docker Desktop > Settings > Resources"
-          }
-        }
-      }
-    },
     "iCloud Drive" : {
       "localizations" : {
         "cs" : {
@@ -180298,112 +180302,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用中"
-          }
-        }
-      }
-    },
-    "limactl delete <name>" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <název>"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nombre>"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nom>"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nome>"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <naam>"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nazwa>"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nome>"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <nume>"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <имя>"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <namn>"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <імʼя>"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "limactl delete <name>"
           }
         }
       }
@@ -184762,10 +184660,6 @@
         }
       }
     },
-    "minikube delete --all --purge" : {
-      "comment" : "A command, typed as it is.",
-      "shouldTranslate" : false
-    },
     "moved" : {
       "localizations" : {
         "cs" : {
@@ -185186,218 +185080,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在這部Mac上"
-          }
-        }
-      }
-    },
-    "orb delete <name> for a machine, and docker image prune -a for images nothing uses" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <název> pro počítač a docker image prune -a pro obrazy, které nic nepoužívá"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <name> für eine Maschine und docker image prune -a für Images, die nichts verwendet"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nombre> para una máquina, y docker image prune -a para las imágenes que no usa nada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nom> pour une machine, et docker image prune -a pour les images que rien n’utilise"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nome> per una macchina, e docker image prune -a per le immagini inutilizzate"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "マシンにはorb delete <name>、どこからも使われていないイメージにはdocker image prune -a"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "머신은 orb delete <name>, 사용하지 않는 이미지는 docker image prune -a"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <naam> voor een machine, en docker image prune -a voor images die door niets worden gebruikt"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nazwa> dla maszyny oraz docker image prune -a dla obrazów, których nic nie używa"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nome> para uma máquina, e docker image prune -a para imagens que nada usa"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <nume> pentru o mașină și docker image prune -a pentru imaginile pe care nu le folosește nimic"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <имя> для машины и docker image prune -a для образов, которые ничем не используются"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <namn> för en maskin, och docker image prune -a för avbilder som inget använder"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir makine için orb delete <name>, hiçbir şeyin kullanmadığı imajlar için docker image prune -a"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "orb delete <імʼя> для машини і docker image prune -a для образів, якими ніщо не користується"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除机器用orb delete <name>，删除未被使用的镜像用docker image prune -a"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "機器用orb delete <name>，沒有任何項目使用的映像檔則用docker image prune -a"
-          }
-        }
-      }
-    },
-    "podman machine rm <name>" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <název>"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nombre>"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nom>"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nome>"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <naam>"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nazwa>"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nome>"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <nume>"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <имя>"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <namn>"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <імʼя>"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "podman machine rm <name>"
           }
         }
       }
@@ -185928,112 +185610,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可移除"
-          }
-        }
-      }
-    },
-    "vagrant box remove <name>, or vagrant box prune for old versions" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <název> nebo vagrant box prune pro staré verze"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name> oder vagrant box prune für alte Versionen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nombre>, o vagrant box prune para las versiones antiguas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nom>, ou vagrant box prune pour les anciennes versions"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nome>, oppure vagrant box prune per le vecchie versioni"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name>、または古いバージョンにはvagrant box prune"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name> 또는 이전 버전은 vagrant box prune"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <naam>, of vagrant box prune voor oude versies"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nazwa> lub vagrant box prune dla starych wersji"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nome>, ou vagrant box prune para versões antigas"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <nume> sau vagrant box prune pentru versiunile vechi"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <имя> или vagrant box prune для старых версий"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <namn>, eller vagrant box prune för gamla versioner"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name> veya eski sürümler için vagrant box prune"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <імʼя> або vagrant box prune для старих версій"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name>，旧版本可用vagrant box prune删除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vagrant box remove <name>，舊版本則用vagrant box prune"
           }
         }
       }

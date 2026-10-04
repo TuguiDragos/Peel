@@ -266,6 +266,37 @@ struct SpaceInventoryTests {
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }
 
+    @Test func theSimulatorsAreaGivesApplesCommandsThatThisMacsSimctlKnows() throws {
+        let simulators = try #require(SpaceInventory.definitions.first { $0.id == "simulators" })
+        #expect(simulators.commands == ["xcrun simctl runtime delete --outdated", "xcrun simctl delete unavailable"])
+        #expect(try simctlHelp("runtime").contains("--outdated"))
+        #expect(try simctlHelp("delete").contains("unavailable"))
+    }
+
+    @Test func colimaIsToldToDeleteItsDataDiskToo() throws {
+        let colima = try #require(SpaceInventory.definitions.first { $0.id == "colima" })
+        #expect(colima.commands == ["colima delete --data"])
+    }
+
+    @Test func onlyAnAreaPeelLeavesAloneGivesCommands() {
+        for definition in SpaceInventory.definitions where !definition.commands.isEmpty {
+            #expect(definition.handling == .readOnly, "\(definition.id)")
+        }
+    }
+
+    private func simctlHelp(_ topic: String) throws -> String {
+        let process = Process()
+        let output = Pipe()
+        process.executableURL = URL(filePath: "/usr/bin/xcrun")
+        process.arguments = ["simctl", "help", topic]
+        process.standardOutput = output
+        process.standardError = output
+        try process.run()
+        let data = output.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        return String(decoding: data, as: UTF8.self)
+    }
+
     /// Space says it leaves a read only area to the app that made it, so nothing in one is what Developer
     /// selects for the person to remove.
     @Test func noReadOnlyAreaHoldsWhatDeveloperSelects() {
