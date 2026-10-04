@@ -97,7 +97,10 @@ struct MenuBarFound: View {
         .onDisappear { if pointingAt == line.tool { pointingAt = nil } }
         .help(Text("Open \(String(localized: line.tool.title))"))
         .accessibilityLabel(Text(line.tool.title))
-        .accessibilityValue(Text(verbatim: "\(String(line.sentence.characters)) \(line.date.formatted(.relative(presentation: .named)))"))
+        .accessibilityValue(Text(
+            "\(line.sentence) Found \(line.date, format: .relative(presentation: .named)).",
+            comment: "What VoiceOver reads for a line of the menu bar panel's Found list. The first %@ is the tool's own sentence, such as \"3.2 GB in 5 groups.\", with its own full stop; the second is when the tool found it, as macOS words a relative time, such as \"2 hours ago\" or \"yesterday\"."
+        ))
     }
 
     private func words(_ line: Line) -> some View {
