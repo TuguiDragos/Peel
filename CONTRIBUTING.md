@@ -194,7 +194,9 @@ read in one sitting.
 - **Few comments, written for people.** Say what the code can't: what a declaration is for, why a rule exists,
   and which documented behavior of macOS forced a workaround, with its public source (a man page, an SDK header,
   Apple's documentation). No history and no lab notes: a fixed bug belongs in the commit message, and the comment
-  keeps only the rule it left. Don't narrate what the next line does, and keep lines within 120 columns.
+  keeps only the rule it left. Don't narrate what the next line does.
+- **Lines within 120 columns**, code and comments alike. A string is never split to make its line fit, so a
+  sentence can still be found with a search: `LineLengthTests` measures each line without its strings.
 - **No dead code.** Whatever your change leaves unused (a function, a type, a string, a file, a test helper)
   goes in the same change.
 - **One English: American**, as the Apple Style Guide writes it: color, catalog, license, canceled, and the
