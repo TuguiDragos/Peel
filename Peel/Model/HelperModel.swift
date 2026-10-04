@@ -43,7 +43,7 @@ final class HelperModel {
     }
 
     func checkConnection() async {
-        refresh()
+        status = await PrivilegedHelper.currentStatus()
         isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
         isRegisteredByAnotherCopy = status == .notRegistered ? await PrivilegedHelper.isRegisteredByAnyCopy() : false
     }

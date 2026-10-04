@@ -158,13 +158,14 @@ final class HomeModel {
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
         let appBundles = await bundles
+        let opensAtLogin = await Self.opensAtLogin()
         states = [
             .fullDiskAccess: state(for: fullDisk),
             .helper: helperState,
             .appManagement: state(for: appManagementSeenThisLaunch ?? (appBundles == .unknown ? appManagement : appBundles)),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
-            .openAtLogin: SMAppService.mainApp.status == .enabled ? .on : .off,
+            .openAtLogin: opensAtLogin ? .on : .off,
             .commandLine: CommandLineTool.isOnThePath(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")) ? .on : .off,
         ]
         hasChecked = true
@@ -253,6 +254,12 @@ final class HomeModel {
     @concurrent
     private static func isFinderExtensionEnabled() async -> Bool {
         FIFinderSyncController.isExtensionEnabled
+    }
+
+    /// Off the main thread: `SMAppService` asks `smd` over XPC.
+    @concurrent
+    private static func opensAtLogin() async -> Bool {
+        SMAppService.mainApp.status == .enabled
     }
 
     private static func finderExtensionRunsFromAnotherCopy() async -> Bool {

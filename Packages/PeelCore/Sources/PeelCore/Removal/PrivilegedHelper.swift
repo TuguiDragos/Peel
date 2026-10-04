@@ -50,6 +50,12 @@ public enum PrivilegedHelper {
         }
     }
 
+    /// `status`, read away from the caller's actor: `SMAppService` asks `smd` over XPC, which takes milliseconds.
+    @concurrent
+    public static func currentStatus() async -> Status {
+        status
+    }
+
     public static func register() throws {
         try service.register()
     }
