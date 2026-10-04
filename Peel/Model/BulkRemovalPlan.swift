@@ -16,10 +16,25 @@ final class BulkRemovalPlan {
     var isRemoving: Bool { question.isRemoving }
     /// Every installed app as of the last scan, to tell a chosen app's processes from another installed app's.
     private var installedApps: [InstalledApp] = []
-    var selectedURLs: Set<URL> = []
+    var selectedURLs: Set<URL> = [] {
+        didSet { staying = bulk?.staying(selected: selectedURLs) ?? [] }
+    }
     private var choices = UninstallSelection()
     /// Whether the helper can act, as last heard, so a scan that lands after it changed selects by what is true now.
     private var canUseHelper = false
+    /// Worked out once per scan, because the page reads each of these on every change, and its list builds every
+    /// row again for each one.
+    private(set) var applications: [BulkUninstallation.Item] = []
+    /// The files Peel would select if their apps go, as an app's own page lists them under Recommended.
+    private(set) var recommendedFiles: [BulkUninstallation.Item] = []
+    /// The files nothing selects for the person, as an app's own page lists them under Review Before Removing.
+    private(set) var filesToReview: [BulkUninstallation.Item] = []
+    /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
+    private(set) var appsInTheTrash: Set<URL> = []
+    private var measuredSizes: [URL: Int64] = [:]
+    /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`), worked out
+    /// again whenever the selection changes.
+    private(set) var staying: Set<String> = []
 
     init(apps: [InstalledApp]) {
         self.apps = apps
@@ -29,10 +44,7 @@ final class BulkRemovalPlan {
 
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
     var request: RemovalRequest {
-        RemovalRequest(
-            urls: selectedURLs,
-            sizes: [URL: Int64](measured: items.filter { selectedURLs.contains($0.url) }.map { ($0.url, $0.isMeasured ? $0.size : nil) })
-        )
+        RemovalRequest(urls: selectedURLs, sizes: [URL: Int64](measured: selectedURLs.map { ($0, measuredSizes[$0]) }))
     }
 
     var total: SizeTotal { bulk?.total ?? SizeTotal(known: 0, isComplete: true) }
@@ -54,16 +66,6 @@ final class BulkRemovalPlan {
         }
     }
 
-    /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
-    var appsInTheTrash: Set<URL> {
-        Set(bulk?.uninstallations.filter(\.isAppInTheTrash).map(\.app.url) ?? [])
-    }
-
-    /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`).
-    var staying: Set<String> {
-        bulk?.staying(selected: selectedURLs) ?? []
-    }
-
     /// The revision of the exclusions the last scan read, nil before the first.
     private(set) var exclusionsRevision: Int?
 
@@ -82,6 +84,11 @@ final class BulkRemovalPlan {
         }) else { return }
         bulk = result
         exclusionsRevision = revision
+        applications = result.items.filter(\.isApplication)
+        recommendedFiles = result.items.filter { !$0.isApplication && $0.isRecommended }
+        filesToReview = result.items.filter { !$0.isApplication && !$0.isRecommended }
+        appsInTheTrash = Set(result.uninstallations.filter(\.isAppInTheTrash).map(\.app.url))
+        measuredSizes = [URL: Int64](measured: result.items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
         self.installedApps = installedApps
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
     }

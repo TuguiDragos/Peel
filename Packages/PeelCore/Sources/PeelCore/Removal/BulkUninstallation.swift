@@ -41,16 +41,13 @@ public struct BulkUninstallation: Sendable {
 
     public let uninstallations: [Uninstallation]
     public let items: [Item]
-
-    public var apps: [InstalledApp] { uninstallations.map(\.app) }
     /// The size of what could be moved, counted by the same rule as an app's own page: nothing the user
     /// excluded, no app macOS protects, and no row that can never be moved. An unmeasured row is never counted
     /// as zero: it makes the total incomplete.
-    public var total: SizeTotal {
-        SizeTotal(items
-            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.match?.heldBack?.cannotBeMoved != true }
-            .map { $0.isMeasured ? $0.size : nil })
-    }
+    public let total: SizeTotal
+    public let privilegedURLs: Set<URL>
+
+    public var apps: [InstalledApp] { uninstallations.map(\.app) }
     public var needsFullDiskAccess: Bool {
         uninstallations.contains { $0.scan.needsFullDiskAccess }
     }
@@ -59,8 +56,13 @@ public struct BulkUninstallation: Sendable {
     }
 
     public init(uninstallations: [Uninstallation]) {
+        let items = Self.merge(uninstallations)
         self.uninstallations = uninstallations
-        items = Self.merge(uninstallations)
+        self.items = items
+        total = SizeTotal(items
+            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.match?.heldBack?.cannotBeMoved != true }
+            .map { $0.isMeasured ? $0.size : nil })
+        privilegedURLs = Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
     }
 
     @concurrent
@@ -109,10 +111,6 @@ public struct BulkUninstallation: Sendable {
     /// leaves out a copy already in the Trash, which stays nowhere.
     public func staying(selected: Set<URL>) -> Set<String> {
         Set(uninstallations.filter { !$0.isAppInTheTrash && !selected.contains($0.app.url) }.map(\.app.bundleIdentifier))
-    }
-
-    public var privilegedURLs: Set<URL> {
-        Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
     }
 
     /// Returns the selection in the order it is moved: leftovers first, then the apps. Excluded items and Peel's

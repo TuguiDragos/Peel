@@ -13,6 +13,8 @@ struct MultipleAppsView: View {
     @State private var removesDockTiles = false
     @State private var appsInTheDock: Set<URL> = []
     @State private var isRescanning = false
+    @State private var questionTitle = Text(verbatim: "")
+    @State private var questionNote = Text(verbatim: "")
     @Environment(RemovalOutcome.self) private var outcome
 
     init(apps: [InstalledApp]) {
@@ -37,7 +39,7 @@ struct MultipleAppsView: View {
 
                 Section {
                     RemovalColumnHeaders()
-                    ForEach(Array(applications.enumerated()), id: \.element.id) { index, item in
+                    ForEach(Array(plan.applications.enumerated()), id: \.element.id) { index, item in
                         row(item, isFirst: index == 0)
                     }
                     .listRowSeparator(.hidden)
@@ -45,10 +47,10 @@ struct MultipleAppsView: View {
                     Text("Apps")
                 }
 
-                if !recommendedFiles.isEmpty {
+                if !plan.recommendedFiles.isEmpty {
                     Section {
                         RemovalColumnHeaders()
-                        ForEach(Array(recommendedFiles.enumerated()), id: \.element.id) { index, item in
+                        ForEach(Array(plan.recommendedFiles.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
                         .listRowSeparator(.hidden)
@@ -57,10 +59,10 @@ struct MultipleAppsView: View {
                     }
                 }
 
-                if !filesToReview.isEmpty {
+                if !plan.filesToReview.isEmpty {
                     Section {
                         RemovalColumnHeaders()
-                        ForEach(Array(filesToReview.enumerated()), id: \.element.id) { index, item in
+                        ForEach(Array(plan.filesToReview.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
                         .listRowSeparator(.hidden)
@@ -107,17 +109,14 @@ struct MultipleAppsView: View {
                 }
             }
         }
-        .confirmationDialog(
-            Text.movingToTrash(plan.question.request?.urls.count ?? 0, plan.question.request?.total ?? SizeTotal([])),
-            isPresented: Bindable(plan.question).isAsking
-        ) {
+        .confirmationDialog(questionTitle, isPresented: Bindable(plan.question).isAsking) {
             Button("Move to Trash") {
                 guard let request = plan.question.start() else { return }
                 Task { await remove(request) }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            removalNote
+            questionNote
         }
         .alert("Quit these apps before removing them.", isPresented: Bindable(quitting).isAsking) {
             Button("Quit Apps") { quitting.quit() }
@@ -160,20 +159,6 @@ struct MultipleAppsView: View {
     private var phase: ScanPhase {
         if plan.bulk != nil { return .content }
         return plan.scanRun.wasStopped ? .stopped : .scanning(.walk)
-    }
-
-    private var applications: [BulkUninstallation.Item] {
-        plan.items.filter(\.isApplication)
-    }
-
-    /// The files Peel would select if their apps go, as an app's own page lists them under Recommended.
-    private var recommendedFiles: [BulkUninstallation.Item] {
-        plan.items.filter { !$0.isApplication && $0.isRecommended }
-    }
-
-    /// The files nothing selects for the person, as an app's own page lists them under Review Before Removing.
-    private var filesToReview: [BulkUninstallation.Item] {
-        plan.items.filter { !$0.isApplication && !$0.isRecommended }
     }
 
     private var header: some View {
@@ -262,8 +247,7 @@ struct MultipleAppsView: View {
     }
 
     /// Under the question: which of the chosen apps go and which stay, and the privacy reset, which History can't undo.
-    private var removalNote: Text {
-        let urls = plan.question.request?.urls ?? []
+    private func note(about urls: Set<URL>) -> Text {
         let going = plan.apps.filter { urls.contains($0.url) }
         let staying = plan.apps.filter { !urls.contains($0.url) && !plan.appsInTheTrash.contains($0.url) }
         var lines: [Text] = []
@@ -291,10 +275,17 @@ struct MultipleAppsView: View {
         resetsPrivacy ? PrivacyReset.apps(among: plan.apps, moving: urls) : []
     }
 
-    /// Asks the question once the apps have quit, since none of their files moves while they run.
+    /// Asks the question once the apps have quit, since none of their files moves while they run. Its words are
+    /// worked out here, once, rather than with every change of the page: the note compares every chosen app with
+    /// every other.
     private func requestRemoval() {
         let plan = plan
-        quitting.check(plan.runningProcesses) { plan.question.ask(plan.request) }
+        quitting.check(plan.runningProcesses) {
+            let request = plan.request
+            questionTitle = Text.movingToTrash(request.urls.count, request.total)
+            questionNote = note(about: request.urls)
+            plan.question.ask(request)
+        }
     }
 
     /// One removal, from the privacy reset before the move to the scan after it, with the page busy throughout.
