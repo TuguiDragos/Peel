@@ -195,6 +195,8 @@ import Testing
             "Plug-ins in [a folder](peel-license:a-b)": ["localizations": ["ro": unit("Plug-inuri în [un dosar-nou](peel-license:a-b)"), "fr": unit("Plug-ins dans [un dossier](peel-license:a-b)")]],
             "About Peel": ["localizations": ["ro": unit("Despre Peel"), "fr": unit("À propos de Peel"), "ru": unit("О приложении «Peel»")]],
             "Made by Ana-Maria": ["localizations": ["ro": unit("Făcut de Ana-Maria"), "fr": unit("Fait par Ana-Maria")]],
+            "Before zsh-autosuggestions, without --set-upstream": ["localizations": ["ro": unit("Înainte de zsh-autosuggestions, fără --set-upstream"), "fr": unit("Avant zsh-autosuggestions, sans --set-upstream")]],
+            "Control-click an app": ["localizations": ["ro": unit("Faceți Control-clic pe o aplicație"), "fr": unit("Cliquez sur une app en maintenant Contrôle")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -237,6 +239,8 @@ import Testing
         #expect(caught["hyphen"]?.contains("It would replace it") == true, "a hyphen that splits a Romanian word")
         #expect(caught["hyphen"]?.contains("Plug-ins in [a folder](peel-license:a-b)") != true, "plug-in and a link keep theirs")
         #expect(caught["hyphen"]?.contains("Made by Ana-Maria") != true, "a compound name keeps its own hyphen")
+        #expect(caught["hyphen"]?.contains("Before zsh-autosuggestions, without --set-upstream") != true, "a name or an option the English has is typed as it is")
+        #expect(caught["hyphen"]?.contains("Control-click an app") == true, "only a whole word the English has, never a part of one")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -342,14 +346,22 @@ struct CatalogChecker {
         return String(prose[Range(match.range(at: 1), in: prose)!])
     }
 
-    static func hyphenInsideAWord(_ text: String) -> String? {
+    static func hyphenInsideAWord(_ text: String, source: String) -> String? {
         let prose = text.replacing(/`[^`]*`/, with: "").replacing(/\[[^\]]*\]\([^)]*\)/, with: "")
         for match in prose.matches(of: /(\p{L}+)-(\p{L}+)/) {
             let (first, second) = (match.output.1, match.output.2)
-            guard first.lowercased() != "plug", !(first.first!.isUppercase && second.first!.isUppercase) else { continue }
+            guard first.lowercased() != "plug", !(first.first!.isUppercase && second.first!.isUppercase),
+                  !isAWholeWord(match.output.0, of: source) else { continue }
             return String(match.output.0)
         }
         return nil
+    }
+
+    static func isAWholeWord(_ word: Substring, of text: String) -> Bool {
+        text.ranges(of: word).contains { range in
+            !(range.lowerBound > text.startIndex && text[text.index(before: range.lowerBound)].isLetter)
+                && !(range.upperBound < text.endIndex && text[range.upperBound].isLetter)
+        }
     }
 
     /// A named count comes first in the pattern: read as a specifier, `%#@selected@` would be a `%@` with a `#` flag.
@@ -586,7 +598,7 @@ struct CatalogChecker {
         if language == "pl", Self.countBeforeASpace.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil {
             fail(path, key, language, "space", "a no-break space between a count and its noun")
         }
-        if language == "ro", let word = Self.hyphenInsideAWord(text) {
+        if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
             fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
         }
         if catalog.table == .appShortcuts {
