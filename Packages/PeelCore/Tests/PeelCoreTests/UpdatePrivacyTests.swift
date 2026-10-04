@@ -18,13 +18,29 @@ private final class RecordingProtocol: URLProtocol, @unchecked Sendable {
     }
 }
 
-/// A server on this Mac's loopback that answers one request with a feed and keeps the request's headers.
+/// A server on this Mac's loopback that answers one request and keeps the request's headers. One never asked stops
+/// listening after ten seconds.
 private final class OneRequestServer: Sendable {
+    enum Answer {
+        case feed
+        case redirect(to: URL)
+
+        var reply: String {
+            switch self {
+            case .feed:
+                let body = #"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><sparkle:version>2</sparkle:version></item></channel></rss>"#
+                return "HTTP/1.1 200 OK\r\nContent-Type: application/xml\r\nContent-Length: \(body.utf8.count)\r\nConnection: close\r\n\r\n\(body)"
+            case .redirect(let url):
+                return "HTTP/1.1 302 Found\r\nLocation: \(url.absoluteString)\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+            }
+        }
+    }
+
     let port: UInt16
     private let headers = Mutex<[String: String]?>(nil)
     private let answered = DispatchSemaphore(value: 0)
 
-    init() throws {
+    init(answering answer: Answer = .feed) throws {
         let listening = socket(AF_INET, SOCK_STREAM, 0)
         var address = sockaddr_in()
         address.sin_family = sa_family_t(AF_INET)
@@ -38,16 +54,23 @@ private final class OneRequestServer: Sendable {
             throw POSIXError(.EADDRNOTAVAIL)
         }
         port = UInt16(bigEndian: address.sin_port)
-        Thread { [self] in serve(listening) }.start()
+        let reply = answer.reply
+        Thread { [self] in serve(listening, reply: reply) }.start()
     }
+
+    var url: URL { URL(string: "http://127.0.0.1:\(port)/appcast.xml")! }
+
+    var wasAsked: Bool { headers.withLock { $0 != nil } }
 
     func receivedHeaders() -> [String: String]? {
         guard answered.wait(timeout: .now() + 10) == .success else { return nil }
         return headers.withLock { $0 }
     }
 
-    private func serve(_ listening: Int32) {
+    private func serve(_ listening: Int32, reply: String) {
         defer { close(listening) }
+        var waiting = pollfd(fd: listening, events: Int16(POLLIN), revents: 0)
+        guard poll(&waiting, 1, 10_000) == 1 else { return }
         let connection = accept(listening, nil, nil)
         guard connection >= 0 else { return }
         defer { close(connection) }
@@ -64,8 +87,6 @@ private final class OneRequestServer: Sendable {
                 line.firstIndex(of: ":").map { (String(line[..<$0]), line[line.index(after: $0)...].trimmingCharacters(in: .whitespaces)) }
             }, uniquingKeysWith: { first, _ in first })
         }
-        let body = #"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><sparkle:version>2</sparkle:version></item></channel></rss>"#
-        let reply = "HTTP/1.1 200 OK\r\nContent-Type: application/xml\r\nContent-Length: \(body.utf8.count)\r\nConnection: close\r\n\r\n\(body)"
         _ = Array(reply.utf8).withUnsafeBytes { write(connection, $0.baseAddress, $0.count) }
         answered.signal()
     }
@@ -94,10 +115,9 @@ private final class OneRequestServer: Sendable {
 
     @Test func tellsAFeedServerNothingButPeelsName() async throws {
         let server = try OneRequestServer()
-        let feed = try #require(URL(string: "http://127.0.0.1:\(server.port)/appcast.xml"))
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor",
-            version: "1", updateFeed: .sparkle(feed)
+            version: "1", updateFeed: .sparkle(server.url)
         )
 
         #expect(await UpdateChecker().status(for: app, preference: .developer) != .failed)
@@ -105,6 +125,19 @@ private final class OneRequestServer: Sendable {
         let headers = try #require(server.receivedHeaders())
         #expect(headers["User-Agent"] == "Peel")
         #expect(headers["Accept-Language"] == "*")
+    }
+
+    @Test func followsARedirectOnlyToHTTPS() async throws {
+        let elsewhere = try OneRequestServer()
+        let server = try OneRequestServer(answering: .redirect(to: elsewhere.url))
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor",
+            version: "1", updateFeed: .sparkle(server.url)
+        )
+
+        #expect(await UpdateChecker().status(for: app, preference: .developer) == .failed)
+        #expect(server.wasAsked)
+        #expect(!elsewhere.wasAsked)
     }
 
     /// A feed server can make an `ETag` or a date unique to one Mac and read it back in the next request (RFC 9110,

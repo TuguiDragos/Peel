@@ -167,7 +167,8 @@ public struct UpdateChecker: Sendable {
 
     private func fetchReply(_ url: URL) async -> (data: Data?, status: Int?) {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
-        guard let (stream, response) = try? await session.bytes(for: request) else { return (nil, nil) }
+        let reply = try? await session.bytes(for: request, delegate: SecureRedirects())
+        guard let (stream, response) = reply else { return (nil, nil) }
         let status = (response as? HTTPURLResponse)?.statusCode
         guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return (nil, status) }
 
@@ -185,6 +186,18 @@ public struct UpdateChecker: Sendable {
             return (nil, status)
         }
         return (Data(bytes), status)
+    }
+}
+
+/// Follows a redirect only to another https address. Every address an update check asks is https, while App
+/// Transport Security still lets plain http reach this Mac and its local network, so a feed server could otherwise
+/// send the check to a service there.
+private final class SecureRedirects: NSObject, URLSessionTaskDelegate {
+    func urlSession(
+        _ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse,
+        newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void
+    ) {
+        completionHandler(request.url?.scheme == "https" ? request : nil)
     }
 }
 
