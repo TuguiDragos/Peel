@@ -27,6 +27,10 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let isUseRecorded: Bool
     public let dateAdded: Date?
     public let updateFeed: UpdateFeed?
+    /// Whether this is Peel, which is removed only from its own Settings, where the helper and the login item
+    /// are unregistered first. Also true for the bundle the running code sits inside, such as the Peel that
+    /// embeds the `peel` tool, whatever its name or identifier.
+    public let isPeelItself: Bool
 
     public init(
         url: URL,
@@ -66,6 +70,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
         self.updateFeed = updateFeed
+        isPeelItself = Self.isPeel(bundleIdentifier, at: url)
     }
 
     public var id: URL { url }
@@ -105,15 +110,13 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         )
     }
 
-    /// Whether this is Peel, which is removed only from its own Settings, where the helper and the login item
-    /// are unregistered first. Also true for the bundle the running code sits inside, such as the Peel that
-    /// embeds the `peel` tool, whatever its name or identifier.
-    public var isPeelItself: Bool {
+    private static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
+
+    private static func isPeel(_ bundleIdentifier: String, at url: URL) -> Bool {
         let own = HelperIdentity.appIdentifier.lowercased()
         let identifier = bundleIdentifier.lowercased()
         if identifier == own || identifier.hasPrefix(own + ".") { return true }
-        let running = PathPattern.comparablePath(of: Bundle.main.bundleURL)
-        return PathComponents.isPath(running, inside: PathPattern.comparablePath(of: url))
+        return PathComponents.isPath(runningBundle, inside: PathPattern.comparablePath(of: url))
     }
 
     /// The name Finder shows, which follows the user's language when the app translates it, and the bundle's file
