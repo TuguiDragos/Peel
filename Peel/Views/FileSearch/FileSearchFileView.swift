@@ -34,6 +34,11 @@ struct FileSearchFileView: View {
                 LabeledContent("Modified") {
                     Text(file.modificationDate, format: .relative(presentation: .named))
                 }
+                if file.requiresPrivileges {
+                    Text("File Search moves only what your account can move. Use Finder for this one.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
                 if file.isInTheCloud {
                     Text("This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
                         .font(.callout)
@@ -41,11 +46,6 @@ struct FileSearchFileView: View {
                 }
                 if file.belongsToAnApp {
                     Text("An app keeps this in its Library folder, and may be using it right now.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                if file.requiresPrivileges {
-                    Text("Needs administrator access")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }

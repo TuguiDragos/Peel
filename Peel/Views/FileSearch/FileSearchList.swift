@@ -27,13 +27,9 @@ struct FileSearchList: View {
                             url: file.url,
                             icon: .file(file.url),
                             detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
-                            warning: file.isInTheCloud
-                                ? String(localized: "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
-                                : file.belongsToAnApp
-                                ? String(localized: "An app keeps this in its Library folder, and may be using it right now.")
-                                : nil,
+                            warning: warning(for: file),
                             size: file.size,
-                            isLocked: file.requiresPrivileges,
+                            isLeftAlone: file.requiresPrivileges,
                             isFirst: file.id == results.files.first?.id,
                             isChoosable: true,
                             selection: search, isSelected: search.isSelected(file.url)
@@ -116,6 +112,20 @@ struct FileSearchList: View {
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
         }
+    }
+
+    private func warning(for file: FoundFile) -> String? {
+        let lines = [
+            file.requiresPrivileges
+                ? String(localized: "File Search moves only what your account can move. Use Finder for this one.")
+                : nil,
+            file.isInTheCloud
+                ? String(localized: "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
+                : file.belongsToAnApp
+                ? String(localized: "An app keeps this in its Library folder, and may be using it right now.")
+                : nil,
+        ].compactMap(\.self)
+        return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
     private var phase: ScanPhase {

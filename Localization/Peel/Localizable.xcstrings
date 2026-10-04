@@ -36577,6 +36577,112 @@
         }
       }
     },
+    "File Search moves only what your account can move. Use Finder for this one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Hledání souborů přesouvá jen to, co může přesunout váš účet. U tohoto souboru použijte Finder."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Dateisuche“ verschiebt nur, was dein Benutzeraccount verschieben kann. Verwende für diese Datei den Finder."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Búsqueda de archivos solo traslada lo que tu cuenta puede trasladar. Para este archivo, usa el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Recherche de fichiers ne déplace que ce que votre compte peut déplacer. Pour ce fichier, utilisez le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Ricerca file” sposta solo ciò che il tuo account può spostare. Per questo file, usa il Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“ファイル検索”では、お使いのアカウントで移動できるものだけを移動します。このファイルを移動するには、Finderを使用してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일 검색 페이지는 사용자 계정 권한으로 이동할 수 있는 항목만 이동합니다. 이 파일을 이동하려면 Finder를 사용하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Bestanden zoeken' verplaatst alleen wat je account mag verplaatsen. Gebruik Finder voor dit bestand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strona Wyszukiwanie plików przenosi tylko to, co Twoje konto może przenieść. W przypadku tego pliku użyj Findera."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Busca de Arquivos só move o que a sua conta pode mover. Use o Finder para este arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Căutare fișiere mută doar ce poate muta contul dvs. Folosiți Finder pentru acest fișier."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раздел «Поиск файлов» перемещает только то, что разрешено перемещать Вашей учетной записи. Для этого файла используйте Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Filsökning flyttar bara det som ditt konto kan flytta. Använd Finder för den här filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya Arama yalnızca hesabınızın taşıyabildiklerini taşır. Bu dosya için Finder’ı kullanın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розділ «Пошук файлів» переміщує лише те, що може перемістити ваш обліковий запис. Для цього файлу скористайтеся Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“文件搜索”只会移动你的账户有权限移动的项目。请改用“访达”移动此文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「檔案搜尋」只會移動你的帳號能移動的項目。請改用Finder處理此檔案。"
+          }
+        }
+      }
+    },
     "File removed" : {
       "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Files removed\".",
       "localizations" : {
