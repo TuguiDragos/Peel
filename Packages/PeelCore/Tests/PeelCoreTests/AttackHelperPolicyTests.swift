@@ -87,6 +87,20 @@ struct AttackHelperPolicyTests {
         #expect(!policy.open(path("root/Applications/Real.app", in: directory)).isFailure)
     }
 
+    /// A case insensitive APFS volume reads `ſ` as `s` and `ß` as `ss`, so another spelling of a protected
+    /// folder's last name finds the folder itself. The helper judges the name the disk gives the item it found.
+    @Test func anotherSpellingOfAProtectedNameFindsNoWayIn() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Messages/chat.db")
+        try directory.file("home/Library/Keychains/login.keychain-db")
+        let library = directory.url.appending(path: "home/Library").path(percentEncoded: false)
+
+        for spelling in ["Meſſages", "Keychainſ", "Keychains/login.keychain-db".replacingOccurrences(of: "s", with: "ſ")] {
+            let result = policy(directory).open(library + "/" + spelling)
+            #expect(result.isFailure, "ATTACK SUCCEEDED: the helper would move \(spelling)")
+        }
+    }
+
     /// A symbolic link in a parent folder that leads into iCloud Drive.
     @Test func theHelperResolvesASymlinkedParent() throws {
         let directory = try TemporaryDirectory()
