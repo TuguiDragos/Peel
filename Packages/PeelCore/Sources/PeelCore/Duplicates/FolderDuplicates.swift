@@ -74,6 +74,8 @@ struct FolderDuplicates: Sendable {
         progress(.listing(foldersFound: found))
 
         let candidates = self.candidates(in: listed, minimumSize: minimumSize)
+        // Only the candidates are needed from here, and each holds the folders inside it.
+        listed.removeAll()
         guard !candidates.isEmpty else { return [] }
 
         let files = Self.files(in: candidates)
@@ -135,58 +137,75 @@ struct FolderDuplicates: Sendable {
         let folder = Folder(url: url, identity: identity, isNeverOffered: isNeverOffered)
         guard !Task.isCancelled else { throw CancellationError() }
         onListing()
-        guard depth < Self.depthLimit,
-              let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
-        else {
+        // The listing and each entry get an autorelease pool of their own, or what Foundation reads for every entry
+        // would pile up in memory until the walk ends.
+        guard depth < Self.depthLimit, let contents = autoreleasepool(invoking: { entries(of: url, depth: depth) }) else {
             folder.isWhole = false
             return folder
         }
-        if depth > 0, !neverProjects.contains(DuplicateFinder.path(of: url)), entries.contains(where: { ProjectArtifacts.isMarker($0.lastPathComponent) }) {
+        guard !contents.isProject else {
             folder.isProject = true
             return folder
         }
 
-        for entry in entries {
-            var info = stat()
-            guard lstat(entry.path(percentEncoded: false), &info) == 0, !exclusions.excludes(entry) else {
-                folder.isWhole = false
-                continue
-            }
-            switch info.st_mode & S_IFMT {
-            case S_IFDIR:
-                guard !managed.contains(DuplicateFinder.path(of: entry)),
-                      entry.lastPathComponent != "node_modules",
-                      !DuplicateFinder.isAUserLibrary(entry),
-                      !DuplicateFinder.isRepository(entry)
-                else {
-                    folder.isWhole = false
-                    continue
-                }
-                let child = try list(
-                    entry,
-                    identity: FileIdentity(info),
-                    depth: depth + 1,
-                    isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || entry.isAPackage,
-                    onListing: onListing
-                )
+        for entry in contents.entries {
+            switch autoreleasepool(invoking: { look(at: entry, isNeverOffered: isNeverOffered) }) {
+            case .folder(let name, let identity, let isNeverOffered):
+                let child = try list(entry, identity: identity, depth: depth + 1, isNeverOffered: isNeverOffered, onListing: onListing)
                 guard !child.isProject else {
                     folder.isWhole = false
                     continue
                 }
                 folder.isWhole = folder.isWhole && child.isWhole
-                folder.children.append((entry.lastPathComponent, child))
-            case S_IFREG:
-                guard info.st_flags & UInt32(SF_DATALESS) == 0, !entry.isInTheCloud else {
-                    folder.isWhole = false
-                    continue
-                }
-                folder.files.append((entry.lastPathComponent, FileIdentity(info)))
-                folder.held += ReclaimableSpace.held(info)
-            default:
+                folder.children.append((name, child))
+            case .file(let name, let identity, let held):
+                folder.files.append((name, identity))
+                folder.held += held
+            case .leftOut:
                 folder.isWhole = false
             }
         }
         return folder
+    }
+
+    /// The entries of `url`, and whether a build file among them makes it a project.
+    private func entries(of url: URL, depth: Int) -> (entries: [URL], isProject: Bool)? {
+        guard let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
+            return nil
+        }
+        let isProject = depth > 0 && !neverProjects.contains(DuplicateFinder.path(of: url))
+            && entries.contains { ProjectArtifacts.isMarker($0.lastPathComponent) }
+        return (entries, isProject)
+    }
+
+    private enum Entry {
+        case folder(name: String, identity: FileIdentity, isNeverOffered: Bool)
+        case file(name: String, identity: FileIdentity, held: Int64)
+        /// Something the comparison leaves out, and with it the folder around it.
+        case leftOut
+    }
+
+    private func look(at entry: URL, isNeverOffered: Bool) -> Entry {
+        var info = stat()
+        guard lstat(entry.path(percentEncoded: false), &info) == 0, !exclusions.excludes(entry) else { return .leftOut }
+        switch info.st_mode & S_IFMT {
+        case S_IFDIR:
+            guard !managed.contains(DuplicateFinder.path(of: entry)),
+                  entry.lastPathComponent != "node_modules",
+                  !DuplicateFinder.isAUserLibrary(entry),
+                  !DuplicateFinder.isRepository(entry)
+            else { return .leftOut }
+            return .folder(
+                name: entry.lastPathComponent,
+                identity: FileIdentity(info),
+                isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || entry.isAPackage
+            )
+        case S_IFREG:
+            guard info.st_flags & UInt32(SF_DATALESS) == 0, !entry.isInTheCloud else { return .leftOut }
+            return .file(name: entry.lastPathComponent, identity: FileIdentity(info), held: ReclaimableSpace.held(info))
+        default:
+            return .leftOut
+        }
     }
 
     /// A digest of the names and sizes in `folder`, so folders that cannot hold the same bytes are told apart

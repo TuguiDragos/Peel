@@ -162,38 +162,42 @@ public struct DuplicateFinder: Sendable {
                 }
             ) else { continue }
 
-            for case let url as URL in enumerator {
+            // The enumerator's answer and each look at it get an autorelease pool of their own, or what Foundation
+            // reads for every entry would pile up in memory until the walk ends.
+            while let url = autoreleasepool(invoking: { enumerator.nextObject() as? URL }) {
                 visited += 1
                 if visited.isMultiple(of: 256) {
                     guard !Task.isCancelled else { throw CancellationError() }
                     progress(.collecting(filesFound: walked.count))
                 }
-                if ProjectArtifacts.isMarker(url.lastPathComponent) {
-                    let parent = Self.path(of: url.deletingLastPathComponent())
-                    if !neverProjects.contains(parent) { projects.insert(parent) }
-                }
-                guard let values = try? url.resourceValues(forKeys: keys) else { continue }
-                if values.isDirectory == true {
-                    // The enumerator does not treat a library as a package when its app is not installed, so
-                    // libraries are skipped here: the guard would refuse every copy inside one. A folder already
-                    // offered whole covers everything inside it, so its files are not offered again.
-                    if url.lastPathComponent == "node_modules" || excludedFolders.contains(Self.path(of: url))
-                        || spokenFor.contains(Self.path(of: url))
-                        || exclusions.excludes(url) || Self.isRepository(url) || Self.isAUserLibrary(url) {
-                        enumerator.skipDescendants()
+                autoreleasepool {
+                    if ProjectArtifacts.isMarker(url.lastPathComponent) {
+                        let parent = Self.path(of: url.deletingLastPathComponent())
+                        if !neverProjects.contains(parent) { projects.insert(parent) }
                     }
-                    continue
+                    guard let values = try? url.resourceValues(forKeys: keys) else { return }
+                    if values.isDirectory == true {
+                        // The enumerator does not treat a library as a package when its app is not installed, so
+                        // libraries are skipped here: the guard would refuse every copy inside one. A folder
+                        // already offered whole covers everything inside it, so its files are not offered again.
+                        if url.lastPathComponent == "node_modules" || excludedFolders.contains(Self.path(of: url))
+                            || spokenFor.contains(Self.path(of: url))
+                            || exclusions.excludes(url) || Self.isRepository(url) || Self.isAUserLibrary(url) {
+                            enumerator.skipDescendants()
+                        }
+                        return
+                    }
+                    var info = stat()
+                    guard
+                        values.isRegularFile == true,
+                        lstat(url.path(percentEncoded: false), &info) == 0,
+                        info.st_mode & S_IFMT == S_IFREG,
+                        info.st_flags & UInt32(SF_DATALESS) == 0,
+                        ReclaimableSpace.held(info) >= minimumSize,
+                        options.kind == .any || values.contentType.map(options.kind.includes) == true
+                    else { return }
+                    walked.append(Candidate(url: url, identity: FileIdentity(info)))
                 }
-                var info = stat()
-                guard
-                    values.isRegularFile == true,
-                    lstat(url.path(percentEncoded: false), &info) == 0,
-                    info.st_mode & S_IFMT == S_IFREG,
-                    info.st_flags & UInt32(SF_DATALESS) == 0,
-                    ReclaimableSpace.held(info) >= minimumSize,
-                    options.kind == .any || values.contentType.map(options.kind.includes) == true
-                else { continue }
-                walked.append(Candidate(url: url, identity: FileIdentity(info)))
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
