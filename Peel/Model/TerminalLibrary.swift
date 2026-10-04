@@ -22,6 +22,7 @@ final class TerminalLibrary {
     private(set) var isQuittingTerminal = false
     private(set) var quietsLogin = false
     private(set) var isMovingQuietLogin = false
+    private(set) var shellSessions: ShellSessions?
     private(set) var problem: TerminalThemeLedger.Outcome?
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
@@ -36,6 +37,7 @@ final class TerminalLibrary {
         canPutBack = ledger.canPutBack
         isTerminalOpen = settings.isTerminalOpen
         quietsLogin = HushLogin.isOn(in: .homeDirectory)
+        shellSessions = ShellSessions.inTerminal(settings)
     }
 
     func perform(_ action: Action) {

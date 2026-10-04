@@ -173,6 +173,9 @@ private struct TerminalSettingsForm: View {
                     RemovalsHeldBanner()
                 }
                 QuietLoginRow()
+                if let sessions = terminal.shellSessions {
+                    ShellSessionsRow(sessions: sessions)
+                }
                 if showsWindowSwitch {
                     TweakRow(tweak: TweakCatalog.terminalWindows)
                 }
@@ -241,5 +244,43 @@ private struct QuietLoginRow: View {
                 }
             }
         )
+    }
+}
+
+private struct ShellSessionsRow: View {
+    let sessions: ShellSessions
+
+    var body: some View {
+        HStack(spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 5) {
+                    Text("No “Restored session” line")
+                        .font(.body.weight(.semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    InfoNote(
+                        name: String(localized: "No “Restored session” line"),
+                        detail: Text("When Terminal reopens a window, \(sessions.name) starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files."),
+                        footnote: Text(verbatim: sessions.script)
+                    )
+                }
+                Group {
+                    switch sessions {
+                    case .zsh(let startupFile): Text("Add this line to \(startupFile.abbreviatedPath)")
+                    case .bash: Text("Run this command in Terminal")
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                Text(verbatim: sessions.turnOff)
+                    .font(.subheadline.monospaced())
+                    .textSelection(.enabled)
+            }
+            Spacer(minLength: 8)
+            CopyButton(text: sessions.turnOff)
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+        }
+        .padding(.vertical, 4)
     }
 }

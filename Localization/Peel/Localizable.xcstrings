@@ -9318,6 +9318,112 @@
         }
       }
     },
+    "Add this line to %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte tento řádek do souboru %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge diese Zeile zu %@ hinzu"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade esta línea a %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez cette ligne au fichier %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi questa riga al file %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下の行を%@に追加してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 이 줄을 추가"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg deze regel toe aan %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj ten wiersz do pliku %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione esta linha ao arquivo %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adăugați această linie în %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте эту строку в %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägg till den här raden i %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu satırı %@ dosyasına ekleyin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте цей рядок до %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将此行添加到%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將這一行加入%@"
+          }
+        }
+      }
+    },
     "Add “%@”" : {
       "localizations" : {
         "cs" : {
@@ -72142,6 +72248,112 @@
         }
       }
     },
+    "No “Restored session” line" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez řádku „Restored session“"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Zeile „Restored session“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin la línea “Restored session”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de ligne « Restored session »"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna riga “Restored session”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Restored session”の行を表示しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘Restored session’ 줄 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen regel 'Restored session'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez wiersza „Restored session”"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem a linha “Restored session”"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fără linia „Restored session”"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без строки «Restored session»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen rad med ”Restored session”"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Restored session” satırı yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без рядка «Restored session»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不显示“Restored session”行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不顯示「Restored session」行"
+          }
+        }
+      }
+    },
     "Nobody has decided about it, so macOS chooses." : {
       "localizations" : {
         "cs" : {
@@ -107703,6 +107915,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要為Homebrew執行這個brew嗎？"
+          }
+        }
+      }
+    },
+    "Run this command in Terminal" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spusťte tento příkaz v Terminálu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diesen Befehl im Terminal aus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta este comando en Terminal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez cette commande dans Terminal"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui questo comando in Terminale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで以下のコマンドを実行してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널에서 이 명령을 실행"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit commando uit in Terminal"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchom to polecenie w Terminalu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute este comando no Terminal"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați această comandă în Terminal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполните эту команду в Терминале"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här kommandot i Terminal"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu komutu Terminal’de çalıştırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконайте цю команду в Терміналі"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行此命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」中執行此指令"
           }
         }
       }
@@ -147244,6 +147562,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雖然「桌面與Dock」中的設定會保留其他App的視窗，但「終端機」結束時不會保留任何視窗供重新打開。"
+          }
+        }
+      }
+    },
+    "When Terminal reopens a window, %@ starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když Terminál znovu otevře okno, shell %@ v něm na začátku vypíše řádek „Restored session“ a vrátí mu jeho vlastní historii příkazů. Aby to bylo možné, každý shell při ukončení uloží svou relaci, přičemž vypíše řádek „Saving session“, a uchová ji dva týdny. Peel soubory vašeho shellu nemění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn Terminal ein Fenster erneut öffnet, zeigt %@ darin zuerst eine Zeile „Restored session“ und gibt dem Fenster seinen eigenen Befehlsverlauf zurück. Dafür sichert jede Shell beim Beenden ihre Sitzung, zeigt dabei eine Zeile „Saving session“ und bewahrt die Sitzung zwei Wochen lang auf. Peel ändert die Dateien deiner Shell nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando Terminal vuelve a abrir una ventana, %@ muestra al principio una línea “Restored session” y le devuelve su propio historial de comandos. Para ello, cada shell guarda su sesión al terminar, con una línea “Saving session”, y la conserva durante dos semanas. Peel no cambia los archivos de tu shell."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque Terminal rouvre une fenêtre, %@ y affiche d’abord une ligne « Restored session » et lui rend son propre historique des commandes. Pour cela, chaque shell, en se terminant, affiche une ligne « Saving session » et enregistre sa session, qu’il conserve pendant deux semaines. Peel ne modifie pas les fichiers de votre shell."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando Terminale riapre una finestra, %@ la fa iniziare con una riga “Restored session” e le restituisce la sua cronologia dei comandi. Per farlo, ogni shell salva la propria sessione quando si conclude, con una riga “Saving session”, e la conserva per due settimane. Peel non modifica i file della tua shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルがウインドウを再度開くと、%@は最初に“Restored session”の行を表示し、そのウインドウ独自のコマンド履歴を復元します。そのために、すべてのシェルは終了時に“Saving session”の行を表示してセッションを保存し、2週間保管します。Peelはシェルのファイルを変更しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널이 윈도우를 다시 열면 %@이(가) 그 윈도우를 ‘Restored session’ 줄로 시작하고, 그 윈도우만의 명령 기록을 복원합니다. 이를 위해 모든 셸은 종료될 때 ‘Saving session’ 줄을 표시하며 세션을 저장하고, 저장한 세션을 2주 동안 보관합니다. Peel은 셸 파일을 변경하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Terminal een venster opnieuw opent, laat %@ het beginnen met een regel 'Restored session' en krijgt het venster zijn eigen commandogeschiedenis terug. Daarvoor bewaart elke shell zijn sessie wanneer die eindigt, met een regel 'Saving session', en die sessie blijft twee weken bewaard. Peel wijzigt de bestanden van je shell niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy Terminal ponownie otwiera okno, %@ zaczyna je od wiersza „Restored session” i przywraca mu jego własną historię poleceń. W tym celu każda powłoka, gdy kończy działanie, zachowuje swoją sesję, wyświetlając wiersz „Saving session”, i przechowuje ją przez dwa tygodnie. Peel nie zmienia plików Twojej powłoki."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando o Terminal reabre uma janela, o %@ a inicia com a linha “Restored session” e devolve a ela o próprio histórico de comandos. Para isso, cada shell salva a sessão ao terminar, com a linha “Saving session”, e a mantém por duas semanas. O Peel não altera os arquivos do seu shell."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când Terminal redeschide o fereastră, %@ o începe cu linia „Restored session” și îi redă propriul istoric de comenzi. Pentru aceasta, fiecare shell, când se încheie, afișează linia „Saving session” și își salvează sesiunea, pe care o păstrează timp de două săptămâni. Peel nu modifică fișierele shellului dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда Терминал открывает окно заново, %@ сразу выводит в нем строку «Restored session» и возвращает окну его собственную историю команд. Для этого каждая оболочка при завершении работы сохраняет свой сеанс, выводя строку «Saving session», и хранит его две недели. Peel не меняет файлы Вашей оболочки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När Terminal öppnar ett fönster igen börjar %@ det med en rad med ”Restored session” och ger fönstret tillbaka dess egen kommandohistorik. För att kunna göra det sparar varje kommandotolk sin session när den avslutas, med en rad med ”Saving session”, och behåller sessionen i två veckor. Peel ändrar inte din kommandotolks filer."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal bir pencereyi yeniden açtığında, %@ onu “Restored session” satırıyla başlatır ve ona kendi komut geçmişini geri verir. Bunun için her kabuk, sona ererken “Saving session” satırıyla oturumunu kaydeder ve iki hafta boyunca saklar. Peel kabuğunuzun dosyalarını değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли Термінал знову відкриває вікно, %@ починає його з рядка «Restored session» і повертає вікну його власну історію команд. Для цього кожен командний процесор, завершуючи роботу, виводить рядок «Saving session» і зберігає свій сеанс на два тижні. Peel не змінює файли вашого командного процесора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”重新打开窗口时，%@会先在窗口中显示“Restored session”行，并恢复该窗口自己的命令历史记录。为此，每个shell都会在结束时保存自己的会话，同时显示“Saving session”行，并将会话保留两周。Peel不会更改你的shell的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」重新打開視窗時，「%@」會在視窗開頭顯示「Restored session」行，並恢復該視窗自己的指令記錄。為此，每個Shell結束時都會儲存其區段，同時顯示「Saving session」行，並將區段保留兩週。Peel不會更改你的Shell檔案。"
           }
         }
       }

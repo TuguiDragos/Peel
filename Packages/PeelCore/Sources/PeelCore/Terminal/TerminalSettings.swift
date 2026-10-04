@@ -3,6 +3,7 @@ import AppKit
 public struct TerminalSettings: TerminalSettingsStoring, Sendable {
     public static let identifier = "com.apple.Terminal"
     private static let profilesKey = "Window Settings"
+    private static let shellKey = "Shell"
 
     public init() {}
 
@@ -24,6 +25,11 @@ public struct TerminalSettings: TerminalSettingsStoring, Sendable {
     public func setProfiles(_ profiles: [String: [String: Any]]) -> Bool {
         CFPreferencesSetAppValue(Self.profilesKey as CFString, profiles as CFDictionary, Self.identifier as CFString)
         return CFPreferencesAppSynchronize(Self.identifier as CFString)
+    }
+
+    public func shell() -> String? {
+        CFPreferencesAppSynchronize(Self.identifier as CFString)
+        return CFPreferencesCopyAppValue(Self.shellKey as CFString, Self.identifier as CFString) as? String
     }
 
     public func profileName(for role: TerminalProfileRole) -> String? {
