@@ -96,11 +96,19 @@ struct PluginDetailView: View {
         .dimmedWhileBusy(plugins.isScanning)
         .navigationTitle(plugin.name)
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(plugin.name, SizeTotal([plugin.size])), isPresented: $isConfirmingRemoval) {
+        .confirmationDialog(
+            Text.movingToTrash(plugin.name, SizeTotal([plugin.size])),
+            isPresented: $isConfirmingRemoval
+        ) {
             Button("Move to Trash") {
                 Task {
                     let result = await plugins.moveToTrash(plugin) { result in
-                        await history.record(result, tool: .plugins, source: plugin.name, sizes: [URL: Int64](measured: [(plugin.url, plugin.size)]))
+                        await history.record(
+                            result,
+                            tool: .plugins,
+                            source: plugin.name,
+                            sizes: [URL: Int64](measured: [(plugin.url, plugin.size)])
+                        )
                     }
                     outcome.report(result)
                 }

@@ -84,7 +84,8 @@ struct PluginList: View {
         let all = plugins.plugins ?? []
         guard !searchText.isEmpty else { return all }
         return all.filter {
-            SearchText.matches($0.name, searchText) || $0.bundleIdentifier.map { identifier in SearchText.matches(identifier, searchText) } == true
+            SearchText.matches($0.name, searchText)
+                || $0.bundleIdentifier.map { identifier in SearchText.matches(identifier, searchText) } == true
         }
     }
 }

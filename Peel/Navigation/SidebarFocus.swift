@@ -46,7 +46,9 @@ private struct ListFocus: NSViewRepresentable {
         }
 
         private func takeFocusIfNothingHasIt() {
-            guard let window, window.firstResponder === window, let list = list(in: enclosingSplitViewItem?.viewController.view) else { return }
+            guard let window, window.firstResponder === window,
+                  let list = list(in: enclosingSplitViewItem?.viewController.view)
+            else { return }
             window.makeFirstResponder(list)
         }
 

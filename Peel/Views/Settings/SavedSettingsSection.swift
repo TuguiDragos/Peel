@@ -98,7 +98,12 @@ struct SavedSettingsSection: View {
         guard let app = library.apps.first(where: { $0.bundleIdentifier == bundleIdentifier }) else {
             return !NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).isEmpty
         }
-        return !RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: library.apps, sharingItsSettings: true).isEmpty
+        return !RunningCopies.belonging(
+            to: app,
+            among: RunningCopies.current,
+            installedApps: library.apps,
+            sharingItsSettings: true
+        ).isEmpty
     }
 
     private func refreshOpenApps() {
@@ -111,7 +116,11 @@ struct SavedSettingsSection: View {
         // Asked again at the moment of Put Back and before the settings in use are cleared: an app opened since the
         // row was drawn would write its own settings over these when it quits.
         let restored = await QuitGuard.shared.run {
-            await PreferenceBackup.restore(from: copy.folder, of: copy.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions) { @MainActor in
+            await PreferenceBackup.restore(
+                from: copy.folder,
+                of: copy.bundleIdentifier,
+                exclusions: ExclusionsStore.shared.exclusions
+            ) { @MainActor in
                 isRunning(copy.bundleIdentifier)
             }
         }
@@ -144,7 +153,12 @@ struct SavedSettingsSection: View {
             if let reason = result.failures.first?.reason {
                 failure = Failure(title: String(localized: "The copy couldn’t be moved to the Trash."), message: reason.explanation)
             }
-            await history.record(result, tool: .applications, source: name, sizes: [URL: Int64](measured: [(copy.folder, size)]))
+            await history.record(
+                result,
+                tool: .applications,
+                source: name,
+                sizes: [URL: Int64](measured: [(copy.folder, size)])
+            )
         }
         reload()
     }

@@ -17,7 +17,9 @@ final class TerminalToolLibrary {
         guard prefix != nil, known == nil, await Homebrew.hasLocalDefinitions() else { return }
         let names = await Homebrew.formulaNames()
         guard !names.isEmpty else { return }
-        packages = await Homebrew.formulae(named: Set(TerminalTool.allCases.flatMap(\.formulae)).filter(names.contains).sorted())
+        packages = await Homebrew.formulae(
+            named: Set(TerminalTool.allCases.flatMap(\.formulae)).filter(names.contains).sorted()
+        )
         known = names
     }
 

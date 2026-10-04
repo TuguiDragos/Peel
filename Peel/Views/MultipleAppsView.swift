@@ -74,7 +74,10 @@ struct MultipleAppsView: View {
                     }
                 }
 
-                if plan.apps.contains(where: { PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier) && !plan.appsInTheTrash.contains($0.url) }) {
+                if plan.apps.contains(where: {
+                    PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier)
+                        && !plan.appsInTheTrash.contains($0.url)
+                }) {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
                 if !appsInTheDock.isEmpty {
@@ -105,7 +108,12 @@ struct MultipleAppsView: View {
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: plan.isRemoving, scan: plan.scanRun) {
-                    await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+                    await plan.refresh(
+                        installedApps: library.apps,
+                        canUseHelper: helper.canAct,
+                        casks: homebrew.caskEvidence,
+                        receipts: homebrew.receipts
+                    )
                 }
             }
         }
@@ -153,7 +161,12 @@ struct MultipleAppsView: View {
     /// A scan asked for while the question is up or a removal runs waits for them.
     private func rescan() async {
         guard plan.question.mayScan() else { return }
-        await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+        await plan.refresh(
+            installedApps: library.apps,
+            canUseHelper: helper.canAct,
+            casks: homebrew.caskEvidence,
+            receipts: homebrew.receipts
+        )
     }
 
     private var phase: ScanPhase {
@@ -197,7 +210,8 @@ struct MultipleAppsView: View {
             isMeasured: item.isMeasured,
             isLocked: item.requiresPrivileges && !helper.canAct,
             isExcluded: item.isApplication && item.isExcluded,
-            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS)
+            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper
+                || (item.isApplication && item.isKeptByMacOS)
                 || item.isPeels || item.isInTheTrash || item.enclosingPackage != nil,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
@@ -218,7 +232,8 @@ struct MultipleAppsView: View {
         if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, !item.isPeels, !item.isExcluded {
             lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
         }
-        let users = item.sharedWithOthers.map(library.name(forBundleIdentifier:)) + item.otherCopies.map(\.abbreviatedPath)
+        let users =
+            item.sharedWithOthers.map(library.name(forBundleIdentifier:)) + item.otherCopies.map(\.abbreviatedPath)
         if !users.isEmpty {
             lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
         }
@@ -307,10 +322,20 @@ struct MultipleAppsView: View {
                 let moved = Set(result.trashed.map(\.originalURL))
                 _ = await DockTiles().takeOut(appsInTheDock.filter(moved.contains).sorted { $0.path < $1.path })
             }
-            if let state = AppManagement.state(after: result, appBundles: Set(plan.apps.map(\.url)), movedByTheHelper: plan.privilegedURLs) {
+            if let state = AppManagement.state(
+                after: result,
+                appBundles: Set(plan.apps.map(\.url)),
+                movedByTheHelper: plan.privilegedURLs
+            ) {
                 home.record(appManagement: state)
             }
-            await history.record(result, tool: .applications, source: plan.historySource, sourceKey: plan.historySourceKey, sizes: request.sizes)
+            await history.record(
+                result,
+                tool: .applications,
+                source: plan.historySource,
+                sourceKey: plan.historySourceKey,
+                sizes: request.sizes
+            )
             return result
         }
         // When an app bundle moved, reloading the library changes the selection, which rebuilds this page. When
@@ -320,7 +345,12 @@ struct MultipleAppsView: View {
         if result.trashed.contains(where: { bundles.contains($0.originalURL) }) {
             await library.checkAgain(await library.refresh())
         } else {
-            await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+            await plan.refresh(
+                installedApps: library.apps,
+                canUseHelper: helper.canAct,
+                casks: homebrew.caskEvidence,
+                receipts: homebrew.receipts
+            )
         }
     }
 }

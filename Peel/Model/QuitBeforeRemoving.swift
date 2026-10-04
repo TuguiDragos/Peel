@@ -23,7 +23,8 @@ final class QuitBeforeRemoving {
 
     /// The names of what still runs, for the alerts.
     var names: String {
-        running.filter { !$0.isTerminated }.map { $0.localizedName ?? $0.bundleIdentifier ?? "" }.formatted(.list(type: .and))
+        running.filter { !$0.isTerminated }.map { $0.localizedName ?? $0.bundleIdentifier ?? "" }
+            .formatted(.list(type: .and))
     }
 
     /// Goes on at once when none of `processes` runs, and otherwise asks the person to quit them first.

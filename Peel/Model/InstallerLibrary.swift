@@ -25,7 +25,11 @@ final class InstallerLibrary {
     }
 
     func refresh(installedApps: [InstalledApp]) async {
-        guard let result = await scanRun.run({ await Installers.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard
+            let result = await scanRun.run({
+                await Installers.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
+            })
+        else { return }
         scan = result
         selectedURLs.formIntersection(Set(result.items.filter { $0.heldBack?.cannotBeMoved != true }.map(\.url)))
         if let selection, result.items(in: selection).isEmpty {

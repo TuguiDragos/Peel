@@ -61,7 +61,9 @@ struct IntelList: View {
             }
         }
         .task(id: library.revision) {
-            guard library.hasLoaded, intel.scannedRevision != library.revision, !(intel.scan == nil && intel.scanRun.wasStopped) else { return }
+            guard library.hasLoaded, intel.scannedRevision != library.revision,
+                  !(intel.scan == nil && intel.scanRun.wasStopped)
+            else { return }
             await scan()
         }
         .rescanOnExclusionChange("IntelList") { await scan() }

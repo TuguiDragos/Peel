@@ -69,7 +69,12 @@ final class BulkRemovalPlan {
     /// The revision of the exclusions the last scan read, nil before the first.
     private(set) var exclusionsRevision: Int?
 
-    func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
+    func refresh(
+        installedApps: [InstalledApp],
+        canUseHelper: Bool,
+        casks: [HomebrewPackage] = [],
+        receipts: Set<String> = []
+    ) async {
         self.canUseHelper = canUseHelper
         let apps = apps
         guard let (result, revision) = await scanRun.run({

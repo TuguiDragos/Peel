@@ -73,7 +73,12 @@ struct RemovalRow: View {
             proxy.size.width < limit
         } action: { isCompact = $0 }
         .contextMenu {
-            ItemMenu(url: url, appIdentifier: appIdentifier, isExcluded: isExcluded, showNote: hasNote ? { isNoteOpen = true } : nil)
+            ItemMenu(
+                url: url,
+                appIdentifier: appIdentifier,
+                isExcluded: isExcluded,
+                showNote: hasNote ? { isNoteOpen = true } : nil
+            )
         }
     }
 

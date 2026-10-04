@@ -75,9 +75,14 @@ struct PackageReceiptSection: View {
     }
 
     @concurrent
-    private nonisolated static func receipts(of app: InstalledApp, exclusions: Exclusions) async -> ([PackageReceipt], [PackageReceipt.ID: [PackageReceipt.Item]]) {
+    private nonisolated static func receipts(
+        of app: InstalledApp,
+        exclusions: Exclusions
+    ) async -> ([PackageReceipt], [PackageReceipt.ID: [PackageReceipt.Item]]) {
         let receipts = await PackageReceipts.receipts(installing: app.url, exclusions: exclusions)
-        let files = receipts.map { ($0.id, VendorRemoval.filesOutsideBundle(of: $0, app: app, otherReceipts: receipts)) }
+        let files = receipts.map {
+            ($0.id, VendorRemoval.filesOutsideBundle(of: $0, app: app, otherReceipts: receipts))
+        }
         return (receipts, Dictionary(files, uniquingKeysWith: { first, _ in first }))
     }
 

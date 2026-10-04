@@ -19,7 +19,9 @@ final class PackageLibrary {
     }
 
     func refresh() async {
-        guard let scan = await scanRun.run({ await PackageReceipts.list(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard
+            let scan = await scanRun.run({ await PackageReceipts.list(exclusions: ExclusionsStore.shared.exclusions) })
+        else { return }
         let result = scan.receipts
         receipts = result
         couldNotAsk = scan.couldNotAsk
@@ -35,7 +37,10 @@ final class PackageLibrary {
         let items = selectedReceipt?.items.filter { selectedURLs.contains($0.url) } ?? []
         let privileged = Set(items.filter(\.requiresPrivileges).map(\.url))
         let result = await QuitGuard.shared.run {
-            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(items.map(\.url), usingHelperFor: privileged)
+            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
+                items.map(\.url),
+                usingHelperFor: privileged
+            )
             // Written down before the rescan, which can take a while: History is the way back for what just moved.
             await record(result)
             return result

@@ -153,7 +153,8 @@ final class HomeModel {
         isHelperFromAnotherCopy = helper.isRegisteredByAnotherCopy
         notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
         let isFinderExtensionEnabled = await Self.isFinderExtensionEnabled()
-        isFinderExtensionFromAnotherCopy = isFinderExtensionEnabled ? false : await Self.finderExtensionRunsFromAnotherCopy()
+        isFinderExtensionFromAnotherCopy =
+            isFinderExtensionEnabled ? false : await Self.finderExtensionRunsFromAnotherCopy()
 
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
@@ -162,7 +163,9 @@ final class HomeModel {
         states = [
             .fullDiskAccess: state(for: fullDisk),
             .helper: helperState,
-            .appManagement: state(for: appManagementSeenThisLaunch ?? (appBundles == .unknown ? appManagement : appBundles)),
+            .appManagement: state(
+                for: appManagementSeenThisLaunch ?? (appBundles == .unknown ? appManagement : appBundles)
+            ),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
             .openAtLogin: opensAtLogin ? .on : .off,

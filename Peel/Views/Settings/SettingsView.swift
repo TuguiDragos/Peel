@@ -84,7 +84,10 @@ enum SettingsKey {
 
     /// Nil while something that may not be Peel's is where the link goes.
     static var commandLineInstallCommand: String? {
-        CommandLineTool.installCommand(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"), standing: HomeModel.commandLineStanding)
+        CommandLineTool.installCommand(
+            embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"),
+            standing: HomeModel.commandLineStanding
+        )
     }
 }
 
@@ -368,7 +371,11 @@ private struct GeneralSettingsView: View {
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {
                 Task {
-                    await selfUninstall.run(installedApps: library.apps, helper: helper, pausing: background) { result in
+                    await selfUninstall.run(
+                        installedApps: library.apps,
+                        helper: helper,
+                        pausing: background
+                    ) { result in
                         await history.record(result, tool: .applications, source: "Peel", sizes: [:])
                     }
                 }
@@ -456,7 +463,11 @@ extension GeneralSettingsView {
 }
 
 extension GeneralSettingsView {
-    fileprivate func toggle(_ title: LocalizedStringResource, isOn: Binding<Bool>, _ detail: LocalizedStringResource) -> some View {
+    fileprivate func toggle(
+        _ title: LocalizedStringResource,
+        isOn: Binding<Bool>,
+        _ detail: LocalizedStringResource
+    ) -> some View {
         LabeledContent {
             Toggle(isOn: isOn) { EmptyView() }
                 .labelsHidden()

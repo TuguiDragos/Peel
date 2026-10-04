@@ -39,6 +39,9 @@ struct ItemMenu: View {
                 }
             }
         }
-        .disabled(isExcluded || ExclusionsStore.shared.exclusions.isUnreadable || (appIdentifier == nil && ExclusionsStore.isTooBroad(url)))
+        .disabled(
+            isExcluded || ExclusionsStore.shared.exclusions.isUnreadable
+                || (appIdentifier == nil && ExclusionsStore.isTooBroad(url))
+        )
     }
 }

@@ -56,7 +56,11 @@ struct SpaceList: View {
             }
         }
         .columnSearch(text: $searchText, prompt: "Search Space", when: space.report?.items.isEmpty == false)
-        .scanState(space.report != nil ? .content : space.scanRun.wasStopped ? .stopped : .scanning(.walk), isRescanning: isRescanning, scan: space.scanRun)
+        .scanState(
+            space.report != nil ? .content : space.scanRun.wasStopped ? .stopped : .scanning(.walk),
+            isRescanning: isRescanning,
+            scan: space.scanRun
+        )
         .fadesInColumn(whenRowsChange: space.report?.items.map(\.id))
         .navigationTitle(Text(Tool.space.title))
         .announcesScan(space.isScanning, found: space.summary, wasStopped: space.scanRun.wasStopped)

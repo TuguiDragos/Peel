@@ -114,7 +114,8 @@ final class HomebrewLibrary {
     /// The packages Homebrew has disabled or deprecated, disabled first, since those can't be installed again.
     var retired: [HomebrewPackage] {
         let retired = (packages ?? []).filter { $0.retirement != nil }
-        return retired.filter { $0.retirement?.stage == .disabled } + retired.filter { $0.retirement?.stage == .deprecated }
+        return retired.filter { $0.retirement?.stage == .disabled }
+            + retired.filter { $0.retirement?.stage == .deprecated }
     }
 
     /// What Upgrade All upgrades: the rest are shown as out of date and left alone (`joinsUpgradeAll`), and all of
@@ -249,10 +250,14 @@ final class HomebrewLibrary {
             switch command {
             case .upgrade(let id):
                 guard let package = package(id) else { return gone }
-                return await following { onOutput throws(Homebrew.CommandFailure) in try await Homebrew.upgrade(package, onOutput: onOutput) }
+                return await following { onOutput throws(Homebrew.CommandFailure) in
+                    try await Homebrew.upgrade(package, onOutput: onOutput)
+                }
             case .upgradeAll:
                 let packages = upgradable
-                return await following { onOutput throws(Homebrew.CommandFailure) in try await Homebrew.upgrade(packages, onOutput: onOutput) }
+                return await following { onOutput throws(Homebrew.CommandFailure) in
+                    try await Homebrew.upgrade(packages, onOutput: onOutput)
+                }
             case .uninstall(let id):
                 guard let package = package(id) else { return gone }
                 guard let kept = await keptFormulae() else { return keepsNothing }

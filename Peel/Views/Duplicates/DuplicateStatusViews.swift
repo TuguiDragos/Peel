@@ -119,7 +119,9 @@ extension DuplicateRemovalBar {
     var groupsAffected: Int {
         let scan = duplicates.scan
         return (scan?.groups ?? []).count { group in group.files.contains { duplicates.selectedURLs.contains($0.url) } }
-            + (scan?.folderGroups ?? []).count { group in group.folders.contains { duplicates.selectedFolders.contains($0.url) } }
+            + (scan?.folderGroups ?? []).count { group in
+                group.folders.contains { duplicates.selectedFolders.contains($0.url) }
+            }
     }
 }
 

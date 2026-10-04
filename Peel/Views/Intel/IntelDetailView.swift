@@ -76,7 +76,11 @@ struct IntelDetailView: View {
                 }
                 if let app, let status = library.shownUpdateStatus(of: app) {
                     LabeledContent("Updates") {
-                        UpdateStatusBadge(app: app, status: status, isChecking: library.appsCheckingForUpdates.contains(app.id))
+                        UpdateStatusBadge(
+                            app: app,
+                            status: status,
+                            isChecking: library.appsCheckingForUpdates.contains(app.id)
+                        )
                     }
                 }
             } header: {

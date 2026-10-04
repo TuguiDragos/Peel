@@ -194,7 +194,8 @@ struct BackgroundItemDetailView: View {
     /// Whether this item needs administrator access while the helper can't act. Never true for Peel's own helper
     /// or a job under one of macOS's labels: neither offers an action, so the helper would change nothing.
     private var needsHelper: Bool {
-        !item.isPeelsHelper && !item.usesALabelOfMacOS && (item.requiresPrivileges || item.removalRequiresPrivileges) && !helper.canAct
+        !item.isPeelsHelper && !item.usesALabelOfMacOS && (item.requiresPrivileges || item.removalRequiresPrivileges)
+            && !helper.canAct
     }
 
     private var finderURL: URL? {
@@ -331,7 +332,10 @@ struct BackgroundItemDetailView: View {
                 isConfirmingTrash = true
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown || history.isUnreadable)
+            .disabled(
+                isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown
+                    || history.isUnreadable
+            )
         }
     }
 

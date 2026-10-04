@@ -29,17 +29,27 @@ struct BackgroundItemList: View {
         .columnSearch(text: $searchText, prompt: "Search Background Items", when: backgroundItems.items?.isEmpty == false)
         .fadesInColumn(whenRowsChange: backgroundItems.items?.map(\.id))
         .navigationTitle(Text(Tool.backgroundItems.title))
-        .announcesScan(backgroundItems.isScanning, found: backgroundItems.summary, wasStopped: backgroundItems.scanRun.wasStopped)
+        .announcesScan(
+            backgroundItems.isScanning,
+            found: backgroundItems.summary,
+            wasStopped: backgroundItems.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded || !backgroundItems.runningActionItemIDs.isEmpty, scan: backgroundItems.scanRun) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: !library.hasLoaded || !backgroundItems.runningActionItemIDs.isEmpty,
+                    scan: backgroundItems.scanRun
+                ) {
                     await backgroundItems.refresh(installedApps: library.apps)
                 }
             }
         }
         // The first scan waits for the installed apps, which it needs to trace each item to the app that owns it.
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, backgroundItems.items == nil, !backgroundItems.isScanning, !backgroundItems.scanRun.wasStopped else { return }
+            guard library.hasLoaded, backgroundItems.items == nil, !backgroundItems.isScanning,
+                  !backgroundItems.scanRun.wasStopped
+            else { return }
             await backgroundItems.refresh(installedApps: library.apps)
         }
         .rescanOnExclusionChange("BackgroundItemList") { await backgroundItems.refresh(installedApps: library.apps) }
@@ -113,7 +123,8 @@ struct BackgroundItemList: View {
         let items = backgroundItems.items ?? []
         guard !searchText.isEmpty else { return items }
         return items.filter { item in
-            SearchText.matches(item.label, searchText) || ownerName(of: item).map { SearchText.matches($0, searchText) } == true
+            SearchText.matches(item.label, searchText)
+                || ownerName(of: item).map { SearchText.matches($0, searchText) } == true
         }
     }
 

@@ -34,7 +34,8 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
     }
 
     static func title(of parts: [RemovalPart]) -> String {
-        parts.map { title(source: $0.source, key: $0.sourceKey, tool: Tool(rawValue: $0.tool)) }.formatted(.list(type: .and))
+        parts.map { title(source: $0.source, key: $0.sourceKey, tool: Tool(rawValue: $0.tool)) }
+            .formatted(.list(type: .and))
     }
 
     static func title(source: String, key: String?, tool: Tool?) -> String {
@@ -186,12 +187,22 @@ final class RemovalHistoryStore {
         sizes: [URL: Int64]
     ) async {
         var removal = RemovalInProgress()
-        await record(result, part: RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), sizes: sizes, in: &removal)
+        await record(
+            result,
+            part: RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue),
+            sizes: sizes,
+            in: &removal
+        )
         finish(removal)
     }
 
     /// Records in History what one part of `removal` moved, and what it refused.
-    func record(_ result: TrashResult, part: RemovalPart, sizes: [URL: Int64], in removal: inout RemovalInProgress) async {
+    func record(
+        _ result: TrashResult,
+        part: RemovalPart,
+        sizes: [URL: Int64],
+        in removal: inout RemovalInProgress
+    ) async {
         // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
         if !result.trashed.isEmpty {
             let new = part.records(of: result, sizes: sizes, batch: removal.batch)

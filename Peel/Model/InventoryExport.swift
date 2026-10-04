@@ -25,7 +25,11 @@ enum InventoryExport {
 
     /// Returns nil when the file was written or the user canceled, and the error message otherwise.
     @MainActor
-    private static func run(format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async -> String? {
+    private static func run(
+        format: Inventory.Format,
+        apps: [InstalledApp],
+        homebrew: HomebrewLibrary
+    ) async -> String? {
         let contents: String
         var brewfile: String?
         // Homebrew writes the Brewfile, asked only once it has answered, so its definitions are on this Mac.

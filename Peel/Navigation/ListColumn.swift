@@ -102,11 +102,18 @@ private struct ListColumnDivider: NSViewRepresentable {
         private func observe(_ splitView: NSSplitView) {
             guard observed !== splitView else { return }
             if let observed {
-                NotificationCenter.default.removeObserver(self, name: NSSplitView.didResizeSubviewsNotification, object: observed)
+                NotificationCenter.default.removeObserver(
+                    self,
+                    name: NSSplitView.didResizeSubviewsNotification,
+                    object: observed
+                )
             }
             observed = splitView
             NotificationCenter.default.addObserver(
-                self, selector: #selector(splitViewResized), name: NSSplitView.didResizeSubviewsNotification, object: splitView
+                self,
+                selector: #selector(splitViewResized),
+                name: NSSplitView.didResizeSubviewsNotification,
+                object: splitView
             )
         }
 
@@ -135,7 +142,13 @@ private struct ListColumnDivider: NSViewRepresentable {
             let target: CGFloat
             if column.isAside {
                 guard let needs = titleBarNeeds(dividerIndex: split.index) else { return }
-                target = max(ListColumn.minimum, min(split.view.bounds.width - ListColumn.besideList, max(column.beforeAside ?? ListColumn.minimum, needs)))
+                target = max(
+                    ListColumn.minimum,
+                    min(
+                        split.view.bounds.width - ListColumn.besideList,
+                        max(column.beforeAside ?? ListColumn.minimum, needs)
+                    )
+                )
             } else if let restore = column.restore {
                 target = restore
             } else {
@@ -156,11 +169,17 @@ private struct ListColumnDivider: NSViewRepresentable {
         /// least 160), each toolbar item takes its view plus 8, and the divider sits 4 into its own item.
         private func titleBarNeeds(dividerIndex: Int) -> CGFloat? {
             guard let items = window?.toolbar?.items,
-                  let end = items.firstIndex(where: { ($0 as? NSTrackingSeparatorToolbarItem)?.dividerIndex == dividerIndex }),
-                  let start = items[..<end].lastIndex(where: { $0 is NSTrackingSeparatorToolbarItem }) else { return nil }
+                  let end = items.firstIndex(where: {
+                      ($0 as? NSTrackingSeparatorToolbarItem)?.dividerIndex == dividerIndex
+                  }),
+                  let start = items[..<end].lastIndex(where: { $0 is NSTrackingSeparatorToolbarItem })
+            else { return nil }
             let itemsWidth = items[(start + 1)..<end].reduce(0) { $0 + ($1.view?.frame.width ?? 0) + 8 }
             let words = [NSFont.Weight.semibold, .bold]
-                .map { (column.title as NSString).size(withAttributes: [.font: NSFont.systemFont(ofSize: 15, weight: $0)]).width }
+                .map {
+                    (column.title as NSString)
+                        .size(withAttributes: [.font: NSFont.systemFont(ofSize: 15, weight: $0)]).width
+                }
                 .max() ?? 0
             return ceil(148 + max(160, words + 24) + itemsWidth + 4)
         }
@@ -170,8 +189,10 @@ private struct ListColumnDivider: NSViewRepresentable {
         private var enclosingSplitView: (view: NSSplitView, item: NSSplitViewItem, index: Int)? {
             var view = superview
             while let current = view {
-                if let splitView = current as? NSSplitView, let controller = splitView.delegate as? NSSplitViewController,
-                   let index = controller.splitViewItems.firstIndex(where: { isDescendant(of: $0.viewController.view) }) {
+                if let splitView = current as? NSSplitView,
+                   let controller = splitView.delegate as? NSSplitViewController,
+                   let index = controller.splitViewItems
+                       .firstIndex(where: { isDescendant(of: $0.viewController.view) }) {
                     return (splitView, controller.splitViewItems[index], index)
                 }
                 view = current.superview

@@ -100,7 +100,11 @@ struct HistoryList: View {
                 return
             }
             guard let batches = await SearchText.matching(searchText, among: history.batches, keys: history.searchKeys),
-                  let refusals = await SearchText.matching(searchText, among: history.refusalBatches, keys: history.refusalSearchKeys)
+                  let refusals = await SearchText.matching(
+                      searchText,
+                      among: history.refusalBatches,
+                      keys: history.refusalSearchKeys
+                  )
             else { return }
             found = Found(batches: batches, refusals: refusals)
         }

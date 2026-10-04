@@ -127,11 +127,14 @@ final class AppLibrary {
     /// The apps selected with their checkboxes, to be removed together. Kept apart from `selection`, so
     /// choosing a row to look at never clears the batch.
     var picked: Set<InstalledApp.ID> = []
-    private(set) var ignoredIdentifiers = Set(UserDefaults.standard.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? []) {
+    private(set) var ignoredIdentifiers = Set(
+        UserDefaults.standard.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? []
+    ) {
         didSet { updatesRevision += 1 }
     }
 
-    private(set) var skippedVersions = UserDefaults.standard.dictionary(forKey: SettingsKey.skippedUpdateVersions) as? [String: String] ?? [:] {
+    private(set) var skippedVersions = UserDefaults.standard.dictionary(forKey: SettingsKey.skippedUpdateVersions)
+        as? [String: String] ?? [:] {
         didSet { updatesRevision += 1 }
     }
     var sort = AppSort.name
@@ -281,7 +284,9 @@ final class AppLibrary {
     /// The revealed apps that are still on disk and that the new reading of the folders did not find.
     private func stillThere(_ revealed: [InstalledApp], beside found: [InstalledApp]) -> [InstalledApp] {
         let listed = Set(found.map(\.id))
-        return revealed.filter { !listed.contains($0.id) && FileManager.default.fileExists(atPath: $0.url.path(percentEncoded: false)) }
+        return revealed.filter {
+            !listed.contains($0.id) && FileManager.default.fileExists(atPath: $0.url.path(percentEncoded: false))
+        }
     }
 
     /// Restores the update answers saved by earlier runs, for apps still at the build they describe.
@@ -327,7 +332,8 @@ final class AppLibrary {
             while let (id, size) = await group.next() {
                 // A walk given up because the list changed says nothing about the bundle, and a bundle replaced
                 // while it was walked is another build, so neither answer is kept.
-                if !Task.isCancelled, let app = measured[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) {
+                if !Task.isCancelled, let app = measured[id],
+                   apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) {
                     if let size {
                         sizes[id] = size
                         unmeasured.remove(id)
@@ -393,7 +399,9 @@ final class AppLibrary {
     /// The apps the user excluded. Worked out again only when the apps or the exclusions change, since each
     /// check resolves the app's path on disk.
     func excludedIDs(by exclusions: Exclusions) -> Set<InstalledApp.ID> {
-        if let lastExcluded, lastExcluded.revision == revision, lastExcluded.exclusions == exclusions { return lastExcluded.ids }
+        if let lastExcluded, lastExcluded.revision == revision, lastExcluded.exclusions == exclusions {
+            return lastExcluded.ids
+        }
         let ids = Set(apps.filter(exclusions.excludes).map(\.id))
         lastExcluded = (revision, exclusions, ids)
         return ids
@@ -508,7 +516,9 @@ final class AppLibrary {
             var pending = wanted.makeIterator()
             for _ in 0..<Self.concurrentUpdateChecks {
                 guard let app = pending.next() else { break }
-                _ = group.addTaskUnlessCancelled { (app.id, await checker.answer(for: app, preference: preference, casks: casks)) }
+                _ = group.addTaskUnlessCancelled {
+                    (app.id, await checker.answer(for: app, preference: preference, casks: casks))
+                }
             }
             while case let (id, answer)? = await group.next() {
                 let status = answer.status
@@ -521,7 +531,9 @@ final class AppLibrary {
                 // what was known and put off the next check for hours.
                 guard !Task.isCancelled else { continue }
                 // The answer describes the build that was asked about, which may have been replaced since.
-                guard let app = asked[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) else { continue }
+                guard let app = asked[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) else {
+                    continue
+                }
                 let kept = status.following(updateStatuses[id])
                 updateStatuses[id] = kept
                 if status != .failed {
@@ -536,7 +548,9 @@ final class AppLibrary {
                     developer: answer.developer ?? memory[identifier]?.developer
                 )
                 if let app = pending.next() {
-                    _ = group.addTaskUnlessCancelled { (app.id, await checker.answer(for: app, preference: preference, casks: casks)) }
+                    _ = group.addTaskUnlessCancelled {
+                        (app.id, await checker.answer(for: app, preference: preference, casks: casks))
+                    }
                 }
             }
         }
@@ -547,7 +561,11 @@ final class AppLibrary {
     /// The user's update settings as one value. The command line reads the same settings from the same keys,
     /// so the app and `peel` can't disagree about what is waiting.
     var updatePreferences: UpdatePreferences {
-        UpdatePreferences(source: updateSource, ignoredIdentifiers: ignoredIdentifiers, skippedVersions: skippedVersions)
+        UpdatePreferences(
+            source: updateSource,
+            ignoredIdentifiers: ignoredIdentifiers,
+            skippedVersions: skippedVersions
+        )
     }
 
     /// Whether an update is waiting for `app`. An ignored app has none, and neither has one whose waiting
@@ -709,7 +727,10 @@ final class AppLibrary {
     /// change again on every launch until the user acknowledges it.
     func checkSigningTeams() async {
         let outcome = await teamRegistry.check(apps)
-        teamChanges = Dictionary(outcome.changes.map { ($0.bundleIdentifier, $0) }, uniquingKeysWith: { first, _ in first })
+        teamChanges = Dictionary(
+            outcome.changes.map { ($0.bundleIdentifier, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
         teamRecordProblem = outcome.problem
     }
 
@@ -771,10 +792,15 @@ final class AppLibrary {
     /// elsewhere, such as a helper or a Nightly build on another disk. The identifier itself when macOS knows none.
     func name(forBundleIdentifier bundleIdentifier: String) -> String {
         if lastNames?.revision != revision {
-            lastNames = (revision, Dictionary(apps.map { ($0.bundleIdentifier, $0.name) }, uniquingKeysWith: { first, _ in first }))
+            lastNames = (
+                revision,
+                Dictionary(apps.map { ($0.bundleIdentifier, $0.name) }, uniquingKeysWith: { first, _ in first })
+            )
         }
         if let name = lastNames?.names[bundleIdentifier] { return name }
-        let name = AppInspector.applicationURL(forBundleIdentifier: bundleIdentifier).map(AppInspector.displayName(of:)) ?? bundleIdentifier
+        let name =
+            AppInspector.applicationURL(forBundleIdentifier: bundleIdentifier).map(AppInspector.displayName(of:))
+            ?? bundleIdentifier
         lastNames?.names[bundleIdentifier] = name
         return name
     }

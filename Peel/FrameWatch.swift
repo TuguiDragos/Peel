@@ -10,7 +10,9 @@ import SwiftUI
 /// It is in every build, not only Debug, because Release timings are the ones that count. Its display link wakes
 /// Peel every frame, so leave it off when measuring idle CPU.
 final class FrameWatch: NSObject {
-    static let shared = ProcessInfo.processInfo.environment["PEEL_MEASURE"].flatMap { MeasureFile(named: $0) }.map { FrameWatch(file: $0) }
+    static let shared = ProcessInfo.processInfo.environment["PEEL_MEASURE"]
+        .flatMap { MeasureFile(named: $0) }
+        .map { FrameWatch(file: $0) }
 
     private let file: MeasureFile
     private var hitches = Hitches()
@@ -97,7 +99,11 @@ final class FrameWatch: NSObject {
         }
         request.resume()
         self.request = request
-        NotificationCenter.default.addObserver(forName: NSApplication.willTerminateNotification, object: nil, queue: nil) { [weak self] _ in
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.willTerminateNotification,
+            object: nil,
+            queue: nil
+        ) { [weak self] _ in
             MainActor.assumeIsolated { self?.report() }
         }
     }

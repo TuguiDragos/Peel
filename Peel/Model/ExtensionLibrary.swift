@@ -17,7 +17,8 @@ final class ExtensionLibrary {
     }
 
     func refresh() async {
-        guard let scan = await scanRun.run({ await AppExtensions.scan(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard let scan = await scanRun.run({ await AppExtensions.scan(exclusions: ExclusionsStore.shared.exclusions) })
+        else { return }
         let result = scan.extensions
         extensions = result
         unanswered = scan.unanswered

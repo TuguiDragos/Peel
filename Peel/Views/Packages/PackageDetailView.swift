@@ -91,7 +91,10 @@ struct PackageDetailView: View {
         .fadesInColumn(whenRowsChange: receipt.items.map(\.id))
         .navigationTitle(receipt.identifier)
         .toolbar(removing: .title)
-        .confirmationDialog(Text.movingToTrash(selectedItems.count, SizeTotal(selectedItems.map(\.size))), isPresented: $isConfirmingRemoval) {
+        .confirmationDialog(
+            Text.movingToTrash(selectedItems.count, SizeTotal(selectedItems.map(\.size))),
+            isPresented: $isConfirmingRemoval
+        ) {
             Button("Move to Trash") {
                 Task {
                     let result = await packages.removeSelectedItems { result in
@@ -159,7 +162,8 @@ struct PackageDetailView: View {
     }
 
     private var selectableURLs: [URL] {
-        receipt.items.filter { !$0.isLeftAlone && $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
+        receipt.items.filter { !$0.isLeftAlone && $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }
+            .map(\.url)
     }
 
 }

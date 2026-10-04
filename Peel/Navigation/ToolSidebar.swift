@@ -40,7 +40,9 @@ struct ToolSidebar: View {
     @State private var scrollerRoom = Self.currentScrollerRoom
 
     private static var currentScrollerRoom: CGFloat {
-        NSScroller.preferredScrollerStyle == .legacy ? NSScroller.scrollerWidth(for: .regular, scrollerStyle: .legacy) : 0
+        NSScroller.preferredScrollerStyle == .legacy
+            ? NSScroller.scrollerWidth(for: .regular, scrollerStyle: .legacy)
+            : 0
     }
 
     /// One selection for the whole sidebar, mapped onto the two bindings behind it, `tool` and `page`. It is built
@@ -73,7 +75,9 @@ struct ToolSidebar: View {
         }
         .safeAreaBar(edge: .top, spacing: 0) { mascot }
         .takesFocusWhenNothingHasIt()
-        .onReceive(NotificationCenter.default.publisher(for: NSScroller.preferredScrollerStyleDidChangeNotification)) { _ in
+        .onReceive(
+            NotificationCenter.default.publisher(for: NSScroller.preferredScrollerStyleDidChangeNotification)
+        ) { _ in
             scrollerRoom = Self.currentScrollerRoom
             fitWidth()
         }

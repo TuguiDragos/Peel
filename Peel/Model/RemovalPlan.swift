@@ -75,7 +75,12 @@ final class RemovalPlan {
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
     var request: RemovalRequest {
         RemovalRequest(urls: selectedURLs, sizes: [URL: Int64](measured: selectedURLs.map { url in
-            (url, url == app.url ? (isAppMeasured ? appSize : nil) : leftoverSizes[url].flatMap { $0.isMeasured ? $0.size : nil })
+            (
+                url,
+                url == app.url
+                    ? (isAppMeasured ? appSize : nil)
+                    : leftoverSizes[url].flatMap { $0.isMeasured ? $0.size : nil }
+            )
         }))
     }
 
@@ -91,7 +96,12 @@ final class RemovalPlan {
     /// The revision of the exclusions the last scan read, nil before the first.
     private(set) var exclusionsRevision: Int?
 
-    func refresh(installedApps: [InstalledApp], canUseHelper: Bool, casks: [HomebrewPackage] = [], receipts: Set<String> = []) async {
+    func refresh(
+        installedApps: [InstalledApp],
+        canUseHelper: Bool,
+        casks: [HomebrewPackage] = [],
+        receipts: Set<String> = []
+    ) async {
         self.canUseHelper = canUseHelper
         let app = app
         guard let (result, bundle, revision) = await scanRun.run({
@@ -113,7 +123,10 @@ final class RemovalPlan {
         recommendedMovable = result.movable(among: recommended, withApp: true)
         reviewMovable = result.movable(among: needsReview, withApp: false)
         total = result.movable(among: leftovers, withApp: true).size
-        leftoverSizes = Dictionary(leftovers.map { ($0.url, ($0.size, $0.isMeasured)) }, uniquingKeysWith: { first, _ in first })
+        leftoverSizes = Dictionary(
+            leftovers.map { ($0.url, ($0.size, $0.isMeasured)) },
+            uniquingKeysWith: { first, _ in first }
+        )
         self.installedApps = installedApps
         (vendorUninstaller, systemExtensions) = bundle
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
@@ -128,7 +141,9 @@ final class RemovalPlan {
     }
 
     @concurrent
-    private nonisolated static func look(inside app: InstalledApp) async -> (uninstaller: URL?, systemExtensions: [String]) {
+    private nonisolated static func look(
+        inside app: InstalledApp
+    ) async -> (uninstaller: URL?, systemExtensions: [String]) {
         (VendorRemoval.uninstaller(for: app), VendorRemoval.systemExtensions(in: app))
     }
 
@@ -137,7 +152,10 @@ final class RemovalPlan {
         let urls = uninstallation?.removalOrder(of: request.urls) ?? []
         // These paths are about to hold something else, or nothing, so their cached icons are dropped.
         IconCache.forget(urls)
-        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls, usingHelperFor: uninstallation?.privilegedURLs ?? [])
+        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
+            urls,
+            usingHelperFor: uninstallation?.privilegedURLs ?? []
+        )
     }
 
     /// The app's processes that run now, the helpers it ships included, which quit before any of its files move.

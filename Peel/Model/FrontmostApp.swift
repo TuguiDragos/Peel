@@ -11,8 +11,13 @@ final class FrontmostApp {
     private(set) var bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
 
     private init() {
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { note in
-            let identifier = (note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)?.bundleIdentifier
+        NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didActivateApplicationNotification,
+            object: nil,
+            queue: .main
+        ) { note in
+            let identifier = (note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)?
+                .bundleIdentifier
             MainActor.assumeIsolated { FrontmostApp.shared.bundleIdentifier = identifier }
         }
     }

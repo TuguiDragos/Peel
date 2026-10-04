@@ -26,7 +26,8 @@ struct OrphanList: View {
             }
         }
         .scanState(phase(filtered), isRescanning: isRescanning, scan: orphans.scanRun) {
-            if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
+            if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations,
+               !unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
@@ -61,7 +62,11 @@ struct OrphanList: View {
         )
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded || orphans.isRemoving, scan: orphans.scanRun) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: !library.hasLoaded || orphans.isRemoving,
+                    scan: orphans.scanRun
+                ) {
                     await orphans.refresh(from: library)
                 }
             }
@@ -69,7 +74,9 @@ struct OrphanList: View {
         // Scans again whenever the installed apps change, since a list made before an app was installed would
         // call that app's files orphaned. It never restarts a first scan the user stopped.
         .task(id: library.revision) {
-            guard library.hasLoaded, orphans.scannedRevision != library.revision, !(orphans.scan == nil && orphans.scanRun.wasStopped) else { return }
+            guard library.hasLoaded, orphans.scannedRevision != library.revision,
+                  !(orphans.scan == nil && orphans.scanRun.wasStopped)
+            else { return }
             await orphans.refresh(from: library)
         }
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
@@ -85,7 +92,9 @@ struct OrphanList: View {
     private var filteredGroups: [OrphanGroup] {
         let groups = orphans.scan?.groups ?? []
         guard !searchText.isEmpty else { return groups }
-        return groups.filter { SearchText.matches($0.identifier, searchText) || SearchText.matches($0.title, searchText) }
+        return groups.filter {
+            SearchText.matches($0.identifier, searchText) || SearchText.matches($0.title, searchText)
+        }
     }
 }
 

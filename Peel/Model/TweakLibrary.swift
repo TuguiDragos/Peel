@@ -61,7 +61,10 @@ final class TweakLibrary {
     /// calls this each time Peel becomes active rather than trusting what it read before.
     func refresh() {
         store.beginReading()
-        states = Dictionary(TweakCatalog.all.map { ($0.id, store.state(of: $0)) }, uniquingKeysWith: { first, _ in first })
+        states = Dictionary(
+            TweakCatalog.all.map { ($0.id, store.state(of: $0)) },
+            uniquingKeysWith: { first, _ in first }
+        )
         isSleepDisabled = SleepSetting.isSleepDisabled()
     }
 

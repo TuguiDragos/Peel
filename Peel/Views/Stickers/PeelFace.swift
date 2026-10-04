@@ -140,7 +140,11 @@ private final class FaceLayerView: NSView {
                 MainActor.assumeIsolated { self?.refresh() }
             })
         }
-        observers.append(center.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: window, queue: .main) { [weak self] _ in
+        observers.append(center.addObserver(
+            forName: NSWindow.didChangeOcclusionStateNotification,
+            object: window,
+            queue: .main
+        ) { [weak self] _ in
             MainActor.assumeIsolated { self?.refresh() }
         })
         refresh()
@@ -205,7 +209,9 @@ private final class FaceLayerView: NSView {
             link?.preferredFrameRateRange = quick ? .default : Self.calm
         }
         let pose = Pose(Idle(at: time * 1000, amplitude: isStill ? 0 : 1), look, size: size)
-        guard motion.isWorthAFrame(pose.corners, pixelsPerPoint: Double(window?.backingScaleFactor ?? 2)) else { return }
+        guard motion.isWorthAFrame(pose.corners, pixelsPerPoint: Double(window?.backingScaleFactor ?? 2)) else {
+            return
+        }
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         head.transform = pose.head.transform
@@ -287,8 +293,10 @@ private struct Pose {
                                    .then(CATransform3DMakeRotation(tilt * side * .pi / 180, 0, 0, 1))
                                    .then(CATransform3DMakeScale(scale.width, scale.height, 1))
                                    .then(CATransform3DMakeRotation(smile.tilt(side) * .pi / 180, 0, 0, 1)),
-                               position: CGPoint(x: (Face.center.x + side * Face.gap + glance.width + smile.offset(side).width) * unit,
-                                                 y: (Face.center.y + glance.height + smile.offset(side).height) * unit)))
+                               position: CGPoint(x: (Face.center.x + side * Face.gap + glance.width
+                                                     + smile.offset(side).width) * unit,
+                                                 y: (Face.center.y + glance.height
+                                                     + smile.offset(side).height) * unit)))
         }
     }
 
@@ -300,7 +308,8 @@ private struct Pose {
             let offset = CGPoint(x: point.x - size / 2, y: point.y - size / 2).applying(turned)
             return [head.position.x + offset.x, head.position.y + offset.y]
         }
-        var points = [CGPoint(x: 0, y: 0), CGPoint(x: size, y: 0), CGPoint(x: size, y: size), CGPoint(x: 0, y: size)].map(onCanvas)
+        var points = [CGPoint(x: 0, y: 0), CGPoint(x: size, y: 0), CGPoint(x: size, y: size), CGPoint(x: 0, y: size)]
+            .map(onCanvas)
         let half = CGSize(width: Face.eye.width * size / 200, height: Face.eye.height * size / 200)
         for eye in eyes {
             let shaped = CATransform3DGetAffineTransform(eye.transform)
@@ -312,7 +321,9 @@ private struct Pose {
         }
         let reach = Face.dot.radius * dot * size / 100
         let middle = SIMD2(Face.dot.x * size / 100, Face.dot.y * size / 100)
-        points += [middle + [-reach, -reach], middle + [reach, -reach], middle + [reach, reach], middle + [-reach, reach]]
+        points += [
+            middle + [-reach, -reach], middle + [reach, -reach], middle + [reach, reach], middle + [-reach, reach],
+        ]
         return points
     }
 }
@@ -406,10 +417,12 @@ private final class Follow {
             let toward = CGSize(width: pointer.x - Face.center.x, height: pointer.y - Face.center.y)
             let reach = hypot(toward.width, toward.height)
             let near = Self.smoothstep(min(1, reach / (Face.radius * 100 * 0.55)))
-            target = reach > 0 ? CGSize(width: toward.width / reach * near, height: toward.height / reach * near) : .zero
+            target =
+                reach > 0 ? CGSize(width: toward.width / reach * near, height: toward.height / reach * near) : .zero
             held = 1
         } else {
-            let plan = lookingAround?.plan ?? LookAround(from: .init(aim: [look.aim.width, look.aim.height], hold: holding))
+            let plan =
+                lookingAround?.plan ?? LookAround(from: .init(aim: [look.aim.width, look.aim.height], hold: holding))
             let elapsed = (lookingAround?.elapsed ?? 0) + step
             lookingAround = (plan, elapsed)
             let moment = plan.moment(after: elapsed)
@@ -557,7 +570,8 @@ private struct Idle {
             guard index + 1 < table.count else { return table[index][column] }
             let span = table[index + 1][0] - table[index][0]
             guard span > 0 else { return table[index][column] }
-            return table[index][column] + (table[index + 1][column] - table[index][column]) * ((position - table[index][0]) / span)
+            return table[index][column]
+                + (table[index + 1][column] - table[index][column]) * ((position - table[index][0]) / span)
         }
         return table[0][column]
     }

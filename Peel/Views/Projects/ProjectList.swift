@@ -120,7 +120,11 @@ struct ProjectList: View {
                 .help(Text("The folders Peel looks through"))
             }
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: projects.folders.isEmpty || projects.isRemoving, scan: projects.scanRun) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: projects.folders.isEmpty || projects.isRemoving,
+                    scan: projects.scanRun
+                ) {
                     await projects.refresh()
                 }
             }

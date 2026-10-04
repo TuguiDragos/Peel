@@ -18,7 +18,11 @@ final class DeveloperLibrary {
     }
 
     func refresh() async {
-        guard let result = await scanRun.run({ await DeveloperCaches.scan(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard
+            let result = await scanRun.run({
+                await DeveloperCaches.scan(exclusions: ExclusionsStore.shared.exclusions)
+            })
+        else { return }
         environments = result
         let locations = result.flatMap(\.locations)
         selectedURLs = choices.update(

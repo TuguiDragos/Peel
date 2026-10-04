@@ -79,9 +79,14 @@ final class DuplicateLibrary {
             groupCount = 0
             return
         }
-        reclaimable = Dictionary(scan.groups.flatMap(\.files).map { ($0.url, $0.reclaimableSize) }) { first, _ in first }
-        reclaimableFolders = Dictionary(scan.folderGroups.flatMap(\.folders).map { ($0.url, $0.reclaimableSize) }) { first, _ in first }
-        copyCount = scan.groups.reduce(0) { $0 + $1.files.count } + scan.folderGroups.reduce(0) { $0 + $1.folders.count }
+        reclaimable = Dictionary(
+            scan.groups.flatMap(\.files).map { ($0.url, $0.reclaimableSize) }
+        ) { first, _ in first }
+        reclaimableFolders = Dictionary(
+            scan.folderGroups.flatMap(\.folders).map { ($0.url, $0.reclaimableSize) }
+        ) { first, _ in first }
+        copyCount =
+            scan.groups.reduce(0) { $0 + $1.files.count } + scan.folderGroups.reduce(0) { $0 + $1.folders.count }
         groupCount = scan.groups.count + scan.folderGroups.count
     }
 
@@ -148,7 +153,10 @@ final class DuplicateLibrary {
         options.minimumSize = minimumSize
         let exclusions = ExclusionsStore.shared.exclusions
 
-        let (updates, continuation) = AsyncStream.makeStream(of: DuplicateScanProgress.self, bufferingPolicy: .bufferingNewest(1))
+        let (updates, continuation) = AsyncStream.makeStream(
+            of: DuplicateScanProgress.self,
+            bufferingPolicy: .bufferingNewest(1)
+        )
         let progressUpdates = Task {
             for await update in updates {
                 // A scan stopped or replaced reports on until it notices, over the newer scan's progress otherwise.

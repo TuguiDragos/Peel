@@ -99,9 +99,14 @@ final class TerminalLibrary {
     }
 
     func openTerminal() {
-        guard let terminal = NSWorkspace.shared.urlForApplication(withBundleIdentifier: TerminalSettings.identifier) else { return }
+        guard let terminal = NSWorkspace.shared.urlForApplication(withBundleIdentifier: TerminalSettings.identifier)
+        else { return }
         if settings.isTerminalOpen {
-            NSWorkspace.shared.open([URL.homeDirectory], withApplicationAt: terminal, configuration: NSWorkspace.OpenConfiguration())
+            NSWorkspace.shared.open(
+                [URL.homeDirectory],
+                withApplicationAt: terminal,
+                configuration: NSWorkspace.OpenConfiguration()
+            )
         } else {
             NSWorkspace.shared.openApplication(at: terminal, configuration: NSWorkspace.OpenConfiguration())
         }

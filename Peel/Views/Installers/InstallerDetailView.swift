@@ -46,7 +46,9 @@ struct InstallerDetailView: View {
                     heading(kind.title, kind.explanation)
                 } actions: {
                     SelectAllButton(
-                        selectable: rows.filter { !$0.isReadOnly && $0.heldBack == nil && !($0.requiresPrivileges && !helper.canAct) }.map(\.url),
+                        selectable: rows.filter {
+                            !$0.isReadOnly && $0.heldBack == nil && !($0.requiresPrivileges && !helper.canAct)
+                        }.map(\.url),
                         rows: rows.map(\.url),
                         selection: Bindable(installers).selectedURLs
                     )
@@ -76,7 +78,11 @@ struct InstallerDetailView: View {
         .dimmedWhileBusy(installers.isScanning)
         .safeAreaBar(edge: .bottom) {
             if kind != .deviceBackup {
-                RemovalBar(page: Tool.installers.page(kind.rawValue), isScanning: installers.isScanning, scan: installers.scanRun)
+                RemovalBar(
+                    page: Tool.installers.page(kind.rawValue),
+                    isScanning: installers.isScanning,
+                    scan: installers.scanRun
+                )
             }
         }
         .fadesInColumn(whenRowsChange: items.map(\.id))

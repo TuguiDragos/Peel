@@ -32,7 +32,11 @@ struct DeveloperDetailView: View {
         }
         .dimmedWhileBusy(developer.isScanning)
         .safeAreaBar(edge: .bottom) {
-            RemovalBar(page: Tool.developer.page(environment.id), isScanning: developer.isScanning, scan: developer.scanRun)
+            RemovalBar(
+                page: Tool.developer.page(environment.id),
+                isScanning: developer.isScanning,
+                scan: developer.scanRun
+            )
         }
         .fadesInColumn(whenRowsChange: environment.locations.map(\.id))
         .navigationTitle(environment.name)
@@ -71,7 +75,11 @@ struct DeveloperDetailView: View {
 
     private func warning(for location: DeveloperEnvironment.Location) -> String? {
         if location.size == nil {
-            return String(localized: location.couldNotBeRead ? HoldBack.couldNotBeRead.explanation : HoldBack.notMeasured.explanation)
+            return String(
+                localized: location.couldNotBeRead
+                    ? HoldBack.couldNotBeRead.explanation
+                    : HoldBack.notMeasured.explanation
+            )
         }
         if !location.isTheTools {
             return String(localized: "Not selected: nothing shows that \(environment.name) made this folder.")

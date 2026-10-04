@@ -65,10 +65,14 @@ struct TerminalPage: View {
         .onChange(of: history.revision) {
             terminal.refresh()
         }
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)) { _ in
+        .onReceive(
+            NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)
+        ) { _ in
             terminal.refresh()
         }
-        .onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)) { _ in
+        .onReceive(
+            NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)
+        ) { _ in
             terminal.refresh()
         }
         .alert("Quit Terminal first?", isPresented: isWaitingForTerminal, presenting: terminal.waitingForTerminal) { action in

@@ -52,7 +52,8 @@ final class SelfUninstall {
             return
         }
         let exclusions = ExclusionsStore.shared.exclusions
-        let urls = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions).unreviewedSelection
+        let urls = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
+            .unreviewedSelection
         guard !urls.isEmpty else {
             failure = String(localized: "Peel won’t move itself from here: its folder needs an administrator, or Peel is excluded in Settings. Drag it to the Trash in Finder, which asks for an administrator when one is needed.")
             return
@@ -76,7 +77,13 @@ final class SelfUninstall {
         try? await SMAppService.mainApp.unregister()
         let opensAtLogin = [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
 
-        let result = await SelfRemoval.move(urls, app: bundleURL, folder: PeelFolder.url, using: TrashService(exclusions: exclusions), recording: record)
+        let result = await SelfRemoval.move(
+            urls,
+            app: bundleURL,
+            folder: PeelFolder.url,
+            using: TrashService(exclusions: exclusions),
+            recording: record
+        )
         guard result.trashed.contains(where: { $0.originalURL == bundleURL }) else {
             work.resume()
             let lines = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }

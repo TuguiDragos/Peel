@@ -33,7 +33,12 @@ struct Notice<Actions: View>: View {
             HStack(spacing: 10) {
                 mark
                 words
-                    .frame(minWidth: Self.wordsFloor, idealWidth: Self.wordsFloor, maxWidth: .infinity, alignment: .leading)
+                    .frame(
+                        minWidth: Self.wordsFloor,
+                        idealWidth: Self.wordsFloor,
+                        maxWidth: .infinity,
+                        alignment: .leading
+                    )
                 buttons
             }
             VStack(alignment: .leading, spacing: 8) {

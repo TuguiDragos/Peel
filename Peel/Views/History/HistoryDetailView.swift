@@ -46,7 +46,8 @@ struct HistoryDetailView: View {
             RestoreBar(
                 count: selectedCount,
                 isRestoring: history.isRestoring,
-                isEnabled: selectedCount > 0 && !history.isRestoring && exclusions.exclusions.isKnown && !history.isUnreadable
+                isEnabled: selectedCount > 0 && !history.isRestoring && exclusions.exclusions.isKnown
+                    && !history.isUnreadable
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)

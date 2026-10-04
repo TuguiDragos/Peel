@@ -137,7 +137,12 @@ struct MenuBarPanel: View {
         .motion(.settle, .movement, value: waiting.count)
     }
 
-    private func row(_ symbol: String, _ label: LocalizedStringResource, _ value: String, amount: some BinaryInteger) -> some View {
+    private func row(
+        _ symbol: String,
+        _ label: LocalizedStringResource,
+        _ value: String,
+        amount: some BinaryInteger
+    ) -> some View {
         rowContent(symbol, Text(label), value, amount: amount, isAccented: false)
     }
 

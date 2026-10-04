@@ -46,7 +46,11 @@ struct HomebrewList: View {
         )
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !homebrew.isInstalled || homebrew.runningCommand != nil, scan: homebrew.scanRun) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: !homebrew.isInstalled || homebrew.runningCommand != nil,
+                    scan: homebrew.scanRun
+                ) {
                     await homebrew.refresh(includingReclaimable: true)
                 }
             }
@@ -74,7 +78,9 @@ struct HomebrewList: View {
         .task {
             // Only this page shows what Clean Up would free, so the figure is asked for here, and only while
             // it's unknown: `brew cleanup --dry-run` has to walk the cache and the Cellar to work it out.
-            guard !homebrew.isScanning, !homebrew.scanRun.wasStopped, homebrew.packages == nil || homebrew.reclaimable == nil else { return }
+            guard !homebrew.isScanning, !homebrew.scanRun.wasStopped,
+                  homebrew.packages == nil || homebrew.reclaimable == nil
+            else { return }
             await homebrew.refresh(includingReclaimable: true)
         }
     }
@@ -112,7 +118,9 @@ struct HomebrewList: View {
         if overrides.contains(.cleansUp) { sentences.append(String(localized: HomebrewLibrary.cleansUp)) }
         if overrides.contains(.sendsAnalytics) { sentences.append(String(localized: "Homebrew sends its makers analytics whenever Peel runs it.")) }
         if overrides.contains(.updatesItself) { sentences.append(String(localized: "Homebrew may download its list of packages when Peel only asks about them.")) }
-        let prefix = homebrew.installation?.prefix ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
+        let prefix =
+            homebrew.installation?.prefix
+            ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
         let folder = (prefix?.path(percentEncoded: false) ?? "") + "/etc/homebrew"
         sentences.append(String(localized: "A brew.env file sets this, in /etc/homebrew, in \(folder), or in ~/.homebrew."))
         // A line each, since Chinese and Japanese put no space between sentences.
@@ -127,7 +135,9 @@ struct HomebrewList: View {
                     .textSelection(.enabled)
             }
             LabeledContent("Location") {
-                let location = homebrew.installation?.prefix.path(percentEncoded: false) ?? String(localized: "Unknown (Homebrew location)", defaultValue: "Unknown")
+                let location =
+                    homebrew.installation?.prefix.path(percentEncoded: false)
+                    ?? String(localized: "Unknown (Homebrew location)", defaultValue: "Unknown")
                 Text(verbatim: location)
                     .font(.callout.monospaced())
                     .textSelection(.enabled)
@@ -294,7 +304,9 @@ struct HomebrewList: View {
             Section {
                 Notice(
                     title: Text("Homebrew didn’t say what is installed"),
-                    detail: Text(verbatim: FixedSentence.translated(problem.trimmingCharacters(in: .whitespacesAndNewlines))),
+                    detail: Text(
+                        verbatim: FixedSentence.translated(problem.trimmingCharacters(in: .whitespacesAndNewlines))
+                    ),
                     kind: .note
                 ) {}
                 .listRowSeparator(.hidden)
@@ -499,7 +511,8 @@ struct HomebrewList: View {
         let packages = homebrew.packages ?? []
         guard !searchText.isEmpty else { return packages }
         return packages.filter {
-            SearchText.matches($0.name, searchText) || $0.summary.map { summary in SearchText.matches(summary, searchText) } == true
+            SearchText.matches($0.name, searchText)
+                || $0.summary.map { summary in SearchText.matches(summary, searchText) } == true
         }
     }
 }

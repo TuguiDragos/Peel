@@ -16,7 +16,8 @@ final class PluginLibrary {
     }
 
     func refresh() async {
-        guard let result = await scanRun.run({ await Plugins.scan(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard let result = await scanRun.run({ await Plugins.scan(exclusions: ExclusionsStore.shared.exclusions) })
+        else { return }
         plugins = result
         if let selection, !result.contains(where: { $0.id == selection }) {
             self.selection = nil
@@ -28,7 +29,10 @@ final class PluginLibrary {
         defer { isRemoving = false }
         let privileged: Set<URL> = plugin.requiresPrivileges ? [plugin.url] : []
         let result = await QuitGuard.shared.run {
-            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([plugin.url], usingHelperFor: privileged)
+            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
+                [plugin.url],
+                usingHelperFor: privileged
+            )
             // Written down before the rescan, which can take a while: History is the way back for what just moved.
             await record(result)
             return result

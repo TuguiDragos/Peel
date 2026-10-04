@@ -89,7 +89,10 @@ extension DuplicateLibrary {
     var looked: Looked? {
         scan.map { scan in
             let reclaimable = (scan.groups.map(\.reclaimableSize) + scan.folderGroups.map(\.reclaimableSize)).cappedSum
-            return Looked(count: scan.groups.count + scan.folderGroups.count, size: SizeTotal(known: reclaimable, isComplete: true))
+            return Looked(
+                count: scan.groups.count + scan.folderGroups.count,
+                size: SizeTotal(known: reclaimable, isComplete: true)
+            )
         }
     }
 }

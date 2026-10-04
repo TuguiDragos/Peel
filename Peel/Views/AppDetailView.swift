@@ -200,7 +200,12 @@ struct AppDetailView: View {
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: plan.isRemoving, scan: plan.scanRun) {
-                    await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+                    await plan.refresh(
+                        installedApps: library.apps,
+                        canUseHelper: helper.canAct,
+                        casks: homebrew.caskEvidence,
+                        receipts: homebrew.receipts
+                    )
                     // In a task of its own, so the page isn't dimmed during the update check, which can take
                     // half a minute. The badge in the header shows that the check is running.
                     let app = plan.app
@@ -344,7 +349,12 @@ struct AppDetailView: View {
     /// one the tables are out of date. A scan asked for while the question is up or a removal runs waits for them.
     private func rescan() async {
         guard plan.question.mayScan() else { return }
-        await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+        await plan.refresh(
+            installedApps: library.apps,
+            canUseHelper: helper.canAct,
+            casks: homebrew.caskEvidence,
+            receipts: homebrew.receipts
+        )
     }
 
     private func row(for leftover: Leftover) -> some View {
@@ -441,7 +451,11 @@ struct AppDetailView: View {
             if removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
                 _ = await DockTiles().takeOut([plan.app.url])
             }
-            if let state = AppManagement.state(after: result, appBundles: [plan.app.url], movedByTheHelper: plan.privilegedURLs) {
+            if let state = AppManagement.state(
+                after: result,
+                appBundles: [plan.app.url],
+                movedByTheHelper: plan.privilegedURLs
+            ) {
                 home.record(appManagement: state)
             }
             await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
@@ -451,7 +465,12 @@ struct AppDetailView: View {
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
             await library.checkAgain(await library.refresh())
         } else {
-            await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
+            await plan.refresh(
+                installedApps: library.apps,
+                canUseHelper: helper.canAct,
+                casks: homebrew.caskEvidence,
+                receipts: homebrew.receipts
+            )
         }
     }
 }

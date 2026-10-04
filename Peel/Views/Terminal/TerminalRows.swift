@@ -52,7 +52,11 @@ struct PromptSample: View {
         style.sample(user: user, host: host, path: "~/Projects/peel", branch: "main", failed: false)
     }
 
-    static func width(of styles: [PromptStyle], user: String = NSUserName(), host: String = PromptStyle.hostName()) -> CGFloat {
+    static func width(
+        of styles: [PromptStyle],
+        user: String = NSUserName(),
+        host: String = PromptStyle.hostName()
+    ) -> CGFloat {
         let lines = styles.flatMap { segments(of: $0, user: user, host: host).map(\.text).joined().split(separator: "\n") }
         return ceil(lines.map { (String($0) as NSString).size(withAttributes: [.font: font]).width }.max() ?? 0) + 16
     }
@@ -68,7 +72,10 @@ struct PromptSample: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 5)
         .frame(width: width, alignment: .leading)
-        .background(theme.map { Color(terminal: $0.background) } ?? Color(nsColor: .textBackgroundColor), in: .rect(cornerRadius: 6))
+        .background(
+            theme.map { Color(terminal: $0.background) } ?? Color(nsColor: .textBackgroundColor),
+            in: .rect(cornerRadius: 6)
+        )
         .overlay { RoundedRectangle(cornerRadius: 6).strokeBorder(.separator) }
         .accessibilityHidden(true)
     }

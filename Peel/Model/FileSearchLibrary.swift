@@ -51,7 +51,9 @@ final class FileSearchLibrary {
         }
         results = found
         filteredBy = exclusions
-        selectableURLs = Set(found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && !$0.isInTheCloud }.map(\.url))
+        selectableURLs = Set(
+            found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && !$0.isInTheCloud }.map(\.url)
+        )
         sizes = Dictionary(found.files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
         selectedURLs.formIntersection(found.files.filter { !$0.requiresPrivileges }.map(\.url))
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.

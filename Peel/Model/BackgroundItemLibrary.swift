@@ -25,7 +25,11 @@ final class BackgroundItemLibrary {
 
     func refresh(installedApps: [InstalledApp]) async {
         self.installedApps = installedApps
-        guard let result = await scanRun.run({ await BackgroundItems.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard
+            let result = await scanRun.run({
+                await BackgroundItems.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
+            })
+        else { return }
         items = result
         if let selection, items?.contains(where: { $0.id == selection }) != true {
             self.selection = nil

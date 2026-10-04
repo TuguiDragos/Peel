@@ -31,11 +31,24 @@ extension View {
         scan: ScanRun? = nil,
         @ViewBuilder message: () -> some View
     ) -> some View {
-        modifier(ScanStateModifier(phase: phase, isRescanning: isRescanning, fadesInResults: fadesInResults, scan: scan, message: message()))
+        modifier(
+            ScanStateModifier(
+                phase: phase,
+                isRescanning: isRescanning,
+                fadesInResults: fadesInResults,
+                scan: scan,
+                message: message()
+            )
+        )
     }
 
     /// The same, for a page with no message of its own.
-    func scanState(_ phase: ScanPhase, isRescanning: Bool = false, fadesInResults: Bool = true, scan: ScanRun? = nil) -> some View {
+    func scanState(
+        _ phase: ScanPhase,
+        isRescanning: Bool = false,
+        fadesInResults: Bool = true,
+        scan: ScanRun? = nil
+    ) -> some View {
         scanState(phase, isRescanning: isRescanning, fadesInResults: fadesInResults, scan: scan) { EmptyView() }
     }
 }
@@ -92,7 +105,10 @@ private struct WalkLabel: View {
     let scan: ScanRun?
 
     var body: some View {
-        if AppDataQuestion.isAsked(frontmost: FrontmostApp.shared.bundleIdentifier, hasFullDiskAccess: home.states[.fullDiskAccess] == .on) {
+        if AppDataQuestion.isAsked(
+            frontmost: FrontmostApp.shared.bundleIdentifier,
+            hasFullDiskAccess: home.states[.fullDiskAccess] == .on
+        ) {
             Text("macOS is asking whether Peel may access data from other apps. The scan continues once you answer.")
         } else {
             ReadSoFar(scan: scan)

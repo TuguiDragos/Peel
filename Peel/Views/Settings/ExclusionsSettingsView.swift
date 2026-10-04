@@ -120,7 +120,11 @@ struct ExclusionsSettingsView: View {
                 }
                 HStack {
                     Menu {
-                        ForEach(library.apps.filter { !exclusions.exclusions.excludes(bundleIdentifier: $0.bundleIdentifier) }) { app in
+                        ForEach(
+                            library.apps.filter {
+                                !exclusions.exclusions.excludes(bundleIdentifier: $0.bundleIdentifier)
+                            }
+                        ) { app in
                             Button(app.name) {
                                 Task { await exclusions.add(bundleIdentifier: app.bundleIdentifier) }
                             }
@@ -182,7 +186,11 @@ struct ExclusionsSettingsView: View {
         .formStyle(.grouped)
         // `.folder` is listed as well as `.item`: with `.item` alone, the panel doesn't let the user choose a
         // folder, even though a folder conforms to `.item`.
-        .fileImporter(isPresented: $isChoosingPaths, allowedContentTypes: [.item, .folder], allowsMultipleSelection: true) { result in
+        .fileImporter(
+            isPresented: $isChoosingPaths,
+            allowedContentTypes: [.item, .folder],
+            allowsMultipleSelection: true
+        ) { result in
             guard let urls = try? result.get() else { return }
             // Excluding a folder as broad as the home folder or `/Applications` would leave the tools with little
             // or nothing to show, without saying why. A bare `/` would protect nothing: `Exclusions` ignores it.

@@ -22,7 +22,11 @@ struct RefusalDetailView: View {
 
             Section {
                 ForEach(Array(batch.records.enumerated()), id: \.element.id) { index, record in
-                    RefusalRecordRow(record: record, isExcluded: exclusions.exclusions.excludes(record.url), isFirst: index == 0)
+                    RefusalRecordRow(
+                        record: record,
+                        isExcluded: exclusions.exclusions.excludes(record.url),
+                        isFirst: index == 0
+                    )
                 }
                 .listRowSeparator(.hidden)
             } header: {

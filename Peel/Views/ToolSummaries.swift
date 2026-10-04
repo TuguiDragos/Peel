@@ -69,7 +69,9 @@ extension AppLibrary {
         let known = sizes.values.cappedSum
         let total = SizeTotal(known: known, isComplete: sizes.count >= count)
         let size = known > 0 ? AttributedString(localized: "\(total.text) in ^[\(count) app](inflect: true).") : AttributedString(localized: "^[\(count) app](inflect: true).")
-        guard let updates = Tool.applications.summary(of: Looked(count: appsWithUpdates.count, size: nil)) else { return size }
+        guard let updates = Tool.applications.summary(of: Looked(count: appsWithUpdates.count, size: nil)) else {
+            return size
+        }
         return size + AttributedString("\n") + updates
     }
 }
@@ -106,7 +108,12 @@ extension HomebrewLibrary {
 extension FileSearchLibrary {
     var summary: AttributedString? {
         results.flatMap { results in
-            Tool.fileSearch.summary(of: Looked(count: results.files.count, size: SizeTotal(known: results.files.map(\.size).cappedSum, isComplete: true)))
+            Tool.fileSearch.summary(
+                of: Looked(
+                    count: results.files.count,
+                    size: SizeTotal(known: results.files.map(\.size).cappedSum, isComplete: true)
+                )
+            )
         }
     }
 }

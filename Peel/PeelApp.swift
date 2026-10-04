@@ -71,7 +71,9 @@ struct PeelApp: App {
         _notifications = State(initialValue: notifications)
 
         let (library, history, outcome) = (AppLibrary(), RemovalHistoryStore(), RemovalOutcome())
-        let (orphans, space, developer, projects) = (OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary())
+        let (orphans, space, developer, projects) = (
+            OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary()
+        )
         let (installers, duplicates, fileSearch) = (InstallerLibrary(), DuplicateLibrary(), FileSearchLibrary())
         _library = State(initialValue: library)
         _history = State(initialValue: history)

@@ -3,7 +3,12 @@ import SwiftUI
 
 extension Color {
     init(terminal color: UInt32) {
-        self.init(.sRGB, red: Double(color >> 16 & 0xFF) / 255, green: Double(color >> 8 & 0xFF) / 255, blue: Double(color & 0xFF) / 255)
+        self.init(
+            .sRGB,
+            red: Double(color >> 16 & 0xFF) / 255,
+            green: Double(color >> 8 & 0xFF) / 255,
+            blue: Double(color & 0xFF) / 255
+        )
     }
 }
 

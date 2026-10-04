@@ -16,7 +16,8 @@ extension AppExtension {
 /// purpose: Xcode's string extraction can miss the words of a switch expression assigned to a local `let`, and
 /// those words would then stay English in every language.
 private enum ExtensionPoint {
-    case finder, share, widgets, quickLook, safari, shortcuts, notifications, spotlight, photos, messages, network, audio, quickActions
+    case finder, share, widgets, quickLook, safari, shortcuts, notifications, spotlight, photos, messages, network,
+        audio, quickActions
 
     init?(_ identifier: String) {
         switch identifier {

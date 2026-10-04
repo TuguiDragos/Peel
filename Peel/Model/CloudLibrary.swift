@@ -50,7 +50,11 @@ final class CloudLibrary {
     /// Scans again. What the last Free Up Space refused is cleared, since it described the old list.
     func refresh() async {
         refusals = []
-        guard let scan = await scanRun.run({ await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions) }) else { return }
+        guard
+            let scan = await scanRun.run({
+                await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions)
+            })
+        else { return }
         files = scan.files
         wasCutShort = scan.wasCutShort
         couldNotRead = scan.couldNotRead

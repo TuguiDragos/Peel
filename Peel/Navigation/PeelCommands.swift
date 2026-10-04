@@ -141,7 +141,11 @@ struct PeelCommands: Commands {
                     } label: {
                         Text(tool.title)
                     }
-                    .keyboardShortcut(index < 9 ? KeyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command) : nil)
+                    .keyboardShortcut(
+                        index < 9
+                            ? KeyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command)
+                            : nil
+                    )
                     .disabled(selectedTool == nil || sheetInFront.isShowing)
                 }
                 Divider()

@@ -60,7 +60,12 @@ final class ProjectLibrary {
         wasCutShort = scan.wasCutShort
         needsFullDiskAccess = scan.needsFullDiskAccess
         let result = Dictionary(grouping: artifacts, by: \.project)
-            .map { ProjectGroup(project: $0.key, artifacts: $0.value.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }) }
+            .map {
+                ProjectGroup(
+                    project: $0.key,
+                    artifacts: $0.value.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
+                )
+            }
             .sorted { $0.total > $1.total }
         groups = result
         excludedFromBackups = Set(standings.filter { $0.value != .included }.keys)

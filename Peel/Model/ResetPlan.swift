@@ -75,7 +75,11 @@ final class ResetPlan {
         guard let result = await scanRun.run({
             await AppReset.prepare(app, installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
         }) else { return }
-        selectedURLs = choices.update(selectedURLs, selectable: Set(result.items.map(\.url)), suggested: result.suggestedSelection)
+        selectedURLs = choices.update(
+            selectedURLs,
+            selectable: Set(result.items.map(\.url)),
+            suggested: result.suggestedSelection
+        )
         reset = result
         self.installedApps = installedApps
         refreshRunningState()
@@ -104,13 +108,17 @@ final class ResetPlan {
         couldNotSaveSettings = false
         refreshRunningState()
         guard !isAppRunning else { return TrashResult() }
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls, ownedBy: app.bundleIdentifier)
+        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
+            urls,
+            ownedBy: app.bundleIdentifier
+        )
         failures = result.failures
         movedCount = result.trashed.count
         askedToMove = urls.count
         didClearSettings = reset.clearsSettings(moving: result.trashed.map(\.originalURL))
         // The app stays installed, so `tccutil` still finds it after the move.
-        privacy = resetsPrivacy && canResetPrivacy ? await PrivacyReset.reset(bundleIdentifier: app.bundleIdentifier) : nil
+        privacy =
+            resetsPrivacy && canResetPrivacy ? await PrivacyReset.reset(bundleIdentifier: app.bundleIdentifier) : nil
         didReset = true
         return result
     }
@@ -118,7 +126,11 @@ final class ResetPlan {
     /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.
     func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
         await QuitGuard.shared.run {
-            await PreferenceBackup.restore(from: backup, of: app.bundleIdentifier, exclusions: ExclusionsStore.shared.exclusions) { @MainActor in
+            await PreferenceBackup.restore(
+                from: backup,
+                of: app.bundleIdentifier,
+                exclusions: ExclusionsStore.shared.exclusions
+            ) { @MainActor in
                 self.refreshRunningState()
                 return self.isAppRunning
             }
@@ -133,7 +145,12 @@ final class ResetPlan {
     }
 
     private var relatedRunningApps: [NSRunningApplication] {
-        RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: installedApps, sharingItsSettings: true)
+        RunningCopies.belonging(
+            to: app,
+            among: RunningCopies.current,
+            installedApps: installedApps,
+            sharingItsSettings: true
+        )
             .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
     }
 }

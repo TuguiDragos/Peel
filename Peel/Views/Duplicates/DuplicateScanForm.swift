@@ -63,7 +63,11 @@ struct DuplicateScanForm: View {
         .frame(width: 420)
         // The popover grows with the folders listed up to this height, and the list scrolls past it.
         .frame(maxHeight: 460)
-        .fileImporter(isPresented: $isChoosingFolders, allowedContentTypes: [.folder], allowsMultipleSelection: true) { result in
+        .fileImporter(
+            isPresented: $isChoosingFolders,
+            allowedContentTypes: [.folder],
+            allowsMultipleSelection: true
+        ) { result in
             guard case .success(let urls) = result else { return }
             rejectedFolders = duplicates.add(urls)
         }

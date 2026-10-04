@@ -119,12 +119,16 @@ struct InstalledAppEntity: AppEntity {
 struct InstalledAppQuery: EntityStringQuery {
     func entities(for identifiers: [String]) async throws -> [InstalledAppEntity] {
         let wanted = Set(identifiers)
-        return await AppCatalog.installedApps().filter { wanted.contains($0.bundleIdentifier) }.map(InstalledAppEntity.init)
+        return await AppCatalog.installedApps().filter { wanted.contains($0.bundleIdentifier) }
+            .map(InstalledAppEntity.init)
     }
 
     func entities(matching string: String) async throws -> [InstalledAppEntity] {
         await AppCatalog.installedApps()
-            .filter { app in app.names.contains { SearchText.matches($0, string) } || SearchText.matches(app.bundleIdentifier, string) }
+            .filter { app in
+                app.names.contains { SearchText.matches($0, string) }
+                    || SearchText.matches(app.bundleIdentifier, string)
+            }
             .map(InstalledAppEntity.init)
     }
 

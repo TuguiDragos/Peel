@@ -76,7 +76,10 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         await MainActor.run { NotificationPresentation.options(whilePeelIsActive: NSApp.isActive) }
     }
 
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse
+    ) async {
         if let tool = response.notification.request.content.userInfo[Self.toolKey] as? String {
             await MainActor.run {
                 if let tool = Tool(rawValue: tool) {

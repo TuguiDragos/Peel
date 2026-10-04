@@ -23,7 +23,9 @@ struct LongestWord: View {
         var words: [String] = []
         text.enumerateSubstrings(in: text.startIndex..., options: [.byWords, .substringNotRequired]) { _, range, _, _ in
             var start = range.lowerBound, end = range.upperBound
-            while start > text.startIndex, isAttached(text[text.index(before: start)]) { start = text.index(before: start) }
+            while start > text.startIndex, isAttached(text[text.index(before: start)]) {
+                start = text.index(before: start)
+            }
             while end < text.endIndex, isAttached(text[end]) { end = text.index(after: end) }
             words.append(String(text[start..<end]))
         }

@@ -62,13 +62,18 @@ struct InstallerList: View {
         )
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded || installers.isRemoving, scan: installers.scanRun) {
+                RescanButton(
+                    isRunning: $isRescanning,
+                    isDisabled: !library.hasLoaded || installers.isRemoving,
+                    scan: installers.scanRun
+                ) {
                     await installers.refresh(installedApps: library.apps)
                 }
             }
         }
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, installers.scan == nil, !installers.isScanning, !installers.scanRun.wasStopped else { return }
+            guard library.hasLoaded, installers.scan == nil, !installers.isScanning, !installers.scanRun.wasStopped
+            else { return }
             await installers.refresh(installedApps: library.apps)
         }
         .rescanOnExclusionChange("InstallerList") { await installers.refresh(installedApps: library.apps) }

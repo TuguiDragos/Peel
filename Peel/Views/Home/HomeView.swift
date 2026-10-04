@@ -112,7 +112,17 @@ struct HomeContent: View {
     /// removal is shown only in the menu bar panel, since a fourth sticker doesn't fit the column.
     private var totals: some View {
         HStack(spacing: 10) {
-            DeviceSticker(value: stats.bytesFreed.text, amount: Double(stats.bytesFreed.known), label: "Moved to Trash", fill: Album.orange, ink: Album.onOrange, labelOpacity: 1, width: 86, radius: 16, angle: -3)
+            DeviceSticker(
+                value: stats.bytesFreed.text,
+                amount: Double(stats.bytesFreed.known),
+                label: "Moved to Trash",
+                fill: Album.orange,
+                ink: Album.onOrange,
+                labelOpacity: 1,
+                width: 86,
+                radius: 16,
+                angle: -3
+            )
             DeviceSticker(
                 value: stats.appsRemoved.shortCount,
                 amount: Double(stats.appsRemoved),
@@ -132,9 +142,33 @@ struct HomeContent: View {
 
     private func specs(_ device: DeviceInfo) -> some View {
         HStack(spacing: 12) {
-            DeviceSticker(value: device.chipName, label: "Chip", fill: Album.charcoal, ink: .white, width: 62, radius: 12, angle: -4)
-            DeviceSticker(value: device.memory.formatted(.byteCount(style: .memory)), label: "Memory", fill: Album.cream, ink: Album.charcoal, width: 66, radius: 33, angle: 3)
-            DeviceSticker(value: device.systemVersion, label: "macOS", fill: Album.quietFill, ink: Album.ink, width: 76, radius: 31, angle: -1.5)
+            DeviceSticker(
+                value: device.chipName,
+                label: "Chip",
+                fill: Album.charcoal,
+                ink: .white,
+                width: 62,
+                radius: 12,
+                angle: -4
+            )
+            DeviceSticker(
+                value: device.memory.formatted(.byteCount(style: .memory)),
+                label: "Memory",
+                fill: Album.cream,
+                ink: Album.charcoal,
+                width: 66,
+                radius: 33,
+                angle: 3
+            )
+            DeviceSticker(
+                value: device.systemVersion,
+                label: "macOS",
+                fill: Album.quietFill,
+                ink: Album.ink,
+                width: 76,
+                radius: 31,
+                angle: -1.5
+            )
         }
         .fixedSize(horizontal: false, vertical: true)
     }

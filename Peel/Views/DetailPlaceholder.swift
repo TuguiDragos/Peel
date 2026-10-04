@@ -52,6 +52,11 @@ struct DetailPlaceholder: View {
 extension DetailPlaceholder {
     /// A tool's own pane: its name, what it holds, and the instruction only when there is something to choose.
     init(tool: Tool, summary: AttributedString?, instruction: LocalizedStringResource) {
-        self.init(title: tool.title, systemImage: tool.systemImage, description: summary == nil ? nil : instruction, summary: summary.map { Text($0) })
+        self.init(
+            title: tool.title,
+            systemImage: tool.systemImage,
+            description: summary == nil ? nil : instruction,
+            summary: summary.map { Text($0) }
+        )
     }
 }

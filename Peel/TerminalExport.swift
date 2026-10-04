@@ -14,7 +14,11 @@ enum TerminalExport {
             try FileManager.default.createDirectory(at: renders, withIntermediateDirectories: true)
             try FileManager.default.createDirectory(at: prompts, withIntermediateDirectories: true)
             for theme in TerminalThemeCatalog.all {
-                let profile = try PropertyListSerialization.data(fromPropertyList: TerminalProfile.settings(for: theme), format: .xml, options: 0)
+                let profile = try PropertyListSerialization.data(
+                    fromPropertyList: TerminalProfile.settings(for: theme),
+                    format: .xml,
+                    options: 0
+                )
                 try profile.write(to: themes.appending(path: "\(theme.profileName).terminal"))
                 try render(TerminalSession(theme: theme).frame(width: 300), to: renders.appending(path: "\(theme.name).png"))
             }
@@ -33,7 +37,9 @@ enum TerminalExport {
     private static func render(_ view: some View, to url: URL) throws {
         let renderer = ImageRenderer(content: view.environment(\.colorScheme, .dark))
         renderer.scale = 4
-        guard let image = renderer.cgImage, let png = NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:]) else {
+        guard let image = renderer.cgImage,
+              let png = NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:])
+        else {
             throw CocoaError(.fileWriteUnknown)
         }
         try png.write(to: url)

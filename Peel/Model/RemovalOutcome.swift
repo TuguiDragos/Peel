@@ -28,7 +28,9 @@ final class RemovalOutcome {
         privacy resets: [(app: InstalledApp, result: PrivacyReset.Result)] = [],
         appsToQuit: [String] = []
     ) {
-        let privacy = PrivacyReset.worthTelling(resets, after: result).map { Privacy(app: $0.app.name, result: $0.result) }
+        let privacy = PrivacyReset.worthTelling(resets, after: result).map {
+            Privacy(app: $0.app.name, result: $0.result)
+        }
         guard !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty else { return }
         failures = result.failures
         movedCount = result.trashed.count

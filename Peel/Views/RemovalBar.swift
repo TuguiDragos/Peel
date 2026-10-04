@@ -61,7 +61,11 @@ struct RemovalBar: View {
         systemImage: String = "trash",
         notice: BarNotice? = nil
     ) {
-        purpose = .own(SizeTotal(known: selectedSize, isComplete: isSelectionMeasured), isEnabled: isEnabled, onRemove: onRemove)
+        purpose = .own(
+            SizeTotal(known: selectedSize, isComplete: isSelectionMeasured),
+            isEnabled: isEnabled,
+            onRemove: onRemove
+        )
         self.isScanning = isScanning
         self.isWorking = isWorking
         self.scan = scan
@@ -91,7 +95,12 @@ struct RemovalBar: View {
     private var reading: Reading {
         switch purpose {
         case .own(let total, let isEnabled, let onRemove):
-            return Reading(total: total, pages: nil, isEnabled: isEnabled && !isScanning && !isWorking, remove: onRemove)
+            return Reading(
+                total: total,
+                pages: nil,
+                isEnabled: isEnabled && !isScanning && !isWorking,
+                remove: onRemove
+            )
         case .carried(let page, _):
             let parts = carrier.parts(from: page)
             return Reading(

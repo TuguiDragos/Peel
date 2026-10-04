@@ -95,7 +95,8 @@ struct RemovalFailureAlert: ViewModifier {
     /// That refusal comes from App Management, which the user can allow in System Settings.
     private var needsAppManagement: Bool {
         outcome.failures.contains { failure in
-            failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app" && AppManagement.isRefusedForWantOfPermission(failure.url)
+            failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app"
+                && AppManagement.isRefusedForWantOfPermission(failure.url)
         }
     }
 
