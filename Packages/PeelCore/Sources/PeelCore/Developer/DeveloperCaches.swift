@@ -946,8 +946,8 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Blender", .cache, source: "https://projects.blender.org/blender/blender/src/commit/703834468bfa0464da39634f3cf346a078d5236c/source/blender/blenkernel/intern/appdir.cc#L228"),
         ]),
         Definition(id: "adobe", name: "Adobe Media Cache", systemImage: "play.rectangle", appBundleIdentifiers: [], folders: [
-            Folder("Library/Application Support/Adobe/Common/Media Cache Files", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/manage-media-cache.html"),
-            Folder("Library/Application Support/Adobe/Common/Media Cache", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/manage-media-cache.html"),
+            Folder("Library/Application Support/Adobe/Common/Media Cache Files", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/delete-media-cache-files-manually.html"),
+            Folder("Library/Application Support/Adobe/Common/Media Cache", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/delete-media-cache-files-manually.html"),
         ]),
         // Quantum computing. Everything else these SDKs write in the home folder is settings or an account
         // token, so only these three folders are listed.
