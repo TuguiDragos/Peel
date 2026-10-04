@@ -107919,108 +107919,108 @@
         }
       }
     },
-    "Run the command in Terminal to use peel from anywhere, then type peel --help to see what it can do." : {
+    "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spusťte příkaz v Terminálu, abyste mohli peel používat odkudkoli, a pak zadáním peel --help zjistíte, co umí."
+            "value" : "Spusťte příkaz v Terminálu, abyste mohli `peel` používat odkudkoli, a pak zadáním `peel --help` zjistíte, co umí."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Führe den Befehl im Terminal aus, um peel überall zu verwenden, und gib dann „peel --help“ ein, um zu sehen, was es kann."
+            "value" : "Führe den Befehl im Terminal aus, um `peel` überall zu verwenden, und gib dann `peel --help` ein, um zu sehen, was es kann."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ejecuta el comando en Terminal para usar peel desde cualquier sitio y luego escribe peel --help para ver lo que puede hacer."
+            "value" : "Ejecuta el comando en Terminal para usar `peel` desde cualquier sitio y luego escribe `peel --help` para ver lo que puede hacer."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exécutez la commande dans Terminal pour utiliser peel depuis n’importe où, puis saisissez peel --help pour voir ce qu’il sait faire."
+            "value" : "Exécutez la commande dans Terminal pour utiliser `peel` depuis n’importe où, puis saisissez `peel --help` pour voir ce qu’il sait faire."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esegui il comando in Terminale per usare peel da qualsiasi posizione, poi digita peel --help per vedere cosa può fare."
+            "value" : "Esegui il comando in Terminale per usare `peel` da qualsiasi posizione, poi digita `peel --help` per vedere cosa può fare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルでコマンドを実行すると、どこからでもpeelを使えるようになります。その後、peel --helpと入力すると、できることを確認できます。"
+            "value" : "ターミナルでコマンドを実行すると、どこからでも`peel`を使えるようになります。その後、`peel --help`と入力すると、できることを確認できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 이 명령을 실행하면 어디서든 peel을 사용할 수 있습니다. 그런 다음 peel --help를 입력하면 peel로 할 수 있는 작업을 볼 수 있습니다."
+            "value" : "터미널에서 이 명령을 실행하면 어디서든 `peel`을 사용할 수 있습니다. 그런 다음 `peel --help`를 입력하면 이 도구로 할 수 있는 작업을 볼 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer het commando uit in Terminal om peel overal te kunnen gebruiken, en typ daarna peel --help om te zien wat het kan."
+            "value" : "Voer het commando uit in Terminal om `peel` overal te kunnen gebruiken, en typ daarna `peel --help` om te zien wat het kan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uruchom polecenie w Terminalu, aby móc używać peel w dowolnym miejscu, a potem wpisz peel --help, aby zobaczyć, co potrafi."
+            "value" : "Uruchom polecenie w Terminalu, aby móc używać `peel` w dowolnym miejscu, a potem wpisz `peel --help`, aby zobaczyć, co potrafi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Execute o comando no Terminal para usar o peel de qualquer lugar e depois digite peel --help para ver o que ele pode fazer."
+            "value" : "Execute o comando no Terminal para usar o `peel` de qualquer lugar e depois digite `peel --help` para ver o que ele pode fazer."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rulați comanda în Terminal pentru a folosi peel de oriunde, apoi tastați peel --help pentru a vedea ce poate face."
+            "value" : "Rulați comanda în Terminal pentru a folosi `peel` de oriunde, apoi tastați `peel --help` pentru a vedea ce poate face."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выполните команду в Терминале, чтобы использовать peel откуда угодно, а затем введите peel --help, чтобы узнать, что он умеет."
+            "value" : "Выполните команду в Терминале, чтобы использовать `peel` откуда угодно, а затем введите `peel --help`, чтобы узнать, что он умеет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kör kommandot i Terminal för att kunna använda peel var som helst, och skriv sedan peel --help för att se vad det kan göra."
+            "value" : "Kör kommandot i Terminal för att kunna använda `peel` var som helst, och skriv sedan `peel --help` för att se vad det kan göra."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "peel aracını her yerden kullanmak için komutu Terminal’de çalıştırın, ardından neler yapabildiğini görmek için peel --help yazın."
+            "value" : "`peel` aracını her yerden kullanmak için komutu Terminal’de çalıştırın, ardından neler yapabildiğini görmek için `peel --help` yazın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виконайте команду в Терміналі, щоб користуватися peel з будь-якого місця, а потім введіть peel --help, щоб побачити, що вона вміє."
+            "value" : "Виконайте команду в Терміналі, щоб користуватися `peel` з будь-якого місця, а потім введіть `peel --help`, щоб побачити, що вона вміє."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在“终端”中运行该命令，即可在任何位置使用peel，然后键入peel --help查看它能做什么。"
+            "value" : "在“终端”中运行该命令，即可在任何位置使用`peel`，然后键入`peel --help`查看它能做什么。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在「終端機」中執行此指令，即可在任何位置使用peel，然後輸入peel --help查看它能做什麼。"
+            "value" : "在「終端機」中執行此指令，即可在任何位置使用`peel`，然後輸入`peel --help`查看它能做什麼。"
           }
         }
       }

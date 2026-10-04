@@ -268,7 +268,7 @@ private struct GeneralSettingsView: View {
                     }
                 } label: {
                     titled("Command-line tool",
-                           "Run the command in Terminal to use peel from anywhere, then type peel --help to see what it can do.")
+                           "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do.")
                 }
                 switch Self.place {
                 case .applications:
