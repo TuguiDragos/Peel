@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct ShellFileTests {
@@ -152,5 +153,56 @@ struct ZshRequirementsTests {
         #expect(!ShellSetting.prefixSearch.isKnown(by: known.subtracting(["function:up-line-or-beginning-search"])))
         #expect(!PromptStyle.arrowAndBranch.isKnown(by: known.subtracting(["function:vcs_info"])))
         #expect(PromptStyle.macOS.isKnown(by: []))
+    }
+}
+
+struct PeelLinesCommandTests {
+    private func run(_ command: String, home: URL) async throws -> Int32 {
+        let answer = await Subprocess.run("/bin/zsh", ["-f", "-c", command], environment: ["HOME": home.path(percentEncoded: false), "PATH": "/usr/bin:/bin"], timeout: 10)
+        guard case .success(let output) = answer else { throw POSIXError(.EIO) }
+        #expect(output.errorText.isEmpty, "\(output.errorText)")
+        return output.status
+    }
+
+    private func madeUpHome() throws -> URL {
+        let home = FileManager.default.temporaryDirectory.appending(path: "PeelLines-\(UUID().uuidString)", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
+        return home
+    }
+
+    @Test func theShellsCommandAddsTheLineAtTheEndOfZshrcAndPeelFindsIt() async throws {
+        let home = try madeUpHome()
+        let file = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
+        let zshrc = home.appending(path: ".zshrc")
+        let line = ShellFile.line(sourcing: file, home: home)
+        let command = ShellFile.command(adding: line, to: zshrc, home: home)
+        #expect(command.hasSuffix(" >> ~/.zshrc"))
+        #expect(try await run(command, home: home) == 0)
+        #expect(try String(contentsOf: zshrc, encoding: .utf8) == line + "\n")
+        #expect(ShellFile.isSourced(file, from: zshrc, home: home))
+        try "setopt AUTO_CD\n".write(to: zshrc, atomically: true, encoding: .utf8)
+        #expect(try await run(command, home: home) == 0)
+        #expect(try String(contentsOf: zshrc, encoding: .utf8) == "setopt AUTO_CD\n" + line + "\n")
+    }
+
+    @Test func theSSHCommandMakesAClosedFolderAndAddsTheLinesPeelFinds() async throws {
+        let home = try madeUpHome()
+        let file = SSHFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
+        let config = home.appending(path: ".ssh/config")
+        let lines = SSHFile.lines(including: file, home: home)
+        #expect(try await run(SSHFile.command(adding: lines, to: config, home: home), home: home) == 0)
+        let folder = try FileManager.default.attributesOfItem(atPath: config.deletingLastPathComponent().path(percentEncoded: false))
+        #expect((folder[.posixPermissions] as? Int) == 0o700)
+        #expect(try String(contentsOf: config, encoding: .utf8) == "\n" + lines.joined(separator: "\n") + "\n")
+        #expect(SSHFile.isIncluded(file, from: config, home: home))
+    }
+
+    @Test func aPathOutsideTheHomeOrWithASpaceIsQuotedForTheShell() {
+        let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
+        #expect(home.appending(path: ".zshrc").pathForTheShell(home: home) == "~/.zshrc")
+        #expect(home.appending(path: "My Files/.zshrc").pathForTheShell(home: home) == "'/Users/example/My Files/.zshrc'")
+        #expect(URL(filePath: "/etc/it's").pathForTheShell(home: home) == "'/etc/it'\\''s'")
+        #expect(ShellSessions.zsh(startupFile: home.appending(path: ".zshenv")).zshrc == home.appending(path: ".zshrc"))
+        #expect(ShellSessions.bash.zshrc == nil)
     }
 }

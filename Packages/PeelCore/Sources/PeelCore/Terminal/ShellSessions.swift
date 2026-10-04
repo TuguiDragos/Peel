@@ -21,6 +21,12 @@ public enum ShellSessions: Sendable, Equatable {
         }
     }
 
+    /// The `.zshrc` beside the `.zshenv` zsh reads, where the line that sources Peel's file goes.
+    public var zshrc: URL? {
+        guard case .zsh(let zshenv) = self else { return nil }
+        return zshenv.deletingLastPathComponent().appending(path: ".zshrc", directoryHint: .notDirectory)
+    }
+
     public var name: String {
         switch self {
         case .zsh: "zsh"

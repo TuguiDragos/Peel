@@ -65,6 +65,11 @@ public enum ShellFile {
         return "[[ -r \(path) ]] && source \(path)"
     }
 
+    /// The command that adds `line` at the end of `startupFile`, which it makes when there is none.
+    public static func command(adding line: String, to startupFile: URL, home: URL) -> String {
+        "printf '%s\\n' \(line.quotedForTheShell) >> \(startupFile.pathForTheShell(home: home))"
+    }
+
     /// Whether a line of `startupFile` that is not a comment names the file, however its spaces are written.
     public static func isSourced(_ url: URL, from startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
