@@ -444,7 +444,7 @@ struct AppDetailView: View {
         }
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
-            await library.load()
+            await library.checkAgain(await library.refresh())
         } else {
             await plan.refresh(installedApps: library.apps, canUseHelper: helper.canAct, casks: homebrew.caskEvidence, receipts: homebrew.receipts)
         }

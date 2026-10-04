@@ -74,10 +74,7 @@ struct AppList: View {
             ToolbarItem {
                 // The folder watcher reads the apps on its own; this is for someone who has just installed one.
                 RescanButton(isRunning: $isRescanning, isDisabled: library.isLoading, scan: library.scanRun) {
-                    let changed = await library.refresh()
-                    guard !changed.isEmpty else { return }
-                    await library.checkForUpdates(changed, force: true)
-                    await library.checkSigningTeams()
+                    await library.checkAgain(await library.refresh())
                 }
             }
         }

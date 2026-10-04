@@ -138,13 +138,7 @@ struct PeelApp: App {
         // A bundle that changed on disk is a different build, and what was cached about it describes the old
         // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
         // `brew upgrade` in Terminal.
-        if checksForAppUpdates, !changed.isEmpty {
-            await library.checkForUpdates(changed, force: true)
-        }
-        // A new build may be signed by a different team.
-        if !changed.isEmpty {
-            await library.checkSigningTeams()
-        }
+        await library.checkAgain(changed)
         // A newly installed app has never been checked, so it is due. The round checks only the apps that
         // are due.
         if checksForAppUpdates {
@@ -169,13 +163,7 @@ struct PeelApp: App {
             Task {
                 // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
                 // one reports what changed, and it may be this one rather than the folder watcher's.
-                let changed = await library.refreshUnlessRecent()
-                if checksForAppUpdates, !changed.isEmpty {
-                    await library.checkForUpdates(changed, force: true)
-                }
-                if !changed.isEmpty {
-                    await library.checkSigningTeams()
-                }
+                await library.checkAgain(await library.refreshUnlessRecent())
             }
             // A watch that could not start, for want of Full Disk Access or for any other reason, is tried again.
             if watchesTrash, trashMonitor.status != .watching {

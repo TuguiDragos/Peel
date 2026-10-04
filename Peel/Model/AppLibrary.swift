@@ -173,15 +173,21 @@ final class AppLibrary {
         shown.count > 1
     }
 
+    /// The first reading of the folders, at launch. A reading the folder watch starts meanwhile takes its place
+    /// and lists the apps itself.
     func load() async {
         isLoading = true
         lastRead = .now
-        let found = await AppCatalog.installedApps()
-        adopt(found)
+        let found = await scanRun.run { await AppCatalog.installedApps() }
+        if let found {
+            adopt(found)
+        }
         recall()
         isLoading = false
         hasLoaded = true
-        await AppMemory().remember(found)
+        if let found {
+            await AppMemory().remember(found)
+        }
     }
 
     /// Calls `refresh()` unless the folders were read in the last 30 seconds. For Peel coming forward:
@@ -227,6 +233,14 @@ final class AppLibrary {
         // Files is still known. Done last, so nothing above is left half done while this waits.
         await AppMemory().remember(found)
         return changed
+    }
+
+    /// Checks again what a reading found at another build: whether it has an update and who signs it, since what
+    /// Peel learned was about the old build.
+    func checkAgain(_ changed: [InstalledApp]) async {
+        guard !changed.isEmpty else { return }
+        await checkForUpdates(changed, force: true)
+        await checkSigningTeams()
     }
 
     /// Takes a new reading of the folders and returns the apps whose build changed. Drops whatever was cached
