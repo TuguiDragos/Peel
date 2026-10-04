@@ -7721,6 +7721,218 @@
         }
       }
     },
+    "A name can’t have a slash or a colon in it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název nemůže obsahovat lomítko ani dvojtečku."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Name darf weder einen Schrägstrich noch einen Doppelpunkt enthalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nombre no puede contener una barra “/” ni dos puntos “:”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nom ne peut contenir ni barre oblique ni deux-points."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nome non può contenere una barra né i due punti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前にスラッシュまたはコロンを含めることはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름에는 슬래시나 콜론을 포함할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een naam mag geen schuine streep of dubbele punt bevatten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa nie może zawierać ukośnika ani dwukropka."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um nome não pode ter barra nem dois-pontos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nume nu poate conține o bară oblică „/” sau două puncte „:”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя не может содержать косую черту или двоеточие."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett namn får inte innehålla snedstreck eller kolon."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ad, eğik çizgi veya iki nokta üst üste içeremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назва не може містити скісну риску або двокрапку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称中不能包含斜线或冒号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名稱不能包含斜線或冒號。"
+          }
+        }
+      }
+    },
+    "A name can’t start with a period, or the screenshots would be hidden." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název nemůže začínat tečkou, jinak by snímky obrazovky byly skryté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Name darf nicht mit einem Punkt beginnen, sonst wären die Bildschirmfotos ausgeblendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nombre no puede empezar por un punto, porque las capturas de pantalla quedarían ocultas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nom ne peut pas commencer par un point, sinon les captures d’écran seraient masquées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nome non può iniziare con un punto, altrimenti gli screenshot sarebbero nascosti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前をピリオドで始めることはできません。ピリオドで始めると、スクリーンショットが非表示になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름은 마침표로 시작할 수 없습니다. 마침표로 시작하면 스크린샷이 숨겨집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een naam mag niet met een punt beginnen, anders zouden de schermafbeeldingen verborgen zijn."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa nie może zaczynać się od kropki, bo w przeciwnym razie zrzuty ekranu byłyby ukryte."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um nome não pode começar com um ponto, senão as capturas de tela ficariam ocultas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nume nu poate începe cu un punct „.”, altfel capturile de ecran ar fi ascunse."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя не может начинаться с точки, иначе снимки экрана будут скрыты."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett namn får inte börja med en punkt, annars skulle skärmavbilderna bli gömda."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ad, nokta ile başlayamaz, yoksa ekran resimleri gizlenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назва не може починатися з крапки, інакше знімки екрана були б приховані."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称不能以句点开头，否则截屏会被隐藏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名稱不能以句點開頭，否則截圖會隱藏起來。"
+          }
+        }
+      }
+    },
     "A package Homebrew is in the middle of installing may be left half installed, and may need installing again." : {
       "localizations" : {
         "cs" : {
@@ -101016,6 +101228,112 @@
         }
       }
     },
+    "Put back the screenshot name" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vrátit zpět název snímků obrazovky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorherigen Namen für Bildschirmfotos wiederherstellen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar el nombre de las capturas de pantalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remettre le nom des captures d’écran"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripristina il nome degli screenshot"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットの名前を戻す"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷 이름 되돌려 놓기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet de naam van schermafbeeldingen terug"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przywróć nazwę zrzutów ekranu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar de volta o nome das capturas de tela"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puneți înapoi numele pentru capturi de ecran"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить имя для снимков экрана"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägg tillbaka namnet för skärmavbilder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resmi adını yerine koy"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повернути назад назву знімків екрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复原来的截屏名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原截圖名稱"
+          }
+        }
+      }
+    },
     "Put back the settings saved for %@ on %@?" : {
       "localizations" : {
         "cs" : {
@@ -124489,6 +124807,112 @@
         }
       }
     },
+    "That name is too long for a file name." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento název je pro název souboru příliš dlouhý."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Name ist für einen Dateinamen zu lang."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese nombre es demasiado largo para un nombre de archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce nom est trop long pour un nom de fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo nome è troppo lungo per il nome di un file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その名前はファイル名としては長すぎます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "해당 이름은 파일 이름으로 사용하기에 너무 깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die naam is te lang voor een bestandsnaam."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta nazwa jest zbyt długa jak na nazwę pliku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse nome é longo demais para um nome de arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest nume este prea lung pentru un nume de fișier."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это имя слишком длинное для имени файла."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det namnet är för långt för ett filnamn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ad, bir dosya adı için çok uzun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця назва задовга для назви файлу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该名称太长，无法用作文件名。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個名稱太長，無法用作檔案名稱。"
+          }
+        }
+      }
+    },
     "That would hide too much from Peel. Choose the folders inside it that matter to you.\n\n%@" : {
       "localizations" : {
         "cs" : {
@@ -145548,6 +145972,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沙盒App（例如來自App Store的App）在自己的容器中快取或留作暫存檔案的內容，以及在與同一廠商的App共用的容器中快取的內容。已打開的App正在使用的內容會保留，而Apple自家App的快取會列出，但絕不會選取。"
+          }
+        }
+      }
+    },
+    "What screenshots are named" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak se jmenují snímky obrazovky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie Bildschirmfotos heißen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo se llaman las capturas de pantalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom des captures d’écran"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come vengono chiamati gli screenshot"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットの名前"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷 이름"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe schermafbeeldingen heten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak są nazywane zrzuty ekranu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como as capturas de tela são nomeadas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cum sunt denumite capturile de ecran"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как называются снимки экрана"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vad skärmavbilder heter"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimlerine verilen ad"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як називаються знімки екрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏的名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖的名稱"
           }
         }
       }
@@ -166620,6 +167150,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會執行使用此名稱的工作，但這個檔案不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
+          }
+        }
+      }
+    },
+    "macOS starts their names with Screenshot. Type another name to use instead." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS začíná jejich názvy slovy „Snímek obrazovky“. Zadejte jiný název, který se použije místo nich."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS setzt „Bildschirmfoto“ an den Anfang ihrer Namen. Gib einen anderen Namen ein, der stattdessen verwendet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS les pone nombres que empiezan por “Captura de pantalla”. Escribe otro nombre para usarlo en su lugar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS commence leur nom par « Capture d’écran ». Saisissez un autre nom à utiliser à la place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS fa iniziare il loro nome con Screenshot. Digita un altro nome da usare al suo posto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、スクリーンショットの名前を“スクリーンショット”で始めます。代わりに使う名前を入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 스크린샷 이름을 ‘스크린샷’으로 시작합니다. 대신 사용할 다른 이름을 입력하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laat hun namen beginnen met 'Schermafbeelding'. Typ een andere naam om die in plaats daarvan te gebruiken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zaczyna ich nazwy od słów „Zrzut ekranu”. Wpisz inną nazwę, aby jej używać zamiast tych słów."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS começa o nome delas com “Captura de Tela”. Digite outro nome para usar no lugar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS le dă nume care încep cu „Captură de ecran”. Introduceți alt nume care să fie folosit în schimb."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS начинает их имена со слов «Снимок экрана». Введите другое имя, чтобы использовать его вместо этих слов."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS börjar deras namn med Skärmavbild. Skriv ett annat namn att använda i stället."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onların adlarını Ekran Resmi ile başlatır. Bunun yerine kullanılacak başka bir ad yazın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS починає їхні назви словами «Знімок екрана». Введіть іншу назву, щоб використовувати її натомість."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS会让它们的名称以“截屏”开头。你可以键入其他名称来代替它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會以「截圖」作為截圖名稱的開頭。請輸入要改用的其他名稱。"
           }
         }
       }

@@ -15,6 +15,7 @@ public struct Tweak: Sendable, Hashable, Identifiable {
         case aSwitchForThisAppAlone(Value)
         /// A folder the user picks, written as an absolute path.
         case folder
+        case name
     }
 
     public enum Restart: String, Sendable, Hashable {
@@ -60,12 +61,13 @@ public struct Tweak: Sendable, Hashable, Identifiable {
 
 /// A tweak's current state, as read from the preferences.
 public struct TweakState: Sendable, Hashable {
-    /// True when the key holds the value this tweak writes. For a folder tweak, true when the key holds a path.
+    /// True when the key holds the value this tweak writes. For a folder or a name tweak, true when the key holds
+    /// a path or a name.
     public let isOn: Bool
     /// True when the value is managed, for example by a configuration profile, so Peel can't change it.
     public let isManaged: Bool
-    /// For a folder tweak, the path it holds.
-    public let path: String?
+    /// For a folder tweak, the path it holds; for a name tweak, the name.
+    public let text: String?
 
-    public static let unset = TweakState(isOn: false, isManaged: false, path: nil)
+    public static let unset = TweakState(isOn: false, isManaged: false, text: nil)
 }

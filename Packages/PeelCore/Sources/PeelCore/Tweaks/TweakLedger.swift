@@ -3,7 +3,7 @@ import Foundation
 /// The reads and writes `TweakLedger` needs. `TweakStore` provides them through CFPreferences.
 public protocol TweakStoring {
     func storedValue(of tweak: Tweak) -> Any?
-    func turnOn(_ tweak: Tweak, path: String?) -> Bool
+    func turnOn(_ tweak: Tweak, text: String?) -> Bool
     /// Writes `value` back, or removes the key when there is none, which hands the setting back to macOS.
     func restore(_ value: Any?, for tweak: Tweak) -> Bool
 }
@@ -48,10 +48,10 @@ public struct TweakLedger {
         }
     }
 
-    public mutating func turnOn(_ tweak: Tweak, path: String? = nil, in store: some TweakStoring) -> Outcome {
+    public mutating func turnOn(_ tweak: Tweak, text: String? = nil, in store: some TweakStoring) -> Outcome {
         let before = store.storedValue(of: tweak)
         let wasPeels = holdsPeelsChange(tweak, stored: before)
-        guard store.turnOn(tweak, path: path) else { return .refused }
+        guard store.turnOn(tweak, text: text) else { return .refused }
         let after = store.storedValue(of: tweak)
         // A key that already held the value was not changed by Peel, so turning it off later removes the key,
         // as for any setting made outside Peel.
@@ -102,7 +102,7 @@ public struct TweakLedger {
         guard !state.isManaged else { return false }
         switch tweak.kind {
         case .aSwitch, .aSwitchForThisAppAlone: return state.isOn
-        case .folder: return holdsPeelsChange(tweak, stored: state.path)
+        case .folder, .name: return holdsPeelsChange(tweak, stored: state.text)
         }
     }
 

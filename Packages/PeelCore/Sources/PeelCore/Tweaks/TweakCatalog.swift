@@ -130,6 +130,16 @@ public enum TweakCatalog {
             documentation: .undocumented
         ),
         Tweak(
+            id: "screenshot-name",
+            domain: "com.apple.screencapture",
+            key: "name",
+            kind: .name,
+            restart: .none,
+            group: .screenshots,
+            hasASystemControl: false,
+            documentation: .undocumented
+        ),
+        Tweak(
             id: "screenshot-jpg",
             domain: "com.apple.screencapture",
             key: "type",

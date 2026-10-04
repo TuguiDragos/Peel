@@ -76,6 +76,10 @@ extension Tweak {
             title: "Screenshot names without the date",
             detail: "The name leaves out the date and time."
         ),
+        "screenshot-name": Words(
+            title: "What screenshots are named",
+            detail: "macOS starts their names with Screenshot. Type another name to use instead."
+        ),
         "screenshot-jpg": Words(
             title: "Save screenshots as JPEG",
             detail: "Smaller files than PNG, with slightly less detail."

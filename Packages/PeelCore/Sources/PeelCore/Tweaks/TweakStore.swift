@@ -45,18 +45,18 @@ public struct TweakStore: Sendable, TweakStoring {
         let isManaged = Self.isForced(key, in: tweak.domain)
         let read = switch tweak.kind {
         case .aSwitchForThisAppAlone: Self.copyStored(key, from: tweak.domain)
-        case .aSwitch, .folder: Self.copy(key, from: tweak.domain)
+        case .aSwitch, .folder, .name: Self.copy(key, from: tweak.domain)
         }
         guard let current = read else {
-            return TweakState(isOn: false, isManaged: isManaged, path: nil)
+            return TweakState(isOn: false, isManaged: isManaged, text: nil)
         }
 
         switch tweak.kind {
         case .aSwitch(let wanted), .aSwitchForThisAppAlone(let wanted):
-            return TweakState(isOn: Self.matches(current, wanted), isManaged: isManaged, path: nil)
-        case .folder:
-            let path = current as? String
-            return TweakState(isOn: path?.isEmpty == false, isManaged: isManaged, path: path)
+            return TweakState(isOn: Self.matches(current, wanted), isManaged: isManaged, text: nil)
+        case .folder, .name:
+            let text = current as? String
+            return TweakState(isOn: text?.isEmpty == false, isManaged: isManaged, text: text)
         }
     }
 
@@ -83,12 +83,12 @@ public struct TweakStore: Sendable, TweakStoring {
         write(value as CFPropertyList?, for: tweak)
     }
 
-    /// Writes the value that turns `tweak` on, or `path` for a folder tweak.
+    /// Writes the value that turns `tweak` on, or `text`, the path or the name, for a folder or a name tweak.
     @discardableResult
-    public func turnOn(_ tweak: Tweak, path: String? = nil) -> Bool {
+    public func turnOn(_ tweak: Tweak, text: String? = nil) -> Bool {
         let value: CFPropertyList? = switch tweak.kind {
         case .aSwitch(let wanted), .aSwitchForThisAppAlone(let wanted): Self.property(wanted)
-        case .folder: path.map { $0 as CFString }
+        case .folder, .name: text.map { $0 as CFString }
         }
         guard let value else { return false }
         return write(value, for: tweak)

@@ -72,8 +72,8 @@ struct TweakTests {
             switch tweak.kind {
             case .aSwitch(let value), .aSwitchForThisAppAlone(let value):
                 #expect(TweakStore.matches(TweakStore.property(value), value), "\(tweak.id) does not read back as what it writes")
-            case .folder:
-                #expect(tweak.group == .screenshots, "\(tweak.id) is a folder somewhere unexpected")
+            case .folder, .name:
+                #expect(tweak.group == .screenshots, "\(tweak.id) is a folder or a name somewhere unexpected")
             }
         }
     }
@@ -122,7 +122,7 @@ struct TweakTests {
         // A tweak reads as on only when a value is stored for this user, a profile sets it, or it has a path.
         for tweak in TweakCatalog.all {
             let live = store.state(of: tweak)
-            #expect(!live.isOn || live.isManaged || store.storedValue(of: tweak) != nil || live.path != nil, "\(tweak.id) reads as on with nothing stored")
+            #expect(!live.isOn || live.isManaged || store.storedValue(of: tweak) != nil || live.text != nil, "\(tweak.id) reads as on with nothing stored")
         }
     }
 

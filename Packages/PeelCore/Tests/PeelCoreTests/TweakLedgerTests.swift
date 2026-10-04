@@ -9,9 +9,9 @@ private final class FakeStore: TweakStoring {
 
     func storedValue(of tweak: Tweak) -> Any? { values[tweak.id] }
 
-    func turnOn(_ tweak: Tweak, path: String?) -> Bool {
+    func turnOn(_ tweak: Tweak, text: String?) -> Bool {
         guard !refusesWrites else { return false }
-        values[tweak.id] = path ?? true
+        values[tweak.id] = text ?? true
         return true
     }
 
@@ -103,7 +103,7 @@ struct TweakLedgerTests {
         var ledger = TweakLedger()
         _ = ledger.turnOn(byPeel, in: store)
         store.values[byHand.id] = true
-        let on = TweakState(isOn: true, isManaged: false, path: nil)
+        let on = TweakState(isOn: true, isManaged: false, text: nil)
         let unset = TweakState.unset
 
         #expect(ledger.isOn(byPeel, state: on))
@@ -124,15 +124,28 @@ struct TweakLedgerTests {
     @Test func turningAllOffLeavesWhatNoRowWouldChange() throws {
         let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
         let aSwitch = TweakCatalog.all[0]
-        let chosenByHand = TweakState(isOn: true, isManaged: false, path: "/Users/me/Shots")
+        let chosenByHand = TweakState(isOn: true, isManaged: false, text: "/Users/me/Shots")
         var ledger = TweakLedger()
 
         #expect(!ledger.isOn(folder, state: chosenByHand))
-        #expect(!ledger.isOn(aSwitch, state: TweakState(isOn: true, isManaged: true, path: nil)))
+        #expect(!ledger.isOn(aSwitch, state: TweakState(isOn: true, isManaged: true, text: nil)))
         let store = FakeStore()
-        _ = ledger.turnOn(folder, path: "/Users/me/Peel", in: store)
-        #expect(ledger.isOn(folder, state: TweakState(isOn: true, isManaged: false, path: "/Users/me/Peel")))
+        _ = ledger.turnOn(folder, text: "/Users/me/Peel", in: store)
+        #expect(ledger.isOn(folder, state: TweakState(isOn: true, isManaged: false, text: "/Users/me/Peel")))
         #expect(!ledger.isOn(folder, state: chosenByHand), "a folder chosen since is the person's")
+    }
+
+    @Test func aNamePutBackIsTheNameFromBefore() throws {
+        let name = try #require(TweakCatalog.all.first { $0.kind == .name })
+        let store = FakeStore()
+        store.values[name.id] = "ss"
+        var ledger = TweakLedger()
+
+        #expect(!ledger.isOn(name, state: TweakState(isOn: true, isManaged: false, text: "ss")))
+        #expect(ledger.turnOn(name, text: "shot", in: store) == .changed)
+        #expect(ledger.isOn(name, state: TweakState(isOn: true, isManaged: false, text: "shot")))
+        #expect(ledger.turnOff(name, in: store) == .changed)
+        #expect(store.values[name.id] as? String == "ss")
     }
 
     /// A key the person changed in macOS after Peel did holds their choice now, never written over with what was
@@ -142,7 +155,7 @@ struct TweakLedgerTests {
         let store = FakeStore()
         store.values[folder.id] = "/Users/me/Old"
         var ledger = TweakLedger()
-        _ = ledger.turnOn(folder, path: "/Users/me/Peel", in: store)
+        _ = ledger.turnOn(folder, text: "/Users/me/Peel", in: store)
         store.values[folder.id] = "/Users/me/New"
 
         #expect(!ledger.holdsPeelsChange(folder, stored: store.values[folder.id]))

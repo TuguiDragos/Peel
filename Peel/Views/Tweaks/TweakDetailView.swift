@@ -27,6 +27,7 @@ struct TweakDetailContent: View {
 struct TweakRow: View {
     @Environment(TweakLibrary.self) private var tweaks
     let tweak: Tweak
+    @State private var nameProblem: ScreenshotName.Problem?
 
     var body: some View {
         let state = tweaks.state(of: tweak)
@@ -46,12 +47,17 @@ struct TweakRow: View {
                     )
                 }
                 // A folder tweak holds a path rather than on or off, so the path is the row's second line.
-                if let path = state.path {
+                if tweak.kind == .folder, let path = state.text {
                     Text(verbatim: path)
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                         .truncationMode(.middle)
+                } else if let nameProblem {
+                    Text(nameProblem.message)
+                        .font(.caption)
+                        .foregroundStyle(Color.accentColor)
+                        .fixedSize(horizontal: false, vertical: true)
                 } else if let restart = tweak.restart.note {
                     // Shown on the row, not only in the note: some switches restart Finder or the Dock at once,
                     // and the user should know that before using one.
@@ -147,6 +153,83 @@ struct TweakRow: View {
                 .accessibilityLabel(Text("Choose the folder for screenshots"))
             }
             .motion(value: tweaks.isChangedByPeel(tweak))
+        case .name:
+            Group {
+                if tweaks.isChangedByPeel(tweak) {
+                    Button("Put Back") {
+                        Task { await tweaks.reset(tweak) }
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .disabled(state.isManaged)
+                    .accessibilityLabel(Text("Put back the screenshot name"))
+                    .transition(.opacity)
+                }
+                TweakNameField(tweak: tweak, state: state, problem: $nameProblem)
+            }
+            .motion(value: tweaks.isChangedByPeel(tweak))
+        }
+    }
+}
+
+private struct TweakNameField: View {
+    @Environment(TweakLibrary.self) private var tweaks
+    let tweak: Tweak
+    let state: TweakState
+    @Binding var problem: ScreenshotName.Problem?
+    @State private var draft: String?
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        TextField(text: text, prompt: ScreenshotName.macOSDefault.map { Text(verbatim: $0) }) {
+            Text(tweak.words.title)
+        }
+        .labelsHidden()
+        .textFieldStyle(.roundedBorder)
+        .frame(width: 160)
+        .focused($isFocused)
+        .onSubmit(commit)
+        .onChange(of: isFocused) { _, focused in
+            if !focused { commit() }
+        }
+        .onDisappear(perform: commit)
+        .disabled(state.isManaged)
+    }
+
+    private var text: Binding<String> {
+        Binding(
+            get: { draft ?? state.text ?? "" },
+            set: {
+                draft = $0
+                problem = nil
+            }
+        )
+    }
+
+    private func commit() {
+        guard let draft else { return }
+        let name = draft.trimmingCharacters(in: .whitespaces)
+        guard name != state.text ?? "" else {
+            self.draft = nil
+            return
+        }
+        if let found = ScreenshotName.problem(with: name) {
+            problem = found
+            return
+        }
+        Task {
+            await tweaks.rename(tweak, to: name)
+            self.draft = nil
+        }
+    }
+}
+
+extension ScreenshotName.Problem {
+    var message: LocalizedStringResource {
+        switch self {
+        case .separator: "A name can’t have a slash or a colon in it."
+        case .hidden: "A name can’t start with a period, or the screenshots would be hidden."
+        case .tooLong: "That name is too long for a file name."
         }
     }
 }

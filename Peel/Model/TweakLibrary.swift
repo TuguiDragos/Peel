@@ -78,8 +78,12 @@ final class TweakLibrary {
         Task { isOn ? await turnOn(tweak) : await reset(tweak) }
     }
 
-    func turnOn(_ tweak: Tweak, path: String? = nil) async {
-        await finish(tweak, after: ledger.turnOn(tweak, path: path, in: store))
+    func turnOn(_ tweak: Tweak, text: String? = nil) async {
+        await finish(tweak, after: ledger.turnOn(tweak, text: text, in: store))
+    }
+
+    func rename(_ tweak: Tweak, to name: String) async {
+        name.isEmpty ? await reset(tweak) : await turnOn(tweak, text: name)
     }
 
     /// Turns `tweak` off. A setting Peel changed gets back the value it had before. A setting changed by hand
@@ -109,7 +113,7 @@ final class TweakLibrary {
         guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue,
               FileManager.default.isWritableFile(atPath: path)
         else { return }
-        await turnOn(tweak, path: path)
+        await turnOn(tweak, text: path)
     }
 
     /// The settings Peel could not write, so each row can say so instead of letting the switch spring back
