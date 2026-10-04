@@ -33,6 +33,17 @@ extension URL {
         (try? resourceValues(forKeys: [.isPackageKey]).isPackage) == true
     }
 
+    /// The outermost package this sits inside, such as the app around a helper app, or nil when none encloses it.
+    var enclosingPackage: URL? {
+        var found: URL?
+        var folder = standardizedFileURL.deletingLastPathComponent()
+        while folder.pathComponents.count > 1 {
+            if folder.isAPackage { found = folder }
+            folder = folder.deletingLastPathComponent()
+        }
+        return found
+    }
+
     /// Whether this is a package or sits inside one. What is inside a package belongs to it.
     var isOrIsInsideAPackage: Bool {
         var folder = standardizedFileURL

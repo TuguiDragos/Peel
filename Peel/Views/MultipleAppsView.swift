@@ -198,7 +198,7 @@ struct MultipleAppsView: View {
             isLocked: item.requiresPrivileges && !helper.canAct,
             isExcluded: item.isApplication && item.isExcluded,
             isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || (item.isApplication && item.isKeptByMacOS)
-                || item.isPeels || item.isInTheTrash,
+                || item.isPeels || item.isInTheTrash || item.enclosingPackage != nil,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
             selection: plan, isSelected: plan.isSelected(item.url)
@@ -236,6 +236,10 @@ struct MultipleAppsView: View {
         }
         if item.isInTheTrash {
             lines.append(String(localized: "Already in the Trash. What it left behind can still go."))
+        }
+        if let package = item.enclosingPackage {
+            let name = AppInspector.displayName(of: package)
+            lines.append(String(localized: "Part of \(name), so it stays where it is."))
         }
         if item.isKeptByMacOS {
             // Two literals, so the string catalog finds both.

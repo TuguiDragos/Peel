@@ -27,13 +27,18 @@ public struct BulkUninstallation: Sendable {
         public var isPeels = false
         /// An app's bundle already in the Trash. Shown, never selected, never counted.
         public var isInTheTrash = false
+        /// The package an app's bundle sits inside (`InstalledApp.enclosingPackage`). Shown, never selected, never
+        /// moved.
+        public var enclosingPackage: URL?
         /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
         public var holdsDamagedSettings = false
 
         public var id: URL { url }
         public var isApplication: Bool { match == nil }
         public var isRecommended: Bool {
-            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash else { return false }
+            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash, enclosingPackage == nil else {
+                return false
+            }
             guard let match else { return true }
             return sharedWithOthers.isEmpty && otherCopies.isEmpty && match.confidence >= .likely && match.heldBack == nil
         }
@@ -60,9 +65,9 @@ public struct BulkUninstallation: Sendable {
         self.uninstallations = uninstallations
         self.items = items
         total = SizeTotal(items
-            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.match?.heldBack?.cannotBeMoved != true }
+            .filter { !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true }
             .map { $0.isMeasured ? $0.size : nil })
-        privilegedURLs = Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
+        privilegedURLs = Set(items.filter { $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash && $0.enclosingPackage == nil && !($0.isApplication && $0.isKeptByMacOS) }.map(\.url))
     }
 
     @concurrent
@@ -91,12 +96,13 @@ public struct BulkUninstallation: Sendable {
     }
 
     /// What a checkbox can select, by the rule of an app's own page: nothing Peel leaves alone or with something
-    /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps or the helper may not
-    /// move, and nothing of Peel.
+    /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps, that sits inside
+    /// another package, or that the helper may not move, and nothing of Peel.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
-            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !item.isInTheTrash && !(item.isApplication && item.isKeptByMacOS)
-                && item.match?.heldBack?.cannotBeMoved != true && (canUseHelper || !item.requiresPrivileges)
+            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !item.isInTheTrash && item.enclosingPackage == nil
+                && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
+                && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
     }
 
@@ -143,6 +149,7 @@ public struct BulkUninstallation: Sendable {
                     isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
                     isPeels: existing.isPeels || item.isPeels,
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
+                    enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
                     holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings
                 )
             } else {
@@ -184,7 +191,8 @@ public struct BulkUninstallation: Sendable {
                 isMeasured: uninstallation.isAppMeasured,
                 isBeyondTheHelper: uninstallation.isAppBeyondTheHelper,
                 isPeels: uninstallation.isPeel,
-                isInTheTrash: uninstallation.isAppInTheTrash
+                isInTheTrash: uninstallation.isAppInTheTrash,
+                enclosingPackage: uninstallation.app.enclosingPackage
             ))
         }
 

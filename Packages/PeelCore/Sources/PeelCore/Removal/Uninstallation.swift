@@ -156,11 +156,13 @@ public struct Uninstallation: Sendable {
         return (inside.kind, components)
     }
 
-    /// True when the app itself would stay: excluded, Peel, kept by macOS, beyond the helper, or needing the
-    /// helper while it is not there. Nothing of it is then selected for the user: what it left behind would go
-    /// first, and it would stay without its settings. For an app macOS keeps, what it holds is data in use.
+    /// True when the app itself would stay: excluded, Peel, kept by macOS, part of another package, beyond the
+    /// helper, or needing the helper while it is not there. Nothing of it is then selected for the user: what it
+    /// left behind would go first, and it would stay without its settings. For an app macOS keeps, what it holds is
+    /// data in use.
     public func appStays(canUseHelper: Bool) -> Bool {
-        isExcluded || isPeel || app.isSystemProtected || isAppBeyondTheHelper || (appRequiresPrivileges && !canUseHelper)
+        isExcluded || isPeel || app.isSystemProtected || app.enclosingPackage != nil || isAppBeyondTheHelper
+            || (appRequiresPrivileges && !canUseHelper)
     }
 
     /// What is selected for the user at first: the app and the recommended leftovers that can move. Empty for
@@ -181,7 +183,8 @@ public struct Uninstallation: Sendable {
         var urls = Set(scan.leftovers.filter { leftover in
             leftover.match.heldBack?.cannotBeMoved != true && (canUseHelper || !leftover.requiresPrivileges)
         }.map(\.url))
-        if !app.isSystemProtected, !isAppBeyondTheHelper, !isAppInTheTrash, canUseHelper || !appRequiresPrivileges {
+        if !app.isSystemProtected, app.enclosingPackage == nil, !isAppBeyondTheHelper, !isAppInTheTrash,
+           canUseHelper || !appRequiresPrivileges {
             urls.insert(app.url)
         }
         return urls
@@ -189,10 +192,12 @@ public struct Uninstallation: Sendable {
 
     /// What moves when nobody reviews the list, as when Peel removes itself: the app, plus the recommended
     /// leftovers that need no helper and are certainly its own or named inside its bundle identifier (a
-    /// namespace only its maker uses). Empty when the app is excluded, kept by macOS, or needs the helper: then
-    /// nothing should start.
+    /// namespace only its maker uses). Empty when the app is excluded, kept by macOS, part of another package, or
+    /// needs the helper: then nothing should start.
     public var unreviewedSelection: [URL] {
-        guard !isExcluded, !app.isSystemProtected, !appRequiresPrivileges else { return [] }
+        guard !isExcluded, !app.isSystemProtected, app.enclosingPackage == nil, !appRequiresPrivileges else {
+            return []
+        }
         let namespace = app.bundleIdentifier.lowercased() + "."
         let own = scan.leftovers.filter { leftover in
             leftover.match.isRecommended && !leftover.requiresPrivileges
@@ -208,7 +213,8 @@ public struct Uninstallation: Sendable {
         var sizes: [Int64?] = leftovers
             .filter { $0.match.heldBack?.cannotBeMoved != true }
             .map { $0.isMeasured ? $0.size : nil }
-        if withApp, !app.isSystemProtected, !isExcluded, !isAppBeyondTheHelper, !isAppInTheTrash {
+        if withApp, !app.isSystemProtected, app.enclosingPackage == nil, !isExcluded, !isAppBeyondTheHelper,
+           !isAppInTheTrash {
             sizes.append(isAppMeasured ? appSize : nil)
         }
         return (sizes.count, SizeTotal(sizes))
@@ -217,7 +223,8 @@ public struct Uninstallation: Sendable {
     public var privilegedURLs: Set<URL> {
         guard !isExcluded, !isPeel else { return [] }
         var urls = Set(scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url))
-        if appRequiresPrivileges, !app.isSystemProtected, !isAppBeyondTheHelper, !isAppInTheTrash {
+        if appRequiresPrivileges, !app.isSystemProtected, app.enclosingPackage == nil, !isAppBeyondTheHelper,
+           !isAppInTheTrash {
             urls.insert(app.url)
         }
         return urls

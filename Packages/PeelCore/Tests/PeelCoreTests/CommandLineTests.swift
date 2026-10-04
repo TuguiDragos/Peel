@@ -615,6 +615,18 @@ struct CommandLineTests {
         try UninstallCommand.refuseIfItIsPeel(other)
     }
 
+    @Test func refusesToUninstallAnAppInsideAnotherApp() throws {
+        let outer = URL(filePath: "/Applications/Outer.app", directoryHint: .isDirectory)
+        let inner = InstalledApp(
+            url: outer.appending(path: "Contents/Applications/Inner.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.outer.inner", name: "Inner", enclosingPackage: outer
+        )
+        let alone = InstalledApp(url: outer, bundleIdentifier: "org.example.outer", name: "Outer")
+
+        #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfPartOfAnotherPackage(inner) }
+        try UninstallCommand.refuseIfPartOfAnotherPackage(alone)
+    }
+
     /// A privacy reset that was asked for but can never happen is refused before anything is listed. If it were
     /// skipped quietly, the app would go while its privacy permissions stayed on record.
     @Test func refusesAPrivacyResetItCannotDoBeforeAnythingMoves() throws {

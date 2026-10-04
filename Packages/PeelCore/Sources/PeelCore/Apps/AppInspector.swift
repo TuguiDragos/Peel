@@ -87,6 +87,7 @@ public enum AppInspector {
             architectures: executable.map(MachOHeader.architectures(ofExecutableAt:)) ?? [],
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
+            enclosingPackage: url.enclosingPackage,
             lastUsedDate: use.lastUsedDate,
             isUseRecorded: use.isRecorded,
             dateAdded: dateAdded(of: url),

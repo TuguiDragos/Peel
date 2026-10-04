@@ -376,6 +376,14 @@ struct UninstallCommand: AsyncParsableCommand {
         throw CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
     }
 
+    /// Throws for an app inside another package, such as a helper app inside the app it serves: moved alone, it
+    /// would be cut out of that package.
+    static func refuseIfPartOfAnotherPackage(_ target: InstalledApp) throws {
+        guard let package = target.enclosingPackage else { return }
+        let name = Output.plain(AppInspector.displayName(of: package))
+        throw CommandFailure("\(Output.plain(target.name)) is part of \(name), so it can't be removed on its own.")
+    }
+
     /// Throws when Peel never resets the privacy permissions of `target`. Called for `--reset-privacy` before
     /// anything is listed: skipping the reset quietly would remove the app and leave its permissions on record.
     static func refuseIfPrivacyCannotBeReset(_ target: InstalledApp) throws {
@@ -404,6 +412,7 @@ struct UninstallCommand: AsyncParsableCommand {
         guard !target.isSystemProtected else {
             throw CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
         }
+        try Self.refuseIfPartOfAnotherPackage(target)
         if resetPrivacy {
             try Self.refuseIfPrivacyCannotBeReset(target)
         }

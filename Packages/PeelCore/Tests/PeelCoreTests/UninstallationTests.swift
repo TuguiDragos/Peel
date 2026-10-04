@@ -260,6 +260,33 @@ struct UninstallationTests {
         #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
     }
 
+    /// Moved alone, an app inside another app's bundle would be cut out of it. It stays, on its own page and among
+    /// several apps alike.
+    @Test func anAppInsideAnotherAppStaysWithIt() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.outer.inner"], format: .xml, options: 0
+        )
+        let bundle = try directory.directory("home/Applications/Outer.app/Contents/Applications/Inner.app")
+        try directory.file("home/Applications/Outer.app/Contents/Applications/Inner.app/Contents/Info.plist", contents: info)
+        try directory.file("home/Library/Preferences/org.example.outer.inner.plist")
+        let installed = try #require(AppInspector.inspect(bundle))
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+        #expect(installed.enclosingPackage?.lastPathComponent == "Outer.app")
+        #expect(plan.appStays(canUseHelper: true))
+        #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(!plan.selectable(canUseHelper: true).contains(bundle))
+        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == plan.scan.leftovers.count)
+
+        let several = await BulkUninstallation.prepare([installed], installedApps: [installed], environment: environment)
+        #expect(several.suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(!several.selectable(canUseHelper: true).contains(bundle))
+        #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
+    }
+
     /// Excluded by identifier or by path, the app and everything the scan would find are left alone.
     @Test func leavesAnExcludedAppAndItsFilesAlone() async throws {
         let directory = try TemporaryDirectory()

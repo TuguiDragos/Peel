@@ -17,6 +17,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let architectures: Set<Architecture>
     public let isFromAppStore: Bool
     public let isSystemProtected: Bool
+    /// The package the app sits inside, such as the app it is a helper of. Moved alone, the app would be cut out
+    /// of that package, so it stays with it.
+    public let enclosingPackage: URL?
     /// When the app was last opened, as Spotlight records it. Nil when it never was, or when nothing records it.
     public let lastUsedDate: Date?
     /// Whether Spotlight records when the app is opened, so that no `lastUsedDate` means it never was. Spotlight
@@ -39,6 +42,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         architectures: Set<Architecture> = [.arm64],
         isFromAppStore: Bool = false,
         isSystemProtected: Bool = false,
+        enclosingPackage: URL? = nil,
         lastUsedDate: Date? = nil,
         isUseRecorded: Bool = true,
         dateAdded: Date? = nil,
@@ -57,6 +61,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.architectures = architectures
         self.isFromAppStore = isFromAppStore
         self.isSystemProtected = isSystemProtected
+        self.enclosingPackage = enclosingPackage
         self.lastUsedDate = lastUsedDate
         self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
@@ -92,6 +97,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             architectures: architectures,
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
+            enclosingPackage: enclosingPackage,
             lastUsedDate: date,
             isUseRecorded: isRecorded,
             dateAdded: dateAdded,
