@@ -23,7 +23,10 @@ struct RemovalFailureAlert: ViewModifier {
             if !outcome.failures.isEmpty {
                 Button("Copy Details") { copyDetails() }
             }
+            // The alert reports, so Return closes it. Otherwise the first other button would be the default, and Return
+            // would copy the details or open Settings.
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             Text(verbatim: message)
         }
