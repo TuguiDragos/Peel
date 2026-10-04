@@ -214,6 +214,19 @@ public enum PrivilegedHelper {
         }
     }
 
+    /// The helper's interface as Peel calls it. NSXPC checks the classes of a reply where it is decoded, which is
+    /// here, so the two dictionaries the trash method answers with are held to strings on this side: anything else
+    /// would stop Peel when Swift reads them.
+    static func remoteInterface() -> NSXPCInterface {
+        let interface = NSXPCInterface(with: (any PeelHelperProtocol).self)
+        let trash = #selector((any PeelHelperProtocol).moveItemsToTrash(version:atPaths:withReply:))
+        let strings = NSSet(array: [NSDictionary.self, NSString.self]) as? Set<AnyHashable> ?? []
+        for index in 0...1 {
+            interface.setClasses(strings, for: trash, argumentIndex: index, ofReply: true)
+        }
+        return interface
+    }
+
     private static func withHelper<T: Sendable>(
         fallback: T,
         _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
@@ -221,7 +234,7 @@ public enum PrivilegedHelper {
         guard let teamIdentifier = CodeSigning.currentTeamIdentifier() else { return fallback }
 
         let connection = NSXPCConnection(machServiceName: HelperIdentity.machServiceName, options: .privileged)
-        connection.remoteObjectInterface = NSXPCInterface(with: (any PeelHelperProtocol).self)
+        connection.remoteObjectInterface = remoteInterface()
         connection.setCodeSigningRequirement(
             CodeSigning.requirement(identifier: HelperIdentity.helperIdentifier, teamIdentifier: teamIdentifier)
         )
