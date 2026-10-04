@@ -175,6 +175,8 @@ import Testing
             "Don't": ["localizations": ["ro": unit("Nu"), "fr": unit("Non")]],
             "Can’t open %@": ["localizations": ["ro": unit("Nu se poate deschide %@"), "fr": unit("Impossible d'ouvrir %@")]],
             "Open in Photos": ["localizations": ["ro": unit("Deschide în Poze"), "fr": unit("Ouvrir dans Photos"), "nl": unit("Open in Foto's")]],
+            "%@: links": ["localizations": ["ro": unit("Linkuri %@:"), "fr": unit("liens %@")]],
+            "%@ used": ["localizations": ["ro": unit("%@ folosiți"), "fr": unit("%@ utilisés")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -207,6 +209,8 @@ import Testing
         #expect(caught["apostrophe"]?.contains("Don't") == true, "the English writes the curly apostrophe")
         #expect(caught["apostrophe"]?.contains("Can’t open %@") == true, "French writes its own apostrophe")
         #expect(caught["apostrophe"]?.contains("Open in Photos") != true, "Dutch writes the straight one, as its macOS does")
+        #expect(caught["case"]?.contains("%@: links") == true, "a word that starts the line takes a capital")
+        #expect(caught["case"]?.contains("%@ used") != true, "the line starts with the figure")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -504,6 +508,11 @@ struct CatalogChecker {
         }
         if text.contains("'"), !Self.straightApostrophe.contains(language) {
             fail(path, key, language, "apostrophe", "the straight apostrophe: write this language's own, as its macOS does")
+        }
+        // A key that starts with a placeholder starts its line, so a translation that starts with a word instead
+        // capitalizes it. A substitution sits inside its sentence.
+        if !leaf.isSubstitution, source.first == "%", let first = text.first, first.isLetter, first.isLowercase {
+            fail(path, key, language, "case", "the line starts with this word here, so it takes a capital")
         }
         if text.contains("...") { fail(path, key, language, "ellipsis", "three full stops") }
         let ellipsis: Character = language == "zh-Hant" ? "\u{22EF}" : "…"
