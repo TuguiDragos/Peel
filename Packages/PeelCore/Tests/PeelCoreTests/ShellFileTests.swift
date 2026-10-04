@@ -3,42 +3,6 @@ import Foundation
 @testable import PeelCore
 import Testing
 
-/// A made-up home whose `.zshrc` sources Peel's file, the way a person's does once they add Peel's line.
-private struct ZshHome {
-    let home: URL
-    let peelFile: URL
-
-    init() throws {
-        home = FileManager.default.temporaryDirectory.appending(path: "ShellFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        peelFile = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
-        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
-        try (ShellFile.line(sourcing: peelFile, home: home) + "\nPS1='ready> '\n")
-            .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
-    }
-
-    var environment: [String: String] {
-        ["HOME": home.path, "ZDOTDIR": home.path, "TERM": "xterm-256color", "PATH": "/usr/bin:/bin"]
-    }
-
-    /// Whether `check` holds in a new interactive zsh, which also has to start without a single error.
-    func answers(_ check: String) throws -> Bool {
-        let process = Process()
-        process.executableURL = URL(filePath: "/bin/zsh")
-        process.arguments = ["-i", "-c", "if \(check); then print yes; else print no; fi"]
-        process.environment = environment
-        let output = Pipe()
-        let errors = Pipe()
-        process.standardOutput = output
-        process.standardError = errors
-        try process.run()
-        let said = String(decoding: output.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
-        let complained = String(decoding: errors.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
-        process.waitUntilExit()
-        #expect(complained.isEmpty, "\(complained)")
-        return said == "yes\n"
-    }
-}
-
 struct ShellFileTests {
     static let inEffect: [ShellSetting: String] = [
         .longHistory: "(( HISTSIZE == 50000 && SAVEHIST == 50000 ))",
@@ -67,23 +31,23 @@ struct ShellFileTests {
         #expect(Set(Self.inEffect.keys) == Set(ShellSetting.allCases))
         for setting in ShellSetting.allCases {
             let check = try #require(Self.inEffect[setting])
-            #expect(ShellFile.write([], to: shell.peelFile))
+            #expect(ShellFile.write(.init(), to: shell.peelFile))
             #expect(try shell.answers(check) == false, "\(setting)")
-            #expect(ShellFile.write([setting], to: shell.peelFile))
+            #expect(ShellFile.write(.init(settings: [setting]), to: shell.peelFile))
             #expect(try shell.answers(check) == true, "\(setting)")
         }
     }
 
     @Test func everySettingAtOnceIsInEffectWithoutAnError() throws {
         let shell = try ZshHome()
-        #expect(ShellFile.write(Set(ShellSetting.allCases), to: shell.peelFile))
+        #expect(ShellFile.write(.init(settings: Set(ShellSetting.allCases)), to: shell.peelFile))
         let all = ShellSetting.allCases.compactMap { Self.inEffect[$0] }.map { "{ \($0) }" }.joined(separator: " && ")
         #expect(try shell.answers(all))
     }
 
     @Test func upAndDownFindTheCommandsThatStartWithWhatWasTyped() throws {
-        let shell = try ZshHome()
-        #expect(ShellFile.write([.prefixSearch], to: shell.peelFile))
+        let shell = try ZshHome(thenRun: ["PS1='ready> '"])
+        #expect(ShellFile.write(.init(settings: [.prefixSearch]), to: shell.peelFile))
         for up in ["\u{1B}[A", "\u{1B}OA"] {
             try "echo alpha\necho beta\n".write(to: shell.home.appending(path: ".zsh_history"), atomically: true, encoding: .utf8)
             let terminal = try PseudoTerminal()
@@ -110,18 +74,22 @@ struct ShellFileTests {
         }
     }
 
-    @Test func theFileReadsBackAsTheSettingsWrittenInIt() {
+    @Test func theFileReadsBackAsTheChoicesWrittenInIt() {
         for setting in ShellSetting.allCases {
-            #expect(ShellFile.settings(in: ShellFile.contents(of: [setting])) == [setting])
+            let choices = ShellFile.Choices(settings: [setting])
+            #expect(ShellFile.choices(in: ShellFile.contents(of: choices)) == choices)
         }
-        #expect(ShellFile.settings(in: ShellFile.contents(of: Set(ShellSetting.allCases))) == Set(ShellSetting.allCases))
-        #expect(ShellFile.settings(in: ShellFile.contents(of: [])).isEmpty)
+        for prompt in PromptStyle.allCases {
+            let choices = ShellFile.Choices(settings: Set(ShellSetting.allCases), prompt: prompt)
+            #expect(ShellFile.choices(in: ShellFile.contents(of: choices)) == choices)
+        }
+        #expect(ShellFile.choices(in: ShellFile.contents(of: .init())) == .init())
     }
 
     @Test func aMissingFileHasNothingOnAndOneThatCannotBeReadIsNotKnown() throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "ShellFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
         let file = ShellFile.url(in: folder)
-        #expect(ShellFile.read(file) == [])
+        #expect(ShellFile.read(file) == .init())
         try FileManager.default.createDirectory(at: file, withIntermediateDirectories: true)
         #expect(ShellFile.read(file) == nil)
     }
@@ -133,10 +101,10 @@ struct ShellFileTests {
         try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
         try "theirs\n".write(to: theirs, atomically: true, encoding: .utf8)
         try FileManager.default.createSymbolicLink(at: file, withDestinationURL: theirs)
-        #expect(ShellFile.write([.comments], to: file))
+        #expect(ShellFile.write(.init(settings: [.comments]), to: file))
         #expect(try String(contentsOf: theirs, encoding: .utf8) == "theirs\n")
         #expect(try file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink == false)
-        #expect(ShellFile.read(file) == [.comments])
+        #expect(ShellFile.read(file) == .init(settings: [.comments]))
     }
 
     @Test func theLineIsFoundInTheStartupFileUnlessItIsACommentOrSpelledAnotherWay() throws {

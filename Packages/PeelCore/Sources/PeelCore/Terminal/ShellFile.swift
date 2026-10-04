@@ -8,38 +8,53 @@ public enum ShellFile {
     static let completionSystem = "(( $+functions[compdef] )) || { autoload -Uz compinit && compinit }"
     private static let maximumBytes = 64 * 1_024
 
+    public struct Choices: Equatable, Sendable {
+        public var settings: Set<ShellSetting>
+        public var prompt: PromptStyle
+
+        public init(settings: Set<ShellSetting> = [], prompt: PromptStyle = .macOS) {
+            self.settings = settings
+            self.prompt = prompt
+        }
+    }
+
     public static func url(in folder: URL) -> URL {
         folder.appending(path: "Terminal/zshrc", directoryHint: .notDirectory)
     }
 
-    public static func contents(of settings: Set<ShellSetting>) -> String {
+    public static func contents(of choices: Choices) -> String {
         var lines = [header]
-        for setting in ShellSetting.allCases where settings.contains(setting) {
+        for setting in ShellSetting.allCases where choices.settings.contains(setting) {
             if setting.group == .completion, !lines.contains(completionSystem) {
                 lines.append(completionSystem)
             }
             lines += setting.lines
         }
+        lines += choices.prompt.lines
         return lines.joined(separator: "\n") + "\n"
     }
 
-    public static func settings(in contents: String) -> Set<ShellSetting> {
+    public static func choices(in contents: String) -> Choices {
         let lines = Set(contents.split(separator: "\n").map(String.init))
-        return Set(ShellSetting.allCases.filter { $0.lines.allSatisfy(lines.contains) })
+        let isIn: (Set<String>) -> Bool = { $0.isSubset(of: lines) }
+        return Choices(
+            settings: Set(ShellSetting.allCases.filter { isIn(Set($0.lines)) }),
+            prompt: PromptStyle.allCases.first { !$0.lines.isEmpty && isIn(Set($0.lines)) } ?? .macOS
+        )
     }
 
-    /// The settings in the file, none when it is not there, and nil when it is there and cannot be read.
-    public static func read(_ url: URL) -> Set<ShellSetting>? {
+    /// The choices in the file, none when it is not there, and nil when it is there and cannot be read.
+    public static func read(_ url: URL) -> Choices? {
         if url.isMissing {
-            return []
+            return Choices()
         }
-        return BoundedRead.data(at: url, maximum: maximumBytes).map { settings(in: String(decoding: $0, as: UTF8.self)) }
+        return BoundedRead.data(at: url, maximum: maximumBytes).map { choices(in: String(decoding: $0, as: UTF8.self)) }
     }
 
-    public static func write(_ settings: Set<ShellSetting>, to url: URL) -> Bool {
+    public static func write(_ choices: Choices, to url: URL) -> Bool {
         do {
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try Data(contents(of: settings).utf8).write(to: url, options: .atomic)
+            try Data(contents(of: choices).utf8).write(to: url, options: .atomic)
             return true
         } catch {
             return false
