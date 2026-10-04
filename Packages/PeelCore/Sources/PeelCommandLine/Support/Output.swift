@@ -184,9 +184,10 @@ enum Output {
         return "Peel couldn't look inside \(listed), so something may be there that isn't listed."
     }
 
-    /// Whether the user can answer a question: standard input and standard error must both be a terminal. The
-    /// question goes to standard error, and with that redirected the user would see only a waiting cursor.
-    static var canAsk: Bool { isatty(STDIN_FILENO) == 1 && isatty(STDERR_FILENO) == 1 }
+    /// Whether the user can answer a question about the plan printed above it: standard input, standard output and
+    /// standard error must all be a terminal. The plan goes to standard output and the question to standard error,
+    /// so with either redirected the user would answer without seeing it.
+    static var canAsk: Bool { isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1 && isatty(STDERR_FILENO) == 1 }
 
     /// Throws when the user can't be asked. Commands call this from `validate()`, where ArgumentParser knows which
     /// subcommand was typed and so prints that subcommand's usage.
@@ -198,10 +199,11 @@ enum Output {
     /// `peel uninstall Foo && next-step` would then run `next-step` anyway.
     static let declined = ExitCode(2)
 
-    /// Asks `question` on standard error, which reaches the terminal even when the output goes to a file. Throws
-    /// `declined` unless the user answers y or yes.
+    /// Asks `question` on standard error, and throws `declined` unless the user answers y or yes. What was typed
+    /// before the question appeared is dropped first, so a key pressed during a long scan never answers it.
     static func confirm(_ question: String) throws {
         try requireConfirmable()
+        tcflush(STDIN_FILENO, TCIFLUSH)
         try? FileHandle.standardError.write(contentsOf: Data(plain("\(question) [y/N] ").utf8))
         let answer = readLine()?.trimmingCharacters(in: .whitespaces).lowercased()
         guard answer == "y" || answer == "yes" else {
