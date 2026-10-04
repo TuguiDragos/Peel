@@ -36,12 +36,15 @@ final class AccessibilityAuditTests: XCTestCase {
         continueAfterFailure = true
         let app = XCUIApplication()
         // In English, so menus are found by their titles, and in the appearance asked for. Arguments come before
-        // the Mac's own settings, for Peel alone.
+        // the Mac's own settings, for Peel alone. On a Mac set to dark, `AppleInterfaceStyle` alone leaves Peel
+        // dark; `NSRequiresAquaSystemAppearance` makes the system "always apply a light appearance" (Apple,
+        // Choosing a Specific Appearance for Your macOS App).
         app.launchArguments = [
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
             "-AppleInterfaceStyleSwitchesAutomatically", "NO",
             "-AppleInterfaceStyle", appearance,
+            "-NSRequiresAquaSystemAppearance", appearance == "Light" ? "YES" : "NO",
         ]
         app.launch()
 
