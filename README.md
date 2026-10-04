@@ -160,7 +160,7 @@ lists them.
   <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no shadow around a captured window, names without the date, and JPEG instead of PNG, each with its own switch">
 </p>
 
-Small tricks that make everyday life on a Mac a little easier. Tweaks gathers 36 settings macOS already has but
+Small tricks that make everyday life on a Mac a little easier. Tweaks gathers 39 settings macOS already has but
 keeps out of sight, in six groups: Dock, Screenshots, Finder, Typing, Windows, and Privacy. Make a hidden Dock
 appear at once, save screenshots where you want them and without the floating thumbnail, show hidden files and
 every file extension in Finder, keep straight quotes as you type, drag a window from anywhere in it, or put
