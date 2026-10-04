@@ -200,8 +200,9 @@ read in one sitting.
   serial comma. A checkbox is selected or deselected, never ticked.
 - **No em or en dashes**, in the interface, in comments, or in documents, and no spaced hyphen standing in for
   one. A colon, a comma, or parentheses say the same thing, and a range reads "3 to 4". Interface text writes the
-  curly apostrophe (’), as macOS does; the `peel` tool writes its own words in plain ASCII, and names, paths,
-  and macOS's own error messages as they are, in UTF-8, with what could hide or reorder text shown as `?`.
+  curly apostrophe (’), as macOS does, and a translation the marks macOS writes in its language: Dutch keeps the
+  straight apostrophe, as Apple's Dutch does. The `peel` tool writes its own words in plain ASCII, and names,
+  paths, and macOS's own error messages as they are, in UTF-8, with what could hide or reorder text shown as `?`.
 - **Every translation lives in `Localization/`.** Peel is translated into 17 languages, in the words macOS itself
   uses in each. Write new or changed interface text in English, and run `python3 Scripts/sync_localizations.py`
   after a Debug build so the catalog lists it. The translations are added before your change is merged; until

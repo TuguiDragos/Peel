@@ -172,6 +172,9 @@ import Testing
             "Run `brew unpin`": ["localizations": ["ro": unit("Rulați brew unpin")]],
             "Uses [a tool](peel-license:tool)": ["localizations": ["ro": unit("Folosește [un instrument](peel-license:instrument)")]],
             "OrbStack": ["localizations": ["ro": unit("OrbStack"), "fr": unit("OrbStack")]],
+            "Don't": ["localizations": ["ro": unit("Nu"), "fr": unit("Non")]],
+            "Can’t open %@": ["localizations": ["ro": unit("Nu se poate deschide %@"), "fr": unit("Impossible d'ouvrir %@")]],
+            "Open in Photos": ["localizations": ["ro": unit("Deschide în Poze"), "fr": unit("Ouvrir dans Photos"), "nl": unit("Open in Foto's")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -201,6 +204,9 @@ import Testing
         #expect(caught["markdown"]?.contains("Run `brew unpin`") == true)
         #expect(caught["markdown"]?.contains("Uses [a tool](peel-license:tool)") == true, "a link's address changed")
         #expect(caught["sameEverywhere"]?.contains("OrbStack") == true, "a name or a command, never to translate")
+        #expect(caught["apostrophe"]?.contains("Don't") == true, "the English writes the curly apostrophe")
+        #expect(caught["apostrophe"]?.contains("Can’t open %@") == true, "French writes its own apostrophe")
+        #expect(caught["apostrophe"]?.contains("Open in Photos") != true, "Dutch writes the straight one, as its macOS does")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -271,6 +277,9 @@ struct CatalogChecker {
         "cs": ["one", "few", "many", "other"],
     ]
     static let dashes: Set<Character> = ["\u{2012}", "\u{2013}", "\u{2014}", "\u{2015}", "\u{2E3A}", "\u{2E3B}", "\u{FE31}", "\u{FE32}", "\u{FE58}"]
+    /// The languages whose macOS writes the straight apostrophe, inside words and as its quotes: Apple's Dutch writes
+    /// `Foto's` and `de map 'Apps'`. Every other language, English included, writes its own typographic marks.
+    static let straightApostrophe: Set<String> = ["nl"]
     /// Keys whose numbers are positions, with no word that changes with them, so they need no plural variation.
     static let countsWithoutAgreement: Set<String> = ["Step %lld of %lld"]
     /// Languages where `one` covers more than 1, so a `one` form without the number would also show for other
@@ -428,6 +437,7 @@ struct CatalogChecker {
             }
             // A key with a value of its own (`Unknown (extension state)`) is translated from that value.
             let source = englishValue(localizations) ?? key
+            if source.contains("'") { fail(path, key, "en", "apostrophe", "the straight apostrophe: write ’, as macOS does") }
             // The same words in every language are a name or a command, which no translator should be asked for.
             let values = required.map { ((localizations[$0] as? [String: Any])?["stringUnit"] as? [String: Any])?["value"] as? String }
             if !required.isEmpty, source.contains(where: \.isLetter), values.allSatisfy({ $0 == source }) {
@@ -491,6 +501,9 @@ struct CatalogChecker {
         if required.contains(language), leaf.state != "translated" { fail(path, key, language, "state", leaf.state ?? "no state") }
         if let dash = text.first(where: { Self.dashes.contains($0) }) {
             fail(path, key, language, "dash", "U+\(String(dash.unicodeScalars.first!.value, radix: 16, uppercase: true))")
+        }
+        if text.contains("'"), !Self.straightApostrophe.contains(language) {
+            fail(path, key, language, "apostrophe", "the straight apostrophe: write this language's own, as its macOS does")
         }
         if text.contains("...") { fail(path, key, language, "ellipsis", "three full stops") }
         let ellipsis: Character = language == "zh-Hant" ? "\u{22EF}" : "…"
