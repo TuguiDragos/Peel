@@ -5,9 +5,10 @@ public struct UpdateChecker: Sendable {
     /// the app's own bundle, so the server is not trusted to keep its reply small.
     private static let maximumFeedBytes = 4 * 1_024 * 1_024
 
-    /// Settings for Peel's own session, used instead of the shared one: no cookies, no cache, and time limits.
-    /// A feed server should not set a cookie, read one left by another app's check, get back a validator it could
-    /// make unique to this Mac, or hold a connection open.
+    /// Settings for Peel's own session, used instead of the shared one: no cookies, no cache, time limits, and
+    /// headers of its own. A feed server should not set a cookie, read one left by another app's check, get back a
+    /// validator it could make unique to this Mac, hold a connection open, or learn more than that Peel asks: the
+    /// system's own headers would tell it Peel's build, the macOS build and the person's languages.
     static var configuration: URLSessionConfiguration {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = 15
@@ -17,6 +18,7 @@ public struct UpdateChecker: Sendable {
         configuration.httpCookieAcceptPolicy = .never
         configuration.urlCache = nil
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        configuration.httpAdditionalHeaders = ["User-Agent": "Peel", "Accept-Language": "*"]
         return configuration
     }
 
