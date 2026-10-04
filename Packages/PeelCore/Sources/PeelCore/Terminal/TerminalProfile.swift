@@ -1,4 +1,5 @@
 import AppKit
+import CryptoKit
 
 public enum TerminalProfile {
     public static func settings(for theme: TerminalTheme) throws -> [String: Any] {
@@ -26,6 +27,11 @@ public enum TerminalProfile {
             settings["ANSI\(index < 8 ? "" : "Bright")\(ansiNames[index % 8])Color"] = try archive(color)
         }
         return settings
+    }
+
+    public static func fingerprint(of settings: [String: Any]) -> String? {
+        guard let data = try? PropertyListSerialization.data(fromPropertyList: settings, format: .xml, options: 0) else { return nil }
+        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
     private static let ansiNames = ["Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"]
