@@ -572,9 +572,8 @@ final class AppLibrary {
     }
 
     var newerPeel: PeelUpdate? {
-        let running = PathPattern.comparablePath(of: Bundle.main.bundleURL)
         guard
-            let peel = apps.first(where: { PathPattern.comparablePath(of: $0.url) == running }),
+            let peel = apps.first(where: \.isTheRunningCopy),
             let status = updateStatuses[peel.id], let version = status.displayVersion
         else { return nil }
         let command = status.source == .homebrew ? cask(for: peel).map { "brew upgrade --cask \($0.name)" } : nil

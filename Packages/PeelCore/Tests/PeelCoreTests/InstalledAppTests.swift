@@ -20,4 +20,14 @@ struct InstalledAppTests {
 
         #expect(around.isPeelItself)
     }
+
+    @Test func theRunningCopyIsTheAppTheCodeRunsFrom() {
+        let running = InstalledApp(url: Bundle.main.bundleURL, bundleIdentifier: "org.example.running", name: "Running")
+        let around = InstalledApp(url: Bundle.main.bundleURL.deletingLastPathComponent(), bundleIdentifier: "org.example.around", name: "Around")
+        let other = InstalledApp(url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor")
+
+        #expect(running.isTheRunningCopy)
+        #expect(!around.isTheRunningCopy)
+        #expect(!other.isTheRunningCopy)
+    }
 }

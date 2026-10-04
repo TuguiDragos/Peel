@@ -475,8 +475,7 @@ extension GeneralSettingsView {
 
     /// The cask Homebrew installed this copy of Peel from, found by the rule the Applications list follows.
     fileprivate var ownCask: HomebrewPackage? {
-        let own = PathPattern.comparablePath(of: Bundle.main.bundleURL)
-        guard let app = library.apps.first(where: { PathPattern.comparablePath(of: $0.url) == own }) else { return nil }
+        guard let app = library.apps.first(where: \.isTheRunningCopy) else { return nil }
         return CaskEvidence.installedCask(for: app, in: (homebrew.packages ?? []).filter { $0.kind == .cask })
     }
 }

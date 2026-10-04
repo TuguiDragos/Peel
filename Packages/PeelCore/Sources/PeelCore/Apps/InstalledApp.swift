@@ -31,6 +31,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// are unregistered first. Also true for the bundle the running code sits inside, such as the Peel that
     /// embeds the `peel` tool, whatever its name or identifier.
     public let isPeelItself: Bool
+    /// Whether this is the very bundle the running code was started from: the copy of Peel that is running.
+    public let isTheRunningCopy: Bool
 
     public init(
         url: URL,
@@ -70,7 +72,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
         self.updateFeed = updateFeed
-        isPeelItself = Self.isPeel(bundleIdentifier, at: url)
+        let path = PathPattern.comparablePath(of: url)
+        isPeelItself = Self.isPeel(bundleIdentifier, at: path)
+        isTheRunningCopy = path == Self.runningBundle
     }
 
     public var id: URL { url }
@@ -112,11 +116,11 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
 
     private static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
 
-    private static func isPeel(_ bundleIdentifier: String, at url: URL) -> Bool {
+    private static func isPeel(_ bundleIdentifier: String, at path: String) -> Bool {
         let own = HelperIdentity.appIdentifier.lowercased()
         let identifier = bundleIdentifier.lowercased()
         if identifier == own || identifier.hasPrefix(own + ".") { return true }
-        return PathComponents.isPath(runningBundle, inside: PathPattern.comparablePath(of: url))
+        return PathComponents.isPath(runningBundle, inside: path)
     }
 
     /// The name Finder shows, which follows the user's language when the app translates it, and the bundle's file
