@@ -166,10 +166,16 @@ struct ContentView: View {
 
     /// The width a page needs beside the sidebar. A tool needs its two columns, 365 and 480, the 8 points the
     /// sidebar floats in from the window's edge, and the list's divider. A page that takes the whole pane fits
-    /// beside the sidebar at the window's narrowest, except Tweaks in the languages with the longest tab titles.
+    /// beside the sidebar at the window's narrowest, except Tweaks and Terminal in the languages with the longest tab
+    /// titles.
     private var besideSidebar: CGFloat {
         if !isWholePage { return 365 + 480 + 8 + 1 }
-        return drawn.tool == .tweaks && drawn.page == nil ? TweakPage.tabBarWidth : 0
+        guard drawn.page == nil else { return 0 }
+        return switch drawn.tool {
+        case .tweaks: TweakPage.tabBarWidth
+        case .terminal: TerminalPage.tabBarWidth
+        default: 0
+        }
     }
 
     private func fitWidth(pageChanged: Bool = false) {

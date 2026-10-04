@@ -77,13 +77,13 @@ import Testing
     /// title plus 23.5 points each, or 27 at either end. The toolbar keeps the control only while its column is
     /// 24 points wider, and otherwise moves it into its overflow menu. Without the sidebar, the column must be 160
     /// points wider, since the window buttons and the sidebar button come first. When the window is too narrow for
-    /// both, the sidebar steps aside for Tweaks' tabs (`TweakPage.tabBarWidth`). The Settings window lays its tabs
-    /// out as toolbar items and is not checked here.
+    /// both, the sidebar steps aside for the tabs of Tweaks and Terminal (`TabBar.width`). The Settings window lays
+    /// its tabs out as toolbar items and is not checked here.
     @MainActor @Test func tabBarsFitTheirWindows() throws {
         let catalog = try Self.localizable()
         let settings = ["General", "Exclusions", "Privacy", "Helper"]
         let tweaks = ["Dock", "Screenshots", "Finder", "Typing", "Windows", "Privacy"]
-        let terminal = ["Themes", "Settings"]
+        let terminal = ["Themes", "Terminal", "Shell", "Git", "SSH", "Tools"]
         var problems: [String] = []
         for language in try Self.declaredLanguages() {
             let font = Self.font(NSFont.systemFont(ofSize: NSFont.systemFontSize), in: language)
@@ -101,7 +101,8 @@ import Testing
             let sidebar = max(min(ceil(widestName + Self.sidebarSymbol) + Self.sidebarRowInsets, Self.sidebarMaximum) + scroller, 220)
             let checks: [(needs: CGFloat, room: CGFloat, what: String)] = [
                 (sidebar + bar(settings) + 24, 960, "Settings' tabs beside the sidebar at the narrowest window"),
-                (sidebar + bar(terminal) + 24, 960, "Terminal's tabs beside the sidebar at the narrowest window"),
+                (sidebar + bar(terminal) + 24, 1120, "Terminal's tabs beside the sidebar at the default window"),
+                (bar(terminal) + 160, 960, "Terminal's tabs alone at the narrowest window"),
                 (sidebar + bar(tweaks) + 24, 1120, "Tweaks' tabs beside the sidebar at the default window"),
                 (bar(tweaks) + 160, 960, "Tweaks' tabs alone at the narrowest window"),
             ]
@@ -247,7 +248,7 @@ import Testing
     /// for a name.
     @Test func noVerbatimTextIsAnInterfaceSentence() throws {
         let allowed: Set<String> = [
-            "Peel", "PEEL", "brew", "Țugui Dragoș-Constantin", "github.com/TuguiDragos/Peel", "© 2026", "·",
+            "Peel", "PEEL", "brew", "brew.sh", "Țugui Dragoș-Constantin", "github.com/TuguiDragos/Peel", "© 2026", "·",
         ]
         let literal = try NSRegularExpression(pattern: #"Text\(verbatim: "((?:[^"\\]|\\.)*)"\)"#)
         var found: [String] = []

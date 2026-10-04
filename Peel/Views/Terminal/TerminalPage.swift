@@ -7,6 +7,13 @@ struct TerminalPage: View {
     @Environment(TweakLibrary.self) private var tweaks
     @Environment(RemovalHistoryStore.self) private var history
     @State private var showsWindowSwitch = false
+    @State private var shell = ShellLibrary()
+    @State private var git = GitLibrary()
+    @State private var ssh = SSHLibrary()
+    @State private var tools = TerminalToolLibrary()
+
+    static let tabTitles: [LocalizedStringResource] = ["Themes", "Terminal", "Shell", "Git", "SSH", "Tools"]
+    static let tabBarWidth = TabBar.width(of: tabTitles.map { String(localized: $0) })
 
     var body: some View {
         TabView {
@@ -21,10 +28,26 @@ struct TerminalPage: View {
                 }
                 .formStyle(.grouped)
             }
-            Tab("Settings", systemImage: "gearshape") {
+            Tab("Terminal", systemImage: "apple.terminal") {
                 TerminalSettingsForm(showsWindowSwitch: showsWindowSwitch)
             }
+            Tab("Shell", systemImage: "chevron.left.forwardslash.chevron.right") {
+                ShellTab()
+            }
+            Tab("Git", systemImage: "arrow.triangle.branch") {
+                GitTab()
+            }
+            Tab("SSH", systemImage: "key") {
+                SSHTab()
+            }
+            Tab("Tools", systemImage: "shippingbox") {
+                ToolsTab()
+            }
         }
+        .environment(shell)
+        .environment(git)
+        .environment(ssh)
+        .environment(tools)
         .navigationTitle(Text(Tool.terminal.title))
         .task {
             terminal.refresh()
@@ -207,43 +230,6 @@ private struct TerminalSettingsForm: View {
     }
 }
 
-private struct TerminalSwitchRow: View {
-    let title: LocalizedStringResource
-    let detail: LocalizedStringResource
-    let footnote: String
-    var caption: LocalizedStringResource?
-    let isOn: Binding<Bool>
-    let isDisabled: Bool
-
-    var body: some View {
-        HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
-                    Text(title)
-                        .font(.body.weight(.semibold))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                    InfoNote(name: String(localized: title), detail: Text(detail), footnote: Text(verbatim: footnote))
-                }
-                if let caption {
-                    Text(caption)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
-            }
-            Spacer(minLength: 8)
-            Toggle(isOn: isOn) { EmptyView() }
-                .labelsHidden()
-                .accessibilityRepresentation {
-                    Toggle(isOn: isOn) { Text(title) }
-                }
-                .disabled(isDisabled)
-        }
-        .padding(.vertical, 4)
-    }
-}
-
 private struct TerminalOptionRow: View {
     @Environment(TerminalLibrary.self) private var terminal
     let option: TerminalOption
@@ -325,36 +311,27 @@ private struct ShellSessionsRow: View {
     let sessions: ShellSessions
 
     var body: some View {
-        HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
-                    Text("No “Restored session” line")
-                        .font(.body.weight(.semibold))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                    InfoNote(
-                        name: String(localized: "No “Restored session” line"),
-                        detail: Text("When Terminal reopens a window, \(sessions.name) starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files."),
-                        footnote: Text(verbatim: sessions.script)
-                    )
-                }
-                Group {
-                    switch sessions {
-                    case .zsh(let startupFile): Text("Add this line to \(startupFile.abbreviatedPath)")
-                    case .bash: Text("Run this command in Terminal")
-                    }
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                Text(verbatim: sessions.turnOff)
-                    .font(.subheadline.monospaced())
-                    .textSelection(.enabled)
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(spacing: 5) {
+                Text("No “Restored session” line")
+                    .font(.body.weight(.semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                InfoNote(
+                    name: String(localized: "No “Restored session” line"),
+                    detail: Text("When Terminal reopens a window, \(sessions.name) starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files."),
+                    footnote: Text(verbatim: sessions.script)
+                )
             }
-            Spacer(minLength: 8)
-            CopyButton(text: sessions.turnOff)
-                .buttonStyle(.bordered)
-                .controlSize(.small)
+            CopyableLines(caption: caption, lines: [sessions.turnOff])
         }
         .padding(.vertical, 4)
+    }
+
+    private var caption: Text {
+        switch sessions {
+        case .zsh(let startupFile): Text("Add this line to \(startupFile.abbreviatedPath)")
+        case .bash: Text("Run this command in Terminal")
+        }
     }
 }
