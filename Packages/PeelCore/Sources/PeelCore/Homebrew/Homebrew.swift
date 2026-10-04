@@ -329,6 +329,9 @@ indirect enum CaskValue: Decodable, Sendable {
 
 public enum Homebrew {
     static let notInstalled = "Homebrew isn’t installed."
+    /// The command brew.sh gives for installing Homebrew. Its script says what it will do and waits before doing it.
+    public static let installCommand = "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    public static let website = URL(string: "https://brew.sh")!
 
     public struct CommandFailure: Error, Sendable, Hashable {
         public let output: String
@@ -447,6 +450,22 @@ public enum Homebrew {
     public static func caskTokens() async -> Set<String> {
         guard let output = try? await answer(["casks"]) else { return [] }
         return Set(output.split(whereSeparator: \.isNewline).map { String($0).trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty })
+    }
+
+    /// Returns the name of every formula Homebrew knows of, read from its local copy of the definitions.
+    @concurrent
+    public static func formulaNames() async -> Set<String> {
+        guard let output = try? await answer(["formulae"]) else { return [] }
+        return Set(output.split(whereSeparator: \.isNewline).map { String($0).trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty })
+    }
+
+    /// Asks about several formulae in one call. A single unknown name makes the whole call fail, so only names from
+    /// `formulaNames()` are ever passed in.
+    @concurrent
+    public static func formulae(named names: [String]) async -> [HomebrewPackage] {
+        guard !names.isEmpty else { return [] }
+        guard let output = try? await answer(["info", "--json=v2", "--formula"] + names) else { return [] }
+        return parseInstalled(Data(output.utf8))?.filter { $0.kind == .formula } ?? []
     }
 
     /// Asks about several casks in one call, which is quicker than asking about each on its own. A single
