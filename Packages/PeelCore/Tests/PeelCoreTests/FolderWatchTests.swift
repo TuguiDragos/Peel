@@ -1,5 +1,7 @@
+import CoreServices
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct FolderWatchTests {
@@ -75,6 +77,59 @@ struct FolderWatchTests {
 
         #expect(await iterator.next() != nil, "the stream ended instead of looking again")
         #expect(await iterator.next() != nil, "it looked again only once")
+    }
+
+    private static let callback = Atomic<Int>(0)
+    private static let listenerIsGone = Atomic<Bool>(false)
+
+    private final class Listener {
+        deinit { FolderWatchTests.listenerIsGone.store(true, ordering: .sequentiallyConsistent) }
+    }
+
+    @Test func whatTheCallbackUsesLastsUntilARunningCallbackReturns() throws {
+        Self.callback.store(0, ordering: .sequentiallyConsistent)
+        Self.listenerIsGone.store(false, ordering: .sequentiallyConsistent)
+        let directory = try TemporaryDirectory()
+        var created: FSEventStreamRef?
+        do {
+            let listener = Listener()
+            var context = FolderWatch.context(owning: listener)
+            created = withExtendedLifetime(listener) {
+                FSEventStreamCreate(
+                    nil,
+                    { _, _, _, _, _, _ in
+                        FolderWatchTests.callback.store(1, ordering: .sequentiallyConsistent)
+                        Thread.sleep(forTimeInterval: 0.3)
+                        FolderWatchTests.callback.store(2, ordering: .sequentiallyConsistent)
+                    },
+                    &context,
+                    [directory.url.path(percentEncoded: false)] as CFArray,
+                    FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+                    0.05,
+                    FSEventStreamCreateFlags(kFSEventStreamCreateFlagWatchRoot)
+                )
+            }
+        }
+        let stream = try #require(created)
+        FSEventStreamSetDispatchQueue(stream, DispatchQueue.global(qos: .utility))
+        try #require(FSEventStreamStart(stream))
+        _ = try directory.file("change.txt")
+        let deadline = ContinuousClock.now + Self.patience
+        while Self.callback.load(ordering: .sequentiallyConsistent) == 0, .now < deadline { usleep(1_000) }
+        let running = Self.callback.load(ordering: .sequentiallyConsistent)
+        try #require(running == 1, "no callback came")
+
+        FSEventStreamStop(stream)
+        FSEventStreamInvalidate(stream)
+        FSEventStreamRelease(stream)
+
+        let goneWhileRunning = Self.listenerIsGone.load(ordering: .sequentiallyConsistent)
+        #expect(!goneWhileRunning, "it went while the callback was running")
+        while !Self.listenerIsGone.load(ordering: .sequentiallyConsistent), .now < deadline { usleep(1_000) }
+        let callback = Self.callback.load(ordering: .sequentiallyConsistent)
+        let gone = Self.listenerIsGone.load(ordering: .sequentiallyConsistent)
+        #expect(callback == 2)
+        #expect(gone, "the stream never let it go")
     }
 
     private func firstChange(of changes: AsyncStream<Void>, within limit: Duration) async -> Bool {

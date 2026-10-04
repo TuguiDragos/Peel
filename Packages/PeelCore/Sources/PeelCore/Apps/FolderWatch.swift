@@ -25,26 +25,28 @@ public enum FolderWatch {
         orEvery interval: TimeInterval
     ) -> AsyncStream<Void> {
         AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
-            let listener = Unmanaged.passRetained(Listener(continuation))
-            var context = FSEventStreamContext(version: 0, info: listener.toOpaque(), retain: nil, release: nil, copyDescription: nil)
+            let listener = Listener(continuation)
+            var context = Self.context(owning: listener)
             let paths = folders.map { $0.path(percentEncoded: false) } as CFArray
-            guard let stream = FSEventStreamCreate(
-                nil,
-                { _, info, _, _, _, _ in
-                    guard let info else { return }
-                    Unmanaged<Listener>.fromOpaque(info).takeUnretainedValue().continuation.yield()
-                },
-                &context,
-                paths,
-                FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-                latency,
-                FSEventStreamCreateFlags(kFSEventStreamCreateFlagWatchRoot)
-            ) else {
-                listener.release()
+            let created = withExtendedLifetime(listener) {
+                FSEventStreamCreate(
+                    nil,
+                    { _, info, _, _, _, _ in
+                        guard let info else { return }
+                        Unmanaged<Listener>.fromOpaque(info).takeUnretainedValue().continuation.yield()
+                    },
+                    &context,
+                    paths,
+                    FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+                    latency,
+                    FSEventStreamCreateFlags(kFSEventStreamCreateFlagWatchRoot)
+                )
+            }
+            guard let stream = created else {
                 lookAgain(every: interval, continuation)
                 return
             }
-            let watch = Watch(stream: stream, listener: listener)
+            let watch = Watch(stream: stream)
             FSEventStreamSetDispatchQueue(stream, DispatchQueue.global(qos: .utility))
             guard start(stream) else {
                 watch.end()
@@ -54,6 +56,26 @@ public enum FolderWatch {
             watch.isStarted = true
             continuation.onTermination = { _ in watch.end() }
         }
+    }
+
+    /// A context through which the stream keeps `info` until the stream is deallocated. Stopping, invalidating and
+    /// releasing a stream wait for no callback, while the stream itself lives until a callback already running
+    /// returns, so what the callback uses must go with the stream and not before.
+    static func context(owning info: AnyObject) -> FSEventStreamContext {
+        FSEventStreamContext(
+            version: 0,
+            info: Unmanaged.passUnretained(info).toOpaque(),
+            retain: { info in
+                guard let info else { return nil }
+                _ = Unmanaged<AnyObject>.fromOpaque(info).retain()
+                return info
+            },
+            release: { info in
+                guard let info else { return }
+                Unmanaged<AnyObject>.fromOpaque(info).release()
+            },
+            copyDescription: nil
+        )
     }
 
     private static func lookAgain(every interval: TimeInterval, _ continuation: AsyncStream<Void>.Continuation) {
@@ -72,16 +94,14 @@ public enum FolderWatch {
         }
     }
 
-    /// Owns the event stream and the listener its callback uses. `end()` stops and releases both, and must run
-    /// exactly once. Only a stream that started is stopped, as `FSEventStreamStop` requires.
+    /// Owns the event stream. `end()` stops and releases it, and must run exactly once. Only a stream that started
+    /// is stopped, as `FSEventStreamStop` requires.
     private final class Watch: @unchecked Sendable {
         private let stream: FSEventStreamRef
-        private let listener: Unmanaged<Listener>
         var isStarted = false
 
-        init(stream: FSEventStreamRef, listener: Unmanaged<Listener>) {
+        init(stream: FSEventStreamRef) {
             self.stream = stream
-            self.listener = listener
         }
 
         func end() {
@@ -90,7 +110,6 @@ public enum FolderWatch {
             }
             FSEventStreamInvalidate(stream)
             FSEventStreamRelease(stream)
-            listener.release()
         }
     }
 }
