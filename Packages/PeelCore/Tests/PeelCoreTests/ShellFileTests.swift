@@ -126,3 +126,31 @@ struct ShellFileTests {
         #expect(!ShellFile.isSourced(shell.peelFile, from: startup, home: shell.home))
     }
 }
+
+struct ZshRequirementsTests {
+    @Test func theZshOnThisMacKnowsEverySettingAndEveryPrompt() async throws {
+        let known = try #require(await ShellFile.knownToZsh())
+        for setting in ShellSetting.allCases {
+            #expect(setting.isKnown(by: known), "\(setting)")
+        }
+        for prompt in PromptStyle.allCases {
+            #expect(prompt.isKnown(by: known), "\(prompt)")
+        }
+    }
+
+    @Test func whatALineNeedsIsReadFromIt() {
+        #expect(ZshRequirements.of(["setopt AUTO_PUSHD PUSHD_IGNORE_DUPS"]) == ["option:autopushd", "option:pushdignoredups"])
+        #expect(ZshRequirements.of(["autoload -Uz vcs_info add-zsh-hook"]) == ["function:vcs_info", "function:add-zsh-hook"])
+        #expect(ZshRequirements.of([ShellFile.completionSystem]) == ["function:compinit"])
+        #expect(ZshRequirements.of(["HISTSIZE=50000", "zstyle ':completion:*' menu select"]).isEmpty)
+        #expect(ShellSetting.completionMenu.requirements == ["function:compinit"])
+    }
+
+    @Test func aSettingOrPromptNeedingWhatZshDoesNotKnowIsNotOffered() async throws {
+        let known = try #require(await ShellFile.knownToZsh())
+        #expect(!ShellSetting.sharedHistory.isKnown(by: known.subtracting(["option:sharehistory"])))
+        #expect(!ShellSetting.prefixSearch.isKnown(by: known.subtracting(["function:up-line-or-beginning-search"])))
+        #expect(!PromptStyle.arrowAndBranch.isKnown(by: known.subtracting(["function:vcs_info"])))
+        #expect(PromptStyle.macOS.isKnown(by: []))
+    }
+}
