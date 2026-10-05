@@ -145,6 +145,12 @@ Space shows what fills your disk, area by area, and what each area is.
   General.
 - **File Search:** large or old files, found through Spotlight.
 
+<p align="center">
+  <img src="readme-assets/peel-developer-caches-of-your-tools.png" width="900" alt="Peel's Developer page: the tools whose caches it found, largest first, and npm open, with its four folders selected, while the bar counts what is selected on four pages">
+</p>
+
+Developer shows what each of your developer tools keeps, folder by folder.
+
 What you select on these pages, iCloud Drive aside, stays selected while you look at the others, and Move to Trash
 on any of them moves it all at once, as one entry in History. Only the pages you have opened count, so nothing Peel
 selected on a page you never saw goes with it. The bar at the foot of the page says how many pages that is, and
