@@ -131,4 +131,12 @@ struct DesktopWalletTests {
 
         #expect(guardian.allowsRemoval(of: home.appending(path: cache)))
     }
+
+    @Test func safetyMDCountsEveryPlace() throws {
+        let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "SAFETY.md"), encoding: .utf8)
+        let counts = page.matches(of: /(\d+) places in (all|the table)/).compactMap { Int($0.output.1) }
+
+        #expect(counts.count == 2)
+        #expect(counts.allSatisfy { $0 == ProtectedData.walletKeys.count }, "\(counts) against \(ProtectedData.walletKeys.count)")
+    }
 }
