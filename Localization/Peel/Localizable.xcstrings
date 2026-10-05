@@ -10300,218 +10300,6 @@
         }
       }
     },
-    "Add Peel’s line to %@" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Přidejte řádek Peelu do souboru %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge die Zeile von Peel zu %@ hinzu"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añade la línea de Peel a %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez la ligne de Peel au fichier %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi la riga di Peel al file %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel用の行を%@に追加してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 Peel의 줄을 추가"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg de regel van Peel toe aan %@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dodaj wiersz Peel do pliku %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicione a linha do Peel ao %@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adăugați linia Peel în %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавьте строку Peel в %@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lägg till Peels rad i %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in satırını %@ dosyasına ekleyin"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Додайте рядок Peel до %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将Peel的一行添加到%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將Peel的設定行加入%@"
-          }
-        }
-      }
-    },
-    "Add Peel’s lines to ~/.ssh/config" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Přidejte řádky Peelu do souboru ~/.ssh/config"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge die Zeilen von Peel zu ~/.ssh/config hinzu"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añade las líneas de Peel a ~/.ssh/config"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez les lignes de Peel au fichier ~/.ssh/config"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi le righe di Peel al file ~/.ssh/config"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel用の行を~/.ssh/configに追加してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.ssh/config에 Peel의 줄을 추가"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg de regels van Peel toe aan ~/.ssh/config"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dodaj wiersze Peel do pliku ~/.ssh/config"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicione as linhas do Peel ao ~/.ssh/config"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adăugați liniile Peel în ~/.ssh/config"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавьте строки Peel в ~/.ssh/config"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lägg till Peels rader i ~/.ssh/config"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in satırlarını ~/.ssh/config dosyasına ekleyin"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Додайте рядки Peel до ~/.ssh/config"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将Peel的两行添加到~/.ssh/config"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將Peel的設定行加入~/.ssh/config"
-          }
-        }
-      }
-    },
     "Add this line to %@" : {
       "localizations" : {
         "cs" : {
@@ -119515,214 +119303,214 @@
         }
       }
     },
-    "Run this once in Terminal, and new windows read the settings below." : {
+    "Run this once in Terminal to add Peel’s line to %@. New windows then read the settings below." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spusťte tento příkaz jednou v Terminálu a nová okna načtou nastavení uvedená níže."
+            "value" : "Spusťte tento příkaz jednou v Terminálu, abyste přidali řádek Peelu do souboru %@. Nová okna pak načtou nastavení uvedená níže."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Führe diesen Befehl einmal im Terminal aus, dann lesen neue Fenster die Einstellungen unten ein."
+            "value" : "Führe diesen Befehl einmal im Terminal aus, um die Zeile von Peel zu %@ hinzuzufügen. Neue Fenster lesen dann die Einstellungen unten ein."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ejecuta esto una vez en Terminal, y las ventanas nuevas leerán los ajustes de abajo."
+            "value" : "Ejecuta esto una vez en Terminal para añadir la línea de Peel a %@. Después, las ventanas nuevas leerán los ajustes de abajo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exécutez cette commande une fois dans Terminal, et les nouvelles fenêtres lisent alors les réglages ci-dessous."
+            "value" : "Exécutez cette commande une fois dans Terminal pour ajouter la ligne de Peel au fichier %@. Les nouvelles fenêtres lisent alors les réglages ci-dessous."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esegui questo comando una volta in Terminale, e le nuove finestre leggeranno le impostazioni qui sotto."
+            "value" : "Esegui questo comando una volta in Terminale per aggiungere la riga di Peel al file %@. Da quel momento le nuove finestre leggeranno le impostazioni qui sotto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルで以下のコマンドを一度実行すると、新規ウインドウで下の設定が読み込まれるようになります。"
+            "value" : "Peel用の行を%@に追加するには、ターミナルで以下のコマンドを一度実行してください。その後、新規ウインドウで下の設定が読み込まれるようになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 이 명령을 한 번 실행하면 새로운 윈도우가 아래 설정을 읽습니다."
+            "value" : "터미널에서 이 명령을 한 번 실행하여 %@에 Peel의 줄을 추가하십시오. 그러면 새로운 윈도우가 아래 설정을 읽습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer dit één keer uit in Terminal, dan lezen nieuwe vensters de instellingen hieronder."
+            "value" : "Voer dit één keer uit in Terminal om de regel van Peel toe te voegen aan %@. Nieuwe vensters lezen dan de instellingen hieronder."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uruchom to polecenie jeden raz w Terminalu, a nowe okna będą odczytywać poniższe ustawienia."
+            "value" : "Uruchom to polecenie jeden raz w Terminalu, aby dodać wiersz Peel do pliku %@. Od tej pory nowe okna będą odczytywać poniższe ustawienia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Execute isto uma vez no Terminal, e as novas janelas leem os ajustes abaixo."
+            "value" : "Execute isto uma vez no Terminal para adicionar a linha do Peel ao %@. Depois, as novas janelas leem os ajustes abaixo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rulați o dată această comandă în Terminal, iar ferestrele noi citesc configurările de mai jos."
+            "value" : "Rulați o dată această comandă în Terminal pentru a adăuga linia Peel în %@. Ferestrele noi citesc apoi configurările de mai jos."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выполните эту команду один раз в Терминале, и новые окна будут читать приведенные ниже параметры."
+            "value" : "Выполните эту команду один раз в Терминале, чтобы добавить строку Peel в %@. После этого новые окна будут читать приведенные ниже параметры."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kör det här en gång i Terminal, så läser nya fönster inställningarna nedan."
+            "value" : "Kör det här en gång i Terminal för att lägga till Peels rad i %@. Sedan läser nya fönster inställningarna nedan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunu Terminal’de bir kez çalıştırın; yeni pencereler aşağıdaki ayarları okur."
+            "value" : "Peel’in satırını %@ dosyasına eklemek için bunu Terminal’de bir kez çalıştırın. Ardından yeni pencereler aşağıdaki ayarları okur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виконайте цю команду один раз у Терміналі, і нові вікна читатимуть налаштування, наведені нижче."
+            "value" : "Виконайте цю команду один раз у Терміналі, щоб додати рядок Peel до %@. Після цього нові вікна читатимуть налаштування, наведені нижче."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在“终端”中运行一次此命令，之后新窗口就会读取下方的设置。"
+            "value" : "在“终端”中运行一次此命令，即可将Peel的一行添加到%@。之后新窗口就会读取下方的设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在「終端機」中執行此指令一次，新視窗就會讀取下方的設定。"
+            "value" : "在「終端機」中執行此指令一次，即可將Peel的設定行加入%@。之後新視窗就會讀取下方的設定。"
           }
         }
       }
     },
-    "Run this once in Terminal. It adds them at the end, after what you set for each server." : {
+    "Run this once in Terminal to add Peel’s lines at the end of ~/.ssh/config, after what you set for each server." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spusťte tento příkaz jednou v Terminálu. Přidá řádky na konec, za to, co jste nastavili pro jednotlivé servery."
+            "value" : "Spusťte tento příkaz jednou v Terminálu, abyste přidali řádky Peelu na konec souboru ~/.ssh/config, za to, co jste nastavili pro jednotlivé servery."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Führe diesen Befehl einmal im Terminal aus. Er fügt die Zeilen am Ende hinzu, nach dem, was du für jeden Server festlegst."
+            "value" : "Führe diesen Befehl einmal im Terminal aus, um die Zeilen von Peel am Ende von ~/.ssh/config hinzuzufügen, nach dem, was du für jeden Server festlegst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ejecuta esto una vez en Terminal. Añade las líneas al final, después de lo que hayas establecido para cada servidor."
+            "value" : "Ejecuta esto una vez en Terminal para añadir las líneas de Peel al final de ~/.ssh/config, después de lo que hayas establecido para cada servidor."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exécutez cette commande une fois dans Terminal. Elle ajoute ces lignes à la fin, après ce que vous avez défini pour chaque serveur."
+            "value" : "Exécutez cette commande une fois dans Terminal pour ajouter les lignes de Peel à la fin du fichier ~/.ssh/config, après ce que vous avez défini pour chaque serveur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esegui questo comando una volta in Terminale. Aggiunge le righe alla fine, dopo ciò che hai impostato per ciascun server."
+            "value" : "Esegui questo comando una volta in Terminale per aggiungere le righe di Peel alla fine del file ~/.ssh/config, dopo ciò che hai impostato per ciascun server."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルで以下のコマンドを一度実行してください。このコマンドは、サーバごとに設定した内容の後、ファイルの末尾にこれらの行を追加します。"
+            "value" : "Peel用の行を、サーバごとに設定した内容の後、~/.ssh/configの末尾に追加するには、ターミナルで以下のコマンドを一度実行してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 이 명령을 한 번 실행하십시오. 이 명령은 각 서버에 대해 설정한 내용 뒤, 즉 파일 끝에 줄을 추가합니다."
+            "value" : "터미널에서 이 명령을 한 번 실행하여 ~/.ssh/config에서 각 서버에 대해 설정한 내용 뒤, 즉 파일 끝에 Peel의 줄을 추가하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer dit één keer uit in Terminal. Het voegt ze aan het einde toe, na wat je per server hebt ingesteld."
+            "value" : "Voer dit één keer uit in Terminal om de regels van Peel toe te voegen aan het einde van ~/.ssh/config, na wat je per server hebt ingesteld."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uruchom to polecenie jeden raz w Terminalu. Dodaje ono te wiersze na końcu pliku, po tym, co ustawiasz dla poszczególnych serwerów."
+            "value" : "Uruchom to polecenie jeden raz w Terminalu, aby dodać wiersze Peel na końcu pliku ~/.ssh/config, po tym, co ustawiasz dla poszczególnych serwerów."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Execute isto uma vez no Terminal. O comando adiciona as linhas no final, depois do que você definiu para cada servidor."
+            "value" : "Execute isto uma vez no Terminal para adicionar as linhas do Peel no final do ~/.ssh/config, depois do que você definiu para cada servidor."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rulați o dată această comandă în Terminal. Comanda le adaugă la sfârșit, după configurările stabilite de dvs. pentru fiecare server."
+            "value" : "Rulați o dată această comandă în Terminal pentru a adăuga liniile Peel la sfârșitul fișierului ~/.ssh/config, după configurările stabilite de dvs. pentru fiecare server."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выполните эту команду один раз в Терминале. Она добавит их в конец файла, после того, что Вы задали для каждого сервера."
+            "value" : "Выполните эту команду один раз в Терминале, чтобы добавить строки Peel в конец ~/.ssh/config, после того, что Вы задали для каждого сервера."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kör det här en gång i Terminal. Det lägger till raderna i slutet, efter det som du har ställt in för varje server."
+            "value" : "Kör det här en gång i Terminal för att lägga till Peels rader i slutet av ~/.ssh/config, efter det som du har ställt in för varje server."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunu Terminal’de bir kez çalıştırın. Satırları dosyanın sonuna, her sunucu için ayarladıklarınızın ardına ekler."
+            "value" : "Peel’in satırlarını ~/.ssh/config dosyasının sonuna, her sunucu için ayarladıklarınızın ardına eklemek için bunu Terminal’de bir kez çalıştırın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виконайте цю команду один раз у Терміналі. Вона додасть ці рядки в кінець файлу, після того, що ви задали для кожного сервера."
+            "value" : "Виконайте цю команду один раз у Терміналі, щоб додати рядки Peel у кінець ~/.ssh/config, після того, що ви задали для кожного сервера."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在“终端”中运行一次此命令。它会将这两行添加到文件末尾，位于你为各个服务器设定的内容之后。"
+            "value" : "在“终端”中运行一次此命令，即可将Peel的两行添加到~/.ssh/config末尾，位于你为各个服务器设定的内容之后。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在「終端機」中執行此指令一次。它會將這些設定行加在結尾，排在你為各部伺服器所做的設定之後。"
+            "value" : "在「終端機」中執行此指令一次，即可將Peel的設定行加在~/.ssh/config的結尾，排在你為各部伺服器所做的設定之後。"
           }
         }
       }
@@ -189720,6 +189508,112 @@
         }
       }
     },
+    "ssh doesn’t read Peel’s settings yet" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh zatím nečte nastavení Peelu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh liest die Einstellungen von Peel noch nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh aún no lee los ajustes de Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh ne lit pas encore les réglages de Peel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh non legge ancora le impostazioni di Peel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sshはまだPeelの設定を読み込んでいません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh가 아직 Peel의 설정을 읽지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh leest de instellingen van Peel nog niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh nie odczytuje jeszcze ustawień Peel"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ssh ainda não lê os ajustes do Peel"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh nu citește încă configurările Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh пока не читает настройки Peel"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh läser inte Peels inställningar än"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh henüz Peel’in ayarlarını okumuyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh ще не читає налаштування Peel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh还不会读取Peel的设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh還不會讀取Peel的設定"
+          }
+        }
+      }
+    },
     "ssh reads Peel’s settings" : {
       "localizations" : {
         "cs" : {
@@ -190144,6 +190038,112 @@
         }
       }
     },
+    "zsh doesn’t read Peel’s settings yet" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh zatím nečte nastavení Peelu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh liest die Einstellungen von Peel noch nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh aún no lee los ajustes de Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh ne lit pas encore les réglages de Peel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh non legge ancora le impostazioni di Peel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zshはまだPeelの設定を読み込んでいません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh가 아직 Peel의 설정을 읽지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh leest de instellingen van Peel nog niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh nie odczytuje jeszcze ustawień Peel"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O zsh ainda não lê os ajustes do Peel"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh nu citește încă configurările Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh пока не читает настройки Peel"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh läser inte Peels inställningar än"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh henüz Peel’in ayarlarını okumuyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh ще не читає налаштування Peel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh还不会读取Peel的设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh還不會讀取Peel的設定"
+          }
+        }
+      }
+    },
     "zsh keeps your last 50,000 commands and saves all of them, instead of keeping 2,000 and saving 1,000 as macOS sets it." : {
       "localizations" : {
         "cs" : {
@@ -190352,6 +190352,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "zsh會讀取Peel的設定"
+          }
+        }
+      }
+    },
+    "zsh shows this prompt once Peel’s line is in %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh zobrazí tuto výzvu, jakmile bude řádek Peelu v souboru %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh zeigt diese Eingabeaufforderung an, sobald die Zeile von Peel in %@ steht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh mostrará este indicador cuando la línea de Peel esté en %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh affichera cette invite de commande dès que la ligne de Peel se trouvera dans le fichier %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh mostrerà questo prompt quando la riga di Peel sarà nel file %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのファイルを読み込む行が%@に追加されると、zshはこのプロンプトを表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 Peel의 줄이 추가되면 zsh가 이 프롬프트를 표시합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh toont deze prompt zodra de regel van Peel in %@ staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh wyświetli ten znak zachęty, gdy wiersz Peel znajdzie się w pliku %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O zsh mostra este prompt assim que a linha do Peel estiver no %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh afișează acest prompt odată ce linia Peel se află în %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh покажет это приглашение ввода, как только строка Peel появится в %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh visar den här prompten först när Peels rad finns i %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in satırı %@ dosyasında olduğunda zsh bu bilgi istemini gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh показуватиме це запрошення, щойно рядок Peel зʼявиться в %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦%@中有了Peel的那一行，zsh就会显示此提示符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦%@中有Peel的設定行，zsh就會顯示此提示行。"
           }
         }
       }

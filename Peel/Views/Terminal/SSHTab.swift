@@ -72,7 +72,12 @@ private struct SSHLinesRow: View {
                             .foregroundStyle(Color.accentColor)
                     }
                 } else {
-                    Text("Add Peel’s lines to ~/.ssh/config")
+                    Label {
+                        Text("ssh doesn’t read Peel’s settings yet")
+                    } icon: {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(Color.accentColor)
+                    }
                 }
                 InfoNote(
                     name: String(localized: "Peel’s settings file"),
@@ -87,7 +92,7 @@ private struct SSHLinesRow: View {
                     .foregroundStyle(.secondary)
             } else {
                 CopyableLines(
-                    caption: Text("Run this once in Terminal. It adds them at the end, after what you set for each server."),
+                    caption: Text("Run this once in Terminal to add Peel’s lines at the end of ~/.ssh/config, after what you set for each server."),
                     lines: [SSHFile.command(adding: ssh.lines, to: ssh.config, home: .homeDirectory)]
                 )
             }

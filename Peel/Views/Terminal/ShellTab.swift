@@ -76,7 +76,12 @@ private struct ShellLineRow: View {
                                 .foregroundStyle(Color.accentColor)
                         }
                     } else {
-                        Text("Add Peel’s line to \(startupFile.abbreviatedPath)")
+                        Label {
+                            Text("zsh doesn’t read Peel’s settings yet")
+                        } icon: {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(Color.accentColor)
+                        }
                     }
                     InfoNote(
                         name: String(localized: "Peel’s settings file"),
@@ -91,7 +96,7 @@ private struct ShellLineRow: View {
                         .foregroundStyle(.secondary)
                 } else {
                     CopyableLines(
-                        caption: Text("Run this once in Terminal, and new windows read the settings below."),
+                        caption: Text("Run this once in Terminal to add Peel’s line to \(startupFile.abbreviatedPath). New windows then read the settings below."),
                         lines: [ShellFile.command(adding: shell.line, to: startupFile, home: .homeDirectory)]
                     )
                 }
@@ -170,7 +175,14 @@ private struct PromptSection: View {
         } header: {
             Text("Prompt")
         } footer: {
-            if prompt != nil, state.setsItsOwnPrompt, let startupFile = state.startupFile {
+            if prompt != nil, !state.isSourced, let startupFile = state.startupFile {
+                Label(
+                    "zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath).",
+                    systemImage: "exclamationmark.triangle"
+                )
+                .font(.caption)
+                .foregroundStyle(Color.accentColor)
+            } else if prompt != nil, state.setsItsOwnPrompt, let startupFile = state.startupFile {
                 Label(
                     "Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.",
                     systemImage: "exclamationmark.triangle"
