@@ -104,37 +104,42 @@ public enum Plugins {
     static func scan(
         environment: SearchEnvironment,
         exclusions: Exclusions,
-        measure: FileSize.Measure
+        measure: @escaping FileSize.Measure
     ) async -> [Plugin] {
         let libraries = [
             (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
             (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
         ]
-        var plugins: [Plugin] = []
-        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] = []
         for (library, isForAllUsers) in libraries {
             for (folder, category) in folders {
                 let directory = library.appending(path: folder, directoryHint: .isDirectory)
                 for url in bundles(in: directory, category: category)
-                where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url)
-                    && !AppleCode.isApples(url) {
-                    let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
-                    plugins.append(Plugin(
-                        url: url,
-                        name: (info?["CFBundleName"] as? String) ?? url.deletingPathExtension().lastPathComponent,
-                        bundleIdentifier: info?["CFBundleIdentifier"] as? String,
-                        version: (info?["CFBundleShortVersionString"] ?? info?["CFBundleVersion"]) as? String,
-                        category: category,
-                        isInstalledForAllUsers: isForAllUsers,
-                        size: await measure(url),
-                        requiresPrivileges: ParentAccess(url.deletingLastPathComponent())
-                            .requiresPrivileges(toRemove: url),
-                        refusal: removalGuard.refusal(of: url)
-                    ))
+                where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url) {
+                    found.append((url, category, isForAllUsers))
                 }
             }
         }
-        return plugins.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        // A few at a time, as the other scans measure: the guard's answer and the size each take a while, and a Mac
+        // used for music can hold more than a thousand plug-ins.
+        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        let plugins = await found.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { item -> Plugin? in
+            guard !AppleCode.isApples(item.url) else { return nil }
+            let info = AppInspector.infoDictionary(in: item.url.appending(path: "Contents", directoryHint: .isDirectory))
+            return Plugin(
+                url: item.url,
+                name: (info?["CFBundleName"] as? String) ?? item.url.deletingPathExtension().lastPathComponent,
+                bundleIdentifier: info?["CFBundleIdentifier"] as? String,
+                version: (info?["CFBundleShortVersionString"] ?? info?["CFBundleVersion"]) as? String,
+                category: item.category,
+                isInstalledForAllUsers: item.isForAllUsers,
+                size: await measure(item.url),
+                requiresPrivileges: ParentAccess(item.url.deletingLastPathComponent())
+                    .requiresPrivileges(toRemove: item.url),
+                refusal: removalGuard.refusal(of: item.url)
+            )
+        }
+        return plugins.compactMap(\.self).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
     /// The file extensions each kind of plug-in uses.
