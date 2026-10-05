@@ -385,8 +385,7 @@ struct LeftoverScannerTests {
         #expect(try #require(emptied.leftovers.first { $0.kind == .containers }).match.isRecommended)
     }
 
-    /// macOS keeps privileged helpers only in the Mac's own Library, so a folder by that name in the home's Library is
-    /// no place macOS knows: it is searched like any other folder at the top of a Library.
+    /// macOS keeps privileged helpers only in the Mac's Library, so the home's folder by that name is searched.
     @Test func searchesAFolderTheHomesLibraryHasOnlyByAnotherLibrarysName() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/PrivilegedHelperTools/net.example.client.helper")
@@ -398,8 +397,6 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["net.example.client.helper"])
     }
 
-    /// At the top of a Library, what is skipped is what that Library searches as a place of its own, and nothing the
-    /// other Library alone searches.
     @Test func eachLibrarySkipsOnlyWhatItSearchesItself() throws {
         let directory = try TemporaryDirectory()
         let environment = environment(in: directory)

@@ -66,9 +66,7 @@ struct ToolSettingsTests {
         #expect(ToolSettings.goEnvironmentValue(of: "goproxy", in: environment) == nil)
     }
 
-    /// Each tool takes the path it reads its own way: npm and pnpm 10 with `${HOME}` and `~/`, Yarn from the folder of
-    /// its file with `${HOME}` and a fallback, pnpm 11 with `~/`, and Go with only an absolute path, an empty value
-    /// being unset.
+    /// npm and pnpm 10 read `${HOME}` and `~/`, Yarn its file's folder and a fallback, pnpm 11 `~/`, Go a full path.
     @Test func takesEachToolsPathAsTheToolDoes() throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/.npmrc", contents: Data("cache=${HOME}/npm-cache\nstore-dir=~/pnpm-ten\n".utf8))
@@ -107,8 +105,6 @@ struct ToolSettingsTests {
         #expect(Self.path(ToolSettings(home: home).yarnCacheRoot) == "/from/argument")
     }
 
-    /// A value whose place depends on the tool's own environment, another variable or the folder it runs in, names
-    /// no place.
     @Test func passesOverWhatOnlyTheToolsEnvironmentCouldName() throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/.npmrc", contents: Data("cache=${XDG_CACHE_HOME}/npm\nstore-dir=relative/pnpm\n".utf8))

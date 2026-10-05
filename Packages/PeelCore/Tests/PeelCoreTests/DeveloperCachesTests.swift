@@ -835,8 +835,7 @@ struct DeveloperCachesTests {
         #expect(byName["Notes 17.09.2026, 10.00.xcarchive"]?.kind == .archives)
     }
 
-    /// npm, Yarn, pnpm and Go each write where a cache moved into a configuration file of their own, with their
-    /// own `config set`; Developer reads those files, never runs a tool, and finds the cache there.
+    /// Developer reads each tool's own configuration file, never runs the tool, and finds the cache it moved.
     @Test func findsTheCachesEachToolsOwnConfigurationMovedElsewhere() async throws {
         let directory = try TemporaryDirectory()
         let fast = directory.url.appending(path: "Fast", directoryHint: .isDirectory).path(percentEncoded: false)
@@ -867,8 +866,7 @@ struct DeveloperCachesTests {
         ])
     }
 
-    /// What a tool would read with its own environment (another variable, its working folder), or a folder that does
-    /// not show the tool's own mark, is no place Peel can name, so it is passed over.
+    /// A path that needs the tool's own environment, or a folder without the tool's mark, names no place.
     @Test func aConfigurationThatNamesNoPlaceOfItsOwnMovesNothing() async throws {
         let directory = try TemporaryDirectory()
         let fast = directory.url.appending(path: "Fast", directoryHint: .isDirectory).path(percentEncoded: false)
@@ -1443,8 +1441,7 @@ struct DeveloperCachesTests {
         }
     }
 
-    /// `glob` asked to limit itself stops at 128 paths on macOS, while Playwright leaves a folder in the temporary
-    /// folder for every run that ended early. Every pattern of the table finds all 200 of its matches here.
+    /// Limited, `glob` stops at 128 paths, and Playwright alone leaves a folder for every run that ended early.
     @Test func eachPatternFindsEveryMatch() throws {
         let count = 200
         for definition in DeveloperCaches.definitions {
@@ -1470,8 +1467,7 @@ struct DeveloperCachesTests {
         }
     }
 
-    /// A path `pattern` matches, made distinct by `number`: its first `*` holds the number or, with no `*`, its `?`
-    /// and bracket classes spell it digit by digit. Nil for a plain path, or when the classes can't spell that many.
+    /// A path `pattern` matches, made distinct by `number`; nil when its classes cannot spell that many.
     private static func name(matching pattern: String, number: Int) -> String? {
         let pattern = pattern.hasSuffix("/") ? String(pattern.dropLast()) : pattern
         guard pattern.contains(where: { "*?[".contains($0) }) else { return nil }

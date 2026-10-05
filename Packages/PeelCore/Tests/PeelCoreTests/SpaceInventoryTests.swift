@@ -26,9 +26,7 @@ struct SpaceInventoryTests {
         #expect(stop.askedAfter == 0)
     }
 
-    /// macOS gives each account a folder for caches outside its Library and empties it only in a safe boot (`man
-    /// confstr`), so Space lists it beside App Caches. What macOS keeps there is not measured: some of it not even
-    /// Full Disk Access can read, and it would leave the area's size unknown.
+    /// macOS empties it only in a safe boot (`man confstr`); its own files there, some unreadable, aren't measured.
     @Test(.permissionsHold) func listsTheFolderMacOSGivesTheAccountForCaches() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("C/org.example.editor.helper/com.apple.metal/shaders.data", bytes: 400)

@@ -529,9 +529,7 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
-    /// An app can keep its files inside a maker's folder or another app's, a level or two below where Orphaned Files
-    /// reads names, as an uninstall finds them. Down there a dotted name is often only a file's, a lock or a backup,
-    /// so only what came with an app Peel saw go is listed.
+    /// Below the top of a place a dotted name is often a lock or a backup, so only what came with a gone app counts.
     @Test func findsWhatAnAppThatLeftKeptInsideSomebodyElsesFolder() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/Application Support/Example Software/org.example.mixer/settings.json")
@@ -558,8 +556,7 @@ struct OrphanScannerTests {
         #expect(items.first { $0.kind == .sharedFolder }?.heldBack == .sharedWithEveryone)
     }
 
-    /// A crash report is never selected on an app's page, since the app's developer may still ask for it, and the
-    /// same holds once the app is gone.
+    /// As on an app's page, since the app's developer may still ask for the report.
     @Test func aCrashReportOfAnAppThatLeftIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let report = """

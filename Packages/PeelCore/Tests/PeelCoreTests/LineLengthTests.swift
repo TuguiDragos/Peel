@@ -9,8 +9,7 @@ struct LineLengthTests {
 
     static let folders = ["Peel", "PeelCLI", "PeelFinder", "PeelHelper", "PeelUITests", "Scripts", "Packages/PeelCore"]
 
-    /// A string is never split to make its line fit, so a sentence can still be found with a search: what counts is
-    /// the line without its string literals.
+    /// What counts is a line without its string literals, so a sentence is never split and can be searched for.
     @Test func everyLineFitsIn120Columns() throws {
         var long: [String] = []
         for file in try Self.swiftFiles() {

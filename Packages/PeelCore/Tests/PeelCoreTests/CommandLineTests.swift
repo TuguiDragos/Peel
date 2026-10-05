@@ -909,8 +909,7 @@ struct CommandLineTests {
         }
     }
 
-    /// The manual page leaves out the defaults `--help` marks, so each is said in words both show: an option's in
-    /// its own help, and a default subcommand's in the discussion of the command above it.
+    /// The manual page drops what `--help` marks as a default, so each default is said in words both show.
     @Test func eachDefaultIsSaidWhereTheManualPageShowsIt() throws {
         func commands(under command: any ParsableCommand.Type) -> [any ParsableCommand.Type] {
             [command] + command.configuration.subcommands.flatMap { commands(under: $0) }

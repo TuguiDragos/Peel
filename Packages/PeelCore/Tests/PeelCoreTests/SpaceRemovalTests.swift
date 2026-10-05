@@ -144,8 +144,7 @@ struct SpaceRemovalTests {
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 
-    /// In the folder macOS gives the account for caches, what its own services keep, named for themselves, is left
-    /// out; Developer's is left to Developer, the rest is offered as in App Caches, and the folder itself stays.
+    /// macOS's own services keep theirs, Developer's go to Developer, and the folder itself is never offered.
     @Test func plansTheFolderMacOSGivesTheAccountForCachesWithoutMacOSsOwn() async throws {
         let directory = try TemporaryDirectory()
         for name in ["com.apple.dock.iconcache", "assessmentagent", "AudioComponentRegistrar", "org.example.editor"] {
