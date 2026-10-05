@@ -1449,6 +1449,25 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.confidence == .certain)
     }
 
+    @Test func findsABrowsersManifestThatRunsAProgramInsideTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let hosts = "home/Library/Application Support/Google/Chrome/NativeMessagingHosts"
+        try directory.file("\(hosts)/com.example.bridge.json", contents: Data("""
+        {"name": "com.example.bridge", "path": "/Applications/Tunewell.app/Contents/MacOS/bridge", "type": "stdio"}
+        """.utf8))
+        try directory.file("\(hosts)/org.example.other.json", contents: Data("""
+        {"name": "org.example.other", "path": "/Applications/Other.app/Contents/MacOS/bridge", "type": "stdio"}
+        """.utf8))
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        let manifests = scan.leftovers.filter { $0.url.pathExtension == "json" }
+        #expect(manifests.map(\.url.lastPathComponent) == ["com.example.bridge.json"])
+        #expect(manifests.first?.match.confidence == .certain)
+        #expect(manifests.first?.match.isRecommended == true)
+    }
+
     @Test func aFolderWithAPasswordDatabaseOrItsKeyFileIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Tunewell/Backups/Passwords.kdbx")

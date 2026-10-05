@@ -367,6 +367,7 @@ public struct LeftoverScanner: Sendable {
         bundle: String
     ) -> LeftoverMatch? {
         guard kind != .commandLineTools else { return leadsInside(bundle, link: url) }
+        guard kind != .nativeMessagingHosts else { return runsSomethingInside(bundle, manifest: url) }
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
             return match(name, at: url, kind: kind, matcher: matcher)
         }
@@ -416,6 +417,17 @@ public struct LeftoverScanner: Sendable {
         let path = PathPattern.comparablePath(of: URL(filePath: program))
         guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
         return LeftoverMatch(reason: .launchdJob, confidence: .certain, sharedWith: [])
+    }
+
+    /// A browser's native messaging manifest is the app's when the program it names, an absolute path, is inside it.
+    private static func runsSomethingInside(_ bundle: String, manifest url: URL) -> LeftoverMatch? {
+        guard url.pathExtension == "json", let data = BoundedRead.data(at: url, maximum: 64 * 1_024),
+              let manifest = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let program = manifest["path"] as? String, program.hasPrefix("/")
+        else { return nil }
+        let path = PathPattern.comparablePath(of: URL(filePath: program))
+        guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
+        return LeftoverMatch(reason: .nativeMessagingHost, confidence: .certain, sharedWith: [])
     }
 
     /// A link that leads inside the app is that app's, whatever the tool is called. A link that leads anywhere

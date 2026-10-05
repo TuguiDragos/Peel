@@ -193,7 +193,7 @@ extension LeftoverMatcher {
             rank = Self.tier(of: reason) * 10_000 + specificity
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
-                .launchdJob, .linksToTheApp, .installerReceipt:
+                .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix: .maker
@@ -212,8 +212,9 @@ extension LeftoverMatcher {
 
         private static func tier(of reason: MatchReason) -> Int {
             switch reason {
-            // A job's program or a link's target lies inside the app's bundle, which no other app can share.
-            case .launchdJob, .linksToTheApp: 8
+            // A job's or a manifest's program, or a link's target, lies inside the app's bundle, which no other app
+            // can share.
+            case .launchdJob, .linksToTheApp, .nativeMessagingHost: 8
             case .bundleIdentifier, .installerReceipt: 7
             case .embeddedBundleIdentifier, .applicationGroup: 6
             case .bundleIdentifierPrefix: 5

@@ -14,6 +14,7 @@ extension MatchReason {
         case .namePrefix: "Starts with the app’s name"
         case .launchdJob: "Runs a program inside the app"
         case .linksToTheApp: "Leads to a tool inside the app"
+        case .nativeMessagingHost: "Lets a browser extension run a program inside the app"
         case .installerReceipt: "The app’s installer receipt"
         case .homebrewCask: "Listed by the Homebrew cask"
         }
@@ -72,6 +73,7 @@ extension SearchLocation.Kind {
         case .library: "Library Folder"
         case .temporaryItems: "Temporary Files"
         case .commandLineTools: "Command-Line Tool"
+        case .nativeMessagingHosts: "Browser Extension Helper"
         case .elsewhere: "Elsewhere"
         case .sharedFolder: "Shared Folder"
         case .hiddenHomeFiles: "Hidden Item"
@@ -86,6 +88,7 @@ extension SearchLocation.Kind {
         case .caches: "archivebox"
         case .temporaryItems: "hourglass"
         case .commandLineTools: "terminal"
+        case .nativeMessagingHosts: "puzzlepiece.extension"
         case .elsewhere: "mappin.and.ellipse"
         case .containers, .groupContainers: "shippingbox"
         case .preferences, .preferencesByHost: "gearshape"

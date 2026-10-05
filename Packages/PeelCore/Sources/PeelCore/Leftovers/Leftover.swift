@@ -13,6 +13,8 @@ public enum MatchReason: String, Sendable, Hashable {
     case launchdJob
     /// A link in `/usr/local/bin` or `/usr/local/sbin` that leads to a tool inside the app.
     case linksToTheApp
+    /// A browser's native messaging manifest whose program sits inside the app.
+    case nativeMessagingHost
     /// An installer receipt for this app's identifier, which keeps macOS counting the package as installed.
     case installerReceipt
     /// The app's Homebrew cask lists this path in its uninstall or zap stanza.

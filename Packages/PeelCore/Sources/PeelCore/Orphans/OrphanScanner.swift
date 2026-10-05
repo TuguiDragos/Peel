@@ -82,7 +82,9 @@ public struct OrphanScanner: Sendable {
 
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
-            for location in environment.locations {
+            // A browser's manifest is an app's only through the program it names, which an uninstall reads. Here one
+            // is still found by the identifier it is named for, inside Application Support.
+            for location in environment.locations where location.kind != .nativeMessagingHosts {
                 _ = group.addTaskUnlessCancelled { [exclusions, nestedFolderLimit, walk] in
                     await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,

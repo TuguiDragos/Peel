@@ -41,6 +41,9 @@ public struct SearchLocation: Sendable, Hashable {
         /// `/usr/local/bin` and `/usr/local/sbin`, where an app links the command line tools it carries. Only a
         /// link into the app counts as the app's: a tool is named for what it does (`docker`), not for its maker.
         case commandLineTools
+        /// The folders where a browser looks for the manifests of the programs its extensions may run. A manifest
+        /// is named for its host, not for the app, so only one whose program is inside the app counts as the app's.
+        case nativeMessagingHosts
         /// Somewhere no scan looks, which only a Homebrew cask can name: `~/Documents/Foo`, `/usr/local/etc/foo`.
         case elsewhere
     }
@@ -202,6 +205,10 @@ public struct SearchEnvironment: Sendable {
         locations += ["usr/local/bin", "usr/local/sbin", "opt/homebrew/bin"].map {
             SearchLocation(kind: .commandLineTools, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
         }
+        let hosts = [(userLibrary, Self.nativeMessagingHosts.user), (localLibrary, Self.nativeMessagingHosts.local)]
+        locations += hosts.flatMap { library, folders in
+            folders.map { library.appending(path: $0, directoryHint: .isDirectory) }
+        }.map { SearchLocation(kind: .nativeMessagingHosts, url: $0) }
         locations.append(SearchLocation(
             kind: .sharedFolder,
             url: rootDirectory.appending(path: "Users/Shared", directoryHint: .isDirectory)
@@ -214,6 +221,26 @@ public struct SearchEnvironment: Sendable {
         ]
         return locations
     }
+
+    /// Each browser's own documentation: Chrome's and Chromium's "Native messaging", MDN's "Native manifests" for
+    /// Firefox, and Microsoft's "Native messaging" for Edge and its Beta, Dev, and Canary channels.
+    static let nativeMessagingHosts = (
+        user: [
+            "Application Support/Google/Chrome/NativeMessagingHosts",
+            "Application Support/Chromium/NativeMessagingHosts",
+            "Application Support/Mozilla/NativeMessagingHosts",
+            "Application Support/Microsoft Edge/NativeMessagingHosts",
+            "Application Support/Microsoft Edge Beta/NativeMessagingHosts",
+            "Application Support/Microsoft Edge Dev/NativeMessagingHosts",
+            "Application Support/Microsoft Edge Canary/NativeMessagingHosts",
+        ],
+        local: [
+            "Google/Chrome/NativeMessagingHosts",
+            "Application Support/Chromium/NativeMessagingHosts",
+            "Application Support/Mozilla/NativeMessagingHosts",
+            "Microsoft/Edge/NativeMessagingHosts",
+        ]
+    )
 
     private static func darwinUserDirectory(_ name: Int32) -> URL? {
         let length = confstr(name, nil, 0)
