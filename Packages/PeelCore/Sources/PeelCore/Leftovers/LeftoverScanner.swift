@@ -10,8 +10,7 @@ public struct LeftoverScanner: Sendable {
     public let exclusions: Exclusions
     private let measure: Measure
     private let refuses: Refuses
-    /// The most folders listed per location while searching inside folders the app does not claim. The default
-    /// is far more than a busy Application Support or Caches folder needs, and each listing is cheap.
+    /// The most folders listed per location while searching inside folders the app does not claim.
     private let nestedFolderLimit: Int
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
@@ -26,7 +25,7 @@ public struct LeftoverScanner: Sendable {
         exclusions: Exclusions = .none,
         measure: @escaping Measure,
         refuses: @escaping Refuses = { ProtectedData.refuses($0, home: $1) },
-        nestedFolderLimit: Int = 5_000
+        nestedFolderLimit: Int = NestedSearch.folderLimit
     ) {
         self.environment = environment
         self.exclusions = exclusions
@@ -164,15 +163,6 @@ public struct LeftoverScanner: Sendable {
         case unreadable(SearchLocation)
     }
 
-    /// Kinds of location where an app's files can sit inside a folder that belongs to somebody else: a crash
-    /// reporter's data folder, macOS's help cache, or a vendor's folder shared by several apps, such as
-    /// `VST3/Native Instruments`, `~/Library/<Vendor>` or `/Users/Shared/<Vendor>`. In `/Users/Shared`, everything
-    /// found is held back.
-    private static let nestedKinds: Set<SearchLocation.Kind> = [
-        .applicationSupport, .caches, .logs, .hiddenHomeFiles, .plugIns, .sharedFolder, .library,
-    ]
-    private static let nestedDepth = 2
-
     /// Kinds of location that belong to macOS or to the user, where a match on the app's name alone is a guess:
     /// there is a real app called Developer, and `~/Library/Developer` is Xcode's.
     private static let namedGroundOfSomebodyElse: Set<SearchLocation.Kind> = [.hiddenHomeFiles, .library, .homeFolder]
@@ -202,7 +192,7 @@ public struct LeftoverScanner: Sendable {
 
         let parent = ParentAccess(location.url)
         var toMeasure: [Found] = []
-        var nobodysFolders: [(url: URL, isAnotherApps: Bool)] = []
+        var nobodysFolders: [URL] = []
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
         // take or walk into, and what it refuses is left out of both, as is what the person excluded.
@@ -215,16 +205,15 @@ public struct LeftoverScanner: Sendable {
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { continue }
                 toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
-            } else if nestedKinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
+            } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
                       !exclusions.excludes(url) {
-                // Not this app's. Whether it is somebody else's decides what a name inside it is worth.
-                nobodysFolders.append((url, isSomebodyElses(name, kind: location.kind, matcher: matcher)))
+                nobodysFolders.append(url)
             }
         }
 
         let leftovers = await measured(toMeasure, kind: location.kind, home: home, measure: measure)
         let inside = await nested(
-            in: nobodysFolders, kind: location.kind, matcher: matcher, home: home, exclusions: exclusions,
+            in: nobodysFolders, of: location, matcher: matcher, home: home, exclusions: exclusions,
             measure: measure, refuses: refuses, limit: nestedFolderLimit
         )
         return .found(
@@ -233,11 +222,11 @@ public struct LeftoverScanner: Sendable {
         )
     }
 
-    /// Looks up to two levels inside the folders not taken as the app's. Only a match strong enough to name the
-    /// app on its own (`likely` or better) is taken, because everything else in there is somebody else's.
+    /// Looks inside the folders not taken as the app's. Only a match strong enough to name the app on its own
+    /// (`likely` or better) is taken, because everything else in there is somebody else's.
     private static func nested(
-        in folders: [(url: URL, isAnotherApps: Bool)],
-        kind: SearchLocation.Kind,
+        in folders: [URL],
+        of location: SearchLocation,
         matcher: LeftoverMatcher,
         home: String,
         exclusions: Exclusions,
@@ -245,56 +234,26 @@ public struct LeftoverScanner: Sendable {
         refuses: Refuses,
         limit: Int
     ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
-        var found: [Found] = []
-        var unreadable: [URL] = []
-        var pending = folders
-        var visited = 0
-
-        for depth in 0..<nestedDepth {
-            var deeper: [(url: URL, isAnotherApps: Bool)] = []
-            for (folder, isAnotherApps) in pending {
-                guard !Task.isCancelled else {
-                    return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable)
-                }
-                guard visited < limit else {
-                    return (await measured(found, kind: kind, home: home, measure: measure), true, unreadable)
-                }
-                visited += 1
-                let names: [String]
-                do {
-                    names = try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
-                        .sorted()
-                } catch CocoaError.fileReadNoSuchFile {
-                    continue
-                } catch {
-                    // It may hold the app's files, so it is said rather than passed over as empty. A folder of
-                    // Apple's own holds none of another app's.
-                    if !ProtectedData.isApplesName(folder.lastPathComponent) {
-                        unreadable.append(folder)
-                    }
-                    continue
-                }
-                ScanCount.current?.add(names.count)
-
-                let parent = ParentAccess(folder)
-                for name in names {
-                    let url = folder.appending(path: name)
-                    let path = url.path(percentEncoded: false)
-                    if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
-                       !isSharedWithTheWholeMac(url, home: home) {
-                        guard !refuses(path, home), !exclusions.excludes(url) else { continue }
-                        found.append(
-                            Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: isAnotherApps)
-                        )
-                    } else if depth + 1 < nestedDepth, url.isRealFolder, !refuses(path, home),
-                              !exclusions.excludes(url) {
-                        deeper.append((url, isAnotherApps || isSomebodyElses(name, kind: kind, matcher: matcher)))
-                    }
-                }
+        let kind = location.kind
+        let locationLength = location.url.pathComponents.count
+        let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, limit: limit) {
+            url, name, parent, canLookInside in
+            let path = url.path(percentEncoded: false)
+            if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
+               !isSharedWithTheWholeMac(url, home: home) {
+                guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
+                // Whether it sits inside a folder of somebody else's decides what its name is worth.
+                let between = url.deletingLastPathComponent().pathComponents.dropFirst(locationLength)
+                return .take(Found(
+                    url: url, match: match, parent: parent,
+                    isInsideAnotherAppsFolder: between.contains { isSomebodyElses($0, kind: kind, matcher: matcher) }
+                ))
             }
-            pending = deeper
+            guard canLookInside, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) else { return .pass }
+            return .lookInside
         }
-        return (await measured(found, kind: kind, home: home, measure: measure), false, unreadable)
+        let found = await measured(search.found, kind: kind, home: home, measure: measure)
+        return (found, search.wasCutShort, search.unreadable)
     }
 
     /// Something a search took as the app's, waiting to be measured.
