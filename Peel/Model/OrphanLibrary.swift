@@ -77,13 +77,17 @@ final class OrphanLibrary {
     }
 }
 
+extension OrphanGroup {
+    var page: CarriedSelection.Page { Tool.orphans.page(identifier) }
+}
+
 extension OrphanLibrary: CarriesSelection {
     var carriedParts: [CarriedSelection.Part] {
         (scan?.groups ?? []).compactMap { group in
             let selected = selected(in: group)
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
-                page: Tool.orphans.page(group.identifier),
+                page: group.page,
                 title: group.title,
                 source: group.identifier,
                 sourceKey: nil,
@@ -93,7 +97,7 @@ extension OrphanLibrary: CarriesSelection {
     }
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
-        guard let group = scan?.groups.first(where: { $0.identifier == part.page.scope }) else { return TrashResult() }
+        guard let group = scan?.groups.first(where: { $0.page == part.page }) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions

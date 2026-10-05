@@ -89,7 +89,7 @@ struct SpaceDetailView: View {
         .safeAreaBar(edge: .bottom) {
             if !item.isReadOnly {
                 RemovalBar(
-                    page: Tool.space.page(item.id),
+                    page: item.page,
                     isScanning: space.isScanning,
                     isWorking: plan == nil,
                     scan: space.scanRun

@@ -92,6 +92,10 @@ final class SpaceLibrary: RowSelection {
     }
 }
 
+extension SpaceItem {
+    var page: CarriedSelection.Page { Tool.space.page(id) }
+}
+
 extension SpaceLibrary: CarriesSelection {
     var carriedParts: [CarriedSelection.Part] {
         (report?.items ?? []).compactMap { item in
@@ -99,7 +103,7 @@ extension SpaceLibrary: CarriesSelection {
             let selected = plan.removable.filter(selectedURLs.contains)
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
-                page: Tool.space.page(item.id),
+                page: item.page,
                 title: String(localized: item.words.title),
                 source: item.words.title.inEnglish,
                 sourceKey: "space.\(item.id)",
@@ -111,7 +115,7 @@ extension SpaceLibrary: CarriesSelection {
     /// Asks the area again rather than trusting its plan: an app opened since may be writing to some of these
     /// folders, and they are left where they are.
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
-        guard let item = report?.items.first(where: { $0.id == part.page.scope }) else { return TrashResult() }
+        guard let item = report?.items.first(where: { $0.page == part.page }) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions

@@ -42,13 +42,17 @@ final class InstallerLibrary {
     }
 }
 
+extension InstallerItem.Kind {
+    var page: CarriedSelection.Page { Tool.installers.page(rawValue) }
+}
+
 extension InstallerLibrary: CarriesSelection {
     var carriedParts: [CarriedSelection.Part] {
         sections.compactMap { kind in
             let selected = selected(in: kind)
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
-                page: Tool.installers.page(kind.rawValue),
+                page: kind.page,
                 title: String(localized: kind.title),
                 source: kind.title.inEnglish,
                 sourceKey: "installers.\(kind.rawValue)",

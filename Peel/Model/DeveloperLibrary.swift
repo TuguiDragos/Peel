@@ -36,8 +36,12 @@ final class DeveloperLibrary {
     }
 
     private func environment(of page: CarriedSelection.Page) -> DeveloperEnvironment? {
-        environments?.first { $0.id == page.scope }
+        environments?.first { $0.page == page }
     }
+}
+
+extension DeveloperEnvironment {
+    var page: CarriedSelection.Page { Tool.developer.page(id) }
 }
 
 extension DeveloperLibrary: CarriesSelection {
@@ -46,7 +50,7 @@ extension DeveloperLibrary: CarriesSelection {
             let selected = environment.locations.filter { selectedURLs.contains($0.url) }
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
-                page: Tool.developer.page(environment.id),
+                page: environment.page,
                 title: environment.name,
                 source: environment.name,
                 sourceKey: nil,

@@ -77,7 +77,7 @@ struct InstallerDetailView: View {
         .safeAreaBar(edge: .bottom) {
             if kind != .deviceBackup {
                 RemovalBar(
-                    page: Tool.installers.page(kind.rawValue),
+                    page: kind.page,
                     isScanning: installers.isScanning,
                     scan: installers.scanRun
                 )

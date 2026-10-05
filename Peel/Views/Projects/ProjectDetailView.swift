@@ -62,7 +62,7 @@ struct ProjectDetailView: View {
         .dimmedWhileBusy(projects.isScanning)
         .safeAreaBar(edge: .bottom) {
             RemovalBar(
-                page: Tool.projects.page(group.project.path(percentEncoded: false)),
+                page: group.page,
                 isScanning: projects.isScanning,
                 scan: projects.scanRun
             )

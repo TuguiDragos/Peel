@@ -9,6 +9,7 @@ struct ProjectGroup: Identifiable, Hashable {
     let artifacts: [ProjectArtifact]
 
     var id: URL { project }
+    var page: CarriedSelection.Page { Tool.projects.page(project.path(percentEncoded: false)) }
     var total: SizeTotal { SizeTotal(artifacts.map(\.size)) }
     var lastChange: ProjectArtifacts.LastChange { ProjectArtifacts.lastChange(of: artifacts) }
 }
@@ -155,7 +156,7 @@ final class ProjectLibrary {
     }
 
     private func group(of page: CarriedSelection.Page) -> ProjectGroup? {
-        groups?.first { $0.project.path(percentEncoded: false) == page.scope }
+        groups?.first { $0.page == page }
     }
 }
 
@@ -165,7 +166,7 @@ extension ProjectLibrary: CarriesSelection {
             let selected = group.artifacts.filter { selectedURLs.contains($0.url) }
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
-                page: Tool.projects.page(group.project.path(percentEncoded: false)),
+                page: group.page,
                 title: group.project.lastPathComponent,
                 source: group.project.lastPathComponent,
                 sourceKey: nil,

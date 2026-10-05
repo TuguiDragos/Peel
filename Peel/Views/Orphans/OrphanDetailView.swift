@@ -54,7 +54,7 @@ struct OrphanDetailView: View {
         }
         .dimmedWhileBusy(orphans.isScanning)
         .safeAreaBar(edge: .bottom) {
-            RemovalBar(page: Tool.orphans.page(group.identifier), isScanning: orphans.isScanning, scan: orphans.scanRun)
+            RemovalBar(page: group.page, isScanning: orphans.isScanning, scan: orphans.scanRun)
         }
         .fadesInColumn(whenRowsChange: group.items.map(\.id))
         .navigationTitle(group.title)
