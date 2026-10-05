@@ -20,6 +20,7 @@ struct DesktopWalletTests {
         ".walletwasabi/client/WalletBackups/Wallet.json",
         ".gingerwallet/client/Wallets/Wallet.json",
         ".gingerwallet/client/WalletBackups/Wallet.json",
+        "Library/Application Support/Zcash/zecwallet-light-wallet.dat",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()

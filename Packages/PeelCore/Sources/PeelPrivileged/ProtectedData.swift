@@ -91,6 +91,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/zcoin/backups",
         "Library/Application Support/Zcash/wallet.dat",
         "Library/Application Support/Zcash/zingo-wallet.dat",
+        "Library/Application Support/Zcash/zecwallet-light-wallet.dat",
         ".zallet/wallet.db",
         ".zallet/encryption-identity.txt",
         "Library/Containers/me.hanh.ywallet.ywallet/Data/Library/Application Support/me.hanh.ywallet.ywallet/databases",
