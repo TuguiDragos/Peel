@@ -140,6 +140,8 @@ public enum ProtectedData: Sendable {
         ".foundry/keystores",
         ".ape/accounts",
         ".brownie/accounts",
+        ".avalanche-cli/key",
+        ".avalanchego/staking",
         "Library/Preferences/hardhat-nodejs",
         ".phoenix/seed.dat",
         ".eclair",

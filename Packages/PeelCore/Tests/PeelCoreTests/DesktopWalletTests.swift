@@ -43,6 +43,9 @@ struct DesktopWalletTests {
         "Library/Signer/masterseed.json",
         ".ape/accounts/main.json",
         ".brownie/accounts/main.json",
+        ".avalanche-cli/key/main.pk",
+        ".avalanchego/staking/staker.key",
+        ".avalanchego/staking/staker.crt",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -70,6 +73,8 @@ struct DesktopWalletTests {
         "Library/Containers/com.cypherstack.stackwallet/Data/Library/Caches/thumbnail.png",
         ".lighthouse/mainnet/beacon/chain_db/000001.sst",
         ".brownie/packages/OpenZeppelin/openzeppelin-contracts@4.9.0/package.json",
+        ".avalanchego/db/mainnet/v1.4.5/000001.log",
+        ".avalanche-cli/logs/avalanche.log",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
