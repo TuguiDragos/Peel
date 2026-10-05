@@ -46,13 +46,13 @@ struct GitTab: View {
         .safeAreaBar(edge: .bottom) {
             TurnAllOffBar(
                 explanation: "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or leaves it to Git.",
-                isEnabled: git.hasSomethingOn && !git.isWorking
+                isEnabled: git.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }
         }
         .alert("Turn off all Git settings?", isPresented: $isConfirmingTurnAllOff) {
-            Button("Turn All Off") { Task { await git.turnAllOff() } }
+            Button("Turn All Off") { git.turnAllOff() }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Settings Peel changed go back to what they were, and the rest go back to Git’s defaults.")
@@ -74,9 +74,9 @@ private struct GitSettingRow: View {
             caption: caption,
             isOn: Binding(
                 get: { git.isOn(setting) },
-                set: { isOn in Task { await git.set(setting, to: isOn) } }
+                set: { git.set(setting, to: $0) }
             ),
-            isDisabled: !git.isOffered(setting) || git.isWorking
+            isDisabled: !git.isOffered(setting)
         )
     }
 
