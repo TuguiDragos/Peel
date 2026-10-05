@@ -100,42 +100,57 @@ struct ToolSidebar: View {
         Button {
             page = .about
         } label: {
-            HStack(spacing: 9) {
-                PeelFace(size: 30)
+            HStack(spacing: Head.spacing) {
+                PeelFace(size: Head.face)
                 VStack(alignment: .leading, spacing: 0) {
                     Text(verbatim: "Peel")
                         .font(.callout.weight(.semibold))
-                    if let update = library.newerPeel {
-                        Label {
-                            Text("\(update.version) is out")
-                        } icon: {
-                            Image(systemName: "arrow.down.circle.fill")
-                                .foregroundStyle(.tint)
-                        }
-                        .labelStyle(.titleAndIcon)
+                    versionLine
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    } else {
-                        Text(verbatim: AppVersion.display)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
                 }
                 .lineLimit(1)
-                Spacer(minLength: 0)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                if library.newerPeel != nil {
+                    Image(systemName: "arrow.down.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: Head.icon, height: Head.icon)
+                        .foregroundStyle(.tint)
+                        .help(versionLine)
+                        .accessibilityHidden(true)
+                        .transition(.opacity)
+                }
             }
-            .padding(.leading, 7)
-            .padding(.trailing, 14)
-            .padding(.vertical, 6)
+            .motion(value: library.newerPeel)
+            .padding(.leading, Head.leading)
+            .padding(.trailing, Head.trailing)
+            .padding(.vertical, Head.vertical)
             .contentShape(.capsule)
         }
         .buttonStyle(.plain)
         .glassEffect(.regular.interactive(), in: .capsule)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, Head.margin)
         .padding(.top, -8)
         .padding(.bottom, 8)
         .accessibilityLabel(Text(AboutView.title))
         .accessibilityValue(library.newerPeel.map { Text("Version \($0.version) is out.") } ?? Text(verbatim: AppVersion.display))
+    }
+
+    private var versionLine: Text {
+        library.newerPeel.map { Text("\($0.version) is out") } ?? Text(verbatim: AppVersion.display)
+    }
+
+    /// The head's measures, which the ruler also reads to leave its second line room beside the face and the icon.
+    private enum Head {
+        static let face: CGFloat = 30
+        static let spacing: CGFloat = 9
+        static let icon: CGFloat = 18
+        static let leading: CGFloat = 7
+        static let vertical: CGFloat = 6
+        /// Half the capsule's height less half the icon, so the icon is centered in the capsule's rounded end.
+        static let trailing = (face + 2 * vertical - icon) / 2
+        static let margin: CGFloat = 10
     }
 
     /// A group whose rows are added and removed here rather than by a collapsible `Section`, because SwiftUI
@@ -227,6 +242,11 @@ struct ToolSidebar: View {
                 Label { Text(tool.title) } icon: { icon(tool.systemImage) }
             }
             Label { Text("Settings") } icon: { icon("gearshape") }
+            // The head's version line and the room the face and the icon take around it, so the head fits too.
+            HStack(spacing: 0) {
+                versionLine.font(.caption)
+                Color.clear.frame(width: headRoom, height: 1)
+            }
             ForEach(Tool.Group.allCases, id: \.self) { group in
                 if let title = group.title, !shown(group.tools).isEmpty {
                     HStack(spacing: 6) {
@@ -244,6 +264,11 @@ struct ToolSidebar: View {
             widestLabel = widest
             fitWidth()
         }
+    }
+
+    private var headRoom: CGFloat {
+        let icon = library.newerPeel == nil ? 0 : Head.spacing + Head.icon
+        return 2 * Head.margin + Head.leading + Head.face + Head.spacing + icon + Head.trailing - Self.rowInsets
     }
 
     private func fitWidth() {
