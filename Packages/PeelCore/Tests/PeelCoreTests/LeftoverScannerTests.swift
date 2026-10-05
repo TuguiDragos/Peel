@@ -1449,6 +1449,19 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.confidence == .certain)
     }
 
+    @Test func aFolderWithAPasswordDatabaseOrItsKeyFileIsNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Tunewell/Backups/Passwords.kdbx")
+        try directory.file("home/Library/Application Support/net.example.client/Vault.keyx")
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+        let held = scan.leftovers.filter { ["Tunewell", "net.example.client"].contains($0.url.lastPathComponent) }
+        #expect(held.count == 2)
+        #expect(held.allSatisfy { $0.match.heldBack == .holdsAPasswordDatabase && !$0.match.isRecommended })
+    }
+
     @Test func dataKeptOnlyOnThisMacIsShownAndNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Signal/sql/db.sqlite", bytes: 4_096)

@@ -470,6 +470,15 @@ struct FileSizeTests {
         }
     }
 
+    @Test func knowsAPasswordDatabaseAndItsKeyFile() {
+        for name in ["Passwords.kdbx", "VAULT.KDBX", "Vault.keyx"] {
+            #expect(FileSize.isPasswordDatabase(name), "\(name)")
+        }
+        for name in ["Passwords.kdbx.lock", "notes.key", "kdbx", "Passwords.kdb"] {
+            #expect(!FileSize.isPasswordDatabase(name), "\(name)")
+        }
+    }
+
     /// A folder whose contents are only in the cloud is skipped: listing it fetches the whole tree from the
     /// provider and adds nothing, since it holds no local bytes. Ordinary folders are not dataless.
     @Test func doesNotWalkIntoAFolderThatIsOnlyInTheCloud() throws {

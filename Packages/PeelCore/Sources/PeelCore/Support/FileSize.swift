@@ -13,6 +13,8 @@ public struct FolderContents: Sendable, Hashable {
     /// True when a cryptocurrency wallet or a signing key was seen inside (`isWallet(_:)`). Without the file
     /// or a written recovery phrase, the money or the key is gone for good.
     public let holdsWallet: Bool
+    /// True when a password database or its key file was seen inside (`isPasswordDatabase(_:)`).
+    public let holdsPasswordDatabase: Bool
     /// The latest modification date of anything inside. A folder's own date does not change when a file in
     /// it is rewritten in place.
     public let newestChange: Date?
@@ -25,12 +27,14 @@ public struct FolderContents: Sendable, Hashable {
         size: Int64,
         holdsRepository: Bool,
         holdsWallet: Bool = false,
+        holdsPasswordDatabase: Bool = false,
         newestChange: Date? = nil,
         couldNotBeRead: Bool = false
     ) {
         self.size = size
         self.holdsRepository = holdsRepository
         self.holdsWallet = holdsWallet
+        self.holdsPasswordDatabase = holdsPasswordDatabase
         self.newestChange = newestChange
         self.couldNotBeRead = couldNotBeRead
     }
@@ -142,6 +146,7 @@ public enum FileSize {
                 size: (values.linkCount ?? 1) > 1 ? 0 : freed(by: url, values),
                 holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
                 holdsWallet: isWallet(url.lastPathComponent),
+                holdsPasswordDatabase: isPasswordDatabase(url.lastPathComponent),
                 newestChange: values.contentModificationDate
             )
         } catch CocoaError.fileReadNoSuchFile {
@@ -187,6 +192,7 @@ public enum FileSize {
         // The folder's own name counts as its entries' do: a `keystore` or a `.git` measured on its own.
         var holdsRepository = repositoryMarkers.contains(url.lastPathComponent)
         var holdsWallet = isWallet(url.lastPathComponent)
+        var holdsPasswordDatabase = isPasswordDatabase(url.lastPathComponent)
         var newestChange: Date?
         // A file with several names goes only once every name has gone, so it counts once, and only when all of
         // its names are inside.
@@ -202,6 +208,7 @@ public enum FileSize {
                 // `.git` folder.
                 if repositoryMarkers.contains(file.lastPathComponent) { holdsRepository = true }
                 if isWallet(file.lastPathComponent) { holdsWallet = true }
+                if isPasswordDatabase(file.lastPathComponent) { holdsPasswordDatabase = true }
                 guard let values = try? file.resourceValues(forKeys: fileKeys) else { return .next }
                 if let written = values.contentModificationDate, written > newestChange ?? .distantPast {
                     newestChange = written
@@ -228,6 +235,7 @@ public enum FileSize {
             size: total,
             holdsRepository: holdsRepository,
             holdsWallet: holdsWallet,
+            holdsPasswordDatabase: holdsPasswordDatabase,
             newestChange: newestChange,
             couldNotBeRead: refused.happened
         )
@@ -286,6 +294,13 @@ public enum FileSize {
     private static let walletSuffixes = ["wallet.dat", ".legacy.bak", ".wallet", ".keys", ".mmdbdoc_v1", ".jmdat"]
 
     private static let walletPrefixes = ["wallet.dat.", "zecwallet-light-wallet.backup."]
+
+    /// True for a KeePass database (`.kdbx`) or a KeePassXC key file (`.keyx`), without which the database
+    /// cannot be opened.
+    static func isPasswordDatabase(_ name: String) -> Bool {
+        let name = name.lowercased()
+        return name.hasSuffix(".kdbx") || name.hasSuffix(".keyx")
+    }
 }
 
 /// What is known about the folders being walked.

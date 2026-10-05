@@ -315,6 +315,7 @@ extension HoldBack {
         case .holdsDocuments: "holds the app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsAWallet: "holds a wallet or a signing key"
+        case .holdsAPasswordDatabase: "holds a password database or its key file"
         case .holdsLocalMail: "may hold mail kept only on this Mac"
         case .holdsMessageHistory: "holds message history that may exist only on this Mac"
         case .holdsPasswordsOrCodes: "holds passwords or sign-in codes that may exist only on this Mac"

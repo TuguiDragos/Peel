@@ -51,6 +51,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsALibrary
     /// A cryptocurrency wallet or a signing key is inside, which may exist nowhere else.
     case holdsAWallet
+    /// A password database or its key file is inside, which may exist nowhere else.
+    case holdsAPasswordDatabase
     /// Mail kept on this Mac may be inside, such as a local or POP account's (`KeptOnlyHere`).
     case holdsLocalMail
     /// Message history that may exist only on this Mac (`KeptOnlyHere`).
@@ -101,6 +103,7 @@ public enum HoldBack: String, Sendable, Hashable {
         guard let contents else { return .notMeasured }
         if contents.couldNotBeRead { return .couldNotBeRead }
         if contents.holdsWallet { return .holdsAWallet }
+        if contents.holdsPasswordDatabase { return .holdsAPasswordDatabase }
         return contents.holdsRepository ? .holdsRepository : nil
     }
 }

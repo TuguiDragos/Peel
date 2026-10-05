@@ -82806,6 +82806,112 @@
         }
       }
     },
+    "Not selected: a password database or its key file is inside. Once the Trash is emptied, the passwords are gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: uvnitř je databáze hesel nebo soubor s klíčem k ní. Jakmile se koš vysype, hesla budou trvale ztracena, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Darin liegt eine Passwortdatenbank oder ihre Schlüsseldatei. Sobald der Papierkorb entleert ist, sind die Passwörter endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: dentro hay una base de datos de contraseñas o su archivo de clave. En cuanto se vacíe la papelera, las contraseñas se perderán definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient une base de données de mots de passe ou son fichier-clé. Une fois la corbeille vidée, les mots de passe sont perdus définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: all’interno c’è un database di password o il suo file chiave. Una volta svuotato il Cestino, le password sono perse definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 中にパスワードデータベースまたはそのキーファイルがあります。ゴミ箱を空にすると、バックアップがない限り、パスワードは二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 안에 암호 데이터베이스나 해당 키 파일이 있습니다. 휴지통을 비우면 백업이 없는 한 암호가 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: er zit een wachtwoorddatabase of het sleutelbestand ervan in. Zodra de prullenmand is geleegd, zijn de wachtwoorden definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: w środku jest baza haseł lub jej plik klucza. Po opróżnieniu Kosza hasła przepadną na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: há dentro um banco de dados de senhas ou o arquivo-chave dele. Depois que o Lixo for esvaziado, as senhas se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: înăuntru se află o bază de date cu parole sau fișierul cheie al acesteia. După golirea Coșului, parolele se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: внутри есть база данных паролей или ее файл-ключ. После очистки Корзины пароли будут потеряны безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: en lösenordsdatabas eller dess nyckelfil ligger i den. När papperskorgen har tömts är lösenorden borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: içinde bir parola veritabanı veya onun anahtar dosyası var. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa parolalar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: усередині є база даних паролів або її файл-ключ. Коли Смітник буде очищено, паролі буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：其中有密码数据库或其密钥文件。一旦清倒废纸篓，除非你有备份，否则这些密码将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中有密碼資料庫或其金鑰檔案。一旦清空「垃圾桶」，除非你有備份，否則這些密碼就會永久消失。"
+          }
+        }
+      }
+    },
     "Not selected: a program has this open right now, and may still be downloading it." : {
       "localizations" : {
         "cs" : {
@@ -88426,12 +88532,6 @@
     },
     "Once %@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%@`." : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Once %1$@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%2$@`."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -88442,6 +88542,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobald %@ den Ordner „Programme“ verlässt, wird die App von ihrem eigenen Dienst deinstalliert: Er meldet diesen Mac von deinem Account ab und löscht ihre Einstellungen, die sich über den Verlauf nicht zurückholen lassen. Notiere dir zuerst deine Accountnummer oder führe stattdessen das eigene Deinstallationsprogramm der App aus: `%@`."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Once %1$@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%2$@`."
           }
         },
         "es" : {
