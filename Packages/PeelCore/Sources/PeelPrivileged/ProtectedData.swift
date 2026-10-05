@@ -138,6 +138,8 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/ethereum2/wallets",
         "Library/Signer",
         ".foundry/keystores",
+        ".ape/accounts",
+        ".brownie/accounts",
         "Library/Preferences/hardhat-nodejs",
         ".phoenix/seed.dat",
         ".eclair",

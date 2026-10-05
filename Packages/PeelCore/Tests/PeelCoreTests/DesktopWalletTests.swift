@@ -41,6 +41,8 @@ struct DesktopWalletTests {
         "Library/Eth2Validators/prysm-wallet-v2/accounts/all-accounts.keystore.json",
         "Library/Application Support/ethereum2/wallets/main/wallet.json",
         "Library/Signer/masterseed.json",
+        ".ape/accounts/main.json",
+        ".brownie/accounts/main.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -67,6 +69,7 @@ struct DesktopWalletTests {
         "Library/Application Support/Haveno-reto/xmr_mainnet/haveno.log",
         "Library/Containers/com.cypherstack.stackwallet/Data/Library/Caches/thumbnail.png",
         ".lighthouse/mainnet/beacon/chain_db/000001.sst",
+        ".brownie/packages/OpenZeppelin/openzeppelin-contracts@4.9.0/package.json",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
