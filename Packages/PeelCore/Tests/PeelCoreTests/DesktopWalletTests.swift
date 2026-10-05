@@ -54,6 +54,14 @@ struct DesktopWalletTests {
         ".osmosisd/keyring-file/main.info",
         ".osmosisd/keyring-test/main.info",
         ".osmosisd/config/priv_validator_key.json",
+        "Library/Application Support/Namecoin/wallets/wallet.dat",
+        "Library/Application Support/Namecoin/wallet.dat",
+        "Library/Application Support/Groestlcoin/wallets/wallet.dat",
+        "Library/Application Support/Groestlcoin/wallet.dat",
+        "Library/Application Support/Liquid/wallets/wallet.dat",
+        "Library/Application Support/Liquid/wallet.dat",
+        "Library/Application Support/Elements/wallets/wallet.dat",
+        "Library/Application Support/Elements/wallet.dat",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -86,6 +94,8 @@ struct DesktopWalletTests {
         ".config/stellar/network/testnet.toml",
         ".fuel/toolchains/latest-aarch64-apple-darwin/bin/forc",
         ".osmosisd/data/application.db/000001.log",
+        "Library/Application Support/Namecoin/blocks/blk00000.dat",
+        "Library/Application Support/Liquid/blocks/blk00000.dat",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
