@@ -68,6 +68,9 @@ struct DesktopWalletTests {
         "Library/Application Support/Dcrwallet/mainnet/wallet.db",
         "Library/Application Support/Dexc/mainnet/dexc.db",
         "Library/Application Support/Dexc/mainnet/assetdb/btc/wallet.db",
+        ".ashigaru/config",
+        "Library/Application Support/bitcoin_safe/bitcoin/main.wallet",
+        "Library/Application Support/joinmarket/wallets/wallet.jmdat",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -105,6 +108,7 @@ struct DesktopWalletTests {
         ".electrum-abc/blockchain_headers",
         ".electrum-nmc/blockchain_headers",
         "Library/Application Support/Dexc/mainnet/logs/dexc.log",
+        "Library/Application Support/joinmarket/logs/joinmarket.log",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
