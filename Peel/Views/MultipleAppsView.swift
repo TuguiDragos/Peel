@@ -308,6 +308,7 @@ struct MultipleAppsView: View {
         if !resetting(urls).isEmpty {
             lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
         }
+        lines += UninstallsItself.when(moving: urls, among: plan.apps).map(\.warning)
         return lines.dropFirst().reduce(lines.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
     }
 

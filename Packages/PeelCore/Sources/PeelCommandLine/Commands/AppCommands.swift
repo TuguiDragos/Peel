@@ -463,6 +463,9 @@ struct UninstallCommand: AsyncParsableCommand {
             if resetPrivacy {
                 Output.line("Peel resets \(target.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
             }
+            for app in UninstallsItself.when(moving: Set(plan.moving.map(\.url)), among: [target]) {
+                Output.line("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(app.uninstaller)")
+            }
         }
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 

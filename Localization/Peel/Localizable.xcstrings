@@ -88424,6 +88424,118 @@
         }
       }
     },
+    "Once %@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%@`." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Once %1$@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%2$@`."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile aplikace %@ opustí složku Aplikace, odinstaluje ji její vlastní služba: odhlásí tento Mac z vašeho účtu a smaže nastavení aplikace, které Historie nemůže vrátit. Nejprve si zapište číslo svého účtu, nebo místo toho spusťte vlastní odinstalátor aplikace: `%@`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald %@ den Ordner „Programme“ verlässt, wird die App von ihrem eigenen Dienst deinstalliert: Er meldet diesen Mac von deinem Account ab und löscht ihre Einstellungen, die sich über den Verlauf nicht zurückholen lassen. Notiere dir zuerst deine Accountnummer oder führe stattdessen das eigene Deinstallationsprogramm der App aus: `%@`."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ salga de la carpeta Aplicaciones, su propio servicio la desinstalará: cerrará la sesión de tu cuenta en este Mac y borrará sus ajustes, que Historial no puede recuperar. Anota antes tu número de cuenta, o ejecuta en su lugar el propio desinstalador de la app: `%@`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois %@ sorti du dossier Applications, son propre service le désinstalle : il déconnecte ce Mac de votre compte et supprime ses réglages, que l’Historique ne peut pas rétablir. Notez d’abord votre numéro de compte, ou lancez plutôt le programme de désinstallation propre à l’app : `%@`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando %@ esce dalla cartella Applicazioni, il suo stesso servizio la disinstalla: disconnette questo Mac dal tuo account e ne elimina le impostazioni, che la Cronologia non può ripristinare. Prima annota il numero del tuo account, oppure esegui invece il programma di disinstallazione dell’app stessa: `%@`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@が“アプリケーション”フォルダから移動されると、アプリ自身のサービスによってアンインストールされます。このMacはアカウントからログアウトされ、設定が削除されます。この設定は履歴から元に戻すことはできません。先にアカウント番号を控えておくか、代わりにアプリ独自のアンインストーラを実行してください: `%@`。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 응용 프로그램 폴더에서 옮겨지면 앱 자체의 서비스가 앱을 제거합니다. 이 서비스는 이 Mac을 사용자 계정에서 로그아웃하고 앱의 설정을 삭제하며, 이는 기록에서 되살릴 수 없습니다. 먼저 계정 번호를 적어 두거나, 대신 앱 자체의 제거 프로그램인 `%@` 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra %@ de map 'Apps' verlaat, deïnstalleert de eigen dienst van de app die: deze Mac wordt uitgelogd bij je account en de instellingen van de app worden definitief verwijderd, en Geschiedenis kan ze niet terugzetten. Noteer eerst je accountnummer, of voer in plaats daarvan het eigen de-installatieprogramma van de app uit: `%@`."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy aplikacja %@ opuści folder Aplikacje, jej własna usługa ją odinstaluje: wyloguje tego Maca z Twojego konta i usunie jej ustawienia, których Historia nie może przywrócić. Najpierw zapisz numer swojego konta albo zamiast tego uruchom własny dezinstalator aplikacji: `%@`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que %@ sair da pasta Aplicativos, o próprio serviço do app o desinstala: ele finaliza a sessão da sua conta neste Mac e apaga os ajustes do app, que o Histórico não pode trazer de volta. Anote antes o número da sua conta ou, em vez disso, execute o desinstalador do próprio app: `%@`."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce %@ iese din dosarul Aplicații, serviciul propriu al aplicației o dezinstalează: face logout din contul dvs. pe acest Mac și șterge configurările aplicației, care nu pot fi readuse din Istoric. Notați mai întâi numărul de cont sau rulați în schimb programul propriu de dezinstalare al aplicației: `%@`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как только приложение «%@» покинет папку «Программы», его собственная служба удалит его: она выполнит выход этого Mac из Вашей учетной записи и удалит его настройки, которые История не сможет вернуть. Сначала запишите номер Вашей учетной записи или вместо этого запустите собственную программу удаления приложения: `%@`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ lämnar mappen Appar avinstallerar appens egen tjänst den: tjänsten loggar ut den här datorn från ditt konto och raderar appens inställningar, och dem kan Historik inte få tillbaka. Skriv först ner ditt kontonummer, eller kör appens egen avinstallerare i stället: `%@`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, kendi servisi onun yüklemesini kaldırır: hesabınızda bu Mac’in oturumunu kapatır ve ayarlarını siler; Geçmiş bunları geri getiremez. Önce hesap numaranızı bir yere not edin veya bunun yerine uygulamanın kendi yükleme kaldırıcısını çalıştırın: `%@`."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно програма «%@» залишить папку «Програми», її власна служба деінсталює її: вона виконає вихід цього Mac з вашого облікового запису й видалить її параметри, і Історія не зможе їх повернути. Спершу запишіть номер свого облікового запису або натомість запустіть власний деінсталятор програми: `%@`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦“%@”离开“应用程序”文件夹，它自己的服务就会将其卸载：这会让这台Mac退出你的账户，并删除它的设置，“历史记录”无法将其恢复。请先记下你的账号，或改为运行该App自己的卸载器：`%@`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦「%@」離開「應用程式」檔案夾，它自己的服務就會將它解除安裝：它會將這部Mac從你的帳號登出，並刪除其設定，而「歷史記錄」無法將其恢復。請先記下你的帳號號碼，或改為執行該App自己的解除安裝程式：`%@`。"
+          }
+        }
+      }
+    },
     "Once the file is in the Trash, the item is stopped." : {
       "localizations" : {
         "cs" : {

@@ -107,6 +107,12 @@ extension SearchLocation.Kind {
     }
 }
 
+extension UninstallsItself {
+    var warning: Text {
+        Text("Once \(app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `\(uninstaller)`.")
+    }
+}
+
 extension GuardRefusal {
     /// Why Peel never moves the item, in words for the person who asked to move it.
     var explanation: LocalizedStringResource {
