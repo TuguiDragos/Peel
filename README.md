@@ -191,6 +191,12 @@ before, or leaves it to macOS.
 ### Set up Terminal
 
 <p align="center">
+  <img src="readme-assets/peel-terminal-themes.png" width="900" alt="Peel's Terminal page, on Themes: the theme in use, Cavitation, previewed in a Terminal window, with Open Terminal and Put Back, and the themes to choose from">
+</p>
+
+The Terminal page has six tabs: Themes, Terminal's own settings, Shell, Git, SSH, and Tools.
+
+<p align="center">
   <img src="Terminal/Renders/Hadal.png" width="49%" alt="The Hadal theme in Terminal">
   <img src="Terminal/Renders/Noctiluca.png" width="49%" alt="The Noctiluca theme in Terminal">
 </p>
