@@ -105,16 +105,10 @@ final class BulkRemovalPlan {
         selectedURLs = choices.update(selectedURLs, in: bulk, canUseHelper: canUseHelper)
     }
 
-    /// Selects or deselects one row. Deselecting an app's bundle keeps the app, so its files leave the selection
-    /// with it (`UninstallSelection.personChanged(from:to:in:)`).
-    func setSelected(_ isSelected: Bool, for url: URL) {
-        var selected = selectedURLs
-        if isSelected {
-            selected.insert(url)
-        } else {
-            selected.remove(url)
-        }
-        selectedURLs = bulk.map { choices.personChanged(from: selectedURLs, to: selected, in: $0) } ?? selected
+    /// Deselecting an app's bundle keeps the app, so its files leave the selection with it
+    /// (`UninstallSelection.personChanged(from:to:in:)`).
+    func select(_ selection: Set<URL>) {
+        selectedURLs = bulk.map { choices.personChanged(from: selectedURLs, to: selection, in: $0) } ?? selection
     }
 
     /// Moves what `request` asked about, whatever has been selected since.

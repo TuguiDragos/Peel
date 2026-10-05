@@ -6,7 +6,8 @@ import Foundation
 /// SwiftUI treats every row as changed and rebuilds all of them on every change.
 protocol RowSelection: AnyObject {
     var selectedURLs: Set<URL> { get set }
-    func setSelected(_ isSelected: Bool, for url: URL)
+    /// Makes `selection` what is selected, as the person chose it: a click and a Select menu both come here.
+    func select(_ selection: Set<URL>)
 }
 
 extension RowSelection {
@@ -14,12 +15,18 @@ extension RowSelection {
         selectedURLs.contains(url)
     }
 
+    func select(_ selection: Set<URL>) {
+        selectedURLs = selection
+    }
+
     func setSelected(_ isSelected: Bool, for url: URL) {
+        var selection = selectedURLs
         if isSelected {
-            selectedURLs.insert(url)
+            selection.insert(url)
         } else {
-            selectedURLs.remove(url)
+            selection.remove(url)
         }
+        select(selection)
     }
 }
 
