@@ -58,8 +58,9 @@ final class HomebrewLibrary {
     /// at launch and on every change in an Applications folder, which would be Peel contacting the network on
     /// its own. So nothing is asked.
     private(set) var needsDefinitions = false
-    /// The findings of the last health check. Nil until one runs, and cleared by any command that changes
-    /// Homebrew, since they would then describe it as it was.
+    /// The findings of the last health check. Nil until one runs, and cleared, with the vulnerability report, by
+    /// any command that changes Homebrew and by a reading that finds other packages installed, since they would
+    /// then describe it as it was.
     private(set) var findings: [HomebrewFinding]?
     private(set) var advisories: HomebrewVulnerabilityReport?
     /// Casks describing installed apps that Homebrew didn't install, read from its local definitions.
@@ -151,6 +152,9 @@ final class HomebrewLibrary {
         // the page is visited.
         switch installed {
         case .success(let list):
+            if let packages, !packages.installsTheSame(as: list) {
+                (findings, advisories) = (nil, nil)
+            }
             packages = list
             hasAnswered = true
             couldNotRead = nil

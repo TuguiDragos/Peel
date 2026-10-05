@@ -546,6 +546,20 @@ struct HomebrewTests {
         #expect(vulnerabilities.map(\.fix) == [.versions(["0.12.8"]), .commits, .notListed])
     }
 
+    @Test func tellsWhenTheInstalledPackagesChanged() {
+        let openssl = HomebrewPackage(name: "openssl@3", kind: .formula, installedVersion: "3.6.3")
+        let offered = HomebrewPackage(
+            name: "openssl@3", kind: .formula, installedVersion: "3.6.3", latestVersion: "3.6.4", isOutdated: true
+        )
+        let upgraded = HomebrewPackage(name: "openssl@3", kind: .formula, installedVersion: "3.6.4")
+        let curl = HomebrewPackage(name: "curl", kind: .formula, installedVersion: "8.17.0")
+
+        #expect([openssl, curl].installsTheSame(as: [curl, offered]))
+        #expect(![openssl].installsTheSame(as: [upgraded]))
+        #expect(![openssl].installsTheSame(as: [openssl, curl]))
+        #expect(![openssl, curl].installsTheSame(as: [curl]))
+    }
+
     @Test func listsIdentifiersInTheOrderOfTheirNumbers() throws {
         let json = """
         {"findings": [{"formula": "libssh2", "version": "1.11.1", "vulnerabilities": [

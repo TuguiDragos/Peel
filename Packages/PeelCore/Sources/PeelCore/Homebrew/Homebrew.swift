@@ -112,6 +112,18 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     }
 }
 
+extension [HomebrewPackage] {
+    /// Whether `other` has the same packages installed, at the same versions, whatever else Homebrew now says of
+    /// them, such as a newer version it offers.
+    public func installsTheSame(as other: [HomebrewPackage]) -> Bool {
+        installed == other.installed
+    }
+
+    private var installed: [String: String?] {
+        Dictionary(map { ($0.id, $0.installedVersion) }, uniquingKeysWith: { first, _ in first })
+    }
+}
+
 public struct HomebrewInstallation: Sendable, Hashable {
     public let version: String
     public let prefix: URL
