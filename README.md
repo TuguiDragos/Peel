@@ -235,7 +235,7 @@ Settings > General holds Peel's choices, among them which tools the sidebar show
 ## Safe by design
 
 <p align="center">
-  <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: VLC with its preferences and caches, moved to the Trash seconds ago, each item ready to put back">
+  <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back, and under Not Moved, what Peel was asked to move and didn't">
 </p>
 
 A cleaner should never cost you something you wanted. Peel is built around that.
