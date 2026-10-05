@@ -77,7 +77,7 @@ Peel is free and open source, and it speaks English and 17 other languages.
 ### Uninstall apps completely
 
 <p align="center">
-  <img src="readme-assets/peel-uninstall-app-with-leftover-files.png" width="900" alt="Peel uninstalling Blender: the app and its leftover files in caches, Application Support, and containers, each with its kind and size, selected and ready to move to the Trash">
+  <img src="readme-assets/peel-uninstall-app-with-leftover-files.png" width="900" alt="Peel uninstalling Obsidian: the app, what it left in Application Support, caches, and preferences, and the command Homebrew linked to it, each with its kind and size, selected and ready to move to the Trash, with its list of recent documents under Review Before Removing, its privacy permissions to reset, and the links it opens by default">
 </p>
 
 - **Every leftover, with a reason.** Peel searches the places apps keep files: Application Support, caches,
@@ -87,7 +87,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
 - **Only the sure things are selected.** Files that certainly belong to the app are selected for you, unless
   Peel sees something inside that may exist nowhere else, such as a crypto wallet, a signing key, or a
   repository. A file another installed app also uses is shown but never selected, and anything Peel is less sure
-  of waits under Review Before Removing.
+  of waits under Review Before Removing. A list's Select menu picks what Peel recommends, everything, or nothing,
+  and asks before it selects what Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel. With Watch the Trash on, Peel notices when you
   drag an app to the Trash yourself and offers to clear what it left behind. Apps you keep outside the Applications
@@ -98,6 +99,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   to the camera and the microphone.
 - **Its Dock icon too, if you want.** Peel can take the app's icon out of the Dock, where it would stay as a
   question mark, and History puts it back where it was when you put the app back.
+- **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
+  them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names or the
   App Store for apps bought there, and shows what is new in the version that waits, as the app's own notes say it,
   with no connection too. Skip This Version and Never Check This App keep it quiet about the ones you want left
