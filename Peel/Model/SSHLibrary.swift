@@ -4,11 +4,15 @@ import PeelCore
 
 @Observable
 final class SSHLibrary {
+    struct State: Equatable {
+        var settings: Set<SSHSetting>?
+        var isIncluded: Bool
+        var accepted: Set<SSHSetting>
+    }
+
     let file = SSHFile.url(in: PeelFolder.url)
     let config = URL.homeDirectory.appending(path: ".ssh/config", directoryHint: .notDirectory)
-    private(set) var settings: Set<SSHSetting>?
-    private(set) var isIncluded = false
-    private(set) var accepted: Set<SSHSetting>?
+    private(set) var state: State?
     private(set) var wasRefused = false
 
     var lines: [String] {
@@ -16,23 +20,25 @@ final class SSHLibrary {
     }
 
     var hasSomethingOn: Bool {
-        settings.map { !$0.isEmpty } ?? false
+        state?.settings.map { !$0.isEmpty } ?? false
     }
 
     func refresh() async {
-        settings = SSHFile.read(file)
-        isIncluded = SSHFile.isIncluded(file, from: config, home: .homeDirectory)
-        if accepted == nil {
-            accepted = await SSHFile.accepted()
-        }
+        let accepted = if let state, !state.accepted.isEmpty { state.accepted } else { await SSHFile.accepted() }
+        state = State(
+            settings: SSHFile.read(file),
+            isIncluded: SSHFile.isIncluded(file, from: config, home: .homeDirectory),
+            accepted: accepted
+        )
     }
 
     func isOffered(_ setting: SSHSetting) -> Bool {
-        settings != nil && accepted?.contains(setting) == true
+        guard let state, state.settings != nil else { return false }
+        return state.accepted.contains(setting)
     }
 
     func set(_ setting: SSHSetting, to isOn: Bool) {
-        guard var settings else { return }
+        guard var settings = state?.settings else { return }
         if isOn {
             settings.insert(setting)
         } else {
@@ -47,6 +53,6 @@ final class SSHLibrary {
 
     private func write(_ settings: Set<SSHSetting>) {
         wasRefused = !SSHFile.write(settings, to: file)
-        self.settings = SSHFile.read(file)
+        state?.settings = SSHFile.read(file)
     }
 }

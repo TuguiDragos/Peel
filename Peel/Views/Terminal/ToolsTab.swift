@@ -1,4 +1,3 @@
-import AppKit
 import PeelCore
 import SwiftUI
 
@@ -7,55 +6,52 @@ struct ToolsTab: View {
 
     var body: some View {
         Form {
-            if tools.hasLooked, tools.prefix == nil {
-                Section {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 5) {
-                            Text("Install Homebrew first")
-                                .font(.body.weight(.semibold))
-                            Link(destination: Homebrew.website) { Text(verbatim: "brew.sh") }
-                                .font(.caption)
+            if let state = tools.state {
+                if state.prefix == nil {
+                    Section {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(spacing: 5) {
+                                Text("Install Homebrew first")
+                                    .font(.body.weight(.semibold))
+                                Link(destination: Homebrew.website) { Text(verbatim: "brew.sh") }
+                                    .font(.caption)
+                            }
+                            CopyableLines(
+                                caption: Text("These tools install with Homebrew. Run this in Terminal: its script says what it will do and waits before doing it."),
+                                lines: [Homebrew.installCommand]
+                            )
                         }
-                        CopyableLines(
-                            caption: Text("These tools install with Homebrew. Run this in Terminal: its script says what it will do and waits before doing it."),
-                            lines: [Homebrew.installCommand]
-                        )
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
                 }
-            }
-            ForEach(TerminalTool.Group.allCases, id: \.self) { group in
-                Section {
-                    ForEach(TerminalTool.allCases.filter { $0.group == group }, id: \.self) { tool in
-                        TerminalToolRow(tool: tool)
-                    }
-                } header: {
-                    Text(group.title)
-                } footer: {
-                    if group == .shell {
-                        Text("Their lines go in ~/.zshrc in the order they are listed here.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                ForEach(TerminalTool.Group.allCases, id: \.self) { group in
+                    Section {
+                        ForEach(TerminalTool.allCases.filter { $0.group == group }, id: \.self) { tool in
+                            TerminalToolRow(tool: tool, state: state)
+                        }
+                    } header: {
+                        Text(group.title)
+                    } footer: {
+                        if group == .shell {
+                            Text("Their lines go in ~/.zshrc in the order they are listed here.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
             }
         }
         .formStyle(.grouped)
-        .task {
-            await tools.refresh()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await tools.refresh() }
-        }
     }
 }
 
 private struct TerminalToolRow: View {
     @Environment(TerminalToolLibrary.self) private var tools
     let tool: TerminalTool
+    let state: TerminalToolLibrary.State
 
     var body: some View {
-        let isInstalled = tools.installed.contains(tool)
+        let isInstalled = state.installed.contains(tool)
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 Text(verbatim: tool.name)
@@ -97,7 +93,7 @@ private struct TerminalToolRow: View {
                 if !isInstalled {
                     CopyableLines(caption: Text("Install"), lines: [tool.installCommand])
                 }
-                ForEach(tool.setup(prefix: tools.prefix ?? Self.defaultPrefix), id: \.lines) { setup in
+                ForEach(tool.setup(prefix: state.prefix ?? Self.defaultPrefix), id: \.lines) { setup in
                     CopyableLines(caption: Text(setup.place.caption), lines: setup.lines)
                 }
             }

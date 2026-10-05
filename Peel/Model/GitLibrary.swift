@@ -4,14 +4,18 @@ import PeelCore
 
 @Observable
 final class GitLibrary {
+    struct State: Equatable {
+        var isInstalled: Bool
+        var settings: [String: String?]?
+        var known: Set<String>?
+        var signingKey: String?
+    }
+
     private static let ledgerKey = "terminalGit"
 
     private var ledger = GitLedger(stored: UserDefaults.standard.dictionary(forKey: ledgerKey) ?? [:])
-    private(set) var git: GitConfig?
-    private(set) var hasLooked = false
-    private(set) var settings: [String: String?]?
-    private(set) var known: Set<String>?
-    private(set) var signingKey: String?
+    private var git: GitConfig?
+    private(set) var state: State?
     private(set) var isWorking = false
     private(set) var wasRefused = false
 
@@ -20,24 +24,28 @@ final class GitLibrary {
     }
 
     func refresh() async {
-        if git == nil {
-            git = await GitConfig.find()
-        }
-        hasLooked = true
-        settings = await git?.settings()
+        let git = if let git { git } else { await GitConfig.find() }
+        let settings = await git?.settings()
+        var known = state?.known
         if known == nil {
             known = await git?.knownKeys()
         }
-        signingKey = GitSetting.signingKey(in: .homeDirectory)
+        self.git = git
+        state = State(
+            isInstalled: git != nil,
+            settings: settings,
+            known: known,
+            signingKey: GitSetting.signingKey(in: .homeDirectory)
+        )
     }
 
     func isOn(_ setting: GitSetting) -> Bool {
-        settings.map(setting.isOn(in:)) ?? false
+        state?.settings.map(setting.isOn(in:)) ?? false
     }
 
     func isOffered(_ setting: GitSetting) -> Bool {
-        guard settings != nil, known.map(setting.isKnown(by:)) == true else { return false }
-        return setting != .signCommits || signingKey != nil || isOn(setting)
+        guard let state, state.settings != nil, state.known.map(setting.isKnown(by:)) == true else { return false }
+        return setting != .signCommits || state.signingKey != nil || isOn(setting)
     }
 
     func set(_ setting: GitSetting, to isOn: Bool) async {
@@ -45,7 +53,7 @@ final class GitLibrary {
         isWorking = true
         var ledger = ledger
         let outcome = isOn
-            ? await ledger.turnOn(setting, signingKey: signingKey, in: git)
+            ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git)
             : await ledger.turnOff(setting, in: git)
         finish(ledger, refused: outcome == .refused)
         await refresh()

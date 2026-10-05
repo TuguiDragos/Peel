@@ -6,11 +6,11 @@ struct TerminalPage: View {
     @Environment(TerminalLibrary.self) private var terminal
     @Environment(TweakLibrary.self) private var tweaks
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(ShellLibrary.self) private var shell
+    @Environment(GitLibrary.self) private var git
+    @Environment(SSHLibrary.self) private var ssh
+    @Environment(TerminalToolLibrary.self) private var tools
     @State private var showsWindowSwitch = false
-    @State private var shell = ShellLibrary()
-    @State private var git = GitLibrary()
-    @State private var ssh = SSHLibrary()
-    @State private var tools = TerminalToolLibrary()
 
     static let tabTitles: [LocalizedStringResource] = ["Themes", "Terminal", "Shell", "Git", "SSH", "Tools"]
     static let tabBarWidth = TabBar.width(of: tabTitles.map { String(localized: $0) })
@@ -44,23 +44,15 @@ struct TerminalPage: View {
                 ToolsTab()
             }
         }
-        .environment(shell)
-        .environment(git)
-        .environment(ssh)
-        .environment(tools)
         .navigationTitle(Text(Tool.terminal.title))
         .task {
-            terminal.refresh()
-            tweaks.refresh()
-            showsWindowSwitch = TerminalWindows.switchMatters()
+            await refresh()
         }
         .onDisappear {
             tweaks.forgetRefusals()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            terminal.refresh()
-            tweaks.refresh()
-            showsWindowSwitch = TerminalWindows.switchMatters()
+            Task { await refresh() }
         }
         .onChange(of: history.revision) {
             terminal.refresh()
@@ -88,6 +80,17 @@ struct TerminalPage: View {
         } message: {
             Text("It may be asking whether to stop a command that is still running.")
         }
+    }
+
+    private func refresh() async {
+        terminal.refresh()
+        tweaks.refresh()
+        showsWindowSwitch = TerminalWindows.switchMatters()
+        async let shellRead: Void = shell.refresh()
+        async let gitRead: Void = git.refresh()
+        async let sshRead: Void = ssh.refresh()
+        async let toolsRead: Void = tools.refresh()
+        _ = await (shellRead, gitRead, sshRead, toolsRead)
     }
 
     private var isWaitingForTerminal: Binding<Bool> {

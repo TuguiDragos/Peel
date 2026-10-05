@@ -1,4 +1,3 @@
-import AppKit
 import PeelCore
 import SwiftUI
 
@@ -8,47 +7,49 @@ struct ShellTab: View {
 
     var body: some View {
         Form {
-            Section {
-                ShellLineRow()
-            } footer: {
-                if shell.wasRefused {
-                    Label("macOS refused it", systemImage: "exclamationmark.triangle")
-                        .font(.caption)
-                        .foregroundStyle(Color.accentColor)
-                } else if shell.startupFile != nil {
-                    Text("Takes effect in new windows")
+            if let state = shell.state {
+                Section {
+                    ShellLineRow(state: state)
+                } footer: {
+                    if shell.wasRefused {
+                        Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                            .font(.caption)
+                            .foregroundStyle(Color.accentColor)
+                    } else if state.startupFile != nil {
+                        Text("Takes effect in new windows")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Section {
+                    let width = PromptSample.width(of: PromptStyle.allCases)
+                    ForEach(PromptStyle.allCases, id: \.self) { style in
+                        PromptRow(style: style, sampleWidth: width)
+                    }
+                } header: {
+                    Text("Prompt")
+                } footer: {
+                    Text("The colors are the Terminal theme’s, and the arrow turns red after a command fails.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-            }
-            Section {
-                let width = PromptSample.width(of: PromptStyle.allCases)
-                ForEach(PromptStyle.allCases, id: \.self) { style in
-                    PromptRow(style: style, sampleWidth: width)
-                }
-            } header: {
-                Text("Prompt")
-            } footer: {
-                Text("The colors are the Terminal theme’s, and the arrow turns red after a command fails.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            ForEach(ShellSetting.Group.allCases, id: \.self) { group in
-                Section {
-                    ForEach(ShellSetting.allCases.filter { $0.group == group }, id: \.self) { setting in
-                        TerminalSwitchRow(
-                            title: setting.title,
-                            detail: setting.detail,
-                            footnote: setting.lines.joined(separator: "\n"),
-                            isOn: Binding(
-                                get: { shell.choices?.settings.contains(setting) == true },
-                                set: { shell.set(setting, to: $0) }
-                            ),
-                            isDisabled: !shell.isOffered(setting)
-                        )
+                ForEach(ShellSetting.Group.allCases, id: \.self) { group in
+                    Section {
+                        ForEach(ShellSetting.allCases.filter { $0.group == group }, id: \.self) { setting in
+                            TerminalSwitchRow(
+                                title: setting.title,
+                                detail: setting.detail,
+                                footnote: setting.lines.joined(separator: "\n"),
+                                isOn: Binding(
+                                    get: { shell.state?.choices?.settings.contains(setting) == true },
+                                    set: { shell.set(setting, to: $0) }
+                                ),
+                                isDisabled: !shell.isOffered(setting)
+                            )
+                        }
+                    } header: {
+                        Text(group.title)
                     }
-                } header: {
-                    Text(group.title)
                 }
             }
         }
@@ -67,23 +68,18 @@ struct ShellTab: View {
         } message: {
             Text("New windows start with the prompt and settings macOS sets.")
         }
-        .task {
-            await shell.refresh()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await shell.refresh() }
-        }
     }
 }
 
 private struct ShellLineRow: View {
     @Environment(ShellLibrary.self) private var shell
+    let state: ShellLibrary.State
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            if let startupFile = shell.startupFile {
+            if let startupFile = state.startupFile {
                 HStack(spacing: 5) {
-                    if shell.isSourced {
+                    if state.isSourced {
                         Label {
                             Text("zsh reads Peel’s settings")
                         } icon: {
@@ -100,7 +96,7 @@ private struct ShellLineRow: View {
                     )
                 }
                 .font(.body.weight(.semibold))
-                if shell.isSourced {
+                if state.isSourced {
                     Text("From \(startupFile.abbreviatedPath)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -110,7 +106,7 @@ private struct ShellLineRow: View {
                         lines: [ShellFile.command(adding: shell.line, to: startupFile, home: .homeDirectory)]
                     )
                 }
-            } else if shell.shell == .bash {
+            } else if state.shell == .bash {
                 Text("Terminal opens bash, so these zsh settings don’t apply.")
                     .foregroundStyle(.secondary)
             } else {
@@ -129,7 +125,7 @@ private struct PromptRow: View {
     let sampleWidth: CGFloat
 
     var body: some View {
-        let isChosen = shell.choices?.prompt == style
+        let isChosen = shell.state?.choices?.prompt == style
         Button {
             shell.choose(style)
         } label: {

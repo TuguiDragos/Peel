@@ -1,4 +1,3 @@
-import AppKit
 import PeelCore
 import SwiftUI
 
@@ -8,34 +7,36 @@ struct SSHTab: View {
 
     var body: some View {
         Form {
-            Section {
-                SSHLinesRow()
-            } footer: {
-                if ssh.wasRefused {
-                    Label("macOS refused it", systemImage: "exclamationmark.triangle")
-                        .font(.caption)
-                        .foregroundStyle(Color.accentColor)
-                } else {
-                    Text("What ~/.ssh/config sets earlier for a server stays in force, since ssh uses the first value it finds.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+            if let state = ssh.state {
+                Section {
+                    SSHLinesRow(isIncluded: state.isIncluded)
+                } footer: {
+                    if ssh.wasRefused {
+                        Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                            .font(.caption)
+                            .foregroundStyle(Color.accentColor)
+                    } else {
+                        Text("What ~/.ssh/config sets earlier for a server stays in force, since ssh uses the first value it finds.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-            }
-            Section {
-                ForEach(SSHSetting.allCases, id: \.self) { setting in
-                    TerminalSwitchRow(
-                        title: setting.title,
-                        detail: setting.detail,
-                        footnote: setting.lines.joined(separator: "\n"),
-                        isOn: Binding(
-                            get: { ssh.settings?.contains(setting) == true },
-                            set: { ssh.set(setting, to: $0) }
-                        ),
-                        isDisabled: !ssh.isOffered(setting)
-                    )
+                Section {
+                    ForEach(SSHSetting.allCases, id: \.self) { setting in
+                        TerminalSwitchRow(
+                            title: setting.title,
+                            detail: setting.detail,
+                            footnote: setting.lines.joined(separator: "\n"),
+                            isOn: Binding(
+                                get: { ssh.state?.settings?.contains(setting) == true },
+                                set: { ssh.set(setting, to: $0) }
+                            ),
+                            isDisabled: !ssh.isOffered(setting)
+                        )
+                    }
+                } header: {
+                    Text("Connections")
                 }
-            } header: {
-                Text("Connections")
             }
         }
         .formStyle(.grouped)
@@ -53,22 +54,17 @@ struct SSHTab: View {
         } message: {
             Text("New connections use only what ~/.ssh/config sets.")
         }
-        .task {
-            await ssh.refresh()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await ssh.refresh() }
-        }
     }
 }
 
 private struct SSHLinesRow: View {
     @Environment(SSHLibrary.self) private var ssh
+    let isIncluded: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 5) {
-                if ssh.isIncluded {
+                if isIncluded {
                     Label {
                         Text("ssh reads Peel’s settings")
                     } icon: {
@@ -85,7 +81,7 @@ private struct SSHLinesRow: View {
                 )
             }
             .font(.body.weight(.semibold))
-            if ssh.isIncluded {
+            if isIncluded {
                 Text("From ~/.ssh/config")
                     .font(.caption)
                     .foregroundStyle(.secondary)

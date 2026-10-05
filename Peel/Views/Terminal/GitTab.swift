@@ -1,4 +1,3 @@
-import AppKit
 import PeelCore
 import SwiftUI
 
@@ -8,36 +7,38 @@ struct GitTab: View {
 
     var body: some View {
         Form {
-            if git.hasLooked, git.git == nil {
-                Section {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Git isn’t installed")
-                            .font(.body.weight(.semibold))
-                        CopyableLines(
-                            caption: Text("Run this in Terminal to install Apple’s command line developer tools, which include Git."),
-                            lines: ["xcode-select --install"]
-                        )
+            if let state = git.state {
+                if !state.isInstalled {
+                    Section {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Git isn’t installed")
+                                .font(.body.weight(.semibold))
+                            CopyableLines(
+                                caption: Text("Run this in Terminal to install Apple’s command line developer tools, which include Git."),
+                                lines: ["xcode-select --install"]
+                            )
+                        }
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
-                }
-            } else if git.hasLooked, git.settings == nil {
-                Section {
-                    Label("Git couldn’t read its settings", systemImage: "exclamationmark.triangle")
-                        .foregroundStyle(Color.accentColor)
-                }
-            } else if git.wasRefused {
-                Section {
-                    Label("Git refused it", systemImage: "exclamationmark.triangle")
-                        .foregroundStyle(Color.accentColor)
-                }
-            }
-            ForEach(GitSetting.Group.allCases, id: \.self) { group in
-                Section {
-                    ForEach(GitSetting.allCases.filter { $0.group == group }, id: \.self) { setting in
-                        GitSettingRow(setting: setting)
+                } else if state.settings == nil {
+                    Section {
+                        Label("Git couldn’t read its settings", systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(Color.accentColor)
                     }
-                } header: {
-                    Text(group.title)
+                } else if git.wasRefused {
+                    Section {
+                        Label("Git refused it", systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(Color.accentColor)
+                    }
+                }
+                ForEach(GitSetting.Group.allCases, id: \.self) { group in
+                    Section {
+                        ForEach(GitSetting.allCases.filter { $0.group == group }, id: \.self) { setting in
+                            GitSettingRow(setting: setting)
+                        }
+                    } header: {
+                        Text(group.title)
+                    }
                 }
             }
         }
@@ -56,12 +57,6 @@ struct GitTab: View {
         } message: {
             Text("Settings Peel changed go back to what they were, and the rest go back to Git’s defaults.")
         }
-        .task {
-            await git.refresh()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await git.refresh() }
-        }
     }
 }
 
@@ -73,7 +68,7 @@ private struct GitSettingRow: View {
         TerminalSwitchRow(
             title: setting.title,
             detail: setting.detail,
-            footnote: setting.values(signingKey: git.signingKey ?? "~/.ssh/id_ed25519.pub")
+            footnote: setting.values(signingKey: git.state?.signingKey ?? "~/.ssh/id_ed25519.pub")
                 .map { "git config --global \($0.key) \($0.value)" }
                 .joined(separator: "\n"),
             caption: caption,
@@ -87,7 +82,7 @@ private struct GitSettingRow: View {
 
     private var caption: LocalizedStringResource? {
         guard setting == .signCommits else { return nil }
-        guard let key = git.signingKey else { return "Needs an SSH key in ~/.ssh" }
+        guard let key = git.state?.signingKey else { return "Needs an SSH key in ~/.ssh" }
         return "With \(URL(filePath: key).abbreviatedPath)"
     }
 }
