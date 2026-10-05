@@ -30,6 +30,10 @@ struct DesktopWalletTests {
         "Library/Application Support/umami/Local Storage/leveldb/000003.log",
         "Library/Application Support/umami/Local Storage/backup_leveldb.json",
         "Library/Application Support/MyTonWallet/IndexedDB/file__0.indexeddb.leveldb/000003.log",
+        ".eclair/node_seed.dat",
+        ".eclair/channel_seed.dat",
+        ".eclair/seed.dat",
+        ".eclair/mainnet/eclair.sqlite.bak",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()

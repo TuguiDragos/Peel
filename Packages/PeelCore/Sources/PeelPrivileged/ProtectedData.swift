@@ -134,6 +134,7 @@ public enum ProtectedData: Sendable {
         ".foundry/keystores",
         "Library/Preferences/hardhat-nodejs",
         ".phoenix/seed.dat",
+        ".eclair",
         "Library/Application Support/Lnd/data",
         ".lightning/bitcoin/hsm_secret",
         ".lightning/bitcoin/lightningd.sqlite3",
