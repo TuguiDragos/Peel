@@ -288,6 +288,12 @@ it.
 
 ## Privacy
 
+<p align="center">
+  <img src="readme-assets/peel-settings-privacy-and-hosts.png" width="900" alt="Peel's Settings, on Privacy: what Peel sends, and every address Peel or Homebrew may contact, with the reason for each">
+</p>
+
+Settings > Privacy shows what Peel sends and every address it or Homebrew may contact.
+
 Peel sends no analytics and has no account. On its own, it goes online only to check your apps for updates, and you
 can turn that off. Each check asks one app's own update feed about that app alone, or the App Store about an app
 bought there, and says only that Peel is asking: not which version, not your macOS, and not your languages. For an
