@@ -11,6 +11,16 @@ struct CarriedPartsList: View {
     let page: CarriedSelection.Page
 
     var body: some View {
+        // As tall as its rows up to the ceiling Duplicates' scan settings keep, and scrolling past it.
+        ViewThatFits(in: .vertical) {
+            rows
+            ScrollView { rows }
+        }
+        .frame(width: 340)
+        .frame(maxHeight: 460)
+    }
+
+    private var rows: some View {
         VStack(spacing: 2) {
             ForEach(carrier.parts(from: page)) { part in
                 HStack(spacing: 6) {
@@ -42,7 +52,6 @@ struct CarriedPartsList: View {
             }
         }
         .padding(10)
-        .frame(width: 340)
     }
 
     private func label(_ part: CarriedSelection.Part) -> some View {
