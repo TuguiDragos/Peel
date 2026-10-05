@@ -151,6 +151,9 @@ final class AppLibrary {
     var isFiltering: Bool { !sources.isEmpty || selectedDeveloper != nil || showsOnlyUnused }
 
     private var memory = UpdateMemoryStore.load()
+    /// What is new in each waiting update, read at launch, so a page shows it with no connection too.
+    private(set) var releaseNotes = ReleaseNotesMemory()
+    private let releaseNotesStore = ReleaseNotesStore()
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
     private var revealed: [InstalledApp] = []
@@ -196,6 +199,9 @@ final class AppLibrary {
     func load() async {
         isLoading = true
         lastRead = .now
+        if !hasLoaded {
+            releaseNotes = await releaseNotesStore.load()
+        }
         let found = await scanRun.run { await AppCatalog.scan() }
         if let found {
             keepUnreadable(of: found)
@@ -529,7 +535,9 @@ final class AppLibrary {
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
-            return memory[app.bundleIdentifier]?.schedule.isDue(at: now) ?? true
+            // An update whose notes were never asked for is checked once now rather than on its next turn.
+            let notesWait = updateStatuses[app.id]?.version.map { releaseNotes.asks(app.bundleIdentifier, version: $0) }
+            return memory[app.bundleIdentifier]?.schedule.isDue(at: now) ?? true || notesWait == true
         }
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
@@ -541,6 +549,8 @@ final class AppLibrary {
         let checker = updateChecker
         let preference = updateSource
         let casks = casks
+        let notesBefore = releaseNotes
+        var notesToAsk: [ReleaseNotesQuestion] = []
 
         await withTaskGroup(of: (InstalledApp.ID, UpdateAnswer).self) { group in
             var pending = wanted.makeIterator()
@@ -580,6 +590,14 @@ final class AppLibrary {
                     describing: app,
                     developer: answer.developer ?? memory[identifier]?.developer
                 )
+                // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
+                if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
+                    if let notes = answer.notes {
+                        releaseNotes.record(.found(notes), of: identifier, version: version)
+                    } else if releaseNotes.asks(identifier, version: version) {
+                        notesToAsk.append(ReleaseNotesQuestion(app: app, answer: answer, version: version))
+                    }
+                }
                 if let app = pending.next() {
                     _ = group.addTaskUnlessCancelled {
                         (app.id, await checker.answer(for: app, preference: preference, casks: casks))
@@ -589,6 +607,47 @@ final class AppLibrary {
         }
         guard !Task.isCancelled, updateRounds.isCurrent(round) else { return }
         UpdateMemoryStore.save(memory)
+        await ask(notesToAsk, checker: checker)
+        var waiting: [String: String] = [:]
+        for app in apps {
+            if let version = updateStatuses[app.id]?.version {
+                waiting[app.bundleIdentifier] = version
+            }
+        }
+        releaseNotes.keep(only: waiting)
+        if releaseNotes != notesBefore {
+            await releaseNotesStore.save(releaseNotes)
+        }
+    }
+
+    /// What is new in the update `app` is waiting for, when it is known.
+    func releaseNotes(of app: InstalledApp) -> ReleaseNotes? {
+        updateStatuses[app.id]?.version.flatMap { releaseNotes.notes(of: app.bundleIdentifier, version: $0) }
+    }
+
+    /// An update whose answer did not say what is new in it.
+    private struct ReleaseNotesQuestion: Sendable {
+        let app: InstalledApp
+        let answer: UpdateAnswer
+        let version: String
+    }
+
+    /// Asks the app's own addresses for the notes the round's answers did not carry, a few at a time.
+    private func ask(_ questions: [ReleaseNotesQuestion], checker: UpdateChecker) async {
+        await withTaskGroup(of: (ReleaseNotesQuestion, ReleaseNotesLookup).self) { group in
+            var pending = questions.makeIterator()
+            func askNext() {
+                guard let question = pending.next() else { return }
+                group.addTask { (question, await checker.releaseNotes(for: question.app, answer: question.answer)) }
+            }
+            for _ in 0..<Self.concurrentUpdateChecks {
+                askNext()
+            }
+            while let (question, lookup) = await group.next() {
+                releaseNotes.record(lookup, of: question.app.bundleIdentifier, version: question.version)
+                askNext()
+            }
+        }
     }
 
     /// The user's update settings as one value. The command line reads the same settings from the same keys,

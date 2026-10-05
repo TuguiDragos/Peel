@@ -4502,12 +4502,6 @@
     },
     "%@ · ^[%lld vulnerability](inflect: true)" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · ^[%2$lld vulnerability](inflect: true)"
-          }
-        },
         "cs" : {
           "variations" : {
             "plural" : {
@@ -4554,6 +4548,12 @@
                 }
               }
             }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · ^[%2$lld vulnerability](inflect: true)"
           }
         },
         "es" : {
@@ -51214,12 +51214,6 @@
     },
     "Homebrew’s scan found these in version %@, installed on this Mac. Homebrew offers %@: once it is installed, scan again to see which of these it fixes." : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Homebrew’s scan found these in version %1$@, installed on this Mac. Homebrew offers %2$@: once it is installed, scan again to see which of these it fixes."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -51230,6 +51224,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Scan von Homebrew hat diese Sicherheitslücken in der auf diesem Mac installierten Version %@ gefunden. Homebrew bietet Version %@ an: Sobald sie installiert ist, scanne erneut, um zu sehen, welche davon diese Version behebt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Homebrew’s scan found these in version %1$@, installed on this Mac. Homebrew offers %2$@: once it is installed, scan again to see which of these it fixes."
           }
         },
         "es" : {
@@ -127073,6 +127073,218 @@
         }
       }
     },
+    "Show Less" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit méně"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weniger anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar menos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En afficher moins"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra meno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示を減らす"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "간략히 보기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon minder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż mniej"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Menos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afișați mai puțin"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать меньше"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visa mindre"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha Az Göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати менше"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更少内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示較少"
+          }
+        }
+      }
+    },
+    "Show More" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit více"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar más"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En afficher plus"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra altro"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示を増やす"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 보기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon meer"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż więcej"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Mais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afișați mai mult"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать еще"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visa mer"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha Fazla Göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати більше"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示較多"
+          }
+        }
+      }
+    },
     "Show Note" : {
       "localizations" : {
         "cs" : {
@@ -141389,108 +141601,108 @@
         }
       }
     },
-    "The address written inside the app, and wherever it redirects." : {
+    "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává."
+            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává. U čekající aktualizace také stránka s poznámkami k vydání, kterou uvádí kanál, jednou pro každou verzi."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet."
+            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet. Bei einem ausstehenden Update außerdem die vom Feed genannte Seite mit den Versionshinweisen, einmal pro Version."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija."
+            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija. Para una actualización pendiente, también la página de notas de la versión que indique el canal, una vez por versión."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige."
+            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige. Pour une mise à jour en attente, Peel consulte aussi la page des notes de mise à jour indiquée par le flux, une fois par version."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi."
+            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi. Per un aggiornamento in attesa, anche la pagina che il feed indica per le note della versione, una volta per ogni versione."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。"
+            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。アップデートが待機中の場合は、フィードに記載されたリリースノートのページにも、バージョンごとに1回アクセスします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다."
+            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다. 대기 중인 업데이트가 있으면 피드에 적힌 릴리즈 노트 페이지에도 버전마다 한 번씩 연결합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst."
+            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst. Bij een wachtende update ook de pagina met versienotities die de feed noemt, één keer per versie."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje."
+            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje. W przypadku czekającego uaktualnienia także strona z informacjami o wersji podana w kanale, raz dla każdej wersji."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione."
+            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione. Para uma atualização pendente, também a página de notas de lançamento que o feed indica, uma vez por versão."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta."
+            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta. Pentru o actualizare în așteptare, și pagina cu notele de publicare pe care o indică fluxul, câte o dată pentru fiecare versiune."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет."
+            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет. Для ожидающего обновления также страница с заметками к выпуску, указанная в ленте, один раз для каждой версии."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adressen som står i appen, och dit den omdirigerar."
+            "value" : "Adressen som står i appen, och dit den omdirigerar. Även sidan med versionsanmärkningar som flödet anger för en väntande uppdatering, en gång per version."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer."
+            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer. Bekleyen bir güncelleme için ayrıca akışın belirttiği çıkış notları sayfası, her sürüm için bir kez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє."
+            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє. Для оновлення, яке очікує, також сторінка з примітками до випуску, яку вказує стрічка, один раз для кожної версії."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "写在App内部的地址，以及它重定向到的任何地址。"
+            "value" : "写在App内部的地址，以及它重定向到的任何地址。对于等待中的更新，还包括更新源中指明的发布说明页面，每个版本访问一次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "寫在App內的網址，以及它重新導向的任何位置。"
+            "value" : "寫在App內的網址，以及它重新導向的任何位置。對於等待中的更新項目，也包括Feed中指定的版本附註頁面，每個版本一次。"
           }
         }
       }
@@ -152623,6 +152835,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "/usr/local中的此工具僅支援Intel。在這部Intel Mac上，它以原生方式執行。"
+          }
+        }
+      }
+    },
+    "This update came with no notes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato aktualizace přišla bez poznámek."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zu diesem Update wurden keine Versionshinweise mitgeliefert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta actualización ha llegado sin notas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette mise à jour n’est accompagnée d’aucune note."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo aggiornamento non è accompagnato da note."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアップデートにはリリースノートが付いていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 업데이트에는 릴리즈 노트가 함께 제공되지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze update kwam zonder notities."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do tego uaktualnienia nie dołączono informacji o wersji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta atualização veio sem notas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această actualizare a venit fără note de publicare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это обновление пришло без заметок к выпуску."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här uppdateringen kom utan versionsanmärkningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu güncellemeyle birlikte hiçbir not gelmedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "До цього оновлення не додано приміток."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此更新没有附带说明。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此更新沒有附帶任何附註。"
           }
         }
       }
@@ -164356,6 +164674,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "~/.ssh/config中較早為某部伺服器設定的值仍然有效，因為ssh會使用它找到的第一個值。"
+          }
+        }
+      }
+    },
+    "What’s New in %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novinky ve verzi %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Funktionen in Version %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novedades de la versión %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveautés de la version %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novità della versione %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン%@の新機能"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@의 새로운 기능"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuw in %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co nowego w wersji %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novidades da Versão %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noutăți în versiunea %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что нового в версии %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nyheter i version %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Sürümündeki Yenilikler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Що нового у версії %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本%@新功能"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本%@的新功能"
           }
         }
       }

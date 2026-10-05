@@ -99,8 +99,9 @@ Peel is free and open source, and it speaks English and 17 other languages.
 - **Its Dock icon too, if you want.** Peel can take the app's icon out of the Dock, where it would stay as a
   question mark, and History puts it back where it was when you put the app back.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names or the
-  App Store for apps bought there. Skip This Version and Never Check This App keep it quiet about the ones you
-  want left alone.
+  App Store for apps bought there, and shows what is new in the version that waits, as the app's own notes say it,
+  with no connection too. Skip This Version and Never Check This App keep it quiet about the ones you want left
+  alone.
 
 ### Free up disk space
 
@@ -261,8 +262,11 @@ it.
 
 Peel sends no analytics and has no account. On its own, it goes online only to check your apps for updates, and you
 can turn that off. Each check asks one app's own update feed about that app alone, or the App Store about an app
-bought there, and says only that Peel is asking: not which version, not your macOS, and not your languages. Every
-check uses https, and a feed that sends it elsewhere is followed only to another https address. Homebrew goes online
+bought there, and says only that Peel is asking: not which version, not your macOS, and not your languages. For an
+update that waits, Peel also reads the page of release notes the app's feed names, and the app's own feed when Homebrew
+found the update, once per version, and keeps the notes so they show with no connection. Nothing in them is loaded or
+run: Peel shows their text, and a link in them opens only when you click it. Every check uses https, and a feed that
+sends it elsewhere is followed only to another https address. Homebrew goes online
 only when you ask it to update, upgrade, or scan for vulnerabilities, and that scan is the one time a list of what is
 installed leaves your Mac: for each Homebrew formula it checks, where its code comes from (the address of its source
 repository and the release tag, or a package's name) and its version, sent to `api.osv.dev`. Your own Homebrew
@@ -284,7 +288,7 @@ Settings > Privacy lists the same places.
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades. A cask comes from its maker's own address. |
 | `api.osv.dev` | The database of known vulnerabilities that Homebrew's scan checks your formulae against. |
-| Each app's own update feed | The address written inside the app, such as a Sparkle feed, and wherever it redirects. |
+| Each app's own update feed | The address written inside the app, such as a Sparkle feed, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version. |
 
 </details>
 

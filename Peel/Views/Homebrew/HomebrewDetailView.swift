@@ -135,6 +135,14 @@ struct HomebrewDetailView: View {
                 }
             }
 
+            if let (version, notes) = caskNotes {
+                Section {
+                    ReleaseNotesView(notes: notes)
+                } header: {
+                    Text("What’s New in \(version)")
+                }
+            }
+
             if let advisory {
                 HomebrewVulnerabilitySections(advisory: advisory, package: package)
             }
@@ -163,6 +171,16 @@ struct HomebrewDetailView: View {
 
     private var advisory: HomebrewAdvisory? {
         homebrew.advisory(for: package)
+    }
+
+    /// What is new in the version Homebrew offers for a cask, as the app it installed says.
+    private var caskNotes: (String, ReleaseNotes)? {
+        guard package.kind == .cask, package.isOutdated,
+              let app = library.apps.first(where: { library.cask(for: $0)?.id == package.id }),
+              let notes = library.releaseNotes(of: app),
+              let version = library.updateStatuses[app.id]?.displayVersion
+        else { return nil }
+        return (version, notes)
     }
 
     /// Said where Peel hands a cask's command to Terminal: `brew` asks for an administrator's password with `sudo`,

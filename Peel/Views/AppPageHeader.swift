@@ -72,7 +72,27 @@ struct AppPageHeader: View {
             if let privacyReset {
                 outcome(of: privacyReset)
             }
+            if let releaseNotesBox {
+                releaseNotesBox
+            }
         }
+    }
+
+    /// What is new in the update that waits, or where the app says it. The store's page is already the App Store
+    /// button, and a cask's homepage is offered as what it is.
+    private var releaseNotesBox: ReleaseNotesBox? {
+        guard waitingVersion != nil, let status = library.updateStatuses[plan.app.id],
+              let version = status.displayVersion
+        else { return nil }
+        let notes = library.releaseNotes(of: plan.app)
+        let link = status.source == .appStore ? nil : status.releaseNotes
+        guard notes != nil || link != nil else { return nil }
+        return ReleaseNotesBox(
+            version: version,
+            notes: notes,
+            link: link,
+            linkTitle: status.source == .homebrew ? "Homepage" : "Release Notes"
+        )
     }
 
     private var moreMenu: some View {
