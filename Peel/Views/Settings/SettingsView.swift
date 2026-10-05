@@ -133,6 +133,9 @@ private struct GeneralSettingsView: View {
     @Environment(StandingWork.self) private var background
     @Environment(HomeModel.self) private var home
     @State private var selfUninstall = SelfUninstall()
+    @State private var isChoosingSidebarTools = false
+    // The widest tool symbol at the body size, so the titles of the tools line up.
+    @ScaledMetric(relativeTo: .body) private var toolSymbolWidth = 20.0
     @State private var isConfirmingSelfRemoval = false
     // The login item's state is read when the page appears (`readStandings()`), not as an initial value:
     // initial values run on every `init` of the view, and each read is a synchronous call to a daemon.
@@ -248,11 +251,15 @@ private struct GeneralSettingsView: View {
             }
 
             Section {
-                // In the sidebar's own order.
-                ForEach(Tool.Group.allCases.flatMap(\.tools).filter(\.canBeHidden)) { tool in
-                    Toggle(isOn: showsInSidebar(tool)) {
-                        Label { Text(tool.title) } icon: { Image(systemName: tool.systemImage) }
+                LabeledContent {
+                    Button("Choose Tools…") {
+                        isChoosingSidebarTools = true
                     }
+                    .popover(isPresented: $isChoosingSidebarTools, arrowEdge: .bottom) {
+                        sidebarToolsChoice
+                    }
+                } label: {
+                    Text(sidebarToolsSummary)
                 }
             } header: {
                 titled("Sidebar", "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it.")
@@ -479,6 +486,26 @@ extension GeneralSettingsView {
 }
 
 extension GeneralSettingsView {
+    private var sidebarToolsSummary: String {
+        let hidden = Tool.hidden(in: hiddenTools)
+        let left = Tool.Group.allCases.flatMap(\.tools).filter(hidden.contains).map { String(localized: $0.title) }
+        guard !left.isEmpty else { return String(localized: "Every tool is in the sidebar.") }
+        return String(localized: "Left out: \(left.formatted(.list(type: .and))).")
+    }
+
+    private var sidebarToolsChoice: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(Tool.Group.allCases.flatMap(\.tools).filter(\.canBeHidden)) { tool in
+                Toggle(isOn: showsInSidebar(tool)) {
+                    Label { Text(tool.title) } icon: { Image(systemName: tool.systemImage) }
+                }
+                .toggleStyle(.checkbox)
+            }
+        }
+        .labelReservedIconWidth(toolSymbolWidth)
+        .padding(16)
+    }
+
     fileprivate func showsInSidebar(_ tool: Tool) -> Binding<Bool> {
         Binding(
             get: { !Tool.hidden(in: hiddenTools).contains(tool) },
