@@ -15,8 +15,8 @@ struct AttackDuplicateTests {
 
     private func scan(_ directory: borrowing TemporaryDirectory, folders: [String]) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let options = DuplicateScanOptions(
-            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        let options = DuplicateScanOptions.everySize(
+            in: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
         )
         return try await DuplicateFinder(homeDirectory: home).scan(options)
     }
@@ -150,7 +150,7 @@ struct AttackDuplicateTests {
         try directory.file("home/Movies/Old.\(kind)/clip.mov", contents: contents)
         try directory.file("home/Movies/clip.mov", contents: contents)
 
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
 
         #expect(scan.groups.isEmpty, "ATTACK SUCCEEDED: a file inside a media library was offered")
         // Two rules stop it, and each is checked: the walk does not go into a library, and the guard refuses what

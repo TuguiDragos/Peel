@@ -172,6 +172,21 @@ struct FileCommandTests {
 
     // MARK: Duplicates
 
+    /// So `--remove` never moves a small copy the app would not list, such as a license kept in several folders.
+    @Test func duplicatesLooksForTheCopiesTheAppLooksFor() throws {
+        let folders = [URL(filePath: "/Users/Shared", directoryHint: .isDirectory)]
+
+        let standard = try (command(["duplicates"]) as DuplicatesCommand).options(for: folders)
+        let everySize = try (command(["duplicates", "--min-size", "0"]) as DuplicatesCommand).options(for: folders)
+        let help = DuplicatesCommand.helpMessage(columns: 300)
+
+        #expect(standard == DuplicateScanOptions(folders: folders))
+        #expect(standard.minimumSize == DuplicateScanOptions.defaultMinimumSize)
+        #expect(everySize.minimumSize == 1)
+        #expect(help.contains("or 0 for every size. Without it, 100KB, as in the Peel app."))
+        #expect(ByteSize(argument: "100KB")?.bytes == DuplicateScanOptions.defaultMinimumSize)
+    }
+
     /// One copy of every group is always kept, whether the group is of folders or of files.
     @Test func keepsOneCopyOfEveryDuplicateGroup() async throws {
         let directory = try TemporaryDirectory()
@@ -183,7 +198,7 @@ struct FileCommandTests {
         try directory.file("home/Documents/lonely.bin", contents: Data(repeating: 7, count: 4_000))
         try directory.file("home/Documents/lonely copy.bin", contents: Data(repeating: 7, count: 4_000))
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let keptFolder = try #require(scan.folderGroups.first?.folders.first?.url)
         let keptFile = try #require(scan.groups.first?.files.first?.url)
 
@@ -202,7 +217,7 @@ struct FileCommandTests {
         try directory.file("home/Documents/a.bin", contents: contents)
         try directory.file("home/Documents/a copy.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
 
         try await (command(["duplicates", "--remove", "--dry-run"]) as DuplicatesCommand)
             .clean(scan, using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
@@ -220,7 +235,7 @@ struct FileCommandTests {
         try directory.file("home/Documents/a.bin", contents: contents)
         try directory.file("home/Documents/a copy.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let kept = try #require(scan.groups.first?.files.first?.url)
         let collected = Output.Collected()
 
@@ -439,7 +454,7 @@ struct FileCommandTests {
         try directory.file("home/Documents/a copy.bin", contents: contents)
         try directory.file("home/Pictures/a.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let group = try #require(scan.groups.first)
 
         let rows = DuplicatesCommand.rows(for: group.files.map(\.url))
@@ -457,7 +472,7 @@ struct FileCommandTests {
             try directory.file("\(folder)/photo.jpg", contents: contents)
         }
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let group = try #require(scan.folderGroups.first)
 
         #expect(DuplicatesCommand.heading(for: group).hasPrefix("2 copies of a folder of 1 file, 4 kB, "))

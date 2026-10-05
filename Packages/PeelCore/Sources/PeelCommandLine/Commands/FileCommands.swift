@@ -528,7 +528,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     @Option(help: "Only files of this kind.")
     var kind: KindArgument?
 
-    @Option(name: .customLong("min-size"), help: "Only files at least this large, and folders holding at least this much, like 500KB or 1.5GB.")
+    @Option(name: .customLong("min-size"), help: "Only files at least this large, and folders holding at least this much, like 500KB or 1.5GB, or 0 for every size. Without it, \(DuplicateScanOptions.defaultMinimumSize / 1_000)KB, as in the Peel app.")
     var minimumSize: ByteSize?
 
     @Flag(help: RemovalOptions.movesWhatPeelSuggests)
@@ -579,11 +579,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
     func run() async throws {
         let finder = await DuplicateFinder(exclusions: UnreadableExclusions.load(), digestMemory: DigestMemory())
         let urls = folders.isEmpty ? finder.defaultFolders : folders.map(URL.init(argument:))
-        var options = DuplicateScanOptions(folders: urls)
-        options.kind = kind?.fileKind ?? .any
-        options.minimumSize = minimumSize?.bytes ?? 1
         let scan = try await ProgressLine.reporting { show in
-            try await finder.scan(options) { show(Self.progress($0)) }
+            try await finder.scan(options(for: urls)) { show(Self.progress($0)) }
         }
         if remove {
             Self.notes(for: scan).forEach(Output.note)
@@ -609,6 +606,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
             Output.line("Total to free: \(Output.size(total))")
         }
         Self.notes(for: scan).forEach(Output.note)
+    }
+
+    func options(for folders: [URL]) -> DuplicateScanOptions {
+        var options = DuplicateScanOptions(folders: folders)
+        if let kind { options.kind = kind.fileKind }
+        if let minimumSize { options.minimumSize = minimumSize.bytes }
+        return options
     }
 
     /// What the scan didn't look at, said on standard error whatever the output, so that an empty answer is not

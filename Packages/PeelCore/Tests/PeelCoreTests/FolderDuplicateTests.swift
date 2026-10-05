@@ -14,8 +14,8 @@ struct FolderDuplicateTests {
         configure: (inout DuplicateScanOptions) -> Void = { _ in }
     ) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        var options = DuplicateScanOptions(
-            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        var options = DuplicateScanOptions.everySize(
+            in: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
         )
         configure(&options)
         return try await DuplicateFinder(homeDirectory: home).scan(options)
@@ -236,7 +236,7 @@ struct FolderDuplicateTests {
         let exclusions = Exclusions(paths: [directory.url.appending(path: "home/Documents/Work/keep.pdf")])
 
         let result = try await DuplicateFinder(homeDirectory: home, exclusions: exclusions)
-            .scan(DuplicateScanOptions(folders: [home]))
+            .scan(.everySize(in: [home]))
 
         #expect(result.folderGroups.isEmpty)
     }
@@ -411,7 +411,7 @@ struct FolderDuplicateRemovalTests {
         try directory.file("home/Documents/Trip/photo.jpg", contents: contents)
         try directory.file("home/Pictures/Trip/photo.jpg", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let folders = try #require(scan.folderGroups.first).folders
         #expect(folders.count == 2)
         return (scan, folders[0].url, folders[1].url)

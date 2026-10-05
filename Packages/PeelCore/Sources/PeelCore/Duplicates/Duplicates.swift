@@ -1,11 +1,14 @@
 public import Foundation
 
 public struct DuplicateScanOptions: Sendable, Hashable {
+    /// The smallest copy Peel looks for unless another size is chosen, in the app and in `peel duplicates` alike.
+    public static let defaultMinimumSize: Int64 = 100_000
+
     public var folders: [URL]
     public var kind = FileKind.any
     /// The fewest bytes a file holds, or a folder holds in all, to be compared. Never less than one: a copy of
     /// nothing frees nothing.
-    public var minimumSize: Int64 = 1 {
+    public var minimumSize = defaultMinimumSize {
         didSet { minimumSize = max(1, minimumSize) }
     }
 

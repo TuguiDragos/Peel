@@ -19,7 +19,7 @@ final class DuplicateLibrary {
         }
     }
     var kind = FileKind.any
-    var minimumSize: Int64 = 100_000
+    var minimumSize = DuplicateScanOptions.defaultMinimumSize
     private(set) var scan: DuplicateScan? {
         didSet { readScan() }
     }

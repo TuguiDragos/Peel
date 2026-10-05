@@ -11,7 +11,7 @@ struct DigestMemoryTests {
     private func scan(_ directory: borrowing TemporaryDirectory, memory: DigestMemory) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         return try await DuplicateFinder(homeDirectory: home, digestMemory: memory)
-            .scan(DuplicateScanOptions(folders: [home]))
+            .scan(.everySize(in: [home]))
     }
 
     private func names(_ scan: DuplicateScan) -> [[String]] {
@@ -56,7 +56,7 @@ struct DigestMemoryTests {
             digestMemory: memory
         )
 
-        let result = try await finder.scan(DuplicateScanOptions(folders: [home]))
+        let result = try await finder.scan(.everySize(in: [home]))
 
         #expect(names(result).map(Set.init) == [["Documents/first.bin", "Pictures/second.bin"]])
         let known = memory.load()
@@ -73,7 +73,7 @@ struct DigestMemoryTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
         let result = try await DuplicateFinder(homeDirectory: home, exclusions: .notYetRead, digestMemory: memory)
-            .scan(DuplicateScanOptions(folders: [home]))
+            .scan(.everySize(in: [home]))
 
         #expect(result.groups.isEmpty)
         #expect(memory.load().sample(of: try #require(FileIdentity.of(first))) == nil, "a file was read")

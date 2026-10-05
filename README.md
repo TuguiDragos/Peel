@@ -119,6 +119,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`,
   or `~/src` when you have one, and adds it only when you say so.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
+  Files under 100 KB, and folders holding less, are left out unless you choose a smaller size, in the app and in
+  `peel duplicates` alike.
 - **Installers and Backups:** installers of apps you already have, including packages an app keeps in Application
   Support, macOS installers, device firmware, downloads a browser never finished, updates apps downloaded and keep
   until they install them, and what your iPhone backups hold. Nothing is selected for you.

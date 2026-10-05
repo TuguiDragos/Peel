@@ -36,8 +36,8 @@ struct DuplicateFinderTests {
         configure: (inout DuplicateScanOptions) -> Void = { _ in }
     ) async throws -> DuplicateScan {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        var options = DuplicateScanOptions(
-            folders: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
+        var options = DuplicateScanOptions.everySize(
+            in: folders.map { directory.url.appending(path: $0, directoryHint: .isDirectory) }
         )
         configure(&options)
         return try await DuplicateFinder(homeDirectory: home).scan(options)
@@ -447,7 +447,7 @@ struct DuplicateFinderTests {
         try directory.file("home/Documents/a.txt", contents: Data("same".utf8))
         try directory.file("home/Documents/b.txt", contents: Data("same".utf8))
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let options = DuplicateScanOptions(folders: [home])
+        let options = DuplicateScanOptions.everySize(in: [home])
 
         let task = Task {
             withUnsafeCurrentTask { $0?.cancel() }
@@ -567,7 +567,7 @@ struct DuplicateFinderTests {
             try photo.prefix(524_288).write(to: url)
         }
 
-        let result = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [volume.url]))
+        let result = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [volume.url]))
 
         let photos = try #require(result.groups.first { $0.files.contains { $0.url.lastPathComponent == "photo.bin" } })
         let copy = try #require(photos.files.last)
@@ -600,7 +600,7 @@ struct DuplicateRemovalTests {
         try directory.file("home/Documents/kept.bin", contents: contents)
         try directory.file("home/Documents/kept copy.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let files = try #require(scan.groups.first).files
         #expect(files.map(\.url.lastPathComponent) == ["kept.bin", "kept copy.bin"])
         return (scan, files[0].url, files[1].url)

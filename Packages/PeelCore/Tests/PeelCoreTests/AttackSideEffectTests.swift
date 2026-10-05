@@ -74,7 +74,7 @@ struct AttackSideEffectTests {
         try directory.file("home/Documents/Backups/Preferences/com.adobe.Photoshop.plist", contents: contents)
         try directory.file("home/Desktop/com.adobe.Photoshop.plist", contents: contents)
 
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(DuplicateScanOptions(folders: [home]))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let selected = Array(scan.suggestedSelection)
         #expect(!selected.isEmpty)
 
