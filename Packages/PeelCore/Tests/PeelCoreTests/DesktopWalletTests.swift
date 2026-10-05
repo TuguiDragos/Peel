@@ -73,6 +73,7 @@ struct DesktopWalletTests {
         "Library/Application Support/joinmarket/wallets/wallet.jmdat",
         ".cashu/wallet/wallet.sqlite3",
         "Library/Application Support/Kaspawallet/kaspa-mainnet/keys.json",
+        ".grim/main/wallets/1767225600/wallet_data/wallet.seed",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -111,6 +112,7 @@ struct DesktopWalletTests {
         ".electrum-nmc/blockchain_headers",
         "Library/Application Support/Dexc/mainnet/logs/dexc.log",
         "Library/Application Support/joinmarket/logs/joinmarket.log",
+        ".grim/main/chain_data/multi_lmdb/data.mdb",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()

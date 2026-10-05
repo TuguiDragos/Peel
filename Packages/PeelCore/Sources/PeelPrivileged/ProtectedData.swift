@@ -188,6 +188,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/Dexc/mainnet/assetdb",
         ".chia_keys",
         ".grin/main/wallet_data",
+        ".grim/main/wallets",
         ".kaspa",
         "Library/Application Support/Kaspawallet",
     ]
