@@ -38,6 +38,7 @@ final class TweakLibrary {
         let isThisSession = UserDefaults.standard.integer(forKey: Self.sessionKey) == Self.loginSession
         waitingForLogOut = isThisSession ? Set(UserDefaults.standard.stringArray(forKey: Self.waitingKey) ?? []) : []
         ledger.adoptStoredValuesAsWritten(in: store)
+        refresh()
     }
 
     func isWaitingForLogOut(_ group: Tweak.Group) -> Bool {

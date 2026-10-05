@@ -10,7 +10,6 @@ struct TerminalPage: View {
     @Environment(GitLibrary.self) private var git
     @Environment(SSHLibrary.self) private var ssh
     @Environment(TerminalToolLibrary.self) private var tools
-    @State private var showsWindowSwitch = false
 
     static let tabTitles: [LocalizedStringResource] = ["Themes", "Terminal", "Shell", "Git", "SSH", "Tools"]
     static let tabBarWidth = TabBar.width(of: tabTitles.map { String(localized: $0) })
@@ -29,7 +28,7 @@ struct TerminalPage: View {
                 .formStyle(.grouped)
             }
             Tab("Terminal", systemImage: "apple.terminal") {
-                TerminalSettingsForm(showsWindowSwitch: showsWindowSwitch)
+                TerminalSettingsForm()
             }
             Tab("Shell", systemImage: "chevron.left.forwardslash.chevron.right") {
                 ShellTab()
@@ -59,13 +58,13 @@ struct TerminalPage: View {
         }
         .onReceive(
             NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)
-        ) { _ in
-            terminal.refresh()
+        ) { notification in
+            if Self.isTerminal(notification) { terminal.refresh() }
         }
         .onReceive(
             NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)
-        ) { _ in
-            terminal.refresh()
+        ) { notification in
+            if Self.isTerminal(notification) { terminal.refresh() }
         }
         .alert("Quit Terminal first?", isPresented: isWaitingForTerminal, presenting: terminal.waitingForTerminal) { action in
             Button("Quit Terminal") {
@@ -85,12 +84,16 @@ struct TerminalPage: View {
     private func refresh() async {
         terminal.refresh()
         tweaks.refresh()
-        showsWindowSwitch = TerminalWindows.switchMatters()
         async let shellRead: Void = shell.refresh()
         async let gitRead: Void = git.refresh()
         async let sshRead: Void = ssh.refresh()
         async let toolsRead: Void = tools.refresh()
         _ = await (shellRead, gitRead, sshRead, toolsRead)
+    }
+
+    private static func isTerminal(_ notification: Notification) -> Bool {
+        let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
+        return app?.bundleIdentifier == TerminalSettings.identifier
     }
 
     private var isWaitingForTerminal: Binding<Bool> {
@@ -195,7 +198,6 @@ private struct TerminalThemeGrid: View {
 
 private struct TerminalSettingsForm: View {
     @Environment(TerminalLibrary.self) private var terminal
-    let showsWindowSwitch: Bool
 
     var body: some View {
         Form {
@@ -207,7 +209,7 @@ private struct TerminalSettingsForm: View {
                 if let sessions = terminal.shellSessions {
                     ShellSessionsRow(sessions: sessions)
                 }
-                if showsWindowSwitch {
+                if terminal.showsWindowSwitch {
                     TweakRow(tweak: TweakCatalog.terminalWindows)
                 }
             }

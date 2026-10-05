@@ -26,12 +26,14 @@ final class TerminalLibrary {
     private(set) var shellSessions: ShellSessions?
     private(set) var options: Set<TerminalOption>?
     private(set) var isManaged = false
+    private(set) var showsWindowSwitch = false
     private(set) var wasRefused = false
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
 
     init() {
         ledger = TerminalThemeLedger(stored: UserDefaults.standard.dictionary(forKey: Self.ledgerKey) ?? [:])
+        refresh()
     }
 
     func refresh() {
@@ -43,6 +45,7 @@ final class TerminalLibrary {
         shellSessions = ShellSessions.inTerminal(settings)
         options = ledger.options(in: settings)
         isManaged = settings.isManaged
+        showsWindowSwitch = TerminalWindows.switchMatters()
     }
 
     func perform(_ action: Action) {
