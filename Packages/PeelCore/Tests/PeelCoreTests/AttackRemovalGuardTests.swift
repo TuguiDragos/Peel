@@ -382,6 +382,50 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: cache.deletingLastPathComponent()))
     }
 
+    /// Only a Mail plug-in, which holds code and no mail, may leave Mail's folder: what is around it, and a link that
+    /// makes mail look like one, stay.
+    @Test func onlyAMailPlugInMayLeaveMailsFolder() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let plugIn = try directory.directory("home/Library/Mail/Bundles/Mailer.mailbundle/Contents")
+            .deletingLastPathComponent()
+        let message = try directory.file("home/Library/Mail/V10/INBOX.mbox/Messages/1.emlx")
+        let disguised = try directory.directory("home/Library/Mail/V10/Disguised.mailbundle")
+        try directory.directory("home/Library/Mail/Elsewhere")
+        try link(
+            home.appending(path: "Library/Mail/V10").path(percentEncoded: false),
+            at: home.appending(path: "Library/Mail/Elsewhere/Bundles").path(percentEncoded: false)
+        )
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        #expect(guardian.allowsRemoval(of: plugIn))
+        #expect(guardian.allowsRemoval(of: plugIn.appending(path: "Contents")))
+        for item in [
+            message, disguised, plugIn.deletingLastPathComponent(), home.appending(path: "Library/Mail"),
+            home.appending(path: "Library/Mail/Elsewhere/Bundles/Disguised.mailbundle"),
+        ] {
+            #expect(!guardian.allowsRemoval(of: item), "ATTACK SUCCEEDED: \(item.path(percentEncoded: false)) may be removed")
+        }
+    }
+
+    @Test func aMailFolderLinkedInPlaceOfBundlesIsNoPlugIn() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home/Library/Mail/V10/Inbox.mailbundle/Messages")
+        try link(
+            home.appending(path: "Library/Mail/V10").path(percentEncoded: false),
+            at: home.appending(path: "Library/Mail/Bundles").path(percentEncoded: false)
+        )
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        let disguised = home.appending(path: "Library/Mail/Bundles/Inbox.mailbundle")
+        #expect(!guardian.allowsRemoval(of: disguised), "ATTACK SUCCEEDED: mail moved as a Mail plug-in through a link")
+    }
+
     /// A blockchain can outgrow the startup disk, so a wallet's folder is often kept on another one, with a link to it
     /// where the wallet looks. Its keys have to be known under the name of the disk they are on too.
     @Test func aWalletKeptOnAnotherDiskThroughALink() throws {

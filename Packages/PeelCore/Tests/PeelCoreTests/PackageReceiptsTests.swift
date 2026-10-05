@@ -330,13 +330,13 @@ struct PackageReceiptsTests {
         #expect(receipt.items.isEmpty)
     }
 
-    /// A receipt can name a path `RemovalGuard` refuses, such as a file in `/usr/local/bin` or a Mail bundle.
+    /// A receipt can name a path `RemovalGuard` refuses, such as a file in `/usr/local/bin` or one inside Mail.
     /// Such an item is listed and left alone, rather than offered and then refused at the move.
     @Test func leavesAloneWhatTheGuardWouldRefuse() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
         let app = PathPattern.canonical(try directory.directory("Applications/Example.app"))
-        let rules = PathPattern.canonical(try directory.directory("home/Library/Mail/Bundles/Example.mailbundle"))
+        let rules = PathPattern.canonical(try directory.directory("home/Library/Mail/V10/MailData/Example"))
         let info = try #require(String(
             data: PropertyListSerialization.data(fromPropertyList: ["volume": volume, "install-location": ""], format: .xml, options: 0),
             encoding: .utf8
@@ -345,7 +345,7 @@ struct PackageReceiptsTests {
             switch arguments.first {
             case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
             case "--pkg-info-plist": info
-            case "--files": "Applications/Example.app\nhome/Library/Mail/Bundles/Example.mailbundle\n"
+            case "--files": "Applications/Example.app\nhome/Library/Mail/V10/MailData/Example\n"
             default: ""
             }
         }

@@ -27,7 +27,7 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `Application Support/MobileSync` | iPhone and iPad backups. |
 | `Application Support/AddressBook`, `Contacts` | Your contacts. |
 | `Application Support/CallHistoryDB` | Your call history. |
-| `Mail`, `Messages` | Your mail and your messages. |
+| `Mail`, `Messages` | Your mail and your messages. A Mail plug-in in `Mail/Bundles`, which holds code and no mail, may go. |
 | `Safari` | Bookmarks, history, reading list. |
 | `Calendars`, `Reminders` | Your calendars and reminders, where older systems kept them. |
 | `Group Containers/` any of Apple's own | Where macOS 26 keeps notes, reminders, calendars, voice memos, the journal, and more. Apple moves these between releases, so they are recognized by their name (`com.apple.` after an optional team and an optional `group.`, `groups.`, or `systemgroup.`), not from a list. |

@@ -79,9 +79,7 @@ struct PluginsTests {
         ])
     }
 
-    /// All of Mail in the user's own Library is protected, so a Mail bundle there is listed but never offered: moving
-    /// it would only be refused. A plug-in anywhere else is offered as usual.
-    @Test func showsAMailBundleInTheUsersLibraryButLeavesItAlone() async throws {
+    @Test func offersAMailBundleInTheUsersLibrary() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Mail/Bundles/Example.mailbundle/Contents")
         try directory.directory("home/Library/Audio/Plug-Ins/VST3/Synth.vst3/Contents")
@@ -92,7 +90,7 @@ struct PluginsTests {
 
         let plugins = await Plugins.scan(environment: environment)
 
-        #expect(try #require(plugins.first { $0.category == .mailBundles }).refusal == .protectedLocation)
+        #expect(try #require(plugins.first { $0.category == .mailBundles }).refusal == nil)
         #expect(try #require(plugins.first { $0.category == .vst3 }).refusal == nil)
     }
 

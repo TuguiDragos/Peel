@@ -133,7 +133,9 @@ struct RemovalGuard: Sendable {
             guard !exclusions.excludes(spellings: spellings), !exclusions.holds(spellings: spellings) else {
                 return .excluded
             }
-            if let refusal = protectedObjects.refusal(of: name) { return refusal }
+            if !ProtectedData.isAMailPlugIn(name, home: home), let refusal = protectedObjects.refusal(of: name) {
+                return refusal
+            }
             // The rules the helper follows. They protect every account's keychain and mail, not only those of the
             // account Peel runs in.
             guard !ProtectedData.refuses(spellings: spellings, home: home) else { return .protectedLocation }
@@ -146,7 +148,8 @@ struct RemovalGuard: Sendable {
             guard !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else { return .protectedLocation }
 
             let parts = PathComponents.of(spelling)
-            guard !protectedTrees.contains(where: { parts.starts(with: $0) }) else { return .protectedLocation }
+            let isATree = protectedTrees.contains { parts.starts(with: $0) }
+            guard !isATree || ProtectedData.isAMailPlugIn(spelling, home: home) else { return .protectedLocation }
             // Also refuse a folder with a protected tree inside, since removing it would take the tree along.
             guard !protectedTrees.contains(where: { $0.count > parts.count && $0.starts(with: parts) }) else {
                 return .holdsProtectedData

@@ -471,6 +471,19 @@ public enum ProtectedData: Sendable {
         return [path]
     }
 
+    /// True for a Mail plug-in directly in a home's `Library/Mail/Bundles`, or anything inside one: the one thing in
+    /// Mail's folder that holds no mail: it is code, and Apple said Mail plug-ins stop working in a later macOS
+    /// (WWDC21 session 10168).
+    public static func isAMailPlugIn(_ path: String, home: String) -> Bool {
+        let folders = spellings(of: home).map { PathComponents.of($0) + ["library", "mail", "bundles"] }
+        return privateNames(of: path).contains { spelling in
+            let names = PathComponents.of(spelling.lowercased())
+            return folders.contains { bundles in
+                names.count > bundles.count && names.starts(with: bundles) && names[bundles.count].hasSuffix(".mailbundle")
+            }
+        }
+    }
+
     /// True for a path at or inside anything protected here: the home and system folders, the keys, a wallet
     /// extension's storage, a media library, a global preferences file, or one of Apple's group containers.
     /// Running as root, the helper can see every account on the Mac, so a home folder is any folder directly
@@ -488,7 +501,7 @@ public enum ProtectedData: Sendable {
             if isInsideAWalletExtension(names) { return true }
 
             for home in homes(of: names, given: home) where trees(under: home).contain(names) {
-                return true
+                if !isAMailPlugIn(spelling, home: home) { return true }
             }
             return systemFolderNames.contains { names.starts(with: $0) }
         }
