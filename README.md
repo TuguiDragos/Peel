@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Uninstall Mac apps completely, and see why every file belongs to them.</strong><br>
-  A free, open source app uninstaller and cleaner for macOS.
+  A free, open source uninstaller and cleaner for macOS, which also fine-tunes your Mac and sets up Terminal.
 </p>
 
 <p align="center">
