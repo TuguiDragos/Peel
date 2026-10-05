@@ -385,6 +385,22 @@ struct LeftoverScannerTests {
         #expect(try #require(emptied.leftovers.first { $0.kind == .containers }).match.isRecommended)
     }
 
+    @Test func aCacheThatKeepsAnEditorsLocalHistoryIsShownAndLeftAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/net.example.client/LocalHistory/changes.storageData")
+        try directory.file("home/Library/Caches/net.example.client/index/files.dat")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
+
+        let cache = try #require(scan.leftovers.first { $0.kind == .caches })
+        #expect(cache.match.heldBack == .holdsWorkKeptInACache)
+        #expect(cache.match.heldBack?.cannotBeMoved == true)
+        #expect(!cache.match.isRecommended)
+    }
+
     @Test(.permissionsHold) func reportsUnreadableLocations() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Logs/Tunewell/log.txt")

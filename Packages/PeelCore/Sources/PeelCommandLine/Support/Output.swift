@@ -316,6 +316,7 @@ extension HoldBack {
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsAWallet: "holds a wallet or a signing key"
         case .holdsKeys: "holds a wallet or a key Peel protects"
+        case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .insideAnotherAppsFolder: "inside another app's folder"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
         case .keptByMacOS: "a cache macOS keeps for itself"

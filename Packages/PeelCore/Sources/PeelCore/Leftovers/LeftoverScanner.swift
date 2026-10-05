@@ -348,6 +348,8 @@ public struct LeftoverScanner: Sendable {
             .holdsDocuments
         } else if ProtectedData.holdsALibrary(url.path(percentEncoded: false)) {
             .holdsALibrary
+        } else if ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) {
+            .holdsWorkKeptInACache
         } else if contents?.couldNotBeRead == true {
             .couldNotBeRead
         } else if let contents {

@@ -53,6 +53,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsAWallet
     /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
     case holdsKeys
+    /// Work kept nowhere else is inside a cache folder, such as an editor's local history of the person's files, and
+    /// `RemovalGuard` refuses to move the folder around it (`ProtectedData.holdsWorkKeptInACache`).
+    case holdsWorkKeptInACache
     /// Claimed on the app's name (or an identifier that is only a word), inside a folder that belongs to another
     /// installed app or to Apple. It is probably the other app's data about this one, as a documentation browser
     /// or a controller app keeps.
@@ -79,7 +82,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.
     public var cannotBeMoved: Bool {
-        self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .beyondTheHelper
+        self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
+            || self == .beyondTheHelper
             || self == .holdsAnExclusion
     }
 
