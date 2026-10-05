@@ -28,11 +28,12 @@ struct InventoryCommand: AsyncParsableCommand {
     )
 
     /// An enum, so `--help` lists the formats and the shell can complete them.
-    @Option(help: "What to write.")
-    var format: FormatArgument = .text
+    @Option(help: "What to write. Without it, \(FormatArgument.text.rawValue).")
+    var format: FormatArgument?
+
+    var chosen: Inventory.Format { (format ?? .text).format }
 
     func run() async throws {
-        let chosen = format.format
         guard chosen != .brewfile else {
             Output.write(try Inventory.build(apps: [], brewfile: try await Self.brewfile()).written(as: chosen))
             return

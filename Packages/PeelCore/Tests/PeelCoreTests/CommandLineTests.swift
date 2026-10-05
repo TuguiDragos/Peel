@@ -909,6 +909,24 @@ struct CommandLineTests {
         }
     }
 
+    /// The manual page leaves out the defaults `--help` marks, so each is said in words both show: an option's in
+    /// its own help, and a default subcommand's in the discussion of the command above it.
+    @Test func eachDefaultIsSaidWhereTheManualPageShowsIt() throws {
+        func commands(under command: any ParsableCommand.Type) -> [any ParsableCommand.Type] {
+            [command] + command.configuration.subcommands.flatMap { commands(under: $0) }
+        }
+        for command in commands(under: PeelCommand.self) {
+            #expect(!command.helpMessage(columns: 300).contains("(default:"), "\(command)")
+            if command.configuration.defaultSubcommand != nil {
+                #expect(command.configuration.discussion.contains("Without a subcommand,"), "\(command)")
+            }
+        }
+        #expect(HistoryCommand.helpMessage(columns: 300).contains("Show at most this many removals. Without it, 20."))
+        #expect(InventoryCommand.helpMessage(columns: 300).contains("What to write. Without it, text."))
+        #expect(try #require(try PeelCommand.parseAsRoot(["inventory"]) as? InventoryCommand).chosen == .text)
+        #expect(ExclusionsCommand.configuration.discussion.hasSuffix("Without a subcommand, it shows the list."))
+    }
+
     /// Scripts read the exit status, so the help and the manual page name each code, and each is the one the tool
     /// really uses: ArgumentParser's own for a usage error, and Peel's for a "no" and a failure.
     @Test func namesTheExitCodesItUses() {

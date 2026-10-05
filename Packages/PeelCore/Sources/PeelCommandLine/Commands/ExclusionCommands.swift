@@ -6,7 +6,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "exclusions",
         abstract: "Show and change what Peel leaves alone.",
-        discussion: "The same list the Peel app keeps. Nothing excluded is scanned, offered, or moved by either.",
+        discussion: "The same list the Peel app keeps. Nothing excluded is scanned, offered, or moved by either. Without a subcommand, it shows the list.",
         subcommands: [ListCommand.self, AddCommand.self, RemoveCommand.self],
         defaultSubcommand: ListCommand.self
     )

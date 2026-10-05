@@ -45,8 +45,10 @@ struct HistoryCommand: AsyncParsableCommand {
         discussion: "The same History the Peel app shows, written by both. Put a removal back with `peel restore`. With --refused, lists what Peel was asked to move and wouldn't, which nothing else keeps."
     )
 
-    @Option(help: "Show at most this many removals.")
-    var limit: Int = 20
+    static let defaultLimit = 20
+
+    @Option(help: "Show at most this many removals. Without it, \(defaultLimit).")
+    var limit: Int?
 
     @Flag(help: "List what stayed and why, instead of what moved.")
     var refused = false
@@ -146,12 +148,14 @@ struct HistoryCommand: AsyncParsableCommand {
     }
 
     func validate() throws {
-        guard limit > 0 else { throw ValidationError("--limit has to be at least 1.") }
+        if let limit, limit < 1 { throw ValidationError("--limit has to be at least 1.") }
         guard !clear || refused else { throw ValidationError("--clear only goes with --refused. What moved is forgotten from History in the Peel app.") }
         guard !clear || !output.json else {
             throw ValidationError("--clear writes nothing to read, so it doesn't go with --json.")
         }
     }
+
+    private var shown: Int { limit ?? Self.defaultLimit }
 
     func run() async throws {
         try await run(in: RemovalLog(), refusals: RefusalLog())
@@ -163,7 +167,7 @@ struct HistoryCommand: AsyncParsableCommand {
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
         }
-        let batches = Array(Batch.all(in: records).prefix(limit))
+        let batches = Array(Batch.all(in: records).prefix(shown))
 
         if output.json {
             try Output.json(batches.map { batch in
@@ -226,7 +230,7 @@ struct HistoryCommand: AsyncParsableCommand {
         if let problem = read.problem {
             Output.note(problem.summary)
         }
-        let removals = Array(RefusalRecord.grouped(records).prefix(limit))
+        let removals = Array(RefusalRecord.grouped(records).prefix(shown))
 
         if output.json {
             try Output.json(removals.map { removal in

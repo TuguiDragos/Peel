@@ -33,7 +33,7 @@ Write out what is installed and where each app came from.
 A Brewfile only lists what Homebrew can install again; everything else would be a line that doesn't work.
 .Bl -tag -width 6n
 .It Fl -format Ar format
-What to write.
+What to write. Without it, text.
 .Pp
 .Bl -tag -width 6n
 .It Ar text
@@ -115,7 +115,7 @@ List what Peel moved to the Trash.
 The same History the Peel app shows, written by both. Put a removal back with `peel restore`. With --refused, lists what Peel was asked to move and wouldn't, which nothing else keeps.
 .Bl -tag -width 6n
 .It Fl -limit Ar limit
-Show at most this many removals.
+Show at most this many removals. Without it, 20.
 .It Fl -refused
 List what stayed and why, instead of what moved.
 .It Fl -clear
@@ -147,7 +147,7 @@ Show help information.
 .It Em exclusions
 Show and change what Peel leaves alone.
 .Pp
-The same list the Peel app keeps. Nothing excluded is scanned, offered, or moved by either.
+The same list the Peel app keeps. Nothing excluded is scanned, offered, or moved by either. Without a subcommand, it shows the list.
 .Bl -tag -width 6n
 .It Fl -version
 Show the version.

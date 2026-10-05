@@ -197,18 +197,21 @@ struct HistoryCommandTests {
         #expect(try listed(try await printed(["history", "--refused", "--json"], from: logs)).isEmpty)
     }
 
-    /// `--limit` is what the command prints, in the table and in `--json` alike.
+    /// `--limit` is what the command prints, in the table and in `--json` alike, and 20 without it.
     @Test func showsAtMostWhatWasAskedFor() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
-        _ = await logs.removals.add(try (0..<3).map { _ in try removal(in: directory).record })
+        let count = HistoryCommand.defaultLimit + 1
+        _ = await logs.removals.add(try (0..<count).map { _ in try removal(in: directory).record })
 
         let table = try await printed(["history", "--limit", "2"], from: logs)
         let json = try await printed(["history", "--limit", "2", "--json"], from: logs)
+        let unlimited = try await printed(["history", "--json"], from: logs)
 
         #expect(table.split(separator: "\n").count == 3, "a header and two removals, not \(table)")
         #expect(try listed(json).count == 2)
-        #expect(Batch.all(in: try #require(await logs.removals.load().records)).count == 3, "listing forgot nothing")
+        #expect(try listed(unlimited).count == 20)
+        #expect(Batch.all(in: try #require(await logs.removals.load().records)).count == count, "listing forgot nothing")
     }
 
     /// What Peel could not measure is never printed as zero: the table says "over" while part of a removal is
