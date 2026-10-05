@@ -67,6 +67,29 @@ struct IntelInspectorTests {
         #expect(stop.askedAfter == 0)
     }
 
+    /// A printer's folder can hold thousands of files, so a stopped scan stops walking it.
+    @Test func aStoppedScanStopsWalkingDriverFolders() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 1...3 {
+            _ = try bundle(directory, "Printers/Driver \(index).driver", cpuTypes: [intel])
+            let filter = try directory.file("Printers/Filters/filter\(index)", contents: intelHeader(fileType: 2))
+            try FileManager.default.setAttributes(
+                [.posixPermissions: 0o755], ofItemAtPath: filter.path(percentEncoded: false)
+            )
+        }
+        let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
+
+        let walked = await Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            return (IntelInspector.bundles(in: [printers]), IntelInspector.programs(in: [printers]))
+        }.value
+
+        #expect(IntelInspector.bundles(in: [printers]).count == 3)
+        #expect(IntelInspector.programs(in: [printers]).count == 3)
+        #expect(walked.0.isEmpty)
+        #expect(walked.1.isEmpty)
+    }
+
     private func bundle(_ directory: borrowing TemporaryDirectory, _ path: String, cpuTypes: [UInt32]) throws -> URL {
         let name = (path as NSString).lastPathComponent
         let executableName = (name as NSString).deletingPathExtension

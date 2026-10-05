@@ -278,7 +278,12 @@ public enum IntelInspector {
                 includingPropertiesForKeys: [.isDirectoryKey],
                 options: [.skipsHiddenFiles, .skipsPackageDescendants]
             ) else { return [] }
-            return enumerator.compactMap { $0 as? URL }.filter { driverExtensions.contains($0.pathExtension) }
+            var bundles: [URL] = []
+            for case let item as URL in enumerator {
+                guard !Task.isCancelled else { break }
+                if driverExtensions.contains(item.pathExtension) { bundles.append(item) }
+            }
+            return bundles
         }
     }
 
@@ -294,6 +299,7 @@ public enum IntelInspector {
             ) else { return [] }
             var programs: [URL] = []
             for case let item as URL in enumerator {
+                guard !Task.isCancelled else { break }
                 if driverExtensions.contains(item.pathExtension) {
                     enumerator.skipDescendants()
                     continue
