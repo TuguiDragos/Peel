@@ -94,6 +94,18 @@ struct SelectableRowsTests {
         #expect(!refused.isLocked(canUseHelper: false))
     }
 
+    @Test func anOrphanGroupPeelIsUnsureAboutRecommendsNothing() {
+        let cache = OrphanItem(
+            url: URL(filePath: "/tmp/org.example.Running"), kind: .caches, size: 10, modificationDate: nil,
+            requiresPrivileges: false
+        )
+        var group = OrphanGroup(identifier: "org.example.Running", items: [cache])
+        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running])
+
+        #expect(group.selectableRows(canUseHelper: true).selectable == [cache.url])
+        #expect(group.selectableRows(canUseHelper: true).recommended.isEmpty)
+    }
+
     @Test func aDeveloperToolRecommendsWhatItSelectsForThePerson() {
         func location(
             _ name: String, _ kind: DeveloperEnvironment.ContentKind, size: Int64? = 10

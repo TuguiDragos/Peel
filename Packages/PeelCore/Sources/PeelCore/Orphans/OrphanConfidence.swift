@@ -3,7 +3,7 @@ public import Foundation
 /// How sure Peel is that nothing uses a group of orphaned files anymore, and why.
 ///
 /// It never changes what Peel offers: orphaned files are never selected for the user, whatever this says. It
-/// only decides how a row reads and which rows are listed first.
+/// decides how a row reads, which rows are listed first, and that Peel recommends nothing in a group it is unsure of.
 public struct OrphanConfidence: Sendable, Hashable {
     public enum Level: Int, Sendable, Hashable, Comparable {
         /// Something may still use the files: it is running, it wrote here recently or after the app was gone, or

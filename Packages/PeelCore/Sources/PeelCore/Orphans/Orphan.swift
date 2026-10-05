@@ -33,8 +33,8 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
     public let items: [OrphanItem]
     /// The app these files belonged to, when Peel saw it installed before it went away.
     public var rememberedApp: RememberedApp?
-    /// How sure Peel is that nothing uses these files anymore. It changes how the row reads and where it is
-    /// listed, never what is selected: orphaned files are never selected for the user.
+    /// How sure Peel is that nothing uses these files anymore. It changes how the row reads, where it is listed
+    /// and whether Peel recommends the files, never what is selected: orphaned files are never selected for the user.
     public var confidence = OrphanConfidence(level: .likely, reasons: [.nothingClaimsIt])
 
     public var id: String { identifier }
@@ -57,14 +57,14 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         items.compactMap(\.modificationDate).max()
     }
 
-    /// Peel recommends no row it held back: such a row waits to be chosen by hand, as Review Before Removing does on
-    /// an app's page.
+    /// Peel recommends no row it held back, and nothing in a group something may still use: such rows wait to be
+    /// chosen by hand, as Review Before Removing does on an app's page.
     public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
         let unlocked = items.filter { !$0.isLocked(canUseHelper: canUseHelper) }
         return SelectableRows(
             rows: items.map(\.url),
             selectable: unlocked.filter { $0.leftAlone == nil }.map(\.url),
-            recommended: unlocked.filter { $0.heldBack == nil }.map(\.url)
+            recommended: confidence.level == .unsure ? [] : unlocked.filter { $0.heldBack == nil }.map(\.url)
         )
     }
 }
