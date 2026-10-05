@@ -101,9 +101,21 @@ struct OrphansCommand: AsyncParsableCommand {
                 Output.table(Self.rows(for: group), indent: "  ")
             }
         }
+        for note in Self.notes(for: scan) {
+            Output.note(note)
+        }
+    }
+
+    /// What the list could not cover: the folders Peel could not read, and the places with more folders inside
+    /// than Peel looks into.
+    static func notes(for scan: OrphanScan) -> [String] {
+        var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)
-            Output.note(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
+            notes.append(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
+        }
+        return notes + scan.cutShortLocations.map {
+            "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach."
         }
     }
 

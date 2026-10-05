@@ -13,6 +13,8 @@ public struct OrphanScanner: Sendable {
     /// The apps that come with macOS, which can claim files like any other app. Nil means `AppCatalog.systemApps`.
     private let systemApps: [InstalledApp]?
     private let walk: LeftoverScanner.Measure
+    /// The most folders listed per location while looking inside folders no orphan is named after.
+    private let nestedFolderLimit: Int
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         self.init(
@@ -27,13 +29,15 @@ public struct OrphanScanner: Sendable {
         exclusions: Exclusions = .none,
         isRegisteredApp: @escaping @Sendable (String) -> Bool,
         systemApps: [InstalledApp]? = nil,
-        walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
+        walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
+        nestedFolderLimit: Int = NestedSearch.folderLimit
     ) {
         self.environment = environment
         self.exclusions = exclusions
         self.isRegisteredApp = isRegisteredApp
         self.systemApps = systemApps
         self.walk = walk
+        self.nestedFolderLimit = nestedFolderLimit
     }
 
     /// Finds the items that no app claims, in every location, grouped by identifier.
@@ -79,10 +83,11 @@ public struct OrphanScanner: Sendable {
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
             for location in environment.locations {
-                _ = group.addTaskUnlessCancelled { [walk] in
+                _ = group.addTaskUnlessCancelled { [exclusions, nestedFolderLimit, walk] in
                     await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
-                        goneNames: goneNames, home: home, walk: walk
+                        goneNames: goneNames, home: home, exclusions: exclusions, nestedFolderLimit: nestedFolderLimit,
+                        walk: walk
                     )
                 }
             }
@@ -91,10 +96,15 @@ public struct OrphanScanner: Sendable {
 
         var found: [(identifier: String, item: OrphanItem)] = []
         var unreadableLocations: [SearchLocation] = []
+        var cutShortLocations: [SearchLocation] = []
         for result in results {
             switch result {
-            case .found(let items): found += items
-            case .unreadable(let location): unreadableLocations.append(location)
+            case .found(let items, let cutShort, let unreadable):
+                found += items
+                unreadableLocations += unreadable
+                if let cutShort { cutShortLocations.append(cutShort) }
+            case .unreadable(let location):
+                unreadableLocations.append(location)
             }
         }
 
@@ -113,12 +123,14 @@ public struct OrphanScanner: Sendable {
             return (entry.identifier, item)
         }
         let teams = Set(installedApps.compactMap(\.teamIdentifier))
+        let byPath: (SearchLocation, SearchLocation) -> Bool = {
+            $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+        }
         return OrphanScan(
             groups: Self.group(kept, remembered: gone, installedTeams: teams, running: running),
-            unreadableLocations: unreadableLocations.sorted {
-                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
-            },
-            needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing }
+            unreadableLocations: unreadableLocations.sorted(by: byPath),
+            needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
+            cutShortLocations: cutShortLocations.sorted(by: byPath)
         )
     }
 
@@ -271,12 +283,14 @@ public struct OrphanScanner: Sendable {
 
     /// The identifier an item is listed under, or nil when it must not be listed. A link is named for its tool,
     /// so it is listed under the app it leads into: the identifier Peel remembers for that path, or the app's name.
+    /// With `goneApps`, only an identifier that came with one of those apps is listed (`cameWithAnAppThatLeft`).
     private static func orphanIdentifier(
         of url: URL,
         kind: SearchLocation.Kind,
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
-        goneBundles: [String: String] = [:]
+        goneBundles: [String: String] = [:],
+        cameWithOneOf goneApps: [String]? = nil
     ) async -> String? {
         if kind == .commandLineTools {
             guard let bundle = goneApp(behind: url) else { return nil }
@@ -288,6 +302,7 @@ public struct OrphanScanner: Sendable {
             !isSensitive(fileName: name),
             let identifier = orphanIdentifier(forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind)
                 ?? DeclaredIdentifier.of(url, kind: kind).flatMap({ orphanIdentifier(forKey: $0, kind: kind) }),
+            goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
             await !holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership),
             !isStillAJob(url, kind: kind, jobs: jobs)
@@ -329,8 +344,18 @@ public struct OrphanScanner: Sendable {
     }
 
     private enum LocationResult: Sendable {
-        case found([(identifier: String, item: OrphanItem)])
+        /// `cutShort` is the location itself when the search inside its folders hit the limit, and `unreadable` the
+        /// folders inside it that search could not look into.
+        case found([(identifier: String, item: OrphanItem)], cutShort: SearchLocation?, unreadable: [SearchLocation])
         case unreadable(SearchLocation)
+    }
+
+    /// Something to list, waiting to be measured.
+    private struct Candidate {
+        let url: URL
+        let identifier: String
+        let namedAfter: String?
+        let parent: ParentAccess
     }
 
     private static func scan(
@@ -341,20 +366,25 @@ public struct OrphanScanner: Sendable {
         goneApps: [String],
         goneNames: [String: String],
         home: String,
+        exclusions: Exclusions,
+        nestedFolderLimit: Int,
         walk: @escaping LeftoverScanner.Measure
     ) async -> LocationResult {
         let entries: [String]
         do {
+            // Sorted, because with a limit on how many folders are looked inside, the order decides which ones.
             entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
+                .sorted()
             ScanCount.current?.add(entries.count)
         } catch CocoaError.fileReadNoSuchFile {
-            return .found([])
+            return .found([], cutShort: nil, unreadable: [])
         } catch {
             return .unreadable(location)
         }
 
         let parent = ParentAccess(location.url)
-        var candidates: [(url: URL, identifier: String, namedAfter: String?)] = []
+        var candidates: [Candidate] = []
+        var nobodysFolders: [URL] = []
         for name in entries where location.kind.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
@@ -367,23 +397,45 @@ public struct OrphanScanner: Sendable {
                 kind: location.kind,
                 ownership: ownership,
                 jobs: jobs,
-                goneBundles: goneBundles
+                goneBundles: goneBundles,
+                cameWithOneOf: location.kind.isLoadedCode ? goneApps : nil
             )
             if identifier == nil {
                 namedAfter = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
                 identifier = namedAfter
             }
-            guard let identifier else { continue }
-            guard !location.kind.isLoadedCode || cameWithAnAppThatLeft(identifier, goneApps: goneApps) else { continue }
-            candidates.append((url, identifier, namedAfter))
+            if let identifier {
+                candidates.append(Candidate(url: url, identifier: identifier, namedAfter: namedAfter, parent: parent))
+            } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !exclusions.excludes(url) {
+                nobodysFolders.append(url)
+            }
         }
+
+        // Inside those folders a dotted name is as often a file's own (a lock, a backup, an editor's extension) as
+        // an app's identifier, so only what came with an app Peel saw go is listed there.
+        let inside: NestedSearch.Findings<Candidate> = await NestedSearch.walk(
+            inside: nobodysFolders,
+            limit: nestedFolderLimit
+        ) { url, _, parent, canLookInside in
+            guard isAFileAFolderOrALink(url), !ProtectedData.refuses(url.path(percentEncoded: false), home: home),
+                  !exclusions.excludes(url)
+            else { return .pass }
+            if let identifier = await orphanIdentifier(
+                of: url, kind: location.kind, ownership: ownership, jobs: jobs, cameWithOneOf: goneApps
+            ) {
+                return .take(Candidate(url: url, identifier: identifier, namedAfter: nil, parent: parent))
+            }
+            return canLookInside && url.isRealFolder ? .lookInside : .pass
+        }
+        candidates += inside.found
 
         // A few walks at a time, so a few folders that never answer do not each hold the location for a whole budget.
         let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) {
             await walk($0)
         }
         var found: [(identifier: String, item: OrphanItem)] = []
-        for ((url, identifier, namedAfter), contents) in zip(candidates, walked) {
+        for (candidate, contents) in zip(candidates, walked) {
+            let url = candidate.url
             // The item's own date changes when something is taken out of it, but not when a file inside is
             // rewritten in place, so the newest date inside comes from the walk.
             let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
@@ -396,23 +448,29 @@ public struct OrphanScanner: Sendable {
                 .holdsALibrary
             } else if ProtectedData.holdsWorkKeptInACache(path) {
                 .holdsWorkKeptInACache
+            } else if location.kind == .logs, CrashReport.isOne(url) {
+                .crashReport
             } else {
                 // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
                 HoldBack.seen(in: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
-                    ?? (namedAfter != nil ? .namedLikeTheApp : nil)
+                    ?? (candidate.namedAfter != nil ? .namedLikeTheApp : nil)
             }
             let item = OrphanItem(
                 url: url,
                 kind: location.kind,
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
-                requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+                requiresPrivileges: candidate.parent.requiresPrivileges(toRemove: url),
                 heldBack: heldBack,
-                namedAfter: namedAfter,
+                namedAfter: candidate.namedAfter,
                 holdsDamagedSettings: location.kind == .preferences && PreferenceFile.isDamaged(url)
             )
-            found.append((identifier, item))
+            found.append((candidate.identifier, item))
         }
-        return .found(found)
+        return .found(
+            found,
+            cutShort: inside.wasCutShort ? location : nil,
+            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
+        )
     }
 }

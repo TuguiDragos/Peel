@@ -146975,6 +146975,112 @@
         }
       }
     },
+    "There are more folders in %@ than Peel looks inside, so an orphaned file may be in a folder Peel didn’t reach." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V %@ je víc složek, než kolik jich Peel prochází, takže nějaký osiřelý soubor může být ve složce, kam se Peel nedostal."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ gibt es mehr Ordner, als Peel durchsieht, daher liegt möglicherweise eine verwaiste Datei in einem Ordner, den Peel nicht erreicht hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En %@ hay más carpetas de las que Peel revisa, así que puede que haya algún archivo huérfano en una carpeta a la que Peel no ha llegado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il y a plus de dossiers dans %@ que Peel n’en examine : un fichier orphelin peut donc se trouver dans un dossier que Peel n’a pas atteint."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ ci sono più cartelle di quante Peel ne esamini, quindi un file orfano potrebbe trovarsi in una cartella che Peel non ha raggiunto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@にはPeelが調べる数より多くのフォルダがあるため、Peelが調べなかったフォルダに孤立ファイルがある可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 Peel이 살펴보는 것보다 많은 폴더가 있으므로, 주인 없는 파일이 Peel이 살펴보지 못한 폴더에 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er zijn meer mappen in %@ dan Peel doorzoekt, dus er kan een verweesd bestand staan in een map die Peel niet heeft bereikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W %@ jest więcej folderów, niż Peel przegląda, więc jakiś osierocony plik może być w folderze, do którego Peel nie dotarł."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há mais pastas em %@ do que o Peel examina, então um arquivo órfão pode estar em uma pasta que o Peel não alcançou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În %@ sunt mai multe dosare decât examinează Peel, așa că un fișier orfan se poate afla într‑un dosar la care Peel nu a ajuns."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В %@ больше папок, чем Peel просматривает, поэтому какой-то осиротевший файл может лежать в папке, до которой Peel не добрался."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det finns fler mappar i %@ än Peel tittar i, så en övergiven fil kan ligga i en mapp som Peel inte nådde."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ içinde Peel’in içine baktığından daha fazla klasör var, bu yüzden sahipsiz bir dosya Peel’in ulaşmadığı bir klasörde olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У %@ більше папок, ніж Peel переглядає, тож покинутий файл може бути в папці, до якої Peel не дійшла."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中的文件夹数量超出了Peel查看的上限，因此可能有孤立文件位于Peel未查看到的文件夹中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中的檔案夾數量超出Peel查看的範圍，因此可能有孤立檔案位於Peel沒有查看到的檔案夾中。"
+          }
+        }
+      }
+    },
     "There are more folders in %@ than Peel looks inside, so something of this app’s may be in a folder Peel didn’t reach." : {
       "localizations" : {
         "cs" : {

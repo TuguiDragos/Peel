@@ -67,6 +67,19 @@ struct OrphanList: View {
                 ContentUnavailableView.search(text: searchText)
             }
         }
+        .safeAreaBar(edge: .bottom) {
+            Group {
+                if let cutShort = orphans.scan?.cutShortLocations, !cutShort.isEmpty {
+                    Text("There are more folders in \(cutShort.map(\.url.abbreviatedPath).formatted(.list(type: .and))) than Peel looks inside, so an orphaned file may be in a folder Peel didn’t reach.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 8)
+                        .transition(.opacity)
+                }
+            }
+            .motion(.settle, .movement, value: orphans.scan?.cutShortLocations.isEmpty == false)
+        }
         .columnSearch(text: $searchText, prompt: "Search Orphaned Files", when: orphans.scan?.groups.isEmpty == false)
         .fadesInColumn(whenRowsChange: orphans.scan?.groups.map(\.id))
         .navigationTitle(Text(Tool.orphans.title))

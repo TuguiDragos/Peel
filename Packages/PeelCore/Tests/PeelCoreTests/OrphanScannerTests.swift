@@ -55,7 +55,8 @@ struct OrphanScannerTests {
     private func scanner(
         in directory: borrowing TemporaryDirectory,
         registered: Set<String> = [],
-        systemApps: [InstalledApp] = []
+        systemApps: [InstalledApp] = [],
+        nestedFolderLimit: Int = NestedSearch.folderLimit
     ) -> OrphanScanner {
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -64,7 +65,8 @@ struct OrphanScannerTests {
         return OrphanScanner(
             environment: environment,
             isRegisteredApp: { registered.contains($0) },
-            systemApps: systemApps
+            systemApps: systemApps,
+            nestedFolderLimit: nestedFolderLimit
         )
     }
 
@@ -525,6 +527,81 @@ struct OrphanScannerTests {
 
         #expect(Set(scan.groups.map(\.identifier)) == ["com.gonevendor.gone", "com.gonevendor.reverb"])
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
+    }
+
+    /// An app can keep its files inside a maker's folder or another app's, a level or two below where Orphaned Files
+    /// reads names, as an uninstall finds them. Down there a dotted name is often only a file's, a lock or a backup,
+    /// so only what came with an app Peel saw go is listed.
+    @Test func findsWhatAnAppThatLeftKeptInsideSomebodyElsesFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Application Support/Example Software/org.example.mixer/settings.json")
+        try directory.file("home/Library/Application Support/Browser/NativeMessagingHosts/org.example.mixer.host.json")
+        try directory.file("root/Users/Shared/Library/Application Support/org.example.mixer/presets.db")
+        try directory.file("home/Library/Application Support/Example Editor/state.json.lock")
+        try directory.file("home/.config/example/config.bak.2026-09-06")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mixer", name: "Mixer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mixer.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        #expect(scan.groups.map(\.identifier) == ["org.example.mixer"])
+        let items = scan.groups.flatMap(\.items)
+        let temporary = directory.url.path(percentEncoded: false)
+        let found = items.map { $0.url.path(percentEncoded: false).replacingOccurrences(of: temporary, with: "") }
+        #expect(Set(found) == [
+            "root/Library/Application Support/Example Software/org.example.mixer",
+            "home/Library/Application Support/Browser/NativeMessagingHosts/org.example.mixer.host.json",
+            "root/Users/Shared/Library/Application Support/org.example.mixer",
+        ])
+        #expect(items.first { $0.kind == .sharedFolder }?.heldBack == .sharedWithEveryone)
+    }
+
+    /// A crash report is never selected on an app's page, since the app's developer may still ask for it, and the
+    /// same holds once the app is gone.
+    @Test func aCrashReportOfAnAppThatLeftIsLeftForThePersonToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let report = """
+        {"app_name":"Mixer","bug_type":"309","bundleID":"org.example.mixer","name":"Mixer","incident_id":"1"}
+        {"procName":"Mixer","exception":{"type":"EXC_CRASH"}}
+        """
+        try directory.file("home/Library/Logs/DiagnosticReports/Mixer-2026-09-01-101010.ips", contents: Data(report.utf8))
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mixer", name: "Mixer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mixer.app"
+        )
+
+        let items = await scanner(in: directory).scan(installedApps: installed, remembered: [gone]).groups
+            .flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["Mixer-2026-09-01-101010.ips"])
+        #expect(items.map(\.heldBack) == [.crashReport])
+    }
+
+    @Test(.permissionsHold) func saysWhichFolderInsideAPlaceItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Example Software/org.example.mixer/settings.json")
+        try directory.setPermissions(0, of: "home/Library/Application Support/Example Software")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/Example Software") }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Example Software"])
+        #expect(scan.unreadableLocations.map(\.kind) == [.applicationSupport])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
+    @Test func saysWhereItStoppedLookingInsideFolders() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Vendor One/notes.txt")
+        try directory.file("home/Library/Application Support/Vendor Two/notes.txt")
+
+        let cut = await scanner(in: directory, nestedFolderLimit: 1).scan(installedApps: installed)
+        let whole = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(cut.cutShortLocations.map(\.kind) == [.applicationSupport])
+        #expect(whole.cutShortLocations.isEmpty)
     }
 
     @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {

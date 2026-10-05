@@ -60,12 +60,15 @@ public struct OrphanScan: Sendable {
     /// True when macOS's privacy protection, not ordinary permissions, kept Peel out of one of `unreadableLocations`,
     /// so Full Disk Access would open it.
     public var needsFullDiskAccess = false
+    /// The places with more folders inside than Peel looks into (`NestedSearch.folderLimit`), so an orphaned file
+    /// may be in one it did not reach.
+    public var cutShortLocations: [SearchLocation] = []
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
         OrphanScan(
             groups: groups.filter { $0.id != id }, unreadableLocations: unreadableLocations,
-            needsFullDiskAccess: needsFullDiskAccess
+            needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations
         )
     }
 }

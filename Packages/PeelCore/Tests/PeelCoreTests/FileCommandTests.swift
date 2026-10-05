@@ -510,6 +510,19 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
     }
 
+    @Test func theOrphansListSaysWhereItStoppedLookingInsideFolders() {
+        let caches = SearchLocation(kind: .caches, url: URL(filePath: "/Users/me/Library/Caches", directoryHint: .isDirectory))
+        var scan = OrphanScan(groups: [], unreadableLocations: [caches], needsFullDiskAccess: true)
+        scan.cutShortLocations = [caches]
+
+        let notes = OrphansCommand.notes(for: scan)
+
+        #expect(notes == [
+            Output.fullDiskAccessNote,
+            "There are more folders in /Users/me/Library/Caches than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach.",
+        ])
+    }
+
     @Test func orphansListsNothingWhileAnAppFolderCannotBeRead() {
         let studio = URL(filePath: "/Volumes/Studio/Apps", directoryHint: .isDirectory)
 
