@@ -51,6 +51,9 @@ struct DesktopWalletTests {
         ".tezos-signer/secret_keys",
         ".starknet_accounts/starknet_open_zeppelin_accounts.json",
         ".fuel/wallets/.wallet",
+        ".osmosisd/keyring-file/main.info",
+        ".osmosisd/keyring-test/main.info",
+        ".osmosisd/config/priv_validator_key.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -82,6 +85,7 @@ struct DesktopWalletTests {
         ".avalanche-cli/logs/avalanche.log",
         ".config/stellar/network/testnet.toml",
         ".fuel/toolchains/latest-aarch64-apple-darwin/bin/forc",
+        ".osmosisd/data/application.db/000001.log",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
