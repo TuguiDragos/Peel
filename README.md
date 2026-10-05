@@ -59,7 +59,7 @@ To update Peel, download the new release and replace the copy in your Applicatio
 ## Why Peel
 
 <p align="center">
-  <img src="readme-assets/peel-home-permissions-and-disk-space.png" width="900" alt="Peel's Home: this Mac's chip, memory, and free space, what Peel has moved to the Trash so far, and which permissions are on">
+  <img src="readme-assets/peel-home-permissions-and-disk-space.png" width="900" alt="Peel's Home, beside the sidebar with every tool: this Mac's chip, memory, macOS version, and free space, what Peel has moved to the Trash so far, and which permissions are on">
 </p>
 
 Dragging an app to the Trash leaves pieces of it behind: caches, settings, containers, launch agents, and support
