@@ -90,11 +90,22 @@ private struct TerminalToolRow: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             case .available:
-                if !isInstalled {
-                    CopyableLines(caption: Text("Install"), lines: [tool.installCommand])
-                }
-                ForEach(tool.setup(prefix: state.prefix ?? Self.defaultPrefix), id: \.lines) { setup in
-                    CopyableLines(caption: Text(setup.place.caption), lines: setup.lines)
+                let setups = tool.setup(prefix: state.prefix ?? Self.defaultPrefix)
+                if !isInstalled || !setups.isEmpty {
+                    let title: LocalizedStringKey =
+                        if isInstalled { "Set up" } else if setups.isEmpty { "Install" } else { "Install and set up" }
+                    DisclosureGroup(title) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            if !isInstalled {
+                                CopyableLines(caption: setups.isEmpty ? nil : Text("Install"), lines: [tool.installCommand])
+                            }
+                            ForEach(setups, id: \.lines) { setup in
+                                CopyableLines(caption: Text(setup.place.caption), lines: setup.lines)
+                            }
+                        }
+                        .padding(.top, 4)
+                    }
+                    .disclosureGroupStyle(ButtonDisclosureStyle())
                 }
             }
         }
