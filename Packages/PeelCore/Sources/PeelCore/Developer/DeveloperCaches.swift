@@ -1040,6 +1040,17 @@ public enum DeveloperCaches {
             id: "opera", name: "Opera", systemImage: "globe", appBundleIdentifiers: ["com.operasoftware.Opera"],
             folders: chromiumFolders(in: "Library/Application Support/com.operasoftware.Opera")
         ),
+        // chrome-devtools-mcp drives Chrome in a user data folder of its own, one per channel, for its server and its
+        // command line alike (src/browser.ts at commit 9a47b657d7b17b9bc64508530c93d55e8033e2a6 of
+        // github.com/ChromeDevTools/chrome-devtools-mcp), so it waits for Chrome to quit.
+        Definition(
+            id: "chrome-devtools-mcp", name: "Chrome DevTools MCP", systemImage: "globe",
+            appBundleIdentifiers: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev",
+                                   "com.google.Chrome.canary"],
+            folders: ["chrome-devtools-mcp", "chrome-devtools-mcp-cli"].flatMap { tool in
+                ["", "-canary", "-beta", "-dev"].flatMap { chromiumFolders(in: ".cache/\(tool)/chrome-profile\($0)") }
+            }
+        ),
     ]
 
     /// The identifiers of apps built on IntelliJ, each also as its early access build, whose identifier IntelliJ's

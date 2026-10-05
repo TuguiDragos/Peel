@@ -170,6 +170,24 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == ["ShaderCache", "GPUCache"])
     }
 
+    @Test func listsTheCachesOfTheChromeThatChromeDevToolsMCPDrives() async throws {
+        let directory = try TemporaryDirectory()
+        let profiles = [".cache/chrome-devtools-mcp/chrome-profile", ".cache/chrome-devtools-mcp-cli/chrome-profile-canary"]
+        for profile in profiles {
+            for path in ["ShaderCache/data_0", "Default/GPUCache/data_0", "Default/Cookies"] {
+                try directory.file("\(profile)/\(path)", bytes: 4_096)
+            }
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let listed = try #require(environments.first { $0.id == "chrome-devtools-mcp" }).locations.map {
+            String($0.url.path(percentEncoded: false).dropFirst(home.count))
+        }
+        #expect(Set(listed) == Set(profiles.flatMap { ["\($0)/ShaderCache", "\($0)/Default/GPUCache"] }))
+    }
+
     @Test func neverListsAFolderInsideAnotherItAlreadyLists() async throws {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"
