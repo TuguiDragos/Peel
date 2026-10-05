@@ -311,13 +311,15 @@ struct DeclaredBackgroundItemsTests {
         let ownership = BackgroundItemOwnership(installedApps: [])
         let stray = try directory.file("home/Desktop/org.example.stray.plist", contents: job("org.example.stray", program: "/bin/sh"))
         func item(_ label: String, _ details: Launchctl.JobDetails, exclusions: Exclusions = .none) -> BackgroundItem? {
-            BackgroundItems.undeclaredItem(
+            let found = BackgroundItems.undeclaredItem(
                 (label, .agent, "gui/501/\(label)"),
-                details: details,
+                answer: .details(details),
                 ownership: ownership,
                 loaded: .init(),
                 exclusions: exclusions
             )
+            guard case .item(let item) = found else { return nil }
+            return item
         }
 
         let loadedElsewhere = try #require(item("org.example.stray", .init(path: stray.path(percentEncoded: false), program: "/bin/sh")))
@@ -337,6 +339,29 @@ struct DeclaredBackgroundItemsTests {
                 exclusions: Exclusions(paths: [stray])
             ) == nil
         )
+    }
+
+    /// A job whose answer cannot be read may belong in the list, so its kind is reported; one no longer loaded is gone.
+    @Test func reportsTheKindOfAJobItCouldNotRead() {
+        let ownership = BackgroundItemOwnership(installedApps: [])
+        func found(_ answer: Launchctl.Answer, _ kind: BackgroundItem.Kind) -> BackgroundItems.Undeclared {
+            BackgroundItems.undeclaredItem(
+                ("org.example.job", kind, "gui/501/org.example.job"),
+                answer: answer, ownership: ownership, loaded: .init(), exclusions: .none
+            )
+        }
+
+        #expect(found(.unreadable, .agent) == .unreadable(.agent))
+        #expect(found(.unreadable, .daemon) == .unreadable(.daemon))
+        #expect(found(.gone, .agent) == .nothing)
+        #expect(BackgroundItems.Loaded().unanswered.isEmpty)
+        #expect(BackgroundItems.Loaded(user: nil).unanswered == [.agent])
+        #expect(BackgroundItems.Loaded(userDisabled: nil).unanswered == [.agent])
+        #expect(BackgroundItems.Loaded(system: nil, systemDisabled: nil).unanswered == [.daemon])
+        let merged = BackgroundItems.merged([found(.gone, .agent), found(.unreadable, .daemon)], loaded: .init())
+        #expect(merged.items.isEmpty)
+        #expect(merged.unanswered == [.daemon])
+        #expect(BackgroundItems.merged([], loaded: .init(user: nil)).unanswered == [.agent])
     }
 
     /// A job an app registered is known only while it is loaded, so after Disable and a restart it would leave the

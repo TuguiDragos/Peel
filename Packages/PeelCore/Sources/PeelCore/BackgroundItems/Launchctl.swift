@@ -76,8 +76,27 @@ enum Launchctl {
         return overrides
     }
 
-    /// Parses the top-level "key = value" lines of `launchctl print <domain>/<label>`.
-    static func parseDetails(_ output: String) -> JobDetails {
+    /// What `launchctl print <domain>/<label>` said of one job.
+    enum Answer: Equatable {
+        case details(JobDetails)
+        /// The job is no longer loaded: it left between the list and the question.
+        case gone
+        /// An answer in a form Peel cannot read.
+        case unreadable
+    }
+
+    /// `launchctl error 113` reads "Could not find specified service" (`man launchctl`, EXIT STATUS).
+    private static let serviceNotFound: Int32 = 113
+
+    static func answer(status: Int32, output: String) -> Answer {
+        if status == serviceNotFound { return .gone }
+        guard status == 0, let details = parseDetails(output) else { return .unreadable }
+        return .details(details)
+    }
+
+    /// Parses the top-level "key = value" lines of `launchctl print <domain>/<label>`. Nil when there is no `path`
+    /// line, which every job's answer has, since another form says nothing.
+    static func parseDetails(_ output: String) -> JobDetails? {
         var details = JobDetails()
         for line in output.split(whereSeparator: \.isNewline) where line.hasPrefix("\t") && !line.hasPrefix("\t\t") {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
@@ -92,6 +111,6 @@ enum Launchctl {
             default: break
             }
         }
-        return details
+        return details.path == nil ? nil : details
     }
 }

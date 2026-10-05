@@ -5,6 +5,8 @@ import PeelCore
 @Observable
 final class BackgroundItemLibrary {
     private(set) var items: [BackgroundItem]?
+    /// The kinds of job some of which may be missing, because macOS answered about them in a form Peel cannot read.
+    private(set) var unanswered: Set<BackgroundItem.Kind> = []
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -30,7 +32,8 @@ final class BackgroundItemLibrary {
                 await BackgroundItems.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
             })
         else { return }
-        items = result
+        items = result.items
+        unanswered = result.unanswered
         if let selection, items?.contains(where: { $0.id == selection }) != true {
             self.selection = nil
         }
@@ -88,5 +91,17 @@ final class BackgroundItemLibrary {
             failures.add(ActionFailure(label: item.label, action: action, reason: error))
         }
         await refresh(installedApps: installedApps)
+    }
+}
+
+extension BackgroundItemLibrary {
+    /// What the page says when some jobs may be missing, or nil when macOS answered about every kind.
+    var unansweredNote: LocalizedStringResource? {
+        switch (unanswered.contains(.agent), unanswered.contains(.daemon)) {
+        case (true, true): "macOS didn’t list the agents and daemons that apps added, so some may be missing here."
+        case (true, false): "macOS didn’t list the agents that apps added, so some may be missing here."
+        case (false, true): "macOS didn’t list the daemons that apps added, so some may be missing here."
+        case (false, false): nil
+        }
     }
 }

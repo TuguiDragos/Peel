@@ -30,7 +30,7 @@ final class IntelLibrary {
             return await IntelInspector.scan(
                 installedApps: installedApps,
                 plugins: plugins,
-                backgroundItems: backgroundItems,
+                backgroundItems: backgroundItems.items,
                 exclusions: exclusions
             )
         }) else { return }

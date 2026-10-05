@@ -351,11 +351,11 @@ struct ExclusionsReachEveryScannerTests {
         <plist version="1.0"><dict><key>Label</key><string>com.example.keepme</string></dict></plist>
         """.utf8))
 
-        let listed = await BackgroundItems.scan(environment: environment(in: directory))
+        let listed = await BackgroundItems.scan(environment: environment(in: directory)).items
         let kept = await BackgroundItems.scan(
             environment: environment(in: directory),
             exclusions: Exclusions(paths: [plist])
-        )
+        ).items
 
         #expect(listed.contains { $0.label == "com.example.keepme" })
         #expect(!kept.contains { $0.label == "com.example.keepme" }, "the scanner spells the path with /private and the exclusion does not")
@@ -444,12 +444,12 @@ struct ExclusionsReachEveryScannerTests {
         """.utf8))
         let app = InstalledApp(url: URL(filePath: "/Applications/Keep Me.app"), bundleIdentifier: "com.example.KeepMe", name: "Keep Me")
 
-        let listed = await BackgroundItems.scan(installedApps: [app], environment: environment(in: directory))
+        let listed = await BackgroundItems.scan(installedApps: [app], environment: environment(in: directory)).items
         let kept = await BackgroundItems.scan(
             installedApps: [app],
             environment: environment(in: directory),
             exclusions: Exclusions(bundleIdentifiers: ["com.example.KeepMe"])
-        )
+        ).items
 
         #expect(listed.first { $0.label == "com.example.keepme.updater" }?.ownerBundleIdentifier == "com.example.KeepMe")
         #expect(!kept.contains { $0.label == "com.example.keepme.updater" })

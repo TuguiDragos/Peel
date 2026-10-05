@@ -12,11 +12,22 @@ struct BackgroundItemList: View {
         let filtered = filteredItems
 
         List(selection: $backgroundItems.selection) {
+            if let note = backgroundItems.unansweredNote, !filtered.isEmpty {
+                Notice(title: Text("Part of this list may be missing"), detail: Text(note), kind: .note) {}
+                    .padding(.vertical, 6)
+                    .listRowSeparator(.hidden)
+            }
             section(Text("Agents"), items: filtered.filter { $0.kind == .agent })
             section(Text("Daemons"), items: filtered.filter { $0.kind == .daemon })
         }
         .scanState(phase(filtered), isRescanning: isRescanning, scan: backgroundItems.scanRun) {
-            if backgroundItems.items?.isEmpty == true {
+            if let note = backgroundItems.unansweredNote, backgroundItems.items?.isEmpty == true {
+                ContentUnavailableView(
+                    "macOS Didn’t Answer",
+                    systemImage: "exclamationmark.triangle",
+                    description: Text(note)
+                )
+            } else if backgroundItems.items?.isEmpty == true {
                 ContentUnavailableView(
                     "No Background Items",
                     systemImage: "gearshape.2",
@@ -32,6 +43,7 @@ struct BackgroundItemList: View {
         .announcesScan(
             backgroundItems.isScanning,
             found: backgroundItems.summary,
+            couldNotLook: backgroundItems.unanswered.isEmpty ? nil : "macOS Didn’t Answer",
             wasStopped: backgroundItems.scanRun.wasStopped
         )
         .toolbar {

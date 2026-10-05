@@ -35,6 +35,8 @@ struct LaunchctlTests {
         #expect(Launchctl.parseList("Could not connect to the domain.\n") == nil)
         #expect(Launchctl.parseSystemServices("system = {\n\tjobs = {\n\t}\n}\n") == nil)
         #expect(Launchctl.parseDisabled("Bad request.\n") == nil)
+        #expect(Launchctl.parseDetails("Bad request.\nCould not find service \"x\" in domain for user gui: 501\n") == nil)
+        #expect(Launchctl.parseDetails("gui/501/org.example.agent = {\n\tstate = not running\n}\n") == nil)
 
         #expect(Launchctl.parseList("PID\tStatus\tLabel\n") == [:])
         #expect(Launchctl.parseSystemServices("system = {\n\tservices = {\n\t}\n}\n") == [:])
@@ -67,7 +69,7 @@ struct LaunchctlTests {
         #expect(disabled == ["org.example.agent": false, "com.example.daemon": true])
     }
 
-    @Test func parsesJobDetails() {
+    @Test func parsesJobDetails() throws {
         let output = """
         gui/501/com.adguard.mac.adguard.loginhelper = {
         \tactive count = 0
@@ -81,10 +83,57 @@ struct LaunchctlTests {
         \t}
         }
         """
-        let details = Launchctl.parseDetails(output)
+        let details = try #require(Launchctl.parseDetails(output))
         #expect(details.managedBy == "com.apple.xpc.ServiceManagement")
         #expect(details.parentBundleIdentifier == "com.adguard.mac.adguard")
         #expect(details.path == "(submitted by smd.524)")
+    }
+
+    @Test func tellsAJobThatLeftFromAnAnswerItCannotRead() {
+        let printed = """
+        gui/501/org.example.updater = {
+        \tactive count = 0
+        \tpath = (submitted by smd.332)
+        \ttype = Submitted
+        \tmanaged_by = com.apple.xpc.ServiceManagement
+        \tstate = not running
+
+        \tprogram identifier = Contents/Resources/Updater (mode: 2)
+        \tparent bundle identifier = org.example.app
+        \tparent bundle version = 0
+        \tinherited environment = {
+        \t\tSSH_AUTH_SOCK => /private/tmp/com.apple.launchd.example/Listeners
+        \t}
+
+        \tdomain = gui/501 [100023]
+        \truns = 0
+        \tlast exit code = (never exited)
+        }
+        """
+        let read = Launchctl.JobDetails(
+            path: "(submitted by smd.332)", managedBy: "com.apple.xpc.ServiceManagement",
+            parentBundleIdentifier: "org.example.app"
+        )
+
+        #expect(Launchctl.answer(status: 0, output: printed) == .details(read))
+        #expect(Launchctl.answer(status: 113, output: "Bad request.\nCould not find service \"x\" in domain\n") == .gone)
+        #expect(Launchctl.answer(status: 0, output: "Bad request.\n") == .unreadable)
+        #expect(Launchctl.answer(status: 112, output: "Bad request.\nCould not find domain for user gui: 9\n") == .unreadable)
+    }
+
+    /// Every Mac with someone logged in runs Finder as a job, so this is what `launchctl` really answers here.
+    @Test func readsWhatThisMacsLaunchctlSays() async {
+        let domain = "gui/\(getuid())"
+        let finder = await Launchctl.run(["print", "\(domain)/com.apple.Finder"])
+        let nobody = await Launchctl.run(["print", "\(domain)/org.example.nothing"])
+
+        guard case .details(let details) = Launchctl.answer(status: finder.status, output: finder.output) else {
+            Issue.record("launchctl's answer about Finder could not be read: \(finder.output.prefix(200))")
+            return
+        }
+        #expect(details.path == "/System/Library/LaunchAgents/com.apple.Finder.plist")
+        #expect(details.program == "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder")
+        #expect(Launchctl.answer(status: nobody.status, output: nobody.output) == .gone)
     }
 
     @Test func readsJobDefinitions() throws {

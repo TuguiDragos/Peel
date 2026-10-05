@@ -91790,6 +91790,112 @@
         }
       }
     },
+    "Part of this list may be missing" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Část tohoto seznamu může chybět"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Teil dieser Liste fehlt möglicherweise"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que falte parte de esta lista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque peut-être une partie de cette liste"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potrebbe mancare una parte di questo elenco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリストの一部が欠けている可能性があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 목록의 일부가 누락되었을 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een deel van deze lijst ontbreekt mogelijk"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Może brakować części tej listy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte desta lista pode estar faltando"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O parte din această listă ar putea lipsi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часть этого списка может отсутствовать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En del av listan kan saknas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu listenin bir kısmı eksik olabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Може бракувати частини цього списку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表可能缺少部分内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表可能缺少一部分"
+          }
+        }
+      }
+    },
     "Peel" : {
       "comment" : "The app's name, never translated.",
       "shouldTranslate" : false
@@ -182002,6 +182108,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS不允許。"
+          }
+        }
+      }
+    },
+    "macOS didn’t list the agents and daemons that apps added, so some may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neuvedl agenty a démony, které aplikace přidaly, takže někteří z nich mohou v seznamu chybět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die von Apps hinzugefügten Agenten und Daemons nicht aufgeführt, daher fehlen hier möglicherweise einige."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha enumerado los agentes y demonios que las apps han añadido, así que puede que aquí falten algunos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas listé les agents et les démons que les apps ont ajoutés : certains peuvent donc manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha elencato gli agenti e i daemon aggiunti dalle app, quindi qui potrebbero mancarne alcuni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが追加したエージェントとデーモンをmacOSが一覧にしなかったため、ここでは一部が欠けている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱에서 추가한 에이전트와 데몬을 나열하지 않았으므로 그중 일부가 여기에서 누락되었을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft de agents en daemons niet vermeld die door apps zijn toegevoegd, dus sommige ontbreken hier mogelijk."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie podał, jakie agenty i demony dodały aplikacje, więc może tu brakować niektórych z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não listou os agentes e daemons que os apps adicionaram, então alguns podem estar faltando aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a listat agenții și daemonii adăugați de aplicații, așa că unii ar putea lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщила, какие агенты и демоны добавлены приложениями, поэтому некоторые из них могут здесь отсутствовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS listade inte de agenter och daemons som appar har lagt till, så vissa kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, uygulamaların eklediği aracıları ve arka plan programlarını listelemedi, bu yüzden bazıları burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не перелічила агентів і демонів, доданих програмами, тож деяких із них тут може бракувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有列出App添加的代理和监控程序，因此这里可能缺少其中一些。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有列出App加入的代理程式和服務程式，因此這裡可能缺少其中一些。"
+          }
+        }
+      }
+    },
+    "macOS didn’t list the agents that apps added, so some may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neuvedl agenty, které aplikace přidaly, takže někteří z nich mohou v seznamu chybět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die von Apps hinzugefügten Agenten nicht aufgeführt, daher fehlen hier möglicherweise einige."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha enumerado los agentes que las apps han añadido, así que puede que aquí falten algunos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas listé les agents que les apps ont ajoutés : certains peuvent donc manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha elencato gli agenti aggiunti dalle app, quindi qui potrebbero mancarne alcuni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが追加したエージェントをmacOSが一覧にしなかったため、ここでは一部が欠けている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱에서 추가한 에이전트를 나열하지 않았으므로 그중 일부가 여기에서 누락되었을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft de agents niet vermeld die door apps zijn toegevoegd, dus sommige ontbreken hier mogelijk."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie podał, jakie agenty dodały aplikacje, więc może tu brakować niektórych z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não listou os agentes que os apps adicionaram, então alguns podem estar faltando aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a listat agenții adăugați de aplicații, așa că unii ar putea lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщила, какие агенты добавлены приложениями, поэтому некоторые из них могут здесь отсутствовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS listade inte de agenter som appar har lagt till, så vissa kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, uygulamaların eklediği aracıları listelemedi, bu yüzden bazıları burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не перелічила агентів, доданих програмами, тож деяких із них тут може бракувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有列出App添加的代理，因此这里可能缺少其中一些。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有列出App加入的代理程式，因此這裡可能缺少其中一些。"
+          }
+        }
+      }
+    },
+    "macOS didn’t list the daemons that apps added, so some may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neuvedl démony, které aplikace přidaly, takže někteří z nich mohou v seznamu chybět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die von Apps hinzugefügten Daemons nicht aufgeführt, daher fehlen hier möglicherweise einige."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha enumerado los demonios que las apps han añadido, así que puede que aquí falten algunos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas listé les démons que les apps ont ajoutés : certains peuvent donc manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha elencato i daemon aggiunti dalle app, quindi qui potrebbero mancarne alcuni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが追加したデーモンをmacOSが一覧にしなかったため、ここでは一部が欠けている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱에서 추가한 데몬을 나열하지 않았으므로 그중 일부가 여기에서 누락되었을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft de daemons niet vermeld die door apps zijn toegevoegd, dus sommige ontbreken hier mogelijk."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie podał, jakie demony dodały aplikacje, więc może tu brakować niektórych z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não listou os daemons que os apps adicionaram, então alguns podem estar faltando aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a listat daemonii adăugați de aplicații, așa că unii ar putea lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщила, какие демоны добавлены приложениями, поэтому некоторые из них могут здесь отсутствовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS listade inte de daemons som appar har lagt till, så vissa kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, uygulamaların eklediği arka plan programlarını listelemedi, bu yüzden bazıları burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не перелічила демонів, доданих програмами, тож деяких із них тут може бракувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有列出App添加的监控程序，因此这里可能缺少其中一些。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有列出App加入的服務程式，因此這裡可能缺少其中一些。"
           }
         }
       }
