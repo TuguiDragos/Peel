@@ -191,6 +191,8 @@ public enum ProtectedData: Sendable {
         ".grim/main/wallets",
         ".kaspa",
         "Library/Application Support/Kaspawallet",
+        "Library/Nano/wallets.ldb",
+        "Library/Nano/backup",
     ]
 
     /// Every protected place named from a home folder: `homeFolders`, `homeKeys` and `walletKeys`. `refuses`,
