@@ -552,6 +552,46 @@ struct OrphanScannerTests {
         #expect(scan.groups.map(\.identifier) == ["org.example-gone.app"])
     }
 
+    @Test(.permissionsHold) func anAppInAPlacePeelCannotReadHasNotLeft() async throws {
+        let directory = try TemporaryDirectory()
+        var remembered: [RememberedApp] = []
+        for name in ["Closed", "Sealed"] {
+            let identifier = "org.example-\(name.lowercased()).app"
+            let info = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>\(identifier)</string></dict></plist>
+            """
+            let app = try directory.file("\(name)/\(name).app/Contents/Info.plist", contents: Data(info.utf8))
+                .deletingLastPathComponent().deletingLastPathComponent()
+            try directory.file("home/Library/Caches/\(identifier)/cache.db")
+            remembered.append(RememberedApp(
+                bundleIdentifier: identifier,
+                name: name,
+                teamIdentifier: nil,
+                lastSeen: .now,
+                lastPath: app.path(percentEncoded: false)
+            ))
+        }
+        try directory.file("home/Library/Caches/org.example-gone.app/cache.db")
+        remembered.append(RememberedApp(
+            bundleIdentifier: "org.example-gone.app",
+            name: "Gone",
+            teamIdentifier: nil,
+            lastSeen: .now,
+            lastPath: try directory.directory("Open").appending(path: "Gone.app").path(percentEncoded: false)
+        ))
+        try directory.setPermissions(0o000, of: "Closed")
+        try directory.setPermissions(0o000, of: "Sealed/Sealed.app/Contents/Info.plist")
+        defer {
+            try? directory.setPermissions(0o755, of: "Closed")
+            try? directory.setPermissions(0o644, of: "Sealed/Sealed.app/Contents/Info.plist")
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: remembered)
+
+        #expect(scan.groups.map(\.identifier) == ["org.example-gone.app"])
+    }
+
     /// What an item declares about itself is asked of the installed apps as its name is: a maker's plug-in, named for
     /// what it does, and a container named by a UUID for an extension an installed app embeds are that app's.
     @Test func anItemsDeclaredIdentifierIsAskedOfTheInstalledApps() async throws {

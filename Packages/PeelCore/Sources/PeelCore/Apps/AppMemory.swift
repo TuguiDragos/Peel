@@ -15,15 +15,18 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
 }
 
 extension RememberedApp {
-    /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, or the
-    /// disk it was on is not connected. Nil once the place can be looked at and the app is not there.
+    /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, the disk
+    /// it was on is not connected, or macOS will not let Peel read its Info.plist. Nil once the place can be looked at
+    /// and the app is not there.
     func stillInstalled() -> InstalledApp? {
         let place = URL(filePath: lastPath, directoryHint: .isDirectory)
         if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
         let names = PathComponents.of(lastPath)
-        guard names.count > 2, names[0] == "Volumes", URL(filePath: "/Volumes/\(names[1])").isMissing else {
-            return nil
-        }
+        let isOnADiskNotConnected = names.count > 2 && names[0] == "Volumes"
+            && URL(filePath: "/Volumes/\(names[1])").isMissing
+        let info = place.appending(path: "Contents/Info.plist")
+        let isClosedToPeel = !info.isMissing && BoundedRead.data(at: info) == nil
+        guard isOnADiskNotConnected || isClosedToPeel else { return nil }
         return InstalledApp(url: place, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
     }
 }
