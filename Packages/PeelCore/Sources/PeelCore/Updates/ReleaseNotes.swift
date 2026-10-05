@@ -120,9 +120,13 @@ private struct HTMLReader {
         // Read from text rather than bytes: HTML's parser takes bytes as Latin-1 unless an old-style meta tag says
         // otherwise.
         let options: XMLNode.Options = [.documentTidyHTML, .nodeLoadExternalEntitiesNever]
-        guard let root = (try? XMLDocument(xmlString: html, options: options))?.rootElement() else { return [] }
         var reader = HTMLReader()
-        reader.read(root, lists: 0, style: AttributeContainer())
+        if let root = (try? XMLDocument(xmlString: html, options: options))?.rootElement() {
+            reader.read(root, lists: 0, style: AttributeContainer())
+        } else if !html.contains("<") {
+            // Text with no tag at all is no document to the parser, while a browser shows it as a paragraph.
+            reader.add(html, style: AttributeContainer())
+        }
         reader.endLine()
         return reader.blocks
     }

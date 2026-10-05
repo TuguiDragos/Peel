@@ -2,9 +2,10 @@ import Foundation
 
 enum AppStoreLookup {
     enum Answer: Equatable {
-        /// The Mac app's version, its store page (where the user can read what changed and update), and its
-        /// developer as `artistName` gives it ("Apple" for Apple's own apps, where `sellerName` gives "Apple Inc.").
-        case mac(version: String, page: URL?, developer: String?)
+        /// The Mac app's version, its store page (where the user can read what changed and update), its developer
+        /// as `artistName` gives it ("Apple" for Apple's own apps, where `sellerName` gives "Apple Inc."), and what
+        /// is new in that version, as plain text.
+        case mac(version: String, page: URL?, developer: String?, notes: ReleaseNotes? = nil)
         /// Apple answered, but with no Mac record. An app sold as one purchase for iPhone, iPad, and Mac has a
         /// single record of kind "software" that carries the iPhone version, which cannot be compared with the
         /// Mac app's. Apple also answers with no record at all for an app the store doesn't sell in this region,
@@ -28,7 +29,8 @@ enum AppStoreLookup {
         return .mac(
             version: version,
             page: mac.trackViewUrl.flatMap(URL.init(string:)),
-            developer: mac.artistName.flatMap { $0.isEmpty ? nil : $0 }
+            developer: mac.artistName.flatMap { $0.isEmpty ? nil : $0 },
+            notes: mac.releaseNotes.flatMap { ReleaseNotes($0, format: .plainText) }
         )
     }
 
@@ -38,6 +40,7 @@ enum AppStoreLookup {
             let version: String?
             let trackViewUrl: String?
             let artistName: String?
+            let releaseNotes: String?
         }
 
         let results: [Result]

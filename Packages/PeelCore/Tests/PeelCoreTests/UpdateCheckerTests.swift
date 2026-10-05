@@ -8,6 +8,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     struct Reply {
         var status = 200
         var body = Data()
+        var headers: [String: String]?
     }
 
     static let replies = Mutex<[String: Reply]>([:])
@@ -21,7 +22,9 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         let host = request.url?.host() ?? ""
         Self.asked.withLock { $0.append(host) }
         guard let reply = Self.replies.withLock({ $0[host] }), let url = request.url,
-              let response = HTTPURLResponse(url: url, statusCode: reply.status, httpVersion: "HTTP/1.1", headerFields: nil)
+              let response = HTTPURLResponse(
+                url: url, statusCode: reply.status, httpVersion: "HTTP/1.1", headerFields: reply.headers
+              )
         else {
             client?.urlProtocol(self, didFailWithError: URLError(.cannotFindHost))
             return
@@ -249,6 +252,120 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             )
             #expect(await checker.status(for: unversioned) == .unsupported, "\(feed)")
         }
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+    }
+    private var storeApp: InstalledApp {
+        InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore
+        )
+    }
+
+    @Test func readsTheNotesInTheAnswerThatFoundTheUpdate() async {
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /><description><![CDATA[<ul><li>New search</li></ul>]]></description></item>"))
+        #expect(await checker.answer(for: sparkleApp()).notes == ReleaseNotes("<ul><li>New search</li></ul>", format: .html))
+
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0","releaseNotes":"• Faster search\n• Fixed a crash"}]}"#)
+        #expect(await checker.answer(for: storeApp).notes == ReleaseNotes("• Faster search\n• Fixed a crash", format: .plainText))
+
+        let peel = InstalledApp(
+            url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel",
+            version: "1.0.1", updateFeed: .gitHubRelease(GitHubRelease.peel)
+        )
+        reply("api.github.com", ###"{"tag_name":"v1.0.2","html_url":"https://github.com/TuguiDragos/Peel/releases/tag/v1.0.2","body":"## Fixed\n- One"}"###)
+        #expect(await checker.answer(for: peel).notes == ReleaseNotes("## Fixed\n- One", format: .markdown))
+
+        let chat = InstalledApp(
+            url: URL(filePath: "/Applications/Chat.app"), bundleIdentifier: "com.example.chat", name: "Chat",
+            version: "1.0", updateFeed: .electron(URL(string: "https://updates.example.com/latest-mac.yml")!)
+        )
+        reply("updates.example.com", "version: 2.0\nreleaseNotes: Fixed a crash\nfiles:\n  - url: a.zip\n")
+        #expect(await checker.answer(for: chat).notes == ReleaseNotes("Fixed a crash", format: .markdown))
+
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /><description>Old</description></item>"))
+        #expect(await checker.answer(for: sparkleApp()).notes == nil, "nothing waits for an app that is up to date")
+    }
+
+    @Test func asksTheAppsOwnFeedForTheNotesOfAnUpdateHomebrewFound() async throws {
+        let cask = HomebrewPackage(
+            name: "editor", kind: .cask, installedVersion: "1.0", latestVersion: "2.0,200", isOutdated: true,
+            appNames: ["Editor.app"]
+        )
+        reply("feed.example.com", appcast("<item><sparkle:version>300</sparkle:version><sparkle:shortVersionString>3.0</sparkle:shortVersionString><description>Too new</description></item><item><sparkle:version>200</sparkle:version><sparkle:shortVersionString>2.0</sparkle:shortVersionString><description>New search</description></item>"))
+        let answer = await checker.answer(for: sparkleApp(), preference: .automatic, casks: [cask])
+
+        #expect(answer.status.source == .homebrew)
+        #expect(answer.notes == nil)
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty, "Homebrew's answer is found without asking anyone")
+        let notes = try #require(ReleaseNotes("New search", format: .html))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .found(notes))
+        #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"])
+
+        reply("feed.example.com", appcast("<item><sparkle:version>300</sparkle:version><sparkle:shortVersionString>3.0</sparkle:shortVersionString></item>"))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .notGiven)
+
+        reply("feed.example.com", status: 503, "")
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .unanswered)
+    }
+
+    @Test func readsTheNotesPageAFeedLinksToAsSparkleDoes() async throws {
+        func answer(linking page: String, _ body: Data, type: String) async -> UpdateAnswer {
+            let item = "<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /><sparkle:releaseNotesLink>https://notes.example.com/\(page)</sparkle:releaseNotesLink></item>"
+            CannedProtocol.replies.withLock {
+                $0 = [
+                    "feed.example.com": .init(body: Data(appcast(item).utf8)),
+                    "notes.example.com": .init(body: body, headers: ["Content-Type": type]),
+                ]
+            }
+            CannedProtocol.asked.withLock { $0 = [] }
+            return await checker.answer(for: sparkleApp())
+        }
+
+        let html = await answer(linking: "2.0.html", Data("<h2>2.0</h2><ul><li>New search</li></ul>".utf8), type: "text/html")
+        #expect(html.notes == nil)
+        #expect(html.notesPage == URL(string: "https://notes.example.com/2.0.html"))
+        let page = try #require(ReleaseNotes("<h2>2.0</h2><ul><li>New search</li></ul>", format: .html))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: html) == .found(page))
+        #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com", "notes.example.com"])
+
+        let markdown = await answer(linking: "2.0.md", Data("## 2.0\n- New search".utf8), type: "text/plain")
+        let markdownNotes = try #require(ReleaseNotes("## 2.0\n- New search", format: .markdown))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: markdown) == .found(markdownNotes))
+
+        let text = await answer(linking: "notes", Data("New search".utf8), type: "text/plain")
+        let textNotes = try #require(ReleaseNotes("New search", format: .plainText))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: text) == .found(textNotes))
+
+        let latin = await answer(linking: "2.0.html", "<p>Café</p>".data(using: .isoLatin1)!, type: "text/html; charset=iso-8859-1")
+        let latinNotes = try #require(ReleaseNotes("<p>Café</p>", format: .html))
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: latin) == .found(latinNotes))
+    }
+
+    @Test func readsANotesPagesFormatInSparklesOrder() {
+        let page = URL(string: "https://notes.example.com/2.0")!
+
+        #expect(UpdateChecker.format(ofNotesAt: page.appendingPathExtension("md"), type: "text/plain") == .markdown)
+        #expect(UpdateChecker.format(ofNotesAt: page, type: "text/x-markdown") == .markdown)
+        #expect(UpdateChecker.format(ofNotesAt: page.appendingPathExtension("txt"), type: "text/html") == .plainText)
+        #expect(UpdateChecker.format(ofNotesAt: page, type: "Text/Plain") == .plainText)
+        #expect(UpdateChecker.format(ofNotesAt: page, type: nil) == .html)
+    }
+
+    @Test func asksForNoNotesWhereNoAddressOfTheAppGivesThem() async {
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /><link>https://feed.example.com/product</link></item>"))
+        let product = await checker.answer(for: sparkleApp())
+        #expect(product.status.releaseNotes == URL(string: "https://feed.example.com/product"), "the product page stays the link")
+        #expect(product.notesPage == nil)
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: product) == .notGiven)
+        #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"], "only the check itself")
+
+        reply("example.com", "<p>A product page</p>")
+        let named = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example", version: "1.0")
+        let homepage = UpdateAnswer(status: .updateAvailable(version: "2.0", source: .homebrew, releaseNotes: URL(string: "https://example.com")))
+        #expect(await checker.releaseNotes(for: named, answer: homepage) == .notGiven)
+        let store = UpdateAnswer(status: .updateAvailable(version: "2.0", source: .appStore, releaseNotes: URL(string: "https://example.com/app")))
+        #expect(await checker.releaseNotes(for: storeApp, answer: store) == .notGiven)
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: UpdateAnswer(status: .upToDate)) == .notGiven)
         #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
     }
 }

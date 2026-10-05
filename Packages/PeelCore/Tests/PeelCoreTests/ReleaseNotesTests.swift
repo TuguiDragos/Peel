@@ -4,6 +4,10 @@ import Testing
 
 struct ReleaseNotesTests {
     /// Each block as one line: its kind, a list item's depth, and its words.
+    private func outline(_ html: String) -> [String] {
+        outline(ReleaseNotes(html, format: .html))
+    }
+
     private func outline(_ notes: ReleaseNotes?) -> [String] {
         (notes?.blocks ?? []).map { block in
             switch block {
@@ -70,6 +74,22 @@ struct ReleaseNotesTests {
 
     @Test func readsHTMLWrittenInAnyLanguage() {
         #expect(outline(ReleaseNotes("<p>Café déjà vu, 日本語, Ελληνικά</p>", format: .html)) == ["p Café déjà vu, 日本語, Ελληνικά"])
+    }
+
+    @Test func readsNoEntityAPageDeclares() {
+        let laughs = (1...5).map { level in
+            "<!ENTITY l\(level) \"" + String(repeating: "&l\(level - 1);", count: 10) + "\">"
+        }.joined()
+        let bomb = "<!DOCTYPE html [<!ENTITY l0 \"laugh\">\(laughs)]><p>&l5;</p>"
+        let outside = "<!DOCTYPE html [<!ENTITY secret SYSTEM \"file:///etc/passwd\">]><p>Notes &secret;</p>"
+
+        let words = [bomb, outside].flatMap(outline)
+        #expect(words.joined().count < 100)
+        #expect(!words.joined().contains("root"))
+    }
+
+    @Test func readsTextWithNoTagAsAParagraph() {
+        #expect(outline(ReleaseNotes("New   search\nand more", format: .html)) == ["p New search and more"])
     }
 
     @Test func keepsNothingFromNotesWithNoWords() {

@@ -102,47 +102,57 @@ public struct UpdateChecker: Sendable {
         guard let installed = app.version else { return UpdateAnswer(status: .unsupported) }
         return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
-        case .sparkle(let url): UpdateAnswer(status: await sparkleStatus(for: app, installed: installed, at: url))
-        case .electron(let url): UpdateAnswer(status: await electronStatus(installed: installed, at: url))
-        case .gitHubRelease(let url): UpdateAnswer(status: await gitHubReleaseStatus(installed: installed, at: url))
+        case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
+        case .electron(let url): await electronAnswer(installed: installed, at: url)
+        case .gitHubRelease(let url): await gitHubReleaseAnswer(installed: installed, at: url)
         case .appStore: await appStoreAnswer(for: app)
         }
     }
 
-    private func sparkleStatus(for app: InstalledApp, installed: String, at url: URL) async -> UpdateStatus {
-        guard let data = await fetch(url) else { return .failed }
+    private func sparkleAnswer(for app: InstalledApp, installed: String, at url: URL) async -> UpdateAnswer {
+        guard let data = await fetch(url) else { return UpdateAnswer(status: .failed) }
         let item: AppcastItem
         switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
-        case .unreadable: return .failed
-        case .nothingForThisMac: return .upToDate
+        case .unreadable: return UpdateAnswer(status: .failed)
+        case .nothingForThisMac: return UpdateAnswer(status: .upToDate)
         case .latest(let latest): item = latest
         }
-        guard let latest = item.displayVersion else { return .failed }
+        guard let latest = item.displayVersion else { return UpdateAnswer(status: .failed) }
         let isNewer = if let version = item.version, let build = app.buildVersion {
             VersionComparison.isNewer(version, than: build)
         } else {
             VersionComparison.isNewer(latest, than: installed)
         }
-        return isNewer
-            ? .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes)
-            : .upToDate
+        guard isNewer else { return UpdateAnswer(status: .upToDate) }
+        return UpdateAnswer(
+            status: .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes),
+            notes: item.notes,
+            notesPage: item.notesPage
+        )
     }
 
-    private func electronStatus(installed: String, at url: URL) async -> UpdateStatus {
-        guard
-            let data = await fetch(url),
-            let latest = ElectronUpdater.version(fromFeed: String(decoding: data, as: UTF8.self))
-        else { return .failed }
-        return VersionComparison.isNewer(latest, than: installed)
-            ? .updateAvailable(version: latest, source: .developer, releaseNotes: nil)
-            : .upToDate
+    private func electronAnswer(installed: String, at url: URL) async -> UpdateAnswer {
+        guard let data = await fetch(url) else { return UpdateAnswer(status: .failed) }
+        let feed = String(decoding: data, as: UTF8.self)
+        guard let latest = ElectronUpdater.version(fromFeed: feed) else { return UpdateAnswer(status: .failed) }
+        guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
+        return UpdateAnswer(
+            status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil),
+            notes: ElectronUpdater.releaseNotes(fromFeed: feed)
+        )
     }
 
-    private func gitHubReleaseStatus(installed: String, at url: URL) async -> UpdateStatus {
-        guard let data = await fetch(url), let release = GitHubRelease.latest(in: data) else { return .failed }
-        return VersionComparison.isNewer(release.version, than: installed)
-            ? .updateAvailable(version: release.version, source: .developer, releaseNotes: release.page)
-            : .upToDate
+    private func gitHubReleaseAnswer(installed: String, at url: URL) async -> UpdateAnswer {
+        guard let data = await fetch(url), let release = GitHubRelease.latest(in: data) else {
+            return UpdateAnswer(status: .failed)
+        }
+        guard VersionComparison.isNewer(release.version, than: installed) else {
+            return UpdateAnswer(status: .upToDate)
+        }
+        return UpdateAnswer(
+            status: .updateAvailable(version: release.version, source: .developer, releaseNotes: release.page),
+            notes: release.notes
+        )
     }
 
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
@@ -160,16 +170,20 @@ public struct UpdateChecker: Sendable {
             return UpdateAnswer(status: .failed)
         case .noMacRecord:
             return UpdateAnswer(status: .unsupported)
-        case .mac(let latest, let page, let developer):
-            let status: UpdateStatus = VersionComparison.isNewer(latest, than: installed)
-                ? .updateAvailable(version: latest, source: .appStore, releaseNotes: page)
-                : .upToDate
-            return UpdateAnswer(status: status, developer: developer)
+        case .mac(let latest, let page, let developer, let notes):
+            guard VersionComparison.isNewer(latest, than: installed) else {
+                return UpdateAnswer(status: .upToDate, developer: developer)
+            }
+            return UpdateAnswer(
+                status: .updateAvailable(version: latest, source: .appStore, releaseNotes: page),
+                developer: developer,
+                notes: notes
+            )
         }
     }
 
-    private func lookup(_ identifier: String, in country: String) async -> (data: Data?, status: Int?) {
-        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country) else { return (nil, nil) }
+    private func lookup(_ identifier: String, in country: String) async -> Reply {
+        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country) else { return Reply() }
         return await fetchReply(url)
     }
 
@@ -177,12 +191,82 @@ public struct UpdateChecker: Sendable {
         await fetchReply(url).data
     }
 
-    private func fetchReply(_ url: URL) async -> (data: Data?, status: Int?) {
+    /// What is new in the update `answer` found, asked of the app's own addresses when the answer does not say: the
+    /// notes page its feed names, or, for an update Homebrew found, the app's own feed. Nothing else is asked: a
+    /// product page, a store page or a cask's homepage is a link to show, not notes to read.
+    @concurrent
+    public func releaseNotes(for app: InstalledApp, answer: UpdateAnswer) async -> ReleaseNotesLookup {
+        guard case .updateAvailable = answer.status, let version = answer.status.displayVersion else {
+            return .notGiven
+        }
+        if let notes = answer.notes { return .found(notes) }
+        if let page = answer.notesPage { return await notes(at: page) }
+        guard answer.status.source == .homebrew else { return .notGiven }
+        switch app.updateFeed {
+        case .sparkle(let url):
+            guard let data = await fetch(url) else { return .unanswered }
+            let releases = Appcast.releases(in: data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon)
+            guard let item = releases?.first(where: { item in
+                item.displayVersion.map { VersionComparison.compare($0, version) == .orderedSame } ?? false
+            }) else { return .notGiven }
+            if let notes = item.notes { return .found(notes) }
+            guard let page = item.notesPage else { return .notGiven }
+            return await notes(at: page)
+        case .electron(let url):
+            guard let data = await fetch(url) else { return .unanswered }
+            let feed = String(decoding: data, as: UTF8.self)
+            guard let latest = ElectronUpdater.version(fromFeed: feed),
+                  VersionComparison.compare(latest, version) == .orderedSame,
+                  let notes = ElectronUpdater.releaseNotes(fromFeed: feed)
+            else { return .notGiven }
+            return .found(notes)
+        case .gitHubRelease, .appStore, nil:
+            return .notGiven
+        }
+    }
+
+    /// The notes a page holds, read as Sparkle reads a release notes page: in UTF-8 unless the server names another
+    /// encoding, and as Markdown, plain text or HTML by the page's type or extension.
+    private func notes(at page: URL) async -> ReleaseNotesLookup {
+        let reply = await fetchReply(page)
+        guard let data = reply.data else { return .unanswered }
+        let named = reply.textEncodingName.map { CFStringConvertIANACharSetNameToEncoding($0 as CFString) }
+        let encoding = named.flatMap { encoding in
+            encoding == kCFStringEncodingInvalidId
+                ? nil : String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(encoding))
+        }
+        let text = String(data: data, encoding: encoding ?? .utf8) ?? String(decoding: data, as: UTF8.self)
+        let notes = ReleaseNotes(text, format: Self.format(ofNotesAt: page, type: reply.mimeType))
+        return notes.map(ReleaseNotesLookup.found) ?? .notGiven
+    }
+
+    /// Markdown is asked first, since a server may send it as `text/plain`; a page with no type is HTML (Sparkle's
+    /// `SUUpdateAlert`).
+    static func format(ofNotesAt page: URL, type: String?) -> ReleaseNotes.Format {
+        let type = type?.lowercased() ?? "text/html"
+        let pathExtension = page.pathExtension.lowercased()
+        if type == "text/markdown" || type == "text/x-markdown" || pathExtension == "md" || pathExtension == "markdown" {
+            return .markdown
+        }
+        if type == "text/plain" || pathExtension == "txt" { return .plainText }
+        return .html
+    }
+
+    /// A server's reply: the body when it answered 200 within the size limit, and what it said of it.
+    private struct Reply {
+        var data: Data?
+        var status: Int?
+        var mimeType: String?
+        var textEncodingName: String?
+    }
+
+    private func fetchReply(_ url: URL) async -> Reply {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
         let reply = try? await session.bytes(for: request, delegate: SecureRedirects())
-        guard let (stream, response) = reply else { return (nil, nil) }
+        guard let (stream, response) = reply else { return Reply() }
         let status = (response as? HTTPURLResponse)?.statusCode
-        guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return (nil, status) }
+        var answer = Reply(status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName)
+        guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return answer }
 
         // Reads raw bytes, giving up once the reply passes the size limit. Reading lines would be faster, but it
         // decodes UTF-8 and drops line endings, while an appcast may declare another encoding in its first line,
@@ -192,12 +276,13 @@ public struct UpdateChecker: Sendable {
         do {
             for try await byte in stream {
                 bytes.append(byte)
-                guard bytes.count <= Self.maximumFeedBytes else { return (nil, status) }
+                guard bytes.count <= Self.maximumFeedBytes else { return answer }
             }
         } catch {
-            return (nil, status)
+            return answer
         }
-        return (Data(bytes), status)
+        answer.data = Data(bytes)
+        return answer
     }
 }
 
@@ -217,9 +302,24 @@ private final class SecureRedirects: NSObject, URLSessionTaskDelegate {
 public struct UpdateAnswer: Sendable, Hashable {
     public let status: UpdateStatus
     public let developer: String?
+    /// What is new in the update found, when the answer itself says.
+    public let notes: ReleaseNotes?
+    /// The page the feed names for what is new in the update found, when it does not write it in.
+    public let notesPage: URL?
 
-    public init(status: UpdateStatus, developer: String? = nil) {
+    public init(status: UpdateStatus, developer: String? = nil, notes: ReleaseNotes? = nil, notesPage: URL? = nil) {
         self.status = status
         self.developer = developer
+        self.notes = notes
+        self.notesPage = notesPage
     }
+}
+
+/// What asking for an update's notes came to.
+public enum ReleaseNotesLookup: Sendable, Hashable {
+    case found(ReleaseNotes)
+    /// None are given for this version, or there is no address of the app's own to ask: not asked again.
+    case notGiven
+    /// The server did not answer, so they are asked for again with the next check.
+    case unanswered
 }

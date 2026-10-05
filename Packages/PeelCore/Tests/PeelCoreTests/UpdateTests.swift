@@ -140,7 +140,7 @@ struct AppcastTests {
         """
         let item = try #require(latestItem(in: feed))
         #expect(item.releaseNotes != nil)
-        let links: [(language: String, url: URL)] = [
+        let links: [(language: String, value: URL)] = [
             ("de", URL(string: "https://example.com/de.html")!), ("", URL(string: "https://example.com/en.html")!),
             ("fr", URL(string: "https://example.com/fr.html")!),
         ]
@@ -189,6 +189,36 @@ struct AppcastTests {
         #expect(item.version == "3")
     }
 
+
+    @Test func readsTheNotesAFeedWritesInsideAnItem() throws {
+        let feed = """
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+        <description>The channel's own words</description>
+        <item><sparkle:version>2</sparkle:version>
+        <description><![CDATA[<ul><li>New search</li></ul>]]></description>
+        </item></channel></rss>
+        """
+
+        #expect(try #require(latestItem(in: feed)).notes == ReleaseNotes("<ul><li>New search</li></ul>", format: .html))
+    }
+
+    @Test(arguments: [("plain-text", ReleaseNotes.Format.plainText), ("Markdown", .markdown), ("html", .html)])
+    func readsTheFormatAFeedGivesItsNotes(_ name: String, _ format: ReleaseNotes.Format) throws {
+        let feed = """
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
+        <sparkle:version>2</sparkle:version><description sparkle:format="\(name)">New search</description>
+        </item></channel></rss>
+        """
+
+        #expect(try #require(latestItem(in: feed)).notes?.format == format)
+    }
+
+    @Test func picksTheNotesInTheReadersLanguage() {
+        let notes: [(language: String, value: String)] = [("de", "Neue Suche"), ("", "New search"), ("fr", "Nouvelle recherche")]
+
+        #expect(Appcast.preferred(notes, languages: ["fr-FR", "en"]) == "Nouvelle recherche")
+        #expect(Appcast.preferred(notes, languages: ["ro-RO", "en"]) == "New search")
+    }
 }
 
 struct ElectronUpdaterTests {
@@ -211,6 +241,19 @@ struct ElectronUpdaterTests {
     @Test func readsVersionFromFeed() {
         let feed = "version: 1.33.0\nfiles:\n  - url: TuneIn-1.33.0-universal-mac.zip\n    version: 9.9.9\nreleaseDate: '2026-03-30T19:23:16.416Z'\n"
         #expect(ElectronUpdater.version(fromFeed: feed) == "1.33.0")
+    }
+
+    @Test func readsTheNotesAnElectronFeedWrites() {
+        func notes(_ line: String) -> String? {
+            ElectronUpdater.releaseNotes(fromFeed: "version: 2.0\n\(line)files:\n  - url: a.zip\n")?.text
+        }
+
+        #expect(notes("releaseNotes: Fixed a crash\n") == "Fixed a crash")
+        #expect(notes("releaseNotes: 'It''s fixed'\n") == "It's fixed")
+        #expect(notes("releaseNotes: \"Line one\\nLine \\\"two\\\"\"\n") == "Line one\nLine \"two\"")
+        #expect(notes("releaseNotes: |-\n  ## 2.0\n  - One\n\n  - Two\n") == "## 2.0\n- One\n\n- Two")
+        #expect(notes("releaseNotes: >-\n  One line\n  goes on\n") == "One line goes on")
+        #expect(notes("") == nil)
     }
 }
 
