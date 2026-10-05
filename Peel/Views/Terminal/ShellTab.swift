@@ -21,18 +21,7 @@ struct ShellTab: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                Section {
-                    let width = PromptSample.width(of: PromptStyle.allCases)
-                    ForEach(PromptStyle.allCases, id: \.self) { style in
-                        PromptRow(style: style, sampleWidth: width)
-                    }
-                } header: {
-                    Text("Prompt")
-                } footer: {
-                    Text("The colors are the Terminal theme’s, and the arrow turns red after a command fails.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                PromptSection(state: state)
                 ForEach(ShellSetting.Group.allCases, id: \.self) { group in
                     Section {
                         ForEach(ShellSetting.allCases.filter { $0.group == group }, id: \.self) { setting in
@@ -91,7 +80,7 @@ private struct ShellLineRow: View {
                     }
                     InfoNote(
                         name: String(localized: "Peel’s settings file"),
-                        detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. Put the line above the lines that load other tools. Turn All Off empties Peel’s file, and the line then does nothing."),
+                        detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s. Turn All Off empties Peel’s file, and the line then does nothing."),
                         footnote: Text(verbatim: shell.file.abbreviatedPath)
                     )
                 }
@@ -118,40 +107,98 @@ private struct ShellLineRow: View {
     }
 }
 
-private struct PromptRow: View {
+private struct PromptSection: View {
     @Environment(ShellLibrary.self) private var shell
     @Environment(TerminalLibrary.self) private var terminal
-    let style: PromptStyle
-    let sampleWidth: CGFloat
+    let state: ShellLibrary.State
 
     var body: some View {
-        let isChosen = shell.state?.choices?.prompt == style
-        Button {
-            shell.choose(style)
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "checkmark")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(Color.accentColor)
-                    .opacity(isChosen ? 1 : 0)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(style.title)
-                        .font(.body.weight(.semibold))
-                    Text(style.detail)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+        let prompt = state.choices?.prompt
+        let shown = prompt ?? shell.draft
+        Section {
+            PromptPreview(prompt: shown, theme: terminal.themeInUse)
+                .opacity(prompt == nil ? 0.5 : 1)
+                .padding(.vertical, 4)
+            TerminalSwitchRow(
+                title: "Use Peel’s prompt",
+                detail: "The prompt is what zsh shows before each command you type. Peel writes the one you build here in its own file, in place of the one zsh shows now.",
+                footnote: shown.lines.joined(separator: "\n"),
+                isOn: Binding(
+                    get: { shell.state?.choices?.prompt != nil },
+                    set: { shell.setPrompt($0 ? shell.draft : nil) }
+                ),
+                isDisabled: !shell.isOffered(Prompt(showsBranch: false))
+            )
+            Picker(selection: part(\.start)) {
+                ForEach(Prompt.Start.allCases, id: \.self) { start in
+                    Text(start.title).tag(start)
                 }
-                Spacer(minLength: 8)
-                PromptSample(style: style, theme: terminal.themeInUse, width: sampleWidth)
+            } label: {
+                partTitle("Before the symbol", isOn: prompt != nil)
             }
-            .contentShape(.rect)
+            .disabled(prompt == nil)
+            TerminalSwitchRow(
+                title: "Git branch",
+                detail: "In a Git repository, the prompt shows the branch you’re on, as zsh’s own vcs_info reads it.",
+                footnote: Prompt.branchLines.joined(separator: "\n"),
+                isOn: part(\.showsBranch),
+                isDisabled: prompt == nil || !shell.isOffered(Prompt(showsBranch: true))
+            )
+            Picker(selection: part(\.symbol)) {
+                ForEach(Prompt.Symbol.allCases, id: \.self) { symbol in
+                    Text(verbatim: symbol.rawValue).tag(symbol)
+                }
+            } label: {
+                partTitle("Symbol", isOn: prompt != nil)
+            }
+            .pickerStyle(.segmented)
+            .disabled(prompt == nil)
+            TerminalSwitchRow(
+                title: "Red after a failed command",
+                detail: "The symbol turns red when the command before it failed, so a failure stands out.",
+                footnote: nil,
+                isOn: part(\.turnsRedAfterAFailure),
+                isDisabled: prompt == nil
+            )
+            TerminalSwitchRow(
+                title: "Command on its own line",
+                detail: "The symbol starts a line of its own, so the command always has the whole width of the window.",
+                footnote: nil,
+                isOn: part(\.isOnItsOwnLine),
+                isDisabled: prompt == nil
+            )
+        } header: {
+            Text("Prompt")
+        } footer: {
+            if prompt != nil, state.setsItsOwnPrompt, let startupFile = state.startupFile {
+                Label(
+                    "Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.",
+                    systemImage: "exclamationmark.triangle"
+                )
+                .font(.caption)
+                .foregroundStyle(Color.accentColor)
+            } else {
+                Text("The colors are the Terminal theme’s.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
-        .buttonStyle(.plain)
-        .disabled(!shell.isOffered(style))
-        .accessibilityLabel(Text(style.title))
-        .accessibilityHint(Text(style.detail))
-        .accessibilityAddTraits(isChosen ? .isSelected : [])
-        .padding(.vertical, 2)
+    }
+
+    private func partTitle(_ title: LocalizedStringResource, isOn: Bool) -> some View {
+        Text(title)
+            .font(.body.weight(.semibold))
+            .foregroundStyle(isOn ? .primary : .tertiary)
+    }
+
+    private func part<Value>(_ keyPath: WritableKeyPath<Prompt, Value>) -> Binding<Value> {
+        Binding(
+            get: { (shell.state?.choices?.prompt ?? shell.draft)[keyPath: keyPath] },
+            set: { value in
+                var prompt = shell.state?.choices?.prompt ?? shell.draft
+                prompt[keyPath: keyPath] = value
+                shell.setPrompt(prompt)
+            }
+        )
     }
 }

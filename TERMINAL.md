@@ -105,7 +105,8 @@ Every setting on these tabs is one that zsh, Git, or ssh already has, and each h
 own files:
 
 - **zsh** reads Peel's settings from a file of Peel's own, `~/Library/Application Support/Peel/Terminal/zshrc`, once
-  you add one line to `~/.zshrc`, above the lines that load other tools. The Shell tab gives a command that adds it.
+  you add one line to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools such as
+  fzf-tab there, move the line above them, since their settings have to come after Peel's.
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
   of `~/.ssh/config`. What you set for a server earlier in that file stays in force, since ssh uses the first value
   it finds.
@@ -117,46 +118,36 @@ commands.
 
 ### Prompt
 
-Five prompts beside the one macOS sets, which Peel leaves as it is. The colors are the Terminal theme's, and the
-arrow turns red after a command that fails. The branch comes from zsh's own
-[vcs_info](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information).
+The prompt is what zsh shows before each command you type. Peel builds it from parts you choose on the Shell tab:
+what comes before the symbol, the Git branch, the symbol, whether the symbol turns red after a command that fails,
+and whether the command starts a line of its own. The colors are the Terminal theme's, and the branch comes from
+zsh's own [vcs_info](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information).
+Peel writes no prompt until you turn on **Use Peel's prompt**. A prompt your `~/.zshrc` sets after Peel's line is the
+one zsh shows, and the Shell tab says so when that line sets `PROMPT` or `PS1`.
 
 <table>
   <tr>
-    <td width="45%"><img src="Terminal/Prompts/macOS.png" alt="The macOS prompt"></td>
-    <td><b>macOS</b><br>The prompt macOS sets: your name, the computer, and the folder you're in. Peel writes nothing.</td>
+    <td width="45%"><img src="Terminal/Prompts/folder.png" alt="A prompt with the folder, the branch, and an arrow"></td>
+    <td><b>Folder</b><br>The folder you're in, <code>~</code> at home, then the branch and the symbol. This is the prompt Peel starts with.</td>
   </tr>
   <tr>
-    <td width="45%"><img src="Terminal/Prompts/arrow.png" alt="The Arrow prompt"></td>
-    <td><b>Arrow</b><br>The folder you're in, then an arrow that turns red after a command fails.</td>
+    <td width="45%"><img src="Terminal/Prompts/path.png" alt="A prompt with the path from the home folder"></td>
+    <td><b>Path from your home folder</b><br>The whole path, from <code>~</code>.</td>
   </tr>
   <tr>
-    <td width="45%"><img src="Terminal/Prompts/arrowAndBranch.png" alt="The Arrow and Branch prompt"></td>
-    <td><b>Arrow and Branch</b><br>The folder and, in a Git repository, its branch, then the arrow.</td>
+    <td width="45%"><img src="Terminal/Prompts/nameAndFolder.png" alt="A prompt with the name, the computer, and the folder"></td>
+    <td><b>Your name, the computer, and the folder</b><br>As the prompt macOS sets begins, in color.</td>
   </tr>
   <tr>
-    <td width="45%"><img src="Terminal/Prompts/twoLines.png" alt="The Two Lines prompt"></td>
-    <td><b>Two Lines</b><br>The folder and branch on one line and the arrow on the next, so the command always has the whole line.</td>
-  </tr>
-  <tr>
-    <td width="45%"><img src="Terminal/Prompts/folderOnly.png" alt="The Folder Only prompt"></td>
-    <td><b>Folder Only</b><br>Only the name of the folder you're in, then the arrow.</td>
-  </tr>
-  <tr>
-    <td width="45%"><img src="Terminal/Prompts/classic.png" alt="The Classic prompt"></td>
-    <td><b>Classic</b><br>Your name, the computer, and the folder, in color.</td>
+    <td width="45%"><img src="Terminal/Prompts/ownLine.png" alt="A prompt whose symbol starts a line of its own"></td>
+    <td><b>Command on its own line</b><br>The symbol starts a line of its own, so the command always has the whole width of the window.</td>
   </tr>
 </table>
 
-The lines each prompt adds:
+The symbol is one of `❯` `➜` `›` `▸` `»` `$` `%` `>`, each a character Unicode gives one column, so Terminal never
+draws it over the command. Peel writes `%` as `%%`, since a single one starts zsh's own codes.
 
-**Arrow**
-
-```zsh
-PROMPT='%F{cyan}%~%f %(?.%F{green}.%F{red})❯%f '
-```
-
-**Arrow and Branch**
+The lines a prompt with the branch adds:
 
 ```zsh
 autoload -Uz vcs_info add-zsh-hook
@@ -165,31 +156,16 @@ zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
 zstyle ':vcs_info:git:*' actionformats ' %F{yellow}%b%f %F{red}%a%f'
 add-zsh-hook precmd vcs_info
 setopt PROMPT_SUBST
+```
+
+Then the prompt itself, one line. These are the four above, and one with `%` that stays green after a failure:
+
+```zsh
+PROMPT='%F{cyan}%1~%f${vcs_info_msg_0_} %(?.%F{green}.%F{red})❯%f '
 PROMPT='%F{cyan}%~%f${vcs_info_msg_0_} %(?.%F{green}.%F{red})❯%f '
-```
-
-**Two Lines**
-
-```zsh
-autoload -Uz vcs_info add-zsh-hook
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
-zstyle ':vcs_info:git:*' actionformats ' %F{yellow}%b%f %F{red}%a%f'
-add-zsh-hook precmd vcs_info
-setopt PROMPT_SUBST
-PROMPT=$'%F{cyan}%~%f${vcs_info_msg_0_}\n%(?.%F{green}.%F{red})❯%f '
-```
-
-**Folder Only**
-
-```zsh
-PROMPT='%F{cyan}%1~%f %(?.%F{green}.%F{red})❯%f '
-```
-
-**Classic**
-
-```zsh
-PROMPT='%F{green}%n@%m%f %F{blue}%~%f %# '
+PROMPT='%F{green}%n@%m%f %F{cyan}%1~%f${vcs_info_msg_0_} %(?.%F{green}.%F{red})❯%f '
+PROMPT=$'%F{cyan}%1~%f${vcs_info_msg_0_}\n%(?.%F{green}.%F{red})❯%f '
+PROMPT='%F{cyan}%1~%f${vcs_info_msg_0_} %F{green}%%%f '
 ```
 
 ### Shell

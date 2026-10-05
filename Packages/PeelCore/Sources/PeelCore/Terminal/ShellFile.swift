@@ -9,9 +9,9 @@ public enum ShellFile {
 
     public struct Choices: Equatable, Sendable {
         public var settings: Set<ShellSetting>
-        public var prompt: PromptStyle
+        public var prompt: Prompt?
 
-        public init(settings: Set<ShellSetting> = [], prompt: PromptStyle = .macOS) {
+        public init(settings: Set<ShellSetting> = [], prompt: Prompt? = nil) {
             self.settings = settings
             self.prompt = prompt
         }
@@ -29,7 +29,7 @@ public enum ShellFile {
             }
             lines += setting.lines
         }
-        lines += choices.prompt.lines
+        lines += choices.prompt?.lines ?? []
         return lines.joined(separator: "\n") + "\n"
     }
 
@@ -38,7 +38,7 @@ public enum ShellFile {
         let isIn: (Set<String>) -> Bool = { $0.isSubset(of: lines) }
         return Choices(
             settings: Set(ShellSetting.allCases.filter { isIn(Set($0.lines)) }),
-            prompt: PromptStyle.allCases.first { !$0.lines.isEmpty && isIn(Set($0.lines)) } ?? .macOS
+            prompt: Prompt.all.first { isIn(Set($0.lines)) }
         )
     }
 
@@ -81,6 +81,17 @@ public enum ShellFile {
             let code = line.trimmingCharacters(in: .whitespaces)
             return !code.hasPrefix("#") && code.replacing("\\ ", with: " ").contains(name)
         }
+    }
+
+    /// Whether `startupFile` sets the prompt after the line that reads Peel's file, so zsh shows that one instead.
+    public static func setsItsOwnPrompt(after url: URL, in startupFile: URL, home: URL) -> Bool {
+        guard let data = BoundedRead.data(at: startupFile) else { return false }
+        let name = url.path(below: home) ?? url.path(percentEncoded: false)
+        let code = String(decoding: data, as: UTF8.self).split(separator: "\n")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.hasPrefix("#") }
+        guard let peels = code.firstIndex(where: { $0.replacing("\\ ", with: " ").contains(name) }) else { return false }
+        return code[(peels + 1)...].contains { $0.contains(/^(?:(?:export|typeset(?:\s+-g)?)\s+)?(?:PROMPT|PS1)=/) }
     }
 
     private static func escaped(_ text: String) -> String {

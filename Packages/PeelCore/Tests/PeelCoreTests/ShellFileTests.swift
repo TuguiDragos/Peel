@@ -80,9 +80,9 @@ struct ShellFileTests {
             let choices = ShellFile.Choices(settings: [setting])
             #expect(ShellFile.choices(in: ShellFile.contents(of: choices)) == choices)
         }
-        for prompt in PromptStyle.allCases {
+        for prompt in Prompt.all {
             let choices = ShellFile.Choices(settings: Set(ShellSetting.allCases), prompt: prompt)
-            #expect(ShellFile.choices(in: ShellFile.contents(of: choices)) == choices)
+            #expect(ShellFile.choices(in: ShellFile.contents(of: choices)) == choices, "\(prompt)")
         }
         #expect(ShellFile.choices(in: ShellFile.contents(of: .init())) == .init())
     }
@@ -134,7 +134,7 @@ struct ZshRequirementsTests {
         for setting in ShellSetting.allCases {
             #expect(setting.isKnown(by: known), "\(setting)")
         }
-        for prompt in PromptStyle.allCases {
+        for prompt in Prompt.all {
             #expect(prompt.isKnown(by: known), "\(prompt)")
         }
     }
@@ -151,8 +151,8 @@ struct ZshRequirementsTests {
         let known = try #require(await ShellFile.knownToZsh())
         #expect(!ShellSetting.sharedHistory.isKnown(by: known.subtracting(["option:sharehistory"])))
         #expect(!ShellSetting.prefixSearch.isKnown(by: known.subtracting(["function:up-line-or-beginning-search"])))
-        #expect(!PromptStyle.arrowAndBranch.isKnown(by: known.subtracting(["function:vcs_info"])))
-        #expect(PromptStyle.macOS.isKnown(by: []))
+        #expect(!Prompt(showsBranch: true).isKnown(by: known.subtracting(["function:vcs_info"])))
+        #expect(Prompt(showsBranch: false).isKnown(by: []))
     }
 }
 

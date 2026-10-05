@@ -57,26 +57,12 @@ extension ShellSetting {
     }
 }
 
-extension PromptStyle {
+extension Prompt.Start {
     var title: LocalizedStringResource {
         switch self {
-        case .macOS: "macOS"
-        case .arrow: "Arrow"
-        case .arrowAndBranch: "Arrow and Branch"
-        case .twoLines: "Two Lines"
-        case .folderOnly: "Folder Only"
-        case .classic: "Classic"
-        }
-    }
-
-    var detail: LocalizedStringResource {
-        switch self {
-        case .macOS: "The prompt macOS sets: your name, the computer, and the folder you’re in."
-        case .arrow: "The folder you’re in, then an arrow that turns red after a command fails."
-        case .arrowAndBranch: "The folder and, in a Git repository, its branch, then the arrow."
-        case .twoLines: "The folder and branch on one line and the arrow on the next, so the command always has the whole line."
-        case .folderOnly: "Only the name of the folder you’re in, then the arrow."
-        case .classic: "Your name, the computer, and the folder, in color."
+        case .folder: "Folder"
+        case .path: "Path from your home folder"
+        case .nameAndFolder: "Your name, the computer, and the folder"
         }
     }
 }

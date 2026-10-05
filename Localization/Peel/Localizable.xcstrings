@@ -16714,218 +16714,6 @@
         }
       }
     },
-    "Arrow" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Šipka"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pfeil"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flecha"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flèche"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Freccia"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "矢印"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "화살표"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pijl"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Strzałka"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seta"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Săgeată"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стрелка"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pil"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ok"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стрілка"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "箭头"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "箭頭"
-          }
-        }
-      }
-    },
-    "Arrow and Branch" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Šipka a větev"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pfeil und Branch"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flecha y rama"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flèche et branche"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Freccia e branch"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "矢印とブランチ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "화살표와 브랜치"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pijl en branch"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Strzałka i gałąź"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seta e Branch"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Săgeată și branch"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стрелка и ветка"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pil och gren"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ok ve Dal"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стрілка й гілка"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "箭头与分支"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "箭頭與分支"
-          }
-        }
-      }
-    },
     "Asking macOS what is allowed." : {
       "localizations" : {
         "cs" : {
@@ -18512,6 +18300,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Battle.net快取"
+          }
+        }
+      }
+    },
+    "Before the symbol" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Před symbolem"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vor dem Zeichen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes del símbolo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant le symbole"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prima del simbolo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記号の前"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기호 앞에 표시"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vóór het symbool"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przed symbolem"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes do símbolo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Înainte de simbol"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перед символом"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Före symbolen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembolden önce"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перед символом"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符号之前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符號之前"
           }
         }
       }
@@ -24685,112 +24579,6 @@
         }
       }
     },
-    "Classic" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasická"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klassisch"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clásico"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Classique"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Classico"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クラシック"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "클래식"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klassiek"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasyczny"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clássico"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clasic"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Классический"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klassisk"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasik"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Класичне"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "经典"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "經典"
-          }
-        }
-      }
-    },
     "Clean Up" : {
       "localizations" : {
         "cs" : {
@@ -26487,6 +26275,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "命令列工具"
+          }
+        }
+      }
+    },
+    "Command on its own line" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkaz na samostatném řádku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Befehl in eigener Zeile"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando en una línea aparte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commande sur une ligne à part"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando su una riga a sé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドを独立した行で入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령을 별도의 줄에 입력"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commando op een eigen regel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie w osobnym wierszu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comando em uma linha própria"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda pe o linie separată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда на отдельной строке"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommando på egen rad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut ayrı bir satırda"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда на окремому рядку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令单独成行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指令另起一行"
           }
         }
       }
@@ -39681,108 +39575,108 @@
         }
       }
     },
-    "Folder Only" : {
+    "Folder" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jen složka"
+            "value" : "Složka"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur Ordner"
+            "value" : "Ordner"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo la carpeta"
+            "value" : "Carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dossier seul"
+            "value" : "Dossier"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo cartella"
+            "value" : "Cartella"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "フォルダのみ"
+            "value" : "フォルダ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "폴더만"
+            "value" : "폴더"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen map"
+            "value" : "Map"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko folder"
+            "value" : "Folder"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só a Pasta"
+            "value" : "Pasta"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar dosarul"
+            "value" : "Dosar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только папка"
+            "value" : "Папка"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara mappen"
+            "value" : "Mapp"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yalnızca Klasör"
+            "value" : "Klasör"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лише папка"
+            "value" : "Папка"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅文件夹"
+            "value" : "文件夹"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "僅檔案夾"
+            "value" : "檔案夾"
           }
         }
       }
@@ -42917,6 +42811,112 @@
     "Git" : {
       "comment" : "A product's name, never translated.",
       "shouldTranslate" : false
+    },
+    "Git branch" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Větev Gitu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git-Branch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rama de Git"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branche Git"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branch Git"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitのブランチ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 브랜치"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git-branch"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gałąź Git"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branch do Git"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branch‑ul Git"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ветка Git"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git-gren"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git dalı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Гілка Git"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git分支"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git分支"
+          }
+        }
+      }
     },
     "Git couldn’t read its settings" : {
       "localizations" : {
@@ -52804,6 +52804,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用中"
+          }
+        }
+      }
+    },
+    "In a Git repository, the prompt shows the branch you’re on, as zsh’s own vcs_info reads it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V repozitáři Gitu výzva zobrazuje aktuální větev tak, jak ji čte vcs_info, vlastní funkce zsh."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In einem Git-Repository zeigt die Eingabeaufforderung den Branch an, auf dem du bist, so wie ihn die zsh-eigene Funktion vcs_info ausliest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En un repositorio de Git, el indicador muestra la rama en la que estás, tal como la lee el propio vcs_info de zsh."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans un dépôt Git, l’invite de commande affiche la branche sur laquelle vous vous trouvez, telle que la lit vcs_info, fourni avec zsh."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In un repository Git, il prompt mostra il branch su cui ti trovi, così come lo legge vcs_info, incluso in zsh."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitリポジトリ内では、zsh自身のvcs_infoが読み取った現在のブランチが、プロンプトに表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 저장소에서는 zsh 자체의 vcs_info가 읽은 현재 브랜치가 프롬프트에 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In een Git-repository toont de prompt de branch waarop je zit, zoals zsh die met zijn eigen vcs_info uitleest."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W repozytorium Git znak zachęty pokazuje gałąź, na której jesteś, tak jak odczytuje ją funkcja vcs_info samego zsh."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em um repositório Git, o prompt mostra o branch em que você está, conforme o vcs_info do próprio zsh o lê."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Într‑un depozit Git, promptul afișează branch‑ul pe care vă aflați, așa cum îl citește funcția vcs_info inclusă în zsh."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В репозитории Git приглашение ввода показывает текущую ветку так, как ее читает входящая в zsh функция vcs_info."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I ett Git-kodförråd visar prompten den gren som du är på, så som zsh läser den med sin egen vcs_info."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Git deposunda bilgi istemi, üzerinde bulunduğunuz dalı, zsh ile birlikte gelen vcs_info işlevinin okuduğu şekliyle gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У репозиторії Git запрошення показує гілку, на якій ви перебуваєте, так, як її зчитує vcs_info, власна функція zsh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Git代码仓库中，提示符会显示你当前所在的分支，该分支由zsh自带的vcs_info读取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Git儲存庫中，提示行會顯示你目前所在的分支，由zsh本身的vcs_info讀取。"
           }
         }
       }
@@ -88530,112 +88636,6 @@
         }
       }
     },
-    "Only the name of the folder you’re in, then the arrow." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jen název složky, ve které se nacházíte, potom šipka."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur der Name des Ordners, in dem du bist, dann der Pfeil."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo el nombre de la carpeta en la que estás y luego la flecha."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seulement le nom du dossier où vous vous trouvez, puis la flèche."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo il nome della cartella in cui ti trovi, poi la freccia."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在のフォルダの名前だけ、その後に矢印。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 폴더의 이름만 표시되며, 그 뒤에 화살표가 옵니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen de naam van de huidige map, en dan de pijl."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tylko nazwa folderu, w którym jesteś, a po niej strzałka."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só o nome da pasta em que você está, seguido da seta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar numele dosarului în care vă aflați, apoi săgeata."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Только имя папки, в которой Вы находитесь, затем стрелка."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara namnet på mappen du befinner dig i, följt av pilen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yalnızca içinde bulunduğunuz klasörün adı, ardından ok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лише назва папки, у якій ви перебуваєте, а потім стрілка."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "仅显示你所在文件夹的名称，后跟箭头。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有你所在檔案夾的名稱，接著是箭頭。"
-          }
-        }
-      }
-    },
     "Only the name ties these to %@, which Peel saw installed" : {
       "localizations" : {
         "cs" : {
@@ -92880,6 +92880,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此列表可能缺少一部分"
+          }
+        }
+      }
+    },
+    "Path from your home folder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cesta od domovské složky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pfad ab deinem Benutzerordner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruta desde tu carpeta de inicio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chemin depuis votre dossier de départ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percorso dalla tua cartella Inizio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダからのパス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더에서 시작하는 경로"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pad vanaf je thuismap"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ścieżka od folderu domowego"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caminho a partir da sua pasta pessoal"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calea pornind de la dosarul de reședință"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Путь от папки пользователя"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sökväg från din hemmapp"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzden başlayan yol"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шлях від Домівки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从个人文件夹开始的路径"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從個人專屬檔案夾開始的路徑"
           }
         }
       }
@@ -105558,108 +105664,108 @@
         }
       }
     },
-    "Peel writes these settings only in a file of its own, which zsh reads through one line in %@, so Peel never changes your own file. Put the line above the lines that load other tools. Turn All Off empties Peel’s file, and the line then does nothing." : {
+    "Peel writes these settings only in a file of its own, which zsh reads through one line in %@, so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s. Turn All Off empties Peel’s file, and the line then does nothing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který zsh čte prostřednictvím jednoho řádku v souboru %@, takže Peel váš vlastní soubor nikdy nemění. Umístěte tento řádek nad řádky, které načítají jiné nástroje. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádek pak nic nedělá."
+            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který zsh čte prostřednictvím jednoho řádku v souboru %@, takže Peel váš vlastní soubor nikdy nemění. Příkaz přidá tento řádek na konec souboru. Pokud v něm načítáte nástroje, jako je fzf-tab, přesuňte řádek nad ně, protože jejich nastavení musí následovat až po nastavení Peelu. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádek pak nic nedělá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die zsh über eine Zeile in %@ liest, daher ändert Peel deine eigene Datei nie. Setze die Zeile über die Zeilen, die andere Tools laden. „Alle deaktivieren“ leert die Datei von Peel, und die Zeile bewirkt dann nichts."
+            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die zsh über eine Zeile in %@ liest, daher ändert Peel deine eigene Datei nie. Der Befehl fügt die Zeile am Ende hinzu. Wenn du dort Tools wie fzf-tab lädst, verschiebe die Zeile über die Zeilen dieser Tools, da ihre Einstellungen nach denen von Peel kommen müssen. „Alle deaktivieren“ leert die Datei von Peel, und die Zeile bewirkt dann nichts."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel escribe estos ajustes solo en un archivo propio, que zsh lee mediante una línea en %@, así que Peel nunca cambia tu propio archivo. Pon esa línea por encima de las que cargan otras herramientas. “Desactivar todo” vacía el archivo de Peel, y entonces la línea no hace nada."
+            "value" : "Peel escribe estos ajustes solo en un archivo propio, que zsh lee mediante una línea en %@, así que Peel nunca cambia tu propio archivo. El comando añade la línea al final. Si ahí cargas herramientas como fzf-tab, mueve la línea por encima de ellas, ya que sus ajustes tienen que ir después de los de Peel. “Desactivar todo” vacía el archivo de Peel, y entonces la línea no hace nada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que zsh lit grâce à une ligne placée dans %@ : Peel ne modifie donc jamais votre propre fichier. Placez cette ligne au-dessus de celles qui chargent d’autres outils. « Tout désactiver » vide le fichier de Peel, et la ligne n’a alors plus aucun effet."
+            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que zsh lit grâce à une ligne placée dans %@ : Peel ne modifie donc jamais votre propre fichier. La commande ajoute cette ligne à la fin du fichier. Si vous y chargez des outils comme fzf-tab, déplacez-la au-dessus des lignes qui les chargent, car leurs réglages doivent venir après ceux de Peel. « Tout désactiver » vide le fichier de Peel, et la ligne n’a alors plus aucun effet."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrive queste impostazioni solo in un proprio file, che zsh legge tramite una riga nel file %@, quindi Peel non modifica mai il tuo file. Metti la riga sopra quelle che caricano altri strumenti. “Disattiva tutto” svuota il file di Peel, e a quel punto la riga non ha più alcun effetto."
+            "value" : "Peel scrive queste impostazioni solo in un proprio file, che zsh legge tramite una riga nel file %@, quindi Peel non modifica mai il tuo file. Il comando aggiunge la riga alla fine del file. Se in quel file carichi strumenti come fzf-tab, sposta la riga sopra quelle che li caricano, perché le loro impostazioni devono venire dopo quelle di Peel. “Disattiva tutto” svuota il file di Peel, e a quel punto la riga non ha più alcun effetto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、zshは%@にある1行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。この行は、ほかのツールを読み込む行より上に置いてください。“すべてオフにする”を使うとPeelのファイルが空になり、この行は何の効果もなくなります。"
+            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、zshは%@にある1行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。コマンドは、この行をファイルの末尾に追加します。そのファイルでfzf-tabなどのツールを読み込んでいる場合は、それらのツールの設定がPeelの設定より後に来る必要があるため、この行をそれらを読み込む行より上に移動してください。“すべてオフにする”を使うとPeelのファイルが空になり、この行は何の効果もなくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, zsh는 %@에 있는 한 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. 이 줄은 다른 도구를 불러오는 줄보다 위에 두십시오. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 줄은 아무 효과가 없습니다."
+            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, zsh는 %@에 있는 한 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. 명령을 실행하면 이 줄이 사용자의 파일 끝에 추가됩니다. 사용자의 파일에서 fzf-tab 같은 도구를 불러오는 경우, 해당 도구의 설정이 Peel의 설정보다 뒤에 와야 하므로 이 줄을 그 도구를 불러오는 줄보다 위로 옮기십시오. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 줄은 아무 효과가 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat zsh leest via één regel in %@, zodat Peel je eigen bestand nooit wijzigt. Zet de regel boven de regels die andere tools laden. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regel doet dan niets."
+            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat zsh leest via één regel in %@, zodat Peel je eigen bestand nooit wijzigt. Het commando voegt de regel aan het einde toe. Als je in je eigen bestand tools zoals fzf-tab laadt, zet de regel dan boven die tools, omdat hun instellingen na die van Peel moeten komen. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regel doet dan niets."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który zsh odczytuje dzięki jednemu wierszowi w pliku %@, więc Peel nigdy nie zmienia Twojego własnego pliku. Umieść ten wiersz nad wierszami, które wczytują inne narzędzia. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy ten wiersz nic nie robi."
+            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który zsh odczytuje dzięki jednemu wierszowi w pliku %@, więc Peel nigdy nie zmienia Twojego własnego pliku. Polecenie dodaje ten wiersz na końcu pliku. Jeśli wczytujesz tam narzędzia takie jak fzf-tab, przenieś ten wiersz nad wiersze, które je wczytują, ponieważ ustawienia tych narzędzi muszą następować po ustawieniach Peel. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy ten wiersz nic nie robi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o zsh lê por meio de uma linha no %@, então o Peel nunca altera o seu próprio arquivo. Coloque a linha acima das linhas que carregam outras ferramentas. Desativar Todas esvazia o arquivo do Peel, e então a linha não tem mais efeito."
+            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o zsh lê por meio de uma linha no %@, então o Peel nunca altera o seu próprio arquivo. O comando adiciona a linha no final. Se você carrega ferramentas como o fzf-tab nesse arquivo, mova a linha para que fique acima delas, já que os ajustes delas precisam vir depois dos ajustes do Peel. Desativar Todas esvazia o arquivo do Peel, e então a linha não tem mais efeito."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care zsh îl citește printr‑o linie din %@, așa că Peel nu vă modifică niciodată propriul fișier. Puneți linia deasupra liniilor care încarcă alte instrumente. Butonul Dezactivați toate golește fișierul Peel, iar linia rămâne apoi fără efect."
+            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care zsh îl citește printr‑o linie din %@, așa că Peel nu vă modifică niciodată propriul fișier. Comanda adaugă linia la sfârșitul fișierului. Dacă încărcați acolo instrumente precum fzf-tab, mutați linia deasupra lor, deoarece configurările lor trebuie să vină după cele ale Peel. Butonul Dezactivați toate golește fișierul Peel, iar linia rămâne apoi fără efect."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записывает эти параметры только в собственный файл, который zsh читает через одну строку в %@, поэтому Peel никогда не меняет Ваш собственный файл. Поставьте эту строку выше строк, которые загружают другие инструменты. Кнопка «Выключить все» очищает файл Peel, и тогда эта строка ни на что не влияет."
+            "value" : "Peel записывает эти параметры только в собственный файл, который zsh читает через одну строку в %@, поэтому Peel никогда не меняет Ваш собственный файл. Команда добавляет эту строку в конец файла. Если Вы загружаете в нем такие инструменты, как fzf-tab, переместите эту строку выше строк, которые их загружают, поскольку их настройки должны идти после настроек Peel. Кнопка «Выключить все» очищает файл Peel, и тогда эта строка ни на что не влияет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel skriver de här inställningarna bara i en egen fil, som zsh läser via en rad i %@, så Peel ändrar aldrig din egen fil. Lägg raden ovanför de rader som läser in andra verktyg. ”Stäng av alla” tömmer Peels fil, och då gör raden ingenting."
+            "value" : "Peel skriver de här inställningarna bara i en egen fil, som zsh läser via en rad i %@, så Peel ändrar aldrig din egen fil. Kommandot lägger till raden sist i filen. Om du läser in verktyg som fzf-tab där flyttar du raden ovanför dem, eftersom deras inställningar måste komma efter Peels. ”Stäng av alla” tömmer Peels fil, och då gör raden ingenting."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; zsh bu dosyayı %@ dosyasındaki tek bir satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Bu satırı, başka araçları yükleyen satırların üstüne koyun. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satır artık hiçbir şey yapmaz."
+            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; zsh bu dosyayı %@ dosyasındaki tek bir satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Komut bu satırı dosyanızın sonuna ekler. Dosyanızda fzf-tab gibi araçları yüklüyorsanız, satırı bunları yükleyen satırların üstüne taşıyın, çünkü bu araçların ayarlarının Peel’in ayarlarından sonra gelmesi gerekir. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satır artık hiçbir şey yapmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записує ці налаштування лише у власний файл, який zsh читає завдяки одному рядку в %@, тож Peel ніколи не змінює ваш власний файл. Поставте цей рядок над рядками, які завантажують інші інструменти. Кнопка «Вимкнути всі» очищає файл Peel, і тоді цей рядок нічого не робить."
+            "value" : "Peel записує ці налаштування лише у власний файл, який zsh читає завдяки одному рядку в %@, тож Peel ніколи не змінює ваш власний файл. Команда додає цей рядок у кінець файлу. Якщо ви завантажуєте там інструменти, як-от fzf-tab, перемістіть цей рядок над ними, бо їхні налаштування мають стояти після налаштувань Peel. Кнопка «Вимкнути всі» очищає файл Peel, і тоді цей рядок нічого не робить."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只将这些设置写入它自己的文件，zsh通过%@中的一行读取该文件，因此Peel绝不会更改你自己的文件。请将这一行放在载入其他工具的那些行上方。“全部关闭”会清空Peel的文件，届时这一行将不起任何作用。"
+            "value" : "Peel只将这些设置写入它自己的文件，zsh通过%@中的一行读取该文件，因此Peel绝不会更改你自己的文件。这条命令会将这一行添加到文件末尾。如果你在该文件中载入fzf-tab等工具，请将这一行移到载入它们的那些行上方，因为它们的设置必须位于Peel的设置之后。“全部关闭”会清空Peel的文件，届时这一行将不起任何作用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只會將這些設定寫入它自己的檔案，zsh則透過%@中的一行讀取該檔案，因此Peel絕不會更改你自己的檔案。請將這一行放在載入其他工具的設定行上方。「全部關閉」會清空Peel的檔案，這一行便不再有任何作用。"
+            "value" : "Peel只會將這些設定寫入它自己的檔案，zsh則透過%@中的一行讀取該檔案，因此Peel絕不會更改你自己的檔案。此指令會將這一行加在檔案結尾。如果你在自己的檔案中載入fzf-tab等工具，請將這一行移到載入它們的設定行上方，因為它們的設定必須排在Peel的設定之後。「全部關閉」會清空Peel的檔案，這一行便不再有任何作用。"
           }
         }
       }
@@ -113787,6 +113893,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建議"
+          }
+        }
+      }
+    },
+    "Red after a failed command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Červená po neúspěšném příkazu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rot nach einem fehlgeschlagenen Befehl"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En rojo tras un comando fallido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rouge après l’échec d’une commande"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosso dopo un comando non riuscito"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗したコマンドの後は赤で表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령 실패 후 빨간색으로 표시"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rood na een mislukt commando"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czerwony po nieudanym poleceniu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vermelho após um comando que falhou"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roșu după o comandă eșuată"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Красный символ после ошибки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Röd efter ett misslyckat kommando"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarısız bir komuttan sonra kırmızı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Червоний символ після невдалої команди"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令失败后变为红色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指令失敗後顯示紅色"
           }
         }
       }
@@ -136831,6 +137043,112 @@
         }
       }
     },
+    "Symbol" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeichen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Símbolo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbole"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbolo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記号"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기호"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbool"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Símbolo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbol"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembol"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符号"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符號"
+          }
+        }
+      }
+    },
     "Symbols from your devices, needed to read their crash reports" : {
       "localizations" : {
         "cs" : {
@@ -142555,108 +142873,108 @@
         }
       }
     },
-    "The colors are the Terminal theme’s, and the arrow turns red after a command fails." : {
+    "The colors are the Terminal theme’s." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Barvy pocházejí z motivu Terminálu a šipka zčervená, když příkaz selže."
+            "value" : "Barvy určuje motiv Terminálu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Farben stammen aus dem Terminal-Thema, und der Pfeil wird nach einem fehlgeschlagenen Befehl rot."
+            "value" : "Die Farben stammen aus dem Terminal-Thema."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los colores son los del tema de Terminal, y la flecha se vuelve roja después de que falle un comando."
+            "value" : "Los colores son los del tema de Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les couleurs sont celles du thème de Terminal, et la flèche devient rouge après l’échec d’une commande."
+            "value" : "Les couleurs sont celles du thème de Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I colori sono quelli del tema di Terminale, e la freccia diventa rossa dopo un comando non riuscito."
+            "value" : "I colori sono quelli del tema di Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "カラーはターミナルのテーマのもので、コマンドが失敗すると矢印が赤に変わります。"
+            "value" : "ターミナルのテーマのカラーが使われます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "색상은 터미널 테마를 따르며, 명령이 실패하면 화살표가 빨간색으로 바뀝니다."
+            "value" : "색상은 터미널 테마를 따릅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De kleuren zijn die van het Terminal-thema, en de pijl wordt rood nadat een commando is mislukt."
+            "value" : "De kleuren zijn die van het Terminal-thema."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kolory pochodzą z motywu Terminala, a strzałka staje się czerwona po nieudanym poleceniu."
+            "value" : "Kolory pochodzą z motywu Terminala."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As cores são as do tema do Terminal, e a seta fica vermelha depois que um comando falha."
+            "value" : "As cores são as do tema do Terminal."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Culorile sunt cele ale temei din Terminal, iar săgeata devine roșie după ce o comandă eșuează."
+            "value" : "Culorile sunt cele ale temei din Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Цвета берутся из темы Терминала, а стрелка краснеет после команды, завершившейся с ошибкой."
+            "value" : "Цвета берутся из темы Терминала."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Färgerna kommer från Terminal-temat, och pilen blir röd efter ett misslyckat kommando."
+            "value" : "Färgerna kommer från Terminal-temat."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renkler Terminal temasından gelir ve bir komut başarısız olduktan sonra ok kırmızıya döner."
+            "value" : "Renkler Terminal temasından gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Кольори беруться з теми Термінала, а стрілка стає червоною після команди, що завершилася з помилкою."
+            "value" : "Кольори беруться з теми Термінала."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "颜色来自“终端”主题，命令失败后箭头会变成红色。"
+            "value" : "颜色来自“终端”主题。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "顏色取自「終端機」主題，指令執行失敗後，箭頭會變成紅色。"
+            "value" : "顏色取自「終端機」主題。"
           }
         }
       }
@@ -143192,218 +143510,6 @@
         }
       }
     },
-    "The folder and branch on one line and the arrow on the next, so the command always has the whole line." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Složka a větev na jednom řádku a šipka na dalším, takže příkaz má vždy celý řádek pro sebe."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Ordner und der Branch in einer Zeile und der Pfeil in der nächsten, sodass der Befehl immer die ganze Zeile hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La carpeta y la rama en una línea y la flecha en la siguiente, para que el comando siempre tenga toda la línea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le dossier et la branche sur une ligne, et la flèche sur la suivante : la commande dispose ainsi toujours de toute la ligne."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La cartella e il branch su una riga e la freccia sulla successiva, così il comando ha sempre a disposizione l’intera riga."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "フォルダとブランチを1行に、矢印を次の行に表示するため、コマンドは常に1行全体を使えます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더와 브랜치는 한 줄에, 화살표는 다음 줄에 표시되므로 명령을 항상 한 줄 전체에 입력할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De map en branch op de ene regel en de pijl op de volgende, zodat het commando altijd de hele regel heeft."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder i gałąź w jednym wierszu, a strzałka w następnym, więc polecenie zawsze ma cały wiersz dla siebie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A pasta e o branch em uma linha e a seta na seguinte, para que o comando tenha sempre a linha inteira."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosarul și branch‑ul pe o linie, iar săgeata pe următoarea, așa că o comandă are mereu la dispoziție întreaga linie."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка и ветка в одной строке, а стрелка в следующей, поэтому команде всегда достается вся строка."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mappen och grenen på en rad och pilen på nästa, så att kommandot alltid har hela raden för sig."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasör ve dal bir satırda, ok bir sonraki satırda; böylece komut her zaman satırın tamamını kullanır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка й гілка в одному рядку, а стрілка в наступному, тож для команди завжди лишається весь рядок."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件夹和分支在一行，箭头在下一行，因此命令始终可以使用一整行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檔案夾和分支在一行，箭頭在下一行，讓指令永遠擁有一整行。"
-          }
-        }
-      }
-    },
-    "The folder and, in a Git repository, its branch, then the arrow." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Složka a v repozitáři Git také jeho větev, potom šipka."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Ordner und, in einem Git-Repository, sein Branch, dann der Pfeil."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La carpeta y, en un repositorio de Git, su rama, seguidas de la flecha."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le dossier et, dans un dépôt Git, sa branche, puis la flèche."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La cartella e, in un repository Git, il suo branch, poi la freccia."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "フォルダと、Gitリポジトリ内ではそのブランチ、その後に矢印。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더가 표시되고 Git 저장소에서는 브랜치도 표시되며, 그 뒤에 화살표가 옵니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De map en, in een Git-repository, de branch, en dan de pijl."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder, w repozytorium Gita również jego gałąź, a potem strzałka."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A pasta e, em um repositório Git, o branch dele, seguidos da seta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosarul și, într‑un depozit Git, branch‑ul său, apoi săgeata."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка и, в репозитории Git, его ветка, затем стрелка."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mappen och, i ett Git-kodförråd, dess gren, följt av pilen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasör ve bir Git deposunda o deponun dalı, ardından ok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка, а в репозиторії Git ще й гілка, потім стрілка."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件夹，在Git仓库中还有其分支，后跟箭头。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檔案夾（在Git儲存庫中時再加上分支），接著是箭頭。"
-          }
-        }
-      }
-    },
     "The folder it’s in couldn’t be found." : {
       "localizations" : {
         "cs" : {
@@ -143506,112 +143612,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "找不到它所在的檔案夾。"
-          }
-        }
-      }
-    },
-    "The folder you’re in, then an arrow that turns red after a command fails." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Složka, ve které se nacházíte, potom šipka, která zčervená, když příkaz selže."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Ordner, in dem du bist, dann ein Pfeil, der nach einem fehlgeschlagenen Befehl rot wird."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La carpeta en la que estás y luego una flecha que se vuelve roja después de que falle un comando."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le dossier où vous vous trouvez, puis une flèche qui devient rouge après l’échec d’une commande."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La cartella in cui ti trovi, poi una freccia che diventa rossa dopo un comando non riuscito."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在のフォルダ、その後に、コマンドが失敗すると赤に変わる矢印。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 폴더 뒤에 화살표가 표시되며, 명령이 실패하면 화살표가 빨간색으로 바뀝니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De huidige map, en dan een pijl die rood wordt nadat een commando is mislukt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder, w którym jesteś, a potem strzałka, która staje się czerwona po nieudanym poleceniu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A pasta em que você está, seguida de uma seta que fica vermelha depois que um comando falha."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosarul în care vă aflați, apoi o săgeată care devine roșie după ce o comandă eșuează."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка, в которой Вы находитесь, затем стрелка, которая краснеет после команды, завершившейся с ошибкой."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mappen du befinner dig i, följt av en pil som blir röd efter ett misslyckat kommando."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İçinde bulunduğunuz klasör, ardından bir komut başarısız olduktan sonra kırmızıya dönen bir ok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка, у якій ви перебуваєте, а потім стрілка, яка стає червоною після команди, що завершилася з помилкою."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你所在的文件夹，后跟一个箭头，命令失败后它会变成红色。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你所在的檔案夾，接著是一個在指令執行失敗後會變成紅色的箭頭。"
           }
         }
       }
@@ -146267,108 +146267,108 @@
         }
       }
     },
-    "The prompt macOS sets: your name, the computer, and the folder you’re in." : {
+    "The prompt is what zsh shows before each command you type. Peel writes the one you build here in its own file, in place of the one zsh shows now." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Výzva, kterou nastavuje macOS: vaše jméno, počítač a složka, ve které se nacházíte."
+            "value" : "Výzva k zadání příkazu je to, co zsh zobrazuje před každým příkazem, který zadáte. Peel zapíše výzvu, kterou tu sestavíte, do vlastního souboru, místo té, kterou zsh zobrazuje teď."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Eingabeaufforderung, die macOS festlegt: dein Name, der Computer und der Ordner, in dem du bist."
+            "value" : "Die Eingabeaufforderung ist das, was zsh vor jedem Befehl anzeigt, den du eingibst. Peel schreibt die Eingabeaufforderung, die du hier zusammenstellst, in eine eigene Datei, und zsh zeigt sie dann statt der bisherigen an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El indicador que establece macOS: tu nombre, el ordenador y la carpeta en la que estás."
+            "value" : "El indicador de la línea de comandos es lo que zsh muestra antes de cada comando que escribes. Peel escribe el que configures aquí en un archivo propio, en lugar del que zsh muestra ahora."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’invite de commande que définit macOS : votre nom, l’ordinateur et le dossier où vous vous trouvez."
+            "value" : "L’invite de commande est ce que zsh affiche avant chaque commande que vous saisissez. Peel écrit dans son propre fichier celle que vous composez ici, à la place de celle que zsh affiche actuellement."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il prompt stabilito da macOS: il tuo nome, il computer e la cartella in cui ti trovi."
+            "value" : "Il prompt è ciò che zsh mostra prima di ogni comando che digiti. Peel scrive quello che crei qui in un proprio file, al posto di quello che zsh mostra ora."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSのデフォルトのプロンプト: ユーザ名、コンピュータ名、現在のフォルダ。"
+            "value" : "プロンプトは、入力する各コマンドの前にzshが表示するものです。ここで作成したプロンプトはPeelが独自のファイルに書き込み、zshが現在表示しているプロンプトの代わりに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 정한 프롬프트로, 사용자 이름, 컴퓨터 이름, 현재 폴더가 표시됩니다."
+            "value" : "프롬프트는 명령을 입력하기 전에 zsh가 매번 표시하는 내용입니다. Peel은 여기에서 만드는 프롬프트를 Peel 전용 파일에 쓰며, 이 프롬프트가 지금 zsh가 표시하는 프롬프트를 대신합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De prompt die macOS instelt: je naam, de computer en de huidige map."
+            "value" : "De prompt is wat zsh toont vóór elk commando dat je typt. Peel schrijft de prompt die je hier samenstelt in een eigen bestand, in plaats van de prompt die zsh nu toont."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Znak zachęty ustawiany przez macOS: Twoja nazwa użytkownika, nazwa komputera i folder, w którym jesteś."
+            "value" : "Znak zachęty to tekst, który zsh wyświetla przed każdym poleceniem, które wpisujesz. Peel zapisuje we własnym pliku znak zachęty, który tu utworzysz, w miejsce tego, który zsh wyświetla teraz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O prompt que o macOS define: o seu nome, o computador e a pasta em que você está."
+            "value" : "O prompt é o que o zsh mostra antes de cada comando que você digita. O Peel grava o prompt que você monta aqui em um arquivo próprio, no lugar do que o zsh mostra agora."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Promptul stabilit de macOS: numele dvs., computerul și dosarul în care vă aflați."
+            "value" : "Promptul este ceea ce afișează zsh înaintea fiecărei comenzi pe care o tastați. Peel scrie în propriul fișier promptul pe care îl alcătuiți aici, în locul celui pe care zsh îl afișează acum."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приглашение ввода, которое задает macOS: Ваше имя, имя компьютера и папка, в которой Вы находитесь."
+            "value" : "zsh показывает приглашение ввода перед каждой командой, которую Вы набираете. Peel записывает в собственный файл приглашение, которое Вы соберете здесь, вместо того, которое zsh показывает сейчас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prompten som macOS ställer in: ditt namn, datorn och mappen du befinner dig i."
+            "value" : "Prompten är det som zsh visar före varje kommando som du skriver. Peel skriver den prompt som du bygger här i sin egen fil, i stället för den som zsh visar nu."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS’in belirlediği bilgi istemi: adınız, bilgisayarın adı ve içinde bulunduğunuz klasör."
+            "value" : "Bilgi istemi, yazdığınız her komuttan önce zsh tarafından gösterilen metindir. Peel, burada oluşturduğunuz bilgi istemini zsh tarafından şu anda gösterilenin yerine kendi dosyasına yazar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запрошення, яке задає macOS: ваше імʼя, компʼютер і папка, у якій ви перебуваєте."
+            "value" : "Запрошенням командного рядка називається те, що zsh показує перед кожною командою, яку ви вводите. Peel записує запрошення, яке ви складаєте тут, у власний файл, і воно замінює те, яке zsh показує зараз."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS设定的提示符：你的用户名、电脑名称和你所在的文件夹。"
+            "value" : "提示符是zsh在你键入的每条命令前显示的内容。Peel会将你在这里构建的提示符写入它自己的文件，以取代zsh现在显示的提示符。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS設定的提示行：你的使用者名稱、電腦名稱和你所在的檔案夾。"
+            "value" : "提示行是zsh在你輸入每個指令之前顯示的內容。Peel會將你在此處建立的提示行寫入它自己的檔案，取代zsh目前顯示的提示行。"
           }
         }
       }
@@ -147641,6 +147641,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未能還原的設定已先被清除，因此App會從頭開始建立這些設定。副本仍在這裡，可以再試一次。"
+          }
+        }
+      }
+    },
+    "The symbol starts a line of its own, so the command always has the whole width of the window." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol je na začátku samostatného řádku, takže má příkaz vždy k dispozici celou šířku okna."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Zeichen steht am Anfang einer eigenen Zeile, sodass der Befehl immer die volle Fensterbreite hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El símbolo empieza en una línea aparte, así que el comando siempre tiene todo el ancho de la ventana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le symbole commence une ligne à part : la commande dispose ainsi toujours de toute la largeur de la fenêtre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il simbolo inizia una riga a sé, così il comando ha sempre a disposizione tutta la larghezza della finestra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記号から新しい行が始まるため、コマンドは常にウインドウの幅全体を使えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기호가 별도의 줄에서 시작되므로 명령은 항상 윈도우의 전체 너비를 사용할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het symbool begint op een eigen regel, zodat het commando altijd de hele breedte van het venster heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol rozpoczyna osobny wiersz, więc polecenie zawsze ma do dyspozycji całą szerokość okna."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O símbolo inicia uma linha própria, então o comando sempre tem toda a largura da janela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbolul începe o linie separată, așa că comanda are mereu la dispoziție toată lățimea ferestrei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ стоит в начале отдельной строки, поэтому команде всегда доступна вся ширина окна."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolen inleder en egen rad, så att kommandot alltid har hela fönstrets bredd."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembol ayrı bir satır başlatır, böylece pencerenin tüm genişliği her zaman komuta kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ починає окремий рядок, тож команді завжди доступна вся ширина вікна."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符号会另起一行，因此命令始终可以使用窗口的全部宽度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "符號會另起一行，讓指令始終能使用視窗的完整寬度。"
+          }
+        }
+      }
+    },
+    "The symbol turns red when the command before it failed, so a failure stands out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol se zbarví červeně, když předchozí příkaz selhal, takže je selhání hned vidět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Zeichen wird rot, wenn der vorherige Befehl fehlgeschlagen ist, sodass ein Fehler auffällt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El símbolo se vuelve rojo cuando el comando anterior ha fallado, para que el fallo destaque."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le symbole devient rouge lorsque la commande précédente a échoué : un échec saute ainsi aux yeux."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il simbolo diventa rosso quando il comando precedente non è riuscito, così l’errore si nota subito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直前のコマンドが失敗したときは記号が赤くなるため、失敗が目立ちます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "바로 앞의 명령이 실패하면 기호가 빨간색으로 바뀌므로 실패가 눈에 잘 띕니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het symbool wordt rood als het vorige commando is mislukt, zodat een mislukt commando opvalt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol zmienia kolor na czerwony, gdy poprzednie polecenie się nie powiodło, więc niepowodzenie od razu rzuca się w oczy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O símbolo fica vermelho quando o comando anterior falhou, para que uma falha se destaque."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbolul devine roșu când comanda dinaintea lui a eșuat, așa că un eșec iese în evidență."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ становится красным, если предыдущая команда завершилась с ошибкой, так что это сразу заметно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolen blir röd när föregående kommando har misslyckats, så att ett misslyckande syns tydligt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önceki komut başarısız olduğunda sembol kırmızıya döner, böylece başarısızlık göze çarpar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Символ стає червоним, коли попередня команда завершилася з помилкою, тож невдачу одразу помітно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当上一条命令失败时，符号会变为红色，让失败一目了然。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前一個指令失敗時，符號會變成紅色，讓失敗更加醒目。"
           }
         }
       }
@@ -154853,112 +155065,6 @@
         }
       }
     },
-    "Two Lines" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dva řádky"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zwei Zeilen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dos líneas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux lignes"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due righe"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "2行"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "두 줄"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twee regels"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dwa wiersze"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duas Linhas"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Două linii"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Две строки"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Två rader"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İki Satır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Два рядки"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "两行"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "兩行"
-          }
-        }
-      }
-    },
     "Two hyphens stay two hyphens instead of becoming a long dash." : {
       "localizations" : {
         "cs" : {
@@ -160002,6 +160108,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用Option鍵作為Meta鍵"
+          }
+        }
+      }
+    },
+    "Use Peel’s prompt" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používat výzvu Peelu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eingabeaufforderung von Peel verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar el indicador de Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser l’invite de commande de Peel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il prompt di Peel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのプロンプトを使用"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel의 프롬프트 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de prompt van Peel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Używaj znaku zachęty Peel"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar o prompt do Peel"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizați promptul Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать приглашение ввода Peel"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd Peels prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in bilgi istemini kullan"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Використовувати запрошення Peel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用Peel的提示符"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用Peel的提示行"
           }
         }
       }
@@ -168398,6 +168610,112 @@
         }
       }
     },
+    "Your %@ sets its own prompt after Peel’s line, so zsh shows that one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš soubor %@ nastavuje vlastní výzvu až za řádkem Peelu, takže zsh zobrazuje tu vaši."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Datei %@ legt nach der Zeile von Peel eine eigene Eingabeaufforderung fest, daher zeigt zsh diese an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu %@ establece su propio indicador después de la línea de Peel, así que zsh muestra ese."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre fichier %@ définit sa propre invite de commande après la ligne de Peel : c’est donc celle-ci que zsh affiche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo file %@ imposta un proprio prompt dopo la riga di Peel, quindi zsh mostra quel prompt."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いの%@は、Peelのファイルを読み込む行より後で独自のプロンプトを設定しているため、zshはそちらのプロンプトを表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자의 %@ 파일이 Peel의 줄 뒤에서 자체 프롬프트를 설정하므로 zsh는 그 프롬프트를 표시합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je %@ stelt na de regel van Peel een eigen prompt in, dus zsh toont die prompt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój plik %@ ustawia własny znak zachęty po wierszu Peel, więc zsh wyświetla właśnie ten."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu %@ define um prompt próprio depois da linha do Peel, então é esse que o zsh mostra."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul dvs. %@ își stabilește propriul prompt după linia Peel, așa că zsh îl afișează pe acesta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш файл %@ задает собственное приглашение ввода после строки Peel, поэтому zsh показывает именно его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din %@ ställer in sin egen prompt efter Peels rad, så det är den som zsh visar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ dosyanız, Peel’in satırından sonra kendi bilgi istemini ayarlıyor, bu yüzden zsh o bilgi istemini gösteriyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш %@ задає власне запрошення після рядка Peel, тож zsh показує саме його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的%@在Peel的那一行之后设置了自己的提示符，因此zsh会显示那个提示符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的%@在Peel的設定行之後設定了它自己的提示行，因此zsh會顯示該提示行。"
+          }
+        }
+      }
+    },
     "Your Library" : {
       "localizations" : {
         "cs" : {
@@ -168822,108 +169140,108 @@
         }
       }
     },
-    "Your name, the computer, and the folder, in color." : {
+    "Your name, the computer, and the folder" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vaše jméno, počítač a složka, barevně."
+            "value" : "Vaše jméno, počítač a složka"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein Name, der Computer und der Ordner, in Farbe."
+            "value" : "Dein Name, der Computer und der Ordner"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu nombre, el ordenador y la carpeta, en color."
+            "value" : "Tu nombre, el ordenador y la carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre nom, l’ordinateur et le dossier, en couleur."
+            "value" : "Votre nom, l’ordinateur et le dossier"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il tuo nome, il computer e la cartella, a colori."
+            "value" : "Il tuo nome, il computer e la cartella"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ユーザ名、コンピュータ名、フォルダをカラーで表示。"
+            "value" : "ユーザ名、コンピュータ名、フォルダ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사용자 이름, 컴퓨터 이름, 폴더가 색상으로 표시됩니다."
+            "value" : "사용자 이름, 컴퓨터 이름 및 폴더"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je naam, de computer en de map, in kleur."
+            "value" : "Je naam, de computer en de map"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Twoja nazwa użytkownika, nazwa komputera i folder, w kolorach."
+            "value" : "Nazwa użytkownika, komputer i folder"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O seu nome, o computador e a pasta, em cores."
+            "value" : "Seu nome, o computador e a pasta"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numele dvs., computerul și dosarul, în culori."
+            "value" : "Numele dvs., computerul și dosarul"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваше имя, имя компьютера и папка, выделенные цветом."
+            "value" : "Ваше имя, компьютер и папка"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ditt namn, datorn och mappen, i färg."
+            "value" : "Ditt namn, datorn och mappen"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adınız, bilgisayarın adı ve klasör, renkli olarak."
+            "value" : "Adınız, bilgisayar ve klasör"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваше імʼя, компʼютер і папка, виділені кольором."
+            "value" : "Ваше імʼя, компʼютер і папка"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以彩色显示你的用户名、电脑名称和文件夹。"
+            "value" : "你的用户名、电脑名称和文件夹"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的使用者名稱、電腦名稱和檔案夾，以彩色顯示。"
+            "value" : "使用者名稱、電腦和檔案夾"
           }
         }
       }

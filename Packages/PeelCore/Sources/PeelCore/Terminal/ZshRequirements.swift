@@ -22,7 +22,7 @@ enum ZshRequirements {
 
     static var catalog: Set<String> {
         ShellSetting.allCases.reduce(into: Set<String>()) { $0.formUnion($1.requirements) }
-            .union(PromptStyle.allCases.reduce(into: Set<String>()) { $0.formUnion(of($1.lines)) })
+            .union(of(Prompt.branchLines))
     }
 
     /// The options and functions of the catalog that the zsh on this Mac knows, or nil when it did not answer.
@@ -46,7 +46,7 @@ extension ShellSetting {
     }
 }
 
-extension PromptStyle {
+extension Prompt {
     public func isKnown(by known: Set<String>) -> Bool {
         ZshRequirements.of(lines).isSubset(of: known)
     }

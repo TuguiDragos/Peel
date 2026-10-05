@@ -57,11 +57,17 @@ struct TerminalThemeTests {
         let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "TERMINAL.md"), encoding: .utf8)
         let folder = StringCatalogTests.repository.appending(path: "Terminal/Prompts", directoryHint: .isDirectory)
         let pictures = try FileManager.default.contentsOfDirectory(atPath: folder.path).filter { $0.hasSuffix(".png") }
-        #expect(Set(pictures) == Set(PromptStyle.allCases.map { "\($0).png" }))
+        let shown = page.matches(of: /Terminal\/Prompts\/([A-Za-z]+\.png)/).map { String($0.1) }
+        #expect(!pictures.isEmpty)
+        #expect(Set(pictures) == Set(shown))
         let homebrew = URL(filePath: "/opt/homebrew", directoryHint: .isDirectory)
         var lines =
             ShellSetting.allCases.flatMap(\.lines) + [ShellFile.completionSystem]
-            + PromptStyle.allCases.flatMap(\.lines)
+            + Prompt.branchLines
+        lines += [
+            Prompt(), Prompt(start: .path), Prompt(start: .nameAndFolder), Prompt(isOnItsOwnLine: true),
+            Prompt(symbol: .percent, turnsRedAfterAFailure: false),
+        ].compactMap(\.lines.last)
         lines += GitSetting.allCases.filter { $0 != .signCommits }.flatMap { $0.values(signingKey: nil) }.map { "git config --global \($0.key) \($0.value)" }
         lines += ["git config --global gpg.format ssh", "git config --global commit.gpgSign true"]
         lines += SSHSetting.allCases.flatMap(\.lines)
@@ -75,8 +81,8 @@ struct TerminalThemeTests {
         for tool in TerminalTool.allCases {
             #expect(page.contains("`\(tool.installCommand)`"), "\(tool)")
         }
-        for style in PromptStyle.allCases {
-            #expect(page.contains("Terminal/Prompts/\(style).png"), "\(style)")
+        for symbol in Prompt.Symbol.allCases {
+            #expect(page.contains("`\(symbol.rawValue)`"), "\(symbol)")
         }
     }
 

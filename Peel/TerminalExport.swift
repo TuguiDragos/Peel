@@ -23,10 +23,13 @@ enum TerminalExport {
                 try render(TerminalSession(theme: theme).frame(width: 300), to: renders.appending(path: "\(theme.name).png"))
             }
             let theme = TerminalThemeCatalog.all.first { $0.name == "Hadal" }
-            let width = PromptSample.width(of: PromptStyle.allCases, user: "you", host: "Mac")
-            for style in PromptStyle.allCases {
-                let sample = PromptSample(style: style, theme: theme, width: width, user: "you", host: "Mac")
-                try render(sample, to: prompts.appending(path: "\(style).png"))
+            let pictured = [
+                ("folder", Prompt()), ("path", Prompt(start: .path)), ("nameAndFolder", Prompt(start: .nameAndFolder)),
+                ("ownLine", Prompt(isOnItsOwnLine: true)),
+            ]
+            for (name, prompt) in pictured {
+                let preview = PromptPreview(prompt: prompt, theme: theme, user: "you", host: "Mac").frame(width: 320)
+                try render(preview, to: prompts.appending(path: "\(name).png"))
             }
         } catch {
             print("Terminal export failed: \(error)")

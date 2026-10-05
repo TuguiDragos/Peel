@@ -4,7 +4,7 @@ import SwiftUI
 struct TerminalSwitchRow: View {
     let title: LocalizedStringResource
     let detail: LocalizedStringResource
-    let footnote: String
+    let footnote: String?
     var caption: LocalizedStringResource?
     let isOn: Binding<Bool>
     let isDisabled: Bool
@@ -15,9 +15,14 @@ struct TerminalSwitchRow: View {
                 HStack(spacing: 5) {
                     Text(title)
                         .font(.body.weight(.semibold))
+                        .foregroundStyle(isDisabled ? .tertiary : .primary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
-                    InfoNote(name: String(localized: title), detail: Text(detail), footnote: Text(verbatim: footnote))
+                    InfoNote(
+                        name: String(localized: title),
+                        detail: Text(detail),
+                        footnote: footnote.map { Text(verbatim: $0) }
+                    )
                 }
                 if let caption {
                     Text(caption)
@@ -38,46 +43,49 @@ struct TerminalSwitchRow: View {
     }
 }
 
-struct PromptSample: View {
-    let style: PromptStyle
+struct PromptPreview: View {
+    let prompt: Prompt
     let theme: TerminalTheme?
-    let width: CGFloat
     var user = NSUserName()
-    var host = PromptStyle.hostName()
+    var host = Prompt.hostName()
 
     private static let systemColors: [Color] = [.black, .red, .green, .yellow, .blue, .purple, .cyan, .white]
-    private static let font = NSFont.monospacedSystemFont(ofSize: 11, weight: .regular)
-
-    private static func segments(of style: PromptStyle, user: String, host: String) -> [PromptStyle.Segment] {
-        style.sample(user: user, host: host, path: "~/Projects/peel", branch: "main", failed: false)
-    }
-
-    static func width(
-        of styles: [PromptStyle],
-        user: String = NSUserName(),
-        host: String = PromptStyle.hostName()
-    ) -> CGFloat {
-        let lines = styles.flatMap { segments(of: $0, user: user, host: host).map(\.text).joined().split(separator: "\n") }
-        return ceil(lines.map { (String($0) as NSString).size(withAttributes: [.font: font]).width }.max() ?? 0) + 16
-    }
 
     var body: some View {
-        Text(Self.segments(of: style, user: user, host: host).reduce(into: AttributedString()) { text, segment in
-            var run = AttributedString(segment.text)
-            run.foregroundColor = color(segment.color)
-            text += run
-        })
-        .font(Font(Self.font))
-        .fixedSize()
-        .padding(.horizontal, 8)
-        .padding(.vertical, 5)
-        .frame(width: width, alignment: .leading)
+        VStack(alignment: .leading, spacing: 3) {
+            line(path: "~", branch: nil, failed: false, command: "cd Projects/peel")
+            line(path: "~/Projects/peel", branch: "main", failed: false, command: "swift build")
+            line(path: "~/Projects/peel", branch: "main", failed: true, command: nil)
+        }
+        .font(.system(size: 12, design: .monospaced))
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             theme.map { Color(terminal: $0.background) } ?? Color(nsColor: .textBackgroundColor),
-            in: .rect(cornerRadius: 6)
+            in: .rect(cornerRadius: 8)
         )
-        .overlay { RoundedRectangle(cornerRadius: 6).strokeBorder(.separator) }
+        .overlay { RoundedRectangle(cornerRadius: 8).strokeBorder(.separator) }
         .accessibilityHidden(true)
+    }
+
+    private func line(path: String, branch: String?, failed: Bool, command: String?) -> some View {
+        var text = prompt.sample(user: user, host: host, path: path, branch: branch, failed: failed)
+            .reduce(into: AttributedString()) { text, segment in
+                var run = AttributedString(segment.text)
+                run.foregroundColor = color(segment.color)
+                text += run
+            }
+        if let command {
+            var run = AttributedString(command)
+            run.foregroundColor = color(nil)
+            text += run
+        } else {
+            var cursor = AttributedString(" ")
+            cursor.backgroundColor = theme.map { Color(terminal: $0.cursor) } ?? .primary
+            text += cursor
+        }
+        return Text(text)
+            .fixedSize()
     }
 
     private func color(_ index: Int?) -> Color {
