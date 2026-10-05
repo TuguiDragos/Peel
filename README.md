@@ -314,8 +314,6 @@ updates in Settings, and Peel contacts nothing on its own.
 
 <br>
 
-Settings > Privacy lists the same places.
-
 | Address | Why |
 |---|---|
 | `itunes.apple.com` | The latest version of an app bought from the App Store. No other app is ever asked about. |
