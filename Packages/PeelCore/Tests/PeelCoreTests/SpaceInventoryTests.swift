@@ -26,6 +26,29 @@ struct SpaceInventoryTests {
         #expect(stop.askedAfter == 0)
     }
 
+    /// macOS gives each account a folder for caches outside its Library and empties it only in a safe boot (`man
+    /// confstr`), so Space lists it beside App Caches. What macOS keeps there is not measured: some of it not even
+    /// Full Disk Access can read, and it would leave the area's size unknown.
+    @Test(.permissionsHold) func listsTheFolderMacOSGivesTheAccountForCaches() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("C/org.example.editor.helper/com.apple.metal/shaders.data", bytes: 400)
+        try directory.file("C/com.apple.WebKit.WebContent.Sandbox", bytes: 16)
+        try directory.setPermissions(0, of: "C/com.apple.WebKit.WebContent.Sandbox")
+        defer { try? directory.setPermissions(0o644, of: "C/com.apple.WebKit.WebContent.Sandbox") }
+        let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home"), root: directory.url.appending(path: "root"),
+            userCache: userCache, minimumSize: 1, measure: FileSize.measure
+        )
+
+        let item = try #require(report.items.first { $0.id == "user-caches" })
+        #expect(item.urls == [userCache])
+        #expect(item.handling == .trash)
+        #expect(item.leavesMacOSsOwn)
+        #expect(item.size != nil, "what macOS keeps was measured")
+    }
+
     @Test func reportsOnlyWhatIsBigEnough() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Logs/big.log", bytes: 400_000)
@@ -323,7 +346,7 @@ struct SpaceInventoryTests {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)
             let containers = !definition.containerFolders.isEmpty || definition.groupContainerFolder != nil
-            #expect(!definition.paths.isEmpty || containers)
+            #expect(!definition.paths.isEmpty || containers || definition.isTheUserCacheFolder)
         }
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }

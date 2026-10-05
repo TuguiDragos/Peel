@@ -28,8 +28,8 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public let handling: Handling
     /// Why nothing in this area is selected for the person, whatever each item holds.
     public var heldBack: HoldBack?
-    /// True when what macOS keeps in its folders for its own services is neither measured nor offered: they run as
-    /// other accounts, whose open files Peel cannot see.
+    /// True when what macOS keeps in its folders for its own services is neither measured nor offered: there they run
+    /// as other accounts, whose open files Peel cannot see, or keep caches not even Full Disk Access can read.
     public var leavesMacOSsOwn = false
     /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
     public var onlyFilesIn: [URL] = []
@@ -69,18 +69,21 @@ public enum SpaceInventory {
         /// The folder inside every group container not Apple's own (`Library/Group Containers/<group>`) that belongs
         /// to this area too.
         var groupContainerFolder: String?
+        /// True for the folder macOS gives the account for caches (`confstr`'s `_CS_DARWIN_USER_CACHE_DIR`), which
+        /// is never in `paths` since macOS chooses where it is.
+        var isTheUserCacheFolder = false
         var heldBack: HoldBack?
         var leavesMacOSsOwn = false
         var onlyFilesIn: [String] = []
         var commands: [String] = []
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
-        func urls(home: URL, root: URL) -> [URL] {
+        func urls(home: URL, root: URL, userCache: URL?) -> [URL] {
             paths.map { path in
                 path.hasPrefix("/")
                     ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
                     : home.appending(path: path, directoryHint: .isDirectory)
-            }
+            } + (isTheUserCacheFolder ? [userCache].compactMap(\.self) : [])
         }
 
         func onlyFilesIn(root: URL) -> [URL] {
@@ -238,6 +241,16 @@ public enum SpaceInventory {
             paths: ["Library/Caches"],
             handling: .trash
         ),
+        // macOS empties this folder only in a safe boot (`man confstr`). Apps' helpers keep caches in it, and so do
+        // macOS's own services, some of them where not even Full Disk Access reaches.
+        Definition(
+            id: "user-caches",
+            category: .library,
+            paths: [],
+            handling: .trash,
+            isTheUserCacheFolder: true,
+            leavesMacOSsOwn: true
+        ),
         Definition(
             id: "container-caches",
             category: .library,
@@ -303,7 +316,10 @@ public enum SpaceInventory {
     /// The folders Space empties. Each stays itself, since Space moves what is inside, never the folder.
     static func emptiedFolders(in environment: SearchEnvironment) -> [URL] {
         definitions.filter { $0.handling == .trash }.flatMap {
-            $0.urls(home: environment.homeDirectory, root: environment.rootDirectory)
+            $0.urls(
+                home: environment.homeDirectory, root: environment.rootDirectory,
+                userCache: environment.userCacheDirectory
+            )
         }
     }
 
@@ -349,13 +365,14 @@ public enum SpaceInventory {
     /// not counted in its size.
     @concurrent
     public static func scan(
-        home: URL = .homeDirectory,
+        in environment: SearchEnvironment = .current,
         minimumSize: Int64 = SpaceInventory.minimumSize,
         exclusions: Exclusions = .none
     ) async -> SpaceReport {
         await scan(
-            home: home,
-            root: URL(filePath: "/", directoryHint: .isDirectory),
+            home: environment.homeDirectory,
+            root: environment.rootDirectory,
+            userCache: environment.userCacheDirectory,
             minimumSize: minimumSize,
             exclusions: exclusions,
             measure: FileSize.measure
@@ -367,6 +384,7 @@ public enum SpaceInventory {
     static func scan(
         home: URL,
         root: URL = URL(filePath: "/", directoryHint: .isDirectory),
+        userCache: URL? = nil,
         minimumSize: Int64,
         exclusions: Exclusions = .none,
         measure: @escaping FileSize.Measure
@@ -374,7 +392,7 @@ public enum SpaceInventory {
         let containers = appContainers(in: home)
         let groups = groupContainers(in: home)
         let wanted = definitions.compactMap { definition -> (Definition, [URL])? in
-            let urls = definition.urls(home: home, root: root)
+            let urls = definition.urls(home: home, root: root, userCache: userCache)
                 .filter { FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: $0)) }
                 + definition.containerFolders.flatMap { folder in
                     containers.map { $0.appending(path: folder, directoryHint: .isDirectory) }.filter(\.isRealFolder)

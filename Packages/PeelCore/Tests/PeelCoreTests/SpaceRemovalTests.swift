@@ -144,6 +144,29 @@ struct SpaceRemovalTests {
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 
+    /// In the folder macOS gives the account for caches, what its own services keep, named for themselves, is left
+    /// out; Developer's is left to Developer, the rest is offered as in App Caches, and the folder itself stays.
+    @Test func plansTheFolderMacOSGivesTheAccountForCachesWithoutMacOSsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["com.apple.dock.iconcache", "assessmentagent", "AudioComponentRegistrar", "org.example.editor"] {
+            try directory.file("C/\(name)/data.db")
+        }
+        try directory.file("C/clang/ModuleCache/index.pcm")
+        let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
+        var environment = environment(directory)
+        environment.userCacheDirectory = userCache
+        let caches = SpaceItem(
+            id: "user-caches", category: .library, urls: [userCache], size: 0, handling: .trash, leavesMacOSsOwn: true
+        )
+
+        let plan = await SpaceRemoval.plan(for: caches, environment: environment, running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["org.example.editor"])
+        #expect(plan.suggested == Set(plan.removable))
+        #expect(plan.leftToDeveloper.map(\.lastPathComponent) == ["clang"])
+        #expect(RemovalGuard(environment: environment).refusal(of: userCache) == .staysItself)
+    }
+
     /// In the caches every account shares, what macOS keeps is left out of the plan altogether: its services run
     /// as other accounts, whose open files Peel cannot see. What only an administrator can move goes through the
     /// helper.

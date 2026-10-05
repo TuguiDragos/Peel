@@ -7,18 +7,41 @@ struct SystemCaches {
     static let named: [String: String] = [
         "AMSDataMigratorTool": "/System/Library/PrivateFrameworks/AppleMediaServices.framework"
             + "/Versions/A/Resources/AMSDataMigratorTool",
+        "assessmentagent": "/usr/libexec/assessmentagent",
+        "AudioComponentRegistrar": "/System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar",
+        "AudioConverterService": "/System/Library/Frameworks/AudioToolbox.framework/XPCServices/AudioConverterService.xpc",
+        "betaenrollmentagent": "/usr/libexec/betaenrollmentagent",
         "CloudKit": "/System/Library/Frameworks/CloudKit.framework",
         "ColorSync": "/System/Library/ColorSync",
         "containermanagerd": "/usr/libexec/containermanagerd",
+        "contentlinkingd": "/System/Library/PrivateFrameworks/Synapse.framework/Support/contentlinkingd",
+        "CSExattrCryptoService": "/System/Library/PrivateFrameworks/CSExattrCrypto.framework/Versions/A/XPCServices"
+            + "/CSExattrCryptoService.xpc",
         "Desktop Pictures": "/System/Library/Desktop Pictures",
+        "diagnosticextensionsd": "/usr/libexec/diagnosticextensionsd",
+        "duetexpertd": "/usr/libexec/duetexpertd",
         "FamilyCircle": "/System/Library/PrivateFrameworks/FamilyCircle.framework",
         "familycircled": "/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled",
+        "gamed": "/usr/libexec/gamed",
         "GameKit": "/System/Library/Frameworks/GameKit.framework",
         "GameStoreKit": "/System/Library/PrivateFrameworks/GameStoreKit.framework",
         "GeoServices": "/System/Library/PrivateFrameworks/GeoServices.framework",
+        "heard": "/System/Library/PrivateFrameworks/HearingCore.framework/heard",
         "homed": "/System/Library/PrivateFrameworks/HomeKitDaemon.framework/Support/homed",
         "HomeKit": "/System/Library/Frameworks/HomeKit.framework",
+        "icdd": "/System/Library/Image Capture/Support/icdd",
+        "itunescloudd": "/System/Library/PrivateFrameworks/iTunesCloud.framework/Support/itunescloudd",
+        "mediaanalysisd-access": "/System/Library/PrivateFrameworks/MediaAnalysisAccess.framework/Versions/A/XPCServices"
+            + "/mediaanalysisd-access.xpc",
+        "metrickitd": "/usr/libexec/metrickitd",
+        "mobiletimerd": "/System/Library/PrivateFrameworks/MobileTimer.framework/Executables/mobiletimerd",
         "PassKit": "/System/Library/Frameworks/PassKit.framework",
+        "proactived": "/usr/libexec/proactived",
+        "ptpcamerad": "/usr/libexec/ptpcamerad",
+        "StatusKitAgent": "/System/Library/PrivateFrameworks/StatusKit.framework/StatusKitAgent",
+        "studentd": "/usr/libexec/studentd",
+        "talagent": "/System/Library/CoreServices/talagent",
+        "watchlistd": "/System/Library/PrivateFrameworks/WatchListKit.framework/Support/watchlistd",
     ]
 
     private static let lowercasedNames = Set(named.keys.map { $0.lowercased() })

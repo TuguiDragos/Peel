@@ -293,18 +293,24 @@ public enum DeveloperCaches {
     struct FoldersLeftToDeveloper {
         private let folders: [(path: [String], own: [[String]])]
 
-        init(home: URL) {
+        init(home: URL, userCache: URL? = nil) {
             // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
             // paths in the table don't.
             let names = { (url: URL) in PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)) }
             let homeNames = names(home)
+            let userCacheNames = userCache.map(names)
             // A tool's configuration can move a cache into a place Space shows, and the folder it names is the
             // tool's own there.
             let settings = ToolSettings(home: home)
             folders = DeveloperCaches.definitions.flatMap { definition in
                 let own = definition.ownFolders.map { homeNames + PathComponents.of($0) }
-                let usual = definition.folders.filter { $0.base == .home }.map {
-                    (homeNames + PathComponents.of($0.path), own)
+                let usual = definition.folders.compactMap { folder -> ([String], [[String]])? in
+                    let base = switch folder.base {
+                    case .home: homeNames
+                    case .userCache: userCacheNames
+                    case .userTemporary: nil as [String]?
+                    }
+                    return base.map { ($0 + PathComponents.of(folder.path), own) }
                 }
                 let moved = definition.folders.compactMap(\.movedBy).flatMap { relocation in
                     relocation.places(preference: { _ in nil }, settings: settings).map {

@@ -44056,6 +44056,112 @@
         }
       }
     },
+    "Hidden App Caches" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skryté mezipaměti aplikací"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgeblendete App-Caches"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cachés ocultas de apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches masqués des apps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache nascoste delle app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの隠しキャッシュ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "숨겨진 앱 캐시"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verborgen app-caches"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukryte pamięci podręczne aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caches Ocultos de Apps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memorii tampon ascunse ale aplicațiilor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрытые кэши приложений"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gömda appcachar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli Uygulama Önbellekleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приховані кеші програм"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏的App缓存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏的App快取"
+          }
+        }
+      }
+    },
     "Hidden Item" : {
       "localizations" : {
         "cs" : {
@@ -161248,6 +161354,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App為這部Mac上的所有帳號儲存的快取，位於磁碟最上層的「資源庫」中。macOS為其自身服務保留在那裡的內容不會列出，打開中的App正在使用的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
+          }
+        }
+      }
+    },
+    "What apps cached in the folder macOS gives your account for caches, which Finder hides and macOS empties only when the Mac starts up in safe mode. What macOS keeps there for its own services isn’t listed, what an open app uses stays, and developer tools’ folders are left to the Developer page." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co aplikace uložily do mezipaměti ve složce, kterou systém macOS přiděluje vašemu účtu pro mezipaměti. Finder tuto složku skrývá a systém macOS ji vyprazdňuje jen tehdy, když se Mac spustí v bezpečném režimu. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Složky vývojářských nástrojů jsou přenechány stránce Vývojář."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was Apps in dem vom Finder ausgeblendeten Ordner zwischengespeichert haben, den macOS deinem Benutzeraccount für Caches zuweist und nur dann leert, wenn der Mac im sicheren Modus startet. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt; was eine geöffnete App verwendet, bleibt erhalten, und Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que las apps han guardado en caché en la carpeta que macOS asigna a tu cuenta para las cachés, una carpeta que el Finder oculta y que macOS vacía solo cuando el Mac arranca en modo seguro. Lo que macOS guarda ahí para sus propios servicios no se muestra, lo que usa una app abierta se queda donde está y las carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les apps ont mis en cache dans le dossier que macOS attribue à votre compte pour les caches. Le Finder masque ce dossier, et macOS ne le vide que lorsque le Mac démarre en mode sans échec. Ce que macOS y conserve pour ses propres services n’est pas listé, ce qu’une app ouverte utilise reste en place, et les dossiers des outils de développement sont laissés à la page Développeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che le app hanno messo in cache nella cartella che macOS assegna al tuo account per le cache, nascosta dal Finder e svuotata da macOS solo quando il Mac si avvia in modalità sicura. Ciò che macOS conserva lì per i propri servizi non è elencato, ciò che usa un’app aperta resta al suo posto, e le cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがキャッシュしたもので、macOSがお使いのアカウントにキャッシュ用として割り当てているフォルダにあります。このフォルダはFinderでは隠されており、macOSが空にするのは、Macをセーフモードで起動したときだけです。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものはそのまま残ります。デベロッパツールのフォルダは“デベロッパ”ページに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 사용자 계정에 캐시용으로 제공하는 폴더에 앱이 캐시한 항목이며, 이 폴더는 Finder가 숨기고, Mac을 안전 모드로 시동할 때만 macOS가 비웁니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목은 그대로 유지되고, 개발자 도구의 폴더는 개발자 페이지에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat apps in de cache hebben gezet, in de map die macOS voor caches aan je account toewijst. Finder verbergt deze map, en macOS maakt hem alleen leeg als de Mac in de veilige modus opstart. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. De mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co aplikacje zapisały w folderze pamięci podręcznej, który macOS przydziela Twojemu kontu i który Finder ukrywa, a macOS opróżnia tylko wtedy, gdy Mac uruchamia się w trybie bezpiecznym. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście; to, czego używa otwarta aplikacja, zostaje na miejscu, a foldery narzędzi dla deweloperów są pozostawione stronie Deweloper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que os apps guardaram em cache na pasta que o macOS reserva para os caches da sua conta, uma pasta que o Finder oculta e que o macOS só esvazia quando o Mac é inicializado no modo seguro. O que o macOS mantém ali para os próprios serviços não é listado, o que um app aberto usa permanece, e as pastas das ferramentas para desenvolvedores ficam para a página Desenvolvedor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce au păstrat aplicațiile în memoria tampon din dosarul atribuit de macOS contului dvs. pentru memoriile tampon, pe care Finder îl ascunde și macOS îl golește doar când Mac‑ul pornește în modul de siguranță. Ce păstrează macOS acolo pentru propriile servicii nu este listat, ce folosește o aplicație deschisă rămâne pe loc, iar dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все, что приложения кэшировали в папке, которую macOS выделяет Вашей учетной записи для кэшей. Finder скрывает эту папку, а macOS очищает ее только при загрузке Mac в безопасном режиме. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. Папки инструментов разработчика оставлены разделу «Разработчик»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som appar har cachat i den mapp som macOS ger ditt konto för cachar. Finder gömmer mappen, och macOS tömmer den bara när datorn startas i säkert läge. Det som macOS sparar där för sina egna tjänster visas inte, det som en öppen app använder stannar kvar, och utvecklarverktygens mappar lämnas åt sidan Utvecklare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaların, macOS’in hesabınıza önbellekler için ayırdığı klasörde önbelleğe aldıkları; Finder bu klasörü gizler, macOS ise yalnızca Mac güvenli modda başlatıldığında boşaltır. macOS’in orada kendi hizmetleri için tuttukları listelenmez, açık bir uygulamanın kullandıkları yerinde kalır ve geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що програми кешували в папці, яку macOS надає вашому обліковому запису для кешів і яку Finder приховує, а macOS очищає лише тоді, коли Mac запускається в безпечному режимі. Те, що macOS зберігає там для власних служб, не показується, те, чим користується відкрита програма, лишається, а папки інструментів розробника залишено для сторінки «Розробник»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App在macOS为你的账户分配的缓存文件夹中缓存的内容，“访达”会隐藏该文件夹，macOS只会在Mac以安全模式启动时清空它。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容会保留，开发者工具的文件夹交给“开发者”页面处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App在macOS為你的帳號提供的快取檔案夾中所快取的內容，Finder會隱藏此檔案夾，而且macOS只有在Mac以安全模式啟動時才會清空它。macOS為其自身服務保留在那裡的內容不會列出，已打開的App正在使用的內容會保留，而開發者工具的檔案夾交給「開發者」頁面處理。"
           }
         }
       }

@@ -136,6 +136,10 @@ nonisolated extension SpaceItem {
             title: "App Caches",
             detail: "Everything that apps cached in your Library, each folder moved whole. Developer tools’ folders are left to the Developer page, which knows which part of each is only a cache."
         ),
+        "user-caches": Words(
+            title: "Hidden App Caches",
+            detail: "What apps cached in the folder macOS gives your account for caches, which Finder hides and macOS empties only when the Mac starts up in safe mode. What macOS keeps there for its own services isn’t listed, what an open app uses stays, and developer tools’ folders are left to the Developer page."
+        ),
         "container-caches": Words(
             title: "Sandboxed App Caches",
             detail: "What sandboxed apps, such as those from the App Store, cached or left as temporary files in their own containers, and cached in the ones they share with apps from the same maker. What an open app uses stays, and the caches of Apple’s own apps are listed but never selected."
