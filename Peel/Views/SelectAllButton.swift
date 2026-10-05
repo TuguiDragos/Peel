@@ -11,9 +11,10 @@ struct SelectAllButton<ID: Hashable>: View {
 
     var body: some View {
         if !selectable.isEmpty {
-            let isAllSelected = SelectAll.isAllSelected(selectable, in: selection)
+            let list = SelectableRows(rows: rows, selectable: selectable, recommended: selectable)
+            let isAllSelected = list.isAllSelected(in: selection)
             Button {
-                selection = SelectAll.toggled(selection, selectable: selectable, rows: rows)
+                selection = isAllSelected ? list.deselectingAll(in: selection) : list.selectingAll(in: selection)
             } label: {
                 Text(isAllSelected ? "Deselect All" : "Select All")
                     .minimumTarget()
