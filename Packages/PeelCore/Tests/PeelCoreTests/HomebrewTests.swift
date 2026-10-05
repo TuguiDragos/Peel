@@ -528,6 +528,40 @@ struct HomebrewTests {
         #expect(libssh2.vulnerabilities.map(\.severity) == [.medium, .unknown])
     }
 
+    @Test func readsTheAliasesAndTheFixOfEachVulnerability() throws {
+        let commit = String(repeating: "f089acdf", count: 5)
+        let longCommit = String(repeating: "d3c1b116", count: 8)
+        let json = """
+        {"findings": [{"formula": "uv", "version": "0.12.7", "vulnerabilities": [
+          {"id": "CVE-2026-1", "severity": "HIGH", "summary": "", "aliases": ["GHSA-2cv4-cqwr-gwf7"], "fixed_versions": ["\(commit)", "0.12.8"]},
+          {"id": "CVE-2026-2", "severity": "HIGH", "summary": "", "aliases": [], "fixed_versions": ["\(commit)", "\(longCommit)"]},
+          {"id": "CVE-2026-3", "severity": "HIGH", "summary": "", "aliases": [], "fixed_versions": []}
+        ], "patched": []}]}
+        """
+
+        let report = try JSONDecoder().decode(Homebrew.VulnsReport.self, from: Data(json.utf8)).report
+        let vulnerabilities = try #require(report.advisories.first).vulnerabilities
+
+        #expect(vulnerabilities.map(\.aliases) == [["GHSA-2cv4-cqwr-gwf7"], [], []])
+        #expect(vulnerabilities.map(\.fix) == [.versions(["0.12.8"]), .commits, .notListed])
+    }
+
+    @Test func listsIdentifiersInTheOrderOfTheirNumbers() throws {
+        let json = """
+        {"findings": [{"formula": "libssh2", "version": "1.11.1", "vulnerabilities": [
+          {"id": "OSV-2025-433", "severity": "UNKNOWN"}, {"id": "CVE-2026-66032", "severity": "UNKNOWN"},
+          {"id": "OSV-2025-90", "severity": "UNKNOWN"}, {"id": "CVE-2026-7598", "severity": "UNKNOWN"}
+        ], "patched": []}]}
+        """
+
+        let report = try JSONDecoder().decode(Homebrew.VulnsReport.self, from: Data(json.utf8)).report
+
+        #expect(
+            report.advisories.first?.vulnerabilities.map(\.id)
+                == ["CVE-2026-7598", "CVE-2026-66032", "OSV-2025-90", "OSV-2025-433"]
+        )
+    }
+
     /// From 6.0.11 to 6.0.18 the scan answers with a list, and from 6.0.19 with an object that holds one. Both
     /// shapes are read, so an older Homebrew's answer is not thrown away as a failure.
     @Test func readsTheScanAnOlderHomebrewWrites() throws {
@@ -537,6 +571,8 @@ struct HomebrewTests {
 
         #expect(report.advisories.map(\.formula) == ["libssh2"])
         #expect(report.skipped.isEmpty)
+        #expect(report.advisories.first?.vulnerabilities.first?.aliases == [])
+        #expect(report.advisories.first?.vulnerabilities.first?.fix == .notListed)
     }
 
     /// The scan keeps a formula whose every vulnerability is patched, with nothing open under it. Listing it

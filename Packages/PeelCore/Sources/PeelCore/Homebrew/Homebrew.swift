@@ -180,14 +180,37 @@ public struct HomebrewVulnerability: Sendable, Hashable, Identifiable {
         }
     }
 
+    /// What OSV.dev says fixes a vulnerability.
+    public enum Fix: Sendable, Hashable {
+        case versions([String])
+        /// OSV.dev names only the commits that fix it, and no version.
+        case commits
+        case notListed
+
+        /// Reads Homebrew's `fixed_versions`, where the fix of a Git range is a full commit hash (the OSV schema,
+        /// `GIT` ranges) and any other entry is a version.
+        init(fixedIn entries: [String]) {
+            let versions = entries.filter { !Self.isCommit($0) }
+            self = if !versions.isEmpty { .versions(versions) } else if entries.isEmpty { .notListed } else { .commits }
+        }
+
+        private static func isCommit(_ entry: String) -> Bool {
+            (entry.count == 40 || entry.count == 64) && entry.allSatisfy(\.isHexDigit)
+        }
+    }
+
     public let id: String
+    public let aliases: [String]
     public let severity: Severity
     public let summary: String
+    public let fix: Fix
 
-    public init(id: String, severity: Severity, summary: String) {
+    public init(id: String, aliases: [String] = [], severity: Severity, summary: String, fix: Fix = .notListed) {
         self.id = id
+        self.aliases = aliases
         self.severity = severity
         self.summary = summary
+        self.fix = fix
     }
 }
 
@@ -892,6 +915,13 @@ public enum Homebrew {
                 let id: String
                 let severity: String?
                 let summary: String?
+                let aliases: [String]?
+                let fixedVersions: [String]?
+
+                enum CodingKeys: String, CodingKey {
+                    case id, severity, summary, aliases
+                    case fixedVersions = "fixed_versions"
+                }
             }
 
             let formula: String
@@ -928,11 +958,17 @@ public enum Homebrew {
                         .map {
                             HomebrewVulnerability(
                                 id: $0.id,
+                                aliases: $0.aliases ?? [],
                                 severity: HomebrewVulnerability.Severity(name: $0.severity ?? ""),
-                                summary: ($0.summary ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+                                summary: ($0.summary ?? "").trimmingCharacters(in: .whitespacesAndNewlines),
+                                fix: HomebrewVulnerability.Fix(fixedIn: $0.fixedVersions ?? [])
                             )
                         }
-                        .sorted { $0.severity == $1.severity ? $0.id < $1.id : $0.severity > $1.severity }
+                        .sorted {
+                            $0.severity == $1.severity
+                                ? $0.id.localizedStandardCompare($1.id) == .orderedAscending
+                                : $0.severity > $1.severity
+                        }
                 )
             }
             return HomebrewVulnerabilityReport(
