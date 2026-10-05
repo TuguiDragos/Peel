@@ -72,6 +72,7 @@ struct DesktopWalletTests {
         "Library/Application Support/bitcoin_safe/bitcoin/main.wallet",
         "Library/Application Support/joinmarket/wallets/wallet.jmdat",
         ".cashu/wallet/wallet.sqlite3",
+        "Library/Application Support/Kaspawallet/kaspa-mainnet/keys.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()

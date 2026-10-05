@@ -189,6 +189,7 @@ public enum ProtectedData: Sendable {
         ".chia_keys",
         ".grin/main/wallet_data",
         ".kaspa",
+        "Library/Application Support/Kaspawallet",
     ]
 
     /// Every protected place named from a home folder: `homeFolders`, `homeKeys` and `walletKeys`. `refuses`,
