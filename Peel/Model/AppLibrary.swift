@@ -75,10 +75,15 @@ final class AppLibrary {
     private(set) var lastOpenedRevision = 0
     private(set) var isLoading = false
     private(set) var hasLoaded = false
-    /// The folders the person chose for apps, beside the Applications folders. `PeelApp` watches them and reads the
-    /// apps again when they change.
-    private(set) var folders = AppFolders().load() ?? []
+    /// The folders the person chose for apps, beside the Applications folders, or nil when their list cannot be read.
+    /// `PeelApp` watches them and reads the apps again when they change.
+    private(set) var folders = AppFolders().load()
     private(set) var couldNotSaveFolders = false
+    /// What the last reading of the folders could not read, so the apps in it are missing from `apps`
+    /// (`AppScan.unreadable`).
+    private(set) var unreadable: [URL] = []
+    /// Whether Full Disk Access would open what the last reading could not read.
+    private(set) var unreadableNeedsFullDiskAccess = false
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
         didSet { updatesRevision += 1 }
     }
@@ -176,20 +181,31 @@ final class AppLibrary {
         shown.count > 1
     }
 
+    /// The apps listed, and what could not be read of them, which Orphaned Files checks its files against.
+    struct Listing: Equatable {
+        let revision: Int
+        let unreadable: [URL]
+    }
+
+    var listing: Listing {
+        Listing(revision: revision, unreadable: unreadable)
+    }
+
     /// The first reading of the folders, at launch. A reading the folder watch starts meanwhile takes its place
     /// and lists the apps itself.
     func load() async {
         isLoading = true
         lastRead = .now
-        let found = await scanRun.run { await AppCatalog.installedApps() }
+        let found = await scanRun.run { await AppCatalog.scan() }
         if let found {
-            adopt(found)
+            keepUnreadable(of: found)
+            adopt(found.apps)
         }
         recall()
         isLoading = false
         hasLoaded = true
         if let found {
-            await AppMemory().remember(found)
+            await AppMemory().remember(found.apps)
         }
     }
 
@@ -208,10 +224,15 @@ final class AppLibrary {
         changeFolders { $0.remove(urls) }
     }
 
+    /// Sets the list of folders aside when it cannot be read, so the folders can be chosen again.
+    func startFoldersOver() {
+        changeFolders { $0.startOver() }
+    }
+
     private func changeFolders(_ change: (AppFolders) -> Bool) {
         let store = AppFolders()
         couldNotSaveFolders = !change(store)
-        folders = store.load() ?? []
+        folders = store.load()
     }
 
     /// Reads the folders again without emptying the list first, so an app installed while Peel is open
@@ -222,8 +243,10 @@ final class AppLibrary {
     /// when it was last checked) is dropped rather than shown for a version it doesn't describe.
     @discardableResult
     func refresh() async -> [InstalledApp] {
-        guard let found = await scanRun.run({ await AppCatalog.installedApps() }) else { return [] }
+        guard let scan = await scanRun.run({ await AppCatalog.scan() }) else { return [] }
         lastRead = .now
+        keepUnreadable(of: scan)
+        let found = scan.apps
         let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
         guard listed != apps else { return [] }
         guard !AppCatalog.listsTheSameApps(listed, as: apps) else {
@@ -244,6 +267,13 @@ final class AppLibrary {
         guard !changed.isEmpty else { return }
         await checkForUpdates(changed, force: true)
         await checkSigningTeams()
+    }
+
+    private func keepUnreadable(of scan: AppScan) {
+        if unreadable != scan.unreadable { unreadable = scan.unreadable }
+        if unreadableNeedsFullDiskAccess != scan.needsFullDiskAccess {
+            unreadableNeedsFullDiskAccess = scan.needsFullDiskAccess
+        }
     }
 
     /// Takes a new reading of the folders and returns the apps whose build changed. Drops whatever was cached

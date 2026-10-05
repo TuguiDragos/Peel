@@ -14,12 +14,9 @@ struct AppFoldersSection: View {
 
     var body: some View {
         Section {
-            if library.folders.isEmpty {
-                Text("No other folder is on this list yet.")
-                    .foregroundStyle(.secondary)
-            } else {
+            if let folders = library.folders, !folders.isEmpty {
                 List(selection: $selected) {
-                    ForEach(library.folders, id: \.self) { folder in
+                    ForEach(folders, id: \.self) { folder in
                         HStack(spacing: 8) {
                             AppIcon(url: folder)
                                 .frame(width: 16, height: 16)
@@ -30,9 +27,18 @@ struct AppFoldersSection: View {
                         .tag(folder)
                     }
                 }
-                .frame(height: settingsListHeight(rows: library.folders.count))
+                .frame(height: settingsListHeight(rows: folders.count))
                 .scrollContentBackground(.hidden)
                 .onDeleteCommand { removeSelected() }
+            } else if library.folders != nil {
+                Text("No other folder is on this list yet.")
+                    .foregroundStyle(.secondary)
+            } else {
+                HStack {
+                    WarningLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
+                    Spacer()
+                    Button("Start Over") { library.startFoldersOver() }
+                }
             }
             if library.couldNotSaveFolders {
                 WarningLabel(title: Text("Peel couldn’t save the app folders."))

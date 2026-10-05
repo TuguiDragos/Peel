@@ -116,7 +116,9 @@ struct PeelApp: App {
         for await folders in Observations({ library.folders }) {
             let foldersChanged = watch != nil
             watch?.cancel()
-            watch = Task { await followApps(in: AppCatalog.directories(adding: folders), readingNow: foldersChanged) }
+            watch = Task {
+                await followApps(in: AppCatalog.directories(adding: folders ?? []), readingNow: foldersChanged)
+            }
         }
     }
 

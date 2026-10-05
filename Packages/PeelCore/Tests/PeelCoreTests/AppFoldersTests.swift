@@ -44,4 +44,16 @@ struct AppFoldersTests {
         #expect(AppFolders(url: closed).load() == nil)
         #expect(AppFolders(url: directory.url.appending(path: "missing.json")).load() == [])
     }
+
+    @Test func startingOverKeepsTheDamagedListBesideAnEmptyOne() throws {
+        let directory = try TemporaryDirectory()
+        let folders = AppFolders(url: try directory.file("app-folders.json", contents: Data("not a list".utf8)))
+
+        #expect(folders.startOver())
+
+        #expect(folders.load() == [])
+        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
+            .filter { $0.hasPrefix("app-folders-damaged-") }
+        #expect(kept.count == 1)
+    }
 }

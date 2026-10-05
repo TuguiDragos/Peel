@@ -37,6 +37,15 @@ public struct AppFolders: Sendable {
         }
     }
 
+    /// Sets a list that cannot be read aside, under another name, so the folders can be chosen again. False when it
+    /// stays where it is.
+    @discardableResult
+    public func startOver() -> Bool {
+        FileLock.whileHeld(beside: url) {
+            url.isMissing || read() != nil || DamagedFile.setAside(url) != nil
+        }
+    }
+
     @discardableResult
     public func remove(_ folders: [URL]) -> Bool {
         let removed = Set(folders.map { PathPattern.comparablePath(of: $0) })

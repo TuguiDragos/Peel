@@ -13,8 +13,8 @@ final class OrphanLibrary {
     var selection: OrphanGroup.ID?
     var selectedURLs: Set<URL> = []
 
-    /// The revision of the apps list the scan was checked against. The page scans again when the list changes.
-    private(set) var scannedRevision: Int?
+    /// The apps list the scan was checked against. The page scans again when the list changes.
+    private(set) var scannedAgainst: AppLibrary.Listing?
     /// The groups the person said belong to an app, by identifier, with that app's bundle identifier.
     private(set) var owners = OrphanOwners().load()
 
@@ -27,10 +27,20 @@ final class OrphanLibrary {
     }
 
     func refresh(from library: AppLibrary) async {
+        // An app that could not be read is missing from the list, and its files would look orphaned, so nothing is
+        // listed until every app can be read.
+        let listing = library.listing
+        guard listing.unreadable.isEmpty else {
+            scan = nil
+            selection = nil
+            selectedURLs = []
+            scannedAgainst = listing
+            return
+        }
         // Until the apps are read, no folder has an owner, so every folder would look orphaned. The callers
         // check this too; checking here keeps a new caller from getting it wrong.
         guard !library.apps.isEmpty else { return }
-        let (installedApps, revision) = (library.apps, library.revision)
+        let installedApps = library.apps
         let owners = OrphanOwners().load()
         self.owners = owners
         guard let result = await scanRun.run({
@@ -40,10 +50,10 @@ final class OrphanLibrary {
             let running = Set(NSWorkspace.shared.runningApplications.compactMap(\.bundleIdentifier))
             return await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions)
                 .scan(installedApps: installedApps, remembered: remembered, running: running, owners: owners)
-        }) else { return }
+        }), library.unreadable.isEmpty else { return }
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
-        scannedRevision = revision
+        scannedAgainst = listing
         selectedURLs.formIntersection(remainingURLs)
         if let selection, !result.groups.contains(where: { $0.id == selection }) {
             self.selection = nil

@@ -26,7 +26,23 @@ struct OrphanList: View {
             }
         }
         .scanState(phase(filtered), isRescanning: isRescanning, scan: orphans.scanRun) {
-            if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations,
+            if !library.unreadable.isEmpty {
+                ContentUnavailableView {
+                    Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
+                } description: {
+                    let unread = Text("Peel couldn’t read \(library.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
+                    if library.unreadableNeedsFullDiskAccess {
+                        let access = Text("Give Peel Full Disk Access so it can read the folders macOS protects.")
+                        Text("\(unread)\n\n\(access)")
+                    } else {
+                        unread
+                    }
+                } actions: {
+                    if library.unreadableNeedsFullDiskAccess {
+                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    }
+                }
+            } else if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations,
                !unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
@@ -57,7 +73,8 @@ struct OrphanList: View {
         .announcesScan(
             orphans.isScanning,
             found: orphans.summary,
-            couldNotLook: orphans.scan?.unreadableLocations.isEmpty == false ? "Not Everything Could Be Read" : nil,
+            couldNotLook: !library.unreadable.isEmpty ? "Not Every App Could Be Read"
+                : orphans.scan?.unreadableLocations.isEmpty == false ? "Not Everything Could Be Read" : nil,
             wasStopped: orphans.scanRun.wasStopped
         )
         .toolbar {
@@ -67,14 +84,18 @@ struct OrphanList: View {
                     isDisabled: !library.hasLoaded || orphans.isRemoving,
                     scan: orphans.scanRun
                 ) {
+                    // What could not be read may be readable now, so the apps are read again first.
+                    if !library.unreadable.isEmpty {
+                        await library.checkAgain(await library.refresh())
+                    }
                     await orphans.refresh(from: library)
                 }
             }
         }
-        // Scans again whenever the installed apps change, since a list made before an app was installed would
-        // call that app's files orphaned. It never restarts a first scan the user stopped.
-        .task(id: library.revision) {
-            guard library.hasLoaded, orphans.scannedRevision != library.revision,
+        // Scans again whenever the installed apps change, or what could not be read of them, since a list made before
+        // an app was installed would call that app's files orphaned. It never restarts a first scan the user stopped.
+        .task(id: library.listing) {
+            guard library.hasLoaded, orphans.scannedAgainst != library.listing,
                   !(orphans.scan == nil && orphans.scanRun.wasStopped)
             else { return }
             await orphans.refresh(from: library)
@@ -83,6 +104,7 @@ struct OrphanList: View {
     }
 
     private func phase(_ filtered: [OrphanGroup]) -> ScanPhase {
+        if !library.unreadable.isEmpty { return .message }
         if orphans.scan == nil { return orphans.scanRun.wasStopped ? .stopped : .scanning(.walk) }
         if orphans.scan?.groups.isEmpty == true { return .message }
         if filtered.isEmpty, !searchText.isEmpty { return .message }

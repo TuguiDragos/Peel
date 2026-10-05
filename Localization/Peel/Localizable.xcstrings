@@ -79464,6 +79464,112 @@
         }
       }
     },
+    "Not Every App Could Be Read" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne všechny aplikace se podařilo přečíst"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht jede App konnte gelesen werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido leer todas las apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les apps n’ont pas pu être lues"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato possibile leggere tutte le app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部のアプリを読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 앱을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet elke app kon worden gelezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie wszystkie aplikacje udało się odczytać"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nem Todo App Pôde Ser Lido"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu toate aplicațiile au putut fi citite"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не все приложения удалось прочитать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alla appar kunde inte läsas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazı Uygulamalar Okunamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не всі програми вдалося прочитати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能读取全部App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分App無法讀取"
+          }
+        }
+      }
+    },
     "Not Everything Could Be Read" : {
       "localizations" : {
         "cs" : {
@@ -93173,6 +93279,112 @@
         }
       }
     },
+    "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst svůj seznam složek aplikací, takže stránka Osiřelé soubory nic nezobrazuje. Když začnete znovu, starý seznam se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann seine Liste der App-Ordner nicht lesen, daher zeigt die Seite „Verwaiste Dateien“ nichts an. Wenn du neu beginnst, bleibt die alte Liste neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer su lista de carpetas de apps, así que la página Archivos huérfanos no muestra nada. Al volver a empezar, la lista antigua se conserva junto a una nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire sa liste de dossiers d’apps : la page Fichiers orphelins ne liste donc rien. Si vous recommencez, l’ancienne liste est conservée à côté d’une nouvelle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere il suo elenco di cartelle delle app, quindi “File orfani” non elenca nulla. Se ricominci da capo, il vecchio elenco viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリのフォルダのリストを読み取れないため、“孤立ファイル”には何も表示されません。最初からやり直すと、古いリストは新しいリストの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱 폴더 목록을 읽을 수 없으므로 주인 없는 파일 페이지는 아무것도 나열하지 않습니다. 처음부터 다시 시작하면 이전 목록은 새 목록 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan zijn lijst van mappen met apps niet lezen, dus toont de pagina 'Verweesde bestanden' niets. Als je opnieuw begint, wordt de oude lijst naast een nieuwe lijst bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać swojej listy folderów z aplikacjami, więc strona Osierocone pliki niczego nie wyświetla. Gdy zaczniesz od nowa, stara lista zostanie zachowana obok nowej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a lista de pastas de apps, então a página Arquivos Órfãos não lista nada. Ao recomeçar, a lista antiga é guardada ao lado de uma nova."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu își poate citi lista de dosare de aplicații, așa că pagina Fișiere orfane nu listează nimic. Dacă reîncepeți lista, cea veche este păstrată lângă una nouă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать свой список папок приложений, поэтому раздел «Осиротевшие файлы» ничего не показывает. Если начать заново, старый список сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa sin lista över appmappar, så sidan Övergivna filer listar ingenting. När du börjar om sparas den gamla listan bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, uygulama klasörleri listesini okuyamıyor, bu yüzden Sahipsiz Dosyalar hiçbir şey listelemiyor. Baştan başladığınızda eski liste yeni bir listenin yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати свій список папок програм, тож розділ «Покинуті файли» нічого не показує. Коли ви починаєте наново, старий список зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取其App文件夹列表，因此“孤立文件”不会列出任何内容。重新开始会将旧列表保留在新列表旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取它的App檔案夾列表，因此「孤立檔案」不會列出任何項目。重新開始時，舊列表會保留在新列表旁邊。"
+          }
+        }
+      }
+    },
     "Peel can’t read its record of who signs your apps" : {
       "localizations" : {
         "cs" : {
@@ -95015,6 +95227,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法確保Homebrew會保留你的排除項目所涵蓋的formulae，因此未執行任何Homebrew指令。設定了HOMEBREW_NO_CLEANUP_FORMULAE的brew.env檔案會取代Peel提供給Homebrew的列表。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read %@, so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže nemůže určit, které aplikace jsou nainstalované. Nic tu není uvedeno, protože by soubory aplikace, kterou Peel nevidí, vypadaly jako osiřelé."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen und kann daher nicht erkennen, welche Apps installiert sind. Hier wird nichts aufgeführt, da die Dateien einer App, die Peel nicht sehen kann, verwaist wirken würden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que no puede saber qué apps hay instaladas. Aquí no aparece nada, ya que los archivos de una app que Peel no puede ver parecerían huérfanos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il ne peut donc pas savoir quelles apps sont installées. Rien n’est listé ici, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi non può sapere quali app sono installate. Qui non è elencato nulla, perché i file di un’app che Peel non vede sembrerebbero orfani."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、どのアプリがインストールされているかを判断できません。ここに何も表示されていないのは、Peelが確認できないアプリのファイルが孤立ファイルに見えてしまうためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 어떤 앱이 설치되어 있는지 알 수 없습니다. Peel이 볼 수 없는 앱의 파일이 주인 없는 파일처럼 보이게 되므로 여기에는 아무것도 나열되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen en kan dus niet nagaan welke apps er geïnstalleerd zijn. Hier wordt niets getoond, omdat de bestanden van een app die Peel niet kan zien, verweesd zouden lijken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać %@, więc nie może ustalić, które aplikacje są zainstalowane. Niczego tu nie wyświetla, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então não sabe dizer quais apps estão instalados. Nada aparece aqui, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că nu poate ști ce aplicații sunt instalate. Aici nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому он не может определить, какие приложения установлены. Здесь ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så Peel kan inte avgöra vilka appar som är installerade. Inget listas här, eftersom filerna från en app som Peel inte kan se skulle verka övergivna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şunları okuyamadı: %@. Bu yüzden hangi uygulamaların yüklü olduğunu bilemiyor. Burada hiçbir şey listelenmiyor, çünkü Peel’in göremediği bir uygulamanın dosyaları sahipsiz görünürdü."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не змогла прочитати %@, тож не може визначити, які програми інстальовано. Тут нічого не показано, бо файли програми, якої Peel не бачить, здавалися б покинутими."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此无法判断安装了哪些App。此处没有列出任何内容，因为如果Peel看不到某个App，该App的文件看起来就会像孤立文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此無法判斷哪些App已安裝。此處沒有列出任何項目，因為Peel看不到的App，其檔案看起來會像孤立檔案。"
           }
         }
       }

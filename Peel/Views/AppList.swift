@@ -19,6 +19,11 @@ struct AppList: View {
             if let problem = library.teamRecordProblem {
                 TeamRecordNotice(problem: problem)
             }
+            if library.unreadableNeedsFullDiskAccess {
+                FullDiskAccessBanner()
+            } else if !library.unreadable.isEmpty {
+                UnreadableFoldersNotice(folders: library.unreadable)
+            }
             if visible.waiting.isEmpty {
                 ForEach(visible.rest, content: row)
             } else {
