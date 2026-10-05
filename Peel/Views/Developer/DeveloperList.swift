@@ -35,6 +35,12 @@ struct DeveloperList: View {
         .announcesScan(developer.isScanning, found: developer.summary, wasStopped: developer.scanRun.wasStopped)
         .toolbar {
             ToolbarItem {
+                SelectOnEveryPage(
+                    pages: SelectablePages(listed.map { ($0.page, $0.selectableRows) }),
+                    selection: developer
+                )
+            }
+            ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: developer.isRemoving, scan: developer.scanRun) {
                     await developer.refresh()
                 }

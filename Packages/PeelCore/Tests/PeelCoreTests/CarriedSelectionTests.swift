@@ -33,6 +33,14 @@ struct CarriedSelectionTests {
         #expect(parts.map(\.page.scope) == ["Xcode"])
     }
 
+    @Test func knowsWhichPagesWereSeen() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "developer", scope: "npm"))
+
+        #expect(selection.hasSeen(Page(tool: "developer", scope: "npm")))
+        #expect(!selection.hasSeen(Page(tool: "developer", scope: "Xcode")))
+    }
+
     /// The parts move in the sidebar's order of the tools, and within a tool in the order its pages were seen.
     @Test func partsFollowTheToolsThenTheOrderSeen() {
         var selection = CarriedSelection()

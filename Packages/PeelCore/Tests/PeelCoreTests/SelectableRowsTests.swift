@@ -66,6 +66,41 @@ struct SelectableRowsTests {
         #expect(!locked.isNoneSelected(in: [repository]))
     }
 
+    @Test func everyPageSelectsAsOneList() {
+        let first = SelectableRows(rows: [repository, cache], selectable: [repository, cache], recommended: [cache])
+        let second = SelectableRows(rows: [repository, log], selectable: [repository, log], recommended: [log])
+        let locked = SelectableRows(rows: [elsewhere], selectable: [], recommended: [])
+        let pages = SelectablePages([("first", first), ("second", second), ("locked", locked)])
+
+        #expect(pages.rows.rows == [repository, cache, log, elsewhere])
+        #expect(pages.rows.notRecommendedAdded(by: []) == [repository])
+        #expect(pages.rows.selectingRecommended(in: [repository, elsewhere]) == [cache, log])
+        #expect(pages.selectablePageCount == 2)
+    }
+
+    @Test func aPageCountsOnceSomethingOnItIsSelected() {
+        let first = SelectableRows(rows: [repository, cache], selectable: [repository, cache], recommended: [cache])
+        let second = SelectableRows(rows: [repository, log], selectable: [repository, log], recommended: [log])
+        let pages = SelectablePages([("first", first), ("second", second)])
+
+        #expect(pages.pages(selectedIn: [log, elsewhere]) == ["second"])
+        #expect(pages.pages(selectedIn: [repository]) == ["first", "second"])
+        #expect(pages.pages(selectedIn: [elsewhere]).isEmpty)
+    }
+
+    @Test func aRowOnAPageNotSeenYetCountsAsNotSelected() {
+        let first = SelectableRows(rows: [cache], selectable: [cache], recommended: [cache])
+        let second = SelectableRows(rows: [log, repository], selectable: [log, repository], recommended: [log])
+        let shared = SelectableRows(rows: [repository], selectable: [repository], recommended: [])
+        let pages = SelectablePages([("first", first), ("second", second), ("shared", shared)])
+        let preselected: Set = [cache, log, repository, elsewhere]
+
+        let counted = pages.counted(preselected, seen: { $0 != "second" })
+        #expect(counted == [cache, repository, elsewhere])
+        #expect(!pages.rows.isRecommendedSelected(in: counted))
+        #expect(pages.counted(preselected, seen: { _ in true }) == preselected)
+    }
+
     @Test func anOrphanGroupLeavesALockedRowToTheHelper() {
         func orphan(_ name: String, heldBack: HoldBack? = nil, requiresPrivileges: Bool = false) -> OrphanItem {
             var item = OrphanItem(

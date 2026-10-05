@@ -120,6 +120,12 @@ struct ProjectList: View {
                 .help(Text("The folders Peel looks through"))
             }
             ToolbarItem {
+                SelectOnEveryPage(
+                    pages: SelectablePages(filtered.map { ($0.page, $0.artifacts.selectableRows) }),
+                    selection: projects
+                )
+            }
+            ToolbarItem {
                 RescanButton(
                     isRunning: $isRescanning,
                     isDisabled: projects.folders.isEmpty || projects.isRemoving,

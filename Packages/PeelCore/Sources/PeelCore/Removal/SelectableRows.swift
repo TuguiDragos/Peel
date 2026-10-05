@@ -43,3 +43,38 @@ public struct SelectableRows<ID: Hashable> {
         return selectable.filter { !recommended.contains($0) && !selection.contains($0) }
     }
 }
+
+/// The rows of every page a tool lists, for one Select menu over all of them.
+public struct SelectablePages<Page: Hashable, ID: Hashable> {
+    private let pages: [(page: Page, rows: SelectableRows<ID>)]
+    /// Every page's rows as one list, a row that two pages share counted once.
+    public let rows: SelectableRows<ID>
+
+    public init(_ pages: [(page: Page, rows: SelectableRows<ID>)]) {
+        self.pages = pages
+        func once(_ ids: [ID]) -> [ID] {
+            var seen = Set<ID>()
+            return ids.filter { seen.insert($0).inserted }
+        }
+        rows = SelectableRows(
+            rows: once(pages.flatMap { $0.rows.rows }),
+            selectable: once(pages.flatMap { $0.rows.selectable }),
+            recommended: once(pages.flatMap { $0.rows.recommended })
+        )
+    }
+
+    /// The pages Select All reaches: those with a row a click can select.
+    public var selectablePageCount: Int {
+        pages.count { !$0.rows.selectable.isEmpty }
+    }
+
+    public func pages(selectedIn selection: Set<ID>) -> [Page] {
+        pages.filter { $0.rows.rows.contains(where: selection.contains) }.map(\.page)
+    }
+
+    /// What of `selection` would move: a row only on pages not seen yet stays where it is (`CarriedSelection`).
+    public func counted(_ selection: Set<ID>, seen: (Page) -> Bool) -> Set<ID> {
+        let onSeenPages = Set(pages.filter { seen($0.page) }.flatMap { $0.rows.rows })
+        return selection.subtracting(rows.rows.filter { !onSeenPages.contains($0) })
+    }
+}

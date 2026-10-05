@@ -4,6 +4,7 @@ import SwiftUI
 struct InstallerList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(InstallerLibrary.self) private var installers
+    @Environment(HelperModel.self) private var helper
     @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
     @State private var searchText = ""
@@ -61,6 +62,14 @@ struct InstallerList: View {
             wasStopped: installers.scanRun.wasStopped
         )
         .toolbar {
+            ToolbarItem {
+                SelectOnEveryPage(
+                    pages: SelectablePages(filtered.map { kind in
+                        (kind.page, installers.items(in: kind).selectableRows(canUseHelper: helper.canAct))
+                    }),
+                    selection: installers
+                )
+            }
             ToolbarItem {
                 RescanButton(
                     isRunning: $isRescanning,

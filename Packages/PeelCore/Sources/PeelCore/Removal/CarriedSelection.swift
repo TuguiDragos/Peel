@@ -68,6 +68,10 @@ public struct CarriedSelection: Sendable {
         if !seen.contains(page) { seen.append(page) }
     }
 
+    public func hasSeen(_ page: Page) -> Bool {
+        seen.contains(page)
+    }
+
     /// The parts that move: those of `candidates` whose page was seen and has something selected, in the order of
     /// `tools`, which is the sidebar's, and within a tool in the order its pages were seen.
     public func parts(from candidates: [Part], order tools: [String]) -> [Part] {

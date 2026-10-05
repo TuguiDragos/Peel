@@ -4,6 +4,7 @@ import SwiftUI
 struct OrphanList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
+    @Environment(HelperModel.self) private var helper
     @Environment(HomeModel.self) private var home
     @State private var searchText = ""
     @State private var isRescanning = false
@@ -91,6 +92,12 @@ struct OrphanList: View {
             wasStopped: orphans.scanRun.wasStopped
         )
         .toolbar {
+            ToolbarItem {
+                SelectOnEveryPage(
+                    pages: SelectablePages(filtered.map { ($0.page, $0.selectableRows(canUseHelper: helper.canAct)) }),
+                    selection: orphans
+                )
+            }
             ToolbarItem {
                 RescanButton(
                     isRunning: $isRescanning,

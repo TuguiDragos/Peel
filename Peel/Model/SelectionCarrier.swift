@@ -63,6 +63,10 @@ final class SelectionCarrier {
         carried.saw(page)
     }
 
+    func hasSeen(_ page: CarriedSelection.Page) -> Bool {
+        carried.hasSeen(page)
+    }
+
     /// What Move to Trash moves from `page`: what is selected there and on every page seen before, in the
     /// sidebar's order.
     func parts(from page: CarriedSelection.Page) -> [CarriedSelection.Part] {
