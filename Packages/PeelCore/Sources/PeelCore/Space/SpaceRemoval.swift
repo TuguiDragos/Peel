@@ -41,6 +41,17 @@ public enum SpaceRemoval {
             needsTheHelper.contains(url) && heldBack[url]?.cannotBeMoved != true && !canUseHelper
         }
 
+        /// What stays selected in the area as the plan is made again or the helper comes or goes: a child that waits
+        /// for the helper is offered and suggested only while the helper can act.
+        public func selection(
+            keeping selected: Set<URL>,
+            in choices: inout KeptSelection,
+            canUseHelper: Bool
+        ) -> Set<URL> {
+            let rows = selectableRows(canUseHelper: canUseHelper)
+            return choices.update(selected, selectable: Set(rows.selectable), suggested: Set(rows.recommended))
+        }
+
         public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
             let unlocked = removable.filter { !isLocked($0, canUseHelper: canUseHelper) }
             return SelectableRows(

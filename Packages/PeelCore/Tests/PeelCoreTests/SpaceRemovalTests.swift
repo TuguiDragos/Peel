@@ -235,6 +235,29 @@ struct SpaceRemovalTests {
         #expect(plan.heldBack.isEmpty, "the helper serves the caches every account shares")
     }
 
+    @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveWaitsForTheHelperToBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Caches/org.example.updater/data.bin")
+        try directory.setPermissions(0o555, of: "root/Library/Caches")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Caches") }
+        let shared = SpaceItem(
+            id: "system-caches",
+            category: .library,
+            urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
+            size: 0,
+            handling: .trash,
+            leavesMacOSsOwn: true
+        )
+
+        let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
+        let updater = try #require(plan.removable.first)
+        var choices = KeptSelection()
+
+        #expect(plan.needsTheHelper == [updater])
+        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: false).isEmpty)
+        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: true) == [updater])
+    }
+
     @Test func emptiesAContainersCachesUnlessItsAppIsOpenOrApples() async throws {
         let directory = try TemporaryDirectory()
         let containers = "home/Library/Containers"
@@ -560,7 +583,7 @@ struct SpaceRemovalTests {
         )
         var choices = KeptSelection()
         #expect(
-            choices.update([], selectable: Set(first.removable), suggested: first.suggested) == [
+            first.selection(keeping: [], in: &choices, canUseHelper: true) == [
                 kept, deselected, gone, noLongerMeasured,
             ]
         )
@@ -573,9 +596,23 @@ struct SpaceRemovalTests {
         )
         let selected: Set = [kept, chosenByHand, gone, noLongerMeasured]
         #expect(
-            choices.update(selected, selectable: Set(again.removable), suggested: again.suggested) == [
+            again.selection(keeping: selected, in: &choices, canUseHelper: true) == [
                 kept, chosenByHand, new,
             ]
         )
+    }
+
+    @Test func aChildThatWaitsForTheHelperIsSelectedOnlyOnceTheHelperCanAct() {
+        let caches = URL(filePath: "/Library/Caches", directoryHint: .isDirectory)
+        let vendor = caches.appending(path: "org.example.Vendor")
+        let system = caches.appending(path: "org.example.System")
+        let plan = SpaceRemoval.Plan(
+            removable: [vendor, system], inUse: [], leftToDeveloper: [], sizes: [vendor: 1, system: 2],
+            needsTheHelper: [system]
+        )
+        var choices = KeptSelection()
+
+        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: false) == [vendor])
+        #expect(plan.selection(keeping: [vendor], in: &choices, canUseHelper: true) == [vendor, system])
     }
 }

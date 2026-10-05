@@ -18,6 +18,7 @@ final class SpaceLibrary: RowSelection {
     @ObservationIgnored private var plannedFor: [SpaceItem.ID: (item: SpaceItem, exclusions: Int)] = [:]
     /// What was chosen in each area, kept through its plans.
     @ObservationIgnored private var choices: [SpaceItem.ID: KeptSelection] = [:]
+    @ObservationIgnored private var canUseHelper = false
 
     var selectedItem: SpaceItem? {
         report?.items.first { $0.id == selection }
@@ -47,15 +48,30 @@ final class SpaceLibrary: RowSelection {
 
     private func keep(_ plan: SpaceRemoval.Plan, for item: SpaceItem, madeWith revision: Int) {
         let previous = plans[item.id]
-        let chosen = choices[item.id, default: KeptSelection()].update(
-            selectedURLs,
-            selectable: Set(plan.removable.filter { plan.heldBack[$0]?.cannotBeMoved != true }),
-            suggested: plan.suggested
+        let chosen = plan.selection(
+            keeping: selectedURLs,
+            in: &choices[item.id, default: KeptSelection()],
+            canUseHelper: canUseHelper
         )
         selectedURLs.subtract(previous?.removable ?? [])
         selectedURLs.formUnion(chosen)
         plans[item.id] = plan
         plannedFor[item.id] = (item, revision)
+    }
+
+    /// Brings what is selected in each area in line with the helper as it is now, without measuring again.
+    func follow(canUseHelper: Bool) {
+        guard canUseHelper != self.canUseHelper else { return }
+        self.canUseHelper = canUseHelper
+        for (id, plan) in plans {
+            let chosen = plan.selection(
+                keeping: selectedURLs,
+                in: &choices[id, default: KeptSelection()],
+                canUseHelper: canUseHelper
+            )
+            selectedURLs.subtract(plan.removable)
+            selectedURLs.formUnion(chosen)
+        }
     }
 
     /// Scans again, and makes again the plans of the areas in `replanning` and of every area that changed since

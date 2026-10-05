@@ -105,6 +105,14 @@ struct PeelApp: App {
         ))
     }
 
+    /// Keeps what Space selects in step with the helper whichever page is open, since its selection travels to the
+    /// other storage pages.
+    private func followHelper() async {
+        for await canAct in Observations({ helper.canAct }) {
+            space.follow(canUseHelper: canAct)
+        }
+    }
+
     /// Tells the Trash watch where the listed apps are, so it watches the Trash of each other disk they are on.
     private func followAppsForTheTrash() async {
         for await _ in Observations({ library.revision }) {
@@ -253,6 +261,7 @@ struct PeelApp: App {
         Navigator.shared.openWindow = openWindow
         background.start([
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
+            followHelper,
         ])
         textEditing.start()
         sheetInFront.start()
