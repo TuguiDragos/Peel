@@ -565,7 +565,10 @@ final class AppLibrary {
                     continue
                 }
                 let kept = status.following(updateStatuses[id])
-                updateStatuses[id] = kept
+                // Any write redraws the whole Applications list, so an answer that changes nothing is not written.
+                if updateStatuses[id] != kept {
+                    updateStatuses[id] = kept
+                }
                 if status != .failed {
                     lastUpdateChecks[id] = .now
                 }
