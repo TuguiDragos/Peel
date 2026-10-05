@@ -1220,6 +1220,29 @@ struct LeftoverScannerTests {
         #expect(found["home/Library/Example Audio/org.example.hexachord"]?.match.isRecommended == true)
     }
 
+    @Test func findsTheFoldersOfEachReleaseInsideItsMakersFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example Studio.app"),
+            bundleIdentifier: "org.example.studio",
+            name: "Example Studio"
+        )
+        let releases = [
+            "Application Support/Example Maker/ExampleStudio2025.1", "Caches/Example Maker/ExampleStudio2025.2",
+            "Logs/Example Maker/ExampleStudio2025.2",
+        ]
+        for release in releases {
+            try directory.file("home/Library/\(release)/state.db", bytes: 64)
+        }
+        try directory.file("home/Library/Application Support/Example Maker/OtherProduct2025.1/state.db", bytes: 64)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let home = directory.url.appending(path: "home/Library").path(percentEncoded: false) + "/"
+        let found = scan.leftovers.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }
+        #expect(Set(found) == Set(releases))
+    }
+
     /// A kernel extension an app's driver installed stays in `/Library/Extensions` after the app goes. It is found by
     /// the identifier it declares and listed, but only an administrator can move it and Peel's helper does not serve
     /// that folder, so it can never be selected.

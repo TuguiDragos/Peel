@@ -160,11 +160,14 @@ extension LeftoverMatcher {
     struct Candidate {
         let key: String
         let normalized: String
+        /// The name without a version written right after it, normalized, for a folder kept for one release.
+        let withoutVersion: String?
         let isApple: Bool
 
         init(_ key: String) {
             self.key = key.lowercased()
             normalized = Naming.normalized(key)
+            withoutVersion = Naming.withoutAttachedVersion(key).map(Naming.normalized)
             isApple = ProtectedData.isApplesName(key)
         }
     }
@@ -317,6 +320,9 @@ extension LeftoverMatcher {
             }
             if normalizedNames.contains(candidate.normalized) {
                 return Evidence(.name, .likely, specificity: candidate.normalized.count)
+            }
+            if let release = candidate.withoutVersion, normalizedNames.contains(release) {
+                return Evidence(.name, .likely, specificity: release.count)
             }
             if let teamPrefix, key.hasPrefix(teamPrefix) {
                 return Evidence(.teamIdentifier, .possible, specificity: teamPrefix.count)

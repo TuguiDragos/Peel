@@ -31,6 +31,19 @@ enum Naming {
         return isSignificant(base) ? base : nil
     }
 
+    /// "IntelliJIdea2026.2" → "IntelliJIdea". JetBrains writes the version of a release right after the product's
+    /// name in the folders it keeps for it (its "Directories used by the IDE"), and Android Studio names its own the
+    /// same way. A number with no dot is kept, since it is as often part of a name.
+    static func withoutAttachedVersion(_ name: String) -> String? {
+        guard let last = name.lastIndex(where: { !$0.isNumber && $0 != "." }), name[last].isLetter else { return nil }
+        let version = name[name.index(after: last)...]
+        guard version.contains("."), version.first?.isNumber == true, version.last?.isNumber == true,
+              !version.contains("..")
+        else { return nil }
+        let base = String(name[...last])
+        return isSignificant(base) ? base : nil
+    }
+
     /// True when `key` starts with `name` followed by a separator. Expects both arguments lowercased.
     static func hasNamePrefix(_ key: String, name: String) -> Bool {
         guard key.count > name.count, key.hasPrefix(name) else { return false }
