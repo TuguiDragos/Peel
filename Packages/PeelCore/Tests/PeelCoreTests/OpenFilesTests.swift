@@ -25,7 +25,8 @@ struct OpenFilesTests {
         defer { close(watch); close(opened) }
         #expect(watch >= 0 && opened >= 0)
 
-        #expect(OpenFiles(excluding: nil).holders(of: folder).isEmpty)
+        let holders = OpenFiles(excluding: nil).holders(of: folder)
+        #expect(holders.isEmpty, "held by \(holders)")
     }
 
     @Test func leavesOutItsOwnProcess() throws {
