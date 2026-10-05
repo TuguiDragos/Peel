@@ -31,21 +31,22 @@ struct ProjectArtifactsTests {
         let never = DispatchSemaphore(value: 0)
         defer { never.signal() }
         let listing = Mutex(false)
-        let walk = Task {
-            await ProjectArtifacts.artifacts(in: root, exclusions: .none, measure: { _ in nil }) { _ in
+        let clock = ContinuousClock()
+        let walk = Task(priority: .userInitiated) {
+            _ = await ProjectArtifacts.artifacts(in: root, exclusions: .none, measure: { _ in nil }) { _ in
                 listing.withLock { $0 = true }
                 never.wait()
                 return nil
             }
+            return clock.now
         }
         while !listing.withLock({ $0 }) { await Task.yield() }
-        let clock = ContinuousClock()
         let stopped = clock.now
 
         walk.cancel()
-        _ = await walk.value
+        let returned = await walk.value
 
-        #expect(clock.now - stopped < .seconds(1))
+        #expect(returned - stopped < .seconds(1))
     }
 
     @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() throws {

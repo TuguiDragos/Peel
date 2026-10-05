@@ -40,15 +40,17 @@ final class Unanswered: Sendable {
 
     /// Runs `scan` and cancels it 50 ms after its first request, once everything it asks at the same time is
     /// waiting. Returns how long the scan took to return after the cancel, and how many folders it asked about
-    /// before and after it.
+    /// before and after it. The scan runs at the priority SwiftUI gives a page's task, as a page's scan does, and is
+    /// timed where it returns, so the other tests running beside it do not stretch what is measured.
     func stop(
         _ scan: @escaping @Sendable () async -> Void
     ) async throws -> (took: Duration, askedBefore: Int, askedAfter: Int) {
-        let running = Task { [self] in
+        let clock = ContinuousClock()
+        let running = Task(priority: .userInitiated) { [self] in
             await scan()
             finished.withLock { $0 = true }
+            return clock.now
         }
-        let clock = ContinuousClock()
         while count == 0 {
             guard !finished.withLock({ $0 }) else {
                 Issue.record("the scan finished without asking about a folder")
@@ -60,7 +62,7 @@ final class Unanswered: Sendable {
         let before = count
         let stopped = clock.now
         running.cancel()
-        await running.value
-        return (clock.now - stopped, before, count - before)
+        let returned = await running.value
+        return (returned - stopped, before, count - before)
     }
 }
