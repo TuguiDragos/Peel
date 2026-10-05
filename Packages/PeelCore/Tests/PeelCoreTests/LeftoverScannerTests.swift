@@ -989,6 +989,22 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.kind == .plugIns })
     }
 
+    /// All of Mail in the home's Library is protected, so a Mail bundle is left out rather than offered and refused.
+    @Test func leavesOutTheAppsMailBundle() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Mailer.app"), bundleIdentifier: "org.example.mailer", name: "Mailer"
+        )
+        try directory.file(
+            "home/Library/Mail/Bundles/Mailer.mailbundle/Contents/Info.plist", contents: plist("org.example.mailer.bundle")
+        )
+        try directory.file("home/Library/Caches/org.example.mailer/blob")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["org.example.mailer"])
+    }
+
     /// A plug-in is named for what it does, so when its name matches nothing, the identifier in its `Info.plist`
     /// is used instead. A match on the maker's prefix is only a guess, so the row is shown but never selected.
     @Test func readsThePlugInsOwnIdentifierWhenItsNameSaysNothing() async throws {

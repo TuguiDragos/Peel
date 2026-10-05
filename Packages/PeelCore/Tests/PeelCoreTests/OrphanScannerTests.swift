@@ -529,6 +529,24 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    @Test func leavesOutAMailBundleOfAnAppThatLeft() async throws {
+        let directory = try TemporaryDirectory()
+        let info = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.mailer.bundle</string></dict></plist>
+        """
+        try directory.file("home/Library/Mail/Bundles/Mailer.mailbundle/Contents/Info.plist", contents: Data(info.utf8))
+        try directory.file("home/Library/Caches/org.example.mailer/blob")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mailer", name: "Mailer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mailer.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["org.example.mailer"])
+    }
+
     /// Below the top of a place a dotted name is often a lock or a backup, so only what came with a gone app counts.
     @Test func findsWhatAnAppThatLeftKeptInsideSomebodyElsesFolder() async throws {
         let directory = try TemporaryDirectory()
