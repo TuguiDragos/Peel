@@ -184,6 +184,13 @@ enum Output {
         return "Peel couldn't look inside \(listed), so something may be there that isn't listed."
     }
 
+    /// What a reading of the apps could not read, so the apps in it are missing from what is written, or nil when it
+    /// read everything.
+    static func unreadableNote(for catalog: AppScan) -> String? {
+        guard !catalog.unreadable.isEmpty else { return nil }
+        return unreadableNote(for: catalog.unreadable, needsFullDiskAccess: catalog.needsFullDiskAccess)
+    }
+
     /// Whether the user can answer a question about the plan printed above it: standard input, standard output and
     /// standard error must all be a terminal. The plan goes to standard output and the question to standard error,
     /// so with either redirected the user would answer without seeing it.

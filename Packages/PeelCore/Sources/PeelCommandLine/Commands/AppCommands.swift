@@ -9,12 +9,14 @@ struct AppsCommand: AsyncParsableCommand {
     @OptionGroup var output: OutputOptions
 
     func run() async throws {
-        let apps = await AppCatalog.installedApps()
+        let catalog = await AppCatalog.scan()
+        let apps = catalog.apps
         if output.json {
             try Output.json(apps.map(AppRecord.init))
-            return
+        } else {
+            Output.table([["NAME", "VERSION", "IDENTIFIER", "PATH"]] + apps.map { [$0.name, $0.version ?? "", $0.bundleIdentifier, Output.path($0.url)] })
         }
-        Output.table([["NAME", "VERSION", "IDENTIFIER", "PATH"]] + apps.map { [$0.name, $0.version ?? "", $0.bundleIdentifier, Output.path($0.url)] })
+        if let note = Output.unreadableNote(for: catalog) { Output.note(note) }
     }
 }
 
@@ -35,9 +37,10 @@ struct InventoryCommand: AsyncParsableCommand {
             Output.write(try Inventory.build(apps: [], brewfile: try await Self.brewfile()).written(as: chosen))
             return
         }
-        let apps = await AppCatalog.installedApps()
-        let inventory = Inventory.build(apps: apps, casks: await Self.casks(), origins: .onThisMac)
+        let catalog = await AppCatalog.scan()
+        let inventory = Inventory.build(apps: catalog.apps, casks: await Self.casks(), origins: .onThisMac)
         Output.write(try inventory.written(as: chosen))
+        if let note = Output.unreadableNote(for: catalog) { Output.note(note) }
     }
 
     /// Returns Homebrew's own Brewfile, or fails with why: an empty one would look like a success until someone

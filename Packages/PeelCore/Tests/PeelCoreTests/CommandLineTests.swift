@@ -23,6 +23,16 @@ struct CommandLineTests {
         )
     }
 
+    @Test func aListOfAppsSaysWhatItCouldNotRead() {
+        let studio = URL(filePath: "/Volumes/Studio/Apps", directoryHint: .isDirectory)
+
+        #expect(Output.unreadableNote(for: AppScan(apps: [], unreadable: [], needsFullDiskAccess: false)) == nil)
+        #expect(
+            Output.unreadableNote(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: false))
+                == "Peel couldn't look inside /Volumes/Studio/Apps, so something may be there that isn't listed."
+        )
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)
