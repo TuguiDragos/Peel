@@ -17,6 +17,9 @@ struct DesktopWalletTests {
         "Library/Application Support/firo/backups/wallet.dat.2026-10-05-12-30",
         "Library/Application Support/zcoin/wallet.dat",
         "Library/Application Support/zcoin/backups/wallet.dat.2026-10-05-12-30",
+        ".walletwasabi/client/WalletBackups/Wallet.json",
+        ".gingerwallet/client/Wallets/Wallet.json",
+        ".gingerwallet/client/WalletBackups/Wallet.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -39,6 +42,8 @@ struct DesktopWalletTests {
         "Library/Application Support/DashCore/blocks/blk00000.dat",
         "Library/Application Support/PIVX/blocks/blk00000.dat",
         "Library/Application Support/firo/blocks/blk00000.dat",
+        ".walletwasabi/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
+        ".gingerwallet/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
