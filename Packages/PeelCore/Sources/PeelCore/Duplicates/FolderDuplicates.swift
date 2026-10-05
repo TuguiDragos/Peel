@@ -331,10 +331,18 @@ struct FolderDuplicates: Sendable {
         downloads: String,
         removalGuard: RemovalGuard
     ) -> [DuplicateFolderGroup] {
-        let allowed = groups
-            .map { (digest: $0.digest, folders: $0.folders.filter { removalGuard.allowsRemoval(of: $0.url) }) }
-            .filter { $0.folders.count > 1 }
-        let offered = Set(allowed.flatMap { $0.folders.map { DuplicateFinder.path(of: $0.url) } })
+        // The shallowest groups go first. A group whose folders all sit inside offered ones can never be a row, nor
+        // change which folders are inside an offered one, so the guard is not asked about it.
+        let shallowestFirst = groups.map { (depth: Self.depth(of: $0.folders), group: $0) }
+            .sorted { $0.depth < $1.depth }.map(\.group)
+        var allowed: [(digest: SHA256.Digest, folders: [Folder])] = []
+        var offered: Set<String> = []
+        for group in shallowestFirst where !group.folders.allSatisfy({ DuplicateFinder.isInside(offered, $0.url) }) {
+            let folders = group.folders.filter { removalGuard.allowsRemoval(of: $0.url) }
+            guard folders.count > 1 else { continue }
+            allowed.append((group.digest, folders))
+            offered.formUnion(folders.map { DuplicateFinder.path(of: $0.url) })
+        }
 
         return allowed.compactMap { group -> DuplicateFolderGroup? in
             let topmost = group.folders.filter { !DuplicateFinder.isInside(offered, $0.url) }
@@ -394,6 +402,10 @@ struct FolderDuplicates: Sendable {
         _ digests: [(item: (url: URL, identity: FileIdentity), digest: ContentDigest)]
     ) -> [FileIdentity: ContentDigest] {
         Dictionary(digests.map { ($0.item.identity, $0.digest) }, uniquingKeysWith: { first, _ in first })
+    }
+
+    private static func depth(of folders: [Folder]) -> Int {
+        folders.map { PathComponents.of(DuplicateFinder.path(of: $0.url)).count }.min() ?? 0
     }
 
     /// Encodes one entry as a tag, the name's length, the name, and `tail`. The length comes first so a name

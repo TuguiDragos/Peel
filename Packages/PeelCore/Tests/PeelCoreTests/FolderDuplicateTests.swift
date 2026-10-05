@@ -68,6 +68,33 @@ struct FolderDuplicateTests {
         #expect(result.groups.isEmpty)
     }
 
+    /// Documents itself is never moved, so its copy's row is the identical folder inside each of them.
+    @Test func offersTheFoldersInsideAPairTheGuardRefuses() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 4_000)
+        for folder in ["home/Documents/Trip", "home/Archive/Documents/Trip"] {
+            try directory.file("\(folder)/photo.jpg", contents: contents)
+        }
+
+        let result = try await scan(directory)
+
+        #expect(names(result) == [["Documents/Trip", "Archive/Documents/Trip"]])
+    }
+
+    @Test func offersTheCopiesOfAFolderThatSitOutsideAnOfferedPair() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 4_000)
+        for folder in ["home/Documents/Trip/Album", "home/Pictures/Trip/Album", "home/Desktop/Album", "home/Movies/Album"] {
+            try directory.file("\(folder)/photo.jpg", contents: contents)
+        }
+
+        let result = try await scan(directory)
+
+        #expect(Set(names(result).map(Set.init)) == [
+            ["Documents/Trip", "Pictures/Trip"], ["Desktop/Album", "Movies/Album"],
+        ])
+    }
+
     @Test func groupsFoldersWithIdenticalContents() async throws {
         let directory = try TemporaryDirectory()
         try trip(in: directory)
