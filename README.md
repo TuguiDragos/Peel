@@ -108,6 +108,12 @@ Peel is free and open source, and it speaks English and 17 other languages.
 
 ### Free up disk space
 
+<p align="center">
+  <img src="readme-assets/peel-space-areas-of-your-disk.png" width="900" alt="Peel's Space page: how much of the disk is free and used, the areas of your Library with their sizes, and Hidden App Caches open, with what it is and the caches inside it, selected on three pages">
+</p>
+
+Space shows what fills your disk, area by area, and what each area is.
+
 - **Orphaned Files:** files left behind by apps you already removed.
 - **Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
   engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
