@@ -34,6 +34,13 @@ struct DesktopWalletTests {
         ".eclair/channel_seed.dat",
         ".eclair/seed.dat",
         ".eclair/mainnet/eclair.sqlite.bak",
+        ".lighthouse/mainnet/validators/0x87a5/voting-keystore.json",
+        ".lighthouse/mainnet/validators/slashing_protection.sqlite",
+        ".lighthouse/mainnet/secrets/0x87a5",
+        ".lighthouse/mainnet/wallets/main/wallet.json",
+        "Library/Eth2Validators/prysm-wallet-v2/accounts/all-accounts.keystore.json",
+        "Library/Application Support/ethereum2/wallets/main/wallet.json",
+        "Library/Signer/masterseed.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -59,6 +66,7 @@ struct DesktopWalletTests {
         ".gingerwallet/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
         "Library/Application Support/Haveno-reto/xmr_mainnet/haveno.log",
         "Library/Containers/com.cypherstack.stackwallet/Data/Library/Caches/thumbnail.png",
+        ".lighthouse/mainnet/beacon/chain_db/000001.sst",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
