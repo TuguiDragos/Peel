@@ -71,6 +71,7 @@ struct DesktopWalletTests {
         ".ashigaru/config",
         "Library/Application Support/bitcoin_safe/bitcoin/main.wallet",
         "Library/Application Support/joinmarket/wallets/wallet.jmdat",
+        ".cashu/wallet/wallet.sqlite3",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()

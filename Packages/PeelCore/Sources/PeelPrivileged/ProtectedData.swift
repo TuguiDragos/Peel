@@ -164,6 +164,7 @@ public enum ProtectedData: Sendable {
         ".lightning/bitcoin/lightningd.sqlite3",
         ".lightning/bitcoin/emergency.recover",
         "Library/Application Support/albyhub",
+        ".cashu",
         ".config/solana/id.json",
         ".config/stellar/identity",
         ".config/soroban/identity",
