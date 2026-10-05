@@ -157,6 +157,7 @@ public enum ProtectedData: Sendable {
         ".aptos/config.yaml",
         ".near-credentials",
         ".starknet_accounts",
+        ".fuel/wallets",
         ".tezos-client/secret_keys",
         ".tezos-signer",
         ".gaia/keyring-file",
