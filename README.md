@@ -499,6 +499,24 @@ Bug reports, ideas, and pull requests are welcome.
   public issue.
 - Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
+## Thank you
+
+Peel would never have existed without the work, the generosity, and the ideas of others. To each of you, thank you
+with all my heart.
+
+- [blobatar](https://github.com/Alain00/blobatar), by Alain, for the animations that bring Peel's face to life:
+  every breath, glance, and smile it makes began there.
+- [Swift Argument Parser](https://github.com/apple/swift-argument-parser), by Apple, which every `peel` command is
+  built on.
+- [AppCleaner](https://freemacsoft.net/appcleaner/), by FreeMacSoft, and
+  [Pearcleaner](https://github.com/alienator88/Pearcleaner), by alienator88, for the inspiration.
+- [Fable](https://claude.com/product/overview), by [Anthropic](https://www.anthropic.com), for the help, the
+  execution, and the many fine touches.
+- Every [contributor](https://github.com/TuguiDragos/Peel/graphs/contributors) and every sponsor of this project,
+  for your time, your ideas, and your trust.
+
+Without you, this project would never have been possible. I bow to you all. ❤️
+
 ## License
 
 Peel is free software under the [GNU General Public License, version 3 or later](LICENSE). You may use, study,
