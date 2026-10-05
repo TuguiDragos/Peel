@@ -385,7 +385,7 @@ public struct OrphanScanner: Sendable {
         let parent = ParentAccess(location.url)
         var candidates: [Candidate] = []
         var nobodysFolders: [URL] = []
-        for name in entries where location.kind.considers(fileName: name) {
+        for name in entries where location.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             guard isAFileAFolderOrALink(url) else { continue }

@@ -196,7 +196,7 @@ public struct LeftoverScanner: Sendable {
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
         // take or walk into, and what it refuses is left out of both, as is what the person excluded.
-        for name in entries where location.kind.considers(fileName: name) {
+        for name in entries where location.considers(fileName: name) {
             // A canceled scan stops here, since nobody will read what it finds.
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)

@@ -151,14 +151,16 @@ public struct Uninstallation: Sendable {
         let path = PathPattern.comparablePath(of: url)
         let names = PathComponents.of(path)
         let inside = environment.locations
-            .map { (kind: $0.kind, root: PathPattern.comparablePath(of: $0.url)) }
+            .map { location in
+                let root = PathPattern.comparablePath(of: location.url)
+                return (location: location, root: root, below: Array(names.dropFirst(PathComponents.of(root).count)))
+            }
             .filter { PathComponents.isPath(path, inside: $0.root) }
-            .map { (kind: $0.kind, root: $0.root, below: Array(names.dropFirst(PathComponents.of($0.root).count))) }
             // Two locations can share a root, like the hidden and plain halves of the home folder. The one that
             // considers this name is the one that would have found it.
-            .filter { location in
-                guard let first = location.below.first else { return false }
-                return location.kind.considers(fileName: first)
+            .filter { found in
+                guard let first = found.below.first else { return false }
+                return found.location.considers(fileName: first)
             }
             .max { $0.root.count < $1.root.count }
         guard let inside else { return (.elsewhere, [url.lastPathComponent]) }
@@ -167,7 +169,7 @@ public struct Uninstallation: Sendable {
         guard inside.root != PathPattern.comparablePath(of: environment.homeDirectory) || components.count == 1 else {
             return (.elsewhere, [url.lastPathComponent])
         }
-        return (inside.kind, components)
+        return (inside.location.kind, components)
     }
 
     /// True when the app itself would stay: excluded, Peel, kept by macOS, part of another package, beyond the

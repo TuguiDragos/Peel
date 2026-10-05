@@ -385,6 +385,36 @@ struct LeftoverScannerTests {
         #expect(try #require(emptied.leftovers.first { $0.kind == .containers }).match.isRecommended)
     }
 
+    /// macOS keeps privileged helpers only in the Mac's own Library, so a folder by that name in the home's Library is
+    /// no place macOS knows: it is searched like any other folder at the top of a Library.
+    @Test func searchesAFolderTheHomesLibraryHasOnlyByAnotherLibrarysName() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/PrivilegedHelperTools/net.example.client.helper")
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["net.example.client.helper"])
+    }
+
+    /// At the top of a Library, what is skipped is what that Library searches as a place of its own, and nothing the
+    /// other Library alone searches.
+    @Test func eachLibrarySkipsOnlyWhatItSearchesItself() throws {
+        let directory = try TemporaryDirectory()
+        let environment = environment(in: directory)
+        let libraries = environment.locations.filter { $0.kind == .library }
+        let home = try #require(libraries.first { $0.url.path(percentEncoded: false).contains("/home/") })
+        let mac = try #require(libraries.first { $0.url.path(percentEncoded: false).contains("/root/") })
+
+        #expect(!home.considers(fileName: "Preferences") && !mac.considers(fileName: "Preferences"))
+        #expect(!home.considers(fileName: "Containers") && mac.considers(fileName: "Containers"))
+        #expect(!home.considers(fileName: "Frameworks") && mac.considers(fileName: "Frameworks"))
+        #expect(home.considers(fileName: "PrivilegedHelperTools") && !mac.considers(fileName: "PrivilegedHelperTools"))
+        #expect(home.considers(fileName: "Extensions") && !mac.considers(fileName: "Extensions"))
+        #expect(!home.considers(fileName: "Audio") && !mac.considers(fileName: "Audio"))
+    }
+
     @Test func aCacheThatKeepsAnEditorsLocalHistoryIsShownAndLeftAlone() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/net.example.client/LocalHistory/changes.storageData")

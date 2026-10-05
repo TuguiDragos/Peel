@@ -47,10 +47,23 @@ public struct SearchLocation: Sendable, Hashable {
 
     public let kind: Kind
     public let url: URL
+    /// At the top of a Library, the names that same Library searches as places of their own, which it never offers
+    /// whole: `Preferences` is looked inside and never moved.
+    let skipped: Set<String>
 
     public init(kind: Kind, url: URL) {
+        self.init(kind: kind, url: url, skipped: [])
+    }
+
+    init(kind: Kind, url: URL, skipped: Set<String>) {
         self.kind = kind
         self.url = url
+        self.skipped = skipped
+    }
+
+    /// True when this location looks at an entry with this name.
+    func considers(fileName: String) -> Bool {
+        kind.considers(fileName: fileName) && !skipped.contains(fileName)
     }
 }
 
@@ -90,13 +103,11 @@ extension SearchLocation.Kind {
     }
 
     /// True when this kind of location looks at an entry with this name. The home folder is split in two: hidden
-    /// entries, and the rest except the folders every account starts with. At the top of a Library, a folder
-    /// scanned as a location of its own is never offered whole.
+    /// entries, and the rest except the folders every account starts with.
     func considers(fileName: String) -> Bool {
         switch self {
         case .hiddenHomeFiles: fileName.hasPrefix(".")
         case .homeFolder: !fileName.hasPrefix(".") && !SearchEnvironment.accountFolderNames.contains(fileName.lowercased())
-        case .library: !SearchEnvironment.libraryEntriesScannedElsewhere.contains(fileName)
         default: true
         }
     }
@@ -144,13 +155,17 @@ public struct SearchEnvironment: Sendable {
     /// Lowercased, because disks ignore case by default, so `desktop` is the Desktop folder.
     static let accountFolderNames = Set(ProtectedData.accountFolders.map { $0.lowercased() })
 
-    /// The first folder of every Library path scanned as a location of its own, such as `Preferences`. The top of
-    /// a Library never offers one of these whole: they are looked inside, never moved.
-    static let libraryEntriesScannedElsewhere = Set(
-        ((userEntries + localEntries).map(\.1) + Plugins.folders.map(\.0) + systemCodeFolders).map { name in
-            String(name.prefix { $0 != "/" })
-        }
+    /// The first folder of every path the home's Library and the Mac's search as a location of their own, such as
+    /// `Preferences`. The top of a Library never offers one of its own whole: it is looked inside, never moved. One
+    /// only the other Library searches, such as `PrivilegedHelperTools` in the home's, is a folder like any other.
+    static let homeLibraryEntriesScannedElsewhere = firstFolders(of: userEntries.map(\.1) + Plugins.folders.map(\.0))
+    static let localLibraryEntriesScannedElsewhere = firstFolders(
+        of: localEntries.map(\.1) + Plugins.folders.map(\.0) + systemCodeFolders
     )
+
+    private static func firstFolders(of paths: [String]) -> Set<String> {
+        Set(paths.map { String($0.prefix { $0 != "/" }) })
+    }
 
     /// Where a driver's kernel extensions and a file system's bundles stay in `/Library`. They are searched like
     /// plug-ins, named for what they do, but the helper does not serve these folders, so what is found there is
@@ -193,7 +208,10 @@ public struct SearchEnvironment: Sendable {
         ))
         locations.append(SearchLocation(kind: .hiddenHomeFiles, url: homeDirectory))
         locations.append(SearchLocation(kind: .homeFolder, url: homeDirectory))
-        locations += [userLibrary, localLibrary].map { SearchLocation(kind: .library, url: $0) }
+        locations += [
+            SearchLocation(kind: .library, url: userLibrary, skipped: Self.homeLibraryEntriesScannedElsewhere),
+            SearchLocation(kind: .library, url: localLibrary, skipped: Self.localLibraryEntriesScannedElsewhere),
+        ]
         return locations
     }
 
