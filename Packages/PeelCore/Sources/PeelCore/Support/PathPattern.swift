@@ -5,8 +5,6 @@ internal import PeelPrivileged
 /// Works with paths Peel is given: expands `~` and shell wildcards into the files that exist, and finds the
 /// names and spellings one file answers to, so paths can be compared safely.
 public enum PathPattern {
-    static let maximumMatches = 200
-
     /// A folder path with no trailing slash, so two URLs for the same folder compare equal.
     public static func comparablePath(of url: URL) -> String {
         var path = url.standardizedFileURL.path(percentEncoded: false)
@@ -91,9 +89,11 @@ public enum PathPattern {
             || ProtectedData.refuses(canonical(url).path(percentEncoded: false), home: home)
     }
 
-    /// The existing files `pattern` names, at most `maximum`, leaving out irreplaceable ones (`isIrreplaceable`).
-    /// A pattern without a leading `/` or `~` is read relative to `home`.
-    static func expand(_ pattern: String, home: URL, maximum: Int = maximumMatches) -> [URL] {
+    /// The existing files `pattern` names, leaving out irreplaceable ones (`isIrreplaceable`). A pattern without a
+    /// leading `/` or `~` is read relative to `home`. A `limited` pattern is expanded within `glob`'s own limits,
+    /// which keep it from walking the whole disk and stop it at 128 paths on macOS, whatever `gl_matchc` says
+    /// (`GLOB_LIMIT_STAT` in Libc's `glob.c`).
+    static func expand(_ pattern: String, home: URL, limited: Bool) -> [URL] {
         let root = comparablePath(of: home)
         var path = pattern
         if path.hasPrefix("~") {
@@ -113,13 +113,10 @@ public enum PathPattern {
 
         var results = glob_t()
         defer { globfree(&results) }
-        // GLOB_LIMIT keeps a pattern from walking the whole disk. It stops at `gl_matchc` paths (`man 3 glob`),
-        // and on macOS 26 at 128 even when `gl_matchc` is higher. At the limit, `glob` returns GLOB_NOSPACE
-        // with the paths found so far.
-        results.gl_matchc = Int32(clamping: maximum)
-        let code = glob(path, GLOB_NOSORT | GLOB_LIMIT | GLOB_NOESCAPE, nil, &results)
+        // At its limit, `glob` returns GLOB_NOSPACE with the paths found so far.
+        let code = glob(path, GLOB_NOSORT | GLOB_NOESCAPE | (limited ? GLOB_LIMIT : 0), nil, &results)
         guard code == 0 || code == GLOB_NOSPACE, results.gl_pathv != nil else { return [] }
-        return (0..<Int(results.gl_pathc)).prefix(maximum).compactMap { index in
+        return (0..<Int(results.gl_pathc)).compactMap { index in
             guard let pointer = results.gl_pathv[index] else { return nil }
             let url = entry(named: String(cString: pointer))
             return isIrreplaceable(url, home: root) ? nil : url

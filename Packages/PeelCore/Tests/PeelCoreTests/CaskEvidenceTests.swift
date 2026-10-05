@@ -142,6 +142,16 @@ struct CaskEvidenceTests {
         #expect(CaskEvidence.expand("relative/path", home: home).isEmpty)
     }
 
+    /// A cask's patterns are data from elsewhere, so `glob` keeps them within its limits.
+    @Test func aCasksPatternStaysWithinGlobsLimits() throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<300 {
+            try directory.directory("Library/Logs/Example/run-\(index)")
+        }
+
+        #expect(CaskEvidence.expand("~/Library/Logs/Example/run-*", home: directory.url).count == 128)
+    }
+
     @Test func marksPathsOutsideLibraryAsNotRecommended() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url

@@ -27,10 +27,10 @@ struct AttackPathProducerTests {
             at: home.appending(path: ".config")
         )
 
-        let cased = PathPattern.expand("Library/mobile documents/com~apple~CloudDocs/dotfiles", home: home)
+        let cased = PathPattern.expand("Library/mobile documents/com~apple~CloudDocs/dotfiles", home: home, limited: false)
         #expect(cased.first?.path(percentEncoded: false).contains("mobile documents") != true, "expand hands back a spelling the guard cannot read")
 
-        let throughLink = PathPattern.expand(".config/gcloud/logs", home: home)
+        let throughLink = PathPattern.expand(".config/gcloud/logs", home: home, limited: false)
         #expect(throughLink.isEmpty, "expand walked through a symbolic link out of the home folder")
     }
 

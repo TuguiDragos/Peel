@@ -135,7 +135,6 @@ public enum DeveloperCaches {
         let storeInside: String?
         /// How far inside the folder its rows are: 0 lists it whole, 1 lists each folder in it, as Xcode keeps one per
         /// system version, and 2 each folder two levels down, as Xcode keeps each archive in a folder for its day.
-        /// Listed rather than globbed, since `glob` stops at 128 paths.
         let rowsDepth: Int
         /// The ending every row's name has, such as `.xcarchive`, or nil for any.
         let rowEnding: String?
@@ -207,7 +206,7 @@ public enum DeveloperCaches {
             case .userTemporary: userTemporary
             }
             guard let root else { return [] }
-            var places = PathPattern.expand(path, home: root)
+            var places = PathPattern.expand(path, home: root, limited: false)
             places += movedBy?.places(preference: preference, settings: settings).map(\.place) ?? []
             var seen: Set<String> = []
             return places.filter { seen.insert(PathPattern.comparablePath(of: $0)).inserted }

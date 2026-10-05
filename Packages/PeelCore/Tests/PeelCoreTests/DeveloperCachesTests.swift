@@ -1442,4 +1442,97 @@ struct DeveloperCachesTests {
             #expect(!offered.contains { $0 != path && path.hasPrefix($0 + "/") }, "\(path) sits inside another offered folder")
         }
     }
+
+    /// `glob` asked to limit itself stops at 128 paths on macOS, while Playwright leaves a folder in the temporary
+    /// folder for every run that ended early. Every pattern of the table finds all 200 of its matches here.
+    @Test func eachPatternFindsEveryMatch() throws {
+        let count = 200
+        for definition in DeveloperCaches.definitions {
+            for folder in definition.folders {
+                let names = (0..<count).compactMap { Self.name(matching: folder.path, number: $0) }
+                guard names.count == count else {
+                    #expect(names.count < 128, "\(folder.path) names \(names.count) at most and was not checked")
+                    continue
+                }
+                let directory = try TemporaryDirectory()
+                let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+                for name in names {
+                    try directory.directory("root/\(name)")
+                }
+
+                let places = folder.places(
+                    home: root, userCache: root, userTemporary: root, preference: { _ in nil },
+                    settings: ToolSettings(home: root)
+                )
+
+                #expect(places.count == count, "\(folder.path) found \(places.count) of \(count)")
+            }
+        }
+    }
+
+    /// A path `pattern` matches, made distinct by `number`: its first `*` holds the number or, with no `*`, its `?`
+    /// and bracket classes spell it digit by digit. Nil for a plain path, or when the classes can't spell that many.
+    private static func name(matching pattern: String, number: Int) -> String? {
+        let pattern = pattern.hasSuffix("/") ? String(pattern.dropLast()) : pattern
+        guard pattern.contains(where: { "*?[".contains($0) }) else { return nil }
+        let placesTheNumber = pattern.contains("*")
+        let characters = Array(pattern)
+        var name = ""
+        var remaining = number
+        var numbered = false
+        // The classes are filled from the last one, so the digits read in order.
+        var spelled: [Int: Character] = [:]
+        if !placesTheNumber {
+            var index = characters.count - 1
+            while index >= 0 {
+                if characters[index] == "?" {
+                    spelled[index] = Character(String(remaining % 16, radix: 16))
+                    remaining /= 16
+                } else if characters[index] == "]", let open = characters[..<index].lastIndex(of: "[") {
+                    let choices = Self.classMembers(String(characters[(open + 1)..<index]))
+                    spelled[open] = choices[remaining % choices.count]
+                    remaining /= choices.count
+                    index = open
+                }
+                index -= 1
+            }
+            guard remaining == 0 else { return nil }
+        }
+        var index = 0
+        while index < characters.count {
+            let character = characters[index]
+            if character == "*" {
+                name += numbered ? "x" : "m\(number)"
+                numbered = true
+            } else if character == "?" {
+                name.append(spelled[index] ?? "a")
+            } else if character == "[", let close = characters[index...].firstIndex(of: "]") {
+                name.append(spelled[index] ?? Self.classMembers(String(characters[(index + 1)..<close]))[0])
+                index = close
+            } else {
+                name.append(character)
+            }
+            index += 1
+        }
+        return name
+    }
+
+    /// The characters a bracket class such as `0-9a-f` stands for.
+    private static func classMembers(_ members: String) -> [Character] {
+        let characters = Array(members)
+        var result: [Character] = []
+        var index = 0
+        while index < characters.count {
+            if index + 2 < characters.count, characters[index + 1] == "-",
+               let low = characters[index].unicodeScalars.first?.value,
+               let high = characters[index + 2].unicodeScalars.first?.value, low <= high {
+                result += (low...high).compactMap { Unicode.Scalar($0).map(Character.init) }
+                index += 3
+            } else {
+                result.append(characters[index])
+                index += 1
+            }
+        }
+        return result
+    }
 }

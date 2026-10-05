@@ -162,13 +162,16 @@ public struct CaskEvidence: Sendable, Hashable {
         return byID.values.sorted { $0.id < $1.id }
     }
 
+    /// Past this many folders, `holdsNothing` answers no rather than walk on.
+    private static let foldersLookedInto = 200
+
     /// Homebrew's rule for `rmdir`: a real folder with nothing in it but folders and `.DS_Store`, all the way down.
     static func holdsNothing(_ folder: URL) -> Bool {
         var pending = [folder]
         var visited = 0
         while let next = pending.popLast() {
             visited += 1
-            guard visited <= PathPattern.maximumMatches, next.isRealFolder,
+            guard visited <= foldersLookedInto, next.isRealFolder,
                   let children = try? FileManager.default.contentsOfDirectory(at: next, includingPropertiesForKeys: nil)
             else { return false }
             pending += children.filter { $0.lastPathComponent != ".DS_Store" }
@@ -176,10 +179,11 @@ public struct CaskEvidence: Sendable, Hashable {
         return true
     }
 
-    /// A cask only ever names absolute paths; anything else is ignored.
+    /// A cask only ever names absolute paths; anything else is ignored. Its patterns are data read from Homebrew,
+    /// so `glob` keeps them within its limits.
     static func expand(_ pattern: String, home: URL) -> [URL] {
         guard pattern.hasPrefix("/") || pattern.hasPrefix("~") else { return [] }
-        return PathPattern.expand(pattern, home: home)
+        return PathPattern.expand(pattern, home: home, limited: true)
     }
 
     static func isInLibrary(_ url: URL, home: URL) -> Bool {
