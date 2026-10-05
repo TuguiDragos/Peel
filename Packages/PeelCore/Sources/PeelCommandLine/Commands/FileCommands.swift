@@ -64,7 +64,9 @@ struct OrphansCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let apps = await AppCatalog.installedApps()
+        let catalog = await AppCatalog.scan()
+        if let refusal = Self.refusal(for: catalog) { throw refusal }
+        let apps = catalog.apps
         // The same signals the app uses (the apps Peel remembers and the apps running), so both judge these
         // files alike. The memory of apps is only read here, never written.
         let remembered = await AppMemory().load()
@@ -103,6 +105,14 @@ struct OrphansCommand: AsyncParsableCommand {
             let folders = scan.unreadableLocations.map(\.url)
             Output.note(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
+    }
+
+    /// Why nothing is listed when some apps could not be read: their files would look orphaned.
+    static func refusal(for catalog: AppScan) -> CommandFailure? {
+        guard !catalog.unreadable.isEmpty else { return nil }
+        let listed = Output.list(catalog.unreadable.map { Output.plain(Output.path($0)) })
+        let access = catalog.needsFullDiskAccess ? " Give your terminal app Full Disk Access in System Settings." : ""
+        return CommandFailure("Peel couldn't read \(listed), so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned.\(access)")
     }
 
     static func report(for scan: OrphanScan) -> Report {

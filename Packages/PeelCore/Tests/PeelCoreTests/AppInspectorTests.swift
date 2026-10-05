@@ -145,6 +145,33 @@ struct AppInspectorTests {
         #expect(AppCatalog.remembers(two.appending(path: "Two.app")))
     }
 
+    @Test(.permissionsHold) func saysWhatItCouldNotReadAndNotWhatIsNotThere() async throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.one", "CFBundleName": "One"], at: "Open/One.app/Contents/Info.plist", in: directory)
+        try plist(["CFBundleIdentifier": "org.example.sealed", "CFBundleName": "Sealed"], at: "Open/Sealed.app/Contents/Info.plist", in: directory)
+        try plist(["CFBundleIdentifier": "org.example.two", "CFBundleName": "Two"], at: "Closed/Two.app/Contents/Info.plist", in: directory)
+        try directory.setPermissions(0o000, of: "Closed")
+        try directory.setPermissions(0o000, of: "Open/Sealed.app/Contents/Info.plist")
+        defer {
+            try? directory.setPermissions(0o755, of: "Closed")
+            try? directory.setPermissions(0o644, of: "Open/Sealed.app/Contents/Info.plist")
+        }
+
+        let scan = await AppCatalog.scan(in: ["Open", "Closed", "Missing"].map { directory.url.appending(path: $0) })
+
+        #expect(scan.apps.map(\.bundleIdentifier) == ["org.example.one"])
+        #expect(scan.unreadable.map(\.lastPathComponent) == ["Closed", "Sealed.app"])
+    }
+
+    @Test func aListOfFoldersThatCannotBeReadIsAmongWhatWasNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let list = try directory.file("app-folders.json", contents: Data("not a list".utf8))
+
+        let scan = await AppCatalog.scan(choices: AppFolders(url: list))
+
+        #expect(scan.unreadable.contains(list))
+    }
+
     /// A launchd plist too large to be a job is not read, and neither is a link to something that is not a file
     /// (reading `/dev/zero` never ends). A link to a real job is followed.
     @Test func readsThroughALinkedLaunchdJobAndRefusesWhatIsNoJob() throws {

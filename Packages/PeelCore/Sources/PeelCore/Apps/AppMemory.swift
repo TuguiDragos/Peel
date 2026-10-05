@@ -24,9 +24,7 @@ extension RememberedApp {
         let names = PathComponents.of(lastPath)
         let isOnADiskNotConnected = names.count > 2 && names[0] == "Volumes"
             && URL(filePath: "/Volumes/\(names[1])").isMissing
-        let info = place.appending(path: "Contents/Info.plist")
-        let isClosedToPeel = !info.isMissing && BoundedRead.data(at: info) == nil
-        guard isOnADiskNotConnected || isClosedToPeel else { return nil }
+        guard isOnADiskNotConnected || AppInspector.isClosed(place) else { return nil }
         return InstalledApp(url: place, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
     }
 }

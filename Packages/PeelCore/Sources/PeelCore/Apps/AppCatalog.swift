@@ -2,10 +2,20 @@ public import Foundation
 internal import PeelPrivileged
 import Synchronization
 
+/// One reading of the folders apps are kept in.
+public struct AppScan: Sendable, Equatable {
+    public let apps: [InstalledApp]
+    /// What is there and could not be read: a folder of apps, an app, or the list of folders the person chose. The
+    /// apps in it are missing from `apps`, so nothing can be called orphaned while this is not empty.
+    public let unreadable: [URL]
+    /// Whether Full Disk Access would open what could not be read.
+    public let needsFullDiskAccess: Bool
+}
+
 public enum AppCatalog {
     /// Where Peel looks for apps: the Applications folders and the folders the person chose (`AppFolders`).
     public static var defaultDirectories: [URL] {
-        directories(adding: AppFolders().load())
+        directories(adding: AppFolders().load() ?? [])
     }
 
     static var standardDirectories: [URL] {
@@ -52,21 +62,46 @@ public enum AppCatalog {
             .max { $0.path.count < $1.path.count }?.app
     }
 
-    @concurrent
     public static func installedApps(in directories: [URL] = defaultDirectories) async -> [InstalledApp] {
-        let bundles = Set(directories.flatMap { appBundles(in: $0) })
+        await scan(in: directories).apps
+    }
 
-        let apps = await withTaskGroup(of: InstalledApp?.self) { group in
+    /// Reads the apps in the Applications folders and in the folders the person chose. When the list of chosen
+    /// folders cannot be read, the list itself is among what could not be read.
+    @concurrent
+    public static func scan(choices: AppFolders = AppFolders()) async -> AppScan {
+        guard let chosen = choices.load() else {
+            let standard = await scan(in: standardDirectories)
+            return AppScan(
+                apps: standard.apps,
+                unreadable: standard.unreadable + [choices.url],
+                needsFullDiskAccess: standard.needsFullDiskAccess
+            )
+        }
+        return await scan(in: directories(adding: chosen))
+    }
+
+    @concurrent
+    public static func scan(in directories: [URL]) async -> AppScan {
+        let walks = directories.map { appBundles(in: $0) }
+        let bundles = Set(walks.flatMap(\.bundles))
+
+        let read = await withTaskGroup(of: (bundle: URL, app: InstalledApp?).self) { group in
             for bundle in bundles {
-                group.addTask { Reading.of(bundle) }
+                group.addTask { (bundle, Reading.of(bundle)) }
             }
-            return await group.reduce(into: [InstalledApp]()) { apps, app in
-                if let app { apps.append(app) }
-            }
+            return await group.reduce(into: [(bundle: URL, app: InstalledApp?)]()) { $0.append($1) }
         }
 
         Reading.forget(inside: directories, except: bundles)
-        return sorted(apps)
+        let closedApps = read.filter { $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
+        let unreadable = (walks.flatMap(\.unreadable) + closedApps)
+            .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
+        return AppScan(
+            apps: sorted(read.compactMap(\.app)),
+            unreadable: unreadable,
+            needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
+        )
     }
 
     /// Whether what was read about `bundle` is kept, so the next reading of its folder does not read it again.
@@ -149,12 +184,19 @@ public enum AppCatalog {
             }
     }
 
-    static func appBundles(in directory: URL, maximumDepth: Int = 3) -> [URL] {
+    /// The apps in `directory`, three levels deep, and the folders in it that are there and could not be read. A
+    /// folder that is not there, such as an Applications folder nobody made, holds no app.
+    static func appBundles(in directory: URL, maximumDepth: Int = 3) -> (bundles: [URL], unreadable: [URL]) {
+        var unreadable: [URL] = []
         guard let enumerator = FileManager.default.enumerator(
             at: directory,
             includingPropertiesForKeys: [.isDirectoryKey],
-            options: [.skipsHiddenFiles, .skipsPackageDescendants]
-        ) else { return [] }
+            options: [.skipsHiddenFiles, .skipsPackageDescendants],
+            errorHandler: { url, error in
+                if (error as? CocoaError)?.code != .fileReadNoSuchFile { unreadable.append(url) }
+                return true
+            }
+        ) else { return ([], directory.isMissing ? [] : [directory]) }
 
         var bundles: [URL] = []
         for case let url as URL in enumerator {
@@ -164,7 +206,7 @@ public enum AppCatalog {
                 enumerator.skipDescendants()
             }
         }
-        return bundles
+        return (bundles, unreadable)
     }
 
     private static func byName(_ lhs: InstalledApp, _ rhs: InstalledApp) -> Bool {

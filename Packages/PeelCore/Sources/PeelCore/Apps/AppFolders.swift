@@ -21,8 +21,9 @@ public struct AppFolders: Sendable {
         PeelFolder.url.appending(path: "app-folders.json")
     }
 
-    public func load() -> [URL] {
-        FileLock.whileHeld(beside: url) { read() ?? [] }
+    /// The folders chosen, or nil when the file is there and cannot be read: the apps in them are then not known.
+    public func load() -> [URL]? {
+        FileLock.whileHeld(beside: url) { url.isMissing ? [] : read() }
     }
 
     /// Adds `folders`. False when they could not be saved, or when the file is there and cannot be read, since

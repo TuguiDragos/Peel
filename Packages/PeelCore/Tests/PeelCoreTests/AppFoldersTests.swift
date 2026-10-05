@@ -22,13 +22,26 @@ struct AppFoldersTests {
         let directory = try TemporaryDirectory()
         let folders = AppFolders(url: directory.url.appending(path: "app-folders.json"))
         let studio = directory.url.appending(path: "Studio Apps", directoryHint: .isDirectory)
-        #expect(folders.load().isEmpty)
+        #expect(folders.load() == [])
 
         #expect(folders.add([studio]))
-        #expect(folders.load().map(\.lastPathComponent) == ["Studio Apps"])
-        #expect(AppCatalog.directories(adding: folders.load()).count == AppCatalog.standardDirectories.count + 1)
+        #expect(folders.load()?.map(\.lastPathComponent) == ["Studio Apps"])
+        let chosen = try #require(folders.load())
+        #expect(AppCatalog.directories(adding: chosen).count == AppCatalog.standardDirectories.count + 1)
 
         #expect(folders.remove([studio]))
-        #expect(folders.load().isEmpty)
+        #expect(folders.load() == [])
+    }
+
+    @Test(.permissionsHold) func aListThatCannotBeReadIsNoEmptyList() throws {
+        let directory = try TemporaryDirectory()
+        let damaged = try directory.file("damaged.json", contents: Data("not a list".utf8))
+        let closed = try directory.file("closed.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0o000, of: "closed.json")
+        defer { try? directory.setPermissions(0o644, of: "closed.json") }
+
+        #expect(AppFolders(url: damaged).load() == nil)
+        #expect(AppFolders(url: closed).load() == nil)
+        #expect(AppFolders(url: directory.url.appending(path: "missing.json")).load() == [])
     }
 }

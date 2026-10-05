@@ -510,6 +510,16 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
     }
 
+    @Test func orphansListsNothingWhileAnAppFolderCannotBeRead() {
+        let studio = URL(filePath: "/Volumes/Studio/Apps", directoryHint: .isDirectory)
+
+        #expect(OrphansCommand.refusal(for: AppScan(apps: [], unreadable: [], needsFullDiskAccess: false)) == nil)
+        let refusal = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: false))
+        #expect(refusal?.description == "Peel couldn't read /Volumes/Studio/Apps, so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned.")
+        let locked = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: true))
+        #expect(locked?.description.hasSuffix(" Give your terminal app Full Disk Access in System Settings.") == true)
+    }
+
     /// A chosen folder Peel didn't look in, such as a repository, is said, so an empty answer is not read as none.
     @Test func saysWhichFoldersItDidNotLookIn() {
         let skipped = URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)

@@ -120,6 +120,13 @@ public enum AppInspector {
         return try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
     }
 
+    /// Whether the bundle's Info.plist is there and macOS will not let Peel read it, so nothing can be told about
+    /// the app.
+    static func isClosed(_ bundle: URL) -> Bool {
+        let info = bundle.appending(path: "Contents/Info.plist")
+        return !info.isMissing && BoundedRead.data(at: info) == nil
+    }
+
     /// The name Finder shows for a bundle, in the user's language when the app translates its name.
     public static func displayName(of url: URL) -> String {
         let name = FileManager.default.displayName(atPath: url.path(percentEncoded: false))
