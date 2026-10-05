@@ -25,6 +25,8 @@ The first public release, for macOS 26 and later, on Apple silicon and Intel Mac
   what it didn't move, with the reason.
 - Keeps what you select on the pages that free space while you look at the others, and moves it all at once, as
   one entry in History.
+- Selects what Peel recommends, everything, or nothing, on one list or on every page of a tool at once, and asks
+  first before it selects what Peel doesn't recommend.
 - Leaves alone the files, folders, and apps you exclude.
 - Checks your apps for updates, and watches the Trash for apps you remove yourself.
 - Says in About when a new version of Peel is out, with where to get it, and downloads nothing itself.

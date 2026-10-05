@@ -59,6 +59,26 @@ final class SpaceLibrary: RowSelection {
         plannedFor[item.id] = (item, revision)
     }
 
+    /// Makes the plans of the areas in `items` that have none yet, as the page's scan: Rescan turns into Stop
+    /// meanwhile, and a scan that was stopped keeps no plan. True once every one of them has its plan.
+    func planEvery(_ items: [SpaceItem]) async -> Bool {
+        let unplanned = items.filter { !$0.isReadOnly && plans[$0.id] == nil }
+        guard !unplanned.isEmpty else { return true }
+        let answer = await scanRun.run {
+            var made: [(item: SpaceItem, plan: SpaceRemoval.Plan, exclusions: Int)] = []
+            for item in unplanned where !Task.isCancelled {
+                let new = await self.newPlan(for: item)
+                made.append((item, new.plan, new.exclusions))
+            }
+            return made
+        }
+        guard let made = answer else { return false }
+        for (item, plan, revision) in made {
+            keep(plan, for: item, madeWith: revision)
+        }
+        return true
+    }
+
     /// Brings what is selected in each area in line with the helper as it is now, without measuring again.
     func follow(canUseHelper: Bool) {
         guard canUseHelper != self.canUseHelper else { return }

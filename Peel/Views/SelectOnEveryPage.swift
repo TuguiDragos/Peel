@@ -7,12 +7,16 @@ struct SelectOnEveryPage: View {
     @Environment(SelectionCarrier.self) private var carrier
     let pages: SelectablePages<CarriedSelection.Page, URL>
     let selection: any RowSelection
+    var reading: (() async -> Bool)?
+    var isDisabled = false
 
     var body: some View {
         SelectMenu(
             pages: pages.selectablePageCount,
             list: pages.rows,
-            selection: SeeingPages(selection: selection, pages: pages, carrier: carrier)
+            selection: SeeingPages(selection: selection, pages: pages, carrier: carrier),
+            reading: reading,
+            isDisabled: isDisabled
         )
     }
 }

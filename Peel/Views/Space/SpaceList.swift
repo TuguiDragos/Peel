@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SpaceList: View {
     @Environment(SpaceLibrary.self) private var space
+    @Environment(HelperModel.self) private var helper
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -10,6 +11,11 @@ struct SpaceList: View {
         let items = report.items(in: category)
         guard !searchText.isEmpty else { return items }
         return items.filter { SearchText.matches(String(localized: $0.words.title), searchText) }
+    }
+
+    private var shownAreas: [SpaceItem] {
+        guard let report = space.report else { return [] }
+        return SpaceItem.Category.allCases.flatMap { listed(in: $0, of: report) }
     }
 
     private var isFindingNothing: Bool {
@@ -65,6 +71,18 @@ struct SpaceList: View {
         .navigationTitle(Text(Tool.space.title))
         .announcesScan(space.isScanning, found: space.summary, wasStopped: space.scanRun.wasStopped)
         .toolbar {
+            ToolbarItem {
+                let shown = shownAreas
+                SelectOnEveryPage(
+                    pages: SelectablePages(shown.compactMap { item in
+                        space.plans[item.id].map { (item.page, $0.selectableRows(canUseHelper: helper.canAct)) }
+                    }),
+                    selection: space,
+                    reading: shown.contains { !$0.isReadOnly && space.plans[$0.id] == nil }
+                        ? { await space.planEvery(shown) } : nil,
+                    isDisabled: space.isScanning
+                )
+            }
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: space.isRemoving, scan: space.scanRun) {
                     await space.refresh()
