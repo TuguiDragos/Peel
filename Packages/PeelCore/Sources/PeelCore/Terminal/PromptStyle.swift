@@ -58,6 +58,7 @@ public enum PromptStyle: CaseIterable, Sendable {
     public static func hostName() -> String {
         var name = [CChar](repeating: 0, count: Int(MAXHOSTNAMELEN) + 1)
         guard gethostname(&name, name.count - 1) == 0 else { return "" }
-        return String(String(cString: name).prefix { $0 != "." })
+        let bytes = name.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }
+        return String(decoding: bytes.prefix { $0 != UInt8(ascii: ".") }, as: UTF8.self)
     }
 }
