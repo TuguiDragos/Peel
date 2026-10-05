@@ -115381,108 +115381,109 @@
         }
       }
     },
-    "Remove apps and the files they leave behind." : {
+    "Remove apps and what they leave behind, free up space, and fine-tune your Mac." : {
+      "comment" : "What Peel does, under its name in About: it uninstalls apps, frees disk space, and has Tweaks and a Terminal page.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odstraňujte aplikace i soubory, které po sobě zanechávají."
+            "value" : "Odstraňujte aplikace i to, co po sobě zanechávají, uvolňujte místo a dolaďujte svůj Mac."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entferne Apps und die Dateien, die sie hinterlassen."
+            "value" : "Entferne Apps und was sie hinterlassen, gib Speicherplatz frei und passe deinen Mac an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimina apps y los archivos que dejan."
+            "value" : "Elimina apps y lo que dejan, libera espacio y afina tu Mac."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimez les apps et les fichiers qu’elles laissent derrière elles."
+            "value" : "Supprimez les apps et ce qu’elles laissent derrière elles, libérez de l’espace et ajustez votre Mac."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi le app e i file che si lasciano dietro."
+            "value" : "Rimuovi le app e ciò che si lasciano dietro, libera spazio e perfeziona il Mac."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリと、アプリが残すファイルを取り除きます。"
+            "value" : "アプリと、アプリが残すものを取り除き、領域を解放し、Macをカスタマイズします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱과 앱이 남기는 파일을 제거합니다."
+            "value" : "앱과 앱이 남기는 항목을 제거하고, 공간을 확보하고, Mac을 미세 조정합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwijder apps en de bestanden die ze achterlaten."
+            "value" : "Verwijder apps en wat ze achterlaten, maak ruimte vrij en verfijn je Mac."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przenosi do Kosza aplikacje i pliki, które po sobie pozostawiają."
+            "value" : "Przenosi do Kosza aplikacje i to, co po sobie pozostawiają, zwalnia miejsce i dostraja Maca."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remova apps e os arquivos que eles deixam para trás."
+            "value" : "Remova apps e o que eles deixam para trás, libere espaço e ajuste o Mac."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimină aplicațiile și fișierele pe care acestea le lasă în urmă."
+            "value" : "Elimină aplicațiile și ce lasă acestea în urmă, eliberează spațiu și reglează fin Mac‑ul dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удаление приложений и оставшихся после них файлов."
+            "value" : "Удаление приложений и их остатков, освобождение места и тонкая настройка Mac."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ta bort appar och filerna som de lämnar kvar."
+            "value" : "Ta bort appar och det de lämnar kvar, frigör utrymme och finjustera datorn."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaları ve geride bıraktıkları dosyaları kaldırın."
+            "value" : "Uygulamaları ve geride bıraktıklarını kaldırın, yer boşaltın ve Mac’inizde ince ayar yapın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вилучайте програми та файли, які вони залишають по собі."
+            "value" : "Вилучайте програми й те, що вони залишають по собі, звільняйте місце й тонко налаштовуйте свій Mac."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除App及其留下的文件。"
+            "value" : "移除App及其留下的文件，释放空间，微调你的Mac。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除App及其留下的檔案。"
+            "value" : "移除App及其留下的檔案、釋放空間，並微調你的Mac。"
           }
         }
       }

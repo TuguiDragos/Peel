@@ -29,9 +29,12 @@ struct AboutContent: View {
             if let update = library.newerPeel {
                 PeelUpdateNotice(update: update)
             }
-            Text("Remove apps and the files they leave behind.")
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
+            Text(
+                "Remove apps and what they leave behind, free up space, and fine-tune your Mac.",
+                comment: "What Peel does, under its name in About: it uninstalls apps, frees disk space, and has Tweaks and a Terminal page."
+            )
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.secondary)
             credits
         }
         .padding(32)
