@@ -159,12 +159,13 @@ lists them.
 ### Look after your Mac
 
 <p align="center">
-  <img src="readme-assets/peel-homebrew-updates-and-cleanup.png" width="900" alt="Peel's Homebrew page: Homebrew's version and location, its maintenance buttons, the packages with updates waiting, and an ⓘ note explaining updates">
+  <img src="readme-assets/peel-homebrew-updates-and-cleanup.png" width="900" alt="Peel's Homebrew page: Homebrew's version and location, its maintenance buttons, the formulae with known vulnerabilities, the packages with updates waiting, and an ⓘ note explaining the vulnerability scan; beside them, openssl@3 with its known vulnerabilities, Upgrade, and Uninstall">
 </p>
 
 > [!TIP]
-> Not sure what something means? Click the ⓘ next to its name, like the one open above beside Updates Available,
-> for a short explanation in plain words. Next to a file, it tells you why Peel thinks the file belongs to the app.
+> Not sure what something means? Click the ⓘ next to its name, like the one open above beside Scan for
+> Vulnerabilities, for a short explanation in plain words. Next to a file, it tells you why Peel thinks the file
+> belongs to the app.
 
 - **Background Items:** launch agents and daemons, and the app that added each one.
 - **Extensions and Plug-ins:** app extensions, system extensions, and plug-ins, from audio units to Quick Look.
