@@ -33,6 +33,14 @@ struct ReleaseNotesTests {
         #expect(outline(notes) == ["p What’s new:", "i0 Faster search", "i0 Fixed a crash", "p Thanks for using it!"])
     }
 
+    @Test func joinsTheIndentedLinesThatContinueAnItem() {
+        let text = "Bug Fixes:\r\n- Fixed the API not reporting\n  hyperlinks.\n- Fixed a crash\n- \nLine one\nLine two"
+
+        #expect(outline(ReleaseNotes(text, format: .plainText)) == [
+            "p Bug Fixes:", "i0 Fixed the API not reporting hyperlinks.", "i0 Fixed a crash", "p Line one", "p Line two",
+        ])
+    }
+
     @Test func readsMarkdownBlocksAndKeepsOnlySecureLinks() {
         let markdown = """
         ## 2.0

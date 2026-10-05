@@ -38,16 +38,29 @@ public struct ReleaseNotes: Sendable, Hashable, Codable {
         }
     }
 
+    /// Each line is a paragraph or, after a bullet, a list item, and an indented line goes on with the one above,
+    /// the way plain text wraps a long item.
     private static func plainTextBlocks(_ text: String) -> [Block] {
-        text.split(whereSeparator: \.isNewline).compactMap { line in
-            let words = line.trimmingCharacters(in: .whitespaces)
-            guard !words.isEmpty else { return nil }
-            if let marker = ["• ", "- ", "* "].first(where: words.hasPrefix) {
-                let item = words.dropFirst(marker.count).trimmingCharacters(in: .whitespaces)
-                return item.isEmpty ? nil : .item(AttributedString(item), depth: 0)
+        var blocks: [Block] = []
+        var goesOn = false
+        for line in text.split(omittingEmptySubsequences: false, whereSeparator: \.isNewline) {
+            let words = line.trimmingCharacters(in: .whitespacesAndNewlines)
+            if words.isEmpty {
+                goesOn = false
+            } else if let mark = words.first, "•-*".contains(mark), words.dropFirst().first?.isWhitespace ?? true {
+                let item = words.dropFirst().trimmingCharacters(in: .whitespaces)
+                if !item.isEmpty {
+                    blocks.append(.item(AttributedString(item), depth: 0))
+                }
+                goesOn = !item.isEmpty
+            } else if goesOn, line.first?.isWhitespace == true, let last = blocks.popLast() {
+                blocks.append(last.goingOn(with: words))
+            } else {
+                blocks.append(.paragraph(AttributedString(words)))
+                goesOn = true
             }
-            return .paragraph(AttributedString(words))
         }
+        return blocks
     }
 
     private static func markdownBlocks(_ text: String) -> [Block] {
@@ -78,6 +91,17 @@ public struct ReleaseNotes: Sendable, Hashable, Codable {
                 return .item(words, depth: max(lists - 1, 0))
             }
             return .paragraph(words)
+        }
+    }
+}
+
+extension ReleaseNotes.Block {
+    /// The block with `words` after its own, as one line wrapped onto the next.
+    fileprivate func goingOn(with words: String) -> ReleaseNotes.Block {
+        switch self {
+        case .heading(let text): .heading(text + AttributedString(" " + words))
+        case .paragraph(let text): .paragraph(text + AttributedString(" " + words))
+        case .item(let text, let depth): .item(text + AttributedString(" " + words), depth: depth)
         }
     }
 }
