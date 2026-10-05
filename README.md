@@ -107,19 +107,10 @@ Peel is free and open source, and it speaks English and 17 other languages.
 Space shows what fills your disk, area by area, and what each area is.
 
 - **Orphaned Files:** files left behind by apps you already removed.
-- **Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
-  engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
-  on Electron, such as Slack or Discord (never what a browser or an app keeps for you), and the browser profiles a
-  Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
-  archives and the symbols it copied from your devices, model weights, installed packages, and what a tool keeps for
-  you to install again (Vagrant boxes, Asset Store packages, Godot's export templates) are listed but never selected
-  for you, and toolchains or anything holding an account are never listed.
-- **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
-  `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
-  when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
-  neither are installed packages (a Python environment, `vendor`, Terraform's `.terraform`) or a folder like `target`
-  whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`,
-  or `~/src` when you have one, and adds it only when you say so.
+- **Developer:** caches of developer tools, editors, browsers, and AI models. What you may want again is listed but
+  never selected for you, and toolchains or anything holding an account are never listed.
+- **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only
+  when its tool's own file proves it. A project changed in the last 7 days is never selected for you.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
   Files under 100 KB, and folders holding less, are left out unless you choose a smaller size, in the app and in
   `peel duplicates` alike.
@@ -128,14 +119,39 @@ Space shows what fills your disk, area by area, and what each area is.
   until they install them, and what your iPhone backups hold. Nothing is selected for you.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
-- **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
-  simulators or Docker's disk, Space measures and leaves to that app, with the command that frees it for you to copy
-  into Terminal: Peel never runs it, since it deletes for good. The caches and logs apps keep for every account,
-  and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
-  administrator owns them, and what macOS keeps there for its own services is never listed. Peel can also warn you,
-  with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >
-  General.
+- **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Docker's disk,
+  Space leaves to that app, with the command that frees it for you to copy.
 - **File Search:** large or old files, found through Spotlight.
+
+<details>
+<summary>Developer, Build Artifacts, and Space, in detail</summary>
+
+<br>
+
+**Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
+engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
+on Electron, such as Slack or Discord (never what a browser or an app keeps for you), and the browser profiles a
+Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
+archives and the symbols it copied from your devices, model weights, installed packages, and what a tool keeps for
+you to install again (Vagrant boxes, Asset Store packages, Godot's export templates) are listed but never selected
+for you, and toolchains or anything holding an account are never listed.
+
+**Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
+`.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
+when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
+neither are installed packages (a Python environment, `vendor`, Terraform's `.terraform`) or a folder like `target`
+whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`,
+or `~/src` when you have one, and adds it only when you say so.
+
+**Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
+simulators or Docker's disk, Space measures and leaves to that app, with the command that frees it for you to copy
+into Terminal: Peel never runs it, since it deletes for good. The caches and logs apps keep for every account,
+and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
+administrator owns them, and what macOS keeps there for its own services is never listed. Peel can also warn you,
+with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >
+General.
+
+</details>
 
 <p align="center">
   <img src="readme-assets/peel-developer-caches-of-your-tools.png" width="900" alt="Peel's Developer page: the tools whose caches it found, largest first, and npm open, with its four folders selected, while the bar counts what is selected on four pages">
