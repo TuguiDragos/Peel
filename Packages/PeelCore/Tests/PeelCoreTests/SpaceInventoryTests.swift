@@ -299,10 +299,24 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan(home: home, root: root, minimumSize: 1, measure: FileSize.measure)
 
         let inside = directory.url.lastPathComponent + "/"
-        let found = Set(report.items.flatMap { item in
-            item.urls.map { "\(item.id): \($0.path(percentEncoded: false).components(separatedBy: inside).last ?? "")" }
-        }.map { $0.hasSuffix("/") ? String($0.dropLast()) : $0 })
+        let places = report.items.flatMap { item in
+            item.urls.map { url in
+                let path = url.path(percentEncoded: false).components(separatedBy: inside).last ?? ""
+                return (item: item, path: path.hasSuffix("/") ? String(path.dropLast()) : path)
+            }
+        }
+        let found = Set(places.map { "\($0.item.id): \($0.path)" })
         #expect(expected.subtracting(found).isEmpty, "\(expected.subtracting(found).sorted())")
+        // A place in two areas, or inside a place measured whole, would count its bytes twice in the total. An area
+        // that leaves macOS's own measures what is in its places one by one, and passes over a place of its own.
+        let twice = places.filter { place in
+            places.contains { other in
+                let isAnotherArea = other.item.id != place.item.id
+                return (other.path == place.path && isAnotherArea)
+                    || (place.path.hasPrefix(other.path + "/") && (isAnotherArea || !other.item.leavesMacOSsOwn))
+            }
+        }
+        #expect(twice.isEmpty, "counted twice: \(twice.map(\.path).sorted())")
     }
 
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {

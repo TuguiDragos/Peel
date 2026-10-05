@@ -517,10 +517,15 @@ struct DeveloperCachesTests {
         )
         let environments = await DeveloperCaches.scan(in: environment)
         let home = directory.url.path(percentEncoded: false)
-        let found = Set(
-            environments.flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }
-        )
+        let offered = environments.flatMap(\.locations).map { location in
+            String(location.url.path(percentEncoded: false).dropFirst(home.count))
+        }
+        let found = Set(offered)
         #expect(found == expected, "missing \(expected.subtracting(found).sorted()), extra \(found.subtracting(expected).sorted())")
+        // Two entries whose patterns reach the same folder, or one inside the other, would count its bytes twice.
+        #expect(offered.count == found.count, "offered twice: \(offered.filter { path in offered.count { $0 == path } > 1 })")
+        let nested = offered.filter { path in offered.contains { $0 != path && path.hasPrefix($0 + "/") } }
+        #expect(nested.isEmpty, "offered inside another: \(nested.sorted())")
         #expect(environments.count == DeveloperCaches.definitions.count)
         #expect(environments.flatMap(\.locations).allSatisfy { ($0.size ?? 0) >= 400_000 })
     }
