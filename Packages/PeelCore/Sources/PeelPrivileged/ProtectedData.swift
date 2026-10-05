@@ -133,6 +133,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/Haveno-reto/xmr_mainnet/keys",
         "Library/Application Support/Liana/bitcoin",
         "Library/Application Support/Nunchuk",
+        "Library/Application Support/Blockstream/Green/wallets",
         "Library/Application Support/Blockstream/Green/wallets2",
         "Library/Containers/io.bluewallet.bluewallet/Data/Library/Caches/keyvalue.realm",
         "Library/Containers/com.cypherstack.stackwallet/Data/Library/stackwallet",
