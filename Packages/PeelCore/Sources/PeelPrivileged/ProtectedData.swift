@@ -151,6 +151,8 @@ public enum ProtectedData: Sendable {
         ".lightning/bitcoin/emergency.recover",
         "Library/Application Support/albyhub",
         ".config/solana/id.json",
+        ".config/stellar/identity",
+        ".config/soroban/identity",
         ".sui/sui_config/sui.keystore",
         ".aptos/config.yaml",
         ".near-credentials",
