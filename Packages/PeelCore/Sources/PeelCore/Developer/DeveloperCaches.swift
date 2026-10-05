@@ -143,9 +143,8 @@ public enum DeveloperCaches {
         let rowsAreDerivedData: Bool
         /// True for an editor's `workspaceStorage`, whose rows are listed only when `goneProject(at:)` names one.
         let rowsAreProjectState: Bool
-        /// The Xcode setting that moves the folder elsewhere when it holds an absolute path. The folder is looked
-        /// for there as well as at `path`, where an earlier Xcode may have left it.
-        let movedByXcodeSetting: String?
+        /// The setting that moves the folder elsewhere: Xcode's, or one in the tool's own configuration file.
+        let movedBy: Relocation?
         let base: Base
         /// The links, relative to the home folder, a tool's installer puts on the path to the version it runs. When
         /// set, the folder's rows are the versions it keeps beside that one (`olderVersions(in:home:)`).
@@ -154,7 +153,7 @@ public enum DeveloperCaches {
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
-            rowsAreProjectState: Bool = false, movedByXcodeSetting: String? = nil, base: Base = .home,
+            rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
             launchers: [String] = []
         ) {
             self.path = path
@@ -165,7 +164,7 @@ public enum DeveloperCaches {
             self.rowEnding = rowEnding
             self.rowsAreDerivedData = rowsAreDerivedData
             self.rowsAreProjectState = rowsAreProjectState
-            self.movedByXcodeSetting = movedByXcodeSetting
+            self.movedBy = movedBy
             self.base = base
             self.launchers = launchers
         }
@@ -198,8 +197,10 @@ public enum DeveloperCaches {
                 .filter { !running.contains(PathComponents.of(PathPattern.comparablePath(of: $0)).last ?? "") }
         }
 
-        /// Where the folder is: at `path` in its base, and where the Xcode setting that moves it says.
-        func places(home: URL, userCache: URL?, userTemporary: URL?, preference: (String) -> String?) -> [URL] {
+        /// Where the folder is: at `path` in its base, and where the setting that moves it says.
+        func places(
+            home: URL, userCache: URL?, userTemporary: URL?, preference: (String) -> String?, settings: ToolSettings
+        ) -> [URL] {
             let root = switch base {
             case .home: home
             case .userCache: userCache
@@ -207,11 +208,7 @@ public enum DeveloperCaches {
             }
             guard let root else { return [] }
             var places = PathPattern.expand(path, home: root)
-            if let setting = movedByXcodeSetting.flatMap(preference).map({ NSString(string: $0).expandingTildeInPath }),
-               setting.hasPrefix("/") {
-                let moved = URL(filePath: setting, directoryHint: .isDirectory)
-                if moved.isRealFolder { places.append(moved) }
-            }
+            places += movedBy?.places(preference: preference, settings: settings).map(\.place) ?? []
             var seen: Set<String> = []
             return places.filter { seen.insert(PathPattern.comparablePath(of: $0)).inserted }
         }
@@ -299,10 +296,22 @@ public enum DeveloperCaches {
         init(home: URL) {
             // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
             // paths in the table don't.
-            let home = PathComponents.of(PathPattern.canonical(home).path(percentEncoded: false))
+            let names = { (url: URL) in PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)) }
+            let homeNames = names(home)
+            // A tool's configuration can move a cache into a place Space shows, and the folder it names is the
+            // tool's own there.
+            let settings = ToolSettings(home: home)
             folders = DeveloperCaches.definitions.flatMap { definition in
-                let own = definition.ownFolders.map { home + PathComponents.of($0) }
-                return definition.folders.filter { $0.base == .home }.map { (home + PathComponents.of($0.path), own) }
+                let own = definition.ownFolders.map { homeNames + PathComponents.of($0) }
+                let usual = definition.folders.filter { $0.base == .home }.map {
+                    (homeNames + PathComponents.of($0.path), own)
+                }
+                let moved = definition.folders.compactMap(\.movedBy).flatMap { relocation in
+                    relocation.places(preference: { _ in nil }, settings: settings).map {
+                        (names($0.place), [names($0.named)])
+                    }
+                }
+                return usual + moved
             }
         }
 
@@ -328,7 +337,7 @@ public enum DeveloperCaches {
             Folder(
                 "Library/Developer/Xcode/DerivedData", .buildData,
                 source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-26-release-notes",
-                rowsDepth: 1, rowsAreDerivedData: true, movedByXcodeSetting: "IDECustomDerivedDataLocation"
+                rowsDepth: 1, rowsAreDerivedData: true, movedBy: .xcodeSetting("IDECustomDerivedDataLocation")
             ),
             Folder("Library/Developer/Xcode/UserData/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
             Folder("Library/Developer/Xcode/UserData-Tests/Previews/Simulator Devices", .buildData, source: "Xcode 27: DVTSystemPrerequisites.framework, beside DVTSimulatorDeviceRemover"),
@@ -349,7 +358,7 @@ public enum DeveloperCaches {
             Folder(
                 "Library/Developer/Xcode/Archives", .archives,
                 source: "Xcode 27: IDEFoundation.framework, -[IDEDeveloperPaths defaultDistributionArchivesLocation]",
-                rowsDepth: 2, rowEnding: ".xcarchive", movedByXcodeSetting: "IDECustomDistributionArchivesLocation"
+                rowsDepth: 2, rowEnding: ".xcarchive", movedBy: .xcodeSetting("IDECustomDistributionArchivesLocation")
             ),
         ]),
         Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
@@ -381,20 +390,20 @@ public enum DeveloperCaches {
         ]),
         // JavaScript
         Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder(".npm/_cacache", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L443"),
-            Folder(".npm/_npx", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L444"),
-            Folder(".npm/_logs", .logs, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L1481-L1486"),
-            Folder(".npm/_prebuilds", .downloads, source: "https://github.com/prebuild/prebuild-install/blob/8e4dbad54ac92c480e2ff213d46140b5fd9a3545/README.md#L148-L154"),
+            Folder(".npm/_cacache", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L443", movedBy: .npmCache(inside: "_cacache")),
+            Folder(".npm/_npx", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L444", movedBy: .npmCache(inside: "_npx")),
+            Folder(".npm/_logs", .logs, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L1481-L1486", movedBy: .npmCache(inside: "_logs")),
+            Folder(".npm/_prebuilds", .downloads, source: "https://github.com/prebuild/prebuild-install/blob/8e4dbad54ac92c480e2ff213d46140b5fd9a3545/README.md#L148-L154", movedBy: .npmCache(inside: "_prebuilds")),
         ]),
         Definition(id: "yarn", name: "Yarn", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/Yarn", .downloads, source: "https://github.com/yarnpkg/yarn/blob/c2dda503f3759b5be5f0e24ecd9cf5c97a540147/src/util/user-dirs.js#L32-L33"),
+            Folder("Library/Caches/Yarn", .downloads, source: "https://github.com/yarnpkg/yarn/blob/c2dda503f3759b5be5f0e24ecd9cf5c97a540147/src/util/user-dirs.js#L32-L33", movedBy: .yarnCache),
             // Yarn's Plug'n'Play projects load every package from this cache, so it is listed and never selected:
             // moving it breaks each such project until `yarn install` runs in it again.
-            Folder(".yarn/berry/cache", .environments, source: "https://github.com/yarnpkg/berry/blob/e4e423a1eb117b5129f20ac626a03eb7a97aedff/packages/yarnpkg-core/sources/Configuration.ts"),
-            Folder(".yarn/berry/metadata", .cache, source: "https://github.com/yarnpkg/berry/blob/e4e423a1eb117b5129f20ac626a03eb7a97aedff/packages/plugin-npm/sources/npmHttpUtils.ts#L317"),
+            Folder(".yarn/berry/cache", .environments, source: "https://github.com/yarnpkg/berry/blob/e4e423a1eb117b5129f20ac626a03eb7a97aedff/packages/yarnpkg-core/sources/Configuration.ts", movedBy: .yarnGlobalFolder(inside: "cache")),
+            Folder(".yarn/berry/metadata", .cache, source: "https://github.com/yarnpkg/berry/blob/e4e423a1eb117b5129f20ac626a03eb7a97aedff/packages/plugin-npm/sources/npmHttpUtils.ts#L317", movedBy: .yarnGlobalFolder(inside: "metadata")),
         ]),
         Definition(id: "pnpm", name: "pnpm", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder("Library/pnpm/store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/ae60a09ef4fe5929d937a24df02e21ecd08c3edc/docs/settings/store.md#L15"),
+            Folder("Library/pnpm/store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/ae60a09ef4fe5929d937a24df02e21ecd08c3edc/docs/settings/store.md#L15", movedBy: .pnpmStore),
             Folder(".pnpm-store", .environments, source: "https://github.com/pnpm/pnpm.io/blob/ae60a09ef4fe5929d937a24df02e21ecd08c3edc/versioned_docs_archived/version-6.x/npmrc.md#L95-L100"),
             Folder("Library/Caches/pnpm", .cache, source: "https://github.com/pnpm/pnpm.io/blob/ae60a09ef4fe5929d937a24df02e21ecd08c3edc/docs/settings/other.md#L175"),
         ]),
@@ -566,9 +575,9 @@ public enum DeveloperCaches {
             Folder(".cargo/git/db", .downloads, source: "https://github.com/rust-lang/cargo/blob/bb2126cffae48394a37db8728dc50a17bbfe54d4/doc/book/src/guide/cargo-home.md#L33-L34"),
         ]),
         Definition(id: "go", name: "Go", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/go-build", .buildData, source: "https://github.com/golang/go/blob/6f5c275ebdc454197fff5f1496521c8f81e20eef/src/cmd/go/alldocs.go#L2372-L2373"),
-            Folder("go/pkg/mod/cache/download", .downloads, source: "https://github.com/golang/website/blob/32881aa55f0d81413cda4fe43e0236d0cae2b2ec/_content/ref/mod.md#L4020-L4028"),
-            Folder("go/pkg/mod/cache/vcs", .downloads, source: "https://github.com/golang/website/blob/32881aa55f0d81413cda4fe43e0236d0cae2b2ec/_content/ref/mod.md#L4088-L4095"),
+            Folder("Library/Caches/go-build", .buildData, source: "https://github.com/golang/go/blob/6f5c275ebdc454197fff5f1496521c8f81e20eef/src/cmd/go/alldocs.go#L2372-L2373", movedBy: .goBuildCache),
+            Folder("go/pkg/mod/cache/download", .downloads, source: "https://github.com/golang/website/blob/32881aa55f0d81413cda4fe43e0236d0cae2b2ec/_content/ref/mod.md#L4020-L4028", movedBy: .goModuleCache(inside: "cache/download")),
+            Folder("go/pkg/mod/cache/vcs", .downloads, source: "https://github.com/golang/website/blob/32881aa55f0d81413cda4fe43e0236d0cae2b2ec/_content/ref/mod.md#L4088-L4095", movedBy: .goModuleCache(inside: "cache/vcs")),
         ]),
         Definition(id: "sccache", name: "sccache", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Mozilla.sccache", .buildData, source: "https://github.com/mozilla/sccache/blob/50b329680bec2c01e84bc7b78a5a5cc41cffee82/docs/Local.md#L3"),
@@ -1152,13 +1161,14 @@ public enum DeveloperCaches {
         preference: @escaping @Sendable (String) -> String? = Self.xcodePreference,
         openFiles: OpenFiles = OpenFiles()
     ) async -> [DeveloperEnvironment] {
+        let settings = ToolSettings(home: homeDirectory)
         // Four tools at a time: measured all at once, their big folders would share the disk and each run out of
         // the time `FileSize` gives a walk, where alone they would finish.
-        await definitions.concurrentMap(width: 4) { definition in
+        return await definitions.concurrentMap(width: 4) { definition in
             await environment(
                 for: definition, homeDirectory: homeDirectory, userCacheDirectory: userCacheDirectory,
                 userTemporaryDirectory: userTemporaryDirectory, exclusions: exclusions, measure: measure,
-                preference: preference, openFiles: openFiles
+                preference: preference, settings: settings, openFiles: openFiles
             )
         }
         .compactMap(\.self)
@@ -1173,13 +1183,14 @@ public enum DeveloperCaches {
         exclusions: Exclusions,
         measure: @escaping LeftoverScanner.Measure,
         preference: @escaping @Sendable (String) -> String?,
+        settings: ToolSettings,
         openFiles: OpenFiles
     ) async -> DeveloperEnvironment? {
         var found: [(url: URL, folder: Folder, project: String?)] = []
         for folder in definition.folders {
             let places = folder.places(
                 home: homeDirectory, userCache: userCacheDirectory, userTemporary: userTemporaryDirectory,
-                preference: preference
+                preference: preference, settings: settings
             )
             let rows = places.flatMap { place in
                 folder.launchers.isEmpty

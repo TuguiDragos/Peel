@@ -381,10 +381,15 @@ struct DeveloperCachesTests {
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names
     /// it, for the folders Apple documents nowhere else.
     @Test func everyFolderNamesItsSource() {
+        let isAPage = { (source: String) in source.hasPrefix("https://") && URL(string: source)?.host() != nil }
         for definition in DeveloperCaches.definitions {
             for folder in definition.folders {
-                let isAPage = folder.source.hasPrefix("https://") && URL(string: folder.source)?.host() != nil
-                #expect(isAPage || folder.source.hasPrefix("Xcode 27: "), "\(definition.id)'s \(folder.path) names \(folder.source)")
+                #expect(isAPage(folder.source) || folder.source.hasPrefix("Xcode 27: "), "\(definition.id)'s \(folder.path) names \(folder.source)")
+                // What moves a folder is named too, except Xcode's setting, which its folder's source names.
+                if case .xcodeSetting? = folder.movedBy { continue }
+                let sources = folder.movedBy?.sources ?? []
+                #expect(folder.movedBy == nil || !sources.isEmpty, "\(definition.id)'s \(folder.path) moves unnamed")
+                #expect(sources.allSatisfy(isAPage), "\(definition.id)'s \(folder.path) moves by \(sources)")
             }
         }
     }
@@ -402,6 +407,7 @@ struct DeveloperCachesTests {
         let electron = DeveloperCaches.electronDefinitions(for: [chat], home: directory.url.appending(path: "home"))
         try #require(!electron.isEmpty)
         let sources = (DeveloperCaches.definitions + electron).flatMap { $0.folders.map(\.source) }
+            + DeveloperCaches.definitions.flatMap { $0.folders.compactMap(\.movedBy).flatMap(\.sources) }
             + ProjectArtifacts.definitions.map(\.source)
 
         for source in sources {
@@ -827,6 +833,65 @@ struct DeveloperCachesTests {
         #expect(byName["Notes-abcdefghijklmnopqrstuvwxyzab"]?.isRecommended == true)
         #expect(byName["Photos"]?.isRecommended == false)
         #expect(byName["Notes 17.09.2026, 10.00.xcarchive"]?.kind == .archives)
+    }
+
+    /// npm, Yarn, pnpm and Go each write where a cache moved into a configuration file of their own, with their
+    /// own `config set`; Developer reads those files, never runs a tool, and finds the cache there.
+    @Test func findsTheCachesEachToolsOwnConfigurationMovedElsewhere() async throws {
+        let directory = try TemporaryDirectory()
+        let fast = directory.url.appending(path: "Fast", directoryHint: .isDirectory).path(percentEncoded: false)
+        try directory.file("home/.npmrc", contents: Data("registry=https://registry.npmjs.org/\ncache = \(fast)npm ; moved\n".utf8))
+        try directory.file("Fast/npm/_cacache/index-v5/00/entry")
+        try directory.file("home/.yarnrc", contents: Data("# yarn lockfile v1\ncache-folder \"\(fast)yarn\"\n".utf8))
+        try directory.file("Fast/yarn/v6/npm-left-pad-1.3.0/package.json")
+        try directory.file("home/.yarnrc.yml", contents: Data("globalFolder: \"\(fast)berry\"\n".utf8))
+        try directory.file("Fast/berry/cache/left-pad.zip")
+        try directory.file("home/Library/Preferences/pnpm/config.yaml", contents: Data("storeDir: \(fast)pnpm # moved\n".utf8))
+        try directory.file("Fast/pnpm/v11/index.db")
+        try directory.file("Fast/pnpm/Notes/todo.txt")
+        let goEnvironment = "GOMODCACHE=\(fast)gomod\nGOCACHE=\(fast)gobuild\n"
+        try directory.file("home/Library/Application Support/go/env", contents: Data(goEnvironment.utf8))
+        try directory.file("Fast/gomod/cache/download/example.com/@v/list")
+        let readme = "This directory holds cached build artifacts from the Go build system.\n"
+        try directory.file("Fast/gobuild/README", contents: Data(readme.utf8))
+        try directory.file("Fast/gobuild/00/0a1b-d")
+        let tools = DeveloperCaches.definitions.filter { ["npm", "yarn", "pnpm", "go"].contains($0.id) }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        let found = await DeveloperCaches.scan(tools, homeDirectory: home).flatMap(\.locations)
+
+        let temporary = directory.url.path(percentEncoded: false)
+        #expect(Set(found.map { $0.url.path(percentEncoded: false).replacingOccurrences(of: temporary, with: "") }) == [
+            "Fast/npm/_cacache", "Fast/yarn/v6", "Fast/berry/cache", "Fast/pnpm/v11", "Fast/gomod/cache/download",
+            "Fast/gobuild",
+        ])
+    }
+
+    /// What a tool would read with its own environment (another variable, its working folder), or a folder that does
+    /// not show the tool's own mark, is no place Peel can name, so it is passed over.
+    @Test func aConfigurationThatNamesNoPlaceOfItsOwnMovesNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let fast = directory.url.appending(path: "Fast", directoryHint: .isDirectory).path(percentEncoded: false)
+        try directory.file("home/.npmrc", contents: Data("cache = ${NPM_FAST}/npm\n[section]\ncache = \(fast)npm\n".utf8))
+        try directory.file("Fast/npm/_cacache/index-v5/00/entry")
+        try directory.file("home/npm/_cacache/index-v5/00/entry")
+        try directory.file("home/berry/cache/left-pad.zip")
+        try directory.file("home/.yarnrc.yml", contents: Data("globalFolder: ${YARN_FAST}/berry\n".utf8))
+        try directory.file("Fast/berry/cache/left-pad.zip")
+        try directory.file("home/.yarnrc", contents: Data("cache-folder \"\(fast)yarn\"\n".utf8))
+        try directory.file("Elsewhere/v6/npm-left-pad-1.3.0/package.json")
+        try directory.directory("Fast/yarn")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Fast/yarn/v6"), withDestinationURL: directory.url.appending(path: "Elsewhere/v6")
+        )
+        let goEnvironment = "GOMODCACHE=gomod\nGOCACHE=\(fast)gobuild\n"
+        try directory.file("home/Library/Application Support/go/env", contents: Data(goEnvironment.utf8))
+        try directory.file("Fast/gobuild/00/0a1b-d")
+        let tools = DeveloperCaches.definitions.filter { ["npm", "yarn", "go"].contains($0.id) }
+
+        let found = await DeveloperCaches.scan(tools, homeDirectory: directory.url.appending(path: "home"))
+
+        #expect(found.isEmpty)
     }
 
     @Test func aSettingThatIsNotAnAbsolutePathMovesNothing() async throws {
