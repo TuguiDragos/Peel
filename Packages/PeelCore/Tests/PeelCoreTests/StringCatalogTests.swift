@@ -223,6 +223,8 @@ import Testing
             "Before zsh-autosuggestions, without --set-upstream": ["localizations": ["ro": unit("Înainte de zsh-autosuggestions, fără --set-upstream"), "fr": unit("Avant zsh-autosuggestions, sans --set-upstream")]],
             "Control-click an app": ["localizations": ["ro": unit("Faceți Control-clic pe o aplicație"), "fr": unit("Cliquez sur une app en maintenant Contrôle")]],
             "Needs your attention": ["localizations": ["ro": unit("Necesită atenția dumneavoastră"), "fr": unit("Requiert votre attention")]],
+            "Choose a Folder…": ["localizations": ["ro": unit("Alegeți un dosar…"), "fr": unit("Choisir un dossier…"), "de": unit("Ordner auswählen …")]],
+            "Add Folder…": ["localizations": ["ro": unit("Adăugați un dosar…"), "fr": unit("Ajouter un dossier…"), "de": unit("Ordner hinzufügen\u{00A0}…")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -260,6 +262,8 @@ import Testing
         #expect(caught["space"]?.contains("In the Trash") == true, "a line could end with a one-letter word")
         #expect(caught["space"]?.contains("With Peel") != true, "a no-break space keeps it with the next word")
         #expect(caught["space"]?.contains("Run `a b`") != true, "code is written as it is typed")
+        #expect(caught["space"]?.contains("Choose a Folder…") == true, "German keeps the ellipsis with its word")
+        #expect(caught["space"]?.contains("Add Folder…") != true, "a no-break space before the ellipsis")
         #expect(caught["space"]?.contains("^[%lld folder](inflect: true) here") == true, "Polish keeps a count with its noun")
         #expect(caught["space"]?.contains("About Peel") != true, "SwiftUI's own words stay SwiftUI's")
         #expect(caught["hyphen"]?.contains("It would replace it") == true, "a hyphen that splits a Romanian word")
@@ -665,6 +669,9 @@ struct CatalogChecker {
         if language == "pl",
            Self.countBeforeASpace.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil {
             fail(path, key, language, "space", "a no-break space between a count and its noun")
+        }
+        if language == "de", zip(" " + text, text).contains(where: { $1 == "…" && $0 != "\u{00A0}" }) {
+            fail(path, key, language, "space", "a no-break space before the ellipsis, as macOS writes German")
         }
         if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
             fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
