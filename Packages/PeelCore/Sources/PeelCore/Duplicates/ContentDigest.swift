@@ -1,5 +1,6 @@
 import CryptoKit
 import Foundation
+import PeelPrivileged
 
 /// A SHA-256 digest stored as its 32 bytes, so a digest read back from disk equals a freshly computed one.
 /// `SHA256.Digest` itself cannot be created from bytes.
@@ -32,6 +33,6 @@ struct ContentDigest: Hashable, Sendable {
     }
 
     var hexadecimal: String {
-        bytes.map { String(format: "%02x", $0) }.joined()
+        bytes.hexadecimal
     }
 }

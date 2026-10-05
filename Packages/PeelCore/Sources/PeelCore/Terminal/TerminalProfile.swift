@@ -1,5 +1,6 @@
 import AppKit
 import CryptoKit
+import PeelPrivileged
 
 public enum TerminalProfile {
     public static func settings(for theme: TerminalTheme, options: Set<TerminalOption> = []) throws -> [String: Any] {
@@ -35,7 +36,7 @@ public enum TerminalProfile {
     public static func fingerprint(of settings: [String: Any]) -> String? {
         guard let data = try? PropertyListSerialization.data(fromPropertyList: settings, format: .xml, options: 0)
         else { return nil }
-        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        return SHA256.hash(data: data).hexadecimal
     }
 
     private static let ansiNames = ["Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"]

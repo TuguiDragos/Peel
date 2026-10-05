@@ -1,6 +1,7 @@
 import CryptoKit
 import Darwin
 import Foundation
+import PeelPrivileged
 
 /// Finds folders whose whole contents are identical. It lists the folders itself instead of reusing the file
 /// scan, which keeps one candidate per inode and so cannot tell what a folder holds. Anything the walk cannot
@@ -121,7 +122,7 @@ struct FolderDuplicates: Sendable {
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
         guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, onListing: {})
         else { return nil }
-        return identity(of: folder).map(Self.hexadecimal)
+        return identity(of: folder).map(\.hexadecimal)
     }
 
     private func identity(of folder: Folder) -> SHA256.Digest? {
@@ -326,7 +327,7 @@ struct FolderDuplicates: Sendable {
             }
             let folders = sorted.compactMap(duplicate)
             guard folders.count > 1 else { return nil }
-            return DuplicateFolderGroup(id: Self.hexadecimal(group.digest), folders: folders)
+            return DuplicateFolderGroup(id: group.digest.hexadecimal, folders: folders)
         }
         .sorted { ($0.reclaimableSize, $0.size, $1.id) > ($1.reclaimableSize, $1.size, $0.id) }
     }
@@ -338,7 +339,7 @@ struct FolderDuplicates: Sendable {
             fileCount: folder.fileCount,
             size: folder.size,
             reclaimableSize: Self.reclaimable(folder),
-            contents: Self.hexadecimal(contents),
+            contents: contents.hexadecimal,
             neverProjects: neverProjects
         )
     }
@@ -375,10 +376,6 @@ struct FolderDuplicates: Sendable {
         _ digests: [(item: (url: URL, identity: FileIdentity), digest: ContentDigest)]
     ) -> [FileIdentity: ContentDigest] {
         Dictionary(digests.map { ($0.item.identity, $0.digest) }, uniquingKeysWith: { first, _ in first })
-    }
-
-    private static func hexadecimal(_ digest: SHA256.Digest) -> String {
-        digest.map { String(format: "%02x", $0) }.joined()
     }
 
     /// Encodes one entry as a tag, the name's length, the name, and `tail`. The length comes first so a name

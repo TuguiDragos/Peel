@@ -216,7 +216,7 @@ extension ProtectedData {
 
     /// The SHA-256 of `id`, in lowercase hex, which is how the lists above hold each ID.
     static func fingerprint(_ id: String) -> String {
-        SHA256.hash(data: Data(id.utf8)).map { String(format: "%02x", $0) }.joined()
+        SHA256.hash(data: Data(id.utf8)).hexadecimal
     }
 
     /// True for a path at or inside a wallet extension's storage: `Local Extension Settings/<ID>` or an IndexedDB
