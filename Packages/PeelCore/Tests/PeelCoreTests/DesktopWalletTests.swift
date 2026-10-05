@@ -25,6 +25,8 @@ struct DesktopWalletTests {
         "Library/Application Support/Haveno/xmr_mainnet/keys/sig.key",
         "Library/Application Support/Haveno-reto/xmr_mainnet/wallet/haveno_XMR.keys",
         "Library/Application Support/Haveno-reto/xmr_mainnet/keys/sig.key",
+        "Library/Containers/com.cypherstack.stackwallet/Data/Library/stackwallet/isar/desktopStore.isar",
+        "Library/stackwallet/isar/desktopStore.isar",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -33,13 +35,12 @@ struct DesktopWalletTests {
         let guardian = RemovalGuard(
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
         )
-        let file = home.appending(path: key)
-        let folder = file.deletingLastPathComponent()
-        let around = folder.deletingLastPathComponent().path(percentEncoded: false)
+        var item = home.appending(path: key)
 
-        #expect(!guardian.allowsRemoval(of: file))
-        #expect(!guardian.allowsRemoval(of: folder))
-        #expect(ProtectedData.holds(around, home: home.path(percentEncoded: false)))
+        while item.path(percentEncoded: false).count > home.path(percentEncoded: false).count {
+            #expect(!guardian.allowsRemoval(of: item), "\(item.path(percentEncoded: false)) may be removed")
+            item = item.deletingLastPathComponent()
+        }
     }
 
     @Test(arguments: [
@@ -50,6 +51,7 @@ struct DesktopWalletTests {
         ".walletwasabi/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
         ".gingerwallet/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
         "Library/Application Support/Haveno-reto/xmr_mainnet/haveno.log",
+        "Library/Containers/com.cypherstack.stackwallet/Data/Library/Caches/thumbnail.png",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()

@@ -120,6 +120,8 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/Nunchuk",
         "Library/Application Support/Blockstream/Green/wallets2",
         "Library/Containers/io.bluewallet.bluewallet/Data/Library/Caches/keyvalue.realm",
+        "Library/Containers/com.cypherstack.stackwallet/Data/Library/stackwallet",
+        "Library/stackwallet",
         "Library/Application Support/Exodus/exodus.wallet",
         "Library/Application Support/Exodus/Backups",
         "Library/Application Support/atomic",
