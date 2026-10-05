@@ -132,6 +132,30 @@ struct DesktopWalletTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: cache)))
     }
 
+    @Test func framesSignersKeptOnAnotherDiskFromACaseSensitiveHome() throws {
+        let directory = try TemporaryDirectory()
+        let volume = try ScratchVolume(
+            fileSystem: "Case-sensitive APFS",
+            mountedAt: directory.url.appending(path: "Volume", directoryHint: .isDirectory)
+        )
+        let home = volume.url.appending(path: "me", directoryHint: .isDirectory)
+        let frame = home.appending(path: "Library/Application Support/frame", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: frame, withIntermediateDirectories: true)
+        let signer = try directory.file("disk/signers/0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0.json")
+        let signers = signer.deletingLastPathComponent()
+        try FileManager.default.createSymbolicLink(
+            atPath: frame.appending(path: "signers").path(percentEncoded: false),
+            withDestinationPath: signers.path(percentEncoded: false)
+        )
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        for item in [signer, signers] {
+            #expect(!guardian.allowsRemoval(of: item), "\(item.path(percentEncoded: false)) may be removed")
+        }
+    }
+
     @Test func safetyMDCountsEveryPlace() throws {
         let page = try String(contentsOf: StringCatalogTests.repository.appending(path: "SAFETY.md"), encoding: .utf8)
         let counts = page.matches(of: /(\d+) places in (all|the table)/).compactMap { Int($0.output.1) }

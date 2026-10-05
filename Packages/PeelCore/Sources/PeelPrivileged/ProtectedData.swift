@@ -142,7 +142,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/Exodus/Backups",
         "Library/Application Support/atomic",
         "Library/Application Support/@onekeyhq/desktop",
-        "Library/Application Support/Frame/signers",
+        "Library/Application Support/frame/signers",
         "Library/Application Support/rabby-desktop",
         "Library/Application Support/umami",
         "Library/Application Support/MyTonWallet",
