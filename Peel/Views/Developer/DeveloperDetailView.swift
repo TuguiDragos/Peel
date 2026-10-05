@@ -31,11 +31,7 @@ struct DeveloperDetailView: View {
                     Text("Caches")
                 } actions: {
                     SelectMenu(
-                        list: SelectableRows(
-                            rows: environment.locations.map(\.url),
-                            selectable: environment.locations.map(\.url),
-                            recommended: environment.locations.filter(\.isRecommended).map(\.url)
-                        ),
+                        list: environment.selectableRows,
                         place: Text(verbatim: environment.name),
                         selection: developer
                     )

@@ -16,7 +16,7 @@ struct InstallerDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if rows.contains(where: { $0.requiresPrivileges && $0.heldBack?.cannotBeMoved != true }), !helper.canAct {
+            if rows.contains(where: { $0.isLocked(canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()
             }
 
@@ -32,7 +32,7 @@ struct InstallerDetailView: View {
                             warning: item.heldBack.map { String(localized: $0.explanation) },
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
-                            isLocked: isLocked(item),
+                            isLocked: item.isLocked(canUseHelper: helper.canAct),
                             isLeftAlone: item.heldBack?.cannotBeMoved == true,
                             isFirst: item.id == rows.first?.id,
                             hasNoteColumn: hasNoteColumn,
@@ -46,15 +46,7 @@ struct InstallerDetailView: View {
                     heading(kind.title, kind.explanation)
                 } actions: {
                     SelectMenu(
-                        list: SelectableRows(
-                            rows: rows.map(\.url),
-                            selectable: rows.filter {
-                                !$0.isReadOnly && !isLocked($0) && $0.heldBack?.cannotBeMoved != true
-                            }.map(\.url),
-                            recommended: rows.filter {
-                                !$0.isReadOnly && !isLocked($0) && $0.heldBack == nil
-                            }.map(\.url)
-                        ),
+                        list: rows.selectableRows(canUseHelper: helper.canAct),
                         place: Text(kind.title),
                         selection: installers
                     )
@@ -128,10 +120,6 @@ struct InstallerDetailView: View {
             return "\(app) is already installed"
         }
         return item.notes.first.map(\.words)
-    }
-
-    private func isLocked(_ item: InstallerItem) -> Bool {
-        item.requiresPrivileges && !helper.canAct
     }
 }
 

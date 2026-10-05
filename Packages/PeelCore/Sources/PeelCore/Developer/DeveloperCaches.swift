@@ -92,6 +92,14 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         SizeTotal(locations.map(\.size))
     }
 
+    public var selectableRows: SelectableRows<URL> {
+        SelectableRows(
+            rows: locations.map(\.url),
+            selectable: locations.map(\.url),
+            recommended: locations.filter(\.isRecommended).map(\.url)
+        )
+    }
+
     /// The name of one of the environment's apps that is running, which is the one to ask the user to quit, or nil
     /// when none runs. Nothing of the environment moves while one runs, from the app or `peel`: it writes in these
     /// folders. Asked each time, since an app can be opened at any moment.

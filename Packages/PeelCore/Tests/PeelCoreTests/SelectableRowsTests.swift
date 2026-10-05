@@ -65,4 +65,119 @@ struct SelectableRowsTests {
         let locked = SelectableRows(rows: [repository, cache], selectable: [cache], recommended: [cache])
         #expect(!locked.isNoneSelected(in: [repository]))
     }
+
+    @Test func anOrphanGroupLeavesALockedRowToTheHelper() {
+        func orphan(_ name: String, heldBack: HoldBack? = nil, requiresPrivileges: Bool = false) -> OrphanItem {
+            var item = OrphanItem(
+                url: URL(filePath: "/tmp/\(name)"), kind: .caches, size: 10, modificationDate: nil,
+                requiresPrivileges: requiresPrivileges
+            )
+            item.heldBack = heldBack
+            return item
+        }
+        let plain = orphan("org.example.Plain")
+        let unmeasured = orphan("org.example.Unmeasured", heldBack: .notMeasured)
+        let library = orphan("org.example.Library", heldBack: .holdsALibrary)
+        let system = orphan("org.example.System", requiresPrivileges: true)
+        let refused = orphan("org.example.Refused", heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let group = OrphanGroup(identifier: "org.example", items: [plain, unmeasured, library, system, refused])
+
+        let helped = group.selectableRows(canUseHelper: true)
+        #expect(helped.rows == group.items.map(\.url))
+        #expect(helped.selectable == [plain.url, unmeasured.url, system.url])
+        #expect(helped.recommended == [plain.url, system.url])
+        let alone = group.selectableRows(canUseHelper: false)
+        #expect(alone.rows == group.items.map(\.url))
+        #expect(alone.selectable == [plain.url, unmeasured.url])
+        #expect(alone.recommended == [plain.url])
+        #expect(system.isLocked(canUseHelper: false) && !system.isLocked(canUseHelper: true))
+        #expect(!refused.isLocked(canUseHelper: false))
+    }
+
+    @Test func aDeveloperToolRecommendsWhatItSelectsForThePerson() {
+        func location(
+            _ name: String, _ kind: DeveloperEnvironment.ContentKind, size: Int64? = 10
+        ) -> DeveloperEnvironment.Location {
+            DeveloperEnvironment.Location(
+                url: URL(filePath: "/tmp/\(name)"), kind: kind, size: size, source: "https://example.com"
+            )
+        }
+        let cache = location("org.example.Cache", .cache)
+        let unmeasured = location("org.example.Unmeasured", .cache, size: nil)
+        let archive = location("org.example.Archive", .archives)
+        let tool = DeveloperEnvironment(
+            id: "org.example", name: "Example", systemImage: "hammer", appBundleIdentifiers: [],
+            locations: [cache, unmeasured, archive]
+        )
+
+        #expect(tool.selectableRows.selectable == [cache.url, unmeasured.url, archive.url])
+        #expect(tool.selectableRows.recommended == [cache.url])
+    }
+
+    @Test func aProjectRecommendsWhatItSelectsForThePerson() {
+        let project = URL(filePath: "/tmp/org.example.Project")
+        func artifact(_ name: String, generic: Bool) -> ProjectArtifact {
+            ProjectArtifact(
+                url: project.appending(path: name), project: project, name: name, tool: "Xcode", size: 10,
+                lastActivity: .now.addingTimeInterval(-ProjectArtifacts.recentlyActive * 2),
+                hasGenericName: generic, isEnvironment: false
+            )
+        }
+        let derived = artifact("DerivedData", generic: false)
+        let build = artifact("build", generic: true)
+
+        #expect([derived, build].selectableRows.selectable == [derived.url, build.url])
+        #expect([derived, build].selectableRows.recommended == [derived.url])
+    }
+
+    @Test func anInstallerKindNeverSelectsABackupOrALockedRow() {
+        func installer(
+            _ name: String, heldBack: HoldBack? = nil, privileged: Bool = false, readOnly: Bool = false
+        ) -> InstallerItem {
+            InstallerItem(
+                url: URL(filePath: "/tmp/\(name)"), kind: .appInstaller, name: name, size: 10, date: nil,
+                installedApp: nil, isReadOnly: readOnly, notes: [], requiresPrivileges: privileged, heldBack: heldBack
+            )
+        }
+        let image = installer("org.example.dmg")
+        let backup = installer("org.example.Backup", readOnly: true)
+        let unmeasured = installer("org.example.pkg", heldBack: .notMeasured)
+        let refused = installer("org.example.Refused", heldBack: .beyondTheHelper, privileged: true)
+        let system = installer("org.example.System", privileged: true)
+        let items = [image, backup, unmeasured, refused, system]
+
+        let helped = items.selectableRows(canUseHelper: true)
+        #expect(helped.selectable == [image.url, unmeasured.url, system.url])
+        #expect(helped.recommended == [image.url, system.url])
+        let alone = items.selectableRows(canUseHelper: false)
+        #expect(alone.rows == items.map(\.url))
+        #expect(alone.selectable == [image.url, unmeasured.url])
+        #expect(alone.recommended == [image.url])
+        #expect(system.isLocked(canUseHelper: false) && !refused.isLocked(canUseHelper: false))
+    }
+
+    @Test func aSpaceAreaRecommendsItsOwnSuggestion() {
+        let (cache, unmeasured, documents, system, refused, unknown) = (
+            URL(filePath: "/tmp/org.example.Cache"), URL(filePath: "/tmp/org.example.Unmeasured"),
+            URL(filePath: "/tmp/org.example.Documents"), URL(filePath: "/tmp/org.example.System"),
+            URL(filePath: "/tmp/org.example.Refused"), URL(filePath: "/tmp/org.example.Unknown")
+        )
+        let plan = SpaceRemoval.Plan(
+            removable: [cache, unmeasured, documents, system, refused, unknown],
+            inUse: [],
+            leftToDeveloper: [],
+            sizes: [cache: 1, documents: 2, system: 3, refused: 4],
+            heldBack: [unmeasured: .notMeasured, documents: .holdsDocuments, refused: .beyondTheHelper],
+            needsTheHelper: [system, refused]
+        )
+
+        let helped = plan.selectableRows(canUseHelper: true)
+        #expect(helped.selectable == [cache, unmeasured, system, unknown])
+        #expect(helped.recommended == [cache, system])
+        let alone = plan.selectableRows(canUseHelper: false)
+        #expect(alone.rows == plan.removable)
+        #expect(alone.selectable == [cache, unmeasured, unknown])
+        #expect(alone.recommended == [cache])
+        #expect(plan.isLocked(system, canUseHelper: false) && !plan.isLocked(refused, canUseHelper: false))
+    }
 }

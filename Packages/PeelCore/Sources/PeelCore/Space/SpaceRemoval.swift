@@ -35,6 +35,20 @@ public enum SpaceRemoval {
         public var suggested: Set<URL> {
             Set(sizes.keys).subtracting(heldBack.keys)
         }
+
+        /// One the helper would refuse anyway is left alone rather than locked.
+        public func isLocked(_ url: URL, canUseHelper: Bool) -> Bool {
+            needsTheHelper.contains(url) && heldBack[url]?.cannotBeMoved != true && !canUseHelper
+        }
+
+        public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
+            let unlocked = removable.filter { !isLocked($0, canUseHelper: canUseHelper) }
+            return SelectableRows(
+                rows: removable,
+                selectable: unlocked.filter { heldBack[$0]?.cannotBeMoved != true },
+                recommended: unlocked.filter(suggested.contains)
+            )
+        }
     }
 
     /// The plan while the apps in `running` are open, whose names and groups are read here, away from the main actor.

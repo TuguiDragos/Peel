@@ -22,6 +22,10 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     }
 
     public var id: URL { url }
+
+    public func isLocked(canUseHelper: Bool) -> Bool {
+        requiresPrivileges && leftAlone == nil && !canUseHelper
+    }
 }
 
 public struct OrphanGroup: Sendable, Hashable, Identifiable {
@@ -51,6 +55,17 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
 
     public var lastModified: Date? {
         items.compactMap(\.modificationDate).max()
+    }
+
+    /// Peel recommends no row it held back: such a row waits to be chosen by hand, as Review Before Removing does on
+    /// an app's page.
+    public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
+        let unlocked = items.filter { !$0.isLocked(canUseHelper: canUseHelper) }
+        return SelectableRows(
+            rows: items.map(\.url),
+            selectable: unlocked.filter { $0.leftAlone == nil }.map(\.url),
+            recommended: unlocked.filter { $0.heldBack == nil }.map(\.url)
+        )
     }
 }
 

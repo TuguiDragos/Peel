@@ -21,7 +21,7 @@ struct SpaceDetailView: View {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
-            if let plan, plan.removable.contains(where: { isLocked($0, in: plan) }) {
+            if let plan, plan.removable.contains(where: { plan.isLocked($0, canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()
             }
 
@@ -123,7 +123,7 @@ struct SpaceDetailView: View {
                     warning: plan.heldBack[url].map { String(localized: $0.explanation) },
                     size: plan.sizes[url] ?? 0,
                     isMeasured: plan.sizes[url] != nil,
-                    isLocked: isLocked(url, in: plan),
+                    isLocked: plan.isLocked(url, canUseHelper: helper.canAct),
                     isLeftAlone: plan.heldBack[url]?.cannotBeMoved == true,
                     isFirst: index == 0,
                     hasNoteColumn: !plan.heldBack.isEmpty,
@@ -136,11 +136,7 @@ struct SpaceDetailView: View {
                 heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
             } actions: {
                 SelectMenu(
-                    list: SelectableRows(
-                        rows: rows,
-                        selectable: rows.filter { !isLocked($0, in: plan) && plan.heldBack[$0]?.cannotBeMoved != true },
-                        recommended: rows.filter { !isLocked($0, in: plan) && plan.heldBack[$0] == nil }
-                    ),
+                    list: plan.selectableRows(canUseHelper: helper.canAct),
                     place: Text(item.words.title),
                     selection: space
                 )
@@ -197,12 +193,6 @@ struct SpaceDetailView: View {
     private var caption: Text {
         if item.isReadOnly { return Text("in use") }
         return plan == nil ? Text("in here") : Text("to remove")
-    }
-
-    /// True for an item only an administrator can move while the helper cannot act. One the helper would refuse
-    /// anyway is left alone rather than locked.
-    private func isLocked(_ url: URL, in plan: SpaceRemoval.Plan) -> Bool {
-        plan.needsTheHelper.contains(url) && plan.heldBack[url]?.cannotBeMoved != true && !helper.canAct
     }
 
     private static func ordered(_ plan: SpaceRemoval.Plan) -> [URL] {

@@ -17,7 +17,7 @@ struct OrphanDetailView: View {
             } else if let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
                 UnreadableFoldersNotice(folders: unreadable.map(\.url))
             }
-            if group.items.contains(where: { $0.requiresPrivileges && $0.leftAlone == nil }), !helper.canAct {
+            if group.items.contains(where: { $0.isLocked(canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()
             }
 
@@ -32,7 +32,7 @@ struct OrphanDetailView: View {
                         warning: warning(for: item),
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
-                        isLocked: isLocked(item),
+                        isLocked: item.isLocked(canUseHelper: helper.canAct),
                         isLeftAlone: item.leftAlone != nil,
                         isFirst: index == 0,
                         hasNoteColumn: hasNoteColumn,
@@ -44,7 +44,11 @@ struct OrphanDetailView: View {
                 SectionHeaderLine {
                     Text("Files")
                 } actions: {
-                    SelectMenu(list: list, place: Text(verbatim: group.title), selection: orphans)
+                    SelectMenu(
+                        list: group.selectableRows(canUseHelper: helper.canAct),
+                        place: Text(verbatim: group.title),
+                        selection: orphans
+                    )
                 }
             }
         }
@@ -100,19 +104,5 @@ struct OrphanDetailView: View {
             TotalLabel(total: group.movable, caption: Text("to remove"))
                 .accessibilityLabel(Text("\(group.movable.text) can be moved to the Trash"))
         }
-    }
-
-    /// Peel recommends no row it held back: such a row waits to be chosen by hand, as Review Before Removing does on
-    /// an app's page.
-    private var list: SelectableRows<URL> {
-        SelectableRows(
-            rows: group.items.map(\.url),
-            selectable: group.items.filter { !isLocked($0) && $0.leftAlone == nil }.map(\.url),
-            recommended: group.items.filter { !isLocked($0) && $0.heldBack == nil }.map(\.url)
-        )
-    }
-
-    private func isLocked(_ item: OrphanItem) -> Bool {
-        item.requiresPrivileges && !helper.canAct
     }
 }

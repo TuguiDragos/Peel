@@ -32,6 +32,12 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     }
 }
 
+extension Collection where Element == ProjectArtifact {
+    public var selectableRows: SelectableRows<URL> {
+        SelectableRows(rows: map(\.url), selectable: map(\.url), recommended: filter(\.isRecommended).map(\.url))
+    }
+}
+
 public enum ProjectArtifacts {
     /// A project changed within this time is in use, so none of its artifacts are selected for the user.
     public static let recentlyActive: TimeInterval = 7 * 24 * 60 * 60

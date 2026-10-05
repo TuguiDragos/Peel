@@ -36,6 +36,10 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
+    public func isLocked(canUseHelper: Bool) -> Bool {
+        requiresPrivileges && heldBack?.cannotBeMoved != true && !canUseHelper
+    }
+
     /// A fact shown beside the item's name. The app puts it into words.
     public enum Note: Sendable, Hashable {
         /// A macOS installer's version, as its bundle gives it.
@@ -43,6 +47,17 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
         /// A name a backup gives for its device or system, such as "iPhone" or "iOS 17.2", shown as is.
         case name(String)
         case encrypted
+    }
+}
+
+extension Collection where Element == InstallerItem {
+    public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
+        let open = filter { !$0.isReadOnly && !$0.isLocked(canUseHelper: canUseHelper) }
+        return SelectableRows(
+            rows: map(\.url),
+            selectable: open.filter { $0.heldBack?.cannotBeMoved != true }.map(\.url),
+            recommended: open.filter { $0.heldBack == nil }.map(\.url)
+        )
     }
 }
 

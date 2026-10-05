@@ -33,11 +33,7 @@ struct ProjectDetailView: View {
                     )
                 } actions: {
                     SelectMenu(
-                        list: SelectableRows(
-                            rows: group.artifacts.map(\.url),
-                            selectable: group.artifacts.map(\.url),
-                            recommended: group.artifacts.filter(\.isRecommended).map(\.url)
-                        ),
+                        list: group.artifacts.selectableRows,
                         place: Text(verbatim: group.project.lastPathComponent),
                         selection: projects
                     )
