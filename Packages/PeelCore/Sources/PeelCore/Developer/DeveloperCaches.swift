@@ -206,7 +206,7 @@ public enum DeveloperCaches {
             case .userTemporary: userTemporary
             }
             guard let root else { return [] }
-            var places = PathPattern.expand(path, home: root, limited: false)
+            var places = PathPattern.expand(path, home: root, from: .peel)
             places += movedBy?.places(preference: preference, settings: settings).map(\.place) ?? []
             var seen: Set<String> = []
             return places.filter { seen.insert(PathPattern.comparablePath(of: $0)).inserted }

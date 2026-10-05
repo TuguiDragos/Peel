@@ -142,6 +142,56 @@ struct CaskEvidenceTests {
         #expect(CaskEvidence.expand("relative/path", home: home).isEmpty)
     }
 
+    /// Braces, `**/` without hidden folders or links, and no path with `.`, `..` or another account's `~`.
+    @Test func readsACasksPathAsHomebrewDoes() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let icons = "home/.local/share/icons/hicolor"
+        try directory.directory("home/Library/Application Support/Adobe/CEP/extensions")
+        try directory.file("\(icons)/application-x-wine-top.png")
+        try directory.file("\(icons)/48x48/mimetypes/application-x-wine-extension.png")
+        try directory.file("\(icons)/.hidden/application-x-wine-hidden.png")
+        try directory.file("\(icons)/size [1]/application-x-wine-named.png")
+        try directory.file("elsewhere/application-x-wine-linked.png")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "\(icons)/linked"), withDestinationURL: directory.url.appending(path: "elsewhere")
+        )
+        try directory.directory("homeother/Library")
+        let root = PathPattern.comparablePath(of: home) + "/"
+        let found = { (pattern: String) in
+            Set(CaskEvidence.expand(pattern, home: home).map {
+                String($0.path(percentEncoded: false).dropFirst(root.count))
+            })
+        }
+
+        #expect(found("~/Library/Application Support/Adobe{/CEP{/extensions,},}") == [
+            "Library/Application Support/Adobe", "Library/Application Support/Adobe/CEP",
+            "Library/Application Support/Adobe/CEP/extensions",
+        ])
+        #expect(found("~/.local/share/icons/hicolor/**/application-x-wine*") == [
+            ".local/share/icons/hicolor/application-x-wine-top.png",
+            ".local/share/icons/hicolor/48x48/mimetypes/application-x-wine-extension.png",
+            ".local/share/icons/hicolor/size [1]/application-x-wine-named.png",
+        ])
+        #expect(found("~/Library/Application Support/../Application Support/Adobe").isEmpty)
+        #expect(found("~/Library/./Application Support/Adobe").isEmpty)
+        #expect(CaskEvidence.expand("~other/Library", home: home).isEmpty)
+    }
+
+    @Test func aCasksDoubleStarLooksNoDeeperOnceItHasReadGlobsShare() throws {
+        let directory = try TemporaryDirectory()
+        let wide = try directory.directory("Library/Logs/Example/a-wide")
+        for index in 0..<16_384 {
+            FileManager.default.createFile(atPath: wide.appending(path: "\(index).log").path(percentEncoded: false), contents: nil)
+        }
+        try directory.file("Library/Logs/Example/b-near/trace.log")
+        try directory.file("Library/Logs/Example/c-deep/deeper/trace.log")
+
+        let found = CaskEvidence.expand("~/Library/Logs/Example/**/trace.log", home: directory.url)
+
+        #expect(found.map { $0.deletingLastPathComponent().lastPathComponent } == ["b-near"])
+    }
+
     /// A cask's patterns are data from elsewhere, so `glob` keeps them within its limits.
     @Test func aCasksPatternStaysWithinGlobsLimits() throws {
         let directory = try TemporaryDirectory()

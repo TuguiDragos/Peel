@@ -179,11 +179,13 @@ public struct CaskEvidence: Sendable, Hashable {
         return true
     }
 
-    /// A cask only ever names absolute paths; anything else is ignored. Its patterns are data read from Homebrew,
-    /// so `glob` keeps them within its limits.
+    /// A cask's path read as Homebrew reads one (`each_resolved_path` in its `abstract_uninstall.rb`): `~` is the home
+    /// folder only before a slash, and a relative path or one with a `.` or `..` in it is skipped.
     static func expand(_ pattern: String, home: URL) -> [URL] {
-        guard pattern.hasPrefix("/") || pattern.hasPrefix("~") else { return [] }
-        return PathPattern.expand(pattern, home: home, limited: true)
+        guard pattern.hasPrefix("/") || pattern == "~" || pattern.hasPrefix("~/"),
+              !PathComponents.of(pattern).contains(where: { $0 == "." || $0 == ".." })
+        else { return [] }
+        return PathPattern.expand(pattern, home: home, from: .cask)
     }
 
     static func isInLibrary(_ url: URL, home: URL) -> Bool {

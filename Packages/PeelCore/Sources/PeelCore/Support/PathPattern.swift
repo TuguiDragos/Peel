@@ -89,11 +89,22 @@ public enum PathPattern {
             || ProtectedData.refuses(canonical(url).path(percentEncoded: false), home: home)
     }
 
+    /// Where a pattern comes from, which says how it is read.
+    enum Source {
+        /// Peel's own, a shell pattern for a tool's folders: every match counts.
+        case peel
+        /// A cask's, read as Homebrew reads it with Ruby's `Dir.glob`: `{a,b}` for each alternative, a backslash
+        /// quoting the next character, and `**/` for any number of folders but hidden ones and links. Being data from
+        /// elsewhere, it keeps `glob`'s limits: 128 paths on macOS whatever `gl_matchc` says (`GLOB_LIMIT_STAT` in
+        /// Libc's `glob.c`), and as many entries read as `GLOB_LIMIT_READDIR`, for a `**/` too.
+        case cask
+    }
+
+    private static let entriesAStarReads = 16_384
+
     /// The existing files `pattern` names, leaving out irreplaceable ones (`isIrreplaceable`). A pattern without a
-    /// leading `/` or `~` is read relative to `home`. A `limited` pattern is expanded within `glob`'s own limits,
-    /// which keep it from walking the whole disk and stop it at 128 paths on macOS, whatever `gl_matchc` says
-    /// (`GLOB_LIMIT_STAT` in Libc's `glob.c`).
-    static func expand(_ pattern: String, home: URL, limited: Bool) -> [URL] {
+    /// leading `/` or `~` is read relative to `home`.
+    static func expand(_ pattern: String, home: URL, from source: Source) -> [URL] {
         let root = comparablePath(of: home)
         var path = pattern
         if path.hasPrefix("~") {
@@ -101,10 +112,57 @@ public enum PathPattern {
         } else if !path.hasPrefix("/") {
             path = root + "/" + path
         }
+        guard source == .cask, path.contains("/**/") else { return matches(of: path, root: root, source: source) }
+        var unread = entriesAStarReads
+        return matchesThroughStars(of: path, root: root, unread: &unread)
+    }
 
-        // A path without `*` or `?` that exists is taken as written, so a bracket in a real name
-        // (`App [Beta]`) is not read as a character class.
-        let isPattern = path.contains("*") || path.contains("?")
+    /// What a cask's `path` names when its first `**/` stands for the folder before it and every folder below.
+    private static func matchesThroughStars(of path: String, root: String, unread: inout Int) -> [URL] {
+        guard let star = path.range(of: "/**/") else { return matches(of: path, root: root, source: .cask) }
+        let rest = path[star.upperBound...]
+        var found: [URL] = []
+        for start in matches(of: String(path[..<star.lowerBound]), root: root, source: .cask) where start.isRealFolder {
+            for folder in folders(from: start, unread: &unread) {
+                let inside = quoted(comparablePath(of: folder)) + "/" + rest
+                found += matchesThroughStars(of: inside, root: root, unread: &unread)
+            }
+        }
+        return found
+    }
+
+    /// `start` and every folder below it, level by level, but hidden ones and links, until `unread` entries are read.
+    private static func folders(from start: URL, unread: inout Int) -> [URL] {
+        var found = [start]
+        var level = [start]
+        while !level.isEmpty {
+            var below: [URL] = []
+            for folder in level where unread > 0 {
+                let entries = (try? FileManager.default.contentsOfDirectory(
+                    at: folder, includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey]
+                )) ?? []
+                unread -= entries.count
+                below += entries.filter { !$0.lastPathComponent.hasPrefix(".") && $0.isRealFolder }
+                    .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            }
+            found += below
+            level = below
+        }
+        return found
+    }
+
+    /// `path` with every character `glob` reads as a pattern quoted, so a folder's own name is taken as written.
+    private static func quoted(_ path: String) -> String {
+        path.reduce(into: "") { text, character in
+            if "\\*?[]{}".contains(character) { text.append("\\") }
+            text.append(character)
+        }
+    }
+
+    private static func matches(of path: String, root: String, source: Source) -> [URL] {
+        // A path with no wildcard (`*`, `?`, and for a cask `{`) that exists is taken as written, so a bracket in a
+        // real name (`App [Beta]`) is not read as a character class.
+        let isPattern = path.contains("*") || path.contains("?") || (source == .cask && path.contains("{"))
         if !isPattern, FileManager.default.fileExists(atPath: path) {
             let url = entry(named: path)
             return isIrreplaceable(url, home: root) ? [] : [url]
@@ -113,8 +171,12 @@ public enum PathPattern {
 
         var results = glob_t()
         defer { globfree(&results) }
+        let flags = switch source {
+        case .peel: GLOB_NOSORT | GLOB_NOESCAPE
+        case .cask: GLOB_NOSORT | GLOB_BRACE | GLOB_LIMIT
+        }
         // At its limit, `glob` returns GLOB_NOSPACE with the paths found so far.
-        let code = glob(path, GLOB_NOSORT | GLOB_NOESCAPE | (limited ? GLOB_LIMIT : 0), nil, &results)
+        let code = glob(path, flags, nil, &results)
         guard code == 0 || code == GLOB_NOSPACE, results.gl_pathv != nil else { return [] }
         return (0..<Int(results.gl_pathc)).compactMap { index in
             guard let pointer = results.gl_pathv[index] else { return nil }
