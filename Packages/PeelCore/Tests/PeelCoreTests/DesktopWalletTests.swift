@@ -9,6 +9,14 @@ struct DesktopWalletTests {
         "Library/Preferences/hardhat-nodejs/keystore.json",
         "Library/Preferences/hardhat-nodejs/dev.keystore.json",
         "Library/Preferences/hardhat-nodejs/hardhat.checksum",
+        "Library/Application Support/DashCore/backups/wallet.dat.2026-10-05-12-30",
+        "Library/Application Support/PIVX/wallet.dat",
+        "Library/Application Support/PIVX/wallets/wallet.dat",
+        "Library/Application Support/PIVX/backups/wallet.dat.2026-10-05-12-30",
+        "Library/Application Support/firo/wallet.dat",
+        "Library/Application Support/firo/backups/wallet.dat.2026-10-05-12-30",
+        "Library/Application Support/zcoin/wallet.dat",
+        "Library/Application Support/zcoin/backups/wallet.dat.2026-10-05-12-30",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -28,6 +36,9 @@ struct DesktopWalletTests {
 
     @Test(arguments: [
         "Library/Caches/hardhat-nodejs/compilers-v2/list.json",
+        "Library/Application Support/DashCore/blocks/blk00000.dat",
+        "Library/Application Support/PIVX/blocks/blk00000.dat",
+        "Library/Application Support/firo/blocks/blk00000.dat",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
