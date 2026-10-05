@@ -458,6 +458,9 @@ struct FileSizeTests {
             "exodus.wallet", "mine.keys", "account.mmdbdoc_v1", "hsm_secret", "emergency.recover", "channel.backup",
             "seed.dat", "wallet.seed", "mnemonics", "keyring-file", "keyring-test", "priv_validator_key.json",
             "sui.keystore", "sqlite_wallets", "encryption-identity.txt", ".aptos", "Wallet.DAT",
+            "wallet.dat.2026-10-05-12-30", "zecwallet-light-wallet.backup.1767225600.dat", "node_seed.dat",
+            "channel_seed.dat", "voting-keystore.json", "all-accounts.keystore.json", "masterseed.json", "wallets.ldb",
+            "WalletBackups", "starknet_open_zeppelin_accounts.json", "wallet.jmdat", "default_wallet_1767225600.legacy.bak",
         ]
         for name in wallets {
             #expect(FileSize.isWallet(name), "\(name) was not read as a wallet")

@@ -258,25 +258,34 @@ public enum FileSize {
     static let repositoryMarkers: Set<String> = [".git", ".hg", ".svn", ".jj", ".pijul", "_darcs"]
 
     /// True for the names wallets and their keys go by, as each project's own documentation or source gives them:
-    /// `wallet.dat` and names ending in it (Bitcoin, Litecoin and their forks, Zcash's Zingo), a `wallets` or
-    /// `wallets2` folder (Electrum, Sparrow, Wasabi, Bitcoin Core, Green), `keystore` and `keystores` (Ethereum,
-    /// Foundry, and the key an Android app is signed with), `*.wallet` (Bisq, Exodus, Kaspa), `*.keys` (Monero),
-    /// `*.mmdbdoc_v1` (MyMonero), `hsm_secret`, `emergency.recover`, and `channel.backup` (Lightning nodes),
-    /// `seed.dat` (phoenixd), `wallet.seed` (Grin), `mnemonics` (Liana), `keyring-file`, `keyring-test`, and
-    /// `priv_validator_key.json` (Cosmos), `sui.keystore`, `sqlite_wallets` (Algorand), `encryption-identity.txt`
-    /// (Zallet), and `.aptos`.
+    /// `wallet.dat` and names ending in it (Bitcoin, Litecoin and their forks, Zcash's Zingo), its dated backups
+    /// `wallet.dat.<date>` (Dash, PIVX, Firo), `*.legacy.bak` (Bitcoin Core's copy of a migrated wallet), a `wallets`
+    /// or `wallets2` folder (Electrum, Sparrow, Wasabi, Bitcoin Core, Green), `WalletBackups` (Wasabi, Ginger),
+    /// `keystore` and `keystores` (Ethereum, Foundry, and the key an Android app is signed with), `*.wallet` (Bisq,
+    /// Exodus, Kaspa), `*.keys` (Monero), `*.mmdbdoc_v1` (MyMonero), `hsm_secret`, `emergency.recover`, and
+    /// `channel.backup` (Lightning nodes), `node_seed.dat` and `channel_seed.dat` (Eclair), `seed.dat` (phoenixd),
+    /// `wallet.seed` (Grin), `mnemonics` (Liana), `keyring-file`, `keyring-test`, and `priv_validator_key.json`
+    /// (Cosmos), `voting-keystore.json` (Lighthouse), `all-accounts.keystore.json` (Prysm), `masterseed.json` (Clef),
+    /// `starknet_open_zeppelin_accounts.json` (sncast), `wallets.ldb` (Nano), `*.jmdat` (JoinMarket),
+    /// `zecwallet-light-wallet.backup.*` (Zecwallet Lite), `sui.keystore`, `sqlite_wallets` (Algorand),
+    /// `encryption-identity.txt` (Zallet), and `.aptos`.
     static func isWallet(_ name: String) -> Bool {
         let name = name.lowercased()
         return walletNames.contains(name) || walletSuffixes.contains { name.hasSuffix($0) }
+            || walletPrefixes.contains { name.hasPrefix($0) }
     }
 
     private static let walletNames: Set<String> = [
-        "wallets", "wallets2", "keystore", "keystores", "hsm_secret", "emergency.recover", "channel.backup",
-        "seed.dat", "wallet.seed", "mnemonics", "keyring-file", "keyring-test", "priv_validator_key.json",
-        "sui.keystore", "sqlite_wallets", "encryption-identity.txt", ".aptos",
+        "wallets", "wallets2", "walletbackups", "keystore", "keystores", "hsm_secret", "emergency.recover",
+        "channel.backup", "node_seed.dat", "channel_seed.dat", "seed.dat", "wallet.seed", "mnemonics", "keyring-file",
+        "keyring-test", "priv_validator_key.json", "voting-keystore.json", "all-accounts.keystore.json",
+        "masterseed.json", "starknet_open_zeppelin_accounts.json", "wallets.ldb", "sui.keystore", "sqlite_wallets",
+        "encryption-identity.txt", ".aptos",
     ]
 
-    private static let walletSuffixes = ["wallet.dat", ".wallet", ".keys", ".mmdbdoc_v1"]
+    private static let walletSuffixes = ["wallet.dat", ".legacy.bak", ".wallet", ".keys", ".mmdbdoc_v1", ".jmdat"]
+
+    private static let walletPrefixes = ["wallet.dat.", "zecwallet-light-wallet.backup."]
 }
 
 /// What is known about the folders being walked.
