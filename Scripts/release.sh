@@ -47,7 +47,9 @@ grep -E "Test run with" "$build/test.log" || true
 echo "== Archiving"
 # The output goes to a log, not through a pipe, so the `if` checks xcodebuild's own exit status. Pointer
 # authentication is set here as well as in the project, since Xcode gives the Swift packages only the settings
-# of the command line, and every binary imports them.
+# of the command line, and every binary imports them. So is macOS 26: a package that names no platform, such as
+# swift-argument-parser, would be built for an older macOS, with its class data unsigned, and the linker then
+# leaves the class data of the whole `peel` tool unsigned.
 if ! xcodebuild archive \
     -project Peel.xcodeproj \
     -scheme Peel \
@@ -55,6 +57,7 @@ if ! xcodebuild archive \
     -archivePath "$archive" \
     -derivedDataPath "$build/DerivedData" \
     ENABLE_POINTER_AUTHENTICATION=YES \
+    MACOSX_DEPLOYMENT_TARGET=26.0 \
     > "$build/archive.log" 2>&1
 then
     grep -E "error:" "$build/archive.log" || tail -20 "$build/archive.log"
@@ -129,6 +132,20 @@ do
     done
 done
 echo "Every binary: arm64e, arm64, x86_64"
+
+echo "== Signed class data"
+# In the arm64e slice, pointer authentication also signs each class's read-only data, which the Objective-C image
+# info marks with its flag 0x10; one object built without it turns it off for the whole binary.
+for executable in \
+    "$app/Contents/MacOS/Peel" \
+    "$app/Contents/MacOS/PeelHelper" \
+    "$app/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder" \
+    "$app/Contents/Helpers/peel"
+do
+    flags="$(otool -arch arm64e -s __DATA_CONST __objc_imageinfo "$executable" | awk 'END { print $3 }')"
+    [[ -n "$flags" ]] && (( 16#$flags & 16#10 )) || { echo "REFUSED: $executable has its class data unsigned"; exit 1; }
+done
+echo "Every binary: class data signed"
 
 echo "== Languages"
 # Every language in the project's `knownRegions` (besides `en` and `Base`) must ship in the app and in the Finder

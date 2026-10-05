@@ -50,20 +50,27 @@ jobs:
             -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
 
       # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
-      # with the optimizer a Debug build leaves off. The setting is given here too, since only the command line reaches
-      # the Swift packages.
+      # with the optimizer a Debug build leaves off. The settings are given here too, since only the command line
+      # reaches the Swift packages: a package that names no platform would be built for an older macOS, with its class
+      # data unsigned, and the linker then leaves the class data of the whole binary unsigned.
       - name: Build the app for release
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
-            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES build
+            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES \
+            MACOSX_DEPLOYMENT_TARGET=26.0 build
           for binary in MacOS/Peel MacOS/PeelHelper Helpers/peel PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder; do
-            archs=$(lipo -archs "build/Release/Build/Products/Release/Peel.app/Contents/$binary")
+            path="build/Release/Build/Products/Release/Peel.app/Contents/$binary"
+            archs=$(lipo -archs "$path")
             for arch in arm64e arm64 x86_64; do
               case " $archs " in
                 *" $arch "*) ;;
                 *) echo "::error::$binary is built for $archs, without $arch."; exit 1 ;;
               esac
             done
+            flags=$(otool -arch arm64e -s __DATA_CONST __objc_imageinfo "$path" | awk 'END { print $3 }')
+            if [ -z "$flags" ] || [ $(( 0x$flags & 0x10 )) -eq 0 ]; then
+              echo "::error::$binary has its class data unsigned."; exit 1
+            fi
           done
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
