@@ -282,6 +282,29 @@ struct SpaceInventoryTests {
         #expect(logs.size.map { $0 >= 12_000 && $0 < 50_000 } == true)
     }
 
+    @Test func findsEveryPlaceOfEveryAreaItKnows() async throws {
+        let directory = try TemporaryDirectory()
+        let (home, root) = (try directory.directory("home"), try directory.directory("root"))
+        var expected: Set<String> = []
+        for definition in SpaceInventory.definitions {
+            let places = definition.paths.map { $0.hasPrefix("/") ? "root" + $0 : "home/" + $0 }
+                + definition.containerFolders.map { "home/Library/Containers/org.example.app/\($0)" }
+                + (definition.groupContainerFolder.map { ["home/Library/Group Containers/ABCDE12345.org.example.group/\($0)"] } ?? [])
+            for place in places {
+                try directory.file("\(place)/org.example.kept/content", bytes: 8_000)
+                expected.insert("\(definition.id): \(place)")
+            }
+        }
+
+        let report = await SpaceInventory.scan(home: home, root: root, minimumSize: 1, measure: FileSize.measure)
+
+        let inside = directory.url.lastPathComponent + "/"
+        let found = Set(report.items.flatMap { item in
+            item.urls.map { "\(item.id): \($0.path(percentEncoded: false).components(separatedBy: inside).last ?? "")" }
+        }.map { $0.hasSuffix("/") ? String($0.dropLast()) : $0 })
+        #expect(expected.subtracting(found).isEmpty, "\(expected.subtracting(found).sorted())")
+    }
+
     @Test func everyDefinitionSaysWhatItIsAndWhoOwnsIt() {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)

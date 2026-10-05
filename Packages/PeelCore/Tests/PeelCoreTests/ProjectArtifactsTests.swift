@@ -564,6 +564,37 @@ struct ProjectArtifactsTests {
         #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/x/does-not-exist")))
     }
 
+    @Test func findsEveryKindItKnowsInAProjectOfItsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        var expected: [String: String] = [:]
+        for (index, definition) in ProjectArtifacts.definitions.enumerated() {
+            let project = "project-\(index)"
+            if let marker = definition.markers.first {
+                try directory.file("\(project)/\(marker.hasPrefix("*") ? "App" + marker.dropFirst() : marker)")
+            }
+            let name = definition.name.hasSuffix("*") ? definition.name.dropLast() + "debug" : definition.name
+            let artifact = "\(project)/\(name)"
+            switch definition.proof {
+            case .holds(let file): try directory.file("\(artifact)/\(file)")
+            case .holdsOnlyFilesEnding(let ending): try directory.file("\(artifact)/module\(ending)")
+            case nil: try directory.file("\(artifact)/content")
+            }
+            expected[artifact] = definition.tool
+        }
+
+        let scan = await ProjectArtifacts.scan(roots: [directory.url], exclusions: .none)
+
+        let inside = directory.url.lastPathComponent + "/"
+        let found = Dictionary(
+            scan.artifacts.map { artifact in
+                (artifact.url.path(percentEncoded: false).components(separatedBy: inside).last ?? "", artifact.tool ?? "")
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
+        let missed = expected.filter { found[$0.key] != $0.value }.map { "\($0.key) (\($0.value)): \(found[$0.key] ?? "not found")" }
+        #expect(missed.isEmpty, "\(missed.sorted().joined(separator: "\n"))")
+    }
+
     @Test func everyDefinitionNamesAMarkerAToolAndItsSource() {
         for definition in ProjectArtifacts.definitions {
             #expect(!definition.name.isEmpty)
