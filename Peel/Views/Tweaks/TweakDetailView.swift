@@ -154,20 +154,7 @@ struct TweakRow: View {
             }
             .motion(value: tweaks.isChangedByPeel(tweak))
         case .name:
-            Group {
-                if tweaks.isChangedByPeel(tweak) {
-                    Button("Put Back") {
-                        Task { await tweaks.reset(tweak) }
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-                    .disabled(state.isManaged)
-                    .accessibilityLabel(Text("Put back the screenshot name"))
-                    .transition(.opacity)
-                }
-                TweakNameField(tweak: tweak, state: state, problem: $nameProblem)
-            }
-            .motion(value: tweaks.isChangedByPeel(tweak))
+            TweakNameField(tweak: tweak, state: state, problem: $nameProblem)
         }
     }
 }
@@ -178,22 +165,48 @@ private struct TweakNameField: View {
     let state: TweakState
     @Binding var problem: ScreenshotName.Problem?
     @State private var draft: String?
+    @State private var isSaving = false
     @FocusState private var isFocused: Bool
 
     var body: some View {
-        TextField(text: text, prompt: ScreenshotName.macOSDefault.map { Text(verbatim: $0) }) {
-            Text(tweak.words.title)
+        let putsBack = !isEdited && tweaks.isChangedByPeel(tweak)
+        Group {
+            TextField(text: text, prompt: ScreenshotName.macOSDefault.map { Text(verbatim: $0) }) {
+                Text(tweak.words.title)
+            }
+            .labelsHidden()
+            .textFieldStyle(.roundedBorder)
+            .frame(width: 160)
+            .focused($isFocused)
+            .onSubmit(commit)
+            .onChange(of: isFocused) { _, focused in
+                if !focused { commit() }
+            }
+            .onDisappear(perform: commit)
+            // Both titles take room, so the button keeps the width of the longer one and the field stays put.
+            Button {
+                if putsBack {
+                    Task { await tweaks.reset(tweak) }
+                } else {
+                    commit()
+                }
+            } label: {
+                ZStack {
+                    Text("Save").opacity(putsBack ? 0 : 1)
+                    Text("Put Back").opacity(putsBack ? 1 : 0)
+                }
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .disabled(!putsBack && !isEdited)
+            .accessibilityLabel(putsBack ? Text("Put back the screenshot name") : Text("Save the screenshot name"))
+            .motion(value: putsBack)
         }
-        .labelsHidden()
-        .textFieldStyle(.roundedBorder)
-        .frame(width: 160)
-        .focused($isFocused)
-        .onSubmit(commit)
-        .onChange(of: isFocused) { _, focused in
-            if !focused { commit() }
-        }
-        .onDisappear(perform: commit)
         .disabled(state.isManaged)
+    }
+
+    private var isEdited: Bool {
+        draft.map { $0.trimmingCharacters(in: .whitespaces) != state.text ?? "" } ?? false
     }
 
     private var text: Binding<String> {
@@ -207,7 +220,7 @@ private struct TweakNameField: View {
     }
 
     private func commit() {
-        guard let draft else { return }
+        guard let draft, !isSaving else { return }
         let name = draft.trimmingCharacters(in: .whitespaces)
         guard name != state.text ?? "" else {
             self.draft = nil
@@ -217,9 +230,11 @@ private struct TweakNameField: View {
             problem = found
             return
         }
+        isSaving = true
         Task {
             await tweaks.rename(tweak, to: name)
             self.draft = nil
+            isSaving = false
         }
     }
 }
