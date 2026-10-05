@@ -84608,6 +84608,324 @@
         }
       }
     },
+    "Not selected: this holds VPN connections, with their keys and certificates, that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje připojení VPN i s jejich klíči a certifikáty, která mohou existovat jen v tomto Macu. Jakmile se koš vysype, budou trvale ztracena, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält VPN-Verbindungen mit ihren Schlüsseln und Zertifikaten, die es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, sind sie endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene conexiones VPN, con sus claves y certificados, que puede que solo existan en este Mac. En cuanto se vacíe la papelera, se perderán definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient des connexions VPN, avec leurs clés et leurs certificats, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, elles sont perdues définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene connessioni VPN, con le relative chiavi e i relativi certificati, che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, sono perse definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、このMacにしか存在しない可能性があるVPN接続と、その鍵および証明書が含まれています。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac에만 있을 수 있는 VPN 연결과 해당 키 및 인증서가 들어 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat VPN-verbindingen met hun sleutels en certificaten, die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, zijn ze definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera połączenia VPN, które mogą istnieć tylko na tym Macu, wraz z ich kluczami i certyfikatami. Po opróżnieniu Kosza przepadną na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém conexões VPN, com as chaves e os certificados delas, que podem existir só neste Mac. Depois que o Lixo for esvaziado, elas se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține conexiuni VPN, cu cheile și certificatele lor, care pot exista doar pe acest Mac. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся подключения VPN с их ключами и сертификатами, и, возможно, они есть только на этом Mac. После очистки Корзины они будут потеряны безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller VPN-anslutningar och deras nycklar och certifikat, som kanske bara finns på den här datorn. När papperskorgen har tömts är de borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, anahtarları ve sertifikalarıyla birlikte yalnızca bu Mac’te bulunabilecek VPN bağlantılarını içerir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються підключення VPN, які можуть існувати лише на цьому Mac, разом із їхніми ключами та сертифікатами. Коли Смітник буде очищено, їх буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有可能仅存在于这台Mac上的VPN连接及其密钥和证书。一旦清倒废纸篓，除非你有备份，否则它们将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有可能只存在於這部Mac上的VPN連線及其密鑰和憑證。一旦清空「垃圾桶」，除非你有備份，否則它們就會永久消失。"
+          }
+        }
+      }
+    },
+    "Not selected: this holds message history that may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje historii zpráv, která může existovat jen v tomto Macu. Jakmile se koš vysype, bude trvale ztracena, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält einen Nachrichtenverlauf, den es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, ist er endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene un historial de mensajes que puede que solo exista en este Mac. En cuanto se vacíe la papelera, se perderá definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient un historique de messages qui n’existe peut-être que sur ce Mac. Une fois la corbeille vidée, cet historique est perdu définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene una cronologia dei messaggi che potrebbe esistere solo su questo Mac. Una volta svuotato il Cestino, è persa definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、このMacにしか存在しない可能性があるメッセージの履歴が含まれています。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac에만 있을 수 있는 메시지 기록이 들어 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat een berichtgeschiedenis die misschien alleen op deze Mac staat. Zodra de prullenmand is geleegd, is die definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera historię wiadomości, która może istnieć tylko na tym Macu. Po opróżnieniu Kosza przepadnie na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém um histórico de mensagens que pode existir só neste Mac. Depois que o Lixo for esvaziado, ele se perde definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține un istoric al mesajelor care poate exista doar pe acest Mac. După golirea Coșului, istoricul se pierde definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранится история сообщений, которая, возможно, есть только на этом Mac. После очистки Корзины она будет потеряна безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller meddelandehistorik som kanske bara finns på den här datorn. När papperskorgen har tömts är historiken borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, yalnızca bu Mac’te bulunabilecek mesaj geçmişini içerir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bu geçmiş kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігається історія повідомлень, яка може існувати лише на цьому Mac. Коли Смітник буде очищено, її буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有可能仅存在于这台Mac上的聊天记录。一旦清倒废纸篓，除非你有备份，否则这些记录将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有可能只存在於這部Mac上的訊息記錄。一旦清空「垃圾桶」，除非你有備份，否則這些記錄就會永久消失。"
+          }
+        }
+      }
+    },
+    "Not selected: this holds passwords or sign-in codes that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje hesla nebo ověřovací kódy, které mohou existovat jen v tomto Macu. Jakmile se koš vysype, budou trvale ztraceny, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält Passwörter oder Bestätigungscodes, die es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, sind sie endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene contraseñas o códigos de verificación que puede que solo existan en este Mac. En cuanto se vacíe la papelera, se perderán definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient des mots de passe ou des codes de validation qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene password o codici di verifica che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, sono persi definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、このMacにしか存在しない可能性があるパスワードまたは確認コードが含まれています。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac에만 있을 수 있는 암호나 로그인 확인 코드가 들어 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat wachtwoorden of verificatiecodes die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, zijn ze definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera hasła lub kody weryfikacyjne, które mogą istnieć tylko na tym Macu. Po opróżnieniu Kosza przepadną na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém senhas ou códigos de verificação que podem existir só neste Mac. Depois que o Lixo for esvaziado, eles se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține parole sau coduri de autentificare care pot exista doar pe acest Mac. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся пароли или коды для входа, которые, возможно, есть только на этом Mac. После очистки Корзины они будут потеряны безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller lösenord eller verifieringskoder som kanske bara finns på den här datorn. När papperskorgen har tömts är de borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, yalnızca bu Mac’te bulunabilecek parolaları veya oturum açma kodlarını içerir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються паролі або коди для входу, які можуть існувати лише на цьому Mac. Коли Смітник буде очищено, їх буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有可能仅存在于这台Mac上的密码或登录验证码。一旦清倒废纸篓，除非你有备份，否则它们将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有可能只存在於這部Mac上的密碼或登入驗證碼。一旦清空「垃圾桶」，除非你有備份，否則它們就會永久消失。"
+          }
+        }
+      }
+    },
     "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it." : {
       "localizations" : {
         "cs" : {
@@ -84816,6 +85134,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：此項目位於「iCloud雲碟」中，因此丟到「垃圾桶」會將它從iCloud和你的其他裝置上移除。"
+          }
+        }
+      }
+    },
+    "Not selected: this may hold mail kept only on this Mac, such as a local or POP account’s. Once the Trash is emptied, it’s gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: může obsahovat poštu uloženou jen v tomto Macu, například poštu místního účtu nebo účtu POP. Jakmile se koš vysype, bude trvale ztracena, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält möglicherweise E-Mails, die es nur auf diesem Mac gibt, etwa die eines lokalen oder POP-Accounts. Sobald der Papierkorb entleert ist, sind sie endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: puede contener correo que solo se guarda en este Mac, como el de una cuenta local o POP. En cuanto se vacíe la papelera, se perderá definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient peut-être des e-mails conservés uniquement sur ce Mac, comme ceux d’un compte local ou POP. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: potrebbe contenere posta conservata solo su questo Mac, come quella di un account locale o POP. Una volta svuotato il Cestino, è persa definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、ローカルアカウントやPOPアカウントのメールなど、このMacにしか保存されていないメールが含まれている可能性があります。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 로컬 또는 POP 계정의 메일처럼 이 Mac에만 보관된 메일이 들어 있을 수 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit kan e-mail bevatten die alleen op deze Mac staat, zoals die van een lokale account of een POP-account. Zodra de prullenmand is geleegd, is die definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: może tu być poczta przechowywana tylko na tym Macu, na przykład z konta lokalnego lub POP. Po opróżnieniu Kosza przepadnie na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item pode conter e-mails mantidos só neste Mac, como os de uma conta local ou POP. Depois que o Lixo for esvaziado, eles se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol poate conține e‑mailuri păstrate doar pe acest Mac, cum ar fi cele ale unui cont local sau POP. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь может быть почта, которая хранится только на этом Mac, например почта локальной учетной записи или учетной записи POP. После очистки Корзины она будет потеряна безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den kan innehålla e-post som bara sparas på den här datorn, till exempel från ett lokalt konto eller ett POP-konto. När papperskorgen har tömts är e-posten borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, yerel veya POP hesaplarındakiler gibi yalnızca bu Mac’te tutulan e-postaları içerebilir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут може бути пошта, яка зберігається лише на цьому Mac, як-от пошта локального облікового запису або облікового запису POP. Коли Смітник буде очищено, її буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处可能存有仅保存在这台Mac上的邮件，例如本地账户或POP账户的邮件。一旦清倒废纸篓，除非你有备份，否则这些邮件将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中可能存有只保存在這部Mac上的郵件，例如本機或POP帳號的郵件。一旦清空「垃圾桶」，除非你有備份，否則這些郵件就會永久消失。"
           }
         }
       }

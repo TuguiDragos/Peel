@@ -219,6 +219,14 @@ extension HoldBack {
             "Left alone: a photo, music, or video library is inside, so Peel leaves this folder where it is."
         case .holdsAWallet:
             "Not selected: a wallet or a signing key is inside. Once the Trash is emptied, what it opens is gone for good unless you have a backup."
+        case .holdsLocalMail:
+            "Not selected: this may hold mail kept only on this Mac, such as a local or POP account’s. Once the Trash is emptied, it’s gone for good unless you have a backup."
+        case .holdsMessageHistory:
+            "Not selected: this holds message history that may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have a backup."
+        case .holdsPasswordsOrCodes:
+            "Not selected: this holds passwords or sign-in codes that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+        case .holdsVPNConnections:
+            "Not selected: this holds VPN connections, with their keys and certificates, that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
         case .holdsKeys:
             "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .holdsWorkKeptInACache:

@@ -574,6 +574,21 @@ struct OrphanScannerTests {
         #expect(items.first { $0.kind == .sharedFolder }?.heldBack == .sharedWithEveryone)
     }
 
+    @Test func dataKeptOnlyOnThisMacOfAnAppThatLeftSaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Viscosity/OpenVPN/1/config.conf")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.viscosity", name: "Viscosity", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Viscosity.app"
+        )
+
+        let items = await scanner(in: directory).scan(installedApps: installed, remembered: [gone]).groups
+            .flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["Viscosity"])
+        #expect(items.map(\.heldBack) == [.holdsVPNConnections])
+    }
+
     /// As on an app's page, since the app's developer may still ask for the report.
     @Test func aCrashReportOfAnAppThatLeftIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()

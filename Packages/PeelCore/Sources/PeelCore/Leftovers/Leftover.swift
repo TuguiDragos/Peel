@@ -51,6 +51,14 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsALibrary
     /// A cryptocurrency wallet or a signing key is inside, which may exist nowhere else.
     case holdsAWallet
+    /// Mail kept on this Mac may be inside, such as a local or POP account's (`KeptOnlyHere`).
+    case holdsLocalMail
+    /// Message history that may exist only on this Mac (`KeptOnlyHere`).
+    case holdsMessageHistory
+    /// Passwords or sign-in codes that may exist only on this Mac (`KeptOnlyHere`).
+    case holdsPasswordsOrCodes
+    /// VPN connections, with their keys and certificates, that may exist only on this Mac (`KeptOnlyHere`).
+    case holdsVPNConnections
     /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
     case holdsKeys
     /// Work kept nowhere else is inside a cache folder, such as an editor's local history of the person's files, and

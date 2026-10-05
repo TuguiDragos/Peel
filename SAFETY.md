@@ -177,7 +177,9 @@ devices, both needed to read crash reports, model weights, the packages a tool k
 virtual environments, the installers and boxes a tool keeps for you to install again, a cache macOS keeps for its own
 services in `~/Library/Caches` (Spotlight's, iCloud's, the fonts') or in the container of one of Apple's apps,
 `/Users/Shared` (it belongs to every account, not just yours), a project you worked on this week, a folder with a
-repository, a wallet, or a signing key inside, a folder macOS would not let Peel read, and a folder Peel could not
+repository, a wallet, or a signing key inside, what an app keeps that may exist only on this Mac (local mail, message
+history, a password manager's backups and an authenticator's codes, VPN connections, each where the app's own
+documentation or source says it keeps them), a folder macOS would not let Peel read, and a folder Peel could not
 measure in time. Those last two are shown with their size as "Unknown", never as zero, in every tool and in History
 once they are moved: a folder too big to read quickly may be exactly the one with work inside, and nothing is
 selected for you without saying how much it is. A total that leaves such a folder out reads "Over" what is known.
@@ -195,8 +197,8 @@ one by hand, and so is Terraform's `.terraform`, which keeps the workspace you c
 on its own, such as `target` or `build`, is listed and never selected either.
 
 Orphaned Files selects nothing for you, and its Select All and `peel orphans --remove` leave these folders out as
-well: one in `/Users/Shared`, one with a repository, a wallet, or a signing key inside, or one Peel could not read
-or measure in time, moves only when you select it yourself.
+well: one in `/Users/Shared`, one with a repository, a wallet, or a signing key inside, one that may hold what exists
+only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing
 inside an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`:

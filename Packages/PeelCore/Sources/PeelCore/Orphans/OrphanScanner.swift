@@ -448,6 +448,8 @@ public struct OrphanScanner: Sendable {
                 .holdsALibrary
             } else if ProtectedData.holdsWorkKeptInACache(path) {
                 .holdsWorkKeptInACache
+            } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home) {
+                keptOnlyHere
             } else if location.kind == .logs, CrashReport.isOne(url) {
                 .crashReport
             } else {

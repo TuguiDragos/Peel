@@ -1449,6 +1449,20 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.confidence == .certain)
     }
 
+    @Test func dataKeptOnlyOnThisMacIsShownAndNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Signal/sql/db.sqlite", bytes: 4_096)
+        let signal = InstalledApp(
+            url: URL(filePath: "/Applications/Signal.app"), bundleIdentifier: "org.example.signal", name: "Signal"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(signal, installedApps: [signal])
+
+        let history = try #require(scan.leftovers.first { $0.url.lastPathComponent == "Signal" })
+        #expect(history.match.heldBack == .holdsMessageHistory)
+        #expect(!history.match.isRecommended)
+    }
+
     @Test func findsTheAppsCrashReportsByTheBundleTheyNameAndNeverSelectsThem() async throws {
         let directory = try TemporaryDirectory()
         let reports = "home/Library/Logs/DiagnosticReports"
