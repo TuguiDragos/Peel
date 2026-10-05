@@ -220,6 +220,12 @@ add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what e
 
 ### Work your way
 
+<p align="center">
+  <img src="readme-assets/peel-settings-sidebar-tools.png" width="900" alt="Peel's Settings, on General: app updates, App Folders, the Homebrew Peel uses, what Peel does while it runs, and Choose Tools open, with a checkbox for each tool the sidebar can show">
+</p>
+
+Settings > General holds Peel's choices, among them which tools the sidebar shows.
+
 - **Export:** what's installed and where each app came from, as JSON, a spreadsheet, plain text, or a Brewfile.
 - **Shortcuts:** actions that open a page in Peel for you to look at. None of them removes anything.
 - **Sidebar:** turn off the tools you don't use in Settings, and they leave the sidebar. The View menu and
