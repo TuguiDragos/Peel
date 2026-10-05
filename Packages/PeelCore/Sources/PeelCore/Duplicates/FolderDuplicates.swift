@@ -282,14 +282,32 @@ struct FolderDuplicates: Sendable {
         by contents: [FileIdentity: ContentDigest]
     ) -> [(digest: SHA256.Digest, folders: [Folder])] {
         var byContent: [SHA256.Digest: [Folder]] = [:]
+        var known: [ObjectIdentifier: SHA256.Digest?] = [:]
         for folder in folders {
-            guard let digest = content(of: folder, using: contents) else { continue }
+            guard let digest = content(of: folder, using: contents, known: &known) else { continue }
             byContent[digest, default: []].append(folder)
         }
         return byContent.filter { $0.value.count > 1 }.map { (digest: $0.key, folders: $0.value) }
     }
 
-    private func content(of folder: Folder, using contents: [FileIdentity: ContentDigest]) -> SHA256.Digest? {
+    /// A digest of everything in `folder`, or nil when a file in it was not read. `known` keeps each folder's
+    /// answer, since the folders inside a candidate are often candidates too.
+    private func content(
+        of folder: Folder,
+        using contents: [FileIdentity: ContentDigest],
+        known: inout [ObjectIdentifier: SHA256.Digest?]
+    ) -> SHA256.Digest? {
+        if let answer = known[ObjectIdentifier(folder)] { return answer }
+        let answer = digest(of: folder, using: contents, known: &known)
+        known[ObjectIdentifier(folder)] = answer
+        return answer
+    }
+
+    private func digest(
+        of folder: Folder,
+        using contents: [FileIdentity: ContentDigest],
+        known: inout [ObjectIdentifier: SHA256.Digest?]
+    ) -> SHA256.Digest? {
         var hasher = SHA256()
         guard let extras = FileExtras.of(folder.url) else { return nil }
         hasher.update(data: Self.number(extras.count) + extras)
@@ -300,7 +318,7 @@ struct FolderDuplicates: Sendable {
             hasher.update(data: Self.field("f", name, digest.bytes + Self.number(extras.count) + extras))
         }
         for (name, child) in folder.children.sorted(by: { $0.name < $1.name }) {
-            guard let digest = content(of: child, using: contents) else { return nil }
+            guard let digest = content(of: child, using: contents, known: &known) else { return nil }
             hasher.update(data: Self.field("d", name, Array(digest)))
         }
         return hasher.finalize()
