@@ -4,7 +4,7 @@ labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: |
+      value: >
         Thank you for reporting this. One problem per report makes it easier to fix. Please leave out anything
         personal, such as file names you would rather not share. A security problem goes by email instead, as
         [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md) describes.
@@ -12,7 +12,7 @@ body:
     id: what-happened
     attributes:
       label: What happened
-      description: What went wrong, and what Peel showed on screen. A screenshot helps.
+      description: What went wrong, and what Peel showed on screen.
     validations:
       required: true
   - type: textarea
@@ -27,6 +27,15 @@ body:
     id: expected
     attributes:
       label: What you expected
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or a screen recording
+      description: >
+        Drag or paste them here: Peel where the problem shows, such as an error message, a page that doesn't behave as
+        it should, or something that looks wrong. Shift-Command-4 and then the Space bar takes a picture of a window,
+        and Shift-Command-5 records the screen. A file is uploaded as soon as you add it, so first crop or cover
+        anything private, such as the names of your files and folders.
   - type: input
     id: where
     attributes:
