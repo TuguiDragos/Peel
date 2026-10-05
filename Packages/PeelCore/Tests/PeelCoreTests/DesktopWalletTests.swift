@@ -21,6 +21,10 @@ struct DesktopWalletTests {
         ".gingerwallet/client/Wallets/Wallet.json",
         ".gingerwallet/client/WalletBackups/Wallet.json",
         "Library/Application Support/Zcash/zecwallet-light-wallet.dat",
+        "Library/Application Support/Haveno/xmr_mainnet/wallet/haveno_XMR.keys",
+        "Library/Application Support/Haveno/xmr_mainnet/keys/sig.key",
+        "Library/Application Support/Haveno-reto/xmr_mainnet/wallet/haveno_XMR.keys",
+        "Library/Application Support/Haveno-reto/xmr_mainnet/keys/sig.key",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -45,6 +49,7 @@ struct DesktopWalletTests {
         "Library/Application Support/firo/blocks/blk00000.dat",
         ".walletwasabi/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
         ".gingerwallet/client/BitcoinStore/Main/IndexStore/MatureIndex.dat",
+        "Library/Application Support/Haveno-reto/xmr_mainnet/haveno.log",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
