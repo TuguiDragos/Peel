@@ -178,7 +178,7 @@ lists them.
 ### Fine-tune your Mac
 
 <p align="center">
-  <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no shadow around a captured window, names without the date, and JPEG instead of PNG, each with its own switch">
+  <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no shadow around a captured window, names without the date, what screenshots are named, and JPEG instead of PNG, each with its own control, and Turn All Off">
 </p>
 
 Small tricks that make everyday life on a Mac a little easier. Tweaks gathers 39 settings macOS already has but
