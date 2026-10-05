@@ -366,6 +366,15 @@ struct OrphanScannerTests {
         #expect(items.first?.leftAlone == .holdsALibrary)
     }
 
+    @Test func anOrphanedCacheThatKeepsAnEditorsLocalHistorySaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.editor/LocalHistory/changes.storageData")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.map(\.leftAlone) == [.holdsWorkKeptInACache])
+    }
+
     /// An app that is gone can leave its wallet behind in its container, and `RemovalGuard` refuses the
     /// container around it.
     @Test func anOrphanedFolderThatHoldsAProtectedWalletSaysSo() async throws {

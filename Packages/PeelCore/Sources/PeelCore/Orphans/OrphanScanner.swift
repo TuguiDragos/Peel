@@ -394,6 +394,8 @@ public struct OrphanScanner: Sendable {
                 .holdsKeys
             } else if ProtectedData.holdsALibrary(path) {
                 .holdsALibrary
+            } else if ProtectedData.holdsWorkKeptInACache(path) {
+                .holdsWorkKeptInACache
             } else {
                 // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
                 HoldBack.seen(in: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
