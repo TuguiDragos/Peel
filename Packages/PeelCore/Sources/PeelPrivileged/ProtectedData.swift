@@ -156,6 +156,7 @@ public enum ProtectedData: Sendable {
         ".sui/sui_config/sui.keystore",
         ".aptos/config.yaml",
         ".near-credentials",
+        ".starknet_accounts",
         ".tezos-client/secret_keys",
         ".tezos-signer",
         ".gaia/keyring-file",

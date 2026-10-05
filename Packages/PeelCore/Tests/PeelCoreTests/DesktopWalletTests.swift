@@ -49,6 +49,7 @@ struct DesktopWalletTests {
         ".config/stellar/identity/carol.toml",
         ".config/soroban/identity/carol.toml",
         ".tezos-signer/secret_keys",
+        ".starknet_accounts/starknet_open_zeppelin_accounts.json",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
