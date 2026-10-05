@@ -134,7 +134,19 @@ struct ResetSheet: View {
                         }
                         .listRowSeparator(.hidden)
                     } header: {
-                        heading(group.title, group.explanation)
+                        SectionHeaderLine {
+                            heading(group.title, group.explanation)
+                        } actions: {
+                            SelectMenu(
+                                list: SelectableRows(
+                                    rows: items.map(\.url),
+                                    selectable: items.map(\.url),
+                                    recommended: items.map(\.url).filter(plan.suggested.contains)
+                                ),
+                                place: Text(group.title),
+                                selection: plan
+                            )
+                        }
                     }
                 }
             }

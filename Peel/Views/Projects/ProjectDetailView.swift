@@ -26,10 +26,22 @@ struct ProjectDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             } header: {
-                heading(
-                    "What the Build Left",
-                    "What a build makes again, and what it installed. What Peel isn’t sure about, such as a folder whose name could be anyone’s, is here unselected, with the reason beside it."
-                )
+                SectionHeaderLine {
+                    heading(
+                        "What the Build Left",
+                        "What a build makes again, and what it installed. What Peel isn’t sure about, such as a folder whose name could be anyone’s, is here unselected, with the reason beside it."
+                    )
+                } actions: {
+                    SelectMenu(
+                        list: SelectableRows(
+                            rows: group.artifacts.map(\.url),
+                            selectable: group.artifacts.map(\.url),
+                            recommended: group.artifacts.filter(\.isRecommended).map(\.url)
+                        ),
+                        place: Text(verbatim: group.project.lastPathComponent),
+                        selection: projects
+                    )
+                }
             }
 
             Section {

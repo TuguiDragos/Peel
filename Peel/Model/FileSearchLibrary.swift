@@ -17,9 +17,9 @@ final class FileSearchLibrary {
     var selectedURLs: Set<URL> = []
     /// The file the detail shows. The files selected for the Trash are `selectedURLs`.
     var chosen: URL?
-    /// The files Select All selects: not the ones that need an administrator, and not the ones an app keeps
-    /// for itself, which stay listed with the reason beside them.
-    private(set) var selectableURLs: Set<URL> = []
+    /// The files Peel recommends: not the ones that need an administrator, the ones an app keeps for itself, or the
+    /// ones in iCloud Drive, which stay listed with the reason beside them.
+    private(set) var recommendedURLs: Set<URL> = []
     private var sizes: [URL: Int64] = [:]
     private var generation = 0
     /// The exclusions the list is filtered by: those the search ran under, or those it was narrowed to since.
@@ -38,7 +38,7 @@ final class FileSearchLibrary {
             scanRun.stop()
             results = nil
             selectedURLs = []
-            selectableURLs = []
+            recommendedURLs = []
             sizes = [:]
             return
         }
@@ -51,7 +51,7 @@ final class FileSearchLibrary {
         }
         results = found
         filteredBy = exclusions
-        selectableURLs = Set(
+        recommendedURLs = Set(
             found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && !$0.isInTheCloud }.map(\.url)
         )
         sizes = Dictionary(found.files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
@@ -72,7 +72,7 @@ final class FileSearchLibrary {
         let gone = Set(results.files.map(\.url)).subtracting(kept.map(\.url))
         self.results?.files = kept
         selectedURLs.subtract(gone)
-        selectableURLs.subtract(gone)
+        recommendedURLs.subtract(gone)
         for url in gone {
             sizes[url] = nil
         }

@@ -32,7 +32,7 @@ struct InstallerDetailView: View {
                             warning: item.heldBack.map { String(localized: $0.explanation) },
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
-                            isLocked: item.requiresPrivileges && !helper.canAct,
+                            isLocked: isLocked(item),
                             isLeftAlone: item.heldBack?.cannotBeMoved == true,
                             isFirst: item.id == rows.first?.id,
                             hasNoteColumn: hasNoteColumn,
@@ -45,12 +45,18 @@ struct InstallerDetailView: View {
                 SectionHeaderLine {
                     heading(kind.title, kind.explanation)
                 } actions: {
-                    SelectAllButton(
-                        selectable: rows.filter {
-                            !$0.isReadOnly && $0.heldBack == nil && !($0.requiresPrivileges && !helper.canAct)
-                        }.map(\.url),
-                        rows: rows.map(\.url),
-                        selection: Bindable(installers).selectedURLs
+                    SelectMenu(
+                        list: SelectableRows(
+                            rows: rows.map(\.url),
+                            selectable: rows.filter {
+                                !$0.isReadOnly && !isLocked($0) && $0.heldBack?.cannotBeMoved != true
+                            }.map(\.url),
+                            recommended: rows.filter {
+                                !$0.isReadOnly && !isLocked($0) && $0.heldBack == nil
+                            }.map(\.url)
+                        ),
+                        place: Text(kind.title),
+                        selection: installers
                     )
                 }
             }
@@ -122,6 +128,10 @@ struct InstallerDetailView: View {
             return "\(app) is already installed"
         }
         return item.notes.first.map(\.words)
+    }
+
+    private func isLocked(_ item: InstallerItem) -> Bool {
+        item.requiresPrivileges && !helper.canAct
     }
 }
 

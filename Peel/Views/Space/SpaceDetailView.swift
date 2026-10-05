@@ -135,10 +135,14 @@ struct SpaceDetailView: View {
             SectionHeaderLine {
                 heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
             } actions: {
-                SelectAllButton(
-                    selectable: rows.filter { plan.heldBack[$0] == nil && !isLocked($0, in: plan) },
-                    rows: rows,
-                    selection: Bindable(space).selectedURLs
+                SelectMenu(
+                    list: SelectableRows(
+                        rows: rows,
+                        selectable: rows.filter { !isLocked($0, in: plan) && plan.heldBack[$0]?.cannotBeMoved != true },
+                        recommended: rows.filter { !isLocked($0, in: plan) && plan.heldBack[$0] == nil }
+                    ),
+                    place: Text(item.words.title),
+                    selection: space
                 )
             }
         } footer: {

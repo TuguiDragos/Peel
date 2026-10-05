@@ -124713,6 +124713,112 @@
         }
       }
     },
+    "Select" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswählen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionner"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecteer"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznacz"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selectați"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markera"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選取"
+          }
+        }
+      }
+    },
     "Select All" : {
       "localizations" : {
         "cs" : {
@@ -124815,6 +124921,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全選"
+          }
+        }
+      }
+    },
+    "Select All…" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrat vše…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles auswählen …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar todo…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout sélectionner…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona tutto…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてを選択…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 선택…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecteer alle…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznacz wszystko…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar Tudo…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selectați tot…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать все…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markera alla…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü Seç…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрати все…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全选…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全選⋯"
+          }
+        }
+      }
+    },
+    "Select Recommended" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrat doporučené"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empfohlene auswählen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar recomendados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionner les éléments recommandés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona gli elementi consigliati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "おすすめを選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "추천 항목 선택"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecteer aanbevolen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznacz zalecane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar Recomendados"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selectați articolele recomandate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать рекомендованные"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markera rekommenderade"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önerilenleri Seç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрати рекомендовані"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择推荐项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選取建議項目"
+          }
+        }
+      }
+    },
+    "Select everything in “%@”?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrat vše v seznamu „%@“?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles in „%@“ auswählen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seleccionar todo lo que hay en “%@”?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout sélectionner dans « %@ » ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi selezionare tutto in “%@”?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”のすべての項目を選択しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’에 있는 모든 항목을 선택하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles in '%@' selecteren?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznaczyć wszystko na liście „%@”?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar tudo em “%@”?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selectați tot din lista „%@”?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать все в списке «%@»?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du markera allt i ”%@”?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” listesindeki her şey seçilsin mi?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрати все в списку «%@»?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要选择“%@”中的所有项目吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要選取「%@」中的所有項目嗎？"
           }
         }
       }
@@ -151249,6 +151673,346 @@
         }
       }
     },
+    "This also selects ^[%lld item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it, or select only what Peel recommends." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položky, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položky, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položku, kterou Peel nedoporučuje odstranit. Před přesunutím ji zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položek, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch wird auch %lld Objekt ausgewählt, das Peel nicht zum Entfernen empfiehlt. Prüfe es, bevor du es verschiebst, oder wähle nur aus, was Peel empfiehlt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch werden auch %lld Objekte ausgewählt, die Peel nicht zum Entfernen empfiehlt. Prüfe jedes einzelne, bevor du es verschiebst, oder wähle nur aus, was Peel empfiehlt."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld de ítems que Peel no recomienda eliminar. Revisa cada uno antes de trasladarlo, o selecciona solo lo que Peel recomienda."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld ítem que Peel no recomienda eliminar. Revísalo antes de trasladarlo, o selecciona solo lo que Peel recomienda."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld ítems que Peel no recomienda eliminar. Revisa cada uno antes de trasladarlo, o selecciona solo lo que Peel recomienda."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld d’éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de le placer dans la corbeille, ou ne sélectionnez que ce que Peel recommande."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld élément dont Peel ne recommande pas la suppression. Examinez-le avant de le placer dans la corbeille, ou ne sélectionnez que ce que Peel recommande."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de le placer dans la corbeille, ou ne sélectionnez que ce que Peel recommande."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati anche %lld di elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di spostarlo, oppure seleziona solo ciò che Peel consiglia."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verrà selezionato anche %lld elemento che Peel non consiglia di rimuovere. Controllalo prima di spostarlo, oppure seleziona solo ciò che Peel consiglia."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati anche %lld elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di spostarlo, oppure seleziona solo ciò che Peel consiglia."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがゴミ箱に入れることをおすすめしない%lld項目も選択されます。ゴミ箱に入れる前に各項目を確認するか、Peelがおすすめする項目だけを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제거를 추천하지 않는 항목 %lld개도 선택됩니다. 각 항목을 휴지통으로 이동하기 전에 확인하거나, Peel이 추천하는 항목만 선택하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je ook %lld onderdeel dat Peel niet voor verwijdering aanbeveelt. Controleer het voordat je het naar de prullenmand verplaatst, of selecteer alleen wat Peel aanbeveelt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je ook %lld onderdelen die Peel niet voor verwijdering aanbeveelt. Controleer elk onderdeel voordat je het naar de prullenmand verplaatst, of selecteer alleen wat Peel aanbeveelt."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzecz, której Peel nie zaleca przenosić do Kosza. Sprawdź ją, zanim ją przeniesiesz, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz, albo zaznacz tylko to, co zaleca Peel."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld de itens que o Peel não recomenda remover. Verifique cada um antes de movê-lo, ou selecione só o que o Peel recomenda."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld item que o Peel não recomenda remover. Verifique-o antes de movê-lo, ou selecione só o que o Peel recomenda."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld itens que o Peel não recomenda remover. Verifique cada um antes de movê-lo, ou selecione só o que o Peel recomenda."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta și %lld articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îl mutați sau selectați doar ce recomandă Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se va selecta și %lld articol pe care Peel nu recomandă să îl eliminați. Verificați‑l înainte să îl mutați sau selectați doar ce recomandă Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta și %lld de articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îl mutați sau selectați doar ce recomandă Peel."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объектов, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будет также выбран %lld объект, который Peel не рекомендует удалять. Проверьте каждый такой объект, прежде чем перемещать его в Корзину, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину, или выберите только то, что рекомендует Peel."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras även %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera det innan du flyttar det, eller markera bara det som Peel rekommenderar."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras även %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera vart och ett innan du flyttar det, eller markera bara det som Peel rekommenderar."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi de seçer. Onu Çöp Sepeti’ne taşımadan önce gözden geçirin veya yalnızca Peel’in önerdiklerini seçin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi de seçer. Her birini Çöp Sepeti’ne taşımadan önce gözden geçirin veya yalnızca Peel’in önerdiklerini seçin."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елементи, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елементів, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елемент, який Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елемента, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати, або виберіть лише те, що рекомендує Peel."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这还会选择%lld个Peel不推荐移除的项目。请在移到废纸篓前逐一检查，或者只选择Peel推荐的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這也會選取%lld個Peel不建議移除的項目。移動前請逐一檢查，或只選取Peel建議的項目。"
+          }
+        }
+      }
+    },
     "This app has no Apple silicon version, so it needs Rosetta to run." : {
       "localizations" : {
         "cs" : {
@@ -153153,6 +153917,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此外掛模組僅支援Intel。在這部Intel Mac上，它以原生方式載入。"
+          }
+        }
+      }
+    },
+    "This selects ^[%lld item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položky, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položky, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položku, kterou Peel nedoporučuje odstranit. Před přesunutím ji zkontrolujte."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položek, které Peel nedoporučuje odstranit. Před přesunutím každou zkontrolujte."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch wird %lld Objekt ausgewählt, das Peel nicht zum Entfernen empfiehlt. Prüfe es, bevor du es verschiebst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch werden %lld Objekte ausgewählt, die Peel nicht zum Entfernen empfiehlt. Prüfe jedes einzelne, bevor du es verschiebst."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld de ítems que Peel no recomienda eliminar. Revisa cada uno antes de trasladarlo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld ítem que Peel no recomienda eliminar. Revísalo antes de trasladarlo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld ítems que Peel no recomienda eliminar. Revisa cada uno antes de trasladarlo."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld d’éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de le placer dans la corbeille."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld élément dont Peel ne recommande pas la suppression. Examinez-le avant de le placer dans la corbeille."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de le placer dans la corbeille."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati %lld di elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di spostarlo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verrà selezionato %lld elemento che Peel non consiglia di rimuovere. Controllalo prima di spostarlo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati %lld elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di spostarlo."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがゴミ箱に入れることをおすすめしない%lld項目が選択されます。ゴミ箱に入れる前に各項目を確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제거를 추천하지 않는 항목 %lld개가 선택됩니다. 각 항목을 휴지통으로 이동하기 전에 확인하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je %lld onderdeel dat Peel niet voor verwijdering aanbeveelt. Controleer het voordat je het naar de prullenmand verplaatst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je %lld onderdelen die Peel niet voor verwijdering aanbeveelt. Controleer elk onderdeel voordat je het naar de prullenmand verplaatst."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzecz, której Peel nie zaleca przenosić do Kosza. Sprawdź ją, zanim ją przeniesiesz."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których Peel nie zaleca przenosić do Kosza. Sprawdź każdą z nich, zanim ją przeniesiesz."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld de itens que o Peel não recomenda remover. Verifique cada um antes de movê-lo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld item que o Peel não recomenda remover. Verifique-o antes de movê-lo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld itens que o Peel não recomenda remover. Verifique cada um antes de movê-lo."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta %lld articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îl mutați."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se va selecta %lld articol pe care Peel nu recomandă să îl eliminați. Verificați‑l înainte să îl mutați."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta %lld de articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îl mutați."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объектов, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будет выбран %lld объект, который Peel не рекомендует удалять. Проверьте каждый такой объект, прежде чем перемещать его в Корзину."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем перемещать его в Корзину."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera det innan du flyttar det."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera vart och ett innan du flyttar det."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi seçer. Onu Çöp Sepeti’ne taşımadan önce gözden geçirin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi seçer. Her birini Çöp Sepeti’ne taşımadan önce gözden geçirin."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елементи, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елементів, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елемент, який Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елемента, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж його переміщувати."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会选择%lld个Peel不推荐移除的项目。请在移到废纸篓前逐一检查。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會選取%lld個Peel不建議移除的項目。移動前請逐一檢查。"
           }
         }
       }

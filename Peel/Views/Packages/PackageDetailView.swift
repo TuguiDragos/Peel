@@ -33,7 +33,7 @@ struct PackageDetailView: View {
                         warning: item.refusal == nil ? item.heldBack.map { String(localized: $0.explanation) } : nil,
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
-                        isLocked: item.requiresPrivileges && !helper.canAct,
+                        isLocked: isLocked(item),
                         isLeftAlone: item.isLeftAlone,
                         isFirst: index == 0,
                         hasNoteColumn: receipt.items.contains { $0.isLeftAlone || $0.heldBack != nil },
@@ -45,11 +45,7 @@ struct PackageDetailView: View {
                 SectionHeaderLine {
                     Text("Installed Items")
                 } actions: {
-                    SelectAllButton(
-                        selectable: selectableURLs,
-                        rows: receipt.items.map(\.url),
-                        selection: Bindable(packages).selectedURLs
-                    )
+                    SelectMenu(list: list, place: Text(verbatim: receipt.identifier), selection: packages)
                 }
             }
 
@@ -161,9 +157,16 @@ struct PackageDetailView: View {
         receipt.items.filter { packages.selectedURLs.contains($0.url) }
     }
 
-    private var selectableURLs: [URL] {
-        receipt.items.filter { !$0.isLeftAlone && $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }
-            .map(\.url)
+    private var list: SelectableRows<URL> {
+        SelectableRows(
+            rows: receipt.items.map(\.url),
+            selectable: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone }.map(\.url),
+            recommended: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone && $0.heldBack == nil }.map(\.url)
+        )
+    }
+
+    private func isLocked(_ item: PackageReceipt.Item) -> Bool {
+        item.requiresPrivileges && !helper.canAct
     }
 
 }

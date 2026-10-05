@@ -27,7 +27,19 @@ struct DeveloperDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             } header: {
-                Text("Caches")
+                SectionHeaderLine {
+                    Text("Caches")
+                } actions: {
+                    SelectMenu(
+                        list: SelectableRows(
+                            rows: environment.locations.map(\.url),
+                            selectable: environment.locations.map(\.url),
+                            recommended: environment.locations.filter(\.isRecommended).map(\.url)
+                        ),
+                        place: Text(verbatim: environment.name),
+                        selection: developer
+                    )
+                }
             }
         }
         .dimmedWhileBusy(developer.isScanning)

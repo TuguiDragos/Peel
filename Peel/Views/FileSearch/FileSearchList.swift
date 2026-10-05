@@ -41,10 +41,14 @@ struct FileSearchList: View {
                     SectionHeaderLine {
                         Text("Files")
                     } actions: {
-                        SelectAllButton(
-                            selectable: Array(search.selectableURLs),
-                            rows: results.files.map(\.url),
-                            selection: Bindable(search).selectedURLs
+                        SelectMenu(
+                            list: SelectableRows(
+                                rows: results.files.map(\.url),
+                                selectable: results.files.filter { !$0.requiresPrivileges }.map(\.url),
+                                recommended: results.files.map(\.url).filter(search.recommendedURLs.contains)
+                            ),
+                            place: Text(Tool.fileSearch.title),
+                            selection: search
                         )
                     }
                 }

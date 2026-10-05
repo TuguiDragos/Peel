@@ -44,7 +44,11 @@ struct MultipleAppsView: View {
                     }
                     .listRowSeparator(.hidden)
                 } header: {
-                    Text("Apps")
+                    SectionHeaderLine {
+                        Text("Apps")
+                    } actions: {
+                        SelectMenu(list: list(of: plan.applications), place: Text("Apps"), selection: plan)
+                    }
                 }
 
                 if !plan.recommendedFiles.isEmpty {
@@ -55,7 +59,15 @@ struct MultipleAppsView: View {
                         }
                         .listRowSeparator(.hidden)
                     } header: {
-                        Text("Files They Leave Behind")
+                        SectionHeaderLine {
+                            Text("Files They Leave Behind")
+                        } actions: {
+                            SelectMenu(
+                                list: list(of: plan.recommendedFiles),
+                                place: Text("Files They Leave Behind"),
+                                selection: plan
+                            )
+                        }
                     }
                 }
 
@@ -67,10 +79,18 @@ struct MultipleAppsView: View {
                         }
                         .listRowSeparator(.hidden)
                     } header: {
-                        heading(
-                            "Review Before Removing",
-                            "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
-                        )
+                        SectionHeaderLine {
+                            heading(
+                                "Review Before Removing",
+                                "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
+                            )
+                        } actions: {
+                            SelectMenu(
+                                list: list(of: plan.filesToReview),
+                                place: Text("Review Before Removing"),
+                                selection: plan
+                            )
+                        }
                     }
                 }
 
@@ -196,6 +216,15 @@ struct MultipleAppsView: View {
             }
         }
         .padding(.vertical, 8)
+    }
+
+    private func list(of items: [BulkUninstallation.Item]) -> SelectableRows<URL> {
+        let rows = items.map(\.url)
+        return SelectableRows(
+            rows: rows,
+            selectable: rows.filter(plan.selectable.contains),
+            recommended: rows.filter(plan.suggested.contains)
+        )
     }
 
     private func row(_ item: BulkUninstallation.Item, isFirst: Bool) -> some View {

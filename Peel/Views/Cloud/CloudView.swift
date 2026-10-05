@@ -61,10 +61,12 @@ struct CloudView: View {
                             "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
                         )
                     } actions: {
-                        SelectAllButton(
-                            selectable: listed.map(\.url),
-                            rows: listed.map(\.url),
-                            selection: Bindable(cloud).selectedURLs
+                        SelectMenu(
+                            list: SelectableRows(
+                                rows: listed.map(\.url), selectable: listed.map(\.url), recommended: listed.map(\.url)
+                            ),
+                            place: Text(Tool.cloud.title),
+                            selection: cloud
                         )
                     }
                 } footer: {

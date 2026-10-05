@@ -44,6 +44,10 @@ final class ResetPlan {
         reset?.items(in: group) ?? []
     }
 
+    var suggested: Set<URL> {
+        reset?.suggestedSelection ?? []
+    }
+
     var selected: SizeTotal {
         reset?.size(of: selectedURLs) ?? SizeTotal(known: 0, isComplete: true)
     }

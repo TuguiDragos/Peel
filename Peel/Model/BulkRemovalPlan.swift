@@ -31,6 +31,9 @@ final class BulkRemovalPlan {
     private(set) var filesToReview: [BulkUninstallation.Item] = []
     /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
     private(set) var appsInTheTrash: Set<URL> = []
+    /// What Peel selects for the person, worked out again whenever the helper changes.
+    private(set) var suggested: Set<URL> = []
+    var selectable: Set<URL> { choices.selectable }
     private var measuredSizes: [URL: Int64] = [:]
     /// The bundle identifiers of the chosen apps that stay (`BulkUninstallation.staying(selected:)`), worked out
     /// again whenever the selection changes.
@@ -95,6 +98,7 @@ final class BulkRemovalPlan {
         appsInTheTrash = Set(result.uninstallations.filter(\.isAppInTheTrash).map(\.app.url))
         measuredSizes = [URL: Int64](measured: result.items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
         self.installedApps = installedApps
+        suggested = result.suggestedSelection(canUseHelper: self.canUseHelper)
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
     }
 
@@ -102,6 +106,7 @@ final class BulkRemovalPlan {
     func follow(canUseHelper: Bool) {
         self.canUseHelper = canUseHelper
         guard let bulk else { return }
+        suggested = bulk.suggestedSelection(canUseHelper: canUseHelper)
         selectedURLs = choices.update(selectedURLs, in: bulk, canUseHelper: canUseHelper)
     }
 

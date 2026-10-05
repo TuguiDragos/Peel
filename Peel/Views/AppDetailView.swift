@@ -274,14 +274,15 @@ struct AppDetailView: View {
                     "Everything selected here goes to the Trash together when you click Move to Trash. Nothing is deleted outright: History can put it back while it’s in the Trash."
                 ),
                 movable: plan.recommendedMovable,
-                selectable: recommendedSelectable,
-                rows: recommendedRows
+                list: SelectableRows(
+                    rows: recommendedRows, selectable: recommendedSelectable, recommended: recommendedSelectable
+                ),
+                place: Text("Recommended")
             )
         }
     }
 
-    /// The Recommended rows a checkbox can select, for its Select All. Review Before Removing has no Select All,
-    /// because nothing there should be selected without being read.
+    /// The Recommended rows a checkbox can select, all of them recommended.
     private var recommendedSelectable: [URL] {
         recommendedRows.filter(plan.selectable.contains)
     }
@@ -305,7 +306,13 @@ struct AppDetailView: View {
                         "Review Before Removing",
                         "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
                     ),
-                    movable: plan.reviewMovable
+                    movable: plan.reviewMovable,
+                    list: SelectableRows(
+                        rows: plan.needsReview.map(\.url),
+                        selectable: plan.needsReview.map(\.url).filter(plan.selectable.contains),
+                        recommended: []
+                    ),
+                    place: Text("Review Before Removing")
                 )
             }
         }
@@ -331,7 +338,7 @@ struct AppDetailView: View {
     /// A section heading with, at its other end, how many of its items can move and their total size, so the
     /// user sees how much is about to move without adding up the rows.
     private func sectionHeader(
-        _ title: some View, movable: (count: Int, size: SizeTotal), selectable: [URL] = [], rows: [URL] = []
+        _ title: some View, movable: (count: Int, size: SizeTotal), list: SelectableRows<URL>? = nil, place: Text? = nil
     ) -> some View {
         SectionHeaderLine {
             title
@@ -341,7 +348,9 @@ struct AppDetailView: View {
                 .foregroundStyle(.secondary)
                 .monospacedDigit()
         } actions: {
-            SelectAllButton(selectable: selectable, rows: rows, selection: $plan.selectedURLs)
+            if let list, let place {
+                SelectMenu(list: list, place: place, selection: plan)
+            }
         }
     }
 

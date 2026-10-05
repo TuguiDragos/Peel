@@ -32,7 +32,7 @@ struct OrphanDetailView: View {
                         warning: warning(for: item),
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
-                        isLocked: item.requiresPrivileges && !helper.canAct,
+                        isLocked: isLocked(item),
                         isLeftAlone: item.leftAlone != nil,
                         isFirst: index == 0,
                         hasNoteColumn: hasNoteColumn,
@@ -44,11 +44,7 @@ struct OrphanDetailView: View {
                 SectionHeaderLine {
                     Text("Files")
                 } actions: {
-                    SelectAllButton(
-                        selectable: selectableURLs,
-                        rows: group.items.map(\.url),
-                        selection: Bindable(orphans).selectedURLs
-                    )
+                    SelectMenu(list: list, place: Text(verbatim: group.title), selection: orphans)
                 }
             }
         }
@@ -106,9 +102,17 @@ struct OrphanDetailView: View {
         }
     }
 
-    /// What Select All selects. A row held back waits to be chosen by hand, as Review Before Removing does on an
-    /// app's page.
-    private var selectableURLs: [URL] {
-        group.items.filter { $0.heldBack == nil && (helper.canAct || !$0.requiresPrivileges) }.map(\.url)
+    /// Peel recommends no row it held back: such a row waits to be chosen by hand, as Review Before Removing does on
+    /// an app's page.
+    private var list: SelectableRows<URL> {
+        SelectableRows(
+            rows: group.items.map(\.url),
+            selectable: group.items.filter { !isLocked($0) && $0.leftAlone == nil }.map(\.url),
+            recommended: group.items.filter { !isLocked($0) && $0.heldBack == nil }.map(\.url)
+        )
+    }
+
+    private func isLocked(_ item: OrphanItem) -> Bool {
+        item.requiresPrivileges && !helper.canAct
     }
 }
