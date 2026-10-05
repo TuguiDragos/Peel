@@ -157,6 +157,7 @@ public enum ProtectedData: Sendable {
         ".aptos/config.yaml",
         ".near-credentials",
         ".tezos-client/secret_keys",
+        ".tezos-signer",
         ".gaia/keyring-file",
         ".gaia/keyring-test",
         ".gaia/config/priv_validator_key.json",
