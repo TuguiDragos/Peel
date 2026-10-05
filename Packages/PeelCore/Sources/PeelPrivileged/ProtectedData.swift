@@ -128,6 +128,8 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/@onekeyhq/desktop",
         "Library/Application Support/Frame/signers",
         "Library/Application Support/rabby-desktop",
+        "Library/Application Support/umami",
+        "Library/Application Support/MyTonWallet",
         "Library/Ethereum/keystore",
         ".foundry/keystores",
         "Library/Preferences/hardhat-nodejs",

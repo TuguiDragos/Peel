@@ -27,6 +27,9 @@ struct DesktopWalletTests {
         "Library/Application Support/Haveno-reto/xmr_mainnet/keys/sig.key",
         "Library/Containers/com.cypherstack.stackwallet/Data/Library/stackwallet/isar/desktopStore.isar",
         "Library/stackwallet/isar/desktopStore.isar",
+        "Library/Application Support/umami/Local Storage/leveldb/000003.log",
+        "Library/Application Support/umami/Local Storage/backup_leveldb.json",
+        "Library/Application Support/MyTonWallet/IndexedDB/file__0.indexeddb.leveldb/000003.log",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
