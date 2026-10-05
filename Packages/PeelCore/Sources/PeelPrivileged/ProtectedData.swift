@@ -112,7 +112,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/rabby-desktop",
         "Library/Ethereum/keystore",
         ".foundry/keystores",
-        "Library/Preferences/hardhat-nodejs/keystore.json",
+        "Library/Preferences/hardhat-nodejs",
         ".phoenix/seed.dat",
         "Library/Application Support/Lnd/data",
         ".lightning/bitcoin/hsm_secret",
