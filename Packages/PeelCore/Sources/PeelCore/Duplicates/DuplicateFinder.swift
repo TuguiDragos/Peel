@@ -173,7 +173,6 @@ public struct DuplicateFinder: Sendable {
         var keys: Set<URLResourceKey> = [.isDirectoryKey, .isRegularFileKey]
         if options.kind != .any { keys.insert(.contentTypeKey) }
         let excludedFolders = Self.managedPaths(home: homeDirectory)
-        let minimumSize = max(1, options.minimumSize)
         let unreadable = UnreadableLocations()
         var walked: [Candidate] = []
         var projects = Set<String>()
@@ -222,7 +221,7 @@ public struct DuplicateFinder: Sendable {
                         lstat(url.path(percentEncoded: false), &info) == 0,
                         info.st_mode & S_IFMT == S_IFREG,
                         info.st_flags & UInt32(SF_DATALESS) == 0,
-                        ReclaimableSpace.held(info) >= minimumSize,
+                        ReclaimableSpace.held(info) >= options.minimumSize,
                         options.kind == .any || values.contentType.map(options.kind.includes) == true
                     else { return }
                     walked.append(Candidate(url: url, identity: FileIdentity(info)))

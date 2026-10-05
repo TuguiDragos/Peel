@@ -56,6 +56,18 @@ struct FolderDuplicateTests {
         #expect(result.groups.isEmpty)
     }
 
+    @Test func aFloorOfZeroStillLeavesOutFoldersThatHoldNothing() async throws {
+        let directory = try TemporaryDirectory()
+        for folder in ["home/Documents/Notes", "home/Desktop/Notes"] {
+            try directory.file("\(folder)/todo.txt", bytes: 0)
+        }
+
+        let result = try await scan(directory) { $0.minimumSize = 0 }
+
+        #expect(names(result).isEmpty)
+        #expect(result.groups.isEmpty)
+    }
+
     @Test func groupsFoldersWithIdenticalContents() async throws {
         let directory = try TemporaryDirectory()
         try trip(in: directory)

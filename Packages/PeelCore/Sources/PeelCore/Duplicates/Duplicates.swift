@@ -3,7 +3,11 @@ public import Foundation
 public struct DuplicateScanOptions: Sendable, Hashable {
     public var folders: [URL]
     public var kind = FileKind.any
-    public var minimumSize: Int64 = 1
+    /// The fewest bytes a file holds, or a folder holds in all, to be compared. Never less than one: a copy of
+    /// nothing frees nothing.
+    public var minimumSize: Int64 = 1 {
+        didSet { minimumSize = max(1, minimumSize) }
+    }
 
     public init(folders: [URL]) {
         self.folders = folders
