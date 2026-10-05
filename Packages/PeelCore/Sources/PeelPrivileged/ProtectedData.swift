@@ -126,6 +126,7 @@ public enum ProtectedData: Sendable {
         "Library/Application Support/joinmarket/wallets",
         "Library/Application Support/Bisq/btc_mainnet/wallet",
         "Library/Application Support/Bisq/btc_mainnet/keys",
+        "Library/Application Support/Bisq2/db/private",
         "Library/Application Support/Haveno/xmr_mainnet/wallet",
         "Library/Application Support/Haveno/xmr_mainnet/keys",
         "Library/Application Support/Haveno-reto/xmr_mainnet/wallet",

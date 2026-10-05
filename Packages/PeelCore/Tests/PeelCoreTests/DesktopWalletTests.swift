@@ -76,6 +76,7 @@ struct DesktopWalletTests {
         ".grim/main/wallets/1767225600/wallet_data/wallet.seed",
         "Library/Nano/wallets.ldb",
         "Library/Nano/backup/5F2B1E9C0D4A7B3E6C8D1F0A2B4C6E8D0F1A3B5C7D9E0F2A4B6C8D0E2F4A6B8C.json",
+        "Library/Application Support/Bisq2/db/private/key_bundle_store.protobuf",
     ])
     func refusesWhatAWalletKeeps(_ key: String) throws {
         let directory = try TemporaryDirectory()
@@ -116,6 +117,7 @@ struct DesktopWalletTests {
         "Library/Application Support/joinmarket/logs/joinmarket.log",
         ".grim/main/chain_data/multi_lmdb/data.mdb",
         "Library/Nano/data.ldb",
+        "Library/Application Support/Bisq2/bisq.log",
     ])
     func leavesWhatComesBackOnItsOwn(_ cache: String) throws {
         let directory = try TemporaryDirectory()
