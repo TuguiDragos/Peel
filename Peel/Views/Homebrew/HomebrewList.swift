@@ -247,35 +247,23 @@ struct HomebrewList: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(report.advisories) { advisory in
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack(spacing: 6) {
+                        HStack(spacing: 8) {
+                            VStack(alignment: .leading, spacing: 1) {
                                 Text(verbatim: advisory.formula)
-                                    .fontWeight(.semibold)
-                                Text(verbatim: advisory.version)
+                                    .lineLimit(1)
+                                Text("\(advisory.version) · ^[\(advisory.vulnerabilities.count) vulnerability](inflect: true)")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
-                                Spacer(minLength: 0)
                             }
-                            ForEach(advisory.vulnerabilities) { vulnerability in
-                                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                                    Text(vulnerability.severity.title)
-                                        .font(.caption2.bold())
-                                        .rowTint(vulnerability.severity.tint)
-                                        .frame(minWidth: 58, alignment: .leading)
-                                    Text(verbatim: vulnerability.id)
-                                        .font(.caption.monospaced())
-                                        .textSelection(.enabled)
-                                    Text(verbatim: vulnerability.summary)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .lineLimit(1)
-                                        .help(Text(verbatim: vulnerability.summary))
-                                    Spacer(minLength: 0)
-                                }
-                            }
+                            Spacer(minLength: 4)
+                            Badge(
+                                title: Text(advisory.highestSeverity.title),
+                                systemImage: advisory.highestSeverity.symbol,
+                                symbolTint: advisory.highestSeverity.color
+                            )
                         }
                         .padding(.vertical, 2)
-                        .selectionDisabled()
+                        .tag(HomebrewRow.vulnerabilities(formula: advisory.formula))
                     }
                 }
                 if !report.skipped.isEmpty {
@@ -290,10 +278,18 @@ struct HomebrewList: View {
                         .textSelection(.enabled)
                 }
             } header: {
-                heading(
-                    "Known Vulnerabilities",
-                    "Homebrew’s own scan, as it reported it. Peel changes nothing here. A vulnerability clears once Homebrew offers a version with the fix and the package is upgraded to it."
-                )
+                SectionHeaderLine {
+                    heading(
+                        "Known Vulnerabilities",
+                        "Homebrew’s own scan, as it reported it. Peel changes nothing here. A vulnerability clears once Homebrew offers a version with the fix and the package is upgraded to it."
+                    )
+                } count: {
+                    if !report.advisories.isEmpty {
+                        Text("^[\(report.advisories.map(\.vulnerabilities.count).reduce(0, +)) vulnerability](inflect: true)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } actions: {}
             }
         }
     }
@@ -345,6 +341,7 @@ struct HomebrewList: View {
                         }
                     }
                     .padding(.vertical, 2)
+                    .tag(HomebrewRow.package(package.id))
                 }
             } header: {
                 SectionHeaderLine {
@@ -382,6 +379,7 @@ struct HomebrewList: View {
                             .foregroundStyle(.secondary)
                     }
                     .padding(.vertical, 2)
+                    .tag(HomebrewRow.package(package.id))
                 }
             } header: {
                 // `SectionHeaderLine` lets the heading wrap to a second line, which some translations need.
@@ -416,6 +414,7 @@ struct HomebrewList: View {
                         }
                     }
                     .padding(.vertical, 2)
+                    .tag(HomebrewRow.package(package.id))
                 }
             } header: {
                 title
@@ -513,26 +512,6 @@ struct HomebrewList: View {
         return packages.filter {
             SearchText.matches($0.name, searchText)
                 || $0.summary.map { summary in SearchText.matches(summary, searchText) } == true
-        }
-    }
-}
-
-private extension HomebrewVulnerability.Severity {
-    var title: LocalizedStringResource {
-        switch self {
-        case .critical: "Critical"
-        case .high: "High"
-        case .medium: "Medium"
-        case .low: "Low"
-        case .unknown: "Unrated"
-        }
-    }
-
-    var tint: Color {
-        switch self {
-        case .critical: .red
-        case .high: .orange
-        case .medium, .low, .unknown: .secondary
         }
     }
 }

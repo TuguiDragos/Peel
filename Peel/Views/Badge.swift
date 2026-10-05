@@ -8,12 +8,18 @@ struct Badge: View {
     let title: Text
     let systemImage: String
     var tint: Color = .secondary
+    /// A color for the symbol alone, when the mark says how serious something is and the words keep `tint`.
+    var symbolTint: Color?
 
     var body: some View {
         Label {
             title
         } icon: {
-            Image(systemName: systemImage)
+            if let symbolTint {
+                Image(systemName: systemImage).rowTint(symbolTint)
+            } else {
+                Image(systemName: systemImage)
+            }
         }
         // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when it
         // is wider than the row itself.

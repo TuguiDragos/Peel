@@ -35,6 +35,13 @@ struct HomebrewDetailView: View {
                             if package.isOutdated, let latest = package.latestVersion {
                                 Badge(title: Text("Update available: \(latest)"), systemImage: "arrow.down.circle", tint: .blue)
                             }
+                            if let advisory {
+                                Badge(
+                                    title: Text("^[\(advisory.vulnerabilities.count) known vulnerability](inflect: true)"),
+                                    systemImage: advisory.highestSeverity.symbol,
+                                    symbolTint: advisory.highestSeverity.color
+                                )
+                            }
                             if package.isPinned {
                                 NoteBadge(
                                     title: Text("Pinned"), systemImage: "pin", tint: .secondary,
@@ -127,6 +134,10 @@ struct HomebrewDetailView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+
+            if let advisory {
+                HomebrewVulnerabilitySections(advisory: advisory, package: package)
+            }
         }
         .formStyle(.grouped)
         .navigationTitle(package.name)
@@ -148,6 +159,10 @@ struct HomebrewDetailView: View {
         } message: {
             Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
         }
+    }
+
+    private var advisory: HomebrewAdvisory? {
+        homebrew.advisory(for: package)
     }
 
     /// Said where Peel hands a cask's command to Terminal: `brew` asks for an administrator's password with `sudo`,

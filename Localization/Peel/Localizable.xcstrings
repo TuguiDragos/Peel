@@ -4500,6 +4500,352 @@
         }
       }
     },
+    "%@ · ^[%lld vulnerability](inflect: true)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · ^[%2$lld vulnerability](inflect: true)"
+          }
+        },
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld zranitelnosti"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld zranitelnosti"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld zranitelnost"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld zranitelností"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld Sicherheitslücke"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld Sicherheitslücken"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld de vulnerabilidades"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilidad"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilidades"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld de vulnérabilités"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnérabilité"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnérabilités"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld di vulnerabilità"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilità"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilità"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %lld件の脆弱性"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 취약점 %lld개"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld kwetsbaarheid"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld kwetsbaarheden"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld luki"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld luk"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld luka"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld luki"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld de vulnerabilidades"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilidade"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilidades"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilități"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld vulnerabilitate"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld de vulnerabilități"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld уязвимости"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld уязвимостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld уязвимость"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld уязвимости"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld sårbarhet"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld sårbarheter"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld güvenlik açığı"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld güvenlik açığı"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld вразливості"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld вразливостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld вразливість"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ · %lld вразливості"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %lld个漏洞"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %lld個漏洞"
+          }
+        }
+      }
+    },
     "%@, chosen in this shortcut, isn’t installed on this Mac. Choose the app again." : {
       "localizations" : {
         "cs" : {
@@ -39123,6 +39469,218 @@
         }
       }
     },
+    "Fixed by its developers, version unknown" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opraveno vývojáři projektu, verze s opravou není známa"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von den Entwicklern behoben, Version unbekannt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corregida por sus desarrolladores, versión desconocida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigée par les développeurs du logiciel, version inconnue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corretta dal team di sviluppo, versione sconosciuta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開発元により修正済み、修正を含むバージョンは不明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgelost door de ontwikkelaars van het project, versie onbekend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naprawiona przez deweloperów projektu, wersja nieznana"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigida pelos desenvolvedores do projeto, versão desconhecida"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remediată de dezvoltatorii proiectului, versiune necunoscută"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправлено разработчиками проекта, но неизвестно, в какой версии"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korrigerad av projektets utvecklare, okänt i vilken version"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виправлено в коді проєкту, версія невідома"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已由其开发者修复，但包含修复的版本未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已由其開發者修正，含有修正的版本未知"
+          }
+        }
+      }
+    },
+    "Fixed in %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verze s opravou: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behoben in %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corregida en %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigée dans %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corretta in %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で修正済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@에서 수정됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgelost in %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naprawiona w %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigida em %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remediată în %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправлено в %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korrigerad i %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ile düzeltildi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виправлено в %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在版本%@中修复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在版本%@中修正"
+          }
+        }
+      }
+    },
     "Folder Only" : {
       "localizations" : {
         "cs" : {
@@ -45650,6 +46208,112 @@
         }
       }
     },
+    "Homebrew checked the installed version against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew porovnal nainstalovanou verzi s OSV.dev, otevřenou databází známých zranitelností, a vynechal ty, které už opravuje svými vlastními záplatami. „Opraveno vývojáři projektu, verze s opravou není známa“ znamená, že OSV.dev uvádí změny, které zranitelnost opravují, ale neuvádí žádnou verzi, která by je obsahovala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat die installierte Version mit OSV.dev, einer offenen Datenbank bekannter Sicherheitslücken, abgeglichen und diejenigen ausgelassen, die bereits durch seine eigenen Patches behoben sind. „Von den Entwicklern behoben, Version unbekannt“ bedeutet, dass OSV.dev die Änderungen nennt, die die Sicherheitslücke beheben, aber keine Version, die sie enthält."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha comparado la versión instalada con OSV.dev, una base de datos abierta de vulnerabilidades conocidas, y ha dejado fuera las que sus propios parches ya corrigen. “Corregida por sus desarrolladores, versión desconocida” significa que OSV.dev indica qué cambios corrigen la vulnerabilidad, pero no qué versión los incluye."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a comparé la version installée à OSV.dev, une base de données ouverte de vulnérabilités connues, et a écarté celles que ses propres correctifs corrigent déjà. « Corrigée par les développeurs du logiciel, version inconnue » signifie qu’OSV.dev indique les modifications qui corrigent la vulnérabilité, mais aucune version qui les intègre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha confrontato la versione installata con OSV.dev, un database aperto di vulnerabilità note, e ha lasciato fuori quelle già corrette dalle proprie patch. “Corretta dal team di sviluppo, versione sconosciuta” significa che OSV.dev indica le modifiche che correggono la vulnerabilità, ma nessuna versione che le contenga."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、インストール済みのバージョンをOSV.dev（既知の脆弱性のオープンなデータベース）と照合し、自身のパッチですでに修正されている脆弱性を除外しました。“開発元により修正済み、修正を含むバージョンは不明”は、OSV.devがその脆弱性を修正する変更を示しているものの、それらを含むバージョンを示していないことを意味します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 설치된 버전을 알려진 취약점의 공개 데이터베이스인 OSV.dev와 대조하고, 자체 패치로 이미 수정된 취약점은 제외했습니다. ‘프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음’은 OSV.dev가 취약점을 수정하는 변경 사항은 알려 주지만, 그 변경 사항이 포함된 버전은 알려 주지 않는다는 뜻입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft de geïnstalleerde versie gecontroleerd aan de hand van OSV.dev, een open database met bekende kwetsbaarheden, en heeft weggelaten wat zijn eigen patches al oplossen. 'Opgelost door de ontwikkelaars van het project, versie onbekend' betekent dat OSV.dev de wijzigingen noemt die de kwetsbaarheid oplossen, maar geen versie waarin ze zijn opgenomen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew porównał zainstalowaną wersję z OSV.dev, otwartą bazą danych znanych luk w zabezpieczeniach, i pominął te, które naprawił już własnymi łatkami. „Naprawiona przez deweloperów projektu, wersja nieznana” oznacza, że OSV.dev podaje zmiany, które naprawiają lukę, ale nie podaje żadnej wersji, która je zawiera."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew comparou a versão instalada com o OSV.dev, um banco de dados aberto de vulnerabilidades conhecidas, e deixou de fora aquelas que as correções do próprio Homebrew já resolvem. “Corrigida pelos desenvolvedores do projeto, versão desconhecida” significa que o OSV.dev indica as alterações que corrigem a vulnerabilidade, mas nenhuma versão que as inclua."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a comparat versiunea instalată cu OSV.dev, o bază de date deschisă de vulnerabilități cunoscute, și le‑a omis pe cele remediate deja de propriile sale corecții. „Remediată de dezvoltatorii proiectului, versiune necunoscută” înseamnă că OSV.dev indică modificările care o remediază, dar nu și o versiune care să le conțină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew сверил установленную версию с OSV.dev, открытой базой данных известных уязвимостей, и не включил те из них, которые уже исправлены патчами самого Homebrew. «Исправлено разработчиками проекта, но неизвестно, в какой версии» означает, что OSV.dev называет изменения, которые исправляют уязвимость, но не называет ни одной версии, которая их содержит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kontrollerade den installerade versionen mot OSV.dev, en öppen databas över kända sårbarheter, och utelämnade dem som Homebrews egna patchar redan korrigerar. ”Korrigerad av projektets utvecklare, okänt i vilken version” betyder att OSV.dev anger de ändringar som korrigerar sårbarheten, men ingen version som innehåller dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, yüklü sürümü, bilinen güvenlik açıklarını içeren herkese açık bir veritabanı olan OSV.dev ile karşılaştırdı ve kendi yamalarıyla zaten düzeltilmiş olanları dışarıda bıraktı. “Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor” ifadesi, OSV.dev’in güvenlik açığını düzelten değişiklikleri belirttiği ama bu değişiklikleri içeren hiçbir sürüm belirtmediği anlamına gelir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew перевірив інстальовану версію за OSV.dev, відкритою базою даних відомих вразливостей, і не врахував ті, що їх уже виправляють його власні патчі. «Виправлено в коді проєкту, версія невідома» означає, що OSV.dev називає зміни, які виправляють вразливість, але не називає жодної версії, яка їх містить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew已对照开放的已知漏洞数据库OSV.dev检查了已安装的版本，并略去了自己的补丁已修复的漏洞。“已由其开发者修复，但包含修复的版本未知”表示OSV.dev指明了修复该漏洞的更改，但没有指明包含这些更改的版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew已依據開放的已知漏洞資料庫OSV.dev檢查已安裝的版本，並略過了它自己的修補程式已修正的漏洞。「已由其開發者修正，含有修正的版本未知」表示OSV.dev列出了修正此漏洞的變更，但沒有列出包含這些變更的版本。"
+          }
+        }
+      }
+    },
     "Homebrew cleans up after every upgrade, deleting old versions for good, so Peel leaves upgrades to Terminal." : {
       "localizations" : {
         "cs" : {
@@ -50544,6 +51208,224 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew自己的掃描結果，依它的回報呈現。Peel不會在此更改任何內容。當Homebrew提供含有修正的版本，且套件已升級到該版本後，漏洞就會消除。"
+          }
+        }
+      }
+    },
+    "Homebrew’s scan found these in version %@, installed on this Mac. Homebrew offers %@: once it is installed, scan again to see which of these it fixes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Homebrew’s scan found these in version %1$@, installed on this Mac. Homebrew offers %2$@: once it is installed, scan again to see which of these it fixes."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrola Homebrew našla tyto zranitelnosti ve verzi %@, která je nainstalovaná v tomto Macu. Homebrew nabízí verzi %@: až bude nainstalovaná, prohledejte znovu, abyste zjistili, které z nich opravuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Scan von Homebrew hat diese Sicherheitslücken in der auf diesem Mac installierten Version %@ gefunden. Homebrew bietet Version %@ an: Sobald sie installiert ist, scanne erneut, um zu sehen, welche davon diese Version behebt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El análisis de Homebrew ha encontrado estas vulnerabilidades en la versión %@, instalada en este Mac. Homebrew ofrece la versión %@: una vez instalada, vuelve a analizar para ver cuáles de ellas corrige."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse de Homebrew a trouvé ces vulnérabilités dans la version %@, installée sur ce Mac. Homebrew propose la version %@ : une fois celle-ci installée, analysez à nouveau pour voir lesquelles elle corrige."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analisi di Homebrew ha trovato queste vulnerabilità nella versione %@, installata su questo Mac. Homebrew offre la versione %@: una volta installata, analizza di nuovo per vedere quali di queste corregge."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのスキャンで、このMacにインストールされているバージョン%@に以下の脆弱性が見つかりました。Homebrewは%@を提供しています。インストールされたら、もう一度スキャンして、そのバージョンでこれらのうちどれが修正されるかを確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 스캔이 이 Mac에 설치된 %@ 버전에서 아래 취약점을 찾았습니다. Homebrew는 %@ 버전을 제공합니다. 이 버전이 설치되면 다시 스캔하여 이 중 어떤 취약점이 수정되는지 확인하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De scan van Homebrew heeft deze kwetsbaarheden gevonden in versie %@, die op deze Mac is geïnstalleerd. Homebrew biedt %@ aan: scan opnieuw zodra die versie is geïnstalleerd, om te zien welke hiervan daarin zijn opgelost."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skanowanie Homebrew wykryło te luki w wersji %@, zainstalowanej na tym Macu. Homebrew udostępnia wersję %@: po jej zainstalowaniu przeskanuj ponownie, aby zobaczyć, które z nich są w niej naprawione."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A análise do Homebrew encontrou estas vulnerabilidades na versão %@, instalada neste Mac. O Homebrew oferece a versão %@: depois que ela for instalada, analise de novo para ver quais delas a nova versão corrige."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanarea Homebrew a găsit aceste vulnerabilități în versiunea %@, instalată pe acest Mac. Homebrew oferă versiunea %@: după ce este instalată, scanați din nou pentru a vedea pe care dintre ele le remediază."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew нашел эти уязвимости при сканировании версии %@, установленной на этом Mac. Homebrew предлагает версию %@: после ее установки просканируйте снова, чтобы узнать, какие из них она исправляет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrews skanning hittade de här i version %@, som är installerad på den här datorn. Homebrew erbjuder version %@: när den har installerats kan du skanna igen för att se vilka av dem den korrigerar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un taraması bunları bu Mac’te yüklü olan %@ sürümünde buldu. Homebrew, %@ sürümünü sunuyor: bu sürüm yüklendikten sonra, bunlardan hangilerini düzelttiğini görmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканування Homebrew знайшло ці вразливості у версії %@, інстальованій на цьому Mac. Homebrew пропонує версію %@: щойно її буде інстальовано, проскануйте ще раз, щоб побачити, які з них вона виправляє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的扫描在这台Mac上安装的版本%@中发现了以下漏洞。Homebrew已提供版本%@：安装后，请重新扫描，以查看它修复了其中哪些漏洞。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的掃描在這部Mac上安裝的版本%@中發現了這些漏洞。Homebrew提供版本%@：安裝後，請重新掃描，以查看此版本修正了其中哪些漏洞。"
+          }
+        }
+      }
+    },
+    "Homebrew’s scan found these in version %@, installed on this Mac. They leave this list once the formula is upgraded to a version with the fix and the scan runs again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrola Homebrew našla tyto zranitelnosti ve verzi %@, která je nainstalovaná v tomto Macu. Z tohoto seznamu zmizí, jakmile se formula upgraduje na verzi s opravou a kontrola proběhne znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Scan von Homebrew hat diese Sicherheitslücken in der auf diesem Mac installierten Version %@ gefunden. Sie verschwinden aus dieser Liste, sobald die Formula ein Upgrade auf eine Version mit der Korrektur erhalten hat und der Scan erneut ausgeführt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El análisis de Homebrew ha encontrado estas vulnerabilidades en la versión %@, instalada en este Mac. Desaparecen de esta lista cuando la formula se actualiza a una versión con la corrección y se vuelve a ejecutar el análisis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse de Homebrew a trouvé ces vulnérabilités dans la version %@, installée sur ce Mac. Elles disparaissent de cette liste dès que la formula est mise à niveau vers une version corrigée et que l’analyse est relancée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analisi di Homebrew ha trovato queste vulnerabilità nella versione %@, installata su questo Mac. Scompaiono da questo elenco quando la formula viene aggiornata a una versione con la correzione e l’analisi viene eseguita di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのスキャンで、このMacにインストールされているバージョン%@に以下の脆弱性が見つかりました。このformulaが修正済みのバージョンにアップグレードされ、もう一度スキャンが実行されると、これらはこのリストから外れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 스캔이 이 Mac에 설치된 %@ 버전에서 아래 취약점을 찾았습니다. 이 취약점들은 formula가 수정된 버전으로 업그레이드되고 스캔이 다시 실행되면 이 목록에서 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De scan van Homebrew heeft deze kwetsbaarheden gevonden in versie %@, die op deze Mac is geïnstalleerd. Ze verdwijnen uit deze lijst zodra de formula is geüpgraded naar een versie met de oplossing en de scan opnieuw is uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skanowanie Homebrew wykryło te luki w wersji %@, zainstalowanej na tym Macu. Znikają z tej listy, gdy formula zostanie uaktualniona do wersji z poprawką, a skanowanie zostanie powtórzone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A análise do Homebrew encontrou estas vulnerabilidades na versão %@, instalada neste Mac. Elas saem desta lista quando a formula recebe o upgrade para uma versão com a correção e a análise é executada de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanarea Homebrew a găsit aceste vulnerabilități în versiunea %@, instalată pe acest Mac. Dispar din această listă după ce formula primește upgrade la o versiune cu remedierea și scanarea rulează din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew нашел эти уязвимости при сканировании версии %@, установленной на этом Mac. Они исчезнут из этого списка, когда formula будет обновлена до версии с исправлением и сканирование будет выполнено снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrews skanning hittade de här i version %@, som är installerad på den här datorn. De försvinner från den här listan när formulan har uppgraderats till en version med korrigeringen och skanningen har körts igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un taraması bunları bu Mac’te yüklü olan %@ sürümünde buldu. Formula, düzeltmeyi içeren bir sürüme yükseltildiğinde ve tarama yeniden yapıldığında bunlar bu listeden çıkar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканування Homebrew знайшло ці вразливості у версії %@, інстальованій на цьому Mac. Вони зникають із цього списку, щойно formula буде оновлено до версії з виправленням і сканування буде виконано ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的扫描在这台Mac上安装的版本%@中发现了以下漏洞。此formula升级到包含修复的版本并重新扫描后，它们就会从此列表中消失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的掃描在這部Mac上安裝的版本%@中發現了這些漏洞。將此formula升級到含有修正的版本並重新掃描後，它們就不會再出現在此列表中。"
           }
         }
       }
@@ -76448,6 +77330,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此列表中還沒有任何檔案或檔案夾。"
+          }
+        }
+      }
+    },
+    "No fix known yet" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím není známa žádná oprava"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Korrektur bekannt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se conoce ninguna corrección"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun correctif connu pour l’instant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancora nessuna correzione nota"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既知の修正はまだありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 알려진 수정 사항 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog geen oplossing bekend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brak jeszcze znanej poprawki"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda sem correção conhecida"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încă nu se cunoaște nicio remediere"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Известных исправлений пока нет"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen känd korrigering än"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz bilinen bir düzeltme yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відомого виправлення ще немає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚无已知修复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無已知的修正"
           }
         }
       }
@@ -118955,6 +119943,112 @@
         }
       }
     },
+    "Save" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sichern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zachowaj"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvați"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spara"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зберегти"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存"
+          }
+        }
+      }
+    },
     "Save a list of what is installed and where it came from" : {
       "localizations" : {
         "cs" : {
@@ -119269,6 +120363,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "將截圖儲存為JPEG"
+          }
+        }
+      }
+    },
+    "Save the screenshot name" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit název snímků obrazovky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namen für Bildschirmfotos sichern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar el nombre de las capturas de pantalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer le nom des captures d’écran"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva il nome degli screenshot"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットの名前を保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷 이름 저장"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar de naam van schermafbeeldingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zachowaj nazwę zrzutów ekranu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar o nome das capturas de tela"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvați numele pentru capturi de ecran"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить имя для снимков экрана"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spara namnet för skärmavbilder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resmi adını kaydet"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зберегти назву знімків екрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存截屏名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存截圖名稱"
           }
         }
       }
@@ -175696,6 +176896,346 @@
         }
       }
     },
+    "^[%lld known vulnerability](inflect: true)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld známé zranitelnosti"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld známé zranitelnosti"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld známá zranitelnost"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld známých zranitelností"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bekannte Sicherheitslücke"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bekannte Sicherheitslücken"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilidades conocidas"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidad conocida"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidades conocidas"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnérabilités connues"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnérabilité connue"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnérabilités connues"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld di vulnerabilità note"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilità nota"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilità note"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件の既知の脆弱性"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알려진 취약점 %lld개"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bekende kwetsbaarheid"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bekende kwetsbaarheden"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld znane luki w zabezpieczeniach"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld znanych luk w zabezpieczeniach"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld znana luka w zabezpieczeniach"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld znanej luki w zabezpieczeniach"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilidades conhecidas"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidade conhecida"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidades conhecidas"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilități cunoscute"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilitate cunoscută"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilități cunoscute"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld известные уязвимости"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld известных уязвимостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld известная уязвимость"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld известной уязвимости"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld känd sårbarhet"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kända sårbarheter"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bilinen güvenlik açığı"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld bilinen güvenlik açığı"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld відомі вразливості"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld відомих вразливостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld відома вразливість"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld відомої вразливості"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld个已知漏洞"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個已知漏洞"
+          }
+        }
+      }
+    },
     "^[%lld month](inflect: true) since anything wrote here" : {
       "localizations" : {
         "cs" : {
@@ -179772,6 +181312,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld個更新項目等待中。"
+          }
+        }
+      }
+    },
+    "^[%lld vulnerability](inflect: true)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zranitelnosti"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zranitelnosti"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zranitelnost"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zranitelností"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Sicherheitslücke"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Sicherheitslücken"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilidades"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidad"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidades"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnérabilités"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnérabilité"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnérabilités"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld di vulnerabilità"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilità"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilità"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件の脆弱性"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "취약점 %lld개"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kwetsbaarheid"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kwetsbaarheden"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld luki"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld luk"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld luka"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld luki"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilidades"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidade"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilidades"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilități"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vulnerabilitate"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de vulnerabilități"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld уязвимости"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld уязвимостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld уязвимость"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld уязвимости"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld sårbarhet"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld sårbarheter"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld güvenlik açığı"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld güvenlik açığı"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld вразливості"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld вразливостей"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld вразливість"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld вразливості"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld个漏洞"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個漏洞"
           }
         }
       }
@@ -187836,218 +189716,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」已丟到「垃圾桶」，但無法停止。"
-          }
-        }
-      }
-    },
-    "Save" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uložit"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sichern"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zachowaj"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvar"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvați"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spara"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydet"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зберегти"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存"
-          }
-        }
-      }
-    },
-    "Save the screenshot name" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uložit název snímků obrazovky"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Namen für Bildschirmfotos sichern"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar el nombre de las capturas de pantalla"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer le nom des captures d’écran"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva il nome degli screenshot"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スクリーンショットの名前を保存"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스크린샷 이름 저장"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar de naam van schermafbeeldingen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zachowaj nazwę zrzutów ekranu"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvar o nome das capturas de tela"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvați numele pentru capturi de ecran"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить имя для снимков экрана"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spara namnet för skärmavbilder"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ekran resmi adını kaydet"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зберегти назву знімків екрана"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存截屏名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存截圖名稱"
           }
         }
       }

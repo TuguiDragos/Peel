@@ -3,6 +3,13 @@ import Foundation
 import Observation
 import PeelCore
 
+/// A row of the Homebrew page: a package, or a formula's row under Known Vulnerabilities, which leads to the same
+/// package's page.
+enum HomebrewRow: Hashable {
+    case package(HomebrewPackage.ID)
+    case vulnerabilities(formula: String)
+}
+
 @Observable
 final class HomebrewLibrary {
     /// Incremented every time the packages are read, so a view can key work to it. Their count stays the same
@@ -62,7 +69,9 @@ final class HomebrewLibrary {
     /// any command that changes Homebrew and by a reading that finds other packages installed, since they would
     /// then describe it as it was.
     private(set) var findings: [HomebrewFinding]?
-    private(set) var advisories: HomebrewVulnerabilityReport?
+    private(set) var advisories: HomebrewVulnerabilityReport? {
+        didSet { keepSelectionOnItsPage() }
+    }
     /// Casks describing installed apps that Homebrew didn't install, read from its local definitions.
     private(set) var knownCasks: [HomebrewPackage] = []
     /// The identifiers of the installer receipts on the Mac. A cask that installs a package proves which app
@@ -98,14 +107,36 @@ final class HomebrewLibrary {
     /// True once the person asked the running upgrade to stop.
     private(set) var isStopping = false
     private var runningTask: Task<CommandResult?, Never>?
-    var selection: HomebrewPackage.ID?
+    var selection: HomebrewRow?
     var result: CommandResult?
 
     /// Whether Homebrew answered the last reading, so its definitions are on this Mac.
     private(set) var hasAnswered = false
 
     var selectedPackage: HomebrewPackage? {
-        packages?.first { $0.id == selection }
+        switch selection {
+        case .package(let id): packages?.first { $0.id == id }
+        case .vulnerabilities(let formula): packages?.first { $0.kind == .formula && $0.name == formula }
+        case nil: nil
+        }
+    }
+
+    /// What the last vulnerability scan found in `package`. The scan covers formulae only.
+    func advisory(for package: HomebrewPackage) -> HomebrewAdvisory? {
+        guard package.kind == .formula else { return nil }
+        return advisories?.advisories.first { $0.formula == package.name }
+    }
+
+    /// Keeps the page that shows: a row under Known Vulnerabilities whose report went gives way to its package's own
+    /// row, and a row whose package went leaves nothing chosen.
+    private func keepSelectionOnItsPage() {
+        if case .vulnerabilities(let formula) = selection,
+           advisories?.advisories.contains(where: { $0.formula == formula }) != true {
+            selection = selectedPackage.map { .package($0.id) }
+        }
+        if selection != nil, selectedPackage == nil {
+            selection = nil
+        }
     }
 
     var outdated: [HomebrewPackage] {
@@ -171,9 +202,7 @@ final class HomebrewLibrary {
         }
         overrides = overridden ?? overrides
         revision += 1
-        if let selection, packages?.contains(where: { $0.id == selection }) != true {
-            self.selection = nil
-        }
+        keepSelectionOnItsPage()
     }
 
     /// With no Homebrew on the Mac, nothing it said still holds, so the library becomes what it is when Peel starts

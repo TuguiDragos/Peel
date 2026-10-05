@@ -10,6 +10,11 @@ enum Links {
     static let argumentParser = URL(string: "https://github.com/apple/swift-argument-parser")!
     static let blobatar = URL(string: "https://github.com/Alain00/blobatar")!
 
+    /// A vulnerability's page on OSV.dev, which shows every record its API returns, under any of its identifiers.
+    static func vulnerability(_ identifier: String) -> URL {
+        URL(string: "https://osv.dev/vulnerability/")!.appending(component: identifier)
+    }
+
     /// The address of a new GitHub issue on the bug report form, with Peel's environment already filled in.
     ///
     /// Nothing is sent from here: the browser opens a form the user can edit or close. Peel fills in only its
