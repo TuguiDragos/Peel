@@ -37,6 +37,8 @@ struct ContentView: View {
     @State private var windowWidth = WindowWidth()
     @State private var listColumn = ListColumn()
     @State private var hostWindow = HostWindow()
+    /// The content's share of `WindowFloor` on the window's screen, once the window is known (`fitFloor`).
+    @State private var floor: CGSize?
     @State private var searchText = ""
     private var navigator: Navigator { .shared }
 
@@ -101,14 +103,22 @@ struct ContentView: View {
                 tools
             }
         }
-        // The floor fits every scaled mode a 13 inch Mac offers with its menu bar and Dock, Larger Text's 1024 by
-        // 666 included. In a window narrower than the sidebar and what the page needs beside it, the sidebar
-        // steps aside (`fitSidebar`), and Home puts its halves one above the other. Every page scrolls, so a
-        // shorter window costs nothing but a scroll. Growing is unrestricted.
-        .frame(minWidth: 960, minHeight: 560)
+        // The floor is `WindowFloor`, as far as the window's screen has room for it. On a screen too narrow for the
+        // sidebar beside what the page needs, the sidebar steps aside (`fitSidebar`), and Home puts its halves one
+        // above the other. Growing is unrestricted.
+        .frame(minWidth: floor?.width, minHeight: floor?.height)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
             windowWidth.value = width
             fitWidth()
+            fitFloor()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didChangeScreenNotification)) { notice in
+            if notice.object as? NSWindow === hostWindow.value { fitFloor() }
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+        ) { _ in
+            fitFloor()
         }
         .onChange(of: sidebarWidth) { fitWidth() }
         .onChange(of: drawn) { fitWidth(pageChanged: true) }
@@ -117,7 +127,7 @@ struct ContentView: View {
             if shown == .all, isNarrow { makeRoomForSidebar() }
             fitList()
         }
-        .background(HostWindowReader(host: hostWindow))
+        .background(HostWindowReader(host: hostWindow, found: fitFloor))
         .environment(listColumn)
         // A later turn of the run loop, after the sidebar's highlight has been committed. A choice made before
         // this one ends replaces it, so arrowing down the sidebar builds only the page it stops on.
@@ -177,6 +187,16 @@ struct ContentView: View {
         case .terminal: TerminalPage.tabBarWidth
         default: 0
         }
+    }
+
+    /// `WindowFloor` is the window's whole frame, while a minimum height set here sizes the content under the
+    /// title bar, so the title bar's height comes off it.
+    private func fitFloor() {
+        guard let window = hostWindow.value, let screen = window.screen else { return }
+        let frame = WindowFloor.size(within: screen.visibleFrame.size)
+        let titleBar = window.frame.height - window.contentLayoutRect.height
+        let fitting = CGSize(width: frame.width, height: frame.height - titleBar)
+        if fitting != floor { floor = fitting }
     }
 
     private func fitWidth(pageChanged: Bool = false) {
@@ -559,18 +579,22 @@ private final class HostWindow {
 
 private struct HostWindowReader: NSViewRepresentable {
     let host: HostWindow
+    /// Called once the view is in a window.
+    let found: @MainActor () -> Void
 
     func makeNSView(context: Context) -> Reader {
-        Reader(host: host)
+        Reader(host: host, found: found)
     }
 
     func updateNSView(_ nsView: Reader, context: Context) {}
 
     final class Reader: NSView {
         let host: HostWindow
+        let found: @MainActor () -> Void
 
-        init(host: HostWindow) {
+        init(host: HostWindow, found: @escaping @MainActor () -> Void) {
             self.host = host
+            self.found = found
             super.init(frame: .zero)
         }
 
@@ -581,6 +605,10 @@ private struct HostWindowReader: NSViewRepresentable {
         override func viewDidMoveToWindow() {
             super.viewDidMoveToWindow()
             host.value = window
+            // On a later turn, since what it changes is SwiftUI state and this can run inside SwiftUI's update.
+            if window != nil {
+                Task { found() }
+            }
         }
     }
 }
