@@ -8279,112 +8279,6 @@
         }
       }
     },
-    "A hidden Dock appears at once" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skrytý Dock se zobrazí okamžitě"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein ausgeblendetes Dock erscheint sofort"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El Dock oculto aparece al instante"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le Dock masqué apparaît immédiatement"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il Dock nascosto compare subito"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "非表示のDockがすぐに表示される"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "가려진 Dock이 즉시 나타남"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een verborgen Dock verschijnt meteen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ukryty Dock pojawia się od razu"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Dock oculto aparece imediatamente"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un Dock ascuns apare imediat"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скрытый Dock появляется сразу"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gömd Dock visas direkt"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizli Dock hemen görünür"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Схований Dock зʼявляється відразу"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隐藏的程序坞立即出现"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隱藏的Dock會立即出現"
-          }
-        }
-      }
-    },
     "A line at the bottom of every window says where you are." : {
       "localizations" : {
         "cs" : {
@@ -81622,108 +81516,108 @@
         }
       }
     },
-    "No sliding animation for the Dock" : {
+    "No slide when the Dock hides or appears" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock bez animace vysouvání"
+            "value" : "Bez vysouvání, když se Dock skrývá nebo zobrazuje"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keine Gleitanimation für das Dock"
+            "value" : "Kein Gleiten beim Aus- und Einblenden des Docks"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin animación de deslizamiento en el Dock"
+            "value" : "Sin deslizamiento al ocultar o mostrar el Dock"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pas d’animation de glissement pour le Dock"
+            "value" : "Pas de glissement quand le Dock se masque ou apparaît"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessuna animazione di scorrimento per il Dock"
+            "value" : "Nessuno scorrimento quando il Dock si nasconde o compare"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dockのスライドアニメーションなし"
+            "value" : "Dockの表示/非表示でスライドしない"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock 미끄러짐 애니메이션 없음"
+            "value" : "Dock을 가리거나 보일 때 미끄러지지 않음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen schuifanimatie voor het Dock"
+            "value" : "Niet schuiven als het Dock verdwijnt of verschijnt"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bez animacji wysuwania Docka"
+            "value" : "Bez wysuwania przy ukrywaniu i pokazywaniu Docku"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem animação de deslizar no Dock"
+            "value" : "Sem deslizar ao ocultar ou exibir o Dock"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fără animație de glisare pentru Dock"
+            "value" : "Fără glisare când Dock‑ul se ascunde sau apare"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock без анимации выдвижения"
+            "value" : "Без выдвижения, когда Dock скрывается или появляется"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ingen glidande animering för Dock"
+            "value" : "Ingen glidning när Dock göms eller visas"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock için kayma animasyonu yok"
+            "value" : "Dock gizlenirken veya görünürken kaymaz"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock без анімації висування"
+            "value" : "Без висування, коли Dock ховається чи зʼявляється"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "程序坞不使用滑动动画"
+            "value" : "程序坞隐藏或出现时不滑动"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dock不使用滑動動畫"
+            "value" : "Dock隱藏或出現時不滑動"
           }
         }
       }
@@ -81830,6 +81724,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不使用平滑捲動"
+          }
+        }
+      }
+    },
+    "No wait before the hidden Dock slides out" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez čekání, než se skrytý Dock vysune"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Wartezeit, bevor das ausgeblendete Dock erscheint"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin espera antes de que aparezca el Dock oculto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun délai avant l’apparition du Dock masqué"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna attesa prima che il Dock nascosto scorra fuori"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非表示のDockを待ち時間なしで表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가려진 Dock이 대기 없이 나타남"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen wachttijd voordat het verborgen Dock tevoorschijn schuift"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez czekania na wysunięcie ukrytego Docku"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem espera para o Dock oculto aparecer"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fără așteptare înainte ca Dock‑ul ascuns să apară"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без задержки перед появлением скрытого Dock"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen väntan innan Dock glider fram"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli Dock beklemeden açılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без затримки перед появою прихованого Dock"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏的程序坞滑出前不等待"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏的Dock滑出前不等待"
           }
         }
       }
@@ -91292,6 +91292,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有名稱將這些項目與Peel曾看到已安裝的「%@」關聯在一起"
+          }
+        }
+      }
+    },
+    "Only while the Dock hides automatically." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen když se Dock automaticky skrývá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur wenn das Dock automatisch ausgeblendet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo mientras el Dock se oculta automáticamente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement si le Dock se masque automatiquement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se il Dock si nasconde automaticamente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockを自動的に非表示にしている場合のみ。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock이 자동으로 가려질 때만 적용됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen als het Dock automatisch wordt verborgen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko gdy Dock ukrywa się automatycznie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somente quando o Dock é ocultado automaticamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar când Dock‑ul se ascunde automat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только если Dock скрывается автоматически."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara när Dock göms automatiskt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca Dock otomatik olarak gizlendiğinde."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лише коли Dock ховається автоматично."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在自动隐藏程序坞时有效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅在自動隱藏Dock時有效。"
           }
         }
       }

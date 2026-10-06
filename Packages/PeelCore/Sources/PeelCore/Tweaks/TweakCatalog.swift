@@ -24,7 +24,8 @@ public enum TweakCatalog {
             restart: .dock,
             group: .dock,
             hasASystemControl: false,
-            documentation: .undocumented
+            documentation: .undocumented,
+            onlyWhile: "dock-autohide"
         ),
         Tweak(
             id: "dock-autohide-time",
@@ -34,7 +35,8 @@ public enum TweakCatalog {
             restart: .dock,
             group: .dock,
             hasASystemControl: false,
-            documentation: .undocumented
+            documentation: .undocumented,
+            onlyWhile: "dock-autohide"
         ),
         Tweak(
             id: "dock-launchanim",

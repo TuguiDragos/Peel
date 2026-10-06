@@ -11,6 +11,8 @@ extension Tweak {
         let title: LocalizedStringResource
         let detail: LocalizedStringResource
         var caution: LocalizedStringResource?
+        /// What a row that works only under this switch says while this switch is off.
+        var whileOff: LocalizedStringResource?
     }
 
     /// The tweak's words, looked up by its id. A tweak with no entry fails an assertion in a Debug build, and
@@ -28,14 +30,15 @@ extension Tweak {
     private static let words: [String: Words] = [
         "dock-autohide": Words(
             title: "Automatically hide and show the Dock",
-            detail: "The Dock stays out of sight until the pointer reaches the edge of the screen."
+            detail: "The Dock stays out of sight until the pointer reaches the edge of the screen.",
+            whileOff: "Only while the Dock hides automatically."
         ),
         "dock-autohide-delay": Words(
-            title: "A hidden Dock appears at once",
+            title: "No wait before the hidden Dock slides out",
             detail: "macOS waits a moment before sliding the Dock out. This removes the wait."
         ),
         "dock-autohide-time": Words(
-            title: "No sliding animation for the Dock",
+            title: "No slide when the Dock hides or appears",
             detail: "The Dock appears and disappears without the slide."
         ),
         "dock-launchanim": Words(

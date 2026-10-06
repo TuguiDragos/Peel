@@ -53,6 +53,9 @@ public struct Tweak: Sendable, Hashable, Identifiable {
     /// or ignore it without a word, and its switch would stay on while nothing changes.
     public let documentation: Documentation
 
+    /// The switch this one works under, when its key has an effect only while that switch is on.
+    public var onlyWhile: Tweak.ID? = nil
+
     public enum Documentation: Sendable, Hashable {
         case apple(URL)
         case undocumented

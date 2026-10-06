@@ -43,6 +43,18 @@ struct TweakTests {
         #expect(hide.kind == .aSwitch(.boolean(true)))
         #expect(hide.hasASystemControl && hide.restart == .dock)
         #expect(TweakCatalog.dock.dropFirst().prefix(2).map(\.key) == ["autohide-delay", "autohide-time-modifier"])
+        #expect(TweakCatalog.dock.dropFirst().prefix(2).allSatisfy { $0.onlyWhile == hide.id })
+    }
+
+    /// A switch that works only under another names one that comes before it in its own group, so its row can sit
+    /// right under it.
+    @Test func aSwitchWorksOnlyUnderOneShownBeforeIt() throws {
+        for (index, tweak) in TweakCatalog.all.enumerated() {
+            guard let parent = tweak.onlyWhile else { continue }
+            let found = try #require(TweakCatalog.all.firstIndex { $0.id == parent }, "\(tweak.id) works under \(parent)")
+            #expect(found < index && TweakCatalog.all[found].group == tweak.group)
+            #expect(TweakCatalog.all[found].onlyWhile == nil)
+        }
     }
 
     @Test func dialogsOpenExpandedThroughTheKeysMacOSReads() {

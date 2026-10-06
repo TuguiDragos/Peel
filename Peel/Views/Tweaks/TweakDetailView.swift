@@ -31,12 +31,14 @@ struct TweakRow: View {
 
     var body: some View {
         let state = tweaks.state(of: tweak)
+        let parent = tweak.onlyWhile.flatMap { id in TweakCatalog.all.first { $0.id == id } }
+        let works = parent.map { tweaks.isOn($0, state: tweaks.state(of: $0)) } ?? true
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 5) {
                     Text(tweak.words.title)
                         .font(.body.weight(.semibold))
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(works ? .primary : .tertiary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                     InfoNote(
@@ -53,6 +55,11 @@ struct TweakRow: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                         .truncationMode(.middle)
+                } else if !works, let whileOff = parent?.words.whileOff {
+                    Text(whileOff)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
                 } else if let nameProblem {
                     Text(nameProblem.message)
                         .font(.caption)
@@ -69,9 +76,11 @@ struct TweakRow: View {
             }
             Spacer(minLength: 8)
             standing(state)
-            control(state)
+            control(state, works: works)
         }
         .padding(.vertical, 4)
+        // A switch that works only under another sits a step in from it, right below it.
+        .padding(.leading, parent == nil ? 0 : 20)
     }
 
     /// The note the circled i opens: what the tweak does, any caution (in the accent color), how the change
@@ -117,7 +126,7 @@ struct TweakRow: View {
     }
 
     @ViewBuilder
-    private func control(_ state: TweakState) -> some View {
+    private func control(_ state: TweakState, works: Bool) -> some View {
         switch tweak.kind {
         case .aSwitch, .aSwitchForThisAppAlone:
             let isOn = Binding(
@@ -129,7 +138,7 @@ struct TweakRow: View {
                 .accessibilityRepresentation {
                     Toggle(isOn: isOn) { Text(tweak.words.title) }
                 }
-                .disabled(state.isManaged)
+                .disabled(state.isManaged || !works)
         case .folder:
             // The folder row has no switch to turn off, so Put Back is how the user undoes Peel's change.
             // It fades in and out, since it takes room in the row as it comes and goes.
