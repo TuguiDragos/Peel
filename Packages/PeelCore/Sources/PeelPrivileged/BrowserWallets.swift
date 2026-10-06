@@ -283,10 +283,17 @@ extension ProtectedData {
     }
 
     /// True for a browser profile that holds a wallet: a wallet extension's storage, a wallet add-on, or Brave's own
-    /// wallet in its `Preferences`.
+    /// wallet in its `Preferences`. A storage folder that is there and cannot be listed is not known to hold no wallet,
+    /// so it counts as one: macOS can refuse to list the data malicious software goes after while it still answers
+    /// `lstat`.
     private static func isAProfileWithAWallet(_ profile: String) -> Bool {
         for folder in ["Local Extension Settings", "IndexedDB", "extensions"] {
-            let names = (try? FileManager.default.contentsOfDirectory(atPath: profile + "/" + folder)) ?? []
+            let path = profile + "/" + folder
+            guard let names = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+                var info = stat()
+                if lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR { return true }
+                continue
+            }
             if names.contains(where: { isAWalletsStorage($0.lowercased(), in: folder.lowercased()) }) { return true }
         }
         return holdsBravesWallet(profile + "/Preferences")

@@ -99,6 +99,20 @@ struct BrowserWalletTests {
     }
 
     /// Brave keeps its own wallet's encrypted recovery phrase in the profile's `Preferences`.
+    /// A wallet's storage that macOS will not let Peel list is not known to hold no wallet, so the profile stays.
+    @Test(.permissionsHold) func aWalletStorageThatCannotBeListedKeepsItsProfile() throws {
+        let directory = try TemporaryDirectory()
+        let profile = try directory.directory("Chrome/Default")
+        try directory.directory("Chrome/Default/Local Extension Settings")
+        try directory.setPermissions(0, of: "Chrome/Default/Local Extension Settings")
+        defer { try? directory.setPermissions(0o755, of: "Chrome/Default/Local Extension Settings") }
+        let plain = try directory.directory("Other/Default")
+        try directory.directory("Other/Default/Local Extension Settings")
+
+        #expect(ProtectedData.holdsABrowserWallet(profile.path(percentEncoded: false)))
+        #expect(!ProtectedData.holdsABrowserWallet(plain.path(percentEncoded: false)))
+    }
+
     @Test func bravesOwnWalletKeepsItsProfile() throws {
         let directory = try TemporaryDirectory()
         let brave = "home/Library/Application Support/BraveSoftware/Brave-Browser"

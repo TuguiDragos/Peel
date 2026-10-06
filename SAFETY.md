@@ -232,8 +232,9 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   browser's profile, beside `Local Storage`, which every extension shares. So a profile that holds one of the
   wallet extensions Peel knows (those of more than 60 wallets, for Chrome, Brave, Edge, Arc, Opera, Vivaldi, and
   Firefox) or Brave's own wallet stays, and so does a folder that holds it a level or two down, which is where a
-  browser keeps its profiles (`Google/Chrome/Default`): uninstalling a browser never takes its wallet. The rest of
-  what a browser keeps, such as its caches, can still go.
+  browser keeps its profiles (`Google/Chrome/Default`): uninstalling a browser never takes its wallet. A profile
+  whose extension storage macOS will not let Peel list stays too, since it is not known to hold no wallet. The rest
+  of what a browser keeps, such as its caches, can still go.
 - **A wallet found anywhere else is never selected for you.** When an uninstall or Orphaned Files measures a
   folder, it also looks inside for the names wallets and key tools give their files: anything called
   `wallet.dat`, `wallets`, `keystore`, `seed.dat`, `hsm_secret`, or `channel.backup`, anything ending in `.wallet`
