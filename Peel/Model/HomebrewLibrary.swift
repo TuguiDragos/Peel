@@ -107,7 +107,7 @@ final class HomebrewLibrary {
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
     private(set) var runningCommand: Command?
-    /// What Homebrew has written so far in the running upgrade. Nil when no upgrade runs.
+    /// The last lines Homebrew has written in the running upgrade. Nil when no upgrade runs.
     private(set) var progress: String?
     /// True once the person asked the running upgrade to stop.
     private(set) var isStopping = false
@@ -378,12 +378,19 @@ final class HomebrewLibrary {
     ) async -> CommandResult {
         progress = ""
         let (pieces, sink) = AsyncStream.makeStream(of: Data.self)
+        // The page shows the last lines, at most ten times a second: a long upgrade writes thousands of lines, and
+        // showing all of it on every piece would cost more with each piece.
         let shown = Task {
             var written = Data()
+            var shownAt = ContinuousClock.now - .seconds(1)
             for await piece in pieces {
                 written.append(piece)
-                progress = String(decoding: written, as: UTF8.self)
+                guard ContinuousClock.now - shownAt >= .milliseconds(100) else { continue }
+                progress = OutputTail.lastLines(of: written, count: 400)
+                shownAt = .now
             }
+            progress = OutputTail.lastLines(of: written, count: 400)
+            return String(decoding: written, as: UTF8.self)
         }
         let outcome: Result<String, Homebrew.CommandFailure>
         do {
@@ -392,8 +399,7 @@ final class HomebrewLibrary {
             outcome = .failure(error)
         }
         sink.finish()
-        await shown.value
-        let written = progress ?? ""
+        let written = await shown.value
         switch outcome {
         case .success(let output):
             return CommandResult(succeeded: true, output: written.isEmpty ? output : written)

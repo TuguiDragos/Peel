@@ -18,7 +18,7 @@ struct HomebrewProgressView: View {
                     .disabled(homebrew.isStopping)
             }
             ScrollView {
-                Text(verbatim: lastLines)
+                Text(verbatim: homebrew.progress ?? "")
                     .font(.system(.callout, design: .monospaced))
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,8 +34,4 @@ struct HomebrewProgressView: View {
         }
     }
 
-    /// The last lines only, so a long build costs no more to draw than a screenful. The result shows them all.
-    private var lastLines: String {
-        (homebrew.progress ?? "").split(separator: "\n", omittingEmptySubsequences: false).suffix(400).joined(separator: "\n")
-    }
 }
