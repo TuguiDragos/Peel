@@ -63,7 +63,9 @@ enum Appcast {
             if let minimum = item.minimumSystemVersion, VersionComparison.isNewer(minimum, than: systemVersion) {
                 return false
             }
-            if let maximum = item.maximumSystemVersion, VersionComparison.isNewer(systemVersion, than: maximum) {
+            // A maximum that is no version, such as a release's name, reads as zero and would hold back every Mac.
+            if let maximum = item.maximumSystemVersion, VersionComparison.isAVersion(maximum),
+               VersionComparison.isNewer(systemVersion, than: maximum) {
                 return false
             }
             if !isAppleSilicon, item.hardwareRequirements.contains("arm64") { return false }

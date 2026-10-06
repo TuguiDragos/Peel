@@ -177,6 +177,29 @@ struct AppcastTests {
         #expect(item.displayVersion == "3.1")
     }
 
+    @Test func readsTheSystemBoundsOfAnyMacOSAndIgnoresOnesItCannotRead() throws {
+        func offered(minimum: String? = nil, maximum: String? = nil, on system: String) -> Bool {
+            let bounds = [minimum.map { "<sparkle:minimumSystemVersion>\($0)</sparkle:minimumSystemVersion>" },
+                          maximum.map { "<sparkle:maximumSystemVersion>\($0)</sparkle:maximumSystemVersion>" }]
+            let feed = """
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+            <item><sparkle:version>2</sparkle:version>\(bounds.compactMap(\.self).joined())</item>
+            <item><sparkle:version>1</sparkle:version></item>
+            </channel></rss>
+            """
+            return latestItem(in: feed, systemVersion: system)?.version == "2"
+        }
+
+        #expect(!offered(minimum: "27", on: "26.7.1"))
+        #expect(offered(minimum: "27", on: "27.0"))
+        #expect(offered(minimum: "27.0", on: "28.0"))
+        #expect(offered(minimum: "28.2", on: "30.1"))
+        #expect(!offered(maximum: "27.9", on: "28.0"))
+        #expect(offered(maximum: "28", on: "28.0"))
+        #expect(offered(minimum: "Golden Gate", on: "26.7.1"))
+        #expect(offered(maximum: "Golden Gate", on: "28.0"))
+    }
+
     @Test func skipsChannelsAndItemsForNewerSystems() throws {
         let feed = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>

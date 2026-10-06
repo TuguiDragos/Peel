@@ -1,6 +1,11 @@
 import Foundation
 
 enum VersionComparison {
+    /// True when `text` begins with a number, as a version does. A release's name, or anything else, is no version.
+    static func isAVersion(_ text: String) -> Bool {
+        !components(of: text).numbers.isEmpty
+    }
+
     static func isNewer(_ candidate: String, than installed: String) -> Bool {
         compare(candidate, installed) == .orderedDescending
     }
