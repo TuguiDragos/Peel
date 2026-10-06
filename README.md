@@ -149,7 +149,7 @@ anything, and `man peel` lists every option.
 
 Open Peel, choose the app under Applications, look over what Peel found, and click Move to Trash. The app and its
 leftovers go to the Trash together, and History can put them back. You can also Control-click the app in Finder
-and choose Uninstall with Peel.
+and choose Uninstall with Peel, once the Finder extension is on in System Settings.
 
 </details>
 
