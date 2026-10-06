@@ -99,7 +99,8 @@ public enum AppInspector {
                 contents: contents,
                 isFromAppStore: isFromAppStore,
                 isSystemProtected: isSystemProtected
-            )
+            ),
+            isASafariWebApp: SafariWebApp.isOne(identifier: bundleIdentifier, info: info)
         )
     }
 

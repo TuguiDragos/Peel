@@ -33,6 +33,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let isPeelItself: Bool
     /// Whether this is the very bundle the running code was started from: the copy of Peel that is running.
     public let isTheRunningCopy: Bool
+    /// Whether this is a web app Safari made (`SafariWebApp`), whose identifier names it and nothing of Apple's.
+    public let isASafariWebApp: Bool
 
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
@@ -59,7 +61,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         lastUsedDate: Date? = nil,
         isUseRecorded: Bool = true,
         dateAdded: Date? = nil,
-        updateFeed: UpdateFeed? = nil
+        updateFeed: UpdateFeed? = nil,
+        isASafariWebApp: Bool = false
     ) {
         self.url = url
         self.bundleIdentifier = bundleIdentifier
@@ -78,6 +81,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.lastUsedDate = lastUsedDate
         self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
+        self.isASafariWebApp = isASafariWebApp
         self.updateFeed = updateFeed
         let path = PathPattern.comparablePath(of: url)
         isPeelItself = Self.isPeel(bundleIdentifier, at: path)
@@ -117,7 +121,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             lastUsedDate: date,
             isUseRecorded: isRecorded,
             dateAdded: dateAdded,
-            updateFeed: updateFeed
+            updateFeed: updateFeed,
+            isASafariWebApp: isASafariWebApp
         )
     }
 

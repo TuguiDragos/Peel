@@ -332,6 +332,35 @@ struct AppInspectorTests {
         #expect(app.isFromAppStore)
     }
 
+    /// Safari writes each web app as a template of its own `com.apple.Safari.WebApp`, named by the UUID it gives it.
+    @Test func knowsASafariWebAppByTheTemplateSafariWrote() throws {
+        let directory = try TemporaryDirectory()
+        let uuid = "0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
+        func webApp(_ name: String, identifier: String, template: String = "com.apple.Safari.WebApp") throws -> URL {
+            let info: [String: Any] = [
+                "CFBundleIdentifier": identifier, "CFBundleName": name, "LSTemplateApplication": true,
+                "LSTemplateApplicationParameters": [
+                    "CFBundleIdentifier": template, "TemplateAppUUID": uuid, "teamIdentifier": "0000000000",
+                ],
+            ]
+            let contents = try directory.directory("\(name).app/Contents")
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: contents.appending(path: "Info.plist"))
+            return directory.url.appending(path: "\(name).app")
+        }
+
+        let wiki = try #require(AppInspector.inspect(try webApp("Wiki", identifier: "com.apple.Safari.WebApp.\(uuid)")))
+        #expect(wiki.isASafariWebApp)
+        let otherUUID = try #require(
+            AppInspector.inspect(try webApp("Other", identifier: "com.apple.Safari.WebApp.1A2B3C4D-0000-4000-8000-000000000000"))
+        )
+        #expect(!otherUUID.isASafariWebApp)
+        let otherTemplate = try #require(
+            AppInspector.inspect(try webApp("Mail", identifier: "com.apple.mail.\(uuid)", template: "com.apple.mail"))
+        )
+        #expect(!otherTemplate.isASafariWebApp)
+    }
+
     @Test func aWrappedBundleLinkThatLeadsOutOfTheWrapperIsNoApp() throws {
         let directory = try TemporaryDirectory()
         let elsewhere = try directory.directory("Elsewhere/example.app")

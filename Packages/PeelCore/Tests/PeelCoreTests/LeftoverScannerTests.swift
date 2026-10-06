@@ -92,6 +92,30 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.contains { $0.url.lastPathComponent == "org.example.hexachord.helper.plist" })
     }
 
+    /// A Safari web app keeps its data in a container inside Safari's own web app container, and its settings beside
+    /// every app's. Both are found when it is removed, and Safari's container itself never is.
+    @Test func findsWhatASafariWebAppKeptInsideSafarisContainer() async throws {
+        let directory = try TemporaryDirectory()
+        let identifier = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
+        let webApps = "home/Library/Containers/com.apple.Safari.WebApp/Data/Library/Containers"
+        try directory.file("\(webApps)/\(identifier)/Library/WebApp/PerSiteZoomPreferences.plist", bytes: 4096)
+        try directory.file("\(webApps)/com.apple.Safari.WebApp.1A2B3C4D-0000-4000-8000-000000000000/Library/x.plist")
+        try directory.file("home/Library/Preferences/\(identifier).plist", bytes: 4096)
+        let wiki = InstalledApp(
+            url: URL(filePath: "/Users/x/Applications/Wiki.app"),
+            bundleIdentifier: identifier,
+            name: "Wiki",
+            isASafariWebApp: true
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(wiki, installedApps: [wiki])
+
+        #expect(Set(scan.leftovers.map { "\($0.kind.rawValue)/\($0.url.lastPathComponent)" }) == [
+            "safariWebApps/\(identifier)", "preferences/\(identifier).plist",
+        ])
+        #expect(scan.leftovers.allSatisfy { $0.match.isRecommended })
+    }
+
     @Test func aCopyMacOSKnowsElsewhereSharesTheAppsFiles() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Preferences/com.apple.CharacterPaletteIM.plist", bytes: 4096)

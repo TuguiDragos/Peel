@@ -32,6 +32,27 @@ struct LeftoverMatcherTests {
             .match(fileName: fileName, kind: kind)
     }
 
+    /// A Safari web app's identifier is Safari's template followed by the web app's own UUID, so the files named
+    /// exactly that are the web app's, though the name begins with `com.apple.`. Nothing else of Apple's is.
+    @Test func aSafariWebAppClaimsOnlyWhatSafariNamedForIt() throws {
+        let identifier = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
+        let wiki = InstalledApp(
+            url: URL(filePath: "/Users/x/Applications/Wiki.app"),
+            bundleIdentifier: identifier,
+            name: "Wiki",
+            isASafariWebApp: true
+        )
+
+        #expect(match("\(identifier).plist", in: .preferences, for: wiki)?.confidence == .certain)
+        #expect(match(identifier, in: .safariWebApps, for: wiki)?.confidence == .certain)
+        #expect(match("com.apple.Safari.WebApp", in: .containers, for: wiki) == nil)
+        #expect(match("com.apple.Safari.WebApp.1A2B3C4D-0000-4000-8000-000000000000.plist", in: .preferences, for: wiki) == nil)
+        #expect(match("com.apple.Safari.plist", in: .preferences, for: wiki) == nil)
+
+        let pretender = InstalledApp(url: wiki.url, bundleIdentifier: identifier, name: "Wiki")
+        #expect(match("\(identifier).plist", in: .preferences, for: pretender) == nil)
+    }
+
     /// The list of installed apps covers only `/Applications` and `~/Applications`. Chrome Canary kept on another
     /// disk is still installed, so Launch Services is asked about a longer identifier before it is taken for one
     /// of Chrome's own.

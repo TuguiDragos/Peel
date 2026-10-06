@@ -54,7 +54,7 @@ extension SearchLocation.Kind {
         case .applicationSupport: "Application Support"
         case .applicationScripts: "Application Scripts"
         case .caches: LocalizedStringResource("Caches (Library folder)", defaultValue: "Caches")
-        case .containers: "Container"
+        case .containers, .safariWebApps: "Container"
         case .groupContainers: "Group Container"
         case .preferences, .preferencesByHost: "Preferences"
         case .savedApplicationState: "Saved Windows"
@@ -90,7 +90,7 @@ extension SearchLocation.Kind {
         case .commandLineTools: "terminal"
         case .nativeMessagingHosts: "puzzlepiece.extension"
         case .elsewhere: "mappin.and.ellipse"
-        case .containers, .groupContainers: "shippingbox"
+        case .containers, .groupContainers, .safariWebApps: "shippingbox"
         case .preferences, .preferencesByHost: "gearshape"
         case .savedApplicationState: "macwindow"
         case .recentDocuments: "clock.arrow.circlepath"

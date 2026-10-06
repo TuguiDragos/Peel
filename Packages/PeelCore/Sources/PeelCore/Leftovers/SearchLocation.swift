@@ -44,6 +44,9 @@ public struct SearchLocation: Sendable, Hashable {
         /// The folders where a browser looks for the manifests of the programs its extensions may run. A manifest
         /// is named for its host, not for the app, so only one whose program is inside the app counts as the app's.
         case nativeMessagingHosts
+        /// The folder inside Safari's own `com.apple.Safari.WebApp` container where it keeps a container for each of
+        /// its web apps, named by that web app's identifier. Looked into only when a Safari web app is removed.
+        case safariWebApps
         /// Somewhere no scan looks, which only a Homebrew cask can name: `~/Documents/Foo`, `/usr/local/etc/foo`.
         case elsewhere
     }
@@ -209,6 +212,7 @@ public struct SearchEnvironment: Sendable {
         locations += hosts.flatMap { library, folders in
             folders.map { library.appending(path: $0, directoryHint: .isDirectory) }
         }.map { SearchLocation(kind: .nativeMessagingHosts, url: $0) }
+        locations.append(SearchLocation(kind: .safariWebApps, url: SafariWebApp.containers(inLibrary: userLibrary)))
         locations.append(SearchLocation(
             kind: .sharedFolder,
             url: rootDirectory.appending(path: "Users/Shared", directoryHint: .isDirectory)

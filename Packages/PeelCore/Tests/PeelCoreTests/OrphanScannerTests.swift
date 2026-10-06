@@ -314,6 +314,30 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned(group.items, installedApps: installed + [back]).isEmpty)
     }
 
+    /// The settings a Safari web app leaves are named by its own identifier, which begins with `com.apple.`. Once
+    /// the web app is gone they are orphans, while an installed web app keeps its own and Safari keeps Safari's.
+    @Test func findsTheSettingsASafariWebAppThatLeftKept() async throws {
+        let directory = try TemporaryDirectory()
+        let gone = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
+        let kept = "com.apple.Safari.WebApp.1A2B3C4D-0000-4000-8000-000000000000"
+        try directory.file("home/Library/Preferences/\(gone).plist", bytes: 4096)
+        try directory.file("home/Library/Preferences/\(kept).plist")
+        try directory.file("home/Library/Preferences/com.apple.Safari.plist")
+        let wiki = RememberedApp(
+            bundleIdentifier: gone, name: "Wiki", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-24 * 60 * 60), lastPath: "/Users/x/Applications/Wiki.app"
+        )
+        let news = InstalledApp(
+            url: URL(filePath: "/Users/x/Applications/News Site.app"), bundleIdentifier: kept, name: "News Site",
+            isASafariWebApp: true
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed + [news], remembered: [wiki]).groups
+
+        #expect(groups.map(\.identifier) == [gone])
+        #expect(groups.first?.items.map(\.url.lastPathComponent) == ["\(gone).plist"])
+    }
+
     @Test func reportsOnlyUnclaimedAppItems() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Preferences/com.gone.app.plist")

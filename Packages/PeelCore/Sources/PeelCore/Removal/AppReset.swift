@@ -89,7 +89,7 @@ public struct AppReset: Sendable {
         case .preferences, .preferencesByHost, .savedApplicationState, .caches, .logs, .recentDocuments,
             .temporaryItems:
             .settings
-        case .cookies, .httpStorages, .webKit:
+        case .cookies, .httpStorages, .webKit, .safariWebApps:
             .webData
         case .applicationSupport, .containers, .groupContainers, .applicationScripts:
             .appData

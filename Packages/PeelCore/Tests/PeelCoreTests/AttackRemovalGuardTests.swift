@@ -127,6 +127,21 @@ struct AttackRemovalGuardTests {
 
     /// Attack 1b: the guard lower-cases the path it is given, so `protectedPrefixes` must be lower-case too, or
     /// those entries would match nothing.
+    /// The folder where Safari keeps every web app's container is never moved whole, while one web app's container
+    /// inside it can go with that web app.
+    @Test func safarisWebAppContainersStayWhileOneWebAppsCanGo() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        let webApps = "home/Library/Containers/com.apple.Safari.WebApp/Data/Library/Containers"
+        let one = try directory.directory("\(webApps)/com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B")
+
+        #expect(!guardian.allowsRemoval(of: directory.url.appending(path: webApps, directoryHint: .isDirectory)))
+        #expect(guardian.allowsRemoval(of: one))
+    }
+
     @Test func protectedPrefixesSurviveTheLowerCasing() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

@@ -259,6 +259,7 @@ extension LeftoverMatcher {
         let names: [String]
         let normalizedNames: Set<String>
         let isApplesOwn: Bool
+        let isASafariWebApp: Bool
 
         init(_ app: InstalledApp) {
             url = app.url
@@ -281,6 +282,7 @@ extension LeftoverMatcher {
             names = app.matchingNames.filter(Naming.isSignificant).map { $0.lowercased() }
             normalizedNames = Set(names.map(Naming.normalized))
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
+            isASafariWebApp = app.isASafariWebApp
         }
 
         func isSibling(of other: Profile) -> Bool {
@@ -305,8 +307,10 @@ extension LeftoverMatcher {
         func evidence(for candidate: Candidate) -> Evidence? {
             let key = candidate.key
             // Everything an app says about itself (its identifier, what it embeds, the groups it claims)
-            // comes from a bundle anyone can write. Only an app Apple signed may answer for Apple's files.
-            guard !candidate.isApple || isApplesOwn else { return nil }
+            // comes from a bundle anyone can write. Only an app Apple signed may answer for Apple's files, and a
+            // Safari web app for the files named exactly by its own identifier, which Safari made for it alone.
+            let isItsOwnWebAppName = isASafariWebApp && key == identifier
+            guard !candidate.isApple || isApplesOwn || isItsOwnWebAppName else { return nil }
 
             if key == identifier {
                 guard Identifier.isValid(key) else { return unproven(.bundleIdentifier, candidate) }

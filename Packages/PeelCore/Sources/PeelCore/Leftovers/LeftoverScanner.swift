@@ -83,7 +83,9 @@ public struct LeftoverScanner: Sendable {
     @concurrent
     func scan(_ app: InstalledApp, matcher: LeftoverMatcher) async -> LeftoverScan {
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
-            for location in environment.locations {
+            // Safari's web app container is read only for one of its web apps: anything inside another app's
+            // container makes macOS ask for its data unless Peel has Full Disk Access.
+            for location in environment.locations where location.kind != .safariWebApps || app.isASafariWebApp {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let bundle = PathPattern.comparablePath(of: app.url)
                 _ = group.addTaskUnlessCancelled { [exclusions, measure, refuses, nestedFolderLimit] in
