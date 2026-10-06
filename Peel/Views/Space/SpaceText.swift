@@ -41,6 +41,15 @@ nonisolated extension SpaceItem {
             detail: "System images Android Studio downloaded, and the virtual devices made from them.",
             hint: "View > Tool Windows > Device Manager, and Tools > SDK Manager, in Android Studio"
         ),
+        "rust-toolchains": Words(
+            title: "Rust Toolchains",
+            detail: "The versions of Rust that rustup installed, each a whole compiler and standard library."
+        ),
+        "android-ndk": Words(
+            title: LocalizedStringResource("Android NDK", comment: "A product's name, never translated."),
+            detail: "The versions of the Native Development Kit that Android Studio installed, side by side.",
+            hint: "Tools > SDK Manager > SDK Tools, in Android Studio"
+        ),
         "unity-assets": Words(
             title: LocalizedStringResource("Unity Asset Store", comment: "A product's name, never translated."),
             detail: "Packages downloaded from your Asset Store purchases.",

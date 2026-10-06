@@ -109,6 +109,22 @@ public enum SpaceInventory {
             paths: ["Library/Android/sdk/system-images", ".android/avd"],
             handling: .readOnly
         ),
+        // rustup's RUSTUP_HOME is `~/.rustup` and keeps each toolchain in `toolchains` (rustup's `config.rs`).
+        Definition(
+            id: "rust-toolchains",
+            category: .development,
+            paths: [".rustup/toolchains"],
+            handling: .readOnly,
+            commands: ["rustup toolchain list", "rustup toolchain uninstall <name>"]
+        ),
+        // Android's "Install and configure the NDK": every version in the SDK's `ndk` folder; `sdkmanager` removes one.
+        Definition(
+            id: "android-ndk",
+            category: .development,
+            paths: ["Library/Android/sdk/ndk"],
+            handling: .readOnly,
+            commands: [#"~/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager --uninstall "ndk;<version>""#]
+        ),
         Definition(
             id: "unity-assets",
             category: .development,

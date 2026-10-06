@@ -13736,6 +13736,10 @@
         }
       }
     },
+    "Android NDK" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
     "Another copy of this extension is the one macOS runs." : {
       "localizations" : {
         "cs" : {
@@ -121218,6 +121222,112 @@
         }
       }
     },
+    "Rust Toolchains" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchainy Rustu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust-Toolchains"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchains de Rust"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaînes d’outils Rust"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchain Rust"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rustツールチェーン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust 툴체인"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust-toolchains"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchainy Rusta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchains do Rust"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toolchain‑uri Rust"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наборы инструментов Rust"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust-verktygskedjor"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust Araç Zincirleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Набори інструментів Rust"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust工具链"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust工具鏈"
+          }
+        }
+      }
+    },
     "SSH" : {
       "comment" : "A tool's name, never translated.",
       "shouldTranslate" : false
@@ -150430,6 +150540,218 @@
         }
       }
     },
+    "The versions of Rust that rustup installed, each a whole compiler and standard library." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verze Rustu, které nainstaloval rustup, každá s celým kompilátorem a standardní knihovnou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Versionen von Rust, die rustup installiert hat, jeweils ein vollständiger Compiler mit Standardbibliothek."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las versiones de Rust que instaló rustup, cada una con su compilador y su biblioteca estándar completos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versions de Rust installées par rustup, chacune comprenant un compilateur et une bibliothèque standard complets."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le versioni di Rust installate da rustup, ognuna con un compilatore e una libreria standard completi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rustupがインストールしたRustの各バージョンです。それぞれがコンパイラと標準ライブラリ一式です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rustup이 설치한 Rust 버전으로, 각각 완전한 컴파일러와 표준 라이브러리입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De versies van Rust die rustup heeft geïnstalleerd, elk een volledige compiler en standaardbibliotheek."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wersje Rusta zainstalowane przez rustup, każda z pełnym kompilatorem i biblioteką standardową."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As versões do Rust que o rustup instalou, cada uma com um compilador e uma biblioteca padrão completos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiunile de Rust instalate de rustup, fiecare cuprinzând un compilator și o bibliotecă standard complete."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версии Rust, установленные rustup, каждая с полным компилятором и стандартной библиотекой."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rust-versioner som rustup har installerat, var och en en hel kompilator med standardbibliotek."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rustup ile yüklenen Rust sürümleri; her biri eksiksiz bir derleyici ve standart kitaplıktır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версії Rust, які інсталював rustup, кожна з повним компілятором і стандартною бібліотекою."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rustup安装的各个Rust版本，每个都包含完整的编译器和标准库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rustup安裝的Rust版本，每一個都是完整的編譯器和標準函式庫。"
+          }
+        }
+      }
+    },
+    "The versions of the Native Development Kit that Android Studio installed, side by side." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verze sady Native Development Kit, které Android Studio nainstalovalo vedle sebe."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Versionen des Native Development Kit, die Android Studio nebeneinander installiert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las versiones del Native Development Kit que instaló Android Studio, una junto a otra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versions du Native Development Kit installées côte à côte par Android Studio."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le versioni del Native Development Kit installate da Android Studio, una accanto all’altra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studioが並べてインストールしたNative Development Kitの各バージョンです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio가 나란히 설치한 Native Development Kit 버전입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De versies van de Native Development Kit die Android Studio naast elkaar heeft geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wersje Native Development Kit zainstalowane obok siebie przez Android Studio."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As versões do Native Development Kit que o Android Studio instalou lado a lado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiunile de Native Development Kit instalate de Android Studio, una lângă alta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версии Native Development Kit, установленные Android Studio рядом друг с другом."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versioner av Native Development Kit som Android Studio har installerat sida vid sida."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio’nun yan yana yüklediği Native Development Kit sürümleri."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версії Native Development Kit, які Android Studio інсталювала поруч одна з одною."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio并排安装的各个Native Development Kit版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio並排安裝的Native Development Kit版本。"
+          }
+        }
+      }
+    },
     "Their lines go in ~/.zshrc in the order they are listed here." : {
       "localizations" : {
         "cs" : {
@@ -156936,6 +157258,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "工具"
+          }
+        }
+      }
+    },
+    "Tools > SDK Manager > SDK Tools, in Android Studio" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools v aplikaci Android Studio"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Android Studio unter Tools > SDK Manager > SDK Tools"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, en Android Studio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, dans Android Studio"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, in Android Studio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android StudioのTools > SDK Manager > SDK Tools"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio에서 Tools > SDK Manager > SDK Tools"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, in Android Studio"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools w Android Studio"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, no Android Studio"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, în Android Studio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools в Android Studio"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools, i Android Studio"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio’da Tools > SDK Manager > SDK Tools"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools > SDK Manager > SDK Tools в Android Studio"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Studio中的Tools > SDK Manager > SDK Tools"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Android Studio中：Tools > SDK Manager > SDK Tools"
           }
         }
       }

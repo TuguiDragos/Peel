@@ -356,6 +356,23 @@ struct SpaceInventoryTests {
         #expect(try simctlHelp("delete").contains("unavailable"))
     }
 
+    @Test func showsRustToolchainsAndAndroidNDKsForTheirToolsToRemove() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)
+        try directory.file("Library/Android/sdk/ndk/27.2.12479018/source.properties", bytes: 400_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure
+        )
+
+        let rust = try #require(report.items.first { $0.id == "rust-toolchains" })
+        #expect(rust.isReadOnly)
+        #expect(rust.commands == ["rustup toolchain list", "rustup toolchain uninstall <name>"])
+        let ndk = try #require(report.items.first { $0.id == "android-ndk" })
+        #expect(ndk.isReadOnly)
+        #expect(ndk.commands == [#"~/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager --uninstall "ndk;<version>""#])
+    }
+
     @Test func colimaIsToldToDeleteItsDataDiskToo() throws {
         let colima = try #require(SpaceInventory.definitions.first { $0.id == "colima" })
         #expect(colima.commands == ["colima delete --data"])

@@ -145,12 +145,12 @@ whose name says nothing on its own. Until you choose a folder, Peel offers `~/De
 or `~/src` when you have one, and adds it only when you say so.
 
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
-simulators or Docker's disk, Space measures and leaves to that app, with the command that frees it for you to copy
-into Terminal: Peel never runs it, since it deletes for good. The caches and logs apps keep for every account,
-and the crash reports macOS keeps, in the Library at the top of the disk, go through Peel's helper when an
-administrator owns them, and what macOS keeps there for its own services is never listed. Peel can also warn you,
-with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >
-General.
+simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,
+with the command that frees it for you to copy into Terminal: Peel never runs it, since it deletes for good. The
+caches and logs apps keep for every account, and the crash reports macOS keeps, in the Library at the top of the
+disk, go through Peel's helper when an administrator owns them, and what macOS keeps there for its own services is
+never listed. Peel can also warn you, with a notification that opens Space, when less than a tenth of your disk is
+available: turn it on in Settings > General.
 
 </details>
 
