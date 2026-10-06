@@ -200,8 +200,9 @@ xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDat
 swift test --package-path Packages/PeelCore
 ```
 
-[ARCHITECTURE.md](ARCHITECTURE.md) explains how Peel is put together, and [CONTRIBUTING.md](CONTRIBUTING.md) what a
-change needs.
+The helper starts only as the team named in `Support/com.tuguidragos.Peel.Helper.plist`, so to install the helper
+you build, put your team there as well. [ARCHITECTURE.md](ARCHITECTURE.md) explains how Peel is put together, and
+[CONTRIBUTING.md](CONTRIBUTING.md) what a change needs.
 
 ## Contributing
 
