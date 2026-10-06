@@ -628,6 +628,20 @@ struct LeftoverScannerTests {
         #expect(found["home/Tunewell"]?.match.isRecommended == false)
     }
 
+    /// A folder at the top of the home folder whose name only begins with the app's, such as the library of books
+    /// an ebook app makes there, is the person's own work and is never selected.
+    @Test func aFolderNamedAfterTheAppAtTheTopOfTheHomeIsNeverSelected() async throws {
+        let app = InstalledApp(url: URL(filePath: "/Applications/Folio.app"), bundleIdentifier: "org.example.folio", name: "Folio")
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Folio Library/metadata.db", bytes: 4_096)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        for leftover in scan.leftovers where leftover.url.path(percentEncoded: false).contains("Folio Library") {
+            #expect(!leftover.match.isRecommended, "\(leftover.match.reason) selected the person's own library")
+        }
+    }
+
     /// A bundle writes its own identifier, and one that is a single word proves no more than a name. So it is held
     /// back where a name is: here an app says its identifier is `notes`, and `~/.notes` holds another tool's work.
     /// The same goes inside a folder of another installed app.
