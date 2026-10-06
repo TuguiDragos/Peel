@@ -246,9 +246,10 @@ its helper and its login item, moves itself, the files that are certainly its ow
 Support to the Trash, clears its settings, and quits. That
 folder holds History, your exclusions, and the settings Peel saved when you reset an app.
 
-What Peel changed for you stays as it is: tweaks, Terminal's theme, and Git's settings. Turn them off first if you
-want them gone. The shell and ssh settings live in Peel's folder, so they go with it, and the line you added to
-`~/.zshrc` and the two at the end of `~/.ssh/config` then do nothing. You can delete them.
+What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, `~/.hushlogin`, Git's
+settings, the build folders you left out of Time Machine, and the background items you disabled. Turn them off
+first if you want them gone. The shell and ssh settings live in Peel's folder, so they go with it, and the line
+you added to `~/.zshrc` and the two at the end of `~/.ssh/config` then do nothing. You can delete them.
 
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
 in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the
