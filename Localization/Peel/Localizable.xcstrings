@@ -70285,6 +70285,112 @@
         }
       }
     },
+    "Most of this app’s files share their space on disk with another copy of it, such as one in the Trash, so moving it frees much less than its size." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Většina souborů této aplikace sdílí místo na disku s jinou její kopií, například s tou v koši, takže jejím přesunutím se uvolní mnohem méně, než kolik činí její velikost."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die meisten Dateien dieser App teilen sich Speicherplatz mit einer anderen Kopie von ihr, etwa einer im Papierkorb, daher gibt ihr Verschieben viel weniger frei, als ihre Größe angibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La mayoría de los archivos de esta app comparten almacenamiento con otra copia suya, como una que está en la papelera, así que trasladarla libera mucho menos de lo que ocupa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La plupart des fichiers de cette app partagent leur stockage avec une autre copie, comme celle de la corbeille, si bien que la déplacer libère bien moins d’espace que sa taille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La maggior parte dei file di questa app condivide lo spazio su disco con un’altra sua copia, come una nel Cestino, quindi spostarla libera molto meno della sua dimensione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリのファイルの大部分は、ゴミ箱にあるコピーなど別のコピーとストレージを共有しているため、移動しても解放される領域はサイズよりはるかに小さくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱의 파일 대부분이 휴지통에 있는 사본 등 다른 사본과 저장 공간을 공유하므로, 이동해도 확보되는 공간은 크기보다 훨씬 적습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De meeste bestanden van deze app delen opslag met een andere kopie ervan, zoals een in de prullenmand, dus als je hem verplaatst, komt er veel minder ruimte vrij dan zijn grootte."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Większość plików tej aplikacji współdzieli miejsce na dysku z inną jej kopią, na przykład tą w Koszu, więc przeniesienie jej zwolni znacznie mniej miejsca, niż wynosi jej wielkość."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A maioria dos arquivos deste app compartilha armazenamento com outra cópia dele, como uma no Lixo, então movê-lo libera muito menos do que o tamanho dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Majoritatea fișierelor acestei aplicații partajează spațiul de stocare cu o altă copie a ei, de exemplu una din Coș, așa că mutarea ei eliberează mult mai puțin decât dimensiunea sa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Большинство файлов этого приложения использует общее пространство на диске с другой его копией, например в Корзине, поэтому его перемещение освободит гораздо меньше места, чем указывает его размер."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De flesta av appens filer delar lagringsutrymme med en annan kopia av den, till exempel en i papperskorgen, så om du flyttar den frigörs mycket mindre än dess storlek."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulamanın dosyalarının çoğu, Çöp Sepeti’ndeki gibi başka bir kopyasıyla aynı saklama alanını paylaşıyor, bu yüzden onu taşımak büyüklüğünden çok daha az yer boşaltır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Більшість файлів цієї програми спільно використовують сховище з іншою її копією, наприклад у Смітнику, тож її переміщення звільнить набагато менше місця, ніж її розмір."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App的大部分文件与它的另一个副本（例如废纸篓中的副本）共享储存空间，因此移动它所释放的空间远小于它的大小。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App的大部分檔案與它的另一個副本（例如垃圾桶中的副本）共用儲存空間，因此移動它所釋放的空間會遠少於其大小。"
+          }
+        }
+      }
+    },
     "Move %@ (%@) to the Trash?" : {
       "localizations" : {
         "cs" : {

@@ -51,6 +51,10 @@ final class RemovalPlan {
         uninstallation?.isAppMeasured ?? true
     }
 
+    var appSharesStorage: Bool {
+        uninstallation?.appSharesStorage ?? false
+    }
+
     var appRequiresPrivileges: Bool {
         uninstallation?.appRequiresPrivileges ?? false
     }

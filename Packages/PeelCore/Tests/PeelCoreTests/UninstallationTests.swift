@@ -269,6 +269,31 @@ struct UninstallationTests {
         #expect(!plan.isAppMeasured, "an app that could not be read counted as measured, at zero bytes")
     }
 
+    /// A copy of an app made as an APFS clone of another, as the Finder copies on one disk, frees almost nothing while
+    /// the other is there, though it takes its full size: the page says so rather than leave a small figure
+    /// unexplained.
+    @Test func anAppThatSharesItsStorageWithAnotherCopySaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let payload = try directory.file(
+            "home/.Trash/Example.app/Contents/payload.bin",
+            contents: Data((0..<1_048_576).map { _ in UInt8.random(in: 0...255) })
+        )
+        let handle = try FileHandle(forWritingTo: payload)
+        try handle.synchronize()
+        try handle.close()
+        let bundle = try directory.directory("home/Applications/Example.app/Contents")
+            .deletingLastPathComponent()
+        let clone = bundle.appending(path: "Contents/payload.bin").path(percentEncoded: false)
+        #expect(clonefile(payload.path(percentEncoded: false), clone, 0) == 0)
+        let installed = InstalledApp(url: bundle, bundleIdentifier: "org.example.app", name: "Example")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+
+        #expect(plan.appSharesStorage)
+    }
+
     /// Watch the Trash leads to the page of an app already in the Trash, so what it left behind can go too. Its bundle
     /// can't move again, so it is neither selected nor counted, on its own page or among several apps, and the app
     /// does not count as one that stays, which would hold its leftovers back.

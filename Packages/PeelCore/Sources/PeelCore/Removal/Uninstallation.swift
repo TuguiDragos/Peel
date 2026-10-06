@@ -11,6 +11,9 @@ public struct Uninstallation: Sendable {
     public var isExcluded = false
     /// False when the bundle did not answer in time, so `appSize` is not known rather than zero.
     public var isAppMeasured = true
+    /// True when moving the bundle would free less than half the space it takes, because most of its files share
+    /// their blocks with another copy, such as one in the Trash: `appSize` is then far below the app's size.
+    public var appSharesStorage = false
     /// True when the app needs administrator rights and the helper may not move it. The app is then never
     /// selected: its leftovers would move first, and the app would stay without them.
     public var isAppBeyondTheHelper = false
@@ -38,7 +41,8 @@ public struct Uninstallation: Sendable {
                 appRequiresPrivileges: FileAccess.requiresPrivilegesToRemove(app.url),
                 scan: LeftoverScan(leftovers: [], unreadableLocations: []),
                 isExcluded: true,
-                isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false
+                isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
+                appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false
             )
         }
         let scanner = LeftoverScanner(environment: environment, exclusions: exclusions)
@@ -67,6 +71,7 @@ public struct Uninstallation: Sendable {
             appRequiresPrivileges: appRequiresPrivileges,
             scan: scan,
             isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
+            appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
             isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url)
         )

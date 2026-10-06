@@ -99,6 +99,7 @@ struct AppList: View {
             updateStatus: library.updateStatuses[app.id],
             size: library.sizes[app.id],
             isUnmeasured: library.unmeasured.contains(app.id),
+            sharesStorage: library.sharingStorage.contains(app.id),
             teamChange: library.teamChanges[app.bundleIdentifier],
             sort: library.sort,
             hasUpdate: library.hasUpdate(app),
@@ -230,6 +231,8 @@ private struct AppRow: View {
     /// True when the bundle could not be measured, so the size reads "Unknown" rather than staying blank as it does
     /// while it is measured.
     let isUnmeasured: Bool
+    /// True when the size is far below the space the app takes, because most of it is shared with another copy.
+    let sharesStorage: Bool
     let teamChange: TeamRegistry.Change?
     let sort: AppSort
     let hasUpdate: Bool
@@ -264,6 +267,13 @@ private struct AppRow: View {
                     .foregroundStyle(.secondary)
                     .help(Text(.excludedApp))
                     .accessibilityLabel(Text(.excludedApp))
+            }
+            if sharesStorage {
+                let words = Text("Most of this app’s files share their space on disk with another copy of it, such as one in the Trash, so moving it frees much less than its size.")
+                Image(systemName: "link")
+                    .foregroundStyle(.secondary)
+                    .help(words)
+                    .accessibilityLabel(Text("Shares storage"))
             }
             // Always drawn, even before the sizes arrive, so nothing shifts when they do.
             Text(size?.byteCount ?? (isUnmeasured ? String(localized: "Unknown") : ""))

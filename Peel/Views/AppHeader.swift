@@ -13,6 +13,8 @@ struct AppHeader<Actions: View>: View {
     var waitingVersion: String?
     var lastCheck: Date?
     var total: SizeTotal?
+    /// True when the app frees much less than its size, because most of it is shared with another copy.
+    var sharesStorage = false
     @ViewBuilder var actions: Actions
 
     var body: some View {
@@ -69,6 +71,13 @@ struct AppHeader<Actions: View>: View {
                     title: Text("Intel only"), systemImage: "cpu", tint: .secondary,
                     name: String(localized: "Intel only"),
                     detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
+                )
+            }
+            if sharesStorage {
+                NoteBadge(
+                    title: Text("Shares storage"), systemImage: "link", tint: .secondary,
+                    name: String(localized: "Shares storage"),
+                    detail: Text("Most of this app’s files share their space on disk with another copy of it, such as one in the Trash, so moving it frees much less than its size.")
                 )
             }
             if app.isSystemProtected {

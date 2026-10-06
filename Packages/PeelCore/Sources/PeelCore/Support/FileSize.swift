@@ -22,6 +22,13 @@ public struct FolderContents: Sendable, Hashable {
     /// then counts only what was, which must never be read as the folder's size. From macOS 27, another team's
     /// container is refused outright.
     public let couldNotBeRead: Bool
+    /// The space the folder takes on disk, each file once whatever its names: more than `size` when files share
+    /// their blocks with APFS clones elsewhere.
+    public let taken: Int64
+
+    /// True when moving the folder would free less than half the space it takes, because most of its files share
+    /// their blocks with a copy elsewhere: what it frees is then no measure of how big it is.
+    public var sharesMostOfItsStorage: Bool { size * 2 < taken }
 
     init(
         size: Int64,
@@ -29,9 +36,11 @@ public struct FolderContents: Sendable, Hashable {
         holdsWallet: Bool = false,
         holdsPasswordDatabase: Bool = false,
         newestChange: Date? = nil,
-        couldNotBeRead: Bool = false
+        couldNotBeRead: Bool = false,
+        taken: Int64? = nil
     ) {
         self.size = size
+        self.taken = taken ?? size
         self.holdsRepository = holdsRepository
         self.holdsWallet = holdsWallet
         self.holdsPasswordDatabase = holdsPasswordDatabase
@@ -147,7 +156,8 @@ public enum FileSize {
                 holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
                 holdsWallet: isWallet(url.lastPathComponent),
                 holdsPasswordDatabase: isPasswordDatabase(url.lastPathComponent),
-                newestChange: values.contentModificationDate
+                newestChange: values.contentModificationDate,
+                taken: Int64(values.totalFileAllocatedSize ?? 0)
             )
         } catch CocoaError.fileReadNoSuchFile {
             // Nothing is there, which holds nothing.
@@ -189,6 +199,7 @@ public enum FileSize {
         ) else { return FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
 
         var total: Int64 = 0
+        var taken: Int64 = 0
         // The folder's own name counts as its entries' do: a `keystore` or a `.git` measured on its own.
         var holdsRepository = repositoryMarkers.contains(url.lastPathComponent)
         var holdsWallet = isWallet(url.lastPathComponent)
@@ -221,6 +232,7 @@ public enum FileSize {
                     severalNames[identifier, default: (0, links, Int64(values.totalFileAllocatedSize ?? 0))].seen += 1
                     return .next
                 }
+                taken += Int64(values.totalFileAllocatedSize ?? 0)
                 total += freed(by: file, values)
                 return .next
             }
@@ -231,13 +243,15 @@ public enum FileSize {
             }
         }
         total += severalNames.values.reduce(0) { $0 + ($1.seen >= $1.count ? $1.size : 0) }
+        taken += severalNames.values.reduce(0) { $0 + $1.size }
         return FolderContents(
             size: total,
             holdsRepository: holdsRepository,
             holdsWallet: holdsWallet,
             holdsPasswordDatabase: holdsPasswordDatabase,
             newestChange: newestChange,
-            couldNotBeRead: refused.happened
+            couldNotBeRead: refused.happened,
+            taken: taken
         )
     }
 

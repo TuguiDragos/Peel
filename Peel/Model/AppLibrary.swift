@@ -105,6 +105,10 @@ final class AppLibrary {
         didSet { sizesRevision += 1 }
     }
 
+    /// The apps whose bundle shares most of its storage with another copy (`FolderContents.sharesMostOfItsStorage`),
+    /// so its size is far below the space it takes.
+    private(set) var sharingStorage: Set<InstalledApp.ID> = []
+
     /// Incremented when a size arrives. Only the size sort depends on it, so other sorts keep their cached list.
     private(set) var sizesRevision = 0
     private(set) var lastUpdateChecks: [InstalledApp.ID: Date] = [:]
@@ -296,6 +300,7 @@ final class AppLibrary {
         let keeps = { (id: InstalledApp.ID) in present.contains(id) && !stale.contains(id) }
         sizes = sizes.filter { keeps($0.key) }
         unmeasured = unmeasured.filter(keeps)
+        sharingStorage = sharingStorage.filter(keeps)
         updateStatuses = updateStatuses.filter { keeps($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { keeps($0.key) }
         selection.formIntersection(present)
@@ -342,27 +347,33 @@ final class AppLibrary {
 
     private func measure(_ missing: [InstalledApp]) async {
         guard !missing.isEmpty else { return }
-        let measured = Dictionary(missing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        await withTaskGroup(of: (InstalledApp.ID, Int64?).self) { group in
+        let asked = Dictionary(missing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        await withTaskGroup(of: (InstalledApp.ID, FolderContents?).self) { group in
             var pending = missing.makeIterator()
             for _ in 0..<Self.concurrentSizeReads {
                 guard let app = pending.next() else { break }
-                _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
+                _ = group.addTaskUnlessCancelled { (app.id, await FileSize.contents(of: app.url)) }
             }
-            while let (id, size) = await group.next() {
+            while let (id, contents) = await group.next() {
+                let measured = contents.flatMap { $0.couldNotBeRead ? nil : $0 }
                 // A walk given up because the list changed says nothing about the bundle, and a bundle replaced
                 // while it was walked is another build, so neither answer is kept.
-                if !Task.isCancelled, let app = measured[id],
+                if !Task.isCancelled, let app = asked[id],
                    apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) {
-                    if let size {
-                        sizes[id] = size
+                    if let measured {
+                        sizes[id] = measured.size
                         unmeasured.remove(id)
+                        if measured.sharesMostOfItsStorage {
+                            sharingStorage.insert(id)
+                        } else {
+                            sharingStorage.remove(id)
+                        }
                     } else {
                         unmeasured.insert(id)
                     }
                 }
                 if !Task.isCancelled, let app = pending.next() {
-                    _ = group.addTaskUnlessCancelled { (app.id, await FileSize.reclaimableSize(of: app.url)) }
+                    _ = group.addTaskUnlessCancelled { (app.id, await FileSize.contents(of: app.url)) }
                 }
             }
         }

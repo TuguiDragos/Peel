@@ -70,6 +70,30 @@ struct FileSizeTests {
         #expect(try #require(await FileSize.reclaimableSize(of: project.appending(path: "linked.bin"))) == 0)
     }
 
+    /// A folder whose files are mostly APFS clones of a copy kept elsewhere takes its full size on disk and frees
+    /// little, which is what tells a copy that shares its storage from one that is all its own.
+    @Test func saysWhenAFolderSharesMostOfItsStorage() async throws {
+        let directory = try TemporaryDirectory()
+        let random = { (count: Int) in Data((0..<count).map { _ in UInt8.random(in: 0...255) }) }
+        let stored = try directory.file("original/Example.app/payload.bin", contents: random(1_048_576))
+        let own = try directory.file("copy/Example.app/own.bin", contents: random(65_536))
+        for url in [stored, own] {
+            let handle = try FileHandle(forWritingTo: url)
+            try handle.synchronize()
+            try handle.close()
+        }
+        let copy = directory.url.appending(path: "copy/Example.app", directoryHint: .isDirectory)
+        let clone = copy.appending(path: "payload.bin").path(percentEncoded: false)
+        #expect(clonefile(stored.path(percentEncoded: false), clone, 0) == 0)
+
+        let shared = try #require(await FileSize.contents(of: copy))
+        #expect(shared.taken >= 1_048_576 + 65_536)
+        #expect(shared.sharesMostOfItsStorage)
+        let alone = try directory.file("alone/Example.app/payload.bin", contents: random(1_048_576))
+        let ownCopy = try #require(await FileSize.contents(of: alone.deletingLastPathComponent()))
+        #expect(!ownCopy.sharesMostOfItsStorage)
+    }
+
     /// A walk releases what it reads as it goes, rather than holding every name until it ends. The check runs in
     /// a process of its own: the footprint covers the whole process, and suites running in parallel would add
     /// their own allocations to it.
