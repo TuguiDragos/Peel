@@ -52,7 +52,12 @@ struct TemporaryDirectory: ~Copyable {
             withIntermediateDirectories: true
         )
         try Data(String(repeating: "hello world ", count: 20_000).utf8).write(to: source)
-        let ditto = try Process.run(URL(filePath: "/usr/bin/ditto"), arguments: ["--hfsCompression", source.path, fileURL.path])
+        // A ditto that can clone does so on the same volume, and a clone is never compressed, so it is told not to.
+        let noClone = Self.dittoKnowsNoClone ? ["--noclone"] : []
+        let ditto = try Process.run(
+            URL(filePath: "/usr/bin/ditto"),
+            arguments: noClone + ["--hfsCompression", source.path, fileURL.path]
+        )
         ditto.waitUntilExit()
         try FileManager.default.removeItem(at: source)
         var info = stat()
@@ -61,6 +66,19 @@ struct TemporaryDirectory: ~Copyable {
         }
         return fileURL
     }
+
+    private static let dittoKnowsNoClone: Bool = {
+        let output = Pipe()
+        let process = Process()
+        process.executableURL = URL(filePath: "/usr/bin/ditto")
+        process.arguments = ["-h"]
+        process.standardOutput = output
+        process.standardError = output
+        guard (try? process.run()) != nil else { return false }
+        let help = output.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        return String(decoding: help, as: UTF8.self).contains("--noclone")
+    }()
 
     func setPermissions(_ permissions: Int, of path: String) throws {
         try setPermissions(permissions, of: url.appending(path: path))
