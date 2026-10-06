@@ -75,8 +75,8 @@ struct ToolSidebar: View {
             group(.storage, isExpanded: $isStorageExpanded)
             group(.system, isExpanded: $isSystemExpanded)
         }
-        // A bar on every macOS, unlike a page's (`edgeBar`): the face is glass on the sidebar's glass, and glass
-        // cannot sample other glass, so the bar's own edge effect is what blurs the rows passing under it.
+        // A bar on every macOS: the face is glass on the sidebar's glass, and glass cannot sample other glass, so the
+        // bar's own edge effect is what blurs the rows passing under it.
         .safeAreaBar(edge: .top, spacing: 0) { mascot }
         .takesFocusWhenNothingHasIt()
         .onReceive(

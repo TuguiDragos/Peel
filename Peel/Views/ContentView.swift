@@ -312,6 +312,7 @@ struct ContentView: View {
                     .listColumn()
                 }
             }
+            .builtWithItsTitleBar()
             // A scroll view that keeps its own background paints a panel of its own inside the column:
             // `ContentUnavailableView` is the visible case, drawing a lighter slab whose top edge reads as a
             // line under the title bar. Hidden, the window's own material shows through instead.

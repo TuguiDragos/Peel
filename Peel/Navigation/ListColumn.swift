@@ -45,6 +45,38 @@ extension View {
     func listColumn() -> some View {
         modifier(ListColumnWidth())
     }
+
+    /// Builds the list column only once it knows the title bar above it, keeping the column's width meanwhile. On
+    /// macOS 27, a list built before then, as the window changes from two columns to three, gets neither the blur
+    /// under its bar at the top nor the margin of its scroll bar.
+    @ViewBuilder
+    func builtWithItsTitleBar() -> some View {
+        if #available(macOS 27, *) {
+            BuiltWithItsTitleBar(column: self)
+                .navigationSplitViewColumnWidth(min: ListColumn.minimum, ideal: ListColumn.minimum)
+        } else {
+            self
+        }
+    }
+}
+
+@available(macOS 27, *)
+private struct BuiltWithItsTitleBar<Column: View>: View {
+    let column: Column
+    @State private var knowsItsTitleBar = false
+
+    var body: some View {
+        Group {
+            if knowsItsTitleBar {
+                column
+            } else {
+                Color.clear
+            }
+        }
+        .onGeometryChange(for: Bool.self) { $0.safeAreaInsets.top > 0 } action: { known in
+            if known { knowsItsTitleBar = true }
+        }
+    }
 }
 
 private struct ListColumnWidth: ViewModifier {
