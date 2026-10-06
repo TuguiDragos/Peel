@@ -145,6 +145,7 @@ struct SubprocessTests {
         let output = try await Subprocess.run("/bin/sh", ["-c", "sleep 60 >&1 & echo done"], timeout: 30).get()
 
         #expect(output.text == "done\n")
-        #expect(ContinuousClock.now - started < .seconds(30), "it waited for a child the tool left behind")
+        let took = ContinuousClock.now - started
+        #expect(took < .seconds(30), "it waited for a child the tool left behind, \(took) in all")
     }
 }
