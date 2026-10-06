@@ -132,7 +132,7 @@ anything, and `man peel` lists every option.
 | `peel caches` | Lists the caches of developer tools. `--remove` moves the ones Peel suggests. |
 | `peel projects <folders>` | Lists what builds left in your projects. `--remove` moves the ones Peel suggests. |
 | `peel duplicates [folders]` | Finds files and folders with identical contents. `--remove` keeps one copy of each and moves the rest. |
-| `peel search` | Searches Spotlight by name, kind, size, or age. |
+| `peel search` | Searches Spotlight by name, kind, or size, and by age along with one of them. |
 | `peel updates` | Checks your apps for updates. |
 | `peel history` | Lists what Peel moved to the Trash, from the app and from Terminal alike. `--refused` lists what it was asked to move and wouldn't, and why. |
 | `peel restore <id>` | Puts one of those removals back. |
