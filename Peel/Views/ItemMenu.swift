@@ -4,11 +4,12 @@ import SwiftUI
 
 /// The Control-click menu of a row for one file, folder, or app Peel can move, the same on every page.
 ///
-/// Excluding adds the item to the list Settings keeps, where it can be removed again, and every tool stops
-/// offering it. An app is added by its identifier, as Settings does, so it stays excluded wherever it moves.
+/// Excluding adds the item to the list Settings keeps, and every tool stops offering it; an excluded item's menu
+/// takes it off again. An app is added by its identifier, as Settings does, so it stays excluded wherever it moves.
 /// Excluding is off while the list can't be read, since adding to it then would start it over and drop what
 /// it held, and for anything Settings refuses as too broad.
 struct ItemMenu: View {
+    @Environment(\.openSettings) private var openSettings
     let url: URL
     /// The identifier of the app itself, when the row is one.
     var appIdentifier: String?
@@ -30,6 +31,36 @@ struct ItemMenu: View {
             NSPasteboard.general.setString(url.path(percentEncoded: false), forType: .string)
         }
         Divider()
+        if isExcluded {
+            wayBack
+        } else {
+            exclude
+        }
+    }
+
+    /// Takes off the list exactly what excludes the item. An excluded folder around it holds other things too, so
+    /// that one is named and left to Settings.
+    @ViewBuilder private var wayBack: some View {
+        let reasons = ExclusionsStore.shared.exclusions.reasons(excluding: url, app: appIdentifier)
+        if let folder = reasons.folders.first {
+            Text("Excluded with “\(folder.lastPathComponent)”")
+            Button("Open Exclusions in Settings…", systemImage: "gearshape") {
+                SettingsPane.exclusions.open(with: openSettings)
+            }
+        } else {
+            Button("Include in Peel", systemImage: "hand.raised.slash") {
+                Task {
+                    if let identifier = reasons.identifier {
+                        await ExclusionsStore.shared.remove(bundleIdentifiers: [identifier])
+                    }
+                    await ExclusionsStore.shared.remove(paths: reasons.paths)
+                }
+            }
+            .disabled(ExclusionsStore.shared.exclusions.isUnreadable || reasons.isEmpty)
+        }
+    }
+
+    private var exclude: some View {
         Button("Exclude from Peel", systemImage: "hand.raised") {
             Task {
                 if let appIdentifier {
@@ -40,8 +71,7 @@ struct ItemMenu: View {
             }
         }
         .disabled(
-            isExcluded || ExclusionsStore.shared.exclusions.isUnreadable
-                || (appIdentifier == nil && ExclusionsStore.isTooBroad(url))
+            ExclusionsStore.shared.exclusions.isUnreadable || (appIdentifier == nil && ExclusionsStore.isTooBroad(url))
         )
     }
 }

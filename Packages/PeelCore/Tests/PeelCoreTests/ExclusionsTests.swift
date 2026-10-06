@@ -3,6 +3,27 @@ import Foundation
 import Testing
 
 struct ExclusionsTests {
+    @Test func saysWhichEntriesExcludeAnItem() {
+        let app = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
+        let folder = URL(filePath: "/Users/me/Projects", directoryHint: .isDirectory)
+        let project = folder.appending(path: "Site", directoryHint: .isDirectory)
+
+        let byIdentifier = Exclusions(bundleIdentifiers: ["org.example.app"]).reasons(excluding: app, app: "org.example.app")
+        #expect(byIdentifier == Exclusions.Reasons(identifier: "org.example.app", paths: [], folders: []))
+
+        let byPath = Exclusions(paths: [URL(filePath: "/Applications/Example.app/")]).reasons(excluding: app, app: nil)
+        #expect(byPath.paths.count == 1 && byPath.folders.isEmpty && byPath.identifier == nil)
+
+        let byFolder = Exclusions(paths: [folder]).reasons(excluding: project, app: nil)
+        #expect(byFolder == Exclusions.Reasons(identifier: nil, paths: [], folders: [folder]))
+
+        let both = Exclusions(paths: [folder, project], bundleIdentifiers: ["org.example.other"])
+            .reasons(excluding: project, app: nil)
+        #expect(both.paths == [project] && both.folders == [folder] && both.identifier == nil)
+
+        #expect(Exclusions(paths: [project]).reasons(excluding: folder, app: nil).isEmpty)
+    }
+
     @Test func findsTheExcludedPlacesInsideAFolderOnce() {
         let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
         let exclusions = Exclusions(paths: [

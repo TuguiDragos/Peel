@@ -158,6 +158,31 @@ public struct Exclusions: Sendable, Codable, Hashable {
         paths.flatMap { spellings(of: $0) }.map(PathComponents.of).filter { !$0.isEmpty }
     }
 
+    /// What on the list excludes an item: the app's identifier and the entries for the item itself, which taking off
+    /// the list includes it again, and the excluded folders around it, which hold other things too.
+    public struct Reasons: Sendable, Hashable {
+        public let identifier: String?
+        public let paths: [URL]
+        public let folders: [URL]
+
+        public var isEmpty: Bool { identifier == nil && paths.isEmpty && folders.isEmpty }
+    }
+
+    /// `app` is the identifier of the app the item is, when it is one.
+    public func reasons(excluding url: URL, app: String?) -> Reasons {
+        let asked = Self.spellings(of: url).map(PathComponents.of)
+        let sorted = paths.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
+        return Reasons(
+            identifier: app.flatMap { bundleIdentifiers.contains($0) ? $0 : nil },
+            paths: sorted.filter { Self.isSamePlace($0, url) },
+            folders: sorted.filter { entry in
+                Self.spellings(of: entry).map(PathComponents.of).contains { folder in
+                    asked.contains { $0.count > folder.count && $0.starts(with: folder) }
+                }
+            }
+        )
+    }
+
     public func excludes(bundleIdentifier: String) -> Bool {
         bundleIdentifiers.contains(bundleIdentifier)
     }
