@@ -24,9 +24,11 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   it only guesses at, and what another app or another copy of the app also uses, which you select one by one, and
   asks before it adds anything else Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
-  Control-click an app in Finder and choose Uninstall with Peel. With Watch the Trash on, Peel notices when you
-  drag an app to the Trash yourself and offers to clear what it left behind. Apps you keep outside the Applications
-  folders, such as on another disk, join the list once you add their folder in Settings > General > App Folders.
+  Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
+  Settings. With Watch the Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
+  what it left behind, while Peel is open or in the menu bar, and once it has Full Disk Access. Apps you keep
+  outside the Applications folders, such as on another disk, join the list once you add their folder in Settings >
+  General > App Folders.
 - **Reset instead of remove.** Clear an app's settings without uninstalling it. Peel saves them first, so you can
   put them back, and never selects your own work.
 - **Privacy permissions too, if you want.** Peel can also reset the permissions macOS gave the app, such as access
