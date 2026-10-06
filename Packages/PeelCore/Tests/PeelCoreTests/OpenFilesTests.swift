@@ -52,6 +52,23 @@ struct OpenFilesTests {
         #expect(OpenFiles(excluding: nil).holders(of: folder) == ["agent"])
     }
 
+    /// Inside an app, a file another program only reads holds nothing, as Safari reads the code of an app's Safari
+    /// extension: code loses nothing when it moves. A file open for writing still holds the app.
+    @Test func insideAnAppOnlyAFileOpenForWritingHoldsIt() throws {
+        let directory = try TemporaryDirectory()
+        let code = try directory.file("Example.app/Contents/PlugIns/Open.appex/Contents/MacOS/Open")
+        let state = try directory.file("Example.app/Contents/Resources/state.db")
+        let app = directory.url.appending(path: "Example.app", directoryHint: .isDirectory)
+        let reading = try FileHandle(forReadingFrom: code)
+        defer { try? reading.close() }
+
+        #expect(OpenFiles(excluding: nil).holders(of: app).isEmpty)
+
+        let writing = try FileHandle(forWritingTo: state)
+        defer { try? writing.close() }
+        #expect(!OpenFiles(excluding: nil).holders(of: app).isEmpty)
+    }
+
     /// A process of another account, root's included, can't be asked its name, but the program it runs says it.
     @Test func namesAProcessOfAnotherAccountByItsProgram() {
         #expect(OpenFiles.name(of: 1) == "launchd")
