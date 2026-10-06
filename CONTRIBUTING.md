@@ -202,6 +202,11 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   inside another path already in the table.
 - **Anything that decides what may be removed**: a test that fails without your fix, written to get past the
   rule rather than to confirm it. The `Attack*Tests` files hold these.
+- **Anything a document names or counts**: the document changes in the same change. `DocumentationTests` looks in
+  the code for every name a document writes in code font, such as `TrashService`; `TerminalThemeTests` looks in
+  TERMINAL.md for every line the Terminal page writes and a link to every theme; `CommandLineTests` looks in
+  `Support/peel.1` for every command of `peel`; and `DesktopWalletTests` checks SAFETY.md's count of wallet places
+  against `ProtectedData.walletKeys`.
 
 ## The privileged helper
 
