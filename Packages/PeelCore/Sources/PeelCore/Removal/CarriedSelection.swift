@@ -65,7 +65,9 @@ public struct CarriedSelection: Sendable {
                 let urls = Set(result.failures.filter(\.reason.isAboutTheItem).map(\.url))
                 let sizes = part.sizes.filter { urls.contains($0.key) }
                 guard !sizes.isEmpty else { return nil }
-                return Part(page: part.page, title: part.title, source: part.source, sourceKey: part.sourceKey, sizes: sizes)
+                return Part(
+                    page: part.page, title: part.title, source: part.source, sourceKey: part.sourceKey, sizes: sizes
+                )
             }
         }
     }
