@@ -136,6 +136,20 @@ have, and anything that destroys data that cannot be recovered.
 - Leaking the list of a user's installed apps, file paths, or scan results off the Mac, beyond what
   [PRIVACY.md](PRIVACY.md) describes.
 
+**What Peel reads, runs, and writes.**
+
+- Files from apps and disks Peel doesn't trust, which it reads to decide what is what: other apps'
+  property lists, the headers of their programs (Mach-O), and the directory of a ZIP archive, read
+  without extracting it. One that causes memory corruption, an exploitable crash, or a wrong answer
+  about what may be removed is in scope.
+- The programs Peel runs with what a scan found: `defaults`, `launchctl`, and `tccutil`, given an
+  app's identifier or a launch job's label, and `brew`, including one chosen in Settings. Getting
+  one to run with arguments an attacker chose, or getting Peel to run another program, is in scope.
+- What Peel writes besides moving files: the Tweaks, which also restart the Dock, Finder, Control
+  Center, or Window Manager with `killall`, and the settings the Terminal page writes for Terminal,
+  the shell, ssh, and Git. Getting either to write anything but the setting the user chose, or to
+  write it anywhere else, such as through a link, is in scope.
+
 ### Out of scope
 
 Not because they do not matter, but because they are not bugs in Peel.
