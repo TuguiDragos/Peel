@@ -26,8 +26,7 @@ public enum DefaultApps {
     /// Returns the kinds of files and links `app` is currently the default for, sorted by name.
     @concurrent
     public static func roles(of app: InstalledApp) async -> [DefaultRole] {
-        let contents = app.url.appending(path: "Contents", directoryHint: .isDirectory)
-        guard let info = AppInspector.infoDictionary(in: contents) else { return [] }
+        guard let info = AppInspector.infoDictionary(in: AppBundleLayout(of: app.url).infoFolder) else { return [] }
         return (fileKinds(declaredIn: info, app: app) + links(declaredIn: info, app: app))
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }

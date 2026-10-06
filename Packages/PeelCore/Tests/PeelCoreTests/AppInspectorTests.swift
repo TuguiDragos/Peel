@@ -301,4 +301,49 @@ struct AppInspectorTests {
         try data.write(to: url)
         return url
     }
+
+    /// An iPhone or iPad app on a Mac keeps its own bundle, with no `Contents`, where `WrappedBundle` leads.
+    @Test func readsAnIPhoneAppFromTheBundleItWraps() throws {
+        let directory = try TemporaryDirectory()
+        let inner = try directory.directory("Example.app/Wrapper/example.app")
+        let info: [String: Any] = [
+            "CFBundleIdentifier": "org.example.wrapped", "CFBundleName": "example", "CFBundleExecutable": "example",
+            "CFBundleShortVersionString": "3.4", "CFBundleVersion": "189",
+        ]
+        try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            .write(to: inner.appending(path: "Info.plist"))
+        try directory.file("Example.app/Wrapper/example.app/example")
+        try directory.file("Example.app/Wrapper/iTunesMetadata.plist")
+        let bundle = directory.url.appending(path: "Example.app")
+        try FileManager.default.createSymbolicLink(
+            atPath: bundle.appending(path: "WrappedBundle").path(percentEncoded: false),
+            withDestinationPath: "Wrapper/example.app"
+        )
+
+        let share = try directory.directory("Example.app/Wrapper/example.app/PlugIns/Share.appex")
+        try PropertyListSerialization.data(fromPropertyList: ["CFBundleIdentifier": "org.example.wrapped.share"], format: .xml, options: 0)
+            .write(to: share.appending(path: "Info.plist"))
+
+        let app = try #require(AppInspector.inspect(bundle))
+        #expect(app.bundleIdentifier == "org.example.wrapped")
+        #expect(app.embeddedBundleIdentifiers == ["org.example.wrapped.share"])
+        #expect(app.name == "Example")
+        #expect(app.version == "3.4")
+        #expect(app.isFromAppStore)
+    }
+
+    @Test func aWrappedBundleLinkThatLeadsOutOfTheWrapperIsNoApp() throws {
+        let directory = try TemporaryDirectory()
+        let elsewhere = try directory.directory("Elsewhere/example.app")
+        try PropertyListSerialization.data(fromPropertyList: ["CFBundleIdentifier": "org.example.elsewhere"], format: .xml, options: 0)
+            .write(to: elsewhere.appending(path: "Info.plist"))
+        let bundle = try directory.directory("Example.app")
+        try directory.directory("Example.app/Wrapper")
+        try FileManager.default.createSymbolicLink(
+            atPath: bundle.appending(path: "WrappedBundle").path(percentEncoded: false),
+            withDestinationPath: "../Elsewhere/example.app"
+        )
+
+        #expect(AppInspector.inspect(bundle) == nil)
+    }
 }

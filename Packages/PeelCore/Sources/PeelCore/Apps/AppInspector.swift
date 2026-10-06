@@ -58,20 +58,20 @@ public enum AppInspector {
     private static let spotlightBudget: TimeInterval = 2
 
     public static func inspect(_ url: URL) -> InstalledApp? {
-        let contents = url.appending(path: "Contents", directoryHint: .isDirectory)
+        let layout = AppBundleLayout(of: url)
+        let contents = layout.infoFolder
         guard
             let info = infoDictionary(in: contents),
             let bundleIdentifier = info["CFBundleIdentifier"] as? String,
             !bundleIdentifier.isEmpty
         else { return nil }
 
-        let signing = signingInformation(for: url)
-        let executable = (info["CFBundleExecutable"] as? String).map {
-            contents.appending(path: "MacOS", directoryHint: .isDirectory).appending(path: $0)
-        }
-        let isFromAppStore = FileManager.default.fileExists(
-            atPath: contents.appending(path: "_MASReceipt/receipt").path(percentEncoded: false)
-        )
+        let signing = signingInformation(for: layout.signedBundle)
+        let executable = (info["CFBundleExecutable"] as? String).map { layout.executableFolder.appending(path: $0) }
+        // The App Store leaves its metadata beside a wrapped app, as it leaves a receipt inside a Mac app.
+        let receipt = layout.isWrapped
+            ? url.appending(path: "Wrapper/iTunesMetadata.plist") : contents.appending(path: "_MASReceipt/receipt")
+        let isFromAppStore = FileManager.default.fileExists(atPath: receipt.path(percentEncoded: false))
         let isSystemProtected = isSystemProtected(url)
         let use = use(of: url)
 
@@ -86,7 +86,7 @@ public enum AppInspector {
             teamIdentifier: signing.teamIdentifier,
             developer: signing.developer,
             applicationGroups: signing.applicationGroups,
-            embeddedBundleIdentifiers: embeddedBundleIdentifiers(in: contents),
+            embeddedBundleIdentifiers: embeddedBundleIdentifiers(in: contents, isWrapped: layout.isWrapped),
             architectures: executable.map(MachOHeader.architectures(ofExecutableAt:)) ?? [],
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
@@ -123,7 +123,7 @@ public enum AppInspector {
     /// Whether the bundle's Info.plist is there and macOS will not let Peel read it, so nothing can be told about
     /// the app.
     static func isClosed(_ bundle: URL) -> Bool {
-        let info = bundle.appending(path: "Contents/Info.plist")
+        let info = AppBundleLayout(of: bundle).infoFolder.appending(path: "Info.plist")
         return !info.isMissing && BoundedRead.data(at: info) == nil
     }
 
@@ -158,7 +158,7 @@ public enum AppInspector {
         return entitlements?["com.apple.security.application-groups"] as? [String] ?? []
     }
 
-    private static func embeddedBundleIdentifiers(in contents: URL) -> [String] {
+    private static func embeddedBundleIdentifiers(in contents: URL, isWrapped: Bool) -> [String] {
         let fileManager = FileManager.default
         var identifiers: [String] = []
 
@@ -169,7 +169,8 @@ public enum AppInspector {
                 continue
             }
             for child in children where embeddedBundleExtensions.contains(child.pathExtension.lowercased()) {
-                let childContents = child.appending(path: "Contents", directoryHint: .isDirectory)
+                // An iOS bundle keeps its Info.plist at its top, so those inside a wrapped app do too.
+                let childContents = isWrapped ? child : child.appending(path: "Contents", directoryHint: .isDirectory)
                 if let identifier = infoDictionary(in: childContents)?["CFBundleIdentifier"] as? String {
                     identifiers.append(identifier)
                 }

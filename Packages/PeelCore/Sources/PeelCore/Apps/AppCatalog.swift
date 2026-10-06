@@ -152,7 +152,7 @@ public enum AppCatalog {
         }
 
         private static func identity(of bundle: URL) -> Identity {
-            let contents = bundle.appending(path: "Contents", directoryHint: .isDirectory)
+            let contents = AppBundleLayout(of: bundle).infoFolder
             let info = contents.appending(path: "Info.plist")
             let values = try? info.resourceValues(forKeys: [.contentModificationDateKey, .fileSizeKey])
             return Identity(
