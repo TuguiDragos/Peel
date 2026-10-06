@@ -6,21 +6,27 @@
 
 Settings > Privacy shows what Peel sends and every address it or Homebrew may contact.
 
-Peel sends no analytics and has no account. On its own, it goes online only to check your apps for updates, and you
-can turn that off. Each check asks one app's own update feed about that app alone, or the App Store about an app
-bought there, and says only that Peel is asking, with the country of your Mac's region for the App Store, whose answer
-depends on it: not which version, not your macOS, and not your languages. For an update that waits, Peel also reads the
-page of release notes the app's feed names, and the app's own feed when Homebrew found the update, once per version,
-and keeps the notes so they show with no connection. Nothing in them is loaded or run: Peel shows their text, and a
-link in them opens only when you click it. Every check uses https, and a feed that sends it elsewhere is followed only
-to another https address. Each check asks about one app, but taken together, the checks show the App Store which of its
-apps you have, and GitHub which of your apps update through it. Homebrew goes online only when you ask it to update,
-upgrade, repair its taps, which asks each tap's repository whether its main branch was renamed, or scan for
-vulnerabilities, and that scan is the one time Peel sends a list of what is installed all at once: for each Homebrew
-formula it checks, where its code comes from (the address of its source repository and the release tag, or a package's
-name) and its version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change that, and the
-Homebrew page then says what they change. Turn off Check for app updates in Settings, and Peel contacts nothing on its
-own; the `peel updates` command still checks whenever you run it, whatever that switch says.
+Peel sends no analytics and has no account. On its own, it goes online only to check your apps for updates, and you can
+turn that off.
+
+Each check asks one app's own update feed about that app alone, or the App Store about an app bought there, and says
+only that Peel is asking, with the country of your Mac's region for the App Store, whose answer depends on it: not which
+version, not your macOS, and not your languages. Every check uses https, and a feed that sends it elsewhere is followed
+only to another https address. Each check asks about one app, but taken together, the checks show the App Store which of
+its apps you have, and GitHub which of your apps update through it.
+
+For an update that waits, Peel also reads the page of release notes the app's feed names, and the app's own feed when
+Homebrew found the update, once per version, and keeps the notes so they show with no connection. Nothing in them is
+loaded or run: Peel shows their text, and a link in them opens only when you click it.
+
+Homebrew goes online only when you ask it to update, upgrade, repair its taps, which asks each tap's repository whether
+its main branch was renamed, or scan for vulnerabilities, and that scan is the one time Peel sends a list of what is
+installed all at once: for each Homebrew formula it checks, where its code comes from (the address of its source
+repository and the release tag, or a package's name) and its version, sent to `api.osv.dev`. Your own Homebrew settings
+(a `brew.env` file) can change that, and the Homebrew page then says what they change.
+
+Turn off Check for app updates in Settings, and Peel contacts nothing on its own; the `peel updates` command still
+checks whenever you run it, whatever that switch says.
 
 Report an Issue, in the Help menu, opens GitHub's form for a new issue with Peel's version, your macOS version, and
 whether your Mac has Apple silicon or Intel already filled in. They are in the address the browser opens, so GitHub sees
