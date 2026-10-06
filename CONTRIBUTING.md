@@ -12,14 +12,16 @@ from happening, and they are not up for negotiation.
 recorded, so History can put it back; in the app it runs inside `QuitGuard.shared.run` from its first move until History
 has it, and so does a Put Back, so that quitting waits for them. No code path in Peel deletes anything of the user's,
 and a change that adds one won't be accepted. What Peel deletes outright is its own: its list of refusals, when
-`peel history --refused --clear` is asked to forget it, and the empty placeholder `TrashMover` makes to hold a name on a
-disk that cannot rename without replacing (exFAT), when the move it was made for fails. Four things Peel starts can't be
-undone by History, and each says so where the user confirms it: Homebrew's own uninstall and clean up, resetting an
-app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked it to quit.
-`defaults delete` for an app's preferences runs only once their file is in the Trash, and a reset exports the domain
-first, so putting the file back undoes it; putting saved settings back clears a domain only once it has been saved as a
-copy of its own, and asks first. Every `brew` call runs with `HOMEBREW_NO_INSTALL_CLEANUP`, so an upgrade never cleans
-up on its own, and when a `brew.env` file turns that back on (`Homebrew.overrides()`), Peel leaves upgrades to Terminal.
+`peel history --refused --clear` is asked to forget it; the empty placeholder `TrashMover` makes to hold a name on a
+disk that cannot rename without replacing (exFAT), when the move it was made for fails; and the folder
+`PreferenceBackup` makes for a reset's saved settings, when saving fails while it is still empty. Four things Peel
+starts can't be undone by History, and each says so where the user confirms it: Homebrew's own uninstall and clean up,
+resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked it to
+quit. `defaults delete` for an app's preferences runs only once their file is in the Trash, and a reset exports the
+domain first, so putting the file back undoes it; putting saved settings back clears a domain only once it has been
+saved as a copy of its own, and asks first. Every `brew` call runs with `HOMEBREW_NO_INSTALL_CLEANUP`, so an upgrade
+never cleans up on its own, and when a `brew.env` file turns that back on (`Homebrew.overrides()`), Peel leaves upgrades
+to Terminal.
 
 ## What you need
 
