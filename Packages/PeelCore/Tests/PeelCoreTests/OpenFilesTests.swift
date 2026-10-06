@@ -52,6 +52,11 @@ struct OpenFilesTests {
         #expect(OpenFiles(excluding: nil).holders(of: folder) == ["agent"])
     }
 
+    /// A process of another account, root's included, can't be asked its name, but the program it runs says it.
+    @Test func namesAProcessOfAnotherAccountByItsProgram() {
+        #expect(OpenFiles.name(of: 1) == "launchd")
+    }
+
     /// An app extension runs on its app's behalf and macOS ends it once the app goes, so it holds nothing.
     @Test func anAppExtensionRunningFromInsideAnAppHoldsNothing() throws {
         let directory = try TemporaryDirectory()
