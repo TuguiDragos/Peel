@@ -10,11 +10,14 @@ macOS 26 supports.
 
 ### Added
 
-- Uninstalls apps together with the files they leave behind, and shows for each file why it matched and how
-  sure Peel is.
+- Uninstalls apps, web apps Safari made and iPhone and iPad apps among them, together with the files they
+  leave behind, and shows for each file why it matched and how sure Peel is.
+- Takes an app's icon out of the Dock with the app, and resets the privacy permissions macOS gave it when you ask.
+- Shows what each app opens by default, and what would open those files and links once it's gone.
 - Finds files left by apps that are gone, caches of developer tools, what builds left in your projects,
   duplicate files and folders, installers and backups, files already safe in iCloud, large and old files, and
   what is taking up space.
+- Leaves a project's build folders out of Time Machine when you ask it to.
 - Resets an app's settings without uninstalling it, after saving them so they can be put back.
 - Lists background items, extensions, plug-ins, what installer packages put on your Mac, and software that still
   needs Rosetta; starts, stops, enables, disables, or moves to the Trash a background item; moves a plug-in, or
@@ -22,11 +25,17 @@ macOS 26 supports.
 - Runs Homebrew's update, upgrade, uninstall, clean up, repair taps, and health check, and scans your formulae for
   known vulnerabilities.
 - Changes settings macOS has, many of which it doesn't show, and puts back what was there when you turn one off.
-- Gives Terminal one of 29 dark themes built on Apple's Clear Dark, and puts back the profile it used before.
+- Gives Terminal one of 29 dark themes built on Apple's Clear Dark, puts back the profile it used before, and can
+  leave out the "Last login" line, keep Terminal from reopening its windows, make Option the Meta key, and silence
+  the bell.
 - Sets up the command line from the same page: choose a prompt, turn on settings that zsh, Git, and ssh already
   have, and copy the Homebrew commands for command-line tools worth having, with the lines each one needs.
 - Moves what it removes to the Trash instead of deleting it, says first when something can't be undone, and
   keeps a History that puts it back and lists what it didn't move, with the reason.
+- Refuses to remove what nothing could bring back, such as keychains, crypto wallets, Mail, and photo libraries,
+  whoever asks it to.
+- Moves what sits in folders only an administrator can change, and puts it back, through a helper that answers
+  administrators only, once you approve it.
 - Keeps what you select on the pages that free space while you look at the others, and moves it all at once, as
   one entry in History.
 - Selects what Peel recommends, all it may, or nothing, on one list or on every page of a tool at once, leaves
@@ -34,8 +43,16 @@ macOS 26 supports.
   doesn't recommend.
 - Leaves alone the files, folders, and apps you exclude.
 - Starts the sidebar with the tools most people use, and keeps each tool you turn on or off in Settings.
-- Checks your apps for updates, and watches the Trash for apps you remove yourself.
+- Opens on Home: this Mac's chip, memory, and macOS version, how much of its disk is free, what Peel has moved to
+  the Trash so far, and which permissions are on.
+- Checks your apps for updates, shows what is new in each update that waits, keeps quiet about a version you skip
+  or an app you stop checking, and watches the Trash for apps you remove yourself.
+- Finds apps outside the Applications folders, in folders you add.
+- Shows in the menu bar what each tool found last, and opens at login, when you turn those on.
+- Notifies you of app updates, a Homebrew upgrade that ends or fails, a disk almost full, and an app you move to
+  the Trash yourself, as you choose.
 - Says in About when a new version of Peel is out, with where to get it, and downloads nothing itself.
 - Exports what is installed and where each app came from, as JSON, CSV, plain text, or a Brewfile.
 - Comes with the `peel` command for Terminal, a Finder extension, and actions for Shortcuts.
+- Removes itself from Settings, with its helper, its login item, and its own files.
 - Speaks English and 17 other languages.
