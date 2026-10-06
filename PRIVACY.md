@@ -22,6 +22,10 @@ name) and its version, sent to `api.osv.dev`. Your own Homebrew settings (a `bre
 Homebrew page then says what they change. Turn off Check for app updates in Settings, and Peel contacts nothing on its
 own; the `peel updates` command still checks whenever you run it, whatever that switch says.
 
+Report an Issue, in the Help menu, opens GitHub's form for a new issue with Peel's version, your macOS version, and
+whether your Mac has Apple silicon or Intel already filled in. They are in the address the browser opens, so GitHub sees
+them as the page loads, and they are posted only if you send the issue.
+
 ## Every address Peel or Homebrew may contact
 
 | Address | Why |
