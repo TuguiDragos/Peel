@@ -381,30 +381,19 @@ final class AppLibrary {
         return homebrewApps[app.id] != nil ? .homebrew : .direct
     }
 
-    /// The app's developer. The signature names it for a Developer ID app or one of Apple's. An App Store app,
-    /// which Apple signs again, takes the name from another installed app of its team, or else the name the
-    /// App Store gave at the last update check.
     func developer(of app: InstalledApp) -> String? {
-        app.developer ?? app.teamIdentifier.flatMap { developersByTeam[$0] } ?? memory[app.bundleIdentifier]?.developer
+        appDevelopers.developer(of: app, remembered: memory[app.bundleIdentifier]?.developer)
     }
 
-    /// The developers with two or more apps, for the list's filter. A developer with one app is left out to
-    /// keep the menu short, and search finds that app by its developer anyway. The chosen developer stays
-    /// listed even when none of its apps remain, since it is what empties the list.
     var developers: [String] {
-        let counts = Dictionary(apps.compactMap(developer(of:)).map { ($0, 1) }, uniquingKeysWith: +)
-        return Set(counts.filter { $0.value > 1 }.map(\.key) + [selectedDeveloper].compactMap(\.self))
-            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        AppDevelopers.offered(apps.compactMap(developer(of:)), chosen: selectedDeveloper)
     }
 
-    private var developersByTeam: [String: String] {
-        if let lastTeams, lastTeams.revision == revision { return lastTeams.names }
-        let names = Dictionary(
-            apps.compactMap { app in app.developer.flatMap { name in app.teamIdentifier.map { ($0, name) } } },
-            uniquingKeysWith: { first, _ in first }
-        )
-        lastTeams = (revision, names)
-        return names
+    private var appDevelopers: AppDevelopers {
+        if let lastTeams, lastTeams.revision == revision { return lastTeams.developers }
+        let developers = AppDevelopers(apps)
+        lastTeams = (revision, developers)
+        return developers
     }
 
     /// The cask this app was installed from, which is the name `brew upgrade` has to be given.
@@ -421,7 +410,7 @@ final class AppLibrary {
     @ObservationIgnored private var lastVisible: (key: VisibleKey, apps: VisibleApps)?
     @ObservationIgnored private var lastExcluded: (revision: Int, exclusions: Exclusions, ids: Set<InstalledApp.ID>)?
     @ObservationIgnored private var lastNames: (revision: Int, names: [String: String])?
-    @ObservationIgnored private var lastTeams: (revision: Int, names: [String: String])?
+    @ObservationIgnored private var lastTeams: (revision: Int, developers: AppDevelopers)?
 
     /// The apps the user excluded. Worked out again only when the apps or the exclusions change, since each
     /// check resolves the app's path on disk.
