@@ -445,7 +445,9 @@ struct ProjectsCommand: AsyncParsableCommand {
     static func notes(for scan: ProjectArtifacts.Scan) -> [String] {
         var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
-            notes.append(Output.fullDiskAccessNote)
+            notes.append(
+                Output.unreadableNote(for: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess)
+            )
         }
         if scan.wasCutShort {
             notes.append("There were more folders than Peel looks at in one go, so this list isn't all of them.")

@@ -427,9 +427,10 @@ public enum ProjectArtifacts {
         public var artifacts: [ProjectArtifact] = []
         /// True when the scan reached `maximumFolders` and left the deepest folders unread.
         public var wasCutShort = false
+        /// The folders that are there and could not be read, or did not answer in time, so what they hold isn't known.
         public var unreadableLocations: [URL] = []
-
-        public var needsFullDiskAccess: Bool { !unreadableLocations.isEmpty }
+        /// True when macOS kept Peel out of one of them for want of Full Disk Access.
+        public var needsFullDiskAccess = false
     }
 
     @concurrent
@@ -439,15 +440,17 @@ public enum ProjectArtifacts {
 
     @concurrent
     static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure) async -> Scan {
-        await withTaskGroup(of: (artifacts: [ProjectArtifact], wasCutShort: Bool).self) { group in
+        await withTaskGroup(of: (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]).self) { group in
             for root in roots where isSearchable(root) {
                 group.addTask { await artifacts(in: root, exclusions: exclusions, measure: measure) }
             }
             var found: [ProjectArtifact] = []
             var seen: Set<URL> = []
             var wasCutShort = false
+            var unreadable: [URL] = []
             for await result in group {
                 wasCutShort = wasCutShort || result.wasCutShort
+                unreadable += result.unreadable
                 for artifact in result.artifacts where seen.insert(artifact.url).inserted {
                     found.append(artifact)
                 }
@@ -455,7 +458,10 @@ public enum ProjectArtifacts {
             return Scan(
                 artifacts: found.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
-                unreadableLocations: roots.filter { isSearchable($0) && FullDiskAccess.canList($0) == .missing }
+                unreadableLocations: unreadable.sorted {
+                    PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
+                },
+                needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
             )
         }
     }
@@ -524,8 +530,9 @@ public enum ProjectArtifacts {
         exclusions: Exclusions,
         measure: LeftoverScanner.Measure,
         listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
-    ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool) {
+    ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]) {
         var found: [ProjectArtifact] = []
+        var unreadable: [URL] = []
         var queue: [(url: URL, depth: Int)] = [(root, 0)]
         // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
@@ -544,7 +551,11 @@ public enum ProjectArtifacts {
             let answer = await SlowRead.answer(within: FileSize.budget) { _ in
                 look(in: folder, exclusions: exclusions, listing: listing)
             }
-            guard let look = answer ?? nil else { continue }
+            // A folder that went away during the walk held nothing; one still there and not read is not known.
+            guard let look = answer ?? nil else {
+                if !folder.isMissing { unreadable.append(folder) }
+                continue
+            }
             ScanCount.current?.add(look.entries.count)
             let artifactNames = Set(look.found.map(\.name))
             for artifact in look.found {
@@ -584,7 +595,7 @@ public enum ProjectArtifacts {
                 queue.append((entry, depth + 1))
             }
         }
-        return (found, next < queue.count)
+        return (found, next < queue.count, unreadable)
     }
 
     /// What one folder holds and which of its entries are artifacts.

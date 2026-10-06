@@ -34,6 +34,8 @@ final class ProjectLibrary {
     /// True when the scan reached its limit on how many folders it reads, so the list may be incomplete.
     private(set) var wasCutShort = false
     private(set) var needsFullDiskAccess = false
+    /// The folders the last scan could not read, so what they hold isn't known.
+    private(set) var unreadable: [URL] = []
     /// Folders the last Add refused, with the reason, until the next one.
     private(set) var refused: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     var selection: URL?
@@ -60,6 +62,7 @@ final class ProjectLibrary {
         let artifacts = scan.artifacts
         wasCutShort = scan.wasCutShort
         needsFullDiskAccess = scan.needsFullDiskAccess
+        unreadable = scan.unreadableLocations
         let result = Dictionary(grouping: artifacts, by: \.project)
             .map {
                 ProjectGroup(

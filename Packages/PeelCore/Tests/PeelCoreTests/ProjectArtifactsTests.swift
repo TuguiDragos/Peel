@@ -109,14 +109,28 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.lastChange(of: [artifact("build", changed: nil, certain: true)]) == .none)
     }
 
-    @Test(.permissionsHold) func doesNotBlameFullDiskAccessForOrdinaryPermissions() async throws {
+    /// A folder ordinary permissions close is named as not read, never taken for one with nothing built in it, and
+    /// Full Disk Access, which would not open it either, is not blamed.
+    @Test(.permissionsHold) func saysWhichFoldersItCouldNotReadWithoutBlamingFullDiskAccess() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Code/app/package.json", bytes: 16)
+        try directory.file("Work/open/package.json", bytes: 16)
+        try directory.file("Work/closed/package.json", bytes: 16)
         try directory.setPermissions(0, of: "Code")
-        defer { try? directory.setPermissions(0o755, of: "Code") }
+        try directory.setPermissions(0, of: "Work/closed")
+        defer {
+            try? directory.setPermissions(0o755, of: "Code")
+            try? directory.setPermissions(0o755, of: "Work/closed")
+        }
+        let code = directory.url.appending(path: "Code", directoryHint: .isDirectory)
+        let work = directory.url.appending(path: "Work", directoryHint: .isDirectory)
 
-        let scan = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code", directoryHint: .isDirectory)])
+        let scan = await ProjectArtifacts.scan(roots: [code, work])
+
         #expect(scan.artifacts.isEmpty)
+        #expect(scan.unreadableLocations.map(PathPattern.comparablePath) == [
+            PathPattern.comparablePath(of: code), PathPattern.comparablePath(of: work.appending(path: "closed")),
+        ])
         #expect(!scan.needsFullDiskAccess)
     }
 

@@ -576,11 +576,18 @@ struct FileCommandTests {
     /// A chosen folder macOS kept Peel out of is said whatever the output, so an empty answer is not read as none.
     @Test func saysWhenItCouldNotLookInAChosenFolder() throws {
         let locked = URL(filePath: "/Users/me/Library/Safari", directoryHint: .isDirectory)
-        let scan = ProjectArtifacts.Scan(artifacts: [], wasCutShort: true, unreadableLocations: [locked])
+        let scan = ProjectArtifacts.Scan(
+            artifacts: [], wasCutShort: true, unreadableLocations: [locked], needsFullDiskAccess: true
+        )
 
         #expect(ProjectsCommand.notes(for: scan) == [
             Output.fullDiskAccessNote,
             "There were more folders than Peel looks at in one go, so this list isn't all of them.",
+        ])
+        let app = URL(filePath: "/Users/me/Code/app", directoryHint: .isDirectory)
+        let closed = ProjectArtifacts.Scan(unreadableLocations: [app])
+        #expect(ProjectsCommand.notes(for: closed) == [
+            "Peel couldn't look inside /Users/me/Code/app, so something may be there that isn't listed.",
         ])
         let json = try Output.jsonText(ProjectsCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])

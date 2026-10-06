@@ -30,6 +30,8 @@ struct ProjectList: View {
         List(selection: $projects.selection) {
             if projects.needsFullDiskAccess, !filtered.isEmpty {
                 FullDiskAccessBanner()
+            } else if !projects.unreadable.isEmpty, !filtered.isEmpty {
+                UnreadableFoldersNotice(folders: projects.unreadable)
             }
             ForEach(filtered) { group in
                 ProjectRow(group: group)
@@ -63,6 +65,12 @@ struct ProjectList: View {
                 } actions: {
                     Button("Open System Settings") { home.openFullDiskAccessSettings() }
                 }
+            } else if projects.groups?.isEmpty == true, !projects.unreadable.isEmpty {
+                ContentUnavailableView {
+                    Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text("Peel couldn’t look inside \(projects.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
+                }
             } else if projects.groups?.isEmpty == true {
                 ContentUnavailableView(
                     "Nothing Built Here",
@@ -95,7 +103,7 @@ struct ProjectList: View {
             projects.isScanning,
             found: projects.summary,
             couldNotLook: projects.folders.isEmpty ? "No Folders Yet"
-                : projects.needsFullDiskAccess ? "Not Everything Could Be Read" : nil,
+                : !projects.unreadable.isEmpty ? "Not Everything Could Be Read" : nil,
             wasStopped: projects.scanRun.wasStopped
         )
         .toolbar {
