@@ -654,6 +654,24 @@ struct OrphanScannerTests {
         #expect(items.map(\.heldBack) == [.crashReport])
     }
 
+    /// macOS names a diagnostic report for the process and the time, and a `.diag` names no bundle, so its name is
+    /// never read as an app's identifier, even when the process is named like one by a maker whose app Peel saw go.
+    @Test func aDiagnosticReportIsNoAppsOrphan() async throws {
+        let directory = try TemporaryDirectory()
+        let name = "org.example.updater_2026-09-29-214451_MacBook-Air.diag"
+        try directory.file("root/Library/Logs/DiagnosticReports/\(name)", bytes: 12_000)
+        try directory.file("home/Library/Logs/DiagnosticReports/\(name)", bytes: 12_000)
+        try directory.file("home/Library/Logs/DiagnosticReports/Retired/\(name)", bytes: 12_000)
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.browser", name: "Browser", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Browser.app"
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed, remembered: [gone]).groups
+
+        #expect(groups.isEmpty)
+    }
+
     @Test(.permissionsHold) func saysWhichFolderInsideAPlaceItCouldNotRead() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Example Software/org.example.mixer/settings.json")

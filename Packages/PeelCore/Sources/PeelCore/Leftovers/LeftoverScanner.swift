@@ -388,7 +388,8 @@ public struct LeftoverScanner: Sendable {
     ) -> LeftoverMatch? {
         // A system extension macOS activated is its own to remove: it uninstalls one with the app it came in.
         guard url.pathExtension.lowercased() != "systemextension" else { return nil }
-        let byName = matcher.match(fileName: name, kind: kind, at: url)
+        let byName = DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
+            ? nil : matcher.match(fileName: name, kind: kind, at: url)
         guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }
         // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
         let declared = DeclaredIdentifier.of(url, kind: kind).flatMap {

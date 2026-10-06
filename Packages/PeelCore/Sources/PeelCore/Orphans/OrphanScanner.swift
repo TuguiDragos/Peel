@@ -305,7 +305,8 @@ public struct OrphanScanner: Sendable {
         let name = url.lastPathComponent
         guard
             !isSensitive(fileName: name),
-            let identifier = orphanIdentifier(forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind)
+            let identifier = (DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
+                ? nil : orphanIdentifier(forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind))
                 ?? DeclaredIdentifier.of(url, kind: kind).flatMap({ orphanIdentifier(forKey: $0, kind: kind) }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),

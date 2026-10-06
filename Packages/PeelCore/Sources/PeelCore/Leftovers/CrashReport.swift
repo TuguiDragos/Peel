@@ -9,7 +9,13 @@ enum CrashReport {
 
     /// True for an `.ips` file in a `DiagnosticReports` folder or in the `Retired` folder inside one.
     static func isOne(_ url: URL) -> Bool {
-        guard url.pathExtension == "ips" else { return false }
+        url.pathExtension == "ips" && isInADiagnosticReportsFolder(url)
+    }
+
+    /// True for anything in a `DiagnosticReports` folder or in the `Retired` folder inside one, where macOS keeps
+    /// the reports it writes for a process, crashes and resource reports (`.diag`) alike, named for the process and
+    /// the time.
+    static func isInADiagnosticReportsFolder(_ url: URL) -> Bool {
         let folders = url.deletingLastPathComponent().pathComponents
         return folders.last == "DiagnosticReports" || folders.suffix(2) == ["DiagnosticReports", "Retired"]
     }

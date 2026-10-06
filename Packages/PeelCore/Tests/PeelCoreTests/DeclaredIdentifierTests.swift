@@ -42,9 +42,10 @@ struct DeclaredIdentifierTests {
         let text = try directory.file("Logs/DiagnosticReports/\(name).diag", contents: contents)
 
         #expect(DeclaredIdentifier.of(report, kind: .logs) == "org.example.notes")
-        #expect(DeclaredIdentifier.outranksTheName(of: report, kind: .logs))
+        #expect(DeclaredIdentifier.nameSaysNothing(of: report, kind: .logs))
+        #expect(DeclaredIdentifier.nameSaysNothing(of: text, kind: .logs))
         #expect(DeclaredIdentifier.of(loose, kind: .logs) == nil)
         #expect(DeclaredIdentifier.of(text, kind: .logs) == nil)
-        #expect(!DeclaredIdentifier.outranksTheName(of: loose, kind: .logs))
+        #expect(!DeclaredIdentifier.nameSaysNothing(of: loose, kind: .logs))
     }
 }

@@ -14,9 +14,15 @@ enum DeclaredIdentifier {
         }
     }
 
-    /// True for an item whose name never says whose it is, so what it declares is read even when the name matches.
+    /// True for code macOS loads, named for what it does, so what it declares is read even when the name matches.
     static func outranksTheName(of url: URL, kind: SearchLocation.Kind) -> Bool {
-        kind.isLoadedCode || (kind == .logs && CrashReport.isOne(url))
+        kind.isLoadedCode
+    }
+
+    /// True for a diagnostic report, whose name is the process's and the time's and never says whose it is: only
+    /// what it declares can claim it, and a `.diag` declares nothing.
+    static func nameSaysNothing(of url: URL, kind: SearchLocation.Kind) -> Bool {
+        kind == .logs && CrashReport.isInADiagnosticReportsFolder(url)
     }
 
     /// The `CFBundleIdentifier` a framework's `Resources/Info.plist` declares.

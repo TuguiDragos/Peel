@@ -1552,6 +1552,20 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.match.heldBack == .crashReport })
     }
 
+    /// A `.diag` names the process it watched, not a bundle, so it is never the app's however its name reads, even
+    /// when the process is one of the app's helpers named by an identifier that begins with the app's.
+    @Test func neverTakesADiagnosticReportForTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let reports = "home/Library/Logs/DiagnosticReports"
+        try directory.file("\(reports)/net.example.client.agent_2026-09-29-214451_MacBook-Air.diag", bytes: 12_000)
+        try directory.file("\(reports)/Retired/net.example.client.agent_2026-09-30-101010_Mac.diag", bytes: 12_000)
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.leftovers.isEmpty)
+    }
+
     private func report(bundleIdentifier: String) -> Data {
         Data("""
         {"app_name":"Tunewell","bug_type":"309","bundleID":"\(bundleIdentifier)","name":"Tunewell","incident_id":"1"}
