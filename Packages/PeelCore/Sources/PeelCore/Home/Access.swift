@@ -145,13 +145,7 @@ public enum AppManagement {
     /// Whether a refused move of `url` points to App Management: the user can write to the bundle's folder, and
     /// nothing locks the bundle. The removal alert uses the same test.
     public static func isRefusedForWantOfPermission(_ url: URL) -> Bool {
-        !FileAccess.requiresPrivilegesToRemove(url) && !isLocked(url)
-    }
-
-    /// Whether `url` is locked (`chflags uchg` or `schg`), which blocks a move whatever the permissions say.
-    private static func isLocked(_ url: URL) -> Bool {
-        var info = stat()
-        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
-        return info.st_flags & (UInt32(UF_IMMUTABLE) | UInt32(SF_IMMUTABLE)) != 0
+        let canBeMoved = !FileAccess.requiresPrivilegesToRemove(url) || FileAccess.isProtectedByPrivacy(url)
+        return canBeMoved && !FileAccess.isLocked(url)
     }
 }

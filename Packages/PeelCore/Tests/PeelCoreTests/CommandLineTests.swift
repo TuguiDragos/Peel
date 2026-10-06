@@ -33,6 +33,18 @@ struct CommandLineTests {
         )
     }
 
+    /// An app the terminal can't move for want of App Management needs no administrator, so the command names the
+    /// permission to give instead.
+    @Test func saysWhichPermissionKeepsAnAppInPlace() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example"
+        )
+        let privacy = UninstallCommand.whyItCannotMove(app, isProtectedByPrivacy: true).description
+        #expect(privacy.contains("App Management") && !privacy.contains("administrator"))
+        let permissions = UninstallCommand.whyItCannotMove(app, isProtectedByPrivacy: false).description
+        #expect(permissions.contains("administrator"))
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)

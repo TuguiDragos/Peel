@@ -372,6 +372,19 @@ struct UninstallCommand: AsyncParsableCommand {
         }
     }
 
+    /// Why the app itself can't move: macOS keeps another developer's app from a terminal without App Management,
+    /// which the person can allow, while an app in a folder they can't write to needs an administrator.
+    static func whyItCannotMove(
+        _ app: InstalledApp,
+        isProtectedByPrivacy: Bool
+    ) -> CommandFailure {
+        let name = Output.plain(app.name)
+        guard isProtectedByPrivacy else {
+            return CommandFailure("Moving \(name) to the Trash needs administrator access. Remove it with the Peel app.")
+        }
+        return CommandFailure("macOS lets your terminal app move \(name) only with App Management. Allow it in System Settings > Privacy & Security > App Management, then try again, or remove it with the Peel app.")
+    }
+
     /// Throws for Peel itself. Peel removes itself from its own Settings, after unregistering its login item
     /// and privileged helper. If `peel` moved the app, the helper would stay registered with launchd and
     /// point into the Trash.
@@ -438,7 +451,7 @@ struct UninstallCommand: AsyncParsableCommand {
             )
         }
         guard !uninstallation.appRequiresPrivileges else {
-            throw CommandFailure("Moving \(Output.plain(target.name)) to the Trash needs administrator access. Remove it with the Peel app.")
+            throw Self.whyItCannotMove(target, isProtectedByPrivacy: FileAccess.isProtectedByPrivacy(target.url))
         }
 
         if let note = UnreadableHistory.note() {
