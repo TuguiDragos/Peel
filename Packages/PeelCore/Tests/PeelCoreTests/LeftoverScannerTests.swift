@@ -105,7 +105,7 @@ struct LeftoverScannerTests {
             url: URL(filePath: "/Users/x/Applications/Wiki.app"),
             bundleIdentifier: identifier,
             name: "Wiki",
-            isASafariWebApp: true
+            webApp: .safari
         )
 
         let scan = await LeftoverScanner(environment: environment(in: directory)).scan(wiki, installedApps: [wiki])

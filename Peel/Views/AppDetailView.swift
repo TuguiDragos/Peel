@@ -131,6 +131,15 @@ struct AppDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             }
+            if case .browser(let identifier) = plan.app.webApp {
+                let browser = library.name(forBundleIdentifier: identifier)
+                Notice(
+                    title: Text("A web app of \(browser)"),
+                    detail: Text("Moving it to the Trash takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."),
+                    kind: .note
+                ) {}
+                .listRowSeparator(.hidden)
+            }
             if let change = library.teamChanges[plan.app.bundleIdentifier] {
                 Notice(
                     title: change.current.isEmpty ? Text("No developer signs this app anymore") : Text("This app is signed by someone else now"),

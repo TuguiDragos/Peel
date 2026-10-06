@@ -33,8 +33,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let isPeelItself: Bool
     /// Whether this is the very bundle the running code was started from: the copy of Peel that is running.
     public let isTheRunningCopy: Bool
-    /// Whether this is a web app Safari made (`SafariWebApp`), whose identifier names it and nothing of Apple's.
-    public let isASafariWebApp: Bool
+    /// The browser's web app this is, or nil for any other app.
+    public let webApp: WebApp?
 
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
@@ -62,7 +62,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         isUseRecorded: Bool = true,
         dateAdded: Date? = nil,
         updateFeed: UpdateFeed? = nil,
-        isASafariWebApp: Bool = false
+        webApp: WebApp? = nil
     ) {
         self.url = url
         self.bundleIdentifier = bundleIdentifier
@@ -81,7 +81,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.lastUsedDate = lastUsedDate
         self.isUseRecorded = isUseRecorded
         self.dateAdded = dateAdded
-        self.isASafariWebApp = isASafariWebApp
+        self.webApp = webApp
         self.updateFeed = updateFeed
         let path = PathPattern.comparablePath(of: url)
         isPeelItself = Self.isPeel(bundleIdentifier, at: path)
@@ -89,6 +89,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     }
 
     public var id: URL { url }
+
+    /// Whether this is a web app Safari made (`SafariWebApp`), whose identifier names it and nothing of Apple's.
+    public var isASafariWebApp: Bool { webApp == .safari }
 
     public var isIntelOnly: Bool { architectures == [.x86_64] }
 
@@ -122,7 +125,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             isUseRecorded: isRecorded,
             dateAdded: dateAdded,
             updateFeed: updateFeed,
-            isASafariWebApp: isASafariWebApp
+            webApp: webApp
         )
     }
 

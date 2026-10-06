@@ -100,7 +100,7 @@ public enum AppInspector {
                 isFromAppStore: isFromAppStore,
                 isSystemProtected: isSystemProtected
             ),
-            isASafariWebApp: SafariWebApp.isOne(identifier: bundleIdentifier, info: info)
+            webApp: WebApp.of(identifier: bundleIdentifier, info: info)
         )
     }
 
@@ -129,6 +129,11 @@ public enum AppInspector {
     }
 
     /// The name Finder shows for a bundle, in the user's language when the app translates its name.
+    /// The name Finder shows for the app macOS knows by `identifier`, or the identifier itself when it knows none.
+    public static func knownName(forBundleIdentifier identifier: String) -> String {
+        applicationURL(forBundleIdentifier: identifier).map(displayName(of:)) ?? identifier
+    }
+
     public static func displayName(of url: URL) -> String {
         let name = FileManager.default.displayName(atPath: url.path(percentEncoded: false))
         return name.hasSuffix(".app") ? String(name.dropLast(4)) : name

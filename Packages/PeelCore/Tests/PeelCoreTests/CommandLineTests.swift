@@ -86,6 +86,22 @@ struct CommandLineTests {
         #expect(try UninstallCommand.note(for: nil, dryRun: false) == nil)
     }
 
+    /// Moving a browser's web app takes away only its shortcut, so the plan says where the app itself is removed.
+    @Test func saysAWebAppStaysInItsBrowser() {
+        let music = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Chrome Apps.localized/Music.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.Browser.app.abcdefghijklmnop", name: "Music",
+            webApp: .browser(identifier: "org.example.Browser")
+        )
+        let note = UninstallCommand.webAppNote(for: music, browserName: "Example Browser")
+        #expect(note?.contains("uninstall it in Example Browser") == true)
+        let wiki = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Wiki.app"), bundleIdentifier: "com.apple.Safari.WebApp.X",
+            name: "Wiki", webApp: .safari
+        )
+        #expect(UninstallCommand.webAppNote(for: wiki, browserName: "Safari") == nil)
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)

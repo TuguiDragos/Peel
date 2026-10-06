@@ -40,7 +40,7 @@ struct LeftoverMatcherTests {
             url: URL(filePath: "/Users/x/Applications/Wiki.app"),
             bundleIdentifier: identifier,
             name: "Wiki",
-            isASafariWebApp: true
+            webApp: .safari
         )
 
         #expect(match("\(identifier).plist", in: .preferences, for: wiki)?.confidence == .certain)

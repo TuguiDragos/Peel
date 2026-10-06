@@ -9551,6 +9551,112 @@
         }
       }
     },
+    "A web app of %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webová aplikace prohlížeče %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Web-App von %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una app web de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app web de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’app web di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のWebアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 웹 앱"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een webapp van %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja internetowa przeglądarki %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App web do %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicație web din %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Веб-приложение браузера %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En webbapp från %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ web uygulaması"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вебпрограма браузера %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的网页App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的網頁App"
+          }
+        }
+      }
+    },
     "A whole home folder or disk is too much to search. Choose the folder your projects are in." : {
       "localizations" : {
         "cs" : {
@@ -73494,6 +73600,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「TV」App保留在這部Mac上的電影和節目，包括下載或匯入的項目。"
+          }
+        }
+      }
+    },
+    "Moving it to the Trash takes away only this shortcut, and the app stays in %@, which can make the shortcut again. To remove the app itself, uninstall it in %@, which takes the shortcut away too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunutím do koše odstraníte jen tohoto zástupce a aplikace zůstane v %1$@, který zástupce dokáže znovu vytvořit. Chcete-li odstranit samotnou aplikaci, odinstalujte ji v %2$@, čímž zmizí i zástupce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird sie in den Papierkorb gelegt, verschwindet nur diese Verknüpfung, und die App bleibt in %1$@, das die Verknüpfung erneut erstellen kann. Um die App selbst zu entfernen, deinstallieren Sie sie in %2$@. Dabei verschwindet auch die Verknüpfung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Moving it to the Trash takes away only this shortcut, and the app stays in %1$@, which can make the shortcut again. To remove the app itself, uninstall it in %2$@, which takes the shortcut away too."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al trasladarla a la papelera solo se elimina este acceso directo, y la app sigue en %1$@, que puede volver a crear el acceso directo. Para eliminar la app, desinstálala en %2$@, que también elimina el acceso directo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La placer dans la corbeille ne retire que ce raccourci, et l’app reste dans %1$@, qui peut recréer le raccourci. Pour supprimer l’app elle-même, désinstallez-la dans %2$@, ce qui retire aussi le raccourci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spostarla nel Cestino rimuove solo questo collegamento, e l’app resta in %1$@, che può creare di nuovo il collegamento. Per rimuovere l’app, disinstallala in %2$@, che rimuove anche il collegamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱に入れても取り除かれるのはこのショートカットだけで、アプリは%1$@に残り、ショートカットを再作成できます。アプリ自体を取り除くには、%2$@でアンインストールしてください。ショートカットも一緒に取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통으로 이동하면 이 바로가기만 제거되고 앱은 %1$@에 남아 바로가기를 다시 만들 수 있습니다. 앱 자체를 제거하려면 %2$@에서 제거하십시오. 바로가기도 함께 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je hem naar de prullenmand verplaatst, verdwijnt alleen deze snelkoppeling, en de app blijft in %1$@, dat de snelkoppeling opnieuw kan maken. Om de app zelf te verwijderen, deïnstalleer je hem in %2$@, waarbij ook de snelkoppeling verdwijnt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesienie do Kosza usuwa tylko ten skrót, a aplikacja pozostaje w %1$@, która może ponownie utworzyć skrót. Aby usunąć samą aplikację, odinstaluj ją w %2$@, co usuwa też skrót."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movê-lo para o Lixo remove apenas este atalho, e o app continua no %1$@, que pode criar o atalho de novo. Para remover o app, desinstale-o no %2$@, o que também remove o atalho."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutarea în Coș elimină doar această scurtătură, iar aplicația rămâne în %1$@, care poate crea din nou scurtătura. Pentru a elimina aplicația însăși, dezinstalați‑o din %2$@, ceea ce elimină și scurtătura."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещение в Корзину удаляет только этот ярлык, а приложение остается в %1$@, который может снова создать ярлык. Чтобы удалить само приложение, удалите его в %2$@, и ярлык тоже исчезнет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du flyttar den till papperskorgen tas bara den här genvägen bort, och appen finns kvar i %1$@, som kan skapa genvägen igen. Om du vill ta bort själva appen avinstallerar du den i %2$@, vilket även tar bort genvägen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti’ne taşımak yalnızca bu kısayolu kaldırır, uygulama %1$@ içinde kalır ve kısayolu yeniden oluşturabilir. Uygulamanın kendisini kaldırmak için %2$@ içinde yüklemesini kaldırın, bu kısayolu da kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщення в Смітник вилучає лише цей ярлик, а вебпрограма лишається в %1$@, який може знову створити ярлик. Щоб вилучити саму вебпрограму, деінсталюйте її в %2$@, і ярлик теж зникне."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移到废纸篓只会移除此快捷方式，App仍保留在%1$@中，并可重新创建快捷方式。若要移除App本身，请在%2$@中将其卸载，快捷方式也会一并移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丟到垃圾桶只會移除此捷徑，App仍會保留在%1$@中，並可重新建立捷徑。若要移除App本身，請在%2$@中將其解除安裝，捷徑也會一併移除。"
           }
         }
       }

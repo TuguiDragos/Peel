@@ -396,6 +396,21 @@ struct UninstallCommand: AsyncParsableCommand {
         return failure.description
     }
 
+    /// What the plan says of a browser's web app, whose shortcut is all that moves: the app stays in the browser.
+    static func webAppNote(for app: InstalledApp, browserName: String) -> String? {
+        guard case .browser = app.webApp else { return nil }
+        let name = Output.plain(app.name)
+        let browser = Output.plain(browserName)
+        return "\(name) is a web app of \(browser). Moving it takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."
+    }
+
+    /// The name of the browser a web app of `app`'s kind belongs to, as the Finder shows it.
+    static func browserName(of app: InstalledApp, among apps: [InstalledApp]) -> String? {
+        guard case .browser(let identifier) = app.webApp else { return nil }
+        return apps.first { $0.bundleIdentifier == identifier }?.name
+            ?? AppInspector.knownName(forBundleIdentifier: identifier)
+    }
+
     /// What the removal does that the Trash can't bring back, said before the question.
     static func warnings(moving urls: Set<URL>, of app: InstalledApp, resettingPrivacy: Bool) -> [String] {
         var warnings: [String] = []
@@ -521,7 +536,8 @@ struct UninstallCommand: AsyncParsableCommand {
         let warnings = Self.warnings(moving: Set(plan.moving.map(\.url)), of: target, resettingPrivacy: resetPrivacy)
         let isInTheDock = !(await DockTiles().holding([target.url])).isEmpty
         let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
-        (warnings + (dock.map { [$0] } ?? [])).forEach(output.json ? Output.note : Output.line)
+        let webApp = Self.browserName(of: target, among: apps).flatMap { Self.webAppNote(for: target, browserName: $0) }
+        (warnings + [dock, webApp].compactMap(\.self)).forEach(output.json ? Output.note : Output.line)
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 
         guard !dryRun else {

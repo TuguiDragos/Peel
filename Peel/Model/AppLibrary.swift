@@ -851,9 +851,7 @@ final class AppLibrary {
             )
         }
         if let name = lastNames?.names[bundleIdentifier] { return name }
-        let name =
-            AppInspector.applicationURL(forBundleIdentifier: bundleIdentifier).map(AppInspector.displayName(of:))
-            ?? bundleIdentifier
+        let name = AppInspector.knownName(forBundleIdentifier: bundleIdentifier)
         lastNames?.names[bundleIdentifier] = name
         return name
     }

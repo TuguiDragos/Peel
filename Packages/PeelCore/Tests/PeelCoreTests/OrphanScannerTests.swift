@@ -330,7 +330,7 @@ struct OrphanScannerTests {
         )
         let news = InstalledApp(
             url: URL(filePath: "/Users/x/Applications/News Site.app"), bundleIdentifier: kept, name: "News Site",
-            isASafariWebApp: true
+            webApp: .safari
         )
 
         let scanner = OrphanScanner(environment: SearchEnvironment(

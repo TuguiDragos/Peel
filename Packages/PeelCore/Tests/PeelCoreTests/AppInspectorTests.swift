@@ -361,6 +361,30 @@ struct AppInspectorTests {
         #expect(!otherTemplate.isASafariWebApp)
     }
 
+    /// A Chromium browser writes each web app's shortcut with the browser's identifier and the app's own in its
+    /// Info.plist, under an identifier of the browser's followed by `.app.`.
+    @Test func knowsAWebAppOfAChromiumBrowserByTheShortcutItWrote() throws {
+        let directory = try TemporaryDirectory()
+        func shortcut(_ name: String, identifier: String, browser: String = "org.example.Browser") throws -> URL {
+            let info: [String: Any] = [
+                "CFBundleIdentifier": identifier, "CFBundleName": name, "CFBundleExecutable": "app_mode_loader",
+                "CrAppModeShortcutID": "abcdefghijklmnopabcdefghijklmnop", "CrBundleIdentifier": browser,
+            ]
+            let contents = try directory.directory("\(name).app/Contents")
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: contents.appending(path: "Info.plist"))
+            return directory.url.appending(path: "\(name).app")
+        }
+
+        let music = try #require(AppInspector.inspect(try shortcut(
+            "Music Site", identifier: "org.example.Browser.app.abcdefghijklmnopabcdefghijklmnop"
+        )))
+        #expect(music.webApp == .browser(identifier: "org.example.Browser"))
+        #expect(!music.isASafariWebApp)
+        let other = try #require(AppInspector.inspect(try shortcut("Other", identifier: "org.example.other")))
+        #expect(other.webApp == nil)
+    }
+
     @Test func aWrappedBundleLinkThatLeadsOutOfTheWrapperIsNoApp() throws {
         let directory = try TemporaryDirectory()
         let elsewhere = try directory.directory("Elsewhere/example.app")
