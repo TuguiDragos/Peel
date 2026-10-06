@@ -2,9 +2,9 @@
 
 Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can
 take something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what
-it selects for you and what it leaves to you, how it keeps crypto wallets, how a reset stays within an app's
-settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings, and what its helper, which runs as
-root, may do.
+it changes besides moving files, what it selects for you and what it leaves to you, how it keeps crypto wallets,
+how a reset stays within an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings,
+and what its helper, which runs as root, may do.
 
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
@@ -66,13 +66,19 @@ themselves, though what you choose inside them can be. Neither are the files of 
 (`.GlobalPreferences.plist` and its twins): your language, keyboard, and scrolling settings, which belong to no
 app.
 
-One step of a removal is not a move to the Trash: after a preference file has gone, Peel tells macOS to
-forget that preference domain (`defaults delete`), or the system could write the file again from memory.
-On macOS 26 the system then answers that the domain is not found and changes nothing, and a file put back from
-History is read again at once, so History undoes it for an app that has not run since. Even so, it is
-only done for a file that went from your own `~/Library/Preferences`, never for the copy every user
-shares in `/Library/Preferences`, never while the app's container still holds its own settings, never for one
-of Apple's domains on another app's behalf, and never for the global domain under any of its names.
+Three steps of a removal are not a move to the Trash. After a preference file has gone, Peel tells macOS to
+forget that preference domain (`defaults delete`), or the system could write the file again from memory. On
+macOS 26 the system then answers that the domain is not found and changes nothing, and a file put back from
+History is read again at once, so History undoes it for an app that has not run since. Even so, it is only
+done for a file that went from your own `~/Library/Preferences`, never for the copy every user shares in
+`/Library/Preferences`, never while the app's container still holds its own settings, never for one of Apple's
+domains on another app's behalf, and never for the global domain under any of its names.
+
+The other two follow what really moved too. launchd is told to stop the jobs whose files went
+(`launchctl bootout`), or it would keep them running and start them again; putting a file back from History
+lets launchd load its job again at the next login, or at the next restart for a daemon. And an uninstalled
+app's icon is taken out of the Dock, unless you deselect it, which restarts the Dock; putting the app back
+puts its icon back where it was.
 
 **The check is not a string comparison.** A disk is case-insensitive unless you went out of your way, so
 `~/Library/mobile documents` is the same folder as `~/Library/Mobile Documents`; `/var` and `/private/var`
@@ -158,6 +164,24 @@ went: History keeps which item it was (its inode and when it was made), so once 
 item that lands in the same place, another project's `node_modules`, say, is never put back in its stead.
 History offers to forget a record only once its item has certainly left the Trash, asks first, and looks again
 just before; an item Peel isn't allowed to look at is shown as not known and kept.
+
+## What Peel changes besides moving files
+
+Some of what Peel does is not a move to the Trash. Each is here with how it is undone.
+
+| What Peel changes | How it is undone |
+| --- | --- |
+| A preference domain is forgotten (`defaults delete`) once its file is in the Trash | Putting the file back from History, as described above |
+| A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History; launchd loads the job again at the next login, or at the next restart for a daemon |
+| An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was |
+| An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
+| Homebrew uninstalls a package or cleans up its downloads | Can't be undone: Homebrew deletes what it removes |
+| An app that would not quit is force quit, only when you choose it | Can't be undone: what the app had not saved is lost |
+| Remove Downloads frees this Mac's copy of a file in iCloud Drive | The file stays in iCloud and downloads again when you open it |
+| Build Artifacts leaves a project's build folders out of Time Machine, when you ask it to | The same checkbox takes the mark off |
+| A background item is stopped, started, disabled, or enabled | The same buttons in Background Items; a disabled item stays disabled after a restart until you enable it |
+| A tweak changes a setting of macOS, and the Dock, Finder, Control Center, or the window manager restarts to read it | Turning the tweak off, or Turn All Off, puts back what was there before, or leaves it to macOS |
+| The Terminal page adds Peel's profiles and options to Terminal, makes `~/.hushlogin`, writes Peel's shell and ssh files, and changes Git's settings | Put Back, turning the setting off, or Turn All Off, as [Terminal's settings](#terminals-settings) says |
 
 ## What is selected for you
 
