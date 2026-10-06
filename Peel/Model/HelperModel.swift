@@ -42,10 +42,21 @@ final class HelperModel {
         status = PrivilegedHelper.status
     }
 
+    /// Counts the checks, so when two overlap the later one's answer stands, whichever returns last.
+    private var generation = 0
+
     func checkConnection() async {
-        status = await PrivilegedHelper.currentStatus()
-        isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
-        isRegisteredByAnotherCopy = status == .notRegistered ? await PrivilegedHelper.isRegisteredByAnyCopy() : false
+        generation += 1
+        let current = generation
+        let status = await PrivilegedHelper.currentStatus()
+        let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
+        let isRegisteredByAnotherCopy = status == .notRegistered
+            ? await PrivilegedHelper.isRegisteredByAnyCopy()
+            : false
+        guard current == generation else { return }
+        self.status = status
+        self.isResponding = isResponding
+        self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
     }
 
     /// Registers the helper, and opens Login Items settings when it needs the user's approval. Per
