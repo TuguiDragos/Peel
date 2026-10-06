@@ -181,6 +181,11 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 - **A Homebrew cask counts as evidence only when it is proved**, by naming the app bundle, the identifier it
   quits, or an installer receipt that is on this Mac. A guessed name is never believed on its own.
 - **Duplicates always keep at least one copy**, and refuse a file that changed since the scan.
+- **An update check sends no more than [PRIVACY.md](PRIVACY.md) says.** A feed request carries Peel's name and no
+  language, a redirect is followed only to https, the session keeps no cache or cookie a server could read back,
+  and Apple is asked only about an app bought from the App Store (`UpdatePrivacyTests`).
+- **No code reads macOS's privacy database.** What macOS records about privacy is not API, and from macOS 27 apps
+  can't read it, so App Management is learned from what a removal shows, on every macOS (`PrivateDatabaseTests`).
 
 ## Changes that need a particular test
 
