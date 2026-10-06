@@ -26,6 +26,6 @@ import Testing
     }
 
     @Test func theUninstallerBesideItIsStillItsOwn() {
-        #expect(VendorRemoval.isUninstallerName("Uninstall Latest.app", app: latest, isInsideTheBundle: false))
+        #expect(VendorRemoval.isUninstallerNamedExactly("Uninstall Latest.app", for: latest))
     }
 }

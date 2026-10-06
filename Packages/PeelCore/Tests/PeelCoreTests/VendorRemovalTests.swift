@@ -61,6 +61,19 @@ struct VendorRemovalTests {
         #expect(VendorRemoval.uninstaller(for: app(in: directory, path: "Suite/Example.app", name: "Example")) == nil, "a vendor's folder holds its other products too")
     }
 
+    @Test func aSiblingProductsUninstallerIsNotThisAppsEvenWhenItsNameHoldsThisOne() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Acme/Acme.app")
+        try directory.directory("Acme/Acme Pro.app")
+        try directory.directory("Acme/Uninstall Acme Pro.app")
+
+        #expect(VendorRemoval.uninstaller(for: app(in: directory, path: "Acme/Acme.app", name: "Acme")) == nil)
+        #expect(
+            VendorRemoval.uninstaller(for: app(in: directory, path: "Acme/Acme Pro.app", name: "Acme Pro"))?
+                .lastPathComponent == "Uninstall Acme Pro.app"
+        )
+    }
+
     /// In Homebrew's casks, an uninstaller app sits inside the bundle, beside it, at the top of `/Applications`
     /// (Chrome Remote Desktop Host Uninstaller), or in a maker's folder in Utilities (Adobe Installers). The
     /// last two hold every maker's uninstallers, so there the name must be the app's own name with only

@@ -20,7 +20,8 @@ public enum VendorRemoval {
         }
         let parent = app.url.deletingLastPathComponent()
         // Inside the bundle, an uninstaller is the app's own even without the app's name. Beside the bundle it
-        // must carry the app's name, because a vendor's folder holds its other products and their uninstallers.
+        // must be named for the app exactly, because a vendor's folder holds its other products and their
+        // uninstallers: Uninstall Acme Pro holds Acme's name and is not Acme's.
         let isEveryMakers = isApplicationsFolder(parent) || applicationsFolders.contains {
             PathPattern.comparablePath(of: $0) == PathPattern.comparablePath(of: parent)
         }
@@ -28,8 +29,10 @@ public enum VendorRemoval {
 
         for (folder, isInsideTheBundle) in folders {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-            if let match = names.sorted()
-                .first(where: { isUninstallerName($0, app: app, isInsideTheBundle: isInsideTheBundle) }) {
+            let isTheAppsUninstaller = { (name: String) in
+                isInsideTheBundle ? isUninstallerName(name, app: app) : isUninstallerNamedExactly(name, for: app)
+            }
+            if let match = names.sorted().first(where: isTheAppsUninstaller) {
                 return folder.appending(path: match)
             }
         }
@@ -68,13 +71,13 @@ public enum VendorRemoval {
         return app.names.contains { $0.lowercased() == named }
     }
 
-    static func isUninstallerName(_ name: String, app: InstalledApp, isInsideTheBundle: Bool = true) -> Bool {
+    static func isUninstallerName(_ name: String, app: InstalledApp) -> Bool {
         guard name.hasSuffix(".app") else { return false }
         let lowercased = name.lowercased()
         guard lowercased.contains("uninstall") else { return false }
         let base = lowercased.replacingOccurrences(of: ".app", with: "")
         guard !app.names.contains(where: { base.contains($0.lowercased()) }) else { return true }
-        return isInsideTheBundle && (base.hasPrefix("uninstall") || base.hasSuffix("uninstaller"))
+        return base.hasPrefix("uninstall") || base.hasSuffix("uninstaller")
     }
 
     /// Whether `url` is an Applications folder. A folder URL's path ends in a slash, so the path is read through
