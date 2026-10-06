@@ -203,11 +203,12 @@ that opens it in Peel. It never adds them up into one figure and never selects a
 Every command that moves something asks first, and takes `--dry-run` to only show the plan and `-y` to skip the
 question. It asks only where you can see the plan and answer, so with its output sent to a file or a pipe it needs
 `-y`, and it ignores keys typed before the question appeared. Answering no exits with code 2, so
-`peel uninstall Foo && next-step` stops there. The command moves only what the app would suggest, through the same
-checks, into the same History, and leaves anything that needs an administrator to the app. It won't run under
-`sudo`. Most commands take `--json`, which lists without moving, and `peel uninstall --json` reports what moved,
-what stayed, and why. A Homebrew install also sets up its completions for zsh, bash, and fish and its manual page,
-`man peel`; otherwise `peel --generate-completion-script zsh` writes the completions for your shell.
+`peel uninstall Foo && next-step` stops there. The command moves only what the app would suggest, or a group of
+orphaned files you name with `peel orphans --remove`, through the same checks, into the same History, and leaves
+anything that needs an administrator to the app. It won't run under `sudo`. Most commands take `--json`, which
+lists without moving, and `peel uninstall --json` reports what moved, what stayed, and why. A Homebrew install
+also sets up its completions for zsh, bash, and fish and its manual page, `man peel`; otherwise
+`peel --generate-completion-script zsh` writes the completions for your shell.
 
 ## What Peel asks for, and why
 
