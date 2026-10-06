@@ -112,7 +112,9 @@ have, and anything that destroys data that cannot be recovered.
 
 **Destruction of data.**
 
-- Any way to get Peel to delete something permanently that it should have moved to the Trash.
+- Any way to get Peel to delete something permanently that it should have moved to the Trash. The
+  few things Peel deletes, or can't undo, by design are listed in
+  [SAFETY.md](SAFETY.md#nothing-of-yours-is-deleted-permanently).
 - Any bypass of `RemovalGuard` that reaches anything [SAFETY.md](SAFETY.md) lists under "What Peel will never
   remove".
 - Any bypass of the user's Exclusions.
