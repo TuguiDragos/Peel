@@ -102,6 +102,15 @@ struct OrphanConfidenceTests {
         #expect(OrphanConfidence.judge(old, running: ["com.example.apple"], now: now).level == .certain)
     }
 
+    @Test("A Safari web app is its own app: Safari running, or another web app, says nothing about it")
+    func safariRunningSaysNothingOfAWebApp() {
+        let identifier = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
+        let webApp = group(identifier: identifier, written: 400 * 24 * 60 * 60)
+        #expect(OrphanConfidence.judge(webApp, running: ["com.apple.Safari"], now: now).level == .certain)
+        #expect(OrphanConfidence.judge(webApp, running: ["com.apple.Safari.WebApp"], now: now).level == .certain)
+        #expect(OrphanConfidence.judge(webApp, running: [identifier], now: now).reasons == [.running])
+    }
+
     @Test("An app Peel watched leave is the strongest thing it can say")
     func peelWatchedItGo() {
         let judged = OrphanConfidence.judge(group(written: 60 * 24 * 60 * 60, remembered: left("Numi")), now: now)

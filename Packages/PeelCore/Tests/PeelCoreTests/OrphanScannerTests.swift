@@ -316,6 +316,7 @@ struct OrphanScannerTests {
 
     /// The settings a Safari web app leaves are named by its own identifier, which begins with `com.apple.`. Once
     /// the web app is gone they are orphans, while an installed web app keeps its own and Safari keeps Safari's.
+    /// Launch Services is this Mac's own, which knows Safari's web app template, `com.apple.Safari.WebApp`.
     @Test func findsTheSettingsASafariWebAppThatLeftKept() async throws {
         let directory = try TemporaryDirectory()
         let gone = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
@@ -332,7 +333,12 @@ struct OrphanScannerTests {
             isASafariWebApp: true
         )
 
-        let groups = await scanner(in: directory).scan(installedApps: installed + [news], remembered: [wiki]).groups
+        let scanner = OrphanScanner(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+
+        let groups = await scanner.scan(installedApps: installed + [news], remembered: [wiki]).groups
 
         #expect(groups.map(\.identifier) == [gone])
         #expect(groups.first?.items.map(\.url.lastPathComponent) == ["\(gone).plist"])

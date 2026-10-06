@@ -21,8 +21,11 @@ struct AppOwnership: Sendable {
             return true
         }
         // macOS knows an app by its bundle identifier, never by a container's name with a team or `group.` in front.
+        // A Safari web app's identifier is Safari's web app template followed by its own UUID, and that template, an
+        // app Launch Services knows, is no owner of the web app's files.
         var components = OrphanScanner.groupingKey(for: identifier).split(separator: ".")
-        while components.count >= 3 {
+        let shortest = SafariWebApp.isIdentifier(identifier) ? components.count : 3
+        while components.count >= shortest {
             if isRegisteredApp(components.joined(separator: ".")) {
                 return true
             }

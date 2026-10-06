@@ -100,9 +100,11 @@ public struct OrphanConfidence: Sendable, Hashable {
     }
 
     /// Whether two identifiers belong to one app. A helper runs under its app's identifier or a longer one. A
-    /// prefix counts only with three components or more, since two name a maker, not an app.
+    /// prefix counts only with three components or more, since two name a maker, not an app. A Safari web app's
+    /// identifier begins with Safari's, and is still an app of its own.
     static func isOneApp(_ one: String, _ other: String) -> Bool {
         if one == other { return true }
+        guard !SafariWebApp.isIdentifier(one), !SafariWebApp.isIdentifier(other) else { return false }
         let (short, long) = one.count < other.count ? (one, other) : (other, one)
         return Identifier.componentCount(of: short) >= 3 && long.hasPrefix(short + ".")
     }
