@@ -275,8 +275,14 @@ checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<ver
 the album's paper with an arc from Peel to Applications, which `Scripts/make_dmg.sh` lays out with dmgbuild, run by
 uv, so nothing drives Finder; the background carries no words, since Finder writes the names in each Mac's language.
 It starts only from a committed tree whose package tests pass with warnings as errors, and it refuses a build in
-which any of the four programs can be debugged or lacks the arm64e slice, in which a language is missing, or which
-`syspolicy_check distribution` says macOS would not open.
+which any of the four programs can be debugged, lacks any of its arm64e, arm64, and x86_64 slices, or has its class
+data unsigned, in which a language is missing, or which `syspolicy_check distribution` says macOS would not open.
+
+Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
+`CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set (261006),
+with the release's entry in CHANGELOG.md. The script needs a Developer ID Application certificate in the keychain, a
+notary profile stored once with `xcrun notarytool store-credentials` (it uses the one named Peel unless given another),
+and uv (`brew install uv`), and it refuses to start without uv.
 
 A Release build of every program has pointer authentication (`ENABLE_POINTER_AUTHENTICATION`, an arm64e slice
 beside arm64 and x86_64), and the helper the rest of Enhanced Security too. Xcode gives the Swift packages only the
