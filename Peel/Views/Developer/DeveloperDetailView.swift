@@ -38,6 +38,7 @@ struct DeveloperDetailView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(developer.isScanning)
         .edgeBar(.bottom) {
             RemovalBar(

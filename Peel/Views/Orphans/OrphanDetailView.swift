@@ -52,6 +52,7 @@ struct OrphanDetailView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(orphans.isScanning)
         .edgeBar(.bottom) {
             RemovalBar(page: group.page, isScanning: orphans.isScanning, scan: orphans.scanRun)

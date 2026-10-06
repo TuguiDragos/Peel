@@ -51,6 +51,7 @@ struct HistoryList: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders(!listed.isEmpty && !refused.isEmpty)
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .edgeBar(.top) {
             VStack(spacing: 8) {

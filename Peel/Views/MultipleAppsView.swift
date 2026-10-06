@@ -105,6 +105,7 @@ struct MultipleAppsView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(plan.isRemoving)
         .disabled(plan.isRemoving)
         .scanState(phase, isRescanning: isRescanning, fadesInResults: false, scan: plan.scanRun)

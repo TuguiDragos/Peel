@@ -190,6 +190,7 @@ struct AppDetailView: View {
                 .disabled(plan.isRemoving)
             }
         }
+        .scrollBarBelowSectionHeaders()
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
         .edgeBar(.bottom) {
             if plan.scan != nil {

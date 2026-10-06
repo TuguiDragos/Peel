@@ -28,6 +28,7 @@ struct DuplicateFolderGroupView: View {
             }
             .disabled(duplicates.isRemoving)
         }
+        .scrollBarBelowSectionHeaders()
         .edgeBar(.bottom) {
             DuplicateRemovalBar()
         }

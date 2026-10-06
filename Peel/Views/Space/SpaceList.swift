@@ -61,6 +61,7 @@ struct SpaceList: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders(space.report?.items.isEmpty == false)
         .columnSearch(text: $searchText, prompt: "Search Space", when: space.report?.items.isEmpty == false)
         .scanState(
             space.report != nil ? .content : space.scanRun.wasStopped ? .stopped : .scanning(.walk),

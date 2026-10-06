@@ -41,6 +41,7 @@ struct AppList: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders(!visible.waiting.isEmpty)
         .overlay {
             if library.isLoading, library.apps.isEmpty {
                 ProgressView()

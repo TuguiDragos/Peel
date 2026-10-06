@@ -82,6 +82,7 @@ struct CloudView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(cloud.isScanning)
         .columnSearch(text: $searchText, prompt: "Search iCloud Drive", when: cloud.files?.isEmpty == false)
         .scanState(phase(listed: listed), scan: cloud.scanRun) {

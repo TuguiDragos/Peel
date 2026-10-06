@@ -36,6 +36,7 @@ struct DuplicateList: View {
                         fileRows(groups)
                     }
                 }
+                .scrollBarBelowSectionHeaders()
                 .columnSearch(text: $searchText, prompt: "Search Duplicates", when: !scan.groups.isEmpty || !scan.folderGroups.isEmpty)
                 .overlay {
                     if !(scan.groups.isEmpty && scan.folderGroups.isEmpty), groups.isEmpty, folderGroups.isEmpty {

@@ -57,6 +57,7 @@ struct FileSearchList: View {
                 .disabled(search.isSearching || search.isRemoving)
             }
         }
+        .scrollBarBelowSectionHeaders(search.results?.files.isEmpty == false)
         .scanState(phase, isRescanning: search.isSearching, fadesInResults: false, scan: search.scanRun) {
             if search.results == nil {
                 ContentUnavailableView(

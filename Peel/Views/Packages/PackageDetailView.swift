@@ -69,6 +69,7 @@ struct PackageDetailView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .disabled(packages.isWorking)
         .dimmedWhileBusy(packages.isScanning)
         .edgeBar(.bottom) {

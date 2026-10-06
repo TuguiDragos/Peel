@@ -20,6 +20,7 @@ struct BackgroundItemList: View {
             section(Text("Agents"), items: filtered.filter { $0.kind == .agent })
             section(Text("Daemons"), items: filtered.filter { $0.kind == .daemon })
         }
+        .scrollBarBelowSectionHeaders(!filtered.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: backgroundItems.scanRun) {
             if let note = backgroundItems.unansweredNote, backgroundItems.items?.isEmpty == true {
                 ContentUnavailableView(

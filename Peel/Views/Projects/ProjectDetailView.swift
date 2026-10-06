@@ -59,6 +59,7 @@ struct ProjectDetailView: View {
                 Text("Backups")
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(projects.isScanning)
         .edgeBar(.bottom) {
             RemovalBar(

@@ -73,6 +73,7 @@ struct InstallerDetailView: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(installers.isScanning)
         .edgeBar(.bottom) {
             if kind != .deviceBackup {

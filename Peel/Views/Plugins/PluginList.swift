@@ -44,6 +44,7 @@ struct PluginList: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders(!byCategory.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: plugins.scanRun) {
             if plugins.plugins?.isEmpty == true {
                 ContentUnavailableView(

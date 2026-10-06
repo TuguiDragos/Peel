@@ -85,6 +85,7 @@ struct SpaceDetailView: View {
                 Text("Where")
             }
         }
+        .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(space.isScanning)
         .edgeBar(.bottom) {
             if !item.isReadOnly {

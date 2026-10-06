@@ -170,6 +170,7 @@ struct ResetSheet: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .scanState(phase, scan: plan.scanRun) {
             ContentUnavailableView(
                 "Nothing to Reset",
@@ -311,6 +312,7 @@ struct ResetSheet: View {
                 }
             }
         }
+        .scrollBarBelowSectionHeaders()
         .edgeBar(.bottom) {
             HStack {
                 Spacer()

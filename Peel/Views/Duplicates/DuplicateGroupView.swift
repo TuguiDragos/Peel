@@ -31,6 +31,7 @@ struct DuplicateGroupView: View {
             }
             .disabled(duplicates.isRemoving)
         }
+        .scrollBarBelowSectionHeaders()
         .edgeBar(.bottom) {
             DuplicateRemovalBar()
         }

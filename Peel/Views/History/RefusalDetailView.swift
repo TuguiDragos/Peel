@@ -33,6 +33,7 @@ struct RefusalDetailView: View {
                 Text("Items")
             }
         }
+        .scrollBarBelowSectionHeaders()
         .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
     }
