@@ -288,13 +288,15 @@ Mac can take.
 
 ## What you can exclude
 
-Anything you add to Exclusions is passed to every scanner, so it never appears in the first place: it is
-not "shown but skipped". The same case and symlink folding applies, so an exclusion cannot be side-stepped
-by spelling the path differently.
+Anything you add to Exclusions is passed to every scanner, so a file or folder you exclude never appears
+in the first place: it is not "shown but skipped". The same case and symlink folding applies, so an
+exclusion cannot be side-stepped by spelling the path differently.
 
 It holds in both directions. A folder with something excluded inside it is never moved either, because the
 excluded file would go with it: an app's leftover like that is shown, unselected, with the reason, and the
-other tools leave it out. An excluded app gets no removal plan and no reset, in the app and in `peel`.
+other tools leave it out. An excluded app still appears in Applications, so you can see it, but gets no
+removal plan and no reset, in the app and in `peel`; the Storage pages, Plug-ins, and Package Receipts go
+by files and folders only, so to keep an app's files there, exclude its folders too.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.

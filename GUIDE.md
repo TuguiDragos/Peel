@@ -169,7 +169,9 @@ add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what e
 
 - **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and
   what it was asked to move and wouldn't, with the reason for each item.
-- **Exclusions:** files, folders, and apps Peel must never touch.
+- **Exclusions:** files, folders, and apps Peel must never touch. An excluded app still appears in Applications, but
+  Peel won't offer to remove or reset it; the Storage pages, Plug-ins, and Package Receipts go by files and folders, so
+  to keep an app's files there, exclude its folders too.
 
 ## Work your way
 
