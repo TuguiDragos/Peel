@@ -30,7 +30,8 @@
 > store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone
 > asking you to pay for it is not me. Please download it only from here.
 
-**Requirements:** macOS Tahoe 26 or later, on a Mac with Apple silicon or an Intel processor. Peel moves your
+**Requirements:** macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel
+Macs from 2019 and 2020 that [Apple lists for macOS 26](https://support.apple.com/en-us/122867). Peel moves your
 files, so I test every release myself before it ships, and I can't test it on an older macOS. It never runs where
 it hasn't been tested, which is why it starts at macOS 26.
 
@@ -170,7 +171,8 @@ off, and when you ask Homebrew to do something.
 
 <br>
 
-Peel runs on Intel Macs and Macs with Apple silicon, on macOS Tahoe 26 or later. It doesn't run on earlier
+Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs
+from 2019 and 2020 that [Apple lists for macOS 26](https://support.apple.com/en-us/122867). It doesn't run on earlier
 versions of macOS: I test every release myself before it ships, and I can't test it on an older macOS, so Peel
 never runs where it hasn't been tested.
 

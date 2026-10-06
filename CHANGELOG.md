@@ -5,7 +5,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ## 1.0.1
 
-The first public release, for macOS 26 and later, on Apple silicon and Intel Macs.
+The first public release, for macOS 26 and later, on every Mac that runs it: Apple silicon, and the Intel Macs
+macOS 26 supports.
 
 ### Added
 
