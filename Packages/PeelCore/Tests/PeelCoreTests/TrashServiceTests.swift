@@ -90,14 +90,18 @@ struct TrashServiceTests {
         )
     }
 
-    /// A command-line tool's link leads into its app until the app has moved, and the helper takes such a link only
-    /// once it leads nowhere, so the links go to the helper after everything else, in whatever order they came.
+    /// A command-line tool's link, and its shell completion's, lead into its app until the app has moved, and the
+    /// helper takes such a link only once it leads nowhere, so the links go to the helper after everything else, in
+    /// whatever order they came.
     @Test func sendsAToolsLinkToTheHelperAfterTheAppItLeadsInto() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("root/Applications/Tool.app")
         try directory.directory("root/usr/local/bin")
+        try directory.directory("root/usr/local/share/zsh/site-functions")
         let link = directory.url.appending(path: "root/usr/local/bin/tool")
         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: app.appending(path: "Contents/MacOS/tool"))
+        let completion = directory.url.appending(path: "root/usr/local/share/zsh/site-functions/_tool")
+        try FileManager.default.createSymbolicLink(at: completion, withDestinationURL: app.appending(path: "Contents/Resources/_tool"))
         let batches = Mutex<[[String]]>([])
         let service = TrashService(
             environment: SearchEnvironment(
@@ -111,8 +115,8 @@ struct TrashServiceTests {
             moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
         )
 
-        _ = await service.trash([link, app], usingHelperFor: [link, app])
-        #expect(batches.withLock { $0 } == [["Tool.app"], ["tool"]])
+        _ = await service.trash([link, completion, app], usingHelperFor: [link, completion, app])
+        #expect(batches.withLock { $0 } == [["Tool.app"], ["tool", "_tool"]])
     }
 
     /// An item inside a folder that just moved went with it, whatever its name begins with: it is neither moved

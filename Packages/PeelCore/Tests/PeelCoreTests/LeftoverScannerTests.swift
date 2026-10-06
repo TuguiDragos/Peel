@@ -1214,6 +1214,37 @@ struct LeftoverScannerTests {
         #expect(try #require(found["tunewell-cli"]?.size) < 64_000)
     }
 
+    /// An installer can link the shell completions of an app's tools into the folders a Homebrew cask uses, in either
+    /// prefix. A link there that leads into the app is the app's; a formula's link and a file are not.
+    @Test func findsTheAppsShellCompletionLinks() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client", name: "Tunewell"
+        )
+        let resources = try directory.directory("root/Applications/Tunewell.app/Contents/Resources")
+        let folders = ["share/zsh/site-functions", "share/fish/vendor_completions.d", "etc/bash_completion.d", "share/pwsh/completions"]
+        let places = folders.flatMap { ["usr/local/\($0)", "opt/homebrew/\($0)"] }
+        for (index, place) in places.enumerated() {
+            try FileManager.default.createSymbolicLink(
+                atPath: try directory.directory("root/\(place)").appending(path: "tunewell\(index)").path(percentEncoded: false),
+                withDestinationPath: resources.appending(path: "completion\(index)").path(percentEncoded: false)
+            )
+        }
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "root/opt/homebrew/share/zsh/site-functions/_git").path(percentEncoded: false),
+            withDestinationPath: "../../../Cellar/git/2.51.0/share/zsh/site-functions/_git"
+        )
+        try directory.file("root/opt/homebrew/share/zsh/site-functions/_tunewell")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let found = scan.leftovers.filter { $0.kind == .shellCompletions }
+
+        #expect(Set(found.map(\.url.lastPathComponent)) == Set(places.indices.map { "tunewell\($0)" }))
+        #expect(found.allSatisfy { $0.match.reason == .linksToTheApp && $0.match.confidence == .certain })
+        #expect(!scan.leftovers.contains { ["_git", "_tunewell"].contains($0.url.lastPathComponent) })
+    }
+
     /// Homebrew links a cask's commands into its own `bin`, `/opt/homebrew/bin` on Apple silicon (Cask Cookbook,
     /// `binary`). A link there that leads into the app is the app's, as one in `/usr/local/bin` is.
     @Test func findsTheAppsLinkInHomebrewsBin() async throws {

@@ -65,7 +65,7 @@ public struct OrphanConfidence: Sendable, Hashable {
             return OrphanConfidence(level: .unsure, reasons: [.running])
         }
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
-        if group.items.allSatisfy({ $0.kind == .commandLineTools }) {
+        if group.items.allSatisfy(\.kind.isForLinks) {
             return OrphanConfidence(level: .certain, reasons: [.leadsIntoAnAppThatIsGone])
         }
         if let app = group.rememberedApp, group.items.allSatisfy({ $0.namedAfter != nil }) {

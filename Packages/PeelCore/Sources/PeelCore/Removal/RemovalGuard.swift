@@ -45,8 +45,9 @@ struct RemovalGuard: Sendable {
     /// Nothing inside these may be removed. `/Library/Updates` is where Software Update stages macOS updates.
     /// Lower-cased, because the spellings they are compared against are.
     private static let protectedPrefixes = ["/system", "/usr", "/bin", "/sbin", "/library/updates"]
-    /// The folders command-line tools are linked into. A link directly in one is the one thing under `/usr` that may
-    /// go: what an app's tool leaves there, which Peel's helper takes only once it leads nowhere.
+    /// The folders command-line tools and their shell completions are linked into. A link directly in one is the one
+    /// thing under `/usr` that may go: what an app's tool leaves there, which Peel's helper takes only once it leads
+    /// nowhere.
     private static let toolLinkFolders = PrivilegedPathPolicy.linkLocations.map { PathComponents.of($0.lowercased()) }
 
     private let protectedPaths: Set<String>
@@ -105,7 +106,7 @@ struct RemovalGuard: Sendable {
         refusal(of: destination, isALink: Self.isALink(trashed.path(percentEncoded: false)))
     }
 
-    /// True for the lower-cased spelling of a link directly in a folder command-line tools are linked into.
+    /// True for the lower-cased spelling of a link directly in a folder tools or their completions are linked into.
     static func isAToolsLink(_ spelling: String, isALink: Bool) -> Bool {
         isALink && toolLinkFolders.contains(Array(PathComponents.of(spelling).dropLast()))
     }

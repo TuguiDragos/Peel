@@ -368,7 +368,7 @@ public struct LeftoverScanner: Sendable {
         matcher: LeftoverMatcher,
         bundle: String
     ) -> LeftoverMatch? {
-        guard kind != .commandLineTools else { return leadsInside(bundle, link: url) }
+        guard !kind.isForLinks else { return leadsInside(bundle, link: url) }
         guard kind != .nativeMessagingHosts else { return runsSomethingInside(bundle, manifest: url) }
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
             return match(name, at: url, kind: kind, matcher: matcher)

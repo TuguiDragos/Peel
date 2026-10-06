@@ -297,7 +297,7 @@ public struct OrphanScanner: Sendable {
         goneBundles: [String: String] = [:],
         cameWithOneOf goneApps: [String]? = nil
     ) async -> String? {
-        if kind == .commandLineTools {
+        if kind.isForLinks {
             guard let bundle = goneApp(behind: url) else { return nil }
             return goneBundles[PathPattern.comparablePath(of: bundle)]
                 ?? bundle.deletingPathExtension().lastPathComponent

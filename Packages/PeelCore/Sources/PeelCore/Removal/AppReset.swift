@@ -97,7 +97,8 @@ public struct AppReset: Sendable {
         // plug-in or a framework is code that macOS loads, not a setting.
         case .launchAgents, .launchDaemons, .privilegedHelperTools, .startupItems, .plugIns, .frameworks, .receipts,
              .library,
-             .sharedFolder, .hiddenHomeFiles, .homeFolder, .commandLineTools, .nativeMessagingHosts, .elsewhere:
+             .sharedFolder, .hiddenHomeFiles, .homeFolder, .commandLineTools, .shellCompletions, .nativeMessagingHosts,
+             .elsewhere:
             nil
         }
     }

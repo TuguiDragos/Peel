@@ -319,9 +319,11 @@ and it fails closed.
   refused by the label each daemon declares, not by its file name, and if that list cannot be read it
   refuses every daemon rather than allowing them all. It never acts on itself: Peel's helper is installed
   and uninstalled in Settings, and Background Items shows it without controls.
-- From the folders command-line tools are linked into, `/usr/local/bin` and `/usr/local/sbin`, it takes only
-  a link, never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself,
-  so they go once the app is gone, and a link that still leads to something stays.
+- From the folders command-line tools and their shell completions are linked into, `/usr/local/bin`,
+  `/usr/local/sbin`, and the completion folders of `/usr/local` (`share/zsh/site-functions`,
+  `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and `share/pwsh/completions`), it takes only a link,
+  never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself, so they go
+  once the app is gone, and a link that still leads to something stays.
 - It never reuses a path after checking it. It holds the parent directory open and works through that
   descriptor, so a folder swapped after the check leads nowhere.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of

@@ -61,9 +61,16 @@ public struct PrivilegedPathPolicy: Sendable {
         "/private/var/db/receipts",
     ]
 
-    /// The folders command-line tools are linked into. The helper takes only a link from them, and only one that
-    /// leads nowhere: what an app's tool leaves there once the app is gone.
+    /// The folders command-line tools and their shell completions are linked into. The helper takes only a link from
+    /// them, and only one that leads nowhere: what an app's tool leaves there once the app is gone.
     public static let linkLocations = ["/usr/local/bin", "/usr/local/sbin"]
+        + shellCompletionFolders.map { "/usr/local/" + $0 }
+
+    /// Where shell completions are linked under a prefix: Homebrew's four for a cask (`Cask::Config`), the first of
+    /// which also begins zsh's own function path, `/usr/local/share/zsh/site-functions`.
+    public static let shellCompletionFolders = [
+        "share/zsh/site-functions", "share/fish/vendor_completions.d", "etc/bash_completion.d", "share/pwsh/completions",
+    ]
 
     private static let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_IMMUTABLE) | UInt32(SF_NOUNLINK)
 

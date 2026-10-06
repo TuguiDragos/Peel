@@ -41,6 +41,9 @@ public struct SearchLocation: Sendable, Hashable {
         /// `/usr/local/bin` and `/usr/local/sbin`, where an app links the command line tools it carries. Only a
         /// link into the app counts as the app's: a tool is named for what it does (`docker`), not for its maker.
         case commandLineTools
+        /// The folders an app's installer links the shell completions of its tools into, for zsh, fish, bash, and
+        /// PowerShell, as a Homebrew cask does. As for a tool, only a link into the app counts as the app's.
+        case shellCompletions
         /// The folders where a browser looks for the manifests of the programs its extensions may run. A manifest
         /// is named for its host, not for the app, so only one whose program is inside the app counts as the app's.
         case nativeMessagingHosts
@@ -49,6 +52,12 @@ public struct SearchLocation: Sendable, Hashable {
         case safariWebApps
         /// Somewhere no scan looks, which only a Homebrew cask can name: `~/Documents/Foo`, `/usr/local/etc/foo`.
         case elsewhere
+
+        /// True for the folders where an item is named for what it does, a tool or its completion, so only a link
+        /// that leads into an app says whose it is.
+        public var isForLinks: Bool {
+            self == .commandLineTools || self == .shellCompletions
+        }
     }
 
     public let kind: Kind
@@ -207,6 +216,11 @@ public struct SearchEnvironment: Sendable {
         // Apple silicon (Cask Cookbook, `binary`).
         locations += ["usr/local/bin", "usr/local/sbin", "opt/homebrew/bin"].map {
             SearchLocation(kind: .commandLineTools, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
+        }
+        locations += ["usr/local", "opt/homebrew"].flatMap { prefix in
+            PrivilegedPathPolicy.shellCompletionFolders.map { prefix + "/" + $0 }
+        }.map {
+            SearchLocation(kind: .shellCompletions, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
         }
         let hosts = [(userLibrary, Self.nativeMessagingHosts.user), (localLibrary, Self.nativeMessagingHosts.local)]
         locations += hosts.flatMap { library, folders in

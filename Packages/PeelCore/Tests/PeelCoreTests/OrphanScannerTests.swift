@@ -880,6 +880,25 @@ struct OrphanScannerTests {
         #expect(Set(try #require(groups["com.remembered.app"]).items.map(\.url.lastPathComponent)) == ["rem", "com.remembered.app"])
     }
 
+    /// A shell completion an app's installer linked into zsh's folder leads nowhere once the app is gone, and zsh
+    /// then complains in every new shell. It is listed as a tool's link is.
+    @Test func listsAShellCompletionThatLeadsIntoAnAppThatIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("root/usr/local/share/zsh/site-functions")
+        try FileManager.default.createSymbolicLink(
+            atPath: folder.appending(path: "_gone").path(percentEncoded: false),
+            withDestinationPath: directory.url.appending(path: "root/Applications/Gone.app/Contents/Resources/_gone")
+                .path(percentEncoded: false)
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed).groups
+
+        let gone = try #require(groups.first { $0.identifier == "Gone" })
+        #expect(gone.items.map(\.url.lastPathComponent) == ["_gone"])
+        #expect(gone.items.allSatisfy { $0.kind == .shellCompletions })
+        #expect(gone.confidence.reasons == [.leadsIntoAnAppThatIsGone])
+    }
+
     /// In root's `/usr/local/bin`, a link into an app that is gone leads nowhere, which is the one kind of item the
     /// helper takes from there, so it is offered like anything else the helper can move.
     @Test(.permissionsHold) func aLinkIntoAnAppThatIsGoneIsWithinTheHelpersReach() async throws {

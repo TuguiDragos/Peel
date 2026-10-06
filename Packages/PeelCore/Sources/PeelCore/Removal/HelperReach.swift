@@ -18,15 +18,15 @@ struct HelperReach: Sendable {
         )
     }
 
-    /// True for an item in a folder command-line tools are linked into, which the helper takes only once the link
-    /// leads nowhere.
+    /// True for an item in a folder command-line tools or their shell completions are linked into, which the helper
+    /// takes only once the link leads nowhere.
     func takesOnlyALink(at url: URL) -> Bool {
         policy.takesOnlyALink(at: url.path(percentEncoded: false))
     }
 
     /// True when the helper would refuse `url` for where it is: outside the folders it serves, in `/Applications`
-    /// without being an app, or in a folder command-line tools are linked into as anything but a link that leads
-    /// nowhere, or into `leaving`, which moves first. `RemovalGuard` judges what the item itself is.
+    /// without being an app, or in a folder command-line tools or their completions are linked into as anything but
+    /// a link that leads nowhere, or into `leaving`, which moves first. `RemovalGuard` judges what the item itself is.
     func isBeyond(_ url: URL, leaving: URL? = nil) -> Bool {
         let path = url.path(percentEncoded: false)
         if let refusal = policy.refusal(of: path) {
