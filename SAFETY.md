@@ -355,12 +355,20 @@ to the Trash, putting them back, and starting, stopping, enabling, or disabling 
 Peel is removed, it also moves its own ledger to the Trash. It is deliberately small: no shell, no arbitrary paths,
 and it fails closed.
 
-- It answers administrators only, and only a copy of Peel signed by the same team. Both are checked when the
-  app connects and again with each request, so an account that stops being an administrator is refused from
-  then on, and a message from any other program closes the connection. macOS starts the helper only as the
+- It answers administrators only, and only a copy of Peel signed by the same team with its Developer ID,
+  built so it can't be debugged, that speaks the helper's own version. All of it is checked when the app
+  connects and again with each request, so an account that stops being an administrator is refused from then
+  on, and a message from any other program closes the connection. macOS starts the helper only as the
   developer's own build of it, so other code put in its place never runs as root.
 - It refuses the list above on its own, without asking the app, and asks it both ways: a folder that holds
   something on the list is refused like the thing itself.
+- It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
+  of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
+  PrivilegedHelperTools, and StartupItems) and the 22 that hold plug-ins; the installer receipts in
+  `/private/var/db/receipts`; the links in `/usr/local/bin` and `/usr/local/sbin`; and the Library of the
+  administrator who asks.
+- It takes at most 100 items in one request, and quits 30 seconds after its last request ends, so it isn't
+  left running.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
   the first zero byte, so such a name would be checked as one thing and moved as another.
 - It starts, stops, enables, and disables launch daemons only for other vendors. What macOS ships is
