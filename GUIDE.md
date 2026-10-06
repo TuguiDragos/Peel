@@ -123,7 +123,8 @@ lists them.
 > belongs to the app.
 
 - **Background Items:** launch agents and daemons, and the app that added each one.
-- **Extensions and Plug-ins:** app extensions, system extensions, and plug-ins, from audio units to Quick Look.
+- **Extensions:** app extensions and system extensions, and the app each one came with.
+- **Plug-ins:** plug-ins of every kind, from audio units to Quick Look.
 - **Package Receipts:** what installer packages put on your Mac, item by item.
 - **Intel Software:** what still needs Rosetta: apps, the helpers and tools inside universal apps, plug-ins,
   drivers, background items, and the commands in `/usr/local`.
