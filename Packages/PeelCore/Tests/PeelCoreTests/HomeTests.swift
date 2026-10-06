@@ -1,5 +1,4 @@
 import Foundation
-import SQLite3
 @testable import PeelCore
 import Testing
 
@@ -184,59 +183,7 @@ struct AccessTests {
     }
 }
 
-struct PrivacyDatabaseTests {
-    private func database(at url: URL, rows: [(service: String, client: String, type: Int32, auth: Int32)]) throws {
-        var handle: OpaquePointer?
-        try #require(
-            sqlite3_open_v2(url.path(percentEncoded: false), &handle, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil)
-                == SQLITE_OK
-        )
-        defer { sqlite3_close(handle) }
-        try #require(sqlite3_exec(handle, "CREATE TABLE access (service TEXT, client TEXT, client_type INTEGER, auth_value INTEGER)", nil, nil, nil) == SQLITE_OK)
-        for row in rows {
-            let insert = "INSERT INTO access VALUES ('\(row.service)', '\(row.client)', \(row.type), \(row.auth))"
-            try #require(sqlite3_exec(handle, insert, nil, nil, nil) == SQLITE_OK)
-        }
-    }
-
-    private func decision(_ rows: [(service: String, client: String, type: Int32, auth: Int32)]) throws -> AccessState {
-        let directory = try TemporaryDirectory()
-        let url = directory.url.appending(path: "TCC.db")
-        try database(at: url, rows: rows)
-        return PrivacyDatabase.decision(on: AppManagement.service, for: "com.example.App", in: url.path(percentEncoded: false))
-    }
-
-    @Test func readsTheDecisionMacOSWroteDown() throws {
-        #expect(try decision([(AppManagement.service, "com.example.App", 0, 2)]) == .granted)
-        #expect(try decision([(AppManagement.service, "com.example.App", 0, 0)]) == .missing)
-    }
-
-    @Test func treatsPartialAccessAsNoAnswer() throws {
-        #expect(try decision([(AppManagement.service, "com.example.App", 0, 5)]) == .unknown)
-    }
-
-    @Test func ignoresRowsThatAreAboutSomethingElse() throws {
-        #expect(try decision([]) == .unknown)
-        #expect(try decision([(AppManagement.service, "com.other.App", 0, 2)]) == .unknown)
-        #expect(try decision([("kTCCServiceSystemPolicyAllFiles", "com.example.App", 0, 2)]) == .unknown)
-        #expect(try decision([(AppManagement.service, "com.example.App", 1, 2)]) == .unknown)
-    }
-
-    @Test func staysUnknownWhenTheDatabaseIsOutOfReach() throws {
-        let directory = try TemporaryDirectory()
-        let missing = directory.url.appending(path: "TCC.db").path(percentEncoded: false)
-        #expect(PrivacyDatabase.decision(on: AppManagement.service, for: "com.example.App", in: missing) == .unknown)
-
-        let notADatabase = try directory.file("other.db", contents: Data("not a database".utf8))
-        #expect(
-            PrivacyDatabase.decision(
-                on: AppManagement.service,
-                for: "com.example.App",
-                in: notADatabase.path(percentEncoded: false)
-            ) == .unknown
-        )
-    }
-
+struct AppManagementTests {
     /// The root helper needs no permission of Peel's, so a bundle it moved proves nothing about App Management.
     @Test func aBundleTheHelperMovedProvesNothing() {
         let bundle = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)

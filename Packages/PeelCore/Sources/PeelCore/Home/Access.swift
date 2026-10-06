@@ -120,19 +120,9 @@ public enum CommandLineTool {
     }
 }
 
+/// App Management has no API, so only a removal shows whether Peel has it.
 public enum AppManagement {
     public static let settingsURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AppBundles")!
-    static let service = "kTCCServiceSystemPolicyAppBundles"
-
-    /// Reads the App Management decision from the TCC database, since macOS has no API for it. On macOS 27 and
-    /// later it returns unknown, because "Apps can no longer access the local TCC database directly" (Apple,
-    /// macOS 27 release notes, TCC deprecations). There, only a removal shows the answer.
-    @concurrent
-    public static func state(of client: String = Bundle.main.bundleIdentifier ?? "") async -> AccessState {
-        guard !client.isEmpty else { return .unknown }
-        if #available(macOS 27, *) { return .unknown }
-        return PrivacyDatabase.decision(on: service, for: client)
-    }
 
     /// What a removal shows about App Management, or nil when it shows nothing. An app bundle Peel moved means
     /// granted. A bundle macOS refused to move from a folder the user can write to, when nothing locks it, means

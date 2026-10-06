@@ -145,7 +145,6 @@ final class HomeModel {
             }
         }
         async let access = FullDiskAccess.state()
-        async let bundles = AppManagement.state()
 
         await helper.checkConnection()
         helperStanding = helper.standing
@@ -158,14 +157,11 @@ final class HomeModel {
 
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
-        let appBundles = await bundles
         let opensAtLogin = await Self.opensAtLogin()
         states = [
             .fullDiskAccess: state(for: fullDisk),
             .helper: helperState,
-            .appManagement: state(
-                for: appManagementSeenThisLaunch ?? (appBundles == .unknown ? appManagement : appBundles)
-            ),
+            .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
             .openAtLogin: opensAtLogin ? .on : .off,
@@ -215,9 +211,8 @@ final class HomeModel {
         NSWorkspace.shared.open(FullDiskAccess.settingsURL)
     }
 
-    /// Opens the App Management settings and forgets the stored state. macOS has no API for this permission
-    /// and closes its database to apps from macOS 27, so a stored "off" that only a removal updates would
-    /// keep Home red after the user turns it on.
+    /// Opens the App Management settings and forgets the stored state. macOS has no API for this permission, so a
+    /// stored "off" that only a removal updates would keep Home red after the user turns it on.
     func openAppManagementSettings() {
         appManagementSeenThisLaunch = nil
         appManagement = .unknown
