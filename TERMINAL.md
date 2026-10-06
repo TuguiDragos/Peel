@@ -298,9 +298,9 @@ export CLICOLOR=1
 
 ### Git
 
-Peel uses the Git of Apple's Command Line Tools, or Homebrew's, and offers only the settings that Git lists in
-`git help --config`. If Git isn't on your Mac, the Git tab gives `xcode-select --install`, Apple's command for the
-tools.
+Peel uses the Git in the developer folder `xcode-select -p` names, from the Command Line Tools or Xcode, or else
+Homebrew's, and offers only the settings that Git lists in `git help --config`. If Git isn't on your Mac, the Git
+tab gives `xcode-select --install`, Apple's command for the tools.
 
 **Pull and push**
 
