@@ -113,12 +113,19 @@ Every setting on these tabs is one that zsh, Git, or ssh already has, and each h
 own files:
 
 - **zsh** reads Peel's settings from a file of Peel's own, `~/Library/Application Support/Peel/Terminal/zshrc`, once
-  you add one line to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools such as
-  fzf-tab there, move the line above them, since their settings have to come after Peel's.
+  you add the line below to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools
+  such as fzf-tab there, move Peel's line above theirs, since their settings have to come after Peel's;
+  zsh-syntax-highlighting's line stays the very last.
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
   of `~/.ssh/config`. What you set for a server earlier in that file stays in force, since ssh uses the first value
   it finds.
 - **Git**'s are changed with `git config --global`, Git's own command, and turning one off puts back what you had.
+
+The line that makes zsh read Peel's file:
+
+```zsh
+[[ -r "$HOME/Library/Application Support/Peel/Terminal/zshrc" ]] && source "$HOME/Library/Application Support/Peel/Terminal/zshrc"
+```
 
 Peel offers a setting only when the zsh, Git, or ssh on your Mac knows it, and Turn All Off on each tab undoes what
 Peel set there. Without Peel, add the lines below to `~/.zshrc` or `~/.ssh/config` yourself, or run the `git config`
