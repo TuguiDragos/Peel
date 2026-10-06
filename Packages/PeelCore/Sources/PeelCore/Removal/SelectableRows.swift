@@ -16,7 +16,6 @@ public struct SelectableRows<ID: Hashable> {
         self.leftToTheClick = leftToTheClick.filter(Set(selectable).contains)
     }
 
-    /// The rows Select All selects.
     private var reachedBySelectAll: [ID] {
         let left = Set(leftToTheClick)
         return selectable.filter { !left.contains($0) }
