@@ -7,14 +7,14 @@ internal import PeelPrivileged
 struct OpenFiles {
     private let files: [(names: [String], process: String)]
 
-    /// Each regular file held open for reading or writing. A watch (`O_EVTONLY`, as Finder keeps on what it shows)
-    /// and a folder are no hold on what is inside.
+    /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
+    /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
     init(excluding excluded: pid_t? = getpid()) {
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [(names: [String], process: String)] = []
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded {
-            let paths = Self.paths(openBy: pid)
+            let paths = Self.paths(openBy: pid) + [Self.program(of: pid)].compactMap(\.self)
             guard !paths.isEmpty else { continue }
             let process = Self.name(of: pid)
             files += paths.map { (PathComponents.of($0), process) }
@@ -45,6 +45,15 @@ struct OpenFiles {
                 String(decoding: bytes.prefix { $0 != 0 }, as: UTF8.self)
             }
         }
+    }
+
+    /// The program a process runs, unless it is an app extension: macOS starts and ends those on their app's behalf,
+    /// so the person could not quit one to let its app go.
+    private static func program(of pid: pid_t) -> String? {
+        var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
+        guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return nil }
+        let path = String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
+        return PathComponents.of(path).contains { $0.hasSuffix(".appex") } ? nil : path
     }
 
     private static func name(of pid: pid_t) -> String {
