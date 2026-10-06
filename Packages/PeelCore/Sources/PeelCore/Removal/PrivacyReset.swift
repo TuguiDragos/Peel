@@ -34,14 +34,23 @@ public enum PrivacyReset {
         }
     }
 
-    /// Resets each app in turn. Call it just before the removal moves them: `tccutil` only finds an app still in place.
+    /// Resets each of `apps` that `service` would move now, in turn. Call it just before the removal moves them:
+    /// `tccutil` only finds an app still in place, and an app something keeps in place stays, with its permissions.
     @concurrent
-    public static func reset(_ apps: [InstalledApp]) async -> [(app: InstalledApp, result: Result)] {
+    public static func reset(
+        _ apps: [InstalledApp],
+        beforeMovingWith service: TrashService
+    ) async -> [(app: InstalledApp, result: Result)] {
         var results: [(app: InstalledApp, result: Result)] = []
-        for app in apps {
+        for app in goingNow(apps, with: service) {
             results.append((app, await reset(bundleIdentifier: app.bundleIdentifier)))
         }
         return results
+    }
+
+    static func goingNow(_ apps: [InstalledApp], with service: TrashService) -> [InstalledApp] {
+        let refused = service.refusalsNow(of: apps.map(\.url))
+        return apps.filter { refused[$0.url] == nil }
     }
 
     /// Returns the resets worth reporting once the removal is over: those that did not happen, and those that did

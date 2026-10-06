@@ -464,7 +464,8 @@ struct AppDetailView: View {
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
         let result = await QuitGuard.shared.run {
             // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
-            let privacy = await PrivacyReset.reset(resetting(request.urls))
+            let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
+            let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
             let result = await plan.move(request)
             let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
             outcome.report(result, privacy: privacy, keptTheirFiles: keptItsFiles ? [plan.app.name] : [])

@@ -582,6 +582,30 @@ struct RemovalHygieneTests {
 }
 
 struct PrivacyResetTests {
+    /// The reset can't be undone, so it is only for an app the move will take: one a program is running from stays,
+    /// and keeps its permissions.
+    @Test func resetsOnlyAnAppThatIsGoing() throws {
+        let directory = try TemporaryDirectory()
+        let held = InstalledApp(url: try directory.directory("Applications/Held.app"), bundleIdentifier: "org.example.held", name: "Held")
+        let free = InstalledApp(url: try directory.directory("Applications/Free.app"), bundleIdentifier: "org.example.free", name: "Free")
+        let program = try directory.directory("Applications/Held.app/Contents/MacOS").appending(path: "held")
+        try FileManager.default.copyItem(atPath: "/bin/sleep", toPath: program.path(percentEncoded: false))
+        let process = Process()
+        process.executableURL = program
+        process.arguments = ["30"]
+        try process.run()
+        defer { process.terminate() }
+
+        #expect(PrivacyReset.goingNow([held, free], with: service(in: directory)).map(\.bundleIdentifier) == ["org.example.free"])
+    }
+
+    private func service(in directory: borrowing TemporaryDirectory) -> TrashService {
+        TrashService(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { _ in throw CocoaError(.fileWriteNoPermission) }
+    }
+
     @Test func refusesIdentifiersItShouldNeverTouch() {
         #expect(PrivacyReset.isAllowed(bundleIdentifier: "com.example.app"))
         // Two components name one app as well as three do: Obsidian ships as `md.obsidian`.
@@ -623,11 +647,12 @@ struct PrivacyResetTests {
     }
 
     /// Each app of a batch gets one answer, in order, and `tccutil` is never run for an app Peel refuses.
-    @Test func answersForEachAppOfABatch() async {
-        let safari = InstalledApp(url: URL(filePath: "/Applications/Safari.app", directoryHint: .isDirectory), bundleIdentifier: "com.apple.Safari", name: "Safari")
-        let signal = InstalledApp(url: URL(filePath: "/Applications/Signal.app", directoryHint: .isDirectory), bundleIdentifier: "Signal", name: "Signal")
+    @Test func answersForEachAppOfABatch() async throws {
+        let directory = try TemporaryDirectory()
+        let safari = InstalledApp(url: try directory.directory("Applications/Safari.app"), bundleIdentifier: "com.apple.Safari", name: "Safari")
+        let signal = InstalledApp(url: try directory.directory("Applications/Signal.app"), bundleIdentifier: "Signal", name: "Signal")
 
-        let resets = await PrivacyReset.reset([safari, signal])
+        let resets = await PrivacyReset.reset([safari, signal], beforeMovingWith: service(in: directory))
 
         #expect(resets.map(\.app.name) == ["Safari", "Signal"])
         #expect(resets.map(\.result) == [.refused, .refused])

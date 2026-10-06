@@ -263,6 +263,21 @@ public struct TrashService: Sendable {
         return historyCanBeRead ? nil : .historyUnreadable
     }
 
+    /// Why each of `urls` would not move now, by the checks a move makes before it starts: the guard, History, and the
+    /// programs holding it. An item missing from the answer would move.
+    func refusalsNow(of urls: [URL]) -> [URL: TrashFailure.Reason] {
+        let openFiles = OpenFiles()
+        var refusals: [URL: TrashFailure.Reason] = [:]
+        for url in urls {
+            if let refusal = refusal(of: url) {
+                refusals[url] = refusal
+            } else if case let holders = openFiles.holders(of: url), !holders.isEmpty {
+                refusals[url] = .heldOpen(by: holders)
+            }
+        }
+        return refusals
+    }
+
     /// Whether the History this service's moves are recorded in can be read. Nothing moves while it cannot, since
     /// what moved could not be listed for Put Back.
     private var historyCanBeRead: Bool {

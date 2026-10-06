@@ -347,7 +347,8 @@ struct MultipleAppsView: View {
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
         let result = await QuitGuard.shared.run {
             // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
-            let privacy = await PrivacyReset.reset(resetting(request.urls))
+            let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
+            let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
             let result = await plan.move(request)
             let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
             outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
