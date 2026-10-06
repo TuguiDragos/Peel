@@ -124,7 +124,8 @@ have, and anything that destroys data that cannot be recovered.
 **The other components.**
 
 - Path injection, argument injection, or unintended navigation through the `peel://` URL scheme,
-  from the Finder extension or from any other process on the Mac.
+  from the Finder extension, from any other process on the Mac, or from a web page, and through
+  Peel's other ways in: an app dropped on it or opened with it, and the actions it gives Shortcuts.
 - A sandbox escape in the Finder Sync extension.
 - Hijacking the `peel` CLI, or getting it to perform an operation that should require the helper.
 - Update-feed handling: Peel fetches update feeds whose URLs come out of each scanned app's own
