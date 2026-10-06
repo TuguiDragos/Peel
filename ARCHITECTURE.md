@@ -230,14 +230,18 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run. |
 | `~/Library/Application Support/Peel/Terminal/zshrc`, `Terminal/ssh_config` | The shell and ssh settings chosen on the Terminal page, which zsh and ssh read through the lines the user adds. |
 | `~/Library/Application Support/Peel/release-notes.json` | What is new in each update that waits, as the app's own sources say it, so its page shows it with no connection. |
+| `~/Library/Application Support/Peel/` `*.lock` | The lock beside each file the app and `peel` both change, so a read and the write after it are one step (`FileLock`). |
+| `~/Library/Application Support/Peel/` `*-damaged-*` | A file of Peel's that could not be read, set aside under another name so the next save doesn't overwrite it (`DamagedFile`). |
+| `~/Library/Logs/Peel/<name>` | What the app measured while `PEEL_MEASURE=<name>` was set. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
 | Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
+| Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's list of icons (`persistent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; and the Time Machine mark on each folder Build Artifacts leaves out of backups. |
 
-Remove Peel, in Settings, takes all of it to the Trash. The helper moves its own ledger there, since nothing else
-can, just before Peel unregisters it. It is the only way Peel removes itself: Peel's own page in Applications,
-and Peel among several chosen apps, list it and select nothing of it (`Uninstallation.isPeel`), and
-`peel uninstall` refuses it. For a copy Homebrew installed, Settings shows `brew uninstall --zap` in its place
-(`SettingsView`).
+Remove Peel, in Settings, takes all of Peel's own files to the Trash, and leaves what it changed outside them as
+it is. The helper moves its own ledger there, since nothing else can, just before Peel unregisters it. It is the
+only way Peel removes itself: Peel's own page in Applications, and Peel among several chosen apps, list it and
+select nothing of it (`Uninstallation.isPeel`), and `peel uninstall` refuses it. For a copy Homebrew installed,
+Settings shows `brew uninstall --zap` in its place (`SettingsView`).
 
 ## Testing
 
