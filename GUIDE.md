@@ -35,10 +35,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   unless you deselect it, and History puts it back where it was when you put the app back.
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
-- **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names or the
-  App Store for apps bought there, and shows what is new in the version that waits, as the app's own notes say it,
-  with no connection too. Skip This Version and Never Check This App keep it quiet about the ones you want left
-  alone.
+- **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the
+  App Store for apps bought there, or Homebrew for apps it installed, as Prefer updates from in Settings > General
+  chooses, and shows what is new in the version that waits, as the app's own notes say it, even with no
+  connection. Skip This Version and Never Check This App keep it quiet about the ones you want left alone.
 
 ## Free up disk space
 
