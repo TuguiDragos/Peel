@@ -62,8 +62,8 @@ To update Peel, download the new release and replace the copy in your Applicatio
 
 Dragging an app to the Trash leaves pieces of it behind: caches, settings, containers, launch agents, and support
 files scattered across your Library, sometimes gigabytes of them. Peel finds what an app left, tells you why each
-file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing is deleted, and History can
-put all of it back.
+file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing of yours is deleted without
+asking first, and History puts back what went to the Trash.
 
 - **[Uninstall apps completely](GUIDE.md#uninstall-apps-completely):** the app and every file it left, each with the
   reason it matched, and what's new in the next version of the apps you keep.
@@ -157,9 +157,10 @@ and choose Uninstall with Peel.
 
 <br>
 
-Peel moves files to the Trash instead of deleting them, and History can put any removal back. It selects only what
-certainly belongs to the app, never selects a file another app uses, and refuses to touch places like iCloud Drive,
-your keychains, Mail, Messages, and photo libraries.
+Peel moves files to the Trash instead of deleting them, and History can put them back while they are still there
+(it keeps the latest 20,000 items). What can't be undone, such as Homebrew's own uninstall, Peel names before you
+confirm it. It selects only what certainly belongs to the app, never selects a file another app uses, and refuses
+to touch places like iCloud Drive, your keychains, Mail, Messages, and photo libraries.
 
 </details>
 
@@ -234,8 +235,8 @@ close it, and sell it as their own.
 
 Copyright (C) 2026 [Țugui Dragoș-Constantin](https://tuguidragos.com)
 
-Peel moves what it removes to the Trash, and History can put it back. As the GPL states, it comes with no warranty,
-to the extent the law allows.
+Peel moves the files it removes to the Trash, and History can put them back. As the GPL states, it comes with no
+warranty, to the extent the law allows.
 
 swift-argument-parser, Peel's only dependency, is by Apple Inc. under the Apache License 2.0. The motion of the
 face at the head of the sidebar is ported from [blobatar](https://github.com/Alain00/blobatar), by Alain, under the
