@@ -186,11 +186,13 @@ lines to add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, wi
 
 Settings > General holds Peel's choices, among them which tools the sidebar shows.
 
-- **Export:** what's installed and where each app came from, as JSON, a spreadsheet, plain text, or a Brewfile.
+- **Export:** what's installed and where each app came from, as JSON, a spreadsheet, plain text, or, while Homebrew is
+  installed, a Brewfile.
 - **Shortcuts:** actions that open a page in Peel for you to look at. None of them removes anything.
 - **Sidebar:** turn off the tools you don't use in Settings, and they leave the sidebar. The View menu and
-  Shortcuts still open them. Background Items, Extensions, Plug-ins, Build Artifacts, Intel Software, and Terminal
-  start turned off, and Homebrew starts on only when Homebrew is installed; what you turn on or off stays so.
+  Shortcuts still open them. Home, Applications, and History always stay. Background Items, Extensions, Plug-ins,
+  Build Artifacts, Intel Software, and Terminal start turned off, and Homebrew starts on only when Homebrew is
+  installed; what you turn on or off stays so.
 - **The `peel` command:** most of the above, from Terminal.
 
 With Show in Menu Bar on, Peel's menu bar item lists what each tool found the last time it looked, a line per tool
