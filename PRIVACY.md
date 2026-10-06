@@ -15,18 +15,19 @@ and keeps the notes so they show with no connection. Nothing in them is loaded o
 link in them opens only when you click it. Every check uses https, and a feed that sends it elsewhere is followed only
 to another https address. Each check asks about one app, but taken together, the checks show the App Store which of its
 apps you have, and GitHub which of your apps update through it. Homebrew goes online only when you ask it to update,
-upgrade, or scan for vulnerabilities, and that scan is the one time Peel sends a list of what is installed all at once:
-for each Homebrew formula it checks, where its code comes from (the address of its source repository and the release
-tag, or a package's name) and its version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can
-change that, and the Homebrew page then says what they change. Turn off Check for app updates in Settings, and Peel
-contacts nothing on its own.
+upgrade, repair its taps, which asks each tap's repository whether its main branch was renamed, or scan for
+vulnerabilities, and that scan is the one time Peel sends a list of what is installed all at once: for each Homebrew
+formula it checks, where its code comes from (the address of its source repository and the release tag, or a package's
+name) and its version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change that, and the
+Homebrew page then says what they change. Turn off Check for app updates in Settings, and Peel contacts nothing on its
+own.
 
 ## Every address Peel or Homebrew may contact
 
 | Address | Why |
 |---|---|
 | `itunes.apple.com` | The latest version of an app bought from the App Store. No other app is ever asked about. |
-| `github.com` | Release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself from here when you ask it to. |
+| `github.com` | Release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to, Repair Taps included. |
 | `api.github.com` | The latest release of Peel itself. Peel says when a new one is out and downloads nothing. |
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades. A cask comes from its maker's own address. |
