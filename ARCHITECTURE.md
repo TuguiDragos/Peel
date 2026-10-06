@@ -64,8 +64,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 
 1. **Scan.** `Uninstallation.prepare` asks `LeftoverScanner` to look through every place an app keeps files
    (`SearchLocation`): Application Support, Caches, Containers, Preferences, launch agents, plug-in folders, the
-   top of the home folder, and more. A page's scan runs through its `ScanRun`, so a newer scan or the Stop
-   button ends an older one, and it counts what it reads so the page can show progress.
+   top of the home folder, and more, and adds what a Homebrew cask or an installer's receipt names for the app.
+   A page's scan runs through its `ScanRun`, so a newer scan or the Stop button ends an older one, and it counts
+   what it reads so the page can show progress.
 2. **Match.** For each file, `LeftoverMatcher` weighs the evidence that it belongs to the app: its bundle
    identifier, the identifiers of what the app embeds, its application groups, its signing team, its name. A
    plug-in and a container named by a UUID are also weighed by the identifier they declare: a plug-in's name
@@ -89,22 +90,29 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
    `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
    about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
-   moved. Items only an administrator can move go through the helper.
-6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, and macOS is told to
-   forget the preference domains whose files went.
+   moved. Items only an administrator can move go through the helper, and the links an app's tools left in
+   `/usr/local/bin` go last, once the app they lead into has moved. Before any of it, the app has to quit, and
+   Peel offers Force Quit when it doesn't (`QuitBeforeRemoving`); its privacy permissions are reset, when that
+   was chosen (`PrivacyReset`); and an item a program of the user's holds open stays where it is
+   (`OpenFiles`).
+6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
+   forget the preference domains whose files went, and an uninstalled app's Dock icon comes out
+   (`DockTiles`).
 7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
    from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
    even when it moved what was selected on several pages. As it records, History adds what moved to the totals Home
    shows (`totals.json`, through `RemovalTotals`), so the app and `peel` count alike. Each item is also written down
    the moment it moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches
    History the next time it is read, as an interrupted removal, and quitting the app waits for a removal until
-   History has it (`QuitGuard`). While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by
-   `TrashService` before a removal) until the History page starts it over. What Peel refused to move is recorded too
-   (`refusals.json`), and History lists it under Not Moved, one removal to an entry.
+   History has it (`QuitGuard`), as `peel` carries on through Ctrl-C (`Uninterrupted`). While History cannot be read
+   nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal) until the History page starts it
+   over. What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
+   removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, only when it is the item that went (`TrashedItem.identity`,
    its inode and birth time, read in the Trash as it landed and asked again of the item Put Back holds open),
    and, through the helper, only if the helper's own ledger says it moved that very item from that very place.
+   An app that comes back gets its Dock icon back where it was.
 
 ## What keeps data safe
 
