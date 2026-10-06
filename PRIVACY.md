@@ -20,7 +20,7 @@ vulnerabilities, and that scan is the one time Peel sends a list of what is inst
 formula it checks, where its code comes from (the address of its source repository and the release tag, or a package's
 name) and its version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change that, and the
 Homebrew page then says what they change. Turn off Check for app updates in Settings, and Peel contacts nothing on its
-own.
+own; the `peel updates` command still checks whenever you run it, whatever that switch says.
 
 ## Every address Peel or Homebrew may contact
 
