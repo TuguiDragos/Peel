@@ -19,7 +19,7 @@ struct TweakPage: View {
                 }
             }
         }
-        .safeAreaBar(edge: .top) {
+        .edgeBar(.top) {
             Group {
                 if tweaks.isSleepDisabled {
                     SleepNotice()
@@ -31,14 +31,14 @@ struct TweakPage: View {
             .motion(.settle, .movement, value: tweaks.isSleepDisabled)
         }
         // Shown once for every tab, at the foot of the page, rather than under each group's section.
-        .turnAllOffBar(
+        .edgeBar(.bottom) {
             TurnAllOffBar(
                 explanation: "Each of these is a setting macOS already has. Turning one off puts back what was there before Peel, or leaves it to macOS.",
                 isEnabled: tweaks.hasSomethingOn && !tweaks.isTurningAllOff
             ) {
                 isConfirmingTurnAllOff = true
             }
-        )
+        }
         .alert("Turn off all tweaks?", isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") {
                 Task { await tweaks.turnAllOff() }

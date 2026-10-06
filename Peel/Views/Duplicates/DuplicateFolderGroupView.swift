@@ -28,7 +28,7 @@ struct DuplicateFolderGroupView: View {
             }
             .disabled(duplicates.isRemoving)
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             DuplicateRemovalBar()
         }
         .fadesInColumn(whenRowsChange: group.folders.map(\.id))

@@ -68,7 +68,7 @@ struct OrphanList: View {
                 ContentUnavailableView.search(text: searchText)
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             Group {
                 if let cutShort = orphans.scan?.cutShortLocations, !cutShort.isEmpty {
                     Text("There are more folders in \(cutShort.map(\.url.abbreviatedPath).formatted(.list(type: .and))) than Peel looks inside, so an orphaned file may be in a folder Peel didn’t reach.")

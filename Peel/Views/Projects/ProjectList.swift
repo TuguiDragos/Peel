@@ -79,7 +79,7 @@ struct ProjectList: View {
                 )
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             Group {
                 if projects.wasCutShort {
                     Text("There were more folders than Peel looks at in one go, so this list isn’t all of them.")

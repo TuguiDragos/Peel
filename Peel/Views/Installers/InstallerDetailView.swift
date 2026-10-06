@@ -74,7 +74,7 @@ struct InstallerDetailView: View {
             }
         }
         .dimmedWhileBusy(installers.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if kind != .deviceBackup {
                 RemovalBar(
                     page: kind.page,

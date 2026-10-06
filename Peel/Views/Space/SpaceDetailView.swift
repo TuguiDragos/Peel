@@ -86,7 +86,7 @@ struct SpaceDetailView: View {
             }
         }
         .dimmedWhileBusy(space.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if !item.isReadOnly {
                 RemovalBar(
                     page: item.page,

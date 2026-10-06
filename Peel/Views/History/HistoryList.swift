@@ -52,7 +52,7 @@ struct HistoryList: View {
             }
         }
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
-        .safeAreaBar(edge: .top) {
+        .edgeBar(.top) {
             VStack(spacing: 8) {
                 if let problem = history.shownProblem {
                     HistoryProblemNotice(problem: problem)

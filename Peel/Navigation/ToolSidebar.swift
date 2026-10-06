@@ -75,7 +75,7 @@ struct ToolSidebar: View {
             group(.storage, isExpanded: $isStorageExpanded)
             group(.system, isExpanded: $isSystemExpanded)
         }
-        .safeAreaBar(edge: .top, spacing: 0) { mascot }
+        .edgeBar(.top, spacing: 0) { mascot }
         .takesFocusWhenNothingHasIt()
         .onReceive(
             NotificationCenter.default.publisher(for: NSScroller.preferredScrollerStyleDidChangeNotification)

@@ -41,7 +41,7 @@ struct HistoryDetailView: View {
                 records(in: standing)
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             let selectedCount = standing?.selectedCount(in: history.selectedIDs) ?? 0
             RestoreBar(
                 count: selectedCount,

@@ -74,7 +74,7 @@ struct FileSearchList: View {
                 ContentUnavailableView.search
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if search.results?.files.isEmpty == false {
                 RemovalBar(page: Tool.fileSearch.page(), isScanning: search.isSearching)
             }

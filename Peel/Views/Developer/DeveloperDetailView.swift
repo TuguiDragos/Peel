@@ -39,7 +39,7 @@ struct DeveloperDetailView: View {
             }
         }
         .dimmedWhileBusy(developer.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             RemovalBar(
                 page: environment.page,
                 isScanning: developer.isScanning,

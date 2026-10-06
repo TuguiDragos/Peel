@@ -95,7 +95,7 @@ struct DuplicateSummaryView: View {
             // Takes the page's height, so the bar floats at its foot as on every page, not under these words.
             .frame(maxHeight: .infinity)
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             DuplicateRemovalBar()
         }
     }

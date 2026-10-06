@@ -31,7 +31,7 @@ struct DuplicateGroupView: View {
             }
             .disabled(duplicates.isRemoving)
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             DuplicateRemovalBar()
         }
         .fadesInColumn(whenRowsChange: group.files.map(\.id))

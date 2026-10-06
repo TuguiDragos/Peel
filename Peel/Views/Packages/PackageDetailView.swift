@@ -71,7 +71,7 @@ struct PackageDetailView: View {
         }
         .disabled(packages.isWorking)
         .dimmedWhileBusy(packages.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if !receipt.items.isEmpty {
                 RemovalBar(
                     selectedSize: SizeTotal(selectedItems.map(\.size)).known,

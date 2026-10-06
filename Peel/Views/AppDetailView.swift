@@ -191,7 +191,7 @@ struct AppDetailView: View {
             }
         }
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if plan.scan != nil {
                 let selected = plan.request.total
                 RemovalBar(

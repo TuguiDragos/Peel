@@ -43,14 +43,14 @@ struct GitTab: View {
             }
         }
         .formStyle(.grouped)
-        .turnAllOffBar(
+        .edgeBar(.bottom) {
             TurnAllOffBar(
                 explanation: "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or leaves it to Git.",
                 isEnabled: git.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }
-        )
+        }
         .alert("Turn off all Git settings?", isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") { git.turnAllOff() }
             Button("Cancel", role: .cancel) {}

@@ -177,7 +177,7 @@ struct ResetSheet: View {
                 description: Text("Peel found no settings on this Mac that are certainly \(plan.app.name)’s own.")
             )
         }
-        .safeAreaBar(edge: .bottom) { bar }
+        .edgeBar(.bottom) { bar }
     }
 
     private var header: some View {
@@ -311,7 +311,7 @@ struct ResetSheet: View {
                 }
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             HStack {
                 Spacer()
                 Button("Done") { dismiss() }

@@ -80,7 +80,7 @@ extension View {
     /// filtered ones, a query that matched nothing would hide the field and leave no way to clear it. While
     /// `when` is false, the field is hidden but keeps its place.
     func columnSearch(text: Binding<String>, prompt: LocalizedStringResource, when hasRows: Bool) -> some View {
-        safeAreaBar(edge: .top) {
+        edgeBar(.top) {
             ColumnSearchField(text: text, prompt: prompt, isAvailable: hasRows)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 8)

@@ -53,7 +53,7 @@ struct OrphanDetailView: View {
             }
         }
         .dimmedWhileBusy(orphans.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             RemovalBar(page: group.page, isScanning: orphans.isScanning, scan: orphans.scanRun)
         }
         .fadesInColumn(whenRowsChange: group.items.map(\.id))

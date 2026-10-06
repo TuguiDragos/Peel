@@ -60,7 +60,7 @@ struct ProjectDetailView: View {
             }
         }
         .dimmedWhileBusy(projects.isScanning)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             RemovalBar(
                 page: group.page,
                 isScanning: projects.isScanning,

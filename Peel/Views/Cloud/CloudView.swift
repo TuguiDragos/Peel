@@ -110,7 +110,7 @@ struct CloudView: View {
                 )
             }
         }
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if cloud.files?.isEmpty == false {
                 RemovalBar(
                     selectedSize: cloud.selectedSize,

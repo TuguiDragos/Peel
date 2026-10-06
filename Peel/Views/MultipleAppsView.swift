@@ -108,7 +108,7 @@ struct MultipleAppsView: View {
         .dimmedWhileBusy(plan.isRemoving)
         .disabled(plan.isRemoving)
         .scanState(phase, isRescanning: isRescanning, fadesInResults: false, scan: plan.scanRun)
-        .safeAreaBar(edge: .bottom) {
+        .edgeBar(.bottom) {
             if plan.bulk != nil {
                 let selected = plan.request.total
                 RemovalBar(
