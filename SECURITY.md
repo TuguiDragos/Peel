@@ -104,7 +104,9 @@ have, and anything that destroys data that cannot be recovered.
   root process later loads code from.
 - Downgrade attacks: getting the helper to answer a copy of Peel other than the one it was
   installed beside, or getting an older or unsigned build accepted.
-- Argument injection or unexpected behavior in the operation that starts and stops launch daemons.
+- Argument injection or unexpected behavior in the operation that runs `launchctl` for a launch
+  daemon (bootstrap, bootout, kickstart, enable, and disable), or in the one that moves the helper's
+  own ledger to the Trash for Remove Peel.
 - Anything that leaves a root daemon installed, running, or reachable after Peel is removed, or
   that lets a non-admin install or replace it.
 
