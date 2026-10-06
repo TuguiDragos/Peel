@@ -64,7 +64,8 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         return SelectableRows(
             rows: items.map(\.url),
             selectable: unlocked.filter { $0.leftAlone == nil }.map(\.url),
-            recommended: confidence.level == .unsure ? [] : unlocked.filter { $0.heldBack == nil }.map(\.url)
+            recommended: confidence.level == .unsure ? [] : unlocked.filter { $0.heldBack == nil }.map(\.url),
+            leftToTheClick: items.filter { $0.heldBack?.isLeftToTheClick == true }.map(\.url)
         )
     }
 }

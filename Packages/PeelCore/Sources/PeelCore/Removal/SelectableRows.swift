@@ -5,15 +5,25 @@ public struct SelectableRows<ID: Hashable> {
     public let selectable: [ID]
     /// Never a row a click cannot select.
     public let recommended: [ID]
+    /// Rows a click can select and Select All passes by: what may exist nowhere else, belongs to something else, or
+    /// is not known, which the person chooses one by one.
+    public let leftToTheClick: [ID]
 
-    public init(rows: [ID], selectable: [ID], recommended: [ID]) {
+    public init(rows: [ID], selectable: [ID], recommended: [ID], leftToTheClick: [ID]) {
         self.rows = rows
         self.selectable = selectable
         self.recommended = recommended.filter(Set(selectable).contains)
+        self.leftToTheClick = leftToTheClick.filter(Set(selectable).contains)
+    }
+
+    /// The rows Select All selects.
+    private var reachedBySelectAll: [ID] {
+        let left = Set(leftToTheClick)
+        return selectable.filter { !left.contains($0) }
     }
 
     public func isAllSelected(in selection: Set<ID>) -> Bool {
-        selectable.allSatisfy(selection.contains)
+        reachedBySelectAll.allSatisfy(selection.contains)
     }
 
     public func isRecommendedSelected(in selection: Set<ID>) -> Bool {
@@ -25,7 +35,7 @@ public struct SelectableRows<ID: Hashable> {
     }
 
     public func selectingAll(in selection: Set<ID>) -> Set<ID> {
-        selection.union(selectable)
+        selection.union(reachedBySelectAll)
     }
 
     public func selectingRecommended(in selection: Set<ID>) -> Set<ID> {
@@ -40,7 +50,7 @@ public struct SelectableRows<ID: Hashable> {
     /// What Select All would add that Peel does not recommend, which it asks about first.
     public func notRecommendedAdded(by selection: Set<ID>) -> [ID] {
         let recommended = Set(recommended)
-        return selectable.filter { !recommended.contains($0) && !selection.contains($0) }
+        return reachedBySelectAll.filter { !recommended.contains($0) && !selection.contains($0) }
     }
 }
 
@@ -59,7 +69,8 @@ public struct SelectablePages<Page: Hashable, ID: Hashable> {
         rows = SelectableRows(
             rows: once(pages.flatMap { $0.rows.rows }),
             selectable: once(pages.flatMap { $0.rows.selectable }),
-            recommended: once(pages.flatMap { $0.rows.recommended })
+            recommended: once(pages.flatMap { $0.rows.recommended }),
+            leftToTheClick: once(pages.flatMap { $0.rows.leftToTheClick })
         )
     }
 

@@ -81,7 +81,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   a repository, or the app keeps there what may exist only on this Mac: local mail, message history, sign-in codes,
   or VPN connections. A file another installed app also uses is shown but never selected, and anything Peel is less
   sure of waits under Review Before Removing. A list's Select menu picks what Peel recommends, everything, or
-  nothing, and asks before it selects what Peel doesn't recommend.
+  nothing. Select All passes by what Peel holds back, guesses at, or shares with another app, which you select one
+  by one, and asks before it adds anything else Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel. With Watch the Trash on, Peel notices when you
   drag an app to the Trash yourself and offers to clear what it left behind. Apps you keep outside the Applications

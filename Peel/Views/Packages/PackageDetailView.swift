@@ -161,7 +161,8 @@ struct PackageDetailView: View {
         SelectableRows(
             rows: receipt.items.map(\.url),
             selectable: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone }.map(\.url),
-            recommended: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone && $0.heldBack == nil }.map(\.url)
+            recommended: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone && $0.heldBack == nil }.map(\.url),
+            leftToTheClick: receipt.items.filter { $0.heldBack?.isLeftToTheClick == true }.map(\.url)
         )
     }
 

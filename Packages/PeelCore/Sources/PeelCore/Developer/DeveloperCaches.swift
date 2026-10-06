@@ -70,6 +70,12 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
 
         public var id: URL { url }
 
+        /// True when Select All passes the location by: its size is not known, nothing shows the tool made it, a
+        /// workspace may still be in use, or it holds the archives of the apps the person built.
+        public var isLeftToTheClick: Bool {
+            size == nil || !isTheTools || workspace?.mayStillBeInUse == true || kind == .archives
+        }
+
         /// Whether Peel selects this location for the user: only content that tools make or fetch again, or
         /// logs, and only once measured. Nothing is selected for the user without showing its size.
         public var isRecommended: Bool {
@@ -96,7 +102,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         SelectableRows(
             rows: locations.map(\.url),
             selectable: locations.map(\.url),
-            recommended: locations.filter(\.isRecommended).map(\.url)
+            recommended: locations.filter(\.isRecommended).map(\.url),
+            leftToTheClick: locations.filter(\.isLeftToTheClick).map(\.url)
         )
     }
 

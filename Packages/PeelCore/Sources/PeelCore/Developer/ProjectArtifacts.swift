@@ -34,7 +34,11 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
 
 extension Collection where Element == ProjectArtifact {
     public var selectableRows: SelectableRows<URL> {
-        SelectableRows(rows: map(\.url), selectable: map(\.url), recommended: filter(\.isRecommended).map(\.url))
+        SelectableRows(
+            rows: map(\.url), selectable: map(\.url), recommended: filter(\.isRecommended).map(\.url),
+            leftToTheClick: filter { $0.heldBack?.isLeftToTheClick == true || $0.hasGenericName || $0.isEnvironment }
+                .map(\.url)
+        )
     }
 }
 

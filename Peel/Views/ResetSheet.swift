@@ -141,7 +141,8 @@ struct ResetSheet: View {
                                 list: SelectableRows(
                                     rows: items.map(\.url),
                                     selectable: items.map(\.url),
-                                    recommended: items.map(\.url).filter(plan.suggested.contains)
+                                    recommended: items.map(\.url).filter(plan.suggested.contains),
+                                    leftToTheClick: []
                                 ),
                                 place: Text(group.title),
                                 selection: plan

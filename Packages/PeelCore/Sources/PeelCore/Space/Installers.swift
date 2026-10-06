@@ -56,7 +56,8 @@ extension Collection where Element == InstallerItem {
         return SelectableRows(
             rows: map(\.url),
             selectable: open.filter { $0.heldBack?.cannotBeMoved != true }.map(\.url),
-            recommended: open.filter { $0.heldBack == nil }.map(\.url)
+            recommended: open.filter { $0.heldBack == nil }.map(\.url),
+            leftToTheClick: filter { $0.heldBack?.isLeftToTheClick == true }.map(\.url)
         )
     }
 }

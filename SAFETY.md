@@ -200,8 +200,11 @@ on its own, such as `target` or `build`, is listed and never selected either.
 
 Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these folders out as well: one in
 `/Users/Shared`, one with a repository, a wallet, a signing key, or a password database inside, one that may hold what
-exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself. Select
-All selects such a folder too only after asking, with how many items Peel doesn't recommend removing.
+exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
+
+On every list, Select All passes by what Peel holds back for what it may hold, what it only guesses belongs to the
+app, what another app also uses, and macOS's own caches: each is selected only with its own click, after its reason
+has been read. What else Select All adds that Peel doesn't recommend, it asks about first.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing
 inside an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`:
@@ -239,8 +242,8 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   folder, it also looks inside for the names wallets and key tools give their files: anything called
   `wallet.dat`, `wallets`, `keystore`, `seed.dat`, `hsm_secret`, or `channel.backup`, anything ending in `.wallet`
   or `.keys`, and the others `FileSize.isWallet` lists. A folder with one inside is shown with that reason and
-  never selected for you, not by `peel uninstall` or `peel orphans --remove`, and Select All asks before it selects
-  one. You can still select it yourself, because a name can mislead: a Java project keeps a `keystore` too.
+  never selected for you, not by `peel uninstall`, `peel orphans --remove`, or Select All. You can still select it
+  yourself, because a name can mislead: a Java project keeps a `keystore` too.
 - **A folder Peel could not finish reading is treated the same way**, whether it ran out of time or macOS kept a
   folder inside it closed. A coin's data folder, with its blockchain, is the one most likely to be too big to read
   in time, and its wallet may be inside.

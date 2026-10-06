@@ -63,7 +63,8 @@ struct CloudView: View {
                     } actions: {
                         SelectMenu(
                             list: SelectableRows(
-                                rows: listed.map(\.url), selectable: listed.map(\.url), recommended: listed.map(\.url)
+                                rows: listed.map(\.url), selectable: listed.map(\.url), recommended: listed.map(\.url),
+                                leftToTheClick: []
                             ),
                             place: Text(Tool.cloud.title),
                             selection: cloud
