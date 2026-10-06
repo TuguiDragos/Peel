@@ -349,7 +349,8 @@ struct MultipleAppsView: View {
             // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
             let privacy = await PrivacyReset.reset(resetting(request.urls))
             let result = await plan.move(request)
-            outcome.report(result, privacy: privacy)
+            let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
+            outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
             if removesDockTiles {
                 let moved = Set(result.trashed.map(\.originalURL))
                 _ = await DockTiles().takeOut(appsInTheDock.filter(moved.contains).sorted { $0.path < $1.path })

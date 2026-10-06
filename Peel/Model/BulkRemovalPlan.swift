@@ -119,9 +119,7 @@ final class BulkRemovalPlan {
     /// Moves what `request` asked about, whatever has been selected since.
     func move(_ request: RemovalRequest) async -> TrashResult {
         guard let bulk else { return TrashResult() }
-        let urls = bulk.removalOrder(of: request.urls)
-        return await TrashService(exclusions: ExclusionsStore.shared.exclusions)
-            .trash(urls, usingHelperFor: bulk.privilegedURLs)
+        return await bulk.move(request.urls, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
     }
 
     /// The source History records: up to three app names, or a count in English that History shows in the

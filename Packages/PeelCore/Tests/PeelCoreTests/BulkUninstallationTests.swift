@@ -258,7 +258,46 @@ struct BulkUninstallationTests {
         #expect(bulk.total == SizeTotal(known: 1_000 + 10, isComplete: false))
     }
 
-    @Test func removesLeftoversBeforeTheAppsThemselves() {
+    /// Apps chosen together: an app that stays keeps its files, those it shares with another chosen app included,
+    /// and the others go whole.
+    @Test func anAppThatStaysKeepsItsFilesWhileTheOthersGo() async throws {
+        let directory = try TemporaryDirectory()
+        let stays = InstalledApp(url: try directory.directory("Applications/Stays.app"), bundleIdentifier: "com.example.stays", name: "Stays")
+        let goes = InstalledApp(url: try directory.directory("Applications/Goes.app"), bundleIdentifier: "com.example.goes", name: "Goes")
+        let kept = try directory.directory("home/Library/Caches/com.example.stays")
+        let shared = try directory.directory("home/Library/Application Support/Example")
+        let gone = try directory.directory("home/Library/Caches/com.example.goes")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(stays, [kept, shared].map { leftover($0.path(percentEncoded: false), size: 1) }),
+            uninstallation(goes, [gone, shared].map { leftover($0.path(percentEncoded: false), size: 1) }),
+        ])
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+        ) { url in
+            // As macOS refuses an app it won't let Peel move.
+            guard url != stays.url else { throw CocoaError(.fileWriteNoPermission) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let selection = Set(bulk.items.map(\.url))
+        let result = await bulk.move(selection, using: service)
+
+        #expect(result.failures.map(\.url) == [stays.url])
+        #expect(bulk.appsThatKeptTheirFiles(after: result, selection: selection) == [stays])
+        let moved = Set(result.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+        #expect(moved == Set([goes.url, gone].map(PathPattern.comparablePath)))
+        for url in [kept, shared] {
+            #expect(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)), "\(url.lastPathComponent) moved although its app stayed")
+        }
+    }
+
+    @Test func movesTheAppsBeforeTheirFiles() {
         let first = app("com.example.one", "One")
         let second = app("com.example.two", "Two")
         let bulk = BulkUninstallation(uninstallations: [
@@ -269,7 +308,7 @@ struct BulkUninstallationTests {
         let selection = bulk.suggestedSelection(canUseHelper: true)
         #expect(selection.count == 4)
         let order = bulk.removalOrder(of: selection).map { $0.lastPathComponent }
-        #expect(order == ["com.example.two", "com.example.one", "One.app", "Two.app"])
+        #expect(order == ["One.app", "Two.app", "com.example.two", "com.example.one"])
         #expect(bulk.total == SizeTotal(known: 2030, isComplete: true))
     }
 }

@@ -80,16 +80,16 @@ struct UninstallPlan {
         )
     }
 
-    /// Moves the bundle to the Trash on its own, then the rest only if the bundle really moved. Call it only when
-    /// `appStays` is nil: it takes the first item that moves to be the bundle.
+    /// Moves the bundle to the Trash on its own, then the rest only if the bundle really moved. When the app itself
+    /// stays, nothing moves.
     func move(using service: TrashService) async -> TrashResult {
         let urls = moving.map(\.url)
-        guard let bundle = urls.first else { return TrashResult() }
-        var result = await service.trash([bundle])
-        guard !result.trashed.isEmpty else { return result }
-        let rest = await service.trash(Array(urls.dropFirst()))
-        result.trashed += rest.trashed
-        result.failures += rest.failures
-        return result
+        guard urls.contains(app) else { return TrashResult() }
+        let files = urls.filter { $0 != app }
+        return await service.trash(
+            apps: [app],
+            thenFiles: { stayed in stayed.isEmpty ? files : [] },
+            usingHelperFor: []
+        )
     }
 }

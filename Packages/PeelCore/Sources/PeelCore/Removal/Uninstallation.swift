@@ -14,8 +14,7 @@ public struct Uninstallation: Sendable {
     /// True when moving the bundle would free less than half the space it takes, because most of its files share
     /// their blocks with another copy, such as one in the Trash: `appSize` is then far below the app's size.
     public var appSharesStorage = false
-    /// True when the app needs administrator rights and the helper may not move it. The app is then never
-    /// selected: its leftovers would move first, and the app would stay without them.
+    /// True when the app needs administrator rights and the helper may not move it, so it is never selected.
     public var isAppBeyondTheHelper = false
     /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
     /// it is never selected or counted, and what it left behind still is.
@@ -178,9 +177,8 @@ public struct Uninstallation: Sendable {
     }
 
     /// True when the app itself would stay: excluded, Peel, kept by macOS, part of another package, beyond the
-    /// helper, or needing the helper while it is not there. Nothing of it is then selected for the user: what it
-    /// left behind would go first, and it would stay without its settings. For an app macOS keeps, what it holds is
-    /// data in use.
+    /// helper, or needing the helper while it is not there. Nothing of it is then selected for the user: while it
+    /// stays, its files are not leftovers. For an app macOS keeps, what it holds is data in use.
     public func appStays(canUseHelper: Bool) -> Bool {
         isExcluded || isPeel || app.isSystemProtected || app.enclosingPackage != nil || isAppBeyondTheHelper
             || (appRequiresPrivileges && !canUseHelper)
@@ -256,13 +254,35 @@ public struct Uninstallation: Sendable {
         return urls
     }
 
-    /// The selected leftovers, then the app itself.
+    /// The app itself, then the selected leftovers.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
         guard !isExcluded, !isPeel else { return [] }
         return order(of: selection)
     }
 
+    /// Moves `selection`, the app first: its files follow only once it has moved, so an app that stays keeps
+    /// everything of its own. Without the app selected, the files move on their own.
+    public func move(
+        _ selection: Set<URL>,
+        using service: TrashService,
+        throughTheHelper: Bool = true
+    ) async -> TrashResult {
+        let order = removalOrder(of: selection)
+        let files = order.filter { $0 != app.url }
+        return await service.trash(
+            apps: order.filter { $0 == app.url },
+            thenFiles: { stayed in stayed.isEmpty ? files : [] },
+            usingHelperFor: throughTheHelper ? privilegedURLs : []
+        )
+    }
+
+    /// Whether the app stayed while files of its own were selected, which then stayed with it.
+    public func keptItsFiles(after result: TrashResult, selection: Set<URL>) -> Bool {
+        selection.contains(app.url) && result.failures.contains { $0.url == app.url }
+            && !Set(scan.leftovers.map(\.url)).isDisjoint(with: selection)
+    }
+
     private func order(of selection: Set<URL>) -> [URL] {
-        scan.leftovers.map(\.url).filter(selection.contains) + (selection.contains(app.url) ? [app.url] : [])
+        (selection.contains(app.url) ? [app.url] : []) + scan.leftovers.map(\.url).filter(selection.contains)
     }
 }

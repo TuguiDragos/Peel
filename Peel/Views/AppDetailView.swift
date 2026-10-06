@@ -466,7 +466,8 @@ struct AppDetailView: View {
             // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
             let privacy = await PrivacyReset.reset(resetting(request.urls))
             let result = await plan.move(request)
-            outcome.report(result, privacy: privacy)
+            let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
+            outcome.report(result, privacy: privacy, keptTheirFiles: keptItsFiles ? [plan.app.name] : [])
             if removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
                 _ = await DockTiles().takeOut([plan.app.url])
             }

@@ -46,7 +46,7 @@ struct UninstallationTests {
         let sharedTool = leftover("com.example.app.Sync", confidence: .likely, sharedWith: ["com.example.other"])
         let plan = uninstallation(leftovers: [own, named, shared, rootOwned, tool, sharedTool])
 
-        #expect(plan.unreviewedSelection == [own.url, tool.url, app.url])
+        #expect(plan.unreviewedSelection == [app.url, own.url, tool.url])
         #expect(uninstallation(appRequiresPrivileges: true, leftovers: [own]).unreviewedSelection.isEmpty)
     }
 
@@ -167,18 +167,18 @@ struct UninstallationTests {
         #expect(plan.removalOrder(of: [peel.url, own.url]).isEmpty)
         #expect(plan.movable(among: [own], withApp: true).count == 0)
         #expect(plan.privilegedURLs.isEmpty)
-        #expect(plan.unreviewedSelection == [own.url, peel.url], "Remove Peel no longer takes what is Peel's")
+        #expect(plan.unreviewedSelection == [peel.url, own.url], "Remove Peel no longer takes what is Peel's")
 
         let example = leftover("com.example.app")
         let bulk = BulkUninstallation(uninstallations: [plan, uninstallation(leftovers: [example])])
         #expect(bulk.suggestedSelection(canUseHelper: true) == [app.url, example.url])
-        #expect(bulk.removalOrder(of: [peel.url, own.url, app.url, example.url]) == [example.url, app.url])
+        #expect(bulk.removalOrder(of: [peel.url, own.url, app.url, example.url]) == [app.url, example.url])
         #expect(Set(bulk.items.filter(\.isPeels).map(\.url)) == [peel.url, own.url])
         #expect(bulk.total.known == 11_000, "Peel's files were counted as something to remove")
     }
 
-    /// Leftovers move before the app. If the helper then refused the app, it would stay without them, so an app
-    /// the helper may not move is never offered. Neither is an app macOS keeps, wherever it sits.
+    /// An app the helper may not move would stay, and so would everything of its own, so it is never offered.
+    /// Neither is an app macOS keeps, wherever it sits.
     @Test(.permissionsHold) func anAppTheHelperMayNotMoveIsNeverOffered() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Applications/Scribbler.app/Contents/Info.plist", bytes: 4_096)
@@ -530,13 +530,59 @@ struct UninstallationTests {
         #expect(place.components == ["\u{301}Foo", "cache.db"])
     }
 
-    @Test func movesLeftoversBeforeTheApp() {
+    @Test func movesTheAppBeforeItsLeftovers() {
         let first = leftover("first")
         let second = leftover("second")
         let plan = uninstallation(leftovers: [first, second])
 
-        #expect(plan.removalOrder(of: [app.url, second.url, first.url]) == [first.url, second.url, app.url])
+        #expect(plan.removalOrder(of: [app.url, second.url, first.url]) == [app.url, first.url, second.url])
         #expect(plan.removalOrder(of: [second.url]) == [second.url])
+    }
+
+    /// A service that moves into the test's own Trash and refuses `refused`, as macOS refuses an app it won't let
+    /// Peel move.
+    private func service(in directory: borrowing TemporaryDirectory, refusing refused: URL?) throws -> TrashService {
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        return TrashService(environment: environment) { url in
+            guard url != refused else { throw CocoaError(.fileWriteNoPermission) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+    }
+
+    /// An app's files move only once the app has, so an app that stays keeps everything of its own.
+    @Test func anAppThatStaysKeepsEverythingOfItsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/Example.app")
+        let cache = try directory.directory("home/Library/Caches/com.example.app")
+        let plan = uninstallation(
+            app: InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example"),
+            leftovers: [Leftover(
+                url: cache,
+                kind: .caches,
+                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+                size: 16,
+                isMeasured: true,
+                requiresPrivileges: false
+            )]
+        )
+
+        let stayed = await plan.move([bundle, cache], using: try service(in: directory, refusing: bundle))
+        #expect(stayed.trashed.isEmpty)
+        #expect(stayed.failures.map(\.url) == [bundle])
+        #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)), "a file moved although its app stayed")
+        #expect(plan.keptItsFiles(after: stayed, selection: [bundle, cache]))
+        #expect(!plan.keptItsFiles(after: stayed, selection: [bundle]))
+
+        let went = await plan.move([bundle, cache], using: try service(in: directory, refusing: nil))
+        #expect(went.trashed.map(\.originalURL) == [bundle, cache])
+        #expect(went.failures.isEmpty)
+        #expect(!plan.keptItsFiles(after: went, selection: [bundle, cache]))
     }
 
     /// The receipt is what keeps macOS counting the package as installed, so it goes with the app. A receipt

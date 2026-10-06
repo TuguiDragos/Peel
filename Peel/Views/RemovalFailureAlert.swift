@@ -52,8 +52,13 @@ struct RemovalFailureAlert: ViewModifier {
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
-        lines += extraLines
+        lines += keptLines + extraLines
         return lines.joined(separator: "\n\n")
+    }
+
+    /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
+    private var keptLines: [String] {
+        outcome.keptTheirFiles.map { String(localized: "\($0) stayed, and so did its files.") }
     }
 
     private var extraLines: [String] {
@@ -68,7 +73,8 @@ struct RemovalFailureAlert: ViewModifier {
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
     /// selected.
     private func copyDetails() {
-        let lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" } + extraLines
+        let lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
+            + keptLines + extraLines
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
     }

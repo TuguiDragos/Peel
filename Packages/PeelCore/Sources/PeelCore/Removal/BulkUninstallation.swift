@@ -152,11 +152,40 @@ public struct BulkUninstallation: Sendable {
         )
     }
 
-    /// Returns the selection in the order it is moved: leftovers first, then the apps. Excluded items and Peel's
+    /// Returns the selection in the order it is moved: the apps first, then the files. Excluded items and Peel's
     /// are left out.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
         let movable = items.filter { !$0.isExcluded && !$0.isPeels && selection.contains($0.url) }
-        return movable.filter { !$0.isApplication }.map(\.url) + movable.filter(\.isApplication).map(\.url)
+        return movable.filter(\.isApplication).map(\.url) + movable.filter { !$0.isApplication }.map(\.url)
+    }
+
+    /// Moves `selection`, the apps first: a file follows only once every selected app it belongs to has moved, so
+    /// an app that stays keeps everything of its own, what it shares with another chosen app included.
+    public func move(_ selection: Set<URL>, using service: TrashService) async -> TrashResult {
+        let order = removalOrder(of: selection)
+        let apps = Set(items.filter(\.isApplication).map(\.url))
+        let owners = Dictionary(items.map { ($0.url, $0.apps) }, uniquingKeysWith: { first, _ in first })
+        let identifiers = Dictionary(
+            uninstallations.map { ($0.app.url, $0.app.bundleIdentifier) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        return await service.trash(
+            apps: order.filter(apps.contains),
+            thenFiles: { stayed in
+                let kept = Set(stayed.compactMap { identifiers[$0] })
+                return order.filter { !apps.contains($0) && !(owners[$0] ?? []).contains(where: kept.contains) }
+            },
+            usingHelperFor: privilegedURLs
+        )
+    }
+
+    /// The chosen apps that stayed while files of their own were selected, which then stayed with them.
+    public func appsThatKeptTheirFiles(after result: TrashResult, selection: Set<URL>) -> [InstalledApp] {
+        let failed = Set(result.failures.map(\.url))
+        return apps.filter { app in
+            selection.contains(app.url) && failed.contains(app.url)
+                && !files(of: app.bundleIdentifier).isDisjoint(with: selection)
+        }
     }
 
     static func merge(_ uninstallations: [Uninstallation]) -> [Item] {

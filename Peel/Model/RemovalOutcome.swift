@@ -17,6 +17,8 @@ final class RemovalOutcome {
     private(set) var privacy: [Privacy] = []
     /// The apps to quit before what their tools kept can move.
     private(set) var appsToQuit: [String] = []
+    /// The apps that stayed while files of their own were selected, which stayed with them.
+    private(set) var keptTheirFiles: [String] = []
     private(set) var movedCount = 0
 
     var isEmpty: Bool { failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty }
@@ -26,7 +28,8 @@ final class RemovalOutcome {
     func report(
         _ result: TrashResult,
         privacy resets: [(app: InstalledApp, result: PrivacyReset.Result)] = [],
-        appsToQuit: [String] = []
+        appsToQuit: [String] = [],
+        keptTheirFiles: [String] = []
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
@@ -36,6 +39,7 @@ final class RemovalOutcome {
         movedCount = result.trashed.count
         self.privacy = privacy
         self.appsToQuit = appsToQuit
+        self.keptTheirFiles = keptTheirFiles
     }
 
     func clear() {
@@ -43,5 +47,6 @@ final class RemovalOutcome {
         movedCount = 0
         privacy = []
         appsToQuit = []
+        keptTheirFiles = []
     }
 }

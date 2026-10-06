@@ -49,7 +49,7 @@ struct SelfRemovalTests {
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
-    /// When the app stays, its folder stays too, since History there is the way to put back what did move.
+    /// When the app stays, its files and its folder stay too: Peel goes on using them.
     @Test func leavesTheFolderWhenTheAppStayed() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/Peel.app")
@@ -64,6 +64,7 @@ struct SelfRemovalTests {
         ) { _ in }
 
         #expect(paths(result.failures.map(\.url)) == paths([app]))
+        #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)), "a file moved although Peel stayed")
         #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
     }
 

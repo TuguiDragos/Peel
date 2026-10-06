@@ -346,8 +346,32 @@ public struct TrashService: Sendable {
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
     @concurrent
     public func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>) async -> TrashResult {
-        if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
+        await trash(urls, usingHelperFor: privilegedURLs, removal: UUID())
+    }
+
+    /// Moves `apps` first, then what `files` returns for the apps that stayed, as one removal. An app's files wait
+    /// for it, so an app that stays keeps everything of its own.
+    @concurrent
+    public func trash(
+        apps: [URL],
+        thenFiles files: @Sendable (_ appsThatStayed: Set<URL>) -> [URL],
+        usingHelperFor privilegedURLs: Set<URL>
+    ) async -> TrashResult {
         let removal = UUID()
+        var result = apps.isEmpty
+            ? TrashResult()
+            : await trash(apps, usingHelperFor: privilegedURLs, removal: removal)
+        let moved = Set(result.trashed.map(\.originalURL))
+        let rest = files(Set(apps.filter { !moved.contains($0) }))
+        guard !rest.isEmpty else { return result }
+        let more = await trash(rest, usingHelperFor: privilegedURLs, removal: removal)
+        result.trashed += more.trashed
+        result.failures += more.failures
+        return result
+    }
+
+    private func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>, removal: UUID) async -> TrashResult {
+        if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
         var result = await trash(urls.filter { !privilegedURLs.contains($0) }, ownedBy: nil, removal: removal)
         let helperURLs = urls.filter(privilegedURLs.contains)
         guard !helperURLs.isEmpty else { return result }

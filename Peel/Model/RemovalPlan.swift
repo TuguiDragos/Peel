@@ -153,13 +153,11 @@ final class RemovalPlan {
 
     /// Moves what `request` asked about, whatever has been selected since.
     func move(_ request: RemovalRequest) async -> TrashResult {
-        let urls = uninstallation?.removalOrder(of: request.urls) ?? []
+        guard let uninstallation else { return TrashResult() }
         // These paths are about to hold something else, or nothing, so their cached icons are dropped.
-        IconCache.forget(urls)
-        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
-            urls,
-            usingHelperFor: uninstallation?.privilegedURLs ?? []
-        )
+        IconCache.forget(uninstallation.removalOrder(of: request.urls))
+        let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
+        return await uninstallation.move(request.urls, using: service)
     }
 
     /// The app's processes that run now, the helpers it ships included, which quit before any of its files move.
