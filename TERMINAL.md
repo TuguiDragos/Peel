@@ -302,7 +302,7 @@ Peel uses the Git in the developer folder `xcode-select -p` names, from the Comm
 Homebrew's, and offers only the settings that Git lists in `git help --config`. If Git isn't on your Mac, the Git
 tab gives `xcode-select --install`, Apple's command for the tools.
 
-**Pull and push**
+**Pull and Push**
 
 | Setting | What it does |
 | --- | --- |
@@ -325,7 +325,7 @@ git config --global fetch.prune true
 git config --global rebase.autoStash true
 ```
 
-**Diffs and merges**
+**Diffs and Merges**
 
 | Setting | What it does |
 | --- | --- |
@@ -419,7 +419,7 @@ Peel installs nothing: each tool comes with its Homebrew command and what its ow
 If Homebrew isn't on your Mac, the Tools tab says so and gives the command from [brew.sh](https://brew.sh). The lines
 below use `$HOMEBREW_PREFIX`, as Homebrew's own notes do; Peel writes your Mac's Homebrew folder in its place.
 
-### For the shell
+### For the Shell
 
 | Tool | What it does | Install |
 | --- | --- | --- |
@@ -479,7 +479,7 @@ git config --global delta.navigate true
 git lfs install
 ```
 
-### For every day
+### For Every Day
 
 | Tool | What it does | Install |
 | --- | --- | --- |
