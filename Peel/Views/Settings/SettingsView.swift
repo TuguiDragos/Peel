@@ -63,7 +63,56 @@ struct SettingsTabs: View {
 /// height of the tab shown and can't be resized, as a settings window on the Mac does.
 struct SettingsView: View {
     var body: some View {
-        SettingsTabs(fitsEachTab: true)
+        if #available(macOS 27, *) {
+            SettingsWindowTabs()
+        } else {
+            SettingsTabs(fitsEachTab: true)
+        }
+    }
+}
+
+/// The Settings window on macOS 27: its tabs as one capsule in the toolbar, as on the Settings page of the main
+/// window, since a tab view in a settings window shows them as separate toolbar buttons whatever its style.
+@available(macOS 27, *)
+private struct SettingsWindowTabs: View {
+    @AppStorage(SettingsKey.pane) private var pane = SettingsPane.general.rawValue
+
+    var body: some View {
+        page
+            .frame(width: 760)
+            .frame(maxHeight: 520)
+            .fixedSize(horizontal: false, vertical: true)
+            .navigationTitle(title)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Picker("Settings", selection: $pane) {
+                        Text("General").tag(SettingsPane.general.rawValue)
+                        Text("Exclusions").tag(SettingsPane.exclusions.rawValue)
+                        Text("Privacy").tag(SettingsPane.privacy.rawValue)
+                        Text("Helper").tag(SettingsPane.helper.rawValue)
+                    }
+                    .pickerStyle(.tabs)
+                }
+            }
+    }
+
+    @ViewBuilder
+    private var page: some View {
+        switch SettingsPane(rawValue: pane) ?? .general {
+        case .general: GeneralSettingsView()
+        case .exclusions: ExclusionsSettingsView()
+        case .privacy: PrivacySettingsView()
+        case .helper: HelperSettingsView()
+        }
+    }
+
+    private var title: Text {
+        switch SettingsPane(rawValue: pane) ?? .general {
+        case .general: Text("General")
+        case .exclusions: Text("Exclusions")
+        case .privacy: Text("Privacy")
+        case .helper: Text("Helper")
+        }
     }
 }
 
