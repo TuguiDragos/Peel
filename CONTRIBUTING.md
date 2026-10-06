@@ -126,8 +126,8 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   - the spelling and text replacement stores, and iPhone and iPad backups;
   - photo, music, and video libraries, and a folder holding one a level or two down;
   - a sandboxed app's `Documents`, and its container while that folder holds anything or cannot be read;
-  - the folders every account starts with (Desktop, Documents, Downloads, Movies, Music, Pictures, Public)
-    themselves, though not what is inside them;
+  - the folders of every account's home (Applications, Desktop, Documents, Downloads, Library, Movies,
+    Music, Pictures, Public) themselves, though not what is inside them;
   - work a tool keeps in a cache folder (an IDE's local history, Deno's `location_data`), and the global
     preferences files.
 

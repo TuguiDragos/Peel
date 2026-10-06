@@ -38,7 +38,7 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `.ssh`, `.gnupg`, `.aws`, `.password-store` | Keys, credentials, secrets. |
 | `.android/debug.keystore`, `.m2/settings-security.xml`, `.gradle/gradle.properties`, `.git-credentials` | One key or credential each, named on its own so the cache around it can still be cleaned: the file stays, and so does any folder that holds it. |
 | The keys of desktop wallets and key tools: Bitcoin Core's `wallets` and `wallet.dat`, and those of Litecoin, Dogecoin, Dash, PIVX, Firo, Namecoin, Groestlcoin, Elements, Liquid, and Zcash; Monero's `wallets` and MyMonero's; the Electrum family's, Sparrow's, Wasabi's, Ginger's, Specter's, Ashigaru's, Bitcoin Safe's, and JoinMarket's; Exodus's `exodus.wallet` and `Backups`; Atomic, OneKey, Frame, Rabby, Stack Wallet, BlueWallet, My Wallet, Umami, Bisq, Haveno, Bison Wallet, Liana, Nunchuk, and Green; geth, Clef, Foundry, Hardhat, Ape, and Brownie keystores; the validator keys of Lighthouse, Prysm, and ethdo; the Lightning nodes; Cashu's ecash; and the Solana, Sui, Aptos, NEAR, Stellar, Starknet, Fuel, Avalanche, Tezos, Cosmos, Osmosis, Cardano, Decred, Chia, Grin, Kaspa, and Nano key files, 121 places in all | Lose one and what it holds is gone unless its seed phrase was kept somewhere else. Each is named on its own, read from the project's own documentation or source, so the key stays, and so does any folder that holds it, while what comes back on its own beside it, such as a downloaded blockchain, can still go. |
-| `.config`, `.cache`, `.local`, your shell and git settings (`.zshrc`, `.gitconfig`, `.netrc`, `.npmrc`, and the like), and `.kube/config` | Shared by many tools and owned by no app. They are never removed themselves; what one tool keeps inside `.config`, `.cache`, or `.local` still can be. |
+| `.config`, `.cache`, `.local`, `.kube` and its `config`, `.CFUserTextEncoding`, your shell's settings and history (`.zshrc`, `.zsh_history`, `.zsh_sessions`, `.bash_history`, and the like), and the settings of git and other tools (`.gitconfig`, `.gitignore_global`, `.netrc`, `.npmrc`) | Shared by many tools and owned by no app. They are never removed themselves; what one tool keeps inside `.config`, `.cache`, or `.local` still can be. |
 
 Outside your home: everything inside `/System`, `/usr`, `/bin`, `/sbin`, and `/Library/Updates`, where macOS
 stages its own updates, but for one thing: a link directly in `/usr/local/bin` or `/usr/local/sbin` that leads
@@ -64,10 +64,10 @@ key-value databases in `location_data`. Those folders, and any cache folder that
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be
 read, the app's whole container stays, and Peel shows it with the reason instead of selecting it. The folders
-every account starts with (Desktop, Documents, Downloads, Movies, Music, Pictures, Public) are never moved
-themselves, though what you choose inside them can be. Neither are the files of the global preferences domain
-(`.GlobalPreferences.plist` and its twins): your language, keyboard, and scrolling settings, which belong to no
-app.
+of every account's home (Applications, Desktop, Documents, Downloads, Library, Movies, Music, Pictures, Public)
+are never moved themselves, though what you choose inside them can be. Neither are the files of the global
+preferences domain (`.GlobalPreferences.plist` and its twins): your language, keyboard, and scrolling settings,
+which belong to no app.
 
 Three steps of a removal are not a move to the Trash. After a preference file has gone, Peel tells macOS to
 forget that preference domain (`defaults delete`), or the system could write the file again from memory. On
