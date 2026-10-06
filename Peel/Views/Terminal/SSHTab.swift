@@ -40,14 +40,14 @@ struct SSHTab: View {
             }
         }
         .formStyle(.grouped)
-        .safeAreaBar(edge: .bottom) {
+        .turnAllOffBar(
             TurnAllOffBar(
                 explanation: "Peel writes these to a file of its own, which ssh reads. Turning one off takes it out of that file, and your ~/.ssh/config stays as it is.",
                 isEnabled: ssh.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }
-        }
+        )
         .alert("Turn off all SSH settings?", isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") { ssh.turnAllOff() }
             Button("Cancel", role: .cancel) {}

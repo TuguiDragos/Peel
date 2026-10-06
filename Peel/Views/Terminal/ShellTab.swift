@@ -43,14 +43,14 @@ struct ShellTab: View {
             }
         }
         .formStyle(.grouped)
-        .safeAreaBar(edge: .bottom) {
+        .turnAllOffBar(
             TurnAllOffBar(
                 explanation: "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your ~/.zshrc stays as it is.",
                 isEnabled: shell.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }
-        }
+        )
         .alert("Turn off all shell settings?", isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") { shell.turnAllOff() }
             Button("Cancel", role: .cancel) {}
