@@ -142,7 +142,7 @@ one zsh shows, and the Shell tab says so when that line sets `PROMPT` or `PS1`.
 
 <table>
   <tr>
-    <td width="45%"><img src="Terminal/Prompts/folder.png" alt="A prompt with the folder, the branch, and an arrow"></td>
+    <td width="45%"><img src="Terminal/Prompts/folder.png" alt="A prompt with the folder, the branch, and a chevron"></td>
     <td><b>Folder</b><br>The folder you're in, <code>~</code> at home, then the branch and the symbol. This is the prompt Peel starts with.</td>
   </tr>
   <tr>
