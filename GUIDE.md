@@ -14,13 +14,14 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   containers and group containers, preferences, saved state, logs, launch agents and daemons, plug-in folders, and
   more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
-- **Only the sure things are selected.** Files that certainly belong to the app are selected for you, unless Peel
-  sees something inside that may exist nowhere else, such as a crypto wallet, a signing key, a password database, or
-  a repository, or the app keeps there what may exist only on this Mac: local mail, message history, sign-in codes,
-  or VPN connections. A file another installed app also uses is shown but never selected, and anything Peel is less
-  sure of waits under Review Before Removing. A list's Select menu picks what Peel recommends, everything, or
-  nothing. Select All passes by what Peel holds back, guesses at, or shares with another app, which you select one
-  by one, and asks before it adds anything else Peel doesn't recommend.
+- **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier, its name, or its
+  installer's receipt are selected for you, unless Peel sees something inside that may exist nowhere else, such as
+  a crypto wallet, a signing key, a password database, or a repository, or the app keeps there what may exist only
+  on this Mac: local mail, message history, sign-in codes, or VPN connections. A file another installed app also
+  uses is shown but never selected, and what Peel only guesses at, from the start of a name or an identifier the
+  app's maker or signing team also uses, waits under Review Before Removing. A list's Select menu picks what Peel
+  recommends, everything, or nothing. Select All passes by what Peel holds back, guesses at, or shares with
+  another app, which you select one by one, and asks before it adds anything else Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel. With Watch the Trash on, Peel notices when you
   drag an app to the Trash yourself and offers to clear what it left behind. Apps you keep outside the Applications
