@@ -97,7 +97,7 @@ struct ToolSidebar: View {
     }
 
     /// Peel's face, name, and version at the top of the column, on glass over the list. Clicking it opens About.
-    /// It rises into the lower half of the title bar, which is otherwise empty above the sidebar.
+    /// Before macOS 27 it rises into the lower half of the title bar, which is otherwise empty above the sidebar.
     private var mascot: some View {
         Button {
             page = .about
@@ -133,7 +133,7 @@ struct ToolSidebar: View {
         .buttonStyle(.plain)
         .glassEffect(.regular.interactive(), in: .capsule)
         .padding(.horizontal, Head.margin)
-        .padding(.top, -8)
+        .padding(.top, Head.rise)
         .padding(.bottom, 8)
         .accessibilityLabel(Text(AboutView.title))
         .accessibilityValue(library.newerPeel.map { Text("Version \($0.version) is out.") } ?? Text(verbatim: AppVersion.display))
@@ -153,6 +153,11 @@ struct ToolSidebar: View {
         /// Half the capsule's height less half the icon, so the icon is centered in the capsule's rounded end.
         static let trailing = (face + 2 * vertical - icon) / 2
         static let margin: CGFloat = 10
+        /// How far the head rises into the title bar. On macOS 27 the sidebar button there sits on a glass circle
+        /// that reaches the title bar's lower edge, so the head stays below it.
+        static var rise: CGFloat {
+            if #available(macOS 27, *) { 0 } else { -8 }
+        }
     }
 
     /// A group whose rows are added and removed here rather than by a collapsible `Section`, because SwiftUI
