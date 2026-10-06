@@ -1063,4 +1063,12 @@ struct CommandLineTests {
             }
         }
     }
+
+    @Test func aScanAndItsMoveReadTheExclusionsOnce() throws {
+        let source = try String(
+            contentsOf: LineLengthTests.repository.appending(path: "Packages/PeelCore/Sources/PeelCommandLine/Commands/FileCommands.swift"),
+            encoding: .utf8
+        )
+        #expect(source.components(separatedBy: "ExclusionStore().load()").count == 1)
+    }
 }

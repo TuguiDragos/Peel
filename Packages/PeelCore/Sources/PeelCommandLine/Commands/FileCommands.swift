@@ -245,7 +245,7 @@ struct CachesCommand: AsyncParsableCommand {
         let all = await ProgressLine.counting { await DeveloperCaches.scan(exclusions: exclusions) }
         let environments = try Self.chosen(from: all, named: tools)
         guard !remove else {
-            return try await clean(environments, using: TrashService(exclusions: await ExclusionStore().load()))
+            return try await clean(environments, using: TrashService(exclusions: exclusions))
         }
 
         if output.json {
@@ -421,7 +421,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         let artifacts = scan.artifacts
         if remove {
             Self.notes(for: scan).forEach(Output.note)
-            return try await clean(artifacts, using: TrashService(exclusions: await ExclusionStore().load()))
+            return try await clean(artifacts, using: TrashService(exclusions: exclusions))
         }
 
         if output.json {
@@ -577,14 +577,15 @@ struct DuplicatesCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let finder = await DuplicateFinder(exclusions: UnreadableExclusions.load(), digestMemory: DigestMemory())
+        let exclusions = await UnreadableExclusions.load()
+        let finder = DuplicateFinder(exclusions: exclusions, digestMemory: DigestMemory())
         let urls = folders.isEmpty ? finder.defaultFolders : folders.map(URL.init(argument:))
         let scan = try await ProgressLine.reporting { show in
             try await finder.scan(options(for: urls)) { show(Self.progress($0)) }
         }
         if remove {
             Self.notes(for: scan).forEach(Output.note)
-            return try await clean(scan, using: TrashService(exclusions: await ExclusionStore().load()))
+            return try await clean(scan, using: TrashService(exclusions: exclusions))
         }
 
         if output.json {
