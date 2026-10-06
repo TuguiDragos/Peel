@@ -70,6 +70,21 @@ struct OrphanScannerTests {
         )
     }
 
+    /// The recent documents list macOS 26 writes (`.sfl4`) belongs to the installed app it is named for.
+    @Test func anInstalledAppsRecentDocumentListIsNoOrphan() async throws {
+        let directory = try TemporaryDirectory()
+        let lists = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"
+        try directory.file("\(lists)/org.notebook.sfl4")
+        try directory.file("\(lists)/com.gone.app.sfl4")
+        let notebook = InstalledApp(url: URL(filePath: "/Applications/Notebook.app"), bundleIdentifier: "org.notebook", name: "Notebook")
+
+        let scan = await scanner(in: directory).scan(installedApps: installed + [notebook])
+
+        let listed = scan.groups.flatMap(\.items).map(\.url.lastPathComponent)
+        #expect(!listed.contains("org.notebook.sfl4"))
+        #expect(listed.contains("com.gone.app.sfl4"))
+    }
+
     /// What an app left behind can be the biggest folder in the Library. A folder that did not answer in time
     /// is listed first with an unknown size, and the group's total says it is incomplete. It may hold a wallet
     /// all the same, so it is left to be chosen by hand.

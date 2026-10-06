@@ -121,7 +121,7 @@ struct LeftoverMatcher: Sendable {
         case .savedApplicationState:
             fileName.removingSuffix(".savedState")
         case .recentDocuments:
-            fileName.removingSuffix(".sfl3").removingSuffix(".sfl2").removingSuffix(".sfl")
+            withoutRecentDocumentsExtension(fileName)
         case .cookies, .httpStorages:
             fileName.removingSuffix(".binarycookies")
         case .logs:
@@ -135,6 +135,16 @@ struct LeftoverMatcher: Sendable {
         default:
             fileName
         }
+    }
+
+    /// The name a recent documents list carries without its extension, `sfl` and the version macOS writes it in
+    /// (`.sfl4` on macOS 26), whichever version that is.
+    static func withoutRecentDocumentsExtension(_ fileName: String) -> String {
+        guard let dot = fileName.lastIndex(of: ".") else { return fileName }
+        let suffix = fileName[fileName.index(after: dot)...]
+        let version = suffix.dropFirst(3)
+        guard suffix.hasPrefix("sfl"), version.allSatisfy({ $0.isASCII && $0.isNumber }) else { return fileName }
+        return String(fileName[..<dot])
     }
 
     /// The extensions that say a plug-in's kind: the Plug-ins tool's own table, so the two cannot drift, and a

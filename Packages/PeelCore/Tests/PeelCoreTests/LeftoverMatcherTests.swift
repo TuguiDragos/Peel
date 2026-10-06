@@ -315,6 +315,14 @@ struct LeftoverMatcherTests {
         #expect(match?.reason == .bundleIdentifier)
         #expect(match?.confidence == .certain)
     }
+
+    /// macOS 26 writes the list as `.sfl4`, and any later version is read the same way.
+    @Test func readsTheRecentDocumentListOfAnyVersion() {
+        for suffix in ["sfl", "sfl2", "sfl3", "sfl4", "sfl5"] {
+            #expect(LeftoverMatcher.key(from: "md.obsidian.\(suffix)", kind: .recentDocuments) == "md.obsidian")
+        }
+        #expect(LeftoverMatcher.key(from: "md.obsidian.sflx", kind: .recentDocuments) == "md.obsidian.sflx")
+    }
     /// "MuseScore 4" keeps its version in the app's name but not in its folders.
     @Test func matchesAnAppWhoseNameCarriesItsVersion() {
         let museScore = InstalledApp(
