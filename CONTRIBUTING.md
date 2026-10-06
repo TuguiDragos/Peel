@@ -87,6 +87,19 @@ of the screen, in the test report:
 xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID
 ```
 
+A few environment variables are there for work on Peel itself:
+
+- `PEEL_SNAPSHOT=<folder>`, in a Debug build, renders Home, About, and the menu bar panel to PNG files in that
+  folder, in the light and dark appearances, each also with Increase Contrast, then quits, so their layouts can be
+  checked in any language without a screenshot.
+- `PEEL_TERMINAL_EXPORT=<folder>`, in a Debug build, writes what `Terminal/` holds into that folder, then quits.
+- `PEEL_MEASURE=<name>`, in every build, since Release timings are the ones that count, appends to
+  `~/Library/Logs/Peel/<name>` how long after launch the first frame came, then the main thread's long turns and
+  missed frames on every `SIGUSR1` and when Peel quits. The name is a file name, never a path. It wakes Peel every
+  frame, so leave it off when measuring idle CPU.
+- `PEEL_TEST_VOLUME=<folder>` lets the tests move a folder to the Trash of another volume and back. Name a folder
+  on a volume other than your home's, such as a disk image made for it, so nothing reaches your own Trash.
+
 [ARCHITECTURE.md](ARCHITECTURE.md) explains how the parts fit together.
 
 ## Where things live
