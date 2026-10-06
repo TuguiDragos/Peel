@@ -20,14 +20,7 @@ enum AppSort: String, CaseIterable, Identifiable {
     }
 }
 
-enum AppSource: String, CaseIterable, Identifiable {
-    case appStore
-    case homebrew
-    case setapp
-    case direct
-
-    var id: String { rawValue }
-
+extension AppSource {
     var title: LocalizedStringResource {
         switch self {
         case .appStore: "App Store"
@@ -376,9 +369,7 @@ final class AppLibrary {
     }
 
     func source(of app: InstalledApp) -> AppSource {
-        if app.isFromAppStore { return .appStore }
-        if app.isFromSetapp { return .setapp }
-        return homebrewApps[app.id] != nil ? .homebrew : .direct
+        AppSource.of(app, installedByHomebrew: homebrewApps[app.id] != nil)
     }
 
     func developer(of app: InstalledApp) -> String? {
@@ -459,21 +450,11 @@ final class AppLibrary {
     }
 
     private func visible(matching searchText: String) -> VisibleApps {
-        var result = apps
-        if !searchText.isEmpty {
-            result = result.filter {
-                SearchText.matches($0.name, searchText) || SearchText.matches($0.bundleIdentifier, searchText)
-                    || developer(of: $0).map { SearchText.matches($0, searchText) } == true
-            }
-        }
-        if !sources.isEmpty {
-            result = result.filter { sources.contains(source(of: $0)) }
-        }
-        if let selectedDeveloper {
-            result = result.filter { developer(of: $0) == selectedDeveloper }
-        }
-        if showsOnlyUnused {
-            result = result.filter(isUnused)
+        let filter = AppListFilter(
+            text: searchText, sources: sources, developer: selectedDeveloper, onlyUnused: showsOnlyUnused
+        )
+        let result = apps.filter {
+            filter.keeps($0, source: source(of: $0), developer: developer(of: $0), isUnused: isUnused($0))
         }
 
         var waiting: [InstalledApp] = []
