@@ -242,8 +242,8 @@ MIT License. Both licenses ship inside the app and are kept in `Peel/Licenses/`.
 
 <p align="center">
   Spend your days in VS Code, or in an editor built on it? Try Tapetum, my free theme pack: 58 themes in 28
-  families, each in dark and light, with every color placed by hand and its contrast measured on the surface it sits
-  on.
+  families, each in dark and light, plus a high contrast pair for Coherence, with every color placed by hand and its
+  contrast measured on the surface it sits on.
 </p>
 
 <p align="center">

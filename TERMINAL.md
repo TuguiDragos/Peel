@@ -492,8 +492,8 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 <p align="center">
   The palettes of these themes come from Tapetum, a free theme pack for VS Code and the editors built on it, by
-  Țugui Dragoș: 58 themes in 28 families, each in dark and light, with every color placed by hand and its contrast
-  measured on the surface it sits on.
+  Țugui Dragoș: 58 themes in 28 families, each in dark and light, plus a high contrast pair for Coherence, with every
+  color placed by hand and its contrast measured on the surface it sits on.
 </p>
 
 <p align="center">
