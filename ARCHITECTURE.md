@@ -54,8 +54,8 @@ more than 1,700 tests without building the app.
 - `Packages/PeelCore/Sources/PeelPrivileged/ProtectedData.swift` and `PrivilegedPathPolicy.swift`: what nothing may
   remove, and what the helper may touch.
 - `PeelHelper/HelperService.swift`: the helper's operations.
-- `Packages/PeelCore/Sources/PeelCommandLine/PeelCommand.swift` and `Support/Cleanup.swift`: the `peel` commands,
-  and the one path every command that removes something takes.
+- `Packages/PeelCore/Sources/PeelCommandLine/PeelCommand.swift`, which registers the `peel` commands kept in
+  `Commands/`, and `Support/Cleanup.swift`, the path the commands that remove what a scan found take.
 
 ## How a removal travels
 
@@ -193,15 +193,17 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 
 ## The `peel` tool
 
-`PeelCommandLine` builds each command on `swift-argument-parser`. Every command that removes something goes
-through `Cleanup`, so all of them ask, record, and exit the same way: they print the plan with the guard's answer
-beside each item, stop there with `--dry-run`, ask unless given `-y`, exit 2 when the answer is no and 1 when a
-removal couldn't finish, and write the same History the app shows. The tool never uses the helper. Everything it
-prints goes through `Output`, so scripts can read it: its own words are plain ASCII, and names, paths, and what
-macOS says in an error are printed as they are, in UTF-8, with every character that could hide or reorder text shown
-as `?` (`PlainText`). A long scan says how far it has got on one line of standard error, written over itself and
-cleared before anything else is printed (`ProgressLine`). Only a terminal shows it, and only while `peel` is its
-foreground job, so a script reading standard error gets nothing.
+`PeelCommandLine` builds each command on `swift-argument-parser`. The commands that remove what a scan found
+(`peel orphans`, `caches`, `projects`, and `duplicates`) go through `Cleanup`, and `peel uninstall`, which also
+takes out the app's Dock icon and may reset its permissions, has a plan and a question of its own and ends through
+`Cleanup.end`. So all of them ask, record, and exit the same way: they print the plan with the guard's answer beside
+each item, stop there with `--dry-run`, ask unless given `-y`, exit 2 when the answer is no and 1 when a removal
+couldn't finish, and write the same History the app shows. The tool never uses the helper. Everything it prints goes
+through `Output`, so scripts can read it: its own words are plain ASCII, and names, paths, and what macOS says in an
+error are printed as they are, in UTF-8, with every character that could hide or reorder text shown as `?`
+(`PlainText`). A long scan says how far it has got on one line of standard error, written over itself and cleared
+before anything else is printed (`ProgressLine`). Only a terminal shows it, and only while `peel` is its foreground
+job, so a script reading standard error gets nothing.
 
 The app's build puts the tool's shell completions, written by the tool it just built, and its manual page,
 `Support/peel.1`, in `Peel.app/Contents/Resources/completions` and `man` (the Command Line Documentation phase),
