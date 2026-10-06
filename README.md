@@ -171,7 +171,8 @@ Messages, and photo libraries.
 <br>
 
 No. Peel has no analytics and no account. It goes online only to check your apps for updates, which you can turn
-off, and when you ask Homebrew to do something.
+off, and when you ask Homebrew to do something. [PRIVACY.md](PRIVACY.md) says what each of those sends, and
+where.
 
 </details>
 
