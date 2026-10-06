@@ -102,13 +102,23 @@ xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath bui
 - `Localization/`: every translation, and nothing else: the string catalogs of the app and the Finder extension.
 - `Support/`: the Info.plists, the helper's launchd property list, and the manual page of `peel`.
 - `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the menu bar glyph, and `export.sh`, which
-  renders the PNGs the README shows.
+  renders the icon as PNGs, of which the README shows `Peel-Dark.png`.
 - `Scripts/`: `sync_localizations.py`, which keeps the catalogs in step with the code, `generate_manual.py`,
   which keeps the manual page in step with `peel`, `release.sh`, which builds, signs, notarizes, and checks a
-  release, and `make_dmg.sh`, which lays out the disk image's window with dmgbuild (run by uv) over the background
-  `dmg_background.swift` draws.
-- `readme-assets/`: the screenshots the README shows.
+  release, and `make_dmg.sh`, which lays out the disk image's window with dmgbuild (run by uv), from the settings
+  in `dmg_settings.py`, over the background `dmg_background.swift` draws.
+- `Terminal/`: what TERMINAL.md links to and shows: each theme's Terminal profile (`Themes/`), a picture of it
+  (`Renders/`), and pictures of the prompt's layouts (`Prompts/`). A Debug build writes them again when
+  `PEEL_TERMINAL_EXPORT` names a folder, and `TerminalThemeTests` checks that each profile is still what that
+  export writes and that TERMINAL.md links to it and its picture.
+- `readme-assets/`: the screenshots the documents show, and Tapetum's icon.
 - `.github/`: the test workflow, the issue forms, and the pull request template.
+- The documents, at the root: [README.md](README.md) says what Peel is and how to get it, [GUIDE.md](GUIDE.md)
+  what each tool does, [PRIVACY.md](PRIVACY.md) what Peel sends, [SAFETY.md](SAFETY.md) what it protects,
+  [TERMINAL.md](TERMINAL.md) every Terminal theme and setting, [SECURITY.md](SECURITY.md) how to report a
+  vulnerability, [CHANGELOG.md](CHANGELOG.md) what each release changed, and
+  [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) what is expected of everyone taking part.
+  [ARCHITECTURE.md](ARCHITECTURE.md) and this page are for changing Peel.
 
 ## The rules a change must not break
 
