@@ -117,7 +117,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   actions can't be undone by History, and each says so where it is confirmed: Homebrew's own uninstall and clean up,
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked it to
   quit (`QuitBeforeRemoving`). Forgetting a preference domain happens only once its file is in the Trash, so putting the
-  file back undoes it. Every `brew` call runs without Homebrew's automatic cleanup (`HOMEBREW_NO_INSTALL_CLEANUP`), so
+  file back undoes it, or, when saved settings are put back, once the settings in use are saved as a copy of their own
+  (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup (`HOMEBREW_NO_INSTALL_CLEANUP`), so
   an upgrade never deletes on its own; when a `brew.env` file of the user's turns that back on (`Homebrew.overrides()`,
   from `brew config`), the Homebrew page says so and leaves upgrades to Terminal.
 - **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
