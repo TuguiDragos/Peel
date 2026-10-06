@@ -93,6 +93,16 @@ public struct TrashFailure: Sendable, Hashable {
 }
 
 extension TrashFailure.Reason {
+    /// Whether the refusal is about the item, which as it is now would be refused again, rather than about Peel's own
+    /// state: History it cannot read, or the helper it needs.
+    public var isAboutTheItem: Bool {
+        switch self {
+        case .historyUnreadable, .needsHelper: false
+        case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
+             .somethingElseMoved, .heldOpen, .failed: true
+        }
+    }
+
     /// A fixed word for the reason, which the refusal log stores. It does not change with the text on screen, so
     /// an old record still reads.
     public var name: String {

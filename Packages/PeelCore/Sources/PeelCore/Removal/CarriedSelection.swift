@@ -57,6 +57,17 @@ public struct CarriedSelection: Sendable {
         public var result: TrashResult {
             TrashResult(trashed: moved.flatMap(\.result.trashed), failures: moved.flatMap(\.result.failures))
         }
+
+        /// What each part's tool refused for the item itself, which would be refused again as it is now, so it
+        /// leaves the selection.
+        public var refused: [Part] {
+            moved.compactMap { part, result in
+                let urls = Set(result.failures.filter(\.reason.isAboutTheItem).map(\.url))
+                let sizes = part.sizes.filter { urls.contains($0.key) }
+                guard !sizes.isEmpty else { return nil }
+                return Part(page: part.page, title: part.title, source: part.source, sourceKey: part.sourceKey, sizes: sizes)
+            }
+        }
     }
 
     /// The pages seen so far, in the order they were first seen.

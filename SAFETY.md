@@ -213,7 +213,8 @@ them moves all of it. Only a page you have opened counts: Developer and Build Ar
 tool and project they list, and what they selected on a page you never saw stays where it is. Before anything
 moves, the question lists every page with how much it holds, and each page's part is moved by its own tool, with
 that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app opened since
-is writing to, and Duplicates refuses a copy that changed.
+is writing to, and Duplicates refuses a copy that changed. What a tool refuses for the item itself, such as a folder
+a program still has open, leaves the selection, so the next Move to Trash on any page does not carry it again.
 
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine
 snapshots are explained, never deleted.

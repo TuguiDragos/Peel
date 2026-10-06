@@ -127,6 +127,27 @@ struct CarriedSelectionTests {
         #expect(pass.result.failures.map(\.url.lastPathComponent) == ["ModuleCache"])
     }
 
+    /// What a part's tool refused for the item itself leaves its selection, so the next Move to Trash, on any page,
+    /// does not carry it again. What was refused for Peel's own state stays selected for when that is put right.
+    @Test func whatWasRefusedForItselfLeavesTheSelection() async {
+        let parts = [part("space", "caches", ["com.apple.akd": 10, "Kept.app": 20, "Gone": 30, "Later": 40])]
+        let pass = await CarriedSelection.pass(parts) { part in
+            var result = TrashResult()
+            for url in part.sizes.keys {
+                switch url.lastPathComponent {
+                case "com.apple.akd": result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: ["akd"])))
+                case "Kept.app": result.failures.append(TrashFailure(url: url, reason: .guarded(.protectedLocation)))
+                case "Later": result.failures.append(TrashFailure(url: url, reason: .historyUnreadable))
+                default: result.trashed.append(TrashedItem(originalURL: url, trashedURL: url, date: .now))
+                }
+            }
+            return result
+        }
+
+        #expect(pass.refused.map(\.page.scope) == ["caches"])
+        #expect(Set(pass.refused.flatMap(\.sizes.keys).map(\.lastPathComponent)) == ["com.apple.akd", "Kept.app"])
+    }
+
     /// What a pass moved is one History batch, each record under its own part's source and tool, with the size
     /// its page measured, and none for an item whose size was not known.
     @Test func whatMovedIsOneBatchWithEachPartsName() async {

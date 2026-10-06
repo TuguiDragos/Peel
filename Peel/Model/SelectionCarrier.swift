@@ -123,6 +123,9 @@ final class SelectionCarrier {
         }
         history.finish(removal)
         outcome.report(pass.result, appsToQuit: appsToQuit)
+        for part in pass.refused {
+            tool(of: part)?.deselect(part)
+        }
         let moved = pass.moved.map(\.part)
         for name in moved.tools {
             guard let tool = Tool(rawValue: name) else { continue }
