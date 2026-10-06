@@ -12,7 +12,7 @@ public struct UninstallsItself: Sendable, Hashable {
     public static func when(moving urls: Set<URL>, among apps: [InstalledApp]) -> [UninstallsItself] {
         apps.filter { app in
             urls.contains(app.url) && app.bundleIdentifier == mullvad.identifier
-                && app.url.path(percentEncoded: false) == mullvad.path
+                && PathPattern.comparablePath(of: app.url) == mullvad.path
         }.map { UninstallsItself(app: $0, uninstaller: mullvad.path + "/Contents/Resources/uninstall.sh") }
     }
 }

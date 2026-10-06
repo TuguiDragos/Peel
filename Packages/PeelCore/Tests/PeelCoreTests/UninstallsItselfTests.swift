@@ -14,6 +14,15 @@ struct UninstallsItselfTests {
         ])
     }
 
+    /// The apps Peel lists come from a folder walk, whose URLs name a folder with a slash at the end.
+    @Test func knowsMullvadAsTheListOfAppsNamesIt() throws {
+        let walked = URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory)
+        #expect(walked.path(percentEncoded: false).hasSuffix("/"))
+        let listed = InstalledApp(url: walked, bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN")
+
+        #expect(UninstallsItself.when(moving: [walked], among: [listed]).map(\.app) == [listed])
+    }
+
     @Test func nothingHappensWhileTheAppStaysOrSitsElsewhere() {
         let elsewhere = InstalledApp(
             url: URL(filePath: "/Users/me/Applications/Mullvad VPN.app"), bundleIdentifier: "net.mullvad.vpn",

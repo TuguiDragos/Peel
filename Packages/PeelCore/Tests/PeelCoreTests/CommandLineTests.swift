@@ -45,6 +45,19 @@ struct CommandLineTests {
         #expect(permissions.contains("administrator"))
     }
 
+    /// What the Trash can't bring back is said before the question in every output: with `--json` on standard error.
+    @Test func warnsOfWhatTheTrashCantBringBack() {
+        let mullvad = InstalledApp(
+            url: URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
+        )
+        let warnings = UninstallCommand.warnings(moving: [mullvad.url], of: mullvad, resettingPrivacy: true)
+        #expect(warnings.count == 2)
+        #expect(warnings.contains { $0.contains("privacy permissions") })
+        #expect(warnings.contains { $0.contains("logs this Mac out") })
+        #expect(UninstallCommand.warnings(moving: [], of: mullvad, resettingPrivacy: false).isEmpty)
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)

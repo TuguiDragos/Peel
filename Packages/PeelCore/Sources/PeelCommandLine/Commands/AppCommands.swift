@@ -372,6 +372,18 @@ struct UninstallCommand: AsyncParsableCommand {
         }
     }
 
+    /// What the removal does that the Trash can't bring back, said before the question.
+    static func warnings(moving urls: Set<URL>, of app: InstalledApp, resettingPrivacy: Bool) -> [String] {
+        var warnings: [String] = []
+        if resettingPrivacy {
+            warnings.append("Peel resets \(app.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
+        }
+        for app in UninstallsItself.when(moving: urls, among: [app]) {
+            warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(app.uninstaller)")
+        }
+        return warnings
+    }
+
     /// Why the app itself can't move: macOS keeps another developer's app from a terminal without App Management,
     /// which the person can allow, while an app in a folder they can't write to needs an administrator.
     static func whyItCannotMove(
@@ -473,13 +485,10 @@ struct UninstallCommand: AsyncParsableCommand {
                 [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
             })
             Output.line("Total: \(Output.size(plan.total))")
-            if resetPrivacy {
-                Output.line("Peel resets \(target.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
-            }
-            for app in UninstallsItself.when(moving: Set(plan.moving.map(\.url)), among: [target]) {
-                Output.line("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(app.uninstaller)")
-            }
         }
+        // With `--json`, standard output is the report alone, so the warnings go where the notes go.
+        let warnings = Self.warnings(moving: Set(plan.moving.map(\.url)), of: target, resettingPrivacy: resetPrivacy)
+        warnings.forEach(output.json ? Output.note : Output.line)
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 
         guard !dryRun else {
