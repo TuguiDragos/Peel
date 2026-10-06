@@ -16,6 +16,10 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/GPL%203.0%20or%20later-201F1D?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY5OTMzIiBzdHJva2Utd2lkdGg9IjEuNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgMy41djE2LjVNOCAyMGg4TTQuNSA3aDE1Ii8%2BPHBhdGggZD0iTTQuNSA3IDIgMTMuNWg1eiIvPjxwYXRoIGQ9Ik0xOS41IDcgMTcgMTMuNWg1eiIvPjwvZz48L3N2Zz4%3D" height="30" alt="License: GNU GPL 3.0 or later"></a>
 </p>
 
+<p align="center">
+  <img src="readme-assets/peel-uninstall-app-with-leftover-files.png" width="900" alt="Peel uninstalling Obsidian: the app, what it left in Application Support, caches, and preferences, and the command Homebrew linked to it, each with its kind and size, selected and ready to move to the Trash, with its list of recent documents under Review Before Removing, its privacy permissions to reset, and the links it opens by default">
+</p>
+
 ## Install
 
 > [!CAUTION]
@@ -48,24 +52,33 @@ Homebrew also puts the `peel` command on your path.
 To update Peel, download the new release and replace the copy in your Applications folder, or run
 `brew upgrade --cask peel`.
 
-## Why Peel
+## What Peel does
 
 Dragging an app to the Trash leaves pieces of it behind: caches, settings, containers, launch agents, and support
 files scattered across your Library, sometimes gigabytes of them. Peel finds what an app left, tells you why each
 file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing is deleted, and History can
 put all of it back.
 
-Peel is free and open source, and it speaks English and 17 other languages.
+- **[Uninstall apps completely](GUIDE.md#uninstall-apps-completely):** the app and every file it left, each with the
+  reason it matched, and what's new in the next version of the apps you keep.
+- **[Free up disk space](GUIDE.md#free-up-disk-space):** what apps you removed left behind, caches of developer tools,
+  what builds left in your projects, duplicates, installers and backups, local copies of files already safe in
+  iCloud, and what fills your disk.
+- **[Look after your Mac](GUIDE.md#look-after-your-mac):** background items, extensions, plug-ins, installer receipts,
+  software that still needs Rosetta, and Homebrew.
+- **[Fine-tune your Mac](GUIDE.md#fine-tune-your-mac):** settings macOS already has, many of them out of sight, each
+  with a switch of its own.
+- **[Set up Terminal](GUIDE.md#set-up-terminal):** dark themes built on Apple's Clear Dark, a prompt, and settings
+  zsh, Git, and ssh already have, each shown in [TERMINAL.md](TERMINAL.md).
+- **[Stay in control](GUIDE.md#stay-in-control):** History puts back what Peel moved, and Exclusions name what Peel
+  leaves alone.
+- **[Work your way](GUIDE.md#work-your-way):** export what's installed, open a tool from Shortcuts or the menu bar,
+  choose the tools the sidebar shows, and do most of it from Terminal with the `peel` command.
 
-## What Peel does
-
-[GUIDE.md](GUIDE.md) shows what each tool does, what Peel asks for and why, and how to remove Peel.
+Peel is free and open source, and it speaks English and 17 other languages. [GUIDE.md](GUIDE.md) shows what each tool
+does, what Peel asks for and why, and how to remove Peel.
 
 ## Safe by design
-
-<p align="center">
-  <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back, and under Not Moved, what Peel was asked to move and didn't">
-</p>
 
 A cleaner should never cost you something you wanted. Peel is built around that.
 
@@ -74,18 +87,12 @@ A cleaner should never cost you something you wanted. Peel is built around that.
   cleanup, and resetting an app's privacy permissions.
 - **Protected places stay protected.** Peel refuses to move iCloud Drive, keychains, your SSH and signing keys, the
   keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and
-  iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.
-- **Crypto wallets are never selected for you.** Beyond the places wallets keep their keys, a browser profile with
-  a wallet extension such as MetaMask stays where it is, so uninstalling a browser never takes a wallet with it.
-  A folder an uninstall or Orphaned Files finds a wallet or a signing key in is shown with that reason and moves
-  only if you select it yourself. [SAFETY.md](SAFETY.md#crypto-wallets) says how Peel knows one.
-- **Checked again at the last moment.** Peel looks at each item once more right before it moves, so something
-  swapped in the meantime stays where it is.
+  iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it. A
+  browser profile with a wallet extension Peel knows, such as MetaMask, stays too.
 - **Nothing shared, nothing unknown.** A file another app also uses is never selected for you. A folder Peel
   couldn't measure or read is shown as unknown, never as empty, and never selected for you either.
-- **Your exclusions, everywhere.** What you exclude never appears in any list, and a folder holding something you
-  excluded is never moved.
-- **Every decision explained.** When Peel holds a file back, the row says why.
+- **Every decision explained.** When Peel holds a file back, the row says why, and each item is checked once more
+  right before it moves.
 
 [SAFETY.md](SAFETY.md) lists everything Peel protects, and [ARCHITECTURE.md](ARCHITECTURE.md) shows how a
 removal travels through the code.
@@ -98,16 +105,8 @@ every address Peel or Homebrew may contact.
 ## The `peel` command
 
 The command ships inside the app. Settings > General shows the Terminal command that puts it on your path, and a
-Homebrew install puts it there for you.
-
-Every command that moves something asks first, and takes `--dry-run` to only show the plan and `-y` to skip the
-question. It asks only where you can see the plan and answer, so with its output sent to a file or a pipe it needs
-`-y`, and it ignores keys typed before the question appeared. Answering no exits with code 2, so
-`peel uninstall Foo && next-step` stops there. The command moves only what the app would suggest, through the same
-checks, into the same History, and leaves anything that needs an administrator to the app. It won't run under
-`sudo`. Most commands take `--json`, which lists without moving, and `peel uninstall --json` reports what moved,
-what stayed, and why. A Homebrew install also sets up its completions for zsh, bash, and fish and its manual page,
-`man peel`; otherwise `peel --generate-completion-script zsh` writes the completions for your shell.
+Homebrew install puts it there for you. [GUIDE.md](GUIDE.md#the-peel-command) says how it asks before it moves
+anything, and `man peel` lists every option.
 
 <details>
 <summary>All commands</summary>

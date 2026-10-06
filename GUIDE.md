@@ -157,6 +157,10 @@ add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what e
 
 ## Stay in control
 
+<p align="center">
+  <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back, and under Not Moved, what Peel was asked to move and didn't">
+</p>
+
 - **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and
   what it was asked to move and wouldn't, with the reason for each item.
 - **Exclusions:** files, folders, and apps Peel must never touch.
@@ -178,6 +182,17 @@ Settings > General holds Peel's choices, among them which tools the sidebar show
 
 With Show in Menu Bar on, Peel's menu bar item lists what each tool found the last time it looked, a line per tool
 that opens it in Peel. It never adds them up into one figure and never selects anything for you.
+
+## The `peel` command
+
+Every command that moves something asks first, and takes `--dry-run` to only show the plan and `-y` to skip the
+question. It asks only where you can see the plan and answer, so with its output sent to a file or a pipe it needs
+`-y`, and it ignores keys typed before the question appeared. Answering no exits with code 2, so
+`peel uninstall Foo && next-step` stops there. The command moves only what the app would suggest, through the same
+checks, into the same History, and leaves anything that needs an administrator to the app. It won't run under
+`sudo`. Most commands take `--json`, which lists without moving, and `peel uninstall --json` reports what moved,
+what stayed, and why. A Homebrew install also sets up its completions for zsh, bash, and fish and its manual page,
+`man peel`; otherwise `peel --generate-completion-script zsh` writes the completions for your shell.
 
 ## What Peel asks for, and why
 
