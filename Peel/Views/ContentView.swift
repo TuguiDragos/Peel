@@ -127,6 +127,7 @@ struct ContentView: View {
             drawn = Destination(tool: tool, page: page)
         }
         .quietTitlebarSeparators()
+        .clearTitleBar()
         .measuresFrames()
         .focusedSceneValue(\.selectedTool, shownTool)
         // The page changes only for a bundle that is an app, since any app or web page can send the link.
