@@ -79,9 +79,10 @@ Space shows what fills your disk, area by area, and what each area is.
 engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
 on Electron, such as Slack or Discord (never what a browser or an app keeps for you), and the browser profiles a
 Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
-archives and the symbols it copied from your devices, model weights, installed packages, and what a tool keeps for
-you to install again (Vagrant boxes, Asset Store packages, Godot's export templates) are listed but never selected
-for you, and toolchains or anything holding an account are never listed.
+archives and the symbols it copied from your devices, model weights, installed packages, what a tool keeps for you
+to install again (Vagrant boxes, Asset Store packages, Godot's export templates), and an editor's saved state for
+each project it opened are listed but never selected for you, and toolchains or anything holding an account are
+never listed.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
 `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
