@@ -35,9 +35,10 @@ to Terminal.
   team named in `Support/com.tuguidragos.Peel.Helper.plist` (`SpawnConstraint`), so to install the helper you
   build, put your team there as well, again outside your commits. The package's tests need no signing.
 - Nothing else. The only dependency is Apple's swift-argument-parser, which Xcode fetches.
-- A Release build needs `ENABLE_POINTER_AUTHENTICATION=YES` on the `xcodebuild` command line, since only the
-  command line reaches the Swift packages and every program imports them for arm64e too. `Scripts/release.sh`
-  passes it; a Debug build needs nothing.
+- A Release build needs `ENABLE_POINTER_AUTHENTICATION=YES` and `MACOSX_DEPLOYMENT_TARGET=26.0` on the
+  `xcodebuild` command line, since only the command line reaches the Swift packages: every program imports
+  them for arm64e too, and a package that names no platform would be built for an older macOS, with its class
+  data unsigned. `Scripts/release.sh` passes both; a Debug build needs nothing.
 
 ```bash
 xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build

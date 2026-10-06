@@ -265,6 +265,9 @@ which any of the four programs can be debugged or lacks the arm64e slice, in whi
 
 A Release build of every program has pointer authentication (`ENABLE_POINTER_AUTHENTICATION`, an arm64e slice
 beside arm64 and x86_64), and the helper the rest of Enhanced Security too. Xcode gives the Swift packages only the
-settings of the command line, so a Release build passes that setting there as well: `release.sh` and the Checks
-workflow do, and Xcode's own Archive, which cannot, fails. A Debug build leaves it off, since it builds only the
-Mac's own architecture, which the programs would read as arm64e and the packages as arm64.
+settings of the command line, so a Release build passes that setting there as well, with
+`MACOSX_DEPLOYMENT_TARGET=26.0`: a package that names no platform, such as swift-argument-parser, would otherwise
+be built for an older macOS with its class data unsigned, and the linker would then leave the class data of the
+whole `peel` tool unsigned. `release.sh` and the Checks workflow pass both, and Xcode's own Archive, which cannot,
+fails. A Debug build leaves pointer authentication off, since it builds only the Mac's own architecture, which the
+programs would read as arm64e and the packages as arm64.
