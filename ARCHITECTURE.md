@@ -39,7 +39,7 @@ The package, `Packages/PeelCore`, has four libraries:
   notifications that send it too, and the app that reads it. The extension links nothing else.
 
 Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs
-more than 900 tests without building the app.
+more than 1,700 tests without building the app.
 
 ## Where to start reading
 
