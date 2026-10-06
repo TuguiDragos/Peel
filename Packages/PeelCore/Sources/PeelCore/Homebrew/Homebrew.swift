@@ -701,10 +701,38 @@ public enum Homebrew {
         try await run(["update"], autoUpdate: false)
     }
 
+    /// How much `brew cleanup` removes, each besides the old versions and the formulae nothing needs (`brew cleanup
+    /// --help`): what Homebrew judges stale, every cache file older than some days, or every download but those of
+    /// what is installed now.
+    public enum Cleanup: Sendable, Hashable {
+        case standard
+        case olderThan(days: Int)
+        case everyDownload
+
+        var arguments: [String] {
+            switch self {
+            case .standard: ["cleanup"]
+            case .olderThan(let days): ["cleanup", "--prune=\(days)"]
+            case .everyDownload: ["cleanup", "--scrub"]
+            }
+        }
+    }
+
     /// `kept` are the formulae Homebrew must neither clean up nor autoremove.
     @concurrent
-    public static func cleanup(keeping kept: [String]) async throws(CommandFailure) -> String {
-        try await execute(["cleanup"], autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
+    public static func cleanup(
+        _ cleanup: Cleanup = .standard, keeping kept: [String]
+    ) async throws(CommandFailure) -> String {
+        try await execute(cleanup.arguments, autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
+    }
+
+    static let repairTapsArguments = ["tap", "--repair"]
+
+    /// Adds the links a tap's manual pages and completions are missing, and corrects a tap whose upstream renamed its
+    /// main branch (`brew tap --help`). It deletes nothing.
+    @concurrent
+    public static func repairTaps() async throws(CommandFailure) -> String {
+        try await execute(repairTapsArguments, autoUpdate: false, timeout: longestCommand).transcript()
     }
 
     /// True when Homebrew, its own `brew.env` files read, still keeps every formula in `kept`. Such a file can

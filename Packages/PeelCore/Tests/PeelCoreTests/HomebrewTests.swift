@@ -13,6 +13,19 @@ struct HomebrewTests {
         }
     }
 
+    @Test func eachCleanUpAsksHomebrewForWhatItsHelpDocuments() async throws {
+        #expect(Homebrew.Cleanup.standard.arguments == ["cleanup"])
+        #expect(Homebrew.Cleanup.olderThan(days: 30).arguments == ["cleanup", "--prune=30"])
+        #expect(Homebrew.Cleanup.everyDownload.arguments == ["cleanup", "--scrub"])
+        #expect(Homebrew.repairTapsArguments == ["tap", "--repair"])
+
+        guard Homebrew.executableURL != nil else { return }
+        let cleanup = try await Homebrew.execute(["cleanup", "--help"], autoUpdate: false, timeout: 30).transcript()
+        #expect(cleanup.contains("--prune") && cleanup.contains("--scrub"))
+        let tap = try await Homebrew.execute(["tap", "--help"], autoUpdate: false, timeout: 30).transcript()
+        #expect(tap.contains("--repair"))
+    }
+
     @Test func anUpgradeNeverWaitsForAnAnswer() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_ASK"] == "1")

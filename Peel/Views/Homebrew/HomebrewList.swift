@@ -7,6 +7,8 @@ struct HomebrewList: View {
     @State private var searchText = ""
     @State private var isRescanning = false
     @State private var isConfirmingCleanUp = false
+    /// One of the deeper clean ups, or the repair, waiting for its confirmation.
+    @State private var confirming: HomebrewLibrary.Command?
     @State private var isConfirmingUpgradeAll = false
 
     var body: some View {
@@ -75,6 +77,18 @@ struct HomebrewList: View {
         } message: {
             Text(verbatim: cleanUpWarning)
         }
+        .confirmationDialog(
+            confirming.map(confirmationTitle) ?? Text(verbatim: ""),
+            isPresented: Binding(get: { confirming != nil }, set: { if !$0 { confirming = nil } }),
+            presenting: confirming
+        ) { command in
+            Button(command == .repairTaps ? "Repair" : "Clear", role: command == .repairTaps ? nil : .destructive) {
+                start(command)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { command in
+            confirmationMessage(command)
+        }
         .task {
             // Only this page shows what Clean Up would free, so the figure is asked for here, and only while
             // it's unknown: `brew cleanup --dry-run` has to walk the cache and the Cellar to work it out.
@@ -82,6 +96,25 @@ struct HomebrewList: View {
                   homebrew.packages == nil || homebrew.reclaimable == nil
             else { return }
             await homebrew.refresh(includingReclaimable: true)
+        }
+    }
+
+    private func confirmationTitle(_ command: HomebrewLibrary.Command) -> Text {
+        switch command {
+        case .clearOlderDownloads: Text("Clear Homebrew’s downloads older than 30 days?")
+        case .clearEveryDownload: Text("Clear every Homebrew download?")
+        default: Text("Repair Homebrew’s taps?")
+        }
+    }
+
+    private func confirmationMessage(_ command: HomebrewLibrary.Command) -> Text {
+        switch command {
+        case .clearOlderDownloads:
+            Text("Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back.")
+        case .clearEveryDownload:
+            Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back.")
+        default:
+            Text("Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
         }
     }
 
@@ -181,6 +214,30 @@ struct HomebrewList: View {
                         .monospacedDigit()
                 }
                 Button("Clean Up") { isConfirmingCleanUp = true }
+            }
+            row(
+                title: "Clear Older Downloads",
+                detail: "Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes.",
+                systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90",
+                command: .clearOlderDownloads
+            ) {
+                Button("Clear") { confirming = .clearOlderDownloads }
+            }
+            row(
+                title: "Clear Every Download",
+                detail: "Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay.",
+                systemImage: "tray.full",
+                command: .clearEveryDownload
+            ) {
+                Button("Clear") { confirming = .clearEveryDownload }
+            }
+            row(
+                title: "Repair Taps",
+                detail: "Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing.",
+                systemImage: "wrench.adjustable",
+                command: .repairTaps
+            ) {
+                Button("Repair") { confirming = .repairTaps }
             }
             row(
                 title: "Check Health",

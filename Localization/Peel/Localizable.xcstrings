@@ -10936,6 +10936,112 @@
         }
       }
     },
+    "Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doplní chybějící odkazy na manuálové stránky a doplňování pro shell z vašich taps a sleduje tap, jehož hlavní větev byla přejmenována. Nic nemaže."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergänzt die fehlenden Links zu den Handbuchseiten und Shell-Vervollständigungen deiner Taps und folgt einem Tap, dessen Hauptzweig umbenannt wurde. Es wird nichts gelöscht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade los enlaces que faltan a las páginas de manual y al autocompletado de shell de tus taps, y sigue a un tap cuya rama principal se ha renombrado. No borra nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute les liens manquants vers les pages de man et les complétions du shell de vos taps, et suit un tap dont la branche principale a été renommée. Ne supprime rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge i link mancanti alle pagine man e ai completamenti della shell dei tuoi tap, e segue un tap il cui ramo principale è stato rinominato. Non elimina nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tapsのmanページとシェル補完で不足しているリンクを追加し、メインブランチの名前が変更されたtapを新しい名前に追従させます。何も削除しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tap의 man 페이지와 셸 자동 완성에 빠진 링크를 추가하고, 기본 브랜치의 이름이 바뀐 tap이 새 이름을 따르도록 합니다. 아무것도 삭제하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voegt de ontbrekende koppelingen toe voor de man-pagina's en shell-aanvullingen van je taps, en volgt een tap waarvan de hoofdbranch een andere naam heeft gekregen. Er wordt niets verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaje brakujące dowiązania do stron man i uzupełnień powłoki z Twoich tapów oraz podąża za tapem, którego głównej gałęzi zmieniono nazwę. Niczego nie usuwa."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adiciona os links que faltam para as páginas man e o autocompletar do shell dos seus taps, e acompanha um tap cujo branch principal foi renomeado. Não apaga nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adaugă legăturile care lipsesc pentru paginile de manual și completările shell ale tap‑urilor dvs. și urmărește un tap al cărui branch principal a fost redenumit. Nu șterge nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляет недостающие ссылки на man-страницы и автодополнение оболочки из Ваших taps и переключает tap, у которого переименована основная ветка, на новое имя ветки. Ничего не удаляет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägger till de länkar som saknas till man-sidorna och skalkompletteringarna i dina taps, och följer ett tap vars huvudgren har bytt namn. Inget raderas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap depolarınızın kılavuz sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada geçirir. Hiçbir şey silmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додає посилання, яких бракує для man-сторінок і доповнень оболонки з ваших taps, і перемикає tap, основну гілку якого перейменовано, на нову назву. Нічого не видаляє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为你的taps补上手册页和shell补全中缺失的链接，并让主分支已改名的tap改用新名称。它不会删除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補上你的taps中man頁面和shell補齊項目缺少的連結，並讓主要分支已重新命名的tap改用新名稱。不會刪除任何項目。"
+          }
+        }
+      }
+    },
     "Aerial Wallpapers" : {
       "localizations" : {
         "cs" : {
@@ -24791,6 +24897,536 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要清理Homebrew嗎？"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消去"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지우기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymaż"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rensa"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
+          }
+        }
+      }
+    },
+    "Clear Every Download" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat všechny stažené soubory"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Downloads löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar todas las descargas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer tous les téléchargements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella tutti i download"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのダウンロードを消去"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 다운로드 파일 지우기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis alle downloads"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymaż wszystkie pobrane pliki"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar Todos os Downloads"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați toate descărcările"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить все загрузки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rensa alla hämtningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm İndirmeleri Sil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити всі викачані файли"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除所有下载"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除所有下載檔案"
+          }
+        }
+      }
+    },
+    "Clear Homebrew’s downloads older than 30 days?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat stažené soubory Homebrew starší než 30 dní?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads von Homebrew löschen, die älter als 30 Tage sind?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Borrar las descargas de Homebrew de más de 30 días?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les téléchargements de Homebrew datant de plus de 30 jours ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi cancellare i download di Homebrew più vecchi di 30 giorni?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewの30日より古いダウンロードを消去しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30일이 지난 Homebrew의 다운로드 파일을 지우겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads van Homebrew ouder dan 30 dagen wissen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymazać pobrane pliki Homebrew starsze niż 30 dni?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar os downloads do Homebrew com mais de 30 dias?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați descărcările Homebrew mai vechi de 30 de zile?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить загрузки Homebrew старше 30 дней?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du rensa Homebrews hämtningar som är äldre än 30 dagar?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un 30 günden eski indirmeleri silinsin mi?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити викачані файли Homebrew, старші за 30 днів?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要清除Homebrew超过30天的下载文件吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要清除Homebrew超過30天的下載檔案嗎？"
+          }
+        }
+      }
+    },
+    "Clear Older Downloads" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat starší stažené soubory"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ältere Downloads löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar descargas antiguas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les anciens téléchargements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella i download più vecchi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "古いダウンロードを消去"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오래된 다운로드 파일 지우기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis oudere downloads"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymaż starsze pobrane pliki"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar Downloads Antigos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați descărcările mai vechi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить старые загрузки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rensa äldre hämtningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eski İndirmeleri Sil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити старіші викачані файли"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除较旧的下载"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除較舊的下載檔案"
+          }
+        }
+      }
+    },
+    "Clear every Homebrew download?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat všechny stažené soubory Homebrew?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Downloads von Homebrew löschen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Borrar todas las descargas de Homebrew?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer tous les téléchargements de Homebrew ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi cancellare tutti i download di Homebrew?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのすべてのダウンロードを消去しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 모든 다운로드 파일을 지우겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle downloads van Homebrew wissen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymazać wszystkie pobrane pliki Homebrew?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar todos os downloads do Homebrew?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați toate descărcările Homebrew?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить все загрузки Homebrew?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du rensa alla Homebrews hämtningar?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un tüm indirmeleri silinsin mi?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити всі викачані файли Homebrew?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要清除Homebrew的所有下载文件吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要清除Homebrew的所有下載檔案嗎？"
           }
         }
       }
@@ -46318,6 +46954,112 @@
         }
       }
     },
+    "Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew doplní chybějící odkazy na manuálové stránky a doplňování pro shell ze svých taps a tap, jehož hlavní větev byla přejmenována, nasměruje na nový název. Nic nemaže."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ergänzt die fehlenden Links zu den Handbuchseiten und Shell-Vervollständigungen seiner Taps und richtet einen Tap, dessen Hauptzweig umbenannt wurde, auf den neuen Namen aus. Es wird nichts gelöscht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew añade los enlaces que faltan a las páginas de manual y al autocompletado de shell de sus taps, y hace que un tap cuya rama principal se ha renombrado apunte al nombre nuevo. No borra nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ajoute les liens manquants vers les pages de man et les complétions du shell de ses taps, et fait pointer un tap dont la branche principale a été renommée vers le nouveau nom. Rien n’est supprimé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew aggiunge i link mancanti alle pagine man e ai completamenti della shell dei suoi tap, e indirizza al nuovo nome un tap il cui ramo principale è stato rinominato. Non elimina nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、tapsのmanページとシェル補完で不足しているリンクを追加し、メインブランチの名前が変更されたtapを新しい名前に向けます。何も削除しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 tap의 man 페이지와 셸 자동 완성에 빠진 링크를 추가하고, 기본 브랜치의 이름이 바뀐 tap이 새 이름을 가리키도록 합니다. 아무것도 삭제하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew voegt de ontbrekende koppelingen toe voor de man-pagina's en shell-aanvullingen van zijn taps, en laat een tap waarvan de hoofdbranch een andere naam heeft gekregen naar de nieuwe naam verwijzen. Er wordt niets verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew dodaje brakujące dowiązania do stron man i uzupełnień powłoki ze swoich tapów, a tap, którego głównej gałęzi zmieniono nazwę, kieruje na nową nazwę. Niczego nie usuwa."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew adiciona os links que faltam para as páginas man e o autocompletar do shell dos seus taps, e aponta um tap cujo branch principal foi renomeado para o novo nome. Não apaga nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew adaugă legăturile care lipsesc pentru paginile de manual și completările shell ale tap‑urilor sale și îndreaptă un tap al cărui branch principal a fost redenumit spre noul nume. Nu șterge nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew добавляет недостающие ссылки на man-страницы и автодополнение оболочки из своих taps и направляет tap, у которого переименована основная ветка, на ее новое имя. Он ничего не удаляет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lägger till de länkar som saknas till man-sidorna och skalkompletteringarna i sina taps, och låter ett tap vars huvudgren har bytt namn peka på det nya namnet. Homebrew raderar ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, tap depolarının kılavuz sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada yönlendirir. Hiçbir şey silmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew додасть посилання, яких бракує для man-сторінок і доповнень оболонки з його taps, а tap, основну гілку якого перейменовано, спрямує на нову назву. Він нічого не видаляє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会为其taps补上手册页和shell补全中缺失的链接，并将主分支已改名的tap指向新名称。它不会删除任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會補上其taps中man頁面和shell補齊項目缺少的連結，並將主要分支已重新命名的tap指向新名稱。不會刪除任何項目。"
+          }
+        }
+      }
+    },
     "Homebrew can no longer reliably download it." : {
       "localizations" : {
         "cs" : {
@@ -46844,6 +47586,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew無法完成升級。"
+          }
+        }
+      }
+    },
+    "Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trvale smaže všechny stažené soubory, které si ponechává, i ty pro nejnovější verze, kromě souborů toho, co je právě nainstalované, a také to, co odstraní příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew löscht endgültig jeden aufbewahrten Download, auch für die neuesten Versionen, außer den Downloads dessen, was jetzt installiert ist, sowie das, was „Bereinigen“ entfernt. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew borra definitivamente todas las descargas que guarda, incluso las de las versiones más recientes, salvo las de lo que está instalado ahora, y lo que elimina la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew supprime définitivement tous les téléchargements qu’il conserve, même ceux des dernières versions, sauf ceux de ce qui est installé actuellement, ainsi que ce que supprime Nettoyer. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elimina definitivamente tutti i download che conserva, anche quelli delle versioni più recenti, tranne quelli di ciò che è installato ora, più ciò che rimuove “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、保持しているすべてのダウンロード（最新バージョンのものも含みますが、現在インストールされているもののダウンロードは除きます）と、“クリーンアップ”で削除されるものを完全に削除します。ゴミ箱には何も入らず、履歴から戻すこともできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 영구적으로 삭제하며, ‘정리’가 제거하는 항목도 삭제합니다. 현재 설치된 항목의 다운로드 파일은 제외됩니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert elke download die het bewaart definitief, ook die van de nieuwste versies, behalve die van wat nu geïnstalleerd is, en ook wat 'Ruim op' verwijdert. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew usuwa trwale wszystkie zachowane pobrane pliki, także najnowszych wersji, oprócz plików tego, co jest teraz zainstalowane, a także to, co usuwa polecenie Wyczyść. Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew apaga definitivamente todos os downloads que guarda, mesmo os das versões mais recentes, exceto os do que está instalado agora, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew șterge definitiv fiecare descărcare pe care o păstrează, chiar și pentru cele mai noi versiuni, cu excepția celor pentru ce este instalat acum, plus ce elimină „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew безвозвратно удаляет все хранимые им загрузки, даже для последних версий, кроме загрузок того, что установлено сейчас, а также то, что удаляет кнопка «Очистить». Ничего не попадает в Корзину, и История не сможет это восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar permanent alla hämtningar som Homebrew har sparat, även för de senaste versionerna, utom hämtningarna för det som är installerat nu, samt det som Homebrews upprensning tar bort. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, sakladığı tüm indirmeleri (en son sürümlerinkiler dahil, şu anda yüklü olanlarınkiler hariç) ve Temizle işleminin kaldırdıklarını kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew видалить назавжди всі збережені ним викачані файли, навіть для найновіших версій, крім файлів того, що інстальовано зараз, а також те, що видаляє команда «Очистити». У Смітник нічого не потрапить, і Історія не зможе цього повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会永久删除它保留的所有下载文件（即使是最新版本的也不例外，但当前已安装内容的下载文件除外），以及“清理”会移除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會永久刪除它保留的所有下載檔案（包括最新版本的下載檔案，但目前已安裝項目的下載檔案除外），以及「清理」會移除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
+          }
+        }
+      }
+    },
+    "Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trvale smaže všechny soubory ve své mezipaměti starší než 30 dní a také to, co odstraní příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew löscht endgültig jede Datei in seinem Cache, die älter als 30 Tage ist, sowie das, was „Bereinigen“ entfernt. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew borra definitivamente todos los archivos de su caché de más de 30 días, y lo que elimina la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew supprime définitivement tous les fichiers de son cache datant de plus de 30 jours, ainsi que ce que supprime Nettoyer. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elimina definitivamente ogni file nella sua cache più vecchio di 30 giorni, più ciò che rimuove “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、キャッシュ内の30日より古いすべてのファイルと、“クリーンアップ”で削除されるものを完全に削除します。ゴミ箱には何も入らず、履歴から戻すこともできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 캐시에서 30일이 지난 모든 파일과 ‘정리’가 제거하는 항목을 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert elk bestand in zijn cache dat ouder is dan 30 dagen definitief, en ook wat 'Ruim op' verwijdert. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew usuwa trwale wszystkie pliki w swojej pamięci podręcznej starsze niż 30 dni, a także to, co usuwa polecenie Wyczyść. Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew apaga definitivamente todos os arquivos do seu cache com mais de 30 dias, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew șterge definitiv fiecare fișier mai vechi de 30 de zile din memoria sa tampon, plus ce elimină „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew безвозвратно удаляет все файлы в своем кэше старше 30 дней, а также то, что удаляет кнопка «Очистить». Ничего не попадает в Корзину, и История не сможет это восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar permanent alla filer i sin cache som är äldre än 30 dagar, samt det som Homebrews upprensning tar bort. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, önbelleğindeki 30 günden eski tüm dosyaları ve Temizle işleminin kaldırdıklarını kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew видалить назавжди всі файли у своєму кеші, старші за 30 днів, а також те, що видаляє команда «Очистити». У Смітник нічого не потрапить, і Історія не зможе цього повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会永久删除其缓存中超过30天的所有文件，以及“清理”会移除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會永久刪除其快取中超過30天的所有檔案，以及「清理」會移除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
           }
         }
       }
@@ -117300,6 +118254,218 @@
         }
       }
     },
+    "Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraní všechny stažené soubory, které si Homebrew ponechává, i ty pro nejnovější verze, a také to, co odstraní příkaz „Vyčistit“. Stažené soubory toho, co je právě nainstalované, zůstanou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt jeden Download, den Homebrew aufbewahrt, auch für die neuesten Versionen, sowie das, was „Bereinigen“ entfernt. Die Downloads dessen, was jetzt installiert ist, bleiben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina todas las descargas que guarda Homebrew, incluso las de las versiones más recientes, además de lo que elimina la opción Limpiar. Las descargas de lo que está instalado ahora se quedan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime tous les téléchargements que Homebrew conserve, même ceux des dernières versions, ainsi que ce que supprime Nettoyer. Les téléchargements de ce qui est installé actuellement restent en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove tutti i download che Homebrew conserva, anche quelli delle versioni più recenti, oltre a ciò che rimuove “Ripulisci”. I download di ciò che è installato ora restano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewが保持しているすべてのダウンロードを、最新バージョンのものも含めて、“クリーンアップ”で削除されるものと合わせて削除します。現在インストールされているもののダウンロードは残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 제거하며, ‘정리’가 제거하는 항목도 제거합니다. 현재 설치된 항목의 다운로드 파일은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert elke download die Homebrew bewaart, ook die van de nieuwste versies, en daarnaast wat 'Ruim op' verwijdert. De downloads van wat nu geïnstalleerd is, blijven staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa wszystkie pobrane pliki zachowane przez Homebrew, także najnowszych wersji, oraz to, co usuwa polecenie Wyczyść. Pobrane pliki tego, co jest teraz zainstalowane, zostają."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove todos os downloads que o Homebrew guarda, mesmo os das versões mais recentes, além do que o comando Limpar remove. Os downloads do que está instalado agora ficam."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimină fiecare descărcare păstrată de Homebrew, chiar și pentru cele mai noi versiuni, plus ce elimină „Curățați”. Descărcările pentru ce este instalat acum rămân."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет все загрузки, которые хранит Homebrew, даже для последних версий, а также то, что удаляет кнопка «Очистить». Загрузки того, что установлено сейчас, остаются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort alla hämtningar som Homebrew har sparat, även för de senaste versionerna, samt det som Homebrews upprensning tar bort. Hämtningarna för det som är installerat nu finns kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle işleminin kaldırdıklarına ek olarak, Homebrew’un en son sürümlerinkiler dahil sakladığı tüm indirmeleri kaldırır. Şu anda yüklü olanların indirmeleri kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє всі викачані файли, які зберігає Homebrew, навіть для найновіших версій, а також те, що видаляє команда «Очистити». Викачані файли того, що інстальовано зараз, лишаються."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Homebrew保留的所有下载文件（即使是最新版本的也不例外），以及“清理”会移除的内容。当前已安装内容的下载文件会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Homebrew保留的所有下載檔案（包括最新版本的下載檔案），以及「清理」會移除的項目。目前已安裝項目的下載檔案會保留。"
+          }
+        }
+      }
+    },
+    "Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraní všechny soubory v mezipaměti Homebrew starší než 30 dní a také to, co odstraní příkaz „Vyčistit“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt jede Datei im Cache von Homebrew, die älter als 30 Tage ist, sowie das, was „Bereinigen“ entfernt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina todos los archivos de la caché de Homebrew de más de 30 días, además de lo que elimina la opción Limpiar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime tous les fichiers du cache de Homebrew datant de plus de 30 jours, ainsi que ce que supprime Nettoyer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove ogni file nella cache di Homebrew più vecchio di 30 giorni, oltre a ciò che rimuove “Ripulisci”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのキャッシュ内にある30日より古いすべてのファイルを、“クリーンアップ”で削除されるものと合わせて削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 캐시에서 30일이 지난 모든 파일과 ‘정리’가 제거하는 항목을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert elk bestand in de cache van Homebrew dat ouder is dan 30 dagen, en daarnaast wat 'Ruim op' verwijdert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa wszystkie pliki w pamięci podręcznej Homebrew starsze niż 30 dni oraz to, co usuwa polecenie Wyczyść."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove todos os arquivos do cache do Homebrew com mais de 30 dias, além do que o comando Limpar remove."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimină fiecare fișier mai vechi de 30 de zile din memoria tampon a Homebrew, plus ce elimină „Curățați”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет все файлы в кэше Homebrew старше 30 дней, а также то, что удаляет кнопка «Очистить»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort alla filer i Homebrews cache som är äldre än 30 dagar, samt det som Homebrews upprensning tar bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle işleminin kaldırdıklarına ek olarak, Homebrew’un önbelleğindeki 30 günden eski tüm dosyaları kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє всі файли в кеші Homebrew, старші за 30 днів, а також те, що видаляє команда «Очистити»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Homebrew缓存中超过30天的所有文件，以及“清理”会移除的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Homebrew快取中超過30天的所有檔案，以及「清理」會移除的項目。"
+          }
+        }
+      }
+    },
     "Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays." : {
       "localizations" : {
         "cs" : {
@@ -117932,6 +119098,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "修復輔助程式"
+          }
+        }
+      }
+    },
+    "Repair Homebrew’s taps?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opravit taps Homebrew?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taps von Homebrew reparieren?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Reparar los taps de Homebrew?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réparer les taps de Homebrew ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi riparare i tap di Homebrew?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのtapsを修復しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 tap을 복구하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taps van Homebrew herstellen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naprawić tapy Homebrew?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparar os taps do Homebrew?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparați tap‑urile Homebrew?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправить taps Homebrew?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du reparera Homebrews taps?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un tap depoları onarılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полагодити taps Homebrew?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要修复Homebrew的taps吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要修復Homebrew的taps嗎？"
+          }
+        }
+      }
+    },
+    "Repair Taps" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opravit taps"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taps reparieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparar taps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réparer les taps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripara i tap"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tapsを修復"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tap 복구"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstel taps"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napraw tapy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparar Taps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparați tap‑urile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправить taps"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparera taps"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap Depolarını Onar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полагодити taps"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复taps"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復taps"
           }
         }
       }

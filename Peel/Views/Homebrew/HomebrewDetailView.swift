@@ -205,7 +205,8 @@ struct HomebrewDetailView: View {
         switch homebrew.runningCommand {
         case .upgrade(let id), .uninstall(let id): id == package.id
         case .upgradeAll: package.isOutdated && package.joinsUpgradeAll
-        case .update, .cleanup, .health, .vulnerabilities, nil: false
+        case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health, .vulnerabilities, nil:
+            false
         }
     }
 }

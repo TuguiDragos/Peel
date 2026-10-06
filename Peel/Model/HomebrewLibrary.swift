@@ -22,13 +22,17 @@ final class HomebrewLibrary {
         case uninstall(HomebrewPackage.ID)
         case update
         case cleanup
+        case clearOlderDownloads
+        case clearEveryDownload
+        case repairTaps
         case health
         case vulnerabilities
 
         var onlyLooks: Bool {
             switch self {
             case .health, .vulnerabilities: true
-            case .upgrade, .upgradeAll, .uninstall, .update, .cleanup: false
+            case .upgrade, .upgradeAll, .uninstall, .update, .cleanup, .clearOlderDownloads, .clearEveryDownload,
+                 .repairTaps: false
             }
         }
 
@@ -36,7 +40,8 @@ final class HomebrewLibrary {
         var isUpgrade: Bool {
             switch self {
             case .upgrade, .upgradeAll: true
-            case .uninstall, .update, .cleanup, .health, .vulnerabilities: false
+            case .uninstall, .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health,
+                 .vulnerabilities: false
             }
         }
     }
@@ -305,6 +310,14 @@ final class HomebrewLibrary {
             case .cleanup:
                 guard let kept = await keptFormulae() else { return keepsNothing }
                 output = try await Homebrew.cleanup(keeping: kept)
+            case .clearOlderDownloads:
+                guard let kept = await keptFormulae() else { return keepsNothing }
+                output = try await Homebrew.cleanup(.olderThan(days: 30), keeping: kept)
+            case .clearEveryDownload:
+                guard let kept = await keptFormulae() else { return keepsNothing }
+                output = try await Homebrew.cleanup(.everyDownload, keeping: kept)
+            case .repairTaps:
+                output = try await Homebrew.repairTaps()
             case .health:
                 // An older Homebrew answers only in prose, which is shown as written. `--json` is a hidden
                 // switch, so an answer Peel can't read is asked for again in prose rather than shown as an error.

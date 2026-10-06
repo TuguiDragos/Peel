@@ -181,8 +181,9 @@ lists them.
 - **Package Receipts:** what installer packages put on your Mac, item by item.
 - **Intel Software:** what still needs Rosetta: apps, the helpers and tools inside universal apps, plug-ins,
   drivers, background items, and the commands in `/usr/local`.
-- **Homebrew:** your formulae and casks, with Update, Clean Up, Check Health, Scan for Vulnerabilities, Upgrade,
-  and Uninstall, or the command to run in Terminal for a cask that asks for an administrator's password.
+- **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,
+  or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
+  run in Terminal for a cask that asks for an administrator's password.
 
 ### Fine-tune your Mac
 
