@@ -60,8 +60,9 @@ enum Output {
     }
 
     /// Writes `text` to standard output unchanged, for output that already ends in a newline. When the write fails
-    /// (a closed stdout, a full disk), the tool exits with status 1. `FileHandle.write(_:)` would instead raise an
-    /// exception Swift can't catch, and the tool would crash.
+    /// (a full disk, a closed stdout), the tool exits with status 1. `FileHandle.write(_:)` would instead raise an
+    /// exception Swift can't catch, and the tool would crash. A pipe whose reader has gone ends the process with
+    /// SIGPIPE before the write returns (`man 2 write`), except while a removal ignores the signal (`Uninterrupted`).
     static func write(_ text: String) {
         if let collected {
             collected.add(output: text)
