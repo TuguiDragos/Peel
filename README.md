@@ -89,8 +89,8 @@ does, what Peel asks for and why, and how to remove Peel.
 A cleaner should never cost you something you wanted. Peel is built around that.
 
 - **The Trash, never deletion.** Everything Peel removes goes to the Trash, and History puts it back where it was.
-  Three things can't be undone that way, and Peel says so before you confirm them: Homebrew's own uninstall and
-  cleanup, and resetting an app's privacy permissions.
+  Four things can't be undone that way, and Peel says so before you confirm them: Homebrew's own uninstall and clean
+  ups, resetting an app's privacy permissions, and Force Quit for an app that won't quit.
 - **Protected places stay protected.** Peel refuses to move iCloud Drive, keychains, your SSH and signing keys, the
   keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and
   iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it. A
