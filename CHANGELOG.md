@@ -16,8 +16,11 @@ macOS 26 supports.
   duplicate files and folders, installers and backups, files already safe in iCloud, large and old files, and
   what is taking up space.
 - Resets an app's settings without uninstalling it, after saving them so they can be put back.
-- Lists background items, extensions, plug-ins, installer receipts, Homebrew packages, and software that still
-  needs Rosetta.
+- Lists background items, extensions, plug-ins, what installer packages put on your Mac, and software that still
+  needs Rosetta; starts, stops, enables, disables, or moves to the Trash a background item; moves a plug-in, or
+  what a package installed, to the Trash; and forgets a package's receipt.
+- Runs Homebrew's update, upgrade, uninstall, clean up, repair taps, and health check, and scans your formulae for
+  known vulnerabilities.
 - Changes settings macOS has, many of which it doesn't show, and puts back what was there when you turn one off.
 - Gives Terminal one of 29 dark themes built on Apple's Clear Dark, and puts back the profile it used before.
 - Sets up the command line from the same page: choose a prompt, turn on settings that zsh, Git, and ssh already
