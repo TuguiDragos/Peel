@@ -29,6 +29,10 @@
 > the same release. My only website is [tuguidragos.com](https://tuguidragos.com). Any other site, download page, or
 > store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone
 > asking you to pay for it is not me. Please download it only from here.
+>
+> The Homebrew command below is the only command that installs Peel, so a website that asks you to paste anything else
+> into Terminal to get Peel is not mine. Every copy I release is signed by my team, `6R6J264YA2`, and
+> `codesign -dv /Applications/Peel.app 2>&1 | grep TeamIdentifier` shows it.
 
 **Requirements:** macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel
 Macs from 2019 and 2020 that [Apple lists for macOS 26](https://support.apple.com/en-us/122867). Peel moves your
