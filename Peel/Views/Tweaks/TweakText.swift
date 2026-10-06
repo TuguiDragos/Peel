@@ -26,6 +26,10 @@ extension Tweak {
     }
 
     private static let words: [String: Words] = [
+        "dock-autohide": Words(
+            title: "Automatically hide and show the Dock",
+            detail: "The Dock stays out of sight until the pointer reaches the edge of the screen."
+        ),
         "dock-autohide-delay": Words(
             title: "A hidden Dock appears at once",
             detail: "macOS waits a moment before sliding the Dock out. This removes the wait."

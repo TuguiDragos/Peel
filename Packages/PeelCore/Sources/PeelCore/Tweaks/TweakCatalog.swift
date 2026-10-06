@@ -7,6 +7,16 @@ public enum TweakCatalog {
 
     static let dock: [Tweak] = [
         Tweak(
+            id: "dock-autohide",
+            domain: "com.apple.dock",
+            key: "autohide",
+            kind: .aSwitch(.boolean(true)),
+            restart: .dock,
+            group: .dock,
+            hasASystemControl: true,
+            documentation: .apple(URL(string: "https://developer.apple.com/documentation/devicemanagement/dock")!)
+        ),
+        Tweak(
             id: "dock-autohide-delay",
             domain: "com.apple.dock",
             key: "autohide-delay",

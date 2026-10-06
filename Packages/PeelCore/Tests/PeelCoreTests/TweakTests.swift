@@ -28,10 +28,21 @@ struct TweakTests {
             #expect(page.scheme == "https" && (page.host() ?? "").hasSuffix("apple.com"), "\(tweak.id): \(page)")
         }
         let applesOwn: Set = [
-            "dock-launchanim", "dock-static-only", "dock-show-recents", "dock-minimize-to-application",
+            "dock-autohide", "dock-launchanim", "dock-static-only", "dock-show-recents", "dock-minimize-to-application",
             "finder-network-stores",
         ]
         #expect(documented == applesOwn)
+    }
+
+    /// The Dock tweaks that change how a hidden Dock appears follow the switch that hides it, which is macOS's own
+    /// "Automatically hide and show the Dock", so neither needs a trip to System Settings.
+    @Test func theDockCanBeHiddenBesideHowItAppears() throws {
+        let hide = try #require(TweakCatalog.dock.first)
+        #expect(hide.id == "dock-autohide")
+        #expect(hide.domain == "com.apple.dock" && hide.key == "autohide")
+        #expect(hide.kind == .aSwitch(.boolean(true)))
+        #expect(hide.hasASystemControl && hide.restart == .dock)
+        #expect(TweakCatalog.dock.dropFirst().prefix(2).map(\.key) == ["autohide-delay", "autohide-time-modifier"])
     }
 
     @Test func dialogsOpenExpandedThroughTheKeysMacOSReads() {
