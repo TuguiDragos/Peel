@@ -73,9 +73,10 @@ Three steps of a removal are not a move to the Trash. After a preference file ha
 forget that preference domain (`defaults delete`), or the system could write the file again from memory. On
 macOS 26 the system then answers that the domain is not found and changes nothing, and a file put back from
 History is read again at once, so History undoes it for an app that has not run since. Even so, it is only
-done for a file that went from your own `~/Library/Preferences`, never for the copy every user shares in
-`/Library/Preferences`, never while the app's container still holds its own settings, never for one of Apple's
-domains on another app's behalf, and never for the global domain under any of its names.
+done for a file that went from your own `~/Library/Preferences`, or, when you reset a sandboxed app, from the
+Preferences folder in its container, never for the copy every user shares in `/Library/Preferences`, never
+while the app's container still holds its own settings, never for one of Apple's domains on another app's
+behalf, and never for the global domain under any of its names.
 
 The other two follow what really moved too. launchd is told to stop the jobs whose files went
 (`launchctl bootout`), or it would keep them running and start them again; putting a file back from History
