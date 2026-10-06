@@ -91,8 +91,8 @@ Peel is free and open source, and it speaks English and 17 other languages.
   put them back, and never selects your own work.
 - **Privacy permissions too, if you want.** Peel can also reset the permissions macOS gave the app, such as access
   to the camera and the microphone.
-- **Its Dock icon too, if you want.** Peel can take the app's icon out of the Dock, where it would stay as a
-  question mark, and History puts it back where it was when you put the app back.
+- **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
+  unless you deselect it, and History puts it back where it was when you put the app back.
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names or the

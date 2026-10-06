@@ -10,7 +10,7 @@ struct MultipleAppsView: View {
     @State private var plan: BulkRemovalPlan
     @State private var quitting = QuitBeforeRemoving()
     @State private var resetsPrivacy = false
-    @State private var removesDockTiles = false
+    @State private var removesDockTiles = true
     @State private var appsInTheDock: Set<URL> = []
     @State private var isRescanning = false
     @State private var questionTitle = Text(verbatim: "")

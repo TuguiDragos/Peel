@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A checkbox that also takes the removed apps' icons out of the Dock. It is off until the user selects it,
-/// because it changes the Dock.
+/// A checkbox that also takes the removed apps' icons out of the Dock, selected unless the user deselects it: a gone
+/// app's icon is only a question mark, and History puts it back with the app.
 struct DockTileRow: View {
     @Binding var isOn: Bool
 

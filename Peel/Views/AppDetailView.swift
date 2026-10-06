@@ -12,7 +12,7 @@ struct AppDetailView: View {
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
     @State private var resetsPrivacy = false
-    @State private var removesDockTile = false
+    @State private var removesDockTile = true
     @State private var hasDockTile = false
     @State private var isConfirmingPrivacyReset = false
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
