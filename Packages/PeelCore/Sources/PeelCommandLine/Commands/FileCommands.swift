@@ -404,7 +404,7 @@ struct ProjectsCommand: AsyncParsableCommand {
             ProjectArtifacts.refusal(for: root).map { "\(Output.plain(Output.path(root))): \($0.summary)" }
         }
         guard refused.count < folders.count else {
-            throw ValidationError((refused.isEmpty ? ["No folders to look in."] : refused).joined(separator: "\n"))
+            throw ValidationError(refused.joined(separator: "\n"))
         }
     }
 

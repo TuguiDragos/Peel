@@ -1052,4 +1052,15 @@ struct CommandLineTests {
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--clear"]) }
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--limit", "0"]) }
     }
+
+    @Test func projectsCannotRunWithoutAFolder() {
+        for arguments in [["projects"], ["projects", "--json"]] {
+            do {
+                _ = try PeelCommand.parseAsRoot(arguments)
+                Issue.record("parsed without a folder")
+            } catch {
+                #expect(PeelCommand.message(for: error).contains("Missing expected argument"))
+            }
+        }
+    }
 }
