@@ -77,9 +77,21 @@ final class TweakLibrary {
         asked[tweak.id] ?? state.isOn
     }
 
+    /// A switch's changes to one tweak, made one at a time: flipped quickly, only the latest waiting change runs next.
+    private var lines: [Tweak.ID: OneAtATime<Bool>] = [:]
+    /// The tweaks changed by a switch whose restart was left to a change waiting after it.
+    private var restartOwed: Set<Tweak.ID> = []
+
     func set(_ tweak: Tweak, on isOn: Bool) {
         asked[tweak.id] = isOn
-        Task { isOn ? await turnOn(tweak) : await reset(tweak) }
+        let line = lines[tweak.id] ?? OneAtATime()
+        lines[tweak.id] = line
+        Task {
+            await line.ask(isOn) { [self] isOn, anotherWaits in
+                let outcome = isOn ? ledger.turnOn(tweak, in: store) : ledger.turnOff(tweak, in: store)
+                await finish(tweak, after: outcome, isLast: !anotherWaits())
+            }
+        }
     }
 
     func turnOn(_ tweak: Tweak, text: String? = nil) async {
@@ -156,10 +168,11 @@ final class TweakLibrary {
 
     /// Saves the result of a change and restarts what the tweak needs. Nothing restarts when the setting was
     /// already as asked.
-    private func finish(_ tweak: Tweak, after outcome: TweakLedger.Outcome) async {
-        defer { asked[tweak.id] = nil }
+    private func finish(_ tweak: Tweak, after outcome: TweakLedger.Outcome, isLast: Bool = true) async {
+        defer { if isLast { asked[tweak.id] = nil } }
         refused = outcome == .refused ? [tweak.id] : []
         guard outcome != .refused else {
+            if isLast, restartOwed.remove(tweak.id) != nil { await TweakRestart.run(tweak.restart) }
             refresh()
             return
         }
@@ -169,8 +182,11 @@ final class TweakLibrary {
             waitingForLogOut.formSymmetricDifference([tweak.id])
         }
         save()
-        if outcome == .changed {
-            await TweakRestart.run(tweak.restart)
+        if !isLast {
+            if outcome == .changed { restartOwed.insert(tweak.id) }
+        } else {
+            let wasOwed = restartOwed.remove(tweak.id) != nil
+            if outcome == .changed || wasOwed { await TweakRestart.run(tweak.restart) }
         }
         refresh()
     }
