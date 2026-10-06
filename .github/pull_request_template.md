@@ -10,7 +10,7 @@
 
 ## Checklist
 
-- [ ] The app builds with no warnings, and `swift test --package-path Packages/PeelCore` passes, apart from `StringCatalogTests` for new or changed interface text, whose translations are added before merging.
+- [ ] The app builds with no warnings, and `swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors` passes, apart from `StringCatalogTests` for new or changed interface text, whose translations are added before merging.
 - [ ] Nothing of the user's is deleted for good: every removal goes through `TrashService`.
 - [ ] New or changed interface text is in English, and `python3 Scripts/sync_localizations.py` ran after a Debug build.
 - [ ] Nothing the change left unused stays behind.

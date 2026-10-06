@@ -55,10 +55,11 @@ without build output rather than empty the catalogs. After changing a command of
 built.
 
 The project's targets build with warnings as errors, and that is the bar a change has to clear. The package's
-manifest doesn't set it, so ask for it on the command line to hold the package to the same bar:
+manifest doesn't set it, so ask for it on the command line to hold the package, its tests included, to the
+same bar, as the Checks workflow and `Scripts/release.sh` do:
 
 ```bash
-swift build --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
+swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 
 Tests run through the code Peel runs, on the Mac running them: a scan asks this Mac's Launch Services and reads its
