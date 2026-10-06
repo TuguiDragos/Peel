@@ -100,11 +100,7 @@ struct InstallerDetailView: View {
             FlowLayout {
                 Badge(title: Text("^[\(rows.count) item](inflect: true)"), systemImage: "square.and.arrow.down")
                 if kind == .deviceBackup {
-                    NoteBadge(
-                        title: Text("Read only"), systemImage: "hand.raised", tint: .secondary,
-                        name: String(localized: "Read only"),
-                        detail: Text("In Finder, select a connected device, then General > Manage Backups: that is where a backup is removed. Peel doesn’t touch them: what is inside came off a device and may be the only copy.")
-                    )
+                    Badge(title: Text("Read only"), systemImage: "hand.raised")
                 }
             }
         } trailing: {
