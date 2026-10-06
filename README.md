@@ -226,8 +226,8 @@ with all my heart.
   [Pearcleaner](https://github.com/alienator88/Pearcleaner), by alienator88, for the inspiration.
 - [Fable](https://claude.com/product/overview), by [Anthropic](https://www.anthropic.com), for the help, the
   execution, and the many fine touches.
-- Every [contributor](https://github.com/TuguiDragos/Peel/graphs/contributors) and every sponsor of this project,
-  for your time, your ideas, and your trust.
+- Every [contributor](https://github.com/TuguiDragos/Peel/graphs/contributors) to this project, for your time,
+  your ideas, and your trust.
 
 Without you, this project would never have been possible. I bow to you all. ❤️
 
