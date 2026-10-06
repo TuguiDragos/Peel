@@ -116,9 +116,10 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
     read from the wallet's own documentation or source;
   - a browser profile that holds a wallet extension's vault or Brave's own wallet, and a folder holding one a
     level or two down (`ProtectedData.holdsABrowserWallet`);
-  - Mail, Messages, Safari, Contacts, Calendars, Reminders, Shortcuts, HomeKit, Accounts, Finance,
-    IdentityServices, FaceTime and call history, Freeform, Journal, Stickies, the passes in Wallet, and every
-    group container of Apple's own, where macOS keeps notes and other data;
+  - Mail (but a Mail plug-in directly in `Mail/Bundles`, which holds code and no mail), Messages, Safari, Contacts,
+    Calendars, Reminders, Shortcuts, HomeKit, Accounts, Finance, IdentityServices, FaceTime and call history,
+    Freeform, Journal, Stickies, the passes in Wallet, and every group container of Apple's own, where macOS keeps
+    notes and other data;
   - `Autosave Information`, where apps keep work not saved yet;
   - the spelling and text replacement stores, and iPhone and iPad backups;
   - photo, music, and video libraries, and a folder holding one a level or two down;
@@ -139,9 +140,10 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
   sits in. Every "is this inside that folder" question goes through `PathComponents`.
 - **Only `certain` and `likely` matches that no other installed app claims are selected for the user.**
   Anything shared is shown and left unselected, and nothing is selected for an app that would stay.
-- **What may exist nowhere else is never selected for the user.** A folder with a wallet, a signing key, or a
-  repository inside, or one Peel could not finish reading, is shown with its reason and moves only when the user
-  selects it: Select All, `peel uninstall`, `peel orphans --remove`, and `peel projects --remove` pass it by. The
+- **What may exist nowhere else is never selected for the user.** A folder with a wallet, a signing key, a password
+  database, or a repository inside, one where an app keeps what may exist only on this Mac, or one Peel could not
+  finish reading, is shown with its reason and moves only when the user selects it: Select All asks before it selects
+  one, and `peel uninstall`, `peel orphans --remove`, and `peel projects --remove` pass it by. The
   one exception is a repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`), such as Swift Package
   Manager's `.build`, whose clones the tool makes again.
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.

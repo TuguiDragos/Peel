@@ -53,7 +53,7 @@ more than 900 tests without building the app.
   Trash, and what is refused.
 - `Packages/PeelCore/Sources/PeelPrivileged/ProtectedData.swift` and `PrivilegedPathPolicy.swift`: what nothing may
   remove, and what the helper may touch.
-- `PeelHelper/HelperService.swift`: the helper's three operations.
+- `PeelHelper/HelperService.swift`: the helper's operations.
 - `Packages/PeelCore/Sources/PeelCommandLine/PeelCommand.swift` and `Support/Cleanup.swift`: the `peel` commands,
   and the one path every command that removes something takes.
 
@@ -142,7 +142,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   A released helper refuses a build that can be debugged, and launchd starts the helper only as the team's own
   build of it (`SpawnConstraint` in its launchd property list).
 - It does three things: moves items to the Trash, puts them back, and starts, stops, enables, or disables another
-  vendor's launch daemon, never one macOS ships and never itself.
+  vendor's launch daemon, never one macOS ships and never itself. When Peel is removed, it also moves its own ledger
+  to the Trash.
 - It serves a fixed list of folders (`PrivilegedPathPolicy`), refuses everything else, and refuses whatever
   `ProtectedData` protects. It has no shell.
 - It opens folders by descriptor and works through them, so a path swapped for a link after the check leads
@@ -176,7 +177,7 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Peel wrote, so Put Back takes away only a profile still as Peel wrote it. Peel writes only while Terminal is
   closed: an open Terminal does not read a change made outside it, and writes its own settings over it. The Shell
   and SSH tabs write only files of Peel's own in its folder, `Terminal/zshrc` (`ShellFile`, with the prompt from
-  `PromptStyle`) and `Terminal/ssh_config` (`SSHFile`), which zsh and ssh read through lines the person adds: Peel
+  `Prompt`) and `Terminal/ssh_config` (`SSHFile`), which zsh and ssh read through lines the person adds: Peel
   never edits `~/.zshrc` or `~/.ssh/config`. The Git tab changes Git's settings only through `git config --global`
   (`GitConfig`), and `GitLedger` keeps what each key held, so turning a setting off puts it back. A setting is
   offered only when the tool on the Mac knows it: zsh lists its options and functions (`ZshRequirements`), Git its
@@ -220,9 +221,10 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/dock-tiles.json` | The Dock icons an uninstall took out, and where each was, so History puts them back with their app. |
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
 | `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run. |
+| `~/Library/Application Support/Peel/Terminal/zshrc`, `Terminal/ssh_config` | The shell and ssh settings chosen on the Terminal page, which zsh and ssh read through the lines the user adds. |
 | `~/Library/Application Support/Peel/release-notes.json` | What is new in each update that waits, as the app's own sources say it, so its page shows it with no connection. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
-| Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, and the last answer of each update check. |
+| Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
 
 Remove Peel, in Settings, takes all of it to the Trash. The helper moves its own ledger there, since nothing else
 can, just before Peel unregisters it. It is the only way Peel is removed: Peel's own page in Applications, and

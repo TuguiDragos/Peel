@@ -298,8 +298,9 @@ a value you changed since is left as it is. The Tools tab installs nothing: it s
 ## The helper that runs as root
 
 Peel installs a helper for the few things that need administrator rights: moving items in the folders it serves
-to the Trash, putting them back, and starting, stopping, enabling, or disabling another vendor's launch daemon. It
-is deliberately small: no shell, no arbitrary paths, and it fails closed.
+to the Trash, putting them back, and starting, stopping, enabling, or disabling another vendor's launch daemon; when
+Peel is removed, it also moves its own ledger to the Trash. It is deliberately small: no shell, no arbitrary paths,
+and it fails closed.
 
 - It answers administrators only, and only a copy of Peel signed by the same team. Both are checked when the
   app connects and again with each request, so an account that stops being an administrator is refused from
