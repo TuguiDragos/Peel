@@ -128,9 +128,11 @@ have, and anything that destroys data that cannot be recovered.
   Peel's other ways in: an app dropped on it or opened with it, and the actions it gives Shortcuts.
 - A sandbox escape in the Finder Sync extension.
 - Hijacking the `peel` CLI, or getting it to perform an operation that should require the helper.
-- Update-feed handling: Peel fetches update feeds whose URLs come out of each scanned app's own
-  `Info.plist`. A malicious feed that causes memory corruption, an exploitable crash, a file
-  write, or code execution, or that leaks data off the Mac, is in scope.
+- Update-feed handling: Peel fetches update feeds whose addresses come out of each scanned app, a
+  Sparkle feed in its `Info.plist` or an Electron app's `app-update.yml`, and for an update that
+  waits, the page of release notes the feed names, which it reads as HTML, Markdown, or plain text.
+  A malicious feed or page that causes memory corruption, an exploitable crash, a file write, or
+  code execution, or that leaks data off the Mac, is in scope.
 - Leaking the list of a user's installed apps, file paths, or scan results off the Mac, beyond what
   [PRIVACY.md](PRIVACY.md) describes.
 
