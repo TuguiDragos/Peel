@@ -206,7 +206,8 @@ the app it belongs to. When you remove several apps at once and deselect one of 
 the selection, those it shares with the other apps included, and selecting it again brings them back.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
-apps. It is removed only by Remove Peel, in Settings, which takes its helper and login item away first.
+apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,
+for a copy Homebrew installed, by the Homebrew command Settings shows in its place.
 
 Never selected for you, even when found:
 

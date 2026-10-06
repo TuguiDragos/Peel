@@ -229,9 +229,10 @@ where a Homebrew install takes them from.
 | Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
 
 Remove Peel, in Settings, takes all of it to the Trash. The helper moves its own ledger there, since nothing else
-can, just before Peel unregisters it. It is the only way Peel is removed: Peel's own page in Applications, and
-Peel among several chosen apps, list it and select nothing of it (`Uninstallation.isPeel`), and `peel uninstall`
-refuses it.
+can, just before Peel unregisters it. It is the only way Peel removes itself: Peel's own page in Applications,
+and Peel among several chosen apps, list it and select nothing of it (`Uninstallation.isPeel`), and
+`peel uninstall` refuses it. For a copy Homebrew installed, Settings shows `brew uninstall --zap` in its place
+(`SettingsView`).
 
 ## Testing
 
