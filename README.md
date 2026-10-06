@@ -354,7 +354,7 @@ what stayed, and why. A Homebrew install also sets up its completions for zsh, b
 | `peel apps` | Lists installed apps. |
 | `peel inventory` | Writes out what is installed and where each app came from, as text, JSON, CSV, or a Brewfile. |
 | `peel leftovers <app>` | Shows the files an app leaves behind, and why each one belongs to it. |
-| `peel uninstall <app>` | Moves an app and its leftovers to the Trash. `--reset-privacy` also clears the permissions macOS gave it. |
+| `peel uninstall <app>` | Moves an app and its leftovers to the Trash, and takes its icon out of the Dock unless `--keep-in-dock` is given. `--reset-privacy` also clears the permissions macOS gave it. |
 | `peel orphans` | Lists files left by apps that are no longer installed. `--remove <group>` moves one group. |
 | `peel caches` | Lists the caches of developer tools. `--remove` moves the ones Peel suggests. |
 | `peel projects <folders>` | Lists what builds left in your projects. `--remove` moves the ones Peel suggests. |

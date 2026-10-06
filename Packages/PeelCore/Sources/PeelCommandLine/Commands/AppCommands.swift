@@ -242,6 +242,9 @@ struct UninstallCommand: AsyncParsableCommand {
     @Flag(help: "Show what would move without moving anything.")
     var dryRun = false
 
+    @Flag(help: "Leave the app's icon in the Dock. Without it, the icon comes out once the app is in the Trash, and goes back where it was if the app is put back.")
+    var keepInDock = false
+
     @Flag(name: .shortAndLong, help: "Don't ask for confirmation.")
     var yes = false
 
@@ -372,6 +375,17 @@ struct UninstallCommand: AsyncParsableCommand {
         }
     }
 
+    /// Whether the app's icon comes out of the Dock: once the app itself is in the Trash, unless `--keep-in-dock`.
+    static func takesOutDockIcon(of app: InstalledApp, after result: TrashResult, keeping: Bool) -> Bool {
+        !keeping && result.trashed.contains { $0.originalURL == app.url }
+    }
+
+    /// What the plan says about the app's icon in the Dock, which History puts back with the app.
+    static func dockNote(for app: InstalledApp, isInTheDock: Bool, keeping: Bool) -> String? {
+        guard isInTheDock, !keeping else { return nil }
+        return "Peel takes \(Output.plain(app.name))'s icon out of the Dock once it is in the Trash, and puts it back if you put the app back. Add --keep-in-dock to leave it."
+    }
+
     /// What the removal does that the Trash can't bring back, said before the question.
     static func warnings(moving urls: Set<URL>, of app: InstalledApp, resettingPrivacy: Bool) -> [String] {
         var warnings: [String] = []
@@ -488,7 +502,9 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         // With `--json`, standard output is the report alone, so the warnings go where the notes go.
         let warnings = Self.warnings(moving: Set(plan.moving.map(\.url)), of: target, resettingPrivacy: resetPrivacy)
-        warnings.forEach(output.json ? Output.note : Output.line)
+        let isInTheDock = !(await DockTiles().holding([target.url])).isEmpty
+        let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
+        (warnings + (dock.map { [$0] } ?? [])).forEach(output.json ? Output.note : Output.line)
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 
         guard !dryRun else {
@@ -513,6 +529,9 @@ struct UninstallCommand: AsyncParsableCommand {
             return (reset, result, await plan.record(result, from: target.name))
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
+        if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
+            _ = await DockTiles().takeOut([target.url])
+        }
 
         if output.json {
             let report = Self.report(app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable)

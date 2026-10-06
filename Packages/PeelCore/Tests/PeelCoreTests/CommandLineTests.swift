@@ -58,6 +58,25 @@ struct CommandLineTests {
         #expect(UninstallCommand.warnings(moving: [], of: mullvad, resettingPrivacy: false).isEmpty)
     }
 
+    /// Like the app, `peel uninstall` takes the app's icon out of the Dock once the app is in the Trash, unless told
+    /// to keep it, and says so before it asks.
+    @Test func takesTheAppsIconOutOfTheDockOnceItIsInTheTrash() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app", name: "Example"
+        )
+        let trashed = URL(filePath: "/Users/me/.Trash/Example.app")
+        let moved = TrashResult(trashed: [TrashedItem(originalURL: app.url, trashedURL: trashed, date: .now)])
+
+        #expect(UninstallCommand.takesOutDockIcon(of: app, after: moved, keeping: false))
+        #expect(!UninstallCommand.takesOutDockIcon(of: app, after: moved, keeping: true))
+        #expect(!UninstallCommand.takesOutDockIcon(of: app, after: TrashResult(), keeping: false))
+        let note = UninstallCommand.dockNote(for: app, isInTheDock: true, keeping: false)
+        #expect(note?.contains("--keep-in-dock") == true)
+        #expect(UninstallCommand.dockNote(for: app, isInTheDock: false, keeping: false) == nil)
+        #expect(UninstallCommand.dockNote(for: app, isInTheDock: true, keeping: true) == nil)
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)
