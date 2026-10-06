@@ -34,6 +34,13 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// Whether this is the very bundle the running code was started from: the copy of Peel that is running.
     public let isTheRunningCopy: Bool
 
+    /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
+    /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
+    public func isTheSameBuild(as other: InstalledApp) -> Bool {
+        version == other.version && buildVersion == other.buildVersion && architectures == other.architectures
+            && teamIdentifier == other.teamIdentifier
+    }
+
     public init(
         url: URL,
         bundleIdentifier: String,

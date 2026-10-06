@@ -31,4 +31,22 @@ struct InstalledAppTests {
         #expect(!around.isTheRunningCopy)
         #expect(!other.isTheRunningCopy)
     }
+
+    @Test func anAppOpenedAgainIsTheSameBuildAndAnUpdateIsNot() {
+        func app(version: String = "2.0", build: String = "200", team: String = "ABCDE12345",
+                 architectures: Set<Architecture> = [.arm64], opened: Date? = nil) -> InstalledApp {
+            InstalledApp(
+                url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example",
+                version: version, buildVersion: build, teamIdentifier: team, architectures: architectures,
+                lastUsedDate: opened
+            )
+        }
+        let before = app()
+
+        #expect(before.isTheSameBuild(as: app(opened: .now)))
+        #expect(!before.isTheSameBuild(as: app(version: "2.1")))
+        #expect(!before.isTheSameBuild(as: app(build: "201")))
+        #expect(!before.isTheSameBuild(as: app(team: "ZYXWV98765")))
+        #expect(!before.isTheSameBuild(as: app(architectures: [.arm64, .x86_64])))
+    }
 }

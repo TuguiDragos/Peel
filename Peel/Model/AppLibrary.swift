@@ -292,7 +292,7 @@ final class AppLibrary {
         appsInATrash = Set(revealed.filter { trash.isInsideATrash($0.url) }.map(\.id))
         let listed = AppCatalog.sorted(found + revealed)
         let previous = Dictionary(apps.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let changed = listed.filter { app in previous[app.id].map { !Self.isTheSameBuild($0, app) } ?? false }
+        let changed = listed.filter { app in previous[app.id].map { !$0.isTheSameBuild(as: app) } ?? false }
         let present = Set(listed.map(\.id))
         IconCache.forget(previous.keys.filter { !present.contains($0) } + changed.map(\.url))
         apps = listed
@@ -336,15 +336,6 @@ final class AppLibrary {
         }
     }
 
-    /// Whether two readings of the same path are the same build. Deliberately not `==`: `lastUsedDate`
-    /// changes every time an app is opened, which is no reason to forget its size or check for updates again.
-    private static func isTheSameBuild(_ before: InstalledApp, _ after: InstalledApp) -> Bool {
-        before.version == after.version
-            && before.buildVersion == after.buildVersion
-            && before.architectures == after.architectures
-            && before.teamIdentifier == after.teamIdentifier
-    }
-
     /// Measures the apps with no size yet. Each bundle needs a walk of every file, so sizes arrive after the list.
     /// A bundle that could not be measured is asked once more after `remeasureDelay`: a walk that ran out of time
     /// goes on, and its answer is kept for the next question.
@@ -369,7 +360,7 @@ final class AppLibrary {
                 // A walk given up because the list changed says nothing about the bundle, and a bundle replaced
                 // while it was walked is another build, so neither answer is kept.
                 if !Task.isCancelled, let app = measured[id],
-                   apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) {
+                   apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) {
                     if let size {
                         sizes[id] = size
                         unmeasured.remove(id)
@@ -571,7 +562,7 @@ final class AppLibrary {
                 // what was known and put off the next check for hours.
                 guard !Task.isCancelled else { continue }
                 // The answer describes the build that was asked about, which may have been replaced since.
-                guard let app = asked[id], apps.contains(where: { $0.id == id && Self.isTheSameBuild($0, app) }) else {
+                guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
                     continue
                 }
                 let kept = status.following(updateStatuses[id])
@@ -762,7 +753,7 @@ final class AppLibrary {
 
     /// How the last upgrade of `app` went, while `app` is still the build it left.
     func upgrade(of app: InstalledApp) -> Upgrade? {
-        upgrades[app.id].flatMap { Self.isTheSameBuild($0.app, app) ? $0 : nil }
+        upgrades[app.id].flatMap { $0.app.isTheSameBuild(as: app) ? $0 : nil }
     }
 
     func record(_ upgrade: Upgrade?, of app: InstalledApp) {
