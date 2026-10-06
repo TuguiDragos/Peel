@@ -235,14 +235,6 @@ MIT License. Both licenses ship inside the app and are kept in `Peel/Licenses/`.
 ## More from Țugui Dragoș
 
 <p align="center">
-  <a href="https://tuguidragos.com"><img src="https://img.shields.io/badge/tuguidragos.com-201F1D?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY5OTMzIiBzdHJva2Utd2lkdGg9IjEuNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4LjYiLz48ZWxsaXBzZSBjeD0iMTIiIGN5PSIxMiIgcng9IjQuMSIgcnk9IjguNiIvPjxwYXRoIGQ9Ik0zLjkgOS4xaDE2LjJNMy45IDE0LjloMTYuMiIvPjwvZz48L3N2Zz4%3D" height="30" alt="Website"></a>
-  <a href="https://www.linkedin.com/in/tuguidragos/"><img src="https://img.shields.io/badge/LinkedIn-201F1D?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAtMC45NCkgc2NhbGUoMC45NCkiPjxwYXRoIGZpbGw9IiNGRjk5MzMiIGQ9Ik00Ljk4IDMuNWEyLjUgMi41IDAgMSAxLTUgMCAyLjUgMi41IDAgMCAxIDUgMHpNLjIyIDguOThoNC41MlYyNEguMjJ6TTkuMjQgOC45OGg0LjM0djIuMDVoLjA2Yy42LTEuMTQgMi4wNy0yLjM0IDQuMjYtMi4zNCA0LjU2IDAgNS40IDMgNS40IDYuOVYyNGgtNC41MnYtNy41YzAtMS43OS0uMDMtNC4wOS0yLjQ5LTQuMDktMi40OSAwLTIuODcgMS45NS0yLjg3IDMuOTZWMjRIOS4yNHoiLz48L2c%2BPC9zdmc%2B" height="30" alt="LinkedIn"></a>
-  <a href="https://www.instagram.com/tuguidragos/"><img src="https://img.shields.io/badge/Instagram-201F1D?style=flat&logo=instagram&logoColor=FF9933" height="30" alt="Instagram"></a>
-  <a href="https://n8n.io/creators/tuguidragos/"><img src="https://img.shields.io/badge/n8n%20creator-201F1D?style=flat&logo=n8n&logoColor=FF9933" height="30" alt="n8n creator"></a>
-  <a href="https://www.credly.com/users/tuguidragos"><img src="https://img.shields.io/badge/Credly-201F1D?style=flat&logo=credly&logoColor=FF9933" height="30" alt="Credly"></a>
-</p>
-
-<p align="center">
   <a href="https://github.com/TuguiDragos/tapetum"><img src="readme-assets/tapetum-fan-512.png" width="128" alt="Tapetum icon: a fan of color swatches"></a>
 </p>
 
