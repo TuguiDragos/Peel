@@ -128,6 +128,12 @@ struct AccessTests {
         #expect(await FullDiskAccess.state(home: home) == .granted)
     }
 
+    @Test(.enabled(if: ProcessInfo.processInfo.environment["PEEL_TEST_THIS_MAC"] != nil))
+    func thisMacsTrashAnswersTheProbeClearly() async {
+        #expect(FullDiskAccess.canList(URL.homeDirectory.appending(path: ".Trash")) != .unknown)
+        #expect(await FullDiskAccess.state() != .unknown)
+    }
+
     /// Uses a folder of its own rather than `/Applications`, where write access depends on the account.
     @Test func readsAppManagementFromARemoval() throws {
         let directory = try TemporaryDirectory()
