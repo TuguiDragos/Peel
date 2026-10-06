@@ -126,7 +126,7 @@ have, and anything that destroys data that cannot be recovered.
   `Info.plist`. A malicious feed that causes memory corruption, an exploitable crash, a file
   write, or code execution, or that leaks data off the Mac, is in scope.
 - Leaking the list of a user's installed apps, file paths, or scan results off the Mac, beyond what
-  the Privacy section of the README describes.
+  [PRIVACY.md](PRIVACY.md) describes.
 
 ### Out of scope
 
