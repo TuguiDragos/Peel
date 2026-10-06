@@ -56,9 +56,12 @@ Space shows what fills your disk, area by area, and what each area is.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
   Files under 100 KB, and folders holding less, are left out unless you choose a smaller size, in the app and in
   `peel duplicates` alike.
-- **Installers and Backups:** installers of apps you already have, including packages an app keeps in Application
-  Support, macOS installers, device firmware, downloads a browser never finished, updates apps downloaded and keep
-  until they install them, and what your iPhone backups hold. Nothing is selected for you.
+- **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and
+  in the folders directly inside them, where installers are usually left, and archives there with an app or an
+  installer inside, whether you have that app or not; packages an app keeps in Application Support; macOS
+  installers, device firmware, downloads a browser never finished, updates apps downloaded and keep until they
+  install them, and what your iPhone backups hold. A disk image can also be one you made to keep files in, so look
+  before you select it. Nothing is selected for you.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
 - **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Docker's disk,
