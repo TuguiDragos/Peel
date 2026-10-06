@@ -92,8 +92,11 @@ have, and anything that destroys data that cannot be recovered.
 **The privileged helper.** This is the part that matters most.
 
 - Any way for a process that is not the installed copy of Peel to get the helper to act. That
-  includes defeating the code-signing requirement on the XPC peer, replaying or forging a
-  connection, or reaching the Mach service from an unprivileged process.
+  includes defeating the code-signing requirement on the XPC peer, or replaying or forging a
+  connection.
+- Any way to get the helper to act for an account that is not an administrator. Every account on the
+  Mac can reach its Mach service, by design; the helper answers administrators only, checked when a
+  connection opens and again with each message.
 - Any way to get the helper to touch a path outside the locations `PrivilegedPathPolicy` allows:
   path traversal, `..` handling, symlink or hardlink following, mount tricks, firmlinks, or a
   race between the check and the file operation (TOCTOU).
