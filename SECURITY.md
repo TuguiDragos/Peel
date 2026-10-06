@@ -139,8 +139,10 @@ Not because they do not matter, but because they are not bugs in Peel.
   this without Peel.
 - **Anything an administrator can already do on macOS.** `/Applications` is writable by any
   admin by design. An admin who can already delete an app has gained nothing by using Peel to
-  delete it. Escalation from *admin* to *root without an authentication prompt* is in scope;
-  admin doing admin things is not.
+  delete it. Escalation from *admin* to *root without an authentication prompt* is in scope, beyond
+  what the helper does for an administrator by design once it is approved: moving items in the
+  folders `PrivilegedPathPolicy` allows to the Trash and back, and running `launchctl` for another
+  developer's launch daemon. Admin doing admin things is not.
 - **Peel deleting what the user told it to delete.** The confirmation, the preselection rules, and
   the Trash are the safety net. A user who selects a checkbox and confirms is not a vulnerability. A
   bug that makes Peel select the checkbox *for* them, or that removes something not shown, is.
