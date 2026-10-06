@@ -14,6 +14,9 @@ public struct CloudFile: Sendable, Hashable, Identifiable {
     /// when a clone shares its blocks.
     public let size: Int64
     public let modified: Date?
+    /// The picture on one of the displays' desktop, which macOS keeps open while it is shown, so its download cannot be
+    /// removed then.
+    public var isDesktopPicture = false
 
     public var id: URL { url }
 }
@@ -35,6 +38,8 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         /// Excluded in Settings since the scan, or the exclusions are not known, so it is left as a move to the
         /// Trash would be.
         case excluded
+        /// A program holds the file, as the desktop picture is held, so macOS could not lock it to free its copy.
+        case inUse
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)
     }
@@ -92,6 +97,7 @@ public enum CloudStorage {
         home: URL = .homeDirectory,
         minimumSize: Int64 = CloudStorage.minimumSize,
         exclusions: Exclusions = .none,
+        desktopPictures: Set<URL> = [],
         within budget: TimeInterval = CloudStorage.budget
     ) async -> CloudScan {
         let collector = Collector()
@@ -101,6 +107,7 @@ public enum CloudStorage {
                 home: home,
                 minimumSize: minimumSize,
                 exclusions: exclusions,
+                desktopPictures: desktopPictures,
                 into: collector,
                 deadline: .now + .seconds(budget),
                 countingFor: scan,
@@ -190,6 +197,7 @@ public enum CloudStorage {
         home: URL,
         minimumSize: Int64,
         exclusions: Exclusions,
+        desktopPictures: Set<URL> = [],
         into collector: Collector,
         deadline: ContinuousClock.Instant,
         countingFor scan: ScanCount?,
@@ -198,6 +206,7 @@ public enum CloudStorage {
     ) {
         let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
         let rootPath = PathPattern.comparablePath(of: root)
+        let pictures = Set(desktopPictures.map(PathPattern.comparablePath))
         guard let enumerator = FileManager.default.enumerator(
             at: root,
             includingPropertiesForKeys: Array(keys),
@@ -248,7 +257,8 @@ public enum CloudStorage {
                 name: url.lastPathComponent,
                 container: containerName(of: url, under: root),
                 size: measured.size,
-                modified: measured.modified
+                modified: measured.modified,
+                isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url))
             )
             collector.add(file)
         }
@@ -289,10 +299,15 @@ public enum CloudStorage {
             do {
                 try FileManager.default.evictUbiquitousItem(at: file.url)
             } catch {
-                refused.append(CloudRefusal(url: file.url, reason: .failed(error.localizedDescription)))
+                refused.append(CloudRefusal(url: file.url, reason: reason(for: error)))
             }
         }
         return refused
+    }
+
+    /// Why freeing a file failed: `NSFileLockingError` when a program holds it, and macOS's own message otherwise.
+    static func reason(for error: any Error) -> CloudRefusal.Reason {
+        (error as? CocoaError)?.code == .fileLocking ? .inUse : .failed(error.localizedDescription)
     }
 
     /// A document saved as a package, which iCloud keeps as one item: what removing its download frees, and the

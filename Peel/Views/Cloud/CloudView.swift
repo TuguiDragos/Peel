@@ -46,7 +46,9 @@ struct CloudView: View {
                         RemovalRow(
                             url: file.url,
                             icon: .file(file.url),
-                            detail: nil,
+                            detail: file.isDesktopPicture
+                                ? "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now."
+                                : nil,
                             size: file.size,
                             isFirst: index == 0,
                             hasNoteColumn: false,
@@ -63,8 +65,9 @@ struct CloudView: View {
                     } actions: {
                         SelectMenu(
                             list: SelectableRows(
-                                rows: listed.map(\.url), selectable: listed.map(\.url), recommended: listed.map(\.url),
-                                leftToTheClick: []
+                                rows: listed.map(\.url), selectable: listed.map(\.url),
+                                recommended: listed.filter { !$0.isDesktopPicture }.map(\.url),
+                                leftToTheClick: listed.filter(\.isDesktopPicture).map(\.url)
                             ),
                             place: Text(Tool.cloud.title),
                             selection: cloud

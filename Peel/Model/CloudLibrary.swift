@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 import Observation
 import PeelCore
 
@@ -50,9 +50,10 @@ final class CloudLibrary {
     /// Scans again. What the last Free Up Space refused is cleared, since it described the old list.
     func refresh() async {
         refusals = []
+        let pictures = Set(NSScreen.screens.compactMap { NSWorkspace.shared.desktopImageURL(for: $0) })
         guard
             let scan = await scanRun.run({
-                await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions)
+                await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions, desktopPictures: pictures)
             })
         else { return }
         files = scan.files

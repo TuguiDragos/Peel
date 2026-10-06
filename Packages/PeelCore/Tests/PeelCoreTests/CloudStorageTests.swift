@@ -284,4 +284,29 @@ struct CloudStorageTests {
         #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
         #expect(edited.map(\.reason) == [.changedSinceScan])
     }
+
+    /// A file a program holds, as the desktop picture is held, cannot be locked, and the person is told so.
+    @Test func aFileAProgramHoldsIsRefusedAsInUse() {
+        let locked = CocoaError(.fileLocking)
+        #expect(CloudStorage.reason(for: locked) == .inUse)
+        let other = CocoaError(.fileWriteNoPermission)
+        #expect(CloudStorage.reason(for: other) == .failed(other.localizedDescription))
+    }
+
+    /// The desktop picture is open for as long as it is shown, so the scan says which file it is.
+    @Test func theDesktopPictureIsMarked() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        let picture = try directory.file("\(drive)/Wallpaper.png", bytes: 2_000_000)
+        try directory.file("\(drive)/Other.png", bytes: 2_000_000)
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [picture], into: collector,
+            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let marked = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.isDesktopPicture) })
+
+        #expect(marked == ["Wallpaper.png": true, "Other.png": false])
+    }
 }

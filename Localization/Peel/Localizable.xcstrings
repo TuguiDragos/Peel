@@ -9021,6 +9021,112 @@
         }
       }
     },
+    "A program is using it, as the desktop picture is used, so macOS couldn’t remove its download. Try again once nothing uses it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor používá nějaký program, stejně jako se používá tapeta, takže systém macOS nemohl odstranit jeho staženou kopii. Zkuste to znovu, až ho nebude nic používat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Programm verwendet diese Datei, so wie das Hintergrundbild verwendet wird, daher konnte macOS ihren Download nicht entfernen. Versuche es erneut, sobald nichts sie mehr verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un programa lo está usando, como ocurre con el fondo de pantalla, así que macOS no ha podido eliminar su descarga. Vuelve a intentarlo cuando nada lo esté usando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un programme l’utilise, comme c’est le cas du fond d’écran, si bien que macOS n’a pas pu retirer son téléchargement. Réessayez une fois que plus rien ne l’utilise."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un programma lo sta usando, come succede con lo sfondo della scrivania, quindi macOS non è riuscito a rimuoverne il download. Riprova quando non lo usa più nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デスクトップの壁紙と同じように、プログラムがこのファイルを使用中のため、macOSはダウンロードしたものを削除できませんでした。使用しているものがなくなったら、もう一度やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배경화면으로 표시 중인 사진처럼 어떤 프로그램이 이 파일을 사용하고 있어 macOS가 다운로드를 제거할 수 없습니다. 이 파일을 사용하는 항목이 없을 때 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een programma gebruikt dit bestand, zoals de bureaubladachtergrond wordt gebruikt, dus macOS kon de download ervan niet verwijderen. Probeer het opnieuw zodra niets het meer gebruikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakiś program używa tego pliku, tak jak używana jest tapeta, więc macOS nie mógł usunąć jego pobranej kopii. Spróbuj ponownie, gdy nic nie będzie go już używać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um programa está usando este arquivo, como acontece com a imagem de fundo, então o macOS não conseguiu remover o download dele. Tente novamente quando nada estiver usando o arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul este folosit de un program, așa cum este folosită imaginea desktopului, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот файл использует какая-то программа, как это бывает с обоями рабочего стола, поэтому macOS не удалось удалить его загруженную копию. Повторите попытку, когда файл ничем не будет использоваться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett program använder filen, på samma sätt som skrivbordsbilden används, så macOS kunde inte ta bort hämtningen. Försök igen när inget använder den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir program bu dosyayı, masaüstü resminin kullanıldığı gibi kullanıyor; bu yüzden macOS indirilen kopyasını kaldıramadı. Hiçbir şey onu kullanmadığında yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл використовує якась програма, як це буває зі шпалерою, тож macOS не вдалося вилучити його викачування. Спробуйте ще раз, коли його ніщо не використовуватиме."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个程序正在使用此文件，就像桌面墙纸被使用那样，因此macOS无法移除它的下载。请在没有任何程序使用它后再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某個程式正在使用它，就像桌面背景圖片被使用時一樣，因此macOS無法移除它的下載項目。請在沒有任何程式使用它時再試一次。"
+          }
+        }
+      }
+    },
     "A rebase puts uncommitted changes aside and brings them back when it ends." : {
       "localizations" : {
         "cs" : {
@@ -84820,6 +84926,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：其中存有你目前的工作區和最後一次的後端設定，而`terraform init`無法將它們恢復。"
+          }
+        }
+      }
+    },
+    "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: je to tapeta, kterou systém macOS drží otevřenou, dokud se zobrazuje, takže její staženou kopii teď nelze odstranit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Diese Datei ist das Hintergrundbild, das macOS geöffnet hält, solange es angezeigt wird, daher kann ihr Download jetzt nicht entfernt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: es el fondo de pantalla, que macOS mantiene abierto mientras se muestra, así que ahora no se puede eliminar su descarga."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il s’agit du fond d’écran, que macOS garde ouvert tant qu’il est affiché, si bien que son téléchargement ne peut pas être retiré pour l’instant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: è lo sfondo della scrivania, che macOS tiene aperto finché è visualizzato, quindi ora non è possibile rimuoverne il download."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: これはデスクトップの壁紙で、表示中はmacOSが開いたままにしているため、現在はダウンロードしたものを削除できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 배경화면이며, macOS가 표시하는 동안 열어 두므로 지금은 다운로드를 제거할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit is de bureaubladachtergrond, die macOS geopend houdt zolang die wordt getoond, dus de download ervan kan nu niet worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik jest tapetą, którą macOS utrzymuje otwartą, dopóki jest wyświetlana, więc nie można teraz usunąć jego pobranej kopii."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: é a imagem de fundo, que o macOS mantém aberta enquanto é exibida, então o download dela não pode ser removido agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: este imaginea desktopului, pe care macOS o ține deschisă cât timp este afișată, așa că descărcarea sa nu poate fi eliminată acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл используется как обои рабочего стола, а macOS держит его открытым, пока он показывается, поэтому его загруженную копию сейчас нельзя удалить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: det är skrivbordsbilden, som macOS håller öppen medan den visas, så hämtningen kan inte tas bort nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, masaüstü resmidir ve macOS onu gösterildiği sürece açık tutar; bu yüzden indirilen kopyası şu anda kaldırılamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: це шпалера, яку macOS тримає відкритою, поки її показано, тож її викачування зараз не можна вилучити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它是桌面墙纸，macOS在显示它时会一直将其打开，因此现在无法移除它的下载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它是桌面背景圖片，macOS在顯示時會讓它保持打開，因此現在無法移除它的下載項目。"
           }
         }
       }
