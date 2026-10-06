@@ -30,8 +30,9 @@ flowchart LR
 The package, `Packages/PeelCore`, has four libraries:
 
 - **PeelCore** decides and acts: it finds apps and their leftovers, measures folders, matches files to apps,
-  and moves things to the Trash. It has no interface and speaks plain English; the app words everything a
-  person reads.
+  and moves things to the Trash. It has no pages or windows, only three AppKit pieces the app's lists and
+  sheets use (`RowCheckboxButton`, `SheetInFront`, `TextEditing`), and it speaks plain English; the app
+  words everything a person reads.
 - **PeelPrivileged** is the part the helper shares: which paths may be touched, what is protected, how a tool
   is run, and how a path is split into names. The helper links nothing else, so it stays small.
 - **PeelCommandLine** holds the `peel` commands. `PeelCLI` is only their entry point.
