@@ -28,7 +28,7 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Reset instead of remove.** Clear an app's settings without uninstalling it. Peel saves them first, so you can
   put them back, and never selects your own work.
 - **Privacy permissions too, if you want.** Peel can also reset the permissions macOS gave the app, such as access
-  to the camera and the microphone.
+  to the camera and the microphone. History can't undo this: the app asks again for each one.
 - **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
   unless you deselect it, and History puts it back where it was when you put the app back.
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
@@ -122,7 +122,8 @@ lists them.
   drivers, background items, and the commands in `/usr/local`.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,
   or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
-  run in Terminal for a cask that asks for an administrator's password.
+  run in Terminal for a cask that asks for an administrator's password. Uninstall and the clean ups delete for good,
+  as Homebrew does, and Peel says so before you confirm them.
 
 ## Fine-tune your Mac
 
