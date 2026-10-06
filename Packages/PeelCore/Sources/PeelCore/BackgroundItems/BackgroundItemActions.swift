@@ -146,10 +146,11 @@ public enum BackgroundItemActions {
     }
 
     private static func domain(of item: BackgroundItem) -> String {
-        item.kind == .agent ? "gui/\(getuid())" : "system"
+        guard item.kind == .agent else { return "system" }
+        return item.loadsInTheBackgroundSession ? "user/\(getuid())" : "gui/\(getuid())"
     }
 
-    private static func target(of item: BackgroundItem) -> String {
+    static func target(of item: BackgroundItem) -> String {
         "\(domain(of: item))/\(item.label)"
     }
 }

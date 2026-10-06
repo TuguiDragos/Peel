@@ -208,7 +208,7 @@ public enum BackgroundItems {
                     continue
                 }
                 let owner = ownership.owner(label: job.label, associated: job.associated, program: job.program)
-                items.append(BackgroundItem(
+                var item = BackgroundItem(
                     label: job.label,
                     kind: kind,
                     source: source,
@@ -224,7 +224,9 @@ public enum BackgroundItems {
                     isDisabled: loaded.override(of: job.label, kind) ?? job.isDisabled,
                     isOwnerConfirmed: owner?.isConfirmed ?? false,
                     unusualCommand: UnusualCommand(arguments: job.arguments)
-                ))
+                )
+                item.loadsInTheBackgroundSession = kind == .agent && job.loadsOnlyInTheBackground
+                items.append(item)
             }
         }
         return items
@@ -336,6 +338,8 @@ struct JobDefinition {
     let isDisabled: Bool
     /// The plist's `AssociatedBundleIdentifiers`. Whoever wrote the plist chose them, so they are a claim, not proof.
     let associated: [String]
+    /// True when `LimitLoadToSessionType`, a string or an array (`man launchd.plist`), names only Background.
+    let loadsOnlyInTheBackground: Bool
 
     init?(contentsOf url: URL) {
         guard
@@ -357,5 +361,8 @@ struct JobDefinition {
         isDisabled = plist["Disabled"] as? Bool ?? false
         let named = plist["AssociatedBundleIdentifiers"]
         associated = (named as? String).map { [$0] } ?? (named as? [Any])?.compactMap { $0 as? String } ?? []
+        let sessions = plist["LimitLoadToSessionType"]
+        let types = (sessions as? String).map { [$0] } ?? (sessions as? [Any])?.compactMap { $0 as? String } ?? []
+        loadsOnlyInTheBackground = types == ["Background"]
     }
 }

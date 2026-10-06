@@ -47,6 +47,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isUnreadable = false
     /// What in the job's command is worth a second look, if anything.
     public var unusualCommand: UnusualCommand?
+    /// True for an agent its file limits to the Background session, which launchd keeps in the user domain rather
+    /// than the GUI one: started, stopped and asked about there.
+    public var loadsInTheBackgroundSession = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 

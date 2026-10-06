@@ -13,6 +13,19 @@ struct BackgroundItemActionsTests {
         )
     }
 
+    @Test func anAgentOfTheBackgroundSessionIsAskedForInTheUserDomain() throws {
+        let uid = getuid()
+        var background = item(state: .loaded, plist: nil)
+        background.loadsInTheBackgroundSession = true
+
+        #expect(BackgroundItemActions.target(of: item(state: .loaded, plist: nil)) == "gui/\(uid)/com.example.agent")
+        #expect(BackgroundItemActions.target(of: background) == "user/\(uid)/com.example.agent")
+        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": "Background"])).loadsOnlyInTheBackground)
+        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Background"]])).loadsOnlyInTheBackground)
+        #expect(try !#require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Aqua", "Background"]])).loadsOnlyInTheBackground)
+        #expect(try !#require(JobDefinition(["Label": "a"])).loadsOnlyInTheBackground)
+    }
+
     /// On macOS 27 a job whose file carries a download's quarantine mark cannot be loaded. A job launchd already
     /// holds is still woken, marked or not.
     @Test func theMarkOfADownloadStopsALoadAndNothingElse() {
