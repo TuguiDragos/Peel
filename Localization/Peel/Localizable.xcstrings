@@ -193079,6 +193079,112 @@
         }
       }
     },
+    "macOS won’t load this while it is disabled. Enable it first, then start it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS tuto položku nenačte, dokud je vypnutá. Nejprve ji zapněte, potom ji spusťte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt dieses Objekt nicht, solange es deaktiviert ist. Aktiviere es zuerst und starte es dann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no cargará esto mientras esté desactivado. Actívalo primero y después inícialo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS refuse de charger cet élément tant qu’il est désactivé. Activez-le d’abord, puis démarrez-le."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non lo carica finché è disabilitato. Prima abilitalo, poi avvialo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこれを読み込みません。無効になっているためです。先に有効にしてから、開始してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목이 비활성화되어 있는 동안에는 macOS가 로드하지 않습니다. 먼저 활성화한 다음 시작하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt dit niet zolang het is uitgeschakeld. Schakel het eerst in en start het daarna."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie wczyta tej rzeczy, dopóki jest wyłączona. Najpierw ją włącz, a potem uruchom."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não carrega isto enquanto estiver desativado. Ative-o primeiro e depois inicie-o."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu încarcă acest articol cât timp este dezactivat. Activați‑l mai întâi, apoi porniți‑l."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не загрузит этот объект, пока он выключен. Сначала включите его, затем запустите."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser inte in det här så länge det är avaktiverat. Aktivera det först och starta det sedan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunu etkin değilken yüklemez. Önce etkinleştirin, sonra başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не завантажить цей елемент, поки його вимкнено. Спершу увімкніть його, а потім запустіть."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不会在此项停用期间载入它。请先“启用”此项，然后再“启动”它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不會在此項目停用時載入它。請先啟用它，然後再啟動它。"
+          }
+        }
+      }
+    },
     "macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark." : {
       "localizations" : {
         "cs" : {

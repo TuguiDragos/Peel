@@ -113,6 +113,7 @@ struct BackgroundItemList: View {
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
         case .trash(let reason): Text(verbatim: reason.explanation)
+        case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then start it.")
         case .quarantinedPlist: Text("macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark.")
         case nil: Text(verbatim: "")
         }

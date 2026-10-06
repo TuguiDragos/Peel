@@ -12,6 +12,8 @@ public enum BackgroundItemActions {
         /// On macOS 27 and later, launchd refuses to load a job whose property list carries the quarantine mark
         /// that macOS puts on downloads.
         case quarantinedPlist
+        /// launchd does not load a job that is disabled (`bootstrap` answers error 5), so it is enabled first.
+        case disabled
     }
 
     /// Why Peel will not start, stop or switch `item`, or nil. These go by label, so a label macOS itself uses
@@ -39,6 +41,7 @@ public enum BackgroundItemActions {
         /// The job's file carries the quarantine mark, so launchd on macOS 27 and later would refuse to load it.
         /// A job that is already loaded is still started with `kickstart`.
         case blockedByQuarantine
+        case needsEnabling
     }
 
     static func plan(
@@ -46,6 +49,7 @@ public enum BackgroundItemActions {
         isRefusedByLaunchd: (URL) -> Bool = Quarantine.stopsLaunchd
     ) -> Start {
         guard item.state == .notLoaded, let plist = item.plistURL else { return .kickstart }
+        if item.isDisabled { return .needsEnabling }
         return isRefusedByLaunchd(plist) ? .blockedByQuarantine : .bootstrap(plist)
     }
 
@@ -55,6 +59,8 @@ public enum BackgroundItemActions {
         switch plan(toStart: item) {
         case .blockedByQuarantine:
             throw .quarantinedPlist
+        case .needsEnabling:
+            throw .disabled
         case .bootstrap(let plist):
             if item.requiresPrivileges {
                 try await runPrivileged(.bootstrap, for: item)

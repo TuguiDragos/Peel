@@ -26,6 +26,19 @@ struct BackgroundItemActionsTests {
         #expect(try !#require(JobDefinition(["Label": "a"])).loadsOnlyInTheBackground)
     }
 
+    @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {
+        let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
+        let disabled = BackgroundItem(
+            label: "com.example.agent", kind: .agent, source: .userLibrary, plistURL: plist, program: nil,
+            runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
+            ownerURL: nil, isOrphan: false, state: .notLoaded, isDisabled: true
+        )
+
+        #expect(BackgroundItemActions.plan(toStart: disabled, isRefusedByLaunchd: { _ in false }) == .needsEnabling)
+        let enabled = item(state: .notLoaded, plist: plist)
+        #expect(BackgroundItemActions.plan(toStart: enabled, isRefusedByLaunchd: { _ in false }) == .bootstrap(plist))
+    }
+
     /// On macOS 27 a job whose file carries a download's quarantine mark cannot be loaded. A job launchd already
     /// holds is still woken, marked or not.
     @Test func theMarkOfADownloadStopsALoadAndNothingElse() {
