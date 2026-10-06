@@ -6,7 +6,8 @@ import SwiftUI
 /// since the panel's own row counts its updates, and a tool turned off in Settings is left out, as in the sidebar.
 struct MenuBarFound: View {
     @Environment(FoundLastTimeStore.self) private var store
-    @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
+    @AppStorage(SettingsKey.sidebarTools) private var sidebarTools = ""
+    @Environment(HomebrewLibrary.self) private var homebrew
     @State private var pointingAt: Tool?
     let open: (Tool) -> Void
 
@@ -43,7 +44,7 @@ struct MenuBarFound: View {
     }
 
     private var lines: [Line] {
-        let hidden = Tool.hidden(in: hiddenTools)
+        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalled)
         return store.findings.compactMap { tool, finding in
             let looked = Looked(count: finding.count, size: finding.size)
             guard

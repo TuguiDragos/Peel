@@ -160,6 +160,11 @@ final class HomebrewLibrary {
         (packages ?? []).count { $0.kind == kind }
     }
 
+    /// Reads again whether Homebrew is installed, which the sidebar's default for the Homebrew page follows.
+    func checkInstalled() {
+        isInstalled = Homebrew.executableURL != nil
+    }
+
     /// Reads the installed packages again. `includingReclaimable` also asks how much `brew cleanup` would
     /// free, which only the Homebrew page shows. That is a Ruby command that walks the cache and the Cellar,
     /// so it is asked for only while that page is open or after a command, never on every change in

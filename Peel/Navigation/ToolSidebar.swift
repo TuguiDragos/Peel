@@ -1,4 +1,5 @@
 import AppKit
+import PeelCore
 import SwiftUI
 
 /// Where the sidebar can take the user. Settings is a row chosen like the tools and opens as a page in this
@@ -19,7 +20,8 @@ struct ToolSidebar: View {
     @AppStorage("sidebar.system.expanded") private var isSystemExpanded = true
     /// Tools the user turned off in Settings. They leave the sidebar only: the View menu, Shortcuts, and links
     /// still open them, as Finder's Go menu opens a place its sidebar hides.
-    @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
+    @AppStorage(SettingsKey.sidebarTools) private var sidebarTools = ""
+    @Environment(HomebrewLibrary.self) private var homebrew
     @Binding var tool: Tool
     @Binding var page: SidebarDestination?
     /// The column's width, set by the widest label, because in some languages the longer tool names need more
@@ -169,7 +171,7 @@ struct ToolSidebar: View {
     }
 
     private func shown(_ tools: [Tool]) -> [Tool] {
-        let hidden = Tool.hidden(in: hiddenTools)
+        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalled)
         return tools.filter { !hidden.contains($0) }
     }
 

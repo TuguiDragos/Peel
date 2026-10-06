@@ -70,6 +70,7 @@ struct PeelApp: App {
     /// too, so the carrier of their selection reads the same libraries their pages show.
     init() {
         SettingsKey.showInMenuBarAsBefore()
+        SettingsKey.keepSidebarChoicesAsBefore()
         let notifications = PeelNotifications()
         notifications.activate()
         _notifications = State(initialValue: notifications)
@@ -176,6 +177,7 @@ struct PeelApp: App {
             // History may have become readable again meanwhile, or stopped being, and `peel` may have moved something.
             history.checkReadability()
             stats.reload()
+            homebrew.checkInstalled()
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one. They read the helper's status again too.
             Task { await home.refresh(helper: helper) }
@@ -408,6 +410,7 @@ struct PeelApp: App {
         MenuBarExtra(isInserted: menuBarItemIsInserted) {
             MenuBarPanel()
                 .environment(library)
+                .environment(homebrew)
                 .environment(stats)
                 .environment(found)
         } label: {

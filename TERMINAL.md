@@ -19,8 +19,9 @@ each checked for contrast against its background.
 
 ### With Peel
 
-Choose Terminal in Peel's sidebar, then choose a theme. Terminal opens with it and uses it in every new window, and
-Put Back gives Terminal the profile it had before. Peel changes Terminal's settings only while Terminal is closed,
+The Terminal page starts turned off in Peel's sidebar: turn it on in Settings > General > Sidebar, or open it from
+the View menu. Choose a theme there, and Terminal opens with it and uses it in every new window, and Put Back gives
+Terminal the profile it had before. Peel changes Terminal's settings only while Terminal is closed,
 and offers to quit it first.
 
 The Terminal tab of the same page can also leave out the "Last login" line in new windows, keep Terminal from

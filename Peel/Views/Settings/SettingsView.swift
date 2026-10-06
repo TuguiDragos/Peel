@@ -74,8 +74,10 @@ enum SettingsKey {
     static let showsInMenuBar = "showsInMenuBar"
     static let warnsWhenDiskIsNearlyFull = "lowDiskSpace.warns"
     static let toldDiskIsNearlyFull = "lowDiskSpace.told"
-    /// The tools the sidebar leaves out (`Tool.hidden(in:)`).
-    static let hiddenTools = "sidebar.hiddenTools"
+    /// The tools the person chose to show or leave out of the sidebar (`SidebarChoices`).
+    static let sidebarTools = "sidebar.tools"
+    /// The tools left out before each tool had a default, carried into `sidebarTools` once.
+    private static let hiddenToolsBefore = "sidebar.hiddenTools"
     /// The `peel` tool reads these three keys too, so they are defined once, in PeelCore.
     static let updateSource = UpdatePreferences.Key.source
     static let ignoredUpdateApps = UpdatePreferences.Key.ignoredApps
@@ -93,6 +95,17 @@ enum SettingsKey {
 
 extension SettingsKey {
     /// With no value yet, Peel shows in the menu bar exactly when it watches the Trash.
+    /// Carries the tools a person left out before each tool had a default into their choices, once. An empty list
+    /// carries no choice, so every tool starts at its default.
+    static func keepSidebarChoicesAsBefore() {
+        let defaults = UserDefaults.standard
+        guard let hidden = defaults.string(forKey: hiddenToolsBefore) else { return }
+        if defaults.string(forKey: sidebarTools) == nil {
+            defaults.set(SidebarChoices(hiddenBefore: hidden).stored, forKey: sidebarTools)
+        }
+        defaults.removeObject(forKey: hiddenToolsBefore)
+    }
+
     static func showInMenuBarAsBefore() {
         let defaults = UserDefaults.standard
         guard defaults.object(forKey: showsInMenuBar) == nil else { return }
@@ -124,7 +137,7 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
     @AppStorage(SettingsKey.showsInMenuBar) private var showsInMenuBar = false
     @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
-    @AppStorage(SettingsKey.hiddenTools) private var hiddenTools = ""
+    @AppStorage(SettingsKey.sidebarTools) private var sidebarTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
     @Environment(AppLibrary.self) private var library
     @Environment(HomebrewLibrary.self) private var homebrew
@@ -487,7 +500,7 @@ extension GeneralSettingsView {
 
 extension GeneralSettingsView {
     private var sidebarToolsSummary: String {
-        let hidden = Tool.hidden(in: hiddenTools)
+        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalled)
         let left = Tool.Group.allCases.flatMap(\.tools).filter(hidden.contains).map { String(localized: $0.title) }
         guard !left.isEmpty else { return String(localized: "Every tool is in the sidebar.") }
         return String(localized: "Left out: \(left.formatted(.list(type: .and))).")
@@ -508,11 +521,14 @@ extension GeneralSettingsView {
 
     fileprivate func showsInSidebar(_ tool: Tool) -> Binding<Bool> {
         Binding(
-            get: { !Tool.hidden(in: hiddenTools).contains(tool) },
+            get: {
+                !Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalled)
+                    .contains(tool)
+            },
             set: { shows in
-                var hidden = Tool.hidden(in: hiddenTools)
-                if shows { hidden.remove(tool) } else { hidden.insert(tool) }
-                hiddenTools = Tool.storing(hidden: hidden)
+                var choices = SidebarChoices(stored: sidebarTools)
+                choices.choose(tool.rawValue, shows: shows)
+                sidebarTools = choices.stored
             }
         )
     }

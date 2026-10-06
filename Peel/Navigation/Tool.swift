@@ -1,4 +1,5 @@
 import Foundation
+import PeelCore
 
 /// A tool in the sidebar. The order of the cases is the order within each group, in the sidebar and in the View
 /// menu, where the first nine tools get ⌘1 to ⌘9. The `.home` group (Home, Tweaks, Terminal, History) comes first.
@@ -107,14 +108,22 @@ extension Tool {
         }
     }
 
-    /// The tools the sidebar leaves out, read from their names joined by commas. A name this version doesn't
-    /// know, and a tool that can't be hidden, are ignored.
-    static func hidden(in stored: String) -> Set<Tool> {
-        Set(stored.split(separator: ",").compactMap { Tool(rawValue: String($0)) }.filter(\.canBeHidden))
+    /// Whether the sidebar shows this tool to a person who never chose: what someone who uninstalls and frees space
+    /// rarely needs starts off, and Homebrew shows while Homebrew is installed.
+    func isShownByDefault(homebrewIsInstalled: Bool) -> Bool {
+        switch self {
+        case .backgroundItems, .extensions, .plugins, .projects, .intel, .terminal: false
+        case .homebrew: homebrewIsInstalled
+        default: true
+        }
     }
 
-    static func storing(hidden tools: Set<Tool>) -> String {
-        tools.map(\.rawValue).sorted().joined(separator: ",")
+    /// The tools the sidebar leaves out: those the person chose to, and those never chosen that start off.
+    static func hidden(by choices: SidebarChoices, homebrewIsInstalled: Bool) -> Set<Tool> {
+        Set(allCases.filter { tool in
+            let byDefault = tool.isShownByDefault(homebrewIsInstalled: homebrewIsInstalled)
+            return tool.canBeHidden && !choices.shows(tool.rawValue, byDefault: byDefault)
+        })
     }
 }
 
