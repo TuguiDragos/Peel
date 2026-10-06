@@ -7,25 +7,32 @@ struct HomebrewProgressView: View {
     @State private var isConfirmingStop = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                ProgressView()
-                    .controlSize(.small)
-                Text("Running Homebrew…")
-                    .font(.headline)
-                Spacer()
+        ScrollView {
+            Text(verbatim: homebrew.progress ?? "")
+                .font(.system(.callout, design: .monospaced))
+                .textSelection(.enabled)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(20)
+        }
+        .defaultScrollAnchor(.bottom)
+        // What runs and its Stop sit in this column's section of the title bar. With the output reaching up to the
+        // title bar, macOS draws no line under it, as on every other page.
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                HStack(spacing: 8) {
+                    ProgressView()
+                        .controlSize(.small)
+                    Text("Running Homebrew…")
+                        .font(.headline)
+                }
+            }
+            .sharedBackgroundVisibility(.hidden)
+            ToolbarSpacer(.flexible, placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) {
                 Button("Stop", systemImage: "stop.fill") { isConfirmingStop = true }
                     .disabled(homebrew.isStopping)
             }
-            ScrollView {
-                Text(verbatim: homebrew.progress ?? "")
-                    .font(.system(.callout, design: .monospaced))
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .defaultScrollAnchor(.bottom)
         }
-        .padding(20)
         .confirmationDialog("Stop Homebrew?", isPresented: $isConfirmingStop) {
             Button("Stop", role: .destructive) { homebrew.stopUpgrade() }
             Button("Cancel", role: .cancel) {}
