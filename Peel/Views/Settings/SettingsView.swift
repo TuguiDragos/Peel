@@ -371,10 +371,14 @@ private struct GeneralSettingsView: View {
                 }
                 // Homebrew removes the links its cask made, and no other.
                 if selfUninstall.hasCommandLineTool, ownCask?.commandLinks.contains(CommandLineTool.path) != true {
-                    Text("Removing Peel leaves the peel command in place. To remove it too, run: \(Text(verbatim: SelfUninstall.removeCommand).font(.caption.monospaced()))")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Removing Peel leaves the peel command in place. To remove it too, run this command in Terminal:")
+                            .font(.callout)
+                        Text(verbatim: SelfUninstall.removeCommand)
+                            .font(.caption.monospaced())
+                    }
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
                 }
             }
         }

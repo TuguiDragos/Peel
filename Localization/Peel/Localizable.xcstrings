@@ -118572,108 +118572,108 @@
         }
       }
     },
-    "Removing Peel leaves the peel command in place. To remove it too, run: %@" : {
+    "Removing Peel leaves the peel command in place. To remove it too, run this command in Terminal:" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Po odstranění Peelu zůstane příkaz peel na místě. Chcete-li ho odstranit také, spusťte: %@"
+            "value" : "Po odstranění Peelu zůstane příkaz peel na místě. Chcete-li ho odstranit také, spusťte v Terminálu tento příkaz:"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn du Peel entfernst, bleibt der Befehl „peel“ erhalten. Um auch ihn zu entfernen, führe Folgendes aus: %@"
+            "value" : "Wenn du Peel entfernst, bleibt der Befehl „peel“ erhalten. Um auch ihn zu entfernen, führe diesen Befehl im Terminal aus:"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al eliminar Peel, el comando peel se queda donde está. Para eliminarlo también, ejecuta: %@"
+            "value" : "Al eliminar Peel, el comando peel se queda donde está. Para eliminarlo también, ejecuta este comando en Terminal:"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer Peel laisse la commande peel en place. Pour la supprimer aussi, exécutez : %@"
+            "value" : "Supprimer Peel laisse la commande peel en place. Pour la supprimer aussi, exécutez cette commande dans Terminal :"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se rimuovi Peel, il comando peel resta al suo posto. Per rimuovere anche quello, esegui: %@"
+            "value" : "Se rimuovi Peel, il comando peel resta al suo posto. Per rimuovere anche quello, esegui questo comando in Terminale:"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelをアンインストールしても、peelコマンドはそのまま残ります。コマンドも取り除くには、次を実行してください: %@"
+            "value" : "Peelをアンインストールしても、peelコマンドはそのまま残ります。コマンドも取り除くには、ターミナルで以下のコマンドを実行してください:"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel을 제거해도 peel 명령은 그대로 남습니다. 이 명령도 제거하려면 다음을 실행하십시오: %@"
+            "value" : "Peel을 제거해도 peel 명령은 그대로 남습니다. 이 명령도 제거하려면 터미널에서 다음 명령을 실행하십시오:"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als je Peel verwijdert, blijft het commando peel staan. Voer dit uit om het ook te verwijderen: %@"
+            "value" : "Als je Peel verwijdert, blijft het commando peel staan. Voer dit commando uit in Terminal om het ook te verwijderen:"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odinstalowanie Peel pozostawia polecenie peel na miejscu. Aby je także usunąć, uruchom: %@"
+            "value" : "Odinstalowanie Peel pozostawia polecenie peel na miejscu. Aby je także usunąć, uruchom to polecenie w Terminalu:"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remover o Peel deixa o comando peel onde está. Para removê-lo também, execute: %@"
+            "value" : "Remover o Peel deixa o comando peel onde está. Para removê-lo também, execute este comando no Terminal:"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminarea aplicației Peel lasă comanda peel pe loc. Pentru a o elimina și pe ea, rulați: %@"
+            "value" : "Eliminarea aplicației Peel lasă comanda peel pe loc. Pentru a o elimina și pe ea, rulați această comandă în Terminal:"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "После удаления Peel команда peel остается на месте. Чтобы удалить и ее, выполните: %@"
+            "value" : "После удаления Peel команда peel остается на месте. Чтобы удалить и ее, выполните эту команду в Терминале:"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om du tar bort Peel finns kommandot peel kvar. Om du vill ta bort det också kör du: %@"
+            "value" : "Om du tar bort Peel finns kommandot peel kvar. Om du vill ta bort det också kör du det här kommandot i Terminal:"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’i kaldırmak peel komutunu yerinde bırakır. Onu da kaldırmak için şunu çalıştırın: %@"
+            "value" : "Peel’i kaldırmak peel komutunu yerinde bırakır. Onu da kaldırmak için bu komutu Terminal’de çalıştırın:"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Після вилучення Peel команда peel лишається на місці. Щоб вилучити і її, виконайте: %@"
+            "value" : "Після вилучення Peel команда peel лишається на місці. Щоб вилучити і її, виконайте цю команду в Терміналі:"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除Peel不会移除peel命令。若要一并移除它，请运行：%@"
+            "value" : "移除Peel不会移除peel命令。若要一并移除它，请在“终端”中运行此命令："
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除Peel後，peel指令仍會保留。若也要移除它，請執行：%@"
+            "value" : "移除Peel後，peel指令仍會保留。若也要移除它，請在「終端機」中執行此指令："
           }
         }
       }
