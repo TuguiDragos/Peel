@@ -77,6 +77,15 @@ struct CommandLineTests {
         #expect(UninstallCommand.dockNote(for: app, isInTheDock: true, keeping: true) == nil)
     }
 
+    /// A dry run moves nothing, so what would stop the move now, an app still running or a permission missing, is
+    /// said beside the plan instead of standing in for it.
+    @Test func aDryRunShowsThePlanAndSaysWhatWouldStopTheMove() throws {
+        let failure = CommandFailure("Quit Example first. Still running: org.example.app.")
+        #expect(try UninstallCommand.note(for: failure, dryRun: true) == failure.description)
+        #expect(throws: CommandFailure.self) { try UninstallCommand.note(for: failure, dryRun: false) }
+        #expect(try UninstallCommand.note(for: nil, dryRun: false) == nil)
+    }
+
     @Test func parsesByteSizes() {
         #expect(ByteSize(argument: "2048")?.bytes == 2_048)
         #expect(ByteSize(argument: "500KB")?.bytes == 500_000)

@@ -368,11 +368,14 @@ struct UninstallCommand: AsyncParsableCommand {
     /// Throws while the app or one of its helpers is running: a process left running writes its settings
     /// again right after they move to the Trash.
     private static func refuseWhileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async throws {
+        if let failure = await whileRunning(target, among: apps) { throw failure }
+    }
+
+    private static func whileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async -> CommandFailure? {
         let running = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
-        guard running.isEmpty else {
-            let identifiers = Set(running.map(\.bundleIdentifier)).sorted().map(Output.plain)
-            throw CommandFailure("Quit \(Output.plain(target.name)) first. Still running: \(identifiers.joined(separator: ", ")).")
-        }
+        guard !running.isEmpty else { return nil }
+        let identifiers = Set(running.map(\.bundleIdentifier)).sorted().map(Output.plain)
+        return CommandFailure("Quit \(Output.plain(target.name)) first. Still running: \(identifiers.joined(separator: ", ")).")
     }
 
     /// Whether the app's icon comes out of the Dock: once the app itself is in the Trash, unless `--keep-in-dock`.
@@ -384,6 +387,13 @@ struct UninstallCommand: AsyncParsableCommand {
     static func dockNote(for app: InstalledApp, isInTheDock: Bool, keeping: Bool) -> String? {
         guard isInTheDock, !keeping else { return nil }
         return "Peel takes \(Output.plain(app.name))'s icon out of the Dock once it is in the Trash, and puts it back if you put the app back. Add --keep-in-dock to leave it."
+    }
+
+    /// What would stop the move now, as a note on a dry run, which moves nothing, and as the refusal otherwise.
+    static func note(for failure: CommandFailure?, dryRun: Bool) throws -> String? {
+        guard let failure else { return nil }
+        guard dryRun else { throw failure }
+        return failure.description
     }
 
     /// What the removal does that the Trash can't bring back, said before the question.
@@ -465,7 +475,7 @@ struct UninstallCommand: AsyncParsableCommand {
         guard !service.isInsideATrash(target.url) else {
             throw CommandFailure("\(Output.plain(target.name)) is already in the Trash. Empty it, or put it back first.")
         }
-        try await Self.refuseWhileRunning(target, among: apps)
+        let running = try Self.note(for: await Self.whileRunning(target, among: apps), dryRun: dryRun)
         let homebrew = await CaskLookup.evidence(for: target)
         let uninstallation = await ProgressLine.counting {
             await Uninstallation.prepare(
@@ -476,9 +486,12 @@ struct UninstallCommand: AsyncParsableCommand {
                 receipts: homebrew.receipts
             )
         }
-        guard !uninstallation.appRequiresPrivileges else {
-            throw Self.whyItCannotMove(target, isProtectedByPrivacy: FileAccess.isProtectedByPrivacy(target.url))
-        }
+        let access = try Self.note(
+            for: uninstallation.appRequiresPrivileges
+                ? Self.whyItCannotMove(target, isProtectedByPrivacy: FileAccess.isProtectedByPrivacy(target.url)) : nil,
+            dryRun: dryRun
+        )
+        [running, access].compactMap(\.self).forEach(Output.note)
 
         if let note = UnreadableHistory.note() {
             Output.note(note)
@@ -495,10 +508,14 @@ struct UninstallCommand: AsyncParsableCommand {
         if !output.json {
             // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
             let staying = !plan.staying.isEmpty
-            Output.table(plan.items.map { item in
-                [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
-            })
-            Output.line("Total: \(Output.size(plan.total))")
+            if plan.items.isEmpty {
+                Output.line("Nothing here can be moved.")
+            } else {
+                Output.table(plan.items.map { item in
+                    [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
+                })
+                Output.line("Total: \(Output.size(plan.total))")
+            }
         }
         // With `--json`, standard output is the report alone, so the warnings go where the notes go.
         let warnings = Self.warnings(moving: Set(plan.moving.map(\.url)), of: target, resettingPrivacy: resetPrivacy)
