@@ -46,9 +46,10 @@ Peel follows coordinated disclosure.
 
 - You report privately. The issue stays private while it is fixed.
 - **90 days** after your report, you are free to publish, whether or not a fix exists. You do not
-  need permission, and asking for an extension is a request, not a condition. 90 days is the
-  longest deadline in common use: CERT/CC publishes 45 days after a report, and CISA may publish
-  45 days after first trying to reach a vendor that does not answer.
+  need permission, and asking for an extension is a request, not a condition. 90 days is a common
+  deadline, Google Project Zero's among them. CERT/CC publishes sooner, 45 days after a report, and
+  CISA may publish 45 days after first trying to reach a vendor that does not answer; the Zero Day
+  Initiative gives a vendor 120 days.
 - If the bug is being exploited in the wild, that clock is not useful. Say so in your report: the
   fix and the advisory then go out as fast as they can be built, and disclosure happens early on
   purpose, so people can protect themselves.
