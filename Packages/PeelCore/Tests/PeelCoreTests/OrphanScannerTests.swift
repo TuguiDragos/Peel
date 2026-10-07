@@ -376,6 +376,27 @@ struct OrphanScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    @Test func findsTheFolderAWebKitProcessKeptForAnAppThatLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("var/C/com.apple.WebKit.Networking+com.gone.app")
+        try directory.directory("var/C/com.apple.WebKit.GPU+com.installed.app")
+        try directory.directory("var/C/com.apple.WebKit.WebContent+com.apple.Safari")
+        let scanner = OrphanScanner(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
+                userCacheDirectory: directory.url.appending(path: "var/C", directoryHint: .isDirectory)
+            ),
+            isRegisteredApp: { _ in false },
+            systemApps: []
+        )
+
+        let scan = await scanner.scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["com.gone.app"])
+        #expect(scan.groups.first?.items.map(\.url.lastPathComponent) == ["com.apple.WebKit.Networking+com.gone.app"])
+    }
+
     @Test func findsAFolderAnAppThatLeftHidWithADotBeforeItsIdentifier() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Application Support/.com.gone.app.backups")

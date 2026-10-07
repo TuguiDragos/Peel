@@ -132,9 +132,20 @@ struct LeftoverMatcher: Sendable {
             fileName.removingSuffix(".framework")
         case .hiddenHomeFiles:
             fileName.hasPrefix(".") ? String(fileName.dropFirst()) : fileName
+        case .caches, .temporaryItems:
+            webKitsClient(in: fileName) ?? withoutTheDotBeforeAnIdentifier(fileName)
         default:
             withoutTheDotBeforeAnIdentifier(fileName)
         }
+    }
+
+    /// The app a WebKit process keeps a folder for in the account's cache and temporary folders, named for the
+    /// process, a plus, and the app's code signing identifier (`getUserDirectorySuffix`, WebKit's
+    /// `AuxiliaryProcessMac.mm`): `com.apple.WebKit.Networking+com.example.app`.
+    private static func webKitsClient(in fileName: String) -> String? {
+        guard fileName.hasPrefix("com.apple.WebKit."), let plus = fileName.firstIndex(of: "+") else { return nil }
+        let client = String(fileName[fileName.index(after: plus)...])
+        return Identifier.isValid(client) ? client : nil
     }
 
     /// An app hides a folder of its own by writing a dot before its identifier: `.com.example.app.backups`.

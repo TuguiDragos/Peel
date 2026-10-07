@@ -498,6 +498,18 @@ struct LeftoverMatcherTests {
         #expect(match(".org.example.app.plist", in: .preferences, for: example) == nil)
     }
 
+    @Test func aWebKitProcessesFolderIsTheAppsItServes() {
+        let example = app("org.example.app", name: "Example", embedded: ["org.example.app.quicklook"])
+
+        for kind in [SearchLocation.Kind.caches, .temporaryItems] {
+            #expect(match("com.apple.WebKit.Networking+org.example.app", in: kind, for: example)?.reason == .bundleIdentifier)
+            #expect(match("com.apple.WebKit.GPU+org.example.app.quicklook", in: kind, for: example)?.reason == .embeddedBundleIdentifier)
+            #expect(match("com.apple.WebKit.WebContent+net.example.other", in: kind, for: example) == nil)
+            #expect(match("com.apple.WebKit.WebContent+com.apple.Safari", in: kind, for: app("com.apple.Safari", name: "Safari")) == nil)
+        }
+        #expect(match("com.apple.WebKit.Networking+org.example.app", in: .applicationSupport, for: example) == nil)
+    }
+
     @Test func aPlugInIsMatchedWithoutTheExtensionThatSaysItsKind() throws {
         let serum = app("com.xferrecords.serum", name: "Serum")
         for name in [
