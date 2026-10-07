@@ -16,8 +16,10 @@ only to another https address. Each check asks about one app, but taken together
 its apps you have, and GitHub which of your apps update through it.
 
 For an update that waits, Peel also reads the page of release notes the app's feed names, and the app's own feed when
-Homebrew found the update, once per version, and keeps the notes so they show with no connection. Nothing in them is
-loaded or run: Peel shows their text, and a link in them opens only when you click it.
+Homebrew found the update, once per version, and keeps the notes so they show with no connection. When the feed names
+a page of notes for each language, Peel asks for the one in your language, so the server that keeps those pages can
+tell which language you read. Nothing in them is loaded or run: Peel shows their text, and a link in them opens only
+when you click it.
 
 Homebrew goes online only when you ask it to update, upgrade, repair its taps, which asks each tap's repository whether
 its main branch was renamed, or scan for vulnerabilities, and that scan is the one time Peel sends a list of what is
