@@ -588,12 +588,7 @@ struct PrivacyResetTests {
         let directory = try TemporaryDirectory()
         let held = InstalledApp(url: try directory.directory("Applications/Held.app"), bundleIdentifier: "org.example.held", name: "Held")
         let free = InstalledApp(url: try directory.directory("Applications/Free.app"), bundleIdentifier: "org.example.free", name: "Free")
-        let program = try directory.directory("Applications/Held.app/Contents/MacOS").appending(path: "held")
-        try FileManager.default.copyItem(atPath: "/bin/sleep", toPath: program.path(percentEncoded: false))
-        let process = Process()
-        process.executableURL = program
-        process.arguments = ["30"]
-        try process.run()
+        let process = try directory.runningProgram("Applications/Held.app/Contents/MacOS/held")
         defer { process.terminate() }
 
         #expect(PrivacyReset.goingNow([held, free], with: service(in: directory)).map(\.bundleIdentifier) == ["org.example.free"])

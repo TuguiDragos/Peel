@@ -80,6 +80,26 @@ struct TemporaryDirectory: ~Copyable {
         return String(decoding: help, as: UTF8.self).contains("--noclone")
     }()
 
+    /// macOS kills a copy of one of its own programs started from anywhere else (a launch constraint), so the copy of
+    /// `sleep` is signed ad hoc first.
+    func runningProgram(_ path: String) throws -> Process {
+        let program = url.appending(path: path)
+        try FileManager.default.createDirectory(
+            at: program.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try FileManager.default.copyItem(at: URL(filePath: "/bin/sleep"), to: program)
+        let signing = try Process.run(
+            URL(filePath: "/usr/bin/codesign"),
+            arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
+        )
+        signing.waitUntilExit()
+        guard signing.terminationStatus == 0 else {
+            throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
+        }
+        return try Process.run(program, arguments: ["30"])
+    }
+
     func setPermissions(_ permissions: Int, of path: String) throws {
         try setPermissions(permissions, of: url.appending(path: path))
     }

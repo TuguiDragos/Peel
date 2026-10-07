@@ -40,12 +40,7 @@ struct OpenFilesTests {
     /// A program running from inside a folder holds it, as an agent an app keeps in its support folder does.
     @Test func seesAProgramRunningFromInsideAFolder() throws {
         let directory = try TemporaryDirectory()
-        let tool = try directory.directory("Support/Agent.app/Contents/MacOS").appending(path: "agent")
-        try FileManager.default.copyItem(atPath: "/bin/sleep", toPath: tool.path(percentEncoded: false))
-        let process = Process()
-        process.executableURL = tool
-        process.arguments = ["30"]
-        try process.run()
+        let process = try directory.runningProgram("Support/Agent.app/Contents/MacOS/agent")
         defer { process.terminate() }
 
         let folder = directory.url.appending(path: "Support", directoryHint: .isDirectory)
@@ -77,13 +72,7 @@ struct OpenFilesTests {
     /// An app extension runs on its app's behalf and macOS ends it once the app goes, so it holds nothing.
     @Test func anAppExtensionRunningFromInsideAnAppHoldsNothing() throws {
         let directory = try TemporaryDirectory()
-        let tool = try directory.directory("Example.app/Contents/PlugIns/Share.appex/Contents/MacOS")
-            .appending(path: "share")
-        try FileManager.default.copyItem(atPath: "/bin/sleep", toPath: tool.path(percentEncoded: false))
-        let process = Process()
-        process.executableURL = tool
-        process.arguments = ["30"]
-        try process.run()
+        let process = try directory.runningProgram("Example.app/Contents/PlugIns/Share.appex/Contents/MacOS/share")
         defer { process.terminate() }
 
         #expect(OpenFiles(excluding: nil).holders(of: directory.url.appending(path: "Example.app")).isEmpty)
