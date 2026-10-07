@@ -67,19 +67,22 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public var isTheTools = true
         /// The newest write inside, from the walk that measured it. It is shown and never decides what is selected.
         public var lastWritten: Date?
+        /// A wallet, a signing key, or a password database seen inside. Never a repository: the tool clones it again.
+        public var heldBack: HoldBack?
 
         public var id: URL { url }
 
         /// True when Select All passes the location by: its size is not known, nothing shows the tool made it, a
-        /// workspace may still be in use, or it holds the archives of the apps the person built.
+        /// workspace may still be in use, something inside may exist nowhere else, or it holds the archives of the
+        /// apps the person built.
         public var isLeftToTheClick: Bool {
-            size == nil || !isTheTools || workspace?.mayStillBeInUse == true || kind == .archives
+            size == nil || !isTheTools || workspace?.mayStillBeInUse == true || heldBack != nil || kind == .archives
         }
 
         /// Whether Peel selects this location for the user: only content that tools make or fetch again, or
         /// logs, and only once measured. Nothing is selected for the user without showing its size.
         public var isRecommended: Bool {
-            guard isTheTools, workspace?.mayStillBeInUse != true else { return false }
+            guard isTheTools, workspace?.mayStillBeInUse != true, heldBack == nil else { return false }
             return switch kind {
             case .buildData, .downloads, .cache, .logs: size != nil
             case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: false
@@ -1252,7 +1255,8 @@ public enum DeveloperCaches {
                 workspace: derived?.workspace,
                 project: project,
                 isTheTools: derived?.isXcodes ?? true,
-                lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange }
+                lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange },
+                heldBack: contents.flatMap(HoldBack.secret(in:))
             ))
         }
         guard !locations.isEmpty else { return nil }

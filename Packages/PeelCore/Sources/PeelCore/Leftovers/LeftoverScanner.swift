@@ -350,8 +350,7 @@ public struct LeftoverScanner: Sendable {
     ) -> HoldBack? {
         // A wallet comes first: a cask's `zap` can name a coin app's whole data folder, which is where its keys
         // are. Holding it back costs a checkmark, and the row says what is inside.
-        if contents.holdsWallet { return .holdsAWallet }
-        if contents.holdsPasswordDatabase { return .holdsAPasswordDatabase }
+        if let secret = HoldBack.secret(in: contents) { return secret }
         if contents.holdsRepository { return .holdsRepository }
         if kind == .logs, CrashReport.isOne(url) { return .crashReport }
         if kind == .sharedFolder { return .sharedWithEveryone }

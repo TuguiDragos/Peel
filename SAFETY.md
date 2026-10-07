@@ -302,11 +302,12 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   browser keeps its profiles (`Google/Chrome/Default`): uninstalling a browser never takes its wallet. A profile
   whose extension storage macOS will not let Peel list stays too, since it is not known to hold no wallet. The rest
   of what a browser keeps, such as its caches, can still go.
-- **A wallet found anywhere else is never selected for you.** When an uninstall or Orphaned Files measures a
-  folder, it also looks inside for the names wallets and key tools give their files: anything called
-  `wallet.dat`, `wallets`, `keystore`, `seed.dat`, `hsm_secret`, or `channel.backup`, anything ending in `.wallet`
-  or `.keys`, and the others `FileSize.isWallet` lists. A folder with one inside is shown with that reason and
-  never selected for you, not by `peel uninstall`, `peel orphans --remove`, or Select All. You can still select it
+- **A wallet found anywhere else is never selected for you.** When an uninstall, Orphaned Files, Space, Developer,
+  Build Artifacts, Installers and Backups, or Package Receipts measures a folder, it also looks inside for the names
+  wallets and key tools give their files: anything called `wallet.dat`, `wallets`, `keystore`, `seed.dat`,
+  `hsm_secret`, or `channel.backup`, anything ending in `.wallet` or `.keys`, and the others `FileSize.isWallet`
+  lists. A folder with one inside is shown with that reason and never selected for you, not by `peel uninstall`,
+  `peel orphans --remove`, `peel caches --remove`, `peel projects --remove`, or Select All. You can still select it
   yourself, because a name can mislead: a Java project keeps a `keystore` too.
 - **A folder Peel could not finish reading is treated the same way**, whether it ran out of time or macOS kept a
   folder inside it closed. A coin's data folder, with its blockchain, is the one most likely to be too big to read

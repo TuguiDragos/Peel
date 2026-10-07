@@ -90,6 +90,9 @@ struct DeveloperDetailView: View {
                     : HoldBack.notMeasured.explanation
             )
         }
+        if let heldBack = location.heldBack {
+            return String(localized: heldBack.explanation)
+        }
         if !location.isTheTools {
             return String(localized: "Not selected: nothing shows that \(environment.name) made this folder.")
         }

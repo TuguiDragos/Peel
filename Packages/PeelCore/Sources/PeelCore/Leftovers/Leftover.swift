@@ -130,9 +130,13 @@ public enum HoldBack: String, Sendable, Hashable {
     static func seen(in contents: FolderContents?) -> HoldBack? {
         guard let contents else { return .notMeasured }
         if contents.couldNotBeRead { return .couldNotBeRead }
+        return secret(in: contents) ?? (contents.holdsRepository ? .holdsRepository : nil)
+    }
+
+    /// A wallet, a signing key, or a password database seen inside.
+    static func secret(in contents: FolderContents) -> HoldBack? {
         if contents.holdsWallet { return .holdsAWallet }
-        if contents.holdsPasswordDatabase { return .holdsAPasswordDatabase }
-        return contents.holdsRepository ? .holdsRepository : nil
+        return contents.holdsPasswordDatabase ? .holdsAPasswordDatabase : nil
     }
 }
 
