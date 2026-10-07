@@ -9,9 +9,12 @@ public final class HelperLifetime: Sendable {
     private let exit: @Sendable () -> Void
     private let state = Mutex((activeConnections: 0, requestsInFlight: 0, generation: 0))
 
+    /// How long the installed helper waits with nothing to do before it exits.
+    static let standardIdleTimeout: TimeInterval = 30
+
     public convenience init() {
         self.init(
-            idleTimeout: 30,
+            idleTimeout: Self.standardIdleTimeout,
             schedule: { delay, work in DispatchQueue.global().asyncAfter(deadline: .now() + delay, execute: work) },
             // `_exit`, not `exit`: `exit` would first run `atexit` handlers, while the helper's other threads keep
             // running.

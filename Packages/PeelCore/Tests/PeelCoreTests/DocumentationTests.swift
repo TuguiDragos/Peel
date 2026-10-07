@@ -1,4 +1,6 @@
 import Foundation
+@testable import PeelCore
+@testable import PeelPrivileged
 import Testing
 
 struct DocumentationTests {
@@ -17,6 +19,39 @@ struct DocumentationTests {
             }
         }
         #expect(missing.isEmpty, "\(missing.joined(separator: "\n"))")
+    }
+
+    @Test func everyNumberADocumentGivesIsTheCodes() throws {
+        func text(_ document: String) throws -> String {
+            try String(contentsOf: LineLengthTests.repository.appending(path: document), encoding: .utf8)
+                .split(whereSeparator: \.isWhitespace).joined(separator: " ")
+        }
+        let quitting = LineLengthTests.repository.appending(path: "Peel/Model/QuitBeforeRemoving.swift")
+        let patience = try #require(
+            try String(contentsOf: quitting, encoding: .utf8).firstMatch(of: /patience: Duration = \.seconds\((\d+)\)/)
+        ).output.1
+        let themes = TerminalThemeCatalog.all.count
+        let languages = try StringCatalogTests.declaredLanguages().count + 1
+        let tweaks = TweakCatalog.all.filter { $0.group != .terminal }.count
+        let records = RemovalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
+        let idle = Int(HelperLifetime.standardIdleTimeout)
+        let said = [
+            ("GUIDE.md", "comes with \(themes) dark themes"),
+            ("TERMINAL.md", "\(themes) dark themes"),
+            ("README.md", "Available in \(languages) languages"),
+            ("GUIDE.md", "Tweaks gathers \(tweaks) settings"),
+            ("README.md", "keeps the latest \(records) items"),
+            ("SAFETY.md", "keeps the most recent \(records) items"),
+            ("ARCHITECTURE.md", "keeps the most recent \(records) items"),
+            ("SAFETY.md", "at most \(HelperRequest.maximumItems) items in one request"),
+            ("SAFETY.md", "quits \(idle) seconds after its last request ends"),
+            ("CONTRIBUTING.md", "still open \(patience) seconds after Peel asked it"),
+            ("ARCHITECTURE.md", "still open \(patience) seconds after Peel asked it"),
+            ("SAFETY.md", "still open after \(patience) seconds"),
+        ]
+
+        let wrong = try said.filter { try !text($0.0).contains($0.1) }
+        #expect(wrong.isEmpty, "\(wrong)")
     }
 
     @Test func aFileNameInTheCodeCountsAsItsWords() {
