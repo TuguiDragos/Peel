@@ -88,13 +88,18 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    deselects stays, and its files leave the selection with it (`UninstallSelection`).
 5. **Move.** The question before the move freezes what it asks about, and the move takes exactly that
    (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
-   `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
-   about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
-   moved. Items only an administrator can move go through the helper, and the links an app's tools left in
-   `/usr/local/bin` go last, once the app they lead into has moved. Before any of it, the app has to quit, and
-   Peel offers Force Quit when it doesn't (`QuitBeforeRemoving`); its privacy permissions are reset, when that
-   was chosen (`PrivacyReset`); and an item a program of the user's holds open stays where it is
-   (`OpenFiles`).
+   The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
+   its own (`TrashService`'s `trash(apps:thenFiles:)`, which an app's page, several apps' page, Remove Peel,
+   and `peel uninstall` share). `TrashService` asks `RemovalGuard` about each item first, holds the folder
+   around the item open, asks again about what the kernel calls that folder, and moves the item through it, so
+   the thing judged is the thing moved. Items only an administrator can move go through the helper, and the
+   links an app's tools and their shell completions left in `/usr/local` go last, once the app they lead into
+   has moved. Before any of it, the app has to quit, and Peel offers Force Quit when it doesn't
+   (`QuitBeforeRemoving`). An item stays where it is while a program holds it (`OpenFiles`): a file one of the
+   user's programs holds open, or the program any process runs from it, though inside an app, which is code
+   and loses nothing when it moves, a file open only for reading holds nothing. The app's privacy permissions
+   are reset, when that was chosen, just before the move and only once the checks the move makes first (the
+   guard, History, and the programs holding it) say it will go (`PrivacyReset`).
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
    forget the preference domains whose files went, and an uninstalled app's Dock icon comes out
    (`DockTiles`).
