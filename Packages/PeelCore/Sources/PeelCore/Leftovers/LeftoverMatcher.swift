@@ -203,7 +203,7 @@ extension LeftoverMatcher {
             rank = Self.tier(of: reason) * 10_000 + specificity
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
-                .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt:
+                .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt, .homebrewReceipt:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix: .maker
@@ -225,7 +225,7 @@ extension LeftoverMatcher {
             // A job's or a manifest's program, or a link's target, lies inside the app's bundle, which no other app
             // can share.
             case .launchdJob, .linksToTheApp, .nativeMessagingHost: 8
-            case .bundleIdentifier, .installerReceipt: 7
+            case .bundleIdentifier, .installerReceipt, .homebrewReceipt: 7
             case .embeddedBundleIdentifier, .applicationGroup: 6
             case .bundleIdentifierPrefix: 5
             case .name: 4

@@ -428,7 +428,7 @@ struct AppDetailView: View {
     }
 
     /// The confirmation's message: the privacy reset, which History can't undo, an app that uninstalls itself once
-    /// it moves, and Homebrew's own record of the app, which moving the app doesn't touch.
+    /// it moves, and Homebrew's own record of the app when it stays.
     private var removalNote: Text? {
         let urls = plan.question.request?.urls ?? []
         var lines: [Text] = []
@@ -436,7 +436,10 @@ struct AppDetailView: View {
             lines.append(Text("The app’s privacy permissions are cleared first, and History can’t bring them back."))
         }
         lines += UninstallsItself.when(moving: urls, among: [plan.app]).map(\.warning)
-        if urls.contains(plan.app.url), let cask = library.cask(for: plan.app) {
+        let movesItsReceipt = plan.uninstallation?.scan.leftovers.contains {
+            $0.kind == .homebrewReceipt && urls.contains($0.url)
+        } == true
+        if urls.contains(plan.app.url), !movesItsReceipt, let cask = library.cask(for: plan.app) {
             lines.append(Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(cask.name)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."))
         }
         guard let first = lines.first else { return nil }

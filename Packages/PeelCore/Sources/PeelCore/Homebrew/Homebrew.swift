@@ -47,6 +47,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// The entries of `packageIdentifiers` whose receipts are installed, lowercased. `noting(receipts:)` sets
     /// them, so the cask carries this proof to every place that checks it.
     public private(set) var receiptsOnThisMac: [String] = []
+    /// An installed cask's folder in Homebrew's Caskroom (`brew --caskroom <token>`), set by `kept(inCaskroom:)`.
+    public private(set) var caskroomFolder: URL?
 
     public var id: String { "\(kind.rawValue)/\(name)" }
 
@@ -63,6 +65,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         var noted = self
         noted.receiptsOnThisMac = packageIdentifiers.map { $0.lowercased() }.filter(receipts.contains)
         return noted
+    }
+
+    public func kept(inCaskroom caskroom: URL) -> HomebrewPackage {
+        var kept = self
+        kept.caskroomFolder = caskroom.appending(path: name, directoryHint: .isDirectory)
+        return kept
     }
 
     public init(
@@ -474,7 +482,8 @@ public enum Homebrew {
     @concurrent
     public static func installedPackages() async throws(CommandFailure) -> [HomebrewPackage] {
         let output = try await answer(["info", "--json=v2", "--installed"])
-        guard let packages = parseInstalled(Data(output.utf8)) else {
+        let caskroom = (try? await answer(["--caskroom"])).flatMap(caskroom(answering:))
+        guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
         return packages
@@ -753,7 +762,13 @@ public enum Homebrew {
         return Set(line.dropFirst(prefix.count).split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) })
     }
 
-    static func parseInstalled(_ data: Data) -> [HomebrewPackage]? {
+    static func caskroom(answering answer: String) -> URL? {
+        let lines = answer.split(whereSeparator: \.isNewline)
+        guard lines.count == 1, let path = lines.first.map(String.init), path.hasPrefix("/") else { return nil }
+        return URL(filePath: path, directoryHint: .isDirectory)
+    }
+
+    static func parseInstalled(_ data: Data, caskroom: URL? = nil) -> [HomebrewPackage]? {
         guard let response = try? JSONDecoder().decode(InfoResponse.self, from: data) else { return nil }
 
         let formulae = response.formulae.map { formula in
@@ -775,7 +790,7 @@ public enum Homebrew {
             )
         }
         let casks = response.casks.map { cask in
-            HomebrewPackage(
+            let package = HomebrewPackage(
                 name: cask.token,
                 kind: .cask,
                 fullName: cask.fullToken,
@@ -800,6 +815,8 @@ public enum Homebrew {
                 } ?? false,
                 uninstallNeedsAnAdministrator: cask.artifacts?.contains(where: \.uninstallNeedsAnAdministrator) ?? false
             )
+            guard let caskroom, cask.installed != nil else { return package }
+            return package.kept(inCaskroom: caskroom)
         }
         return (formulae + casks).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }

@@ -271,6 +271,7 @@ extension MatchReason {
         case .linksToTheApp: "leads into the app"
         case .nativeMessagingHost: "lets a browser extension run the app"
         case .installerReceipt: "installer receipt"
+        case .homebrewReceipt: "Homebrew receipt"
         case .homebrewCask: "Homebrew cask"
         }
     }

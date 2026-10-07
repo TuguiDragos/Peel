@@ -28,6 +28,8 @@ public struct SearchLocation: Sendable, Hashable {
         case frameworks
         /// The two files that are an installer receipt, which is how macOS still counts a package as installed.
         case receipts
+        /// An installed cask's folder in Homebrew's Caskroom, which holds Homebrew's record that it installed the app.
+        case homebrewReceipt
         /// The top of a Library itself, where a vendor keeps a folder of its own beside macOS's.
         case library
         case temporaryItems

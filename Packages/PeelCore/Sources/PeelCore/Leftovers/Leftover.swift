@@ -17,6 +17,8 @@ public enum MatchReason: String, Sendable, Hashable {
     case nativeMessagingHost
     /// An installer receipt for this app's identifier, which keeps macOS counting the package as installed.
     case installerReceipt
+    /// The folder of the Homebrew cask that installed the app, which keeps Homebrew counting it as installed.
+    case homebrewReceipt
     /// The app's Homebrew cask lists this path in its uninstall or zap stanza.
     case homebrewCask
 }

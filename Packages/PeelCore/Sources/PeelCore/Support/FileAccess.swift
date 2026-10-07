@@ -20,6 +20,11 @@ public enum FileAccess {
         accessError == EPERM && !isLocked
     }
 
+    static func isARealFolder(_ url: URL) -> Bool {
+        var info = stat()
+        return lstat(url.path(percentEncoded: false), &info) == 0 && info.st_mode & S_IFMT == S_IFDIR
+    }
+
     /// Whether `url` is locked (`chflags uchg` or `schg`), which blocks a move whatever the permissions say.
     static func isLocked(_ url: URL) -> Bool {
         var info = stat()

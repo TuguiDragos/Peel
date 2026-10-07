@@ -62,6 +62,15 @@ public struct Uninstallation: Sendable {
         scan = scan.adding(
             await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment)
         )
+        scan = scan.adding(
+            await homebrewReceipt(
+                of: app,
+                casks: casks,
+                installedApps: installedApps,
+                exclusions: exclusions,
+                environment: environment
+            )
+        )
         let uninstallsItself = UninstallsItself.of(app, environment: environment)
         if let uninstallsItself {
             scan = scan.leavingToItsUninstaller(uninstallsItself)
@@ -106,6 +115,41 @@ public struct Uninstallation: Sendable {
             }
         }
         return leftovers
+    }
+
+    /// The folder of the cask Homebrew installed the app from, which keeps Homebrew counting the app as installed once
+    /// it is gone, and which `brew uninstall` would delete for good. Another app of the cask still in place shares it.
+    static func homebrewReceipt(
+        of app: InstalledApp,
+        casks: [HomebrewPackage],
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        environment: SearchEnvironment
+    ) async -> [Leftover] {
+        guard
+            let cask = CaskEvidence.installedCask(for: app, in: casks),
+            let folder = cask.caskroomFolder,
+            FileAccess.isARealFolder(folder),
+            !exclusions.excludes(folder)
+        else { return [] }
+        let bundle = PathPattern.comparablePath(of: app.url)
+        let others = cask.appTargets.filter { target in
+            target.caseInsensitiveCompare(bundle) != .orderedSame && FileManager.default.fileExists(atPath: target)
+        }
+        let sharedWith = others.map { target in
+            let installed = installedApps.first {
+                PathPattern.comparablePath(of: $0.url).caseInsensitiveCompare(target) == .orderedSame
+            }
+            return installed?.bundleIdentifier ?? Bundle(url: URL(filePath: target))?.bundleIdentifier ?? target
+        }
+        let leftover = await LeftoverScanner.leftover(
+            at: folder,
+            kind: .homebrewReceipt,
+            match: LeftoverMatch(reason: .homebrewReceipt, confidence: .certain, sharedWith: sharedWith.sorted()),
+            parent: ParentAccess(folder.deletingLastPathComponent()),
+            home: environment.homeDirectory.path(percentEncoded: false)
+        )
+        return [exclusions.holds(folder) ? leftover.heldBack(.holdsAnExclusion) : leftover]
     }
 
     /// Leftovers for the paths a cask names (`LeftoverScan.adding` drops those the scanner already found).

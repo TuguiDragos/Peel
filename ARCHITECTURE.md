@@ -64,7 +64,8 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 
 1. **Scan.** `Uninstallation.prepare` asks `LeftoverScanner` to look through every place an app keeps files
    (`SearchLocation`): Application Support, Caches, Containers, Preferences, launch agents, plug-in folders, the
-   top of the home folder, and more, and adds what a Homebrew cask or an installer's receipt names for the app.
+   top of the home folder, and more, and adds what a Homebrew cask or an installer's receipt names for the app,
+   and the cask's own folder in Homebrew's Caskroom when Homebrew installed it (`HomebrewPackage.caskroomFolder`).
    A page's scan runs through its `ScanRun`, so a newer scan or the Stop button ends an older one, and it counts
    what it reads so the page can show progress.
 2. **Match.** For each file, `LeftoverMatcher` weighs the evidence that it belongs to the app: its bundle

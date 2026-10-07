@@ -96,7 +96,7 @@ public struct AppReset: Sendable {
         // A reset leaves these alone. What every account on the Mac shares is not one user's to reset, and a
         // plug-in or a framework is code that macOS loads, not a setting.
         case .launchAgents, .launchDaemons, .privilegedHelperTools, .startupItems, .plugIns, .frameworks, .receipts,
-             .library,
+             .homebrewReceipt, .library,
              .sharedFolder, .hiddenHomeFiles, .homeFolder, .commandLineTools, .shellCompletions, .nativeMessagingHosts,
              .elsewhere:
             nil

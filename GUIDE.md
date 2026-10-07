@@ -22,7 +22,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   app's maker or signing team also uses, waits under Review Before Removing. A list's Select menu has Select
   Recommended, Select All, and Deselect All. Select All passes by what Peel holds back for what it may hold, what
   it only guesses at, and what another app or another copy of the app also uses, which you select one by one, and
-  asks before it adds anything else Peel doesn't recommend.
+  asks before it adds anything else Peel doesn't recommend. The folder Homebrew keeps for an app it installed is
+  selected too, so that Homebrew stops listing the app once it is gone.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
   Settings. With Watch the Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear

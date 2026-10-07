@@ -16,6 +16,7 @@ extension MatchReason {
         case .linksToTheApp: "Leads to a tool inside the app"
         case .nativeMessagingHost: "Lets a browser extension run a program inside the app"
         case .installerReceipt: "The app’s installer receipt"
+        case .homebrewReceipt: "The app’s Homebrew receipt"
         case .homebrewCask: "Listed by the Homebrew cask"
         }
     }
@@ -70,6 +71,7 @@ extension SearchLocation.Kind {
         case .plugIns: "Plug-in"
         case .frameworks: "Framework"
         case .receipts: "Installer Receipt"
+        case .homebrewReceipt: "Homebrew Receipt"
         case .library: "Library Folder"
         case .temporaryItems: "Temporary Files"
         case .commandLineTools: "Command-Line Tool"
@@ -103,6 +105,7 @@ extension SearchLocation.Kind {
         case .plugIns: "powerplug"
         case .frameworks: "books.vertical"
         case .receipts: "doc.text.below.ecg"
+        case .homebrewReceipt: "mug"
         case .library: "building.columns"
         case .sharedFolder: "person.2"
         case .hiddenHomeFiles: "eye.slash"
