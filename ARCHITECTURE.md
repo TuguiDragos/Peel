@@ -127,9 +127,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 A handful of ideas carry most of the weight. Each is enforced in one place and tested there.
 
 - **The Trash, never deletion.** Nothing in Peel deletes anything of the user's; what it deletes outright is its own:
-  its list of refusals, when `peel history --refused --clear` is asked to forget it; the empty placeholder `TrashMover`
-  makes to hold a name on a disk that cannot rename without replacing (exFAT), when the move it was made for fails; and
-  the folder `PreferenceBackup` makes for a reset's saved settings, when saving fails while it is still empty. Four
+  the empty placeholder `TrashMover` makes to hold a name on a disk that cannot rename without replacing (exFAT), when
+  the move it was made for fails, and the folder `PreferenceBackup` makes for a reset's saved settings, when saving
+  fails while it is still empty. Its list of refusals goes to the Trash when `peel history --refused --clear` asks. Four
   actions can't be undone by History, and each says so where it is confirmed: Homebrew's own uninstall and clean up,
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked it to
   quit (`QuitBeforeRemoving`). Forgetting a preference domain happens only once its file is in the Trash, so putting the

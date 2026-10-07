@@ -1121,10 +1121,10 @@ struct CommandLineTests {
 
     /// `--clear` only forgets the refusals. What moved is forgotten from History in the Peel app.
     @Test func forgettingOnlyGoesWithTheRefusals() throws {
-        let refused = try #require(try PeelCommand.parseAsRoot(["history", "--refused", "--clear"]) as? HistoryCommand)
+        let refused = try #require(try PeelCommand.parseAsRoot(["history", "--refused", "--clear", "-y"]) as? HistoryCommand)
 
         #expect(refused.refused && refused.clear)
-        #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--clear"]) }
+        #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--clear", "-y"]) }
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--limit", "0"]) }
     }
 

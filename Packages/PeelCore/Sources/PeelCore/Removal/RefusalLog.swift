@@ -88,11 +88,17 @@ public actor RefusalLog {
         }
     }
 
-    /// Deletes the file for good, so `unlink`, which never takes a folder put in its place.
-    public func clear() -> Bool {
-        FileLock.whileHeld(beside: url) {
-            url.isMissing || unlink(url.path(percentEncoded: false)) == 0
-        }
+    /// Moves the file to the Trash, so every refusal is forgotten and the record can still be taken back from there.
+    /// Only the file moves, never a folder or a link put in its place, and a refusal written meanwhile waits for it.
+    public func clear(through service: TrashService) async -> Bool {
+        await FileLock.whileHeld(beside: url, waitingFor: {
+            guard !url.isMissing else { return true }
+            var info = stat()
+            guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFREG else {
+                return false
+            }
+            return await service.trashOwnFiles([url]).failures.isEmpty
+        })
     }
 
     /// The records in the file. A file that fails to decode is set aside and its readable rows kept. Nil records

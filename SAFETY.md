@@ -150,9 +150,9 @@ A move to the Trash, or back from it, never replaces what is already at the new 
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
 free name allows, and the move then replaces the placeholder.
 
-What Peel deletes outright is only its own: its list of refusals, when `peel history --refused --clear` is asked to
-forget it; such a placeholder, when the move it was made for fails; and the folder it makes to save an app's settings
-before a reset, when saving fails before anything is written in it.
+What Peel deletes outright is only its own: such a placeholder, when the move it was made for fails, and the folder it
+makes to save an app's settings before a reset, when saving fails before anything is written in it. Its list of
+refusals goes to the Trash when `peel history --refused --clear` is asked to forget it, after a question.
 
 Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them: Homebrew's own
 uninstall and its clean ups (Clean Up, and clearing older or every download), which delete what they remove; resetting

@@ -8,6 +8,18 @@ struct RefusalLogTests {
         TrashFailure(url: URL(filePath: path), reason: reason)
     }
 
+    private func trash(in directory: borrowing TemporaryDirectory) throws -> (service: TrashService, folder: URL) {
+        let folder = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        ) { url in
+            let destination = folder.appending(path: UUID().uuidString + " " + url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        return (service, folder)
+    }
+
     @Test func writesWhatStayedAndWhy() async throws {
         let directory = try TemporaryDirectory()
         let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
@@ -172,27 +184,32 @@ struct RefusalLogTests {
         try directory.setPermissions(0o600, of: "Peel")
         defer { try? directory.setPermissions(0o755, of: "Peel") }
 
-        #expect(await RefusalLog(url: url).clear() == false)
+        #expect(await RefusalLog(url: url).clear(through: try trash(in: directory).service) == false)
     }
 
-    @Test func clearForgetsEverything() async throws {
+    @Test func clearMovesTheRecordToTheTrash() async throws {
         let directory = try TemporaryDirectory()
+        let (service, folder) = try trash(in: directory)
         let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
         await log.add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
 
-        #expect(await log.clear())
+        #expect(await log.clear(through: service))
         #expect(await log.load().records?.isEmpty == true)
-        #expect(await log.clear(), "forgetting what is already forgotten is no failure")
+        let trashed = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+        #expect(trashed.count == 1)
+        #expect(await RefusalLog(url: try #require(trashed.first)).load().records?.map(\.source) == ["Editor"])
+        #expect(await log.clear(through: service), "forgetting what is already forgotten is no failure")
     }
 
-    /// Forgetting refusals deletes for good, so it takes the file and never a folder put in its place.
-    @Test func clearNeverDeletesAFolderInThePlaceOfTheFile() async throws {
+    @Test func clearNeverMovesAFolderInThePlaceOfTheFile() async throws {
         let directory = try TemporaryDirectory()
+        let (service, folder) = try trash(in: directory)
         let url = directory.url.appending(path: "Peel/refusals.json")
         try directory.file("Peel/refusals.json/kept.txt", contents: Data("work".utf8))
 
-        #expect(await RefusalLog(url: url).clear() == false)
+        #expect(await RefusalLog(url: url).clear(through: service) == false)
         #expect(FileManager.default.fileExists(atPath: url.appending(path: "kept.txt").path(percentEncoded: false)))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)).isEmpty)
     }
 
     private static let everyReason: [TrashFailure.Reason] = [

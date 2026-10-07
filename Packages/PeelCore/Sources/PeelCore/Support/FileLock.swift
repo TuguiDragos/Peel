@@ -10,19 +10,38 @@ enum FileLock {
     private static let unstoppable = IgnoredSignals([SIGTSTP])
 
     static func whileHeld<T>(beside url: URL, _ change: () -> T) -> T {
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let descriptor = open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
-        guard descriptor >= 0 else { return change() }
+        guard let descriptor = openLock(beside: url) else { return change() }
         defer { close(descriptor) }
         return unstoppable.run {
-            // A signal caught while waiting ends the wait early (EINTR), without the lock.
-            var locked = flock(descriptor, LOCK_EX)
-            while locked != 0, errno == EINTR {
-                locked = flock(descriptor, LOCK_EX)
-            }
-            guard locked == 0 else { return change() }
-            defer { flock(descriptor, LOCK_UN) }
+            let locked = lock(descriptor)
+            defer { if locked { flock(descriptor, LOCK_UN) } }
             return change()
         }
+    }
+
+    /// The same, for a change that has to wait for other work, such as a move to the Trash.
+    static func whileHeld<T>(beside url: URL, waitingFor change: () async -> T) async -> T {
+        guard let descriptor = openLock(beside: url) else { return await change() }
+        defer { close(descriptor) }
+        return await unstoppable.run {
+            let locked = lock(descriptor)
+            defer { if locked { flock(descriptor, LOCK_UN) } }
+            return await change()
+        }
+    }
+
+    private static func openLock(beside url: URL) -> Int32? {
+        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let descriptor = open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
+        return descriptor >= 0 ? descriptor : nil
+    }
+
+    private static func lock(_ descriptor: Int32) -> Bool {
+        // A signal caught while waiting ends the wait early (EINTR), without the lock.
+        var locked = flock(descriptor, LOCK_EX)
+        while locked != 0, errno == EINTR {
+            locked = flock(descriptor, LOCK_EX)
+        }
+        return locked == 0
     }
 }

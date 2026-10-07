@@ -53,8 +53,11 @@ struct HistoryCommand: AsyncParsableCommand {
     @Flag(help: "List what stayed and why, instead of what moved.")
     var refused = false
 
-    @Flag(help: "Forget every refusal on record. Only with --refused.")
+    @Flag(help: "Move the record of every refusal to the Trash. Only with --refused.")
     var clear = false
+
+    @Flag(name: .shortAndLong, help: "Don't ask for confirmation. Only with --clear.")
+    var yes = false
 
     @OptionGroup var output: OutputOptions
 
@@ -153,16 +156,21 @@ struct HistoryCommand: AsyncParsableCommand {
         guard !clear || !output.json else {
             throw ValidationError("--clear writes nothing to read, so it doesn't go with --json.")
         }
+        guard !yes || clear else { throw ValidationError("--yes only goes with --clear.") }
+        if clear, !yes {
+            try Output.requireConfirmable()
+        }
     }
 
     private var shown: Int { limit ?? Self.defaultLimit }
 
     func run() async throws {
-        try await run(in: RemovalLog(), refusals: RefusalLog())
+        let trash = TrashService(exclusions: await ExclusionStore().load())
+        try await run(in: RemovalLog(), refusals: RefusalLog(), trash: trash)
     }
 
-    func run(in log: RemovalLog, refusals: RefusalLog) async throws {
-        guard !refused else { return try await listRefusals(in: refusals) }
+    func run(in log: RemovalLog, refusals: RefusalLog, trash: TrashService) async throws {
+        guard !refused else { return try await listRefusals(in: refusals, trash: trash) }
         let outcome = await log.load()
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
@@ -219,10 +227,19 @@ struct HistoryCommand: AsyncParsableCommand {
         TrashFailure.Reason(name: record.reason, detail: record.detail)?.summary ?? record.detail ?? record.reason
     }
 
-    private func listRefusals(in log: RefusalLog) async throws {
+    private func listRefusals(in log: RefusalLog, trash: TrashService) async throws {
         guard !clear else {
-            guard await log.clear() else { throw CommandFailure("Peel couldn't forget its refusals.") }
-            Output.line("Forgot every refusal on record.")
+            guard await log.load().records?.isEmpty != true else {
+                Output.line("Peel hasn't refused anything it was asked to move.")
+                return
+            }
+            if !yes {
+                try Output.confirm("Move the record of every refusal to the Trash?")
+            }
+            guard await log.clear(through: trash) else {
+                throw CommandFailure("Peel couldn't move its record of refusals to the Trash.")
+            }
+            Output.line("Moved the record of every refusal to the Trash.")
             return
         }
         let read = await log.load()

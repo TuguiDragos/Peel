@@ -10,6 +10,8 @@ struct HistoryCommandTests {
         try #require(try PeelCommand.parseAsRoot(arguments) as? Command)
     }
 
+    private let movesNothing = TrashService(environment: .current) { _ in throw CocoaError(.fileWriteUnknown) }
+
     private func logs(in directory: borrowing TemporaryDirectory) -> (removals: RemovalLog, refusals: RefusalLog) {
         (RemovalLog(url: directory.url.appending(path: "Peel/removals.json")),
          RefusalLog(url: directory.url.appending(path: "Peel/refusals.json")))
@@ -102,7 +104,8 @@ struct HistoryCommandTests {
     ) async throws -> String {
         let collected = Output.Collected()
         try await Output.$collected.withValue(collected) {
-            try await (command(arguments) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
+            try await (command(arguments) as HistoryCommand)
+                .run(in: logs.removals, refusals: logs.refusals, trash: movesNothing)
         }
         return collected.output
     }
@@ -302,14 +305,40 @@ struct HistoryCommandTests {
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--clear", "--json"]) }
     }
 
-    @Test func forgetsTheRefusalsWhenAsked() async throws {
+    @Test func movesTheRefusalsToTheTrashWhenAsked() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         await logs.refusals.add([TrashFailure(url: URL(filePath: "/x"), reason: .lastCopy)], source: "Editor", tool: "duplicates")
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
 
-        try await (command(["history", "--refused", "--clear"]) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
+        try await (command(["history", "--refused", "--clear", "--yes"]) as HistoryCommand)
+            .run(in: logs.removals, refusals: logs.refusals, trash: service)
 
         #expect(await logs.refusals.load().records?.isEmpty == true)
+        #expect(FileManager.default.fileExists(atPath: trash.appending(path: "refusals.json").path(percentEncoded: false)))
+    }
+
+    @Test func movesNothingWhenNothingWasRefused() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+
+        let said = try await printed(["history", "--refused", "--clear", "--yes"], from: logs)
+
+        #expect(said.contains("Peel hasn't refused anything it was asked to move."))
+        #expect(!said.contains("Moved"))
+    }
+
+    @Test func asksBeforeForgettingTheRefusals() throws {
+        #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--clear"]) }
+        #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["history", "--refused", "--yes"]) }
+        _ = try PeelCommand.parseAsRoot(["history", "--refused", "--clear", "--yes"])
     }
 
     /// A History file that cannot be read is reported as an error, never shown as an empty History.
@@ -326,7 +355,8 @@ struct HistoryCommandTests {
         }
 
         await #expect(throws: CommandFailure.self) {
-            try await (command(["history"]) as HistoryCommand).run(in: logs.removals, refusals: logs.refusals)
+            try await (command(["history"]) as HistoryCommand)
+                .run(in: logs.removals, refusals: logs.refusals, trash: movesNothing)
         }
         await #expect(throws: CommandFailure.self) {
             try await (command(["restore", "abcd", "-y"]) as RestoreCommand).run(in: logs.removals, using: service(in: directory))
