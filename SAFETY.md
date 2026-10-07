@@ -353,9 +353,11 @@ among those: BlueWallet keeps its wallet in its container's caches.
 
 The Terminal page changes Terminal's own preferences and nothing else there: it adds Peel's themes as profiles of
 their own, named "Peel" and the theme's name, chooses the profile Terminal opens with, sets Option as Meta and the
-bell in the Peel theme in use, and can keep Terminal from reopening its windows. It never changes or removes a
-profile it did not write, or one you changed since. Put Back gives Terminal the profiles it used before and takes
-away only Peel's own, still as Peel wrote them. Peel writes none of this while Terminal is open, since Terminal
+bell in the Peel theme in use, and can keep Terminal from reopening its windows. Choosing a theme never changes or
+removes a profile it did not write, or one you changed since. Option as Meta and the bell are the one exception,
+since you ask for them: like Terminal's own settings, they change the Peel theme Terminal opens with, whoever wrote
+it and whatever you changed in it. Put Back gives Terminal the profiles it used before and takes away only Peel's
+own, still as Peel wrote them. Peel writes none of this while Terminal is open, since Terminal
 would not see the change and would write its own settings over it, but for the switch that keeps Terminal from
 reopening its windows: Terminal reads that one, `NSQuitAlwaysKeepsWindows`, only when it quits, so Peel sets it at
 once and it takes effect the next time Terminal quits.

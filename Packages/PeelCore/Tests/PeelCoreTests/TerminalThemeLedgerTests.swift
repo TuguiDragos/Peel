@@ -306,6 +306,19 @@ struct TerminalOptionTests {
         #expect(terminal.storedProfiles[theme.profileName] != nil)
     }
 
+    @Test func anOptionChangesAPeelThemeInUseThatPeelNeverWrote() throws {
+        let terminal = InMemoryTerminalSettings()
+        terminal.storedProfiles[theme.profileName] = ["name": theme.profileName, "columnCount": 80]
+        terminal.names[.newWindows] = theme.profileName
+        var ledger = TerminalThemeLedger()
+
+        #expect(ledger.set(.optionAsMeta, to: true, in: terminal) == .changed)
+        #expect(terminal.storedProfiles[theme.profileName]?["useOptionAsMetaKey"] as? Bool == true)
+        #expect(terminal.storedProfiles[theme.profileName]?["columnCount"] as? Int == 80)
+        _ = ledger.putBack(in: terminal)
+        #expect(terminal.storedProfiles[theme.profileName] != nil, "Put Back took away a profile Peel never wrote")
+    }
+
     @Test func theOptionsBelongToPeelsThemesAlone() throws {
         let terminal = InMemoryTerminalSettings()
         var ledger = TerminalThemeLedger()
