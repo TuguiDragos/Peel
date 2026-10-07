@@ -2,7 +2,10 @@ import Foundation
 import Testing
 
 struct DocumentationTests {
-    static let documents = ["README.md", "SAFETY.md", "ARCHITECTURE.md", "CONTRIBUTING.md", "TERMINAL.md"]
+    static let documents = [
+        "README.md", "SAFETY.md", "ARCHITECTURE.md", "CONTRIBUTING.md", "TERMINAL.md", "GUIDE.md", "PRIVACY.md",
+        "SECURITY.md", "CHANGELOG.md",
+    ]
 
     @Test func everyNameADocumentGivesIsInTheCode() throws {
         let words = try Self.words(in: Self.code())
