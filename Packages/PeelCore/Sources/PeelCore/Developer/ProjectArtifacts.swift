@@ -161,9 +161,11 @@ public enum ProjectArtifacts {
             name: "Pods", markers: ["Podfile"], tool: "CocoaPods", isGeneric: false,
             source: "https://guides.cocoapods.org/using/using-cocoapods.html"
         ),
+        // Only what `carthage build` makes: `Carthage/Checkouts` holds the dependencies' source, which people commit
+        // in and, with `--use-submodules`, change.
         Definition(
-            name: "Carthage", markers: ["Cartfile"], tool: "Carthage", isGeneric: false,
-            source: "https://github.com/Carthage/Carthage/blob/e33e133a5427129b38bfb1ae18d8f56b29a93204/README.md"
+            name: "Carthage/Build", markers: ["Cartfile"], tool: "Carthage", isGeneric: false,
+            source: "https://github.com/Carthage/Carthage/blob/e33e133a5427129b38bfb1ae18d8f56b29a93204/Documentation/Artifacts.md"
         ),
         Definition(
             name: "DerivedData", markers: ["*.xcodeproj", "*.xcworkspace"], tool: "Xcode", isGeneric: false,

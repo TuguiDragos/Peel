@@ -248,8 +248,8 @@ tool tags as a cache (`CACHEDIR.TAG`): Swift Package Manager tags `.build`, wher
 dependencies, and `swift package reset` deletes that folder whole, so Build Artifacts can still select it. The other
 is a cache on the Developer page, a folder its tool's documentation or source shows to be a cache, such as the
 packages Xcode checks out into DerivedData or the clones Cargo and Swift Package Manager keep, which the tool clones
-again when it needs them. Carthage's checkouts in a project, which people commit in, carry no such tag and are never
-selected.
+again when it needs them. Of Carthage's folder in a project, only `Carthage/Build`, which `carthage build` makes, is
+offered: its checkouts, which people commit in, carry no such tag and are never listed.
 
 Build Artifacts selects what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
