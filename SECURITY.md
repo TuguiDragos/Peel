@@ -93,9 +93,10 @@ have, and anything that destroys data that cannot be recovered.
 
 **The privileged helper.** This is the part that matters most.
 
-- Any way for a process that is not the installed copy of Peel to get the helper to act. That
-  includes defeating the code-signing requirement on the XPC peer, or replaying or forging a
-  connection.
+- Any way to get the helper to act for a program other than Peel. The helper serves an app with
+  Peel's identifier, signed with Developer ID by Peel's team, that cannot be debugged and is no older
+  a build than the helper itself, wherever that copy sits. That includes defeating this
+  code-signing requirement on the XPC peer, or replaying or forging a connection.
 - Any way to get the helper to act for an account that is not an administrator. Every account on the
   Mac can reach its Mach service, by design; the helper answers administrators only, checked when a
   connection opens and again with each message.
@@ -104,8 +105,9 @@ have, and anything that destroys data that cannot be recovered.
   race between the check and the file operation (TOCTOU).
 - Any way to use the restore path to write attacker-controlled content into a location that a
   root process later loads code from.
-- Downgrade attacks: getting the helper to answer a copy of Peel other than the one it was
-  installed beside, or getting an older or unsigned build accepted.
+- Downgrade attacks: getting the helper to answer a copy of Peel that is older than the helper,
+  unsigned, signed by anyone else, or debuggable. A copy as new or newer, signed the same way, is
+  served wherever it sits, by design.
 - Argument injection or unexpected behavior in the operation that runs `launchctl` for a launch
   daemon (bootstrap, bootout, kickstart, enable, and disable), or in the one that moves the helper's
   own ledger to the Trash for Remove Peel.
