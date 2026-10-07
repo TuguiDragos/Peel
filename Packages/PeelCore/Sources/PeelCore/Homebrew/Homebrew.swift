@@ -541,7 +541,8 @@ public enum Homebrew {
         onOutput: @escaping @Sendable (Data) -> Void
     ) async throws(CommandFailure) -> String {
         let arguments = ["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name]
-        return try await execute(arguments, autoUpdate: true, timeout: nil, onOutput: onOutput).transcript()
+        return try await execute(arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput)
+            .transcript()
     }
 
     /// Upgrades `packages` the same way.
@@ -553,7 +554,7 @@ public enum Homebrew {
         // Said once: both calls below would fail the same way.
         guard executableURL != nil else { throw CommandFailure(output: notInstalled) }
         return try await upgrade(packages) { arguments throws(CommandFailure) in
-            try await execute(arguments, autoUpdate: true, timeout: nil, onOutput: onOutput)
+            try await execute(arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput)
         }
     }
 
@@ -694,7 +695,7 @@ public enum Homebrew {
     /// Returns what `brew doctor` prints, for a Homebrew that cannot be asked for JSON.
     @concurrent
     public static func healthReport() async -> String {
-        let attempt = try? await execute(["doctor"], autoUpdate: false, timeout: longestCommand)
+        let attempt = try? await execute(["doctor"], autoUpdate: false, timeout: longestCommand, inWritingOrder: true)
         return attempt?.output ?? ""
     }
 
@@ -704,7 +705,9 @@ public enum Homebrew {
         _ package: HomebrewPackage, keeping kept: [String]
     ) async throws(CommandFailure) -> String {
         let arguments = ["uninstall", package.kind == .cask ? "--cask" : "--formula", package.name]
-        return try await execute(arguments, autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
+        return try await execute(
+            arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true
+        ).transcript()
     }
 
     @concurrent
@@ -734,7 +737,9 @@ public enum Homebrew {
     public static func cleanup(
         _ cleanup: Cleanup = .standard, keeping kept: [String]
     ) async throws(CommandFailure) -> String {
-        try await execute(cleanup.arguments, autoUpdate: false, keeping: kept, timeout: longestCommand).transcript()
+        try await execute(
+            cleanup.arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true
+        ).transcript()
     }
 
     static let repairTapsArguments = ["tap", "--repair"]
@@ -743,7 +748,8 @@ public enum Homebrew {
     /// main branch (`brew tap --help`). It deletes nothing.
     @concurrent
     public static func repairTaps() async throws(CommandFailure) -> String {
-        try await execute(repairTapsArguments, autoUpdate: false, timeout: longestCommand).transcript()
+        try await execute(repairTapsArguments, autoUpdate: false, timeout: longestCommand, inWritingOrder: true)
+            .transcript()
     }
 
     /// True when Homebrew, its own `brew.env` files read, still keeps every formula in `kept`. Such a file can
@@ -830,7 +836,8 @@ public enum Homebrew {
 
     /// Runs a command whose output is shown to the user, and returns everything it printed.
     private static func run(_ arguments: [String], autoUpdate: Bool) async throws(CommandFailure) -> String {
-        try await execute(arguments, autoUpdate: autoUpdate, timeout: longestCommand).transcript()
+        try await execute(arguments, autoUpdate: autoUpdate, timeout: longestCommand, inWritingOrder: true)
+            .transcript()
     }
 
     /// Runs a command whose output Peel reads (JSON, a path, a list, or a version), and returns its stdout.
@@ -861,12 +868,14 @@ public enum Homebrew {
         }
     }
 
-    /// Runs `brew`, or `executable` when a test stands in for it, since a real upgrade would change this Mac.
+    /// Runs `brew`, or `executable` when a test stands in for it, since a real upgrade would change this Mac. A run
+    /// shown to the person keeps what Homebrew writes `inWritingOrder`: its warnings and errors among its steps.
     static func execute(
         _ arguments: [String],
         autoUpdate: Bool,
         keeping kept: [String] = [],
         timeout: TimeInterval?,
+        inWritingOrder: Bool = false,
         onOutput: (@Sendable (Data) -> Void)? = nil,
         executable: URL? = executableURL,
         readsTheAPI: Bool = true,
@@ -879,7 +888,10 @@ public enum Homebrew {
         let environment = environment(
             autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home
         )
-        switch await Subprocess.run(path, arguments, environment: environment, timeout: timeout, onOutput: onOutput) {
+        switch await Subprocess.run(
+            path, arguments, environment: environment, timeout: timeout, errorsIntoOutput: inWritingOrder,
+            onOutput: onOutput
+        ) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
         case .failure(let failure):
@@ -956,6 +968,9 @@ public enum Homebrew {
             // `brew upgrade` asks before it goes on unless this is set, and nobody is there to answer. It skips
             // the question only because no terminal is attached (`ask.rb`). A version without it ignores it.
             "HOMEBREW_NO_ASK": "1",
+            // `brew.rb` writes each line as it goes only under `CI`. Otherwise Ruby holds what goes to standard
+            // output back in a pipe, and an error printed after a step shows before it.
+            "CI": "1",
         ]
         if !autoUpdate {
             values["HOMEBREW_NO_AUTO_UPDATE"] = "1"

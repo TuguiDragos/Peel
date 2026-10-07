@@ -26,6 +26,31 @@ struct HomebrewTests {
         #expect(tap.contains("--repair"))
     }
 
+    @Test func whatHomebrewWritesIsShownInTheOrderItWroteIt() async throws {
+        let directory = try TemporaryDirectory()
+        let brew = try directory.file("bin/brew", contents: Data("""
+            #!/usr/bin/ruby
+            if ENV["CI"]
+              $stdout.sync = true
+              $stderr.sync = true
+            end
+            puts "==> Upgrading example"
+            $stderr.puts "Error: It seems the App source is not there."
+            puts "==> Summary"
+            exit 1
+            """.utf8))
+        try directory.setPermissions(0o755, of: brew)
+
+        let shown = try await Homebrew.execute(
+            ["upgrade"], autoUpdate: false, timeout: 30, inWritingOrder: true, executable: brew
+        )
+        let read = try await Homebrew.execute(["upgrade"], autoUpdate: false, timeout: 30, executable: brew)
+
+        #expect(shown.output == "==> Upgrading example\nError: It seems the App source is not there.\n==> Summary\n")
+        #expect(read.standardOutput == "==> Upgrading example\n==> Summary\n")
+        #expect(read.standardError == "Error: It seems the App source is not there.\n")
+    }
+
     @Test func anUpgradeNeverWaitsForAnAnswer() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_ASK"] == "1")

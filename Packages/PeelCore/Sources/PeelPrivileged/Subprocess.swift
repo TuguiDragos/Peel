@@ -41,13 +41,15 @@ public enum Subprocess {
     /// Runs `executable` with `arguments`, and stops it after `timeout` seconds, when there is one, or when the task
     /// is canceled. When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs,
     /// so a tool that fills one pipe never waits on a reader that is busy with the other, and `onOutput` is handed
-    /// what either stream brings as it comes.
+    /// what either stream brings as it comes. With `errorsIntoOutput`, the tool writes its errors into its output's
+    /// pipe, so the two read in the order it wrote them and `standardError` is empty.
     @concurrent
     public static func run(
         _ executable: String,
         _ arguments: [String],
         environment: [String: String]? = nil,
         timeout: TimeInterval?,
+        errorsIntoOutput: Bool = false,
         onOutput: (@Sendable (Data) -> Void)? = nil
     ) async -> Result<Output, Failure> {
         // A task stopped before this step starts nothing: launching the tool only to kill it would hold the Stop
@@ -58,9 +60,10 @@ public enum Subprocess {
         process.arguments = arguments
         if let environment { process.environment = environment }
         process.standardInput = FileHandle.nullDevice
-        let (outputPipe, errorPipe) = (Pipe(), Pipe())
+        let outputPipe = Pipe()
+        let errorPipe = errorsIntoOutput ? nil : Pipe()
         process.standardOutput = outputPipe
-        process.standardError = errorPipe
+        process.standardError = errorPipe ?? outputPipe
 
         let run = Run(process)
         // The handler holds the run, which holds the process that holds the handler (`NSTask.h`), so it is let go
@@ -73,7 +76,7 @@ public enum Subprocess {
             return .failure(.couldNotStart(error.localizedDescription))
         }
         let output = Reader(outputPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
-        let errors = Reader(errorPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
+        let errors = errorPipe.map { Reader($0.fileHandleForReading.fileDescriptor, onRead: onOutput) }
         if let timeout {
             DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { [weak run] in
                 run?.stop(because: .timedOut)
@@ -85,10 +88,11 @@ public enum Subprocess {
         } onCancel: {
             run.stop(because: .canceled)
         }
-        let (standardOutput, standardError) = (await output.data(within: drain), await errors.data(within: drain))
+        let standardOutput = await output.data(within: drain)
+        let standardError = await errors?.data(within: drain) ?? Data()
         // Both readers have stopped by now, so nothing reads the descriptors any more.
         try? outputPipe.fileHandleForReading.close()
-        try? errorPipe.fileHandleForReading.close()
+        try? errorPipe?.fileHandleForReading.close()
         if let failure = run.failure { return .failure(failure) }
         return .success(
             Output(status: process.terminationStatus, standardOutput: standardOutput, standardError: standardError)

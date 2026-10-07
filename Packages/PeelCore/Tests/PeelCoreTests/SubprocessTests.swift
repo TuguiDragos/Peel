@@ -15,6 +15,14 @@ struct SubprocessTests {
         #expect(output.errorText == "err\n")
     }
 
+    @Test func aToolsErrorsCanBeReadInTheOrderItWroteThem() async throws {
+        let script = "echo first; echo second >&2; echo third"
+        let output = try await Subprocess.run("/bin/sh", ["-c", script], timeout: 30, errorsIntoOutput: true).get()
+
+        #expect(output.text == "first\nsecond\nthird\n")
+        #expect(output.standardError.isEmpty)
+    }
+
     /// A pipe holds at most 64 KB. If one stream were read to its end before the other, a tool that fills the
     /// other would block and never end.
     @Test func aToolThatWritesALotToBothStreamsStillEnds() async throws {
