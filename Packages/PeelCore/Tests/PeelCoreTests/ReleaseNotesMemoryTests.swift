@@ -33,6 +33,23 @@ struct ReleaseNotesMemoryTests {
         #expect(memory.asks("org.example.viewer", version: "5.0"))
     }
 
+    @Test func asksOnlyAboutAnUpdateThatWaits() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let update = UpdateStatus.updateAvailable(version: "2.0")
+        let memory = ReleaseNotesMemory()
+        let skipped = UpdatePreferences(skippedVersions: [app.bundleIdentifier: "2.0"])
+        let skippedBefore = UpdatePreferences(skippedVersions: [app.bundleIdentifier: "1.9"])
+        let ignored = UpdatePreferences(ignoredIdentifiers: [app.bundleIdentifier])
+
+        #expect(memory.asks(about: update, of: app, with: UpdatePreferences()))
+        #expect(!memory.asks(about: update, of: app, with: skipped))
+        #expect(memory.asks(about: update, of: app, with: skippedBefore))
+        #expect(!memory.asks(about: update, of: app, with: ignored))
+        #expect(!memory.asks(about: .upToDate, of: app, with: UpdatePreferences()))
+    }
+
     @Test func keepsTheNotesAcrossLaunches() async throws {
         let directory = try TemporaryDirectory()
         let store = ReleaseNotesStore(url: directory.url.appending(path: "Peel/release-notes.json"))

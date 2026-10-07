@@ -23,6 +23,13 @@ public struct ReleaseNotesMemory: Sendable, Equatable, Codable {
         entries[identifier]?.version != version
     }
 
+    /// Whether the notes of the update `status` names are to be asked for: only an update that waits for the person,
+    /// never a version they skipped or an app they told Peel to leave alone.
+    public func asks(about status: UpdateStatus?, of app: InstalledApp, with preferences: UpdatePreferences) -> Bool {
+        guard preferences.isWaiting(status, for: app), let version = status?.version else { return false }
+        return asks(app.bundleIdentifier, version: version)
+    }
+
     public mutating func record(_ lookup: ReleaseNotesLookup, of identifier: String, version: String) {
         switch lookup {
         case .found(let notes): entries[identifier] = Entry(version: version, notes: notes)

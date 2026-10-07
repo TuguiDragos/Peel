@@ -508,8 +508,8 @@ final class AppLibrary {
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
             // An update whose notes were never asked for is checked once now rather than on its next turn.
-            let notesWait = updateStatuses[app.id]?.version.map { releaseNotes.asks(app.bundleIdentifier, version: $0) }
-            return memory[app.bundleIdentifier]?.schedule.isDue(at: now) ?? true || notesWait == true
+            let notesWait = releaseNotes.asks(about: updateStatuses[app.id], of: app, with: updatePreferences)
+            return memory[app.bundleIdentifier]?.schedule.isDue(at: now) ?? true || notesWait
         }
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
@@ -566,7 +566,7 @@ final class AppLibrary {
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
                     if let notes = answer.notes {
                         releaseNotes.record(.found(notes), of: identifier, version: version)
-                    } else if releaseNotes.asks(identifier, version: version) {
+                    } else if releaseNotes.asks(about: kept, of: app, with: updatePreferences) {
                         notesToAsk.append(ReleaseNotesQuestion(app: app, answer: answer, version: version))
                     }
                 }
