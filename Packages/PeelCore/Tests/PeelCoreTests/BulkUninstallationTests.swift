@@ -297,6 +297,40 @@ struct BulkUninstallationTests {
         }
     }
 
+    @Test func namesTheAppsWhoseItemsMovedAndThoseWhoseItemsStayed() async throws {
+        let directory = try TemporaryDirectory()
+        let stays = InstalledApp(url: try directory.directory("Applications/Stays.app"), bundleIdentifier: "org.example.stays", name: "Stays")
+        let goes = InstalledApp(url: try directory.directory("Applications/Goes.app"), bundleIdentifier: "org.example.goes", name: "Goes")
+        let kept = InstalledApp(url: try directory.directory("Applications/Kept.app"), bundleIdentifier: "org.example.kept", name: "Kept")
+        let copy = InstalledApp(url: try directory.directory("Other/Goes.app"), bundleIdentifier: "org.example.goes", name: "Goes")
+        let staysCache = try directory.directory("home/Library/Caches/org.example.stays")
+        let goesCache = try directory.directory("home/Library/Caches/org.example.goes")
+        let keptCache = try directory.directory("home/Library/Caches/org.example.kept")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(stays, [leftover(staysCache.path(percentEncoded: false), size: 1)]),
+            uninstallation(goes, [leftover(goesCache.path(percentEncoded: false), size: 1)]),
+            uninstallation(kept, [leftover(keptCache.path(percentEncoded: false), size: 1)]),
+            uninstallation(copy, []),
+        ])
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+        ) { url in
+            guard url != stays.url else { throw CocoaError(.fileWriteNoPermission) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await bulk.move([stays.url, staysCache, goes.url, goesCache, keptCache], using: service)
+
+        #expect(bulk.apps(owning: result.trashed.map(\.originalURL)) == [goes, kept])
+        #expect(bulk.apps(owning: result.failures.map(\.url)) == [stays])
+    }
+
     @Test func movesTheAppsBeforeTheirFiles() {
         let first = app("com.example.one", "One")
         let second = app("com.example.two", "Two")

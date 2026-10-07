@@ -370,13 +370,7 @@ struct MultipleAppsView: View {
             ) {
                 home.record(appManagement: state)
             }
-            await history.record(
-                result,
-                tool: .applications,
-                source: plan.historySource,
-                sourceKey: plan.historySourceKey,
-                sizes: request.sizes
-            )
+            await plan.record(result, sizes: request.sizes, in: history)
             return result
         }
         // When an app bundle moved, reloading the library changes the selection, which rebuilds this page. When

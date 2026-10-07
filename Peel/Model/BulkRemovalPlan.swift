@@ -122,14 +122,31 @@ final class BulkRemovalPlan {
         return await bulk.move(request.urls, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
     }
 
-    /// The source History records: up to three app names, or a count in English that History shows in the
-    /// user's language through `historySourceKey`.
-    var historySource: String {
-        guard apps.count > 3 else { return apps.map(\.name).joined(separator: ", ") }
-        return String(AttributedString(localized: "^[\(apps.count) app](inflect: true)", locale: Locale(identifier: "en")).characters)
+    /// Records `result` in History, what moved named by the apps it belonged to and what stayed by its own apps.
+    func record(_ result: TrashResult, sizes: [URL: Int64], in history: RemovalHistoryStore) async {
+        var removal = RemovalInProgress()
+        let moved = bulk?.apps(owning: result.trashed.map(\.originalURL)) ?? []
+        let stayed = bulk?.apps(owning: result.failures.map(\.url)) ?? []
+        let parts = [
+            (TrashResult(trashed: result.trashed), part(naming: moved)),
+            (TrashResult(failures: result.failures), part(naming: stayed)),
+        ]
+        for (result, part) in parts {
+            await history.record(result, part: part, sizes: sizes, in: &removal)
+        }
+        history.finish(removal)
     }
 
-    var historySourceKey: String? {
-        apps.count > 3 ? "apps.\(apps.count)" : nil
+    /// Up to three app names, or a count in English that History shows in the user's language through the key.
+    private func part(naming named: [InstalledApp]) -> RemovalPart {
+        let named = named.isEmpty ? apps : named
+        let tool = Tool.applications.rawValue
+        guard named.count > 3 else {
+            return RemovalPart(source: named.map(\.name).joined(separator: ", "), sourceKey: nil, tool: tool)
+        }
+        let count = AttributedString(
+            localized: "^[\(named.count) app](inflect: true)", locale: Locale(identifier: "en")
+        )
+        return RemovalPart(source: String(count.characters), sourceKey: "apps.\(named.count)", tool: tool)
     }
 }

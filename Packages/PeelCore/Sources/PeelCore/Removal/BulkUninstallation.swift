@@ -189,6 +189,18 @@ public struct BulkUninstallation: Sendable {
         }
     }
 
+    /// The chosen apps `urls` belong to: an app whose bundle is among them, and an app with a file of its own among
+    /// them. A file names the app by its identifier, which another copy of it shares, so only a bundle names a copy.
+    public func apps(owning urls: some Sequence<URL>) -> [InstalledApp] {
+        let paths = Set(urls.map(PathPattern.comparablePath))
+        let owners = Set(items.filter { paths.contains(PathPattern.comparablePath(of: $0.url)) }.flatMap(\.apps))
+        let copied = Set(Dictionary(grouping: apps, by: \.bundleIdentifier).filter { $0.value.count > 1 }.keys)
+        return apps.filter { app in
+            paths.contains(PathPattern.comparablePath(of: app.url))
+                || (owners.contains(app.bundleIdentifier) && !copied.contains(app.bundleIdentifier))
+        }
+    }
+
     static func merge(_ uninstallations: [Uninstallation]) -> [Item] {
         let chosen = Set(uninstallations.map(\.app.bundleIdentifier))
         let chosenBundles = Set(uninstallations.map { PathPattern.comparablePath(of: $0.app.url) })
