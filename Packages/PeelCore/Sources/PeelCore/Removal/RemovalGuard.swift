@@ -45,10 +45,12 @@ struct RemovalGuard: Sendable {
     /// Nothing inside these may be removed. `/Library/Updates` is where Software Update stages macOS updates.
     /// Lower-cased, because the spellings they are compared against are.
     private static let protectedPrefixes = ["/system", "/usr", "/bin", "/sbin", "/library/updates"]
-    /// The folders command-line tools and their shell completions are linked into. A link directly in one is the one
-    /// thing under `/usr` that may go: what an app's tool leaves there, which Peel's helper takes only once it leads
-    /// nowhere.
+    /// The folders command-line tools and their shell completions are linked into. A link directly in one may go from
+    /// under `/usr`: what an app's tool leaves there, which Peel's helper takes only once it leads nowhere.
     private static let toolLinkFolders = PrivilegedPathPolicy.linkLocations.map { PathComponents.of($0.lowercased()) }
+    /// Homebrew's Caskroom where its prefix is `/usr/local`, as on an Intel Mac. A folder directly in it is Homebrew's
+    /// record of a cask, which goes with the cask's app.
+    private static let caskroom = PathComponents.of("/usr/local/caskroom")
 
     private let protectedPaths: Set<String>
     private let protectedTrees: [[String]]
@@ -93,7 +95,7 @@ struct RemovalGuard: Sendable {
     }
 
     func refusal(of url: URL) -> GuardRefusal? {
-        refusal(of: url, isALink: nil)
+        refusal(of: url, typeOf: nil)
     }
 
     /// Whether `trashed` may go back to `destination`, which is judged as a removal from there would be, for the
@@ -103,7 +105,7 @@ struct RemovalGuard: Sendable {
     }
 
     func refusal(ofPuttingBack trashed: URL, at destination: URL) -> GuardRefusal? {
-        refusal(of: destination, isALink: Self.isALink(trashed.path(percentEncoded: false)))
+        refusal(of: destination, typeOf: trashed)
     }
 
     /// True for the lower-cased spelling of a link directly in a folder tools or their completions are linked into.
@@ -111,19 +113,24 @@ struct RemovalGuard: Sendable {
         isALink && toolLinkFolders.contains(Array(PathComponents.of(spelling).dropLast()))
     }
 
-    private static func isALink(_ path: String) -> Bool {
-        var info = stat()
-        return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFLNK
+    private static func isACasksRecord(_ spelling: String, isAFolder: Bool) -> Bool {
+        isAFolder && Array(PathComponents.of(spelling).dropLast()) == caskroom
     }
 
-    private func refusal(of url: URL, isALink known: Bool?) -> GuardRefusal? {
+    private static func type(of path: String) -> mode_t? {
+        var info = stat()
+        return lstat(path, &info) == 0 ? info.st_mode & S_IFMT : nil
+    }
+
+    /// `item`, when given, is what would sit at `url`: an item coming back from the Trash.
+    private func refusal(of url: URL, typeOf item: URL?) -> GuardRefusal? {
         guard url.isFileURL else { return .protectedLocation }
         guard exclusions.isKnown else { return .exclusionsNotKnown }
         let path = Self.normalized(url.path(percentEncoded: false))
         // A path can be written several ways (`/var` for `/private/var`, a different case), and a Put Back
         // destination does not exist yet. `located` names the part that exists the way the kernel does.
         guard let located = PathPattern.located(path) else { return .protectedLocation }
-        let isALink = known ?? Self.isALink(located)
+        let type = Self.type(of: item?.path(percentEncoded: false) ?? located)
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.
         let names = Set([path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self))
@@ -146,7 +153,9 @@ struct RemovalGuard: Sendable {
         for spelling in spelled.values.reduce(into: Set<String>(), { $0.formUnion($1) }) {
             let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
             guard !protectedPaths.contains(spelling) else { return .staysItself }
-            guard !isUnderAPrefix || Self.isAToolsLink(spelling, isALink: isALink) else { return .protectedLocation }
+            let mayGo = Self.isAToolsLink(spelling, isALink: type == S_IFLNK)
+                || Self.isACasksRecord(spelling, isAFolder: type == S_IFDIR)
+            guard !isUnderAPrefix || mayGo else { return .protectedLocation }
 
             let parts = PathComponents.of(spelling)
             let isATree = protectedTrees.contains { parts.starts(with: $0) }

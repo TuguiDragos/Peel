@@ -37,10 +37,10 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Downloads/something.txt")))
     }
 
-    /// Under `/usr` only a link directly in a folder command-line tools or their shell completions are linked into
-    /// may go, and only a link may go back there. A file, a name with nothing under it yet, and anything deeper stay
+    /// Under `/usr` a link may go only directly in a folder command-line tools or their shell completions are linked
+    /// into, and only a link may go back there. A file, a name with nothing under it yet, and anything deeper stay
     /// refused.
-    @Test func underUsrOnlyAToolsLinkMayGoOrComeBack() throws {
+    @Test func underUsrALinkMayGoOrComeBackOnlyInTheToolFolders() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -66,6 +66,28 @@ struct AttackRemovalGuardTests {
             #expect(!guardian.allowsPuttingBack(trashedLink, at: URL(filePath: path)), "ATTACK SUCCEEDED: a link can go to \(path)")
         }
         #expect(!guardian.allowsRemoval(of: URL(filePath: "/usr/bin/true")))
+    }
+
+    @Test func underUsrAFolderMayGoOrComeBackOnlyInHomebrewsCaskroom() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        let trashedFolder = try directory.directory("home/.Trash/example")
+        let trashedFile = try directory.file("home/.Trash/file")
+        let trashedLink = directory.url.appending(path: "home/.Trash/link")
+        try link("/Applications/Gone.app", at: trashedLink.path(percentEncoded: false))
+        let name = "peel-test-\(UUID().uuidString)"
+        let record = URL(filePath: "/usr/local/Caskroom/\(name)")
+
+        #expect(guardian.allowsPuttingBack(trashedFolder, at: record), "Homebrew's record of a cask can't come back")
+        #expect(!guardian.allowsPuttingBack(trashedFile, at: record), "ATTACK SUCCEEDED: a file can go to the Caskroom")
+        #expect(!guardian.allowsPuttingBack(trashedLink, at: record), "ATTACK SUCCEEDED: a link can go to the Caskroom")
+        #expect(!guardian.allowsRemoval(of: record), "a name with nothing there was allowed")
+        for path in ["/usr/local/Caskroom", "/usr/local/Caskroom/\(name)/1.0", "/usr/local/\(name)", "/usr/Caskroom/\(name)"] {
+            #expect(!guardian.allowsPuttingBack(trashedFolder, at: URL(filePath: path)), "ATTACK SUCCEEDED: \(path)")
+        }
     }
 
     /// Attack 1: write the protected folder in a different case. APFS is case-insensitive by default, so the
