@@ -337,6 +337,8 @@ extension HoldBack {
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .keptByAnApp: "in an app's folder in Application Support, and the app may still need it"
         case .appIsRunning: "its app is running and may install this update when it quits"
+        case .mayBeTheOnlyCopy: "outside Downloads and no installed app's installer, so it may be yours, not a download"
+        case .encryptedImage: "an encrypted disk image, which holds what you put in it"
         }
     }
 }

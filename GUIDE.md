@@ -64,7 +64,8 @@ Space shows what fills your disk, area by area, and what each area is.
   installer inside, whether you have that app or not; packages an app keeps in Application Support; macOS
   installers, device firmware, downloads a browser never finished, updates apps downloaded and keep until they
   install them, and what your iPhone backups hold. A disk image can also be one you made to keep files in, so look
-  before you select it. Nothing is selected for you.
+  before you select it. Nothing is selected for you, and Select Recommended takes only what you can download again:
+  an installed app's installer or one in Downloads, never an encrypted disk image.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
 - **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Docker's disk,

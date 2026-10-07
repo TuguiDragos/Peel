@@ -239,6 +239,8 @@ Never selected for you, even when found:
 - A file in iCloud Drive, which the Trash would take from every device, and a file a program has open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
   running, which may install it when the app quits.
+- An encrypted disk image, and a disk image, package, or archive outside Downloads that isn't an installed app's
+  installer, which may be your own rather than something you can download again.
 
 A folder macOS would not let Peel read, and a folder Peel could not measure in time, are not selected either. Both are
 shown with their size as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to

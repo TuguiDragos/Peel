@@ -124,13 +124,17 @@ public enum Installers {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
         let places = ["Downloads", "Desktop", "Documents", "Public"].map {
-            Folder(url: home.appending(path: $0, directoryHint: .isDirectory), isSharedWithEveryone: false)
+            Folder(
+                url: home.appending(path: $0, directoryHint: .isDirectory),
+                isSharedWithEveryone: false,
+                holdsDownloads: $0 == "Downloads"
+            )
         } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
         var folders: [Folder] = []
         for place in places {
             if canList(place.url) == .missing { unreadable.append(place.url) }
             folders += [place] + subfolders(of: place.url).map {
-                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone)
+                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone, holdsDownloads: place.holdsDownloads)
             }
         }
 
@@ -151,21 +155,15 @@ public enum Installers {
                     items.append(incompleteDownload(at: url, size: size, heldBack: heldBack))
                 } else if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
-                    items.append(
-                        appInstaller(
-                            at: url,
-                            size: size,
-                            heldBack: heldBack,
-                            installedApps: installedApps,
-                            named: inside
-                        )
+                    let installer = appInstaller(
+                        at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: inside
                     )
+                    items.append(unlessItCanBeDownloadedAgain(installer, in: folder))
+                } else if isInstaller {
+                    let installer = appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps)
+                    items.append(unlessItCanBeDownloadedAgain(installer, in: folder))
                 } else {
-                    items.append(
-                        isInstaller
-                            ? appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps)
-                            : firmware(at: url, size: size, heldBack: heldBack)
-                    )
+                    items.append(firmware(at: url, size: size, heldBack: heldBack))
                 }
             }
         }
@@ -222,10 +220,12 @@ public enum Installers {
         )
     }
 
-    /// A folder the scan looks in, and whether it belongs to every account on this Mac rather than to this one.
+    /// A folder the scan looks in, whether it belongs to every account on this Mac rather than to this one, and
+    /// whether it is Downloads or a folder inside it.
     struct Folder {
         let url: URL
         let isSharedWithEveryone: Bool
+        var holdsDownloads = false
     }
 
     /// The folders directly inside `place` that the scan looks in too, where a browser or a chat app keeps its
@@ -250,6 +250,24 @@ public enum Installers {
         if let seen { return seen }
         if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
         return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
+    }
+
+    /// Holds back an app installer that may not be downloaded again: one outside Downloads that is no installed app's
+    /// may be the person's own image, and an encrypted disk image holds what they put in it.
+    private static func unlessItCanBeDownloadedAgain(_ installer: InstallerItem, in folder: Folder) -> InstallerItem {
+        guard installer.heldBack == nil else { return installer }
+        var installer = installer
+        if isEncryptedImage(installer.url) {
+            installer.heldBack = .encryptedImage
+        } else if installer.installedApp == nil, !folder.holdsDownloads {
+            installer.heldBack = .mayBeTheOnlyCopy
+        }
+        return installer
+    }
+
+    /// Whether `url` is an encrypted disk image: one that `hdiutil create -encryption` makes begins with `encrcdsa`.
+    static func isEncryptedImage(_ url: URL) -> Bool {
+        url.pathExtension.lowercased() == "dmg" && BoundedRead.prefix(of: url, count: 8) == Data("encrcdsa".utf8)
     }
 
     /// What measuring `url` gave: its size, and why what it saw leaves the item for the person to choose.

@@ -86654,6 +86654,112 @@
         }
       }
     },
+    "Not selected: an encrypted disk image holds what you put in it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: šifrovaný obraz disku obsahuje to, co jste do něj uložili."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Eine verschlüsselte Image-Datei enthält, was du darin abgelegt hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: una imagen de disco encriptada contiene lo que has guardado en ella."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : une image disque chiffrée contient ce que vous y avez mis."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: un’immagine disco crittografata contiene ciò che ci hai messo dentro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 暗号化されたディスクイメージには、自分で入れたものが含まれています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 암호화된 디스크 이미지에는 사용자가 넣어 둔 항목이 들어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een versleutelde schijfkopie bevat wat je erin hebt gezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zaszyfrowany obraz dysku zawiera to, co w nim przechowujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: uma imagem de disco criptografada guarda o que você colocou nela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: o imagine de disc criptată conține ceea ce ați pus în ea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: зашифрованный образ диска хранит то, что Вы в него поместили."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: en krypterad skivavbild innehåller det som du har lagt i den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: şifreli bir disk görüntüsü, içine koyduğunuz şeyleri tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: зашифрований образ диска містить те, що ви в нього поклали."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：已加密的磁盘映像中存放的是你放入的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：已加密的磁碟映像檔存放的是你放入其中的內容。"
+          }
+        }
+      }
+    },
     "Not selected: it belongs to an app macOS keeps, so it is in use." : {
       "localizations" : {
         "cs" : {
@@ -88770,6 +88876,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：此項目位於「iCloud雲碟」中，因此丟到「垃圾桶」會將它從iCloud和你的其他裝置上移除。"
+          }
+        }
+      }
+    },
+    "Not selected: this isn’t in Downloads and isn’t an installed app’s installer, so it may be yours rather than something you can download again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tento soubor není ve složce Stahování a není to instalátor nainstalované aplikace, takže může být váš vlastní, a ne něco, co si můžete znovu stáhnout."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt liegt nicht in „Downloads“ und ist nicht der Installer einer installierten App, daher ist es möglicherweise deines und nicht etwas, das du erneut laden kannst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: no está en Descargas ni es el instalador de una app instalada, así que puede que sea tuyo y no algo que puedas volver a descargar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce fichier ne se trouve pas dans le dossier Téléchargements et n’est pas le programme d’installation d’une app installée ; il s’agit donc peut-être de l’un de vos fichiers, et non de quelque chose que vous pouvez télécharger à nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: non si trova nella cartella Download e non è l’installer di un’app installata, quindi potrebbe essere un tuo file anziché qualcosa che puoi scaricare di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: これは“ダウンロード”フォルダになく、インストール済みのアプリのインストーラでもないため、再ダウンロードできるものではなく、自分のファイルである可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 다운로드 폴더에 있지 않고 설치된 앱의 설치 프로그램도 아니므로, 다시 다운로드할 수 있는 항목이 아니라 사용자의 파일일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit staat niet in de map Downloads en is geen installatieprogramma van een geïnstalleerde app, dus het is misschien van jou en niet iets wat je opnieuw kunt downloaden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik nie jest w folderze Pobrane rzeczy ani nie jest instalatorem zainstalowanej aplikacji, więc może to być Twój plik, a nie coś, co możesz pobrać ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item não está em Downloads e não é o instalador de um app instalado, então pode ser seu, e não algo que você possa baixar de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier nu se află în Descărcări și nu este programul de instalare al unei aplicații instalate, așa că ar putea fi al dvs., nu ceva ce puteți descărca din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл находится не в папке «Загрузки» и не является установщиком ни одного из установленных приложений, поэтому он может быть Вашим собственным, а не тем, что можно загрузить снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den här filen ligger inte i Hämtade filer och är inte installeraren för en installerad app, så den kan vara din egen snarare än något som du kan hämta igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu dosya İndirilenler klasöründe değil ve yüklü bir uygulamanın yükleyicisi de değil, bu nedenle yeniden indirebileceğiniz bir şey yerine size ait bir dosya olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл не міститься в папці «Викачане» й не є інсталятором інстальованої програми, тож, можливо, він ваш, а не з тих, що можна викачати знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此文件不在“下载”文件夹中，也不是已安装App的安装器，因此可能是你自己的文件，而不是可以重新下载的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此項目不在「下載項目」中，也不是已安裝App的安裝程式，因此可能是你自己的，而不是你可以重新下載的項目。"
           }
         }
       }

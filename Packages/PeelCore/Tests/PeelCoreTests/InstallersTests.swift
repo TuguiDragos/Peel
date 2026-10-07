@@ -158,6 +158,52 @@ struct InstallersTests {
         #expect(installers.allSatisfy { !$0.isReadOnly })
     }
 
+    @Test func recommendsOnlyAnInstallerThatCanBeDownloadedAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let unknown = try directory.file("Downloads/Unknown-1.dmg", bytes: 400_000)
+        let known = try directory.file("Documents/VisualStudioCode-1.99.0.dmg", bytes: 400_000)
+        let photos = try directory.file("Documents/Photos 2019.dmg", bytes: 400_000)
+        let backup = try directory.file("Desktop/Backup.iso", bytes: 400_000)
+        let secrets = try directory.directory("Downloads").appending(path: "Secrets.dmg")
+        try makeEncryptedImage(at: secrets)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [app("Visual Studio Code", bundleIdentifier: "com.microsoft.VSCode")],
+            home: directory.url,
+            root: directory.url,
+            minimumSize: 100_000
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Unknown-1.dmg"] == .some(nil))
+        #expect(heldBack["VisualStudioCode-1.99.0.dmg"] == .some(nil))
+        #expect(heldBack["Photos 2019.dmg"] == .mayBeTheOnlyCopy)
+        #expect(heldBack["Backup.iso"] == .mayBeTheOnlyCopy)
+        #expect(heldBack["Secrets.dmg"] == .encryptedImage)
+        let rows = scan.items.selectableRows(canUseHelper: false)
+        #expect(Set(rows.recommended.map { PathPattern.comparablePath(of: $0) })
+            == Set([unknown, known].map { PathPattern.comparablePath(of: $0) }))
+        #expect(Set(rows.leftToTheClick.map { PathPattern.comparablePath(of: $0) })
+            == Set([photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
+    }
+
+    private func makeEncryptedImage(at url: URL) throws {
+        let process = Process()
+        process.executableURL = URL(filePath: "/usr/bin/hdiutil")
+        process.arguments = [
+            "create", "-quiet", "-encryption", "AES-128", "-stdinpass", "-size", "1m", "-fs", "APFS", "-volname", "Probe",
+            url.path(percentEncoded: false),
+        ]
+        let password = Pipe()
+        process.standardInput = password
+        try process.run()
+        password.fileHandleForWriting.write(Data("probe".utf8))
+        try password.fileHandleForWriting.close()
+        process.waitUntilExit()
+        #expect(process.terminationStatus == 0)
+    }
+
     @Test func findsADiskImageInTheISOFormat() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/ubuntu-24.04-desktop-arm64.iso", bytes: 400_000)
@@ -244,7 +290,7 @@ struct InstallersTests {
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
         try directory.directory("Documents/Install macOS Tahoe.app/Contents")
         try directory.file("Documents/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
-        try directory.file("Desktop/Other-3.dmg", bytes: 400_000)
+        try directory.file("Downloads/Other-3.dmg", bytes: 400_000)
         let documents = PathPattern.comparablePath(of: directory.url.appending(path: "Documents"))
 
         let scan = await Installers.scan(

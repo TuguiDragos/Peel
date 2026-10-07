@@ -270,6 +270,10 @@ extension HoldBack {
             "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it."
         case .appIsRunning:
             "Not selected: the app is running and may install this update when it quits."
+        case .mayBeTheOnlyCopy:
+            "Not selected: this isn’t in Downloads and isn’t an installed app’s installer, so it may be yours rather than something you can download again."
+        case .encryptedImage:
+            "Not selected: an encrypted disk image holds what you put in it."
         }
     }
 }

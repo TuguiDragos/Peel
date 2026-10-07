@@ -97,6 +97,10 @@ public enum HoldBack: String, Sendable, Hashable {
     case keptByAnApp
     /// An update whose app is running, which may install it when it quits.
     case appIsRunning
+    /// An installer outside Downloads that is no installed app's, which may be the person's own rather than a download.
+    case mayBeTheOnlyCopy
+    /// An encrypted disk image, which holds what the person put in it.
+    case encryptedImage
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.
@@ -116,7 +120,8 @@ public enum HoldBack: String, Sendable, Hashable {
              .holdsDocuments, .holdsALibrary, .holdsAWallet, .holdsAPasswordDatabase, .holdsLocalMail,
              .holdsMessageHistory, .holdsPasswordsOrCodes, .holdsVPNConnections, .holdsKeys, .holdsWorkKeptInACache,
              .insideAnotherAppsFolder, .beyondTheHelper, .leftToItsUninstaller, .keptByMacOS, .openedFromMail,
-             .inTheCloud, .openInAProgram, .changedRecently, .keptByAnApp, .appIsRunning: true
+             .inTheCloud, .openInAProgram, .changedRecently, .keptByAnApp, .appIsRunning, .mayBeTheOnlyCopy,
+             .encryptedImage: true
         }
     }
 
