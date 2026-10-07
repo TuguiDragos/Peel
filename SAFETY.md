@@ -123,12 +123,12 @@ Peel never deletes anything of yours. Everything it removes goes to the Trash, a
 History can put it back; History keeps the most recent 20,000 items, and what it forgets is still in the Trash.
 That includes an installer receipt you ask Peel to forget: the two files that make it up go to the Trash
 through the helper, where `pkgutil --forget` would have discarded them for good. So does the folder Homebrew keeps
-for an app it installed (`brew --caskroom`), which `brew uninstall` would delete: it goes after the app,
-Homebrew stops listing the app, and History puts both back. Quitting Peel waits for a removal until History has
-it, `peel` carries on through Ctrl-C or a closed terminal until it has written History, and each item is written
-down the moment it moves, so one cut short by a crash or Force Quit still reaches History, as an interrupted
-removal, the next time Peel or `peel` opens it. The space is freed when *you* empty the Trash: Peel never does
-that for you.
+for an app it installed (`brew --caskroom`), with the links Homebrew made into it, which `brew uninstall` would
+delete: they go after the app, Homebrew stops listing the app, and History puts them back. Quitting Peel waits for
+a removal until History has it, `peel` carries on through Ctrl-C or a closed terminal until it has written
+History, and each item is written down the moment it moves, so one cut short by a crash or Force Quit still
+reaches History, as an interrupted removal, the next time Peel or `peel` opens it. The space is freed when *you*
+empty the Trash: Peel never does that for you.
 
 Right before anything moves, Peel looks at the files other programs of yours hold open and at the program each
 process runs, and leaves where it is any file or folder with one of them inside, naming the program: moving a

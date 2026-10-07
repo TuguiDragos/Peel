@@ -19,6 +19,8 @@ public enum MatchReason: String, Sendable, Hashable {
     case installerReceipt
     /// The folder of the Homebrew cask that installed the app, which keeps Homebrew counting it as installed.
     case homebrewReceipt
+    /// A link Homebrew made that leads into that folder, such as the command it puts on the path.
+    case leadsIntoItsHomebrewReceipt
     /// The app's Homebrew cask lists this path in its uninstall or zap stanza.
     case homebrewCask
 }

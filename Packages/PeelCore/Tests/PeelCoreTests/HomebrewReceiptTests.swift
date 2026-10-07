@@ -67,7 +67,7 @@ struct HomebrewReceiptTests {
         func service() throws -> TrashService {
             let trash = try directory.directory("home/.Trash")
             return TrashService(environment: environment) { url in
-                let destination = trash.appending(path: url.lastPathComponent)
+                let destination = trash.appending(path: UUID().uuidString + " " + url.lastPathComponent)
                 try FileManager.default.moveItem(at: url, to: destination)
                 return destination
             }
@@ -149,5 +149,53 @@ struct HomebrewReceiptTests {
         let result = await both.move(Set(both.items.filter(\.isRecommended).map(\.url)), using: try installed.service())
         #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
         #expect(result.trashed.last?.originalURL.lastPathComponent == "example")
+    }
+
+    @Test func aLinkIntoTheReceiptGoesWithIt() async throws {
+        let installed = try Installed()
+        let app = try installed.app("Example", identifier: "org.example.app")
+        let wrapper = try installed.directory.file("root/opt/homebrew/Caskroom/example/1.0/.homebrew-command-wrappers/example")
+        let bin = try installed.directory.directory("root/opt/homebrew/bin")
+        let command = bin.appending(path: "example")
+        let elsewhere = bin.appending(path: "tool")
+        try FileManager.default.createSymbolicLink(at: command, withDestinationURL: wrapper)
+        try FileManager.default.createSymbolicLink(
+            at: elsewhere, withDestinationURL: try installed.directory.file("root/opt/homebrew/Cellar/tool/1.0/bin/tool")
+        )
+
+        let plan = await Uninstallation.prepare(
+            app, installedApps: [app], casks: [installed.cask(installing: [app])], environment: installed.environment
+        )
+
+        let link = try #require(plan.scan.leftovers.first {
+            $0.url.lastPathComponent == "example" && $0.kind == .commandLineTools
+        })
+        #expect(link.match.reason == .leadsIntoItsHomebrewReceipt)
+        #expect(link.match.isRecommended)
+        #expect(!plan.scan.leftovers.contains { $0.url.lastPathComponent == "tool" })
+        let result = await plan.move(plan.suggestedSelection(canUseHelper: false), using: try installed.service())
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(result.trashed.first?.originalURL == app.url)
+        #expect(Set(result.trashed.map(\.originalURL.lastPathComponent)).isSuperset(of: ["example", "Example.app"]))
+    }
+
+    @Test func aLinkIntoASharedReceiptStaysWithIt() async throws {
+        let installed = try Installed()
+        let app = try installed.app("Example", identifier: "org.example.app")
+        let other = try installed.app("Example Helper", identifier: "org.example.helper")
+        let wrapper = try installed.directory.file("root/opt/homebrew/Caskroom/example/1.0/.homebrew-command-wrappers/example")
+        let command = try installed.directory.directory("root/opt/homebrew/bin").appending(path: "example")
+        try FileManager.default.createSymbolicLink(at: command, withDestinationURL: wrapper)
+
+        let plan = await Uninstallation.prepare(
+            app,
+            installedApps: [app, other],
+            casks: [installed.cask(installing: [app, other])],
+            environment: installed.environment
+        )
+
+        let link = try #require(plan.scan.leftovers.first { $0.match.reason == .leadsIntoItsHomebrewReceipt })
+        #expect(link.match.sharedWith == ["org.example.helper"])
+        #expect(!plan.suggestedSelection(canUseHelper: false).contains(link.url))
     }
 }
