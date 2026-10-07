@@ -37,8 +37,8 @@
 **Requirements:** macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel
 Macs from 2019 and 2020 that [Apple lists for macOS 26](https://support.apple.com/en-us/122867). Peel moves your
 files, and each version of macOS moves where apps keep theirs: macOS 26, for one, gives an app's list of recent
-documents a new name. So I test every release myself, on each version of macOS it runs on, before it ships, and it
-never runs where it hasn't been tested, which is why it starts at macOS 26.
+documents a new name. So I test every release myself before it ships, on macOS 26 and every version since, which is
+why it starts at macOS 26 and won't open on an older one.
 
 ### Download
 
@@ -184,8 +184,8 @@ where.
 
 Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs
 from 2019 and 2020 that [Apple lists for macOS 26](https://support.apple.com/en-us/122867). It doesn't run on earlier
-versions of macOS: each version moves where apps keep their files, so I test every release myself on each version
-it runs on, and Peel never runs where it hasn't been tested.
+versions of macOS: each version moves where apps keep their files, so I test every release myself before it ships, on
+macOS 26 and every version since.
 
 </details>
 
