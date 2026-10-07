@@ -179,6 +179,9 @@ struct RemovalGuard: Sendable {
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         for name in names {
+            guard exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)).isEmpty else {
+                return .excluded
+            }
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
             guard !ProtectedData.holdsAContainersDocuments(name) else { return .holdsDocuments }

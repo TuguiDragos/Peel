@@ -38,12 +38,12 @@ struct ItemMenu: View {
         }
     }
 
-    /// Takes off the list exactly what excludes the item. An excluded folder around it holds other things too, so
-    /// that one is named and left to Settings.
+    /// Takes off the list exactly what excludes the item. An excluded folder or app around it holds other things too,
+    /// so that one is named and left to Settings.
     @ViewBuilder private var wayBack: some View {
         let reasons = ExclusionsStore.shared.exclusions.reasons(excluding: url, app: appIdentifier)
-        if let folder = reasons.folders.first {
-            Text("Excluded with “\(folder.lastPathComponent)”")
+        if let around = reasons.folders.first?.lastPathComponent ?? reasons.apps.first {
+            Text("Excluded with “\(around)”")
             Button("Open Exclusions in Settings…", systemImage: "gearshape") {
                 SettingsPane.exclusions.open(with: openSettings)
             }

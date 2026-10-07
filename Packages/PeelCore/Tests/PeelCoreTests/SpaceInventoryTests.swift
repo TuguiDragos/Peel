@@ -120,6 +120,23 @@ struct SpaceInventoryTests {
         #expect(caches.size == kept)
     }
 
+    @Test func leavesOutWhatAnExcludedAppKeepsInItsOwnFolders() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)
+        try directory.file("Library/Caches/org.example.Notes/blob", bytes: 500_000)
+        try directory.file("Library/Containers/org.example.Notes/Data/Library/Caches/blob", bytes: 500_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url, minimumSize: 1,
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"]), measure: FileSize.measure
+        )
+
+        let caches = try #require(report.items.first { $0.id == "caches" })
+        let kept = await FileSize.reclaimableSize(of: directory.url.appending(path: "Library/Caches/org.example.kept"))
+        #expect(caches.size == kept)
+        #expect(!report.items.flatMap(\.urls).contains { $0.path(percentEncoded: false).contains("org.example.Notes") })
+    }
+
     @Test func anExcludedPlaceThatCannotBeMeasuredLeavesTheAreaUnknown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)

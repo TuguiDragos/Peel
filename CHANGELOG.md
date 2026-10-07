@@ -41,7 +41,7 @@ macOS 26 supports.
 - Selects what Peel recommends, all it may, or nothing, on one list or on every page of a tool at once, leaves
   to your own click what it holds back for what it may hold, and asks first before it selects anything else Peel
   doesn't recommend.
-- Leaves alone the files, folders, and apps you exclude.
+- Leaves alone the files, folders, and apps you exclude, and the folders named with an excluded app's identifier.
 - Starts the sidebar with the tools most people use, and keeps each tool you turn on or off in Settings.
 - Opens on Home: this Mac's chip, memory, and macOS version, how much of its disk is free, what Peel has moved to
   the Trash so far, and which permissions are on.

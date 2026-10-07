@@ -489,6 +489,21 @@ struct SpaceRemovalTests {
         #expect(plan.removable.map(\.lastPathComponent) == ["com.gone.app"])
     }
 
+    @Test func leavesAnExcludedAppsOwnFolderAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.Notes/keep.db")
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+
+        let plan = await SpaceRemoval.plan(
+            for: item(directory),
+            environment: environment(directory),
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"]),
+            running: [:]
+        )
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["com.gone.app"])
+    }
+
     /// The figure on the screen is what emptying will free, not what the folder holds.
     @Test func sizeCountsOnlyWhatWillActuallyGo() async throws {
         let directory = try TemporaryDirectory()

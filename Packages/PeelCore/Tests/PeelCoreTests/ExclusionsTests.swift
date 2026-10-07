@@ -9,19 +9,30 @@ struct ExclusionsTests {
         let project = folder.appending(path: "Site", directoryHint: .isDirectory)
 
         let byIdentifier = Exclusions(bundleIdentifiers: ["org.example.app"]).reasons(excluding: app, app: "org.example.app")
-        #expect(byIdentifier == Exclusions.Reasons(identifier: "org.example.app", paths: [], folders: []))
+        #expect(byIdentifier == Exclusions.Reasons(identifier: "org.example.app", paths: [], folders: [], apps: []))
 
         let byPath = Exclusions(paths: [URL(filePath: "/Applications/Example.app/")]).reasons(excluding: app, app: nil)
         #expect(byPath.paths.count == 1 && byPath.folders.isEmpty && byPath.identifier == nil)
 
         let byFolder = Exclusions(paths: [folder]).reasons(excluding: project, app: nil)
-        #expect(byFolder == Exclusions.Reasons(identifier: nil, paths: [], folders: [folder]))
+        #expect(byFolder == Exclusions.Reasons(identifier: nil, paths: [], folders: [folder], apps: []))
 
         let both = Exclusions(paths: [folder, project], bundleIdentifiers: ["org.example.other"])
             .reasons(excluding: project, app: nil)
         #expect(both.paths == [project] && both.folders == [folder] && both.identifier == nil)
 
         #expect(Exclusions(paths: [project]).reasons(excluding: folder, app: nil).isEmpty)
+    }
+
+    @Test func saysWhichExcludedAppsFolderAnItemIsIn() {
+        let caches = URL(filePath: "/Users/me/Library/Caches", directoryHint: .isDirectory)
+        let exclusions = Exclusions(bundleIdentifiers: ["org.example.Notes"])
+
+        let inside = exclusions.reasons(excluding: caches.appending(path: "org.example.notes/data.db"), app: nil)
+        #expect(inside == Exclusions.Reasons(identifier: nil, paths: [], folders: [], apps: ["org.example.Notes"]))
+        let own = exclusions.reasons(excluding: caches.appending(path: "org.example.Notes"), app: nil)
+        #expect(own.apps == ["org.example.Notes"])
+        #expect(exclusions.reasons(excluding: caches.appending(path: "org.example.Other"), app: nil).isEmpty)
     }
 
     @Test func findsTheExcludedPlacesInsideAFolderOnce() {
@@ -129,6 +140,56 @@ struct ExclusionsTests {
         #expect(!Exclusions.none.holds(URL(filePath: "/var")))
     }
 
+    @Test func anExcludedAppsOwnFolderIsExcludedWithAllItHolds() {
+        let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
+        let exclusions = Exclusions(bundleIdentifiers: ["org.example.Notes"])
+
+        #expect(exclusions.excludes(caches.appending(path: "org.example.Notes")))
+        #expect(exclusions.excludes(caches.appending(path: "ORG.EXAMPLE.NOTES/data.db")))
+        #expect(exclusions.excludes(URL(filePath: "/Users/x/Library/Containers/org.example.Notes/Data/Library/Caches")))
+        #expect(!exclusions.excludes(caches.appending(path: "org.example.Notes.savedState")))
+        #expect(!exclusions.excludes(caches.appending(path: "org.example.NotesHelper")))
+        #expect(!exclusions.excludes(caches))
+        #expect(!Exclusions(bundleIdentifiers: ["Example"]).excludes(caches.appending(path: "Example")))
+    }
+
+    @Test func aFolderWithAnExcludedAppsOwnFolderALevelOrTwoInsideHoldsIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Maker/org.example.Notes/data.db")
+        try directory.file("Vendor/Products/org.example.Notes/data.db")
+        try directory.file("Other/org.example.Other/data.db")
+        let exclusions = Exclusions(bundleIdentifiers: ["org.example.Notes"])
+
+        #expect(exclusions.holds(directory.url.appending(path: "Maker")))
+        #expect(exclusions.holds(directory.url.appending(path: "Vendor")))
+        #expect(!exclusions.holds(directory.url.appending(path: "Other")))
+        #expect(!exclusions.holds(directory.url.appending(path: "Maker/org.example.Notes")))
+    }
+
+    @Test func refusesToRemoveAnExcludedAppsOwnFolderOrAFolderHoldingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let own = try directory.file("home/Library/Caches/org.example.Notes/cache.db").deletingLastPathComponent()
+        let maker = try directory.file("home/Library/Application Support/Maker/org.example.Notes/data.db")
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let other = try directory.file("home/Library/Caches/org.example.Other/cache.db").deletingLastPathComponent()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
+        let trash = try directory.directory("Trash")
+        let exclusions = Exclusions(bundleIdentifiers: ["org.example.Notes"])
+        let service = TrashService(environment: environment, exclusions: exclusions) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await service.trash([own, maker, other])
+        #expect(result.trashed.map(\.originalURL) == [other])
+        #expect(result.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
+        #expect(own.isThere && maker.isThere)
+    }
+
     @Test func refusesToRemoveAFolderThatHoldsSomethingExcluded() async throws {
         let directory = try TemporaryDirectory()
         let kept = try directory.file("home/Library/Application Support/Example/keep.db")
@@ -155,6 +216,12 @@ struct ExclusionsTests {
         let urls = [URL(filePath: "/a/one"), URL(filePath: "/a/two"), URL(filePath: "/b/three")]
         let kept = Exclusions(paths: [URL(filePath: "/a")]).keeping(urls) { $0 }
         #expect(kept == [URL(filePath: "/b/three")])
+    }
+
+    @Test func keepsAnExcludedAppsOwnFolderOutOfResults() {
+        let urls = [URL(filePath: "/a/org.example.Notes/one"), URL(filePath: "/a/two")]
+        let kept = Exclusions(bundleIdentifiers: ["org.example.Notes"]).keeping(urls) { $0 }
+        #expect(kept == [URL(filePath: "/a/two")])
     }
 
     @Test func survivesBeingWrittenAndReadBack() async throws {

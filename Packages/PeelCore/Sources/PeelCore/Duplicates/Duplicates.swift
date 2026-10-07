@@ -138,7 +138,7 @@ public struct DuplicateScan: Sendable {
     /// since each check resolves links on disk and a scan can list a hundred thousand copies.
     @concurrent
     public func excluded(by exclusions: Exclusions) async -> Set<URL> {
-        guard !exclusions.paths.isEmpty else { return [] }
+        guard !exclusions.isEmpty else { return [] }
         let files = groups.flatMap(\.files).map(\.url).filter(exclusions.excludes)
         let folders = folderGroups.flatMap(\.folders).map(\.url).filter {
             exclusions.excludes($0) || exclusions.holds($0)

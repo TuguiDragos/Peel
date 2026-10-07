@@ -37025,108 +37025,108 @@
         }
       }
     },
-    "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. The Storage pages, Plug-ins, and Package Receipts go by files and folders only, so to protect an app’s files there, exclude its folders above as well." : {
+    "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named with an excluded app’s identifier, such as its caches or its container, is left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování. Stránky ve skupině Úložiště i stránky Plug-iny a Záznamy o instalaci se řídí jen soubory a složkami, takže chcete-li tam chránit soubory aplikace, vylučte výše také její složky."
+            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování. Složka pojmenovaná podle identifikátoru vyloučené aplikace, například její mezipaměti nebo kontejner, se nezobrazí na žádné stránce a Peel ji nikdy nepřesune. U ostatních souborů aplikace, například plug-inů nebo složky pojmenované podle jejího názvu, se Peel řídí jen soubory a složkami, takže chcete-li je chránit, vylučte je výše také."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen. Die Seiten der Gruppe „Speicher“ sowie die Seiten „Plug-ins“ und „Paketquittungen“ richten sich nur nach Dateien und Ordnern. Um die Dateien einer App dort zu schützen, schließe also auch ihre Ordner oben aus."
+            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen. Ein Ordner, der nach der ID einer ausgeschlossenen App benannt ist, etwa ihre Caches oder ihr Container, erscheint auf keiner Seite und wird nie verschoben. Bei den übrigen Dateien der App, etwa Plug-ins oder einem nach ihr benannten Ordner, richtet sich Peel nur nach Dateien und Ordnern. Um sie zu schützen, schließe also auch sie oben aus."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas. Las páginas del grupo Almacenamiento, además de Módulos y Recibos de paquetes, solo se fijan en archivos y carpetas, así que, para proteger ahí los archivos de una app, excluye también sus carpetas más arriba."
+            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas. Una carpeta que lleva en su nombre el identificador de una app excluida, como sus cachés o su contenedor, queda fuera de todas las páginas y nunca va a la papelera. Los demás archivos de la app, como los módulos o una carpeta con su nombre, solo se rigen por archivos y carpetas, así que, para protegerlos, exclúyelos también más arriba."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les apps exclues apparaissent toujours dans Applications, mais Peel ne propose pas de les supprimer ni de les réinitialiser. Les pages du groupe Stockage, ainsi que Modules et Reçus de paquets, ne tiennent compte que des fichiers et des dossiers : pour y protéger les fichiers d’une app, excluez aussi ses dossiers ci-dessus."
+            "value" : "Les apps exclues apparaissent toujours dans Applications, mais Peel ne propose pas de les supprimer ni de les réinitialiser. Un dossier nommé d’après l’identifiant d’une app exclue, comme ses caches ou son conteneur, n’apparaît sur aucune page et n’est jamais déplacé. Pour les autres fichiers de l’app, comme ses modules ou un dossier qui porte son nom, seuls comptent les fichiers et les dossiers exclus : pour les protéger, excluez-les aussi ci-dessus."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le app escluse compaiono ancora in Applicazioni, ma Peel non propone di rimuoverle o di reimpostarle. Plugin, “Ricevute dei pacchetti” e le pagine del gruppo Archiviazione si basano solo su file e cartelle, quindi per proteggere lì i file di un’app escludi anche le sue cartelle qui sopra."
+            "value" : "Le app escluse compaiono ancora in Applicazioni, ma Peel non propone di rimuoverle o di reimpostarle. Una cartella che porta nel nome l’identificatore di un’app esclusa, come le sue cache o il suo contenitore, non compare in nessuna pagina e non viene mai spostata. Gli altri file dell’app, come i plugin o una cartella con il suo nome, contano solo come file e cartelle, quindi per proteggerli escludili anche qui sopra."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "除外したアプリも“アプリケーション”には表示されますが、Peelがそれらのゴミ箱への移動やリセットを提案することはありません。“ストレージ”のページ、“プラグイン”、“パッケージレシート”はファイルとフォルダだけを基準にするため、そこでアプリのファイルを保護するには、上でそのアプリのフォルダも除外してください。"
+            "value" : "除外したアプリも“アプリケーション”には表示されますが、Peelがそれらのゴミ箱への移動やリセットを提案することはありません。キャッシュやコンテナなど、除外したアプリの識別子が名前に含まれるフォルダは、どのページにも表示されず、Peelがゴミ箱に入れることも決してありません。プラグインやアプリの名前が付いたフォルダなど、アプリのその他のファイルは、ファイルとフォルダの除外だけが基準になるため、それらを保護するには、上でそれらも除外してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제외된 앱도 응용 프로그램에는 계속 표시되지만, Peel은 해당 앱의 제거나 재설정을 제안하지 않습니다. 저장 공간 페이지, 플러그인, 패키지 수신 정보는 파일과 폴더만을 기준으로 하므로, 그곳에서 앱의 파일을 보호하려면 위에서 해당 앱의 폴더도 제외하십시오."
+            "value" : "제외된 앱도 응용 프로그램에는 계속 표시되지만, Peel은 해당 앱의 제거나 재설정을 제안하지 않습니다. 캐시나 컨테이너처럼 제외된 앱의 식별자로 이름이 지정된 폴더는 어떤 페이지에도 표시되지 않으며 절대 이동되지 않습니다. 플러그인이나 앱 이름을 딴 폴더 등 앱의 다른 파일은 파일과 폴더만을 기준으로 판단되므로, 이를 보호하려면 위에서 해당 항목도 제외하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen. Op de pagina's onder 'Opslag', op 'Plug-ins' en op 'Installatiebewijzen' kijkt Peel alleen naar bestanden en mappen, dus om de bestanden van een app daar te beschermen, sluit je hierboven ook de mappen van die app uit."
+            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen. Een map met de ID van een uitgesloten app in de naam, zoals de caches of de container van die app, wordt op geen enkele pagina getoond en nooit verplaatst. Bij de andere bestanden van de app, zoals plug-ins of een map met de naam van de app, kijkt Peel alleen naar bestanden en mappen, dus om die te beschermen, sluit je ze hierboven ook uit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wykluczone aplikacje nadal są widoczne na stronie Wszystkie aplikacje, ale Peel nie zaproponuje ich odinstalowania ani wyzerowania. Strony z grupy Pamięć masowa, a także strony Wtyczki i Potwierdzenia instalacji, uwzględniają tylko pliki i foldery, więc aby chronić tam pliki aplikacji, wyklucz powyżej także jej foldery."
+            "value" : "Wykluczone aplikacje nadal są widoczne na stronie Wszystkie aplikacje, ale Peel nie zaproponuje ich odinstalowania ani wyzerowania. Folder nazwany identyfikatorem wykluczonej aplikacji, taki jak folder jej pamięci podręcznej lub jej kontener, jest pomijany na każdej stronie i nigdy nie jest przenoszony. Pozostałe pliki aplikacji, takie jak wtyczki czy folder o jej nazwie, są traktowane tylko jako pliki i foldery, więc aby je chronić, wyklucz je także powyżej."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os apps excluídos continuam aparecendo em Aplicativos, mas o Peel não oferece removê-los nem redefini-los. As páginas do grupo Armazenamento, além de Plug-ins e Recibos de Pacotes, consideram apenas arquivos e pastas, então, para proteger os arquivos de um app nessas páginas, adicione também as pastas dele à lista acima."
+            "value" : "Os apps excluídos continuam aparecendo em Aplicativos, mas o Peel não oferece removê-los nem redefini-los. Uma pasta cujo nome é o identificador de um app excluído, como a pasta de caches ou o contêiner dele, fica de fora de todas as páginas e nunca é movida. Os demais arquivos do app, como plug-ins ou uma pasta com o nome dele, contam apenas como arquivos e pastas, então, para protegê-los, adicione-os também à lista acima."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile excluse apar în continuare în pagina Toate aplicațiile, dar Peel nu va propune să le elimine sau să le reseteze. Paginile din grupul Stocare, precum și paginile Plug-inuri și Recipise de pachete, țin cont doar de fișiere și dosare, așa că, pentru a proteja acolo fișierele unei aplicații, excludeți mai sus și dosarele acesteia."
+            "value" : "Aplicațiile excluse apar în continuare în pagina Toate aplicațiile, dar Peel nu va propune să le elimine sau să le reseteze. Un dosar denumit după identificatorul unei aplicații excluse, cum ar fi memoriile tampon sau containerul acesteia, nu apare în nicio pagină și nu este mutat niciodată. Celelalte fișiere ale aplicației, cum ar fi plug-inurile sau un dosar care îi poartă numele, se exclud doar ca fișiere și dosare, așa că, pentru a le proteja, excludeți‑le și pe ele mai sus."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Исключенные приложения по-прежнему отображаются в разделе «Программы», но Peel не предложит их удалить или сбросить. Страницы группы «Хранилище», а также «Плагины» и «Квитанции пакетов» учитывают только файлы и папки, поэтому, чтобы защитить там файлы приложения, исключите выше и его папки."
+            "value" : "Исключенные приложения по-прежнему отображаются в разделе «Программы», но Peel не предложит их удалить или сбросить. Папка, названная по идентификатору исключенного приложения, например папка с его кэшами или его контейнер, не показывается ни на одной странице и никогда не перемещается. Остальные файлы приложения, например плагины или папка, названная его именем, учитываются только как файлы и папки, поэтому, чтобы защитить и их, исключите их выше."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Undantagna appar visas fortfarande på sidan Alla appar, men Peel erbjuder sig inte att ta bort eller nollställa dem. Sidorna under Lagring, liksom Insticksfiler och Paketkvitton, utgår bara från filer och mappar, så om du vill skydda en apps filer där måste du också undanta dess mappar ovan."
+            "value" : "Undantagna appar visas fortfarande på sidan Alla appar, men Peel erbjuder sig inte att ta bort eller nollställa dem. En mapp som har namn efter en undantagen apps identifierare, till exempel dess cachar eller dess behållare, visas inte på någon sida och flyttas aldrig. Appens övriga filer, till exempel insticksfiler eller en mapp som har appens namn, behandlas bara som filer och mappar, så om du vill skydda dem måste du också undanta dem ovan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hariç tutulan uygulamalar Tüm Uygulamalar’da görünmeye devam eder, ancak Peel onları kaldırmayı veya sıfırlamayı önermez. Saklama Alanı sayfaları, Yazılım Ekleri ve Paket Makbuzları yalnızca dosya ve klasörlere bakar; bu yüzden bir uygulamanın dosyalarını orada da korumak için onun klasörlerini yukarıda ayrıca hariç tutun."
+            "value" : "Hariç tutulan uygulamalar Tüm Uygulamalar’da görünmeye devam eder, ancak Peel onları kaldırmayı veya sıfırlamayı önermez. Hariç tutulan bir uygulamanın tanıtıcısıyla adlandırılmış bir klasör, örneğin önbellekleri veya kapsayıcısı, hiçbir sayfada yer almaz ve asla taşınmaz. Uygulamanın yazılım ekleri veya adını taşıyan bir klasör gibi diğer dosyaları yalnızca dosya ve klasör olarak ele alınır; bu yüzden onları korumak için yukarıda ayrıca hariç tutun."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програми з винятків і далі показуються в розділі «Усі програми», але Peel не пропонуватиме їх вилучати чи скидати. Сторінки групи «Сховище», а також «Плагіни» і «Квитанції пакетів» зважають лише на файли й папки, тож, щоб захистити там файли програми, додайте до винятків вище також її папки."
+            "value" : "Програми з винятків і далі показуються в розділі «Усі програми», але Peel не пропонуватиме їх вилучати чи скидати. Папка з ідентифікатором такої програми в назві, як-от її кеші чи контейнер, не показується на жодній сторінці й ніколи не переміщується. На інші файли програми, як-от плагіни чи папку з її назвою, поширюються лише винятки файлів і папок, тож, щоб захистити їх, додайте до винятків вище також їх."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项。“储存空间”下的各个页面、“插件”和“软件包回执”只按文件和文件夹判断，因此若要在那些页面中保护某个App的文件，请同时在上方排除它的文件夹。"
+            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项。以已排除App的标识符命名的文件夹（例如它的缓存或容器）不会出现在任何页面中，也绝不会被移走。该App的其他文件（例如插件或以它的名称命名的文件夹）只按文件和文件夹判断，因此若要保护它们，请同时在上方排除它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已排除的App仍會出現在「應用程式」中，但Peel不會提供移除或重置它們的選項。「儲存空間」中的頁面、「外掛模組」和「套件收據」只依據檔案和檔案夾判斷，因此若要在那裡保護App的檔案，也請在上方排除它的檔案夾。"
+            "value" : "已排除的App仍會出現在「應用程式」中，但Peel不會提供移除或重置它們的選項。以已排除App的識別碼命名的檔案夾（例如它的快取或容器），任何頁面都不會列出，Peel也絕不會移動。App的其他檔案（例如外掛模組，或以App名稱命名的檔案夾）只依據檔案和檔案夾來排除，因此若要保護它們，也請在上方將它們排除。"
           }
         }
       }

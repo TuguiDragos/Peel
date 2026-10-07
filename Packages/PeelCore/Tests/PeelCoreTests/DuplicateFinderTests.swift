@@ -167,6 +167,19 @@ struct DuplicateFinderTests {
         #expect(await result.excluded(by: .none).isEmpty)
     }
 
+    @Test func whatAnAppExcludedAfterTheScanKeepsInItsOwnFolderLeavesIt() async throws {
+        let directory = try TemporaryDirectory()
+        let photo = randomData(count: 4_000)
+        try directory.file("home/Pictures/photo.jpg", contents: photo)
+        try directory.file("home/Documents/org.example.Notes/photo.jpg", contents: photo)
+        let result = try await scan(directory)
+        let kept = try #require(
+            result.groups.flatMap(\.files).first { $0.url.path(percentEncoded: false).contains("org.example.Notes") }
+        ).url
+
+        #expect(await result.excluded(by: Exclusions(bundleIdentifiers: ["org.example.Notes"])) == [kept])
+    }
+
     /// A folder locked by ordinary file permissions is not one Full Disk Access would open, so the scan does not
     /// ask for it. Only macOS's privacy refusal does, and a test cannot stage that.
     @Test(.permissionsHold) func aFolderLockedByPermissionsDoesNotAskForFullDiskAccess() async throws {

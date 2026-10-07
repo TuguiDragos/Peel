@@ -7,11 +7,15 @@ public struct Exclusions: Sendable, Codable, Hashable {
         didSet { spellings = Self.spellings(of: paths) }
     }
 
-    public var bundleIdentifiers: Set<String>
+    public var bundleIdentifiers: Set<String> {
+        didSet { appFolderNames = Self.folderNames(of: bundleIdentifiers) }
+    }
     /// Every way each excluded path can be written, worked out whenever `paths` changes. A scan asks about
     /// every file it meets, and working the spellings out again for each one would cost several `lstat` calls.
     /// Each is kept as its names, since paths are compared name by name.
     private var spellings: [[String]] = []
+    /// The excluded apps' identifiers, lowercase: what sits in a folder of that name is excluded with the app.
+    private var appFolderNames: Set<String> = []
     /// True when the saved list exists but could not be read, so what the user excluded is unknown. Nothing is
     /// moved while this is true.
     public private(set) var isUnreadable = false
@@ -39,7 +43,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
         case bundleIdentifiers
     }
 
-    /// Compares what is excluded. `spellings` is left out, since it is worked out from `paths`.
+    /// Compares what is excluded. `spellings` and `appFolderNames` are left out, since they are worked out.
     public static func == (one: Exclusions, other: Exclusions) -> Bool {
         one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers
             && one.isUnreadable == other.isUnreadable
@@ -71,6 +75,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
         )
         self.bundleIdentifiers = bundleIdentifiers
         spellings = Self.spellings(of: self.paths)
+        appFolderNames = Self.folderNames(of: bundleIdentifiers)
     }
 
     public init(from decoder: any Decoder) throws {
@@ -109,7 +114,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// combining mark after it are one `Character`, so a name beginning with the mark would never read as
     /// inside its folder to a comparison of characters.
     public func excludes(_ url: URL) -> Bool {
-        guard !spellings.isEmpty else { return false }
+        guard !spellings.isEmpty || !appFolderNames.isEmpty else { return false }
         return excludes(spellings: Self.spellings(of: url))
     }
 
@@ -117,14 +122,14 @@ public struct Exclusions: Sendable, Codable, Hashable {
     func excludes(spellings asked: Set<String>) -> Bool {
         asked.contains { path in
             let names = PathComponents.of(path)
-            return spellings.contains { names.starts(with: $0) }
+            return spellings.contains { names.starts(with: $0) } || names.contains(where: appFolderNames.contains)
         }
     }
 
     /// True when something excluded sits inside `url`, so moving `url` would take it along.
     public func holds(_ url: URL) -> Bool {
-        guard !spellings.isEmpty else { return false }
-        return holds(spellings: Self.spellings(of: url))
+        guard !spellings.isEmpty || !appFolderNames.isEmpty else { return false }
+        return holds(spellings: Self.spellings(of: url)) || !appFolders(inside: url).isEmpty
     }
 
     /// `holds(_:)` for a path whose spellings are already worked out.
@@ -135,6 +140,19 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
+    /// The excluded apps' folders a level or two inside `folder`. It reads the disk.
+    func appFolders(inside folder: URL) -> [URL] {
+        guard !appFolderNames.isEmpty else { return [] }
+        let list = { (folder: URL) in
+            (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+        }
+        return list(folder).flatMap { child in
+            if appFolderNames.contains(child.lastPathComponent.lowercased()) { return [child] }
+            guard child.isRealFolder else { return [] }
+            return list(child).filter { appFolderNames.contains($0.lastPathComponent.lowercased()) }
+        }
+    }
+
     /// The excluded places inside `url`, leaving out one inside another, so what they hold is counted once.
     public func places(inside url: URL) -> [URL] {
         let asked = Self.spellings(of: url).map(PathComponents.of)
@@ -142,7 +160,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
             Self.spellings(of: path).map(PathComponents.of).contains { names in
                 asked.contains { names.count > $0.count && names.starts(with: $0) }
             }
-        }
+        } + appFolders(inside: url)
         return inside.filter { place in !inside.contains { $0 != place && Exclusions(paths: [$0]).excludes(place) } }
     }
 
@@ -158,14 +176,20 @@ public struct Exclusions: Sendable, Codable, Hashable {
         paths.flatMap { spellings(of: $0) }.map(PathComponents.of).filter { !$0.isEmpty }
     }
 
+    /// Lowercase, as the disk compares names. A single word is too common to say whose a folder is.
+    private static func folderNames(of identifiers: Set<String>) -> Set<String> {
+        Set(identifiers.filter(Identifier.isValid).map { $0.lowercased() })
+    }
+
     /// What on the list excludes an item: the app's identifier and the entries for the item itself, which taking off
-    /// the list includes it again, and the excluded folders around it, which hold other things too.
+    /// the list includes it again, and the excluded folders and apps' folders around it, which hold other things too.
     public struct Reasons: Sendable, Hashable {
         public let identifier: String?
         public let paths: [URL]
         public let folders: [URL]
+        public let apps: [String]
 
-        public var isEmpty: Bool { identifier == nil && paths.isEmpty && folders.isEmpty }
+        public var isEmpty: Bool { identifier == nil && paths.isEmpty && folders.isEmpty && apps.isEmpty }
     }
 
     /// `app` is the identifier of the app the item is, when it is one.
@@ -179,6 +203,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
                 Self.spellings(of: entry).map(PathComponents.of).contains { folder in
                     asked.contains { $0.count > folder.count && $0.starts(with: folder) }
                 }
+            },
+            apps: bundleIdentifiers.sorted().filter { identifier in
+                let name = identifier.lowercased()
+                return appFolderNames.contains(name) && asked.contains { $0.contains(name) }
             }
         )
     }
@@ -223,7 +251,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     }
 
     public func keeping<T>(_ items: [T], url: (T) -> URL) -> [T] {
-        guard !paths.isEmpty else { return items }
+        guard !isEmpty else { return items }
         return items.filter { !excludes(url($0)) }
     }
 }
