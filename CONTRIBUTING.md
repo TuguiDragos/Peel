@@ -297,4 +297,5 @@ sold and has no paid edition, so there is no separate commercial license for you
 Sign off your commits with `git commit -s`. That is the [Developer Certificate of
 Origin](https://developercertificate.org/): you are saying the contribution is yours to give, under the same
 license as the rest of Peel. There is no copyright assignment and no agreement to sign, because nothing here will
-ever be relicensed out from under you.
+ever be relicensed out from under you. The Checks workflow checks every commit of a pull request for a sign-off by
+its author.
