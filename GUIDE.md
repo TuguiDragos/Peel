@@ -166,9 +166,11 @@ that stops the shell from saving its sessions.
 It sets up the command line as well. Choose a prompt, or keep the one macOS sets, and turn on settings zsh, Git, and
 ssh already have, each with a switch: a longer history shared between windows, Up and Down that find what you started
 typing, Tab completion with a menu, rebase when pulling, and connections that stay alive. Peel writes them to files of
-its own, which zsh reads through a line you add and ssh through two, and changes Git's with `git config`, so Turn All
-Off puts everything back. The Tools tab suggests command-line tools worth having, with the Homebrew command and the
-lines to add. [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what each one writes.
+its own, which zsh reads through a line you add and ssh through two, and changes Git's with `git config`. Turning a
+Git setting off puts back what you had before Peel set it, and one you set yourself goes back to Git's default. Turn
+All Off undoes what Peel set on each tab, and on the Git tab also what you set yourself. The Tools tab suggests
+command-line tools worth having, with the Homebrew command and the lines to add. [TERMINAL.md](TERMINAL.md) shows
+every theme and every setting, with what each one writes.
 
 ## Stay in control
 
