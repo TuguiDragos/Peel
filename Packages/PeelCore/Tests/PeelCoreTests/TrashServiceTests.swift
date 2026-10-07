@@ -41,8 +41,9 @@ struct TrashServiceTests {
     private actor Stopped {
         private(set) var labels: [String] = []
 
-        func record(_ jobs: [LaunchdCleanup.Job]) {
+        func record(_ jobs: [LaunchdCleanup.Job]) -> [LaunchdCleanup.Job] {
             labels += jobs.map(\.label)
+            return jobs
         }
     }
 
@@ -161,6 +162,7 @@ struct TrashServiceTests {
 
         #expect(result.trashed.map(\.originalURL) == [moved])
         #expect(await stopped.labels == ["com.example.moved"])
+        #expect(result.trashed.map(\.stoppedJob) == ["com.example.moved"])
     }
 
     /// An item that needs the helper but was not selected stays in place, and its job keeps running.
@@ -176,7 +178,61 @@ struct TrashServiceTests {
 
         #expect(result.trashed.map(\.originalURL) == [selected])
         #expect(await stopped.labels == ["com.example.selected"])
+        #expect(result.trashed.map(\.stoppedJob) == ["com.example.selected"])
         #expect(FileManager.default.fileExists(atPath: unselected.path(percentEncoded: false)))
+    }
+
+    @Test func puttingBackTheFileOfAJobPeelStoppedStartsItAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let running = try launchdPlist("home/Library/LaunchAgents/org.example.running.plist", in: directory)
+        let idle = try launchdPlist("home/Library/LaunchAgents/org.example.idle.plist", in: directory)
+        let started = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            stopJobs: { jobs, _ in jobs.filter { $0.label == "org.example.running" } },
+            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            moveToTrash: { url in
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+        )
+
+        let result = await service.trash([running, idle])
+        #expect(started.withLock { $0 }.isEmpty)
+        for item in result.trashed {
+            let record = RemovalRecord(batch: UUID(), item: item, size: nil, source: "Example", tool: "test")
+            let read = try JSONDecoder().decode(RemovalRecord.self, from: JSONEncoder().encode(record))
+            #expect(await service.restore(read.trashedItem) == nil)
+        }
+
+        #expect(started.withLock { $0 } == ["org.example.running"], "the job Peel stopped was not started again")
+        #expect(running.isThere && idle.isThere)
+    }
+
+    @Test func aJobIsStartedAgainOnlyAsTheFilePutBackDeclaresIt() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let plist = try launchdPlist("home/Library/LaunchAgents/org.example.agent.plist", in: directory)
+        let trashed = trash.appending(path: plist.lastPathComponent)
+        try FileManager.default.moveItem(at: plist, to: trashed)
+        let started = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            moveToTrash: { $0 }
+        )
+
+        let edited = TrashedItem(originalURL: plist, trashedURL: trashed, date: .now, stoppedJob: "org.example.other")
+        #expect(await service.restore(edited) == nil)
+        #expect(started.withLock { $0 }.isEmpty, "a label History named, and the file does not declare, was started")
     }
 
     /// The guard and the exclusions decide before any job is stopped. What they keep is never moved, so its job

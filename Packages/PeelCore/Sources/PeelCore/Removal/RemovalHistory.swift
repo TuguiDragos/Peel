@@ -19,6 +19,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// A key for a source Peel names itself (a tool, a Space area, a kind of installer, or a count of apps), so
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
+    public let stoppedJob: String?
 
     public init(
         id: UUID = UUID(),
@@ -39,6 +40,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         self.source = source
         self.sourceKey = sourceKey
         self.tool = tool
+        stoppedJob = item.stoppedJob
     }
 
     /// Reads a negative size as zero, since any process of the user can rewrite the History file.
@@ -54,10 +56,13 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         source = try container.decode(String.self, forKey: .source)
         tool = try container.decode(String.self, forKey: .tool)
         sourceKey = try container.decodeIfPresent(String.self, forKey: .sourceKey)
+        stoppedJob = try container.decodeIfPresent(String.self, forKey: .stoppedJob)
     }
 
     public var trashedItem: TrashedItem {
-        TrashedItem(originalURL: originalURL, trashedURL: trashedURL, date: date, identity: identity)
+        TrashedItem(
+            originalURL: originalURL, trashedURL: trashedURL, date: date, identity: identity, stoppedJob: stoppedJob
+        )
     }
 
     public var isStillInTrash: Bool {

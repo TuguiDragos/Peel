@@ -9,16 +9,29 @@ enum LaunchdCleanup {
         let plist: URL
     }
 
-    /// Stops jobs whose configuration has gone, so launchd doesn't keep them running or restart them.
+    /// Stops jobs whose configuration has gone, so launchd doesn't keep them running or restart them, and answers
+    /// those it stopped: a job launchd did not have is not one.
     @concurrent
-    static func stop(_ jobs: [Job], canUseHelper: Bool) async {
+    static func stop(_ jobs: [Job], canUseHelper: Bool) async -> [Job] {
+        var stopped: [Job] = []
         for job in jobs {
             if job.isDaemon {
                 guard canUseHelper, PrivilegedHelper.status == .enabled else { continue }
-                _ = await PrivilegedHelper.runDaemonCommand(.bootout, label: job.label)
-            } else {
-                _ = await Launchctl.run(["bootout", "gui/\(getuid())/\(job.label)"])
+                if await PrivilegedHelper.runDaemonCommand(.bootout, label: job.label) == nil { stopped.append(job) }
+            } else if await Launchctl.run(["bootout", "gui/\(getuid())/\(job.label)"]).status == 0 {
+                stopped.append(job)
             }
+        }
+        return stopped
+    }
+
+    @concurrent
+    static func start(_ job: Job, canUseHelper: Bool) async {
+        if job.isDaemon {
+            guard canUseHelper, PrivilegedHelper.status == .enabled else { return }
+            _ = await PrivilegedHelper.runDaemonCommand(.bootstrap, label: job.label)
+        } else {
+            _ = await Launchctl.run(["bootstrap", "gui/\(getuid())", job.plist.path(percentEncoded: false)])
         }
     }
 

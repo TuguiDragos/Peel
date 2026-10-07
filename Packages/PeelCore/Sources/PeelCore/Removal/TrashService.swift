@@ -8,6 +8,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
     /// Which item went to the Trash, read there as it landed, so an item that lands in the same place once the Trash
     /// is emptied is never taken for it. Nil in what was recorded before Peel kept it.
     public let identity: Identity?
+    /// The launchd job Peel stopped once this file moved, by its label, which putting the file back starts again.
+    public internal(set) var stoppedJob: String?
 
     /// An item as its volume knows it: its inode and when it was made, which a move within the volume keeps. The
     /// volume's device number is left out, since it follows the order volumes are mounted in.
@@ -27,11 +29,12 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         }
     }
 
-    init(originalURL: URL, trashedURL: URL, date: Date, identity: Identity? = nil) {
+    init(originalURL: URL, trashedURL: URL, date: Date, identity: Identity? = nil, stoppedJob: String? = nil) {
         self.originalURL = originalURL
         self.trashedURL = trashedURL
         self.date = date
         self.identity = identity
+        self.stoppedJob = stoppedJob
     }
 
     /// Where the item stands now, as the disk says.
@@ -171,10 +174,21 @@ public struct TrashResult: Sendable {
         self.trashed = trashed
         self.failures = failures
     }
+
+    /// Marks each item whose move stopped the job it declares.
+    mutating func note(_ stopped: [LaunchdCleanup.Job]) {
+        for job in stopped {
+            for index in trashed.indices where trashed[index].originalURL == job.plist {
+                trashed[index].stoppedJob = job.label
+            }
+        }
+    }
 }
 
 public struct TrashService: Sendable {
-    typealias StopJobs = @Sendable ([LaunchdCleanup.Job], _ canUseHelper: Bool) async -> Void
+    /// Answers the jobs it stopped.
+    typealias StopJobs = @Sendable ([LaunchdCleanup.Job], _ canUseHelper: Bool) async -> [LaunchdCleanup.Job]
+    typealias StartJob = @Sendable (LaunchdCleanup.Job, _ canUseHelper: Bool) async -> Void
     typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
     typealias PutBackDockTiles = @Sendable (URL) async -> Void
@@ -182,6 +196,7 @@ public struct TrashService: Sendable {
     let environment: SearchEnvironment
     private let removalGuard: RemovalGuard
     private let stopJobs: StopJobs
+    private let startJob: StartJob
     private let forgetDomains: ForgetDomains
     private let moveThroughHelper: MoveThroughHelper
     private let putBackDockTiles: PutBackDockTiles
@@ -196,6 +211,7 @@ public struct TrashService: Sendable {
             environment: environment,
             removalGuard: removalGuard,
             stopJobs: LaunchdCleanup.stop,
+            startJob: LaunchdCleanup.start,
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
             moveThroughHelper: Self.moveThroughTheHelper,
             putBackDockTiles: { await DockTiles().putBack($0) },
@@ -205,12 +221,13 @@ public struct TrashService: Sendable {
         )
     }
 
-    /// For tests. Unless a test passes its own, it stops no launchd job, forgets no preference domain, acts as if
-    /// there were no helper, changes no Dock, and writes no journal.
+    /// For tests. Unless a test passes its own, it stops and starts no launchd job, forgets no preference domain, acts
+    /// as if there were no helper, changes no Dock, and writes no journal.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
-        stopJobs: @escaping StopJobs = { _, _ in },
+        stopJobs: @escaping StopJobs = { _, _ in [] },
+        startJob: @escaping StartJob = { _, _ in },
         forgetDomains: @escaping ForgetDomains = { _, _ in },
         moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
         putBackDockTiles: @escaping PutBackDockTiles = { _ in },
@@ -222,6 +239,7 @@ public struct TrashService: Sendable {
             environment: environment,
             removalGuard: RemovalGuard(environment: environment, exclusions: exclusions),
             stopJobs: stopJobs,
+            startJob: startJob,
             forgetDomains: forgetDomains,
             moveThroughHelper: moveThroughHelper,
             putBackDockTiles: putBackDockTiles,
@@ -235,6 +253,7 @@ public struct TrashService: Sendable {
         environment: SearchEnvironment,
         removalGuard: RemovalGuard,
         stopJobs: @escaping StopJobs,
+        startJob: @escaping StartJob,
         forgetDomains: @escaping ForgetDomains,
         moveThroughHelper: @escaping MoveThroughHelper,
         putBackDockTiles: @escaping PutBackDockTiles,
@@ -245,6 +264,7 @@ public struct TrashService: Sendable {
         self.environment = environment
         self.removalGuard = removalGuard
         self.stopJobs = stopJobs
+        self.startJob = startJob
         self.forgetDomains = forgetDomains
         self.moveThroughHelper = moveThroughHelper
         self.putBackDockTiles = putBackDockTiles
@@ -360,7 +380,7 @@ public struct TrashService: Sendable {
             }
         }
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
-        await finish(result, stopping: jobs, canUseHelper: false, owner: owner)
+        result.note(await finish(result, stopping: jobs, canUseHelper: false, owner: owner))
         return result
     }
 
@@ -449,22 +469,23 @@ public struct TrashService: Sendable {
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
         result.trashed += helperResult.trashed
         result.failures += helperResult.failures
-        await finish(helperResult, stopping: jobs, canUseHelper: true, owner: nil)
+        result.note(await finish(helperResult, stopping: jobs, canUseHelper: true, owner: nil))
         return result
     }
 
-    /// Stops the jobs and forgets the preference domains of what really moved. It runs after the move: a job
-    /// stopped before a move that fails would stay stopped with its file in place, and cfprefsd would forget
-    /// settings that are still on disk.
+    /// Stops the jobs and forgets the preference domains of what really moved, and answers the jobs it stopped. It
+    /// runs after the move: a job stopped before a move that fails would stay stopped with its file in place, and
+    /// cfprefsd would forget settings that are still on disk.
     private func finish(
         _ result: TrashResult,
         stopping jobs: [LaunchdCleanup.Job],
         canUseHelper: Bool,
         owner: String?
-    ) async {
+    ) async -> [LaunchdCleanup.Job] {
         let moved = result.trashed.map(\.originalURL)
-        await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
+        let stopped = await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
         await forgetDomains(moved, owner)
+        return stopped
     }
 
     /// Moves `urls` through the helper. When the helper is not enabled, nothing moves and every item fails with
@@ -485,6 +506,13 @@ public struct TrashService: Sendable {
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         if failure == nil {
             await putBackDockTiles(item.originalURL)
+            // The label comes from History, which any process of the user can rewrite, so the job starts only as the
+            // file now back in place declares it.
+            if let label = item.stoppedJob,
+               let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
+               job.label == label {
+                await startJob(job, canUseHelper)
+            }
         }
         return failure
     }

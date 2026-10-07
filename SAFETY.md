@@ -85,9 +85,9 @@ behalf, and never for the global domain under any of its names.
 
 The other two follow what really moved too. launchd is told to stop the jobs whose files went
 (`launchctl bootout`), or it would keep them running and start them again; putting a file back from History
-lets launchd load its job again at the next login, or at the next restart for a daemon. And an uninstalled
-app's icon is taken out of the Dock, unless you deselect it, which restarts the Dock; putting the app back
-puts its icon back where it was.
+starts again the job Peel stopped, as the file back in place declares it (a daemon through the helper), and a job
+that was not running stays as it was. And an uninstalled app's icon is taken out of the Dock, unless you deselect
+it, which restarts the Dock; putting the app back puts its icon back where it was.
 
 **The check is not a string comparison.** A disk is case-insensitive unless you went out of your way, so
 `~/Library/mobile documents` is the same folder as `~/Library/Mobile Documents`; `/var` and `/private/var`
@@ -188,7 +188,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | What Peel changes | How it is undone |
 | --- | --- |
 | A preference domain is forgotten (`defaults delete`) once its file is in the Trash | Putting the file back from History, as described above |
-| A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History; launchd loads the job again at the next login, or at the next restart for a daemon |
+| A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History, which starts the job again (`launchctl bootstrap`, a daemon through the helper) |
 | An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was |
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
 | Homebrew uninstalls a package or cleans up its downloads | Can't be undone: Homebrew deletes what it removes |
