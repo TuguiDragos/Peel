@@ -61,8 +61,10 @@ struct DuplicateScanForm: View {
             .padding([.horizontal, .bottom], 20)
         }
         .frame(width: 420)
-        // The popover grows with the folders listed up to this height, and the list scrolls past it.
+        // The popover grows with the folders listed up to this height, and the list scrolls past it. `fixedSize`
+        // makes it shrink when a folder is removed: a frame with only a maximum keeps any larger height it is offered.
         .frame(maxHeight: 460)
+        .fixedSize(horizontal: false, vertical: true)
         .fileImporter(
             isPresented: $isChoosingFolders,
             allowedContentTypes: [.folder],

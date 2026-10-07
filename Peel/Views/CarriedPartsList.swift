@@ -11,13 +11,14 @@ struct CarriedPartsList: View {
     let page: CarriedSelection.Page
 
     var body: some View {
-        // As tall as its rows up to the ceiling Duplicates' scan settings keep, and scrolling past it.
-        ViewThatFits(in: .vertical) {
-            rows
-            ScrollView { rows }
-        }
-        .frame(width: 340)
-        .frame(maxHeight: 460)
+        // As tall as its rows up to the ceiling Duplicates' scan settings keep, and scrolling past it. `fixedSize`
+        // makes the popover shrink when a page is deselected: a frame with only a maximum keeps any larger height
+        // it is offered.
+        ScrollView { rows }
+            .scrollBounceBehavior(.basedOnSize)
+            .frame(width: 340)
+            .frame(maxHeight: 460)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     private var rows: some View {
