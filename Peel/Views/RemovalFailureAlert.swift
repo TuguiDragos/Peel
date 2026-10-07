@@ -47,8 +47,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private var message: String {
-        var lines = quitLines + outcome.failures.prefix(Self.mostListed).map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
-        let rest = outcome.failures.count - lines.count
+        let listed = outcome.failures.prefix(Self.mostListed)
+        var lines = quitLines + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+        let rest = outcome.failures.count - listed.count
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
