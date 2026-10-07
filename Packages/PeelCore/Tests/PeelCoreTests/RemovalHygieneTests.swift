@@ -76,6 +76,17 @@ struct RemovalHygieneTests {
         ])
     }
 
+    @Test func neverForgetsTheRunningAppsOwnDomain() {
+        let urls = [
+            URL(filePath: "/Users/x/Library/Preferences/com.tuguidragos.Peel.plist"),
+            URL(filePath: "/Users/x/Library/Preferences/com.example.app.plist"),
+        ]
+
+        #expect(PreferenceCleanup.domains(for: urls, home: home, host: host, running: "com.tuguidragos.Peel") == [
+            PreferenceCleanup.Domain(name: "com.example.app", isByHost: false),
+        ])
+    }
+
     /// `-currentHost` means the Mac Peel runs on, so a ByHost file another Mac left names no domain.
     @Test func forgetsNothingForAByHostFileFromAnotherMac() {
         let urls = [

@@ -96,7 +96,8 @@ enum PreferenceCleanup {
         for urls: [URL],
         ownedBy owner: String? = nil,
         home: URL = .homeDirectory,
-        host: String = PreferenceCleanup.hostIdentifier
+        host: String = PreferenceCleanup.hostIdentifier,
+        running: String? = Bundle.main.bundleIdentifier
     ) -> [Domain] {
         // Only the user's `Library/Preferences` and its `ByHost` folder, plus the settings file in the container
         // of the app being reset. `defaults` reads a name as this user's domain, so a file from
@@ -119,6 +120,9 @@ enum PreferenceCleanup {
                     || isTheSettingsFile(name, in: parent, ofTheAppBeingReset: owner, home: home)
             else { return nil }
             guard isUsableName(name) else { return nil }
+            // Never the running app's own, as when Peel removes itself: while it runs, `defaults delete` makes
+            // cfprefsd write the domain back as an empty file.
+            guard running.map({ name.caseInsensitiveCompare($0) != .orderedSame }) ?? true else { return nil }
             // A ByHost file is named `<domain>.<host UUID>.plist`. `-currentHost` always means the current Mac, so
             // a file another Mac left behind names no domain here.
             let fileHost = url.lastPathComponent.removingSuffix(".plist").dropFirst(name.count + 1)
