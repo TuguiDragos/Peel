@@ -372,8 +372,8 @@ and it fails closed.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
   of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
   PrivilegedHelperTools, and StartupItems) and the 22 that hold plug-ins; the installer receipts in
-  `/private/var/db/receipts`; the links in `/usr/local/bin` and `/usr/local/sbin`; and the Library of the
-  administrator who asks.
+  `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
+  `/usr/local` that shell completions are linked into; and the Library of the administrator who asks.
 - It takes at most 100 items in one request, and quits 30 seconds after its last request ends, so it isn't
   left running.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
