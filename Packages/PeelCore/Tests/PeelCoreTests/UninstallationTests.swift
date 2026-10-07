@@ -154,6 +154,29 @@ struct UninstallationTests {
         #expect(bulk.suggestedSelection(canUseHelper: true).isSuperset(of: [app.url, own.url, shared.url, other.url]))
     }
 
+    @Test func removePeelTakesItsFilesWhateverOtherCopyOfPeelIsKnown() {
+        let peel = InstalledApp(url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: "com.tuguidragos.Peel", name: "Peel")
+        func file(_ name: String, sharedWith apps: [String] = [], heldBack: HoldBack? = nil) -> Leftover {
+            Leftover(
+                url: URL(filePath: "/Users/me/Library/Preferences/\(name)"),
+                kind: .preferences,
+                match: LeftoverMatch(
+                    reason: .bundleIdentifier, confidence: .certain, sharedWith: apps,
+                    otherCopies: [URL(filePath: "/Volumes/Peel/Peel.app")], heldBack: heldBack
+                ),
+                size: 1_000,
+                isMeasured: true,
+                requiresPrivileges: false
+            )
+        }
+        let settings = file("com.tuguidragos.Peel.plist")
+        let shared = file("com.tuguidragos.shared.plist", sharedWith: ["com.example.other"])
+        let container = file("com.tuguidragos.Peel.box", heldBack: .holdsDocuments)
+        let plan = uninstallation(app: peel, leftovers: [settings, shared, container])
+
+        #expect(plan.unreviewedSelection == [peel.url, settings.url])
+    }
+
     /// Peel is removed only from its own Settings, where its helper and login item go first. Its page lists its
     /// files, but nothing of it can be selected or moved there, alone or among other apps. Remove Peel still takes
     /// what is certainly its own.

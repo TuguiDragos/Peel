@@ -279,19 +279,21 @@ public struct Uninstallation: Sendable {
         return urls
     }
 
-    /// What moves when nobody reviews the list, as when Peel removes itself: the app, plus the recommended
-    /// leftovers that need no helper and are certainly its own or named inside its bundle identifier (a
-    /// namespace only its maker uses). Empty when the app is excluded, kept by macOS, part of another package, or
-    /// needs the helper: then nothing should start.
+    /// What moves when nobody reviews the list, as when Peel removes itself: the app, plus the leftovers that no
+    /// other app shares, nothing holds back, need no helper, and are certainly its own or named inside its bundle
+    /// identifier (a namespace only its maker uses). Another copy of the app keeps nothing here, since removing
+    /// Peel clears its settings. Empty when the app is excluded, kept by macOS, part of another package, or needs
+    /// the helper: then nothing should start.
     public var unreviewedSelection: [URL] {
         guard !isExcluded, !app.isSystemProtected, app.enclosingPackage == nil, !appRequiresPrivileges else {
             return []
         }
         let namespace = app.bundleIdentifier.lowercased() + "."
         let own = scan.leftovers.filter { leftover in
-            leftover.match.isRecommended && !leftover.requiresPrivileges
-                && (leftover.match.confidence == .certain
-                    || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
+            let match = leftover.match
+            return match.sharedWith.isEmpty && match.heldBack == nil && match.confidence >= .likely
+                && !leftover.requiresPrivileges
+                && (match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
         }
         return order(of: Set(own.map(\.url)).union([app.url]))
     }
