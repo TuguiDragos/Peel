@@ -16,10 +16,16 @@ final class AccessibilityAuditTests: XCTestCase {
 
     /// Every page, in the order of the View menu, which is the sidebar's.
     private static let pages = [
-        "Home", "Tweaks", "History",
+        "Home", "Tweaks", "Terminal", "History",
         "Applications", "Orphaned Files", "Intel Software", "Package Receipts", "Homebrew",
         "Space", "Developer", "Build Artifacts", "Installers and Backups", "Duplicates", "iCloud Drive", "File Search",
         "Background Items", "Extensions", "Plug-ins",
+    ]
+
+    /// The tabs of the pages that have them, each audited on its own.
+    private static let tabs = [
+        "Tweaks": ["Dock", "Screenshots", "Finder", "Typing", "Windows", "Privacy"],
+        "Terminal": ["Themes", "Terminal", "Shell", "Git", "SSH", "Tools"],
     ]
 
     private static let settingsPanes = ["General", "Exclusions", "Privacy", "Helper"]
@@ -51,7 +57,14 @@ final class AccessibilityAuditTests: XCTestCase {
         for page in Self.pages {
             choose(page, inMenu: "View", of: app)
             waitForTheScan(of: page, in: app)
-            audit(page, appearance: appearance, of: app)
+            guard let tabs = Self.tabs[page] else {
+                audit(page, appearance: appearance, of: app)
+                continue
+            }
+            for tab in tabs {
+                app.radioButtons[tab].firstMatch.click()
+                audit("\(page), \(tab)", appearance: appearance, of: app)
+            }
         }
 
         choose("About Peel", inMenu: "Peel", of: app)
