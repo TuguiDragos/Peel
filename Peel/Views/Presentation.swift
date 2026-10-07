@@ -149,7 +149,7 @@ extension TrashFailure.Reason {
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.")
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.")
         case .heldOpen(let processes):
-            String(localized: "Files in it are still open in \(processes.formatted(.list(type: .and))), so Peel left it where it is.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

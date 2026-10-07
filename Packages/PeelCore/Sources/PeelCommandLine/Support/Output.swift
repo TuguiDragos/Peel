@@ -401,7 +401,7 @@ extension TrashFailure.Reason {
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
         case .heldOpen(let processes):
-            "files in it are still open in \(processes.map(Output.plain).joined(separator: ", "))"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit \(processes.count == 1 ? "it" : "them") and try again"
         case .failed(let message): Output.plain(message)
         }
     }

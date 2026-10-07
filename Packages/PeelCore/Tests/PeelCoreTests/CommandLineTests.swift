@@ -783,6 +783,12 @@ struct CommandLineTests {
         #expect(command.resetPrivacy)
     }
 
+    /// A refusal for a program using the item says what to quit before trying again.
+    @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuit() {
+        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it and try again")
+        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them and try again")
+    }
+
     /// The line printed about the privacy reset after the move, and whether it makes the command fail.
     @Test func saysWhatCameOfThePrivacyReset() {
         let editor = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
