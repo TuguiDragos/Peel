@@ -50,7 +50,9 @@ though not what is inside them:
 `/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`, `/Volumes`, `/opt`, `/private` and its `var`,
 `tmp`, and `etc`, `/cores`, your home folder, and every folder Peel searches, such as `~/Library/Caches`, which
 is looked inside and never moved whole. Anything System Integrity Protection guards, which macOS marks as
-restricted, is refused as well.
+restricted, is refused as well, and so is anything macOS marks so that nothing can remove or rename it, such as
+the private folders it makes in your temporary folder for the processes it runs in a sandbox; Peel doesn't list
+those.
 
 Everywhere on the Mac: `/Library/Keychains`, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,
 `.musiclibrary`, `.tvlibrary`, `.imovielibrary`, `.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or

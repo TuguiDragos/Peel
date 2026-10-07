@@ -171,8 +171,11 @@ struct RemovalGuard: Sendable {
             // A sandboxed app's own documents sit inside its container, beside the settings.
             guard !ProtectedData.isInAContainersDocuments(spelling) else { return .protectedLocation }
         }
+        // System Integrity Protection guards an item marked restricted, and nothing may remove or rename one marked
+        // no-unlink (`sys/stat.h`).
         var info = stat()
-        guard lstat(path, &info) != 0 || info.st_flags & UInt32(SF_RESTRICTED) == 0 else { return .protectedLocation }
+        let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_NOUNLINK)
+        guard lstat(path, &info) != 0 || info.st_flags & protectedFlags == 0 else { return .protectedLocation }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         for name in names {

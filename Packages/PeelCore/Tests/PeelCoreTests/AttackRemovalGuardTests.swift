@@ -90,6 +90,22 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    @Test func whatMacOSMarkedSoNothingRemovesItIsRefused() throws {
+        let temporary = try #require(SearchEnvironment.current.userTemporaryDirectory)
+        let entries = try FileManager.default.contentsOfDirectory(at: temporary, includingPropertiesForKeys: nil)
+        let marked = try #require(entries.first(where: FileAccess.cannotBeRemoved), "nothing in \(temporary.path())")
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        let plain = try directory.directory("plain")
+
+        #expect(!FileAccess.cannotBeRemoved(plain))
+        #expect(guardian.refusal(of: marked) == .protectedLocation, "\(marked.lastPathComponent)")
+        #expect(guardian.refusal(of: plain) == nil)
+    }
+
     /// Attack 1: write the protected folder in a different case. APFS is case-insensitive by default, so the
     /// path still names the same file, and comparing strings must not miss it.
     @Test func everySpellingOfAPathIsAsked() {

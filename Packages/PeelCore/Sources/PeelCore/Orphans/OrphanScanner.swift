@@ -394,7 +394,7 @@ public struct OrphanScanner: Sendable {
         for name in entries where location.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
-            guard isAFileAFolderOrALink(url) else { continue }
+            guard isAFileAFolderOrALink(url), !FileAccess.cannotBeRemoved(url) else { continue }
             // What the guard refuses outright is never listed, whether an installed app claims it or not.
             guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
             var namedAfter: String?

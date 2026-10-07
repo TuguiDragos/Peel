@@ -205,7 +205,9 @@ public struct LeftoverScanner: Sendable {
             let path = url.path(percentEncoded: false)
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle),
                !isSharedWithTheWholeMac(url, home: home) {
-                guard !refuses(path, home), !exclusions.excludes(url) else { continue }
+                guard !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) else {
+                    continue
+                }
                 toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
             } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
                       !exclusions.excludes(url) {
