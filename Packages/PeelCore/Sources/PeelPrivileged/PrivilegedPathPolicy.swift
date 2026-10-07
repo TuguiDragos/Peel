@@ -128,6 +128,11 @@ public struct PrivilegedPathPolicy: Sendable {
 
         let parent = "/" + components.dropLast().joined(separator: "/")
         guard let resolvedParent = Self.realPath(parent) else { return .failure(.unresolvableParent) }
+        return judge(name, in: resolvedParent, locations: locations)
+    }
+
+    /// The checks on `name` in a folder named with no link left in its path, as `realpath` or the kernel names it.
+    private func judge(_ name: String, in resolvedParent: String, locations: [String]) -> Result<Resolved, Rejection> {
         let resolved = (resolvedParent == "/" ? "" : resolvedParent) + "/" + name
         guard
             !ProtectedData.refuses(resolved, home: homeDirectory),
@@ -163,35 +168,32 @@ public struct PrivilegedPathPolicy: Sendable {
         return nil
     }
 
-    /// Checks `path` and opens it through a descriptor on its parent. `refusal(of:)` answers about a name,
-    /// which can stop being true as soon as it returns. This holds the parent directory itself, and the move
-    /// that follows goes through the same descriptor, so nothing swapped in afterwards is ever reached.
+    /// Checks `path`, opens its folder, and checks the item again there, as the kernel names that folder. The move
+    /// goes through the same descriptor and moves only the item whose identity was read here.
     public func open(_ path: String) -> Result<OpenItem, Rejection> {
-        switch resolve(path, in: locations) {
-        case .failure(let rejection):
-            return .failure(rejection)
-        case .success(let item):
-            let parent: DirectoryHandle
-            switch DirectoryHandle.at(canonical: item.parent) {
-            case .success(let opened): parent = opened
-            case .failure(let error): return .failure(Rejection(openingFolderFailedWith: error))
-            }
+        open(path, beforeOpening: {})
+    }
+
+    func open(_ path: String, beforeOpening: () -> Void) -> Result<OpenItem, Rejection> {
+        openFolder(of: path, beforeOpening: beforeOpening).flatMap { name, parent in
             var info = stat()
-            guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
+            guard name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
                 return .failure(.missing)
             }
-            guard info.st_flags & Self.protectedFlags == 0 else { return .failure(.protectedByFlags) }
-            if links.contains(item.parent) {
-                guard info.st_mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
-                // Followed this time: nothing there, or a chain that loops, is a link that leads nowhere.
-                var target = stat()
-                let leads = item.name.withCString { fstatat(parent.descriptor, $0, &target, 0) } == 0
-                let error = errno
-                guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else {
-                    return .failure(.leadsSomewhere)
+            return judged(name, in: parent).flatMap { item in
+                guard info.st_flags & Self.protectedFlags == 0 else { return .failure(.protectedByFlags) }
+                if links.contains(item.parent) {
+                    guard info.st_mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
+                    // Followed this time: nothing there, or a chain that loops, is a link that leads nowhere.
+                    var target = stat()
+                    let leads = item.name.withCString { fstatat(parent.descriptor, $0, &target, 0) } == 0
+                    let error = errno
+                    guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else {
+                        return .failure(.leadsSomewhere)
+                    }
                 }
+                return .success(OpenItem(path: item.path, name: item.name, parent: parent, status: info))
             }
-            return .success(OpenItem(path: item.path, name: item.name, parent: parent, status: info))
         }
     }
 
@@ -199,29 +201,43 @@ public struct PrivilegedPathPolicy: Sendable {
     /// item owned by root that nobody else can write to, which is how anything the helper took from there
     /// looks. Anything else could have been rewritten while it sat in the user's Trash.
     public func openDestination(_ path: String, for trashed: OpenItem) -> Result<OpenItem, Rejection> {
-        switch resolve(path, in: locations) {
-        case .failure(let rejection):
-            return .failure(rejection)
-        case .success(let item):
-            if links.contains(item.parent) {
-                guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
-            }
-            if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
-                guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else {
-                    return .failure(.loadsCode)
+        openFolder(of: path, beforeOpening: {}).flatMap { name, parent in
+            judged(name, in: parent).flatMap { item in
+                if links.contains(item.parent) {
+                    guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                 }
+                if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
+                    guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else {
+                        return .failure(.loadsCode)
+                    }
+                }
+                var info = stat()
+                guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) != 0 else {
+                    return .failure(.alreadyExists)
+                }
+                return .success(OpenItem(path: item.path, name: item.name, parent: parent))
             }
-            let parent: DirectoryHandle
-            switch DirectoryHandle.at(canonical: item.parent) {
-            case .success(let opened): parent = opened
+        }
+    }
+
+    /// Checks `path` by name, so nothing is opened for a path refused anyway, then opens its folder.
+    private func openFolder(
+        of path: String,
+        beforeOpening: () -> Void
+    ) -> Result<(name: String, parent: DirectoryHandle), Rejection> {
+        resolve(path, in: locations).flatMap { named in
+            beforeOpening()
+            switch DirectoryHandle.at(canonical: named.parent) {
+            case .success(let parent): return .success((named.name, parent))
             case .failure(let error): return .failure(Rejection(openingFolderFailedWith: error))
             }
-            var info = stat()
-            guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) != 0 else {
-                return .failure(.alreadyExists)
-            }
-            return .success(OpenItem(path: item.path, name: item.name, parent: parent))
         }
+    }
+
+    /// Checks `name` again in the folder `parent` holds, as the kernel names it now.
+    private func judged(_ name: String, in parent: DirectoryHandle) -> Result<Resolved, Rejection> {
+        guard let folder = parent.currentPath else { return .failure(.unresolvableParent) }
+        return judge(name, in: folder, locations: locations)
     }
 
     /// Opens the user's own Trash. A link in place of `.Trash` is refused, and the folder must belong to

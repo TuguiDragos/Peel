@@ -7,14 +7,15 @@ public enum HelperIdentity {
     public static let launchdPlistName = "com.tuguidragos.Peel.Helper.plist"
     /// Raise it whenever the helper changes, so Peel asks for the helper to be installed again rather than work with
     /// an older one. The helper refuses requests that carry any other version.
-    public static let protocolVersion = 11
+    public static let protocolVersion = 12
 }
 
 /// The complete set of privileged operations. The helper validates every argument itself.
 ///
 /// Each call carries the protocol version of the app making it. Any administrator can write to
 /// `/Applications`, so an older copy of Peel, signed by the same team but with older checks, can be put
-/// there. The helper answers only the version it was installed with, so that copy gets nothing from it.
+/// there. The helper answers only the version it was installed with, and only a build no older than its own, so
+/// that copy gets nothing from it.
 @objc public protocol PeelHelperProtocol {
     func protocolVersion(withReply reply: @escaping @Sendable (Int) -> Void)
 

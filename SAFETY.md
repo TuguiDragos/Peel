@@ -380,10 +380,10 @@ Peel is removed, it also moves its own ledger to the Trash. It is deliberately s
 and it fails closed.
 
 - It answers administrators only, and only a copy of Peel signed by the same team with its Developer ID,
-  built so it can't be debugged, that speaks the helper's own version. All of it is checked when the app
-  connects and again with each request, so an account that stops being an administrator is refused from then
-  on, and a message from any other program closes the connection. macOS starts the helper only as the
-  developer's own build of it, so other code put in its place never runs as root.
+  built so it can't be debugged, no older a build than the helper itself, that speaks the helper's own version.
+  All of it is checked when the app connects and again with each request, so an account that stops being an
+  administrator is refused from then on, and a message from any other program closes the connection. macOS starts
+  the helper only as the developer's own build of it, so other code put in its place never runs as root.
 - It refuses the list above on its own, without asking the app, and asks it both ways: a folder that holds
   something on the list is refused like the thing itself.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
@@ -404,8 +404,9 @@ and it fails closed.
   `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and `share/pwsh/completions`), it takes only a link,
   never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself, so they go
   once the app is gone, and a link that still leads to something stays.
-- It never reuses a path after checking it. It holds the parent directory open and works through that
-  descriptor, so a folder swapped after the check leads nowhere.
+- It never reuses a path after checking it. It opens the parent directory, checks the item there as the system
+  names that directory, works only through that descriptor, and moves the item only while it is still the one it
+  checked, so a folder or an item swapped after the check leads nowhere.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is
   recognized by what it is (not by its name or place in the Trash), and it goes back only to the exact place

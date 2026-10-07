@@ -51,6 +51,33 @@ struct AttackHelperPolicyTests {
         #expect(!policy(directory).open(directory.url.appending(path: "home/Library/Caches/com.example.app").path(percentEncoded: false)).isFailure)
     }
 
+    @Test func whatTheHelperJudgesIsTheFolderItOpens() throws {
+        let directory = try TemporaryDirectory()
+        let vendor = try directory.directory("home/Library/Caches/Vendor/item")
+        try directory.file("home/Library/Caches/Other/item/Family.photoslibrary/database/Photos.sqlite")
+        let caches = vendor.deletingLastPathComponent().deletingLastPathComponent()
+
+        let result = policy(directory).open(vendor.path(percentEncoded: false)) {
+            try? FileManager.default.moveItem(at: caches.appending(path: "Vendor"), to: caches.appending(path: "Aside"))
+            try? FileManager.default.moveItem(at: caches.appending(path: "Other"), to: caches.appending(path: "Vendor"))
+        }
+
+        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a photo library from a folder swapped in after the check")
+    }
+
+    @Test func anItemSwappedForAnotherAfterItWasOpenedStays() throws {
+        let directory = try TemporaryDirectory()
+        let judged = try directory.file("home/Library/Caches/org.example.app/cache.db").deletingLastPathComponent()
+        let other = try directory.file("home/Library/Caches/org.example.kept/keep.db").deletingLastPathComponent()
+        let item = try policy(directory).open(judged.path(percentEncoded: false)).get()
+        try FileManager.default.moveItem(at: judged, to: judged.deletingLastPathComponent().appending(path: "Aside"))
+        try FileManager.default.moveItem(at: other, to: judged)
+        let trash = try DirectoryHandle.at(try directory.directory("Trash").path(percentEncoded: false)).get()
+
+        #expect(TrashMover.move(item, into: trash).isFailure, "ATTACK SUCCEEDED: another item at the checked name moved")
+        #expect(FileManager.default.fileExists(atPath: judged.appending(path: "keep.db").path(percentEncoded: false)))
+    }
+
     /// A `String` reads a slash followed by a combining mark as one character, so a path split on `"/"` keeps
     /// that slash inside a name, and the kernel still walks through it. Here `Caches/dir` is a link into the
     /// keychains, and the name after it begins with a combining mark.

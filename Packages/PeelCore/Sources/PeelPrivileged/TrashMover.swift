@@ -48,13 +48,19 @@ public enum TrashMover {
 
     /// A file system that cannot refuse to replace by itself answers `ENOTSUP` (rename(2)), as exFAT does for a free
     /// name. There the name is first taken with an empty placeholder of the item's kind, which only a free name
-    /// allows, and a plain rename then replaces the placeholder.
+    /// allows, and a plain rename then replaces the placeholder. Only the item that was opened moves, never another
+    /// renamed into its place.
     static func rename(
         _ item: OpenItem,
         to name: String,
         in directory: DirectoryHandle,
         exclusively: ExclusiveRename
     ) -> Result<Void, POSIXError> {
+        var info = stat()
+        guard item.name.withCString({ fstatat(item.parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
+            return .failure(.last)
+        }
+        guard let identity = item.identity, ItemIdentity(info) == identity else { return .failure(POSIXError(.ENOENT)) }
         switch exclusively(item, name, directory) {
         case .failure(let error) where error.code == .ENOTSUP:
             return renameOntoPlaceholder(item, to: name, in: directory)

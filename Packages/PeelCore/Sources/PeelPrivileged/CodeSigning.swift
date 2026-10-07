@@ -45,14 +45,25 @@ public enum CodeSigning {
     /// Development build carries `get-task-allow`, so any process of the same user can control it, and
     /// accepting one would let that process move files as root through the helper. A Debug build also
     /// accepts the Apple Development certificate, since both sides are then Debug builds.
-    public static func requirement(identifier: String, teamIdentifier: String) -> String {
-        requirement(identifier: identifier, teamIdentifier: teamIdentifier, allowingDevelopmentBuilds: isADebugBuild)
+    public static func requirement(identifier: String, teamIdentifier: String, minimumBuild: String? = nil) -> String {
+        requirement(
+            identifier: identifier,
+            teamIdentifier: teamIdentifier,
+            allowingDevelopmentBuilds: isADebugBuild,
+            minimumBuild: minimumBuild
+        )
     }
 
     /// Builds either requirement, so a test in a Debug build can check the one a shipped Peel uses.
-    static func requirement(identifier: String, teamIdentifier: String, allowingDevelopmentBuilds: Bool) -> String {
+    static func requirement(
+        identifier: String,
+        teamIdentifier: String,
+        allowingDevelopmentBuilds: Bool,
+        minimumBuild: String? = nil
+    ) -> String {
         let base = "identifier \"\(identifier)\" and anchor apple generic"
             + " and certificate leaf[subject.OU] = \"\(teamIdentifier)\""
+            + (minimumBuild.map { " and info[CFBundleVersion] >= \"\($0)\"" } ?? "")
         guard !allowingDevelopmentBuilds else {
             return base + " and (certificate leaf[\(developerIDLeaf)] or certificate leaf[\(developmentLeaf)])"
         }
@@ -60,6 +71,24 @@ public enum CodeSigning {
             + " and certificate 1[\(developerIDAuthority)]"
             + " and certificate leaf[\(developerIDLeaf)]"
             + " and ! entitlement[\"com.apple.security.get-task-allow\"] exists"
+    }
+
+    /// The build in the running process's signed Info.plist, or nil when its signature binds none.
+    public static let currentBuild: String? = {
+        var code: SecCode?
+        guard SecCodeCopySelf([], &code) == errSecSuccess, let code else { return nil }
+        var staticCode: SecStaticCode?
+        guard SecCodeCopyStaticCode(code, [], &staticCode) == errSecSuccess, let staticCode else { return nil }
+        return build(of: staticCode)
+    }()
+
+    /// `CFBundleVersion` in the Info.plist the signature of `code` binds, which a requirement's `info[...]` reads.
+    static func build(of code: SecStaticCode) -> String? {
+        var information: CFDictionary?
+        guard SecCodeCopySigningInformation(code, [], &information) == errSecSuccess,
+              let plist = (information as? [String: Any])?[kSecCodeInfoPList as String] as? [String: Any]
+        else { return nil }
+        return plist["CFBundleVersion"] as? String
     }
 
     static let isADebugBuild: Bool = {

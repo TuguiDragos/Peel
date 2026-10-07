@@ -35,6 +35,39 @@ struct HelperPolicyTests {
         }
     }
 
+    @Test func theHelperServesNoCopyOfPeelOlderThanItself() {
+        for allowing in [false, true] {
+            let text = CodeSigning.requirement(
+                identifier: "com.tuguidragos.Peel",
+                teamIdentifier: "6R6J264YA2",
+                allowingDevelopmentBuilds: allowing,
+                minimumBuild: "261006"
+            )
+            #expect(text.contains("info[CFBundleVersion] >= \"261006\""), "an older Peel is served")
+            var requirement: SecRequirement?
+            #expect(SecRequirementCreateWithString(text as CFString, [], &requirement) == errSecSuccess)
+        }
+    }
+
+    @Test func aBuildFloorRefusesOlderCode() throws {
+        let calculator = URL(filePath: "/System/Applications/Calculator.app")
+        var code: SecStaticCode?
+        #expect(SecStaticCodeCreateWithPath(calculator as CFURL, [], &code) == errSecSuccess)
+        let signed = try #require(code)
+        let build = try #require(CodeSigning.build(of: signed))
+        #expect(build == Bundle(url: calculator)?.infoDictionary?["CFBundleVersion"] as? String)
+
+        let satisfies = { (text: String) -> Bool in
+            var requirement: SecRequirement?
+            guard SecRequirementCreateWithString(text as CFString, [], &requirement) == errSecSuccess else {
+                return false
+            }
+            return SecStaticCodeCheckValidity(signed, [], requirement) == errSecSuccess
+        }
+        #expect(satisfies("info[CFBundleVersion] >= \"\(build)\""))
+        #expect(!satisfies("info[CFBundleVersion] >= \"\(build)9\""), "a floor above the build let the code through")
+    }
+
     /// The team in `SpawnConstraint` has to be the one every target of the project signs with.
     @Test func launchdStartsOnlyTheTeamsOwnHelper() throws {
         let repository = StringCatalogTests.repository
