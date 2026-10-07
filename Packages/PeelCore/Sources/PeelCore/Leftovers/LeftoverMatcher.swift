@@ -34,7 +34,7 @@ struct LeftoverMatcher: Sendable {
     /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
     func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)
-        // A hidden file outside the home folder is the system's own: `.GlobalPreferences.plist` is the global domain.
+        // A name still hidden here is the system's own: `.GlobalPreferences.plist` is the global domain.
         guard !key.hasPrefix(".") else { return nil }
         let candidate = Candidate(key)
         guard let evidence = target.evidence(for: candidate) else { return nil }
@@ -133,8 +133,14 @@ struct LeftoverMatcher: Sendable {
         case .hiddenHomeFiles:
             fileName.hasPrefix(".") ? String(fileName.dropFirst()) : fileName
         default:
-            fileName
+            withoutTheDotBeforeAnIdentifier(fileName)
         }
+    }
+
+    /// An app hides a folder of its own by writing a dot before its identifier: `.com.example.app.backups`.
+    private static func withoutTheDotBeforeAnIdentifier(_ fileName: String) -> String {
+        let rest = String(fileName.dropFirst())
+        return fileName.hasPrefix(".") && Identifier.isReverseDNS(rest) ? rest : fileName
     }
 
     /// The name a recent documents list carries without its extension, `sfl` and the version macOS writes it in

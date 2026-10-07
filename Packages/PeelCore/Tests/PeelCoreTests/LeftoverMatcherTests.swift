@@ -476,8 +476,9 @@ struct LeftoverMatcherTests {
         #expect(match("ABCDE12345.com.example.tool", in: .groupContainers, for: app("com.example.tool", name: "Tool", team: "ABCDE12345", groups: ["ABCDE12345.com.example.tool"]))?.confidence == .certain)
     }
 
-    /// A hidden file outside the home folder is the system's own: `.GlobalPreferences.plist` is the global domain.
-    @Test func neverMatchesAHiddenFileOutsideTheHomeFolder() {
+    /// A hidden file outside the home folder is the system's own (`.GlobalPreferences.plist` is the global domain),
+    /// unless an app's identifier follows the dot. A hidden settings file is never a domain `defaults` reads.
+    @Test func matchesAHiddenFileOutsideTheHomeFolderOnlyByTheIdentifierAfterItsDot() {
         let named = app("com.example.tool", name: "Global Preferences")
         let identified = app(".GlobalPreferences", name: "Tool")
 
@@ -487,6 +488,14 @@ struct LeftoverMatcherTests {
             #expect(match(".GlobalPreferences", in: .applicationSupport, for: target) == nil)
         }
         #expect(match(".globalpreferences", in: .hiddenHomeFiles, for: named) != nil)
+
+        let example = app("org.example.app", name: "Example")
+        let backups = match(".org.example.app.backups", in: .applicationSupport, for: example)
+        #expect(backups?.reason == .bundleIdentifierPrefix)
+        #expect(backups?.isRecommended == true)
+        #expect(match(".org.example.app", in: .caches, for: example)?.reason == .bundleIdentifier)
+        #expect(match(".example", in: .applicationSupport, for: example) == nil)
+        #expect(match(".org.example.app.plist", in: .preferences, for: example) == nil)
     }
 
     @Test func aPlugInIsMatchedWithoutTheExtensionThatSaysItsKind() throws {

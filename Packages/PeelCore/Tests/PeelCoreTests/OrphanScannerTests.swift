@@ -376,6 +376,17 @@ struct OrphanScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    @Test func findsAFolderAnAppThatLeftHidWithADotBeforeItsIdentifier() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Application Support/.com.gone.app.backups")
+        try directory.directory("home/Library/Application Support/.com.installed.app.backups")
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["com.gone.app.backups"])
+        #expect(scan.groups.first?.items.map(\.url.lastPathComponent) == [".com.gone.app.backups"])
+    }
+
     /// A location closed by ordinary permissions is reported, but Full Disk Access would not open it, so the scan
     /// does not ask for it.
     @Test(.permissionsHold) func aLocationClosedByPermissionsDoesNotAskForFullDiskAccess() async throws {

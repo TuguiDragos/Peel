@@ -29,6 +29,27 @@ struct LeftoverScannerTests {
         #expect(LeftoverScanner.merged([found(in: recent), found(in: support)]).map(\.kind) == [.recentDocuments])
     }
 
+    @Test func findsAFolderAnAppHidWithADotBeforeItsIdentifier() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Application Support/.org.example.app.backups")
+        try directory.file("home/Library/Preferences/.org.example.app.plist")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Example.app"),
+            bundleIdentifier: "org.example.app",
+            name: "Example"
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let backups = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == ".org.example.app.backups" })
+        #expect(plan.suggestedSelection(canUseHelper: false).contains(backups.url))
+        #expect(!plan.scan.leftovers.contains { $0.url.lastPathComponent == ".org.example.app.plist" })
+    }
+
     /// Folders that no app claims are looked into one at a time, so the scan has to notice a stop between them.
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
