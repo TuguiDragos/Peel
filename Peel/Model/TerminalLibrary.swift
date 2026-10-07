@@ -68,9 +68,13 @@ final class TerminalLibrary {
         let running = NSRunningApplication.runningApplications(withBundleIdentifier: TerminalSettings.identifier)
         isQuittingTerminal = true
         defer { isQuittingTerminal = false }
+        let ends = ProcessEnds.of(running.map(\.processIdentifier))
         running.forEach { $0.terminate() }
         let didQuit = await withTaskGroup(of: Bool.self) { group in
-            group.addTask { await QuitBeforeRemoving.untilGone(running); return true }
+            group.addTask {
+                for await _ in ends {}
+                return true
+            }
             group.addTask { try? await Task.sleep(for: Self.patience); return false }
             let first = await group.next() ?? false
             group.cancelAll()
