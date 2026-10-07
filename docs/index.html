@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peel: Free, Open Source Uninstaller and Cleaner for Mac</title>
+  <meta name="description" content="Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 and later.">
+  <link rel="canonical" href="https://peel.tuguidragos.com/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Țugui Dragoș">
+  <meta name="application-name" content="Peel">
+  <meta name="apple-mobile-web-app-title" content="Peel">
+  <meta name="theme-color" content="#0b0a09">
+  <meta name="color-scheme" content="dark">
+
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preload" as="image" type="image/avif" fetchpriority="high"
+    href="images/peel-home-1200.avif"
+    imagesrcset="images/peel-home-800.avif 800w, images/peel-home-1200.avif 1200w, images/peel-home-2400.avif 2400w"
+    imagesizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Peel">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://peel.tuguidragos.com/">
+  <meta property="og:title" content="Peel: Uninstall Mac apps completely">
+  <meta property="og:description" content="A free, open source uninstaller and cleaner for macOS, which also fine-tunes your Mac and sets up Terminal.">
+  <meta property="og:image" content="https://peel.tuguidragos.com/images/social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Peel’s icon and the words “Uninstall Mac apps completely”, above Peel uninstalling Obsidian">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Peel: Uninstall Mac apps completely">
+  <meta name="twitter:description" content="A free, open source uninstaller and cleaner for macOS, which also fine-tunes your Mac and sets up Terminal.">
+  <meta name="twitter:image" content="https://peel.tuguidragos.com/images/social.png">
+  <meta name="twitter:image:alt" content="Peel’s icon and the words “Uninstall Mac apps completely”, above Peel uninstalling Obsidian">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://peel.tuguidragos.com/#website",
+        "url": "https://peel.tuguidragos.com/",
+        "name": "Peel",
+        "inLanguage": "en",
+        "publisher": {
+          "@id": "https://tuguidragos.com/#person"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://peel.tuguidragos.com/#webpage",
+        "url": "https://peel.tuguidragos.com/",
+        "name": "Peel: Free, Open Source Uninstaller and Cleaner for Mac",
+        "description": "Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 and later.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@id": "https://peel.tuguidragos.com/#website"
+        },
+        "about": {
+          "@id": "https://peel.tuguidragos.com/#app"
+        },
+        "mainEntity": {
+          "@id": "https://peel.tuguidragos.com/#app"
+        },
+        "primaryImageOfPage": "https://peel.tuguidragos.com/images/social.png",
+        "dateModified": "2026-10-07"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://tuguidragos.com/#person",
+        "name": "Țugui Dragoș",
+        "alternateName": [
+          "Tugui Dragos",
+          "Țugui Dragoș-Constantin",
+          "Tugui Dragos-Constantin",
+          "Dragoș Țugui",
+          "Dragos Tugui"
+        ],
+        "url": "https://tuguidragos.com/",
+        "image": "https://tuguidragos.com/content/images/2026/06/Dragos-Tugui.webp",
+        "jobTitle": "Automation & AI Systems Builder",
+        "sameAs": [
+          "https://www.linkedin.com/in/tuguidragos/",
+          "https://github.com/TuguiDragos",
+          "https://x.com/TuguiDragos",
+          "https://www.facebook.com/TuguiDragos/",
+          "https://www.instagram.com/tuguidragos/",
+          "https://n8n.io/creators/tuguidragos/",
+          "https://www.credly.com/users/tuguidragos",
+          "https://tuguidragos.gumroad.com",
+          "https://bsky.app/profile/tuguidragos.com",
+          "https://mastodon.social/@tuguidragos",
+          "https://www.threads.com/@tuguidragos",
+          "https://www.tiktok.com/@tuguidragos",
+          "https://www.youtube.com/@TuguiDragos"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://peel.tuguidragos.com/#app",
+        "name": "Peel",
+        "url": "https://peel.tuguidragos.com/",
+        "sameAs": [
+          "https://github.com/TuguiDragos/Peel"
+        ],
+        "description": "A free, open source uninstaller and cleaner for macOS. Peel removes an app together with the files it left behind, tells you why each file belongs to it, and moves what you choose to the Trash, where History can put it back.",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Uninstaller",
+        "operatingSystem": "macOS 26 or later",
+        "softwareRequirements": "macOS Tahoe 26 or later, on every Mac with Apple silicon and the Intel Macs Apple lists for macOS 26",
+        "downloadUrl": "https://github.com/TuguiDragos/Peel/releases/latest",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "license": "https://spdx.org/licenses/GPL-3.0-or-later.html",
+        "author": {
+          "@id": "https://tuguidragos.com/#person"
+        },
+        "inLanguage": [
+          "en",
+          "ro",
+          "de",
+          "fr",
+          "es",
+          "pt-BR",
+          "it",
+          "ja",
+          "zh-Hans",
+          "zh-Hant",
+          "nl",
+          "ko",
+          "ru",
+          "pl",
+          "tr",
+          "sv",
+          "cs",
+          "uk"
+        ],
+        "image": "https://peel.tuguidragos.com/images/peel-icon-512.png",
+        "screenshot": [
+          "https://peel.tuguidragos.com/images/peel-uninstall-1200.webp",
+          "https://peel.tuguidragos.com/images/peel-home-1200.webp",
+          "https://peel.tuguidragos.com/images/peel-space-1200.webp",
+          "https://peel.tuguidragos.com/images/peel-history-1200.webp"
+        ],
+        "featureList": [
+          "Uninstalls apps together with the files they leave behind, with the reason each file matched",
+          "Moves what it removes to the Trash, where History can put it back, and names the few exceptions before you confirm",
+          "Finds files left by apps already removed, developer caches, build artifacts, duplicates, installers, and iCloud Drive downloads",
+          "Lists background items, extensions, plug-ins, package receipts, and Intel software, starts or stops background items, and runs Homebrew’s updates, cleanups, and vulnerability scan",
+          "40 macOS settings, many of them out of sight, each explained, in six groups",
+          "Sets up Terminal: 29 dark themes built on Apple’s Clear Dark, a prompt, and switches for settings zsh, Git, and ssh already have",
+          "The peel command for Terminal",
+          "No analytics, no ads, and no account"
+        ]
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://peel.tuguidragos.com/#source",
+        "name": "Peel",
+        "codeRepository": "https://github.com/TuguiDragos/Peel",
+        "programmingLanguage": "Swift",
+        "runtimePlatform": "macOS",
+        "license": "https://spdx.org/licenses/GPL-3.0-or-later.html",
+        "author": {
+          "@id": "https://tuguidragos.com/#person"
+        },
+        "maintainer": {
+          "@id": "https://tuguidragos.com/#person"
+        },
+        "targetProduct": {
+          "@id": "https://peel.tuguidragos.com/#app"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://peel.tuguidragos.com/#questions",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Peel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Peel is a free, open source app for macOS that uninstalls apps together with the files they leave behind, and tells you why each file belongs to the app. It also frees disk space, looks after Homebrew and what runs in the background, changes settings macOS already has, many of them out of sight, and sets up Terminal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I completely uninstall an app on a Mac?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open Peel, choose the app under Applications, look over what Peel found, and click Move to Trash. The app and its leftovers go to the Trash together, and History can put them back. You can also Control-click the app in Finder and choose Uninstall with Peel, once the Finder extension is on in System Settings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Peel delete something I need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there. What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does Peel show a smaller size than Finder?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does Peel ask for Full Disk Access?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "macOS keeps other apps’ data, and the Trash, out of sight of any app without it. Peel works without it, but can’t see everything an app leaves behind."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Peel collect any data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Peel has no analytics and no account. On its own, it goes online only to check your apps, and itself, for updates, which you can turn off. Homebrew goes online when you ask it to do something."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Peel really free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Peel is free and open source under the GNU General Public License, version 3 or later, with no paid edition, no ads, and no account."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I install Peel with Homebrew?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Run brew install --cask tuguidragos/tap/peel in Terminal. It installs the same release as the download on this page."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Peel work on Intel Macs and older versions of macOS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that Apple lists for macOS 26. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so every release is tested by hand before it ships, on macOS 26 and every version since."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I uninstall Peel itself?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Settings > General, choose Remove Peel. Peel removes its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, and clears its settings. If you installed it with Homebrew, Settings shows the Homebrew command to run instead."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Peel, back to the top">
+        <img src="images/peel-icon-256.webp" width="28" height="28" fetchpriority="high" alt="">
+        <span>Peel</span>
+      </a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="#uninstall">Uninstall</a></li>
+          <li><a href="#space">Space</a></li>
+          <li><a href="#terminal">Terminal</a></li>
+          <li><a href="#safety">Safety</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#questions">Questions</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a class="pill pill-small pill-ghost" href="https://github.com/sponsors/TuguiDragos" aria-label="Sponsor Peel on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg><span class="label">Sponsor</span></a>
+        <a class="pill pill-small" href="https://github.com/TuguiDragos/Peel"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap">
+        <img class="hero-icon" src="images/peel-icon-256.webp" width="104" height="104" fetchpriority="high" alt="Peel’s icon: an orange sticker with its corner peeled back">
+        <h1>Uninstall Mac apps completely.</h1>
+        <p class="tagline"><span class="gradient">And see why every file belongs to them.</span></p>
+        <p class="lede">A free, open source uninstaller and cleaner for macOS, which also fine-tunes your Mac and sets up Terminal.</p>
+        <div class="actions">
+          <a class="pill pill-large" href="https://github.com/TuguiDragos/Peel/releases/latest" data-download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
+            Download for Mac
+          </a>
+          <a class="more" href="https://github.com/TuguiDragos/Peel">View on GitHub</a>
+        </div>
+        <p class="requirements"><span data-version></span>macOS Tahoe 26 or later · Apple silicon and Intel</p>
+        <div class="brew">
+          <code>brew install --cask tuguidragos/tap/peel</code>
+          <button class="copy" type="button" data-copy="brew install --cask tuguidragos/tap/peel">Copy</button>
+        </div>
+        <picture class="shot stage">
+          <source type="image/avif" srcset="images/peel-home-800.avif 800w, images/peel-home-1200.avif 1200w, images/peel-home-2400.avif 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-home-1200.webp" srcset="images/peel-home-800.webp 800w, images/peel-home-1200.webp 1200w, images/peel-home-2400.webp 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="874" fetchpriority="high"
+            alt="Peel’s Home: this Mac’s chip, memory, macOS version, and free space, what Peel has moved to the Trash so far, and which permissions are on">
+        </picture>
+      </div>
+    </section>
+
+    <section class="statement" aria-label="What Peel does">
+      <div class="wrap reveal">
+        <p><strong>Dragging an app to the Trash leaves pieces of it behind.</strong> Caches, settings, containers, launch agents, and support files, scattered across your Library, sometimes gigabytes of them. <strong>Peel finds what an app left, tells you why each file belongs to it and how sure it is, and moves what you choose to the Trash.</strong></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="highlights-title">
+      <div class="wrap">
+        <h2 class="headline reveal" id="highlights-title">Get the highlights.</h2>
+        <div class="highlights">
+          <article class="tile span-3 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker round orange" style="--turn: -8deg"><b>Free</b><span>no ads</span></span>
+              <span class="sticker cream" style="--turn: 5deg"><b>GPL</b><span>3.0 or later</span></span>
+            </div>
+            <h3>Free and open source.</h3>
+            <p>No paid edition, no ads, and no account. Nobody can take Peel, close it, and sell it as their own.</p>
+          </article>
+          <article class="tile span-3 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="tape" style="--turn: -5deg">Trash, never deleted</span>
+            </div>
+            <h3>Almost everything can come back.</h3>
+            <p>What Peel removes goes to the Trash, and History puts it back where it was. The few exceptions are named before you confirm.</p>
+          </article>
+          <article class="tile span-2 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker round" style="--turn: -6deg"><b>18</b><span>languages</span></span>
+            </div>
+            <h3>In your language.</h3>
+            <p>English and 17 other languages, in the words macOS itself uses.</p>
+          </article>
+          <article class="tile span-2 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker gray" style="--turn: 4deg"><b>40</b><span>tweaks</span></span>
+            </div>
+            <h3>Mac settings, in plain sight.</h3>
+            <p>Settings macOS already has, many of them out of sight, each one explained.</p>
+          </article>
+          <article class="tile span-2 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker orange" style="--turn: -3deg"><b>&gt;_</b><span>Terminal</span></span>
+            </div>
+            <h3>Terminal, set up.</h3>
+            <p>29 dark themes, a prompt, and switches for settings zsh, Git, and ssh already have.</p>
+          </article>
+          <article class="tile span-3 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker cream round" style="--turn: 6deg"><b>0</b><span>analytics</span></span>
+            </div>
+            <h3>No analytics. No account.</h3>
+            <p>On its own, Peel goes online only to check your apps, and itself, for updates, and you can turn that off.</p>
+          </article>
+          <article class="tile span-3 reveal">
+            <div class="tile-art" aria-hidden="true">
+              <span class="sticker wide" style="--turn: -4deg"><b>26+</b><span>macOS Tahoe</span></span>
+            </div>
+            <h3>Apple silicon and Intel.</h3>
+            <p>On every Mac that runs macOS Tahoe 26 or later, and every release is tested by hand before it ships.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="uninstall" aria-labelledby="uninstall-title">
+      <div class="wrap">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Uninstall</p>
+          <h2 class="headline" id="uninstall-title">Every leftover.<br>With a reason.</h2>
+          <p class="lede">Peel searches the places apps keep files, and gives each one the reason it matched, <strong>such as the app’s bundle identifier, its signing team, or a Homebrew cask that names it.</strong></p>
+        </div>
+        <picture class="shot shot-frame reveal">
+          <source type="image/avif" srcset="images/peel-uninstall-800.avif 800w, images/peel-uninstall-1200.avif 1200w, images/peel-uninstall-2400.avif 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-uninstall-1200.webp" srcset="images/peel-uninstall-800.webp 800w, images/peel-uninstall-1200.webp 1200w, images/peel-uninstall-2400.webp 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel uninstalling Obsidian: the app, what it left in Application Support, caches, and preferences, and the command Homebrew linked to it, each with its kind and size">
+        </picture>
+        <ul class="points">
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.2 12.3 2.6 2.6 5-5.2"/></svg>
+            <h3>Selected with care.</h3>
+            <p>What Peel finds to be the app’s alone is selected for you, unless it has a reason to hold it back, such as something inside that may exist nowhere else. A file another app also uses is shown, but never selected for you.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+            <h3>Review Before Removing.</h3>
+            <p>What Peel is less sure of, what another app also uses, and what Peel holds back wait there, and the note beside each file says why.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v10M8 9.5l4 4 4-4"/><rect x="4" y="16.5" width="16" height="3.5" rx="1.75"/></svg>
+            <h3>Several ways in.</h3>
+            <p>Choose an app in the list, drop one on Peel’s Dock icon, or Control-click it in Finder and choose Uninstall with Peel, once the Finder extension is on in System Settings.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v3.7h3.7"/></svg>
+            <h3>Reset instead of remove.</h3>
+            <p>Make an app forget its settings without uninstalling it. Peel copies them first, so you can put them back.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 16V8.5M8.8 11.5 12 8.3l3.2 3.2"/></svg>
+            <h3>Updates for your apps.</h3>
+            <p>Peel checks each app through its own update feed, the App Store for apps bought there, or Homebrew for apps it installed, and shows what’s new.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 16.5V11a5.5 5.5 0 0 1 11 0v5.5l1.5 2h-14z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>
+            <h3>Watch the Trash.</h3>
+            <p>Turn it on and allow its notifications. While Peel is open or in the menu bar and has Full Disk Access, an app you drag to the Trash yourself brings a notification that takes you to what it left behind.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section" id="space" aria-labelledby="space-title">
+      <div class="wrap">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Space</p>
+          <h2 class="headline" id="space-title">See what fills your disk.</h2>
+          <p class="lede">How full your disk is, then the places that take the most room, each with a note on what it is. <strong>What you select stays selected while you look at the other pages</strong>, iCloud Drive aside, and Move to Trash moves it all at once, as one entry in History.</p>
+        </div>
+        <picture class="shot shot-frame reveal">
+          <source type="image/avif" srcset="images/peel-space-800.avif 800w, images/peel-space-1200.avif 1200w, images/peel-space-2400.avif 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-space-1200.webp" srcset="images/peel-space-800.webp 800w, images/peel-space-1200.webp 1200w, images/peel-space-2400.webp 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s Space page: how much of the disk is free and used, the areas of your Library with their sizes, and Hidden App Caches open, with what it is and the caches inside it">
+        </picture>
+        <ul class="points">
+          <li class="reveal">
+            <h3>Orphaned Files</h3>
+            <p>Files left behind by apps you already removed, which no app on this Mac claims.</p>
+          </li>
+          <li class="reveal">
+            <h3>Build Artifacts</h3>
+            <p>What builds left in your projects, like <code>node_modules</code>, <code>DerivedData</code>, or <code>target</code>, each only when its tool’s own file proves it.</p>
+          </li>
+          <li class="reveal">
+            <h3>Duplicates</h3>
+            <p>Files and whole folders with identical contents, compared with SHA-256. One copy is always kept.</p>
+          </li>
+          <li class="reveal">
+            <h3>Installers and Backups</h3>
+            <p>App installers in Downloads, Desktop, Documents, Public, and Shared, macOS installers, device firmware, unfinished downloads, updates waiting to install, and what your iPhone and iPad backups hold. A disk image may be one you made, so nothing is selected for you.</p>
+          </li>
+          <li class="reveal">
+            <h3>iCloud Drive</h3>
+            <p>Files already safe in iCloud that are also downloaded to this Mac. Remove Downloads takes away only the copy on this Mac.</p>
+          </li>
+          <li class="reveal">
+            <h3>File Search</h3>
+            <p>Large or old files, found through Spotlight by name, kind, or size, and narrowed by age.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="developer-title">
+      <div class="wrap split">
+        <div class="split-text reveal">
+          <p class="eyebrow">Developer</p>
+          <h2 class="headline" id="developer-title">Caches, folder by folder.</h2>
+          <p class="lede">What each of your developer tools keeps. <strong>What you may want again is listed but never selected for you</strong>, and toolchains or anything holding an account are never listed.</p>
+          <ul class="chips">
+            <li>Xcode</li>
+            <li>Package managers</li>
+            <li>Build systems</li>
+            <li>Editors</li>
+            <li>Browsers</li>
+            <li>Cloud tools</li>
+            <li>Virtual machine tools</li>
+            <li>Game engines</li>
+            <li>AI models</li>
+          </ul>
+        </div>
+        <picture class="shot reveal">
+          <source type="image/avif" srcset="images/peel-developer-800.avif 800w, images/peel-developer-1200.avif 1200w, images/peel-developer-2400.avif 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-developer-1200.webp" srcset="images/peel-developer-800.webp 800w, images/peel-developer-1200.webp 1200w, images/peel-developer-2400.webp 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s Developer page: the tools whose caches it found, largest first, and npm open, with its four folders selected">
+        </picture>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="system-title">
+      <div class="wrap split flip">
+        <div class="split-text reveal">
+          <p class="eyebrow">System</p>
+          <h2 class="headline" id="system-title">Look after your Mac.</h2>
+          <p class="lede">See what runs in the background and, where Peel can tell, which app added it. Find what still needs Rosetta, and <strong>keep Homebrew up to date, clean, and checked for known vulnerabilities.</strong></p>
+          <ul class="chips">
+            <li>Background Items</li>
+            <li>Extensions</li>
+            <li>Plug-ins</li>
+            <li>Package Receipts</li>
+            <li>Intel Software</li>
+            <li>Homebrew</li>
+          </ul>
+        </div>
+        <picture class="shot reveal">
+          <source type="image/avif" srcset="images/peel-homebrew-800.avif 800w, images/peel-homebrew-1200.avif 1200w, images/peel-homebrew-2400.avif 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-homebrew-1200.webp" srcset="images/peel-homebrew-800.webp 800w, images/peel-homebrew-1200.webp 1200w, images/peel-homebrew-2400.webp 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s Homebrew page: its maintenance buttons, the formulae with known vulnerabilities, and the packages with updates waiting">
+        </picture>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section" id="tweaks" aria-labelledby="tweaks-title">
+      <div class="wrap">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Tweaks</p>
+          <h2 class="headline" id="tweaks-title">Small tricks.<br><span class="gradient">A little easier every&nbsp;day.</span></h2>
+          <p class="lede">40 settings macOS already has, many of them out of sight. <strong>Each tweak says what it changes</strong>, and turning it off puts back what was there before, or leaves it to macOS.</p>
+          <ul class="chips centered">
+            <li>Dock</li>
+            <li>Screenshots</li>
+            <li>Finder</li>
+            <li>Typing</li>
+            <li>Windows</li>
+            <li>Privacy</li>
+          </ul>
+        </div>
+        <picture class="shot shot-frame reveal">
+          <source type="image/avif" srcset="images/peel-tweaks-800.avif 800w, images/peel-tweaks-1200.avif 1200w, images/peel-tweaks-2400.avif 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-tweaks-1200.webp" srcset="images/peel-tweaks-800.webp 800w, images/peel-tweaks-1200.webp 1200w, images/peel-tweaks-2400.webp 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s Tweaks page, on Screenshots: no floating thumbnail, where screenshots are saved, no shadow around a captured window, and more, each with its own control">
+        </picture>
+      </div>
+    </section>
+
+    <section class="section" id="terminal" aria-labelledby="terminal-title">
+      <div class="wrap center">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Terminal</p>
+          <h2 class="headline" id="terminal-title">Set up Terminal.</h2>
+          <p class="lede">Choose a theme and a prompt, and turn on settings zsh, Git, and ssh already have, <strong>each with its own switch.</strong> There are 29 dark themes, all built on Apple’s own Clear Dark.</p>
+        </div>
+        <div class="themes reveal">
+          <div class="theme-view">
+            <img class="theme-image shown" id="theme-image" src="images/terminal-hadal-1200.webp" width="1200" height="868" loading="lazy" decoding="async" alt="The Hadal theme in Terminal">
+          </div>
+          <p class="theme-name" id="theme-name" aria-live="polite">Hadal</p>
+          <ul class="theme-list" aria-label="Themes">
+            <li><button type="button" data-theme="aerogel" aria-pressed="false" style="--swatch: #151920"><span class="swatch"></span>Aerogel</button></li>
+            <li><button type="button" data-theme="anodise" aria-pressed="false" style="--swatch: #171718"><span class="swatch"></span>Anodise</button></li>
+            <li><button type="button" data-theme="borrow" aria-pressed="false" style="--swatch: #1b1f26"><span class="swatch"></span>Borrow</button></li>
+            <li><button type="button" data-theme="cavitation" aria-pressed="false" style="--swatch: #0f131a"><span class="swatch"></span>Cavitation</button></li>
+            <li><button type="button" data-theme="cherenkov" aria-pressed="false" style="--swatch: #0e2138"><span class="swatch"></span>Cherenkov</button></li>
+            <li><button type="button" data-theme="cinnabar" aria-pressed="false" style="--swatch: #1b1512"><span class="swatch"></span>Cinnabar</button></li>
+            <li><button type="button" data-theme="cochineal" aria-pressed="false" style="--swatch: #2a1219"><span class="swatch"></span>Cochineal</button></li>
+            <li><button type="button" data-theme="coherence" aria-pressed="false" style="--swatch: #0d0e11"><span class="swatch"></span>Coherence</button></li>
+            <li><button type="button" data-theme="coherence-high-contrast" aria-pressed="false" style="--swatch: #000000"><span class="swatch"></span>Coherence High Contrast</button></li>
+            <li><button type="button" data-theme="dichroic" aria-pressed="false" style="--swatch: #0f1c19"><span class="swatch"></span>Dichroic</button></li>
+            <li><button type="button" data-theme="effect" aria-pressed="false" style="--swatch: #101a16"><span class="swatch"></span>Effect</button></li>
+            <li><button type="button" data-theme="epitaxy" aria-pressed="false" style="--swatch: #1f1f28"><span class="swatch"></span>Epitaxy</button></li>
+            <li><button type="button" data-theme="fraunhofer" aria-pressed="false" style="--swatch: #12151d"><span class="swatch"></span>Fraunhofer</button></li>
+            <li><button type="button" data-theme="glacier" aria-pressed="false" style="--swatch: #243343"><span class="swatch"></span>Glacier</button></li>
+            <li><button type="button" data-theme="hadal" aria-pressed="true" style="--swatch: #0c1f2b"><span class="swatch"></span>Hadal</button></li>
+            <li><button type="button" data-theme="incandescence" aria-pressed="false" style="--swatch: #171110"><span class="swatch"></span>Incandescence</button></li>
+            <li><button type="button" data-theme="noctiluca" aria-pressed="false" style="--swatch: #0d1418"><span class="swatch"></span>Noctiluca</button></li>
+            <li><button type="button" data-theme="palimpsest" aria-pressed="false" style="--swatch: #242019"><span class="swatch"></span>Palimpsest</button></li>
+            <li><button type="button" data-theme="passepartout" aria-pressed="false" style="--swatch: #33333a"><span class="swatch"></span>Passepartout</button></li>
+            <li><button type="button" data-theme="persistence" aria-pressed="false" style="--swatch: #141613"><span class="swatch"></span>Persistence</button></li>
+            <li><button type="button" data-theme="provenance" aria-pressed="false" style="--swatch: #22252b"><span class="swatch"></span>Provenance</button></li>
+            <li><button type="button" data-theme="quantum" aria-pressed="false" style="--swatch: #141827"><span class="swatch"></span>Quantum</button></li>
+            <li><button type="button" data-theme="riso" aria-pressed="false" style="--swatch: #211d16"><span class="swatch"></span>Riso</button></li>
+            <li><button type="button" data-theme="safelight" aria-pressed="false" style="--swatch: #352316"><span class="swatch"></span>Safelight</button></li>
+            <li><button type="button" data-theme="selenium" aria-pressed="false" style="--swatch: #1e1d26"><span class="swatch"></span>Selenium</button></li>
+            <li><button type="button" data-theme="silverpoint" aria-pressed="false" style="--swatch: #242427"><span class="swatch"></span>Silverpoint</button></li>
+            <li><button type="button" data-theme="stratum" aria-pressed="false" style="--swatch: #1f1b16"><span class="swatch"></span>Stratum</button></li>
+            <li><button type="button" data-theme="valence" aria-pressed="false" style="--swatch: #15121b"><span class="swatch"></span>Valence</button></li>
+            <li><button type="button" data-theme="verdigris" aria-pressed="false" style="--swatch: #171410"><span class="swatch"></span>Verdigris</button></li>
+          </ul>
+        </div>
+        <ul class="points left">
+          <li class="reveal">
+            <h3>Themes</h3>
+            <p>Choose one, and Terminal opens with it in every new window. Put Back gives Terminal the profile it had before.</p>
+          </li>
+          <li class="reveal">
+            <h3>Terminal</h3>
+            <p>Leave out the “Last login” line, keep Terminal from reopening its windows, and in the Peel theme you use, make Option the Meta key and silence the bell.</p>
+          </li>
+          <li class="reveal">
+            <h3>Shell</h3>
+            <p>Use Peel’s prompt or keep the one you have, and turn on what zsh already has, like history shared between windows.</p>
+          </li>
+          <li class="reveal">
+            <h3>Git</h3>
+            <p>Turn on what Git already has, like rebase when pulling. Turn All Off puts back what Peel changed, and returns the rest to Git’s defaults.</p>
+          </li>
+          <li class="reveal">
+            <h3>SSH</h3>
+            <p>Keep connections alive, and more of what ssh already has, each with a switch.</p>
+          </li>
+          <li class="reveal">
+            <h3>Tools</h3>
+            <p>Command-line tools worth having, with the Homebrew command and what each needs after, such as the lines to add to <code>~/.zshrc</code>.</p>
+          </li>
+        </ul>
+        <p class="link-line reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/TERMINAL.md">See every theme and setting</a></p>
+      </div>
+    </section>
+
+    <section class="section paper" id="safety" aria-labelledby="safety-title">
+      <span class="tape seam" aria-hidden="true">Safe by design</span>
+      <div class="wrap">
+        <div class="feature-head center reveal">
+          <h2 class="headline" id="safety-title">A cleaner should never cost you something you wanted.</h2>
+          <p class="lede"><strong>Nothing of yours is deleted without asking first.</strong> What Peel removes goes to the Trash, and History puts it back where it was.</p>
+        </div>
+        <picture class="shot shot-frame reveal">
+          <source type="image/avif" srcset="images/peel-history-800.avif 800w, images/peel-history-1200.avif 1200w, images/peel-history-2400.avif 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-history-1200.webp" srcset="images/peel-history-800.webp 800w, images/peel-history-1200.webp 1200w, images/peel-history-2400.webp 2400w"
+            sizes="(min-width: 1124px) 1080px, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back">
+        </picture>
+        <ul class="points">
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.8h5V7M6.5 7l.9 12.2a1.5 1.5 0 0 0 1.5 1.3h6.2a1.5 1.5 0 0 0 1.5-1.3L17.5 7M10.2 11v5.5M13.8 11v5.5"/></svg>
+            <h3>The Trash, never deletion.</h3>
+            <p>Only four things Peel starts can’t be put back that way: Homebrew’s own uninstall and cleanups, resetting an app’s privacy permissions, and Force Quit for an app that won’t quit. Peel says so before you confirm them, and warns before it moves an app that deletes its own settings when it goes, like Mullvad VPN.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/></svg>
+            <h3>Protected places stay protected.</h3>
+            <p>iCloud Drive, keychains, your SSH and signing keys, the keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="13" rx="2.8"/><path d="M3.5 10h17"/><circle cx="16.3" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+            <h3>Crypto wallets are never selected for you.</h3>
+            <p>A browser profile holding a wallet extension Peel knows, or Brave’s own wallet, stays where it is, so uninstalling a browser never takes the wallet with it.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            <h3>Checked again at the last moment.</h3>
+            <p>Peel looks at each item once more right before it moves, so something swapped in the meantime stays where it is.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m6 6 12 12"/></svg>
+            <h3>Your exclusions, everywhere.</h3>
+            <p>Nothing you exclude is ever moved, and neither is a folder holding something you excluded. An excluded app still appears in Applications but gets no removal plan, and the folders named with its identifier, such as its caches, leave every page. To keep its other files, exclude them too.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+            <h3>Every decision explained.</h3>
+            <p>When Peel holds a file back, the row says why. A folder it couldn’t measure or read is shown as unknown, never as empty.</p>
+          </li>
+        </ul>
+        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md">Read everything Peel protects</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="privacy" aria-labelledby="privacy-title">
+      <div class="wrap split">
+        <div class="split-text reveal">
+          <p class="eyebrow">Privacy</p>
+          <h2 class="headline" id="privacy-title">No analytics.<br>No account.</h2>
+          <p class="lede">On its own, Peel goes online only to check your apps, and itself, for updates, and you can turn that off. <strong>Each check asks about one app alone</strong>, through its own update feed or the App Store, and doesn’t send its version, your macOS, or your languages; the App Store is told only your Mac’s region. Release notes are asked for in your language when the feed offers them in several.</p>
+          <p class="lede">Settings &gt; Privacy shows what Peel sends, and every address it or Homebrew may contact.</p>
+        </div>
+        <picture class="shot reveal">
+          <source type="image/avif" srcset="images/peel-privacy-800.avif 800w, images/peel-privacy-1200.avif 1200w, images/peel-privacy-2400.avif 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)">
+          <img src="images/peel-privacy-1200.webp" srcset="images/peel-privacy-800.webp 800w, images/peel-privacy-1200.webp 1200w, images/peel-privacy-2400.webp 2400w"
+            sizes="(min-width: 1320px) 702px, (min-width: 1069px) 52vw, (min-width: 641px) calc(100vw - 44px), calc(100vw - 32px)"
+            width="1200" height="847" loading="lazy" decoding="async"
+            alt="Peel’s Settings, on Privacy: what Peel sends, and every address Peel or Homebrew may contact, with the reason for each">
+        </picture>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section" id="command" aria-labelledby="command-title">
+      <div class="wrap center">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">The peel command</p>
+          <h2 class="headline" id="command-title">Much of Peel,<br>from Terminal.</h2>
+          <p class="lede">Every command that moves your files asks first, and takes <code>--dry-run</code> to only show the plan. <strong>What it moves goes through the same checks as in the app, into the same History.</strong></p>
+        </div>
+        <div class="terminal reveal">
+          <div class="terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>peel</span></div>
+          <dl class="terminal-lines">
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel leftovers Obsidian</code></dt>
+            <dd># the files an app leaves behind, and why</dd>
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel uninstall Obsidian <span class="f">--dry-run</span></code></dt>
+            <dd># only show the plan</dd>
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel orphans</code></dt>
+            <dd># files of apps no longer installed</dd>
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel duplicates ~/Downloads</code></dt>
+            <dd># identical files and folders</dd>
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel history</code></dt>
+            <dd># what Peel moved to the Trash</dd>
+            <dt><span class="p" aria-hidden="true">~ ❯</span> <code>peel restore <span class="f">&lt;id&gt;</span></code></dt>
+            <dd># put one of them back</dd>
+          </dl>
+          <p class="terminal-prompt" aria-hidden="true"><span class="p">~ ❯</span> <span class="cursor"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="languages" aria-labelledby="languages-title">
+      <div class="wrap center">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Languages</p>
+          <h2 class="headline" id="languages-title">Speaks 18 languages.</h2>
+          <p class="lede">Peel uses the first language in your Mac’s list that it speaks, <strong>in the words macOS itself uses in that language.</strong></p>
+        </div>
+        <ul class="languages reveal">
+          <li lang="en">English</li>
+          <li lang="ro">Română</li>
+          <li lang="de">Deutsch</li>
+          <li lang="fr">Français</li>
+          <li lang="es">Español</li>
+          <li lang="pt-BR">Português (Brasil)</li>
+          <li lang="it">Italiano</li>
+          <li lang="ja">日本語</li>
+          <li lang="zh-Hans">简体中文</li>
+          <li lang="zh-Hant">繁體中文</li>
+          <li lang="nl">Nederlands</li>
+          <li lang="ko">한국어</li>
+          <li lang="ru">Русский</li>
+          <li lang="pl">Polski</li>
+          <li lang="tr">Türkçe</li>
+          <li lang="sv">Svenska</li>
+          <li lang="cs">Čeština</li>
+          <li lang="uk">Українська</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section" id="questions" aria-labelledby="questions-title">
+      <div class="wrap">
+        <h2 class="headline center reveal" id="questions-title">Questions.</h2>
+        <div class="faq reveal">
+          <details>
+            <summary>What is Peel?</summary>
+            <p>Peel is a free, open source app for macOS that uninstalls apps together with the files they leave behind, and tells you why each file belongs to the app. It also frees disk space, looks after Homebrew and what runs in the background, changes settings macOS already has, many of them out of sight, and sets up Terminal.</p>
+          </details>
+          <details>
+            <summary>How do I completely uninstall an app on a Mac?</summary>
+            <p>Open Peel, choose the app under Applications, look over what Peel found, and click Move to Trash. The app and its leftovers go to the Trash together, and History can put them back. You can also Control-click the app in Finder and choose Uninstall with Peel, once the Finder extension is on in System Settings.</p>
+          </details>
+          <details>
+            <summary>Can Peel delete something I need?</summary>
+            <p>Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there. What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries.</p>
+          </details>
+          <details>
+            <summary>Why does Peel show a smaller size than Finder?</summary>
+            <p>Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go.</p>
+          </details>
+          <details>
+            <summary>Why does Peel ask for Full Disk Access?</summary>
+            <p>macOS keeps other apps’ data, and the Trash, out of sight of any app without it. Peel works without it, but can’t see everything an app leaves behind.</p>
+          </details>
+          <details>
+            <summary>Does Peel collect any data?</summary>
+            <p>No. Peel has no analytics and no account. On its own, it goes online only to check your apps, and itself, for updates, which you can turn off. Homebrew goes online when you ask it to do something.</p>
+          </details>
+          <details>
+            <summary>Is Peel really free?</summary>
+            <p>Yes. Peel is free and open source under the GNU General Public License, version 3 or later, with no paid edition, no ads, and no account.</p>
+          </details>
+          <details>
+            <summary>Can I install Peel with Homebrew?</summary>
+            <p>Yes. Run <code>brew install --cask tuguidragos/tap/peel</code> in Terminal. It installs the same release as the download on this page.</p>
+          </details>
+          <details>
+            <summary>Does Peel work on Intel Macs and older versions of macOS?</summary>
+            <p>Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that Apple lists for macOS 26. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so every release is tested by hand before it ships, on macOS 26 and every version since.</p>
+          </details>
+          <details>
+            <summary>How do I uninstall Peel itself?</summary>
+            <p>In Settings &gt; General, choose Remove Peel. Peel removes its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, and clears its settings. If you installed it with Homebrew, Settings shows the Homebrew command to run instead.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="download" id="download" aria-labelledby="download-title">
+      <div class="wrap center reveal">
+        <img class="hero-icon" src="images/peel-icon-256.webp" width="128" height="128" loading="lazy" decoding="async" alt="">
+        <h2 class="headline" id="download-title">Get Peel.</h2>
+        <p class="lede">Free and open source, under the GNU General Public License.</p>
+        <div class="actions">
+          <a class="pill pill-large" href="https://github.com/TuguiDragos/Peel/releases/latest" data-download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
+            Download for Mac
+          </a>
+          <a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md">What’s new</a>
+        </div>
+        <p class="requirements"><span data-version></span>macOS Tahoe 26 or later · Apple silicon and Intel</p>
+        <div class="brew">
+          <code>brew install --cask tuguidragos/tap/peel</code>
+          <button class="copy" type="button" data-copy="brew install --cask tuguidragos/tap/peel">Copy</button>
+        </div>
+        <a class="pill pill-ghost sponsor" href="https://github.com/sponsors/TuguiDragos"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg>Sponsor on GitHub</a>
+        <div class="notice">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 19 6.3v5.2c0 4.3-2.9 7.7-7 9-4.1-1.3-7-4.7-7-9V6.3z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none"/></svg>
+          <p><strong>Peel is published in one place only: <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>.</strong> Every download on this page leads there. Any other site, download page, or store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone asking you to pay for it is not me.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <nav aria-label="More about Peel">
+        <ul>
+          <li><a href="https://github.com/TuguiDragos/Peel">Source code</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/releases">Releases</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md">Safety</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md">Security</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/issues/new/choose">Report an issue</a></li>
+          <li><a href="https://github.com/sponsors/TuguiDragos">Sponsor</a></li>
+        </ul>
+      </nav>
+      <p class="maker">Made by <a href="https://tuguidragos.com/">Țugui Dragoș</a>.</p>
+      <nav aria-label="Țugui Dragoș elsewhere">
+        <ul>
+          <li><a href="https://github.com/TuguiDragos">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/tuguidragos/">LinkedIn</a></li>
+          <li><a href="https://x.com/TuguiDragos">X</a></li>
+          <li><a href="https://bsky.app/profile/tuguidragos.com">Bluesky</a></li>
+          <li><a href="https://mastodon.social/@tuguidragos">Mastodon</a></li>
+          <li><a href="https://www.threads.com/@tuguidragos">Threads</a></li>
+          <li><a href="https://www.instagram.com/tuguidragos/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@TuguiDragos">YouTube</a></li>
+        </ul>
+      </nav>
+      <p>Copyright © 2026 Țugui Dragoș-Constantin. Peel is free software under the <a href="https://github.com/TuguiDragos/Peel/blob/main/LICENSE">GNU General Public License, version 3 or later</a>, and comes with no warranty, to the extent the law allows.</p>
+      <p>Apple, Mac, and macOS are trademarks of Apple Inc., registered in the U.S. and other countries and regions. Peel is not made or endorsed by Apple.</p>
+    </div>
+  </footer>
+  <a class="to-top" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="track" cx="24" cy="24" r="22.5"/><circle class="ring" cx="24" cy="24" r="22.5"/><path d="M24 31.5v-15m-6.5 6.5 6.5-6.5 6.5 6.5"/></svg>
+  </a>
+</body>
+</html>

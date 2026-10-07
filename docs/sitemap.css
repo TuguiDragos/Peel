@@ -1,0 +1,113 @@
+/* Browser view of sitemap.xml only. */
+urlset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: start;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 88px 24px 64px;
+  background: #0b0a09;
+  color: #f5f2ed;
+  font: 15px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+urlset::before {
+  content: "XML Sitemap";
+  grid-column: 1 / -1;
+  order: -4;
+  padding-top: 26px;
+  background: linear-gradient(90deg, #ff9933, #ffb366) no-repeat 0 0 / 56px 4px;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+urlset::after {
+  content: "Every page of peel.tuguidragos.com that search engines should know about, and when it last changed.";
+  grid-column: 1 / -1;
+  order: -3;
+  margin: 14px 0 40px;
+  color: #a39d94;
+  font-size: 17px;
+}
+
+url {
+  display: contents;
+}
+
+url:first-of-type::before,
+url:first-of-type::after {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 242, 224, 0.12);
+  color: #a39d94;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+url:first-of-type::before {
+  content: "Page";
+  order: -2;
+}
+
+url:first-of-type::after {
+  content: "Last modified";
+  order: -1;
+  padding-left: 32px;
+  text-align: right;
+}
+
+loc,
+lastmod {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 242, 224, 0.12);
+}
+
+loc {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+lastmod {
+  padding-left: 32px;
+  color: #a39d94;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  urlset {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 56px 16px 40px;
+  }
+
+  urlset::before {
+    font-size: 32px;
+  }
+
+  urlset::after {
+    margin-bottom: 28px;
+    font-size: 16px;
+  }
+
+  url:first-of-type::after {
+    display: none;
+  }
+
+  loc {
+    padding-bottom: 4px;
+    border-bottom: 0;
+  }
+
+  lastmod {
+    padding: 0 0 16px;
+    text-align: left;
+  }
+
+  lastmod::before {
+    content: "Last modified ";
+  }
+}

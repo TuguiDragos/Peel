@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found: Peel</title>
+  <meta name="description" content="This page isn’t part of Peel’s site. Everything Peel does is on the home page.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0a09">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --orange: #ff9933;
+      --cream: #fff2e0;
+      --ink: #201f1d;
+      --text: #f5f2ed;
+      --sticker-edge: #d6d4cf;
+      --sticker-dark: #302e2b;
+      --sticker-gray: #4d4d4d;
+      --rounded: ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 32px 16px;
+      background: #0b0a09;
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      --big: clamp(150px, 26vmin, 220px);
+      position: relative;
+      max-width: 520px;
+    }
+
+    .wall {
+      --side: calc(50vw - 260px);
+      display: none;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .peeled {
+      display: block;
+      width: var(--big);
+      height: auto;
+      margin: 0 auto 26px;
+      overflow: visible;
+      touch-action: pinch-zoom;
+    }
+
+    .peeled text {
+      font-family: var(--rounded);
+      font-size: 50px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .peeled .flap {
+      cursor: grab;
+    }
+
+    .peeled.held .flap {
+      cursor: grabbing;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+
+    main p {
+      margin: 14px 0 30px;
+      color: #a39d94;
+      font-size: 19px;
+      line-height: 1.45;
+    }
+
+    a {
+      display: inline-block;
+      padding: 13px 26px;
+      border-radius: 999px;
+      background: var(--orange);
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    a:hover {
+      background: #ffa64d;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+
+    .sticker {
+      --size: clamp(84px, 13vmin, 118px);
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--size) * 0.07);
+      box-sizing: border-box;
+      width: var(--size);
+      height: var(--size);
+      padding: 6px;
+      border: calc(var(--size) * 0.045) solid var(--sticker-edge);
+      border-radius: 26%;
+      background: var(--sticker-dark);
+      color: var(--text);
+      font-family: var(--rounded);
+      text-align: center;
+      transform: rotate(var(--turn));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 24px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .sticker b,
+    .sticker span {
+      line-height: 1;
+      text-box: trim-both cap alphabetic;
+    }
+
+    .sticker b {
+      font-size: calc(var(--size) * 0.3);
+      font-weight: 700;
+    }
+
+    .sticker span {
+      font-size: calc(var(--size) * 0.12);
+      font-weight: 600;
+    }
+
+    .sticker.round {
+      border-radius: 50%;
+    }
+
+    .sticker.cream {
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    .sticker.gray {
+      background: var(--sticker-gray);
+    }
+
+    .sticker.wide {
+      width: calc(var(--size) * 1.32);
+    }
+
+    .tape {
+      position: absolute;
+      padding: 7px 26px 6px;
+      background: var(--orange);
+      color: var(--ink);
+      font-family: var(--rounded);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(var(--turn));
+      clip-path: polygon(2% 0, 98% 0, 100% 18%, 97.5% 34%, 100% 50%, 97.5% 66%, 100% 82%, 98% 100%, 2% 100%, 0 82%,
+          2.5% 66%, 0 50%, 2.5% 34%, 0 18%);
+    }
+
+    /* Wide screens */
+    @media (min-width: 990px) and (min-height: 561px) {
+      .wall {
+        display: block;
+      }
+
+      .s1 { right: calc(100% + min(72px, (var(--side) - var(--size)) / 2)); top: calc(var(--big) * 0.5); translate: 0 -50%; }
+      .s2 { left: calc(100% + min(40px, (var(--side) - 210px) / 2)); top: calc(var(--big) * 0.3); translate: 0 -50%; }
+      .s3 { right: calc(100% + min(96px, (var(--side) - var(--size)) / 2)); bottom: 28px; }
+      .s4 { left: calc(100% + min(72px, (var(--side) - var(--size) * 1.32) / 2)); bottom: 64px; }
+    }
+
+    /* Tall phones and tablets */
+    @media (min-width: 360px) and (max-width: 640px) and (min-height: 680px), (min-width: 641px) and (max-width: 989px) and (min-height: 800px) {
+      .wall {
+        display: block;
+      }
+
+      .s1 { left: 6%; bottom: calc(100% + 28px); }
+      .s2 { right: 2%; bottom: calc(100% + 64px); }
+      .s3 { left: 12%; top: calc(100% + 40px); }
+      .s4 { right: 8%; top: calc(100% + 24px); }
+    }
+
+    /* Room for only two */
+    @media (min-width: 760px) and (max-height: 560px), (min-width: 760px) and (max-width: 989px) and (max-height: 799px) {
+      .wall {
+        display: block;
+      }
+
+      .s2,
+      .s4 {
+        display: none;
+      }
+
+      .s1 { right: calc(100% + min(72px, (var(--side) - var(--size)) / 2)); top: calc(var(--big) * 0.5); translate: 0 -50%; }
+      .s3 { left: calc(100% + min(72px, (var(--side) - var(--size)) / 2)); bottom: 24px; }
+    }
+
+    @media (max-width: 640px) {
+      main p {
+        font-size: 17px;
+      }
+    }
+
+    @media (max-height: 560px) and (min-width: 641px) {
+      main {
+        --big: min(150px, 30dvh);
+      }
+
+      .peeled {
+        margin-bottom: 14px;
+      }
+
+      main p {
+        margin: 10px 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wall" aria-hidden="true">
+      <span class="sticker round cream s1" style="--turn: -10deg"><b>0</b><span>files here</span></span><span class="tape s2" style="--turn: 7deg">Page not found</span><span class="sticker gray s3" style="--turn: 8deg"><b>?</b><span>moved</span></span><span class="sticker wide s4" style="--turn: -6deg"><b>~/</b><span>nowhere</span></span>
+    </div>
+    <svg class="peeled" viewBox="-112 -112 224 224" aria-hidden="true">
+      <defs>
+        <linearGradient id="flap-light" gradientUnits="userSpaceOnUse" x1="42.85" y1="-42.85" x2="15" y2="-15">
+          <stop offset="0" stop-color="#f3e3cc"/><stop offset="1" stop-color="#fff6ea"/>
+        </linearGradient>
+        <filter id="flap-shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="-3" dy="5" stdDeviation="5" flood-color="#3a1d00" flood-opacity="0.45"/></filter>
+        <clipPath id="stuck"><use href="#face"/></clipPath>
+      </defs>
+      <path id="face" d="M99.1 13.39A100 100 0 1 1 -13.39 -99.1Z" fill="#ff9933"/>
+      <text x="-22" y="36" text-anchor="middle" fill="#201f1d" clip-path="url(#stuck)">404</text>
+      <path class="flap" d="M-13.39 -99.1A100 100 0 0 0 99.1 13.39Z" fill="url(#flap-light)" filter="url(#flap-shadow)"/>
+      <path class="crease" d="M99.1 13.39L-13.39 -99.1" stroke="#e7cfae" stroke-width="1"/>
+    </svg>
+    <script>
+      {
+        const sticker = document.querySelector(".peeled");
+        const [face, flap, crease] = ["#face", ".flap", ".crease"].map((selector) => sticker.querySelector(selector));
+        const light = sticker.querySelector("linearGradient");
+        const shadow = sticker.querySelector("feDropShadow");
+        const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const R = 100;
+        // The icon's fold: 200 from the center of a 330 disc.
+        const rest = { angle: -Math.PI / 4, fold: R * 200 / 330 };
+        const hover = { angle: rest.angle, fold: rest.fold - 6 };
+        const xy = (x, y) => `${+x.toFixed(2)} ${+y.toFixed(2)}`;
+
+        // A pose is a fold line: its angle and distance from the center. Past it, the disc is mirrored back.
+        const draw = ({ angle, fold }) => {
+          if (fold >= R) {
+            face.setAttribute("d", "M100 0A100 100 0 1 1 -100 0A100 100 0 1 1 100 0Z");
+            flap.setAttribute("d", "M0 0");
+            crease.setAttribute("d", "M0 0");
+            return;
+          }
+          const [x, y] = [Math.cos(angle), Math.sin(angle)];
+          const half = Math.sqrt(R * R - fold * fold);
+          const a = xy(fold * x - half * y, fold * y + half * x);
+          const b = xy(fold * x + half * y, fold * y - half * x);
+          const tip = 2 * fold - R;
+          const lift = Math.min(2, (R - fold) / (R - rest.fold));
+          face.setAttribute("d", `M${a}A100 100 0 1 1 ${b}Z`);
+          flap.setAttribute("d", `M${b}A100 100 0 0 0 ${a}Z`);
+          crease.setAttribute("d", `M${a}L${b}`);
+          light.setAttribute("x1", fold * x);
+          light.setAttribute("y1", fold * y);
+          light.setAttribute("x2", tip * x);
+          light.setAttribute("y2", tip * y);
+          shadow.setAttribute("dx", -3 * lift);
+          shadow.setAttribute("dy", 5 * lift);
+        };
+
+        const between = (from, to) => {
+          const [dx, dy] = [from[0] - to[0], from[1] - to[1]];
+          const length = Math.hypot(dx, dy);
+          if (length < 0.01) return { angle: rest.angle, fold: R };
+          const fold = ((from[0] + to[0]) * dx + (from[1] + to[1]) * dy) / (2 * length);
+          // Follows freely, then holds on and never comes much further off.
+          const resisted = fold < 36 ? 36 - 14 * (1 - Math.exp((fold - 36) / 14)) : fold;
+          return { angle: Math.atan2(dy, dx), fold: Math.min(R, resisted) };
+        };
+
+        let pose = { ...rest };
+        let target = rest;
+        let speed = { angle: 0, fold: 0 };
+        let frame = 0;
+        let last = 0;
+        let held = null;
+        let pointer = null;
+        let toSticker = null;
+        let queued = false;
+
+        const settle = (now) => {
+          const step = Math.min(0.032, (now - last) / 1000);
+          last = now;
+          const turn = Math.atan2(Math.sin(pose.angle - target.angle), Math.cos(pose.angle - target.angle));
+          speed.angle += (-170 * turn - 26 * speed.angle) * step;
+          speed.fold += (-170 * (pose.fold - target.fold) - 26 * speed.fold) * step;
+          pose = { angle: pose.angle + speed.angle * step, fold: pose.fold + speed.fold * step };
+          const done = Math.abs(turn) < 0.001 && Math.abs(pose.fold - target.fold) < 0.05
+            && Math.abs(speed.fold) < 0.1 && Math.abs(speed.angle) < 0.002;
+          if (done) pose = { ...target };
+          draw(pose);
+          frame = done ? 0 : requestAnimationFrame(settle);
+        };
+
+        const go = (to) => {
+          target = to;
+          cancelAnimationFrame(frame);
+          if (still) {
+            pose = { ...to };
+            draw(pose);
+            return;
+          }
+          last = performance.now();
+          frame = requestAnimationFrame(settle);
+        };
+
+        const local = (event) => {
+          const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(toSticker);
+          return [point.x, point.y];
+        };
+
+        const letGo = () => {
+          if (!held) return;
+          held = null;
+          sticker.classList.remove("held");
+          go(flap.matches(":hover") ? hover : rest);
+        };
+
+        flap.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) return;
+          cancelAnimationFrame(frame);
+          toSticker = sticker.getScreenCTM().inverse();
+          const [x, y] = [Math.cos(pose.angle), Math.sin(pose.angle)];
+          const [px, py] = local(event);
+          const past = 2 * (pose.fold - px * x - py * y);
+          held = [px + past * x, py + past * y];
+          speed = { angle: 0, fold: 0 };
+          flap.setPointerCapture(event.pointerId);
+          sticker.classList.add("held");
+        });
+        flap.addEventListener("pointermove", (event) => {
+          if (!held) return;
+          if (!event.buttons) return letGo();
+          pointer = local(event);
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(() => {
+            queued = false;
+            if (!held) return;
+            pose = between(held, pointer);
+            draw(pose);
+          });
+        });
+        for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) flap.addEventListener(type, letGo);
+        addEventListener("blur", letGo);
+        flap.addEventListener("pointerenter", (event) => {
+          if (!held && event.pointerType === "mouse") go(hover);
+        });
+        flap.addEventListener("pointerleave", (event) => {
+          if (!held && event.pointerType === "mouse") go(rest);
+        });
+
+        if (!still) {
+          const corner = [R * Math.cos(rest.angle), R * Math.sin(rest.angle)];
+          const reach = 2 * (R - rest.fold);
+          const end = [corner[0] - reach * Math.cos(rest.angle), corner[1] - reach * Math.sin(rest.angle)];
+          const bend = [(corner[0] + end[0]) / 2 + 9, (corner[1] + end[1]) / 2 + 9];
+          const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+          draw({ angle: rest.angle, fold: R });
+          let begin = 0;
+          const peel = (now) => {
+            begin ||= now + 300;
+            const t = ease(Math.min(1, Math.max(0, (now - begin) / 1100)));
+            const along = (i) => (1 - t) ** 2 * corner[i] + 2 * (1 - t) * t * bend[i] + t * t * end[i];
+            pose = t < 1 ? between(corner, [along(0), along(1)]) : { ...rest };
+            draw(pose);
+            frame = t < 1 ? requestAnimationFrame(peel) : 0;
+          };
+          frame = requestAnimationFrame(peel);
+        }
+      }
+    </script>
+    <h1>Nothing to peel here.</h1>
+    <p>This page isn’t part of Peel’s site. Everything Peel does is on the home page.</p>
+    <a href="/">Go to Peel’s home page</a>
+  </main>
+</body>
+</html>

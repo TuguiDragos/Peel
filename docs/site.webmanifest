@@ -1,0 +1,13 @@
+{
+  "name": "Peel",
+  "short_name": "Peel",
+  "description": "A free, open source uninstaller and cleaner for macOS.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0b0a09",
+  "theme_color": "#0b0a09",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

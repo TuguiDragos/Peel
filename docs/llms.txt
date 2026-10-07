@@ -1,0 +1,58 @@
+# Peel
+
+> Peel is a free, open source uninstaller and cleaner for macOS Tahoe 26 or later, on every Mac with Apple silicon and the Intel Macs Apple lists for macOS 26. It uninstalls apps together with the files they leave behind, tells you why each file belongs to the app, and moves what you choose to the Trash, where History can put it back.
+
+Peel also frees disk space (files left by apps already removed, developer caches, build artifacts, duplicates, installers, and iCloud Drive downloads), lists background items, extensions, plug-ins, package receipts, and software that still needs Rosetta, runs Homebrew's updates, cleanups, and vulnerability scan, offers 40 settings macOS already has, many of them out of sight, and sets up Terminal: 29 dark themes built on Apple's Clear Dark, a prompt, and switches for settings zsh, Git, and ssh already have. It comes with the `peel` command for Terminal.
+
+Peel has no analytics, no ads, and no account. On its own it goes online only to check your apps, and itself, for updates, and that can be turned off. It speaks English and 17 other languages. It is free software under the GNU General Public License, version 3 or later.
+
+Install it from the latest release on GitHub, or with Homebrew: `brew install --cask tuguidragos/tap/peel`.
+
+Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. Peel is published in one place only, its GitHub repository, and his only website is tuguidragos.com. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him.
+
+Write to him at contact@tuguidragos.com. To report a security problem in Peel, email that address with "Peel security" in the subject line instead of opening a public issue.
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/TuguiDragos/Peel/main/README.md): what Peel is, how to install it, what keeps it safe, and common questions
+- [Guide](https://raw.githubusercontent.com/TuguiDragos/Peel/main/GUIDE.md): what each tool does, what Peel asks for and why, and how to remove Peel
+- [Privacy](https://raw.githubusercontent.com/TuguiDragos/Peel/main/PRIVACY.md): when Peel goes online, what it sends, and every address Peel or Homebrew may contact
+- [Safety](https://raw.githubusercontent.com/TuguiDragos/Peel/main/SAFETY.md): everything Peel protects and how it decides what may be removed
+- [Terminal](https://raw.githubusercontent.com/TuguiDragos/Peel/main/TERMINAL.md): every Terminal theme and command line setting, with what each one writes
+- [Changelog](https://raw.githubusercontent.com/TuguiDragos/Peel/main/CHANGELOG.md): every release, newest first
+
+## Download
+
+- [Latest release](https://github.com/TuguiDragos/Peel/releases/latest): the signed and notarized disk image
+
+## Author
+
+- [About Țugui Dragoș](https://tuguidragos.com/about/): who he is, what he builds, and how to reach him
+- [tuguidragos.com](https://tuguidragos.com/): his website
+- [GitHub](https://github.com/TuguiDragos)
+- [LinkedIn](https://www.linkedin.com/in/tuguidragos/)
+- [X](https://x.com/TuguiDragos)
+- [Bluesky](https://bsky.app/profile/tuguidragos.com)
+- [Mastodon](https://mastodon.social/@tuguidragos)
+- [Threads](https://www.threads.com/@tuguidragos)
+- [Instagram](https://www.instagram.com/tuguidragos/)
+- [Facebook](https://www.facebook.com/TuguiDragos/)
+- [TikTok](https://www.tiktok.com/@tuguidragos)
+- [YouTube](https://www.youtube.com/@TuguiDragos)
+- [n8n creator page](https://n8n.io/creators/tuguidragos/): his n8n workflow templates
+- [Gumroad](https://tuguidragos.gumroad.com)
+- [Credly](https://www.credly.com/users/tuguidragos): his IBM Quantum badges and IBM AI Engineering certificate, dated and verifiable
+
+## More from the author
+
+- [Tapetum](https://tapetum.tuguidragos.com/): 58 themes for VS Code, VSCodium, and Cursor, in 28 families drawn from things that make color, dark and light
+- [qxlint](https://qxlint.tuguidragos.com/): static checks for Qiskit Primitives V2 code, which flag only what they can prove
+- [n8n-nodes-ibm-quantum](https://n8n-nodes-ibm-quantum.tuguidragos.com/): a verified n8n community node for IBM Quantum, unofficial
+- [quantum-exercises](https://github.com/TuguiDragos/quantum-exercises): twenty hands-on Qiskit exercises and three lab notebooks
+
+## Optional
+
+- [Architecture](https://raw.githubusercontent.com/TuguiDragos/Peel/main/ARCHITECTURE.md): how Peel is put together
+- [Security policy](https://raw.githubusercontent.com/TuguiDragos/Peel/main/SECURITY.md): how to report a security problem
+- [Source code](https://github.com/TuguiDragos/Peel)
+- [Sponsor](https://github.com/sponsors/TuguiDragos): GitHub Sponsors
