@@ -125,6 +125,17 @@ struct InstallersTests {
         #expect(ZipDirectory.names(at: text) == nil)
     }
 
+    @Test func aCombiningMarkAfterASlashInAZipHidesNoFolder() throws {
+        let directory = try TemporaryDirectory()
+        let build = directory.url.appending(path: "Build", directoryHint: .isDirectory)
+        try directory.file("Build/Example.app/\u{301}x", contents: randomData(count: 1_000))
+        try run("/usr/bin/zip", ["-qr", "../example.zip", "Example.app"], in: build)
+        let archive = directory.url.appending(path: "example.zip")
+
+        #expect(ZipDirectory.names(at: archive)?.contains("Example.app/\u{301}x") == true)
+        #expect(Installers.installerInside(zip: archive) == "Example")
+    }
+
     @Test func findsBigInstallersAndSaysWhichAppIsAlreadyInstalled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/VisualStudioCode-1.99.0.dmg", bytes: 400_000)

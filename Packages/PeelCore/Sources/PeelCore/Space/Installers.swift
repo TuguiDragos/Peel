@@ -1,5 +1,6 @@
 import AppKit
 public import Foundation
+internal import PeelPrivileged
 
 /// A large installer or backup that is easy to forget: an app's disk image, package, or archive, a macOS
 /// installer, device firmware, or a backup of an iPhone or iPad.
@@ -320,14 +321,17 @@ public enum Installers {
         guard let names = ZipDirectory.names(at: url) else { return nil }
         var inside: String?
         for name in names {
-            let first = String(name.prefix { $0 != "/" })
+            guard let first = PathComponents.of(name).first else { continue }
             if first == "__MACOSX" || first.hasPrefix("._") { continue }
             guard inside == nil || inside == first else { return nil }
             inside = first
         }
         guard let inside, inside.count > 4 else { return nil }
         let suffix = (inside as NSString).pathExtension.lowercased()
-        let isAnApp = suffix == "app" && names.contains { $0.count > inside.count + 1 && $0.hasPrefix(inside + "/") }
+        let isAnApp = suffix == "app" && names.contains { name in
+            let parts = PathComponents.of(name)
+            return parts.count > 1 && parts[0] == inside
+        }
         guard isAnApp || installerExtensions.contains(suffix) else { return nil }
         return (inside as NSString).deletingPathExtension
     }
