@@ -4,5 +4,7 @@
 set -euo pipefail
 cd "${0:A:h}"
 ictool="$(xcode-select -p)/../Applications/Icon Composer.app/Contents/Executables/ictool"
-"$ictool" Peel.icon --export-image --output-file Peel.png --platform macOS --rendition Default --width 320 --height 320 --scale 1
-"$ictool" Peel.icon --export-image --output-file Peel-Dark.png --platform macOS --rendition Dark --width 1024 --height 1024 --scale 1
+"$ictool" Peel.icon --export-image --output-file Peel.png \
+  --platform macOS --rendition Default --width 320 --height 320 --scale 1
+"$ictool" Peel.icon --export-image --output-file Peel-Dark.png \
+  --platform macOS --rendition Dark --width 1024 --height 1024 --scale 1

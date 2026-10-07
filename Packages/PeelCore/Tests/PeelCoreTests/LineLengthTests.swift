@@ -22,6 +22,23 @@ struct LineLengthTests {
         #expect(long.isEmpty, "\(long.count) lines:\n\(long.prefix(40).joined(separator: "\n"))")
     }
 
+    /// A script's line is measured as it is written: its quotes follow its own language's rules.
+    @Test func everyScriptLineFitsIn120Columns() throws {
+        var long: [String] = []
+        for folder in ["Scripts", "Logo", ".github/workflows"] {
+            let root = Self.repository.appending(path: folder, directoryHint: .isDirectory)
+            for file in try FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)
+            where ["sh", "py", "yml"].contains(file.pathExtension) {
+                let lines = try String(contentsOf: file, encoding: .utf8)
+                    .split(separator: "\n", omittingEmptySubsequences: false)
+                for (index, line) in lines.enumerated() where line.count > 120 {
+                    long.append("\(folder)/\(file.lastPathComponent):\(index + 1) is \(line.count) columns")
+                }
+            }
+        }
+        #expect(long.isEmpty, "\(long.joined(separator: "\n"))")
+    }
+
     @Test func aStringLiteralDoesNotCount() {
         let literal = String(repeating: "word ", count: 40)
         let interpolated = "        let text = \"\(literal)\\(value(\"\(literal)\"))\(literal)\""
