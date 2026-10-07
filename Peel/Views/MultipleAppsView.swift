@@ -326,16 +326,23 @@ struct MultipleAppsView: View {
         resetsPrivacy ? PrivacyReset.apps(among: plan.apps, moving: urls) : []
     }
 
-    /// Asks the question once the apps have quit, since none of their files moves while they run. Its words are
-    /// worked out here, once, rather than with every change of the page: the note compares every chosen app with
-    /// every other.
+    /// Asks the question once the apps have quit, since none of their files moves while they run, and after scanning
+    /// again if any had to quit: what they wrote until then was not there when the page scanned. Its words are worked
+    /// out here, once, rather than with every change of the page: the note compares every chosen app with every other.
     private func requestRemoval() {
         let plan = plan
-        quitting.check(plan.runningProcesses) {
-            let request = plan.request
-            questionTitle = Text.movingToTrash(request.urls.count, request.total)
-            questionNote = note(about: request.urls)
-            plan.question.ask(request)
+        let running = plan.runningProcesses
+        quitting.check(running) {
+            Task {
+                if !running.isEmpty {
+                    await rescan()
+                    guard !plan.scanRun.wasStopped else { return }
+                }
+                let request = plan.request
+                questionTitle = Text.movingToTrash(request.urls.count, request.total)
+                questionNote = note(about: request.urls)
+                plan.question.ask(request)
+            }
         }
     }
 

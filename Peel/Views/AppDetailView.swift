@@ -446,10 +446,20 @@ struct AppDetailView: View {
         return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
-    /// Asks the question once the app has quit, since none of its files moves while it runs.
+    /// Asks the question once the app has quit, since none of its files moves while it runs, and after scanning again
+    /// if it had to quit: what it wrote until then was not there when the page scanned.
     private func requestRemoval() {
         let plan = plan
-        quitting.check(plan.runningProcesses) { plan.question.ask(plan.request) }
+        let running = plan.runningProcesses
+        quitting.check(running) {
+            Task {
+                if !running.isEmpty {
+                    await rescan()
+                    guard !plan.scanRun.wasStopped else { return }
+                }
+                plan.question.ask(plan.request)
+            }
+        }
     }
 
     /// Quitting the app before removing it, or only its files when it stays.
