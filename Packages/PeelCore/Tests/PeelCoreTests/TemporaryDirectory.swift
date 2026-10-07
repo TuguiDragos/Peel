@@ -81,7 +81,8 @@ struct TemporaryDirectory: ~Copyable {
     }()
 
     /// macOS kills a copy of one of its own programs started from anywhere else (a launch constraint), so the copy of
-    /// `sleep` is signed ad hoc first.
+    /// `sleep` is signed ad hoc first. It lives five minutes, longer than the rest of the suite can hold a test back,
+    /// and each test ends its own.
     func runningProgram(_ path: String) throws -> Process {
         let program = url.appending(path: path)
         try FileManager.default.createDirectory(
@@ -97,7 +98,7 @@ struct TemporaryDirectory: ~Copyable {
         guard signing.terminationStatus == 0 else {
             throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
         }
-        return try Process.run(program, arguments: ["30"])
+        return try Process.run(program, arguments: ["300"])
     }
 
     func setPermissions(_ permissions: Int, of path: String) throws {
