@@ -17,8 +17,10 @@ struct UninstallPlan {
     let items: [Item]
     /// How many recommended leftovers need administrator access. The command line never asks for it, so they stay.
     let needsAdministrator: Int
-    /// How many leftovers are listed but not recommended: shared with another app, only possible, or held back.
+    /// How many leftovers are listed but not recommended: shared with another app, only possible, or held back for
+    /// a reason other than the app's own uninstaller, which removes what it holds back.
     let needsReview: Int
+    var uninstallsItself = false
 
     var moving: [Item] { items.filter { $0.refusal == nil } }
     var staying: [Item] { items.filter { $0.refusal != nil } }
@@ -56,7 +58,8 @@ struct UninstallPlan {
             app: app,
             items: items,
             needsAdministrator: rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
-            needsReview: rest.count(where: { !$0.match.isRecommended })
+            needsReview: rest.count(where: { !$0.match.isRecommended && $0.match.heldBack != .leftToItsUninstaller }),
+            uninstallsItself: uninstallation.uninstallsItself != nil
         )
     }
 
@@ -89,7 +92,8 @@ struct UninstallPlan {
         return await service.trash(
             apps: [app],
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
-            usingHelperFor: []
+            usingHelperFor: [],
+            lettingTheirProgramsRun: uninstallsItself ? [app] : []
         )
     }
 }

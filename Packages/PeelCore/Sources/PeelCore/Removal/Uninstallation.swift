@@ -19,6 +19,7 @@ public struct Uninstallation: Sendable {
     /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
     /// it is never selected or counted, and what it left behind still is.
     public var isAppInTheTrash = false
+    public var uninstallsItself: UninstallsItself?
     /// True for Peel, which is removed only from its own Settings, where its helper and login item go first. Its
     /// files are listed, and nothing of it is selected or moved anywhere else: `unreviewedSelection` is that way.
     public var isPeel: Bool { app.isPeelItself }
@@ -61,6 +62,10 @@ public struct Uninstallation: Sendable {
         scan = scan.adding(
             await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment)
         )
+        let uninstallsItself = UninstallsItself.of(app, environment: environment)
+        if let uninstallsItself {
+            scan = scan.leavingToItsUninstaller(uninstallsItself)
+        }
         let reach = HelperReach(environment: environment)
         scan = scan.holdingBack(beyond: reach, leaving: app.url)
         let appRequiresPrivileges = FileAccess.requiresPrivilegesToRemove(app.url)
@@ -72,7 +77,8 @@ public struct Uninstallation: Sendable {
             isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
             appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
-            isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url)
+            isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url),
+            uninstallsItself: uninstallsItself
         )
     }
 
@@ -272,7 +278,8 @@ public struct Uninstallation: Sendable {
         return await service.trash(
             apps: order.filter { $0 == app.url },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
-            usingHelperFor: throughTheHelper ? privilegedURLs : []
+            usingHelperFor: throughTheHelper ? privilegedURLs : [],
+            lettingTheirProgramsRun: uninstallsItself == nil ? [] : [app.url]
         )
     }
 

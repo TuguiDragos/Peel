@@ -326,6 +326,7 @@ extension HoldBack {
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .insideAnotherAppsFolder: "inside another app's folder"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
+        case .leftToItsUninstaller: "removed by the app's own uninstaller once the app is in the Trash"
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"

@@ -96,10 +96,12 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    links an app's tools and their shell completions left in `/usr/local` go last, once the app they lead into
    has moved. Before any of it, the app has to quit, and Peel offers Force Quit when it doesn't
    (`QuitBeforeRemoving`). An item stays where it is while a program holds it (`OpenFiles`): a file one of the
-   user's programs holds open, or the program any process runs from it, though inside an app, which is code
-   and loses nothing when it moves, a file open only for reading holds nothing. The app's privacy permissions
-   are reset, when that was chosen, just before the move and only once the checks the move makes first (the
-   guard, History, and the programs holding it) say it will go (`PrivacyReset`).
+   user's programs holds open, or the program any process runs from it, though inside an app, which is code and
+   loses nothing when it moves, a file open only for reading holds nothing. Nor does the program running from an
+   app that uninstalls itself once it has moved (`UninstallsItself`, Mullvad VPN's daemon), and what that
+   uninstaller removes is held back (`leftToItsUninstaller`) rather than moved first. The app's privacy
+   permissions are reset, when that was chosen, just before the move and only once the checks the move makes
+   first (the guard, History, and the programs holding it) say it will go (`PrivacyReset`).
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
    forget the preference domains whose files went, and an uninstalled app's Dock icon comes out
    (`DockTiles`).

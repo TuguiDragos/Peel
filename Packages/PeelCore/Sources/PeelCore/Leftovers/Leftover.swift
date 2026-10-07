@@ -74,6 +74,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case insideAnotherAppsFolder
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).
     case beyondTheHelper
+    /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
+    /// the job that runs the uninstaller would stop it, and the rest of its cleanup would never happen.
+    case leftToItsUninstaller
     /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
@@ -95,7 +98,7 @@ public enum HoldBack: String, Sendable, Hashable {
     /// would refuse to move it.
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
-            || self == .beyondTheHelper
+            || self == .beyondTheHelper || self == .leftToItsUninstaller
             || self == .holdsAnExclusion
     }
 
@@ -108,8 +111,8 @@ public enum HoldBack: String, Sendable, Hashable {
         case .holdsRepository, .sharedWithEveryone, .namedLikeTheApp, .holdsAnExclusion, .notMeasured, .couldNotBeRead,
              .holdsDocuments, .holdsALibrary, .holdsAWallet, .holdsAPasswordDatabase, .holdsLocalMail,
              .holdsMessageHistory, .holdsPasswordsOrCodes, .holdsVPNConnections, .holdsKeys, .holdsWorkKeptInACache,
-             .insideAnotherAppsFolder, .beyondTheHelper, .keptByMacOS, .openedFromMail, .inTheCloud, .openInAProgram,
-             .changedRecently, .keptByAnApp, .appIsRunning: true
+             .insideAnotherAppsFolder, .beyondTheHelper, .leftToItsUninstaller, .keptByMacOS, .openedFromMail,
+             .inTheCloud, .openInAProgram, .changedRecently, .keptByAnApp, .appIsRunning: true
         }
     }
 
@@ -263,6 +266,15 @@ public struct LeftoverScan: Sendable {
                 guard leftover.requiresPrivileges, reach.isBeyond(leftover.url, leaving: app) else { return leftover }
                 return leftover.heldBack(.beyondTheHelper)
             },
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
+    func leavingToItsUninstaller(_ app: UninstallsItself) -> LeftoverScan {
+        LeftoverScan(
+            leftovers: leftovers.map { app.removes($0.url) ? $0.heldBack(.leftToItsUninstaller) : $0 },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
             needsFullDiskAccess: needsFullDiskAccess

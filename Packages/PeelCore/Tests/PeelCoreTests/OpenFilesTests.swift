@@ -64,6 +64,21 @@ struct OpenFilesTests {
         #expect(!OpenFiles(excluding: nil).holders(of: app).isEmpty)
     }
 
+    @Test func aProgramRunningFromInsideAnAppHoldsItUnlessItsProgramsMayRun() throws {
+        let directory = try TemporaryDirectory()
+        let process = try directory.runningProgram("Example.app/Contents/Resources/daemon")
+        defer { process.terminate() }
+        let state = try directory.file("Example.app/Contents/Resources/state.db")
+        let app = directory.url.appending(path: "Example.app", directoryHint: .isDirectory)
+
+        #expect(OpenFiles(excluding: nil).holders(of: app) == ["daemon"])
+        #expect(OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
+
+        let writing = try FileHandle(forWritingTo: state)
+        defer { try? writing.close() }
+        #expect(!OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
+    }
+
     /// A process of another account, root's included, can't be asked its name, but the program it runs says it.
     @Test func namesAProcessOfAnotherAccountByItsProgram() {
         #expect(OpenFiles.name(of: 1) == "launchd")

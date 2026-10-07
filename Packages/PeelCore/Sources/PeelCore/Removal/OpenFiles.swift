@@ -6,35 +6,43 @@ internal import PeelPrivileged
 /// app's agent, a tool's daemon, a server. Of another account's processes, root's included, only the program each
 /// runs is seen, never the files it holds open.
 struct OpenFiles {
-    /// `holdsAnApp` is false for a file a process only reads: inside an app, that holds nothing.
-    private let files: [(names: [String], process: String, holdsAnApp: Bool)]
+    private enum Hold { case reads, writes, runs }
+
+    private let files: [(names: [String], process: String, hold: Hold)]
 
     /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
     /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
     init(excluding excluded: pid_t? = getpid()) {
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
-        var files: [(names: [String], process: String, holdsAnApp: Bool)] = []
+        var files: [(names: [String], process: String, hold: Hold)] = []
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded {
-            let program = Self.program(of: pid).map { [(path: $0, holdsAnApp: true)] } ?? []
+            let program = Self.program(of: pid).map { [(path: $0, hold: Hold.runs)] } ?? []
             let paths = Self.paths(openBy: pid) + program
             guard !paths.isEmpty else { continue }
             let process = Self.name(of: pid)
-            files += paths.map { (PathComponents.of($0.path), process, $0.holdsAnApp) }
+            files += paths.map { (PathComponents.of($0.path), process, $0.hold) }
         }
         self.files = files
     }
 
     /// The programs that hold `url`. An app is code, which loses nothing when it moves, so a program that only reads
     /// inside it, as Safari reads an app's Safari extension, holds nothing: what runs from it or writes in it does.
-    func holders(of url: URL) -> [String] {
+    func holders(of url: URL, lettingItsProgramsRun: Bool = false) -> [String] {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         let isAnApp = url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
-        return Set(files.filter { $0.names.starts(with: names) && ($0.holdsAnApp || !isAnApp) }.map(\.process)).sorted()
+        let holding = files.filter { file in
+            guard file.names.starts(with: names) else { return false }
+            switch file.hold {
+            case .reads: return !isAnApp
+            case .writes: return true
+            case .runs: return !lettingItsProgramsRun
+            }
+        }
+        return Set(holding.map(\.process)).sorted()
     }
 
-    /// The regular files `pid` holds open, each with whether it may write to it.
-    private static func paths(openBy pid: pid_t) -> [(path: String, holdsAnApp: Bool)] {
+    private static func paths(openBy pid: pid_t) -> [(path: String, hold: Hold)] {
         let size = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, nil, 0)
         guard size > 0 else { return [] }
         var descriptors = [proc_fdinfo](repeating: proc_fdinfo(), count: Int(size) / MemoryLayout<proc_fdinfo>.size)
@@ -51,7 +59,7 @@ struct OpenFiles {
             let path = withUnsafeBytes(of: info.pvip.vip_path) { bytes in
                 String(decoding: bytes.prefix { $0 != 0 }, as: UTF8.self)
             }
-            return (path, info.pfi.fi_openflags & UInt32(FWRITE) != 0)
+            return (path, info.pfi.fi_openflags & UInt32(FWRITE) != 0 ? .writes : .reads)
         }
     }
 

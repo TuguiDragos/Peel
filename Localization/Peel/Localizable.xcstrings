@@ -65158,6 +65158,112 @@
         }
       }
     },
+    "Left alone: the app’s own uninstaller removes this once the app is in the Trash, and History can’t bring it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tuto položku odstraní vlastní odinstalátor aplikace, jakmile bude aplikace v koši, a Historie ji nemůže vrátit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Das eigene Deinstallationsprogramm der App entfernt dies, sobald die App im Papierkorb liegt, und über den Verlauf lässt sich das nicht zurückholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: el propio desinstalador de la app elimina esto cuando la app ya está en la papelera, e Historial no puede recuperarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : le programme de désinstallation propre à l’app le supprime une fois l’app dans la corbeille, et l’Historique ne peut pas le rétablir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: il programma di disinstallazione dell’app stessa lo rimuove quando l’app è nel Cestino, e la Cronologia non può ripristinarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: アプリがゴミ箱に入ると、アプリ独自のアンインストーラによってこれが削除され、履歴から元に戻すことはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 앱이 휴지통으로 이동되면 앱 자체의 제거 프로그램이 이 항목을 제거하며, 기록에서 되살릴 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: het eigen de-installatieprogramma van de app verwijdert dit definitief zodra de app in de prullenmand ligt, en Geschiedenis kan het niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: własny dezinstalator aplikacji usunie to, gdy aplikacja trafi do Kosza, a Historia nie może tego przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o desinstalador do próprio app remove isto assim que o app estiver no Lixo, e o Histórico não pode trazê-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: după ce aplicația ajunge în Coș, programul ei propriu de dezinstalare elimină acest articol, care nu poate fi readus din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: собственная программа удаления приложения удалит это, как только приложение окажется в Корзине, и История не сможет это вернуть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: appens egen avinstallerare tar bort det här så snart appen ligger i papperskorgen, och Historik kan inte få tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: uygulama Çöp Sepeti’ne taşındığında uygulamanın kendi yükleme kaldırıcısı bunu siler ve Geçmiş onu geri getiremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: власний деінсталятор програми вилучить це, щойно програма потрапить у Смітник, і Історія не зможе цього повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：App进入废纸篓后，它自己的卸载器会移除此项，“历史记录”无法将其恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：一旦App進入「垃圾桶」，它自己的解除安裝程式就會移除此項目，而「歷史記錄」無法將其恢復。"
+          }
+        }
+      }
+    },
     "Left out: %@." : {
       "localizations" : {
         "cs" : {

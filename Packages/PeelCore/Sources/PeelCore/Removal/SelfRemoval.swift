@@ -16,7 +16,8 @@ public enum SelfRemoval {
         var result = await service.trash(
             apps: urls.filter { $0 == app },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
-            usingHelperFor: []
+            usingHelperFor: [],
+            lettingTheirProgramsRun: []
         )
         await record(result)
         guard

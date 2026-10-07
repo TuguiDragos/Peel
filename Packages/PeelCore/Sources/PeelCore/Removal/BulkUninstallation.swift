@@ -175,7 +175,8 @@ public struct BulkUninstallation: Sendable {
                 let kept = Set(stayed.compactMap { identifiers[$0] })
                 return order.filter { !apps.contains($0) && !(owners[$0] ?? []).contains(where: kept.contains) }
             },
-            usingHelperFor: privilegedURLs
+            usingHelperFor: privilegedURLs,
+            lettingTheirProgramsRun: Set(uninstallations.filter { $0.uninstallsItself != nil }.map(\.app.url))
         )
     }
 

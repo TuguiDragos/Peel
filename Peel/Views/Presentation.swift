@@ -248,6 +248,8 @@ extension HoldBack {
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
         case .beyondTheHelper:
             "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here."
+        case .leftToItsUninstaller:
+            "Left alone: the app’s own uninstaller removes this once the app is in the Trash, and History can’t bring it back."
         case .keptByMacOS:
             "Not selected: macOS keeps this cache for its own services, which may be using it right now."
         case .openedFromMail:
