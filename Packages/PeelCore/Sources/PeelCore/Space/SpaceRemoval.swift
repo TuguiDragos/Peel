@@ -31,7 +31,8 @@ public enum SpaceRemoval {
             Set(inUse.map(\.name)).sorted()
         }
 
-        /// What Peel selects of this plan for the person: every item it could measure that nothing holds back.
+        /// What Peel recommends of this plan, which Select Recommended selects: every item it could measure that
+        /// nothing holds back.
         public var suggested: Set<URL> {
             Set(sizes.keys).subtracting(heldBack.keys)
         }
@@ -41,15 +42,10 @@ public enum SpaceRemoval {
             needsTheHelper.contains(url) && heldBack[url]?.cannotBeMoved != true && !canUseHelper
         }
 
-        /// What stays selected in the area as the plan is made again or the helper comes or goes: a child that waits
-        /// for the helper is offered and suggested only while the helper can act.
-        public func selection(
-            keeping selected: Set<URL>,
-            in choices: inout KeptSelection,
-            canUseHelper: Bool
-        ) -> Set<URL> {
-            let rows = selectableRows(canUseHelper: canUseHelper)
-            return choices.update(selected, selectable: Set(rows.selectable), suggested: Set(rows.recommended))
+        /// What stays selected in the area as the plan is made again or the helper comes or goes: what the person
+        /// chose that can still be selected. Nothing is selected for them.
+        public func selection(keeping selected: Set<URL>, canUseHelper: Bool) -> Set<URL> {
+            selected.intersection(selectableRows(canUseHelper: canUseHelper).selectable)
         }
 
         public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {

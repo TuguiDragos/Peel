@@ -1,9 +1,8 @@
 public import Foundation
 
 /// What is selected on the pages of the storage tools, and what of it moves when Move to Trash is pressed on any
-/// of them: each page the person has seen, one part to a page. A tool can select for the person on pages they
-/// never opened (Developer selects the caches it recommends in every tool it lists), and what was never seen must
-/// never be moved from another page, so a page counts only once it has been on screen.
+/// of them: each page the person has seen, one part to a page. What was never seen must never be moved from
+/// another page, so a page counts only once it has been on screen.
 public struct CarriedSelection: Sendable {
     /// One page of a tool: `tool` names the tool, and `scope` the page within it, such as a developer tool, a
     /// project, or a kind of installer. It is empty for a tool that is one page.

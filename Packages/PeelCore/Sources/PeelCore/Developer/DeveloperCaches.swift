@@ -79,8 +79,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
             size == nil || !isTheTools || workspace?.mayStillBeInUse == true || heldBack != nil || kind == .archives
         }
 
-        /// Whether Peel selects this location for the user: only content that tools make or fetch again, or
-        /// logs, and only once measured. Nothing is selected for the user without showing its size.
+        /// Whether Peel recommends this location, which Select Recommended selects and `peel caches --remove` moves:
+        /// only content that tools make or fetch again, or logs, and only once measured.
         public var isRecommended: Bool {
             guard isTheTools, workspace?.mayStillBeInUse != true, heldBack == nil else { return false }
             return switch kind {

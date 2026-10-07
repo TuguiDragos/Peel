@@ -251,11 +251,12 @@ struct SpaceRemovalTests {
 
         let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
         let updater = try #require(plan.removable.first)
-        var choices = KeptSelection()
 
         #expect(plan.needsTheHelper == [updater])
-        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: false).isEmpty)
-        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: true) == [updater])
+        #expect(plan.selection(keeping: [updater], canUseHelper: false).isEmpty)
+        #expect(plan.selection(keeping: [updater], canUseHelper: true) == [updater])
+        #expect(plan.selectableRows(canUseHelper: false).recommended.isEmpty)
+        #expect(plan.selectableRows(canUseHelper: true).recommended == [updater])
     }
 
     @Test func emptiesAContainersCachesUnlessItsAppIsOpenOrApples() async throws {
@@ -579,10 +580,8 @@ struct SpaceRemovalTests {
         #expect(running.withLock { $0.most } == LeftoverScanner.concurrentMeasurements)
     }
 
-    /// An area's plan is made again when the disk changes, and what the person chose in it stays chosen: a child
-    /// that was already there keeps its checkbox as it was, one new to the area is selected when its size is
-    /// known, as every child is in the area's first plan, and one that went is no longer selected. A child Peel
-    /// selected whose size can no longer be measured is no longer selected either.
+    /// An area's plan is made again when the disk changes: what the person chose stays chosen while it is still
+    /// there, and nothing is selected for them, in the first plan or among the children new to the area.
     @Test func aPlanMadeAgainKeepsWhatThePersonChose() {
         let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
         let (kept, deselected, chosenByHand, unmeasured, new, gone, noLongerMeasured) = (
@@ -596,12 +595,7 @@ struct SpaceRemovalTests {
             leftToDeveloper: [],
             sizes: [kept: 1, deselected: 2, gone: 5, noLongerMeasured: 7]
         )
-        var choices = KeptSelection()
-        #expect(
-            first.selection(keeping: [], in: &choices, canUseHelper: true) == [
-                kept, deselected, gone, noLongerMeasured,
-            ]
-        )
+        #expect(first.selection(keeping: [], canUseHelper: true).isEmpty)
 
         let again = SpaceRemoval.Plan(
             removable: [kept, deselected, chosenByHand, unmeasured, new, noLongerMeasured],
@@ -610,14 +604,21 @@ struct SpaceRemovalTests {
             sizes: [kept: 1, deselected: 2, chosenByHand: 3, unmeasured: 4, new: 6]
         )
         let selected: Set = [kept, chosenByHand, gone, noLongerMeasured]
-        #expect(
-            again.selection(keeping: selected, in: &choices, canUseHelper: true) == [
-                kept, chosenByHand, new,
-            ]
-        )
+        #expect(again.selection(keeping: selected, canUseHelper: true) == [kept, chosenByHand, noLongerMeasured])
     }
 
-    @Test func aChildThatWaitsForTheHelperIsSelectedOnlyOnceTheHelperCanAct() {
+    @Test func anAreaSelectsNothingUntilThePersonDoes() {
+        let caches = URL(filePath: "/Users/x/Library/Caches", directoryHint: .isDirectory)
+        let (measured, chosen) = (caches.appending(path: "com.a"), caches.appending(path: "com.b"))
+        let plan = SpaceRemoval.Plan(
+            removable: [measured, chosen], inUse: [], leftToDeveloper: [], sizes: [measured: 1, chosen: 2]
+        )
+        #expect(plan.selection(keeping: [], canUseHelper: true).isEmpty)
+        #expect(plan.selection(keeping: [chosen], canUseHelper: true) == [chosen])
+        #expect(Set(plan.selectableRows(canUseHelper: true).recommended) == [measured, chosen])
+    }
+
+    @Test func aChildThatWaitsForTheHelperCanBeSelectedOnlyOnceTheHelperCanAct() {
         let caches = URL(filePath: "/Library/Caches", directoryHint: .isDirectory)
         let vendor = caches.appending(path: "org.example.Vendor")
         let system = caches.appending(path: "org.example.System")
@@ -625,9 +626,7 @@ struct SpaceRemovalTests {
             removable: [vendor, system], inUse: [], leftToDeveloper: [], sizes: [vendor: 1, system: 2],
             needsTheHelper: [system]
         )
-        var choices = KeptSelection()
-
-        #expect(plan.selection(keeping: [], in: &choices, canUseHelper: false) == [vendor])
-        #expect(plan.selection(keeping: [vendor], in: &choices, canUseHelper: true) == [vendor, system])
+        #expect(plan.selection(keeping: [vendor, system], canUseHelper: false) == [vendor])
+        #expect(plan.selection(keeping: [vendor, system], canUseHelper: true) == [vendor, system])
     }
 }

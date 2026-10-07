@@ -40,7 +40,6 @@ final class ProjectLibrary {
     private(set) var refused: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     var selection: URL?
     var selectedURLs: Set<URL> = []
-    private var choices = KeptSelection()
 
     init() {
         folders = (UserDefaults.standard.array(forKey: Self.foldersKey) as? [String] ?? [])
@@ -74,11 +73,7 @@ final class ProjectLibrary {
         groups = result
         excludedFromBackups = Set(standings.filter { $0.value != .included }.keys)
         excludedFromAbove = Set(standings.filter { $0.value == .excludedFromAbove }.keys)
-        selectedURLs = choices.update(
-            selectedURLs,
-            selectable: Set(artifacts.map(\.url)),
-            suggested: Set(artifacts.filter(\.isRecommended).map(\.url))
-        )
+        selectedURLs.formIntersection(Set(artifacts.map(\.url)))
         if let selection, !result.contains(where: { $0.project == selection }) {
             self.selection = nil
         }

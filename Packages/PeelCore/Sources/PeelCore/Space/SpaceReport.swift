@@ -26,7 +26,7 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// Nil when measuring one of its folders ran out of time or was refused. Unknown is not the same as empty.
     public let size: Int64?
     public let handling: Handling
-    /// Why nothing in this area is selected for the person, whatever each item holds.
+    /// Why nothing in this area is recommended, whatever each item holds.
     public var heldBack: HoldBack?
     /// True when what macOS keeps in its folders for its own services is neither measured nor offered: there they run
     /// as other accounts, whose open files Peel cannot see, or keep caches not even Full Disk Access can read.

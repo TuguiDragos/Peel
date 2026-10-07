@@ -255,12 +255,15 @@ packages Xcode checks out into DerivedData or the clones Cargo and Swift Package
 again when it needs them. Of Carthage's folder in a project, only `Carthage/Build`, which `carthage build` makes, is
 offered: its checkouts, which people commit in, carry no such tag and are never listed.
 
-Build Artifacts selects what a build or a package manager makes again from the project's own files, such as
+Build Artifacts recommends what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
 includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
 `Podfile`. A Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into
 one by hand, and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing
 on its own, such as `target` or `build`, is listed and never selected either.
+
+Developer, Build Artifacts, Space, and Installers and Backups select nothing for you: opening a page selects nothing,
+and Select Recommended selects what Peel recommends there.
 
 Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these folders out as well: one in
 `/Users/Shared`, one with a repository, a wallet, a signing key, or a password database inside, one that may hold what
@@ -276,8 +279,7 @@ they only count toward the folder around them.
 
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and
 Backups, Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of
-them moves all of it. Only a page you have opened counts: Developer and Build Artifacts select for you in every
-tool and project they list, and what they selected on a page you never saw stays where it is. Before anything
+them moves all of it. Only a page you have opened counts, so nothing moves from a page you never saw. Before anything
 moves, the question lists every page with how much it holds, and each page's part is moved by its own tool, with
 that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app opened since
 is writing to, and Duplicates refuses a copy that changed. What a tool refuses for the item itself, such as a folder

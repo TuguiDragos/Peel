@@ -52,10 +52,11 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 Space shows what fills your disk, area by area, and what each area is.
 
 - **Orphaned Files:** files left behind by apps you already removed.
-- **Developer:** caches of developer tools, editors, browsers, and AI models. What you may want again is listed but
-  never selected for you, and toolchains or anything holding an account are never listed.
+- **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
+  Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only
-  when its tool's own file proves it. A project changed in the last 7 days is never selected for you.
+  when its tool's own file proves it. Nothing is selected for you, and Select Recommended passes by a project
+  changed in the last 7 days.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
   Files under 100 KB, and folders holding less, are left out unless you choose a smaller size, in the app and in
   `peel duplicates` alike.
@@ -83,15 +84,15 @@ on Electron, such as Slack or Discord (never what a browser or an app keeps for 
 Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
 archives and the symbols it copied from your devices, model weights, installed packages, what a tool keeps for you
 to install again (Vagrant boxes, Asset Store packages, Godot's export templates), an editor's saved state for each
-project it opened, and a cache with a wallet, a signing key, or a password database inside are listed but never
-selected for you, and toolchains or anything holding an account are never listed.
+project it opened, and a cache with a wallet, a signing key, or a password database inside are listed, and Select
+Recommended passes them by; toolchains or anything holding an account are never listed. Nothing is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
 `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
-when a file of the tool that makes it proves it. A project changed in the last 7 days is never selected for you, and
-neither are installed packages (a Python environment, `vendor`, Terraform's `.terraform`) or a folder like `target`
-whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`,
-or `~/src` when you have one, and adds it only when you say so.
+when a file of the tool that makes it proves it. Nothing is selected for you, and Select Recommended passes by a
+project changed in the last 7 days, installed packages (a Python environment, `vendor`, Terraform's `.terraform`),
+and a folder like `target` whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`,
+`~/Projects`, `~/Code`, or `~/src` when you have one, and adds it only when you say so.
 
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,
@@ -99,7 +100,8 @@ with the command that frees it, when there is one, for you to copy into Terminal
 deletes for good. The caches and logs apps keep for every account, and the crash reports macOS keeps, in the
 Library at the top of the disk, go through Peel's helper when an administrator owns them, and what macOS keeps
 there for its own services is never listed. Peel can also warn you, with a notification that opens Space, when
-less than a tenth of your disk is available: turn it on in Settings > General.
+less than a tenth of your disk is available: turn it on in Settings > General. Nothing is selected for you: Select
+Recommended takes what Peel could measure in an area and nothing holds back.
 
 </details>
 

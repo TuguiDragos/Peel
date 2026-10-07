@@ -16,8 +16,6 @@ final class SpaceLibrary: RowSelection {
     private(set) var plans: [SpaceItem.ID: SpaceRemoval.Plan] = [:]
     /// The area as it was, and the exclusions' revision, when its plan was made.
     @ObservationIgnored private var plannedFor: [SpaceItem.ID: (item: SpaceItem, exclusions: Int)] = [:]
-    /// What was chosen in each area, kept through its plans.
-    @ObservationIgnored private var choices: [SpaceItem.ID: KeptSelection] = [:]
     @ObservationIgnored private var canUseHelper = false
 
     var selectedItem: SpaceItem? {
@@ -48,11 +46,7 @@ final class SpaceLibrary: RowSelection {
 
     private func keep(_ plan: SpaceRemoval.Plan, for item: SpaceItem, madeWith revision: Int) {
         let previous = plans[item.id]
-        let chosen = plan.selection(
-            keeping: selectedURLs,
-            in: &choices[item.id, default: KeptSelection()],
-            canUseHelper: canUseHelper
-        )
+        let chosen = plan.selection(keeping: selectedURLs, canUseHelper: canUseHelper)
         selectedURLs.subtract(previous?.removable ?? [])
         selectedURLs.formUnion(chosen)
         plans[item.id] = plan
@@ -83,12 +77,8 @@ final class SpaceLibrary: RowSelection {
     func follow(canUseHelper: Bool) {
         guard canUseHelper != self.canUseHelper else { return }
         self.canUseHelper = canUseHelper
-        for (id, plan) in plans {
-            let chosen = plan.selection(
-                keeping: selectedURLs,
-                in: &choices[id, default: KeptSelection()],
-                canUseHelper: canUseHelper
-            )
+        for plan in plans.values {
+            let chosen = plan.selection(keeping: selectedURLs, canUseHelper: canUseHelper)
             selectedURLs.subtract(plan.removable)
             selectedURLs.formUnion(chosen)
         }
@@ -117,7 +107,6 @@ final class SpaceLibrary: RowSelection {
             selectedURLs.subtract(plans[id]?.removable ?? [])
             plans[id] = nil
             plannedFor[id] = nil
-            choices[id] = nil
         }
         if let selection, !result.items.contains(where: { $0.id == selection }) {
             self.selection = nil

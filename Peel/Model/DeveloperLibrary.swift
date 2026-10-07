@@ -11,7 +11,6 @@ final class DeveloperLibrary {
     private(set) var isRemoving = false
     var selection: DeveloperEnvironment.ID?
     var selectedURLs: Set<URL> = []
-    private var choices = KeptSelection()
 
     var selectedEnvironment: DeveloperEnvironment? {
         environments?.first { $0.id == selection }
@@ -24,12 +23,7 @@ final class DeveloperLibrary {
             })
         else { return }
         environments = result
-        let locations = result.flatMap(\.locations)
-        selectedURLs = choices.update(
-            selectedURLs,
-            selectable: Set(locations.map(\.url)),
-            suggested: Set(locations.filter(\.isRecommended).map(\.url))
-        )
+        selectedURLs.formIntersection(Set(result.flatMap(\.locations).map(\.url)))
         if let selection, !result.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
