@@ -296,8 +296,10 @@ struct CaskArtifact: Decodable, Sendable {
         // Homebrew writes where each artifact it moves goes, installed or not:
         // `{"app": [...], "target": "/Applications/Krita.app"}`.
         appTargets = app == nil ? [] : (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") }
-        // A command's link is written the same way: `{"binary": [...], "target": "/opt/homebrew/bin/studio"}`.
-        commandLinks = raw["binary"] == nil ? [] : (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") }
+        // A command's link is written the same way: `{"binary": [...], "target": "/opt/homebrew/bin/studio"}`, and
+        // so is the link to a script Homebrew writes to run the app's program (`command_wrapper`).
+        let linksACommand = raw["binary"] != nil || raw["command_wrapper"] != nil
+        commandLinks = linksACommand ? (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") } : []
 
         var patterns: [String] = []
         var emptyFolders: [String] = []

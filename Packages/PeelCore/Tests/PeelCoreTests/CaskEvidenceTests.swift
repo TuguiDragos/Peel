@@ -60,6 +60,16 @@ struct CaskEvidenceTests {
         #expect(known.commandLinks.isEmpty)
     }
 
+    @Test func readsWhereHomebrewLinkedACommandItWrapped() throws {
+        let wrapper = """
+            {"command_wrapper": ["blender", {"executable": "/Applications/Blender.app/Contents/MacOS/Blender"}],
+             "target": "/opt/homebrew/bin/blender"}
+            """
+        let artifact = try JSONDecoder().decode(CaskArtifact.self, from: Data(wrapper.utf8))
+        #expect(artifact.commandLinks == ["/opt/homebrew/bin/blender"])
+        #expect(artifact.appTargets.isEmpty)
+    }
+
     @Test func readsAppsAndLeftoverPathsFromACask() throws {
         let cask = try #require(try casks().first { $0.kind == .cask })
         #expect(cask.name == "sample")
