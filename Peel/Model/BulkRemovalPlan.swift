@@ -127,8 +127,10 @@ final class BulkRemovalPlan {
         var removal = RemovalInProgress()
         let moved = bulk?.apps(owning: result.trashed.map(\.originalURL)) ?? []
         let stayed = bulk?.apps(owning: result.failures.map(\.url)) ?? []
+        var trashed = result
+        trashed.failures = []
         let parts = [
-            (TrashResult(trashed: result.trashed), part(naming: moved)),
+            (trashed, part(naming: moved)),
             (TrashResult(failures: result.failures), part(naming: stayed)),
         ]
         for (result, part) in parts {

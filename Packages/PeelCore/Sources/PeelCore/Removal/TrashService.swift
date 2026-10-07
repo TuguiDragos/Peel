@@ -169,6 +169,8 @@ public enum RestoreFailure: Sendable, Hashable {
 public struct TrashResult: Sendable {
     public var trashed: [TrashedItem] = []
     public var failures: [TrashFailure] = []
+    /// The folders an uninstall left empty and moved too, which free nothing.
+    public internal(set) var emptied: Set<URL> = []
 
     public init(trashed: [TrashedItem] = [], failures: [TrashFailure] = []) {
         self.trashed = trashed
@@ -392,13 +394,15 @@ public struct TrashService: Sendable {
 
     /// Moves `apps` first, then what `files` returns for the apps that stayed, as one removal. An app's files wait
     /// for it, so an app that stays keeps everything of its own. A program running from inside one of
-    /// `lettingTheirProgramsRun` doesn't keep it, since that app uninstalls itself once it has moved.
+    /// `lettingTheirProgramsRun` doesn't keep it, since that app uninstalls itself once it has moved. A folder
+    /// named in `emptiedFoldersNamed` (`MakersFolders.names`) that the files leave empty goes too.
     @concurrent
     public func trash(
         apps: [URL],
         thenFiles files: @Sendable (_ appsThatStayed: Set<URL>) -> [URL],
         usingHelperFor privilegedURLs: Set<URL>,
-        lettingTheirProgramsRun running: Set<URL>
+        lettingTheirProgramsRun running: Set<URL>,
+        emptiedFoldersNamed names: Set<String> = []
     ) async -> TrashResult {
         let removal = UUID()
         var result = apps.isEmpty
@@ -410,6 +414,13 @@ public struct TrashService: Sendable {
         let more = await trash(rest, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: [])
         result.trashed += more.trashed
         result.failures += more.failures
+        // Nobody asked for these folders, so one that stays is no failure.
+        for folder in MakersFolders(environment: environment, names: names).above(more.trashed.map(\.originalURL))
+        where MakersFolders.isEmpty(folder) {
+            let moved = await trash([folder], usingHelperFor: [], removal: removal, lettingTheirProgramsRun: []).trashed
+            result.trashed += moved
+            result.emptied.formUnion(moved.map(\.originalURL))
+        }
         return result
     }
 

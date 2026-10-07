@@ -608,6 +608,94 @@ struct UninstallationTests {
         #expect(!plan.keptItsFiles(after: went, selection: [bundle, cache]))
     }
 
+    private func file(_ url: URL, _ kind: SearchLocation.Kind) -> Leftover {
+        Leftover(
+            url: url,
+            kind: kind,
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+            size: 16,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+    }
+
+    @Test func aMakersFolderTheUninstallLeavesEmptyGoesToo() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/Notes.app")
+        let support = "home/Library/Application Support"
+        let product = try directory.directory("\(support)/Example/Notes")
+        try directory.file("\(support)/Example/Notes/data")
+        let top = try directory.directory("\(support)/org.example.Notes")
+        let help = try directory.directory("home/Library/Caches/com.apple.helpd/Generated/org.example.Notes")
+        let plan = uninstallation(
+            app: InstalledApp(url: bundle, bundleIdentifier: "org.example.Notes", name: "Notes"),
+            leftovers: [file(product, .applicationSupport), file(top, .applicationSupport), file(help, .caches)]
+        )
+
+        let went = await plan.move([bundle, product, top, help], using: try service(in: directory, refusing: nil))
+
+        let maker = directory.url.appending(path: "\(support)/Example")
+        #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+            == Set([bundle, product, top, help, maker].map(PathPattern.comparablePath(of:))))
+        let records = RemovalPart(source: "Notes", sourceKey: nil, tool: "applications")
+            .records(of: went, sizes: [bundle: 4_096], batch: UUID())
+        let size = { (url: URL) in
+            let path = PathPattern.comparablePath(of: url)
+            return records.first { PathPattern.comparablePath(of: $0.originalURL) == path }?.size
+        }
+        #expect(size(maker) == 0)
+        #expect(size(product) == nil)
+        #expect(size(bundle) == 4_096)
+        #expect(!directory.url.appending(path: "home/Library/Caches/com.apple.helpd/Generated").isMissing)
+        #expect(!directory.url.appending(path: support).isMissing)
+        #expect(went.failures.isEmpty)
+    }
+
+    @Test func onlyAnEmptyFolderInsideALibraryLocationEverGoes() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/Notes.app")
+        let cache = try directory.directory("home/Library/Caches/org.example.Notes")
+        let config = try directory.directory("home/.config/Example/org.example.Notes")
+        let logs = try directory.directory("home/Library/Logs/Example/Notes")
+        try directory.file("home/Library/Logs/Example/.DS_Store")
+        let target = try directory.directory("home/Library/Application Support/Linked/Notes")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "home/Library/Application Support/Example"),
+            withDestinationURL: target.deletingLastPathComponent()
+        )
+        let throughLink = directory.url.appending(path: "home/Library/Application Support/Example/Notes")
+        let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.Notes", name: "Notes")
+        let plan = uninstallation(app: app, leftovers: [
+            file(cache, .caches), file(config, .hiddenHomeFiles), file(logs, .logs),
+            file(throughLink, .applicationSupport),
+        ])
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let candidates = MakersFolders(environment: environment, names: plan.makersFolderNames)
+            .above([cache, config, logs])
+        #expect(
+            candidates.map(PathPattern.comparablePath(of:))
+                == [PathPattern.comparablePath(of: logs.deletingLastPathComponent())]
+        )
+        #expect(MakersFolders(environment: environment, names: ["caches", "library"]).above([cache]).isEmpty)
+
+        let all = [bundle, cache, config, logs, throughLink]
+        let went = await plan.move(Set(all), using: try service(in: directory, refusing: nil))
+
+        #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+            == Set(all.map(PathPattern.comparablePath(of:))))
+        let kept = [
+            "home/Library/Caches", "home/.config/Example", "home/Library/Logs/Example",
+            "home/Library/Application Support/Example",
+        ]
+        for kept in kept {
+            #expect(!directory.url.appending(path: kept).isMissing, "\(kept) went")
+        }
+    }
+
     /// The receipt is what keeps macOS counting the package as installed, so it goes with the app. A receipt
     /// proves an app only up to a separator: `com.example.app2.pkg` is another package's.
     @Test func offersTheInstallerReceiptWithTheApp() async throws {

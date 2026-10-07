@@ -237,6 +237,23 @@ struct CleanupTests {
         #expect(await RefusalLog(url: refusals.url).load().records?.map(\.url) == [documents])
     }
 
+    @Test func anUninstallRecordsAMakersFolderItLeftEmptyAsFreeingNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Notes.app")
+        let data = try directory.directory("home/Library/Application Support/Example/org.example.Notes")
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let plan = UninstallPlan(app: app, items: [
+            UninstallPlan.Item(url: app, size: 4_096, refusal: nil),
+            UninstallPlan.Item(url: data, size: 64, refusal: nil),
+        ], needsAdministrator: 0, needsReview: 0, makersFolderNames: ["example"])
+
+        #expect(await plan.record(await plan.move(using: try service(in: directory)), from: "Notes", in: log))
+
+        let records = await RemovalLog(url: log.url).load().records ?? []
+        #expect(records.first { $0.originalURL.lastPathComponent == "Example" }?.size == 0)
+        #expect(records.count == 3)
+    }
+
     /// `peel uninstall` writes down what the guard refused before the move beside what moved, as every other
     /// command does, and an app the guard keeps where it is is written down too, though nothing moved.
     @Test func anUninstallWritesDownWhatTheGuardRefusedBeforeTheMove() async throws {

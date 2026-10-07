@@ -99,7 +99,7 @@ extension RemovalPart {
             RemovalRecord(
                 batch: batch,
                 item: $0,
-                size: sizes[$0.originalURL],
+                size: sizes[$0.originalURL] ?? (result.emptied.contains($0.originalURL) ? 0 : nil),
                 source: source,
                 sourceKey: sourceKey,
                 tool: tool

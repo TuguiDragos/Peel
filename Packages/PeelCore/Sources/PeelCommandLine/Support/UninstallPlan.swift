@@ -21,6 +21,7 @@ struct UninstallPlan {
     /// a reason other than the app's own uninstaller, which removes what it holds back.
     let needsReview: Int
     var uninstallsItself = false
+    var makersFolderNames: Set<String> = []
 
     var moving: [Item] { items.filter { $0.refusal == nil } }
     var staying: [Item] { items.filter { $0.refusal != nil } }
@@ -59,7 +60,8 @@ struct UninstallPlan {
             items: items,
             needsAdministrator: rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
             needsReview: rest.count(where: { !$0.match.isRecommended && $0.match.heldBack != .leftToItsUninstaller }),
-            uninstallsItself: uninstallation.uninstallsItself != nil
+            uninstallsItself: uninstallation.uninstallsItself != nil,
+            makersFolderNames: uninstallation.makersFolderNames
         )
     }
 
@@ -72,9 +74,10 @@ struct UninstallPlan {
         in log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async -> Bool {
-        let refused = staying.compactMap { item in item.refusal.map { TrashFailure(url: item.url, reason: $0) } }
+        var result = result
+        result.failures += staying.compactMap { item in item.refusal.map { TrashFailure(url: item.url, reason: $0) } }
         return await Removals.record(
-            TrashResult(trashed: result.trashed, failures: result.failures + refused),
+            result,
             from: source,
             sizes: [URL: Int64](measured: items.map { ($0.url, $0.size) }),
             tool: "applications",
@@ -93,7 +96,8 @@ struct UninstallPlan {
             apps: [app],
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: [],
-            lettingTheirProgramsRun: uninstallsItself ? [app] : []
+            lettingTheirProgramsRun: uninstallsItself ? [app] : [],
+            emptiedFoldersNamed: makersFolderNames
         )
     }
 }

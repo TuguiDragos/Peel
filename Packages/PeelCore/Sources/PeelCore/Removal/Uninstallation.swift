@@ -343,8 +343,14 @@ public struct Uninstallation: Sendable {
             apps: order.filter { $0 == app.url },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: throughTheHelper ? privilegedURLs : [],
-            lettingTheirProgramsRun: uninstallsItself == nil ? [] : [app.url]
+            lettingTheirProgramsRun: uninstallsItself == nil ? [] : [app.url],
+            emptiedFoldersNamed: makersFolderNames
         )
+    }
+
+    /// The names of the app's and its maker's folders, one of which goes too once the uninstall leaves it empty.
+    public var makersFolderNames: Set<String> {
+        MakersFolders.names(of: [app])
     }
 
     /// Whether the app stayed while files of its own were selected, which then stayed with it.

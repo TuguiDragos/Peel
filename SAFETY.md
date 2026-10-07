@@ -215,7 +215,10 @@ And nothing at all is selected for an app that would stay: one macOS keeps, one 
 helper may not move, or one that needs the helper while it cannot act. An app that is part of another, such as a
 helper app inside the app it serves, is never moved on its own, from the app or from `peel`: it would be cut out of
 the app it belongs to. When you remove several apps at once and deselect one of them, it stays too: its files leave
-the selection, those it shares with the other apps included, and selecting it again brings them back.
+the selection, those it shares with the other apps included, and selecting it again brings them back. A folder in
+your Library named for the app or its maker, such as `Application Support/<Maker>`, that an uninstall leaves empty
+goes to the Trash with it; one with anything left inside, a hidden file included, one with another name, and the
+Library folder itself stay.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,
