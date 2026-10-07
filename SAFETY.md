@@ -41,8 +41,9 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `.config`, `.cache`, `.local`, `.kube` and its `config`, `.CFUserTextEncoding`, your shell's settings and history (`.zshrc`, `.zsh_history`, `.zsh_sessions`, `.bash_history`, and the like), and the settings of git and other tools (`.gitconfig`, `.gitignore_global`, `.netrc`, `.npmrc`) | Shared by many tools and owned by no app. They are never removed themselves; what one tool keeps inside `.config`, `.cache`, or `.local` still can be. |
 
 Outside your home: everything inside `/System`, `/usr`, `/bin`, `/sbin`, and `/Library/Updates`, where macOS
-stages its own updates, but for one thing: a link directly in `/usr/local/bin` or `/usr/local/sbin` that leads
-nowhere, which an app's tool leaves there once the app is gone and the helper may take (see [The helper that
+stages its own updates, but for one thing: a link that leads nowhere, directly in `/usr/local/bin`,
+`/usr/local/sbin`, or one of the four folders of `/usr/local` that shell completions are linked into, which an
+app's tool or its completion leaves there once the app is gone and the helper may take (see [The helper that
 runs as root](#the-helper-that-runs-as-root)). And these folders themselves, though not what is inside them:
 `/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`, `/Volumes`, `/opt`, `/private` and its `var`,
 `tmp`, and `etc`, `/cores`, your home folder, and every folder Peel searches, such as `~/Library/Caches`, which
