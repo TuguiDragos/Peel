@@ -107694,108 +107694,108 @@
         }
       }
     },
-    "Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app bought there, about that app alone. Only one thing sends a list of what is installed, and you start it yourself: Homebrew’s vulnerability scan sends the source and version of each installed formula to api.osv.dev." : {
+    "Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app bought there, about that app alone, and tell the App Store your Mac’s region, since its answer depends on it. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. Homebrew’s vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed all at once: the source and version of each installed formula, to api.osv.dev. Report an Issue puts Peel’s version, your macOS version, and whether your Mac has Apple silicon or Intel in the address it opens." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel neodesílá žádné údaje o používání a nepoužívá žádný účet. Při kontrole aktualizací se Peel na každou aplikaci ptá zvlášť, a to jejího vlastního kanálu, nebo App Storu, pokud jste ji koupili tam. Seznam toho, co je nainstalováno, odesílá jen jedna věc a tu spouštíte sami: kontrola zranitelností Homebrew odešle na api.osv.dev zdroj a verzi všech nainstalovaných formulae."
+            "value" : "Peel neodesílá žádné údaje o používání a nepoužívá žádný účet. Při kontrole aktualizací se Peel na každou aplikaci ptá zvlášť, a to jejího vlastního kanálu, nebo App Storu, pokud jste ji koupili tam. App Storu přitom sděluje oblast vašeho Macu, protože na ní závisí jeho odpověď. Všechny kontroly dohromady ukazují App Storu, které z jeho aplikací máte, a GitHubu, které z vašich aplikací se přes něj aktualizují. Kontrola zranitelností Homebrew, kterou spouštíte sami, je jediná věc, která naráz odesílá na api.osv.dev seznam toho, co je nainstalováno: zdroj a verzi všech nainstalovaných formulae. Příkaz Nahlásit problém vloží do adresy, kterou otevře, verzi Peelu, verzi vašeho systému macOS a údaj, zda má váš Mac čip Apple, nebo procesor Intel."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sendet keine Nutzungsdaten und legt keinen Account an. Update-Prüfungen fragen den eigenen Feed jeder App oder, bei einer dort gekauften App, den App Store, und zwar nur nach dieser App. Nur eine Sache sendet eine Liste dessen, was installiert ist, und die startest du selbst: Der Sicherheitslücken-Scan von Homebrew sendet Quelle und Version jeder installierten Formula an api.osv.dev."
+            "value" : "Peel sendet keine Nutzungsdaten und legt keinen Account an. Update-Prüfungen fragen den eigenen Feed jeder App oder, bei einer dort gekauften App, den App Store, und zwar nur nach dieser App. Dem App Store teilen sie außerdem die Region deines Mac mit, da seine Antwort davon abhängt. Zusammengenommen zeigen die Prüfungen dem App Store, welche seiner Apps du hast, und GitHub, welche deiner Apps sich darüber aktualisieren. Der Sicherheitslücken-Scan von Homebrew, den du selbst startest, ist das Einzige, was auf einmal eine Liste dessen sendet, was installiert ist: Quelle und Version jeder installierten Formula an api.osv.dev. „Problem melden“ schreibt in die Adresse, die dabei geöffnet wird, die Version von Peel, deine macOS-Version und ob dein Mac einen Apple Chip oder einen Intel-Prozessor hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no envía datos de uso ni usa cuentas. Las comprobaciones de actualizaciones preguntan al propio canal de cada app, o a App Store en el caso de una app comprada allí, solo por esa app. Solo una cosa envía una lista de lo que hay instalado, y la inicias tú: el análisis de vulnerabilidades de Homebrew envía el origen y la versión de cada formula instalada a api.osv.dev."
+            "value" : "Peel no envía datos de uso ni usa cuentas. Las comprobaciones de actualizaciones preguntan al propio canal de cada app, o a App Store en el caso de una app comprada allí, solo por esa app, e indican a App Store la región de tu Mac, ya que su respuesta depende de ella. En conjunto, las comprobaciones muestran a App Store cuáles de sus apps tienes, y a GitHub, cuáles de tus apps se actualizan a través de él. El análisis de vulnerabilidades de Homebrew, que inicias tú, es lo único que envía de una sola vez una lista de lo que hay instalado: el origen y la versión de cada formula instalada, a api.osv.dev. La opción Informar de un problema incluye la versión de Peel, tu versión de macOS y si tu Mac tiene chip de Apple o procesador Intel en la dirección que abre."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’envoie aucune donnée d’utilisation et ne gère aucun compte. Les recherches de mises à jour interrogent le flux propre à chaque app, ou l’App Store pour une app achetée sur celui-ci, au sujet de cette seule app. Une seule fonction envoie une liste de ce qui est installé, et c’est vous qui la lancez : la recherche de vulnérabilités de Homebrew envoie la source et la version de chaque formula installée à api.osv.dev."
+            "value" : "Peel n’envoie aucune donnée d’utilisation et ne gère aucun compte. Les recherches de mises à jour interrogent le flux propre à chaque app, ou l’App Store pour une app achetée sur celui-ci, au sujet de cette seule app, et indiquent à l’App Store la région de votre Mac, car sa réponse en dépend. Prises ensemble, ces recherches montrent à l’App Store lesquelles de ses apps vous avez, et à GitHub lesquelles de vos apps se mettent à jour par son intermédiaire. La recherche de vulnérabilités de Homebrew, que vous lancez vous-même, est la seule fonction qui envoie en une fois une liste de ce qui est installé : la source et la version de chaque formula installée, à api.osv.dev. « Signaler un problème » indique, dans l’adresse qu’il ouvre, la version de Peel, votre version de macOS et si votre Mac est équipé d’une puce Apple ou d’un processeur Intel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non invia dati di utilizzo e non usa alcun account. Le verifiche degli aggiornamenti interrogano il feed di ciascuna app, o App Store per un’app acquistata lì, solo su quell’app. Solo una cosa invia un elenco di ciò che è installato, e sei tu ad avviarla: la ricerca di vulnerabilità di Homebrew invia la sorgente e la versione di ogni formula installata ad api.osv.dev."
+            "value" : "Peel non invia dati di utilizzo e non usa alcun account. Le verifiche degli aggiornamenti interrogano il feed di ciascuna app, o App Store per un’app acquistata lì, solo su quell’app, e comunicano ad App Store la zona del Mac, da cui dipende la risposta. Nel loro insieme, le verifiche mostrano ad App Store quali delle sue app hai, e a GitHub quali delle tue app si aggiornano tramite GitHub. La ricerca di vulnerabilità di Homebrew, che sei tu ad avviare, è l’unica cosa che invia in una sola volta un elenco di ciò che è installato: la sorgente e la versione di ogni formula installata, ad api.osv.dev. “Segnala un problema” apre un indirizzo che indica la versione di Peel, la versione di macOS e se il Mac ha un chip Apple o un processore Intel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは使用状況のデータを送信せず、アカウントも保持しません。アップデートの確認では、各アプリ独自のフィード（App Storeで購入したアプリの場合はApp Store）に、そのアプリについてのみ問い合わせます。インストール済みのもののリストを送信するのは1つだけで、それも自分で開始するものです。Homebrewの脆弱性スキャンは、インストール済みの各formulaのソースとバージョンをapi.osv.devに送信します。"
+            "value" : "Peelは使用状況のデータを送信せず、アカウントも保持しません。アップデートの確認では、各アプリ独自のフィード（App Storeで購入したアプリの場合はApp Store）に、そのアプリについてのみ問い合わせます。また、App Storeの回答はMacの地域によって異なるため、App StoreにはMacの地域を伝えます。これらの確認を総合すると、App Storeには、App Storeのアプリのうちどれを持っているかが、GitHubには、どのアプリがGitHubでアップデートされるかがわかります。インストール済みのもののリストを一度に送信するのは、自分で開始するHomebrewの脆弱性スキャンだけです。このスキャンは、インストール済みの各formulaのソースとバージョンをapi.osv.devに送信します。“問題を報告”は、Peelのバージョン、macOSのバージョン、MacがAppleシリコン搭載かIntel搭載かを、開くアドレスに含めます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 사용 데이터를 보내지 않으며 계정도 사용하지 않습니다. 업데이트 확인은 각 앱의 자체 피드에, App Store에서 구입한 앱이면 App Store에 해당 앱에 대해서만 묻습니다. 설치된 항목의 목록을 보내는 기능은 단 하나이며, 사용자가 직접 시작합니다. Homebrew의 취약점 스캔은 설치된 각 formula의 소스와 버전을 api.osv.dev로 보냅니다."
+            "value" : "Peel은 사용 데이터를 보내지 않으며 계정도 사용하지 않습니다. 업데이트 확인은 각 앱의 자체 피드에, App Store에서 구입한 앱이면 App Store에 해당 앱에 대해서만 묻습니다. App Store의 응답은 지역에 따라 달라지므로, App Store에는 Mac의 지역도 알려 줍니다. 이러한 확인을 모두 합치면 App Store는 사용자가 App Store의 어떤 앱을 가지고 있는지, GitHub는 사용자의 앱 중 어떤 앱이 GitHub를 통해 업데이트되는지 알 수 있습니다. 설치된 항목의 목록을 한 번에 보내는 기능은 사용자가 직접 시작하는 Homebrew의 취약점 스캔 하나뿐입니다. 이 스캔은 설치된 각 formula의 소스와 버전을 api.osv.dev로 보냅니다. ‘문제 리포트’는 여는 주소에 Peel의 버전, macOS 버전, Mac이 Apple silicon인지 Intel인지를 담습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verstuurt geen gebruiksgegevens en gebruikt geen account. Bij een updatecontrole wordt alleen naar die ene app gevraagd, bij de eigen feed van de app, of bij de App Store als de app daar is gekocht. Maar één ding verstuurt een lijst van wat er is geïnstalleerd, en dat start je zelf: de kwetsbaarheidsscan van Homebrew stuurt de bron en versie van elke geïnstalleerde formula naar api.osv.dev."
+            "value" : "Peel verstuurt geen gebruiksgegevens en gebruikt geen account. Bij een updatecontrole wordt alleen naar die ene app gevraagd, bij de eigen feed van de app of bij de App Store als de app daar is gekocht, en wordt de regio van je Mac aan de App Store doorgegeven, omdat het antwoord van de App Store daarvan afhangt. Alles bij elkaar laten de controles de App Store zien welke van zijn apps je hebt, en GitHub welke van je apps via GitHub worden bijgewerkt. De kwetsbaarheidsscan van Homebrew, die je zelf start, is het enige dat in één keer een lijst verstuurt van wat er is geïnstalleerd: de bron en versie van elke geïnstalleerde formula, naar api.osv.dev. 'Meld een probleem' opent een adres met daarin de versie van Peel, je macOS-versie en of je Mac Apple silicon of Intel heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie wysyła żadnych danych o użytkowaniu i nie używa żadnego konta. Przy sprawdzaniu uaktualnień Peel pyta własny kanał każdej aplikacji, a w przypadku aplikacji kupionej w App Store sam App Store, wyłącznie o tę jedną aplikację. Listę tego, co jest zainstalowane, wysyła tylko jedna funkcja, którą uruchamiasz samodzielnie: skanowanie luk w zabezpieczeniach Homebrew wysyła do api.osv.dev źródło i wersję wszystkich zainstalowanych formulae."
+            "value" : "Peel nie wysyła żadnych danych o użytkowaniu i nie używa żadnego konta. Przy sprawdzaniu uaktualnień Peel pyta własny kanał każdej aplikacji, a w przypadku aplikacji kupionej w App Store sam App Store, wyłącznie o tę jedną aplikację. Przekazuje przy tym do App Store region Twojego Maca, ponieważ odpowiedź App Store zależy od regionu. Z tych wszystkich sprawdzeń razem wziętych App Store dowiaduje się, które z jego aplikacji masz, a GitHub, które z Twoich aplikacji są przez niego uaktualniane. Skanowanie luk w zabezpieczeniach Homebrew, które uruchamiasz samodzielnie, jest jedyną funkcją, która wysyła za jednym razem do api.osv.dev listę tego, co jest zainstalowane: źródło i wersję wszystkich zainstalowanych formulae. Polecenie Zgłoś problem dodaje do adresu, który otwiera, wersję aplikacji Peel, wersję Twojego systemu macOS oraz informację, czy Twój Mac ma układ scalony Apple, czy procesor Intel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não envia dados de uso nem mantém nenhuma conta. Ao buscar atualizações, o Peel pergunta ao feed de cada app, ou à App Store no caso de um app comprado lá, apenas sobre aquele app. Só uma coisa envia uma lista do que está instalado, e é você quem a inicia: a análise de vulnerabilidades do Homebrew envia a origem e a versão de cada formula instalada para api.osv.dev."
+            "value" : "O Peel não envia dados de uso nem mantém nenhuma conta. Ao buscar atualizações, o Peel pergunta ao feed de cada app, ou à App Store no caso de um app comprado lá, apenas sobre aquele app, e informa à App Store a região do seu Mac, já que a resposta dela depende disso. Em conjunto, essas verificações mostram à App Store quais dos apps dela você tem, e ao GitHub quais dos seus apps se atualizam por ele. A análise de vulnerabilidades do Homebrew, que é você quem inicia, é a única coisa que envia de uma só vez uma lista do que está instalado: a origem e a versão de cada formula instalada, para api.osv.dev. O comando Comunicar Problema inclui no endereço que ele abre a versão do Peel, a versão do seu macOS e se o seu Mac tem Apple silicon ou Intel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă. Un singur lucru trimite o listă cu ce este instalat și îl porniți chiar dvs.: scanarea vulnerabilităților din Homebrew trimite sursa și versiunea fiecărei formule instalate către api.osv.dev."
+            "value" : "Peel nu trimite date de utilizare și nu folosește niciun cont. Căutările de actualizări întreabă fluxul propriu al fiecărei aplicații, sau App Store pentru o aplicație cumpărată de acolo, doar despre aplicația respectivă și transmit către App Store regiunea Mac‑ului dvs., deoarece răspunsul său depinde de aceasta. Din toate căutările luate la un loc, App Store află pe care dintre aplicațiile sale le aveți, iar GitHub află care dintre aplicațiile dvs. se actualizează prin el. Scanarea vulnerabilităților din Homebrew, pe care o porniți chiar dvs., este singurul lucru care trimite o listă cu ce este instalat, toată deodată: sursa și versiunea fiecărei formule instalate, către api.osv.dev. Comanda „Raportați o problemă” include versiunea Peel, versiunea dvs. de macOS și tipul de procesor al Mac‑ului dvs., cip Apple sau Intel, în adresa pe care o deschide."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не отправляет данные об использовании и не требует учетной записи. При проверке обновлений запрашивается собственная лента каждого приложения или App Store для купленного там приложения, и только об этом приложении. Список установленного отправляет лишь одна функция, и запускаете ее Вы сами: поиск уязвимостей Homebrew отправляет источник и версию всех установленных formulae на api.osv.dev."
+            "value" : "Peel не отправляет данные об использовании и не требует учетной записи. При проверке обновлений запрашивается собственная лента каждого приложения или App Store для купленного там приложения, и только об этом приложении, а в App Store также передается регион Вашего Mac, поскольку от региона зависит ответ. В совокупности эти проверки показывают App Store, какие из его приложений есть у Вас, а GitHub, какие из Ваших приложений обновляются через него. Лишь одна функция, которую Вы запускаете сами, отправляет сразу весь список установленного: поиск уязвимостей Homebrew передает на api.osv.dev источник и версию всех установленных formulae. Пункт «Сообщить о проблеме» добавляет в открываемый им адрес версию Peel, Вашу версию macOS и то, какой у Вас Mac: с чипом Apple или с процессором Intel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel skickar inga användningsdata och har inget konto. Uppdateringskontroller frågar varje apps eget flöde, eller App Store för en app som har köpts där, om bara den appen. Bara en sak skickar en lista över vad som är installerat, och den startar du själv: Homebrews sårbarhetsskanning skickar källan och versionen för varje installerad formula till api.osv.dev."
+            "value" : "Peel skickar inga användningsdata och har inget konto. Uppdateringskontroller frågar varje apps eget flöde, eller App Store för en app som har köpts där, om bara den appen, och talar om för App Store vilken region datorn har, eftersom svaret från App Store beror på den. Tillsammans visar kontrollerna för App Store vilka av dess appar du har, och för GitHub vilka av dina appar som uppdateras via GitHub. Homebrews sårbarhetsskanning, som du startar själv, är det enda som på en gång skickar en lista över vad som är installerat: källan och versionen för varje installerad formula, till api.osv.dev. I adressen som kommandot Rapportera ett problem öppnar anges Peels version, din macOS-version och om datorn har Apple Silicon eller Intel."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hiçbir kullanım verisi göndermez ve hesap gerektirmez. Güncelleme denetimleri, yalnızca ilgili uygulama hakkında o uygulamanın kendi akışına veya App Store’dan satın alınmış bir uygulama için App Store’a sorar. Yüklü olanların listesini gönderen tek bir şey var ve onu siz başlatırsınız: Homebrew’un güvenlik açığı taraması, yüklü her formula için kaynak ve sürüm bilgisini api.osv.dev adresine gönderir."
+            "value" : "Peel hiçbir kullanım verisi göndermez ve hesap gerektirmez. Güncelleme denetimleri, yalnızca ilgili uygulama hakkında o uygulamanın kendi akışına veya App Store’dan satın alınmış bir uygulama için App Store’a sorar; App Store’un yanıtı bölgeye bağlı olduğundan ona Mac’inizin bölgesini de bildirir. Bir arada ele alındığında denetimler, App Store’daki uygulamalardan hangilerinin sizde olduğunu App Store’a, uygulamalarınızdan hangilerinin GitHub üzerinden güncellendiğini de GitHub’a gösterir. Homebrew’un, kendiniz başlattığınız güvenlik açığı taraması, yüklü olanların listesini bir kerede gönderen tek şeydir: yüklü her formula için kaynak ve sürüm bilgisini api.osv.dev adresine gönderir. Sorun Bildir, açtığı adrese Peel’in sürümünü, macOS sürümünüzü ve Mac’inizin Apple Silicon çipli mi yoksa Intel işlemcili mi olduğunu ekler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не надсилає даних про використання і не заводить облікових записів. Перевірка оновлень запитує власну стрічку кожної програми (або App Store, якщо програму куплено там) лише про цю програму. Список інстальованого надсилає лише одна дія, і ви запускаєте її самі: сканування вразливостей Homebrew надсилає джерело й версію кожної інстальованої formula на api.osv.dev."
+            "value" : "Peel не надсилає даних про використання і не заводить облікових записів. Перевірка оновлень запитує власну стрічку кожної програми (або App Store, якщо програму куплено там) лише про цю програму й повідомляє App Store регіон вашого Mac, бо від регіону залежить його відповідь. Узяті разом, перевірки показують App Store, які з його програм у вас є, а GitHub, які з ваших програм оновлюються через нього. Увесь список інстальованого одразу надсилає лише сканування вразливостей Homebrew, яке ви запускаєте самі: джерело й версію кожної інстальованої formula на api.osv.dev. Команда «Звітувати про недолік» вписує в адресу, яку відкриває, версію Peel, вашу версію macOS і те, який у вашому Mac процесор: Apple Silicon чи Intel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不发送任何使用数据，也不建立任何账户。检查更新时，Peel只会就某个App本身询问它自己的更新源；对于从App Store购买的App，则询问App Store。只有一项操作会发送已安装内容的列表，而且由你亲自启动：Homebrew的漏洞扫描会将每个已安装formula的来源和版本发送到api.osv.dev。"
+            "value" : "Peel不发送任何使用数据，也不建立任何账户。检查更新时，Peel只会就某个App本身询问它自己的更新源；对于从App Store购买的App，则询问App Store，并告知App Store你的Mac所设置的地区，因为它的回答取决于此。综合起来，这些检查会让App Store得知你装有它的哪些App，并让GitHub得知你的哪些App通过GitHub更新。Homebrew的漏洞扫描由你亲自启动，是唯一一项会一次性发送已安装内容列表的操作：它会将每个已安装formula的来源和版本发送到api.osv.dev。“报告问题”会将Peel的版本、你的macOS版本，以及你的Mac搭载的是Apple芯片还是Intel处理器，写入它打开的地址中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不會傳送任何使用資料，也不會保留任何帳號。檢查更新時，只會向每個App自己的Feed（若App是在App Store購買，則向App Store）查詢該App本身。只有一項功能會傳送已安裝項目的列表，而且由你自己啟動：Homebrew的漏洞掃描會將每個已安裝formula的來源和版本傳送到api.osv.dev。"
+            "value" : "Peel不會傳送任何使用資料，也不會保留任何帳號。檢查更新時，只會向每個App自己的Feed（若App是在App Store購買，則向App Store）查詢該App本身，並會告知App Store你的Mac所設定的地區，因為其回應取決於地區。整體而言，這些檢查會讓App Store得知你有哪些它的App，並讓GitHub得知你的哪些App是透過它更新。Homebrew的漏洞掃描由你自己啟動，是唯一會一次傳送整份已安裝項目列表的功能：它會將每個已安裝formula的來源和版本傳送到api.osv.dev。「回報問題」會將Peel的版本、你的macOS版本，以及你的Mac配備的是Apple晶片還是Intel，放入它打開的網址中。"
           }
         }
       }
@@ -152242,108 +152242,108 @@
         }
       }
     },
-    "The release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself from here when you ask it to update or upgrade." : {
+    "The release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud se také aktualizuje Homebrew, když ho požádáte o aktualizaci nebo upgrade."
+            "value" : "Kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud Homebrew také aktualizuje sám sebe a své taps, když ho požádáte o aktualizaci, upgrade nebo opravu jeho taps."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert sich auch von hier, wenn du Homebrew aktualisieren oder ein Upgrade ausführen lässt."
+            "value" : "Der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert von hier auch sich selbst und seine Taps, wenn du Homebrew aktualisieren, ein Upgrade ausführen oder seine Taps reparieren lässt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí cuando le pides que se actualice o que actualice paquetes."
+            "value" : "El canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí, junto con sus taps, cuando le pides que se actualice, que actualice paquetes o que repare sus taps."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte lorsque vous lui demandez une mise à jour ou une mise à niveau."
+            "value" : "Le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte, ainsi que ses taps, lorsque vous lui demandez une mise à jour, une mise à niveau ou la réparation de ses taps."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, quando gli chiedi di aggiornarsi o di aggiornare i pacchetti."
+            "value" : "Il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, insieme ai suoi tap, quando gli chiedi di aggiornarsi, di aggiornare i pacchetti o di riparare i tap."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデートやアップグレードを指示したときに、Homebrewもここから自身をアップデートします。"
+            "value" : "GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデート、アップグレード、またはtapsの修復を指示したときに、Homebrewもここから自身とtapsをアップデートします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트나 업그레이드를 요청하면 여기에서 자신을 업데이트합니다."
+            "value" : "GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트, 업그레이드 또는 tap 복구를 요청하면 여기에서 자신과 자신의 tap을 업데이트합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf hier ook bij als je Homebrew vraagt om bij te werken of te upgraden."
+            "value" : "De releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf en zijn taps hier ook bij als je Homebrew vraagt om bij te werken, te upgraden of zijn taps te herstellen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nową wersję samego siebie, gdy użyjesz polecenia Odśwież lub Uaktualnij."
+            "value" : "Kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nowe wersje samego siebie i swoich tapów, gdy użyjesz polecenia Odśwież, Uaktualnij lub Napraw tapy."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui quando você pede para ele atualizar ou fazer upgrade."
+            "value" : "O feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui, junto com os seus taps, quando você pede para ele atualizar, fazer upgrade ou reparar os seus taps."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, când îi cereți să se actualizeze sau să facă upgrade."
+            "value" : "Fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, împreună cu tap‑urile sale, când îi cereți să se actualizeze, să facă upgrade sau să își repare tap‑urile."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляется отсюда, когда Вы запускаете обновление Homebrew или пакетов."
+            "value" : "Лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляет отсюда себя и свои taps, когда Вы запускаете обновление Homebrew или пакетов либо исправление taps."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt härifrån när du ber det att uppdatera eller uppgradera."
+            "value" : "Versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt och sina taps härifrån när du ber det att uppdatera, uppgradera eller reparera sina taps."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini veya yükseltmesini istediğinizde kendini buradan günceller."
+            "value" : "GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini, yükseltmesini veya tap depolarını onarmasını istediğinizde kendini ve tap depolarını buradan günceller."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює себе звідси, коли ви просите його оновитися або оновити пакети."
+            "value" : "Стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює звідси себе й свої taps, коли ви просите його оновитися, оновити пакети або полагодити taps."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级时，Homebrew也会从这里更新自身。"
+            "value" : "通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级，或让它修复其taps时，Homebrew也会从这里更新自身及其taps。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新或升級時，Homebrew也會從這裡更新自己。"
+            "value" : "透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新、升級或修復其taps時，Homebrew也會從這裡更新自己和其taps。"
           }
         }
       }
@@ -174301,108 +174301,108 @@
         }
       }
     },
-    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), and the vulnerability scan." : {
+    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace) a kontrola zranitelností."
+            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace), Opravit taps a kontrola zranitelností."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App) und der Sicherheitslücken-Scan."
+            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App), „Taps reparieren“ und der Sicherheitslücken-Scan."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app) y con el análisis de vulnerabilidades."
+            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app), al reparar taps y con el análisis de vulnerabilidades."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app) et la recherche de vulnérabilités."
+            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app), « Réparer les taps » et la recherche de vulnérabilités."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: quando aggiorni Homebrew, quando aggiorni i pacchetti (lì o nella pagina di un’app) e con la ricerca di vulnerabilità."
+            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: con Aggiorna (per Homebrew stesso, o per i pacchetti lì o nella pagina di un’app), con “Ripara i tap” e con la ricerca di vulnerabilità."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、指示したときだけです。対象は、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、脆弱性スキャンです。"
+            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、指示したときだけです。対象は、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、“tapsを修復”、脆弱性スキャンです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), 취약점 스캔이 이에 해당합니다."
+            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), tap 복구, 취약점 스캔이 이에 해당합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app) en de kwetsbaarheidsscan."
+            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app), 'Herstel taps' en de kwetsbaarheidsscan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji) i skanowanie luk w zabezpieczeniach."
+            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji), Napraw tapy i skanowanie luk w zabezpieczeniach."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app) e a análise de vulnerabilidades."
+            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app), Reparar Taps e a análise de vulnerabilidades."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații) și scanarea vulnerabilităților."
+            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații), „Reparați tap‑urile” și scanarea vulnerabilităților."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: при обновлении самого Homebrew, при обновлении пакетов (на странице Homebrew или на странице приложения) и при поиске уязвимостей."
+            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: «Обновить» для самого Homebrew, «Обновить» для пакетов (на странице Homebrew или на странице приложения), «Исправить taps» и поиск уязвимостей."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida) och sårbarhetsskanningen."
+            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida), Reparera taps och sårbarhetsskanningen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında) ve güvenlik açığı taraması."
+            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında), Tap Depolarını Onar ve güvenlik açığı taraması."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: оновлення Homebrew, оновлення пакетів (на сторінці Homebrew або на сторінці програми) і сканування вразливостей."
+            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: «Оновити» для самого Homebrew, «Оновити» для пакетів (на сторінці Homebrew або на сторінці програми), «Полагодити taps» і сканування вразливостей."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）以及漏洞扫描。"
+            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）、“修复taps”以及漏洞扫描。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上），以及漏洞掃描。"
+            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上）、「修復taps」，以及漏洞掃描。"
           }
         }
       }
