@@ -255,10 +255,12 @@ read in one sitting.
 - **Rows of a long list stay cheap to build.** A list builds its rows as they scroll into view. A checkbox in a row
   is `NativeCheckbox` beside the item, with `checkboxTitleLine()` on the first line of its title and
   `checkboxTitle()` on the title, rather than a checkbox `Toggle` whose label is the row, since SwiftUI asks a
-  `Toggle`'s button for its size each time the row is measured. A button in each row takes `RowButtonStyle` or
-  `.borderless`: one of another style changes the window's list of focusable views whenever a row scrolls in or out.
-  A row a `ForEach` repeats never hides its own separator and is never a `Toggle` itself; the `ForEach` hides the
-  separators. A row that stands alone, such as a header or a notice, may hide its own, which costs nothing.
+  `Toggle`'s button for its size each time the row is measured. Duplicates' rows keep their `Toggle`: there the AppKit
+  checkbox costs as much, and it would dim the badge of the copy that stays differently. A button in each row takes
+  `RowButtonStyle` or `.borderless`: one of another style changes the window's list of focusable views whenever a row
+  scrolls in or out. A row a `ForEach` repeats never hides its own separator and is never a `Toggle` itself; the
+  `ForEach` hides the separators. A row that stands alone, such as a header or a notice, may hide its own, which costs
+  nothing.
 - **Every switch can be pressed without a pointer.** SwiftUI gives a switch whose label is hidden with
   `labelsHidden()` no action an assistive technology can perform, so such a switch carries an
   `accessibilityRepresentation`: a `Toggle` labeled with the row's title, which VoiceOver, Voice Control, and Switch
