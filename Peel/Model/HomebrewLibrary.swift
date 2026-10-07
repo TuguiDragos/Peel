@@ -107,6 +107,9 @@ final class HomebrewLibrary {
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
     private(set) var runningCommand: Command?
+    /// The casks whose records Peel is moving to the Trash. No command runs beside it.
+    private(set) var forgetting: Set<HomebrewPackage.ID> = []
+    var isForgetting: Bool { !forgetting.isEmpty }
     /// The last lines Homebrew has written in the running upgrade. Nil when no upgrade runs.
     private(set) var progress: String?
     /// True once the person asked the running upgrade to stop.
@@ -145,12 +148,17 @@ final class HomebrewLibrary {
     }
 
     var outdated: [HomebrewPackage] {
-        (packages ?? []).filter(\.isOutdated)
+        (packages ?? []).filter(\.waitsForAnUpgrade)
+    }
+
+    /// The casks Homebrew still lists whose apps are gone.
+    var missingTheirApps: [HomebrewPackage] {
+        (packages ?? []).filter(\.isMissingItsApps)
     }
 
     /// The packages Homebrew has disabled or deprecated, disabled first, since those can't be installed again.
     var retired: [HomebrewPackage] {
-        let retired = (packages ?? []).filter { $0.retirement != nil }
+        let retired = (packages ?? []).filter { $0.retirement != nil && !$0.isMissingItsApps }
         return retired.filter { $0.retirement?.stage == .disabled }
             + retired.filter { $0.retirement?.stage == .deprecated }
     }
@@ -258,7 +266,7 @@ final class HomebrewLibrary {
     /// Homebrew page opens no sheet about it later.
     @discardableResult
     func run(_ command: Command, showsResult: Bool = true) async -> CommandResult? {
-        guard runningCommand == nil else { return nil }
+        guard runningCommand == nil, !isForgetting else { return nil }
         runningCommand = command
         defer {
             (runningCommand, runningTask, progress, isStopping) = (nil, nil, nil, false)
@@ -269,6 +277,30 @@ final class HomebrewLibrary {
         if showsResult, let outcome { result = outcome }
         if !command.onlyLooks { await refresh(includingReclaimable: true) }
         return outcome
+    }
+
+    /// Moves the Homebrew receipt of each of `casks` whose apps are gone to the Trash, records it with `record`, and
+    /// reads the packages again, so Homebrew no longer lists them. Nil while Homebrew is busy.
+    func forget(_ casks: [HomebrewPackage], recording record: (TrashResult) async -> Void) async -> TrashResult? {
+        guard runningCommand == nil, !isForgetting else { return nil }
+        forgetting = Set(casks.map(\.id))
+        defer { forgetting = [] }
+        let result = await QuitGuard.shared.run {
+            let result = await HomebrewReceipt.forget(casks, exclusions: ExclusionsStore.shared.exclusions)
+            // Written down before Homebrew is read again, which can take a while: History is the way back.
+            await record(result)
+            return result
+        }
+        await refresh(includingReclaimable: true)
+        return result
+    }
+
+    /// How History names a removal of `casks`: up to three names, or a count in English that History shows in the
+    /// user's language through the key.
+    static func source(of casks: [HomebrewPackage]) -> (source: String, key: String?) {
+        guard casks.count > 3 else { return (casks.map(\.name).joined(separator: ", "), nil) }
+        let count = AttributedString(localized: "^[\(casks.count) cask](inflect: true)", locale: Locale(identifier: "en"))
+        return (String(count.characters), "casks.\(casks.count)")
     }
 
     /// Stops the running upgrade: Homebrew is asked to stop, and killed if it does not.

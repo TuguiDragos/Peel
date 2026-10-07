@@ -21,10 +21,7 @@ extension RememberedApp {
     func stillInstalled() -> InstalledApp? {
         let place = URL(filePath: lastPath, directoryHint: .isDirectory)
         if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
-        let names = PathComponents.of(lastPath)
-        let isOnADiskNotConnected = names.count > 2 && names[0] == "Volumes"
-            && URL(filePath: "/Volumes/\(names[1])").isMissing
-        guard isOnADiskNotConnected || AppInspector.isClosed(place) else { return nil }
+        guard place.isOnADiskNotConnected || AppInspector.isClosed(place) else { return nil }
         return InstalledApp(url: place, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
     }
 }

@@ -7,6 +7,7 @@ struct HomebrewDetailView: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
+    @State private var casksToForget: [HomebrewPackage]?
     let package: HomebrewPackage
 
     var body: some View {
@@ -32,7 +33,7 @@ struct HomebrewDetailView: View {
                             if let version = package.installedVersion {
                                 Badge(title: Text("Version \(version)"), systemImage: "number", tint: .secondary)
                             }
-                            if package.isOutdated, let latest = package.latestVersion {
+                            if package.waitsForAnUpgrade, let latest = package.latestVersion {
                                 Badge(title: Text("Update available: \(latest)"), systemImage: "arrow.down.circle", tint: .blue)
                             }
                             if let advisory {
@@ -72,6 +73,14 @@ struct HomebrewDetailView: View {
                 ) {}
             }
 
+            if package.isMissingItsApps {
+                Notice(
+                    title: Text("The App Is Already Gone"),
+                    detail: Text("Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    kind: .note
+                ) {}
+            }
+
             Section {
                 if let homepage = package.homepage {
                     LabeledContent("Homepage") {
@@ -91,7 +100,10 @@ struct HomebrewDetailView: View {
 
             Section {
                 HStack {
-                    if package.isOutdated {
+                    if package.isMissingItsApps {
+                        Button("Forget Cask") { casksToForget = [package] }
+                            .buttonStyle(.borderedProminent)
+                    } else if package.waitsForAnUpgrade {
                         if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
                             let kind = package.kind == .cask ? "--cask" : "--formula"
                             CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
@@ -122,13 +134,13 @@ struct HomebrewDetailView: View {
                         .disabled(uninstallRefusal != nil)
                     }
                 }
-                .disabled(homebrew.runningCommand != nil)
-                if package.isOutdated, homebrew.overrides.contains(.cleansUp) {
+                .disabled(homebrew.runningCommand != nil || homebrew.isForgetting)
+                if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
                     Text(HomebrewLibrary.cleansUp)
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
-                if (package.isOutdated && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
+                if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
                     Text(needsTerminal)
                         .font(.callout)
                         .foregroundStyle(.secondary)
@@ -157,6 +169,7 @@ struct HomebrewDetailView: View {
         } message: {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
+        .forgetCasksDialog(for: $casksToForget)
         .confirmationDialog("Uninstall \(package.name)?", isPresented: $isConfirmingUninstall) {
             Button("Uninstall", role: .destructive) {
                 // Checks again, since the exclusions can change while the dialog is open.
@@ -175,7 +188,7 @@ struct HomebrewDetailView: View {
 
     /// What is new in the version Homebrew offers for a cask, as the app it installed says.
     private var caskNotes: (String, ReleaseNotes)? {
-        guard package.kind == .cask, package.isOutdated,
+        guard package.kind == .cask, package.waitsForAnUpgrade,
               let app = library.apps.first(where: { library.cask(for: $0)?.id == package.id }),
               let notes = library.releaseNotes(of: app),
               let version = library.updateStatuses[app.id]?.displayVersion
@@ -202,7 +215,8 @@ struct HomebrewDetailView: View {
     }
 
     private var isRunning: Bool {
-        switch homebrew.runningCommand {
+        if homebrew.forgetting.contains(package.id) { return true }
+        return switch homebrew.runningCommand {
         case .upgrade(let id), .uninstall(let id): id == package.id
         case .upgradeAll: package.isOutdated && package.joinsUpgradeAll
         case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health, .vulnerabilities, nil:

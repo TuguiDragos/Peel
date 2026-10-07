@@ -49,13 +49,32 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public private(set) var receiptsOnThisMac: [String] = []
     /// An installed cask's folder in Homebrew's Caskroom (`brew --caskroom <token>`), set by `kept(inCaskroom:)`.
     public private(set) var caskroomFolder: URL?
+    /// True for an installed cask whose every app is gone from where Homebrew put it, set by `checkingItsApps()`.
+    public private(set) var isMissingItsApps = false
 
     public var id: String { "\(kind.rawValue)/\(name)" }
 
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
     /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
     public var joinsUpgradeAll: Bool {
-        !isPinned && !upgradeNeedsAnAdministrator
+        !isPinned && !upgradeNeedsAnAdministrator && !isMissingItsApps
+    }
+
+    /// Whether Homebrew offers a newer version that it can install. It upgrades a cask's app where it put it, so it
+    /// can't upgrade a cask whose apps are gone.
+    public var waitsForAnUpgrade: Bool {
+        isOutdated && !isMissingItsApps
+    }
+
+    /// Returns a copy that notes whether every app the installed cask put on the Mac is gone, asked of the disk now.
+    /// An app on a disk that is not connected is not gone.
+    public func checkingItsApps() -> HomebrewPackage {
+        var checked = self
+        checked.isMissingItsApps = caskroomFolder != nil && !appTargets.isEmpty && appTargets.allSatisfy { target in
+            let app = URL(filePath: target, directoryHint: .isDirectory)
+            return app.isMissing && !app.isOnADiskNotConnected
+        }
+        return checked
     }
 
     /// Returns a copy that notes which `packageIdentifiers` are among `receipts`, the lowercased identifiers of
@@ -488,7 +507,7 @@ public enum Homebrew {
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
-        return packages
+        return packages.map { $0.checkingItsApps() }
     }
 
     /// Returns the name of every cask Homebrew knows of, read from its local copy of the definitions. It needs

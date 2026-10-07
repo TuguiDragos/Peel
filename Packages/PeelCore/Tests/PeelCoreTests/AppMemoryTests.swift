@@ -75,6 +75,20 @@ struct AppMemoryTests {
         #expect(AppMemory.app(for: "md.obsidian.helper", in: remembered) == nil)
     }
 
+    @Test func anAppOnADiskThatIsNotConnectedIsStillInstalled() {
+        let place = "/Volumes/Peel Not Connected \(UUID().uuidString)/Applications/Example.app"
+        let remembered = RememberedApp(
+            bundleIdentifier: "org.example.app", name: "Example", teamIdentifier: nil, lastSeen: .now, lastPath: place
+        )
+
+        #expect(remembered.stillInstalled()?.bundleIdentifier == "org.example.app")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.app", name: "Example", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Peel Gone \(UUID().uuidString).app"
+        )
+        #expect(gone.stillInstalled() == nil)
+    }
+
     @Test func survivesBeingWrittenAndReadBack() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "nested/apps.json"))

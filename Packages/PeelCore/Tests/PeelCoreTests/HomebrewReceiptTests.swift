@@ -29,7 +29,7 @@ struct HomebrewReceiptTests {
         #expect(Homebrew.caskroom(answering: "/opt/homebrew/Caskroom\n/usr/local/Caskroom\n") == nil)
     }
 
-    @Test func everyCaskInstalledOnThisMacHasItsFolder() async throws {
+    @Test func everyCaskInstalledOnThisMacIsReadAsItIsOnTheDisk() async throws {
         guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
 
         for cask in try await Homebrew.installedPackages() where cask.kind == .cask {
@@ -37,7 +37,100 @@ struct HomebrewReceiptTests {
             var isFolder: ObjCBool = false
             #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false), isDirectory: &isFolder))
             #expect(isFolder.boolValue, "\(folder.path())")
+            let gone = !cask.appTargets.isEmpty && cask.appTargets.allSatisfy { URL(filePath: $0).isMissing }
+            #expect(cask.isMissingItsApps == gone, "\(cask.name)")
         }
+    }
+
+    @Test func aCaskIsMissingItsAppsOnlyWhenEveryOneIsGone() throws {
+        let installed = try Installed()
+        let app = try installed.app("Example", identifier: "org.example.app")
+        let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
+        let other = InstalledApp(url: gone, bundleIdentifier: "org.example.gone", name: "Gone")
+
+        #expect(installed.cask(installing: [other]).checkingItsApps().isMissingItsApps)
+        #expect(!installed.cask(installing: [app]).checkingItsApps().isMissingItsApps)
+        #expect(!installed.cask(installing: [app, other]).checkingItsApps().isMissingItsApps)
+        #expect(!installed.cask(installing: []).checkingItsApps().isMissingItsApps)
+        let known = HomebrewPackage(name: "example", kind: .cask, appTargets: [PathPattern.comparablePath(of: gone)])
+        #expect(!known.checkingItsApps().isMissingItsApps)
+    }
+
+    @Test func anAppOnADiskThatIsNotConnectedIsNotGone() throws {
+        let installed = try Installed()
+        let disk = "/Volumes/Peel Not Connected \(UUID().uuidString)"
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", appTargets: ["\(disk)/Applications/Example.app"]
+        ).kept(inCaskroom: installed.caskroom)
+
+        #expect(!cask.checkingItsApps().isMissingItsApps)
+    }
+
+    @Test func aCaskMissingItsAppsWaitsForNoUpgrade() throws {
+        let installed = try Installed()
+        let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
+        let cask = HomebrewPackage(
+            name: "example",
+            kind: .cask,
+            installedVersion: "1.0",
+            latestVersion: "2.0",
+            isOutdated: true,
+            appTargets: [PathPattern.comparablePath(of: gone)]
+        ).kept(inCaskroom: installed.caskroom)
+
+        #expect(cask.waitsForAnUpgrade)
+        #expect(cask.joinsUpgradeAll)
+        #expect(!cask.checkingItsApps().waitsForAnUpgrade)
+        #expect(!cask.checkingItsApps().joinsUpgradeAll)
+    }
+
+    @Test func forgettingACaskTakesItsReceiptAndTheLinksIntoItAndIntoItsApps() async throws {
+        let installed = try Installed()
+        let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", appTargets: [PathPattern.comparablePath(of: gone)]
+        ).kept(inCaskroom: installed.caskroom).checkingItsApps()
+        let wrapper = try installed.directory.file("root/opt/homebrew/Caskroom/example/1.0/.homebrew-command-wrappers/example")
+        let bin = try installed.directory.directory("root/opt/homebrew/bin")
+        let completions = try installed.directory.directory("root/opt/homebrew/share/zsh/site-functions")
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "example"), withDestinationURL: wrapper)
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "gone"), withDestinationURL: gone.appending(path: "Contents/MacOS/gone")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: completions.appending(path: "_gone"), withDestinationURL: gone.appending(path: "Contents/Resources/_gone")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "tool"),
+            withDestinationURL: try installed.directory.file("root/opt/homebrew/Cellar/tool/1.0/bin/tool")
+        )
+
+        let items = HomebrewReceipt.items(of: cask, environment: installed.environment)
+        let result = await HomebrewReceipt.forget(
+            [cask], through: try installed.service(), environment: installed.environment
+        )
+
+        #expect(Set(items.map(\.lastPathComponent)) == ["example", "gone", "_gone"])
+        #expect(items.first.map { PathPattern.comparablePath(of: $0) }
+            == PathPattern.comparablePath(of: installed.caskroom.appending(path: "example")))
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(result.trashed.count == 4)
+        #expect(installed.caskroom.appending(path: "example").isMissing)
+        #expect(bin.appending(path: "tool").isThere)
+    }
+
+    @Test func aCaskWhoseAppIsBackIsNotForgotten() async throws {
+        let installed = try Installed()
+        let app = try installed.app("Example", identifier: "org.example.app")
+        let cask = installed.cask(installing: [app])
+
+        let result = await HomebrewReceipt.forget(
+            [cask], through: try installed.service(), environment: installed.environment
+        )
+
+        #expect(HomebrewReceipt.items(of: cask, environment: installed.environment).isEmpty)
+        #expect(result.trashed.isEmpty)
+        #expect(installed.caskroom.appending(path: "example").isThere)
     }
 
     private struct Installed: ~Copyable {

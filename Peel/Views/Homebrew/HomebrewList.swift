@@ -10,6 +10,7 @@ struct HomebrewList: View {
     /// One of the deeper clean ups, or the repair, waiting for its confirmation.
     @State private var confirming: HomebrewLibrary.Command?
     @State private var isConfirmingUpgradeAll = false
+    @State private var casksToForget: [HomebrewPackage]?
 
     var body: some View {
         @Bindable var homebrew = homebrew
@@ -27,6 +28,7 @@ struct HomebrewList: View {
                 vulnerabilities
                 retired(homebrew.retired)
                 updates(outdated)
+                missingTheirApps(homebrew.missingTheirApps)
                 empty
             }
             section(Text("Formulae"), packages: byKind[.formula] ?? [])
@@ -51,7 +53,7 @@ struct HomebrewList: View {
             ToolbarItem {
                 RescanButton(
                     isRunning: $isRescanning,
-                    isDisabled: !homebrew.isInstalled || homebrew.runningCommand != nil,
+                    isDisabled: !homebrew.isInstalled || homebrew.runningCommand != nil || homebrew.isForgetting,
                     scan: homebrew.scanRun
                 ) {
                     await homebrew.refresh(includingReclaimable: true)
@@ -70,6 +72,7 @@ struct HomebrewList: View {
         } message: {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
+        .forgetCasksDialog(for: $casksToForget)
         // Clean Up is confirmed first, like Uninstall on a package's page, because Homebrew deletes these files
         // permanently and History can't put them back.
         .confirmationDialog("Clean up Homebrew?", isPresented: $isConfirmingCleanUp) {
@@ -422,6 +425,49 @@ struct HomebrewList: View {
         }
     }
 
+    @ViewBuilder
+    private func missingTheirApps(_ casks: [HomebrewPackage]) -> some View {
+        if !casks.isEmpty {
+            Section {
+                ForEach(casks) { cask in
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(verbatim: cask.name)
+                            .lineLimit(1)
+                        Text(verbatim: cask.installedVersion ?? "")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 2)
+                    .tag(HomebrewRow.package(cask.id))
+                }
+            } header: {
+                SectionHeaderLine {
+                    heading(
+                        "Apps Already Gone",
+                        "Homebrew still lists these casks, but their apps aren’t where it put them anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back."
+                    )
+                } count: {
+                    Text("^[\(casks.count) cask](inflect: true)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } actions: {
+                    BusyShown(isBusy: homebrew.isForgetting) { isShown in
+                        if isShown {
+                            ProgressView().controlSize(.small).transition(.opacity)
+                        }
+                    }
+                    .motion(value: homebrew.isForgetting)
+                    Button { casksToForget = casks } label: {
+                        Text("Forget All")
+                            .minimumTarget()
+                    }
+                        .buttonStyle(.borderless)
+                        .disabled(isBusy)
+                }
+            }
+        }
+    }
+
     /// The section of packages Homebrew has deprecated or disabled. It comes above the updates, since an
     /// upgrade can't fix either state.
     @ViewBuilder
@@ -465,7 +511,7 @@ struct HomebrewList: View {
                                 .foregroundStyle(.secondary)
                         }
                         Spacer(minLength: 4)
-                        if package.isOutdated {
+                        if package.waitsForAnUpgrade {
                             Image(systemName: "arrow.down.circle.fill")
                                 .foregroundStyle(.blue)
                                 .accessibilityLabel(Text("Update available"))
@@ -513,14 +559,17 @@ struct HomebrewList: View {
     }
 
     private var isBusy: Bool {
-        homebrew.runningCommand != nil || homebrew.isScanning
+        homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.isScanning
     }
 
-    /// The packages for the Formulae and Casks sections. Outdated and retired packages have their own sections
-    /// above, so they are left out here, except during a search, which hides those sections.
+    /// The packages for the Formulae and Casks sections. Outdated and retired packages, and casks whose apps are
+    /// gone, have their own sections above, so they are left out here, except during a search, which hides those
+    /// sections.
     private var listed: [HomebrewPackage] {
         guard searchText.isEmpty else { return filteredPackages }
-        return (homebrew.packages ?? []).filter { !$0.isOutdated && $0.retirement == nil }
+        return (homebrew.packages ?? []).filter {
+            !$0.waitsForAnUpgrade && $0.retirement == nil && !$0.isMissingItsApps
+        }
     }
 
     private func phase(_ shown: [HomebrewPackage]) -> ScanPhase {

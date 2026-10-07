@@ -15869,6 +15869,112 @@
         }
       }
     },
+    "Apps Already Gone" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace už tu nejsou"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps nicht mehr vorhanden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps que ya no están"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps déjà disparues"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App che non ci sono più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでになくなったアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 사라진 앱"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps al verdwenen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacji już nie ma"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps Já Removidos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicații care nu mai există"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложений уже нет"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appar som redan är borta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması Artık Olmayanlar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програми, яких уже немає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App已不存在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已不存在的App"
+          }
+        }
+      }
+    },
     "Apps Peel stays quiet about, because you chose Never Check This App or skipped a version. Checking one again brings its updates back." : {
       "localizations" : {
         "cs" : {
@@ -41593,6 +41699,324 @@
         }
       }
     },
+    "Forget %@?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomenout %@?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ vergessen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Olvidar %@?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oublier %@ ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi dimenticare %@?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”のHomebrewレシートをゴミ箱に入れますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’의 Homebrew 수신 정보를 제거하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ vergeten?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomnieć %@?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquecer %@?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitați %@?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забыть «%@»?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du glömma %@?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ paketi unutulsun mu?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забути «%@»?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除“%@”的记录吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除「%@」cask嗎？"
+          }
+        }
+      }
+    },
+    "Forget All" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomenout vše"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle vergessen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olvidar todo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout oublier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimentica tutto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてゴミ箱に入れる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모두 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergeet alle"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomnij wszystkie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquecer Tudo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitați toate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забыть все"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glöm alla"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü Unut"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забути всі"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部移除记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部移除"
+          }
+        }
+      }
+    },
+    "Forget Cask" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomenout cask"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cask vergessen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olvidar cask"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oublier le cask"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimentica cask"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewレシートをゴミ箱に入れる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수신 정보 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergeet cask"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomnij cask"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquecer Cask"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitați cask‑ul"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забыть cask"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glöm cask"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cask Paketini Unut"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забути cask"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除cask记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除cask"
+          }
+        }
+      }
+    },
     "Forget Receipt" : {
       "localizations" : {
         "cs" : {
@@ -41695,6 +42119,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除收據"
+          }
+        }
+      }
+    },
+    "Forget ^[%lld cask](inflect: true)?" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld casks?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Cask vergessen?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Casks vergessen?"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar %lld de casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld de casks ?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld cask ?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld casks ?"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare %lld di casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare un cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個のcaskのHomebrewレシートをゴミ箱に入れますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cask %lld개의 Homebrew 수신 정보를 제거하겠습니까?"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask vergeten?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks vergeten?"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld casks?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld de casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld cask‑uri?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld de cask‑uri?"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld casks?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du glömma %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du glömma %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask unutulsun mu?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask unutulsun mu?"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld casks?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld casks?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld cask?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld casks?"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除%lld个cask的记录吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除%lld個cask嗎？"
           }
         }
       }
@@ -51534,6 +52298,218 @@
         }
       }
     },
+    "Homebrew still lists these casks, but their apps aren’t where it put them anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tyto casks stále uvádí, ale jejich aplikace už nejsou tam, kam je umístil, takže je nemůže upgradovat. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew führt diese Casks weiterhin, aber ihre Apps sind nicht mehr dort, wo Homebrew sie abgelegt hat, daher kann Homebrew sie nicht upgraden. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sigue mostrando estos casks, pero sus apps ya no están donde las puso, así que no puede actualizarlos. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew liste encore ces casks, mais leurs apps ne se trouvent plus là où il les a placées, si bien qu’il ne peut pas les mettre à niveau. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elenca ancora questi casks, ma le loro app non sono più dove le aveva messe, quindi non può aggiornarli. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、そのアプリはもうHomebrewがインストールした場所にないため、アップグレードできません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewが作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 앱이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew vermeldt deze casks nog steeds, maar hun apps staan niet meer op de plek waar Homebrew ze heeft geplaatst, dus kan Homebrew ze niet upgraden. Als je een cask vergeet, wordt het Homebrew-bewijs ervan naar de prullenmand verplaatst, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nadal wymienia te casks, ale ich aplikacji nie ma już tam, gdzie je umieścił, więc nie może ich uaktualnić. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew ainda lista estes casks, mas os apps deles não estão mais onde o Homebrew os colocou, então ele não consegue fazer upgrade deles. Esquecer um cask move para o Lixo o recibo do Homebrew desse cask, junto com os links que o Homebrew criou apontando para ele, e assim o Homebrew deixa de listá-lo. O Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew listează în continuare aceste cask‑uri, dar aplicațiile lor nu mai sunt unde le‑a pus, așa că nu le poate face upgrade. Dacă uitați un cask, recipisa Homebrew a acestuia este mutată în Coș, împreună cu linkurile create de Homebrew care duc în ea, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew по-прежнему считает эти casks установленными, но их приложений больше нет там, куда он их поместил, поэтому он не может их обновить. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые создал Homebrew, и Homebrew перестанет считать его установленным. История может ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew listar fortfarande dessa casks, men apparna finns inte längre där Homebrew placerade dem, så Homebrew kan inte uppgradera dem. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak uygulamaları artık Homebrew’un onları koyduğu yerde değil, bu yüzden Homebrew onları yükseltemiyor. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew досі показує ці casks у своєму списку, але їхніх програм уже немає там, куди він їх помістив, тож він не може їх оновити. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які створив Homebrew, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍然列出这些casks，但它们的App已不在Homebrew当初放置的位置，因此Homebrew无法升级它们。移除cask的记录会将其Homebrew回执连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍列出這些cask，但它們的App已不在Homebrew當初放置的位置，因此Homebrew無法升級它們。移除cask會將它的Homebrew收據連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
+          }
+        }
+      }
+    },
+    "Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tento cask stále uvádí, ale jeho aplikace už není tam, kam ji Homebrew umístil, takže ho Homebrew nemůže upgradovat. Tlačítko „Zapomenout cask“ přesune jeho záznam Homebrew do koše, takže Homebrew přestane cask uvádět a Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew führt diesen Cask weiterhin, aber seine App ist nicht mehr dort, wo Homebrew sie abgelegt hat, daher kann Homebrew ihn nicht upgraden. „Cask vergessen“ legt die Homebrew-Quittung des Casks in den Papierkorb, sodass Homebrew den Cask nicht mehr führt, und im Verlauf kannst du ihn zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sigue mostrando este cask, pero su app ya no está donde Homebrew la puso, así que Homebrew no puede actualizarlo. “Olvidar cask” traslada a la papelera el recibo de Homebrew del cask, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew liste encore ce cask, mais son app ne se trouve plus là où Homebrew l’a placée, si bien que Homebrew ne peut pas le mettre à niveau. « Oublier le cask » place le reçu Homebrew de ce cask dans la corbeille : Homebrew cesse alors de le lister, et l’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elenca ancora questo cask, ma la sua app non è più dove Homebrew l’aveva messa, quindi Homebrew non può aggiornarlo. “Dimentica cask” sposta nel Cestino la ricevuta Homebrew del cask, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewはこのcaskを引き続き一覧に表示していますが、そのアプリはもうHomebrewがインストールした場所にないため、アップグレードできません。“Homebrewレシートをゴミ箱に入れる”をクリックすると、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すこともできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 앱이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. ‘수신 정보 제거’를 클릭하면 이 cask의 Homebrew 수신 정보가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않으며, 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew vermeldt deze cask nog steeds, maar de bijbehorende app staat niet meer op de plek waar Homebrew hem heeft geplaatst, dus kan Homebrew de cask niet upgraden. 'Vergeet cask' verplaatst het Homebrew-bewijs ervan naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nadal wymienia ten cask, ale jego aplikacji nie ma już tam, gdzie Homebrew ją umieścił, więc Homebrew nie może go uaktualnić. Przycisk „Zapomnij cask” przenosi potwierdzenie Homebrew tego cask do Kosza, więc Homebrew przestaje go wymieniać, a Historia może to przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew ainda lista este cask, mas o app dele não está mais onde o Homebrew o colocou, então o Homebrew não consegue fazer upgrade dele. Esquecer Cask move para o Lixo o recibo do Homebrew do cask. Assim, o Homebrew deixa de listá-lo, e o Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew listează în continuare acest cask, dar aplicația sa nu mai este unde a pus‑o Homebrew, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută recipisa Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew по-прежнему считает этот cask установленным, но его приложения больше нет там, куда Homebrew его поместил, поэтому Homebrew не может его обновить. Кнопка «Забыть cask» перемещает квитанцию Homebrew для этого cask в Корзину, и Homebrew перестает считать его установленным, а История может ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew listar fortfarande den här casken, men appen finns inte längre där Homebrew placerade den, så Homebrew kan inte uppgradera den. ”Glöm cask” flyttar caskens Homebrew-kvitto till papperskorgen, så Homebrew listar den inte längre, och Historik kan lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew bu cask paketini hâlâ listeliyor, ancak uygulaması artık Homebrew’un onu koyduğu yerde değil, bu yüzden Homebrew onu yükseltemiyor. “Cask Paketini Unut”, bu paketin Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew досі показує цей cask у своєму списку, але його програми вже немає там, куди Homebrew її помістив, тож Homebrew не може його оновити. Кнопка «Забути cask» переміщує в Смітник квитанцію Homebrew цього cask, і Homebrew перестане показувати його у своєму списку, а Історія може це повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍然列出此cask，但它的App已不在Homebrew当初放置的位置，因此Homebrew无法升级它。“移除cask记录”会将该cask的Homebrew回执移到废纸篓，这样Homebrew就不再列出它，并且“历史记录”可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍列出此cask，但它的App已不在Homebrew當初放置的位置，因此Homebrew無法升級它。「移除cask」會將此cask的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，「歷史記錄」也可以將它還原。"
+          }
+        }
+      }
+    },
     "Homebrew still upgrades it for now, and disables it on %@." : {
       "localizations" : {
         "cs" : {
@@ -60892,6 +61868,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "項目"
+          }
+        }
+      }
+    },
+    "Its Homebrew receipt goes to the Trash with the links Homebrew made into it, so Homebrew stops listing it. History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Homebrew-Quittung des Casks wird zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su recibo de Homebrew va a la papelera con los enlaces que Homebrew creó hacia él, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son reçu Homebrew est placé dans la corbeille avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua ricevuta Homebrew va nel Cestino insieme ai link che Homebrew ha creato verso di essa, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このcaskのHomebrewレシートは、Homebrewが作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 cask의 Homebrew 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Homebrew-bewijs gaat naar de prullenmand, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego potwierdzenie Homebrew trafi do Kosza razem z dowiązaniami, które Homebrew do niego utworzył, więc Homebrew przestanie go wymieniać. Historia może to przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O recibo do Homebrew deste cask vai para o Lixo junto com os links que o Homebrew criou apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipisa Homebrew a cask‑ului este mutată în Coș împreună cu linkurile create de Homebrew care duc în ea, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанция Homebrew для этого cask перемещается в Корзину вместе со ссылками на нее, которые создал Homebrew, и Homebrew перестает считать его установленным. История может ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caskens Homebrew-kvitto flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till det, så Homebrew listar den inte längre. Historik kan lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paketin Homebrew makbuzu, Homebrew’un oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onu artık listelemez. Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанцію Homebrew для цього cask буде переміщено в Смітник разом із посиланнями на неї, які створив Homebrew, і Homebrew перестане показувати його у своєму списку. Історія може це повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的Homebrew回执会连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它。“历史记录”可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此cask的Homebrew收據會連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出此cask。「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -145562,6 +146644,112 @@
         }
       }
     },
+    "The App Is Already Gone" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace už tu není"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App ist nicht mehr vorhanden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app ya no está"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app a déjà disparu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app non c’è più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリはすでになくなっています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 이미 사라짐"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app is al verdwenen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacji już nie ma"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O App Já Foi Removido"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația nu mai există"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения уже нет"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen är redan borta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama Artık Yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програми вже немає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该App已不存在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App已不存在"
+          }
+        }
+      }
+    },
     "The App Store" : {
       "localizations" : {
         "cs" : {
@@ -153616,6 +154804,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Android Studio並排安裝的Native Development Kit版本。"
+          }
+        }
+      }
+    },
+    "Their Homebrew receipts go to the Trash with the links Homebrew made into them, so Homebrew stops listing them. History can put them back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jejich záznamy Homebrew se přesunou do koše spolu s odkazy, které do nich Homebrew vytvořil, takže Homebrew přestane tyto casks uvádět. Historie je může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Homebrew-Quittungen der Casks werden zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew die Casks nicht mehr führt. Im Verlauf kannst du sie zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus recibos de Homebrew van a la papelera con los enlaces que Homebrew creó hacia ellos, así que Homebrew deja de mostrarlos. Historial puede restaurarlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leurs reçus Homebrew sont placés dans la corbeille avec les liens que Homebrew a créés vers ces reçus : Homebrew ne liste donc plus ces casks. L’Historique peut les remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le loro ricevute Homebrew vanno nel Cestino insieme ai link che Homebrew ha creato verso di esse, così Homebrew smette di elencarli. La Cronologia può ripristinarle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらのcasksのHomebrewレシートは、Homebrewが作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはそれらを一覧に表示しなくなります。履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "각 cask의 Homebrew 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Homebrew-bewijzen gaan naar de prullenmand, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de casks niet meer vermeldt. Geschiedenis kan ze terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich potwierdzenia Homebrew trafią do Kosza razem z dowiązaniami, które Homebrew do nich utworzył, więc Homebrew przestanie je wymieniać. Historia może je przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os recibos do Homebrew destes casks vão para o Lixo junto com os links que o Homebrew criou apontando para eles, e assim o Homebrew deixa de listar esses casks. O Histórico pode colocá-los de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipisele Homebrew ale cask‑urilor sunt mutate în Coș împreună cu linkurile create de Homebrew care duc în ele, astfel încât Homebrew nu le mai listează. Le puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанции Homebrew для этих casks перемещаются в Корзину вместе со ссылками на них, которые создал Homebrew, и Homebrew перестает считать их установленными. История может их восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deras Homebrew-kvitton flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till dem, så Homebrew listar dem inte längre. Historik kan lägga tillbaka dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paketlerin Homebrew makbuzları, Homebrew’un oluşturduğu ve makbuzların içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onları artık listelemez. Geçmiş onları yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанції Homebrew для цих casks буде переміщено в Смітник разом із посиланнями на них, які створив Homebrew, і Homebrew перестане показувати ці casks у своєму списку. Історія може їх повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它们的Homebrew回执会连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它们。“历史记录”可以将它们放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些cask的Homebrew收據會連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出這些cask。「歷史記錄」可以將它們還原。"
           }
         }
       }
@@ -177725,6 +179019,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld個背景項目。"
+          }
+        }
+      }
+    },
+    "^[%lld cask](inflect: true)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Casks"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld di casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個のcask"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cask %lld개"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask‑uri"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de cask‑uri"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld cask"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld casks"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld个cask"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個cask"
           }
         }
       }

@@ -52,6 +52,9 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
         if key.hasPrefix("apps."), let count = Int(key.dropFirst("apps.".count)) {
             return String(inflecting: "^[\(count) app](inflect: true)")
         }
+        if key.hasPrefix("casks."), let count = Int(key.dropFirst("casks.".count)) {
+            return String(inflecting: "^[\(count) cask](inflect: true)")
+        }
         return source
     }
 

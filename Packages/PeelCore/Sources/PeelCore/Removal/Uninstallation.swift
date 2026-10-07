@@ -154,7 +154,8 @@ public struct Uninstallation: Sendable {
         var leftovers = [exclusions.holds(folder) ? leftover.heldBack(.holdsAnExclusion) : leftover]
         let receipt = PathPattern.comparablePath(of: folder)
         for location in environment.locations where location.kind.isForLinks {
-            for link in Self.links(in: location.url, leadingInto: receipt) where !exclusions.excludes(link) {
+            let links = HomebrewReceipt.links(in: location.url, leadingInto: receipt)
+            for link in links where !exclusions.excludes(link) {
                 leftovers.append(await LeftoverScanner.leftover(
                     at: link,
                     kind: location.kind,
@@ -167,16 +168,6 @@ public struct Uninstallation: Sendable {
             }
         }
         return leftovers
-    }
-
-    private static func links(in folder: URL, leadingInto destination: String) -> [URL] {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-        return names.sorted().map { folder.appending(path: $0) }.filter { link in
-            let path = link.path(percentEncoded: false)
-            guard let target = try? FileManager.default.destinationOfSymbolicLink(atPath: path) else { return false }
-            let resolved = URL(filePath: target, relativeTo: folder).standardizedFileURL
-            return PathComponents.isPath(PathPattern.comparablePath(of: resolved), inside: destination)
-        }
     }
 
     /// Leftovers for the paths a cask names (`LeftoverScan.adding` drops those the scanner already found).

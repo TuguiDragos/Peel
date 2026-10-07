@@ -133,7 +133,9 @@ lists them.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,
   or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
   run in Terminal for a cask that asks for an administrator's password. Uninstall and the clean ups delete for good,
-  as Homebrew does, and Peel says so before you confirm them.
+  as Homebrew does, and Peel says so before you confirm them. A cask whose app is already gone, which Homebrew still
+  lists and can't upgrade, is listed apart with Forget, which moves Homebrew's record of it to the Trash so Homebrew
+  stops listing it, and History can put it back.
 
 ## Fine-tune your Mac
 

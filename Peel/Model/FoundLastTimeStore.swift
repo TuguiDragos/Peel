@@ -57,7 +57,7 @@ extension HomebrewLibrary {
     var looked: Looked? {
         // With no Homebrew on the Mac, none of its updates is waiting.
         guard isInstalled else { return Looked(count: 0, size: nil) }
-        return packages.map { Looked(count: $0.count(where: \.isOutdated), size: nil) }
+        return packages.map { Looked(count: $0.count(where: \.waitsForAnUpgrade), size: nil) }
     }
 }
 

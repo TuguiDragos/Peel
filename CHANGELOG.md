@@ -22,8 +22,8 @@ macOS 26 supports.
 - Lists background items, extensions, plug-ins, what installer packages put on your Mac, and software that still
   needs Rosetta; starts, stops, enables, disables, or moves to the Trash a background item; moves a plug-in, or
   what a package installed, to the Trash; and forgets a package's receipt.
-- Runs Homebrew's update, upgrade, uninstall, clean up, repair taps, and health check, and scans your formulae for
-  known vulnerabilities.
+- Runs Homebrew's update, upgrade, uninstall, clean up, repair taps, and health check, scans your formulae for
+  known vulnerabilities, and forgets a cask whose app is already gone, through the Trash.
 - Changes settings macOS has, many of which it doesn't show, and puts back what was there when you turn one off.
 - Gives Terminal one of 29 dark themes built on Apple's Clear Dark, puts back the profile it used before, and can
   leave out the "Last login" line, keep Terminal from reopening its windows, make Option the Meta key, and silence
