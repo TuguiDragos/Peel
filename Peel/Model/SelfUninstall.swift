@@ -90,6 +90,7 @@ final class SelfUninstall {
             failure = (lines + (ledger == .moved ? [Self.ledgerInTheTrash] : [])).joined(separator: "\n\n")
             return
         }
+        _ = await DockTiles().takeOut([bundleURL], remembering: false)
         var stayed = result.failures
         if case .stayed(let failure) = ledger {
             stayed.append(failure)

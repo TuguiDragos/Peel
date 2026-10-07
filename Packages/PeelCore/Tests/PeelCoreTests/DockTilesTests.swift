@@ -70,6 +70,18 @@ struct DockTilesTests {
         #expect(store.paths.count == 4, "a tile was put back twice")
     }
 
+    @Test func takesOutATileWithoutRememberingItInAFolderThatIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let store = Store([Self.tile("file:///Applications/org.example.Studio.app/")])
+        let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
+        let tiles = DockTiles(store: store, memory: folder.appending(path: "dock-tiles.json"))
+
+        #expect(await tiles.takeOut([studio], remembering: false))
+        #expect(store.paths.isEmpty)
+        #expect(store.restarts.load(ordering: .relaxed) == 1)
+        #expect(folder.isMissing)
+    }
+
     /// Several apps removed together restart the Dock once, and each comes back to its own place.
     @Test func takesOutSeveralAppsTilesWithOneRestart() async throws {
         let directory = try TemporaryDirectory()

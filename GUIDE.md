@@ -252,8 +252,8 @@ it.
 
 In Settings > General, choose Remove Peel. It has its helper move its record of what it moved to the Trash, removes
 its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application
-Support to the Trash, clears its settings, and quits. That
-folder holds History, your exclusions, and the settings Peel saved when you reset an app.
+Support to the Trash, takes its icon out of the Dock, clears its settings, and quits. That folder holds History, your
+exclusions, and the settings Peel saved when you reset an app.
 
 What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, `~/.hushlogin`, Git's
 settings, the build folders you left out of Time Machine, and the background items you disabled. Turn them off

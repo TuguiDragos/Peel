@@ -58,8 +58,9 @@ public struct DockTiles: Sendable {
     }
 
     /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. False
-    /// when none had a tile, or when that could not be remembered or written.
-    public func takeOut(_ apps: [URL]) async -> Bool {
+    /// when none had a tile, or when that could not be remembered or written. Peel removing itself remembers nothing,
+    /// since its folder, where the memory is kept, has gone to the Trash.
+    public func takeOut(_ apps: [URL], remembering: Bool = true) async -> Bool {
         guard var tiles = store.tiles() else { return false }
         var removed: [String: [Removed]] = [:]
         for app in apps {
@@ -70,11 +71,13 @@ public struct DockTiles: Sendable {
             }
             if !found.isEmpty, kept.count == found.count { removed[key(app)] = kept }
         }
-        guard !removed.isEmpty, change({ $0.merge(removed) { _, new in new } }) else { return false }
+        guard !removed.isEmpty, !remembering || change({ $0.merge(removed) { _, new in new } }) else { return false }
         let taken = Set(removed.values.flatMap { $0.map(\.index) })
         tiles = tiles.indices.filter { !taken.contains($0) }.map { tiles[$0] }
         guard store.setTiles(tiles) else {
-            _ = change { entries in removed.keys.forEach { entries[$0] = nil } }
+            if remembering {
+                _ = change { entries in removed.keys.forEach { entries[$0] = nil } }
+            }
             return false
         }
         await store.restartTheDock()
