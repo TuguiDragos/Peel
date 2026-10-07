@@ -171,9 +171,10 @@ Tests enforce these. If your change makes one of them fail, the rule is right an
 - **What may exist nowhere else is never selected for the user.** A folder with a wallet, a signing key, a password
   database, or a repository inside, one where an app keeps what may exist only on this Mac, or one Peel could not
   finish reading, is shown with its reason and moves only when the user selects it with its own click: Select All,
-  `peel uninstall`, `peel orphans --remove`, and `peel projects --remove` pass it by (`SelectableRows.leftToTheClick`). The
-  one exception is a repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`), such as Swift Package
-  Manager's `.build`, whose clones the tool makes again.
+  `peel uninstall`, `peel orphans --remove`, and `peel projects --remove` pass it by (`SelectableRows.leftToTheClick`).
+  A repository can still be selected in two places, since its tool clones it again: inside a folder the tool tags as a
+  cache (`CACHEDIR.TAG`), such as Swift Package Manager's `.build`, and inside a cache on the Developer page, such as
+  the packages Xcode checks out into DerivedData.
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
 - **Resetting an app clears its settings, never the app.** It takes the app's own data only when the user
   selects it, needs the app to be quit, and inside a sandboxed app's container never touches `Documents`,

@@ -233,10 +233,13 @@ shown with their size as "Unknown", never as zero, in every tool and in History 
 read quickly may be exactly the one with work inside, and nothing is selected for you without saying how much it is. A
 total that leaves such a folder out reads "Over" what is known.
 
-A repository inside a folder its tool tags as a cache (`CACHEDIR.TAG`) is the one exception: the tool says it makes
-everything in there again. Swift Package Manager tags `.build`, where it clones a package's dependencies, and
-`swift package reset` deletes that folder whole, so Build Artifacts can still select it. Carthage's checkouts, which
-people commit in, carry no such tag and are never selected.
+A repository can still be selected in two places, since its tool makes everything there again. One is a folder its
+tool tags as a cache (`CACHEDIR.TAG`): Swift Package Manager tags `.build`, where it clones a package's
+dependencies, and `swift package reset` deletes that folder whole, so Build Artifacts can still select it. The other
+is a cache on the Developer page, a folder its tool's documentation or source shows to be a cache, such as the
+packages Xcode checks out into DerivedData or the clones Cargo and Swift Package Manager keep, which the tool clones
+again when it needs them. Carthage's checkouts in a project, which people commit in, carry no such tag and are never
+selected.
 
 Build Artifacts selects what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
