@@ -188,9 +188,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   built by `TerminalProfile` from Apple's Clear Dark, the profile Terminal opens with, and two keys in the Peel theme
   in use (`TerminalOption`); for the "Last login" line it makes an empty `~/.hushlogin` (`HushLogin`), which turning
   it off moves to the Trash. `TerminalThemeLedger` keeps what Terminal used before and the fingerprint of each profile
-  Peel wrote, so Put Back takes away only a profile still as Peel wrote it. Peel writes only while Terminal is closed:
-  an open Terminal does not read a change made outside it, and writes its own settings over it. The Shell and SSH tabs
-  write only files of Peel's own in its folder, `Terminal/zshrc` (`ShellFile`, with the prompt from `Prompt`) and
+  Peel wrote, so Put Back takes away only a profile still as Peel wrote it. Peel writes these only while Terminal is
+  closed: an open Terminal does not read a change made outside it, and writes its own settings over it. The switch
+  that keeps Terminal from reopening its windows is a tweak (`TweakCatalog.terminalWindows`) and sets Terminal's
+  `NSQuitAlwaysKeepsWindows` at once, since Terminal reads it only when it quits. The Shell and SSH tabs write only
+  files of Peel's own in its folder, `Terminal/zshrc` (`ShellFile`, with the prompt from `Prompt`) and
   `Terminal/ssh_config` (`SSHFile`), which zsh and ssh read through lines the person adds: Peel never edits `~/.zshrc`
   or `~/.ssh/config`. The Git tab changes Git's settings only through `git config --global` (`GitConfig`), and
   `GitLedger` keeps what each key held, so turning a setting off puts it back. A setting is offered only when the tool

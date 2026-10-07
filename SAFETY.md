@@ -336,11 +336,13 @@ among those: BlueWallet keeps its wallet in its container's caches.
 ## Terminal's settings
 
 The Terminal page changes Terminal's own preferences and nothing else there: it adds Peel's themes as profiles of
-their own, named "Peel" and the theme's name, chooses the profile Terminal opens with, and sets Option as Meta and
-the bell in the Peel theme in use. It never changes or removes a profile it did not write, or one you changed since.
-Put Back gives Terminal the profiles it used before and takes away only Peel's own, still as Peel wrote them. Peel
-writes nothing while Terminal is open, since Terminal would not see the change and would write its own settings over
-it.
+their own, named "Peel" and the theme's name, chooses the profile Terminal opens with, sets Option as Meta and the
+bell in the Peel theme in use, and can keep Terminal from reopening its windows. It never changes or removes a
+profile it did not write, or one you changed since. Put Back gives Terminal the profiles it used before and takes
+away only Peel's own, still as Peel wrote them. Peel writes none of this while Terminal is open, since Terminal
+would not see the change and would write its own settings over it, but for the switch that keeps Terminal from
+reopening its windows: Terminal reads that one, `NSQuitAlwaysKeepsWindows`, only when it quits, so Peel sets it at
+once and it takes effect the next time Terminal quits.
 
 Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off again
 moves that file to the Trash, recorded in History. Peel never edits your shell's files: to stop the shell from saving

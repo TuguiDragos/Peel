@@ -22,7 +22,7 @@ each checked for contrast against its background.
 The Terminal page starts turned off in Peel's sidebar: turn it on in Settings > General > Sidebar, or open it from
 the View menu. Choose a theme there, and Terminal opens with it and uses it in every new window, and Put Back gives
 Terminal the profile it had before and takes away Peel's own profiles that are still as Peel wrote them. Peel
-changes Terminal's settings only while Terminal is closed, and offers to quit it first.
+changes Terminal's profiles, and the one it opens with, only while Terminal is closed, and offers to quit it first.
 
 The Terminal tab of the same page can also leave out the "Last login" line in new windows, keep Terminal from
 reopening its windows when it would, make Option the Meta key and silence the bell in the theme you use when it
@@ -31,9 +31,10 @@ edits your shell's files.
 
 What each writes: leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and
 turning it off moves that file to the Trash; Option as Meta and the bell set `useOptionAsMetaKey` to true and `Bell` to
-false in the Peel profile in use; not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false; and the
-line that stops zsh from saving its sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add (for bash,
-the command is `touch ~/.bash_sessions_disable`).
+false in the Peel profile in use; not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false, at once
+even while Terminal is open, since Terminal reads it only when it quits; and the line that stops zsh from saving its
+sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add (for bash, the command is
+`touch ~/.bash_sessions_disable`).
 
 ### Without Peel
 
