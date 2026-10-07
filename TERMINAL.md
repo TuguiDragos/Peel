@@ -120,7 +120,8 @@ shell's or ssh's own files, and changes Git's only through Git itself:
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
   of `~/.ssh/config`. What you set for a server earlier in that file stays in force, since ssh uses the first value
   it finds.
-- **Git**'s are changed with `git config --global`, Git's own command, and turning one off puts back what you had.
+- **Git**'s are changed with `git config --global`, Git's own command, and turning one off puts back what you had
+  before Peel set it; a setting you made yourself goes back to Git's default.
 
 The line that makes zsh read Peel's file:
 
@@ -129,8 +130,8 @@ The line that makes zsh read Peel's file:
 ```
 
 Peel offers a setting only when the zsh, Git, or ssh on your Mac knows it, and Turn All Off on each tab undoes what
-Peel set there. Without Peel, add the lines below to `~/.zshrc` or `~/.ssh/config` yourself, or run the `git config`
-commands.
+Peel set there; on the Git tab it also turns off what you set yourself, as its question says. Without Peel, add the
+lines below to `~/.zshrc` or `~/.ssh/config` yourself, or run the `git config` commands.
 
 ### Prompt
 

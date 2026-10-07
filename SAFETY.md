@@ -362,7 +362,9 @@ The Shell and SSH tabs write only two files of Peel's own, in its folder. zsh an
 you add to `~/.zshrc` and the two lines you add at the end of `~/.ssh/config`, and Peel never edits those files. Turn
 All Off empties Peel's files, and a line left in yours then does nothing. The Git tab changes Git's settings only with
 `git config --global`, Git's own command, after noting what each key held: turning a setting off puts that back, and
-a value you changed since is left as it is. The Tools tab installs nothing: it shows the commands to copy.
+a value you changed since is left as it is. A setting you made yourself goes back to Git's default when you turn it
+off, and Turn All Off does that to every one, as its question says. The Tools tab installs nothing: it shows the
+commands to copy.
 
 ## The helper that runs as root
 
