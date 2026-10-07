@@ -26,7 +26,8 @@
 > Peel is published in one place only: this repository,
 > [github.com/TuguiDragos/Peel](https://github.com/TuguiDragos/Peel). Download it from its
 > [releases](https://github.com/TuguiDragos/Peel/releases/latest) or with the Homebrew command below, which installs
-> the same release. My only website is [tuguidragos.com](https://tuguidragos.com). Any other site, download page, or
+> the same release. My only websites are [tuguidragos.com](https://tuguidragos.com) and Peel's page,
+> [peel.tuguidragos.com](https://peel.tuguidragos.com), whose downloads lead here. Any other site, download page, or
 > store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone
 > asking you to pay for it is not me. Please download it only from here.
 >

@@ -156,6 +156,12 @@ have, and anything that destroys data that cannot be recovered.
   the shell, ssh, and Git. Getting either to write anything but the setting the user chose, or to
   write it anywhere else, such as through a link, is in scope.
 
+**Peel's website.**
+
+- peel.tuguidragos.com, which GitHub Pages serves from this repository's `docs/` folder. A way to
+  change what it shows, or to send its downloads anywhere but this repository's releases, is in
+  scope.
+
 ### Out of scope
 
 Not because they do not matter, but because they are not bugs in Peel.
@@ -184,8 +190,8 @@ Not because they do not matter, but because they are not bugs in Peel.
   absent", or "library validation could be stricter" needs a working attack to be actionable.
 - **Automated scanner output with no proof of concept.**
 - **Denial of service** that only affects the person running Peel, and filling your own disk.
-- **The tuguidragos.com website.** Separate thing. Email the same address, but do not expect it
-  to be treated as a Peel report.
+- **The tuguidragos.com website**, other than Peel's own site above. Separate thing. Email the
+  same address, but do not expect it to be treated as a Peel report.
 
 If you are not sure which side of the line something falls on, send it. Getting it wrong in the
 direction of reporting is the right mistake.

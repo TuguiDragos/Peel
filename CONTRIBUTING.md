@@ -126,6 +126,7 @@ A few environment variables are there for work on Peel itself:
   export writes and that TERMINAL.md links to it and its picture.
 - `readme-assets/`: the screenshots the documents show, and Tapetum's icon.
 - `.github/`: the test workflow, the issue forms, and the pull request template.
+- `docs/`: Peel's website, peel.tuguidragos.com, which GitHub Pages publishes from this folder as it is.
 - The documents, at the root: [README.md](README.md) says what Peel is and how to get it, [GUIDE.md](GUIDE.md)
   what each tool does, [PRIVACY.md](PRIVACY.md) what Peel sends, [SAFETY.md](SAFETY.md) what it protects,
   [TERMINAL.md](TERMINAL.md) every Terminal theme and setting, [SECURITY.md](SECURITY.md) how to report a
