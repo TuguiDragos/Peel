@@ -334,22 +334,21 @@ struct ResetSheet: View {
                 .foregroundStyle(.secondary)
         case .incomplete(let clearedSome):
             VStack(alignment: .leading, spacing: 2) {
-                Text("Not all of the saved settings could be put back.")
-                    .foregroundStyle(.red)
+                StatusLabel(title: Text("Not all of the saved settings could be put back."), tint: .red)
                 if clearedSome {
                     Text("The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
-                        .foregroundStyle(.secondary)
                 }
             }
             .font(.callout)
+            .foregroundStyle(.secondary)
         case .notSaved:
-            Text("Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back.")
+            StatusLabel(title: Text("Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back."), tint: .red)
                 .font(.callout)
-                .foregroundStyle(.red)
+                .foregroundStyle(.secondary)
         case .appIsOpen:
-            Text("Quit \(plan.app.name) first, or it can write its own settings over these.")
+            StatusLabel(title: Text("Quit \(plan.app.name) first, or it can write its own settings over these."), tint: .red)
                 .font(.callout)
-                .foregroundStyle(.red)
+                .foregroundStyle(.secondary)
         }
     }
 
