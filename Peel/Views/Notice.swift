@@ -77,11 +77,11 @@ struct Notice<Actions: View>: View {
         }
     }
 
-    /// Only a problem gets a colored title, in red. Orange text is too faint to read, and gray would look
-    /// like the detail line under it.
+    /// Only a problem's title takes a color, and only on Home, in the album's red. Elsewhere the red is the
+    /// symbol's: red words read under the 4.5:1 text needs on a light background.
     private var titleColor: Color {
-        guard kind != .problem else { return isAlbum ? Album.red : .red }
-        return isAlbum ? Album.ink : .primary
+        guard isAlbum else { return .primary }
+        return kind == .problem ? Album.red : Album.ink
     }
 
     private var tint: Color {
