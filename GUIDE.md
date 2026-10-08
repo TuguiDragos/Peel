@@ -230,7 +230,7 @@ and takes you straight to the right place in System Settings.
 |---|---|
 | Full Disk Access | Look inside the Trash and the private folders where apps keep their data. Without it, Peel can't find everything an app leaves behind. |
 | App Management | Move another developer's app to the Trash. Without it, Peel can still clear an app's files, but macOS may refuse to move the app itself. |
-| Helper | Move the leftovers that sit in folders only an administrator can change, and put them back, and start, stop, enable, or disable other developers' background items that run as root. It answers administrators only. macOS asks you to approve it in Login Items & Extensions, and an update of Peel that changes the helper asks you to install it again. |
+| Helper | Move the leftovers that sit in folders only an administrator can change, and put them back, and start, stop, enable, or disable other developers' background items that run as root. It answers administrators only. macOS asks you to approve it once in Login Items & Extensions, and an update of Peel brings its new helper with it. |
 | Notifications (optional) | Tell you when your apps have updates, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. |
 | Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, and what builds left, inside another app's data for what it would leave behind, or at your cloud folders to measure them. |
 | Finder extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |

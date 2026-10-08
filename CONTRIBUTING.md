@@ -226,8 +226,9 @@ disk that somebody may have replaced.
 - It never uses a path again after checking it. It opens the folder, checks the item there as the kernel names
   the folder (`F_GETPATH`), works only through that descriptor, and moves the item only while its identity is the
   one it checked, so a folder or an item swapped after the check leads nowhere.
-- A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a protocol version bump,
-  which asks every user to install the helper again. That cost is deliberate.
+- A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a protocol version bump, so
+  Peel never works with a helper of another version. An update asks nothing of the person while the helper's
+  identifier and its launchd property list stay the same; a change to either means registering the helper again.
 
 If you are unsure whether something belongs in the helper, it doesn't. The helper should stay small enough to
 read in one sitting.

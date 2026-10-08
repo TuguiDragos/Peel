@@ -66,7 +66,7 @@ struct OpenFiles {
     /// The program a process runs, unless it is an app extension: macOS starts and ends those on their app's behalf,
     /// so the person could not quit one to let its app go.
     private static func program(of pid: pid_t) -> String? {
-        guard let path = path(of: pid) else { return nil }
+        guard let path = RunningProgram.path(of: pid) else { return nil }
         return PathComponents.of(path).contains { $0.hasSuffix(".appex") } ? nil : path
     }
 
@@ -74,14 +74,8 @@ struct OpenFiles {
     static func name(of pid: pid_t) -> String {
         var buffer = [CChar](repeating: 0, count: 2 * Int(MAXCOMLEN) + 1)
         guard proc_name(pid, &buffer, UInt32(buffer.count)) > 0 else {
-            return path(of: pid).map { URL(filePath: $0).lastPathComponent } ?? "process \(pid)"
+            return RunningProgram.path(of: pid).map { URL(filePath: $0).lastPathComponent } ?? "process \(pid)"
         }
-        return String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
-    }
-
-    private static func path(of pid: pid_t) -> String? {
-        var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
-        guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return nil }
         return String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
     }
 }

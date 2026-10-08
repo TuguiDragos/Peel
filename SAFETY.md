@@ -401,8 +401,8 @@ and it fails closed.
   PrivilegedHelperTools, and StartupItems) and the 22 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
   `/usr/local` that shell completions are linked into; and the Library of the administrator who asks.
-- It takes at most 100 items in one request, and quits 30 seconds after its last request ends, so it isn't
-  left running.
+- It takes at most 100 items in one request, and quits 30 seconds after its last request ends, or as soon as
+  it is idle once an update has replaced it, so it isn't left running.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
   the first zero byte, so such a name would be checked as one thing and moved as another.
 - It starts, stops, enables, and disables launch daemons only for other vendors. What macOS ships is

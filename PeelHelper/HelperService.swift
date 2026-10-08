@@ -24,12 +24,8 @@ final class HelperService: NSObject, PeelHelperProtocol {
     }
 
     /// The `peel` tool of the app the helper runs from, found from the program the kernel says it runs.
-    private static let ownTool: String? = {
-        var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
-        guard proc_pidpath(getpid(), &buffer, UInt32(buffer.count)) > 0 else { return nil }
-        let path = String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
-        return PrivilegedPathPolicy.peelTool(besideHelperAt: path)
-    }()
+    private static let ownTool = RunningProgram.path(of: getpid())
+        .flatMap(PrivilegedPathPolicy.peelTool(besideHelperAt:))
 
     private func tracked(_ finish: @escaping @Sendable (String?) -> Void) -> @Sendable (String?) -> Void {
         { [lifetime] answer in

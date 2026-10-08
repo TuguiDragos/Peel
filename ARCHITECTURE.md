@@ -172,8 +172,13 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
   and puts back only what that ledger knows. While the ledger can't be read it moves nothing, and one it can't make
   sense of is kept under another name (`DamagedFile`), never written over.
-- Any change to the helper means bumping `HelperIdentity.protocolVersion`, which asks users to install the
-  helper again.
+- An update needs nothing from the person. launchd starts `Contents/MacOS/PeelHelper` from the app as it is at
+  that moment, under a spawn constraint that names only the team and the helper's identifier, so the next request
+  runs the new helper, and a helper still running when an update replaced its program quits as soon as it is idle
+  (`HelperLifetime`). That holds while the helper's identifier and its launchd property list stay the same: a
+  version that changes either has to register the helper again (`SMAppService.h`).
+- Any change to the helper means bumping `HelperIdentity.protocolVersion`, so Peel never works with a helper of
+  another version.
 
 ## The app
 
