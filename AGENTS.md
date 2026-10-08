@@ -130,6 +130,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   for what a Mac can't do on demand, such as a folder that never answers.
 - **A test that fails now and then has a cause.** Run the whole suite again and again until it fails, find what
   differed, and fix that. Never run it again until it passes, and never widen a timeout to hide it.
+- **Never bound a test by the clock.** In a full run a short sleep or a timer can resume seconds late, so a test
+  waits for the thing it measures (a program's end, a file's change), and work it waits on runs at user-initiated
+  priority rather than the default.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
   from a test. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
   (`org.example`, `com.example`, `net.example`).
