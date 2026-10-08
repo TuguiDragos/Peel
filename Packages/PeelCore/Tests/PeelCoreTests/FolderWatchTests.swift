@@ -81,12 +81,13 @@ struct FolderWatchTests {
 
     private static let callback = Atomic<Int>(0)
     private static let listenerIsGone = Atomic<Bool>(false)
+    private static let mayReturn = DispatchSemaphore(value: 0)
 
     private final class Listener {
         deinit { FolderWatchTests.listenerIsGone.store(true, ordering: .sequentiallyConsistent) }
     }
 
-    @Test func whatTheCallbackUsesLastsUntilARunningCallbackReturns() throws {
+    @Test func whatTheCallbackUsesLastsUntilARunningCallbackReturns() async throws {
         Self.callback.store(0, ordering: .sequentiallyConsistent)
         Self.listenerIsGone.store(false, ordering: .sequentiallyConsistent)
         let directory = try TemporaryDirectory()
@@ -98,8 +99,11 @@ struct FolderWatchTests {
                 FSEventStreamCreate(
                     nil,
                     { _, _, _, _, _, _ in
-                        FolderWatchTests.callback.store(1, ordering: .sequentiallyConsistent)
-                        Thread.sleep(forTimeInterval: 0.3)
+                        let first = FolderWatchTests.callback
+                            .compareExchange(expected: 0, desired: 1, ordering: .sequentiallyConsistent).exchanged
+                        guard first else { return }
+                        // It runs until the test has released the stream, however long the test takes to get there.
+                        FolderWatchTests.mayReturn.wait()
                         FolderWatchTests.callback.store(2, ordering: .sequentiallyConsistent)
                     },
                     &context,
@@ -111,11 +115,15 @@ struct FolderWatchTests {
             }
         }
         let stream = try #require(created)
-        FSEventStreamSetDispatchQueue(stream, DispatchQueue.global(qos: .utility))
+        FSEventStreamSetDispatchQueue(stream, DispatchQueue.global(qos: .userInitiated))
         try #require(FSEventStreamStart(stream))
+        var isReleased = false
+        defer { if !isReleased { Self.mayReturn.signal() } }
         _ = try directory.file("change.txt")
         let deadline = ContinuousClock.now + Self.patience
-        while Self.callback.load(ordering: .sequentiallyConsistent) == 0, .now < deadline { usleep(1_000) }
+        while Self.callback.load(ordering: .sequentiallyConsistent) == 0, .now < deadline {
+            try await Task.sleep(for: .milliseconds(1))
+        }
         let running = Self.callback.load(ordering: .sequentiallyConsistent)
         try #require(running == 1, "no callback came")
 
@@ -125,7 +133,12 @@ struct FolderWatchTests {
 
         let goneWhileRunning = Self.listenerIsGone.load(ordering: .sequentiallyConsistent)
         #expect(!goneWhileRunning, "it went while the callback was running")
-        while !Self.listenerIsGone.load(ordering: .sequentiallyConsistent), .now < deadline { usleep(1_000) }
+        Self.mayReturn.signal()
+        isReleased = true
+        let released = ContinuousClock.now + Self.patience
+        while !Self.listenerIsGone.load(ordering: .sequentiallyConsistent), .now < released {
+            try await Task.sleep(for: .milliseconds(1))
+        }
         let callback = Self.callback.load(ordering: .sequentiallyConsistent)
         let gone = Self.listenerIsGone.load(ordering: .sequentiallyConsistent)
         #expect(callback == 2)
