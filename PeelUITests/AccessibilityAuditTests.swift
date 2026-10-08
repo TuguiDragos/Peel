@@ -52,11 +52,17 @@ final class AccessibilityAuditTests: XCTestCase {
             "-AppleInterfaceStyleSwitchesAutomatically", "NO",
             "-AppleInterfaceStyle", appearance,
             "-NSRequiresAquaSystemAppearance", appearance == "Light" ? "YES" : "NO",
-            // On the Mac's own screen, filling it, rather than where the window was restored to.
+            // On the Mac's own screen, the main window filling it and Settings at its top, rather than where they
+            // were restored to.
             "-ApplePersistenceIgnoreState", "YES",
-            "-NSWindow Frame main", Self.builtInScreenFrame,
+            "-NSWindow Frame main", Self.saved(Self.mainWindowFrame),
+            "-NSWindow Frame com_apple_SwiftUI_Settings_window", Self.saved(Self.settingsWindowFrame),
         ]
         app.launch()
+        // The window can open elsewhere, even on another display, and reach its frame seconds later.
+        waitUntil("The main window stands on the Mac's own screen") {
+            app.windows["main"].frame == Self.onScreen(Self.mainWindowFrame)
+        }
 
         for page in Self.pages {
             choose(page, inMenu: "View", of: app)
@@ -80,6 +86,10 @@ final class AccessibilityAuditTests: XCTestCase {
             .containing(NSPredicate(format: "label == %@", "Exclusions"))
             .containing(NSPredicate(format: "label == %@", "Helper"))
             .firstMatch
+        // Only its top: each pane is as tall as it needs.
+        waitUntil("Settings stands at the top of the Mac's own screen") {
+            settings.frame.origin == Self.onScreen(Self.settingsWindowFrame).origin
+        }
         for pane in Self.settingsPanes where click(toolbarItem(pane, in: settings), named: "Settings, \(pane)") {
             audit("Settings, \(pane)", appearance: appearance, of: app, window: settings)
         }
@@ -153,15 +163,32 @@ final class AccessibilityAuditTests: XCTestCase {
         "\(element.elementType.rawValue) \(element.label) \(element.identifier) \(element.frame)"
     }
 
-    /// The built-in screen's visible frame, written as a saved window frame: the window's, then the screen's.
-    private static var builtInScreenFrame: String {
+    private static var builtInScreen: NSRect {
         let builtIn = NSScreen.screens.first { screen in
             let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber
             return number.map { CGDisplayIsBuiltin($0.uint32Value) != 0 } ?? false
         }
-        let frame = (builtIn ?? NSScreen.screens[0]).visibleFrame
-        let numbers = [frame.minX, frame.minY, frame.width, frame.height].map { String(Int($0)) }
-        return (numbers + numbers).joined(separator: " ") + " "
+        return (builtIn ?? NSScreen.screens[0]).visibleFrame
+    }
+
+    private static var mainWindowFrame: NSRect { builtInScreen }
+
+    private static var settingsWindowFrame: NSRect {
+        let screen = builtInScreen
+        return NSRect(x: screen.midX - 380, y: screen.maxY - 520, width: 760, height: 520)
+    }
+
+    /// `frame` written as AppKit saves a window's frame: the window's, then its screen's.
+    private static func saved(_ frame: NSRect) -> String {
+        let screen = builtInScreen
+        let numbers = [frame.minX, frame.minY, frame.width, frame.height, screen.minX, screen.minY, screen.width,
+                       screen.height]
+        return numbers.map { String(Int($0)) }.joined(separator: " ") + " "
+    }
+
+    /// `frame` as XCTest reports an element's frame, measured down from the top of the screen with the menu bar.
+    private static func onScreen(_ frame: NSRect) -> CGRect {
+        CGRect(x: frame.minX, y: NSScreen.screens[0].frame.maxY - frame.maxY, width: frame.width, height: frame.height)
     }
 
     /// A page's tab or a pane of Settings, found by its name, whatever kind of element the system shows it as.
@@ -184,6 +211,13 @@ final class AccessibilityAuditTests: XCTestCase {
         let shown = expectation(for: NSPredicate(format: "exists == true AND isHittable == true"), evaluatedWith: element)
         if XCTWaiter.wait(for: [shown], timeout: 5) != .completed {
             XCTFail("\(name) wasn't shown")
+        }
+    }
+
+    private func waitUntil(_ what: String, _ condition: @escaping @MainActor () -> Bool) {
+        let met = expectation(for: NSPredicate { _, _ in MainActor.assumeIsolated(condition) }, evaluatedWith: nil)
+        if XCTWaiter.wait(for: [met], timeout: 30) != .completed {
+            XCTFail("\(what): not after 30 seconds")
         }
     }
 
