@@ -107610,6 +107610,113 @@
         }
       }
     },
+    "Peel on GitHub, github.com/TuguiDragos/Peel" : {
+      "comment" : "What VoiceOver reads for the link to Peel's source code. Keep the address as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel na GitHubu, github.com/TuguiDragos/Peel"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel auf GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel en GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sur GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel su GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub上のPeel、github.com/TuguiDragos/Peel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub의 Peel, github.com/TuguiDragos/Peel"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel op GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel na GitHubie, github.com/TuguiDragos/Peel"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel pe GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel на GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel på GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub’da Peel, github.com/TuguiDragos/Peel"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel на GitHub, github.com/TuguiDragos/Peel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub上的Peel，github.com/TuguiDragos/Peel"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub上的Peel，github.com/TuguiDragos/Peel"
+          }
+        }
+      }
+    },
     "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it." : {
       "localizations" : {
         "cs" : {

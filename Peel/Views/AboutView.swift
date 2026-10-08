@@ -93,6 +93,10 @@ struct AboutContent: View {
                 Text(verbatim: "github.com/TuguiDragos/Peel")
                     .creditTarget()
             }
+            .accessibilityLabel(Text(
+                "Peel on GitHub, github.com/TuguiDragos/Peel",
+                comment: "What VoiceOver reads for the link to Peel's source code. Keep the address as it is."
+            ))
             .padding(.vertical, -Self.creditReach)
             .padding(.top, 8)
             Text(verbatim: "© 2026")
