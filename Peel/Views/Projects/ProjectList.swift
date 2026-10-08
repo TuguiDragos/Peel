@@ -170,8 +170,7 @@ private struct ProjectRow: View {
         } details: {
             switch group.lastChange {
             case .recently:
-                Text("Changed in the last 7 days")
-                    .rowTint(Color.accentColor)
+                StatusLabel(title: Text("Changed in the last 7 days"), systemImage: "hand.raised", tint: .accentColor)
             case .at(let last):
                 Text("Last changed \(last, format: .relative(presentation: .named))")
                     .lineLimit(1)
