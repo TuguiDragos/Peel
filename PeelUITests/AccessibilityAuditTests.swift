@@ -61,8 +61,7 @@ final class AccessibilityAuditTests: XCTestCase {
                 audit(page, appearance: appearance, of: app)
                 continue
             }
-            for tab in tabs {
-                app.radioButtons[tab].firstMatch.click()
+            for tab in tabs where click(toolbarItem(tab, in: app), named: "\(page), \(tab)") {
                 audit("\(page), \(tab)", appearance: appearance, of: app)
             }
         }
@@ -73,11 +72,10 @@ final class AccessibilityAuditTests: XCTestCase {
 
         app.typeKey(",", modifierFlags: .command)
         let settings = app.windows
-            .containing(.any, identifier: "Exclusions")
-            .containing(.any, identifier: "Helper")
+            .containing(NSPredicate(format: "label == %@", "Exclusions"))
+            .containing(NSPredicate(format: "label == %@", "Helper"))
             .firstMatch
-        for pane in Self.settingsPanes {
-            settings.toolbars.descendants(matching: .any)[pane].firstMatch.click()
+        for pane in Self.settingsPanes where click(toolbarItem(pane, in: settings), named: "Settings, \(pane)") {
             audit("Settings, \(pane)", appearance: appearance, of: app)
         }
         app.typeKey("w", modifierFlags: .command)
@@ -91,6 +89,21 @@ final class AccessibilityAuditTests: XCTestCase {
         }
 
         app.terminate()
+    }
+
+    /// A page's tab or a pane of Settings, found by its name, whatever kind of element the system shows it as.
+    private func toolbarItem(_ name: String, in window: XCUIElement) -> XCUIElement {
+        window.toolbars.descendants(matching: .any).matching(NSPredicate(format: "label == %@", name)).firstMatch
+    }
+
+    /// Clicks `element`, or records that it isn't there, so one missing control doesn't end the audit of the rest.
+    private func click(_ element: XCUIElement, named name: String) -> Bool {
+        guard element.waitForExistence(timeout: 5) else {
+            XCTFail("\(name) isn't there")
+            return false
+        }
+        element.click()
+        return true
     }
 
     private func choose(_ item: String, inMenu menu: String, of app: XCUIApplication) {
