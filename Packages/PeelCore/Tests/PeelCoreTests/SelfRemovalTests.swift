@@ -75,7 +75,8 @@ struct SelfRemovalTests {
     }
 
     /// The Terminal settings the person's `.zshrc` and `~/.ssh/config` read stay where those lines look for them, so
-    /// the shell and ssh keep them once Peel is gone. Everything else in the folder goes, History included.
+    /// the shell and ssh keep them once Peel is gone. Everything else in the folder goes, History included, together
+    /// in one folder named Peel, as the Trash shows the whole folder when nothing stays.
     @Test func leavesTheTerminalSettingsTheShellAndSSHRead() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/Peel.app")
@@ -93,6 +94,27 @@ struct SelfRemovalTests {
         #expect(!ShellFile.url(in: folder).isMissing)
         #expect(!SSHFile.url(in: folder).isMissing)
         #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)) == ["Terminal"])
+        let rest = result.trashed.filter {
+            PathPattern.comparablePath(of: $0.originalURL) != PathPattern.comparablePath(of: app)
+        }
+        #expect(rest.map(\.originalURL.lastPathComponent) == ["Peel"])
+        let trashed = try #require(rest.first).trashedURL.path(percentEncoded: false)
+        #expect(Set(try FileManager.default.contentsOfDirectory(atPath: trashed)) == [".hidden", "exclusions.json", "removals.json"])
+    }
+
+    @Test func movesEachFileOnItsOwnWhenTheFolderCannotBeGathered() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        try directory.file("home/Library/Application Support/Peel/Terminal/zshrc")
+        try directory.file("home/Library/Application Support/Peel/Peel")
+        try directory.file("home/Library/Application Support/Peel/exclusions.json")
+
+        let result = await SelfRemoval.move([app], app: app, folder: folder, using: try service(in: directory)) { _ in }
+
+        #expect(result.failures.isEmpty)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)) == ["Terminal"])
+        #expect(Set(result.trashed.map(\.originalURL.lastPathComponent)) == ["Peel.app", "Peel", "exclusions.json"])
     }
 
     /// When the app stays, its files and its folder stay too: Peel goes on using them.

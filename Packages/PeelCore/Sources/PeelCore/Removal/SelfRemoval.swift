@@ -33,8 +33,7 @@ public enum SelfRemoval {
             moved = await service.trash([folder])
         } else {
             do {
-                let entries = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
-                let rest = entries.filter { $0.lastPathComponent != terminal.lastPathComponent }
+                let rest = try gathered(in: folder, leaving: terminal)
                 moved = await service.trashOwnFiles(rest)
             } catch {
                 moved = TrashResult(failures: [TrashFailure(url: folder, reason: .failed(error.localizedDescription))])
@@ -43,5 +42,21 @@ public enum SelfRemoval {
         result.trashed += moved.trashed
         result.failures += moved.failures
         return result
+    }
+
+    /// Gathers everything in `folder` but `kept` into a folder named Peel inside it, so the Trash shows Peel's files
+    /// as one item. An entry that cannot be gathered is answered on its own.
+    private static func gathered(in folder: URL, leaving kept: URL) throws -> [URL] {
+        let manager = FileManager.default
+        let entries = try manager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            .filter { $0.lastPathComponent != kept.lastPathComponent }
+        let together = folder.appending(path: "Peel", directoryHint: .isDirectory)
+        guard (try? manager.createDirectory(at: together, withIntermediateDirectories: false)) != nil else {
+            return entries
+        }
+        let left = entries.filter { entry in
+            (try? manager.moveItem(at: entry, to: together.appending(path: entry.lastPathComponent))) == nil
+        }
+        return [together] + left
     }
 }
