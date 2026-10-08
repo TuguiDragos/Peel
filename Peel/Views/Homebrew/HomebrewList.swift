@@ -276,8 +276,9 @@ struct HomebrewList: View {
         if let findings = homebrew.findings {
             Section {
                 if findings.isEmpty {
-                    Label("Homebrew found nothing out of place.", systemImage: "checkmark.circle")
-                        .foregroundStyle(.green)
+                    StatusLabel(
+                        title: Text("Homebrew found nothing out of place."), systemImage: "checkmark.circle", tint: .green
+                    )
                 } else {
                     // Findings can't be selected, since the detail pane shows only packages.
                     ForEach(findings) { finding in
