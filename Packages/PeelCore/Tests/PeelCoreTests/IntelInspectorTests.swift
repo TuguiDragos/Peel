@@ -102,6 +102,13 @@ struct IntelInspectorTests {
         return directory.url.appending(path: path, directoryHint: .isDirectory)
     }
 
+    private func environment(in directory: borrowing TemporaryDirectory) -> SearchEnvironment {
+        SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+    }
+
     @Test func tellsIntelOnlyBundlesFromUniversalOnes() throws {
         let directory = try TemporaryDirectory()
         let intelApp = try bundle(directory, "Intel.app", cpuTypes: [intel])
@@ -339,6 +346,7 @@ struct IntelInspectorTests {
             plugins: [],
             backgroundItems: [job("com.example.one"), job("com.example.two")],
             exclusions: .none,
+            environment: environment(in: directory),
             measure: { _ in 1 }
         )
 
@@ -375,20 +383,29 @@ struct IntelInspectorTests {
             architectures: [.x86_64]
         )
 
-        let scan = await IntelInspector.scan(installedApps: [app])
+        let scan = await IntelInspector.scan(installedApps: [app], environment: environment(in: directory))
         #expect(scan.findings.map(\.kind) == [.app])
         #expect(scan.findings.first?.name == "Intel")
         #expect(SizeTotal(scan.findings.map(\.size)).isComplete)
         #expect(SizeTotal(scan.findings.map(\.size)).known > 0)
 
         // An app that did not answer in time is still Intel only: it is listed, with a size nobody knows.
-        let slow = await IntelInspector.scan(installedApps: [app], plugins: [], backgroundItems: [], exclusions: .none)
-        { _ in nil }
+        let slow = await IntelInspector.scan(
+            installedApps: [app],
+            plugins: [],
+            backgroundItems: [],
+            exclusions: .none,
+            environment: environment(in: directory)
+        ) { _ in nil }
         #expect(slow.findings.map(\.kind) == [.app])
         #expect(slow.findings.first?.size == nil)
         #expect(!SizeTotal(slow.findings.map(\.size)).isComplete)
 
-        let excluded = await IntelInspector.scan(installedApps: [app], exclusions: Exclusions(bundleIdentifiers: ["com.example.intel"]))
+        let excluded = await IntelInspector.scan(
+            installedApps: [app],
+            exclusions: Exclusions(bundleIdentifiers: ["com.example.intel"]),
+            environment: environment(in: directory)
+        )
         #expect(excluded.findings.isEmpty)
     }
 
