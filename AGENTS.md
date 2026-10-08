@@ -24,8 +24,11 @@ prove, and only then fix.
    Check that it really catches the problem: put the old code back, watch it fail, and restore the fix.
 4. **Fix the cause**, in the type or the rule where the fact belongs. No workaround, no special case keyed by a
    name, no table on the side. A defect found on the way is fixed the same way, with its own test.
-5. **Follow the change end to end**, from where it starts to where it shows, and check that nothing depending on
-   it changes behavior: callers, overrides, observers, the app and `peel` alike.
+5. **Follow the change along its whole path**, from where it starts to where it shows, and check every step of it
+   carefully. Find every function the change touches and every function that touches what it changed: callers,
+   readers, overrides, observers, the app, `peel`, the helper, and the tests. Check that none of them works worse
+   because of the change, and follow each one you find the same way, along its own path, until nothing that depends
+   on the change is left unchecked.
 6. **Build and test after every change**, not only at the end: the whole package suite with warnings as errors,
    and the app's Debug build ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands).
 7. **Check it where it shows**, live: open the page the change touches, or run the `peel` command it changes, and

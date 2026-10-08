@@ -19,7 +19,7 @@
 ## Checklist
 
 - [ ] The app builds with no warnings, and `swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors` passes, apart from `StringCatalogTests` for new or changed interface text, whose translations are added before merging.
-- [ ] The change follows [AGENTS.md](../AGENTS.md): the problem was proved on a Mac before the change, and a test failed first.
+- [ ] The change follows [AGENTS.md](../AGENTS.md): the problem was proved on a Mac before the change, a test failed first, and everything that depends on the change was followed along its path and checked.
 - [ ] Nothing of the user's is deleted for good: every removal goes through `TrashService`.
 - [ ] New or changed interface text is in English, and `python3 Scripts/sync_localizations.py` ran after a Debug build.
 - [ ] A changed command of `peel` has its manual page written again with `python3 Scripts/generate_manual.py`.
