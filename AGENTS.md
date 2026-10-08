@@ -135,7 +135,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   priority rather than the default.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
   from a test. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
-  (`org.example`, `com.example`, `net.example`).
+  (`org.example`, `com.example`, `net.example`). A program a test starts from a folder of its own is a copy of
+  `/bin/sleep` signed ad hoc (`TemporaryDirectory.runningProgram`): macOS kills a plain copy of one of its own
+  programs started from anywhere else, usually within a second, for breaking its launch constraints.
 - Some changes need a particular test:
   - matching: `LeftoverMatcherTests`, with the case the rule catches and a case it must not catch;
   - anything that decides what may be removed: a test that fails without the fix, written to get past the rule
