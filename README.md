@@ -230,6 +230,8 @@ you build, put your team there as well. [ARCHITECTURE.md](ARCHITECTURE.md) expla
 Bug reports, ideas, and pull requests are welcome.
 
 - Found a bug or have an idea? [Open an issue](https://github.com/TuguiDragos/Peel/issues/new/choose).
+- Want to change Peel? [CONTRIBUTING.md](CONTRIBUTING.md) says how to start, and [AGENTS.md](AGENTS.md) holds the
+  rules every change follows. Working with a coding assistant? Give it AGENTS.md first.
 - Found a security problem? Please report it privately, as [SECURITY.md](SECURITY.md) describes, and not in a
   public issue.
 - Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).

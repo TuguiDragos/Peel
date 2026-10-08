@@ -5,8 +5,8 @@ import Testing
 
 struct DocumentationTests {
     static let documents = [
-        "README.md", "SAFETY.md", "ARCHITECTURE.md", "CONTRIBUTING.md", "TERMINAL.md", "GUIDE.md", "PRIVACY.md",
-        "SECURITY.md", "CHANGELOG.md",
+        "README.md", "SAFETY.md", "ARCHITECTURE.md", "CONTRIBUTING.md", "AGENTS.md", "TERMINAL.md", "GUIDE.md",
+        "PRIVACY.md", "SECURITY.md", "CHANGELOG.md",
     ]
 
     @Test func everyNameADocumentGivesIsInTheCode() throws {
@@ -45,7 +45,7 @@ struct DocumentationTests {
             ("ARCHITECTURE.md", "keeps the most recent \(records) items"),
             ("SAFETY.md", "at most \(HelperRequest.maximumItems) items in one request"),
             ("SAFETY.md", "quits \(idle) seconds after its last request ends"),
-            ("CONTRIBUTING.md", "still open \(patience) seconds after Peel asked it"),
+            ("AGENTS.md", "still open \(patience) seconds after Peel asked it"),
             ("ARCHITECTURE.md", "still open \(patience) seconds after Peel asked it"),
             ("SAFETY.md", "still open after \(patience) seconds"),
         ]
