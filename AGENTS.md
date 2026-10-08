@@ -128,6 +128,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Tests run as Peel runs, on the Mac running them**: the real Launch Services, the real system apps, the real
   disk. Nothing (a flag, a default, an environment variable) makes a test skip what Peel does. A stand-in is only
   for what a Mac can't do on demand, such as a folder that never answers.
+- **A test that fails now and then has a cause.** Run the whole suite again and again until it fails, find what
+  differed, and fix that. Never run it again until it passes, and never widen a timeout to hide it.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
   from a test. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
   (`org.example`, `com.example`, `net.example`).
