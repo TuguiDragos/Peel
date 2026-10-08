@@ -128,9 +128,10 @@ final class AccessibilityAuditTests: XCTestCase {
         guard let element else { return false }
         switch issue.auditType {
         case .sufficientElementDescription:
-            // A container SwiftUI or AppKit makes, for a window, a column, a list's section header, or the menu bar,
-            // is announced by what it holds.
-            return [.group, .other, .touchBar].contains(element.elementType) && !element.children.isEmpty
+            // A container SwiftUI or AppKit makes, for a window, a column, or a list's section header, is announced
+            // by what it holds. AppKit lists a Touch Bar for every app, empty on a Mac without one.
+            return element.elementType == .touchBar
+                || [.group, .other].contains(element.elementType) && !element.children.isEmpty
         case .parentChild:
             // SwiftUI on macOS 27 places a list section header's group 10 points above the cell that holds it.
             return element.elementType == .group && element.frame.height == 28
