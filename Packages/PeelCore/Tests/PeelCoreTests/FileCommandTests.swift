@@ -158,7 +158,8 @@ struct FileCommandTests {
         let stale = try artifact("DerivedData", lastActivity: .now.addingTimeInterval(-ProjectArtifacts.recentlyActive * 2))
         let fresh = try artifact("build", lastActivity: .now)
 
-        try await (command(["projects", "~/Developer", "--remove", "-y"]) as ProjectsCommand)
+        let developer = project.deletingLastPathComponent().path(percentEncoded: false)
+        try await (command(["projects", developer, "--remove", "-y"]) as ProjectsCommand)
             .clean(
                 [stale, fresh],
                 using: try service(in: directory),
