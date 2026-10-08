@@ -43,9 +43,9 @@ struct TweakRow: View {
                         .minimumScaleFactor(0.8)
                     InfoNote(
                         name: String(localized: tweak.words.title),
-                        detail: Text(note),
+                        detail: Text(verbatim: note),
                         footnote: Text(verbatim: "\(tweak.domain) \(tweak.key)"),
-                        isMarked: tweak.words.caution != nil
+                        caution: tweak.words.caution.map { Text($0) }
                     )
                 }
                 // A folder tweak holds a path rather than on or off, so the path is the row's second line.
@@ -83,28 +83,18 @@ struct TweakRow: View {
         .padding(.leading, parent == nil ? 0 : 20)
     }
 
-    /// The note the circled i opens: what the tweak does, any caution (in the accent color), how the change
-    /// takes effect, and whether macOS has its own control for the setting.
-    private var note: AttributedString {
-        var text = AttributedString(String(localized: tweak.words.detail))
-        if let caution = tweak.words.caution {
-            var marked = AttributedString("\n\n\(String(localized: caution))")
-            marked.foregroundColor = Color.accentColor
-            text += marked
-        }
-        // Each sentence gets its own paragraph instead of being joined with a space, since Japanese and
-        // Chinese put no space between sentences.
-        var paragraphs: [String] = []
+    /// The note the circled i opens: what the tweak does, how the change takes effect, and whether macOS has its
+    /// own control for the setting. Each sentence gets its own paragraph instead of being joined with a space,
+    /// since Japanese and Chinese put no space between sentences.
+    private var note: String {
+        var paragraphs = [String(localized: tweak.words.detail)]
         if let restart = tweak.restart.sentence {
             paragraphs.append(String(localized: restart))
         }
         if tweak.hasASystemControl {
             paragraphs.append(String(localized: "macOS has its own control for this, so it can change back."))
         }
-        if !paragraphs.isEmpty {
-            text += AttributedString("\n\n" + paragraphs.joined(separator: "\n\n"))
-        }
-        return text
+        return paragraphs.joined(separator: "\n\n")
     }
 
     /// A label for a setting Peel can't change: one locked by a configuration profile, or one whose last write

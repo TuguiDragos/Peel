@@ -5,12 +5,12 @@ struct InfoNote: View {
     /// Already localized: the heading of the note, and the name its accessibility label uses.
     let name: String
     /// Built when the note opens: a list draws hundreds of these, and few are ever opened.
-    let detail: () -> Text
+    let detail: () -> Text?
     var symbol: String?
     /// The technical line, when there is one worth keeping but not worth a row of its own.
     var footnote: Text?
-    /// Draws the circle in the accent color, for a note holding something to know before acting.
-    var isMarked = false
+    /// Something to know before acting. It draws the circle in the accent color.
+    var caution: Text?
     /// Only Home passes this; see `noteTint`.
     var isAlbum = false
     /// True for the note in each row of a list of items, whose button takes `RowButtonStyle`.
@@ -26,10 +26,10 @@ struct InfoNote: View {
 
     init(
         name: String,
-        detail: @autoclosure @escaping () -> Text,
+        detail: @autoclosure @escaping () -> Text?,
         symbol: String? = nil,
         footnote: Text? = nil,
-        isMarked: Bool = false,
+        caution: Text? = nil,
         isAlbum: Bool = false,
         isInRow: Bool = false,
         opening: Binding<Bool>? = nil
@@ -38,10 +38,14 @@ struct InfoNote: View {
         self.detail = detail
         self.symbol = symbol
         self.footnote = footnote
-        self.isMarked = isMarked
+        self.caution = caution
         self.isAlbum = isAlbum
         self.isInRow = isInRow
         self.opening = opening
+    }
+
+    private var isMarked: Bool {
+        caution != nil
     }
 
     /// A marked note says so in its shape as well: by color alone it is the fainter of the two in light mode.
@@ -62,7 +66,10 @@ struct InfoNote: View {
         .padding(-4)
         .accessibilityLabel(isMarked ? Text("A caution about \(name)") : Text("What \(name) is for"))
         .popover(isPresented: isOpen, arrowEdge: .bottom) {
-            NoteCard(name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, isAlbum: isAlbum)
+            NoteCard(
+                name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, caution: caution,
+                isAlbum: isAlbum
+            )
         }
     }
 }
@@ -72,9 +79,10 @@ struct InfoNote: View {
 struct NoteCard: View {
     /// Already localized: the heading of the note.
     let name: String
-    let detail: Text
+    let detail: Text?
     var symbol: String?
     var footnote: Text?
+    var caution: Text?
     var isAlbum = false
 
     private var tint: Color { noteTint(isAlbum: isAlbum) }
@@ -90,9 +98,16 @@ struct NoteCard: View {
                 Text(verbatim: name)
                     .font(.headline)
                     .foregroundStyle(isAlbum ? Album.ink : .primary)
-                detail
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
+                if let detail {
+                    detail
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+                if let caution {
+                    StatusLabel(title: caution, tint: tint)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
                 if let footnote {
                     footnote
                         .font(.caption.monospaced())

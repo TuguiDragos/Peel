@@ -88,7 +88,7 @@ struct RemovalRow: View {
                 isOn: Binding(get: { isSelected }, set: { selection.setSelected($0, for: url) }),
                 label: spokenItem,
                 // What the note says, since its button takes no keyboard focus.
-                hint: hasExplanation ? String(explanation.characters) : nil
+                hint: hasExplanation ? spokenNote : nil
             )
             clickableItem
                 .checkboxTitle()
@@ -226,9 +226,9 @@ struct RemovalRow: View {
         if hasExplanation {
             InfoNote(
                 name: url.lastPathComponent,
-                detail: Text(explanation),
+                detail: explanation.characters.isEmpty ? nil : Text(explanation),
                 footnote: Text(verbatim: url.path(percentEncoded: false)),
-                isMarked: warning != nil,
+                caution: warning.map { Text(Self.commandsMarked($0)) },
                 isInRow: true,
                 opening: $isNoteOpen
             )
@@ -252,12 +252,12 @@ struct RemovalRow: View {
             let written = String(localized: "Last changed \(lastWritten, format: .relative(presentation: .named))")
             text += AttributedString(text.characters.isEmpty ? written : "\n\n\(written)")
         }
-        if let warning {
-            var marked = Self.commandsMarked(text.characters.isEmpty ? warning : "\n\n\(warning)")
-            marked.foregroundColor = Color.accentColor
-            text += marked
-        }
         return text
+    }
+
+    private var spokenNote: String {
+        let caution = warning.map { String(Self.commandsMarked($0).characters) } ?? ""
+        return [String(explanation.characters), caution].filter { !$0.isEmpty }.joined(separator: "\n\n")
     }
 
     /// Marks the text between backticks as code, as `Text` does, and keeps the rest as written. It doesn't
