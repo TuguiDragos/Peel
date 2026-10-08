@@ -72,7 +72,7 @@ final class AccessibilityAuditTests: XCTestCase {
 
         choose("About Peel", inMenu: "Peel", of: app)
         waitUntilShown(app.windows["about"].links.firstMatch, named: "About")
-        audit("About", appearance: appearance, of: app)
+        audit("About", appearance: appearance, of: app, window: app.windows["about"])
         app.typeKey("w", modifierFlags: .command)
 
         app.typeKey(",", modifierFlags: .command)
@@ -81,7 +81,7 @@ final class AccessibilityAuditTests: XCTestCase {
             .containing(NSPredicate(format: "label == %@", "Helper"))
             .firstMatch
         for pane in Self.settingsPanes where click(toolbarItem(pane, in: settings), named: "Settings, \(pane)") {
-            audit("Settings, \(pane)", appearance: appearance, of: app)
+            audit("Settings, \(pane)", appearance: appearance, of: app, window: settings)
         }
         app.typeKey("w", modifierFlags: .command)
 
@@ -99,6 +99,21 @@ final class AccessibilityAuditTests: XCTestCase {
     private static func describe(_ element: XCUIElement?) -> String {
         guard let element, let found = try? element.snapshot() else { return "no element" }
         return "\(found.elementType.rawValue) '\(found.label)' '\(found.identifier)' \(found.frame)"
+    }
+
+    /// What tells the elements of `window` apart, read in one snapshot.
+    private static func elements(of window: XCUIElement) -> Set<String> {
+        var found: Set<String> = []
+        func visit(_ element: any XCUIElementSnapshot) {
+            found.insert(key(element))
+            element.children.forEach(visit)
+        }
+        if let root = try? window.snapshot() { visit(root) }
+        return found
+    }
+
+    private static func key(_ element: any XCUIElementSnapshot) -> String {
+        "\(element.elementType.rawValue) \(element.label) \(element.identifier) \(element.frame)"
     }
 
     /// The built-in screen's visible frame, written as a saved window frame: the window's, then the screen's.
@@ -150,7 +165,10 @@ final class AccessibilityAuditTests: XCTestCase {
         XCTAssertTrue(stop.waitForNonExistence(timeout: 300), "\(page) was still scanning after 5 minutes")
     }
 
-    private func audit(_ name: String, appearance: String, of app: XCUIApplication) {
+    /// Audits what is on screen. Given a `window`, only its own elements count: the audit covers every window, and
+    /// the main window behind About or Settings, inactive and partly covered, is audited on its own pages.
+    private func audit(_ name: String, appearance: String, of app: XCUIApplication, window: XCUIElement? = nil) {
+        let own = window.map(Self.elements(of:))
         XCTContext.runActivity(named: "\(name), \(appearance)") { activity in
             let picture = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             picture.name = "\(name), \(appearance)"
@@ -160,6 +178,9 @@ final class AccessibilityAuditTests: XCTestCase {
                 // Each issue is recorded here, with what identifies its element, rather than by XCTest, whose picture
                 // of an element scrolled out of sight fails and ends the whole run.
                 try app.performAccessibilityAudit(for: Self.audits) { issue in
+                    if let own, let element = try? issue.element?.snapshot(), !own.contains(Self.key(element)) {
+                        return true
+                    }
                     // An issue that names no element is known only by what it says in full.
                     let what = issue.element == nil ? issue.detailedDescription : Self.describe(issue.element)
                     XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(what))")
