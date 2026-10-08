@@ -13,7 +13,6 @@ struct AppDetailView: View {
     @State private var isRescanning = false
     @State private var resetsPrivacy = false
     @State private var removesDockTile = true
-    @State private var hasDockTile = false
     @State private var isConfirmingPrivacyReset = false
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
     @State private var privacyReset: PrivacyReset.Result?
@@ -76,9 +75,6 @@ struct AppDetailView: View {
             // A scan stopped with nothing found waits for Scan Again, whatever arrives meanwhile.
             guard !Task.isCancelled, !(plan.scan == nil && plan.scanRun.wasStopped) else { return }
             await rescan()
-        }
-        .task(id: plan.app.url) {
-            hasDockTile = !(await DockTiles().holding([plan.app.url])).isEmpty
         }
         .rescanOnExclusionChange(scannedUnder: plan.exclusionsRevision) { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
@@ -180,11 +176,11 @@ struct AppDetailView: View {
                     if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
                         PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                     }
-                    if hasDockTile, !plan.isPeel {
+                    if plan.hasDockTile, !plan.isPeel {
                         DockTileRow(isOn: $removesDockTile)
                     }
                     defaultsSection
-                    PackageReceiptSection(app: plan.app, isExcluded: plan.isExcluded)
+                    PackageReceiptSection(plan: plan, rescan: rescan)
                 }
                 .dimmedWhileBusy(isAtWork)
                 .disabled(plan.isRemoving)

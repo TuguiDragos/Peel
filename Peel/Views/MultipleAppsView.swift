@@ -11,7 +11,6 @@ struct MultipleAppsView: View {
     @State private var quitting = QuitBeforeRemoving()
     @State private var resetsPrivacy = false
     @State private var removesDockTiles = true
-    @State private var appsInTheDock: Set<URL> = []
     @State private var isRescanning = false
     @State private var questionTitle = Text(verbatim: "")
     @State private var questionNote = Text(verbatim: "")
@@ -100,7 +99,7 @@ struct MultipleAppsView: View {
                 }) {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
-                if !appsInTheDock.isEmpty {
+                if !plan.appsInTheDock.isEmpty {
                     DockTileRow(isOn: $removesDockTiles)
                 }
             }
@@ -161,9 +160,6 @@ struct MultipleAppsView: View {
             try? await Task.sleep(for: .milliseconds(300))
             guard !Task.isCancelled, !(plan.bulk == nil && plan.scanRun.wasStopped) else { return }
             await rescan()
-        }
-        .task(id: plan.apps.map(\.url)) {
-            appsInTheDock = await DockTiles().holding(plan.apps.map(\.url))
         }
         .rescanOnExclusionChange(scannedUnder: plan.exclusionsRevision) { await rescan() }
         .onChange(of: helper.canAct) { _, canAct in
@@ -360,7 +356,8 @@ struct MultipleAppsView: View {
             outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
             if removesDockTiles {
                 let moved = Set(result.trashed.map(\.originalURL))
-                _ = await DockTiles().takeOut(appsInTheDock.filter(moved.contains).sorted { $0.path < $1.path })
+                // Asked of every app that moved, since one opened after the last scan has a tile now.
+                _ = await DockTiles().takeOut(plan.apps.map(\.url).filter(moved.contains).sorted { $0.path < $1.path })
             }
             if let state = AppManagement.state(
                 after: result,

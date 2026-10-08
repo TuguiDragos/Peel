@@ -22,6 +22,11 @@ final class RemovalPlan {
     /// and finding the uninstaller lists whole folders, such as Applications.
     private(set) var vendorUninstaller: URL?
     private(set) var systemExtensions: [String] = []
+    /// Read once per scan as well, so Rescan shows them as they are now: whether the Dock holds a tile for the app,
+    /// and the receipts of the packages that installed it, with what each put outside the app.
+    private(set) var hasDockTile = false
+    private(set) var packageReceipts: [PackageReceipt] = []
+    private(set) var filesOutside: [PackageReceipt.ID: [PackageReceipt.Item]] = [:]
     var selectedURLs: Set<URL> = []
     private var choices = UninstallSelection()
     /// Whether the helper can act, as last heard, so a scan that lands after it changed selects by what is true now.
@@ -108,16 +113,22 @@ final class RemovalPlan {
     ) async {
         self.canUseHelper = canUseHelper
         let app = app
-        guard let (result, bundle, revision) = await scanRun.run({
+        guard let (result, bundle, installed, revision) = await scanRun.run({
             let revision = ExclusionsStore.shared.revision
+            let exclusions = ExclusionsStore.shared.exclusions
             let result = await Uninstallation.prepare(
                 app,
                 installedApps: installedApps,
-                exclusions: ExclusionsStore.shared.exclusions,
+                exclusions: exclusions,
                 casks: casks,
                 receipts: receipts
             )
-            return (result, await Self.look(inside: app), revision)
+            return (
+                result,
+                await Self.look(inside: app),
+                await Self.packageReceipts(of: app, exclusions: exclusions),
+                revision
+            )
         }) else { return }
         uninstallation = result
         exclusionsRevision = revision
@@ -133,8 +144,10 @@ final class RemovalPlan {
         )
         self.installedApps = installedApps
         (vendorUninstaller, systemExtensions) = bundle
+        (packageReceipts, filesOutside) = installed
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
         defaultRoles = await DefaultApps.roles(of: app)
+        hasDockTile = !(await DockTiles().holding([app.url])).isEmpty
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.
@@ -142,6 +155,20 @@ final class RemovalPlan {
         self.canUseHelper = canUseHelper
         guard let uninstallation else { return }
         selectedURLs = choices.update(selectedURLs, in: uninstallation, canUseHelper: canUseHelper)
+    }
+
+    /// What each package put outside the app is worked out here, off the main actor, because it takes an `lstat` per
+    /// file and the page is redrawn whenever a checkbox changes.
+    @concurrent
+    private nonisolated static func packageReceipts(
+        of app: InstalledApp,
+        exclusions: Exclusions
+    ) async -> ([PackageReceipt], [PackageReceipt.ID: [PackageReceipt.Item]]) {
+        let receipts = await PackageReceipts.receipts(installing: app.url, exclusions: exclusions)
+        let files = receipts.map {
+            ($0.id, VendorRemoval.filesOutsideBundle(of: $0, app: app, otherReceipts: receipts))
+        }
+        return (receipts, Dictionary(files, uniquingKeysWith: { first, _ in first }))
     }
 
     @concurrent

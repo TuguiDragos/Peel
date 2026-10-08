@@ -35,24 +35,17 @@ struct PackageReceiptSection: View {
     /// How many files are listed per receipt. The rest are counted, and the Package Receipts page lists them all.
     private static let mostListed = 12
 
-    let app: InstalledApp
-    /// True when the app is excluded. Its receipt then can't be forgotten, since the page promises that an
-    /// excluded app's files are left alone.
-    var isExcluded = false
-    @State private var receipts: [PackageReceipt] = []
-    /// What each package put outside the app. It is worked out once, with the receipts and off the main
-    /// actor, because it takes an `lstat` per file and the page is redrawn whenever a checkbox changes.
-    @State private var filesOutside: [PackageReceipt.ID: [PackageReceipt.Item]] = [:]
+    let plan: RemovalPlan
+    /// Scans the page again, which reads the receipts again: a receipt forgotten here also leaves its lists.
+    let rescan: () async -> Void
     @State private var receiptToForget: PackageReceipt?
     @State private var isForgetting = false
-    /// The revision of the exclusions the last load read, nil before the first.
-    @State private var loadedUnder: Int?
 
     var body: some View {
         Group {
-            if !receipts.isEmpty {
+            if !plan.packageReceipts.isEmpty {
                 Section {
-                    ForEach(receipts) { receipt in
+                    ForEach(plan.packageReceipts) { receipt in
                         rows(for: receipt)
                     }
                 } header: {
@@ -63,32 +56,12 @@ struct PackageReceiptSection: View {
                 }
             }
         }
-        .task(id: app.id) { await load() }
-        .rescanOnExclusionChange(scannedUnder: loadedUnder) { await load() }
         .forgetReceiptDialog(for: $receiptToForget, forget: forget)
-    }
-
-    private func load() async {
-        let revision = ExclusionsStore.shared.revision
-        (receipts, filesOutside) = await Self.receipts(of: app, exclusions: ExclusionsStore.shared.exclusions)
-        loadedUnder = revision
-    }
-
-    @concurrent
-    private nonisolated static func receipts(
-        of app: InstalledApp,
-        exclusions: Exclusions
-    ) async -> ([PackageReceipt], [PackageReceipt.ID: [PackageReceipt.Item]]) {
-        let receipts = await PackageReceipts.receipts(installing: app.url, exclusions: exclusions)
-        let files = receipts.map {
-            ($0.id, VendorRemoval.filesOutsideBundle(of: $0, app: app, otherReceipts: receipts))
-        }
-        return (receipts, Dictionary(files, uniquingKeysWith: { first, _ in first }))
     }
 
     @ViewBuilder
     private func rows(for receipt: PackageReceipt) -> some View {
-        let files = filesOutside[receipt.id] ?? []
+        let files = plan.filesOutside[receipt.id] ?? []
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 8) {
                 Text(verbatim: receipt.identifier)
@@ -103,8 +76,9 @@ struct PackageReceiptSection: View {
                         .minimumTarget()
                 }
                 .buttonStyle(.borderless)
-                .disabled(isForgetting || !helper.canAct || isExcluded)
-                .help(isExcluded ? Text(.excludedApp) : helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
+                // The page promises that an excluded app's files are left alone, its receipt included.
+                .disabled(isForgetting || !helper.canAct || plan.isExcluded)
+                .help(plan.isExcluded ? Text(.excludedApp) : helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
             }
             if files.isEmpty {
                 Text("Outside the app, Peel found nothing that belongs to this package alone.")
@@ -149,7 +123,7 @@ struct PackageReceiptSection: View {
             await record(result)
             return result
         }
-        await load()
+        await rescan()
         return result
     }
 }

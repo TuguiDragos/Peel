@@ -31,6 +31,8 @@ final class BulkRemovalPlan {
     private(set) var filesToReview: [BulkUninstallation.Item] = []
     /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
     private(set) var appsInTheTrash: Set<URL> = []
+    /// The chosen apps the Dock holds a tile for, read once per scan, so Rescan shows it as it is now.
+    private(set) var appsInTheDock: Set<URL> = []
     /// What Peel selects for the person, worked out again whenever the helper changes.
     private(set) var suggested: Set<URL> = []
     var selectable: Set<URL> { choices.selectable }
@@ -100,6 +102,7 @@ final class BulkRemovalPlan {
         self.installedApps = installedApps
         suggested = result.suggestedSelection(canUseHelper: self.canUseHelper)
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
+        appsInTheDock = await DockTiles().holding(apps.map(\.url))
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.
