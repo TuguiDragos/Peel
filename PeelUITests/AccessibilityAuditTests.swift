@@ -151,7 +151,9 @@ final class AccessibilityAuditTests: XCTestCase {
                 // Each issue is recorded here, with what identifies its element, rather than by XCTest, whose picture
                 // of an element scrolled out of sight fails and ends the whole run.
                 try app.performAccessibilityAudit(for: Self.audits) { issue in
-                    XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(Self.describe(issue.element)))")
+                    // An issue that names no element is known only by what it says in full.
+                    let what = issue.element == nil ? issue.detailedDescription : Self.describe(issue.element)
+                    XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(what))")
                     return true
                 }
             } catch {
