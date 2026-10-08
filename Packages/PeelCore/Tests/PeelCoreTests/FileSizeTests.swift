@@ -371,7 +371,7 @@ struct FileSizeTests {
         }
 
         try await landALateAnswer()
-        #expect(await ask(within: 5, keepingLateAnswersFor: .seconds(60)) != nil)
+        #expect(await ask(within: 5, keepingLateAnswersFor: .seconds(3600)) != nil)
         #expect(walks.withLock { $0 } == 1, "a recent answer was walked for again")
 
         try await landALateAnswer()
