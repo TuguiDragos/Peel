@@ -200,7 +200,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   `checkboxTitleLine()` on the first line of its title and `checkboxTitle()` on the title, rather than a checkbox
   `Toggle` whose label is the row; Duplicates' rows keep their `Toggle`, where the AppKit checkbox costs as much. A
   button in a row takes `RowButtonStyle` or `.borderless`, and the `ForEach` that repeats rows hides their
-  separators, never a row its own.
+  separators, never a row its own. A `Label` beside a row's title pulls the row's separator under its own words, so
+  a status or a tag sits in `LeavesRowSeparatorAlone`, as `StatusLabel` and `Badge` do.
 
 ## Words and translations
 
