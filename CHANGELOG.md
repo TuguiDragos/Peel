@@ -38,9 +38,8 @@ macOS 26 supports.
   administrators only, once you approve it.
 - Keeps what you select on the pages that free space while you look at the others, and moves it all at once, as
   one entry in History.
-- Selects what Peel recommends, all it may, or nothing, on one list or on every page of a tool at once, leaves
-  to your own click what it holds back for what it may hold, and asks first before it selects anything else Peel
-  doesn't recommend.
+- Selects what Peel recommends, everything you can select, or nothing, on one list or on every page of a tool at
+  once, and asks first before it selects anything Peel doesn't recommend.
 - Leaves alone the files, folders, and apps you exclude, and the folders named with an excluded app's identifier.
 - Starts the sidebar with the tools most people use, and keeps each tool you turn on or off in Settings.
 - Opens on Home: this Mac's chip, memory, and macOS version, how much of its disk is free, what Peel has moved to
@@ -54,5 +53,6 @@ macOS 26 supports.
 - Says in About when a new version of Peel is out, with where to get it, and downloads nothing itself.
 - Exports what is installed and where each app came from, as JSON, CSV, plain text, or a Brewfile.
 - Comes with the `peel` command for Terminal, a Finder extension, and actions for Shortcuts.
-- Removes itself from Settings, with its helper, its login item, and its own files.
+- Removes itself from Settings, with its helper, its login item, the link to the `peel` command, and its own
+  files, but for the shell and ssh settings, which go on working.
 - Speaks English and 17 other languages.
