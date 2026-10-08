@@ -288,7 +288,7 @@ private struct GeneralSettingsView: View {
                             home.openFullDiskAccessSettings()
                         }
                     }
-                } else if watchesTrash, trashMonitor.status == .off {
+                } else if watchesTrash, trashMonitor.status == .unavailable {
                     WarningLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,

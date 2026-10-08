@@ -8,9 +8,12 @@ import PeelCore
 @Observable
 final class TrashMonitor {
     enum Status {
+        /// Not asked to watch, or stopped.
         case off
         case watching
         case needsFullDiskAccess
+        /// Asked to watch, and the Trash could not be watched.
+        case unavailable
     }
 
     /// The home Trash's watch, the one macOS keeps behind Full Disk Access.
@@ -47,13 +50,13 @@ final class TrashMonitor {
             return
         case .unavailable:
             OwnTrashMoves.shared.whenSettled(nil)
-            status = .off
+            status = .unavailable
             return
         }
         watch.onRestart = { [weak self] result in
             guard result != .watching else { return }
             self?.stop()
-            self?.status = result == .refused ? .needsFullDiskAccess : .off
+            self?.status = result == .refused ? .needsFullDiskAccess : .unavailable
         }
         startVolumes()
     }
