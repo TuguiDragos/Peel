@@ -209,6 +209,9 @@ struct OrphanScannerTests {
     @Test func readsTheNewestWriteInsideAFolderNotTheFoldersOwnDate() async throws {
         let directory = try TemporaryDirectory()
         let log = try directory.file("home/Library/Application Support/com.gone.app/logs/agent.log")
+        let written = try #require(
+            try log.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+        )
         let folder = log.deletingLastPathComponent().deletingLastPathComponent()
         let lastYear = Date(timeIntervalSinceNow: -400 * 24 * 60 * 60)
         for old in [log.deletingLastPathComponent(), folder] {
@@ -221,7 +224,7 @@ struct OrphanScannerTests {
         let group = try #require(await scanner(in: directory).scan(installedApps: installed).groups.first)
 
         #expect(group.confidence.level == .unsure)
-        #expect(try #require(group.lastModified).timeIntervalSinceNow > -60)
+        #expect(abs(try #require(group.lastModified).timeIntervalSince(written)) < 1)
     }
 
     /// An installed app may not claim a group container from its old team, but the app has not left, so the
