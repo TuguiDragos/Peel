@@ -83,16 +83,16 @@ public enum CommandLineTool {
         return applications.contains { PathComponents.isPath(path, inside: $0) } ? .applications : .elsewhere
     }
 
-    /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil
-    /// where something that may not be Peel's is in the link's place. `ln -f` deletes what is there, so only a link
-    /// to another Peel's tool is replaced. A single quote in the path is closed, escaped, and reopened, so the shell
-    /// reads the path as written.
+    /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil once the
+    /// link leads to this copy's tool and where something that may not be Peel's is in the link's place. `ln -f`
+    /// deletes what is there, so only a link to another Peel's tool is replaced. A single quote in the path is closed,
+    /// escaped, and reopened, so the shell reads the path as written.
     public static func installCommand(embedded: URL, standing: Standing) -> String? {
         let path = embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
         let link = switch standing {
-        case .installed, .missing: "ln -s"
+        case .missing: "ln -s"
         case .otherPeel: "ln -sf"
-        case .somethingElse: nil as String?
+        case .installed, .somethingElse: nil as String?
         }
         return link.map { "sudo mkdir -p /usr/local/bin && sudo \($0) '\(path)' \(CommandLineTool.path)" }
     }

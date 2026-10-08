@@ -244,13 +244,15 @@ struct AppManagementTests {
     }
 
     /// `ln -f` deletes what is in the link's place, for good, so it replaces only a link to another Peel's tool,
-    /// and Peel offers no command at all where something else is.
+    /// and Peel offers no command at all where something else is, nor once the link leads to this copy, where `ln -s`
+    /// would fail.
     @Test func neverOffersACommandThatReplacesWhatIsNotPeels() throws {
         let embedded = URL(filePath: "/Applications/Peel.app/Contents/Helpers/peel")
 
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .missing) == "sudo mkdir -p /usr/local/bin && sudo ln -s '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .otherPeel) == "sudo mkdir -p /usr/local/bin && sudo ln -sf '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .somethingElse) == nil)
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .installed) == nil)
     }
 
     /// Installed with Homebrew on a Mac with Apple silicon, the `peel` command is Homebrew's link in

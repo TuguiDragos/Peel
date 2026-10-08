@@ -166,7 +166,7 @@ struct HomePermissionsContent: View {
     private func action(_ permission: HomeModel.Permission, state: HomeModel.State) -> some View {
         if let action = home.action(for: permission) {
             // The command-line row uses `CopyButton`, which says "Copied" once the command is on the pasteboard.
-            if permission == .commandLine, let command = SettingsKey.commandLineInstallCommand {
+            if permission == .commandLine, let command = SettingsKey.commandLineInstallCommand() {
                 CopyButton(text: command, title: action)
                     .buttonStyle(.stickerQuiet)
                     .accessibilityLabel(Text("\(String(localized: action)): \(String(localized: permission.title))", comment: "What VoiceOver reads for a button. The first %@ is the action, such as Install. The second is what it acts on, such as Helper."))
@@ -345,7 +345,7 @@ fileprivate extension HomeModel {
         case .finderExtension, .openAtLogin: return nil
         // Short on purpose: every row shares the grid's button column, so a wide label here would narrow
         // every row's name. The row's name says what is copied, and the note beside it explains.
-        case .commandLine: return state == .on || SettingsKey.commandLineInstallCommand == nil ? nil : "Copy"
+        case .commandLine: return state == .on || SettingsKey.commandLineInstallCommand() == nil ? nil : "Copy"
         }
     }
 }

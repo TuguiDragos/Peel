@@ -133,11 +133,13 @@ enum SettingsKey {
     static let skippedUpdateVersions = UpdatePreferences.Key.skippedVersions
     static let updateMemory = "updateMemory"
 
-    /// Nil while something that may not be Peel's is where the link goes.
-    static var commandLineInstallCommand: String? {
+    /// Nil once the link leads to this copy's tool, and while something that may not be Peel's is where it goes.
+    static func commandLineInstallCommand(
+        for standing: CommandLineTool.Standing = HomeModel.commandLineStanding
+    ) -> String? {
         CommandLineTool.installCommand(
             embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"),
-            standing: HomeModel.commandLineStanding
+            standing: standing
         )
     }
 }
@@ -178,7 +180,8 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
 }
 
 private struct GeneralSettingsView: View {
-    private var installCommand: String? { SettingsKey.commandLineInstallCommand }
+    @State private var commandLine = HomeModel.commandLineStanding
+    private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
@@ -225,6 +228,7 @@ private struct GeneralSettingsView: View {
     }
 
     private func readStandings() {
+        commandLine = HomeModel.commandLineStanding
         let status = SMAppService.mainApp.status
         opensAtLogin = status == .enabled || status == .requiresApproval
         needsApprovalToOpenAtLogin = status == .requiresApproval
@@ -347,8 +351,10 @@ private struct GeneralSettingsView: View {
                     }
                 }
                 LabeledContent {
-                    // Not offered from a temporary copy: a link into it would break as soon as Peel quits.
-                    if Self.place != .temporaryCopy, let installCommand {
+                    if commandLine == .installed {
+                        state("Installed", "checkmark.circle", .green)
+                    } else if Self.place != .temporaryCopy, let installCommand {
+                        // Not offered from a temporary copy: a link into it would break as soon as Peel quits.
                         CopyButton(text: installCommand)
                     }
                 } label: {
@@ -367,7 +373,7 @@ private struct GeneralSettingsView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                if Self.place != .temporaryCopy {
+                if Self.place != .temporaryCopy, commandLine != .installed {
                     if let installCommand {
                         Text(verbatim: installCommand)
                             .font(.caption.monospaced())
