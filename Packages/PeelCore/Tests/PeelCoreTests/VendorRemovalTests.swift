@@ -16,12 +16,18 @@ struct VendorRemovalTests {
         )
     }
 
+    private func folders(in directory: borrowing TemporaryDirectory) -> [URL] {
+        AppCatalog.directories(in: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url))
+    }
+
     @Test func findsAnUninstallerShippedWithTheApp() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Suite/Example.app/Contents/Resources/Uninstall Example.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
-        let uninstaller = try #require(VendorRemoval.uninstaller(for: example))
+        let uninstaller = try #require(
+            VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory))
+        )
         #expect(uninstaller.lastPathComponent == "Uninstall Example.app")
     }
 
@@ -31,7 +37,8 @@ struct VendorRemovalTests {
         try directory.directory("Suite/Example Uninstaller.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
-        #expect(VendorRemoval.uninstaller(for: example)?.lastPathComponent == "Example Uninstaller.app")
+        let uninstaller = VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory))
+        #expect(uninstaller?.lastPathComponent == "Example Uninstaller.app")
     }
 
     @Test func ignoresUnrelatedAppsNextToIt() throws {
@@ -40,7 +47,7 @@ struct VendorRemovalTests {
         try directory.directory("Suite/Helper.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
-        #expect(VendorRemoval.uninstaller(for: example) == nil)
+        #expect(VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory)) == nil)
         #expect(!VendorRemoval.isUninstallerName("Helper.app", app: example))
         #expect(VendorRemoval.isUninstallerName("Uninstall.app", app: example))
     }
@@ -56,9 +63,16 @@ struct VendorRemovalTests {
         try directory.directory("Suite/Example.app")
         try directory.directory("Suite/Uninstall Other Product.app")
 
+        let applications = folders(in: directory)
+        let inApplications = app(in: directory, path: "Applications/Example.app", name: "Example")
+        let inSuite = app(in: directory, path: "Suite/Example.app", name: "Example")
+
         #expect(VendorRemoval.isApplicationsFolder(URL(filePath: "/Applications/Example.app").deletingLastPathComponent()))
-        #expect(VendorRemoval.uninstaller(for: app(in: directory, path: "Applications/Example.app", name: "Example")) == nil)
-        #expect(VendorRemoval.uninstaller(for: app(in: directory, path: "Suite/Example.app", name: "Example")) == nil, "a vendor's folder holds its other products too")
+        #expect(VendorRemoval.uninstaller(for: inApplications, applicationsFolders: applications) == nil)
+        #expect(
+            VendorRemoval.uninstaller(for: inSuite, applicationsFolders: applications) == nil,
+            "a vendor's folder holds its other products too"
+        )
     }
 
     @Test func aSiblingProductsUninstallerIsNotThisAppsEvenWhenItsNameHoldsThisOne() throws {
@@ -67,10 +81,14 @@ struct VendorRemovalTests {
         try directory.directory("Acme/Acme Pro.app")
         try directory.directory("Acme/Uninstall Acme Pro.app")
 
-        #expect(VendorRemoval.uninstaller(for: app(in: directory, path: "Acme/Acme.app", name: "Acme")) == nil)
+        let applications = folders(in: directory)
+        let acme = app(in: directory, path: "Acme/Acme.app", name: "Acme")
+        let acmePro = app(in: directory, path: "Acme/Acme Pro.app", name: "Acme Pro")
+
+        #expect(VendorRemoval.uninstaller(for: acme, applicationsFolders: applications) == nil)
         #expect(
-            VendorRemoval.uninstaller(for: app(in: directory, path: "Acme/Acme Pro.app", name: "Acme Pro"))?
-                .lastPathComponent == "Uninstall Acme Pro.app"
+            VendorRemoval.uninstaller(for: acmePro, applicationsFolders: applications)?.lastPathComponent
+                == "Uninstall Acme Pro.app"
         )
     }
 

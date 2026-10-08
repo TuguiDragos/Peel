@@ -1123,7 +1123,7 @@ public enum DeveloperCaches {
     public static func scan(
         in environment: SearchEnvironment = .current, exclusions: Exclusions = .none
     ) async -> [DeveloperEnvironment] {
-        let apps = await AppCatalog.installedApps()
+        let apps = await AppCatalog.installedApps(in: AppCatalog.directories(in: environment))
         let electron = electronDefinitions(for: apps, home: environment.homeDirectory)
         return await scan(
             definitions + electron, homeDirectory: environment.homeDirectory,

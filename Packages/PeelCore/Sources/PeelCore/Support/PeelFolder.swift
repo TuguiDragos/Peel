@@ -4,8 +4,10 @@ public import Foundation
 /// has seen, Saved Settings, and the file digests Duplicates remembers.
 public enum PeelFolder {
     public static var url: URL {
-        let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            ?? URL.homeDirectory.appending(path: "Library/Application Support", directoryHint: .isDirectory)
-        return support.appending(path: "Peel", directoryHint: .isDirectory)
+        url(inHome: .homeDirectory)
+    }
+
+    static func url(inHome home: URL) -> URL {
+        home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
     }
 }

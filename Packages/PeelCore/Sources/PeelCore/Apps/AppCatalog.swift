@@ -15,16 +15,22 @@ public struct AppScan: Sendable, Equatable {
 public enum AppCatalog {
     /// Where Peel looks for apps: the Applications folders and the folders the person chose (`AppFolders`).
     public static var defaultDirectories: [URL] {
-        directories(adding: AppFolders().load() ?? [])
+        directories(in: .current)
+    }
+
+    /// Where Peel looks for apps in `environment`: its Applications folders and the folders chosen in its home.
+    static func directories(in environment: SearchEnvironment) -> [URL] {
+        let chosen = AppFolders(url: AppFolders.url(inHome: environment.homeDirectory)).load() ?? []
+        return standardDirectories(home: environment.homeDirectory, root: environment.rootDirectory) + chosen
     }
 
     static var standardDirectories: [URL] {
         standardDirectories(home: .homeDirectory)
     }
 
-    static func standardDirectories(home: URL) -> [URL] {
+    static func standardDirectories(home: URL, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) -> [URL] {
         [
-            URL(filePath: "/Applications", directoryHint: .isDirectory),
+            root.appending(path: "Applications", directoryHint: .isDirectory),
             home.appending(path: "Applications", directoryHint: .isDirectory),
         ]
     }

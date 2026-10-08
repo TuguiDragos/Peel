@@ -249,6 +249,27 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent).sorted() == ["Cache", "GPUCache"])
     }
 
+    @Test func readsTheAppsInTheFoldersChosenInTheHomeItScans() async throws {
+        let directory = try TemporaryDirectory()
+        let tools = try directory.directory("Tools")
+        try directory.directory("Tools/Chat.app/Contents/Frameworks/Electron Framework.framework")
+        let info = ["CFBundleIdentifier": "org.example.chat", "CFBundleName": "Chat"]
+        try directory.file(
+            "Tools/Chat.app/Contents/Info.plist",
+            contents: try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        )
+        try directory.file("Library/Application Support/Chat/Local State")
+        try directory.file("Library/Application Support/Chat/GPUCache/data_0", bytes: 4_096)
+        let chosen = directory.url.appending(path: "Library/Application Support/Peel/app-folders.json")
+        try #require(AppFolders(url: chosen).add([tools]))
+
+        let environment = SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        let environments = await DeveloperCaches.scan(in: environment)
+
+        let chat = try #require(environments.first { $0.appBundleIdentifiers == ["org.example.chat"] })
+        #expect(chat.locations.map(\.url.lastPathComponent) == ["GPUCache"])
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {

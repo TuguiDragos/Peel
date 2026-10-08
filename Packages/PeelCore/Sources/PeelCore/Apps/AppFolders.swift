@@ -18,7 +18,11 @@ public struct AppFolders: Sendable {
     }
 
     public static var defaultURL: URL {
-        PeelFolder.url.appending(path: "app-folders.json")
+        url(inHome: .homeDirectory)
+    }
+
+    static func url(inHome home: URL) -> URL {
+        PeelFolder.url(inHome: home).appending(path: "app-folders.json")
     }
 
     /// The folders chosen, or nil when the file is there and cannot be read: the apps in them are then not known.
