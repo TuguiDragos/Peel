@@ -32,12 +32,17 @@ struct TerminalSwitchRow: View {
                 }
             }
             Spacer(minLength: 8)
-            Toggle(isOn: isOn) { EmptyView() }
-                .labelsHidden()
-                .accessibilityRepresentation {
-                    Toggle(isOn: isOn) { Text(title) }
-                }
-                .disabled(isDisabled)
+            if #available(macOS 27, *) {
+                RowSwitch(title: Text(title), isOn: isOn)
+                    .disabled(isDisabled)
+            } else {
+                Toggle(isOn: isOn) { EmptyView() }
+                    .labelsHidden()
+                    .accessibilityRepresentation {
+                        Toggle(isOn: isOn) { Text(title) }
+                    }
+                    .disabled(isDisabled)
+            }
         }
         .padding(.vertical, 4)
     }

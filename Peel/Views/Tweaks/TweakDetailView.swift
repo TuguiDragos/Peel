@@ -133,12 +133,17 @@ struct TweakRow: View {
                 get: { tweaks.isOn(tweak, state: state) },
                 set: { tweaks.set(tweak, on: $0) }
             )
-            Toggle(isOn: isOn) { EmptyView() }
-                .labelsHidden()
-                .accessibilityRepresentation {
-                    Toggle(isOn: isOn) { Text(tweak.words.title) }
-                }
-                .disabled(state.isManaged || !works)
+            if #available(macOS 27, *) {
+                RowSwitch(title: Text(tweak.words.title), isOn: isOn)
+                    .disabled(state.isManaged || !works)
+            } else {
+                Toggle(isOn: isOn) { EmptyView() }
+                    .labelsHidden()
+                    .accessibilityRepresentation {
+                        Toggle(isOn: isOn) { Text(tweak.words.title) }
+                    }
+                    .disabled(state.isManaged || !works)
+            }
         case .folder:
             // The folder row has no switch to turn off, so Put Back is how the user undoes Peel's change.
             // It fades in and out, since it takes room in the row as it comes and goes.
