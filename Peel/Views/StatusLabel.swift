@@ -8,11 +8,13 @@ struct StatusLabel: View {
     var tint: Color = .orange
 
     var body: some View {
-        Label {
-            title
-        } icon: {
-            Image(systemName: systemImage)
-                .rowTint(tint)
+        LeavesRowSeparatorAlone {
+            Label {
+                title
+            } icon: {
+                Image(systemName: systemImage)
+                    .rowTint(tint)
+            }
         }
     }
 }
