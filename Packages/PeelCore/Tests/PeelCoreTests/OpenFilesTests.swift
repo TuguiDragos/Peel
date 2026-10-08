@@ -37,8 +37,6 @@ struct OpenFilesTests {
         #expect(OpenFiles().holders(of: directory.url.appending(path: "Cache")).isEmpty)
     }
 
-    /// A program this process starts is, for a moment, a copy of this process holding its files, so it is left out
-    /// with it. `fork` makes such a copy on demand.
     @Test func leavesOutACopyOfItsOwnProcess() throws {
         let directory = try TemporaryDirectory()
         let handle = try FileHandle(forReadingFrom: try directory.file("Cache/store.db"))
@@ -49,8 +47,6 @@ struct OpenFilesTests {
         #expect(OpenFiles().holders(of: directory.url.appending(path: "Cache")).isEmpty)
     }
 
-    /// A process running this process's program that this process did not start holds what it opens, as a second
-    /// `peel` started from another terminal does.
     @Test func anotherProcessRunningItsProgramHolds() throws {
         let directory = try TemporaryDirectory()
         let handle = try FileHandle(forReadingFrom: try directory.file("Cache/store.db"))
@@ -116,10 +112,8 @@ struct OpenFilesTests {
         #expect(OpenFiles(excluding: nil).holders(of: directory.url.appending(path: "Example.app")).isEmpty)
     }
 
-    /// A copy of this process that holds only `descriptor`, so no other test's files, and waits until it is killed,
-    /// or for 300 s. With `madeByACopy`, a copy that already holds only `descriptor` makes it, so this process did not
-    /// start it. A copy calls only C on values made before it, since another thread may have held a lock of Swift's
-    /// runtime as it was made, and it never returns into the test, where it would clean up the test's folder.
+    /// A copy of this process holding only `descriptor`, made by another copy when `madeByACopy`. A copy calls only C:
+    /// another thread may have held a lock of Swift's runtime, and returning into the test would run its cleanup.
     private static func copyOfThisProcess(
         holdingOnly descriptor: Int32,
         madeByACopy: Bool = false
