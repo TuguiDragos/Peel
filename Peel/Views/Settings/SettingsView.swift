@@ -632,8 +632,9 @@ private struct HelperSettingsView: View {
                 switch helper.standing {
                 case .notInstalled:
                     Button("Install Helper", systemImage: "lock.shield") {
-                        helper.install()
+                        Task { await helper.install() }
                     }
+                    .disabled(helper.isChanging)
                     .centeredInRow()
                 case .waitingForApproval:
                     Text("Allow Peel in System Settings under Login Items & Extensions.")

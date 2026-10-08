@@ -62,9 +62,12 @@ final class HelperModel {
     /// Registers the helper, and opens Login Items settings when it needs the user's approval. Per
     /// `SMAppService.h`, registering a service that is already registered, or not approved by the user,
     /// throws an error. Neither is reported as a failure, since the status says what happened.
-    func install() {
+    func install() async {
+        guard !isChanging else { return }
+        isChanging = true
+        defer { isChanging = false }
         do {
-            try PrivilegedHelper.register()
+            try await PrivilegedHelper.register()
         } catch {
             refresh()
             if status != .requiresApproval, status != .enabled {
@@ -78,6 +81,7 @@ final class HelperModel {
     }
 
     func repair() async {
+        guard !isChanging else { return }
         isChanging = true
         defer { isChanging = false }
         do {

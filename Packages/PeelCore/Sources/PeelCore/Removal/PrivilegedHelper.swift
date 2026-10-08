@@ -56,8 +56,30 @@ public enum PrivilegedHelper {
         status
     }
 
-    public static func register() throws {
-        try service.register()
+    @concurrent
+    public static func register() async throws {
+        try await register(service.register, status: { status }, pause: { try await Task.sleep(for: .seconds(4)) })
+    }
+
+    static let registrationAttempts = 4
+
+    /// macOS refuses (`EPERM`) to register a service it has just unregistered until Background Task Management has
+    /// saved the change, a few seconds after the last one, and a refusal counts as a change. So a refusal is tried
+    /// again after a longer pause, while the helper reads as not registered; one turned off in Login Items waits.
+    static func register(
+        _ attempt: () throws -> Void,
+        status: () -> Status,
+        pause: () async throws -> Void
+    ) async throws {
+        for remaining in (0..<registrationAttempts).reversed() {
+            do {
+                return try attempt()
+            } catch let error as NSError
+                where remaining > 0 && error.domain == SMAppServiceErrorDomain && error.code == Int(EPERM)
+                && status() == .notRegistered {
+                try await pause()
+            }
+        }
     }
 
     public static func unregister() async throws {
@@ -74,7 +96,7 @@ public enum PrivilegedHelper {
             unregistering = error
         }
         do {
-            try service.register()
+            try await register()
         } catch {
             throw repairFailure(registering: error, afterUnregistering: unregistering)
         }

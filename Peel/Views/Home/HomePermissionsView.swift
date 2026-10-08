@@ -290,8 +290,10 @@ struct HomePermissionsContent: View {
                     await home.refresh(helper: helper)
                 }
             } else {
-                helper.install()
-                Task { await home.refresh(helper: helper) }
+                Task {
+                    await helper.install()
+                    await home.refresh(helper: helper)
+                }
             }
         case .notifications: Task { await home.requestNotifications() }
         case .fullDiskAccess, .appManagement, .finderExtension, .openAtLogin: reveal(permission)
