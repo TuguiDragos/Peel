@@ -203,6 +203,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
   run on, and a canceled task refuses to sleep, so a sleeping loop spins: a wait is a continuation woken once, by
   the answer or by a timer, as `FileSize` and `SlowRead` wait.
 - Small, focused files, and code that reads like the code around it. A dependency only when nothing else will do.
+  Its version is pinned twice, in `Packages/PeelCore/Package.resolved` and in the app's project, so a new version
+  goes into both (`PackageResolvedTests`).
 - **Few comments, written for people.** Say what the code can't: what a declaration is for, why a rule exists, and
   which documented behavior of macOS forced a workaround, with its public source. No history and no notes from a
   session: a fixed bug belongs in the commit message. Code, comments, tests, and documents speak about Peel, never
