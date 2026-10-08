@@ -91,6 +91,11 @@ final class AccessibilityAuditTests: XCTestCase {
         app.terminate()
     }
 
+    private static func describe(_ element: XCUIElement?) -> String {
+        guard let element, element.exists else { return "no element" }
+        return "\(element.elementType.rawValue) '\(element.label)' '\(element.identifier)' \(element.frame)"
+    }
+
     /// A page's tab or a pane of Settings, found by its name, whatever kind of element the system shows it as.
     private func toolbarItem(_ name: String, in window: XCUIElement) -> XCUIElement {
         window.toolbars.descendants(matching: .any).matching(NSPredicate(format: "label == %@", name)).firstMatch
@@ -127,7 +132,12 @@ final class AccessibilityAuditTests: XCTestCase {
             picture.lifetime = .keepAlways
             activity.add(picture)
             do {
-                try app.performAccessibilityAudit(for: Self.audits)
+                // Each issue is recorded here, with what identifies its element, rather than by XCTest, whose picture
+                // of an element scrolled out of sight fails and ends the whole run.
+                try app.performAccessibilityAudit(for: Self.audits) { issue in
+                    XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(Self.describe(issue.element)))")
+                    return true
+                }
             } catch {
                 XCTFail("The audit of \(name) couldn't run: \(error)")
             }
