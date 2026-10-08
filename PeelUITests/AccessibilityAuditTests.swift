@@ -144,6 +144,9 @@ final class AccessibilityAuditTests: XCTestCase {
             if let sidebar, sidebar.contains(element.frame) { return true }
             if shown.emptyPageTitles.contains(key(element)) { return true }
             let words = text(of: element)
+            // A control that can't be used dims its title, as macOS dims a disabled control's label, and WCAG 1.4.3
+            // asks no contrast of an inactive control's text.
+            if element.elementType == .staticText, shown.disabledControls.contains(words) { return true }
             return element.elementType == .staticText && (words == pageTitle || words.hasPrefix("Storage:"))
         default:
             return false
@@ -157,12 +160,17 @@ final class AccessibilityAuditTests: XCTestCase {
         /// The titles of empty pages. ContentUnavailableView exposes its symbol and its title as one text, taller
         /// than a line, with its description centered under it, and the audit measures the symbol as the words.
         var emptyPageTitles: Set<String> = []
+        /// The names of the switches and checkboxes that can't be used.
+        var disabledControls: Set<String> = []
     }
 
     private static func shown(in window: XCUIElement) -> Shown {
         var shown = Shown()
         func visit(_ element: any XCUIElementSnapshot) {
             shown.elements.insert(key(element))
+            if [.checkBox, .switch, .toggle].contains(element.elementType), !element.isEnabled, !element.label.isEmpty {
+                shown.disabledControls.insert(element.label)
+            }
             for (title, description) in zip(element.children, element.children.dropFirst())
             where title.elementType == .staticText && description.elementType == .staticText
                 && title.frame.height >= 64 && abs(title.frame.midX - description.frame.midX) < 1
