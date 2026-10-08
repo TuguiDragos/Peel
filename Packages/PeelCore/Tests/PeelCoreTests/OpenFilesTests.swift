@@ -87,21 +87,19 @@ struct OpenFilesTests {
         let writing = try FileHandle(forWritingTo: state)
         defer { try? writing.close() }
         #expect(!OpenFiles(excluding: nil).holders(of: app).isEmpty)
+        #expect(!OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
     }
 
+    /// Nothing is written into the app here: once a program inside it starts, macOS revokes a descriptor open for
+    /// writing on a file in the app and may refuse a new one.
     @Test func aProgramRunningFromInsideAnAppHoldsItUnlessItsProgramsMayRun() throws {
         let directory = try TemporaryDirectory()
         let process = try directory.runningProgram("Example.app/Contents/Resources/daemon")
         defer { process.terminate() }
-        let state = try directory.file("Example.app/Contents/Resources/state.db")
         let app = directory.url.appending(path: "Example.app", directoryHint: .isDirectory)
 
         #expect(OpenFiles(excluding: nil).holders(of: app) == ["daemon"])
         #expect(OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
-
-        let writing = try FileHandle(forWritingTo: state)
-        defer { try? writing.close() }
-        #expect(!OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
     }
 
     /// A process of another account, root's included, can't be asked its name, but the program it runs says it.
