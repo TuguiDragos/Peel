@@ -217,35 +217,43 @@ struct AppPageHeader: View {
 
     @ViewBuilder
     private func outcome(of upgrade: AppLibrary.Upgrade) -> some View {
-        if upgrade.succeeded {
-            Label {
-                if let version = upgrade.app.version {
-                    Text("Now on \(version).")
-                } else {
-                    Text("Homebrew finished the upgrade.")
-                }
-            } icon: {
-                Image(systemName: "checkmark.circle.fill")
+        Group {
+            if upgrade.succeeded {
+                StatusLabel(
+                    title: upgrade.app.version.map { Text("Now on \($0).") } ?? Text("Homebrew finished the upgrade."),
+                    systemImage: "checkmark.circle.fill",
+                    tint: .green
+                )
+            } else {
+                StatusLabel(
+                    title: Text("Homebrew couldn’t finish the upgrade."),
+                    systemImage: "exclamationmark.triangle.fill",
+                    tint: .red
+                )
             }
-            .font(.caption)
-            .foregroundStyle(.green)
-        } else {
-            Label("Homebrew couldn’t finish the upgrade.", systemImage: "exclamationmark.triangle.fill")
-                .font(.caption)
-                .foregroundStyle(.red)
         }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 
     @ViewBuilder
     private func outcome(of privacyReset: PrivacyReset.Result) -> some View {
-        if let problem = privacyReset.explanation {
-            Label("Privacy permissions weren’t reset. \(problem)", systemImage: "exclamationmark.triangle.fill")
-                .font(.caption)
-                .foregroundStyle(.red)
-        } else {
-            Label("Privacy permissions were reset. \(plan.app.name) asks you again the next time it needs them.", systemImage: "checkmark.circle.fill")
-                .font(.caption)
-                .foregroundStyle(.green)
+        Group {
+            if let problem = privacyReset.explanation {
+                StatusLabel(
+                    title: Text("Privacy permissions weren’t reset. \(problem)"),
+                    systemImage: "exclamationmark.triangle.fill",
+                    tint: .red
+                )
+            } else {
+                StatusLabel(
+                    title: Text("Privacy permissions were reset. \(plan.app.name) asks you again the next time it needs them."),
+                    systemImage: "checkmark.circle.fill",
+                    tint: .green
+                )
+            }
         }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 }

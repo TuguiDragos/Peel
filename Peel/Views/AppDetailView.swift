@@ -230,9 +230,9 @@ struct AppDetailView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         role.kind == .link ? Text("\(role.identifier): links") : Text(verbatim: role.name)
                         if role.others.isEmpty {
-                            Text("Nothing else on this Mac opens these.")
+                            StatusLabel(title: Text("Nothing else on this Mac opens these."), tint: .accentColor)
                                 .font(.caption)
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(.secondary)
                         } else {
                             Text("Then \(role.others.first ?? "") would open these.")
                                 .font(.caption)

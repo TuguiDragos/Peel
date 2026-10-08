@@ -52,9 +52,12 @@ struct AppHeader<Actions: View>: View {
                     Text(verbatim: "·")
                         .accessibilityHidden(true)
                     if let waitingVersion {
-                        Text(verbatim: "\(version) → \(waitingVersion)")
-                            .foregroundStyle(Color.accentColor)
-                            .accessibilityLabel(Text("\(version), update available: \(waitingVersion)"))
+                        StatusLabel(
+                            title: Text(verbatim: "\(version) → \(waitingVersion)"),
+                            systemImage: "arrow.down.circle",
+                            tint: .accentColor
+                        )
+                        .accessibilityLabel(Text("\(version), update available: \(waitingVersion)"))
                     } else {
                         Text(verbatim: version)
                     }
