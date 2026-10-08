@@ -107,8 +107,7 @@ Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT
 Peel is free software under the GNU General Public License, version 3 or later, and it will stay free. It isn't
 sold and has no paid edition, so there is no separate commercial license for your work to be folded into.
 
-Sign off your commits with `git commit -s`. That is the [Developer Certificate of
-Origin](https://developercertificate.org/): you are saying the contribution is yours to give, under the same
-license as the rest of Peel. There is no copyright assignment and no agreement to sign, because nothing here will
-ever be relicensed out from under you. The Checks workflow checks every commit of a pull request for a sign-off by
-its author.
+What you contribute is under the same license as the rest of Peel, as [GitHub's Terms of
+Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license)
+say for any repository with a license, and you are saying it is yours to give. There is no copyright assignment and
+no agreement to sign, because nothing here will ever be relicensed out from under you.

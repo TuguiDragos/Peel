@@ -24,4 +24,3 @@
 - [ ] New or changed interface text is in English, and `python3 Scripts/sync_localizations.py` ran after a Debug build.
 - [ ] A changed command of `peel` has its manual page written again with `python3 Scripts/generate_manual.py`.
 - [ ] Nothing the change left unused stays behind.
-- [ ] Every commit is signed off (`git commit -s`).

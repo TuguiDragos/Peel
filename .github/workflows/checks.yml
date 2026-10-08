@@ -15,31 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Every commit a pull request brings is signed off by its author, as CONTRIBUTING.md asks.
-  sign-off:
-    if: github.event_name == 'pull_request' && !github.event.repository.private
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 0
-
-      - name: Every commit is signed off by its author
-        env:
-          BASE: ${{ github.event.pull_request.base.sha }}
-          HEAD: ${{ github.event.pull_request.head.sha }}
-        run: |
-          missing=0
-          for commit in $(git rev-list --no-merges "$BASE..$HEAD"); do
-            author=$(git show -s --format='%an <%ae>' "$commit")
-            trailers=$(git show -s --format=%B "$commit" | git interpret-trailers --parse)
-            if ! printf '%s\n' "$trailers" | grep -qxF "Signed-off-by: $author"; then
-              echo "::error::Commit $(git rev-parse --short "$commit") is not signed off by its author."
-              missing=1
-            fi
-          done
-          exit $missing
-
   test:
     if: github.event_name == 'workflow_dispatch' || !github.event.repository.private
     # Peel needs Swift 6.4, which comes with Xcode 27. GitHub offers Xcode 27 only on this preview image, on Apple

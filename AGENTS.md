@@ -251,7 +251,7 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 ## Commits and pull requests
 
 - One change per commit, each building and passing the tests, with a message that says in plain words what changed
-  for the person using Peel and why. Sign off every commit (`git commit -s`).
+  for the person using Peel and why.
 - One change per pull request. Its description says what goes wrong without it, how it was tested (the test that
   failed before and passes after, and the page or command it was checked on), and what couldn't be checked.
 - If an assistant helped, say so in the description, and exactly how: what it wrote, what it reviewed, what it
