@@ -49,6 +49,31 @@ struct SelfRemovalTests {
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
+    /// The link the helper moved before it went is written into History with the rest, as one removal.
+    @Test func recordsWhatTheHelperMovedFirstWithTheRest() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let link = TrashedItem(
+            originalURL: URL(filePath: "/usr/local/bin/peel"),
+            trashedURL: directory.url.appending(path: "Trash/peel"),
+            date: .now,
+            identity: nil
+        )
+        var recorded: [URL] = []
+
+        let result = await SelfRemoval.move(
+            [app],
+            app: app,
+            folder: folder,
+            movedFirst: [link],
+            using: try service(in: directory)
+        ) { recorded = $0.trashed.map(\.originalURL) }
+
+        #expect(paths(recorded) == paths([link.originalURL, app]))
+        #expect(paths(result.trashed.map(\.originalURL)) == paths([link.originalURL, app, folder]))
+    }
+
     /// When the app stays, its files and its folder stay too: Peel goes on using them.
     @Test func leavesTheFolderWhenTheAppStayed() async throws {
         let directory = try TemporaryDirectory()

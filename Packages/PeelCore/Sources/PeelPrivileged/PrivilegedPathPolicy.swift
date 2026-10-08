@@ -62,7 +62,8 @@ public struct PrivilegedPathPolicy: Sendable {
     ]
 
     /// The folders command-line tools and their shell completions are linked into. The helper takes only a link from
-    /// them, and only one that leads nowhere: what an app's tool leaves there once the app is gone.
+    /// them, and only one that leads nowhere: what an app's tool leaves there once the app is gone. The one exception
+    /// is a link to Peel's own tool, which Remove Peel hands over while Peel is still in place (`ownTool`).
     public static let linkLocations = ["/usr/local/bin", "/usr/local/sbin"]
         + shellCompletionFolders.map { "/usr/local/" + $0 }
 
@@ -78,6 +79,8 @@ public struct PrivilegedPathPolicy: Sendable {
     private let restorable: [String]
     private let applicationLocations: [String]
     private let links: [String]
+    /// The device and inode of the `peel` tool inside the app the helper runs from.
+    private let ownTool: (device: dev_t, inode: ino_t)?
     /// The folders of the home's Library that Peel searches, lowercased, as names from the root.
     private let searchedFolders: Set<[String]>
     private let homeDirectory: String
@@ -89,11 +92,17 @@ public struct PrivilegedPathPolicy: Sendable {
         applicationLocations: [String] = ["/Applications"],
         restoreLocations: [String] = Self.restoreLocations,
         linkLocations: [String] = Self.linkLocations,
+        ownTool: String? = nil,
         trustedOwner: uid_t = 0
     ) {
         self.homeDirectory = homeDirectory
         self.trustedOwner = trustedOwner
         links = linkLocations.compactMap(Self.realPath)
+        self.ownTool = ownTool.flatMap { path in
+            var info = stat()
+            guard stat(path, &info) == 0 else { return nil }
+            return (info.st_dev, info.st_ino)
+        }
         locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
@@ -101,6 +110,16 @@ public struct PrivilegedPathPolicy: Sendable {
         searchedFolders = Set(LibraryFolder.inTheUsersLibrary.map { folder in
             PathComponents.of((library + "/" + folder.rawValue).lowercased())
         })
+    }
+
+    /// The `peel` tool of the app whose `Contents/MacOS` holds `executable`, where launchd starts the helper
+    /// (`BundleProgram`), or nil for an executable anywhere else.
+    public static func peelTool(besideHelperAt executable: String) -> String? {
+        let names = PathComponents.of(executable)
+        guard names.count >= 4, Array(names.suffix(3).dropLast()) == ["Contents", "MacOS"],
+              names[names.count - 4].hasSuffix(".app")
+        else { return nil }
+        return "/" + (names.dropLast(2) + ["Helpers", "peel"]).joined(separator: "/")
     }
 
     /// True for a path directly in one of the folders the helper takes only a link from.
@@ -188,7 +207,8 @@ public struct PrivilegedPathPolicy: Sendable {
                     var target = stat()
                     let leads = item.name.withCString { fstatat(parent.descriptor, $0, &target, 0) } == 0
                     let error = errno
-                    guard !leads, error == ENOENT || error == ENOTDIR || error == ELOOP else {
+                    let isOwnTool = leads && ownTool.map { $0 == (target.st_dev, target.st_ino) } == true
+                    guard isOwnTool || !leads && (error == ENOENT || error == ENOTDIR || error == ELOOP) else {
                         return .failure(.leadsSomewhere)
                     }
                 }

@@ -23,6 +23,14 @@ final class HelperService: NSObject, PeelHelperProtocol {
         return HelperRequest.Caller(user: user, homeDirectory: home)
     }
 
+    /// The `peel` tool of the app the helper runs from, found from the program the kernel says it runs.
+    private static let ownTool: String? = {
+        var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
+        guard proc_pidpath(getpid(), &buffer, UInt32(buffer.count)) > 0 else { return nil }
+        let path = String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
+        return PrivilegedPathPolicy.peelTool(besideHelperAt: path)
+    }()
+
     private func tracked(_ finish: @escaping @Sendable (String?) -> Void) -> @Sendable (String?) -> Void {
         { [lifetime] answer in
             finish(answer)
@@ -54,7 +62,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
             return refuse(error.rawValue)
         }
 
-        let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory)
+        let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory, ownTool: Self.ownTool)
         guard let trash = policy.openTrash(ownedBy: caller.user) else { return refuse(HelperRefusal.noTrash.rawValue) }
 
         var failed: [String: String] = [:]

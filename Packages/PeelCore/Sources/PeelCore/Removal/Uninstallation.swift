@@ -285,17 +285,27 @@ public struct Uninstallation: Sendable {
     /// Peel clears its settings. Empty when the app is excluded, kept by macOS, part of another package, or needs
     /// the helper: then nothing should start.
     public var unreviewedSelection: [URL] {
-        guard !isExcluded, !app.isSystemProtected, app.enclosingPackage == nil, !appRequiresPrivileges else {
-            return []
-        }
-        let namespace = app.bundleIdentifier.lowercased() + "."
-        let own = scan.leftovers.filter { leftover in
-            let match = leftover.match
-            return match.sharedWith.isEmpty && match.heldBack == nil && match.confidence >= .likely
-                && !leftover.requiresPrivileges
-                && (match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
-        }
+        guard movesUnreviewed else { return [] }
+        let own = scan.leftovers.filter { isUnreviewedOwn($0) && !$0.requiresPrivileges }
         return order(of: Set(own.map(\.url)).union([app.url]))
+    }
+
+    /// The app's own links in the folders only an administrator can change, chosen as `unreviewedSelection` chooses,
+    /// which Remove Peel hands to the helper before the helper goes.
+    public var unreviewedLinks: [URL] {
+        guard movesUnreviewed else { return [] }
+        return scan.leftovers.filter { isUnreviewedOwn($0) && $0.requiresPrivileges && $0.kind.isForLinks }.map(\.url)
+    }
+
+    private var movesUnreviewed: Bool {
+        !isExcluded && !app.isSystemProtected && app.enclosingPackage == nil && !appRequiresPrivileges
+    }
+
+    private func isUnreviewedOwn(_ leftover: Leftover) -> Bool {
+        let match = leftover.match
+        let namespace = app.bundleIdentifier.lowercased() + "."
+        return match.sharedWith.isEmpty && match.heldBack == nil && match.confidence >= .likely
+            && (match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
     }
 
     /// How many items could move once selected, and their total size: what a section header shows and the

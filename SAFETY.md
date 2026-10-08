@@ -43,8 +43,9 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 Outside your home: everything inside `/System`, `/usr`, `/bin`, `/sbin`, and `/Library/Updates`, where macOS
 stages its own updates, but for two things: a link that leads nowhere, directly in `/usr/local/bin`,
 `/usr/local/sbin`, or one of the four folders of `/usr/local` that shell completions are linked into, which an
-app's tool or its completion leaves there once the app is gone and the helper may take (see [The helper that
-runs as root](#the-helper-that-runs-as-root)); and a folder directly in `/usr/local/Caskroom`, the record
+app's tool or its completion leaves there once the app is gone and the helper may take, or Peel's own link to its
+`peel` command, which Remove Peel hands the helper (see [The helper that runs as
+root](#the-helper-that-runs-as-root)); and a folder directly in `/usr/local/Caskroom`, the record
 Homebrew keeps of an app it installed on an Intel Mac, which goes with the app. And these folders themselves,
 though not what is inside them:
 `/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`, `/Volumes`, `/opt`, `/private` and its `var`,
@@ -411,7 +412,8 @@ and it fails closed.
   `/usr/local/sbin`, and the completion folders of `/usr/local` (`share/zsh/site-functions`,
   `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and `share/pwsh/completions`), it takes only a link,
   never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself, so they go
-  once the app is gone, and a link that still leads to something stays.
+  once the app is gone, and a link that still leads to something stays. The one exception is a link to the `peel`
+  command inside the Peel the helper runs from, which Remove Peel hands it before the helper goes.
 - It never reuses a path after checking it. It opens the parent directory, checks the item there as the system
   names that directory, works only through that descriptor, and moves the item only while it is still the one it
   checked, so a folder or an item swapped after the check leads nowhere.

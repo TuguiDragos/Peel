@@ -250,10 +250,11 @@ it.
 
 ## Uninstall Peel
 
-In Settings > General, choose Remove Peel. It has its helper move its record of what it moved to the Trash, removes
-its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application
-Support to the Trash, takes its icon out of the Dock, clears its settings, and quits. That folder holds History, your
-exclusions, and the settings Peel saved when you reset an app.
+In Settings > General, choose Remove Peel. It has its helper move the link to the `peel` command, if you made one in
+Settings, and its record of what it moved to the Trash, removes its helper and its login item, moves itself, the
+files that are certainly its own, and its folder in Application Support to the Trash, takes its icon out of the
+Dock, clears its settings, and quits. That folder holds History, your exclusions, and the settings Peel saved when
+you reset an app.
 
 What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, `~/.hushlogin`, Git's
 settings, the build folders you left out of Time Machine, and the background items you disabled. Turn them off
@@ -268,8 +269,8 @@ Trash, and moves Peel's files to the Trash.
 brew uninstall --zap --cask peel
 ```
 
-If you put the `peel` command on your path from Settings, remove that link too. Homebrew removes only the one it
-made.
+If you put the `peel` command on your path from Settings while Peel's helper isn't installed, or Homebrew installed
+Peel, remove that link yourself. Homebrew removes only the one it made.
 
 ```bash
 sudo rm -f /usr/local/bin/peel

@@ -50,6 +50,29 @@ struct UninstallationTests {
         #expect(uninstallation(appRequiresPrivileges: true, leftovers: [own]).unreviewedSelection.isEmpty)
     }
 
+    /// Remove Peel hands the helper the app's own links in a folder only an administrator can change, and nothing
+    /// else that needs the helper.
+    @Test func handsTheHelperOnlyItsOwnLinksWhenNobodyReviewsTheList() {
+        func link(_ name: String, sharedWith: [String] = []) -> Leftover {
+            Leftover(
+                url: URL(filePath: "/usr/local/bin/\(name)"),
+                kind: .commandLineTools,
+                match: LeftoverMatch(reason: .linksToTheApp, confidence: .certain, sharedWith: sharedWith),
+                size: 0,
+                isMeasured: true,
+                requiresPrivileges: true
+            )
+        }
+        let tool = link("example")
+        let shared = link("shared", sharedWith: ["com.example.other"])
+        let daemon = leftover("daemon.plist", requiresPrivileges: true)
+        let plan = uninstallation(leftovers: [tool, shared, daemon])
+
+        #expect(plan.unreviewedLinks == [tool.url])
+        #expect(!plan.unreviewedSelection.contains(tool.url))
+        #expect(uninstallation(appRequiresPrivileges: true, leftovers: [tool]).unreviewedLinks.isEmpty)
+    }
+
     @Test func selectsTheAppAndRecommendedLeftovers() {
         let recommended = leftover("recommended")
         let shared = leftover("shared", sharedWith: ["com.example.other"])

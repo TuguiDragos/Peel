@@ -15,7 +15,8 @@ struct PrivilegedPathPolicyTests {
     /// test cannot make a file root's, so a test may pass its own user ID instead.
     private func policy(
         in directory: borrowing TemporaryDirectory,
-        trustedOwner: uid_t = 0
+        trustedOwner: uid_t = 0,
+        ownTool: String? = nil
     ) throws -> PrivilegedPathPolicy {
         try directory.directory("root/Library/LaunchDaemons")
         try directory.directory("root/Applications")
@@ -29,6 +30,7 @@ struct PrivilegedPathPolicyTests {
             applicationLocations: [root + "root/Applications"],
             restoreLocations: [root + "root/Applications", root + "root/Library/Caches"],
             linkLocations: [root + "root/usr/local/bin"],
+            ownTool: ownTool,
             trustedOwner: trustedOwner
         )
     }
@@ -96,6 +98,42 @@ struct PrivilegedPathPolicyTests {
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
         let trashedLink = try #require(policy.openInTrash(path("home/.Trash/link", in: directory), trash: trash))
         #expect(policy.openDestination(path("root/usr/local/bin/gone2", in: directory), for: trashedLink).map(\.name) == .success("gone2"))
+    }
+
+    /// Remove Peel hands the helper the link to Peel's own tool while the app is still in place, so that link goes
+    /// though it leads somewhere. A link to anything else still stays.
+    @Test func takesTheLinkToThePeelToolOfTheAppItRunsFrom() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Applications/Peel.app/Contents/Helpers/peel")
+        try directory.file("root/Applications/Peel.app/Contents/MacOS/Peel")
+        try directory.file("root/Applications/Other.app/Contents/Helpers/peel")
+        let helper = path("root/Applications/Peel.app/Contents/MacOS/PeelHelper", in: directory)
+        let tool = try #require(PrivilegedPathPolicy.peelTool(besideHelperAt: helper))
+        let policy = try policy(in: directory, ownTool: tool)
+        func link(_ name: String, to destination: String) throws {
+            try FileManager.default.createSymbolicLink(
+                atPath: path("root/usr/local/bin/\(name)", in: directory),
+                withDestinationPath: destination
+            )
+        }
+        try link("peel", to: tool)
+        try link("relative", to: "../../../Applications/Peel.app/Contents/Helpers/peel")
+        try link("other", to: path("root/Applications/Other.app/Contents/Helpers/peel", in: directory))
+        try link("app", to: path("root/Applications/Peel.app/Contents/MacOS/Peel", in: directory))
+
+        for name in ["peel", "relative"] {
+            #expect((try? policy.open(path("root/usr/local/bin/\(name)", in: directory)).get()) != nil, "\(name)")
+        }
+        for name in ["other", "app"] {
+            let opened = policy.open(path("root/usr/local/bin/\(name)", in: directory))
+            #expect(opened.map(\.name) == .failure(.leadsSomewhere))
+        }
+        let withoutTool = try self.policy(in: directory)
+        let opened = withoutTool.open(path("root/usr/local/bin/peel", in: directory))
+        #expect(opened.map(\.name) == .failure(.leadsSomewhere))
+        #expect(PrivilegedPathPolicy.peelTool(besideHelperAt: "/usr/local/libexec/PeelHelper") == nil)
+        #expect(PrivilegedPathPolicy.peelTool(besideHelperAt: "/opt/Tools/Contents/MacOS/PeelHelper") == nil)
+        #expect(PrivilegedPathPolicy.peelTool(besideHelperAt: "/Applications/Peel.app/Contents/Helpers/peel") == nil)
     }
 
     /// A browser profile with a wallet extension's vault stays, and so does every folder around it, while the rest

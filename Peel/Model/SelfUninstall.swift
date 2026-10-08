@@ -17,10 +17,13 @@ final class SelfUninstall {
         "sudo rm -f /usr/local/bin/peel"
     }
 
-    /// True only when `/usr/local/bin/peel` is Peel's own tool. For another program's `peel`, `removeCommand`
-    /// would delete a file that is not Peel's.
-    var hasCommandLineTool: Bool {
-        CommandLineTool.standing(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")) == .installed
+    /// Whether Remove Peel would leave `/usr/local/bin/peel` while it is Peel's own tool: only an administrator can
+    /// move it, and the helper that would is not enabled. For another program's `peel`, `removeCommand` would delete
+    /// a file that is not Peel's.
+    func leavesCommandLineTool(helper status: PrivilegedHelper.Status) -> Bool {
+        let embedded = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
+        return status != .enabled && CommandLineTool.standing(embedded: embedded) == .installed
+            && FileAccess.requiresPrivilegesToRemove(URL(filePath: CommandLineTool.path))
     }
 
     /// Removes Peel. The plan is made first, and the steps nothing can undo (unregistering the helper and the
@@ -52,8 +55,8 @@ final class SelfUninstall {
             return
         }
         let exclusions = ExclusionsStore.shared.exclusions
-        let urls = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
-            .unreviewedSelection
+        let plan = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
+        let urls = plan.unreviewedSelection
         guard !urls.isEmpty else {
             failure = String(localized: "Peel won’t move itself from here: its folder needs an administrator, or Peel is excluded in Settings. Drag it to the Trash in Finder, which asks for an administrator when one is needed.")
             return
@@ -62,12 +65,20 @@ final class SelfUninstall {
         work.pause()
         let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
         var ledger = PrivilegedHelper.LedgerMove.none
+        var links = TrashResult()
         if isRegistered() {
+            if helper.status == .enabled {
+                let own = plan.unreviewedLinks
+                links = await TrashService(exclusions: exclusions).trash(own, usingHelperFor: Set(own))
+            }
             ledger = await PrivilegedHelper.moveLedgerToTrash()
             await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {
                 work.resume()
+                if !links.trashed.isEmpty {
+                    await record(TrashResult(trashed: links.trashed))
+                }
                 let reason = helper.failure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
                 failure = ledger == .moved ? "\(reason)\n\n\(Self.ledgerInTheTrash)" : reason
                 return
@@ -81,6 +92,7 @@ final class SelfUninstall {
             urls,
             app: bundleURL,
             folder: PeelFolder.url,
+            movedFirst: links.trashed,
             using: TrashService(exclusions: exclusions),
             recording: record
         )
@@ -91,7 +103,7 @@ final class SelfUninstall {
             return
         }
         _ = await DockTiles().takeOut([bundleURL], remembering: false)
-        var stayed = result.failures
+        var stayed = result.failures + links.failures
         if case .stayed(let failure) = ledger {
             stayed.append(failure)
         }

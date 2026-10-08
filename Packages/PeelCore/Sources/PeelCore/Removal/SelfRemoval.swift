@@ -3,12 +3,13 @@ public import Foundation
 /// Moves Peel's own files to the Trash, and then the Peel folder, which holds History.
 public enum SelfRemoval {
     /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`. `record` writes
-    /// History into `folder` first, so the record goes with it. Nothing is written after that, or the folder would
-    /// be created again.
+    /// History into `folder` first, with `movedFirst`, what the helper moved before it went, so the record goes with
+    /// it. Nothing is written after that, or the folder would be created again.
     public static func move(
         _ urls: [URL],
         app: URL,
         folder: URL,
+        movedFirst: [TrashedItem] = [],
         using service: TrashService,
         recording record: (TrashResult) async -> Void
     ) async -> TrashResult {
@@ -19,6 +20,7 @@ public enum SelfRemoval {
             usingHelperFor: [],
             lettingTheirProgramsRun: []
         )
+        result.trashed.insert(contentsOf: movedFirst, at: 0)
         await record(result)
         guard
             result.trashed.contains(where: { $0.originalURL == app }),

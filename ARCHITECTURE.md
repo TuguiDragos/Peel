@@ -258,7 +258,10 @@ where a Homebrew install takes them from.
 | Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's list of icons (`persistent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; and the Time Machine mark on each folder Build Artifacts leaves out of backups. |
 
 Remove Peel, in Settings, takes all of Peel's own files to the Trash, and leaves what it changed outside them as
-it is. The helper moves its own ledger there, since nothing else can, just before Peel unregisters it. It is the
+it is. The helper moves its own ledger there, since nothing else can, just before Peel unregisters it, and before
+that the link to the `peel` command when only an administrator can move it (`Uninstallation.unreviewedLinks`): it
+leads into Peel until Peel has moved, and the helper takes such a link only when it leads to the tool of the Peel it
+runs from (`PrivilegedPathPolicy`'s `ownTool`). It is the
 only way Peel removes itself: Peel's own page in Applications, and Peel among several chosen apps, list it and
 select nothing of it (`Uninstallation.isPeel`), and `peel uninstall` refuses it. For a copy Homebrew installed,
 Settings shows `brew uninstall --zap` in its place (`SettingsView`).
