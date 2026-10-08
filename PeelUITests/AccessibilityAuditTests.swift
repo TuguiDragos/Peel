@@ -1,3 +1,4 @@
+import AppKit
 import XCTest
 
 /// Runs Xcode's accessibility audit on every page of Peel, on About, on each pane of Settings, and on the menu bar
@@ -51,6 +52,9 @@ final class AccessibilityAuditTests: XCTestCase {
             "-AppleInterfaceStyleSwitchesAutomatically", "NO",
             "-AppleInterfaceStyle", appearance,
             "-NSRequiresAquaSystemAppearance", appearance == "Light" ? "YES" : "NO",
+            // On the Mac's own screen, filling it, rather than where the window was restored to.
+            "-ApplePersistenceIgnoreState", "YES",
+            "-NSWindow Frame main", Self.builtInScreenFrame,
         ]
         app.launch()
 
@@ -94,6 +98,17 @@ final class AccessibilityAuditTests: XCTestCase {
     private static func describe(_ element: XCUIElement?) -> String {
         guard let element, let found = try? element.snapshot() else { return "no element" }
         return "\(found.elementType.rawValue) '\(found.label)' '\(found.identifier)' \(found.frame)"
+    }
+
+    /// The visible frame of the Mac's built-in screen, written as a saved window frame: the window's, then the screen's.
+    private static var builtInScreenFrame: String {
+        let builtIn = NSScreen.screens.first { screen in
+            let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber
+            return number.map { CGDisplayIsBuiltin($0.uint32Value) != 0 } ?? false
+        }
+        let frame = (builtIn ?? NSScreen.screens[0]).visibleFrame
+        let numbers = [frame.minX, frame.minY, frame.width, frame.height].map { String(Int($0)) }
+        return (numbers + numbers).joined(separator: " ") + " "
     }
 
     /// A page's tab or a pane of Settings, found by its name, whatever kind of element the system shows it as.
