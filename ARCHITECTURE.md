@@ -1,8 +1,9 @@
 # How Peel is built
 
 This page is for anyone who wants to read or change Peel's code. It describes the parts, how a removal travels
-through them, and the few ideas that hold the whole thing together. [CONTRIBUTING.md](CONTRIBUTING.md) has the
-rules a change has to keep, and [SAFETY.md](SAFETY.md) the full list of what Peel protects.
+through them, and the few ideas that hold the whole thing together. [AGENTS.md](AGENTS.md) has the rules a change
+has to keep, [CONTRIBUTING.md](CONTRIBUTING.md) how to propose one, and [SAFETY.md](SAFETY.md) the full list of what
+Peel protects.
 
 ## The parts
 
@@ -40,7 +41,7 @@ The package, `Packages/PeelCore`, has four libraries:
   notifications that send it too, and the app that reads it. The extension links nothing else.
 
 Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs
-more than 1,700 tests without building the app.
+more than 1,800 tests without building the app.
 
 ## Where to start reading
 
@@ -87,35 +88,42 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    already choose and gives Peel's suggestion only to a row they could not, and every page that selects for the
    user and scans again on its own keeps its choices by it. Among several apps, one whose bundle the user
    deselects stays, and its files leave the selection with it (`UninstallSelection`).
-5. **Move.** The question before the move freezes what it asks about, and the move takes exactly that
-   (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
-   The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
-   its own (`TrashService`'s `trash(apps:thenFiles:)`, which an app's page, several apps' page, Remove Peel,
-   and `peel uninstall` share). `TrashService` asks `RemovalGuard` about each item first, holds the folder
-   around the item open, asks again about what the kernel calls that folder, and moves the item through it, so
-   the thing judged is the thing moved. Items only an administrator can move go through the helper, and the
-   links an app's tools and their shell completions left in `/usr/local` go last, once the app they lead into
-   has moved. Before any of it, the app has to quit, and Peel offers Force Quit when it doesn't
-   (`QuitBeforeRemoving`). An item stays where it is while a program holds it (`OpenFiles`): a file one of the
-   user's programs holds open, or the program any process runs from it, though inside an app, which is code and
-   loses nothing when it moves, a file open only for reading holds nothing. Nor does the program running from an
-   app that uninstalls itself once it has moved (`UninstallsItself`, Mullvad VPN's daemon), and what that
-   uninstaller removes is held back (`leftToItsUninstaller`) rather than moved first. The app's privacy
-   permissions are reset, when that was chosen, just before the move and only once the checks the move makes
-   first (the guard, History, and the programs holding it) say it will go (`PrivacyReset`).
+5. **Move.**
+   - The question before the move freezes what it asks about, and the move takes exactly that
+     (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
+   - Before any of it, the app has to quit, and Peel offers Force Quit when it doesn't (`QuitBeforeRemoving`).
+   - The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
+     its own (`TrashService`'s `trash(apps:thenFiles:)`, which an app's page, several apps' page, Remove Peel, and
+     `peel uninstall` share).
+   - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
+     about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
+     moved. Items only an administrator can move go through the helper, and the links an app's tools and their
+     shell completions left in `/usr/local` go last, once the app they lead into has moved.
+   - An item stays where it is while a program holds it (`OpenFiles`): a file one of the user's programs holds
+     open, or the program any process runs from it. Inside an app, which is code and loses nothing when it moves,
+     a file open only for reading holds nothing, and neither does the program running from an app that
+     uninstalls itself once it has moved (`UninstallsItself`, Mullvad VPN's daemon), whose uninstaller's files
+     are held back (`leftToItsUninstaller`) rather than moved first.
+   - The app's privacy permissions are reset, when that was chosen, just before the move and only once the
+     checks the move makes first (the guard, History, and the programs holding it) say it will go
+     (`PrivacyReset`).
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
    forget the preference domains whose files went, and an uninstalled app's Dock icon comes out
    (`DockTiles`).
-7. **Record.** Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came
-   from and where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
-   even when it moved what was selected on several pages. As it records, History adds what moved to the totals Home
-   shows (`totals.json`, through `RemovalTotals`), so the app and `peel` count alike. Each item is also written down
-   the moment it moves (`removals.journal`, through `RemovalJournal`), so what a removal cut short moved reaches
-   History the next time it is read, as an interrupted removal, and quitting the app waits for a removal until
-   History has it (`QuitGuard`), as `peel` carries on through Ctrl-C (`Uninterrupted`). While History cannot be read
-   nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal) until the History page starts it
-   over. What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
-   removal to an entry.
+7. **Record.**
+   - Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came from and
+     where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
+     even when it moved what was selected on several pages.
+   - As it records, History adds what moved to the totals Home shows (`totals.json`, through `RemovalTotals`), so
+     the app and `peel` count alike.
+   - Each item is also written down the moment it moves (`removals.journal`, through `RemovalJournal`), so what a
+     removal cut short moved reaches History the next time it is read, as an interrupted removal. Quitting the app
+     waits for a removal until History has it (`QuitGuard`), as `peel` carries on through Ctrl-C
+     (`Uninterrupted`).
+   - While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal)
+     until the History page starts it over.
+   - What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
+     removal to an entry.
 8. **Put back.** History's Put Back reads its record as a request, not as a fact: an item returns only from a
    real Trash, only to a place the guard allows, only when it is the item that went (`TrashedItem.identity`,
    its inode and birth time, read in the Trash as it landed and asked again of the item Put Back holds open),
@@ -198,22 +206,25 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known
   sentences into the reader's language (`FixedSentence`).
-- **Terminal.** The Terminal page writes Terminal's own preferences: Peel's themes as profiles of their own, each
-  built by `TerminalProfile` from Apple's Clear Dark, the profile Terminal opens with, and two keys in the Peel theme
-  in use (`TerminalOption`); for the "Last login" line it makes an empty `~/.hushlogin` (`HushLogin`), which turning
-  it off moves to the Trash. `TerminalThemeLedger` keeps what Terminal used before and the fingerprint of each profile
-  Peel wrote, so Put Back takes away only a profile still as Peel wrote it. Peel writes these only while Terminal is
-  closed: an open Terminal does not read a change made outside it, and writes its own settings over it. The switch
-  that keeps Terminal from reopening its windows is a tweak (`TweakCatalog.terminalWindows`) and sets Terminal's
-  `NSQuitAlwaysKeepsWindows` at once, since Terminal reads it only when it quits. The Shell and SSH tabs write only
-  files of Peel's own in its folder, `Terminal/zshrc` (`ShellFile`, with the prompt from `Prompt`) and
-  `Terminal/ssh_config` (`SSHFile`), which zsh and ssh read through lines the person adds: Peel never edits `~/.zshrc`
-  or `~/.ssh/config`. The Git tab changes Git's settings only through `git config --global` (`GitConfig`), and
-  `GitLedger` keeps what each key held before Peel set it, so turning a setting off puts that back, while a setting
-  the person made goes back to Git's default. A setting is offered only when the tool on the Mac knows it: zsh lists
-  its options and functions (`ZshRequirements`), Git its keys (`git help --config`), and ssh accepts the options on
-  its own command line. The Tools tab installs nothing: `TerminalTool` gives each
-  tool's Homebrew formulae and the lines its documentation gives, and Homebrew is asked whether it still offers them.
+- **Terminal.** The Terminal page writes Terminal's own preferences, and only files of Peel's own for the rest:
+  - Peel's themes are profiles of their own, each built by `TerminalProfile` from Apple's Clear Dark, beside the
+    profile Terminal opens with and two keys in the Peel theme in use (`TerminalOption`). `TerminalThemeLedger`
+    keeps what Terminal used before and the fingerprint of each profile Peel wrote, so Put Back takes away only a
+    profile still as Peel wrote it. Peel writes these only while Terminal is closed: an open Terminal does not read
+    a change made outside it, and writes its own settings over it.
+  - For the "Last login" line, Peel makes an empty `~/.hushlogin` (`HushLogin`), which turning it off moves to the
+    Trash. The switch that keeps Terminal from reopening its windows is a tweak (`TweakCatalog.terminalWindows`)
+    and sets Terminal's `NSQuitAlwaysKeepsWindows` at once, since Terminal reads it only when it quits.
+  - The Shell and SSH tabs write only files of Peel's own in its folder, `Terminal/zshrc` (`ShellFile`, with the
+    prompt from `Prompt`) and `Terminal/ssh_config` (`SSHFile`), which zsh and ssh read through lines the person
+    adds: Peel never edits `~/.zshrc` or `~/.ssh/config`.
+  - The Git tab changes Git's settings only through `git config --global` (`GitConfig`), and `GitLedger` keeps what
+    each key held before Peel set it, so turning a setting off puts that back, while a setting the person made goes
+    back to Git's default.
+  - A setting is offered only when the tool on the Mac knows it: zsh lists its options and functions
+    (`ZshRequirements`), Git its keys (`git help --config`), and ssh accepts the options on its own command line.
+    The Tools tab installs nothing: `TerminalTool` gives each tool's Homebrew formulae and the lines its
+    documentation gives, and Homebrew is asked whether it still offers them.
 - **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash: the home's, and the Trash of
   each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
   tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up
