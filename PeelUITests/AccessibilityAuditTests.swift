@@ -121,7 +121,7 @@ final class AccessibilityAuditTests: XCTestCase {
         _ element: (any XCUIElementSnapshot)?,
         in shown: Shown,
         sidebar: CGRect?,
-        pageTitle: String
+        windowTitle: String
     ) -> Bool {
         // Apple's secondary label color, which Peel keeps as macOS does, reads between 3:1 and 4.5:1, and darker
         // with Increase Contrast.
@@ -139,15 +139,15 @@ final class AccessibilityAuditTests: XCTestCase {
                 && element.children.first?.elementType == .staticText
         case .contrast:
             // macOS draws the sidebar: its selection, and its labels dimmed while the window isn't key. It also
-            // draws the page's title in the toolbar, with a frame that holds the toolbar's band. Home's storage is
-            // one element, its words and its bar, and the bar is measured as text; the words read at least 4.5:1.
+            // draws the window's title, a page's with a frame that holds the toolbar's band. Home's storage is one
+            // element, its words and its bar, and the bar is measured as text; the words read at least 4.5:1.
             if let sidebar, sidebar.contains(element.frame) { return true }
             if shown.emptyPageTitles.contains(key(element)) { return true }
             let words = text(of: element)
             // A control that can't be used dims its title, as macOS dims a disabled control's label, and WCAG 1.4.3
             // asks no contrast of an inactive control's text.
             if element.elementType == .staticText, shown.disabledControls.contains(words) { return true }
-            return element.elementType == .staticText && (words == pageTitle || words.hasPrefix("Storage:"))
+            return element.elementType == .staticText && (words == windowTitle || words.hasPrefix("Storage:"))
         default:
             return false
         }
@@ -263,10 +263,11 @@ final class AccessibilityAuditTests: XCTestCase {
     /// Audits what is on screen. Given a `window`, only its own elements count: the audit covers every window, and
     /// the main window behind About or Settings, inactive and partly covered, is audited on its own pages.
     private func audit(_ name: String, appearance: String, of app: XCUIApplication, window: XCUIElement? = nil) {
-        let shown = Self.shown(in: window ?? app.windows["main"])
+        let audited = window ?? app.windows["main"]
+        let shown = Self.shown(in: audited)
         let sidebar = app.outlines.matching(NSPredicate(format: "label == %@", "Sidebar")).firstMatch
         let sidebarFrame = sidebar.exists ? sidebar.frame : nil
-        let pageTitle = app.windows["main"].exists ? app.windows["main"].title : ""
+        let windowTitle = audited.exists ? audited.title : ""
         XCTContext.runActivity(named: "\(name), \(appearance)") { activity in
             let picture = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             picture.name = "\(name), \(appearance)"
@@ -280,7 +281,7 @@ final class AccessibilityAuditTests: XCTestCase {
                     if window != nil, let element, !shown.elements.contains(Self.key(element)) {
                         return true
                     }
-                    if Self.isExpected(issue, element, in: shown, sidebar: sidebarFrame, pageTitle: pageTitle) {
+                    if Self.isExpected(issue, element, in: shown, sidebar: sidebarFrame, windowTitle: windowTitle) {
                         return true
                     }
                     let what = element.map(Self.describe) ?? "no element"
