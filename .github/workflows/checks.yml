@@ -40,9 +40,17 @@ jobs:
             exit 1
           fi
 
-      # The app's targets treat warnings as errors in the project; the package is held to the same here.
+      # The app's targets treat warnings as errors in the project; the package is held to the same here. The tests
+      # write to a file, since a test that writes a line waits for whoever reads it, and the log is read late here.
       - name: Test PeelCore
-        run: swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
+        run: |
+          log="$RUNNER_TEMP/test.log"
+          if swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$log" 2>&1; then
+            grep -E "Test run with" "$log"
+          else
+            cat "$log"
+            exit 1
+          fi
 
       - name: Build the app
         run: |
