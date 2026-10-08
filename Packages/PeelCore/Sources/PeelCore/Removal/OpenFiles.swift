@@ -16,7 +16,7 @@ struct OpenFiles {
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [(names: [String], process: String, hold: Hold)] = []
-        for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded {
+        for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded && !Self.isACopyOfThisProcess(pid) {
             let program = Self.program(of: pid).map { [(path: $0, hold: Hold.runs)] } ?? []
             let paths = Self.paths(openBy: pid) + program
             guard !paths.isEmpty else { continue }
@@ -61,6 +61,17 @@ struct OpenFiles {
             }
             return (path, info.pfi.fi_openflags & UInt32(FWRITE) != 0 ? .writes : .reads)
         }
+    }
+
+    /// A process this one starts is a copy of it until the program it starts takes its place, and meanwhile holds
+    /// only this process's files.
+    private static func isACopyOfThisProcess(_ pid: pid_t) -> Bool {
+        var info = proc_bsdinfo()
+        let size = Int32(MemoryLayout<proc_bsdinfo>.size)
+        guard proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, size) == size, info.pbi_ppid == UInt32(getpid()) else {
+            return false
+        }
+        return RunningProgram.path(of: pid) == RunningProgram.path(of: getpid())
     }
 
     /// The program a process runs, unless it is an app extension: macOS starts and ends those on their app's behalf,
