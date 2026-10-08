@@ -10,7 +10,8 @@ somebody wanted. That is why the rules are strict, and why none of them is a mat
 
 ## How every change is made
 
-Every change goes through these steps, in this order, however small it looks.
+Never change anything blindly. Every change goes through these steps, in this order, however small it looks: search,
+prove, and only then fix.
 
 1. **Search.** Read the code as it is now, and every caller and reader of what the change touches: the app, the
    `peel` command, the helper, and the tests. Read the current official documentation for every fact the change
@@ -34,6 +35,12 @@ Every change goes through these steps, in this order, however small it looks.
 9. **Say exactly what happened.** Report a failing test with its output, a step you skipped as skipped, and what
    you couldn't prove as unproved. If something can't be checked on your Mac, say what and why in the pull
    request, and the maintainer will check it.
+
+**When you're stuck, read before you try.** Don't guess at how macOS, Swift, or a tool behaves, and don't change
+Peel's code to see whether something helps. Read the current official documentation for the version Peel runs on:
+Apple's documentation and release notes, the SDK's headers, the man page on this Mac, or the tool's own source at a
+named commit. Rely on what the source itself says, never on a summary of it, and prove it on a Mac with a probe
+before a fix rests on it.
 
 A choice about what Peel does for people, what it selects, what it says, or how it looks, is the maintainer's.
 Propose it with your reasons; don't make it on the way.
