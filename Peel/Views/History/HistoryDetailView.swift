@@ -18,11 +18,12 @@ struct HistoryDetailView: View {
     @State private var failures: [(record: RemovalRecord, failure: RestoreFailure)] = []
     let batch: RemovalBatch
 
-    /// The id of the page's task: the batch, and whether the window is key. When either changes, the page reads
-    /// the disk again, since the Trash may have been emptied in the meantime.
+    /// The id of the page's task: the batch, whether the window is key, and the reloads asked for. When any changes,
+    /// the page reads the disk again, since the Trash may have been emptied in the meantime.
     private struct Look: Hashable {
         let batch: RemovalBatch
         let isActive: Bool
+        let reloads: Int
     }
 
     /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
@@ -57,7 +58,7 @@ struct HistoryDetailView: View {
         }
         .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
-        .task(id: Look(batch: batch, isActive: controlActiveState == .key)) {
+        .task(id: Look(batch: batch, isActive: controlActiveState == .key, reloads: history.reloads)) {
             standing = await RemovalStanding.of(batch.records)
         }
         .task(id: batch.id) {

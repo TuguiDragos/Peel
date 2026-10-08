@@ -132,6 +132,8 @@ final class RemovalHistoryStore {
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
+    /// Counts the reloads asked for, so a removal's page looks in the Trash again with each.
+    private(set) var reloads = 0
     /// Counts each change of what History lists. The lists are prepared off the main actor, and one prepared for an
     /// older change must never replace a newer one.
     private var listedChange = 0
@@ -149,6 +151,14 @@ final class RemovalHistoryStore {
         await apply(await log.load())
         await loadRefusals()
         hasLoaded = true
+    }
+
+    /// Shows History as a page opened anew would: read again, without the reasons the last Put Back gave, and with
+    /// the Trash looked at again.
+    func reload() async {
+        failures = [:]
+        reloads += 1
+        await load()
     }
 
     /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the

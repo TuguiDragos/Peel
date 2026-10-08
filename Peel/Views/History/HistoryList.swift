@@ -88,7 +88,7 @@ struct HistoryList: View {
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isReloading, title: "Reload") {
-                    await history.load()
+                    await history.reload()
                 }
             }
         }
