@@ -22,10 +22,10 @@ struct PluginDetailView: View {
                             .pageTitle()
                             .help(Text(verbatim: plugin.name))
                         FlowLayout(spacing: 6) {
-                            Badge(title: Text(plugin.category.title), systemImage: "powerplug", tint: .secondary)
+                            Badge(title: Text(plugin.category.title), systemImage: "powerplug")
                             if plugin.isInstalledForAllUsers {
                                 NoteBadge(
-                                    title: Text("All users"), systemImage: "person.2", tint: .secondary,
+                                    title: Text("All users"), systemImage: "person.2",
                                     name: String(localized: "All users"),
                                     detail: Text("It’s in /Library, so every account on this Mac has it.")
                                 )

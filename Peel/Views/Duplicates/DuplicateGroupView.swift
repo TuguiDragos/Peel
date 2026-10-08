@@ -49,12 +49,12 @@ struct DuplicateGroupView: View {
                     .pageTitle()
                     .help(Text(verbatim: group.files[0].url.lastPathComponent))
                 FlowLayout(spacing: 6) {
-                    Badge(title: Text(verbatim: group.size.byteCount), systemImage: "doc", tint: .secondary)
-                    Badge(title: Text(group.files.count, format: .number), systemImage: "doc.on.doc", tint: .secondary)
+                    Badge(title: Text(verbatim: group.size.byteCount), systemImage: "doc")
+                    Badge(title: Text(group.files.count, format: .number), systemImage: "doc.on.doc")
                         .accessibilityLabel(Text("^[\(group.files.count) copy](inflect: true)"))
                     if sharesStorage {
                         NoteBadge(
-                            title: Text("Shares storage"), systemImage: "link", tint: .secondary,
+                            title: Text("Shares storage"), systemImage: "link",
                             name: String(localized: "Shares storage"),
                             detail: Text("These copies share storage, so removing them frees less than their size.")
                         )

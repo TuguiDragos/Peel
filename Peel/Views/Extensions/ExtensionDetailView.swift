@@ -106,12 +106,12 @@ struct ExtensionDetailView: View {
         } details: {
             FlowLayout {
                 NoteBadge(
-                    title: Text(item.kind.title), systemImage: item.kind.systemImage, tint: .secondary,
+                    title: Text(item.kind.title), systemImage: item.kind.systemImage,
                     name: String(localized: item.kind.title),
                     detail: Text(kindNote)
                 )
                 NoteBadge(
-                    title: Text("Read only"), systemImage: "hand.raised", tint: .secondary,
+                    title: Text("Read only"), systemImage: "hand.raised",
                     name: String(localized: "Read only"),
                     detail: Text(explanation)
                 )

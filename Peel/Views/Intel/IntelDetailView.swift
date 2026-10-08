@@ -145,7 +145,7 @@ struct IntelDetailView: View {
                 }
                 FlowLayout {
                     NoteBadge(
-                        title: Text("Intel only"), systemImage: "cpu", tint: .secondary,
+                        title: Text("Intel only"), systemImage: "cpu",
                         name: String(localized: "Intel only"),
                         detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
                     )

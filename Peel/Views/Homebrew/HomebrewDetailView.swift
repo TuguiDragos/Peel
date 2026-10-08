@@ -29,9 +29,9 @@ struct HomebrewDetailView: View {
                                 .foregroundStyle(.secondary)
                         }
                         FlowLayout(spacing: 6) {
-                            Badge(title: Text(package.kind == .cask ? "Cask" : "Formula"), systemImage: "mug", tint: .secondary)
+                            Badge(title: Text(package.kind == .cask ? "Cask" : "Formula"), systemImage: "mug")
                             if let version = package.installedVersion {
-                                Badge(title: Text("Version \(version)"), systemImage: "number", tint: .secondary)
+                                Badge(title: Text("Version \(version)"), systemImage: "number")
                             }
                             if package.waitsForAnUpgrade, let latest = package.latestVersion {
                                 Badge(title: Text("Update available: \(latest)"), systemImage: "arrow.down.circle", tint: .blue)
@@ -40,19 +40,19 @@ struct HomebrewDetailView: View {
                                 Badge(
                                     title: Text("^[\(advisory.vulnerabilities.count) known vulnerability](inflect: true)"),
                                     systemImage: advisory.highestSeverity.symbol,
-                                    symbolTint: advisory.highestSeverity.color
+                                    tint: advisory.highestSeverity.color
                                 )
                             }
                             if package.isPinned {
                                 NoteBadge(
-                                    title: Text("Pinned"), systemImage: "pin", tint: .secondary,
+                                    title: Text("Pinned"), systemImage: "pin",
                                     name: String(localized: "Pinned"),
                                     detail: Text("Homebrew keeps a pinned package at its version when it upgrades the rest. Run `brew unpin` to let it upgrade again.")
                                 )
                             }
                             if !package.isInstalledOnRequest {
                                 NoteBadge(
-                                    title: Text("Dependency"), systemImage: "link", tint: .secondary,
+                                    title: Text("Dependency"), systemImage: "link",
                                     name: String(localized: "Dependency"),
                                     detail: Text("Homebrew installed this because another package needs it.")
                                 )

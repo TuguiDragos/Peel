@@ -64,25 +64,25 @@ struct AppHeader<Actions: View>: View {
             .foregroundStyle(.secondary)
 
             if app.isFromAppStore {
-                Badge(title: Text("App Store"), systemImage: "bag", tint: .secondary)
+                Badge(title: Text("App Store"), systemImage: "bag")
             }
             if app.isIntelOnly {
                 NoteBadge(
-                    title: Text("Intel only"), systemImage: "cpu", tint: .secondary,
+                    title: Text("Intel only"), systemImage: "cpu",
                     name: String(localized: "Intel only"),
                     detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
                 )
             }
             if sharesStorage {
                 NoteBadge(
-                    title: Text("Shares storage"), systemImage: "link", tint: .secondary,
+                    title: Text("Shares storage"), systemImage: "link",
                     name: String(localized: "Shares storage"),
                     detail: Text("Most of this app’s files share their space on disk with another copy of it, such as one in the Trash, so moving it frees much less than its size.")
                 )
             }
             if app.isSystemProtected {
                 NoteBadge(
-                    title: Text("Protected by macOS"), systemImage: "lock", tint: .secondary,
+                    title: Text("Protected by macOS"), systemImage: "lock",
                     name: String(localized: "Protected by macOS"),
                     detail: Text("macOS keeps this app, so it stays where it is.")
                 )

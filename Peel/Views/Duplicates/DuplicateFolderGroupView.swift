@@ -45,9 +45,9 @@ struct DuplicateFolderGroupView: View {
                     .pageTitle()
                     .help(Text(verbatim: group.folders[0].url.lastPathComponent))
                 HStack(spacing: 6) {
-                    Badge(title: Text(verbatim: group.size.byteCount), systemImage: "folder", tint: .secondary)
-                    Badge(title: Text("^[\(group.fileCount) file](inflect: true)"), systemImage: "doc", tint: .secondary)
-                    Badge(title: Text(group.folders.count, format: .number), systemImage: "folder.badge.plus", tint: .secondary)
+                    Badge(title: Text(verbatim: group.size.byteCount), systemImage: "folder")
+                    Badge(title: Text("^[\(group.fileCount) file](inflect: true)"), systemImage: "doc")
+                    Badge(title: Text(group.folders.count, format: .number), systemImage: "folder.badge.plus")
                         .accessibilityLabel(Text("^[\(group.folders.count) copy](inflect: true)"))
                 }
             }

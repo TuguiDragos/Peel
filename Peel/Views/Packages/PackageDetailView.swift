@@ -131,14 +131,14 @@ struct PackageDetailView: View {
         } details: {
             FlowLayout {
                 if let version = receipt.version {
-                    Badge(title: Text("Version \(version)"), systemImage: "number", tint: .secondary)
+                    Badge(title: Text("Version \(version)"), systemImage: "number")
                 }
                 if let date = receipt.installDate {
-                    Badge(title: Text("Installed \(date, format: .dateTime.day().month().year())"), systemImage: "calendar", tint: .secondary)
+                    Badge(title: Text("Installed \(date, format: .dateTime.day().month().year())"), systemImage: "calendar")
                 }
                 if receipt.nothingLeftOnDisk {
                     NoteBadge(
-                        title: Text("Receipt only"), systemImage: "doc.questionmark", tint: .secondary,
+                        title: Text("Receipt only"), systemImage: "doc.questionmark",
                         name: String(localized: "Receipt only"),
                         detail: Text("macOS still counts this package as installed, but nothing it put on disk is left.")
                     )

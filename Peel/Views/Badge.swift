@@ -2,30 +2,26 @@ import SwiftUI
 
 /// A small tag beside a row, saying what something is or what state it is in.
 ///
-/// It has the system's look: caption type, a quiet filled capsule, and the tint carried by the text. Home
-/// keeps the album's own marks; everything outside it reads as macOS.
+/// It has the system's look: caption type, a quiet filled capsule, and secondary words. Home keeps the album's own
+/// marks; everything outside it reads as macOS.
 struct Badge: View {
     let title: Text
     let systemImage: String
-    var tint: Color = .secondary
-    /// A color for the symbol alone, when the mark says how serious something is and the words keep `tint`.
-    var symbolTint: Color?
+    /// The symbol's color, when there is one. The words never take it: a colored word reads under 4.5:1 on a light
+    /// background.
+    var tint: Color?
 
     var body: some View {
         Label {
             title
         } icon: {
-            if let symbolTint {
-                Image(systemName: systemImage).rowTint(symbolTint)
-            } else {
-                Image(systemName: systemImage)
-            }
+            Image(systemName: systemImage).rowTint(tint)
         }
         // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when it
         // is wider than the row itself.
         .lineLimit(1)
         .font(.caption)
-        .foregroundStyle(tint)
+        .foregroundStyle(.secondary)
         .padding(.horizontal, 7)
         .padding(.vertical, 2)
         .background(.quaternary, in: .capsule)
@@ -36,7 +32,7 @@ struct Badge: View {
 struct NoteBadge: View {
     let title: Text
     let systemImage: String
-    let tint: Color
+    var tint: Color?
     /// Already localized: the heading of the note.
     let name: String
     let detail: Text

@@ -262,7 +262,7 @@ struct BackgroundItemDetailView: View {
                         )
                     }
                     if needsHelper {
-                        Badge(title: Text("Needs administrator access"), systemImage: "lock", tint: .secondary)
+                        Badge(title: Text("Needs administrator access"), systemImage: "lock")
                     }
                 }
             }

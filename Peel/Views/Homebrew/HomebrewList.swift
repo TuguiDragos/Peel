@@ -321,7 +321,7 @@ struct HomebrewList: View {
                             Badge(
                                 title: Text(advisory.highestSeverity.title),
                                 systemImage: advisory.highestSeverity.symbol,
-                                symbolTint: advisory.highestSeverity.color
+                                tint: advisory.highestSeverity.color
                             )
                         }
                         .padding(.vertical, 2)
@@ -397,9 +397,9 @@ struct HomebrewList: View {
                         }
                         Spacer(minLength: 4)
                         if package.isPinned {
-                            Badge(title: Text("Pinned"), systemImage: "pin", tint: .secondary)
+                            Badge(title: Text("Pinned"), systemImage: "pin")
                         } else if package.upgradeNeedsAnAdministrator {
-                            Badge(title: Text("Needs Terminal"), systemImage: "terminal", tint: .secondary)
+                            Badge(title: Text("Needs Terminal"), systemImage: "terminal")
                         }
                     }
                     .padding(.vertical, 2)

@@ -38,7 +38,6 @@ struct UpdateStatusBadge: View {
                 NoteBadge(
                     title: Text("Can’t check for updates"),
                     systemImage: "questionmark.circle",
-                    tint: .secondary,
                     name: String(localized: "Can’t check for updates"),
                     detail: unsupportedReason,
                     label: Text("Why Peel can’t check \(app.name) for updates")
