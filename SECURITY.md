@@ -148,9 +148,10 @@ have, and anything that destroys data that cannot be recovered.
   property lists, the headers of their programs (Mach-O), and the directory of a ZIP archive, read
   without extracting it. One that causes memory corruption, an exploitable crash, or a wrong answer
   about what may be removed is in scope.
-- The programs Peel runs with what a scan found: `defaults`, `launchctl`, and `tccutil`, given an
-  app's identifier or a launch job's label, and `brew`, including one chosen in Settings. Getting
-  one to run with arguments an attacker chose, or getting Peel to run another program, is in scope.
+- The programs Peel runs with what a scan found: `defaults`, `launchctl`, `tccutil`, `pkgutil`, and
+  `pluginkit`, given an app's, a package's, or an extension's identifier, a launch job's label, or a
+  path, and `brew`, including one chosen in Settings. Getting one to run with arguments an attacker
+  chose, or getting Peel to run another program, is in scope.
 - What Peel writes besides moving files: the Tweaks, which also restart the Dock, Finder, Control
   Center, or Window Manager with `killall`, and the settings the Terminal page writes for Terminal,
   the shell, ssh, and Git. Getting either to write anything but the setting the user chose, or to
