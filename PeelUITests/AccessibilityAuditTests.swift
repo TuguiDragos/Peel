@@ -96,9 +96,46 @@ final class AccessibilityAuditTests: XCTestCase {
         app.terminate()
     }
 
-    private static func describe(_ element: XCUIElement?) -> String {
-        guard let element, let found = try? element.snapshot() else { return "no element" }
-        return "\(found.elementType.rawValue) '\(found.label)' '\(found.identifier)' \(found.frame)"
+    private static func describe(_ element: any XCUIElementSnapshot) -> String {
+        "\(element.elementType.rawValue) '\(text(of: element))' '\(element.identifier)' \(element.frame)"
+    }
+
+    private static func text(of element: any XCUIElementSnapshot) -> String {
+        element.label.isEmpty ? element.value as? String ?? "" : element.label
+    }
+
+    /// Whether `issue` is one of what the audit reports of macOS's own drawing, or of a color Peel keeps on purpose,
+    /// which no change to Peel can mend. Each was proved where it was found; anything else is recorded.
+    private static func isExpected(
+        _ issue: XCUIAccessibilityAuditIssue,
+        _ element: (any XCUIElementSnapshot)?,
+        sidebar: CGRect?,
+        pageTitle: String
+    ) -> Bool {
+        // Apple's secondary label color, which Peel keeps as macOS does, reads between 3:1 and 4.5:1, and darker
+        // with Increase Contrast.
+        if issue.auditType == .contrast, issue.compactDescription.hasPrefix("Contrast nearly passed") { return true }
+        guard let element else { return false }
+        switch issue.auditType {
+        case .sufficientElementDescription:
+            // A container SwiftUI or AppKit makes, for a window, a column, a list's section header, or the menu bar,
+            // is announced by what it holds.
+            return [.group, .other, .touchBar].contains(element.elementType) && !element.children.isEmpty
+        case .parentChild:
+            // SwiftUI on macOS 27 places a list section header's group 10 points above the cell that holds it.
+            return element.elementType == .group && element.frame.height == 28
+                && element.children.first?.elementType == .staticText
+        case .contrast:
+            // macOS draws the sidebar: its selection, and its labels dimmed while the window isn't key. It also
+            // draws the page's title, in the toolbar and on an empty page, with a frame that holds the toolbar's
+            // band or the page's symbol. Home's storage is one element, its words and its bar, and the bar is
+            // measured as text; the words read at least 4.5:1.
+            if let sidebar, sidebar.contains(element.frame) { return true }
+            let words = text(of: element)
+            return element.elementType == .staticText && (words == pageTitle || words.hasPrefix("Storage:"))
+        default:
+            return false
+        }
     }
 
     /// What tells the elements of `window` apart, read in one snapshot.
@@ -169,6 +206,9 @@ final class AccessibilityAuditTests: XCTestCase {
     /// the main window behind About or Settings, inactive and partly covered, is audited on its own pages.
     private func audit(_ name: String, appearance: String, of app: XCUIApplication, window: XCUIElement? = nil) {
         let own = window.map(Self.elements(of:))
+        let sidebar = app.outlines.matching(NSPredicate(format: "label == %@", "Sidebar")).firstMatch
+        let sidebarFrame = sidebar.exists ? sidebar.frame : nil
+        let pageTitle = app.windows["main"].exists ? app.windows["main"].title : ""
         XCTContext.runActivity(named: "\(name), \(appearance)") { activity in
             let picture = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             picture.name = "\(name), \(appearance)"
@@ -178,11 +218,15 @@ final class AccessibilityAuditTests: XCTestCase {
                 // Each issue is recorded here, with what identifies its element, rather than by XCTest, whose picture
                 // of an element scrolled out of sight fails and ends the whole run.
                 try app.performAccessibilityAudit(for: Self.audits) { issue in
-                    if let own, let element = try? issue.element?.snapshot(), !own.contains(Self.key(element)) {
+                    let element = try? issue.element?.snapshot()
+                    if let own, let element, !own.contains(Self.key(element)) {
+                        return true
+                    }
+                    if Self.isExpected(issue, element, sidebar: sidebarFrame, pageTitle: pageTitle) {
                         return true
                     }
                     // An issue that names no element is known only by what it says in full.
-                    let what = issue.element == nil ? issue.detailedDescription : Self.describe(issue.element)
+                    let what = element.map(Self.describe) ?? issue.detailedDescription
                     XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(what))")
                     return true
                 }
