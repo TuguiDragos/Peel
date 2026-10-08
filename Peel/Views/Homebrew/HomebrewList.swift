@@ -34,6 +34,7 @@ struct HomebrewList: View {
             section(Text("Formulae"), packages: byKind[.formula] ?? [])
             section(Text("Casks"), packages: byKind[.cask] ?? [])
         }
+        .accessibilityLabel(Text(Tool.homebrew.title))
         .scrollBarBelowSectionHeaders()
         .scanState(phase(shown), isRescanning: isRescanning, scan: homebrew.scanRun) { placeholder(shown) }
         // A `List` inserts a new section in one frame, with no animation, so the rows below it jump. To soften

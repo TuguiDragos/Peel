@@ -51,6 +51,7 @@ struct HistoryList: View {
                 }
             }
         }
+        .accessibilityLabel(Text(Tool.history.title))
         .scrollBarBelowSectionHeaders(!listed.isEmpty && !refused.isEmpty)
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .edgeBar(.top) {

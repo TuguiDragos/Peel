@@ -18,6 +18,7 @@ struct DeveloperList: View {
         List(listed, selection: $developer.selection) { environment in
             DeveloperRow(environment: environment)
         }
+        .accessibilityLabel(Text(Tool.developer.title))
         .columnSearch(text: $searchText, prompt: "Search Developer Caches", when: developer.environments?.isEmpty == false)
         .scanState(phase, isRescanning: isRescanning, scan: developer.scanRun) {
             if developer.environments?.isEmpty == true {

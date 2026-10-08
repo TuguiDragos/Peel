@@ -32,6 +32,7 @@ struct InstallerList: View {
                 .tag(kind)
             }
         }
+        .accessibilityLabel(Text(Tool.installers.title))
         .columnSearch(text: $searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: installers.scanRun) {
             if installers.sections.isEmpty, let unreadable = installers.scan?.unreadableLocations, !unreadable.isEmpty {

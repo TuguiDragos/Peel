@@ -37,6 +37,7 @@ struct ProjectList: View {
                 ProjectRow(group: group)
             }
         }
+        .accessibilityLabel(Text(Tool.projects.title))
         .columnSearch(text: $searchText, prompt: "Search Build Artifacts", when: projects.groups?.isEmpty == false)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: projects.scanRun) {
             if projects.folders.isEmpty {

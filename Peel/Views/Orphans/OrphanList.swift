@@ -16,6 +16,7 @@ struct OrphanList: View {
         List(filtered, selection: $orphans.selection) { group in
             OrphanGroupRow(group: group)
         }
+        .accessibilityLabel(Text(Tool.orphans.title))
         .contextMenu(forSelectionType: OrphanGroup.ID.self) { ids in
             if ids.count == 1, let group = filtered.first(where: { ids.contains($0.id) }) {
                 Menu("This Belongs To") {

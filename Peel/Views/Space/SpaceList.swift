@@ -61,6 +61,7 @@ struct SpaceList: View {
                 }
             }
         }
+        .accessibilityLabel(Text(Tool.space.title))
         .scrollBarBelowSectionHeaders(space.report?.items.isEmpty == false)
         .columnSearch(text: $searchText, prompt: "Search Space", when: space.report?.items.isEmpty == false)
         .scanState(

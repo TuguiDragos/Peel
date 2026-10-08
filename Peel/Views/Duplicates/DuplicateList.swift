@@ -36,6 +36,7 @@ struct DuplicateList: View {
                         fileRows(groups)
                     }
                 }
+                .accessibilityLabel(Text(Tool.duplicates.title))
                 .scrollBarBelowSectionHeaders()
                 .columnSearch(text: $searchText, prompt: "Search Duplicates", when: !scan.groups.isEmpty || !scan.folderGroups.isEmpty)
                 .overlay {

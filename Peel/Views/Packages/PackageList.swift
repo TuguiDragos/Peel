@@ -37,6 +37,7 @@ struct PackageList: View {
             }
             .padding(.vertical, 2)
         }
+        .accessibilityLabel(Text(Tool.packages.title))
         .scanState(phase(filtered), isRescanning: isRescanning, scan: packages.scanRun) {
             if packages.couldNotAsk {
                 ContentUnavailableView(

@@ -32,6 +32,7 @@ struct ExtensionList: View {
                 ExtensionRow(item: item)
             }
         }
+        .accessibilityLabel(Text(Tool.extensions.title))
         .columnSearch(text: $searchText, prompt: "Search Extensions", when: extensions.extensions?.isEmpty == false)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: extensions.scanRun) {
             if !extensions.unanswered.isEmpty, extensions.extensions?.isEmpty == true {

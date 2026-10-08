@@ -81,6 +81,7 @@ struct CloudView: View {
                 }
             }
         }
+        .accessibilityLabel(Text(Tool.cloud.title))
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(cloud.isScanning)
         .columnSearch(text: $searchText, prompt: "Search iCloud Drive", when: cloud.files?.isEmpty == false)

@@ -41,6 +41,7 @@ struct AppList: View {
                 }
             }
         }
+        .accessibilityLabel(Text(Tool.applications.title))
         .scrollBarBelowSectionHeaders(!visible.waiting.isEmpty)
         .overlay {
             if library.isLoading, library.apps.isEmpty {
