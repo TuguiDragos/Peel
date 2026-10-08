@@ -190,6 +190,26 @@ macOS 26 and every version since.
 
 </details>
 
+<details>
+<summary><strong>Peel's helper keeps waiting for approval. What can I do?</strong></summary>
+
+<br>
+
+macOS keeps a background item's approval by its developer and its identifier, so a record left by an earlier copy
+of Peel can keep the helper waiting even while Login Items & Extensions in System Settings shows Peel turned on.
+First choose Uninstall Helper in Peel's Settings > Helper, then Install Helper. If it still waits, run this in
+Terminal, then restart your Mac, as [Apple's deployment guide](https://support.apple.com/guide/deployment/depdca572563/web)
+recommends:
+
+```bash
+sudo sfltool resetbtm
+```
+
+It resets the login and background item data of every app, not only Peel's, so other apps may ask for approval
+again.
+
+</details>
+
 ## Build it yourself
 
 You need macOS Tahoe 26 or later, Xcode 27 (Swift 6.4), and a team to sign with, even a free one. Open
