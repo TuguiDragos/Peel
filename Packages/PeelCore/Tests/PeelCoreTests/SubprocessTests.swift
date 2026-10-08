@@ -79,7 +79,7 @@ struct SubprocessTests {
 
     /// The tool is sent `SIGTERM` first, then `SIGKILL` if it ignores it.
     @Test func aToolThatIgnoresBeingAskedToStopIsKilled() async {
-        let result = await Subprocess.run("/bin/sh", ["-c", "trap '' TERM; while :; do :; done"], timeout: 0.2)
+        let result = await Subprocess.run("/bin/sh", ["-c", "trap '' TERM; while :; do sleep 1; done"], timeout: 0.2)
         #expect(result == .failure(.timedOut))
     }
 
