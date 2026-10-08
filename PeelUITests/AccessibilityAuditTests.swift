@@ -119,6 +119,7 @@ final class AccessibilityAuditTests: XCTestCase {
     private static func isExpected(
         _ issue: XCUIAccessibilityAuditIssue,
         _ element: (any XCUIElementSnapshot)?,
+        in shown: Shown,
         sidebar: CGRect?,
         pageTitle: String
     ) -> Bool {
@@ -138,10 +139,10 @@ final class AccessibilityAuditTests: XCTestCase {
                 && element.children.first?.elementType == .staticText
         case .contrast:
             // macOS draws the sidebar: its selection, and its labels dimmed while the window isn't key. It also
-            // draws the page's title, in the toolbar and on an empty page, with a frame that holds the toolbar's
-            // band or the page's symbol. Home's storage is one element, its words and its bar, and the bar is
-            // measured as text; the words read at least 4.5:1.
+            // draws the page's title in the toolbar, with a frame that holds the toolbar's band. Home's storage is
+            // one element, its words and its bar, and the bar is measured as text; the words read at least 4.5:1.
             if let sidebar, sidebar.contains(element.frame) { return true }
+            if shown.emptyPageTitles.contains(key(element)) { return true }
             let words = text(of: element)
             return element.elementType == .staticText && (words == pageTitle || words.hasPrefix("Storage:"))
         default:
@@ -149,15 +150,29 @@ final class AccessibilityAuditTests: XCTestCase {
         }
     }
 
-    /// What tells the elements of `window` apart, read in one snapshot.
-    private static func elements(of window: XCUIElement) -> Set<String> {
-        var found: Set<String> = []
+    /// What a window shows, read in one snapshot before its audit.
+    private struct Shown {
+        /// What tells each of its elements apart.
+        var elements: Set<String> = []
+        /// The titles of empty pages. ContentUnavailableView exposes its symbol and its title as one text, taller
+        /// than a line, with its description centered under it, and the audit measures the symbol as the words.
+        var emptyPageTitles: Set<String> = []
+    }
+
+    private static func shown(in window: XCUIElement) -> Shown {
+        var shown = Shown()
         func visit(_ element: any XCUIElementSnapshot) {
-            found.insert(key(element))
+            shown.elements.insert(key(element))
+            for (title, description) in zip(element.children, element.children.dropFirst())
+            where title.elementType == .staticText && description.elementType == .staticText
+                && title.frame.height >= 64 && abs(title.frame.midX - description.frame.midX) < 1
+                && description.frame.minY >= title.frame.maxY - 1 {
+                shown.emptyPageTitles.insert(key(title))
+            }
             element.children.forEach(visit)
         }
         if let root = try? window.snapshot() { visit(root) }
-        return found
+        return shown
     }
 
     private static func key(_ element: any XCUIElementSnapshot) -> String {
@@ -240,7 +255,7 @@ final class AccessibilityAuditTests: XCTestCase {
     /// Audits what is on screen. Given a `window`, only its own elements count: the audit covers every window, and
     /// the main window behind About or Settings, inactive and partly covered, is audited on its own pages.
     private func audit(_ name: String, appearance: String, of app: XCUIApplication, window: XCUIElement? = nil) {
-        let own = window.map(Self.elements(of:))
+        let shown = Self.shown(in: window ?? app.windows["main"])
         let sidebar = app.outlines.matching(NSPredicate(format: "label == %@", "Sidebar")).firstMatch
         let sidebarFrame = sidebar.exists ? sidebar.frame : nil
         let pageTitle = app.windows["main"].exists ? app.windows["main"].title : ""
@@ -254,10 +269,10 @@ final class AccessibilityAuditTests: XCTestCase {
                 // of an element scrolled out of sight fails and ends the whole run.
                 try app.performAccessibilityAudit(for: Self.audits) { issue in
                     let element = try? issue.element?.snapshot()
-                    if let own, let element, !own.contains(Self.key(element)) {
+                    if window != nil, let element, !shown.elements.contains(Self.key(element)) {
                         return true
                     }
-                    if Self.isExpected(issue, element, sidebar: sidebarFrame, pageTitle: pageTitle) {
+                    if Self.isExpected(issue, element, in: shown, sidebar: sidebarFrame, pageTitle: pageTitle) {
                         return true
                     }
                     let what = element.map(Self.describe) ?? "no element"
