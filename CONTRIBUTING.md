@@ -55,7 +55,7 @@ command line, since only the command line reaches the Swift packages; `Scripts/r
 - `Scripts/`: the scripts that keep the catalogs and the manual page in step with the code, and build a release.
 - `Terminal/`: the Terminal themes and the pictures TERMINAL.md shows.
 - `readme-assets/`: the screenshots the documents show.
-- `.github/`: the Checks workflow, the issue forms, and the pull request template.
+- `.github/`: the Checks workflow, Dependabot's settings, the issue forms, and the pull request template.
 - `docs/`: Peel's website, peel.tuguidragos.com.
 - The documents, at the root: [README.md](README.md) says what Peel is and how to get it, [GUIDE.md](GUIDE.md) what
   each tool does, [PRIVACY.md](PRIVACY.md) what Peel sends, [SAFETY.md](SAFETY.md) what it protects,
