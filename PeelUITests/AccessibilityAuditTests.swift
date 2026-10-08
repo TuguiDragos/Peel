@@ -121,7 +121,7 @@ final class AccessibilityAuditTests: XCTestCase {
         _ element: (any XCUIElementSnapshot)?,
         in shown: Shown,
         sidebar: CGRect?,
-        windowTitle: String
+        window: (title: String, frame: CGRect)
     ) -> Bool {
         // Apple's secondary label color, which Peel keeps as macOS does, reads between 3:1 and 4.5:1, and darker
         // with Increase Contrast.
@@ -138,6 +138,8 @@ final class AccessibilityAuditTests: XCTestCase {
             return element.elementType == .group && element.frame.height == 28
                 && element.children.first?.elementType == .staticText
         case .contrast:
+            // Text scrolled out of its window isn't drawn, so the audit measures what lies behind the window there.
+            if !window.frame.contains(element.frame) { return true }
             // macOS draws the sidebar: its selection, and its labels dimmed while the window isn't key. It also
             // draws the window's title, a page's with a frame that holds the toolbar's band. Home's storage is one
             // element, its words and its bar, and the bar is measured as text; the words read at least 4.5:1.
@@ -147,7 +149,7 @@ final class AccessibilityAuditTests: XCTestCase {
             // A control that can't be used dims its title, as macOS dims a disabled control's label, and WCAG 1.4.3
             // asks no contrast of an inactive control's text.
             if element.elementType == .staticText, shown.disabledControls.contains(words) { return true }
-            return element.elementType == .staticText && (words == windowTitle || words.hasPrefix("Storage:"))
+            return element.elementType == .staticText && (words == window.title || words.hasPrefix("Storage:"))
         default:
             return false
         }
@@ -267,7 +269,7 @@ final class AccessibilityAuditTests: XCTestCase {
         let shown = Self.shown(in: audited)
         let sidebar = app.outlines.matching(NSPredicate(format: "label == %@", "Sidebar")).firstMatch
         let sidebarFrame = sidebar.exists ? sidebar.frame : nil
-        let windowTitle = audited.exists ? audited.title : ""
+        let shownWindow = audited.exists ? (title: audited.title, frame: audited.frame) : (title: "", frame: .infinite)
         XCTContext.runActivity(named: "\(name), \(appearance)") { activity in
             let picture = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             picture.name = "\(name), \(appearance)"
@@ -281,7 +283,7 @@ final class AccessibilityAuditTests: XCTestCase {
                     if window != nil, let element, !shown.elements.contains(Self.key(element)) {
                         return true
                     }
-                    if Self.isExpected(issue, element, in: shown, sidebar: sidebarFrame, windowTitle: windowTitle) {
+                    if Self.isExpected(issue, element, in: shown, sidebar: sidebarFrame, window: shownWindow) {
                         return true
                     }
                     let what = element.map(Self.describe) ?? "no element"
