@@ -101,6 +101,10 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   and Apple is asked only about an app bought from the App Store (`UpdatePrivacyTests`).
 - **No code reads macOS's privacy database.** What macOS records about privacy is not API, and from macOS 27 apps
   can't read it, so App Management is learned from what a removal shows, on every macOS (`PrivateDatabaseTests`).
+- **What can't be read is unknown, never empty or zero.** A folder macOS won't let Peel read, or one that doesn't
+  answer in time, has no size (`FileSize` answers nil) and is never taken for empty. Only a name that isn't there
+  (`lstat` answering `ENOENT`) makes one of Peel's own files empty; anything else reads as unreadable, and while
+  History or the exclusions can't be read, nothing moves.
 
 ## The privileged helper
 
@@ -120,6 +124,10 @@ disk that somebody may have replaced.
   `HelperIdentity.protocolVersion`, so Peel never works with a helper of another version.
 - The helper's identifier and its launchd property list stay the same from one version to the next. Updates rely on
   it: launchd starts the new helper by itself, and a version that changed either would have to register it again.
+- macOS keeps a background item's record by its team and bundle identifier, never its path or build, so a Debug
+  build and a release share one record and its approval (`sfltool dumpbtm` lists them without an administrator).
+  Registering again right after unregistering is refused until macOS has saved its records, a few seconds later,
+  so `PrivilegedHelper.register` waits and tries again.
 
 If you are unsure whether something belongs in the helper, it doesn't.
 
@@ -165,6 +173,26 @@ If you are unsure whether something belongs in the helper, it doesn't.
   a Debug build, writes what `Terminal/` holds, then quits; `PEEL_MEASURE=<name>`, in every build, appends launch and
   frame timings to `~/Library/Logs/Peel/<name>`; and `PEEL_TEST_VOLUME=<folder>` lets the tests use the Trash of
   another volume, on a disk image made for it.
+
+## Facts of macOS the code relies on
+
+- **Finding a place asks macOS nothing; opening it can ask the person.** Inside another app's container, `lstat`,
+  `stat`, and `realpath` raise no question, while opening a file or listing a folder asks for access to that app's
+  data. Code that runs without being asked, such as the guard built for every scan, finds places with
+  `PathPattern.locatedWithoutOpening` and never opens them.
+- **`lstat` on a path that ends in a slash follows a link** to where it leads. A folder walk hands back folders
+  with that slash, so paths are compared and checked through `PathPattern.comparablePath`, which drops it.
+- **Settings are forgotten with `defaults delete`, never by deleting their file.** cfprefsd keeps a domain in
+  memory and writes it back, and `defaults delete` of a domain it still holds writes an empty file where the moved
+  one was. `PreferenceCleanup` handles both.
+- **A program's end is learned from the kernel.** `NSRunningApplication.isTerminated` isn't always updated once an
+  app has quit, so `ProcessEnds` watches the kernel's report of the process ending, set up before Peel asks the app
+  to quit.
+- **Homebrew warns on stderr and still exits 0**, and JSON with a warning after it is no longer JSON. An answer
+  Peel reads comes from standard output alone (`Homebrew.Attempt`), while what the person is shown keeps both
+  streams, in the order Homebrew wrote them.
+- **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
+  a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
 
 ## Code
 
@@ -216,6 +244,24 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   button in a row takes `RowButtonStyle` or `.borderless`, and the `ForEach` that repeats rows hides their
   separators, never a row its own. A `Label` beside a row's title pulls the row's separator under its own words, so
   a status or a tag sits in `LeavesRowSeparatorAlone`, as `StatusLabel` and `Badge` do.
+- **`task(id:)` runs again only when its id changes.** A fact a page shows beside a scan is read in the model's
+  refresh, or the task's id carries a count of scans (`BackgroundItemLibrary`'s `scans`, `RemovalHistoryStore`'s
+  `reloads`); otherwise Rescan and Reload leave it as it was.
+- **A frame with only a maximum height keeps any larger height it is offered**, as Apple's documentation of `frame`
+  says, so a popover or a Settings tab that has to shrink again adds `fixedSize(horizontal: false, vertical: true)`
+  after `frame(maxHeight:)`.
+- **`.accessibilityHidden(false)` on a container shows VoiceOver everything inside it again**, a decorative image
+  included, so each part is hidden or shown on its own, as the column's search field does.
+- **Nothing moves without end through a SwiftUI `TimelineView`**: every tick lays out the whole window. The face
+  at the head of the sidebar moves through Core Animation layers (`FaceLayerView`) and sends a frame only once
+  something moved enough to be seen.
+- **On macOS a window's `scenePhase` stays active behind another app**: it says only whether a window can be
+  seen. What Peel does when it comes forward follows `NSApplication.didBecomeActiveNotification`.
+- **On macOS 26 a fixed header above a scroll view at the top of a column** makes AppKit draw an opaque scroll
+  edge with a line, an empty band under the title bar. Such a header goes in the toolbar or inside the scroll.
+- **A failure is a state of its own, never read from "not running".** A setting flipped in one place and the work
+  it starts in an `onChange` elsewhere leave a moment where the model still says off, so a warning that something
+  failed waits for a real failure (`TrashMonitor`'s `unavailable`).
 
 ## Words and translations
 
@@ -237,6 +283,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   copy. `StringCatalogTests` checks these.
 - The `peel` command stays in English, since scripts read it. PeelCore returns English and never looks up a
   translation, since the package has no catalog of its own: the app words what PeelCore sends.
+- An alert's title shows inflection markup as written, so a count in a title is inflected first with
+  `String(inflecting:)`.
 
 ## Documents
 
