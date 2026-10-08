@@ -55,7 +55,11 @@ public enum IntelInspector {
             .flatMap { library in folders.map { library.appending(path: $0).path(percentEncoded: false) } }
     }
 
-    static let toolDirectories = ["/usr/local/bin", "/usr/local/sbin", "/usr/local/libexec"]
+    static func toolDirectories(_ environment: SearchEnvironment) -> [String] {
+        ["usr/local/bin", "usr/local/sbin", "usr/local/libexec"].map {
+            environment.rootDirectory.appending(path: $0).path(percentEncoded: false)
+        }
+    }
 
     /// Folders inside an app whose contents run as processes of their own, so an Intel-only one really does
     /// need Rosetta.
@@ -181,7 +185,7 @@ public enum IntelInspector {
 
         // A command that leads into an app listed already is that app's.
         let apps = findings.filter { $0.kind == .app }.map { PathPattern.comparablePath(of: $0.url) }
-        for tool in tools(in: toolDirectories) where !Task.isCancelled && !exclusions.excludes(tool.url) {
+        for tool in tools(in: toolDirectories(environment)) where !Task.isCancelled && !exclusions.excludes(tool.url) {
             let path = PathPattern.comparablePath(of: tool.url)
             guard !apps.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
             guard isIntelOnly(executable: tool.url), isNew(tool.url) else { continue }

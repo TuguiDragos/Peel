@@ -250,6 +250,27 @@ struct IntelInspectorTests {
         #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
     }
 
+    @Test func looksForCommandsUnderTheRootItIsGiven() async throws {
+        let directory = try TemporaryDirectory()
+        let tool = try directory.file("root/usr/local/bin/tool", contents: fatHeader([intel]))
+        try directory.setPermissions(0o755, of: tool)
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            plugins: [],
+            backgroundItems: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.map(\.name) == ["tool"])
+        #expect(scan.findings.allSatisfy { $0.kind == .commandLineTool })
+    }
+
     /// Every Electron app keeps its helper processes under `Contents/Frameworks`, and Sparkle keeps its
     /// XPC services two levels down inside its framework. Those are processes, not libraries.
     @Test func findsTheHelperProcessesKeptUnderFrameworks() throws {
