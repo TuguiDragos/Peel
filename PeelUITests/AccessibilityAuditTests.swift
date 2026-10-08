@@ -100,7 +100,7 @@ final class AccessibilityAuditTests: XCTestCase {
         return "\(found.elementType.rawValue) '\(found.label)' '\(found.identifier)' \(found.frame)"
     }
 
-    /// The visible frame of the Mac's built-in screen, written as a saved window frame: the window's, then the screen's.
+    /// The built-in screen's visible frame, written as a saved window frame: the window's, then the screen's.
     private static var builtInScreenFrame: String {
         let builtIn = NSScreen.screens.first { screen in
             let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber
