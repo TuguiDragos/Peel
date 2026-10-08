@@ -35,13 +35,13 @@ struct AppFoldersSection: View {
                     .foregroundStyle(.secondary)
             } else {
                 HStack {
-                    WarningLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
+                    StatusLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
                     Spacer()
                     Button("Start Over") { library.startFoldersOver() }
                 }
             }
             if library.couldNotSaveFolders {
-                WarningLabel(title: Text("Peel couldn’t save the app folders."))
+                StatusLabel(title: Text("Peel couldn’t save the app folders."))
             }
             HStack {
                 Button("Add Folder…", systemImage: "plus") {

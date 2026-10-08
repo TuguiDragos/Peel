@@ -284,7 +284,7 @@ private struct GeneralSettingsView: View {
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
                     HStack {
-                        WarningLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
+                        StatusLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
                         Spacer()
                         // Goes through `HomeModel`, so Home offers "Reopen Peel" afterward: Full Disk Access
                         // applies only to a process started after it is granted.
@@ -293,7 +293,7 @@ private struct GeneralSettingsView: View {
                         }
                     }
                 } else if watchesTrash, trashMonitor.status == .unavailable {
-                    WarningLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
+                    StatusLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
                        "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")
@@ -303,7 +303,7 @@ private struct GeneralSettingsView: View {
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
                 if needsApprovalToOpenAtLogin {
                     HStack {
-                        WarningLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
+                        StatusLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
                         Spacer()
                         Button("Open System Settings") {
                             SMAppService.openSystemSettingsLoginItems()
@@ -311,7 +311,7 @@ private struct GeneralSettingsView: View {
                     }
                 }
                 if let loginItemFailure {
-                    WarningLabel(title: Text(loginItemFailure))
+                    StatusLabel(title: Text(loginItemFailure))
                         .textSelection(.enabled)
                 }
             }

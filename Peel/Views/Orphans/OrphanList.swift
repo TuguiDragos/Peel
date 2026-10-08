@@ -159,9 +159,17 @@ private struct OrphanGroupRow: View {
                 }
                 // Shows why Peel thinks nothing uses these files, not a date the user would have to interpret. It is
                 // shown whole, since the app's name can come last.
-                group.confidence.summary
-                    .font(.caption)
-                    .rowTint(group.confidence.tint)
+                Group {
+                    if let tint = group.confidence.tint {
+                        StatusLabel(
+                            title: group.confidence.summary, systemImage: group.confidence.systemImage, tint: tint
+                        )
+                    } else {
+                        group.confidence.summary
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
             Spacer(minLength: 6)
             Text(group.movable.text)

@@ -22,7 +22,7 @@ struct HomebrewSection: View {
                 Text(verbatim: "brew")
             }
             if couldNotSave {
-                WarningLabel(title: Text("Peel couldn’t save which `brew` to run."))
+                StatusLabel(title: Text("Peel couldn’t save which `brew` to run."))
             }
             HStack {
                 Button("Choose…") { isChoosing = true }

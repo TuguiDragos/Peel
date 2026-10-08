@@ -322,8 +322,8 @@ extension OrphanConfidence {
     }
 
     /// Orange only when Peel is unsure. Being sure is the usual case here and needs no color.
-    var tint: Color {
-        level == .unsure ? .orange : .secondary
+    var tint: Color? {
+        level == .unsure ? .orange : nil
     }
 
     var systemImage: String {

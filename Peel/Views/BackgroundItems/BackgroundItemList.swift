@@ -162,12 +162,12 @@ private struct BackgroundItemRow: View {
                     .lineLimit(1)
                     .truncationMode(.middle)
                 if item.isUnreadable {
-                    WarningLabel(title: Text("macOS can’t load this file"))
+                    StatusLabel(title: Text("macOS can’t load this file"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 } else if item.isOrphan {
-                    WarningLabel(title: Text("Nothing left to run"))
+                    StatusLabel(title: Text("Nothing left to run"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
@@ -184,7 +184,7 @@ private struct BackgroundItemRow: View {
                     .lineLimit(1)
                 }
                 if item.unusualCommand != nil {
-                    WarningLabel(title: Text("Unusual command"))
+                    StatusLabel(title: Text("Unusual command"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
