@@ -71,6 +71,7 @@ final class AccessibilityAuditTests: XCTestCase {
         }
 
         choose("About Peel", inMenu: "Peel", of: app)
+        waitUntilShown(app.windows["about"].links.firstMatch, named: "About")
         audit("About", appearance: appearance, of: app)
         app.typeKey("w", modifierFlags: .command)
 
@@ -124,6 +125,14 @@ final class AccessibilityAuditTests: XCTestCase {
         }
         element.click()
         return true
+    }
+
+    /// Waits until `element` is on screen and can be clicked, so a window still appearing isn't audited half drawn.
+    private func waitUntilShown(_ element: XCUIElement, named name: String) {
+        let shown = expectation(for: NSPredicate(format: "exists == true AND isHittable == true"), evaluatedWith: element)
+        if XCTWaiter.wait(for: [shown], timeout: 5) != .completed {
+            XCTFail("\(name) wasn't shown")
+        }
     }
 
     private func choose(_ item: String, inMenu menu: String, of app: XCUIApplication) {
