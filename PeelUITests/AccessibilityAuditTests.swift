@@ -259,9 +259,8 @@ final class AccessibilityAuditTests: XCTestCase {
                     if Self.isExpected(issue, element, sidebar: sidebarFrame, pageTitle: pageTitle) {
                         return true
                     }
-                    // An issue that names no element is known only by what it says in full.
-                    let what = element.map(Self.describe) ?? issue.detailedDescription
-                    XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(what))")
+                    let what = element.map(Self.describe) ?? "no element"
+                    XCTFail("\(name), \(appearance): \(issue.compactDescription) (\(what)): \(issue.detailedDescription)")
                     return true
                 }
             } catch {
