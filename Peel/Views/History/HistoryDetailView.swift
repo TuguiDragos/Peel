@@ -311,9 +311,9 @@ private struct HistoryRecordRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 if let failure {
-                    Label(failure.explanation, systemImage: "exclamationmark.triangle")
+                    StatusLabel(title: Text(verbatim: failure.explanation))
                         .font(.caption)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.secondary)
                 }
             }
             Spacer(minLength: 12)
