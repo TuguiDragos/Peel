@@ -171,6 +171,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - Swift 6.4 in the Swift 6 language mode, macOS 26 and later only, with no code for an older macOS. The app runs on
   the main actor by default, and heavy work in PeelCore is `@concurrent`. The project's targets build with warnings
   as errors, and the package is held to the same bar by `-warnings-as-errors` on the command line.
+- **Never block on async work, and never wait in a loop.** A semaphore parks one of the few threads Swift's tasks
+  run on, and a canceled task refuses to sleep, so a sleeping loop spins: a wait is a continuation woken once, by
+  the answer or by a timer, as `FileSize` and `SlowRead` wait.
 - Small, focused files, and code that reads like the code around it. A dependency only when nothing else will do.
 - **Few comments, written for people.** Say what the code can't: what a declaration is for, why a rule exists, and
   which documented behavior of macOS forced a workaround, with its public source. No history and no notes from a
