@@ -6,10 +6,3 @@ updates:
       interval: monthly
     cooldown:
       default-days: 7
-
-  - package-ecosystem: swift
-    directory: /Packages/PeelCore
-    schedule:
-      interval: monthly
-    cooldown:
-      default-days: 7
