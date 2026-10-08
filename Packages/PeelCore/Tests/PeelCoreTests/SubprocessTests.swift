@@ -147,14 +147,14 @@ struct SubprocessTests {
         #expect(await task.value == .failure(.canceled))
     }
 
-    /// A process the tool starts can outlive it and keep its pipe open. `run` returns without waiting for it. A run
-    /// that waited would last the child's 90 seconds, longer than the rest of the suite can hold this test back.
+    /// A process the tool starts can outlive it and keep its pipe open. `run` returns while that child still runs: a
+    /// run that waited for it would reach its time limit and fail.
     @Test func doesNotWaitForWhatTheToolLeftRunning() async throws {
-        let started = ContinuousClock.now
-        let output = try await Subprocess.run("/bin/sh", ["-c", "sleep 90 >&1 & echo done"], timeout: 30).get()
+        let output = try await Subprocess.run("/bin/sh", ["-c", "sleep 3600 >&1 & echo $!"], timeout: 30).get()
+        let child = try #require(pid_t(output.text.trimmingCharacters(in: .whitespacesAndNewlines)))
+        try #require(child > 1)
+        defer { kill(child, SIGKILL) }
 
-        #expect(output.text == "done\n")
-        let took = ContinuousClock.now - started
-        #expect(took < .seconds(90), "it waited for a child the tool left behind, \(took) in all")
+        #expect(kill(child, 0) == 0, "the child the tool left behind had already ended")
     }
 }
