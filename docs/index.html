@@ -256,6 +256,14 @@
           },
           {
             "@type": "Question",
+            "name": "How do I know my copy of Peel is the real one?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Run spctl -a -vv /Applications/Peel.app in Terminal. A copy I built answers accepted, with source=Notarized Developer ID and origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2). If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from github.com/TuguiDragos/Peel."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Does Peel work on Intel Macs and older versions of macOS?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -317,6 +325,7 @@
           <a class="more" href="https://github.com/TuguiDragos/Peel">View on GitHub</a>
         </div>
         <p class="requirements"><span data-version></span>macOS Tahoe 26 or later · Apple silicon and the Intel Macs macOS 26 supports</p>
+        <p class="requirements">Signed by Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple</p>
         <div class="brew">
           <code>brew install --cask tuguidragos/tap/peel</code>
           <button class="copy" type="button" data-copy="brew install --cask tuguidragos/tap/peel">Copy</button>
@@ -816,6 +825,10 @@
           <details>
             <summary>Can I install Peel with Homebrew?</summary>
             <p>Yes. Run <code>brew install --cask tuguidragos/tap/peel</code> in Terminal. It installs the same release as the download on this page.</p>
+          </details>
+          <details>
+            <summary>How do I know my copy of Peel is the real one?</summary>
+            <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I built answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>.</p>
           </details>
           <details>
             <summary>Does Peel work on Intel Macs and older versions of macOS?</summary>
