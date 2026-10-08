@@ -104,14 +104,15 @@ private struct ExtensionRow: View {
             }
         } trailing: {
             if item.election != .asItCame {
-                HStack(spacing: 3) {
-                    if item.election.needsAttention {
-                        Image(systemName: "exclamationmark.circle")
+                Group {
+                    if let mark = item.election.mark {
+                        StatusLabel(title: Text(item.election.title), systemImage: mark, tint: .accentColor)
+                    } else {
+                        Text(item.election.title)
                     }
-                    Text(item.election.title)
                 }
                 .font(.caption)
-                .rowTint(item.election == .on || item.election.needsAttention ? Color.accentColor : nil)
+                .foregroundStyle(.secondary)
             }
         }
     }

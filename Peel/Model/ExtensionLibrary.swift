@@ -79,8 +79,13 @@ extension AppExtension.Election {
         }
     }
 
-    /// Waiting for approval is the only state the user can do something about.
-    var needsAttention: Bool {
-        self == .waitingForApproval
+    /// The symbol the list shows in the accent color beside a choice someone made, and beside waiting for approval,
+    /// the only state the user can do something about.
+    var mark: String? {
+        switch self {
+        case .on: "checkmark.circle"
+        case .waitingForApproval: "exclamationmark.circle"
+        default: nil
+        }
     }
 }
