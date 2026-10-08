@@ -32,6 +32,8 @@ struct ColumnSearchField: View {
                 // `searchable` marks its field as a search field; a plain text field in a drawn box isn't marked.
                 .accessibilityAddTraits(.isSearchField)
                 .accessibilityLabel(Text(prompt))
+                // One by one: `false` on the whole field would show the decorative magnifier to VoiceOver.
+                .accessibilityHidden(!isAvailable)
             if !text.isEmpty {
                 Button {
                     text = ""
@@ -47,6 +49,7 @@ struct ColumnSearchField: View {
                 .padding(-4)
                 .help(Text("Clear the search"))
                 .accessibilityLabel(Text("Clear the search"))
+                .accessibilityHidden(!isAvailable)
             }
         }
         .font(.body)
@@ -63,7 +66,6 @@ struct ColumnSearchField: View {
         .motion(.touch, value: isFocused)
         .opacity(isAvailable ? 1 : 0)
         .disabled(!isAvailable)
-        .accessibilityHidden(!isAvailable)
         .motion(value: isAvailable)
         // Read by ⌘F in the Edit menu.
         .focusedSceneValue(\.searchField, isAvailable ? $isRequested : nil)
