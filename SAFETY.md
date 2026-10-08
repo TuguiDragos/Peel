@@ -6,6 +6,17 @@ it changes besides moving files, what it selects for you and what it leaves to y
 how a reset stays within an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings,
 and what its helper, which runs as root, may do.
 
+In short:
+
+- Everything Peel removes goes to the Trash, and History puts it back. Peel never empties the Trash.
+- What nothing could bring back, such as iCloud Drive, keychains, crypto wallets, Mail, Messages, and photo
+  libraries, is refused, whoever asks.
+- Peel selects for you only what is certainly the app's and no other app's. What may exist nowhere else is shown
+  with its reason and left to you.
+- Nothing moves from under a program that is using it.
+- The few things History can't undo say so before you confirm them.
+- The helper that runs as root does a few things only, for administrators only, and checks everything again itself.
+
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
 ## What Peel will never remove
@@ -75,38 +86,24 @@ are never moved themselves, though what you choose inside them can be. Neither a
 preferences domain (`.GlobalPreferences.plist` and its twins): your language, keyboard, and scrolling settings,
 which belong to no app.
 
-Three steps of a removal are not a move to the Trash. After a preference file has gone, Peel tells macOS to
-forget that preference domain (`defaults delete`), or the system could write the file again from memory. On
-macOS 26 the system then answers that the domain is not found and changes nothing, and a file put back from
-History is read again at once, so History undoes it for an app that has not run since. Even so, it is only
-done for a file that went from your own `~/Library/Preferences`, or, when you reset a sandboxed app, from the
-Preferences folder in its container, never for the copy every user shares in `/Library/Preferences`, never
-while the app's container still holds its own settings, never for one of Apple's domains on another app's
-behalf, and never for the global domain under any of its names.
-
-The other two follow what really moved too. launchd is told to stop the jobs whose files went
-(`launchctl bootout`), or it would keep them running and start them again; putting a file back from History
-starts again the job Peel stopped, as the file back in place declares it (a daemon through the helper), and a job
-that was not running stays as it was. And an uninstalled app's icon is taken out of the Dock, unless you deselect
-it, which restarts the Dock; putting the app back puts its icon back where it was.
+### How the check can't be tricked
 
 **The check is not a string comparison.** A disk is case-insensitive unless you went out of your way, so
 `~/Library/mobile documents` is the same folder as `~/Library/Mobile Documents`; `/var` and `/private/var`
 are one folder with two names; and a symbolic link in any parent gives a third. All of those spellings are
 folded together before the check, and there are tests that try to get past it by each route.
 
-**And a name is not the thing.** macOS answers to names that appear in no list of spellings: a whole path
-can follow `/.nofollow/` or `/.resolve/0/`, and `/.vol/<device>/<inode>` reaches a file by its numbers
-alone. The usual way of resolving a path folds none of them, and the Trash takes a file under each. So Peel
-asks the system what it calls the item, from an open descriptor rather than from the text, and then asks the
-disk what the item *is*. Every place the table names in your home, `/Library/Keychains`, and each folder above
-that stays itself are known by their device and inode as well as by name, wherever a link leads them, and an
-item is refused when it, or any folder it really sits in, is one of them. That also stops a file name that
-begins with a combining accent, which text comparison cannot see the start of. Everything else on this page is
-judged by the item's names: as written, where it really sits, and as the system names it, spelled as the disk
-stores it.
+**A name is not the thing.** macOS also reaches a file through names no list of spellings contains: a path can
+follow `/.nofollow/` or `/.resolve/0/`, and `/.vol/<device>/<inode>` reaches a file by its numbers alone. The usual
+way of resolving a path folds none of them, and the Trash takes a file under each. So Peel asks the system what it
+calls the item, from an open descriptor rather than from the text, and asks the disk what the item *is*. The places
+the table names in your home, `/Library/Keychains`, and each folder that stays itself are known by their device and
+inode as well as by name, wherever a link leads them, and an item is refused when it, or any folder it really sits
+in, is one of them. That also catches a file name that begins with a combining accent, whose start a text
+comparison can't see. Every other rule on this page judges an item by its names: as written, where it really sits,
+and as the system names it, spelled as the disk stores it.
 
-**And the thing judged is the thing moved.** A check made by name and a move made by name are two looks at
+**The thing judged is the thing moved.** A check made by name and a move made by name are two looks at
 the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
 Peel holds the folder open, asks the question again about the name the system gives that open folder, and
 moves the item through it: whatever the old name leads to by then is not touched. Putting an item back
@@ -126,16 +123,21 @@ link moves the link.
 
 Peel never deletes anything of yours. Everything it removes goes to the Trash, and everything is recorded so
 History can put it back; History keeps the most recent 20,000 items, and what it forgets is still in the Trash.
-That includes an installer receipt you ask Peel to forget: the two files that make it up go to the Trash
-through the helper, where `pkgutil --forget` would have discarded them for good. So does the folder Homebrew keeps
-for an app it installed (`brew --caskroom`), with the links Homebrew made into it, which `brew uninstall` would
-delete: they go after the app, Homebrew stops listing the app, and History puts them back. The Homebrew page
-forgets the same way a cask whose apps are already gone, which Homebrew still lists and can't upgrade: its folder
-and the links into it, or into its gone apps, go to the Trash. Quitting Peel waits for
-a removal until History has it, `peel` carries on through Ctrl-C or a closed terminal until it has written
-History, and each item is written down the moment it moves, so one cut short by a crash or Force Quit still
-reaches History, as an interrupted removal, the next time Peel or `peel` opens it. The space is freed when *you*
-empty the Trash: Peel never does that for you.
+The space is freed when *you* empty the Trash: Peel never does that for you.
+
+That includes what other tools would delete:
+
+- An installer receipt you ask Peel to forget: the two files that make it up go to the Trash through the helper,
+  where `pkgutil --forget` would have discarded them for good.
+- The folder Homebrew keeps for an app it installed (`brew --caskroom`), with the links Homebrew made into it,
+  which `brew uninstall` would delete: they go after the app, Homebrew stops listing the app, and History puts them
+  back. The Homebrew page forgets the same way a cask whose apps are already gone, which Homebrew still lists and
+  can't upgrade: its folder and the links into it, or into its gone apps, go to the Trash.
+
+A removal reaches History even when something cuts it short. Quitting Peel waits until History has it, `peel`
+carries on through Ctrl-C or a closed terminal until it has written History, and each item is written down the
+moment it moves, so one cut short by a crash or Force Quit still reaches History, as an interrupted removal, the
+next time Peel or `peel` opens it.
 
 Right before anything moves, Peel looks at the files other programs of yours hold open and at the program each
 process runs, and leaves where it is any file or folder with one of them inside, naming the program: moving a
@@ -155,18 +157,24 @@ What Peel deletes outright is only its own: such a placeholder, when the move it
 makes to save an app's settings before a reset, when saving fails before anything is written in it. Its list of
 refusals goes to the Trash when `peel history --refused --clear` is asked to forget it, after a question.
 
-Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them: Homebrew's own
-uninstall and its clean ups (Clean Up, and clearing older or every download), which delete what they remove; resetting
-an app's privacy permissions, which is off until you choose it; and Force Quit, which Peel offers when an app it has to
-quit is still open after 10 seconds, and which loses what that app had not saved. An upgrade from the Homebrew page
-never cleans up on its own, although Homebrew would by default. If one of Homebrew's own settings files (`brew.env`)
-turns that cleanup back on, the Homebrew page says so and Peel leaves upgrades to Terminal. Forgetting a preference
-domain after a removal (described above) is not one of the four: it is done only once the file is in the Trash, and
-putting the file back undoes it, until the app writes its settings again. And one app deletes something of its own once
-it is moved: Mullvad VPN's service logs the Mac out of its account and deletes its settings when the app leaves the
-Applications folder, which Peel says before it moves it. What that service removes (its launch daemon's file, its
-command links and shell completions, its receipt, its logs, and its settings) is listed and never moved by Peel:
-moving the daemon's file first would stop the service before it could clean up.
+Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
+
+- Homebrew's own uninstall and its clean ups (Clean Up, and clearing older or every download), which delete what
+  they remove. An upgrade from the Homebrew page never cleans up on its own, although Homebrew would by default; if
+  one of Homebrew's own settings files (`brew.env`) turns that cleanup back on, the Homebrew page says so and Peel
+  leaves upgrades to Terminal.
+- Resetting an app's privacy permissions, which is off until you choose it.
+- Force Quit, which Peel offers when an app it has to quit is still open after 10 seconds, and which loses what that
+  app had not saved.
+
+Forgetting a preference domain after a removal is not one of them: it happens only once the file is in the Trash,
+and putting the file back undoes it, until the app writes its settings again.
+
+One app deletes something of its own once it is moved: Mullvad VPN's service logs the Mac out of its account and
+deletes its settings when the app leaves the Applications folder, which Peel says before it moves it. What that
+service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, and its
+settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it could
+clean up.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing until it can, or until you
@@ -188,7 +196,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 
 | What Peel changes | How it is undone |
 | --- | --- |
-| A preference domain is forgotten (`defaults delete`) once its file is in the Trash | Putting the file back from History, as described above |
+| A preference domain is forgotten (`defaults delete`) once its file is in the Trash | Putting the file back from History, as described below |
 | A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History, which starts the job again (`launchctl bootstrap`, a daemon through the helper) |
 | An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was |
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
@@ -200,26 +208,45 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | A tweak changes a setting of macOS, and the Dock, Finder, Control Center, or the window manager restarts to read it | Turning the tweak off, or Turn All Off, puts back what was there before, or leaves it to macOS |
 | The Terminal page adds Peel's profiles and options to Terminal, makes `~/.hushlogin`, writes Peel's shell and ssh files, and changes Git's settings | Put Back, turning the setting off, or Turn All Off, as [Terminal's settings](#terminals-settings) says |
 
+The first three happen after a move, and only for what really moved:
+
+- **A preference domain is forgotten** (`defaults delete`), or macOS could write the file again from memory. macOS
+  then answers that the domain is not found and changes nothing, and a file put back from History is read again at
+  once, so History undoes it for an app that has not run since. It is done only for a file that went from your own
+  `~/Library/Preferences`, or, when you reset a sandboxed app, from the Preferences folder in its container. Never
+  for the copy every account shares in `/Library/Preferences`, never while the app's container still holds its own
+  settings, never for one of Apple's domains on another app's behalf, never for Peel's own while it runs, and never
+  for the global domain under any of its names.
+- **A launch job is stopped** (`launchctl bootout`), or launchd would keep it running and start it again. Putting
+  the file back from History starts again the job Peel stopped, as the file back in place declares it (a daemon
+  through the helper), and a job that was not running stays as it was.
+- **An uninstalled app's icon leaves the Dock**, unless you deselect it, which restarts the Dock. Putting the app back
+  puts its icon back where it was.
+
 ## What is selected for you
 
 Only matches Peel is `certain` or `likely` about, and only when nothing else installed on the Mac uses them.
-Anything shared with another app is shown and left unselected, and so is what another copy of the app uses: one
-macOS knows anywhere, such as an older copy in Downloads or one on another disk, is named by where it is. An app of
-the same maker kept outside the Applications folders, such as a Nightly build on another disk, counts like one
-inside them. Something matched by the app's name alone inside another app's folder, or one of Apple's, is shown and
-never selected, since it is most likely that app's data about this one; so is something matched by name alone at the
-top of your home folder or of a Library, or in a maker's folder there, where a name is only a guess. A system
-extension the app installed is not listed at all: macOS uninstalls it itself when the app is deleted. A plug-in's
-name says what it does rather than who made it, so a plug-in called like the app is selected only when the
-identifier it declares is the app's or its maker's: another maker's plug-in with the app's name is never selected.
-And nothing at all is selected for an app that would stay: one macOS keeps, one that is part of another app, one the
-helper may not move, or one that needs the helper while it cannot act. An app that is part of another, such as a
-helper app inside the app it serves, is never moved on its own, from the app or from `peel`: it would be cut out of
-the app it belongs to. When you remove several apps at once and deselect one of them, it stays too: its files leave
-the selection, those it shares with the other apps included, and selecting it again brings them back. A folder in
-your Library named for the app or its maker, such as `Application Support/<Maker>`, that an uninstall leaves empty
-goes to the Trash with it; one with anything left inside, a hidden file included, one with another name, and the
-Library folder itself stay.
+
+- **Shared means left unselected.** Anything another app uses is shown and left unselected, and so is what another
+  copy of the app uses: one macOS knows anywhere, such as an older copy in Downloads or one on another disk, named
+  by where it is. An app of the same maker kept outside the Applications folders, such as a Nightly build on another
+  disk, counts like one inside them.
+- **A name alone is a guess.** Something matched by the app's name alone inside another app's folder, or one of
+  Apple's, is shown and never selected, since it is most likely that app's data about this one; so is something
+  matched by name alone at the top of your home folder or of a Library, or in a maker's folder there.
+- **A plug-in goes by what it declares.** Its name says what it does rather than who made it, so a plug-in called
+  like the app is selected only when the identifier it declares is the app's or its maker's: another maker's plug-in
+  with the app's name is never selected.
+- **A system extension is left to macOS**, which uninstalls it itself when the app is deleted, so it is not listed.
+- **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one
+  that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. An app
+  that is part of another, such as a helper app inside the app it serves, is never moved on its own, from the app or
+  from `peel`: it would be cut out of the app it belongs to. When you remove several apps at once and deselect one of
+  them, it stays too: its files leave the selection, those it shares with the other apps included, and selecting it
+  again brings them back.
+- **An empty folder of the app's maker goes too.** A folder in your Library named for the app or its maker, such as
+  `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it; one with anything left
+  inside, a hidden file included, one with another name, and the Library folder itself stay.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,
@@ -230,7 +257,7 @@ Never selected for you, even when found:
 - Xcode's archives of the apps you built and the symbols it copied from your devices, both needed to read crash reports,
   and the reports macOS wrote when an app crashed, which its developer may still ask for.
 - Model weights, the packages a tool keeps installed outside your projects, virtual environments, the installers and
-  boxes a tool keeps for you to install again, and an editor's saved state for each project it opened.
+  boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists.
 - A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, iCloud's, the fonts') or in the container
   of one of Apple's apps.
 - `/Users/Shared`: it belongs to every account, not just yours.
@@ -346,29 +373,35 @@ start over in Settings, `peel` refuses, and the file it could not read is kept b
 
 ## Resetting an app
 
-A reset clears an app's settings and never the app itself. It lists only files that are certainly that app's, and the
-app has to be quit, both when the reset starts and when saved settings are put back. Before anything moves, Peel saves
-the app's settings, and if that copy fails, nothing moves; Settings lists the saved copies, where each can be put back
-or cleared, since one can hold a license key, and they stay until you clear them. Putting one back asks first, and saves
-the settings the app has now as a copy of their own before it replaces them. What the app keeps for you (its Application
-Support folder, group containers, and application scripts) goes only when you select it, and is never offered for Mail,
-Messages, Notes, or Photos. Inside a sandboxed app's container, a reset touches only the app's preferences, saved state,
-caches, logs, and web data, never `Documents`, `Application Support`, or `Autosave Information`; web data, which signs
-you out of websites, is offered but never selected for you. A folder that holds a wallet's keys is never offered, even
-among those: BlueWallet keeps its wallet in its container's caches.
+A reset clears an app's settings and never the app itself.
+
+- It lists only files that are certainly that app's, and the app has to be quit, both when the reset starts and when
+  saved settings are put back.
+- Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the
+  saved copies, where each can be put back or cleared, since one can hold a license key, and they stay until you
+  clear them. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
+  replaces them.
+- What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
+  when you select it, and is never offered for Mail, Messages, Notes, or Photos.
+- Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web
+  data, never `Documents`, `Application Support`, or `Autosave Information`. Web data, which signs you out of
+  websites, is offered but never selected for you, and a folder that holds a wallet's keys is never offered, even
+  among those: BlueWallet keeps its wallet in its container's caches.
 
 ## Terminal's settings
 
 The Terminal page changes Terminal's own preferences and nothing else there: it adds Peel's themes as profiles of
 their own, named "Peel" and the theme's name, chooses the profile Terminal opens with, sets Option as Meta and the
-bell in the Peel theme in use, and can keep Terminal from reopening its windows. Choosing a theme never changes or
-removes a profile it did not write, or one you changed since. Option as Meta and the bell are the one exception,
-since you ask for them: like Terminal's own settings, they change the Peel theme Terminal opens with, whoever wrote
-it and whatever you changed in it. Put Back gives Terminal the profiles it used before and takes away only Peel's
-own, still as Peel wrote them. Peel writes none of this while Terminal is open, since Terminal
-would not see the change and would write its own settings over it, but for the switch that keeps Terminal from
-reopening its windows: Terminal reads that one, `NSQuitAlwaysKeepsWindows`, only when it quits, so Peel sets it at
-once and it takes effect the next time Terminal quits.
+bell in the Peel theme in use, and can keep Terminal from reopening its windows.
+
+- Choosing a theme never changes or removes a profile it did not write, or one you changed since. Option as Meta and
+  the bell are the one exception, since you ask for them: like Terminal's own settings, they change the Peel theme
+  Terminal opens with, whoever wrote it and whatever you changed in it.
+- Put Back gives Terminal the profiles it used before and takes away only Peel's own, still as Peel wrote them.
+- Peel writes none of this while Terminal is open, since Terminal would not see the change and would write its own
+  settings over it. The one exception is the switch that keeps Terminal from reopening its windows: Terminal reads
+  that one, `NSQuitAlwaysKeepsWindows`, only when it quits, so Peel sets it at once and it takes effect the next time
+  Terminal quits.
 
 Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off again
 moves that file to the Trash, recorded in History. Peel never edits your shell's files: to stop the shell from saving
