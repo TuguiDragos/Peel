@@ -21,7 +21,9 @@ prove, and only then fix.
    probe that is thrown away afterwards, the app showing it, or a test that fails for the reason given. A
    suspicion that can't be proved is reported as one, and nothing changes for it.
 3. **Write the test first.** It fails without the change, for the reason the change gives, and passes with it.
-   Check that it really catches the problem: put the old code back, watch it fail, and restore the fix.
+   Check that it really catches the problem: put the old code back, watch it fail, and restore the fix. If it
+   still passes, first make sure the old code really went back, then look for another layer that stops the problem
+   before it, and give each layer a test of its own.
 4. **Fix the cause**, in the type or the rule where the fact belongs. No workaround, no special case keyed by a
    name, no table on the side. A defect found on the way is fixed the same way, with its own test.
 5. **Follow the change along its whole path**, from where it starts to where it shows, and check every step of it
