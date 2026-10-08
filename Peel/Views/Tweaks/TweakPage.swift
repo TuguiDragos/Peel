@@ -63,9 +63,8 @@ struct TweakPage: View {
 private struct SleepNotice: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("This Mac can’t sleep")
+            StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
                 .font(.headline)
-                .foregroundStyle(Color.accentColor)
             Text("Something has turned sleep off altogether, even with the lid closed. It survives a restart and System Settings doesn’t show it.")
                 .font(.caption)
                 .foregroundStyle(.secondary)

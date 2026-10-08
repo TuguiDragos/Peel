@@ -13,10 +13,14 @@ struct TweakDetailContent: View {
                 }
             } footer: {
                 if tweaks.isWaitingForLogOut(group) {
-                    Text("One of these takes effect the next time you log out and back in.")
-                        .font(.callout)
-                        .foregroundStyle(Color.accentColor)
-                        .padding(.top, 6)
+                    StatusLabel(
+                        title: Text("One of these takes effect the next time you log out and back in."),
+                        systemImage: "info.circle",
+                        tint: .accentColor
+                    )
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 6)
                 }
             }
         }
@@ -61,9 +65,9 @@ struct TweakRow: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 } else if let nameProblem {
-                    Text(nameProblem.message)
+                    StatusLabel(title: Text(nameProblem.message), tint: .accentColor)
                         .font(.caption)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 } else if let restart = tweak.restart.note {
                     // Shown on the row, not only in the note: some switches restart Finder or the Dock at once,
@@ -102,16 +106,16 @@ struct TweakRow: View {
     @ViewBuilder
     private func standing(_ state: TweakState) -> some View {
         if state.isManaged {
-            Label("Locked by a profile", systemImage: "lock")
+            StatusLabel(title: Text("Locked by a profile"), systemImage: "lock", tint: .accentColor)
                 .labelStyle(.titleAndIcon)
                 .font(.caption)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.secondary)
         } else if tweaks.refused.contains(tweak.id) {
             // Explains why the switch went back after macOS refused the write.
-            Label("macOS refused it", systemImage: "exclamationmark.triangle")
+            StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                 .labelStyle(.titleAndIcon)
                 .font(.caption)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.secondary)
         }
     }
 
