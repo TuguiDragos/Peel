@@ -66,8 +66,7 @@ struct CloudView: View {
                         SelectMenu(
                             list: SelectableRows(
                                 rows: listed.map(\.url), selectable: listed.map(\.url),
-                                recommended: listed.filter { !$0.isDesktopPicture }.map(\.url),
-                                leftToTheClick: listed.filter(\.isDesktopPicture).map(\.url)
+                                recommended: listed.filter { !$0.isDesktopPicture }.map(\.url)
                             ),
                             place: Text(Tool.cloud.title),
                             selection: cloud

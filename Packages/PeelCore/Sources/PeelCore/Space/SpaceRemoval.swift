@@ -53,8 +53,7 @@ public enum SpaceRemoval {
             return SelectableRows(
                 rows: removable,
                 selectable: unlocked.filter { heldBack[$0]?.cannotBeMoved != true },
-                recommended: unlocked.filter(suggested.contains),
-                leftToTheClick: removable.filter { heldBack[$0]?.isLeftToTheClick == true }
+                recommended: unlocked.filter(suggested.contains)
             )
         }
     }

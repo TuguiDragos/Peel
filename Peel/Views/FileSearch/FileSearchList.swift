@@ -45,8 +45,7 @@ struct FileSearchList: View {
                             list: SelectableRows(
                                 rows: results.files.map(\.url),
                                 selectable: results.files.filter { !$0.requiresPrivileges }.map(\.url),
-                                recommended: results.files.map(\.url).filter(search.recommendedURLs.contains),
-                                leftToTheClick: results.files.filter(\.isInTheCloud).map(\.url)
+                                recommended: results.files.map(\.url).filter(search.recommendedURLs.contains)
                             ),
                             place: Text(Tool.fileSearch.title),
                             selection: search

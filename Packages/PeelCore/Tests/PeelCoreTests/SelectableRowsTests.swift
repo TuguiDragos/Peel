@@ -8,11 +8,11 @@ struct SelectableRowsTests {
     private let log = URL(filePath: "/tmp/org.example.Log")
     private let elsewhere = URL(filePath: "/tmp/org.example.Elsewhere")
 
-    /// A row selected by hand that Select All leaves alone goes with Deselect All too: otherwise it would stay
+    /// A row still selected that a click can no longer select goes with Deselect All too: otherwise it would stay
     /// selected unseen and move with the next small file.
     @Test func deselectAllTakesOutARowSelectedByHand() {
         let list = SelectableRows(
-            rows: [repository, cache, log], selectable: [cache, log], recommended: [cache, log], leftToTheClick: []
+            rows: [repository, cache, log], selectable: [cache, log], recommended: [cache, log]
         )
         let selection: Set = [repository, cache, log, elsewhere]
 
@@ -22,28 +22,16 @@ struct SelectableRowsTests {
 
     @Test func selectAllAddsWhatAClickCanSelect() {
         let list = SelectableRows(
-            rows: [repository, cache, log], selectable: [cache, log], recommended: [cache], leftToTheClick: []
+            rows: [repository, cache, log], selectable: [cache, log], recommended: [cache]
         )
 
         #expect(list.selectingAll(in: [elsewhere]) == [cache, log, elsewhere])
         #expect(list.isAllSelected(in: [cache, log]))
     }
 
-    /// What may exist nowhere else, belong to something else, or is not known is left to a click: Select All passes
-    /// it by, asks nothing about it, and a click still selects it.
-    @Test func selectAllLeavesToTheClickWhatMayExistNowhereElse() {
-        let list = SelectableRows(
-            rows: [repository, cache, log], selectable: [repository, cache, log], recommended: [cache],
-            leftToTheClick: [repository]
-        )
-
-        #expect(list.selectingAll(in: [elsewhere]) == [cache, log, elsewhere])
-        #expect(list.isAllSelected(in: [cache, log]))
-        #expect(list.notRecommendedAdded(by: []) == [log])
-        #expect(list.selectable.contains(repository))
-    }
-
-    @Test func everyPageLeavesToTheClickWhatItHoldsBack() {
+    /// Select All selects every row a click can select, what Peel holds back included, and asks first about each
+    /// one Peel doesn't recommend: whoever wants everything gone can have it, once they have read the question.
+    @Test func selectAllTakesWhatEveryPageHoldsBackAfterAsking() {
         func orphan(_ name: String, heldBack: HoldBack?) -> OrphanItem {
             var item = OrphanItem(
                 url: URL(filePath: "/tmp/\(name)"), kind: .caches, size: 10, modificationDate: nil,
@@ -53,58 +41,39 @@ struct SelectableRowsTests {
             return item
         }
         let messages = orphan("org.example.Messages", heldBack: .holdsMessageHistory)
-        let report = orphan("org.example.Report", heldBack: .crashReport)
-        let plain = orphan("org.example.Plain", heldBack: nil)
-        let group = OrphanGroup(identifier: "org.example", items: [messages, report, plain])
-        #expect(group.selectableRows(canUseHelper: true).leftToTheClick == [messages.url])
+        let orphans = OrphanGroup(identifier: "org.example", items: [messages]).selectableRows(canUseHelper: true)
+        #expect(orphans.selectingAll(in: []) == [messages.url])
+        #expect(orphans.notRecommendedAdded(by: []) == [messages.url])
 
         let (cache, system) = (URL(filePath: "/tmp/org.example.Cache"), URL(filePath: "/tmp/com.apple.Cache"))
-        let plan = SpaceRemoval.Plan(
+        let space = SpaceRemoval.Plan(
             removable: [cache, system], inUse: [], leftToDeveloper: [], sizes: [cache: 1, system: 1],
             heldBack: [system: .keptByMacOS], needsTheHelper: []
-        )
-        #expect(plan.selectableRows(canUseHelper: true).leftToTheClick == [system])
+        ).selectableRows(canUseHelper: true)
+        #expect(space.selectingAll(in: []) == [cache, system])
+        #expect(space.notRecommendedAdded(by: []) == [system])
 
         let project = URL(filePath: "/tmp/org.example.Project")
-        func artifact(_ name: String, generic: Bool) -> ProjectArtifact {
-            ProjectArtifact(
-                url: project.appending(path: name), project: project, name: name, tool: "Xcode", size: 10,
-                lastActivity: .now.addingTimeInterval(-ProjectArtifacts.recentlyActive * 2),
-                hasGenericName: generic, isEnvironment: false
-            )
-        }
-        let (derived, build) = (artifact("DerivedData", generic: false), artifact("build", generic: true))
-        #expect([derived, build].selectableRows.leftToTheClick == [build.url])
+        let build = ProjectArtifact(
+            url: project.appending(path: "build"), project: project, name: "build", tool: "Xcode", size: 10,
+            lastActivity: .now.addingTimeInterval(-ProjectArtifacts.recentlyActive * 2),
+            hasGenericName: true, isEnvironment: false
+        )
+        #expect([build].selectableRows.selectingAll(in: []) == [build.url])
 
-        let measured = DeveloperEnvironment.Location(
-            url: URL(filePath: "/tmp/org.example.Cache"), kind: .cache, size: 10, source: "https://example.com"
-        )
-        let unknown = DeveloperEnvironment.Location(
-            url: URL(filePath: "/tmp/org.example.Unknown"), kind: .cache, size: nil, source: "https://example.com"
-        )
         let archive = DeveloperEnvironment.Location(
             url: URL(filePath: "/tmp/org.example.Archive"), kind: .archives, size: 10, source: "https://example.com"
         )
         let tool = DeveloperEnvironment(
-            id: "org.example", name: "Example", systemImage: "hammer", appBundleIdentifiers: [],
-            locations: [measured, unknown, archive]
+            id: "org.example", name: "Example", systemImage: "hammer", appBundleIdentifiers: [], locations: [archive]
         )
-        #expect(tool.selectableRows.leftToTheClick == [unknown.url, archive.url])
-    }
-
-    @Test func aLeftoverPeelGuessesAtOrSharesIsLeftToTheClick() {
-        let certain = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
-        #expect(!certain.isLeftToTheClick)
-        #expect(LeftoverMatch(reason: .namePrefix, confidence: .possible, sharedWith: []).isLeftToTheClick)
-        #expect(LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: ["org.example.other"]).isLeftToTheClick)
-        #expect(certain.forReview(.holdsMessageHistory).isLeftToTheClick)
-        #expect(!certain.forReview(.crashReport).isLeftToTheClick)
+        #expect(tool.selectableRows.selectingAll(in: []) == [archive.url])
+        #expect(tool.selectableRows.isAllSelected(in: [archive.url]))
     }
 
     @Test func selectRecommendedTakesOutWhatPeelDoesNotRecommend() {
         let list = SelectableRows(
-            rows: [repository, cache, log], selectable: [repository, cache, log], recommended: [cache],
-            leftToTheClick: []
+            rows: [repository, cache, log], selectable: [repository, cache, log], recommended: [cache]
         )
         let selection: Set = [repository, log, elsewhere]
 
@@ -116,22 +85,21 @@ struct SelectableRowsTests {
 
     @Test func selectAllAsksOnlyAboutWhatPeelDoesNotRecommend() {
         let list = SelectableRows(
-            rows: [repository, cache, log], selectable: [repository, cache, log], recommended: [cache],
-            leftToTheClick: []
+            rows: [repository, cache, log], selectable: [repository, cache, log], recommended: [cache]
         )
 
         #expect(list.notRecommendedAdded(by: []) == [repository, log])
         #expect(list.notRecommendedAdded(by: [repository]) == [log])
         #expect(list.notRecommendedAdded(by: [repository, log]).isEmpty)
         let everything = SelectableRows(
-            rows: [cache, log], selectable: [cache, log], recommended: [cache, log], leftToTheClick: []
+            rows: [cache, log], selectable: [cache, log], recommended: [cache, log]
         )
         #expect(everything.notRecommendedAdded(by: []).isEmpty)
     }
 
     @Test func peelNeverRecommendsWhatAClickCannotSelect() {
         let list = SelectableRows(
-            rows: [repository, cache], selectable: [cache], recommended: [repository, cache], leftToTheClick: []
+            rows: [repository, cache], selectable: [cache], recommended: [repository, cache]
         )
 
         #expect(list.recommended == [cache])
@@ -140,26 +108,26 @@ struct SelectableRowsTests {
 
     @Test func deselectAllLeavesOtherListsAlone() {
         let list = SelectableRows(
-            rows: [cache, log], selectable: [cache, log], recommended: [cache], leftToTheClick: []
+            rows: [cache, log], selectable: [cache, log], recommended: [cache]
         )
 
         #expect(list.isNoneSelected(in: [elsewhere]))
         #expect(!list.isNoneSelected(in: [log, elsewhere]))
         #expect(list.deselectingAll(in: [log, elsewhere]) == [elsewhere])
         let locked = SelectableRows(
-            rows: [repository, cache], selectable: [cache], recommended: [cache], leftToTheClick: []
+            rows: [repository, cache], selectable: [cache], recommended: [cache]
         )
         #expect(!locked.isNoneSelected(in: [repository]))
     }
 
     @Test func everyPageSelectsAsOneList() {
         let first = SelectableRows(
-            rows: [repository, cache], selectable: [repository, cache], recommended: [cache], leftToTheClick: []
+            rows: [repository, cache], selectable: [repository, cache], recommended: [cache]
         )
         let second = SelectableRows(
-            rows: [repository, log], selectable: [repository, log], recommended: [log], leftToTheClick: []
+            rows: [repository, log], selectable: [repository, log], recommended: [log]
         )
-        let locked = SelectableRows(rows: [elsewhere], selectable: [], recommended: [], leftToTheClick: [])
+        let locked = SelectableRows(rows: [elsewhere], selectable: [], recommended: [])
         let pages = SelectablePages([("first", first), ("second", second), ("locked", locked)])
 
         #expect(pages.rows.rows == [repository, cache, log, elsewhere])
@@ -170,10 +138,10 @@ struct SelectableRowsTests {
 
     @Test func aPageCountsOnceSomethingOnItIsSelected() {
         let first = SelectableRows(
-            rows: [repository, cache], selectable: [repository, cache], recommended: [cache], leftToTheClick: []
+            rows: [repository, cache], selectable: [repository, cache], recommended: [cache]
         )
         let second = SelectableRows(
-            rows: [repository, log], selectable: [repository, log], recommended: [log], leftToTheClick: []
+            rows: [repository, log], selectable: [repository, log], recommended: [log]
         )
         let pages = SelectablePages([("first", first), ("second", second)])
 
@@ -183,11 +151,11 @@ struct SelectableRowsTests {
     }
 
     @Test func aRowOnAPageNotSeenYetCountsAsNotSelected() {
-        let first = SelectableRows(rows: [cache], selectable: [cache], recommended: [cache], leftToTheClick: [])
+        let first = SelectableRows(rows: [cache], selectable: [cache], recommended: [cache])
         let second = SelectableRows(
-            rows: [log, repository], selectable: [log, repository], recommended: [log], leftToTheClick: []
+            rows: [log, repository], selectable: [log, repository], recommended: [log]
         )
-        let shared = SelectableRows(rows: [repository], selectable: [repository], recommended: [], leftToTheClick: [])
+        let shared = SelectableRows(rows: [repository], selectable: [repository], recommended: [])
         let pages = SelectablePages([("first", first), ("second", second), ("shared", shared)])
         let preselected: Set = [cache, log, repository, elsewhere]
 

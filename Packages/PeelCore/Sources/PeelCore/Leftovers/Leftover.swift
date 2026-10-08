@@ -110,21 +110,6 @@ public enum HoldBack: String, Sendable, Hashable {
             || self == .holdsAnExclusion
     }
 
-    /// True when Select All passes the item by, leaving it to a click: every reason does, as each says the item may
-    /// hold what exists nowhere else, belongs to something else, or is not known, except a crash report, which Peel
-    /// keeps only for the app's developer.
-    public var isLeftToTheClick: Bool {
-        switch self {
-        case .crashReport: false
-        case .holdsRepository, .sharedWithEveryone, .namedLikeTheApp, .holdsAnExclusion, .notMeasured, .couldNotBeRead,
-             .holdsDocuments, .holdsALibrary, .holdsAWallet, .holdsAPasswordDatabase, .holdsLocalMail,
-             .holdsMessageHistory, .holdsPasswordsOrCodes, .holdsVPNConnections, .holdsKeys, .holdsWorkKeptInACache,
-             .insideAnotherAppsFolder, .beyondTheHelper, .leftToItsUninstaller, .keptByMacOS, .openedFromMail,
-             .inTheCloud, .openInAProgram, .changedRecently, .keptByAnApp, .appIsRunning, .mayBeTheOnlyCopy,
-             .encryptedImage: true
-        }
-    }
-
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
     /// exist nowhere else, and a folder the walk could not see into is not known to be empty.
     static func seen(in contents: FolderContents?) -> HoldBack? {
@@ -180,10 +165,6 @@ public struct LeftoverMatch: Sendable, Hashable {
     public var isTheAppsAlone: Bool { !isShared && confidence >= .likely }
 
     public var isRecommended: Bool { isTheAppsAlone && heldBack == nil }
-
-    /// True when Select All passes the item by: held back for what it may hold, only guessed at, or used by another
-    /// app or another copy of this one.
-    public var isLeftToTheClick: Bool { heldBack?.isLeftToTheClick == true || confidence == .possible || isShared }
 
     /// Returns the same match, held back for `heldBack`: shown, but never selected.
     public func forReview(_ heldBack: HoldBack) -> LeftoverMatch {

@@ -184,7 +184,7 @@ struct InstallersTests {
         let rows = scan.items.selectableRows(canUseHelper: false)
         #expect(Set(rows.recommended.map { PathPattern.comparablePath(of: $0) })
             == Set([unknown, known].map { PathPattern.comparablePath(of: $0) }))
-        #expect(Set(rows.leftToTheClick.map { PathPattern.comparablePath(of: $0) })
+        #expect(Set(rows.notRecommendedAdded(by: []).map { PathPattern.comparablePath(of: $0) })
             == Set([photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
     }
 

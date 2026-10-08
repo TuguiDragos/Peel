@@ -11,7 +11,7 @@ struct SelectAllButton<ID: Hashable>: View {
 
     var body: some View {
         if !selectable.isEmpty {
-            let list = SelectableRows(rows: rows, selectable: selectable, recommended: selectable, leftToTheClick: [])
+            let list = SelectableRows(rows: rows, selectable: selectable, recommended: selectable)
             let isAllSelected = list.isAllSelected(in: selection)
             Button {
                 selection = isAllSelected ? list.deselectingAll(in: selection) : list.selectingAll(in: selection)

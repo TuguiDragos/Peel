@@ -224,8 +224,7 @@ struct MultipleAppsView: View {
         return SelectableRows(
             rows: rows,
             selectable: rows.filter(plan.selectable.contains),
-            recommended: rows.filter(plan.suggested.contains),
-            leftToTheClick: items.filter(\.isLeftToTheClick).map(\.url)
+            recommended: rows.filter(plan.suggested.contains)
         )
     }
 

@@ -35,11 +35,6 @@ public struct BulkUninstallation: Sendable {
 
         public var id: URL { url }
 
-        /// True when Select All passes the item by, as on one app's page (`LeftoverMatch.isLeftToTheClick`), and
-        /// when an app outside the selection, another copy, or macOS uses it.
-        public var isLeftToTheClick: Bool {
-            match?.isLeftToTheClick == true || !sharedWithOthers.isEmpty || !otherCopies.isEmpty || isKeptByMacOS
-        }
         public var isApplication: Bool { match == nil }
         public var isRecommended: Bool {
             guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash, enclosingPackage == nil

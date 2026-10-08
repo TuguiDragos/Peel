@@ -285,8 +285,7 @@ struct AppDetailView: View {
                 ),
                 movable: plan.recommendedMovable,
                 list: SelectableRows(
-                    rows: recommendedRows, selectable: recommendedSelectable, recommended: recommendedSelectable,
-                    leftToTheClick: []
+                    rows: recommendedRows, selectable: recommendedSelectable, recommended: recommendedSelectable
                 ),
                 place: Text("Recommended")
             )
@@ -321,8 +320,7 @@ struct AppDetailView: View {
                     list: SelectableRows(
                         rows: plan.needsReview.map(\.url),
                         selectable: plan.needsReview.map(\.url).filter(plan.selectable.contains),
-                        recommended: [],
-                        leftToTheClick: plan.needsReview.filter(\.match.isLeftToTheClick).map(\.url)
+                        recommended: []
                     ),
                     place: Text("Review Before Removing")
                 )

@@ -8,8 +8,8 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// When the item or anything inside it was last modified. Only its own date if it was not measured in time.
     public let modificationDate: Date?
     public let requiresPrivileges: Bool
-    /// Why the item is left for the user to choose by hand, or nil. Select All passes it by, and `peel orphans
-    /// --remove` leaves it where it is.
+    /// Why the item is left for the user to choose by hand, or nil. Select All asks before it selects it, and `peel
+    /// orphans --remove` leaves it where it is.
     public var heldBack: HoldBack?
     /// The bundle identifier of the app that left, when the item bears its name and nothing else ties the two.
     public var namedAfter: String?
@@ -64,8 +64,7 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         return SelectableRows(
             rows: items.map(\.url),
             selectable: unlocked.filter { $0.leftAlone == nil }.map(\.url),
-            recommended: confidence.level == .unsure ? [] : unlocked.filter { $0.heldBack == nil }.map(\.url),
-            leftToTheClick: items.filter { $0.heldBack?.isLeftToTheClick == true }.map(\.url)
+            recommended: confidence.level == .unsure ? [] : unlocked.filter { $0.heldBack == nil }.map(\.url)
         )
     }
 }

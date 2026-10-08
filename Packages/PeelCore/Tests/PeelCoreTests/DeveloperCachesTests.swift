@@ -916,7 +916,7 @@ struct DeveloperCachesTests {
         #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Pipe.xcarchive")) == nil)
     }
 
-    @Test func aCacheWithAWalletOrAPasswordDatabaseInsideIsLeftToTheClick() async throws {
+    @Test func aCacheWithAWalletOrAPasswordDatabaseInsideIsNeverRecommended() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Caches/Homebrew/glide_home/coin/wallet.dat", bytes: 400_000)
         try directory.file("Library/Caches/Homebrew/api-source/vault/passwords.kdbx", bytes: 400_000)
@@ -929,13 +929,13 @@ struct DeveloperCachesTests {
 
         for name in ["glide_home", "api-source"] {
             #expect(location(name)?.isRecommended == false)
-            #expect(location(name)?.isLeftToTheClick == true)
         }
         #expect(location("glide_home")?.heldBack == .holdsAWallet)
         #expect(location("api-source")?.heldBack == .holdsAPasswordDatabase)
         #expect(location("go_cache")?.isRecommended == true)
         #expect(location("gh-actions-artifact")?.isRecommended == true)
-        #expect(Set(environment.selectableRows.leftToTheClick.map(\.lastPathComponent)) == ["glide_home", "api-source"])
+        let asked = Set(environment.selectableRows.notRecommendedAdded(by: []).map(\.lastPathComponent))
+        #expect(asked.isSuperset(of: ["glide_home", "api-source"]))
     }
 
     @Test func offersEveryCacheHomebrewNamesAndNeverItsCopyOfTheDefinitions() async throws {

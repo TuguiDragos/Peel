@@ -72,13 +72,6 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
 
         public var id: URL { url }
 
-        /// True when Select All passes the location by: its size is not known, nothing shows the tool made it, a
-        /// workspace may still be in use, something inside may exist nowhere else, or it holds the archives of the
-        /// apps the person built.
-        public var isLeftToTheClick: Bool {
-            size == nil || !isTheTools || workspace?.mayStillBeInUse == true || heldBack != nil || kind == .archives
-        }
-
         /// Whether Peel recommends this location, which Select Recommended selects and `peel caches --remove` moves:
         /// only content that tools make or fetch again, or logs, and only once measured.
         public var isRecommended: Bool {
@@ -105,8 +98,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         SelectableRows(
             rows: locations.map(\.url),
             selectable: locations.map(\.url),
-            recommended: locations.filter(\.isRecommended).map(\.url),
-            leftToTheClick: locations.filter(\.isLeftToTheClick).map(\.url)
+            recommended: locations.filter(\.isRecommended).map(\.url)
         )
     }
 

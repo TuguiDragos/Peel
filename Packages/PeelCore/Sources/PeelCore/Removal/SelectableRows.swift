@@ -1,28 +1,20 @@
 /// The rows of one list, for its Select All, Select Recommended and Deselect All: every row, those a click can
-/// select, and those Peel recommends.
+/// select, and those Peel recommends. Select All selects every row a click can select, and asks first about those
+/// Peel doesn't recommend.
 public struct SelectableRows<ID: Hashable> {
     public let rows: [ID]
     public let selectable: [ID]
     /// Never a row a click cannot select.
     public let recommended: [ID]
-    /// Rows a click can select and Select All passes by: what may exist nowhere else, belongs to something else, or
-    /// is not known, which the person chooses one by one.
-    public let leftToTheClick: [ID]
 
-    public init(rows: [ID], selectable: [ID], recommended: [ID], leftToTheClick: [ID]) {
+    public init(rows: [ID], selectable: [ID], recommended: [ID]) {
         self.rows = rows
         self.selectable = selectable
         self.recommended = recommended.filter(Set(selectable).contains)
-        self.leftToTheClick = leftToTheClick.filter(Set(selectable).contains)
-    }
-
-    private var reachedBySelectAll: [ID] {
-        let left = Set(leftToTheClick)
-        return selectable.filter { !left.contains($0) }
     }
 
     public func isAllSelected(in selection: Set<ID>) -> Bool {
-        reachedBySelectAll.allSatisfy(selection.contains)
+        selectable.allSatisfy(selection.contains)
     }
 
     public func isRecommendedSelected(in selection: Set<ID>) -> Bool {
@@ -34,14 +26,14 @@ public struct SelectableRows<ID: Hashable> {
     }
 
     public func selectingAll(in selection: Set<ID>) -> Set<ID> {
-        selection.union(reachedBySelectAll)
+        selection.union(selectable)
     }
 
     public func selectingRecommended(in selection: Set<ID>) -> Set<ID> {
         selection.subtracting(rows).union(recommended)
     }
 
-    /// Takes out every row of the list, one selected by hand that Select All would leave alone included.
+    /// Takes out every row of the list, one a click can no longer select included.
     public func deselectingAll(in selection: Set<ID>) -> Set<ID> {
         selection.subtracting(rows)
     }
@@ -49,7 +41,7 @@ public struct SelectableRows<ID: Hashable> {
     /// What Select All would add that Peel does not recommend, which it asks about first.
     public func notRecommendedAdded(by selection: Set<ID>) -> [ID] {
         let recommended = Set(recommended)
-        return reachedBySelectAll.filter { !recommended.contains($0) && !selection.contains($0) }
+        return selectable.filter { !recommended.contains($0) && !selection.contains($0) }
     }
 }
 
@@ -68,8 +60,7 @@ public struct SelectablePages<Page: Hashable, ID: Hashable> {
         rows = SelectableRows(
             rows: once(pages.flatMap { $0.rows.rows }),
             selectable: once(pages.flatMap { $0.rows.selectable }),
-            recommended: once(pages.flatMap { $0.rows.recommended }),
-            leftToTheClick: once(pages.flatMap { $0.rows.leftToTheClick })
+            recommended: once(pages.flatMap { $0.rows.recommended })
         )
     }
 
