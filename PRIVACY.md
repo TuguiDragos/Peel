@@ -21,11 +21,12 @@ a page of notes for each language, Peel asks for the one in your language, so th
 tell which language you read. Nothing in them is loaded or run: Peel shows their text, and a link in them opens only
 when you click it.
 
-Homebrew goes online only when you ask it to update, upgrade, repair its taps, which asks each tap's repository whether
-its main branch was renamed, or scan for vulnerabilities, and that scan is the one time Peel sends a list of what is
-installed all at once: for each Homebrew formula it checks, where its code comes from (the address of its source
-repository and the release tag, or a package's name) and its version, sent to `api.osv.dev`. Your own Homebrew settings
-(a `brew.env` file) can change that, and the Homebrew page then says what they change.
+Homebrew goes online only when you ask it to: to update, to upgrade, to repair its taps, which asks each tap's
+repository whether its main branch was renamed, or to scan for vulnerabilities. That scan, which Homebrew runs as
+`brew vulns`, is the one time a list of what is installed leaves your Mac all at once: for each formula it checks,
+where its code comes from (the address of its source repository and the release tag, or a package's name) and its
+version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change what Homebrew does, and the
+Homebrew page then says what they change.
 
 Turn off Check for app updates in Settings, and Peel contacts nothing on its own; the `peel updates` command still
 checks whenever you run it, whatever that switch says.
