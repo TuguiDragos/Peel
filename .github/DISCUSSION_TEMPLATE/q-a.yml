@@ -1,0 +1,26 @@
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Ask anything about using Peel. Please leave out anything personal, such as file names you would rather not
+        share. Something that doesn't work as it should is a
+        [problem to report](https://github.com/TuguiDragos/Peel/issues/new?template=bug_report.yml), and a security
+        problem is reported privately, as [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md)
+        describes.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: What you want to do or understand, and where in Peel.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Peel version
+      description: From About Peel.
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      description: From About This Mac.

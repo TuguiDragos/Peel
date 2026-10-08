@@ -1,6 +1,3 @@
-name: Suggest an idea
-description: Something Peel could do, or do better.
-labels: ["enhancement"]
 body:
   - type: textarea
     id: problem

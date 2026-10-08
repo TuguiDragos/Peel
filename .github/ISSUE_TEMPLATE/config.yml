@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Ask a question
+    url: https://github.com/TuguiDragos/Peel/discussions/new?category=q-a
+    about: Questions about using Peel go to Discussions.
+  - name: Suggest an idea
+    url: https://github.com/TuguiDragos/Peel/discussions/new?category=ideas
+    about: Something Peel could do, or do better. Ideas go to Discussions.
   - name: Report a security problem
     url: https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md
     about: Please report it privately, by email, and not in a public issue. SECURITY.md says how.
