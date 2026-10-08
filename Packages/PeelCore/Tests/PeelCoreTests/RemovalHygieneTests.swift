@@ -121,6 +121,68 @@ struct RemovalHygieneTests {
         #expect(plain.command("delete") == ["delete", "com.example.app"])
     }
 
+    /// cfprefsd answers a `defaults delete` of a domain it still holds by writing it back, empty, where the moved
+    /// file was, which keeps History from putting that file back. These are the bytes it writes.
+    private static let writtenBack = try? PropertyListSerialization.data(
+        fromPropertyList: [String: Any](),
+        format: .binary,
+        options: 0
+    )
+
+    @Test func deletesTheEmptyFileTheDeleteWritesBack() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let plain = try directory.file("home/Library/Preferences/org.example.app.plist")
+        let byHost = try directory.file("home/Library/Preferences/ByHost/org.example.app.\(host).plist")
+        let trash = try directory.directory("Trash")
+        for file in [plain, byHost] {
+            try FileManager.default.moveItem(at: file, to: trash.appending(path: file.lastPathComponent))
+        }
+
+        await PreferenceCleanup.forgetDomains(for: [plain, byHost], ownedBy: nil, home: home, host: host) { domain in
+            try? Self.writtenBack?.write(to: domain.isByHost ? byHost : plain)
+        }
+
+        #expect(plain.isMissing)
+        #expect(byHost.isMissing)
+    }
+
+    @Test func keepsWhatTheDeleteDidNotWriteBackEmpty() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let settings = try PropertyListSerialization.data(
+            fromPropertyList: ["key": "value"],
+            format: .binary,
+            options: 0
+        )
+        let preferences = "home/Library/Preferences/"
+        let withSettings = directory.url.appending(path: preferences + "org.example.settings.plist")
+        let backBefore = try directory.file(
+            preferences + "org.example.before.plist",
+            contents: Self.writtenBack ?? Data()
+        )
+        let linked = directory.url.appending(path: preferences + "org.example.linked.plist")
+        let elsewhere = try directory.file("elsewhere/org.example.linked.plist", contents: Self.writtenBack ?? Data())
+
+        await PreferenceCleanup.forgetDomains(
+            for: [withSettings, backBefore, linked],
+            ownedBy: nil,
+            home: home,
+            host: host
+        ) { domain in
+            switch domain.name {
+            case "org.example.settings": try? settings.write(to: withSettings)
+            case "org.example.before": try? Self.writtenBack?.write(to: backBefore)
+            default: try? FileManager.default.createSymbolicLink(at: linked, withDestinationURL: elsewhere)
+            }
+        }
+
+        #expect(withSettings.isThere)
+        #expect(backBefore.isThere)
+        #expect(linked.isThere)
+        #expect(elsewhere.isThere)
+    }
+
     /// The first five names all belong to the global preferences, and Apple gives its own agents one-word domains.
     @Test func neverForgetsTheGlobalDomainOrAnAgentsDomain() {
         let names = [

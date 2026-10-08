@@ -65,12 +65,32 @@ enum PreferenceCleanup {
     /// `owner` is the bundle identifier of the app being reset. Its own domain is forgotten even when Apple wrote
     /// the app; every other `com.apple.` domain is left alone.
     @concurrent
-    static func forgetDomains(for urls: [URL], ownedBy owner: String?) async {
+    static func forgetDomains(
+        for urls: [URL],
+        ownedBy owner: String?,
+        home: URL = .homeDirectory,
+        host: String = PreferenceCleanup.hostIdentifier,
         // The files have already moved, and the removal is recorded only after this returns, so each call has a
         // timeout: a `defaults` that never exits must not leave the removal unrecorded.
-        for domain in domains(for: urls, ownedBy: owner) {
-            _ = await Subprocess.run("/usr/bin/defaults", domain.command("delete"), timeout: 10)
+        delete: @Sendable (Domain) async -> Void = {
+            _ = await Subprocess.run("/usr/bin/defaults", $0.command("delete"), timeout: 10)
         }
+    ) async {
+        let files = files(for: urls, ownedBy: owner, home: home, host: host)
+        var forgotten: Set<Domain> = []
+        for domain in files.map(\.domain) where forgotten.insert(domain).inserted {
+            // A file already back before the delete is not one the delete wrote.
+            let freed = files.filter { $0.domain == domain && $0.url.isMissing }.map(\.url)
+            await delete(domain)
+            freed.forEach(deleteWrittenBack)
+        }
+    }
+
+    /// Deletes the empty file `defaults delete` writes where `file` was when cfprefsd still held its domain, which
+    /// would keep History from putting that file back. Only a file of this user holding an empty dictionary goes.
+    private static func deleteWrittenBack(at file: URL) {
+        guard case .success(let item) = OpenItem.at(file.path(percentEncoded: false)) else { return }
+        item.deleteFile(ownedBy: getuid(), ofAtMost: 1_024) { BoundedRead.propertyList(in: $0)?.isEmpty == true }
     }
 
     struct Domain: Sendable, Hashable {
@@ -99,14 +119,28 @@ enum PreferenceCleanup {
         host: String = PreferenceCleanup.hostIdentifier,
         running: String? = Bundle.main.bundleIdentifier
     ) -> [Domain] {
+        var seen: Set<Domain> = []
+        return files(for: urls, ownedBy: owner, home: home, host: host, running: running)
+            .map(\.domain)
+            .filter { seen.insert($0).inserted }
+    }
+
+    /// Each of `urls` whose domain `defaults delete` may forget, with that domain.
+    private static func files(
+        for urls: [URL],
+        ownedBy owner: String?,
+        home: URL,
+        host: String,
+        running: String? = Bundle.main.bundleIdentifier
+    ) -> [(url: URL, domain: Domain)] {
         // Only the user's `Library/Preferences` and its `ByHost` folder, plus the settings file in the container
         // of the app being reset. `defaults` reads a name as this user's domain, so a file from
         // `/Library/Preferences` or a copy in a backup must not clear the settings in use.
         let plain = PathPattern.comparablePath(of: home.appending(path: "Library/Preferences", directoryHint: .isDirectory))
         let byHost = plain + "/ByHost"
 
-        var seen: Set<Domain> = []
-        return urls.compactMap { url -> Domain? in
+        var containerKept: [Domain: Bool] = [:]
+        return urls.compactMap { url -> (url: URL, domain: Domain)? in
             let path = url.path(percentEncoded: false)
             guard path.hasSuffix(".plist") else { return nil }
             let parent = PathPattern.comparablePath(of: url.deletingLastPathComponent())
@@ -132,9 +166,9 @@ enum PreferenceCleanup {
             // Apple's name whatever its case, since the disk ignores it, and behind a team or group prefix too.
             guard !ProtectedData.isApplesName(name) || isOwned(name, by: owner) else { return nil }
             let domain = Domain(name: name, isByHost: isByHost)
-            guard !seen.contains(domain), !containerKeeps(domain, apartFrom: urls, home: home) else { return nil }
-            seen.insert(domain)
-            return domain
+            let isKept = containerKept[domain] ?? containerKeeps(domain, apartFrom: urls, home: home)
+            containerKept[domain] = isKept
+            return isKept ? nil : (url, domain)
         }
     }
 

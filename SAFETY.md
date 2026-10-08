@@ -153,9 +153,10 @@ A move to the Trash, or back from it, never replaces what is already at the new 
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
 free name allows, and the move then replaces the placeholder.
 
-What Peel deletes outright is only its own: such a placeholder, when the move it was made for fails, and the folder it
-makes to save an app's settings before a reset, when saving fails before anything is written in it. Its list of
-refusals goes to the Trash when `peel history --refused --clear` is asked to forget it, after a question.
+What Peel deletes outright holds nothing of yours: such a placeholder, when the move it was made for fails; the folder
+it makes to save an app's settings before a reset, when saving fails before anything is written in it; and the empty
+settings file macOS writes back when Peel forgets a preference domain, as described below. Its list of refusals goes
+to the Trash when `peel history --refused --clear` is asked to forget it, after a question.
 
 Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
 
@@ -210,9 +211,12 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 
 The first three happen after a move, and only for what really moved:
 
-- **A preference domain is forgotten** (`defaults delete`), or macOS could write the file again from memory. macOS
-  then answers that the domain is not found and changes nothing, and a file put back from History is read again at
-  once, so History undoes it for an app that has not run since. It is done only for a file that went from your own
+- **A preference domain is forgotten** (`defaults delete`), or macOS could write the file again from memory. While
+  macOS still holds the domain, as it does for a moment after the app quits, it answers by writing the domain back,
+  empty, where the moved file was. Peel deletes that file, which holds nothing, so History can put the real one back:
+  only when nothing was at that name before, the file is yours, and it holds no setting at all. Otherwise macOS
+  answers that the domain is not found and changes nothing. A file put back from History is read again at once, so
+  History undoes it for an app that has not run since. It is done only for a file that went from your own
   `~/Library/Preferences`, or, when you reset a sandboxed app, from the Preferences folder in its container. Never
   for the copy every account shares in `/Library/Preferences`, never while the app's container still holds its own
   settings, never for one of Apple's domains on another app's behalf, never for Peel's own while it runs, and never
