@@ -5,7 +5,8 @@ protects, and how, has a page of its own: [SAFETY.md](SAFETY.md).
 
 ## Reporting a security problem
 
-Email **contact@tuguidragos.com**. Put "Peel security" in the subject line.
+Report it privately on GitHub, with [Report a vulnerability](https://github.com/TuguiDragos/Peel/security/advisories/new)
+on the repository's Security tab, or email **contact@tuguidragos.com** with "Peel security" in the subject line.
 
 Do not open a public issue, a discussion, or a pull request for a security bug. Do not post it
 anywhere public until the fix ships or 90 days have passed since your report, whichever comes first,

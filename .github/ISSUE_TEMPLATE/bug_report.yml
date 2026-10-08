@@ -6,8 +6,8 @@ body:
     attributes:
       value: >
         Thank you for reporting this. One problem per report makes it easier to fix. Please leave out anything
-        personal, such as file names you would rather not share. A security problem goes by email instead, as
-        [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md) describes.
+        personal, such as file names you would rather not share. A security problem is reported privately instead,
+        as [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md) describes.
   - type: textarea
     id: what-happened
     attributes:

@@ -10,7 +10,7 @@ Install it from the latest release on GitHub, or with Homebrew: `brew install --
 
 Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. Peel is published in one place only, its GitHub repository, and his only websites are tuguidragos.com and Peel's page, peel.tuguidragos.com, whose downloads lead to that repository. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him.
 
-Write to him at contact@tuguidragos.com. To report a security problem in Peel, email that address with "Peel security" in the subject line instead of opening a public issue.
+Write to him at contact@tuguidragos.com. To report a security problem in Peel, use Report a vulnerability on the repository's Security tab, or email that address with "Peel security" in the subject line, instead of opening a public issue.
 
 ## Docs
 

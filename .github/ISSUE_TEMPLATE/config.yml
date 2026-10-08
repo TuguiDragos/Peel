@@ -8,4 +8,4 @@ contact_links:
     about: Something Peel could do, or do better. Ideas go to Discussions.
   - name: Report a security problem
     url: https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md
-    about: Please report it privately, by email, and not in a public issue. SECURITY.md says how.
+    about: Please report it privately, on the Security tab or by email, and not in a public issue. SECURITY.md says how.
