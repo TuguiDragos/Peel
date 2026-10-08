@@ -15,14 +15,16 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
 - **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier, its name, or its
-  installer's receipt are selected for you, unless Peel sees something inside that may exist nowhere else, such as
-  a crypto wallet, a signing key, a password database, or a repository, or the app keeps there what may exist only
-  on this Mac: local mail, message history, sign-in codes, or VPN connections. A file another installed app also
-  uses is shown but never selected, and what Peel only guesses at, from the start of a name or an identifier the
-  app's maker or signing team also uses, waits under Review Before Removing. A list's Select menu has Select
-  Recommended, Select All, and Deselect All. Select All selects everything you can select, what Peel holds back
-  included, and asks first when that takes anything Peel doesn't recommend. The folder Homebrew keeps for an app
-  it installed is selected too, so that Homebrew stops listing the app once it is gone.
+  installer's receipt are selected for you. So is the folder Homebrew keeps for an app it installed, so that
+  Homebrew stops listing the app once it is gone.
+- **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password
+  database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
+  may exist only on this Mac, such as local mail, message history, sign-in codes, or VPN connections.
+- **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected. What
+  Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also uses, waits
+  under Review Before Removing.
+- **The Select menu** has Select Recommended, Select All, and Deselect All. Select All selects everything you can
+  select, what Peel holds back included, and asks first when that takes anything Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
   Settings. With Watch the Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
@@ -59,13 +61,13 @@ Space shows what fills your disk, area by area, and what each area is.
 - **Duplicates:** files and whole folders with identical contents, compared with SHA-256. One copy is always kept.
   Files under 100 KB, and folders holding less, are left out unless you choose a smaller size, in the app and in
   `peel duplicates` alike.
-- **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and
-  in the folders directly inside them, where installers are usually left, and archives there with an app or an
-  installer inside, whether you have that app or not; packages an app keeps in Application Support; macOS
-  installers, device firmware, downloads a browser never finished, updates apps downloaded and keep until they
-  install them, and what your iPhone backups hold. A disk image can also be one you made to keep files in, so look
-  before you select it. Nothing is selected for you, and Select Recommended takes only what you can download again:
-  an installed app's installer or one in Downloads, never an encrypted disk image.
+- **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
+  the folders directly inside them, where installers are usually left, with archives there that hold an app or an
+  installer. It also lists packages an app keeps in Application Support, macOS installers, device firmware,
+  downloads a browser never finished, and updates apps downloaded and keep until they install them. Your iPhone and
+  iPad backups are listed with their size, and never moved. Nothing is selected for you, and Select Recommended
+  takes only what you can download again: an installed app's installer, or one in Downloads, never an encrypted disk
+  image. A disk image can also be one you made to keep files in, so look before you select it.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
   Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
 - **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Docker's disk,
@@ -77,14 +79,16 @@ Space shows what fills your disk, area by area, and what each area is.
 
 <br>
 
-**Developer:** caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
-engines, and AI models, the graphics caches of Chrome, Chromium, Brave, and Opera, and the web caches of apps built
-on Electron, such as Slack or Discord (never what a browser or an app keeps for you), and the browser profiles a
-Playwright run left in the temporary folder when it ended early, never one a browser still has open. Xcode's
-archives and the symbols it copied from your devices, model weights, installed packages, what a tool keeps for you
-to install again (Vagrant boxes, Asset Store packages, Godot's export templates), an editor's saved state for each
-project it opened, and a cache with a wallet, a signing key, or a password database inside are listed, and Select
-Recommended passes them by; toolchains or anything holding an account are never listed. Nothing is selected for you.
+**Developer:** the caches of Xcode, package managers, build systems, editors, cloud and virtual machine tools, game
+engines, and AI models. It also lists the graphics caches of Chrome, Chromium, Brave, and Opera, the web caches of
+apps built on Electron, such as Slack or Discord, and the browser profiles a Playwright run left in the temporary
+folder when it ended early. It never lists what a browser or an app keeps for you, a profile a browser still has
+open, a toolchain, or anything holding an account.
+
+Some of what it lists you may want again, so Select Recommended passes it by: Xcode's archives and the symbols it
+copied from your devices, model weights, installed packages, what a tool keeps for you to install again (Vagrant
+boxes, Asset Store packages, Godot's export templates), an editor's saved state for a project that no longer
+exists, and a cache with a wallet, a signing key, or a password database inside. Nothing is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
 `.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
@@ -96,11 +100,11 @@ and a folder like `target` whose name says nothing on its own. Until you choose 
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,
 with the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it
-deletes for good. The caches and logs apps keep for every account, and the crash reports macOS keeps, in the
-Library at the top of the disk, go through Peel's helper when an administrator owns them, and what macOS keeps
-there for its own services is never listed. Peel can also warn you, with a notification that opens Space, when
-less than a tenth of your disk is available: turn it on in Settings > General. Nothing is selected for you: Select
-Recommended takes what Peel could measure in an area and nothing holds back.
+deletes for good. In the Library at the top of the disk, Space also lists the caches and logs apps keep for every
+account, and the crash reports macOS keeps. Those an administrator owns go through Peel's helper, and what macOS
+keeps there for its own services is never listed. Nothing is selected for you: Select Recommended takes what Peel
+could measure in an area and nothing holds back. Peel can also warn you, with a notification that opens Space, when
+less than a tenth of your disk is available: turn it on in Settings > General.
 
 </details>
 
@@ -164,14 +168,19 @@ in every new window; Put Back gives Terminal the profile it used before. The sam
 login" line, keep Terminal from reopening its windows, make Option the Meta key, silence the bell, and show the line
 that stops the shell from saving its sessions.
 
-It sets up the command line as well. Choose a prompt, or keep the one macOS sets, and turn on settings zsh, Git, and
-ssh already have, each with a switch: a longer history shared between windows, Up and Down that find what you started
-typing, Tab completion with a menu, rebase when pulling, and connections that stay alive. Peel writes them to files of
-its own, which zsh reads through a line you add and ssh through two, and changes Git's with `git config`. Turning a
-Git setting off puts back what you had before Peel set it, and one you set yourself goes back to Git's default. Turn
-All Off undoes what Peel set on each tab, and on the Git tab also what you set yourself. The Tools tab suggests
-command-line tools worth having, with the Homebrew command and the lines to add. [TERMINAL.md](TERMINAL.md) shows
-every theme and every setting, with what each one writes.
+It sets up the command line as well:
+
+- **A prompt** you put together, with a preview, or the one macOS sets.
+- **Settings zsh, Git, and ssh already have**, each with a switch: a longer history shared between windows, Up and
+  Down that find what you started typing, Tab completion with a menu, rebase when pulling, and connections that stay
+  alive.
+- **Nothing written into your own files.** Peel writes the zsh and ssh settings to files of its own, which zsh reads
+  through one line you add and ssh through two, and changes Git's with `git config`. Turning a Git setting off puts
+  back what you had before Peel set it, and one you set yourself goes back to Git's default. Turn All Off undoes
+  what Peel set on each tab, and on the Git tab also what you set yourself.
+- **Tools** suggests command-line tools worth having, with the Homebrew command and the lines to add.
+
+[TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what each one writes.
 
 ## Stay in control
 
@@ -207,15 +216,19 @@ that opens it in Peel. It never adds them up into one figure and never selects a
 
 ## The `peel` command
 
-Every command that moves something asks first, and takes `--dry-run` to only show the plan and `-y` to skip the
-question. It asks only where you can see the plan and answer, so with its output sent to a file or a pipe it needs
-`-y`, and it ignores keys typed before the question appeared. Answering no exits with code 2, so
-`peel uninstall Foo && next-step` stops there. The command moves only what the app would suggest, or a group of
-orphaned files you name with `peel orphans --remove`, through the same checks, into the same History, and leaves
-anything that needs an administrator to the app. It won't run under `sudo`. Most commands take `--json`, which
-lists without moving, and `peel uninstall --json` reports what moved, what stayed, and why. A Homebrew install
-also sets up its completions for zsh, bash, and fish and its manual page, `man peel`; otherwise
-`peel --generate-completion-script zsh` writes the completions for your shell.
+- **It asks first.** Every command that moves something shows its plan and asks before it moves anything.
+  `--dry-run` only shows the plan, and `-y` skips the question.
+- **Only when you can answer.** It asks only in a terminal where you can see the plan and type, so with its output
+  sent to a file or a pipe it needs `-y`. It ignores keys typed before the question appeared, and answering no
+  exits with code 2, so `peel uninstall Foo && next-step` stops there.
+- **What the app would do.** It moves only what the app would suggest, or a group of orphaned files you name with
+  `peel orphans --remove`, through the same checks and into the same History. Anything that needs an administrator
+  is left to the app, and the command won't run under `sudo`.
+- **For scripts.** Most commands take `--json`, which lists without moving, and `peel uninstall --json` reports what
+  moved, what stayed, and why.
+- **Completions and manual.** A Homebrew install sets up its completions for zsh, bash, and fish, and its manual
+  page, `man peel`. Otherwise `peel --generate-completion-script zsh` (or `bash`, or `fish`) writes the
+  completions for your shell.
 
 ## What Peel asks for, and why
 
@@ -249,11 +262,15 @@ it.
 
 ## Uninstall Peel
 
-In Settings > General, choose Remove Peel. It has its helper move the link to the `peel` command, if you made one in
-Settings, and its record of what it moved to the Trash, removes its helper and its login item, moves itself, the
-files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings
-zsh and ssh read, takes its icon out of the Dock, clears its settings, and quits. That folder holds History, your
-exclusions, and the settings Peel saved when you reset an app.
+In Settings > General, choose Remove Peel. Peel then:
+
+- moves the link to the `peel` command to the Trash, if you made one in Settings, through its helper when only an
+  administrator can, and has the helper move its own record of what it moved;
+- removes its helper and its login item;
+- moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but
+  the Terminal settings zsh and ssh read. That folder holds History, your exclusions, and the settings Peel saved
+  when you reset an app;
+- takes its icon out of the Dock, clears its settings, and quits.
 
 What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, the shell and ssh settings,
 `~/.hushlogin`, Git's settings, the build folders you left out of Time Machine, and the background items you
@@ -269,8 +286,9 @@ Trash, and moves Peel's files to the Trash.
 brew uninstall --zap --cask peel
 ```
 
-If you put the `peel` command on your path from Settings while Peel's helper isn't installed, or Homebrew installed
-Peel, remove that link yourself. Homebrew removes only the one it made.
+When only an administrator can remove the link to the `peel` command you made in Settings, and Peel's helper isn't
+installed, Remove Peel leaves the link, and Settings says so beforehand. `brew uninstall` removes only the link
+Homebrew made. Remove a link that stays yourself:
 
 ```bash
 sudo rm -f /usr/local/bin/peel
