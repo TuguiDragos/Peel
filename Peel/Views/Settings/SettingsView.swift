@@ -62,12 +62,25 @@ struct SettingsTabs: View {
 /// The Settings window's content. The `Settings` scene sizes the window to fit it, so the window takes the
 /// height of the tab shown and can't be resized, as a settings window on the Mac does.
 struct SettingsView: View {
+    @State private var hostWindow = HostWindow()
+
     var body: some View {
-        if #available(macOS 27, *) {
-            SettingsWindowTabs()
-        } else {
-            SettingsTabs(fitsEachTab: true)
+        Group {
+            if #available(macOS 27, *) {
+                SettingsWindowTabs()
+            } else {
+                SettingsTabs(fitsEachTab: true)
+            }
         }
+        // AppKit keeps the window's top where it was as a taller tab makes it grow, which can carry its bottom past
+        // the bottom of the screen.
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)) { notice in
+            guard let window = hostWindow.value, notice.object as? NSWindow === window, let screen = window.screen
+            else { return }
+            let frame = GrowingWindow.frame(window.frame, within: screen.visibleFrame)
+            if frame.origin != window.frame.origin { window.setFrameOrigin(frame.origin) }
+        }
+        .background(HostWindowReader(host: hostWindow))
     }
 }
 
