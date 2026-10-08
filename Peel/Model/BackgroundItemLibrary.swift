@@ -10,6 +10,8 @@ final class BackgroundItemLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
+    /// Counts the scans that finished, so an item's page asks macOS about it again with each.
+    private(set) var scans = 0
     /// The items with an action in progress. Each is tracked on its own, so one row's action ending never
     /// clears another row's busy state.
     private(set) var runningActionItemIDs: Set<BackgroundItem.ID> = []
@@ -34,6 +36,7 @@ final class BackgroundItemLibrary {
         else { return }
         items = result.items
         unanswered = result.unanswered
+        scans += 1
         if let selection, items?.contains(where: { $0.id == selection }) != true {
             self.selection = nil
         }

@@ -11,9 +11,15 @@ struct BackgroundItemDetailView: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
-    /// Reading this asks macOS, so it is read once per item rather than on every evaluation of `body`.
+    /// Reading this asks macOS, so it is read once per item and scan rather than on every evaluation of `body`.
     @State private var legacyStatus: LocalizedStringResource?
     let item: BackgroundItem
+
+    /// The id of the task that reads `legacyStatus`: the item, and the scans that finished, so Rescan asks again.
+    private struct Look: Hashable {
+        let item: BackgroundItem.ID
+        let scans: Int
+    }
 
     var body: some View {
         Form {
@@ -163,7 +169,7 @@ struct BackgroundItemDetailView: View {
         .formStyle(.grouped)
         .motion(value: item.state)
         .motion(value: item.isDisabled)
-        .task(id: item.id) {
+        .task(id: Look(item: item.id, scans: backgroundItems.scans)) {
             legacyStatus = await Self.legacyStatus(of: item)
         }
         .navigationTitle(item.label)
