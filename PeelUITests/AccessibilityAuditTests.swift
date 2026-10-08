@@ -114,7 +114,8 @@ final class AccessibilityAuditTests: XCTestCase {
     private func choose(_ item: String, inMenu menu: String, of app: XCUIApplication) {
         let title = app.menuBars.menuBarItems[menu]
         title.click()
-        title.menuItems[item].click()
+        // The menu's own items only: View > Sort and Filter holds a Homebrew and a Developer of its own.
+        title.menus.firstMatch.children(matching: .menuItem)[item].click()
     }
 
     /// Waits for the page's scan to end. While one runs, the toolbar's Rescan turns into Stop, a moment after the
