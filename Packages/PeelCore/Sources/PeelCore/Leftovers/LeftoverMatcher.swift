@@ -54,8 +54,14 @@ struct LeftoverMatcher: Sendable {
             guard let item, other.path.hasPrefix(item) else { return false }
             return PathComponents.isPath(other.path, atOrInside: item)
         }
+        // A job belongs to the app whose program it runs, so another app's program outranks any name.
+        let program = url.flatMap { Self.program(ofJobAt: $0, kind: kind) }
+            .flatMap { PathComponents.isPath($0, atOrInside: bundlePath) ? nil : $0 }
         for other in others where !goesWithTheItem(other) {
-            guard let rival = other.evidence(for: candidate) else {
+            let runsItsProgram = program.map { PathComponents.isPath($0, atOrInside: other.path) } ?? false
+            let rival = runsItsProgram
+                ? Evidence(.launchdJob, .certain, specificity: 0) : other.evidence(for: candidate)
+            guard let rival else {
                 // Siblings from the same maker, like Firefox Nightly beside Firefox, use the same files.
                 if target.isSibling(of: other), other.sharesName(with: candidate) {
                     share(with: other)
@@ -98,6 +104,13 @@ struct LeftoverMatcher: Sendable {
             let path = PathPattern.comparablePath(of: url)
             return PathComponents.isPath(path, atOrInside: bundlePath) ? nil : identifier
         }
+    }
+
+    /// The absolute program the launchd job at `url` runs, spelled to be compared, or nil for anything else.
+    static func program(ofJobAt url: URL, kind: SearchLocation.Kind) -> String? {
+        guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist" else { return nil }
+        guard let program = JobDefinition(contentsOf: url)?.program, program.hasPrefix("/") else { return nil }
+        return PathPattern.comparablePath(of: URL(filePath: program))
     }
 
     /// The other installed apps with any claim on `fileName`, by bundle identifier, and the other copies of this app

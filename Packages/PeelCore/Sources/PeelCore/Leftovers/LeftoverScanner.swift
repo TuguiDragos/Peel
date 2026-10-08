@@ -416,10 +416,9 @@ public struct LeftoverScanner: Sendable {
         job url: URL,
         kind: SearchLocation.Kind
     ) -> LeftoverMatch? {
-        guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist" else { return nil }
-        guard let program = JobDefinition(contentsOf: url)?.program, program.hasPrefix("/") else { return nil }
-        let path = PathPattern.comparablePath(of: URL(filePath: program))
-        guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
+        guard let program = LeftoverMatcher.program(ofJobAt: url, kind: kind),
+              PathComponents.isPath(program, atOrInside: bundle)
+        else { return nil }
         return LeftoverMatch(reason: .launchdJob, confidence: .certain, sharedWith: [])
     }
 

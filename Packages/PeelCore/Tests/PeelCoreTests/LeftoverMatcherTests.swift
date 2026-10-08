@@ -53,6 +53,28 @@ struct LeftoverMatcherTests {
         #expect(match("\(identifier).plist", in: .preferences, for: pretender) == nil)
     }
 
+    @Test func aJobRunningAnotherInstalledAppsProgramIsThatApps() throws {
+        let directory = try TemporaryDirectory()
+        let tide = app("org.example.tide", name: "Tide")
+        let sync = app("org.example.tidesync", name: "Tide Sync")
+        let relay = app("net.other.relay", name: "Relay")
+        func job(_ name: String, running app: InstalledApp) throws -> URL {
+            let program = app.url.appending(path: "Contents/MacOS/Agent").path(percentEncoded: false)
+            let plist = ["Label": "org.example.job", "Program": program]
+            return try directory.file(name, contents: PropertyListSerialization.data(
+                fromPropertyList: plist, format: .xml, options: 0
+            ))
+        }
+        let matcher = LeftoverMatcher(app: tide, installedApps: [tide, sync, relay]) { _ in nil }
+        func claim(_ job: URL) -> LeftoverMatch? {
+            matcher.match(fileName: job.lastPathComponent, kind: .launchAgents, at: job)
+        }
+
+        #expect(claim(try job("org.example.tide.sync.plist", running: sync)) == nil)
+        #expect(claim(try job("Tide.plist", running: relay))?.sharedWith.contains("net.other.relay") == true)
+        #expect(claim(try job("org.example.tide.helper.plist", running: tide))?.isRecommended == true)
+    }
+
     /// The list of installed apps covers only `/Applications` and `~/Applications`. Chrome Canary kept on another
     /// disk is still installed, so Launch Services is asked about a longer identifier before it is taken for one
     /// of Chrome's own.
