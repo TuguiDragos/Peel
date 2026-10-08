@@ -81,17 +81,14 @@ struct AboutContent: View {
                 comment: "Under the license's name. History is Peel's page of everything it moved to the Trash."
             )
             .multilineTextAlignment(.center)
-            .foregroundStyle(.tertiary)
             // Apache 2.0 asks that the notice travel with anything that ships the code, and the `peel` command does.
             // One sentence with the link inside, so a language can put it where its grammar wants it.
             Text("The peel command uses [swift-argument-parser](peel-license:swift-argument-parser-LICENSE)", comment: "Keep the link as it is.")
-                .foregroundStyle(.tertiary)
             // MIT asks the same of any substantial part of blobatar's code, and the face's motion is ported from it.
             Text(
                 "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)",
                 comment: "The face is Peel’s logo with eyes, at the head of the sidebar. Keep the link as it is."
             )
-            .foregroundStyle(.tertiary)
             Link(destination: Links.repository) {
                 Text(verbatim: "github.com/TuguiDragos/Peel")
                     .creditTarget()
@@ -99,7 +96,6 @@ struct AboutContent: View {
             .padding(.vertical, -Self.creditReach)
             .padding(.top, 8)
             Text(verbatim: "© 2026")
-                .foregroundStyle(.tertiary)
                 .padding(.top, 10)
         }
         .font(.callout)
