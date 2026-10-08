@@ -111,7 +111,8 @@ window with it. Apple describes the steps in
 ## Shell, Git, and SSH
 
 Every setting on these tabs is one that zsh, Git, or ssh already has, and each has a switch. Peel never edits your
-shell's or ssh's own files, and changes Git's only through Git itself:
+shell's or ssh's own files, and changes Git's only through Git itself. Removing Peel leaves all of them in force,
+its two files included:
 
 - **zsh** reads Peel's settings from a file of Peel's own, `~/Library/Application Support/Peel/Terminal/zshrc`, once
   you add the line below to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools

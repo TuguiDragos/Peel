@@ -402,7 +402,7 @@ private struct GeneralSettingsView: View {
                     // edge. An `HStack` centers the title and the button vertically.
                     HStack {
                         titled("Remove Peel",
-                               "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. The Finder extension goes with the app.")
+                               "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. What you set in Tweaks and on the Terminal page stays as it is. The Finder extension goes with the app.")
                         Spacer(minLength: 8)
                         Button("Remove Peel", systemImage: "trash") {
                             isConfirmingSelfRemoval = true
@@ -456,7 +456,7 @@ private struct GeneralSettingsView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, and its settings are cleared. That folder holds History, your exclusions, and Saved Settings. The space is freed when you empty the Trash.")
+            Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, and Saved Settings. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
         }
         .alert("Peel couldn’t remove itself.", isPresented: isShowingSelfRemovalFailure) {
             Button("OK", role: .cancel) {}

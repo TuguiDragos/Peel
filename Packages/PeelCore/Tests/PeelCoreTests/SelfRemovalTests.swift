@@ -74,6 +74,27 @@ struct SelfRemovalTests {
         #expect(paths(result.trashed.map(\.originalURL)) == paths([link.originalURL, app, folder]))
     }
 
+    /// The Terminal settings the person's `.zshrc` and `~/.ssh/config` read stay where those lines look for them, so
+    /// the shell and ssh keep them once Peel is gone. Everything else in the folder goes, History included.
+    @Test func leavesTheTerminalSettingsTheShellAndSSHRead() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        try directory.file("home/Library/Application Support/Peel/Terminal/zshrc")
+        try directory.file("home/Library/Application Support/Peel/Terminal/ssh_config")
+        try directory.file("home/Library/Application Support/Peel/exclusions.json")
+        try directory.file("home/Library/Application Support/Peel/.hidden")
+
+        let result = await SelfRemoval.move([app], app: app, folder: folder, using: try service(in: directory)) { _ in
+            try? Data("1".utf8).write(to: folder.appending(path: "removals.json"))
+        }
+
+        #expect(result.failures.isEmpty)
+        #expect(!ShellFile.url(in: folder).isMissing)
+        #expect(!SSHFile.url(in: folder).isMissing)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)) == ["Terminal"])
+    }
+
     /// When the app stays, its files and its folder stay too: Peel goes on using them.
     @Test func leavesTheFolderWhenTheAppStayed() async throws {
         let directory = try TemporaryDirectory()

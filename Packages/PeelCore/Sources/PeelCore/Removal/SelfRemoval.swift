@@ -2,7 +2,8 @@ public import Foundation
 
 /// Moves Peel's own files to the Trash, and then the Peel folder, which holds History.
 public enum SelfRemoval {
-    /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`. `record` writes
+    /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`, all but the Terminal
+    /// settings the person's `.zshrc` and `~/.ssh/config` read, which go on working without Peel. `record` writes
     /// History into `folder` first, with `movedFirst`, what the helper moved before it went, so the record goes with
     /// it. Nothing is written after that, or the folder would be created again.
     public static func move(
@@ -26,7 +27,19 @@ public enum SelfRemoval {
             result.trashed.contains(where: { $0.originalURL == app }),
             FileManager.default.fileExists(atPath: folder.path(percentEncoded: false))
         else { return result }
-        let moved = await service.trash([folder])
+        let terminal = ShellFile.url(in: folder).deletingLastPathComponent()
+        let moved: TrashResult
+        if terminal.isMissing {
+            moved = await service.trash([folder])
+        } else {
+            do {
+                let entries = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+                let rest = entries.filter { $0.lastPathComponent != terminal.lastPathComponent }
+                moved = await service.trashOwnFiles(rest)
+            } catch {
+                moved = TrashResult(failures: [TrashFailure(url: folder, reason: .failed(error.localizedDescription))])
+            }
+        }
         result.trashed += moved.trashed
         result.failures += moved.failures
         return result

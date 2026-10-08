@@ -251,14 +251,15 @@ it.
 
 In Settings > General, choose Remove Peel. It has its helper move the link to the `peel` command, if you made one in
 Settings, and its record of what it moved to the Trash, removes its helper and its login item, moves itself, the
-files that are certainly its own, and its folder in Application Support to the Trash, takes its icon out of the
-Dock, clears its settings, and quits. That folder holds History, your exclusions, and the settings Peel saved when
-you reset an app.
+files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings
+zsh and ssh read, takes its icon out of the Dock, clears its settings, and quits. That folder holds History, your
+exclusions, and the settings Peel saved when you reset an app.
 
-What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, `~/.hushlogin`, Git's
-settings, the build folders you left out of Time Machine, and the background items you disabled. Turn them off
-first if you want them gone. The shell and ssh settings live in Peel's folder, so they go with it, and the line
-you added to `~/.zshrc` and the two at the end of `~/.ssh/config` then do nothing. You can delete them.
+What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, the shell and ssh settings,
+`~/.hushlogin`, Git's settings, the build folders you left out of Time Machine, and the background items you
+disabled. Peel leaves the shell and ssh settings in its folder, in `Terminal`, where the line you added to
+`~/.zshrc` and the two at the end of `~/.ssh/config` read them. Turn these off first if you want them gone, or
+afterwards delete those lines and that folder.
 
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
 in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the

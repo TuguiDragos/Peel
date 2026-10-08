@@ -108034,108 +108034,108 @@
         }
       }
     },
-    "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. The Finder extension goes with the app." : {
+    "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, clears its settings, then quits. That folder holds History, your exclusions, and Saved Settings. What you set in Tweaks and on the Terminal page stays as it is. The Finder extension goes with the app." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel odstraní svého pomocníka a položku přihlášení, přesune do koše sám sebe, soubory, které jsou určitě jeho, a svou složku v Application Support, vymaže svá nastavení a pak se ukončí. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení. Rozšíření Finderu zmizí spolu s aplikací."
+            "value" : "Peel odstraní svého pomocníka a položku přihlášení, přesune do koše sám sebe, soubory, které jsou určitě jeho, a svou složku v Application Support (vše kromě nastavení Terminálu, která čtou zsh a ssh), vymaže svá nastavení a pak se ukončí. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení. Co jste nastavili na stránkách Přizpůsobení a Terminál, zůstane tak, jak je. Rozšíření Finderu zmizí spolu s aplikací."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel entfernt sein Hilfsprogramm und sein Anmeldeobjekt, legt sich selbst, die Dateien, die sicher zu Peel gehören, und seinen Ordner in Application Support in den Papierkorb, entfernt seine Einstellungen und wird dann beendet. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen. Die Finder-Erweiterung verschwindet mit der App."
+            "value" : "Peel entfernt sein Hilfsprogramm und sein Anmeldeobjekt, legt sich selbst, die Dateien, die sicher zu Peel gehören, und seinen Ordner in Application Support in den Papierkorb, bis auf die Terminal-Einstellungen, die zsh und ssh lesen, entfernt seine Einstellungen und wird dann beendet. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen. Was du auf den Seiten „Anpassungen“ und „Terminal“ eingestellt hast, bleibt, wie es ist. Die Finder-Erweiterung verschwindet mit der App."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel elimina su asistente y su ítem de inicio, traslada a la papelera la propia app, los archivos que sin duda son suyos y su carpeta de Application Support, borra sus ajustes y después se cierra. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados. La extensión del Finder se va con la app."
+            "value" : "Peel elimina su asistente y su ítem de inicio, traslada a la papelera la propia app, los archivos que sin duda son suyos y su carpeta de Application Support, salvo los ajustes de Terminal que zsh y ssh leen, borra sus ajustes y después se cierra. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados. Lo que hayas configurado en Retoques y en la página Terminal se queda como está. La extensión del Finder se va con la app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel supprime son utilitaire et son élément d’ouverture, se place lui-même dans la corbeille avec les fichiers qui lui appartiennent à coup sûr et son dossier dans Application Support, efface ses réglages, puis se ferme. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés. L’extension du Finder part avec l’app."
+            "value" : "Peel supprime son utilitaire et son élément d’ouverture, se place lui-même dans la corbeille avec les fichiers qui lui appartiennent à coup sûr et son dossier dans Application Support, à l’exception des réglages Terminal que lisent zsh et ssh, efface ses réglages, puis se ferme. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés. Ce que vous avez défini dans Ajustements et sur la page Terminal reste tel quel. L’extension du Finder part avec l’app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rimuove il suo assistente e il suo elemento login, sposta nel Cestino sé stesso, i file che sono sicuramente suoi e la sua cartella in Application Support, cancella le sue impostazioni e poi esce. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate. L’estensione Finder se ne va con l’app."
+            "value" : "Peel rimuove il suo assistente e il suo elemento login, sposta nel Cestino sé stesso, i file che sono sicuramente suoi e la sua cartella in Application Support, tutta tranne le impostazioni di Terminale che zsh e ssh leggono, cancella le sue impostazioni e poi esce. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate. Ciò che imposti nelle pagine Ritocchi e Terminale resta com’è. L’estensione Finder se ne va con l’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはヘルパーとログイン項目を取り除き、自身と、確実にPeelのものであるファイル、Application SupportにあるPeelのフォルダをゴミ箱に入れ、設定を消去してから終了します。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。Finder機能拡張はアプリと一緒に取り除かれます。"
+            "value" : "Peelはヘルパーとログイン項目を取り除き、自身と、確実にPeelのものであるファイル、Application SupportにあるPeelのフォルダを、zshとsshが読み込むターミナルの設定を除いてゴミ箱に入れ、設定を消去してから終了します。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。“カスタマイズ”と“ターミナル”ページで設定した内容は、そのまま残ります。Finder機能拡張はアプリと一緒に取り除かれます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 보조 프로그램과 로그인 항목을 제거하고, 자신과 확실히 자신의 것인 파일, Application Support에 있는 자신의 폴더를 휴지통으로 이동한 다음, 설정을 지우고 종료합니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다. Finder 확장 프로그램은 앱과 함께 제거됩니다."
+            "value" : "Peel은 보조 프로그램과 로그인 항목을 제거하고, 자신과 확실히 자신의 것인 파일, Application Support에 있는 자신의 폴더를 zsh와 ssh가 읽는 터미널 설정만 남기고 휴지통으로 이동한 다음, 설정을 지우고 종료합니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다. 미세 조정 페이지와 터미널 페이지에서 설정한 내용은 그대로 유지됩니다. Finder 확장 프로그램은 앱과 함께 제거됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verwijdert het hulpprogramma en het inlogonderdeel, verplaatst zichzelf, de bestanden die zeker van Peel zijn en de eigen map in Application Support naar de prullenmand, wist de eigen instellingen en stopt dan. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'. De Finder-extensie gaat mee met de app."
+            "value" : "Peel verwijdert het hulpprogramma en het inlogonderdeel, verplaatst zichzelf, de bestanden die zeker van Peel zijn en de eigen map in Application Support naar de prullenmand, behalve de Terminal-instellingen die zsh en ssh lezen, wist de eigen instellingen en stopt dan. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'. Wat je in 'Aanpassingen' en op de pagina 'Terminal' hebt ingesteld, blijft zoals het is. De Finder-extensie gaat mee met de app."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel odinstalowuje swojego pomocnika i usuwa swoją rzecz otwieraną podczas logowania, przenosi do Kosza siebie, pliki, które na pewno należą do niego, oraz swój folder w Application Support, czyści swoje ustawienia, a potem kończy działanie. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia. Rozszerzenie Findera znika razem z aplikacją."
+            "value" : "Peel odinstalowuje swojego pomocnika i usuwa swoją rzecz otwieraną podczas logowania, przenosi do Kosza siebie, pliki, które na pewno należą do niego, oraz swój folder w Application Support, z wyjątkiem ustawień Terminala odczytywanych przez zsh i ssh, czyści swoje ustawienia, a potem kończy działanie. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia. To, co ustawiasz w Dostosowaniach i na stronie Terminal, pozostaje bez zmian. Rozszerzenie Findera znika razem z aplikacją."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel remove o auxiliar e o item de início de sessão, move para o Lixo o próprio app, os arquivos que com certeza são dele e a pasta dele em Application Support, limpa os ajustes e então é encerrado. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos. A extensão do Finder vai junto com o app."
+            "value" : "O Peel remove o auxiliar e o item de início de sessão, move para o Lixo o próprio app, os arquivos que com certeza são dele e a pasta dele em Application Support, exceto os ajustes do Terminal que o zsh e o ssh leem, limpa os ajustes e então é encerrado. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos. O que você definiu em Personalizações e na página Terminal continua como está. A extensão do Finder vai junto com o app."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel își elimină instrumentul de ajutor și articolul de lansat la login, se mută în Coș împreună cu fișierele care sunt sigur ale sale și cu dosarul său din Application Support, își elimină configurările, apoi se închide. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Extensia Finder pleacă odată cu aplicația."
+            "value" : "Peel își elimină instrumentul de ajutor și articolul de lansat la login, se mută în Coș împreună cu fișierele care sunt sigur ale sale și cu dosarul său din Application Support, cu excepția configurărilor Terminal pe care zsh și ssh le citesc, își elimină configurările, apoi se închide. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Ce ați stabilit în paginile Ajustări și Terminal rămâne așa cum este. Extensia Finder pleacă odată cu aplicația."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel удаляет своего помощника и объект входа, перемещает в Корзину себя, файлы, которые точно ему принадлежат, и свою папку в Application Support, очищает свои настройки и завершает работу. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки». Расширение Finder удаляется вместе с приложением."
+            "value" : "Peel удаляет своего помощника и объект входа, перемещает в Корзину себя, файлы, которые точно ему принадлежат, и свою папку в Application Support, кроме параметров раздела «Терминал», которые читают zsh и ssh, очищает свои настройки и завершает работу. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки». То, что Вы задали в разделах «Тонкая настройка» и «Терминал», остается без изменений. Расширение Finder удаляется вместе с приложением."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tar bort sitt hjälpprogram och sitt startobjekt, flyttar sig själv, de filer som med säkerhet är dess egna och sin mapp i Application Support till papperskorgen, rensar sina inställningar och avslutas sedan. Den mappen innehåller Historik, dina undantag och Sparade inställningar. Finder-tillägget försvinner med appen."
+            "value" : "Peel tar bort sitt hjälpprogram och sitt startobjekt, flyttar sig själv, de filer som med säkerhet är dess egna och sin mapp i Application Support till papperskorgen, allt utom de Terminal-inställningar som zsh och ssh läser, rensar sina inställningar och avslutas sedan. Den mappen innehåller Historik, dina undantag och Sparade inställningar. Det du har ställt in i Justeringar och på sidan Terminal förblir som det är. Finder-tillägget försvinner med appen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel yardımcısını ve oturum açma öğesini kaldırır; kendisini, kesinlikle kendisine ait olan dosyaları ve Application Support içindeki klasörünü Çöp Sepeti’ne taşır, ayarlarını temizler ve ardından kapanır. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur. Finder genişletmesi de uygulamayla birlikte gider."
+            "value" : "Peel yardımcısını ve oturum açma öğesini kaldırır; kendisini, kesinlikle kendisine ait olan dosyaları ve Application Support içindeki klasörünü, zsh ve ssh tarafından okunan Terminal ayarları dışında, Çöp Sepeti’ne taşır, ayarlarını temizler ve ardından kapanır. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur. İnce Ayarlar’da ve Terminal sayfasında ayarladıklarınız olduğu gibi kalır. Finder genişletmesi de uygulamayla birlikte gider."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel вилучає свого помічника й елемент автозапуску, переміщує в Смітник себе, файли, які точно належать їй, і свою папку в Application Support, очищає свої налаштування, а потім завершує роботу. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування». Розширення Finder зникне разом із програмою."
+            "value" : "Peel вилучає свого помічника й елемент автозапуску, переміщує в Смітник себе, файли, які точно належать їй, і свою папку в Application Support, крім налаштувань Термінала, які читають zsh і ssh, очищає свої налаштування, а потім завершує роботу. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування». Те, що ви задали в розділі «Тонкі налаштування» та на сторінці «Термінал», лишиться без змін. Розширення Finder зникне разом із програмою."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会移除它的帮助程序和登录项，将它自己、确定属于它的文件，以及它在Application Support中的文件夹移到废纸篓，清除它的设置，然后退出。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。访达扩展会随App一起移除。"
+            "value" : "Peel会移除它的帮助程序和登录项，将它自己、确定属于它的文件，以及它在Application Support中的文件夹（zsh和ssh读取的“终端”设置除外）移到废纸篓，清除它的设置，然后退出。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。你在“微调”和“终端”页面中设定的内容会保持原样。访达扩展会随App一起移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會移除它的輔助程式和登入項目，將自己、確定屬於它的檔案，以及它在Application Support中的檔案夾丟到「垃圾桶」，清除它的設定，然後結束。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。Finder延伸功能會隨App一起移除。"
+            "value" : "Peel會移除它的輔助程式和登入項目，將自己、確定屬於它的檔案，以及它在Application Support中的檔案夾丟到「垃圾桶」（zsh和ssh讀取的「終端機」設定除外），清除它的設定，然後結束。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。你在「微調」中和「終端機」頁面上設定的內容會維持原樣。Finder延伸功能會隨App一起移除。"
           }
         }
       }
@@ -111130,108 +111130,108 @@
         }
       }
     },
-    "Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, and its settings are cleared. That folder holds History, your exclusions, and Saved Settings. The space is freed when you empty the Trash." : {
+    "Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, and Saved Settings. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, soubory, které jsou určitě jeho, a jeho složka v Application Support se přesunou do koše a jeho nastavení se vymažou. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení. Místo se uvolní, až vysypete koš."
+            "value" : "Peel, soubory, které jsou určitě jeho, a jeho složka v Application Support se přesunou do koše (vše kromě nastavení Terminálu, která čtou zsh a ssh) a jeho nastavení se vymažou. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení. Co jste nastavili na stránkách Přizpůsobení a Terminál, zůstane tak, jak je. Místo se uvolní, až vysypete koš."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, die Dateien, die sicher zu Peel gehören, und sein Ordner in Application Support werden in den Papierkorb gelegt, und seine Einstellungen werden entfernt. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen. Der Speicherplatz wird frei, wenn du den Papierkorb entleerst."
+            "value" : "Peel, die Dateien, die sicher zu Peel gehören, und sein Ordner in Application Support werden in den Papierkorb gelegt, bis auf die Terminal-Einstellungen, die zsh und ssh lesen, und seine Einstellungen werden entfernt. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen. Was du auf den Seiten „Anpassungen“ und „Terminal“ eingestellt hast, bleibt, wie es ist. Der Speicherplatz wird frei, wenn du den Papierkorb entleerst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, los archivos que sin duda son suyos y su carpeta de Application Support van a la papelera, y sus ajustes se borran. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados. El espacio se libera cuando vacías la papelera."
+            "value" : "Peel, los archivos que sin duda son suyos y su carpeta de Application Support van a la papelera, salvo los ajustes de Terminal que zsh y ssh leen, y sus ajustes se borran. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados. Lo que hayas configurado en Retoques y en la página Terminal se queda como está. El espacio se libera cuando vacías la papelera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, les fichiers qui lui appartiennent à coup sûr et son dossier dans Application Support sont placés dans la corbeille, et ses réglages sont effacés. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés. L’espace est libéré lorsque vous videz la corbeille."
+            "value" : "Peel, les fichiers qui lui appartiennent à coup sûr et son dossier dans Application Support sont placés dans la corbeille, à l’exception des réglages Terminal que lisent zsh et ssh, et ses réglages sont effacés. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés. Ce que vous avez défini dans Ajustements et sur la page Terminal reste tel quel. L’espace est libéré lorsque vous videz la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, i file che sono sicuramente suoi e la sua cartella in Application Support vanno nel Cestino, e le sue impostazioni vengono cancellate. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate. Lo spazio viene liberato quando svuoti il Cestino."
+            "value" : "Peel, i file che sono sicuramente suoi e la sua cartella in Application Support vanno nel Cestino, tutto tranne le impostazioni di Terminale che zsh e ssh leggono, e le sue impostazioni vengono cancellate. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate. Ciò che imposti nelle pagine Ritocchi e Terminale resta com’è. Lo spazio viene liberato quando svuoti il Cestino."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel、確実にPeelのものであるファイル、Application SupportにあるPeelのフォルダがゴミ箱に入り、設定は消去されます。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。領域は、ゴミ箱を空にしたときに解放されます。"
+            "value" : "Peel、確実にPeelのものであるファイル、Application SupportにあるPeelのフォルダが、zshとsshが読み込むターミナルの設定を除いてゴミ箱に入り、設定は消去されます。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。“カスタマイズ”と“ターミナル”ページで設定した内容は、そのまま残ります。領域は、ゴミ箱を空にしたときに解放されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel과 확실히 Peel의 것인 파일, Application Support에 있는 Peel의 폴더가 휴지통으로 이동하고 설정이 지워집니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다. 공간은 휴지통을 비울 때 확보됩니다."
+            "value" : "Peel과 확실히 Peel의 것인 파일, Application Support에 있는 Peel의 폴더가 휴지통으로 이동하고(zsh와 ssh가 읽는 터미널 설정은 남음) 설정이 지워집니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다. 미세 조정 페이지와 터미널 페이지에서 설정한 내용은 그대로 유지됩니다. 공간은 휴지통을 비울 때 확보됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, de bestanden die zeker van Peel zijn en de eigen map in Application Support gaan naar de prullenmand, en de instellingen van Peel worden gewist. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'. De ruimte komt vrij wanneer je de prullenmand leegt."
+            "value" : "Peel, de bestanden die zeker van Peel zijn en de eigen map in Application Support gaan naar de prullenmand, behalve de Terminal-instellingen die zsh en ssh lezen, en de instellingen van Peel worden gewist. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'. Wat je in 'Aanpassingen' en op de pagina 'Terminal' hebt ingesteld, blijft zoals het is. De ruimte komt vrij wanneer je de prullenmand leegt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, pliki, które na pewno należą do niego, oraz jego folder w Application Support trafią do Kosza, a jego ustawienia zostaną wyczyszczone. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia. Miejsce zostanie zwolnione, gdy opróżnisz Kosz."
+            "value" : "Peel, pliki, które na pewno należą do niego, oraz jego folder w Application Support, z wyjątkiem ustawień Terminala odczytywanych przez zsh i ssh, trafią do Kosza, a jego ustawienia zostaną wyczyszczone. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia. To, co ustawiasz w Dostosowaniach i na stronie Terminal, pozostaje bez zmian. Miejsce zostanie zwolnione, gdy opróżnisz Kosz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel, os arquivos que com certeza são dele e a pasta dele em Application Support vão para o Lixo, e os ajustes dele são limpos. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos. O espaço é liberado quando você esvazia o Lixo."
+            "value" : "O Peel, os arquivos que com certeza são dele e a pasta dele em Application Support vão para o Lixo, exceto os ajustes do Terminal que o zsh e o ssh leem, e os ajustes dele são limpos. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos. O que você definiu em Personalizações e na página Terminal continua como está. O espaço é liberado quando você esvazia o Lixo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, fișierele care sunt sigur ale sale și dosarul său din Application Support sunt mutate în Coș, iar configurările sale sunt eliminate. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Spațiul se eliberează când goliți Coșul."
+            "value" : "Peel, fișierele care sunt sigur ale sale și dosarul său din Application Support sunt mutate în Coș, cu excepția configurărilor Terminal pe care zsh și ssh le citesc, iar configurările sale sunt eliminate. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Ce ați stabilit în paginile Ajustări și Terminal rămâne așa cum este. Spațiul se eliberează când goliți Coșul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, файлы, которые точно ему принадлежат, и его папка в Application Support перемещаются в Корзину, а его настройки очищаются. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки». Место освободится, когда Вы очистите Корзину."
+            "value" : "Peel, файлы, которые точно ему принадлежат, и его папка в Application Support перемещаются в Корзину, кроме параметров раздела «Терминал», которые читают zsh и ssh, а его настройки очищаются. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки». То, что Вы задали в разделах «Тонкая настройка» и «Терминал», остается без изменений. Место освободится, когда Вы очистите Корзину."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, de filer som med säkerhet är dess egna och dess mapp i Application Support flyttas till papperskorgen, och dess inställningar rensas. Den mappen innehåller Historik, dina undantag och Sparade inställningar. Utrymmet frigörs när du tömmer papperskorgen."
+            "value" : "Peel, de filer som med säkerhet är dess egna och dess mapp i Application Support flyttas till papperskorgen, allt utom de Terminal-inställningar som zsh och ssh läser, och dess inställningar rensas. Den mappen innehåller Historik, dina undantag och Sparade inställningar. Det du har ställt in i Justeringar och på sidan Terminal förblir som det är. Utrymmet frigörs när du tömmer papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, kesinlikle kendisine ait olan dosyalar ve Application Support içindeki klasörü Çöp Sepeti’ne gider ve ayarları temizlenir. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur. Yer, Çöp Sepeti’ni boşalttığınızda boşalır."
+            "value" : "Peel, kesinlikle kendisine ait olan dosyalar ve Application Support içindeki klasörü, zsh ve ssh tarafından okunan Terminal ayarları dışında, Çöp Sepeti’ne gider ve ayarları temizlenir. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur. İnce Ayarlar’da ve Terminal sayfasında ayarladıklarınız olduğu gibi kalır. Yer, Çöp Sepeti’ni boşalttığınızda boşalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, файли, які точно належать їй, і її папку в Application Support буде переміщено в Смітник, а її налаштування очищено. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування». Місце звільниться, коли ви очистите Смітник."
+            "value" : "Peel, файли, які точно належать їй, і її папку в Application Support буде переміщено в Смітник, крім налаштувань Термінала, які читають zsh і ssh, а її налаштування очищено. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування». Те, що ви задали в розділі «Тонкі налаштування» та на сторінці «Термінал», лишиться без змін. Місце звільниться, коли ви очистите Смітник."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel、确定属于它的文件，以及它在Application Support中的文件夹将移到废纸篓，它的设置也会被清除。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。清倒废纸篓后，空间才会释放。"
+            "value" : "Peel、确定属于它的文件，以及它在Application Support中的文件夹（zsh和ssh读取的“终端”设置除外）将移到废纸篓，它的设置也会被清除。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。你在“微调”和“终端”页面中设定的内容会保持原样。清倒废纸篓后，空间才会释放。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel、確定屬於它的檔案，以及它在Application Support中的檔案夾都會丟到「垃圾桶」，它的設定也會被清除。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。清空「垃圾桶」後才會釋放空間。"
+            "value" : "Peel、確定屬於它的檔案，以及它在Application Support中的檔案夾都會丟到「垃圾桶」（zsh和ssh讀取的「終端機」設定除外），它的設定也會被清除。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。你在「微調」中和「終端機」頁面上設定的內容會維持原樣。清空「垃圾桶」後才會釋放空間。"
           }
         }
       }
