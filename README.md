@@ -247,8 +247,9 @@ with all my heart.
   built on.
 - [AppCleaner](https://freemacsoft.net/appcleaner/), by FreeMacSoft, and
   [Pearcleaner](https://github.com/alienator88/Pearcleaner), by alienator88, for the inspiration.
-- [Fable](https://claude.com/product/overview), by [Anthropic](https://www.anthropic.com), for the help, the
-  execution, and the many fine touches.
+- [Fable](https://claude.com/product/overview) and [Claude](https://claude.com), by
+  [Anthropic](https://www.anthropic.com), for the help, the execution, and the many fine touches.
+  [How Peel was made](memorial/README.md) tells those three weeks in numbers.
 - Every [contributor](https://github.com/TuguiDragos/Peel/graphs/contributors) to this project, for your time,
   your ideas, and your trust.
 
