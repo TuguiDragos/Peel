@@ -92,8 +92,8 @@ final class AccessibilityAuditTests: XCTestCase {
     }
 
     private static func describe(_ element: XCUIElement?) -> String {
-        guard let element, element.exists else { return "no element" }
-        return "\(element.elementType.rawValue) '\(element.label)' '\(element.identifier)' \(element.frame)"
+        guard let element, let found = try? element.snapshot() else { return "no element" }
+        return "\(found.elementType.rawValue) '\(found.label)' '\(found.identifier)' \(found.frame)"
     }
 
     /// A page's tab or a pane of Settings, found by its name, whatever kind of element the system shows it as.
@@ -122,7 +122,7 @@ final class AccessibilityAuditTests: XCTestCase {
     /// scan starts.
     private func waitForTheScan(of page: String, in app: XCUIApplication) {
         let stop = app.toolbars.buttons["Stop"]
-        guard stop.waitForExistence(timeout: 2) else { return }
+        guard stop.waitForExistence(timeout: 1) else { return }
         XCTAssertTrue(stop.waitForNonExistence(timeout: 300), "\(page) was still scanning after 5 minutes")
     }
 
