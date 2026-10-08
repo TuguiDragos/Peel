@@ -271,7 +271,7 @@ where a Homebrew install takes them from.
 | `~/Library/Logs/Peel/<name>` | What the app measured while `PEEL_MEASURE=<name>` was set. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
 | Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
-| Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's list of icons (`persistent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; and the Time Machine mark on each folder Build Artifacts leaves out of backups. |
+| Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's two lists of icons (`persistent-apps` and `recent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; and the Time Machine mark on each folder Build Artifacts leaves out of backups. |
 
 Remove Peel, in Settings, takes all of Peel's own files to the Trash but `Terminal/`, the settings zsh and ssh read
 through the user's own lines (`SelfRemoval`), gathered first into one folder named Peel so the Trash shows one item,

@@ -1,28 +1,33 @@
 public import Foundation
 
+/// The Dock's two lists of apps: those the person keeps in it, and the recent ones it shows beside them.
+public enum DockList: String, Codable, CaseIterable, Sendable {
+    case persistent = "persistent-apps"
+    case recent = "recent-apps"
+}
+
 /// Where the Dock keeps its tiles. Tests stand in for it, so they never change the Dock.
 public protocol DockTileStore: Sendable {
-    func tiles() -> [Any]?
-    func setTiles(_ tiles: [Any]) -> Bool
+    func tiles(in list: DockList) -> [Any]?
+    func setTiles(_ tiles: [Any], in list: DockList) -> Bool
     func restartTheDock() async
 }
 
-/// The Dock's own list of apps, read and written through CFPreferences as the Tweaks are, never in its file:
-/// cfprefsd keeps its own copy of the domain. The Dock reads the list again when it starts.
+/// The Dock's own lists of apps, read and written through CFPreferences as the Tweaks are, never in its file:
+/// cfprefsd keeps its own copy of the domain. The Dock reads the lists again when it starts.
 public struct DockPreferences: DockTileStore {
     private static var domain: CFString { "com.apple.dock" as CFString }
-    private static var key: CFString { "persistent-apps" as CFString }
 
     public init() {}
 
-    public func tiles() -> [Any]? {
+    public func tiles(in list: DockList) -> [Any]? {
         CFPreferencesAppSynchronize(Self.domain)
-        return CFPreferencesCopyAppValue(Self.key, Self.domain) as? [Any]
+        return CFPreferencesCopyAppValue(list.rawValue as CFString, Self.domain) as? [Any]
     }
 
-    public func setTiles(_ tiles: [Any]) -> Bool {
-        guard !CFPreferencesAppValueIsForced(Self.key, Self.domain) else { return false }
-        CFPreferencesSetAppValue(Self.key, tiles as CFArray, Self.domain)
+    public func setTiles(_ tiles: [Any], in list: DockList) -> Bool {
+        guard !CFPreferencesAppValueIsForced(list.rawValue as CFString, Self.domain) else { return false }
+        CFPreferencesSetAppValue(list.rawValue as CFString, tiles as CFArray, Self.domain)
         return CFPreferencesAppSynchronize(Self.domain)
     }
 
@@ -31,12 +36,27 @@ public struct DockPreferences: DockTileStore {
     }
 }
 
-/// An app's tiles in the Dock, which keeps a gone app's tile as a question mark. An uninstall can take them out,
-/// and History putting the app back puts them back where they were.
+/// An app's tiles in the Dock, which keeps a gone app's tile as a question mark, and a recent one pointing at the app
+/// in the Trash. An uninstall can take them out, and History putting the app back puts them back where they were.
 public struct DockTiles: Sendable {
     private struct Removed: Codable {
+        let list: DockList
         let index: Int
         let tile: Data
+
+        init(list: DockList, index: Int, tile: Data) {
+            self.list = list
+            self.index = index
+            self.tile = tile
+        }
+
+        /// A tile remembered before Peel took out recent ones names no list: it came from the persistent one.
+        init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            list = try container.decodeIfPresent(DockList.self, forKey: .list) ?? .persistent
+            index = try container.decode(Int.self, forKey: .index)
+            tile = try container.decode(Data.self, forKey: .tile)
+        }
     }
 
     private let store: any DockTileStore
@@ -53,51 +73,76 @@ public struct DockTiles: Sendable {
     /// Those of `apps` that have a tile in the Dock.
     @concurrent
     public func holding(_ apps: [URL]) async -> Set<URL> {
-        let tiles = store.tiles() ?? []
-        return Set(apps.filter { !indices(of: $0, in: tiles).isEmpty })
+        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }
+        return Set(apps.filter { app in lists.contains { !indices(of: app, in: $0).isEmpty } })
     }
 
     /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. False
     /// when none had a tile, or when that could not be remembered or written. Peel removing itself remembers nothing,
     /// since its folder, where the memory is kept, has gone to the Trash.
     public func takeOut(_ apps: [URL], remembering: Bool = true) async -> Bool {
-        guard var tiles = store.tiles() else { return false }
+        let lists = Dictionary(uniqueKeysWithValues: DockList.allCases.compactMap { list in
+            store.tiles(in: list).map { (list, $0) }
+        })
         var removed: [String: [Removed]] = [:]
         for app in apps {
-            let found = indices(of: app, in: tiles)
-            let kept = found.compactMap { index in
-                (try? PropertyListSerialization.data(fromPropertyList: tiles[index], format: .binary, options: 0))
-                    .map { Removed(index: index, tile: $0) }
+            let found = lists.flatMap { list, tiles in indices(of: app, in: tiles).map { (list, tiles[$0], $0) } }
+            let kept = found.compactMap { list, tile, index in
+                (try? PropertyListSerialization.data(fromPropertyList: tile, format: .binary, options: 0))
+                    .map { Removed(list: list, index: index, tile: $0) }
             }
             if !found.isEmpty, kept.count == found.count { removed[key(app)] = kept }
         }
         guard !removed.isEmpty, !remembering || change({ $0.merge(removed) { _, new in new } }) else { return false }
-        let taken = Set(removed.values.flatMap { $0.map(\.index) })
-        tiles = tiles.indices.filter { !taken.contains($0) }.map { tiles[$0] }
-        guard store.setTiles(tiles) else {
-            if remembering {
-                _ = change { entries in removed.keys.forEach { entries[$0] = nil } }
+        var written: Set<DockList> = []
+        for (list, tiles) in lists {
+            let taken = Set(removed.values.flatMap { $0.filter { $0.list == list }.map(\.index) })
+            guard !taken.isEmpty else { continue }
+            if store.setTiles(tiles.indices.filter { !taken.contains($0) }.map { tiles[$0] }, in: list) {
+                written.insert(list)
             }
-            return false
         }
+        let failed = Set(removed.values.flatMap { $0.map(\.list) }).subtracting(written)
+        if remembering, !failed.isEmpty {
+            _ = change { entries in
+                for key in removed.keys {
+                    let left = entries[key]?.filter { !failed.contains($0.list) } ?? []
+                    entries[key] = left.isEmpty ? nil : left
+                }
+            }
+        }
+        guard !written.isEmpty else { return false }
         await store.restartTheDock()
         return true
     }
 
-    /// Puts back the tiles taken out for the app at `app`, unless the Dock holds one for it again.
+    /// Puts back the tiles taken out for the app at `app`, each in its own list, unless that list holds one for it
+    /// again.
     public func putBack(_ app: URL) async {
         guard let removed = FileLock.whileHeld(beside: memory, { read()?[key(app)] }) else { return }
-        guard var tiles = store.tiles() else { return }
-        if indices(of: app, in: tiles).isEmpty {
-            for entry in removed.sorted(by: { $0.index < $1.index }) {
-                if let tile = try? PropertyListSerialization.propertyList(from: entry.tile, format: nil) {
-                    tiles.insert(tile, at: min(entry.index, tiles.count))
+        var settled: Set<DockList> = []
+        var changed = false
+        for list in DockList.allCases {
+            let entries = removed.filter { $0.list == list }
+            guard !entries.isEmpty, var tiles = store.tiles(in: list) else { continue }
+            if indices(of: app, in: tiles).isEmpty {
+                for entry in entries.sorted(by: { $0.index < $1.index }) {
+                    if let tile = try? PropertyListSerialization.propertyList(from: entry.tile, format: nil) {
+                        tiles.insert(tile, at: min(entry.index, tiles.count))
+                    }
                 }
+                guard store.setTiles(tiles, in: list) else { continue }
+                changed = true
             }
-            guard store.setTiles(tiles) else { return }
+            settled.insert(list)
+        }
+        if changed {
             await store.restartTheDock()
         }
-        _ = change { $0[key(app)] = nil }
+        _ = change { entries in
+            let left = entries[key(app)]?.filter { !settled.contains($0.list) } ?? []
+            entries[key(app)] = left.isEmpty ? nil : left
+        }
     }
 
     /// The path a tile leads to, from the URL or the path it keeps for its file.
