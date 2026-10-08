@@ -29,12 +29,15 @@ reopening its windows when it would, make Option the Meta key and silence the be
 is one of Peel's, and show the line that stops the shell from saving its sessions, with a Copy button. Peel never
 edits your shell's files.
 
-What each writes: leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and
-turning it off moves that file to the Trash; Option as Meta and the bell set `useOptionAsMetaKey` to true and `Bell` to
-false in the Peel profile in use; not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false, at once
-even while Terminal is open, since Terminal reads it only when it quits; and the line that stops zsh from saving its
-sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add (for bash, the command is
-`touch ~/.bash_sessions_disable`).
+What each writes:
+
+- Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off
+  moves that file to the Trash.
+- Option as Meta and the bell set `useOptionAsMetaKey` to true and `Bell` to false in the Peel profile in use.
+- Not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false, at once even while Terminal is open,
+  since Terminal reads it only when it quits.
+- The line that stops zsh from saving its sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add.
+  For bash, the command is `touch ~/.bash_sessions_disable`.
 
 ### Without Peel
 
