@@ -97,8 +97,8 @@ struct SpaceDetailView: View {
                 )
             }
         }
-        // Made again each time the page opens, since what is inside changes as apps run. A rescan that finds the
-        // area changed makes it again too (`SpaceLibrary.refresh`).
+        // Made again each time the page opens, since what is inside changes as apps run. Rescan makes it again too
+        // (`SpaceLibrary.rescan`), and so does a scan that finds the area changed.
         .task(id: item.id) {
             guard !item.isReadOnly else { return }
             await space.plan(item)

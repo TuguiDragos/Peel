@@ -26,6 +26,12 @@ final class SpaceLibrary: RowSelection {
         await refresh(replanning: [])
     }
 
+    /// Scans again and makes every area's plan again, as Rescan asks: a plan also depends on which apps are open,
+    /// which the area's size does not show.
+    func rescan() async {
+        await refresh(replanning: Set(plans.keys))
+    }
+
     /// Makes the area's plan from what is on disk now, keeping what was chosen in it.
     func plan(_ item: SpaceItem) async {
         let made = await newPlan(for: item)

@@ -86,7 +86,7 @@ struct SpaceList: View {
             }
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: space.isRemoving, scan: space.scanRun) {
-                    await space.refresh()
+                    await space.rescan()
                 }
             }
         }
