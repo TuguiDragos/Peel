@@ -14,6 +14,7 @@ enum HomeSnapshot {
         let helper = HelperModel()
         let stats = LifetimeStats()
         let found = FoundLastTimeStore()
+        let homebrew = HomebrewLibrary()
         await home.refresh(helper: helper)
         await ExclusionsStore.shared.load()
         let window = Color(nsColor: .windowBackgroundColor)
@@ -69,7 +70,8 @@ enum HomeSnapshot {
                     to: "\(directory)/about-\(name).png"
                 )
                 render(
-                    MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found),
+                    MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)
+                        .environment(homebrew),
                     width: 320,
                     scheme: scheme,
                     contrast: contrast,
