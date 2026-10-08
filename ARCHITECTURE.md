@@ -203,7 +203,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Concurrency.** The app target runs on the main actor by default. Heavy work lives in PeelCore and is marked
   `@concurrent`, so it runs off the main actor.
 - **Two looks.** Home, the menu bar panel, and About use Peel's own look, a paper sheet with stickers. Every
-  other page reads as macOS: system type, forms, native controls, and Liquid Glass only on floating controls.
+  other page reads as macOS: system type, forms, native controls, color on symbols rather than on words, and Liquid
+  Glass only on floating controls.
 - **Languages.** Every string a person reads is in the string catalogs in `Localization/`, translated into 17
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known

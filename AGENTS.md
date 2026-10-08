@@ -187,9 +187,15 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   screen reads as macOS, with system type, `Form` and `Section`, and native controls. Icons are SF Symbols, and the
   logo comes only from `Logo/`, but for the face at the head of the sidebar, which draws the logo's shape in code so
   it can move (`Face` in `PeelFace.swift`): a change to the logo's shape changes those numbers too.
-- Everything can be used without a pointer. A switch whose label is hidden carries an
-  `accessibilityRepresentation` that VoiceOver, Voice Control, and Switch Control can press, and every control is at
-  least 20 by 20 points. Text takes the system's styles by role, so it follows the system's text size.
+- Everything can be used without a pointer. VoiceOver, Voice Control, and Switch Control can press every switch,
+  named by its row's title: on macOS 27 a row's switch is `RowSwitch`, whose label is empty rather than hidden,
+  since a hidden label leaves AppKit's own switch outside the accessibility tree; on macOS 26 a switch whose label is
+  hidden carries an `accessibilityRepresentation`. Every control is at least 20 by 20 points, and text takes the
+  system's styles by role, so it follows the system's text size.
+- **Words take no color of their own** outside Home, the menu bar panel, and About: orange, green, red, blue, or the
+  accent color read under the 4.5:1 text needs on a light background. The color goes on a symbol beside the words,
+  which keep the style of the text around them: `StatusLabel` for a warning or a state, a `Badge`'s `tint`, and a
+  note's `caution`.
 - Rows of a long list stay cheap to build. A checkbox in a row is `NativeCheckbox` beside the item, with
   `checkboxTitleLine()` on the first line of its title and `checkboxTitle()` on the title, rather than a checkbox
   `Toggle` whose label is the row; Duplicates' rows keep their `Toggle`, where the AppKit checkbox costs as much. A
