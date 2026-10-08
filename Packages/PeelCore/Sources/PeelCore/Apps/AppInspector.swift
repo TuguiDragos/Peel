@@ -32,25 +32,31 @@ public enum AppInspector {
         beginningWith prefixes: [String],
         within budget: TimeInterval = spotlightBudget
     ) async -> Set<String> {
+        guard let query = spotlightQuery(forIdentifiersBeginningWith: prefixes) else { return [] }
+        return await SlowRead.answer(within: budget) { _ in identifiers(answering: query) } ?? []
+    }
+
+    static func spotlightQuery(forIdentifiersBeginningWith prefixes: [String]) -> String? {
         let isAnIdentifiersStart = { (prefix: String) in
             !prefix.isEmpty && prefix.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "._-".contains($0)) }
         }
-        guard !prefixes.isEmpty, prefixes.allSatisfy(isAnIdentifiersStart) else { return [] }
+        guard !prefixes.isEmpty, prefixes.allSatisfy(isAnIdentifiersStart) else { return nil }
         let identifiers = prefixes.map { "kMDItemCFBundleIdentifier == \"\($0)*\"c" }.joined(separator: " || ")
-        let text = "kMDItemContentTypeTree == \"com.apple.application-bundle\" && (\(identifiers))"
-        let found = await SlowRead.answer(within: budget) { _ -> Set<String> in
-            guard let query = MDQueryCreate(kCFAllocatorDefault, text as CFString, nil, nil),
-                  MDQueryExecute(query, CFOptionFlags(kMDQuerySynchronous.rawValue))
-            else { return [] }
-            return Set((0..<MDQueryGetResultCount(query)).compactMap { index in
-                guard let result = MDQueryGetResultAtIndex(query, index) else { return nil }
-                return MDItemCopyAttribute(
-                    Unmanaged<MDItem>.fromOpaque(result).takeUnretainedValue(),
-                    kMDItemCFBundleIdentifier
-                ) as? String
-            })
-        }
-        return found ?? []
+        return "kMDItemContentTypeTree == \"com.apple.application-bundle\" && (\(identifiers))"
+    }
+
+    /// Blocks until Spotlight has answered `query` in full, so it runs on a thread of its own.
+    static func identifiers(answering query: String) -> Set<String> {
+        guard let query = MDQueryCreate(kCFAllocatorDefault, query as CFString, nil, nil),
+              MDQueryExecute(query, CFOptionFlags(kMDQuerySynchronous.rawValue))
+        else { return [] }
+        return Set((0..<MDQueryGetResultCount(query)).compactMap { index in
+            guard let result = MDQueryGetResultAtIndex(query, index) else { return nil }
+            return MDItemCopyAttribute(
+                Unmanaged<MDItem>.fromOpaque(result).takeUnretainedValue(),
+                kMDItemCFBundleIdentifier
+            ) as? String
+        })
     }
 
     /// How long a scan waits for Spotlight. It answers a query on one attribute at once unless it is rebuilding its

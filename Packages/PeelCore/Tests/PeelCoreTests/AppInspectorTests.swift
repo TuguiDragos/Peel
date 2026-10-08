@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct AppInspectorTests {
@@ -38,19 +39,27 @@ struct AppInspectorTests {
 
     /// Spotlight names the apps whose identifier begins with any prefix asked, wherever they are: every Mac has the
     /// dictation input method in its input methods folder, outside the Applications folders, and TextEdit. A Mac with
-    /// Spotlight off answers nothing, and the test waits for one that indexes. The other tests' scans ask Spotlight at
-    /// the same time, so this one is given longer than a scan waits.
+    /// Spotlight off answers nothing, so the test waits for a Mac where macOS's own `mdfind` finds TextEdit. It waits
+    /// for Spotlight's whole answer, since a busy Mac answers late, never wrong.
     @Test(.enabled("Spotlight indexes this Mac") {
-        await !AppInspector.indexedIdentifiers(beginningWith: ["com.apple."], within: 60).isEmpty
+        let query = "kMDItemCFBundleIdentifier == \"com.apple.TextEdit\""
+        return (try? await Subprocess.run("/usr/bin/mdfind", [query], timeout: nil).get())?.text.isEmpty == false
     })
     func spotlightNamesTheAppsOfOneMaker() async {
         let prefixes = ["com.apple.inputmethod.", "com.apple.TextEdit"]
-        let found = await AppInspector.indexedIdentifiers(beginningWith: prefixes, within: 60)
+        let found = await Self.indexed(beginningWith: prefixes)
 
         #expect(found.contains("com.apple.inputmethod.ironwood"))
         #expect(found.contains("com.apple.TextEdit"))
         let lowercased = prefixes.map { $0.lowercased() }
         #expect(found.allSatisfy { identifier in lowercased.contains { identifier.lowercased().hasPrefix($0) } })
+    }
+
+    private static func indexed(beginningWith prefixes: [String]) async -> Set<String> {
+        guard let query = AppInspector.spotlightQuery(forIdentifiersBeginningWith: prefixes) else { return [] }
+        return await withCheckedContinuation { continuation in
+            Thread { continuation.resume(returning: AppInspector.identifiers(answering: query)) }.start()
+        }
     }
 
     /// A bundle writes its own identifier, and a maker's prefix taken from it goes into a Spotlight query. One that
