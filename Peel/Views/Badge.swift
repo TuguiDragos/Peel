@@ -12,19 +12,21 @@ struct Badge: View {
     var tint: Color?
 
     var body: some View {
-        Label {
-            title
-        } icon: {
-            Image(systemName: systemImage).rowTint(tint)
+        LeavesRowSeparatorAlone {
+            Label {
+                title
+            } icon: {
+                Image(systemName: systemImage).rowTint(tint)
+            }
+            // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when it
+            // is wider than the row itself.
+            .lineLimit(1)
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 2)
+            .background(.quaternary, in: .capsule)
         }
-        // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when it
-        // is wider than the row itself.
-        .lineLimit(1)
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .padding(.horizontal, 7)
-        .padding(.vertical, 2)
-        .background(.quaternary, in: .capsule)
     }
 }
 
