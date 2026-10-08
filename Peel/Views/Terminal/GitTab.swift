@@ -22,13 +22,11 @@ struct GitTab: View {
                     }
                 } else if state.settings == nil {
                     Section {
-                        Label("Git couldn’t read its settings", systemImage: "exclamationmark.triangle")
-                            .foregroundStyle(Color.accentColor)
+                        StatusLabel(title: Text("Git couldn’t read its settings"), tint: .accentColor)
                     }
                 } else if git.wasRefused {
                     Section {
-                        Label("Git refused it", systemImage: "exclamationmark.triangle")
-                            .foregroundStyle(Color.accentColor)
+                        StatusLabel(title: Text("Git refused it"), tint: .accentColor)
                     }
                 }
                 ForEach(GitSetting.Group.allCases, id: \.self) { group in

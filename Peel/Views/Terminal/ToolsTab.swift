@@ -78,13 +78,13 @@ private struct TerminalToolRow: View {
                 .foregroundStyle(.secondary)
             switch tools.availability(of: tool) {
             case .unknownToHomebrew:
-                Text("Homebrew no longer offers it.")
+                StatusLabel(title: Text("Homebrew no longer offers it."), tint: .accentColor)
                     .font(.caption)
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(.secondary)
             case .retired(let retirement):
-                retirement.title
+                StatusLabel(title: retirement.title, tint: .accentColor)
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(.secondary)
                 retirement.explanation(now: .now)
                     .font(.caption)
                     .foregroundStyle(.secondary)

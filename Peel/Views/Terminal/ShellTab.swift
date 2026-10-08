@@ -12,9 +12,9 @@ struct ShellTab: View {
                     ShellLineRow(state: state)
                 } footer: {
                     if shell.wasRefused {
-                        Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                        StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                             .font(.caption)
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(.secondary)
                     } else if state.startupFile != nil {
                         Text("Takes effect in new windows")
                             .font(.caption)
@@ -176,19 +176,19 @@ private struct PromptSection: View {
             Text("Prompt")
         } footer: {
             if prompt != nil, !state.isSourced, let startupFile = state.startupFile {
-                Label(
-                    "zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath).",
-                    systemImage: "exclamationmark.triangle"
+                StatusLabel(
+                    title: Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath)."),
+                    tint: .accentColor
                 )
                 .font(.caption)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.secondary)
             } else if prompt != nil, state.setsItsOwnPrompt, let startupFile = state.startupFile {
-                Label(
-                    "Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.",
-                    systemImage: "exclamationmark.triangle"
+                StatusLabel(
+                    title: Text("Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one."),
+                    tint: .accentColor
                 )
                 .font(.caption)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.secondary)
             } else {
                 Text("The colors are the Terminal theme’s.")
                     .font(.caption)

@@ -161,13 +161,13 @@ private struct TerminalThemeInUse: View {
             .disabled(terminal.isQuittingTerminal)
             .padding(.top, 4)
             if terminal.isManaged {
-                Label("Locked by a profile", systemImage: "lock")
+                StatusLabel(title: Text("Locked by a profile"), systemImage: "lock", tint: .accentColor)
                     .font(.caption)
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(.secondary)
             } else if terminal.wasRefused {
-                Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                     .font(.caption)
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(.secondary)
             }
         }
         .motion(value: terminal.canPutBack)
@@ -221,17 +221,17 @@ private struct TerminalSettingsForm: View {
                 Text("Theme in Use")
             } footer: {
                 if terminal.isManaged {
-                    Label("Locked by a profile", systemImage: "lock")
+                    StatusLabel(title: Text("Locked by a profile"), systemImage: "lock", tint: .accentColor)
                         .font(.caption)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(.secondary)
                 } else if terminal.options == nil {
                     Text("Choose one of Peel’s themes to change these settings.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.wasRefused {
-                    Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                    StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                         .font(.caption)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(.secondary)
                 }
             }
         }

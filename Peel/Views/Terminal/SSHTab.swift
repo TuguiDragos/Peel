@@ -12,9 +12,9 @@ struct SSHTab: View {
                     SSHLinesRow(isIncluded: state.isIncluded)
                 } footer: {
                     if ssh.wasRefused {
-                        Label("macOS refused it", systemImage: "exclamationmark.triangle")
+                        StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                             .font(.caption)
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(.secondary)
                     } else {
                         Text("What ~/.ssh/config sets earlier for a server stays in force, since ssh uses the first value it finds.")
                             .font(.caption)
