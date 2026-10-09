@@ -69,12 +69,12 @@ public struct BulkUninstallation: Sendable {
         let items = Self.merge(uninstallations)
         self.uninstallations = uninstallations
         self.items = items
-        total = SizeTotal(items
+        total = SizeTotal(movingItemsAt: Dictionary(items
             .filter {
                 !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper
                     && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true
             }
-            .map { $0.isMeasured ? $0.size : nil })
+            .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
         privilegedURLs = Set(
             items.filter {
                 $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash

@@ -13,6 +13,6 @@ public struct RemovalRequest: Sendable, Equatable {
     }
 
     public var total: SizeTotal {
-        SizeTotal(urls.map { sizes[$0] })
+        SizeTotal(movingItemsAt: Dictionary(uniqueKeysWithValues: urls.map { ($0, sizes[$0]) }))
     }
 }

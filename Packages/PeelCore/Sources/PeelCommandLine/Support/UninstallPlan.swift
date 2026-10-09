@@ -25,7 +25,9 @@ struct UninstallPlan {
 
     var moving: [Item] { items.filter { $0.refusal == nil } }
     var staying: [Item] { items.filter { $0.refusal != nil } }
-    var total: SizeTotal { SizeTotal(moving.map(\.size)) }
+    var total: SizeTotal {
+        SizeTotal(movingItemsAt: Dictionary(moving.map { ($0.url, $0.size) }) { first, _ in first })
+    }
 
     /// Why the app itself stays, or nil when it moves. When the app stays, nothing else may move: the files of an
     /// app that is still installed aren't leftovers.

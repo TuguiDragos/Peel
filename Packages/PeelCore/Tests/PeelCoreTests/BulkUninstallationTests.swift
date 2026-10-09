@@ -345,4 +345,16 @@ struct BulkUninstallationTests {
         #expect(order == ["One.app", "Two.app", "com.example.two", "com.example.one"])
         #expect(bulk.total == SizeTotal(known: 2030, isComplete: true))
     }
+
+    /// Two apps chosen together can each list a folder inside the other's: its bytes are counted once.
+    @Test func theTotalCountsAFolderInsideAnotherOnce() {
+        let first = app("com.example.first", "First")
+        let second = app("com.example.second", "Second")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(first, [leftover("/Users/x/Library/Application Support/Vendor", size: 100)]),
+            uninstallation(second, [leftover("/Users/x/Library/Application Support/Vendor/Second", size: 40)]),
+        ])
+
+        #expect(bulk.total == SizeTotal(known: 1_000 + 1_000 + 100, isComplete: true))
+    }
 }

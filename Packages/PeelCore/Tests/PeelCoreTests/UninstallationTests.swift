@@ -299,6 +299,15 @@ struct UninstallationTests {
         #expect(total.size == SizeTotal(known: recommended.size.known + review.size.known, isComplete: false))
     }
 
+    /// A Homebrew cask can name a folder inside one the scan found, such as Steam's bundle inside its Application
+    /// Support folder: both are listed, and the bytes they share are counted once.
+    @Test func theTotalCountsARowInsideAnotherRowOnce() {
+        let plan = uninstallation(leftovers: [leftover("Steam"), leftover("Steam/Steam.AppBundle")])
+
+        let total = plan.movable(among: plan.scan.leftovers, withApp: false)
+        #expect(total.size == SizeTotal(known: 1_000, isComplete: true))
+    }
+
     /// An app bundle macOS will not let Peel read has no known size: its row reads "Unknown", never zero.
     @Test(.permissionsHold) func anAppBundleThatCannotBeReadIsNotMeasured() async throws {
         let directory = try TemporaryDirectory()

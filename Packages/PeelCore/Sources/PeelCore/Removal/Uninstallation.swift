@@ -312,14 +312,15 @@ public struct Uninstallation: Sendable {
     /// page's total adds up. Rows Peel leaves alone are not counted.
     public func movable(among leftovers: [Leftover], withApp: Bool) -> (count: Int, size: SizeTotal) {
         guard !isPeel else { return (0, SizeTotal([])) }
-        var sizes: [Int64?] = leftovers
-            .filter { $0.match.heldBack?.cannotBeMoved != true }
-            .map { $0.isMeasured ? $0.size : nil }
+        let movable = leftovers.filter { $0.match.heldBack?.cannotBeMoved != true }
+        var sizes = Dictionary(movable.map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first }
+        var count = movable.count
         if withApp, !app.isSystemProtected, app.enclosingPackage == nil, !isExcluded, !isAppBeyondTheHelper,
            !isAppInTheTrash {
-            sizes.append(isAppMeasured ? appSize : nil)
+            sizes.updateValue(isAppMeasured ? appSize : nil, forKey: app.url)
+            count += 1
         }
-        return (sizes.count, SizeTotal(sizes))
+        return (count, SizeTotal(movingItemsAt: sizes))
     }
 
     public var privilegedURLs: Set<URL> {

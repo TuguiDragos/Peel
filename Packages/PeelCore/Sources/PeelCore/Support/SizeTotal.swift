@@ -1,3 +1,6 @@
+public import Foundation
+internal import PeelPrivileged
+
 /// A sum of sizes, some of which may be unknown. An unknown size is never counted as zero: it marks the
 /// total incomplete.
 public struct SizeTotal: Sendable, Hashable, Comparable, Codable {
@@ -19,6 +22,16 @@ public struct SizeTotal: Sendable, Hashable, Comparable, Codable {
             if let size { known = known.addingCapped(size) } else { isComplete = false }
         }
         self.init(known: known, isComplete: isComplete)
+    }
+
+    /// What moving the items in `sizes` frees. An item inside another of them goes with that one, so it frees
+    /// nothing more, and its own size, known or not, is left out.
+    public init(movingItemsAt sizes: [URL: Int64?]) {
+        let items = sizes.map { (names: PathComponents.of(PathPattern.comparablePath(of: $0.key)), size: $0.value) }
+        let folders = Set(items.map(\.names))
+        self.init(items.filter { item in
+            !(1..<max(item.names.count, 1)).contains { folders.contains(Array(item.names.prefix($0))) }
+        }.map(\.size))
     }
 
     /// Adds totals together. The sum is complete only when every part is.

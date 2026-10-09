@@ -79,5 +79,11 @@ struct RemovalQuestionTests {
             RemovalRequest(urls: [measured, unknown], sizes: [measured: 100]).total
                 == SizeTotal(known: 100, isComplete: false)
         )
+        let inside = measured.appending(path: "inside")
+        #expect(
+            RemovalRequest(urls: [measured, inside], sizes: [measured: 100, inside: 60]).total
+                == SizeTotal(known: 100, isComplete: true),
+            "an item inside another moves with it and frees nothing more"
+        )
     }
 }

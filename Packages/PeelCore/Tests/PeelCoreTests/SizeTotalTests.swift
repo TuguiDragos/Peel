@@ -1,3 +1,4 @@
+import Foundation
 @testable import PeelCore
 import Testing
 
@@ -14,6 +15,20 @@ struct SizeTotalTests {
         #expect(SizeTotal([100, 20, 3]) == SizeTotal(known: 123, isComplete: true))
         #expect(SizeTotal([100, nil, 3]) == SizeTotal(known: 103, isComplete: false))
         #expect(SizeTotal([Int64?]()) == SizeTotal(known: 0, isComplete: true))
+    }
+
+    /// Moving a folder takes what is inside it, so an item inside another of the same move frees nothing more, even
+    /// when its own size was not measured. A folder whose name only begins another's holds nothing of it.
+    @Test func countsAnItemInsideAnotherMovedItemOnce() {
+        let steam = URL(filePath: "/Users/me/Library/Application Support/Steam")
+        let bundle = steam.appending(path: "Steam.AppBundle")
+        let caches = URL(filePath: "/Users/me/Library/Caches/Steam")
+        #expect(
+            SizeTotal(movingItemsAt: [steam: 800, bundle: 700, caches: 5]) == SizeTotal(known: 805, isComplete: true)
+        )
+        #expect(SizeTotal(movingItemsAt: [steam: 800, bundle: nil]) == SizeTotal(known: 800, isComplete: true))
+        let beside = URL(filePath: "/Users/me/Library/Application Support/Steam 2")
+        #expect(SizeTotal(movingItemsAt: [steam: 800, beside: 2]) == SizeTotal(known: 802, isComplete: true))
     }
 
     /// Sizes can come from a sequence that is read once, as they are measured. An unknown one must still make

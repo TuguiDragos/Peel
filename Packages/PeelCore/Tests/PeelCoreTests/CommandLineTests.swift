@@ -427,6 +427,20 @@ struct CommandLineTests {
         #expect(json["appSize"] is NSNull)
     }
 
+    /// What `peel uninstall` says it frees counts an item inside another moving item once: it goes with that one.
+    @Test func theUninstallTotalCountsAnItemInsideAnotherOnce() {
+        let app = URL(filePath: "/Applications/Steam.app", directoryHint: .isDirectory)
+        let support = URL(filePath: "/Users/me/Library/Application Support/Steam", directoryHint: .isDirectory)
+        let bundle = support.appending(path: "Steam.AppBundle", directoryHint: .isDirectory)
+        let plan = UninstallPlan(app: app, items: [
+            UninstallPlan.Item(url: app, size: 7, refusal: nil),
+            UninstallPlan.Item(url: support, size: 800, refusal: nil),
+            UninstallPlan.Item(url: bundle, size: 700, refusal: nil),
+        ], needsAdministrator: 0, needsReview: 0)
+
+        #expect(plan.total == SizeTotal(known: 807, isComplete: true))
+    }
+
     /// `peel uninstall --json` says what stays and why, what moved and what failed, with every key in every record.
     @Test func theUninstallReportSaysWhatMovedWhatStayedAndWhy() throws {
         let app = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
