@@ -88668,6 +88668,112 @@
         }
       }
     },
+    "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje, co jste v aplikaci vytvořili a co může existovat jen v tomto Macu, například uložené hry, databáze nebo vlastní zálohy aplikace. Jakmile se koš vysype, bude to trvale ztraceno, pokud nemáte jinou kopii."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält, was du mit der App erstellt hast und was es möglicherweise nur auf diesem Mac gibt, etwa Spielstände, Datenbanken oder die eigenen Backups der App. Sobald der Papierkorb entleert ist, ist es endgültig verloren, sofern du keine weitere Kopie hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene lo que has creado con la app, como partidas guardadas, bases de datos o las copias de seguridad que hace la propia app, algo que puede que solo exista en este Mac. En cuanto se vacíe la papelera, se perderá definitivamente, salvo que tengas otra copia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient ce que vous avez créé avec l’app, comme des parties enregistrées, des bases de données ou les sauvegardes propres à l’app, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, tout cela est perdu définitivement, sauf si vous en avez une autre copie."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene ciò che hai creato con l’app, come partite salvate, database o i backup eseguiti dall’app stessa, che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, sono persi definitivamente, a meno che tu non abbia un’altra copia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、ゲームのセーブデータ、データベース、アプリ自身が保存したバックアップなど、このアプリで作成したデータが含まれており、このMacにしか存在しない可能性があります。ゴミ箱を空にすると、別のコピーがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 저장된 게임, 데이터베이스 또는 앱 자체 백업처럼 사용자가 앱으로 만든 데이터가 들어 있으며, 이 데이터는 이 Mac에만 있을 수 있습니다. 휴지통을 비우면 다른 복사본이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat wat je met de app hebt gemaakt, zoals opgeslagen games, databases of de eigen back-ups van de app, die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, is het definitief weg, tenzij je er nog een kopie van hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera to, co utworzono w aplikacji, na przykład zapisane gry, bazy danych lub jej własne backupy, które mogą istnieć tylko na tym Macu. Po opróżnieniu Kosza przepadną na zawsze, chyba że masz ich kopię gdzie indziej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém o que você criou com o app, como jogos salvos, bancos de dados ou os backups do próprio app, que podem existir só neste Mac. Depois que o Lixo for esvaziado, eles se perdem definitivamente, a menos que você tenha outra cópia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține ce ați creat cu aplicația, cum ar fi jocuri salvate, baze de date sau backupurile proprii ale aplicației, care pot exista doar pe acest Mac. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți o altă copie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранится то, что Вы создали в приложении, например сохранения игр, базы данных или собственные резервные копии приложения, и, возможно, это есть только на этом Mac. После очистки Корзины все это будет потеряно безвозвратно, если у Вас нет другой копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller det du har skapat med appen, till exempel sparade spel, databaser eller appens egna säkerhetskopior, som kanske bara finns på den här datorn. När papperskorgen har tömts är det borta för alltid, om du inte har en annan kopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, kayıtlı oyunlar, veritabanları veya uygulamanın kendi yedeklemeleri gibi, uygulamayla oluşturduğunuz ve yalnızca bu Mac’te bulunabilecek şeyleri içerir. Çöp Sepeti boşaltıldığında, başka bir kopyanız yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігається те, що ви створили в програмі і що може існувати лише на цьому Mac, як-от збереження ігор, бази даних або власні резервні копії програми. Коли Смітник буде очищено, це буде втрачено назавжди, якщо у вас немає іншої копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有你用此App创作、可能仅存在于这台Mac上的内容，例如游戏存档、数据库或App自己的备份。一旦清倒废纸篓，除非你另有副本，否则这些内容将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有你用此App製作、可能只存在於這部Mac上的內容，例如遊戲存檔、資料庫或App自己的備份。一旦清空「垃圾桶」，除非你有另一份副本，否則這些內容就會永久消失。"
+          }
+        }
+      }
+    },
     "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it." : {
       "localizations" : {
         "cs" : {

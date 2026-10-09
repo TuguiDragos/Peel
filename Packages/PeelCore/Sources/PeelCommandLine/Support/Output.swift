@@ -324,6 +324,8 @@ extension HoldBack {
         case .holdsMessageHistory: "holds message history that may exist only on this Mac"
         case .holdsPasswordsOrCodes: "holds passwords or sign-in codes that may exist only on this Mac"
         case .holdsVPNConnections: "holds VPN connections that may exist only on this Mac"
+        case .holdsWorkMadeWithTheApp:
+            "holds what you made with the app, such as saved games, databases, or its backups, that may exist only here"
         case .holdsKeys: "holds a wallet or a key Peel protects"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .insideAnotherAppsFolder: "inside another app's folder"

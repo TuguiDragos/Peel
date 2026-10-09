@@ -19,6 +19,11 @@ struct KeptOnlyHereTests {
             ("Library/Containers/io.ente.auth.mac", .holdsPasswordsOrCodes),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
+            ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Steam/userdata/123/570/remote", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Postgres/var-17", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/.com.example.notes.backups", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in held {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == reason, "\(path)")
@@ -32,6 +37,7 @@ struct KeptOnlyHereTests {
             "Library/Group Containers/group.strongbox.mac.mcguill/Library/Caches",
             "Library/Application Support/Tunnelblick/Logs", "Library/Logs/Viscosity",
             "Library/Group Containers/group.net.whatsapp.family",
+            "Library/Application Support/Steam Link", "Library/Caches/Postgres", "Library/Application Support/Backupify",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == nil, "\(path)")

@@ -46,7 +46,10 @@ struct LeftoverScannerTests {
         let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
 
         let backups = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == ".org.example.app.backups" })
-        #expect(plan.suggestedSelection(canUseHelper: false).contains(backups.url))
+        #expect(backups.match.reason == .bundleIdentifierPrefix)
+        // Backups are a copy the person may need: found as the app's, and left for the person to select.
+        #expect(backups.match.heldBack == .holdsWorkMadeWithTheApp)
+        #expect(!plan.suggestedSelection(canUseHelper: false).contains(backups.url))
         #expect(!plan.scan.leftovers.contains { $0.url.lastPathComponent == ".org.example.app.plist" })
     }
 

@@ -244,6 +244,8 @@ extension HoldBack {
             "Not selected: this holds passwords or sign-in codes that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
         case .holdsVPNConnections:
             "Not selected: this holds VPN connections, with their keys and certificates, that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+        case .holdsWorkMadeWithTheApp:
+            "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy."
         case .holdsKeys:
             "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .holdsWorkKeptInACache:

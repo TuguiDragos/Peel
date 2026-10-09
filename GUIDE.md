@@ -19,7 +19,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   Homebrew stops listing the app once it is gone.
 - **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password
   database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
-  may exist only on this Mac, such as local mail, message history, sign-in codes, or VPN connections.
+  may exist only on this Mac, such as local mail, message history, sign-in codes, VPN connections, a game's saves, a
+  database, or an app's own backups.
 - **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected. What
   Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also uses, waits
   under Review Before Removing.

@@ -2,8 +2,9 @@ import Foundation
 internal import PeelPrivileged
 
 /// Where apps keep what may exist only on this Mac: local mail, message history, password vaults and sign-in codes,
-/// and VPN connections. A folder at or inside one, or the app's folder that holds one, is shown and never selected
-/// for the person, who can still select it.
+/// VPN connections, and what the person made with an app, such as saved games, databases, and the app's own backups.
+/// A folder at or inside one, or the app's folder that holds one, is shown and never selected for the person, who
+/// can still select it.
 enum KeptOnlyHere {
     static let places: [(folder: String, inside: String?, reason: HoldBack)] = [
         // Airmail's help, "Backup and restore Airmail for macOS".
@@ -38,6 +39,12 @@ enum KeptOnlyHere {
         ("Library/Application Support/Tunnelblick", "Configurations", .holdsVPNConnections),
         // SparkLabs' "Uninstalling Viscosity (Mac)": connection data.
         ("Library/Application Support/Viscosity", nil, .holdsVPNConnections),
+        // Steam Support's "Steam Cloud": cloud files are kept here by default, and with Steam Cloud off a game's saves
+        // are kept only here.
+        ("Library/Application Support/Steam", "userdata", .holdsWorkMadeWithTheApp),
+        // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
+        // data directories is an optional step of uninstalling it.
+        ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),
     ]
 
     static func reason(for path: String, home: String) -> HoldBack? {
@@ -48,6 +55,8 @@ enum KeptOnlyHere {
             let place = folder + (inside.map { PathComponents.of($0.lowercased()) } ?? [])
             if item.starts(with: place) || item == folder { return reason }
         }
-        return nil
+        // What an app names as its backups is a copy the person may need, whichever app made it.
+        let words = (item.last ?? "").split { !$0.isLetter }
+        return words.contains("backup") || words.contains("backups") ? .holdsWorkMadeWithTheApp : nil
     }
 }

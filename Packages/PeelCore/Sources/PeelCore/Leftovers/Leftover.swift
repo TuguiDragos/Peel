@@ -67,6 +67,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsPasswordsOrCodes
     /// VPN connections, with their keys and certificates, that may exist only on this Mac (`KeptOnlyHere`).
     case holdsVPNConnections
+    /// What the person made with the app, such as saved games, databases, or the app's own backups, that may exist
+    /// only on this Mac (`KeptOnlyHere`).
+    case holdsWorkMadeWithTheApp
     /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
     case holdsKeys
     /// Work kept nowhere else is inside a cache folder, such as an editor's local history of the person's files, and
