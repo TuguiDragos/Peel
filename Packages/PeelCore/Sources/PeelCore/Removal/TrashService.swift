@@ -528,16 +528,22 @@ public struct TrashService: Sendable {
         return failure
     }
 
-    private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
+    /// Why `item` cannot go back as things stand, or nil when it can.
+    public func refusal(ofPuttingBack item: TrashedItem) -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
         // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
         guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else {
             return .notAllowed
         }
-
-        let fileManager = FileManager.default
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
+        return nil
+    }
+
+    private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
+        if let refusal = refusal(ofPuttingBack: item) { return refusal }
+
+        let fileManager = FileManager.default
 
         let parent = item.originalURL.deletingLastPathComponent()
         // Missing folders are created again, so write access is checked on the nearest folder that exists.

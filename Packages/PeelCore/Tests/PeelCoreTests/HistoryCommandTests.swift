@@ -457,6 +457,37 @@ struct HistoryCommandTests {
         #expect(await logs.removals.load().records?.isEmpty == true)
     }
 
+    @Test func aDryRunNamesWhatCannotGoBackAndWhy() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        try directory.file("home/Documents/report.pdf", bytes: 1)
+        func record(_ name: String) -> RemovalRecord {
+            RemovalRecord(
+                batch: taken.record.batch,
+                item: TrashedItem(
+                    originalURL: directory.url.appending(path: "home/Documents/\(name)"),
+                    trashedURL: directory.url.appending(path: "home/.Trash/\(name)"),
+                    date: .now
+                ),
+                size: 10, source: "Editor", tool: "applications"
+            )
+        }
+        try directory.file("home/.Trash/letter.txt", bytes: 10)
+        _ = await logs.removals.add([taken.record, record("letter.txt"), record("notes.txt")])
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await (command(["restore", String(taken.record.batch.uuidString.prefix(8)), "--dry-run"]) as RestoreCommand)
+                .run(in: logs.removals, using: service(in: directory))
+        }
+
+        #expect(collected.output.contains("letter.txt"))
+        #expect(!collected.output.contains("report.pdf"))
+        #expect(collected.notes.contains("report.pdf stays: something is there already"))
+        #expect(collected.notes.contains("1 item is no longer in the Trash and can't be put back."))
+    }
+
     /// A file already sits where the item would go back, so the restore cannot finish. It exits 1 and keeps the
     /// record.
     @Test func aRestoreThatCouldNotFinishExitsOne() async throws {

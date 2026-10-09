@@ -326,33 +326,43 @@ struct RestoreCommand: AsyncParsableCommand {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
         }
         let batch = try Self.batch(matching: id, in: Batch.all(in: records))
-        let going = batch.restorable
+        let inTheTrash = batch.restorable
+        let refused = inTheTrash.compactMap { record in
+            service.refusal(ofPuttingBack: record.trashedItem).map { (record: record, failure: $0) }
+        }
+        let going = inTheTrash.filter { record in !refused.contains { $0.record.id == record.id } }
         // An item in the Trash of a disk that isn't connected is still there, once the disk is.
         let waiting = batch.records.filter { !$0.isStillInTrash && !$0.isOnAConnectedDisk }
         let items = Output.count(waiting.count, "item is", "items are")
         let elsewhere = waiting.isEmpty
             ? nil
             : "\(items) on a disk that isn't connected. Connect it and run the command again."
-        guard !going.isEmpty else {
+        guard !inTheTrash.isEmpty else {
             let nothing = "Nothing of that removal is in the Trash anymore, so there is nothing to put back."
             throw CommandFailure(elsewhere ?? nothing)
         }
 
-        Output.table(going.map { [Output.size($0.size), Output.path($0.originalURL)] })
-        Output.line("Total: \(Output.size(going.totalSize))")
-        let gone = batch.records.count - going.count - waiting.count
+        if !going.isEmpty {
+            Output.table(going.map { [Output.size($0.size), Output.path($0.originalURL)] })
+            Output.line("Total: \(Output.size(going.totalSize))")
+        }
+        let gone = batch.records.count - inTheTrash.count - waiting.count
         if gone > 0 {
             let items = Output.count(gone, "item is", "items are")
-            Output.note("\(items) no longer in the Trash and will stay as they are.")
+            Output.note("\(items) no longer in the Trash and can't be put back.")
         }
         if let elsewhere {
             Output.note(elsewhere)
+        }
+        for (record, failure) in refused {
+            Output.note("\(Output.plain(Output.path(record.originalURL))) stays: \(failure.summary)")
         }
 
         guard !dryRun else {
             Output.line("Dry run: nothing was moved.")
             return
         }
+        guard !going.isEmpty else { throw ExitCode.failure }
         if !yes {
             try Output.confirm("Put \(Output.count(going.count, "item", "items")) back?")
         }
@@ -378,6 +388,6 @@ struct RestoreCommand: AsyncParsableCommand {
         for (record, failure) in failures {
             Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
         }
-        try Cleanup.end(failed: !failures.isEmpty, recorded: forgotten)
+        try Cleanup.end(failed: !failures.isEmpty || !refused.isEmpty, recorded: forgotten)
     }
 }
