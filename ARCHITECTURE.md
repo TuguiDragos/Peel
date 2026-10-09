@@ -72,7 +72,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
 2. **Match.** For each file, `LeftoverMatcher` weighs the evidence that it belongs to the app: its bundle
    identifier, the identifiers of what the app embeds, its application groups, its signing team, its name. A
    plug-in and a container named by a UUID are also weighed by the identifier they declare: a plug-in's name
-   says what it does and a UUID says nothing, so the identifier decides whose they are. The answer is a
+   says what it does and a UUID says nothing, so the identifier decides whose they are. A launch job is weighed
+   by the program it runs, since anyone can name its file: a job that runs a program inside the app is the
+   app's, and one that runs a program inside another installed app is that app's. The answer is a
    `LeftoverMatch`: a confidence (`certain`, `likely`, or `possible`), the reason, the other installed apps that
    claim the file too (with the apps of the same maker that macOS knows outside the Applications folders), the
    other copies of the app that use it (any macOS knows, wherever they are, named by their place), and, when Peel
