@@ -127,7 +127,7 @@ extension SSHSetting {
         switch self {
         case .keychain: "ssh asks for a key’s passphrase once, saves it in your keychain, and adds the key to the agent."
         case .keepAlive: "On a quiet connection, ssh checks on the server every minute, so a router doesn’t drop it."
-        case .reuseConnections: "A new connection to a server you’re already connected to opens at once through the first, which stays open 10 minutes after the last one ends."
+        case .reuseConnections: "A new connection to a server you’re already connected to opens at once through the first, which stays open 10 minutes after the last one ends. Leave it off if you use two accounts on one server, such as two GitHub accounts: ssh would send the second through the first one’s connection."
         }
     }
 }

@@ -8703,108 +8703,108 @@
         }
       }
     },
-    "A new connection to a server you’re already connected to opens at once through the first, which stays open 10 minutes after the last one ends." : {
+    "A new connection to a server you’re already connected to opens at once through the first, which stays open 10 minutes after the last one ends. Leave it off if you use two accounts on one server, such as two GitHub accounts: ssh would send the second through the first one’s connection." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nové připojení k serveru, ke kterému jste už připojeni, se okamžitě otevře přes to první, které zůstane otevřené ještě 10 minut po ukončení posledního."
+            "value" : "Nové připojení k serveru, ke kterému jste už připojeni, se okamžitě otevře přes to první, které zůstane otevřené ještě 10 minut po ukončení posledního. Nechte tuto volbu vypnutou, pokud na jednom serveru používáte dva účty, například dva účty GitHub: ssh by připojení druhého účtu poslal přes připojení prvního."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine neue Verbindung zu einem Server, mit dem du schon verbunden bist, öffnet sich sofort über die erste, die nach dem Ende der letzten noch 10 Minuten offen bleibt."
+            "value" : "Eine neue Verbindung zu einem Server, mit dem du schon verbunden bist, öffnet sich sofort über die erste, die nach dem Ende der letzten noch 10 Minuten offen bleibt. Lass diese Option deaktiviert, wenn du zwei Accounts auf demselben Server verwendest, etwa zwei GitHub-Accounts: ssh würde die Verbindung des zweiten über die des ersten leiten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una conexión nueva a un servidor al que ya estás conectado se abre al instante a través de la primera, que sigue abierta 10 minutos después de que termine la última."
+            "value" : "Una conexión nueva a un servidor al que ya estás conectado se abre al instante a través de la primera, que sigue abierta 10 minutos después de que termine la última. Déjalo desactivado si usas dos cuentas en un mismo servidor, como dos cuentas de GitHub: ssh enviaría la segunda a través de la conexión de la primera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une nouvelle connexion à un serveur auquel vous êtes déjà connecté s’ouvre aussitôt en passant par la première, qui reste ouverte 10 minutes après la fin de la dernière."
+            "value" : "Une nouvelle connexion à un serveur auquel vous êtes déjà connecté s’ouvre aussitôt en passant par la première, qui reste ouverte 10 minutes après la fin de la dernière. Laissez ce réglage désactivé si vous utilisez deux comptes sur un même serveur, comme deux comptes GitHub : ssh ferait passer le second compte par la connexion du premier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando hai già una connessione con un server, una nuova connessione allo stesso server si apre subito attraverso la prima, che resta aperta per 10 minuti dopo la chiusura dell’ultima."
+            "value" : "Quando hai già una connessione con un server, una nuova connessione allo stesso server si apre subito attraverso la prima, che resta aperta per 10 minuti dopo la chiusura dell’ultima. Lascia disattivata questa opzione se usi due account sullo stesso server, come due account GitHub: ssh farebbe passare il secondo attraverso la connessione del primo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すでに接続しているサーバへの新しい接続は、最初の接続を通じてすぐに開きます。最初の接続は、最後の接続が終了してから10分間開いたままになります。"
+            "value" : "すでに接続しているサーバへの新しい接続は、最初の接続を通じてすぐに開きます。最初の接続は、最後の接続が終了してから10分間開いたままになります。2つのGitHubアカウントなど、1つのサーバで2つのアカウントを使う場合は、オフのままにしてください。オンにすると、sshは2つ目のアカウントの接続を、最初のアカウントの接続を通じて開いてしまいます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이미 연결된 서버에 새로 연결하면 첫 번째 연결을 통해 바로 열리며, 첫 번째 연결은 마지막 연결이 끝난 후에도 10분 동안 열려 있습니다."
+            "value" : "이미 연결된 서버에 새로 연결하면 첫 번째 연결을 통해 바로 열리며, 첫 번째 연결은 마지막 연결이 끝난 후에도 10분 동안 열려 있습니다. GitHub 계정 두 개처럼 한 서버에서 계정 두 개를 사용한다면 이 설정을 끈 상태로 두십시오. 켜 두면 ssh가 두 번째 계정의 연결을 첫 번째 계정의 연결을 통해 보냅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een nieuwe verbinding met een server waarmee je al verbonden bent, wordt meteen geopend via de eerste, die nog 10 minuten open blijft nadat de laatste verbinding is beëindigd."
+            "value" : "Een nieuwe verbinding met een server waarmee je al verbonden bent, wordt meteen geopend via de eerste, die nog 10 minuten open blijft nadat de laatste verbinding is beëindigd. Laat dit uitgeschakeld als je twee accounts op één server gebruikt, zoals twee GitHub-accounts: ssh zou de tweede dan via de verbinding van de eerste sturen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nowe połączenie z serwerem, z którym masz już połączenie, otwiera się od razu przez to pierwsze, które pozostaje otwarte jeszcze 10 minut po zakończeniu ostatniego."
+            "value" : "Nowe połączenie z serwerem, z którym masz już połączenie, otwiera się od razu przez to pierwsze, które pozostaje otwarte jeszcze 10 minut po zakończeniu ostatniego. Pozostaw tę opcję wyłączoną, jeśli używasz dwóch kont na jednym serwerze, na przykład dwóch kont GitHub: ssh skierowałby drugie konto przez połączenie pierwszego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma nova conexão com um servidor ao qual você já está conectado abre na hora por meio da primeira conexão, que fica aberta por 10 minutos depois que a última termina."
+            "value" : "Uma nova conexão com um servidor ao qual você já está conectado abre na hora por meio da primeira conexão, que fica aberta por 10 minutos depois que a última termina. Deixe esta opção desativada se você usa duas contas no mesmo servidor, como duas contas do GitHub: o ssh enviaria a segunda conta pela conexão da primeira."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O conexiune nouă la un server la care sunteți deja conectat se deschide imediat prin prima, care rămâne deschisă 10 minute după ce se încheie ultima."
+            "value" : "O conexiune nouă la un server la care sunteți deja conectat se deschide imediat prin prima, care rămâne deschisă 10 minute după ce se încheie ultima. Lăsați această opțiune dezactivată dacă folosiți două conturi pe același server, de exemplu două conturi GitHub: ssh ar trimite conexiunea celui de‑al doilea cont prin cea a primului."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новое подключение к серверу, к которому Вы уже подключены, сразу открывается через первое подключение. Оно остается открытым еще 10 минут после завершения последнего."
+            "value" : "Новое подключение к серверу, к которому Вы уже подключены, сразу открывается через первое подключение. Оно остается открытым еще 10 минут после завершения последнего. Оставьте этот параметр выключенным, если Вы используете две учетные записи на одном сервере, например две учетные записи GitHub: ssh направит подключение второй через подключение первой."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En ny anslutning till en server som du redan är ansluten till öppnas direkt via den första, som hålls öppen i 10 minuter efter att den sista har avslutats."
+            "value" : "En ny anslutning till en server som du redan är ansluten till öppnas direkt via den första, som hålls öppen i 10 minuter efter att den sista har avslutats. Låt inställningen vara avstängd om du använder två konton på samma server, till exempel två GitHub-konton: ssh skulle då skicka det andra via det förstas anslutning."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaten bağlı olduğunuz bir sunucuya açılan yeni bir bağlantı ilkinin üzerinden hemen açılır; ilk bağlantı da sonuncusu kapandıktan sonra 10 dakika açık kalır."
+            "value" : "Zaten bağlı olduğunuz bir sunucuya açılan yeni bir bağlantı ilkinin üzerinden hemen açılır; ilk bağlantı da sonuncusu kapandıktan sonra 10 dakika açık kalır. Aynı sunucuda iki hesap (örneğin iki GitHub hesabı) kullanıyorsanız bunu kapalı bırakın: açıkken ssh, ikinci hesabı ilk hesabın bağlantısı üzerinden gönderir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нове зʼєднання із сервером, до якого ви вже підʼєднані, відкривається відразу через перше зʼєднання, яке лишається відкритим ще 10 хвилин після того, як завершиться останнє."
+            "value" : "Нове зʼєднання із сервером, до якого ви вже підʼєднані, відкривається відразу через перше зʼєднання, яке лишається відкритим ще 10 хвилин після того, як завершиться останнє. Не вмикайте цей параметр, якщо використовуєте два облікові записи на одному сервері, як-от два облікові записи GitHub: ssh підʼєднував би другий через зʼєднання першого."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "连接到你已连接的服务器时，新连接会通过第一个连接立即打开，而第一个连接会在最后一个连接结束后继续保持打开10分钟。"
+            "value" : "连接到你已连接的服务器时，新连接会通过第一个连接立即打开，而第一个连接会在最后一个连接结束后继续保持打开10分钟。如果你在同一台服务器上使用两个账户（例如两个GitHub账户），请保持此项关闭：ssh会通过第一个账户的连接发送第二个账户的连接。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "對你已連線的伺服器建立的新連線，會立即透過第一條連線開啟；第一條連線會在最後一條連線結束後再保持開啟10分鐘。"
+            "value" : "對你已連線的伺服器建立的新連線，會立即透過第一條連線開啟；第一條連線會在最後一條連線結束後再保持開啟10分鐘。如果你在同一部伺服器上使用兩個帳號，例如兩個GitHub帳號，請讓此選項保持關閉：ssh會透過第一個帳號的連線傳送第二個帳號的連線。"
           }
         }
       }
