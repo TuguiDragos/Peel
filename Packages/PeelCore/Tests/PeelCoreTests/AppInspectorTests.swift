@@ -181,6 +181,28 @@ struct AppInspectorTests {
         #expect(scan.unreadable.contains(list))
     }
 
+    /// Launch Services would answer Loud Name, and asking it registers the bundle.
+    @Test func anAppMacOSDoesNotKnowIsNamedByItsFile() throws {
+        let directory = try TemporaryDirectory()
+        let info = ["CFBundleIdentifier": "org.example.quiet", "CFBundleName": "Quiet", "LSHasLocalizedDisplayName": "1"]
+        try plist(info, at: "Quiet.app/Contents/Info.plist", in: directory)
+        try directory.file(
+            "Quiet.app/Contents/Resources/en.lproj/InfoPlist.strings",
+            contents: Data(#""CFBundleDisplayName" = "Loud Name";"#.utf8)
+        )
+
+        let app = try #require(AppInspector.inspect(directory.url.appending(path: "Quiet.app", directoryHint: .isDirectory)))
+
+        #expect(app.name == "Quiet")
+    }
+
+    @Test func anAppMacOSKnowsIsNamedAsFinderNamesIt() {
+        let calculator = URL(filePath: "/System/Applications/Calculator.app", directoryHint: .isDirectory)
+        let finder = FileManager.default.displayName(atPath: calculator.path(percentEncoded: false))
+
+        #expect(AppInspector.displayName(of: calculator) == finder)
+    }
+
     /// A launchd plist too large to be a job is not read, and neither is a link to something that is not a file
     /// (reading `/dev/zero` never ends). A link to a real job is followed.
     @Test func readsThroughALinkedLaunchdJobAndRefusesWhatIsNoJob() throws {

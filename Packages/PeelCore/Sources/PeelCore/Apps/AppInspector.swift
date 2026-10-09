@@ -84,7 +84,7 @@ public enum AppInspector {
         return InstalledApp(
             url: url,
             bundleIdentifier: bundleIdentifier,
-            name: displayName(of: url),
+            name: displayName(of: url, identifier: bundleIdentifier),
             bundleName: info["CFBundleName"] as? String,
             // Falls back to the build number when the short version is empty or is not a string, such as a number.
             version: (info["CFBundleShortVersionString"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? info["CFBundleVersion"] as? String,
@@ -134,15 +134,29 @@ public enum AppInspector {
         return !info.isMissing && BoundedRead.data(at: info) == nil
     }
 
-    /// The name Finder shows for a bundle, in the user's language when the app translates its name.
     /// The name Finder shows for the app macOS knows by `identifier`, or the identifier itself when it knows none.
     public static func knownName(forBundleIdentifier identifier: String) -> String {
         applicationURL(forBundleIdentifier: identifier).map(displayName(of:)) ?? identifier
     }
 
+    /// The name Finder shows for a bundle, in the user's language when the app translates its name. Asking Launch
+    /// Services for it registers the bundle, so one it does not know yet is named by its file.
     public static func displayName(of url: URL) -> String {
-        let name = FileManager.default.displayName(atPath: url.path(percentEncoded: false))
+        let identifier = infoDictionary(in: AppBundleLayout(of: url).infoFolder)?["CFBundleIdentifier"] as? String
+        return displayName(of: url, identifier: identifier)
+    }
+
+    private static func displayName(of url: URL, identifier: String?) -> String {
+        let name = identifier.map { isKnown(url, as: $0) } == true
+            ? FileManager.default.displayName(atPath: url.path(percentEncoded: false)) : url.lastPathComponent
         return name.hasSuffix(".app") ? String(name.dropLast(4)) : name
+    }
+
+    private static func isKnown(_ url: URL, as identifier: String) -> Bool {
+        let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
+        return NSWorkspace.shared.urlsForApplications(withBundleIdentifier: identifier).contains {
+            PathPattern.comparablePath(of: PathPattern.canonical($0)) == path
+        }
     }
 
     private static func signingInformation(
