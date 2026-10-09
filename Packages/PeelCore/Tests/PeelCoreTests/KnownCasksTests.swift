@@ -86,7 +86,8 @@ struct KnownCasksTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
         #expect(CaskEvidence.evidence(for: adguard, casks: [cask], home: home) == nil)
-        let combined = CaskEvidence.combined(installed: [cask], known: [], receipts: ["com.adguard.mac.adguard-pkg"])
+        let noted = cask.noting(receipts: ["com.adguard.mac.adguard-pkg"])
+        let combined = CaskEvidence.combined(installed: [noted], known: [])
         #expect(CaskEvidence.evidence(for: adguard, casks: combined, home: home)?.items.count == 1)
         #expect(CaskEvidence.cask(for: adguard, in: combined) != nil)
     }
@@ -160,6 +161,19 @@ struct KnownCasksTests {
 
         #expect(CaskEvidence.installedCask(for: brewed, in: [cask]) != nil)
         #expect(CaskEvidence.installedCask(for: copy, in: [cask]) == nil, "a second copy was called Homebrew's")
+    }
+
+    @Test func anInstalledCaskCarriesTheReceiptsOnThisMac() async {
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", packageIdentifiers: ["org.example.synth.app.pkg"]
+        )
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            arguments == ["--pkgs-plist"] ? PkgutilAnswer.packages("org.example.synth.app.pkg") : nil
+        }
+
+        let checked = await Homebrew.checkedOnThisMac([cask], pkgutil: pkgutil)
+
+        #expect(CaskEvidence.installedCask(for: app("Synth", "org.example.synth"), in: checked) != nil)
     }
 
     @Test func asksForNothingWhenThereIsNothingToAskAbout() async {

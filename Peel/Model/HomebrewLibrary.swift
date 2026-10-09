@@ -85,7 +85,7 @@ final class HomebrewLibrary {
 
     /// Everything Peel can use as evidence: what Homebrew installed, plus what it knows about the rest.
     var caskEvidence: [HomebrewPackage] {
-        CaskEvidence.combined(installed: packages ?? [], known: knownCasks, receipts: receipts)
+        CaskEvidence.combined(installed: packages ?? [], known: knownCasks)
     }
 
     var knowsItsOwnApps: Bool { !isInstalled || hasAnswered }

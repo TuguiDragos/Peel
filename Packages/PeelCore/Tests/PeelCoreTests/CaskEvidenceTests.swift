@@ -13,7 +13,7 @@ struct CaskEvidenceTests {
             HomebrewPackage(name: "iterm2", kind: .cask, leftoverPatterns: ["~/Library/Preferences/com.googlecode.iterm2.plist"]),
         ]
 
-        let combined = CaskEvidence.combined(installed: installed, known: known, receipts: [])
+        let combined = CaskEvidence.combined(installed: installed, known: known)
 
         #expect(combined.map(\.id) == ["cask/adguard", "cask/iterm2", "formula/openssl@3"])
         #expect(combined.first?.installedVersion == "2.19")

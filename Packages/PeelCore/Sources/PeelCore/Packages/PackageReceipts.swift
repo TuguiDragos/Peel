@@ -39,6 +39,10 @@ public enum PackageReceipts {
     /// enough to find an app's own receipt and to tell whether a cask really belongs to an app.
     @concurrent
     public static func identifiers() async -> Set<String> {
+        await identifiers(pkgutil: pkgutil)
+    }
+
+    static func identifiers(pkgutil: Pkgutil) async -> Set<String> {
         Set((packageList(in: await pkgutil(["--pkgs-plist"])) ?? []).map { $0.lowercased() })
     }
 
@@ -260,10 +264,6 @@ public enum PackageReceipts {
 
     /// Where the packages `patterns` name wrote apps, finding the packages as Homebrew does for a cask's `pkgutil`
     /// entries: `pkgutil --pkgs=` matches each pattern against whole identifiers.
-    static func apps(installedByPackagesMatching patterns: [String]) async -> [String] {
-        await apps(installedByPackagesMatching: patterns, pkgutil: pkgutil)
-    }
-
     static func apps(installedByPackagesMatching patterns: [String], pkgutil: Pkgutil) async -> [String] {
         var identifiers: Set<String> = []
         for pattern in patterns {
@@ -348,7 +348,7 @@ public enum PackageReceipts {
     }
 
     /// A tool that could not be run, or that failed, says nothing about what is installed.
-    private static func pkgutil(_ arguments: [String]) async -> String? {
+    static func pkgutil(_ arguments: [String]) async -> String? {
         guard case .success(let output) = await Subprocess.run("/usr/sbin/pkgutil", arguments, timeout: 30) else { return nil }
         return output.status == 0 ? output.text : nil
     }

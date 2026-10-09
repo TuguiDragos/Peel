@@ -517,9 +517,21 @@ public enum Homebrew {
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
+        return await checkedOnThisMac(packages, pkgutil: PackageReceipts.pkgutil)
+    }
+
+    /// The installed packages with what this Mac says of them: the receipts their casks name, where those packages
+    /// wrote apps, and whether their apps are gone.
+    static func checkedOnThisMac(
+        _ packages: [HomebrewPackage],
+        pkgutil: @escaping PackageReceipts.Pkgutil
+    ) async -> [HomebrewPackage] {
+        let receipts = await PackageReceipts.identifiers(pkgutil: pkgutil)
         return await packages.concurrentMap(width: PackageReceipts.concurrentReceipts) { package in
-            let apps = await PackageReceipts.apps(installedByPackagesMatching: package.packageIdentifiers)
-            return package.noting(packagedApps: apps).checkingItsApps()
+            let apps = await PackageReceipts.apps(
+                installedByPackagesMatching: package.packageIdentifiers, pkgutil: pkgutil
+            )
+            return package.noting(receipts: receipts).noting(packagedApps: apps).checkingItsApps()
         }
     }
 

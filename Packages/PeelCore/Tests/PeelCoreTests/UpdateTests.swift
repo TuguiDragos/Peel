@@ -594,7 +594,7 @@ struct UpdateSourceTests {
             isOutdated: true,
             appNames: ["Firefox.app"]
         )
-        let casks = CaskEvidence.combined(installed: [installed], known: [known], receipts: [])
+        let casks = CaskEvidence.combined(installed: [installed], known: [known])
 
         #expect(casks.map(\.name) == ["firefox", "firefox@esr"], "the base cask sorts first, which is what hid the other")
         #expect(

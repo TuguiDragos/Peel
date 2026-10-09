@@ -26,12 +26,12 @@ enum CaskLookup {
         let known = await CaskEvidence.knownCasks(for: [app], receipts: receipts)
         do {
             return Answer(
-                casks: CaskEvidence.combined(installed: try await installed, known: known, receipts: receipts),
+                casks: CaskEvidence.combined(installed: try await installed, known: known),
                 receipts: receipts
             )
         } catch {
             return Answer(
-                casks: CaskEvidence.combined(installed: [], known: known, receipts: receipts),
+                casks: CaskEvidence.combined(installed: [], known: known),
                 receipts: receipts,
                 failure: why(error)
             )

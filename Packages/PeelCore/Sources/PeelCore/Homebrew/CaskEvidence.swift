@@ -146,17 +146,9 @@ public struct CaskEvidence: Sendable, Hashable {
     }
 
     /// Merges installed packages with the casks Homebrew only knows of, keeping the installed one when both
-    /// share an ID. `receipts`, the installer receipts on the Mac, are noted on each installed package, since
-    /// a receipt is what proves a cask that installs its app from a `.pkg`.
-    public static func combined(
-        installed: [HomebrewPackage],
-        known: [HomebrewPackage],
-        receipts: Set<String>
-    ) -> [HomebrewPackage] {
-        var byID = Dictionary(
-            installed.map { ($0.id, $0.noting(receipts: receipts)) },
-            uniquingKeysWith: { first, _ in first }
-        )
+    /// share an ID.
+    public static func combined(installed: [HomebrewPackage], known: [HomebrewPackage]) -> [HomebrewPackage] {
+        var byID = Dictionary(installed.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         for cask in known where byID[cask.id] == nil {
             byID[cask.id] = cask
         }
