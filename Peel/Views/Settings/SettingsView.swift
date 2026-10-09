@@ -492,23 +492,23 @@ private struct GeneralSettingsView: View {
 
 extension GeneralSettingsView {
     fileprivate struct Muted: Identifiable {
-        let identifier: String
+        let reference: String
         let app: InstalledApp?
         let isIgnored: Bool
         let skippedVersion: String?
 
-        var id: String { identifier }
-        var name: String { app?.name ?? identifier }
+        var id: String { reference }
+        var name: String { app?.name ?? reference }
     }
 
     fileprivate var muted: [Muted] {
-        let identifiers = library.ignoredIdentifiers.union(library.skippedVersions.keys)
-        return identifiers.map { identifier in
+        let references = library.ignoredApps.union(library.skippedVersions.keys)
+        return references.map { reference in
             Muted(
-                identifier: identifier,
-                app: library.apps.first { $0.bundleIdentifier == identifier },
-                isIgnored: library.ignoredIdentifiers.contains(identifier),
-                skippedVersion: library.skippedVersions[identifier]
+                reference: reference,
+                app: library.apps.first { $0.reference == reference },
+                isIgnored: library.ignoredApps.contains(reference),
+                skippedVersion: library.skippedVersions[reference]
             )
         }
         .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
@@ -541,7 +541,7 @@ extension GeneralSettingsView {
             Spacer(minLength: 8)
             // Checks right away, as the button's title says, rather than at the next scheduled check.
             Button {
-                library.unmute(item.identifier)
+                library.unmute(item.reference)
                 if let app = item.app {
                     Task { await library.checkForUpdates([app], force: true) }
                 }

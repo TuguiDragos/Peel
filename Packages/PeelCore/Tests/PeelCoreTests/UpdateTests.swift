@@ -657,12 +657,27 @@ struct UpdatePreferencesTests {
         )
         let waiting = UpdateStatus.updateAvailable(version: "3.0")
         let newer = UpdateStatus.updateAvailable(version: "4.0")
-        let preferences = UpdatePreferences(source: .automatic, ignoredIdentifiers: ["com.example.notes"], skippedVersions: ["com.example.editor": "3.0"])
+        let preferences = UpdatePreferences(source: .automatic, ignoredApps: ["com.example.notes"], skippedVersions: ["com.example.editor": "3.0"])
 
         #expect(preferences.shownStatus(waiting, for: editor) == nil, "a skipped version was shown as available")
         #expect(preferences.shownStatus(waiting, for: notes) == nil, "an update of an ignored app was shown as available")
         #expect(preferences.shownStatus(newer, for: editor) == newer)
         #expect(preferences.shownStatus(.upToDate, for: editor) == .upToDate)
         #expect(preferences.shownStatus(.failed, for: notes) == .failed)
+    }
+
+    @Test func anAppWithNoIdentifierIsMutedByWhereItIs() {
+        let plain = InstalledApp(url: URL(filePath: "/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
+        let copy = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor"
+        )
+        let update = UpdateStatus.updateAvailable(version: "2.0")
+        let ignored = UpdatePreferences(ignoredApps: [plain.reference])
+        let skipped = UpdatePreferences(skippedVersions: [plain.reference: "2.0"])
+
+        #expect(ignored.isIgnored(plain))
+        #expect(!ignored.isIgnored(copy))
+        #expect(!skipped.isWaiting(update, for: plain))
+        #expect(skipped.isWaiting(update, for: copy))
     }
 }

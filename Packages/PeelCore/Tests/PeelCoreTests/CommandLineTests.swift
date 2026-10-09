@@ -921,7 +921,7 @@ struct CommandLineTests {
         let waiting = UpdateStatus.updateAvailable(version: "3.0", source: .developer, releaseNotes: nil)
         let preferences = UpdatePreferences(
             source: .homebrew,
-            ignoredIdentifiers: ["com.example.notes"],
+            ignoredApps: ["com.example.notes"],
             skippedVersions: ["com.example.editor": "3.0"]
         )
 
@@ -956,7 +956,7 @@ struct CommandLineTests {
 
         let preferences = UpdatePreferences.read(from: defaults)
         #expect(preferences.source == .homebrew)
-        #expect(preferences.ignoredIdentifiers == ["com.example.notes"])
+        #expect(preferences.ignoredApps == ["com.example.notes"])
         #expect(preferences.skippedVersions == ["com.example.editor": "3.0"])
     }
 

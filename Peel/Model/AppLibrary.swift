@@ -129,7 +129,7 @@ final class AppLibrary {
     /// The apps selected with their checkboxes, to be removed together. Kept apart from `selection`, so
     /// choosing a row to look at never clears the batch.
     var picked: Set<InstalledApp.ID> = []
-    private(set) var ignoredIdentifiers = Set(
+    private(set) var ignoredApps = Set(
         UserDefaults.standard.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? []
     ) {
         didSet { updatesRevision += 1 }
@@ -634,7 +634,7 @@ final class AppLibrary {
     var updatePreferences: UpdatePreferences {
         UpdatePreferences(
             source: updateSource,
-            ignoredIdentifiers: ignoredIdentifiers,
+            ignoredApps: ignoredApps,
             skippedVersions: skippedVersions
         )
     }
@@ -700,33 +700,31 @@ final class AppLibrary {
     }
 
     func setIgnored(_ isIgnored: Bool, for app: InstalledApp) {
-        guard let identifier = app.bundleIdentifier else { return }
-        var identifiers = ignoredIdentifiers
+        var references = ignoredApps
         if isIgnored {
-            identifiers.insert(identifier)
+            references.insert(app.reference)
         } else {
-            identifiers.remove(identifier)
+            references.remove(app.reference)
         }
-        ignoredIdentifiers = identifiers
-        UserDefaults.standard.set(Array(identifiers).sorted(), forKey: SettingsKey.ignoredUpdateApps)
+        ignoredApps = references
+        UserDefaults.standard.set(Array(references).sorted(), forKey: SettingsKey.ignoredUpdateApps)
     }
 
     func skippedVersion(for app: InstalledApp) -> String? {
-        app.bundleIdentifier.flatMap { skippedVersions[$0] }
+        skippedVersions[app.reference]
     }
 
     func skip(version: String, for app: InstalledApp) {
-        guard let identifier = app.bundleIdentifier else { return }
-        skippedVersions[identifier] = version
+        skippedVersions[app.reference] = version
         UserDefaults.standard.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
-    /// Undoes both a skipped version and "never check this app", by identifier: what was muted may not be
-    /// installed anymore, and then there is no `InstalledApp` to name it with.
-    func unmute(_ identifier: String) {
-        ignoredIdentifiers.remove(identifier)
-        skippedVersions.removeValue(forKey: identifier)
-        UserDefaults.standard.set(ignoredIdentifiers.sorted(), forKey: SettingsKey.ignoredUpdateApps)
+    /// Undoes both a skipped version and "never check this app", by `InstalledApp.reference`: what was muted may not
+    /// be installed anymore, and then there is no `InstalledApp` to name it with.
+    func unmute(_ reference: String) {
+        ignoredApps.remove(reference)
+        skippedVersions.removeValue(forKey: reference)
+        UserDefaults.standard.set(ignoredApps.sorted(), forKey: SettingsKey.ignoredUpdateApps)
         UserDefaults.standard.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
