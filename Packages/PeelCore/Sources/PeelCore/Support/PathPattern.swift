@@ -188,6 +188,22 @@ public enum PathPattern {
     /// The entry `path` names. A path that ends in `/` names folders only, and the kernel follows a link to what it
     /// leads to when the slash is kept, so the entry is named without it.
     private static func entry(named path: String) -> URL {
-        URL(filePath: path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path)
+        spelledOnDisk(URL(filePath: path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path))
+    }
+
+    /// `url` with each name the disk holds written as the disk writes it. The disk answers to a name in other
+    /// capitals, as a cask or a receipt's identifier may write one, and an item named that way would be shown, recorded
+    /// and put back under a name that is not its own. Read without opening anything or following a link.
+    static func spelledOnDisk(_ url: URL) -> URL {
+        var spelled: [String] = []
+        var isOnDisk = true
+        for name in PathComponents.of(url.path(percentEncoded: false)) {
+            let place = URL(filePath: "/" + (spelled + [name]).joined(separator: "/"), directoryHint: .notDirectory)
+            let onDisk = isOnDisk ? (try? place.resourceValues(forKeys: [.nameKey]))?.name : nil
+            isOnDisk = onDisk != nil
+            spelled.append(onDisk ?? name)
+        }
+        let path = "/" + spelled.joined(separator: "/")
+        return URL(filePath: path, directoryHint: url.hasDirectoryPath ? .isDirectory : .notDirectory)
     }
 }

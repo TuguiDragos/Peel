@@ -26,6 +26,16 @@ struct PackageActionsTests {
         #expect(files.map(\.lastPathComponent).sorted() == ["com.example.tool.bom", "com.example.tool.plist"])
     }
 
+    @Test func namesAReceiptAsTheDiskWritesIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("private/var/db/receipts/com.Example.Tool.bom")
+        try directory.file("private/var/db/receipts/com.Example.Tool.plist")
+
+        let files = PackageActions.receiptFiles(of: "com.example.tool", onVolume: directory.url)
+
+        #expect(files.map(\.lastPathComponent).sorted() == ["com.Example.Tool.bom", "com.Example.Tool.plist"])
+    }
+
     /// The identifier becomes part of a file name, so one that could name anything other than a plain file in
     /// the receipts folder names nothing.
     @Test func anIdentifierThatIsAPathNamesNoReceipt() throws {

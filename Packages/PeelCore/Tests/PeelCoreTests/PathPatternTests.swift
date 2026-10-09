@@ -57,6 +57,25 @@ struct PathPatternTests {
         #expect(whole.count == 300)
     }
 
+    @Test func aPathWrittenInOtherCapitalsComesBackAsTheDiskWritesIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/LaunchAgents/com.example.agent.plist")
+        try directory.directory("Library/Caches/ExampleApp")
+        let versions = try directory.directory("Library/Frameworks/Example.framework/Versions/A").deletingLastPathComponent()
+        try FileManager.default.createSymbolicLink(
+            atPath: versions.appending(path: "Current").path(percentEncoded: false), withDestinationPath: "A"
+        )
+        let found = { (pattern: String, source: PathPattern.Source) in
+            PathPattern.expand(pattern, home: directory.url, from: source)
+                .map { $0.pathComponents.suffix(3).joined(separator: "/") }
+        }
+
+        #expect(found("~/Library/LaunchAgents/com.Example.Agent.plist", .cask) == ["Library/LaunchAgents/com.example.agent.plist"])
+        #expect(found("~/library/caches/Example*", .cask) == ["Library/Caches/ExampleApp"])
+        #expect(found("library/caches/exampleapp", .peel) == ["Library/Caches/ExampleApp"])
+        #expect(found("~/Library/Frameworks/example.framework/versions/current", .cask) == ["Example.framework/Versions/Current"])
+    }
+
     /// A bracket in a real name is not a character class: `App [Beta]` has to find itself.
     @Test func findsAFolderWhoseNameHoldsABracket() throws {
         let directory = try TemporaryDirectory()

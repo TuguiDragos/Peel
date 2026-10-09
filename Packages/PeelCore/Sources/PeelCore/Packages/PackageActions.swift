@@ -10,7 +10,7 @@ public enum PackageActions {
     static func receiptFiles(of identifier: String, onVolume volume: URL) -> [URL] {
         guard !identifier.isEmpty, !identifier.hasPrefix("."), !identifier.contains("/") else { return [] }
         return ["bom", "plist"].map { receiptsFolder(onVolume: volume).appending(path: identifier + "." + $0) }
-            .filter(\.isThere)
+            .filter(\.isThere).map(PathPattern.spelledOnDisk)
     }
 
     private static func receiptsFolder(onVolume volume: URL) -> URL {
