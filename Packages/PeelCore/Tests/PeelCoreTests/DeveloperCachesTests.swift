@@ -1023,6 +1023,22 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["cache", "build-cache"])
     }
 
+    @Test func offersTheUpdatesGooglesUpdaterKeptAndNothingElseOfItsFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let updater = "Library/Application Support/Google/GoogleUpdater"
+        try directory.file("\(updater)/crx_cache/1a7aef6023dd1d6f6d25ae2ff53a9d2956498bb8", bytes: 400_000)
+        try directory.file("\(updater)/crx_cache/metadata.json", bytes: 130)
+        try directory.file("\(updater)/156.0.8067.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater", bytes: 400_000)
+        try directory.file("\(updater)/prefs.json", bytes: 4_096)
+        try directory.file("\(updater)/updater.log", bytes: 4_096)
+        let googleUpdater = DeveloperCaches.definitions.filter { $0.id == "googleupdater" }
+
+        let locations = await DeveloperCaches.scan(googleUpdater, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["crx_cache"])
+        #expect(googleUpdater.first?.appBundleIdentifiers == ["com.google.GoogleUpdater"])
+    }
+
     @Test func offersTheImagesTartKeepsAndNeverItsMachines() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".tart/cache/OCIs/ghcr.io/cirruslabs/macos/disk.img", bytes: 400_000)

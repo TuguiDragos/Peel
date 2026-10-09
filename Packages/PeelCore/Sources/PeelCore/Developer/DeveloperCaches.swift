@@ -1052,6 +1052,16 @@ public enum DeveloperCaches {
                 chromiumFolders(in: "Library/Application Support/Google/\($0)")
             }
         ),
+        // Google's updater, which keeps Chrome and Google's other apps up to date, keeps the last update it downloaded
+        // for each app, and only that one (Chromium's `components/update_client/crx_cache.h`), in `crx_cache` inside
+        // its own folder, `Application Support/<company>/<product>` (`chrome/updater/util/mac_path_util.mm`).
+        Definition(
+            id: "googleupdater", name: "Google Updater", systemImage: "shippingbox",
+            appBundleIdentifiers: ["com.google.GoogleUpdater"],
+            folders: [
+                Folder("Library/Application Support/Google/GoogleUpdater/crx_cache", .downloads, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/chrome/updater/util/util.cc#L112-L115"),
+            ]
+        ),
         Definition(
             id: "chromium", name: "Chromium", systemImage: "globe", appBundleIdentifiers: ["org.chromium.Chromium"],
             folders: chromiumFolders(in: "Library/Application Support/Chromium")
