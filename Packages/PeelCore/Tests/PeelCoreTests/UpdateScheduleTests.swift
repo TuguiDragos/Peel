@@ -40,6 +40,29 @@ struct UpdateScheduleTests {
         #expect(first.isRetrying)
     }
 
+    @Test("Peel's own releases are asked about every day, whatever each answer says")
+    func peelsOwnReleasesAreAskedAboutEveryDay() {
+        let peel = InstalledApp(
+            url: URL(filePath: "/Applications/Peel.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.tuguidragos.Peel", name: "Peel"
+        )
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let longest = UpdateSchedule.longestWait(for: peel)
+        var schedule = UpdateSchedule.next(after: .upToDate, from: moment, longest: longest)
+        var waits = [schedule.wait]
+        for status in [UpdateStatus.upToDate, .upToDate, .failed, .failed, .failed, .failed, .upToDate] {
+            schedule = UpdateSchedule.next(after: status, following: schedule, from: schedule.due, longest: longest)
+            waits.append(schedule.wait)
+        }
+
+        #expect(waits.allSatisfy { $0 <= UpdateSchedule.base })
+        #expect(schedule.wait == UpdateSchedule.base)
+        #expect(UpdateSchedule.longestWait(for: editor) == UpdateSchedule.longest)
+    }
+
     @Test("Failures double up to two days and stay there, rather than starting over at the ceiling")
     func theRetryCeilingHolds() {
         var schedule = UpdateSchedule.next(after: .failed, from: moment)

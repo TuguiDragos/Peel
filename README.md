@@ -57,8 +57,9 @@ brew install --cask tuguidragos/tap/peel
 Homebrew also puts the `peel` command on your path.
 
 To update Peel, download the new release and replace the copy in your Applications folder, or run
-`brew upgrade --cask peel`. About Peel says when a new version is out, with a Download button, or
-the Homebrew command for a copy Homebrew installed, and downloads nothing itself.
+`brew upgrade --cask peel`. Peel asks GitHub once a day whether a new version is out, while update checks are on,
+and About Peel then says so, with a Download button, or the Homebrew command for a copy Homebrew installed,
+and downloads nothing itself.
 
 ## What Peel does
 

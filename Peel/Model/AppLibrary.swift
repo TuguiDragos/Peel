@@ -561,7 +561,11 @@ final class AppLibrary {
                 guard let identifier = app.bundleIdentifier else { continue }
                 memory[identifier] = UpdateMemory(
                     status: kept,
-                    schedule: UpdateSchedule.next(after: status, following: memory[identifier]?.schedule),
+                    schedule: UpdateSchedule.next(
+                        after: status,
+                        following: memory[identifier]?.schedule,
+                        longest: UpdateSchedule.longestWait(for: app)
+                    ),
                     checked: status == .failed ? memory[identifier]?.checked : .now,
                     describing: app,
                     developer: answer.developer ?? memory[identifier]?.developer

@@ -1,10 +1,12 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// When to check an app for updates again.
 ///
 /// Most apps answer "up to date" for months, and each answer costs a request to someone else's server. So
 /// every answer that changes nothing doubles the wait, up to a week. A found update sets the wait back to a
-/// day, because one release is often followed by another.
+/// day, because one release is often followed by another. Peel's own releases wait a day at most
+/// (`longestWait(for:)`).
 ///
 /// A feed that fails keeps a separate count, from 6 hours up to 2 days, since a server that is down may be
 /// back soon. A long healthy wait says nothing about when a broken server recovers, so the counts stay apart.
@@ -30,7 +32,8 @@ public struct UpdateSchedule: Sendable, Equatable, Codable {
     public static func next(
         after status: UpdateStatus,
         following previous: UpdateSchedule? = nil,
-        from now: Date = .now
+        from now: Date = .now,
+        longest: TimeInterval = UpdateSchedule.longest
     ) -> UpdateSchedule {
         // An "up to date" found before the app was due (Rescan, or a bundle that changed) says nothing about how
         // often the app ships, so the wait stays the same and only restarts from `now`.
@@ -42,7 +45,7 @@ public struct UpdateSchedule: Sendable, Equatable, Codable {
                 healthyWait: nil
             )
         }
-        let wait = wait(after: status, following: previous)
+        let wait = wait(after: status, following: previous, longest: longest)
         return UpdateSchedule(
             wait: wait,
             due: now.addingTimeInterval(wait),
@@ -51,19 +54,29 @@ public struct UpdateSchedule: Sendable, Equatable, Codable {
         )
     }
 
-    private static func wait(after status: UpdateStatus, following previous: UpdateSchedule?) -> TimeInterval {
+    private static func wait(
+        after status: UpdateStatus,
+        following previous: UpdateSchedule?,
+        longest: TimeInterval
+    ) -> TimeInterval {
         switch status {
         case .updateAvailable:
             base
         case .upToDate:
             min(max(healthyWait(before: previous), base) * 2, longest)
         case .failed:
-            min(max(failingWait(before: previous) * 2, afterFailure), longestAfterFailure)
+            min(max(failingWait(before: previous) * 2, afterFailure), longestAfterFailure, longest)
         case .unsupported:
             // Nowhere to ask. What would change the answer is the app being replaced, and a bundle that
             // changes is checked at once whatever the wait says.
             longest
         }
+    }
+
+    /// The longest wait for `app`. Peel never installs itself, so asking GitHub once a day about its own
+    /// releases is how a person learns their copy is out of date.
+    public static func longestWait(for app: InstalledApp) -> TimeInterval {
+        app.bundleIdentifier?.lowercased() == HelperIdentity.appIdentifier.lowercased() ? base : longest
     }
 
     /// Whether the app is due at `moment`. A due date further away than the wait can only come from a clock
