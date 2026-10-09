@@ -45,6 +45,9 @@ enum KeptOnlyHere {
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
         // data directories is an optional step of uninstalling it.
         ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),
+        // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
+        // (`frontend/OBSApp.cpp`), and nowhere else.
+        ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
     ]
 
     static func reason(for path: String, home: String) -> HoldBack? {

@@ -24,6 +24,8 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Postgres/var-17", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/.com.example.notes.backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/obs-studio", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/obs-studio/basic/scenes/Untitled.json", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in held {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == reason, "\(path)")
@@ -38,6 +40,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Tunnelblick/Logs", "Library/Logs/Viscosity",
             "Library/Group Containers/group.net.whatsapp.family",
             "Library/Application Support/Steam Link", "Library/Caches/Postgres", "Library/Application Support/Backupify",
+            "Library/Application Support/obs-studio/logs",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == nil, "\(path)")
