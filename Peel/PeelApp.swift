@@ -224,6 +224,22 @@ struct PeelApp: App {
         }
     }
 
+    /// Tells once for each newer version of Peel, whichever check found it.
+    private func followNewerPeel() async {
+        for await _ in Observations({ library.newerPeel?.version }) {
+            guard !Task.isCancelled else { return }
+            let defaults = UserDefaults.standard
+            let told = defaults.string(forKey: SettingsKey.toldNewerPeel)
+            let answer = NewerPeelNotice.check(newer: library.newerPeel?.version, told: told)
+            if answer.told != told {
+                defaults.set(answer.told, forKey: SettingsKey.toldNewerPeel)
+            }
+            if answer.tell, let update = library.newerPeel {
+                notifications.notify(newerPeel: update)
+            }
+        }
+    }
+
     /// Runs the update round every hour while update checks are on. Each app's schedule decides whether the round
     /// checks it.
     private func askWhenDue() async {
@@ -263,7 +279,7 @@ struct PeelApp: App {
         Navigator.shared.openWindow = openWindow
         background.start([
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
-            followHelper,
+            followHelper, followNewerPeel,
         ])
         textEditing.start()
         sheetInFront.start()

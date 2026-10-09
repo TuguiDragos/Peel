@@ -26385,6 +26385,112 @@
         }
       }
     },
+    "Click to download it in About, then replace this copy in Applications." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klikněte a v okně O aplikaci Peel si stáhněte novou verzi. Pak jí nahraďte tuto kopii ve složce Aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klicke, um die neue Version unter „Über ‚Peel‘“ zu laden, und ersetze dann diese Kopie im Ordner „Programme“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic para descargarla desde Acerca de Peel y luego reemplaza esta copia en la carpeta Aplicaciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez pour le télécharger depuis « À propos de Peel », puis remplacez cette copie dans le dossier Applications."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fai clic per scaricarla da “Informazioni su Peel”, poi sostituisci questa copia nella cartella Applicazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリックすると、“Peelについて”でダウンロードできます。その後、“アプリケーション”フォルダにあるこのPeelを新しいバージョンに置き換えてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭하면 ‘Peel에 관하여’에서 다운로드할 수 있습니다. 그런 다음 응용 프로그램 폴더에서 이 복사본을 새로운 버전으로 대치하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klik om de nieuwe versie te downloaden via 'Over Peel' en vervang daarmee deze kopie in de map 'Apps'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kliknij, aby ją pobrać w oknie „O programie Peel”, a potem zastąp nią tę kopię w folderze Aplikacje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique para baixar a nova versão em Sobre o App Peel e depois substitua esta cópia na pasta Aplicativos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faceți clic pentru a o descărca din fereastra Despre Peel, apoi înlocuiți cu ea această copie din dosarul Aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, чтобы загрузить ее в окне «О приложении Peel», а затем замените эту копию в папке «Программы»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klicka för att hämta den i Om Peel. Ersätt sedan den här kopian i mappen Appar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni sürümü Peel Hakkında penceresinden indirmek için tıklayın, ardından Uygulamalar klasöründeki bu kopyayı yenisiyle değiştirin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Натисніть, щоб викачати її у вікні «Про програму», а потім замініть нею цю копію в папці «Програми»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按即可在“关于Peel”窗口中下载新版本，然后在“应用程序”文件夹中用它替换此Peel副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按一下即可在「關於Peel」中下載新版本，然後用它取代「應用程式」檔案夾中的這份副本。"
+          }
+        }
+      }
+    },
     "Click to see what it left behind, under Applications." : {
       "localizations" : {
         "cs" : {
@@ -51424,6 +51530,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這份副本是由Homebrew安裝的，因此請在「終端機」中執行此指令來升級它。"
+          }
+        }
+      }
+    },
+    "Homebrew installed this copy. Click to see the command that upgrades it, in About." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuto kopii nainstaloval Homebrew. Klikněte a v okně O aplikaci Peel uvidíte příkaz, který ji upgraduje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat diese Kopie installiert. Klicke, um unter „Über ‚Peel‘“ den Befehl für das Upgrade zu sehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew instaló esta copia. Haz clic para ver el comando que la actualiza, en Acerca de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a installé cette copie. Cliquez pour voir la commande qui la met à niveau, dans « À propos de Peel »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa copia è stata installata da Homebrew. Fai clic per vedere il comando per aggiornarla, in “Informazioni su Peel”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このPeelはHomebrewでインストールされています。クリックすると、“Peelについて”で、アップグレード用のコマンドを確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 이 복사본을 설치했습니다. 클릭하면 ‘Peel에 관하여’에서 업그레이드 명령을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft deze kopie geïnstalleerd. Klik om in 'Over Peel' het commando te zien waarmee je die upgradet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tę kopię zainstalował Homebrew. Kliknij, aby w oknie „O programie Peel” zobaczyć polecenie, które ją uaktualnia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew instalou esta cópia. Clique para ver o comando que faz upgrade dela, em Sobre o App Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a instalat această copie. Faceți clic pentru a vedea comanda care îi face upgrade, în fereastra Despre Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту копию установил Homebrew. Нажмите, чтобы увидеть в окне «О приложении Peel» команду для ее обновления."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew installerade den här kopian. Klicka för att se kommandot som uppgraderar den, i Om Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kopyayı Homebrew yükledi. Onu yükselten komutu Peel Hakkında penceresinde görmek için tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю копію інсталював Homebrew. Натисніть, щоб побачити у вікні «Про програму» команду, яка її оновлює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此Peel副本由Homebrew安装。点按即可在“关于Peel”窗口中查看升级它的命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這份副本是由Homebrew安裝的。按一下即可在「關於Peel」中查看升級它的指令。"
           }
         }
       }
@@ -98755,6 +98967,112 @@
     "Peel" : {
       "comment" : "The app's name, never translated.",
       "shouldTranslate" : false
+    },
+    "Peel %@ is out" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyšel Peel %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ ist verfügbar"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ disponible"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ est disponible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ disponibile"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@が公開されました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ 출시됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ is verschenen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostępna wersja Peel %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ disponível"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A apărut Peel %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вышла версия Peel %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ har släppts"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ çıktı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вийшла Peel %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@已发布"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@已推出"
+          }
+        }
+      }
     },
     "Peel Inventory.%@" : {
       "comment" : "A suggested file name. Translate the words before the dot. %@ is the file extension, such as json.",

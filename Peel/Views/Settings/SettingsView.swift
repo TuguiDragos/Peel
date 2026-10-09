@@ -145,6 +145,7 @@ enum SettingsKey {
     static let ignoredUpdateApps = UpdatePreferences.Key.ignoredApps
     static let skippedUpdateVersions = UpdatePreferences.Key.skippedVersions
     static let updateMemory = "updateMemory"
+    static let toldNewerPeel = "newerPeel.told"
 
     /// Nil once the link leads to this copy's tool, and while something that may not be Peel's is where it goes.
     static func commandLineInstallCommand(

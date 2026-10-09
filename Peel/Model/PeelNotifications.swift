@@ -8,6 +8,7 @@ import UserNotifications
 final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     private nonisolated static let pathKey = "path"
     private nonisolated static let toolKey = "tool"
+    private nonisolated static let aboutKey = "about"
 
     func activate() {
         UNUserNotificationCenter.current().delegate = self
@@ -60,6 +61,18 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(request)
     }
 
+    /// Tells once that a newer Peel is out. Peel never installs itself, so the notification leads to About.
+    func notify(newerPeel update: AppLibrary.PeelUpdate) {
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "Peel \(update.version) is out")
+        content.body = update.homebrewCommand == nil
+            ? String(localized: "Click to download it in About, then replace this copy in Applications.")
+            : String(localized: "Homebrew installed this copy. Click to see the command that upgrades it, in About.")
+        content.userInfo = [Self.aboutKey: true]
+        let request = UNNotificationRequest(identifier: "newer-peel", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+    }
+
     func notify(diskNearlyFull storage: DeviceInfo.Storage) {
         let content = UNMutableNotificationContent()
         content.title = String(localized: "Your disk is almost full")
@@ -80,6 +93,10 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
+        if response.notification.request.content.userInfo[Self.aboutKey] != nil {
+            await MainActor.run { Navigator.shared.showAbout() }
+            return
+        }
         if let tool = response.notification.request.content.userInfo[Self.toolKey] as? String {
             await MainActor.run {
                 if let tool = Tool(rawValue: tool) {
