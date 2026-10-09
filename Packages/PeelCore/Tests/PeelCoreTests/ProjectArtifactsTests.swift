@@ -273,6 +273,24 @@ struct ProjectArtifactsTests {
         #expect(found.allSatisfy { $0.tool == "CLion" && $0.isRecommended })
     }
 
+    @Test func findsWhatSbtBuildsBesideItsBuildFileAndInItsProjectFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("service/build.sbt", bytes: 16)
+        try directory.file("service/src/main/scala/Main.scala", bytes: 16)
+        try directory.file("service/target/scala-3.7.3/classes/Main.class", bytes: 400_000)
+        try directory.file("service/project/build.properties", bytes: 16)
+        try directory.file("service/project/target/config-classes/Build.class", bytes: 400_000)
+        try directory.file("notes/target/report.txt", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map { "\($0.project.lastPathComponent)/\($0.name)" }) == [
+            "service/target", "service/project/target",
+        ])
+        #expect(found.allSatisfy { $0.tool == "sbt" })
+    }
+
     @Test func findsRailsCacheInsideItsTemporaryFolderAndOnlyThere() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("shop/config/application.rb", bytes: 16)

@@ -244,6 +244,14 @@ public enum ProjectArtifacts {
             source: "https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"
         ),
         Definition(
+            name: "target", markers: ["build.sbt"], tool: "sbt", isGeneric: true,
+            source: "https://www.scala-sbt.org/1.x/docs/Directories.html"
+        ),
+        Definition(
+            name: "project/target", markers: ["build.sbt"], tool: "sbt", isGeneric: true,
+            source: "https://www.scala-sbt.org/1.x/docs/Directories.html"
+        ),
+        Definition(
             name: "build", markers: gradleFiles, tool: "Gradle", isGeneric: true,
             source: "https://docs.gradle.org/current/userguide/directory_layout.html"
         ),
