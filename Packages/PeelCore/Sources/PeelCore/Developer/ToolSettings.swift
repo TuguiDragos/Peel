@@ -1,8 +1,9 @@
 import Foundation
 
-/// Where the tools' own configuration files say a cache Developer lists has moved: the files each tool reads, which
-/// its own `config set` writes, read here and never by running a tool. A value counts only when it names a place
-/// without the environment the tool runs in, such as an absolute path or one from the home folder.
+/// Where the tools' own configuration files say a cache Developer lists has moved, and where a Git clone it lists
+/// comes from: the files each tool reads, which its own `config set` writes, read here and never by running a tool. A
+/// value counts only when it names a place without the environment the tool runs in, such as an absolute path or one
+/// from the home folder.
 struct ToolSettings: Sendable {
     /// npm's `cache` in `~/.npmrc`.
     let npmCache: URL?
@@ -108,7 +109,75 @@ struct ToolSettings: Sendable {
         return result + rest
     }
 
+    /// Where the Git clone in `folder` comes from, as `gitAddress` writes it: the `url` of its `origin` remote.
+    static func cloneAddress(of folder: URL) -> String? {
+        text(at: folder.appending(path: ".git/config")).flatMap { gitValue(of: "url", inRemote: "origin", in: $0) }
+            .map(gitAddress)
+    }
+
     // MARK: - The formats
+
+    /// The value of `key` in a remote's section of a Git configuration file, as `git-config(1)` describes it: the
+    /// section's and the key's names without case, the remote's name with it, a value quoted in parts or ending at a
+    /// comment. The last one counts.
+    static func gitValue(of key: String, inRemote remote: String, in text: String) -> String? {
+        var isInTheRemote = false
+        var found: String?
+        for line in text.split(whereSeparator: { $0 == "\n" || $0 == "\r" }) {
+            let content = line.trimmingCharacters(in: .whitespaces)
+            if content.isEmpty || content.hasPrefix("#") || content.hasPrefix(";") { continue }
+            if content.hasPrefix("["), content.hasSuffix("]") {
+                let header = content.dropFirst().dropLast().split(separator: " ", maxSplits: 1)
+                isInTheRemote = header.count == 2 && header[0].lowercased() == "remote"
+                    && header[1].trimmingCharacters(in: .whitespaces) == "\"\(remote)\""
+                continue
+            }
+            guard isInTheRemote, let equals = content.firstIndex(of: "="),
+                  content[..<equals].trimmingCharacters(in: .whitespaces).lowercased() == key
+            else { continue }
+            found = gitUnquoted(content[content.index(after: equals)...])
+        }
+        return found
+    }
+
+    private static func gitUnquoted(_ raw: Substring) -> String {
+        var result = ""
+        var isQuoted = false
+        var isEscaped = false
+        for character in raw.trimmingCharacters(in: .whitespaces) {
+            if isEscaped {
+                result.append(character == "n" ? "\n" : character == "t" ? "\t" : character)
+                isEscaped = false
+            } else if character == "\\" {
+                isEscaped = true
+            } else if character == "\"" {
+                isQuoted.toggle()
+            } else if !isQuoted, character == "#" || character == ";" {
+                break
+            } else {
+                result.append(character)
+            }
+        }
+        return result.trimmingCharacters(in: .whitespaces)
+    }
+
+    /// A Git remote's address as host and path, so `https://github.com/CocoaPods/Specs.git` and
+    /// `git@github.com:CocoaPods/Specs` read alike: without case, scheme, user, a trailing slash or `.git`.
+    static func gitAddress(_ url: String) -> String {
+        var address = Substring(url.lowercased())
+        let hasScheme = address.range(of: "://").map { address = address[$0.upperBound...] } != nil
+        let firstSlash = address.firstIndex(of: "/") ?? address.endIndex
+        if let at = address[..<firstSlash].lastIndex(of: "@") { address = address[address.index(after: at)...] }
+        // The short form `host:path` names its path after a colon.
+        if !hasScheme, let colon = address.firstIndex(of: ":"),
+           colon < (address.firstIndex(of: "/") ?? address.endIndex) {
+            address = Substring(address[..<colon] + "/" + address[address.index(after: colon)...])
+        }
+        while address.hasSuffix("/") { address = address.dropLast() }
+        if address.hasSuffix(".git") { address = address.dropLast(4) }
+        while address.hasSuffix("/") { address = address.dropLast() }
+        return String(address)
+    }
 
     /// The value of a top-level `key` in an INI file as npm reads `.npmrc` (`ini` 7, `decode`): the last one before
     /// any `[section]`. A quoted value is decoded, and an unquoted one ends at the first `;` or `#` not escaped.

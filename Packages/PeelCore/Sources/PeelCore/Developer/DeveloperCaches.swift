@@ -158,12 +158,15 @@ public enum DeveloperCaches {
         /// The links, relative to the home folder, a tool's installer puts on the path to the version it runs. When
         /// set, the folder's rows are the versions it keeps beside that one (`olderVersions(in:home:)`).
         let launchers: [String]
+        /// Where a Git clone here comes from when it is the tool's own, as `ToolSettings.gitAddress` writes it. A clone
+        /// of anything else, which the person may have added under the same name, is listed and never selected.
+        let clonedFrom: String?
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
             rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
-            launchers: [String] = []
+            launchers: [String] = [], clonedFrom: String? = nil
         ) {
             self.path = path
             self.kind = kind
@@ -176,6 +179,12 @@ public enum DeveloperCaches {
             self.movedBy = movedBy
             self.base = base
             self.launchers = launchers
+            self.clonedFrom = clonedFrom
+        }
+
+        /// Whether what is at `url` is the tool's own, as far as where it was cloned from says.
+        func isTheTools(at url: URL) -> Bool {
+            clonedFrom.map { ToolSettings.cloneAddress(of: url) == $0 } ?? true
         }
 
         /// The versions in `folder` beside the ones its launchers run, or none when a launcher is not the installer's
@@ -383,6 +392,11 @@ public enum DeveloperCaches {
             Folder("Library/Caches/CocoaPods", .downloads, source: "https://github.com/CocoaPods/CocoaPods/blob/b80e113e28a7e23cd6dbc169f0c923f6b48bf7a2/lib/cocoapods/config.rb#L23"),
             // The CDN copy of the public spec index. The spec repositories a person added sit beside it and stay.
             Folder(".cocoapods/repos/trunk", .cache, source: "https://github.com/CocoaPods/Core/blob/4c1beb2e068e1055d8ed9fa079f94e7817157ba3/lib/cocoapods-core/trunk_source.rb#L2-L7"),
+            // The Git clone of the same index, which CocoaPods made as `master` before it read the CDN, and which its
+            // 1.8 notes say may go once projects read the CDN; added now, it is named `cocoapods`
+            // (`Source::Manager#name_for_url`).
+            Folder(".cocoapods/repos/master", .downloads, source: "https://blog.cocoapods.org/CocoaPods-1.8.0-beta/", clonedFrom: "github.com/cocoapods/specs"),
+            Folder(".cocoapods/repos/cocoapods", .downloads, source: "https://github.com/CocoaPods/Core/blob/4c1beb2e068e1055d8ed9fa079f94e7817157ba3/lib/cocoapods-core/source/manager.rb#L426-L478", clonedFrom: "github.com/cocoapods/specs"),
         ]),
         Definition(id: "carthage", name: "Carthage", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/org.carthage.CarthageKit", .downloads, source: "https://github.com/Carthage/Carthage/blob/e33e133a5427129b38bfb1ae18d8f56b29a93204/Source/CarthageKit/Constants.swift#L31"),
@@ -1256,7 +1270,7 @@ public enum DeveloperCaches {
                 archive: folder.kind == .archives ? Self.archive(at: url) : nil,
                 workspace: derived?.workspace,
                 project: project,
-                isTheTools: derived?.isXcodes ?? true,
+                isTheTools: derived?.isXcodes ?? folder.isTheTools(at: url),
                 lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange },
                 heldBack: contents.flatMap(HoldBack.secret(in:))
             ))

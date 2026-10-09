@@ -67,6 +67,28 @@ struct ToolSettingsTests {
     }
 
     /// npm and pnpm 10 read `${HOME}` and `~/`, Yarn its file's folder and a fallback, pnpm 11 `~/`, Go a full path.
+    @Test func readsARemotesAddressAsGitDoes() {
+        let config = """
+            [core]
+            \turl = https://example.org/not-a-remote.git
+            [Remote "origin"]
+            \tfetch = +refs/heads/*:refs/remotes/origin/*
+            \tURL = "https://github.com/CocoaPods/Specs.git" ; the public index
+            [remote "Origin"]
+            \turl = https://example.org/another.git
+            """
+
+        #expect(ToolSettings.gitValue(of: "url", inRemote: "origin", in: config) == "https://github.com/CocoaPods/Specs.git")
+        #expect(ToolSettings.gitValue(of: "url", inRemote: "upstream", in: config) == nil)
+        for address in [
+            "https://github.com/CocoaPods/Specs.git", "https://github.com/cocoapods/specs/", "git@github.com:CocoaPods/Specs.git",
+            "ssh://git@github.com/CocoaPods/Specs",
+        ] {
+            #expect(ToolSettings.gitAddress(address) == "github.com/cocoapods/specs", "\(address)")
+        }
+        #expect(ToolSettings.gitAddress("https://github.com/CocoaPods/Specs-mirror.git") != "github.com/cocoapods/specs")
+    }
+
     @Test func takesEachToolsPathAsTheToolDoes() throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/.npmrc", contents: Data("cache=${HOME}/npm-cache\nstore-dir=~/pnpm-ten\n".utf8))

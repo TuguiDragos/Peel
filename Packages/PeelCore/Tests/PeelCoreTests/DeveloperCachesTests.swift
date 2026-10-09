@@ -358,12 +358,14 @@ struct DeveloperCachesTests {
             // Claude Code and Codex keep every conversation and prompt beside their caches and logs.
             ".claude", ".codex",
         ]
-        // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the CDN copy
-        // of the public index, `trunk`, is a cache. nvm's, pyenv's, rbenv's and rustup's folders hold every version
-        // they installed; only their download caches are caches.
-        let onlyThisPart = [
-            ".cocoapods/repos": ".cocoapods/repos/trunk", ".nvm": ".nvm/.cache", ".pyenv": ".pyenv/cache",
-            ".rbenv": ".rbenv/cache", ".rustup": ".rustup/downloads",
+        // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
+        // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
+        // which is the tool's only when its origin is that index. nvm's, pyenv's, rbenv's and rustup's folders hold
+        // every version they installed; only their download caches are caches.
+        let onlyTheseParts: [String: Set<String>] = [
+            ".cocoapods/repos": [".cocoapods/repos/trunk", ".cocoapods/repos/master", ".cocoapods/repos/cocoapods"],
+            ".nvm": [".nvm/.cache"], ".pyenv": [".pyenv/cache"], ".rbenv": [".rbenv/cache"],
+            ".rustup": [".rustup/downloads"],
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -373,8 +375,8 @@ struct DeveloperCachesTests {
                 for folder in onlyInParts {
                     #expect(!PathComponents.isPath(folder, atOrInside: path), "\(definition.id) lists the whole of \(folder)")
                 }
-                for (folder, part) in onlyThisPart where PathComponents.isPath(path, atOrInside: folder) {
-                    #expect(path == part, "\(definition.id) lists \(path)")
+                for (folder, parts) in onlyTheseParts where PathComponents.isPath(path, atOrInside: folder) {
+                    #expect(parts.contains(path), "\(definition.id) lists \(path)")
                 }
             }
         }
@@ -1037,6 +1039,30 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["crx_cache"])
         #expect(googleUpdater.first?.appBundleIdentifiers == ["com.google.GoogleUpdater"])
+    }
+
+    /// A spec repository is named by whoever adds it (`pod repo add <name> <url>`), so only the clone of CocoaPods'
+    /// own public specs, as its Git configuration says, is offered under the names CocoaPods gives it.
+    @Test func offersTheCloneOfCocoaPodsPublicSpecsAndNeverARepositoryThePersonAdded() async throws {
+        let directory = try TemporaryDirectory()
+        func clone(_ name: String, from origin: String) throws {
+            try directory.file(".cocoapods/repos/\(name)/Specs/0/0/0/Example/1.0/Example.podspec.json", bytes: 400_000)
+            try directory.file(
+                ".cocoapods/repos/\(name)/.git/config",
+                contents: Data("[core]\n\tbare = false\n[remote \"origin\"]\n\turl = \(origin)\n".utf8)
+            )
+        }
+        try clone("master", from: "https://github.com/CocoaPods/Specs.git")
+        try clone("cocoapods", from: "https://github.com/example/private-specs.git")
+        try clone("example", from: "https://github.com/example/specs.git")
+        let cocoaPods = DeveloperCaches.definitions.filter { $0.id == "cocoapods" }
+
+        let locations = await DeveloperCaches.scan(cocoaPods, homeDirectory: directory.url).flatMap(\.locations)
+
+        let byName = Dictionary(uniqueKeysWithValues: locations.map { ($0.url.lastPathComponent, $0) })
+        #expect(Set(byName.keys) == ["master", "cocoapods"])
+        #expect(byName["master"]?.isRecommended == true)
+        #expect(byName["cocoapods"]?.isRecommended == false)
     }
 
     @Test func offersTheImagesTartKeepsAndNeverItsMachines() async throws {
