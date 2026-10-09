@@ -276,6 +276,10 @@ struct PeelApp: App {
     /// Starts what Peel does from launch to quit, from whichever shows first: the main window, or the menu bar item.
     /// Each piece starts once, and none is a child of the view that called it, so closing the window stops nothing.
     private func start() {
+        #if DEBUG
+        // A render or an export only draws and quits, so it contacts nothing and writes nothing of Peel's.
+        guard HomeSnapshot.directory == nil, TerminalExport.directory == nil else { return }
+        #endif
         Navigator.shared.openWindow = openWindow
         background.start([
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,

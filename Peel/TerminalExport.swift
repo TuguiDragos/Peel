@@ -4,8 +4,10 @@ import SwiftUI
 
 #if DEBUG
 enum TerminalExport {
+    static let directory = ProcessInfo.processInfo.environment["PEEL_TERMINAL_EXPORT"]
+
     static func runIfRequested() {
-        guard let directory = ProcessInfo.processInfo.environment["PEEL_TERMINAL_EXPORT"] else { return }
+        guard let directory else { return }
         let themes = URL(filePath: directory).appending(path: "Themes", directoryHint: .isDirectory)
         let renders = URL(filePath: directory).appending(path: "Renders", directoryHint: .isDirectory)
         let prompts = URL(filePath: directory).appending(path: "Prompts", directoryHint: .isDirectory)

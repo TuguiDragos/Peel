@@ -8,8 +8,10 @@ import SwiftUI
 /// the menu bar panel on the paper it draws itself, and Home on the window's plain color, since `ImageRenderer` does
 /// not draw glass.
 enum HomeSnapshot {
+    static let directory = ProcessInfo.processInfo.environment["PEEL_SNAPSHOT"]
+
     static func runIfRequested() async {
-        guard let directory = ProcessInfo.processInfo.environment["PEEL_SNAPSHOT"] else { return }
+        guard let directory else { return }
         let home = HomeModel()
         let helper = HelperModel()
         let stats = LifetimeStats()
