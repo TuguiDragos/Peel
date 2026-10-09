@@ -9,6 +9,112 @@
       "comment" : "Only placeholders: two paragraphs, each translated on its own, with a blank line between them.",
       "shouldTranslate" : false
     },
+    "%@ (%@)" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（%@）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@(%@)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（%@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（%@）"
+          }
+        }
+      }
+    },
     "%@ Found %@." : {
       "comment" : "What VoiceOver reads for a line of the menu bar panel's Found list. The first %@ is the tool's own sentence, such as \"3.2 GB in 5 groups.\", with its own full stop; the second is when the tool found it, as macOS words a relative time, such as \"2 hours ago\" or \"yesterday\".",
       "localizations" : {
@@ -4072,6 +4178,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@/%@"
+          }
+        }
+      }
+    },
+    "%@ of %@ can be moved here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ z %@ lze přesunout odsud."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ von %@ können hier verschoben werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí se pueden trasladar %@ de %@ a la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sur %@ peuvent être déplacés depuis cette page."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ su %@ si possono spostare da qui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@のうち、ここで移動できるのは%1$@です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 이동할 수 있는 항목은 총 %2$@ 중 %1$@입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ van %@ kan hier worden verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ z %@ można tu przenieść do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ de %@ podem ser movidos daqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici puteți muta %@ din %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ из %@ можно отсюда переместить в Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ av %@ kan flyttas härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@ içinden %1$@ buradan taşınabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ із %@ можна перемістити тут."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此处可移动%@（共%@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡可移動%@（共%@）。"
           }
         }
       }
@@ -32341,6 +32553,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開發者"
+          }
+        }
+      }
+    },
+    "Developer tools’ folders hold %@ of it: %@. The Developer page frees them, keeping what is more than a cache." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z celkové velikosti připadá %@ na složky vývojářských nástrojů: %@. Stránka Vývojář je uvolní a ponechá v nich vše, co není jen mezipaměť."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordner von Entwicklertools belegen %@ davon: %@. Die Seite „Entwicklung“ gibt diesen Speicherplatz frei und behält dabei, was mehr als ein Cache ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las carpetas de las herramientas para desarrolladores ocupan %@ del total: %@. La página Desarrollador libera de cada una la parte que es solo caché y conserva el resto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les dossiers des outils de développement représentent %@ de ce dossier : %@. La page Développeur libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le cartelle degli strumenti per lo sviluppo ne occupano %@: %@. La pagina Sviluppo le libera, conservando ciò che non è solo cache."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのうち%@は、デベロッパツールのフォルダです: %@。“デベロッパ”ページでは、これらのフォルダのうちキャッシュにすぎない部分だけを解放し、それ以外は残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 개발자 도구의 폴더가 이 폴더에서 %@의 공간을 차지합니다: %@. 개발자 페이지는 이러한 폴더에서 캐시일 뿐인 부분만 이동하여 공간을 확보하고, 나머지는 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De mappen van ontwikkeltools nemen daarvan %@ in: %@. De pagina 'Ontwikkelaar' maakt daar ruimte vrij en laat staan wat meer is dan alleen cache."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W tym folderze %@ zajmują foldery narzędzi dla deweloperów: %@. Strona Deweloper zwalnia je, zachowując to, co nie jest pamięcią podręczną."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As pastas das ferramentas para desenvolvedores ocupam %@ desta pasta: %@. A página Desenvolvedor libera o espaço delas, mantendo o que não é só cache."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarele instrumentelor pentru dezvoltatori ocupă %@ din acest dosar: %@. Pagina Dezvoltator le eliberează, păstrând ce nu este doar memorie tampon."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки инструментов разработчика занимают здесь %@: %@. Раздел «Разработчик» освобождает в них место, оставляя все, что не является лишь кэшем."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utvecklarverktygens mappar upptar %@ av den: %@. Sidan Utvecklare frigör dem men behåller det som är mer än cache."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştirici araçlarının klasörleri bu klasörde %@ yer kaplıyor: %@. Geliştirici sayfası bunlarda yer boşaltır ve önbellekten ibaret olmayan kısımlara dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці %@ займають папки інструментів розробника: %@. Сторінка «Розробник» звільняє їх, залишаючи те, що не є лише кешем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开发者工具的文件夹占用了其中的%@：%@。“开发者”页面会释放这些文件夹，同时保留其中缓存以外的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開發者工具的檔案夾佔用其中的%@：%@。「開發者」頁面會釋放這些檔案夾，並保留快取以外的內容。"
           }
         }
       }
@@ -94080,6 +94398,112 @@
         }
       }
     },
+    "Open Developer" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít stránku Vývojář"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Entwicklung“ öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Desarrollador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la page Développeur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Sviluppo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デベロッパを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개발자 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open 'Ontwikkelaar'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz stronę Deweloper"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Desenvolvedor"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți pagina Dezvoltator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть раздел «Разработчик»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Utvecklare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştirici’yi Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити сторінку «Розробник»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开开发者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開開發者"
+          }
+        }
+      }
+    },
     "Open Exclusions in Settings…" : {
       "localizations" : {
         "cs" : {
@@ -97900,6 +98324,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App的一部分"
+          }
+        }
+      }
+    },
+    "Part of this folder is left to the Developer page." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Část této složky je přenechána stránce Vývojář."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Teil dieses Ordners bleibt der Seite „Entwicklung“ überlassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte de esta carpeta se deja a la página Desarrollador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une partie de ce dossier est laissée à la page Développeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte di questa cartella è lasciata alla pagina Sviluppo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダの一部は“デベロッパ”ページに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더의 일부는 개발자 페이지에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een deel van deze map wordt overgelaten aan de pagina 'Ontwikkelaar'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Część tego folderu jest pozostawiona stronie Deweloper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte desta pasta fica para a página Desenvolvedor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O parte din acest dosar este lăsată în seama paginii Dezvoltator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часть этой папки оставлена разделу «Разработчик»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En del av den här mappen lämnas åt sidan Utvecklare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu klasörün bir kısmı Geliştirici sayfasına bırakılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Частину цієї папки залишено для сторінки «Розробник»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件夹的一部分交给“开发者”页面处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案夾的一部分交給「開發者」頁面處理。"
           }
         }
       }
@@ -105837,346 +106367,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel將這裡的%lld個檔案夾原地保留，因為它會保護其中的內容，例如錢包、App的文件或資料庫。"
-          }
-        }
-      }
-    },
-    "Peel leaves ^[%lld folder](inflect: true) here to the Developer page, which knows which part of each is only a cache." : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel odsud %lld složky přenechává stránce Vývojář, která ví, která část každé z nich je jen mezipaměť."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel odsud %lld složky přenechává stránce Vývojář, která ví, která část každé z nich je jen mezipaměť."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel odsud %lld složku přenechává stránce Vývojář, která ví, která její část je jen mezipaměť."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel odsud %lld složek přenechává stránce Vývojář, která ví, která část každé z nich je jen mezipaměť."
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel überlässt %lld Ordner hier der Seite „Entwicklung“, die weiß, welcher Teil davon nur ein Cache ist."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel überlässt %lld Ordner hier der Seite „Entwicklung“, die weiß, welcher Teil jedes Ordners nur ein Cache ist."
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja %lld de carpetas de aquí a la página Desarrollador, que sabe qué parte de cada una es solo caché."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja una carpeta de aquí a la página Desarrollador, que sabe qué parte de ella es solo caché."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja %lld carpetas de aquí a la página Desarrollador, que sabe qué parte de cada una es solo caché."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld de dossiers à la page Développeur, qui sait quelle partie de chacun n’est qu’un cache."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossier à la page Développeur, qui sait quelle partie n’en est qu’un cache."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossiers à la page Développeur, qui sait quelle partie de chacun n’est qu’un cache."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia %lld di queste cartelle alla pagina Sviluppo, che sa quale parte di ciascuna è solo cache."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia una di queste cartelle alla pagina Sviluppo, che sa quale sua parte è solo cache."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia %lld di queste cartelle alla pagina Sviluppo, che sa quale parte di ciascuna è solo cache."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、ここにある%lld個のフォルダを“デベロッパ”ページに任せています。そのページでは、各フォルダのどの部分がキャッシュにすぎないかを判断できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 여기에 있는 폴더 %lld개를 개발자 페이지에 맡깁니다. 개발자 페이지는 각 폴더에서 어느 부분이 캐시일 뿐인지 알고 있습니다."
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat één map hier over aan de pagina 'Ontwikkelaar', die weet welk deel ervan alleen cache is."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat %lld mappen hier over aan de pagina 'Ontwikkelaar', die van elke map weet welk deel alleen cache is."
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld foldery z tego miejsca stronie Deweloper, która wie, jaka część każdego z nich to tylko pamięć podręczna."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folderów z tego miejsca stronie Deweloper, która wie, jaka część każdego z nich to tylko pamięć podręczna."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folder z tego miejsca stronie Deweloper, która wie, jaka jego część to tylko pamięć podręczna."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folderu z tego miejsca stronie Deweloper, która wie, jaka część każdego z nich to tylko pamięć podręczna."
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld de pastas daqui para a página Desenvolvedor, que sabe qual parte de cada uma é só cache."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld pasta daqui para a página Desenvolvedor, que sabe qual parte de cada uma é só cache."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld pastas daqui para a página Desenvolvedor, que sabe qual parte de cada uma é só cache."
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld dosare de aici în seama paginii Dezvoltator, care știe ce parte din fiecare este doar memorie tampon."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld dosar de aici în seama paginii Dezvoltator, care știe ce parte din el este doar memorie tampon."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld de dosare de aici în seama paginii Dezvoltator, care știe ce parte din fiecare este doar memorie tampon."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет %lld папки отсюда разделу «Разработчик», который знает, какая часть каждой папки является лишь кэшем."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет %lld папок отсюда разделу «Разработчик», который знает, какая часть каждой папки является лишь кэшем."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет %lld папку отсюда разделу «Разработчик», который знает, какая часть каждой папки является лишь кэшем."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет %lld папки отсюда разделу «Разработчик», который знает, какая часть каждой папки является лишь кэшем."
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lämnar %lld mapp här åt sidan Utvecklare, som vet vilken del av den som bara är cache."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lämnar %lld mappar här åt sidan Utvecklare, som vet vilken del av varje mapp som bara är cache."
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü, hangi kısmının yalnızca önbellek olduğunu bilen Geliştirici sayfasına bırakır."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü, her birinin hangi kısmının yalnızca önbellek olduğunu bilen Geliştirici sayfasına bırakır."
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel передає %lld папки звідси сторінці «Розробник»: вона знає, яка частина кожної папки є лише кешем."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel передає %lld папок звідси сторінці «Розробник»: вона знає, яка частина кожної папки є лише кешем."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel передає %lld папку звідси сторінці «Розробник»: вона знає, яка частина кожної папки є лише кешем."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel передає %lld папки звідси сторінці «Розробник»: вона знає, яка частина кожної папки є лише кешем."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel将此处的%lld个文件夹交给“开发者”页面处理，该页面知道每个文件夹中哪部分只是缓存。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel將這裡的%lld個檔案夾交給「開發者」頁面處理，它知道每個檔案夾中哪些部分只是快取。"
           }
         }
       }
@@ -157455,6 +157645,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些副本共用儲存空間，因此移除它們所釋放的空間會少於其大小。"
+          }
+        }
+      }
+    },
+    "These developer tools’ folders are left to the Developer page: %@. It frees them, keeping what is more than a cache." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto složky vývojářských nástrojů jsou přenechány stránce Vývojář: %@. Ta je uvolní a ponechá v nich vše, co není jen mezipaměť."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen: %@. Die Seite gibt deren Speicherplatz frei und behält dabei, was mehr als ein Cache ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador: %@. Allí se libera de cada una la parte que es solo caché y se conserva el resto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les dossiers de ces outils de développement sont laissés à la page Développeur : %@. Celle-ci libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queste cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo: %@. La pagina Sviluppo le libera, conservando ciò che non è solo cache."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次のデベロッパツールのフォルダは“デベロッパ”ページに任せています: %@。そのページでは、これらのフォルダのうちキャッシュにすぎない部分だけを解放し、それ以外は残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 개발자 도구의 폴더는 개발자 페이지에 맡깁니다: %@. 개발자 페이지는 이러한 폴더에서 캐시일 뿐인 부분만 이동하여 공간을 확보하고, 나머지는 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar': %@. Die maakt daar ruimte vrij en laat staan wat meer is dan alleen cache."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te foldery narzędzi dla deweloperów są pozostawione stronie Deweloper: %@. Strona Deweloper zwalnia je, zachowując to, co nie jest pamięcią podręczną."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas pastas de ferramentas para desenvolvedores ficam para a página Desenvolvedor: %@. Essa página libera o espaço delas, mantendo o que não é só cache."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceste dosare ale instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator: %@. Aceasta le eliberează, păstrând ce nu este doar memorie tampon."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эти папки инструментов разработчика оставлены разделу «Разработчик»: %@. Он освобождает в них место, оставляя все, что не является лишь кэшем."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Följande mappar för utvecklarverktyg lämnas åt sidan Utvecklare: %@. Den frigör dem men behåller det som är mer än cache."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır: %@. Geliştirici sayfası bunlarda yer boşaltır ve önbellekten ibaret olmayan kısımlara dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ці папки інструментів розробника залишено для сторінки «Розробник»: %@. Вона звільняє їх, залишаючи те, що не є лише кешем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下开发者工具的文件夹交给“开发者”页面处理：%@。该页面会释放这些文件夹，同时保留其中缓存以外的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下開發者工具的檔案夾交給「開發者」頁面處理：%@。該頁面會釋放這些檔案夾，並保留快取以外的內容。"
           }
         }
       }

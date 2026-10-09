@@ -16,6 +16,9 @@ public enum SpaceRemoval {
         /// The size of each removable item, which is what emptying frees. One whose size is not known is missing
         /// here but stays in `removable`.
         public let sizes: [URL: Int64]
+        /// The size of each folder left to Developer (`sizesLeftToDeveloper(in:)`), nil until they are measured, apart
+        /// from the plan, so a page lists what it can move without waiting for them.
+        public var developerSizes: [URL: Int64]?
         /// Why a removable item is left for the person to choose, from what measuring it saw. One missing here holds
         /// nothing that keeps it from being selected.
         public var heldBack: [URL: HoldBack] = [:]
@@ -101,6 +104,23 @@ public enum SpaceRemoval {
             sizes: sizes,
             heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused
         )
+    }
+
+    @concurrent
+    public static func sizesLeftToDeveloper(in plan: Plan) async -> [URL: Int64] {
+        await sizesLeftToDeveloper(in: plan, measure: LeftoverScanner.walk)
+    }
+
+    static func sizesLeftToDeveloper(in plan: Plan, measure: @escaping LeftoverScanner.Measure) async -> [URL: Int64] {
+        let folders = plan.leftToDeveloper
+        let measured = await folders.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { folder in
+            (folder, await measure(folder))
+        }
+        var sizes: [URL: Int64] = [:]
+        for (folder, contents) in measured {
+            sizes[folder] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
+        }
+        return sizes
     }
 
     /// What of `item` can move now, measuring nothing: the check a move makes just before it moves, since an app

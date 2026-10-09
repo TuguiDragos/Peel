@@ -71,6 +71,20 @@ struct SpaceRemovalTests {
         #expect(logged.leftToDeveloper.map(\.lastPathComponent) == ["JetBrains"])
     }
 
+    @Test func measuresWhatItLeavesToDeveloper() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/index.db", bytes: 8192)
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory))
+        let sizes = await SpaceRemoval.sizesLeftToDeveloper(in: plan)
+
+        let jetBrains = try #require(plan.leftToDeveloper.first)
+        #expect(plan.developerSizes == nil)
+        #expect(sizes[jetBrains] ?? 0 >= 8192)
+        #expect(Set(sizes.keys) == Set(plan.leftToDeveloper))
+    }
+
     @Test func offersTheRestOfAVendorsFolderThatHoldsAToolsOwn() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/Google/Chrome/Default/Cache/Cache_Data/data_0")

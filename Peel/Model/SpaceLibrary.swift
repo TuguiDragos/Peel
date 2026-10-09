@@ -38,6 +38,16 @@ final class SpaceLibrary: RowSelection {
         // A plan cut short measured only part of the area, and would read the rest as unknown.
         guard !Task.isCancelled else { return }
         keep(made.plan, for: item, madeWith: made.exclusions)
+        await measureWhatIsLeftToDeveloper(in: item)
+    }
+
+    /// Measures the folders the area's plan leaves to Developer once its list is shown, since only the page's notice
+    /// reads their sizes. A plan made again meanwhile takes them only if it leaves the same folders.
+    private func measureWhatIsLeftToDeveloper(in item: SpaceItem) async {
+        guard let plan = plans[item.id], !plan.leftToDeveloper.isEmpty else { return }
+        let sizes = await SpaceRemoval.sizesLeftToDeveloper(in: plan)
+        guard !Task.isCancelled, plans[item.id]?.leftToDeveloper == plan.leftToDeveloper else { return }
+        plans[item.id]?.developerSizes = sizes
     }
 
     private func newPlan(for item: SpaceItem) async -> (plan: SpaceRemoval.Plan, exclusions: Int) {
@@ -52,6 +62,11 @@ final class SpaceLibrary: RowSelection {
 
     private func keep(_ plan: SpaceRemoval.Plan, for item: SpaceItem, madeWith revision: Int) {
         let previous = plans[item.id]
+        var plan = plan
+        // The sizes measured for the same folders stand until they are measured again, so the page's notice holds.
+        if let previous, previous.leftToDeveloper == plan.leftToDeveloper {
+            plan.developerSizes = previous.developerSizes
+        }
         let chosen = plan.selection(keeping: selectedURLs, canUseHelper: canUseHelper)
         selectedURLs.subtract(previous?.removable ?? [])
         selectedURLs.formUnion(chosen)
@@ -119,6 +134,9 @@ final class SpaceLibrary: RowSelection {
         }
         for (item, plan, revision) in made {
             keep(plan, for: item, madeWith: revision)
+        }
+        for (item, _, _) in made {
+            await measureWhatIsLeftToDeveloper(in: item)
         }
     }
 }

@@ -24,6 +24,10 @@ struct SpaceDetailView: View {
             if let plan, plan.removable.contains(where: { plan.isLocked($0, canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()
             }
+            if !item.isReadOnly, let plan, !plan.leftToDeveloper.isEmpty, let sizes = plan.developerSizes {
+                developerNotice(plan, sizes: sizes)
+                    .listRowSeparator(.hidden)
+            }
 
             Section {
                 Text(item.words.detail)
@@ -143,13 +147,10 @@ struct SpaceDetailView: View {
                 )
             }
         } footer: {
-            if !plan.appsToQuit.isEmpty || !plan.leftToDeveloper.isEmpty || !plan.refused.isEmpty {
+            if !plan.appsToQuit.isEmpty || !plan.refused.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     if !plan.appsToQuit.isEmpty {
                         Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
-                    }
-                    if !plan.leftToDeveloper.isEmpty {
-                        Text("Peel leaves ^[\(plan.leftToDeveloper.count) folder](inflect: true) here to the Developer page, which knows which part of each is only a cache.")
                     }
                     let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
                     if keepingWork > 0 {
@@ -162,6 +163,30 @@ struct SpaceDetailView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    /// Why the area's size in the list is more than this page can move, and where the rest is freed.
+    private func developerNotice(_ plan: SpaceRemoval.Plan, sizes: [URL: Int64]) -> some View {
+        let folders = plan.leftToDeveloper
+            .sorted { SizeTotal([sizes[$1]]) < SizeTotal([sizes[$0]]) }
+            .map { folder in
+                sizes[folder].map { String(localized: "\(folder.lastPathComponent) (\($0.byteCount))") }
+                    ?? folder.lastPathComponent
+            }
+            .formatted(.list(type: .and))
+        let title: Text = if let size = item.size, total.reading != .unknown {
+            Text("\(total.text) of \(size.byteCount) can be moved here.")
+        } else {
+            Text("Part of this folder is left to the Developer page.")
+        }
+        let detail: Text = if case .exactly(let size) = SizeTotal(plan.leftToDeveloper.map { sizes[$0] }).reading {
+            Text("Developer tools’ folders hold \(size.byteCount) of it: \(folders). The Developer page frees them, keeping what is more than a cache.")
+        } else {
+            Text("These developer tools’ folders are left to the Developer page: \(folders). It frees them, keeping what is more than a cache.")
+        }
+        return Notice(title: title, detail: detail, kind: .note, systemImage: Tool.developer.systemImage) {
+            Button("Open Developer") { Navigator.shared.requestedTool = .developer }
         }
     }
 
