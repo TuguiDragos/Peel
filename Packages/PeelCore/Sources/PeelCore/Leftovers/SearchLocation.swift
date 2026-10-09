@@ -243,10 +243,16 @@ public struct SearchEnvironment: Sendable {
     }
 
     /// Each browser's own documentation: Chrome's and Chromium's "Native messaging", MDN's "Native manifests" for
-    /// Firefox, and Microsoft's "Native messaging" for Edge and its Beta, Dev, and Canary channels.
+    /// Firefox, and Microsoft's "Native messaging" for Edge and its Beta, Dev, and Canary channels. Chrome's other
+    /// channels keep theirs in their own user data folder (Chromium's `docs/user_data_dir.md`), and Chrome for
+    /// Testing has its own in `/Library` (`chrome/common/chrome_paths.cc`).
     static let nativeMessagingHosts = (
         user: [
             "Application Support/Google/Chrome/NativeMessagingHosts",
+            "Application Support/Google/Chrome Beta/NativeMessagingHosts",
+            "Application Support/Google/Chrome Dev/NativeMessagingHosts",
+            "Application Support/Google/Chrome Canary/NativeMessagingHosts",
+            "Application Support/Google/Chrome for Testing/NativeMessagingHosts",
             "Application Support/Chromium/NativeMessagingHosts",
             "Application Support/Mozilla/NativeMessagingHosts",
             "Application Support/Microsoft Edge/NativeMessagingHosts",
@@ -256,6 +262,7 @@ public struct SearchEnvironment: Sendable {
         ],
         local: [
             "Google/Chrome/NativeMessagingHosts",
+            "Google/ChromeForTesting/NativeMessagingHosts",
             "Application Support/Chromium/NativeMessagingHosts",
             "Application Support/Mozilla/NativeMessagingHosts",
             "Microsoft/Edge/NativeMessagingHosts",

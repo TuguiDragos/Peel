@@ -1610,6 +1610,27 @@ struct LeftoverScannerTests {
         #expect(manifests.first?.match.isRecommended == true)
     }
 
+    @Test(arguments: [
+        "home/Library/Application Support/Google/Chrome Beta/NativeMessagingHosts",
+        "home/Library/Application Support/Google/Chrome Dev/NativeMessagingHosts",
+        "home/Library/Application Support/Google/Chrome Canary/NativeMessagingHosts",
+        "home/Library/Application Support/Google/Chrome for Testing/NativeMessagingHosts",
+        "root/Library/Google/ChromeForTesting/NativeMessagingHosts",
+    ])
+    func findsAManifestInEachChromeChannelsFolder(hosts: String) async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("\(hosts)/com.example.bridge.json", contents: Data("""
+        {"name": "com.example.bridge", "path": "/Applications/Tunewell.app/Contents/MacOS/bridge", "type": "stdio"}
+        """.utf8))
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        let manifest = scan.leftovers.first { $0.url.lastPathComponent == "com.example.bridge.json" }
+        #expect(manifest?.match.reason == .nativeMessagingHost)
+        #expect(manifest?.match.isRecommended == true)
+    }
+
     /// Only the program a manifest runs says whose it is, wherever its NativeMessagingHosts folder sits: one named
     /// after this app's identifier but running another program is not this app's, and one in a browser's folder that
     /// is not listed is found by its program all the same.
