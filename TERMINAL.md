@@ -125,7 +125,9 @@ its two files included:
   of `~/.ssh/config`. What you set for a server earlier in that file stays in force, since ssh uses the first value
   it finds.
 - **Git**'s are changed with `git config --global`, Git's own command, and turning one off puts back what you had
-  before Peel set it; a setting you made yourself goes back to Git's default.
+  before Peel set it; a setting you made yourself goes back to Git's default. A setting that a file your Git
+  settings include already sets, through `include` or `includeIf`, is left to that file: Git reads it where it is
+  included and the last value wins, so a value Peel added would take its place in every folder it serves.
 
 The line that makes zsh read Peel's file:
 

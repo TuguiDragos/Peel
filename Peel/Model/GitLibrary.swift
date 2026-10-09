@@ -9,6 +9,7 @@ final class GitLibrary {
         var settings: [String: String?]?
         var known: Set<String>?
         var signingKey: String?
+        var setInIncludedFiles: Set<String> = []
     }
 
     private static let ledgerKey = "terminalGit"
@@ -43,7 +44,8 @@ final class GitLibrary {
             isInstalled: git != nil,
             settings: settings,
             known: known,
-            signingKey: GitSetting.signingKey(in: .homeDirectory)
+            signingKey: GitSetting.signingKey(in: .homeDirectory),
+            setInIncludedFiles: await git?.keysSetByIncludedFiles() ?? []
         )
     }
 
@@ -53,7 +55,15 @@ final class GitLibrary {
 
     func isOffered(_ setting: GitSetting) -> Bool {
         guard let state, state.settings != nil, state.known.map(setting.isKnown(by:)) == true else { return false }
+        guard !isSetInIncludedFiles(setting) else { return false }
         return setting != .signCommits || state.signingKey != nil || isOn(setting)
+    }
+
+    /// Whether a file the person's global settings include sets the setting, so Peel leaves it to them. One already on
+    /// can still be turned off.
+    func isSetInIncludedFiles(_ setting: GitSetting) -> Bool {
+        guard let state, !isOn(setting) else { return false }
+        return setting.isSetInIncludedFiles(state.setInIncludedFiles)
     }
 
     func set(_ setting: GitSetting, to isOn: Bool) {

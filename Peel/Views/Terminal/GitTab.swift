@@ -79,6 +79,7 @@ private struct GitSettingRow: View {
     }
 
     private var caption: LocalizedStringResource? {
+        if git.isSetInIncludedFiles(setting) { return "Set in a file your Git settings include" }
         guard setting == .signCommits else { return nil }
         guard let key = git.state?.signingKey else { return "Needs an SSH key in ~/.ssh" }
         return "With \(URL(filePath: key).abbreviatedPath)"

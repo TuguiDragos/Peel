@@ -22,6 +22,7 @@ public struct GitLedger {
     public mutating func turnOn(_ setting: GitSetting, signingKey: String?, in config: GitConfig) async -> Outcome {
         let values = setting.values(signingKey: signingKey)
         guard !values.isEmpty, let settings = await config.settings() else { return .refused }
+        guard !setting.isSetInIncludedFiles(await config.keysSetByIncludedFiles()) else { return .unchanged }
         var outcome = Outcome.unchanged
         for wanted in values {
             let name = wanted.key.lowercased()

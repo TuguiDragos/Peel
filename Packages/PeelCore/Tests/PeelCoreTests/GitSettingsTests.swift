@@ -59,6 +59,38 @@ struct GitSettingsTests {
         #expect(settings["merge.conflictstyle"] == "diff3")
     }
 
+    @Test func aKeyAFileTheGlobalSettingsIncludeSetsIsLeftToThatFile() async throws {
+        let git = try await GitHome()
+        let global = "[user]\n\temail = me@example.org\n[includeIf \"gitdir:~/work/\"]\n\tpath = ~/.gitconfig-work\n"
+        try global.write(to: git.home.appending(path: ".gitconfig"), atomically: true, encoding: .utf8)
+        try "[pull]\n\trebase = false\n".write(to: git.home.appending(path: ".gitconfig-work"), atomically: true, encoding: .utf8)
+        var ledger = GitLedger()
+
+        #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .unchanged)
+        #expect(try await git.settings()["pull.rebase"] == nil)
+        #expect(await ledger.turnOn(.pruneOnFetch, signingKey: nil, in: git.config) == .changed)
+    }
+
+    @Test func readsEveryFileTheGlobalSettingsIncludeAsGitDoes() async throws {
+        let git = try await GitHome()
+        let files = [
+            ".gitconfig": "[user]\n\temail = me@example.org\n[include]\n\tpath = conf/local.conf\n\tpath = ~/missing.conf\n"
+                + "[includeIf \"gitdir:~/work/\"]\n\tpath = ~/.gitconfig-work\n",
+            "conf/local.conf": "[diff]\n\talgorithm = patience\n[include]\n\tpath = deeper.conf\n",
+            "conf/deeper.conf": "[fetch]\n\tprune = false\n",
+            ".gitconfig-work": "[pull]\n\trebase = false\n",
+        ]
+        for (name, text) in files {
+            let url = git.home.appending(path: name)
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try text.write(to: url, atomically: true, encoding: .utf8)
+        }
+
+        #expect(await git.config.keysSetByIncludedFiles() == ["diff.algorithm", "fetch.prune", "pull.rebase"])
+    }
+
     @Test func aValueThePersonChangedAfterPeelStaysTheirs() async throws {
         let git = try await GitHome()
         var ledger = GitLedger()

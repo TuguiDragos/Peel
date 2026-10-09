@@ -80,6 +80,10 @@ public enum GitSetting: CaseIterable, Sendable {
         }
     }
 
+    public func isSetInIncludedFiles(_ includedKeys: Set<String>) -> Bool {
+        keys.contains { includedKeys.contains($0.lowercased()) }
+    }
+
     public func isKnown(by keys: Set<String>) -> Bool {
         self.keys.allSatisfy { keys.contains($0.lowercased()) }
     }

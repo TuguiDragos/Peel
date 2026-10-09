@@ -131689,6 +131689,112 @@
         }
       }
     },
+    "Set in a file your Git settings include" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastaveno v souboru zahrnutém do vašeho nastavení Gitu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In einer Datei festgelegt, die deine Git-Einstellungen einbinden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Definido en un archivo que incluyen tus ajustes de Git"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Défini dans un fichier inclus par vos réglages Git"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Definita in un file incluso nelle tue impostazioni di Git"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitの設定が読み込むファイルで設定済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 설정에 포함된 파일에서 지정됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingesteld in een bestand dat in je Git-instellingen is opgenomen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawione w pliku dołączanym przez Twoje ustawienia Gita"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Definido em um arquivo incluído nos seus ajustes do Git"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stabilită într‑un fișier inclus în configurările dvs. Git"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задано в файле, включенном в Ваши настройки Git"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anges i en fil som dina Git-inställningar inkluderar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git ayarlarınızın dahil ettiği bir dosyada ayarlandı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задано у файлі, який підключають ваші налаштування Git"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在你的Git设置所包含的文件中设定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在你的Git設定所包含的檔案中設定"
+          }
+        }
+      }
+    },
     "Set up" : {
       "localizations" : {
         "cs" : {

@@ -43,6 +43,62 @@ public struct GitConfig: Sendable {
         return settings
     }
 
+    /// The keys, in lowercase, that the files the global settings include set, through `include.path` or
+    /// `includeIf.<condition>.path`, and the files those include. Git reads an included file where its include
+    /// stands and the last value wins (`git help config`), so a key written at the end of the global file would win
+    /// over the person's own in every folder their condition names.
+    public func keysSetByIncludedFiles() async -> Set<String> {
+        var keys: Set<String> = []
+        var read: Set<String> = []
+        var pending = Self.includes(in: await entries(["--global"]), home: home)
+        while let file = pending.popLast(), read.count < 64 {
+            let path = file.path(percentEncoded: false)
+            guard read.insert(path).inserted, !file.isMissing else { continue }
+            let entries = await entries(["--file", path])
+            keys.formUnion(entries.filter { !$0.isAnInclude }.map(\.key))
+            pending += Self.includes(in: entries, home: home)
+        }
+        return keys
+    }
+
+    private struct Entry {
+        let file: String
+        let key: String
+        let value: String?
+
+        var isAnInclude: Bool { key == "include.path" || key.hasPrefix("includeif.") && key.hasSuffix(".path") }
+    }
+
+    /// Each setting of `scope`, its key in lowercase, with the file it comes from.
+    private func entries(_ scope: [String]) async -> [Entry] {
+        guard case .success(let output) = await run(["config"] + scope + ["--list", "-z", "--show-origin"]),
+              output.status == 0
+        else { return [] }
+        let fields = output.standardOutput.split(separator: 0, omittingEmptySubsequences: false)
+            .map { String(decoding: $0, as: UTF8.self) }
+        return stride(from: 0, to: fields.count - 1, by: 2).compactMap { index in
+            guard fields[index].hasPrefix("file:") else { return nil }
+            let entry = fields[index + 1]
+            let newline = entry.firstIndex(of: "\n")
+            return Entry(
+                file: String(fields[index].dropFirst("file:".count)),
+                key: String(entry[..<(newline ?? entry.endIndex)]).lowercased(),
+                value: newline.map { String(entry[entry.index(after: $0)...]) }
+            )
+        }
+    }
+
+    /// The files `entries` include: a path beginning with `~/` is taken from the home and a relative one from the
+    /// file its include is in, as Git takes them.
+    private static func includes(in entries: [Entry], home: URL) -> [URL] {
+        entries.filter(\.isAnInclude).compactMap { entry in
+            guard let path = entry.value, !path.isEmpty else { return nil }
+            if path.hasPrefix("~/") { return home.appending(path: String(path.dropFirst(2))) }
+            if path.hasPrefix("/") { return URL(filePath: path) }
+            return URL(filePath: entry.file).deletingLastPathComponent().appending(path: path)
+        }
+    }
+
     /// Every setting this Git knows, in lowercase, as `git help --config` lists them. A setting whose keys are not
     /// all known is never offered, so a Git that renames or drops one never gets a key it would ignore.
     public func knownKeys() async -> Set<String>? {
