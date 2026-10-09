@@ -47,6 +47,10 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// The entries of `packageIdentifiers` whose receipts are installed, lowercased. `noting(receipts:)` sets
     /// them, so the cask carries this proof to every place that checks it.
     public private(set) var receiptsOnThisMac: [String] = []
+    /// Where the packages named by `packageIdentifiers` wrote apps, as their receipts list them, for an installed cask
+    /// that installs from a `.pkg` and so may name no app. An installer's script can move an app once its package
+    /// wrote it, so an app found at one of these is the cask's, and one found elsewhere may still be.
+    public private(set) var packagedApps: [String] = []
     /// An installed cask's folder in Homebrew's Caskroom (`brew --caskroom <token>`), set by `kept(inCaskroom:)`.
     public private(set) var caskroomFolder: URL?
     /// True for an installed cask whose every app is gone from where Homebrew put it, set by `checkingItsApps()`.
@@ -83,6 +87,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public func noting(receipts: Set<String>) -> HomebrewPackage {
         var noted = self
         noted.receiptsOnThisMac = packageIdentifiers.map { $0.lowercased() }.filter(receipts.contains)
+        return noted
+    }
+
+    func noting(packagedApps: [String]) -> HomebrewPackage {
+        var noted = self
+        noted.packagedApps = packagedApps
         return noted
     }
 
@@ -507,7 +517,10 @@ public enum Homebrew {
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
-        return packages.map { $0.checkingItsApps() }
+        return await packages.concurrentMap(width: PackageReceipts.concurrentReceipts) { package in
+            let apps = await PackageReceipts.apps(installedByPackagesMatching: package.packageIdentifiers)
+            return package.noting(packagedApps: apps).checkingItsApps()
+        }
     }
 
     /// Returns the name of every cask Homebrew knows of, read from its local copy of the definitions. It needs

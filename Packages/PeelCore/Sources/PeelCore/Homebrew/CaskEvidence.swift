@@ -37,9 +37,10 @@ public struct CaskEvidence: Sendable, Hashable {
     public static func installedCask(for app: InstalledApp, in casks: [HomebrewPackage]) -> HomebrewPackage? {
         let path = PathPattern.comparablePath(of: app.url)
         return casks.first { cask in
-            guard cask.installedVersion != nil, proves(cask, isThe: app) else { return false }
-            return cask.appTargets.isEmpty
-                || cask.appTargets.contains { $0.caseInsensitiveCompare(path) == .orderedSame }
+            guard cask.installedVersion != nil else { return false }
+            let isAmong = { (apps: [String]) in apps.contains { $0.caseInsensitiveCompare(path) == .orderedSame } }
+            if isAmong(cask.packagedApps) { return true }
+            return proves(cask, isThe: app) && (cask.appTargets.isEmpty || isAmong(cask.appTargets))
         }
     }
 

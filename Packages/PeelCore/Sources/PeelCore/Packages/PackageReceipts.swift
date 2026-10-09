@@ -2,7 +2,7 @@ public import Foundation
 internal import PeelPrivileged
 
 public enum PackageReceipts {
-    private static let concurrentReceipts = 4
+    static let concurrentReceipts = 4
 
     /// Directories many packages install into; they never belong to a single package.
     static let sharedDirectories: Set<String> = [
@@ -187,10 +187,7 @@ public enum PackageReceipts {
         reach: HelperReach,
         shared: [String]
     ) async -> Found {
-        guard
-            let data = await pkgutil(["--pkg-info-plist", identifier])?.data(using: .utf8),
-            let info = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
-        else {
+        guard let (info, volume, installLocation) = await description(of: identifier, pkgutil: pkgutil) else {
             // `pkgutil` named the package but did not describe it. It stays listed, with what it installed unknown,
             // rather than vanishing from the page.
             let unknown = PackageReceipt(
@@ -203,11 +200,8 @@ public enum PackageReceipts {
             return Found(receipt: unknown, paths: [])
         }
 
-        let volume = URL(filePath: info["volume"] as? String ?? "/", directoryHint: .isDirectory)
-        let location = info["install-location"] as? String ?? ""
-        let installLocation = volume.appending(path: location, directoryHint: .isDirectory)
         let listing = await pkgutil(["--files", identifier])
-        let files = (listing ?? "").split(whereSeparator: \.isNewline).map(String.init)
+        let files = lines(of: listing)
 
         let found = topLevel(files: files, installLocation: installLocation.path(percentEncoded: false))
         var items: [PackageReceipt.Item] = []
@@ -242,11 +236,52 @@ public enum PackageReceipts {
                 nothingLeftOnDisk: listing != nil && found.onDisk.isEmpty,
                 isFileListKnown: listing != nil
             ),
-            paths: files.map { file in
-                let relative = file.hasPrefix("./") ? String(file.dropFirst(2)) : file
-                return installLocation.appending(path: relative).path(percentEncoded: false)
-            }
+            paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
         )
+    }
+
+    /// What `pkgutil --pkg-info-plist` says of a package, with the volume and the folder its file list is relative to.
+    private static func description(
+        of identifier: String,
+        pkgutil: Pkgutil
+    ) async -> (info: [String: Any], volume: URL, installLocation: URL)? {
+        guard
+            let data = await pkgutil(["--pkg-info-plist", identifier])?.data(using: .utf8),
+            let info = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+        else { return nil }
+        let volume = URL(filePath: info["volume"] as? String ?? "/", directoryHint: .isDirectory)
+        let location = info["install-location"] as? String ?? ""
+        return (info, volume, volume.appending(path: location, directoryHint: .isDirectory))
+    }
+
+    private static func path(of file: String, in installLocation: URL) -> URL {
+        installLocation.appending(path: file.hasPrefix("./") ? String(file.dropFirst(2)) : file)
+    }
+
+    /// Where the packages `patterns` name wrote apps, finding the packages as Homebrew does for a cask's `pkgutil`
+    /// entries: `pkgutil --pkgs=` matches each pattern against whole identifiers.
+    static func apps(installedByPackagesMatching patterns: [String]) async -> [String] {
+        await apps(installedByPackagesMatching: patterns, pkgutil: pkgutil)
+    }
+
+    static func apps(installedByPackagesMatching patterns: [String], pkgutil: Pkgutil) async -> [String] {
+        var identifiers: Set<String> = []
+        for pattern in patterns {
+            identifiers.formUnion(lines(of: await pkgutil(["--pkgs=\(pattern)"])))
+        }
+        var apps: Set<String> = []
+        for identifier in identifiers where !Task.isCancelled {
+            guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil) else { continue }
+            for folder in lines(of: await pkgutil(["--files", identifier, "--only-dirs"])) {
+                let app = path(of: folder, in: installLocation)
+                if app.pathExtension.lowercased() == "app" { apps.insert(PathPattern.comparablePath(of: app)) }
+            }
+        }
+        return apps.sorted()
+    }
+
+    private static func lines(of answer: String?) -> [String] {
+        (answer ?? "").split(whereSeparator: \.isNewline).map(String.init)
     }
 
     /// The folders every account on the Mac uses, `/Users/Shared`, spelled to be compared.

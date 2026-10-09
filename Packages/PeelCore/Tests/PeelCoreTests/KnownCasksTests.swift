@@ -148,6 +148,20 @@ struct KnownCasksTests {
         #expect(CaskEvidence.cask(for: copy, in: [cask]) != nil, "what the cask knows about the product still holds for the copy")
     }
 
+    @Test func onlyTheCopyACasksPackagesWroteIsHomebrews() {
+        let cask = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0")
+            .noting(packagedApps: ["/Applications/Example.app"])
+        let brewed = app("Example", "org.example.app")
+        let copy = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app",
+            name: "Example"
+        )
+
+        #expect(CaskEvidence.installedCask(for: brewed, in: [cask]) != nil)
+        #expect(CaskEvidence.installedCask(for: copy, in: [cask]) == nil, "a second copy was called Homebrew's")
+    }
+
     @Test func asksForNothingWhenThereIsNothingToAskAbout() async {
         #expect(await CaskEvidence.knownCasks(for: []).isEmpty)
     }

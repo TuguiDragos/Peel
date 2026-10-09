@@ -211,6 +211,61 @@ struct HomebrewReceiptTests {
         #expect(!plan.suggestedSelection(canUseHelper: false).contains(row.url))
     }
 
+    @Test func anAppACasksPackagesWroteTakesItsHomebrewRecordAlong() async throws {
+        let installed = try Installed()
+        let app = try installed.app("Example", identifier: "org.example.app")
+        let other = try installed.app("Example Effects", identifier: "org.example.effects")
+        let location = String(PathPattern.comparablePath(of: app.url.deletingLastPathComponent()).dropFirst())
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments {
+            case ["--pkgs=org.example.suite.*"]:
+                "org.example.suite.pkg\n"
+            case ["--pkg-info-plist", "org.example.suite.pkg"]:
+                PkgutilAnswer.packageInfo("org.example.suite.pkg", location: location)
+            case ["--files", "org.example.suite.pkg", "--only-dirs"]:
+                "Example.app\nExample.app/Contents\nExample Effects.app\n"
+            default:
+                nil
+            }
+        }
+        let patterns = ["org.example.suite.*"]
+        let cask = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0", packageIdentifiers: patterns)
+            .kept(inCaskroom: installed.caskroom)
+            .noting(packagedApps: await PackageReceipts.apps(installedByPackagesMatching: patterns, pkgutil: pkgutil))
+
+        #expect(cask.packagedApps == [app.url, other.url].map(PathPattern.comparablePath(of:)).sorted())
+        let alone = await Uninstallation.prepare(
+            app, installedApps: [app], casks: [cask], environment: installed.environment
+        )
+        let shared = await Uninstallation.prepare(
+            app, installedApps: [app, other], casks: [cask], environment: installed.environment
+        )
+
+        #expect(alone.scan.leftovers.first { $0.kind == .homebrewReceipt }?.match.isRecommended == true)
+        #expect(shared.scan.leftovers.first { $0.kind == .homebrewReceipt }?.match.sharedWith == ["org.example.effects"])
+    }
+
+    /// An installer's script can move the apps its package wrote, so the cask's other apps are found by its proof.
+    @Test func anotherAppACaskProvesByItsReceiptKeepsItsHomebrewRecord() async throws {
+        let installed = try Installed()
+        let app = try installed.app("Synth", identifier: "org.example.synth")
+        let other = try installed.app("Synth Effects", identifier: "org.example.effects")
+        let cask = HomebrewPackage(
+            name: "example",
+            kind: .cask,
+            installedVersion: "1.0",
+            packageIdentifiers: ["org.example.synth.app.pkg", "org.example.effects.app.pkg"]
+        ).kept(inCaskroom: installed.caskroom).noting(receipts: ["org.example.synth.app.pkg", "org.example.effects.app.pkg"])
+
+        let plan = await Uninstallation.prepare(
+            app, installedApps: [app, other], casks: [cask], environment: installed.environment
+        )
+
+        let row = try #require(plan.scan.leftovers.first { $0.kind == .homebrewReceipt })
+        #expect(row.match.sharedWith == ["org.example.effects"])
+        #expect(!plan.suggestedSelection(canUseHelper: false).contains(row.url))
+    }
+
     @Test func theReceiptGoesToTheTrashAfterTheApp() async throws {
         let installed = try Installed()
         let app = try installed.app("Example", identifier: "org.example.app")

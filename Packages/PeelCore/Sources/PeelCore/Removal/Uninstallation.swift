@@ -140,15 +140,20 @@ public struct Uninstallation: Sendable {
             !exclusions.excludes(folder)
         else { return [] }
         let bundle = PathPattern.comparablePath(of: app.url)
+        let isTheApp = { (path: String) in path.caseInsensitiveCompare(bundle) == .orderedSame }
         let others = cask.appTargets.filter { target in
-            target.caseInsensitiveCompare(bundle) != .orderedSame && FileManager.default.fileExists(atPath: target)
+            !isTheApp(target) && FileManager.default.fileExists(atPath: target)
         }
-        let sharedWith = others.map { target in
+        let otherApps = installedApps.filter { other in
+            !isTheApp(PathPattern.comparablePath(of: other.url))
+                && CaskEvidence.installedCask(for: other, in: casks)?.id == cask.id
+        }
+        let sharedWith = Set(otherApps.map(\.bundleIdentifier) + others.map { target in
             let installed = installedApps.first {
                 PathPattern.comparablePath(of: $0.url).caseInsensitiveCompare(target) == .orderedSame
             }
             return installed?.bundleIdentifier ?? Bundle(url: URL(filePath: target))?.bundleIdentifier ?? target
-        }
+        })
         let home = environment.homeDirectory.path(percentEncoded: false)
         let leftover = await LeftoverScanner.leftover(
             at: folder,
