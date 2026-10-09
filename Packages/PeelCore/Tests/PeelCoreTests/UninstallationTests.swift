@@ -34,6 +34,27 @@ struct UninstallationTests {
         )
     }
 
+    /// A management or security agent goes by its maker's uninstaller, so like Peel itself it is listed and nothing of
+    /// it is selected, counted, moved, or handed to the helper.
+    @Test func leavesAnAgentAndItsFilesToItsMakersUninstaller() {
+        let agent = InstalledApp(
+            url: URL(filePath: "/Applications/GlobalProtect.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client", name: "GlobalProtect",
+            teamIdentifier: "PXPZ95SK77"
+        )
+        let daemon = leftover("com.paloaltonetworks.gp.pangpsd.plist", requiresPrivileges: true)
+        let support = leftover("com.paloaltonetworks.GlobalProtect.client")
+        let plan = uninstallation(app: agent, appRequiresPrivileges: true, leftovers: [daemon, support])
+
+        #expect(plan.removedElsewhere != nil)
+        #expect(plan.appStays(canUseHelper: true))
+        #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(plan.selectable(canUseHelper: true).isEmpty)
+        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 0)
+        #expect(plan.privilegedURLs.isEmpty)
+        #expect(plan.removalOrder(of: [agent.url, daemon.url, support.url]).isEmpty)
+    }
+
     /// When an app removes itself, nobody reviews a list first, so a match on its name is not enough. Only what
     /// is certainly its own or named inside its own identifier goes, and nothing that needs the helper. If the
     /// app itself needs the helper, nothing goes at all.
@@ -208,7 +229,7 @@ struct UninstallationTests {
         let own = leftover("com.tuguidragos.Peel")
         let plan = uninstallation(app: peel, leftovers: [own])
 
-        #expect(plan.isPeel)
+        #expect(plan.removedElsewhere == .byRemovePeel)
         #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(plan.removalOrder(of: [peel.url, own.url]).isEmpty)
         #expect(plan.movable(among: [own], withApp: true).count == 0)
@@ -219,7 +240,7 @@ struct UninstallationTests {
         let bulk = BulkUninstallation(uninstallations: [plan, uninstallation(leftovers: [example])])
         #expect(bulk.suggestedSelection(canUseHelper: true) == [app.url, example.url])
         #expect(bulk.removalOrder(of: [peel.url, own.url, app.url, example.url]) == [app.url, example.url])
-        #expect(Set(bulk.items.filter(\.isPeels).map(\.url)) == [peel.url, own.url])
+        #expect(Set(bulk.items.filter { $0.removedElsewhere == .byRemovePeel }.map(\.url)) == [peel.url, own.url])
         #expect(bulk.total.known == 11_000, "Peel's files were counted as something to remove")
     }
 

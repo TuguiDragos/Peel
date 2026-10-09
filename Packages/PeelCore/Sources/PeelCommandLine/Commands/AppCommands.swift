@@ -436,12 +436,22 @@ struct UninstallCommand: AsyncParsableCommand {
         return CommandFailure("macOS lets your terminal app move \(name) only with App Management. Allow it in System Settings > Privacy & Security > App Management, then try again, or remove it with the Peel app.")
     }
 
-    /// Throws for Peel itself. Peel removes itself from its own Settings, after unregistering its login item
-    /// and privileged helper. If `peel` moved the app, the helper would stay registered with launchd and
-    /// point into the Trash.
-    static func refuseIfItIsPeel(_ target: InstalledApp) throws {
-        guard target.isPeelItself else { return }
-        throw CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
+    /// Throws for an app removed elsewhere. Peel removes itself from its own Settings, after unregistering its login
+    /// item and privileged helper: if `peel` moved the app, the helper would stay registered with launchd and point
+    /// into the Trash. An agent goes by its maker's uninstaller, which also takes what it keeps in the system.
+    static func refuseIfRemovedElsewhere(_ target: InstalledApp) throws {
+        switch target.removedElsewhere {
+        case nil:
+            return
+        case .byRemovePeel:
+            throw CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
+        case .byItsMaker(let uninstaller):
+            let step = switch uninstaller.step {
+            case .command(let command): "run `\(command)`"
+            case .uninstaller(let url): "open \(url.path(percentEncoded: false))"
+            }
+            throw CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+        }
     }
 
     /// Throws for an app inside another package, such as a helper app inside the app it serves: moved alone, it
@@ -476,7 +486,7 @@ struct UninstallCommand: AsyncParsableCommand {
     func run() async throws {
         let apps = await AppCatalog.installedApps()
         let target = try AppLookup.app(matching: app, in: apps)
-        try Self.refuseIfItIsPeel(target)
+        try Self.refuseIfRemovedElsewhere(target)
         guard !target.isSystemProtected else {
             throw CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
         }

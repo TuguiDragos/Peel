@@ -769,8 +769,20 @@ struct CommandLineTests {
 
         #expect(peel.isPeelItself)
         #expect(!other.isPeelItself)
-        #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfItIsPeel(peel) }
-        try UninstallCommand.refuseIfItIsPeel(other)
+        #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(peel) }
+        try UninstallCommand.refuseIfRemovedElsewhere(other)
+    }
+
+    /// A management or security agent goes by its maker's uninstaller, which `peel` names instead of moving it.
+    @Test func refusesToUninstallAnAgentAndNamesItsMakersUninstaller() throws {
+        let agent = InstalledApp(
+            url: URL(filePath: "/Applications/GlobalProtect.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client", name: "GlobalProtect",
+            teamIdentifier: "PXPZ95SK77"
+        )
+
+        let failure = #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(agent) }
+        #expect(failure?.description.contains("uninstall_gp.sh") == true)
     }
 
     @Test func refusesToUninstallAnAppInsideAnotherApp() throws {

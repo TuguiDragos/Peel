@@ -870,6 +870,112 @@
         }
       }
     },
+    "%@ documents removing %@ with its own uninstaller, which also takes what it keeps in the system and the settings that manage it. Moved from here, those would stay behind, so Peel leaves it and its files where they are." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výrobce %@ uvádí ve své dokumentaci, že se aplikace %@ odstraňuje vlastním odinstalátorem, který odstraní i to, co aplikace uchovává v systému, a nastavení, která ji spravují. Kdyby byla aplikace odtud přesunuta do koše, zanechala by je po sobě, a proto Peel aplikaci i její soubory ponechává na místě."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beschreibt, wie „%@“ mit einem eigenen Deinstallationsprogramm entfernt wird, das auch erfasst, was die App im System ablegt, und die Einstellungen, mit denen sie verwaltet wird. Würde die App von hier aus verschoben, blieben beide zurück, daher lässt Peel die App und ihre Dateien dort, wo sie sind."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ indica en su documentación que %@ se elimina con su propio desinstalador, que también se lleva lo que la app guarda en el sistema y los ajustes con los que se gestiona. Si se trasladara desde aquí, todo eso se quedaría atrás, así que Peel deja la app y sus archivos donde están."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selon la documentation de %@, %@ se désinstalle avec son propre programme, qui supprime aussi ce que l’app conserve dans le système et les réglages qui la gèrent. Placée dans la corbeille depuis cette page, l’app les laisserait derrière elle : Peel la laisse donc là où elle est, avec ses fichiers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ indica di rimuovere %@ con il proprio programma di disinstallazione, che toglie anche ciò che l’app tiene nel sistema e le impostazioni che la gestiscono. Spostandola da qui, tutto questo resterebbe sul Mac, quindi Peel lascia l’app e i suoi file dove sono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@は、“%@”を専用のアンインストーラで取り除くよう案内しています。このアンインストーラは、アプリがシステム内に置いているものや、アプリを管理する設定も一緒に取り除きます。ここからゴミ箱に入れた場合はそれらが残ってしまうため、Peelはこのアプリとそのファイルをそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@은(는) 공식 문서에서 ‘%@’을(를) 자체 제거 프로그램으로 제거하도록 안내합니다. 이 제거 프로그램은 앱이 시스템에 보관하는 항목과 앱을 관리하는 설정도 함께 제거합니다. 여기에서 휴지통으로 이동하면 이러한 항목이 남게 되므로, Peel은 앱과 앱의 파일을 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beschrijft hoe je %@ verwijdert met het eigen de-installatieprogramma. Dat verwijdert ook wat de app in het systeem bewaart en de instellingen waarmee de app wordt beheerd. Als de app hier naar de prullenmand werd verplaatst, zouden die achterblijven, dus laat Peel de app en de bestanden ervan staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Według dokumentacji producenta %@ aplikację %@ odinstalowuje się jej własnym dezinstalatorem, który usuwa też to, co aplikacja przechowuje w systemie, oraz ustawienia, które nią zarządzają. Przeniesiona stąd do Kosza, pozostawiłaby po sobie jedno i drugie, dlatego Peel zostawia ją i jej pliki na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segundo a documentação de %@, %@ deve ser removido com o próprio desinstalador, que também leva o que ele mantém no sistema e os ajustes que o gerenciam. Se o app fosse movido daqui, isso ficaria para trás, então o Peel deixa o app e os arquivos dele onde estão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ documentează eliminarea aplicației %@ cu propriul program de dezinstalare, care elimină atât ce păstrează aplicația în sistem, cât și configurările care o gestionează. Dacă ar fi mutată în Coș de aici, acestea ar rămâne în urmă, așa că Peel lasă aplicația și fișierele ei acolo unde sunt."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В документации %@ сказано, что приложение «%@» удаляется его собственной программой удаления, которая также убирает то, что оно хранит в системе, и управляющие им настройки. Если бы его переместили отсюда, все это осталось бы после него, поэтому Peel оставляет на месте и приложение, и его файлы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beskriver hur %@ tas bort med en egen avinstallerare, som även tar bort det appen har i systemet och inställningarna som hanterar den. Om appen flyttades härifrån skulle de lämnas kvar, så Peel låter appen och dess filer vara där de är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ belgelerine göre, %@ uygulaması kendi yükleme kaldırıcısıyla kaldırılır; bu kaldırıcı, uygulamanın sistemde tuttuklarını ve onu yöneten ayarları da kaldırır. Uygulama buradan Çöp Sepeti’ne taşınsaydı bunlar geride kalırdı, bu yüzden Peel uygulamaya ve dosyalarına dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ у своїй документації описує вилучення програми «%@» власним деінсталятором, який вилучає також те, що програма зберігає в системі, і налаштування, які нею керують. Якби програму перемістили звідси, вона залишила б їх по собі, тому Peel лишає її та її файли на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在文档中说明，“%@”应使用其自己的卸载器移除，该卸载器还会一并移除它保存在系统中的内容以及管理它的设置。如果从此处移走，这些内容会被留下，因此Peel会将它及其文件留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在說明文件中指出，移除「%@」應使用其自己的解除安裝程式，該程式也會一併移除此App保存在系統中的項目，以及管理它的設定。若從這裡移動此App，這些項目就會留下，因此Peel會將它及其檔案原地保留。"
+          }
+        }
+      }
+    },
     "%@ doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app." : {
       "localizations" : {
         "cs" : {
@@ -6763,6 +6869,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@:」連結"
+          }
+        }
+      }
+    },
+    "%@’s Instructions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokyny výrobce %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anleitung von %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrucciones de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instructions de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istruzioni di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のアンインストール手順"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 제거 안내"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instructies van %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrukcje producenta %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instruções de %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrucțiuni de la %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструкция от %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instruktioner från %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Yönergeleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інструкції %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的说明"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的說明"
           }
         }
       }
@@ -65816,6 +66028,112 @@
         }
       }
     },
+    "Left alone: %@’s own uninstaller removes it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tuto položku odstraní vlastní odinstalátor výrobce %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Das eigene Deinstallationsprogramm von %@ entfernt dies."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: se elimina con el desinstalador de %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : le programme de désinstallation de %@ le supprime."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: si rimuove con il programma di disinstallazione di %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: %@独自のアンインストーラによって取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: %@의 자체 제거 프로그램이 이 항목을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: het eigen de-installatieprogramma van %@ verwijdert dit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: usuwa to własny dezinstalator producenta %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o desinstalador próprio de %@ remove isto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: se elimină cu programul de dezinstalare de la %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: удаляется программой удаления от %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: avinstalleraren från %@ tar bort det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: %@ kendi yükleme kaldırıcısıyla kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: це вилучає власний деінсталятор %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：%@自己的卸载器会将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：%@自己的解除安裝程式會移除它。"
+          }
+        }
+      }
+    },
     "Left alone: Peel removes itself only from Settings." : {
       "localizations" : {
         "cs" : {
@@ -120929,6 +121247,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在VirtualBox中移除虛擬機器，然後選擇刪除其所有檔案"
+          }
+        }
+      }
+    },
+    "Removed with %@’s own uninstaller" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraňuje se vlastním odinstalátorem výrobce %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird mit dem eigenen Deinstallationsprogramm von %@ entfernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimina con el desinstalador de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À supprimer avec le programme de désinstallation de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si rimuove con il programma di disinstallazione di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アンインストールは%@独自のアンインストーラで行います"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 자체 제거 프로그램으로 제거함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijderen met het de-installatieprogramma van %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalowanie własnym dezinstalatorem producenta %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removido com o desinstalador próprio de %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimină cu programul de dezinstalare de la %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляется программой удаления от %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tas bort med avinstalleraren från %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kendi yükleme kaldırıcısıyla kaldırır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучається власним деінсталятором %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用%@自己的卸载器移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用%@自己的解除安裝程式移除"
           }
         }
       }

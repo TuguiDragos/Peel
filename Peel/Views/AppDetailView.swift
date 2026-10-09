@@ -117,7 +117,7 @@ struct AppDetailView: View {
                 }
                 .listRowSeparator(.hidden)
             }
-            if plan.isPeel {
+            if plan.removedElsewhere == .byRemovePeel {
                 Notice(
                     title: Text("Peel removes itself in Settings"),
                     detail: Text("Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind."),
@@ -126,6 +126,10 @@ struct AppDetailView: View {
                     Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
                 }
                 .listRowSeparator(.hidden)
+            }
+            if case .byItsMaker(let uninstaller) = plan.removedElsewhere {
+                MakersUninstallerNotice(app: plan.app.name, uninstaller: uninstaller)
+                    .listRowSeparator(.hidden)
             }
             if case .browser(let identifier) = plan.app.webApp {
                 let browser = library.name(forBundleIdentifier: identifier)
@@ -176,7 +180,7 @@ struct AppDetailView: View {
                     if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
                         PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                     }
-                    if plan.hasDockTile, !plan.isPeel {
+                    if plan.hasDockTile, plan.removedElsewhere == nil {
                         DockTileRow(isOn: $removesDockTile)
                     }
                     defaultsSection
@@ -264,7 +268,7 @@ struct AppDetailView: View {
                 isLocked: plan.appRequiresPrivileges && !helper.canAct,
                 isExcluded: plan.isExcluded,
                 isLeftAlone: plan.app.isSystemProtected || plan.app.enclosingPackage != nil || plan.isAppBeyondTheHelper
-                    || plan.isAppInTheTrash || plan.isPeel,
+                    || plan.isAppInTheTrash || plan.removedElsewhere != nil,
                 appIdentifier: plan.app.bundleIdentifier,
                 selection: plan, isSelected: plan.isSelected(plan.app.url)
             )
@@ -325,8 +329,8 @@ struct AppDetailView: View {
     }
 
     private var appWarning: String? {
-        if plan.isPeel {
-            return String(localized: "Left alone: Peel removes itself only from Settings.")
+        if let removedElsewhere = plan.removedElsewhere {
+            return String(localized: removedElsewhere.explanation)
         }
         if plan.app.isSystemProtected {
             return String(localized: "macOS keeps this app, so it stays where it is.")
@@ -382,7 +386,7 @@ struct AppDetailView: View {
             size: leftover.size,
             isMeasured: leftover.isMeasured,
             isLocked: leftover.requiresPrivileges && !helper.canAct,
-            isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.isPeel,
+            isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.removedElsewhere != nil,
             selection: plan, isSelected: plan.isSelected(leftover.url)
         )
     }
@@ -401,8 +405,8 @@ struct AppDetailView: View {
         if leftover.holdsDamagedSettings {
             lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
         }
-        if plan.isPeel {
-            lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
+        if let removedElsewhere = plan.removedElsewhere {
+            lines.append(String(localized: removedElsewhere.explanation))
         }
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }

@@ -238,7 +238,7 @@ struct MultipleAppsView: View {
             isExcluded: item.isApplication && item.isExcluded,
             isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper
                 || (item.isApplication && item.isKeptByMacOS)
-                || item.isPeels || item.isInTheTrash || item.enclosingPackage != nil,
+                || item.removedElsewhere != nil || item.isInTheTrash || item.enclosingPackage != nil,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
             selection: plan, isSelected: plan.isSelected(item.url)
@@ -255,7 +255,7 @@ struct MultipleAppsView: View {
     private func warning(for item: BulkUninstallation.Item) -> String? {
         var lines: [String] = []
         let keptBy = item.apps.filter(plan.staying.contains)
-        if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, !item.isPeels, !item.isExcluded {
+        if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, item.removedElsewhere == nil, !item.isExcluded {
             lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
         }
         let users =
@@ -272,8 +272,8 @@ struct MultipleAppsView: View {
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
         }
-        if item.isPeels {
-            lines.append(String(localized: "Left alone: Peel removes itself only from Settings."))
+        if let removedElsewhere = item.removedElsewhere {
+            lines.append(String(localized: removedElsewhere.explanation))
         }
         if item.isInTheTrash {
             lines.append(String(localized: "Already in the Trash. What it left behind can still go."))

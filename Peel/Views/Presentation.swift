@@ -211,6 +211,16 @@ extension CloudRefusal {
     }
 }
 
+extension RemovedElsewhere {
+    /// Why a row of an app Peel never removes from its page stays where it is.
+    var explanation: LocalizedStringResource {
+        switch self {
+        case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
+        case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker)’s own uninstaller removes it."
+        }
+    }
+}
+
 extension HoldBack {
     /// Why Peel did not select an item, or leaves it where it is. It is shown in the note beside the row, with
     /// the reason for the match.

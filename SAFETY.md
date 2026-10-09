@@ -254,6 +254,14 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it; one with anything left
   inside, a hidden file included, one with another name, and the Library folder itself stay.
 
+A security or management agent whose maker documents removing it with an uninstaller of its own (GlobalProtect and
+Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope Client and FortiClient) is
+listed the same way, and nothing of it can be selected: its page names the maker's uninstaller and links to the
+maker's instructions, since moved from its place, what it keeps in the system and the settings that manage it would
+stay behind. Peel knows it by the team its checked signature names and by its identifier, both as the maker
+documents them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the
+same uninstaller.
+
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,
 for a copy Homebrew installed, by the Homebrew command Settings shows in its place.

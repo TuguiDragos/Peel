@@ -76,9 +76,9 @@ final class RemovalPlan {
         uninstallation?.isAppInTheTrash ?? false
     }
 
-    /// Known before the scan, so the page says from the start that Peel removes itself in Settings.
-    var isPeel: Bool {
-        app.isPeelItself
+    /// Known before the scan, so the page says from the start how the app is removed instead.
+    var removedElsewhere: RemovedElsewhere? {
+        app.removedElsewhere
     }
 
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.

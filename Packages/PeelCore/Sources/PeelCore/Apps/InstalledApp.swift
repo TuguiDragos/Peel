@@ -155,6 +155,12 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         return names
     }
 
+    /// How this app is removed when Peel never removes it from its page: Peel itself, or an agent its maker's own
+    /// uninstaller removes.
+    public var removedElsewhere: RemovedElsewhere? {
+        isPeelItself ? .byRemovePeel : MakersUninstaller.of(self).map(RemovedElsewhere.byItsMaker)
+    }
+
     /// What a folder of the app's or its maker's is called, as `Naming.folderName` writes it: the app's names, its
     /// identifier, the maker's part of the identifier and that part's last name, and the leading words of the
     /// developer its signature names (`BraveSoftware` for "Brave Software, Inc.").

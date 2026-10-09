@@ -20,9 +20,10 @@ public struct Uninstallation: Sendable {
     /// it is never selected or counted, and what it left behind still is.
     public var isAppInTheTrash = false
     public var uninstallsItself: UninstallsItself?
-    /// True for Peel, which is removed only from its own Settings, where its helper and login item go first. Its
-    /// files are listed, and nothing of it is selected or moved anywhere else: `unreviewedSelection` is that way.
-    public var isPeel: Bool { app.isPeelItself }
+    /// How the app is removed when Peel never removes it from here: Peel itself from its own Settings, where its helper
+    /// and login item go first (`unreviewedSelection` is that way), and an agent by its maker's uninstaller. Its files
+    /// are listed, and nothing of it is selected or moved.
+    public var removedElsewhere: RemovedElsewhere? { app.removedElsewhere }
 
     @concurrent
     public static func prepare(
@@ -249,11 +250,12 @@ public struct Uninstallation: Sendable {
         return (inside.location.kind, components)
     }
 
-    /// True when the app itself would stay: excluded, Peel, kept by macOS, part of another package, beyond the
-    /// helper, or needing the helper while it is not there. Nothing of it is then selected for the user: while it
-    /// stays, its files are not leftovers. For an app macOS keeps, what it holds is data in use.
+    /// True when the app itself would stay: excluded, removed elsewhere, kept by macOS, part of another package,
+    /// beyond the helper, or needing the helper while it is not there. Nothing of it is then selected for the user:
+    /// while it stays, its files are not leftovers. For an app macOS keeps, what it holds is data in use.
     public func appStays(canUseHelper: Bool) -> Bool {
-        isExcluded || isPeel || app.isSystemProtected || app.enclosingPackage != nil || isAppBeyondTheHelper
+        isExcluded || removedElsewhere != nil || app.isSystemProtected || app.enclosingPackage != nil
+            || isAppBeyondTheHelper
             || (appRequiresPrivileges && !canUseHelper)
     }
 
@@ -271,9 +273,9 @@ public struct Uninstallation: Sendable {
     }
 
     /// What a checkbox on the app's page can select: nothing Peel leaves alone or with something excluded inside,
-    /// nothing that needs the helper while it cannot act, and nothing of an excluded app or of Peel.
+    /// nothing that needs the helper while it cannot act, and nothing of an excluded app or one removed elsewhere.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
-        guard !isExcluded, !isPeel else { return [] }
+        guard !isExcluded, removedElsewhere == nil else { return [] }
         var urls = Set(scan.leftovers.filter { leftover in
             leftover.match.heldBack?.cannotBeMoved != true && (canUseHelper || !leftover.requiresPrivileges)
         }.map(\.url))
@@ -316,7 +318,7 @@ public struct Uninstallation: Sendable {
     /// How many items could move once selected, and their total size: what a section header shows and the
     /// page's total adds up. Rows Peel leaves alone are not counted.
     public func movable(among leftovers: [Leftover], withApp: Bool) -> (count: Int, size: SizeTotal) {
-        guard !isPeel else { return (0, SizeTotal([])) }
+        guard removedElsewhere == nil else { return (0, SizeTotal([])) }
         let movable = leftovers.filter { $0.match.heldBack?.cannotBeMoved != true }
         var sizes = Dictionary(movable.map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first }
         var count = movable.count
@@ -329,7 +331,7 @@ public struct Uninstallation: Sendable {
     }
 
     public var privilegedURLs: Set<URL> {
-        guard !isExcluded, !isPeel else { return [] }
+        guard !isExcluded, removedElsewhere == nil else { return [] }
         var urls = Set(
             scan.leftovers.filter { $0.requiresPrivileges && $0.match.heldBack != .beyondTheHelper }.map(\.url)
         )
@@ -342,7 +344,7 @@ public struct Uninstallation: Sendable {
 
     /// The app itself, then the selected leftovers.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
-        guard !isExcluded, !isPeel else { return [] }
+        guard !isExcluded, removedElsewhere == nil else { return [] }
         return order(of: selection)
     }
 

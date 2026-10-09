@@ -23,8 +23,9 @@ public struct BulkUninstallation: Sendable {
         public var isMeasured = true
         /// Needs administrator rights, and the helper may not move it. Shown, never selected, never moved.
         public var isBeyondTheHelper = false
-        /// Peel or a file of Peel's: Peel is removed only from its own Settings. Shown, never selected, never moved.
-        public var isPeels = false
+        /// How an app removed elsewhere is removed instead, for it and its files: Peel by Remove Peel, an agent by its
+        /// maker's uninstaller. Shown, never selected, never moved.
+        public var removedElsewhere: RemovedElsewhere?
         /// An app's bundle already in the Trash. Shown, never selected, never counted.
         public var isInTheTrash = false
         /// The package an app's bundle sits inside (`InstalledApp.enclosingPackage`). Shown, never selected, never
@@ -37,7 +38,8 @@ public struct BulkUninstallation: Sendable {
 
         public var isApplication: Bool { match == nil }
         public var isRecommended: Bool {
-            guard !isExcluded, !isPeels, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash, enclosingPackage == nil
+            guard !isExcluded, removedElsewhere == nil, !isKeptByMacOS, !isBeyondTheHelper, !isInTheTrash,
+                  enclosingPackage == nil
             else {
                 return false
             }
@@ -71,13 +73,15 @@ public struct BulkUninstallation: Sendable {
         self.items = items
         total = SizeTotal(movingItemsAt: Dictionary(items
             .filter {
-                !$0.isExcluded && !$0.isPeels && !($0.isApplication && $0.isKeptByMacOS) && !$0.isBeyondTheHelper
+                !$0.isExcluded && $0.removedElsewhere == nil && !($0.isApplication && $0.isKeptByMacOS)
+                    && !$0.isBeyondTheHelper
                     && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true
             }
             .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
         privilegedURLs = Set(
             items.filter {
-                $0.requiresPrivileges && !$0.isExcluded && !$0.isPeels && !$0.isBeyondTheHelper && !$0.isInTheTrash
+                $0.requiresPrivileges && !$0.isExcluded && $0.removedElsewhere == nil && !$0.isBeyondTheHelper
+                    && !$0.isInTheTrash
                     && $0.enclosingPackage == nil && !($0.isApplication && $0.isKeptByMacOS)
             }.map(\.url)
         )
@@ -125,7 +129,7 @@ public struct BulkUninstallation: Sendable {
     /// another package, or that the helper may not move, and nothing of Peel.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
-            !item.isExcluded && !item.isPeels && !item.isBeyondTheHelper && !item.isInTheTrash
+            !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isInTheTrash
                 && item.enclosingPackage == nil
                 && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !item.requiresPrivileges)
@@ -150,7 +154,7 @@ public struct BulkUninstallation: Sendable {
     /// Returns the selection in the order it is moved: the apps first, then the files. Excluded items and Peel's
     /// are left out.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
-        let movable = items.filter { !$0.isExcluded && !$0.isPeels && selection.contains($0.url) }
+        let movable = items.filter { !$0.isExcluded && $0.removedElsewhere == nil && selection.contains($0.url) }
         return movable.filter(\.isApplication).map(\.url) + movable.filter { !$0.isApplication }.map(\.url)
     }
 
@@ -219,7 +223,7 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: existing.isKeptByMacOS || item.isKeptByMacOS,
                     isMeasured: existing.isMeasured || item.isMeasured,
                     isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
-                    isPeels: existing.isPeels || item.isPeels,
+                    removedElsewhere: existing.removedElsewhere ?? item.removedElsewhere,
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
                     enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
                     holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings
@@ -248,7 +252,7 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,
                     isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper,
-                    isPeels: uninstallation.isPeel,
+                    removedElsewhere: uninstallation.removedElsewhere,
                     holdsDamagedSettings: leftover.holdsDamagedSettings
                 ))
             }
@@ -264,7 +268,7 @@ public struct BulkUninstallation: Sendable {
                 isKeptByMacOS: uninstallation.app.isSystemProtected,
                 isMeasured: uninstallation.isAppMeasured,
                 isBeyondTheHelper: uninstallation.isAppBeyondTheHelper,
-                isPeels: uninstallation.isPeel,
+                removedElsewhere: uninstallation.removedElsewhere,
                 isInTheTrash: uninstallation.isAppInTheTrash,
                 enclosingPackage: uninstallation.app.enclosingPackage
             ))
