@@ -1607,6 +1607,31 @@ struct LeftoverScannerTests {
         #expect(manifests.first?.match.isRecommended == true)
     }
 
+    /// Only the program a manifest runs says whose it is, wherever its NativeMessagingHosts folder sits: one named
+    /// after this app's identifier but running another program is not this app's, and one in a browser's folder that
+    /// is not listed is found by its program all the same.
+    @Test func judgesEveryManifestByTheProgramItRuns() async throws {
+        let directory = try TemporaryDirectory()
+        let firefox = "home/Library/Application Support/Mozilla/NativeMessagingHosts"
+        try directory.file("\(firefox)/net.example.client.remote.json", contents: Data("""
+        {"name": "net.example.client.remote", "path": "/Library/PrivilegedHelperTools/Remote.app/host", "type": "stdio"}
+        """.utf8))
+        let unlisted = "home/Library/Application Support/Seabird/NativeMessagingHosts"
+        try directory.file("\(unlisted)/com.example.bridge.json", contents: Data("""
+        {"name": "com.example.bridge", "path": "/Applications/Tunewell.app/Contents/MacOS/bridge", "type": "stdio"}
+        """.utf8))
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        let manifests = Dictionary(uniqueKeysWithValues: scan.leftovers.filter { $0.url.pathExtension == "json" }.map {
+            ($0.url.lastPathComponent, $0)
+        })
+        #expect(manifests["net.example.client.remote.json"] == nil, "another program's manifest was taken on its name")
+        #expect(manifests["com.example.bridge.json"]?.match.reason == .nativeMessagingHost)
+        #expect(manifests["com.example.bridge.json"]?.match.isRecommended == true)
+    }
+
     @Test func aFolderWithAPasswordDatabaseOrItsKeyFileIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Tunewell/Backups/Passwords.kdbx")

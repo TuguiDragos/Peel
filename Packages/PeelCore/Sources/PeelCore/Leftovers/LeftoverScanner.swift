@@ -227,7 +227,7 @@ public struct LeftoverScanner: Sendable {
 
         let leftovers = await measured(toMeasure, kind: location.kind, home: home, measure: measure)
         let inside = await nested(
-            in: nobodysFolders, of: location, matcher: matcher, home: home, exclusions: exclusions,
+            in: nobodysFolders, of: location, matcher: matcher, home: home, bundle: bundle, exclusions: exclusions,
             measure: measure, refuses: refuses, limit: nestedFolderLimit
         )
         return .found(
@@ -243,6 +243,7 @@ public struct LeftoverScanner: Sendable {
         of location: SearchLocation,
         matcher: LeftoverMatcher,
         home: String,
+        bundle: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
         refuses: Refuses,
@@ -253,7 +254,10 @@ public struct LeftoverScanner: Sendable {
         let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, limit: limit) {
             url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
-            if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
+            // A browser's manifest is whoever's program it runs, whatever it is called.
+            let match = url.deletingLastPathComponent().lastPathComponent.lowercased() == "nativemessaginghosts"
+                ? runsSomethingInside(bundle, manifest: url) : Self.match(name, at: url, kind: kind, matcher: matcher)
+            if let match, match.confidence >= .likely,
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
                 // Whose the folders on the way are decides what its name is worth.
