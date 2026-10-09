@@ -113,6 +113,14 @@ struct LeftoverMatcher: Sendable {
         return PathPattern.comparablePath(of: URL(filePath: program))
     }
 
+    /// Whether a folder with this name is the app's or its maker's. A folder named `X.localized` is named `X`
+    /// (Apple, "Localizing the Name of a Directory").
+    func namesTheAppOrItsMaker(folder name: String) -> Bool {
+        let suffix = ".localized"
+        let name = name.lowercased().hasSuffix(suffix) ? String(name.dropLast(suffix.count)) : name
+        return target.ownFolderNames.contains(Naming.normalized(name))
+    }
+
     /// The other installed apps with any claim on `fileName`, by bundle identifier, and the other copies of this app
     /// with one. A path a Homebrew cask names is checked this way too, so one shared with another app or another
     /// copy is never selected for this app.
@@ -292,6 +300,7 @@ extension LeftoverMatcher {
         let vendorPrefix: String?
         let names: [String]
         let normalizedNames: Set<String>
+        let ownFolderNames: Set<String>
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
 
@@ -315,8 +324,22 @@ extension LeftoverMatcher {
             vendorPrefix = vendor.map { $0 + "." }
             names = app.matchingNames.filter(Naming.isSignificant).map { $0.lowercased() }
             normalizedNames = Set(names.map(Naming.normalized))
+            ownFolderNames = Self.folderNames(names: normalizedNames, vendor: vendor, developer: app.developer)
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
+        }
+
+        /// What a folder of the app's or its maker's is called, normalized: the app's names, the maker's part of its
+        /// identifier and that part's last name, and the leading words of the developer its signature names.
+        private static func folderNames(names: Set<String>, vendor: String?, developer: String?) -> Set<String> {
+            var folders = names
+            if let vendor {
+                folders.insert(Naming.normalized(vendor))
+                folders.insert(Naming.normalized(String(vendor.split(separator: ".").last ?? "")))
+            }
+            let words = (developer ?? "").split { !$0.isLetter && !$0.isNumber }.map { $0.lowercased() }
+            for end in words.indices { folders.insert(words[...end].joined()) }
+            return folders.filter { !$0.isEmpty }
         }
 
         func isSibling(of other: Profile) -> Bool {

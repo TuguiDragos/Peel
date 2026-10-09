@@ -218,7 +218,7 @@ public struct LeftoverScanner: Sendable {
                 guard !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) else {
                     continue
                 }
-                toMeasure.append(Found(url: url, match: match, parent: parent, isInsideAnotherAppsFolder: false))
+                toMeasure.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
             } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
                       !exclusions.excludes(url) {
                 nobodysFolders.append(url)
@@ -256,11 +256,11 @@ public struct LeftoverScanner: Sendable {
             if let match = Self.match(name, at: url, kind: kind, matcher: matcher), match.confidence >= .likely,
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
-                // Whether it sits inside a folder of somebody else's decides what its name is worth.
+                // Whose the folders on the way are decides what its name is worth.
                 let between = url.deletingLastPathComponent().pathComponents.dropFirst(locationLength)
                 return .take(Found(
                     url: url, match: match, parent: parent,
-                    isInsideAnotherAppsFolder: between.contains { isSomebodyElses($0, kind: kind, matcher: matcher) }
+                    foldersAbove: foldersAbove(between, kind: kind, matcher: matcher)
                 ))
             }
             guard canLookInside, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) else { return .pass }
@@ -275,7 +275,24 @@ public struct LeftoverScanner: Sendable {
         let url: URL
         let match: LeftoverMatch
         let parent: ParentAccess
-        let isInsideAnotherAppsFolder: Bool
+        let foldersAbove: FoldersAbove
+    }
+
+    /// Whose the folders between a search location and an item found inside them are.
+    enum FoldersAbove: Sendable {
+        /// None, or each named for the app or its maker.
+        case itsOwn
+        /// One is Apple's or another installed app's.
+        case anotherApps
+        /// One is named for neither the app nor its maker, so it may be any program's.
+        case unknown
+    }
+
+    private static func foldersAbove(
+        _ folders: some Collection<String>, kind: SearchLocation.Kind, matcher: LeftoverMatcher
+    ) -> FoldersAbove {
+        if folders.contains(where: { isSomebodyElses($0, kind: kind, matcher: matcher) }) { return .anotherApps }
+        return folders.allSatisfy(matcher.namesTheAppOrItsMaker(folder:)) ? .itsOwn : .unknown
     }
 
     /// How many items of one location are measured at once. One after another, a few folders that never answer
@@ -289,7 +306,7 @@ public struct LeftoverScanner: Sendable {
         await found.concurrentMap(width: concurrentMeasurements) { item in
             await leftover(
                 at: item.url, kind: kind, match: item.match, parent: item.parent, home: home,
-                isInsideAnotherAppsFolder: item.isInsideAnotherAppsFolder, measure: measure
+                foldersAbove: item.foldersAbove, measure: measure
             )
         }
     }
@@ -302,7 +319,7 @@ public struct LeftoverScanner: Sendable {
         match: LeftoverMatch,
         parent: ParentAccess,
         home: String,
-        isInsideAnotherAppsFolder: Bool = false,
+        foldersAbove: FoldersAbove = .itsOwn,
         measure: Measure = LeftoverScanner.walk
     ) async -> Leftover {
         // The walk that measures the folder also reports whether it saw a repository or a wallet, so neither
@@ -328,7 +345,7 @@ public struct LeftoverScanner: Sendable {
         } else if contents?.couldNotBeRead == true {
             .couldNotBeRead
         } else if let contents {
-            heldBack(match, at: url, in: kind, contents: contents, isInsideAnotherAppsFolder: isInsideAnotherAppsFolder)
+            heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove)
         } else {
             .notMeasured
         }
@@ -356,7 +373,7 @@ public struct LeftoverScanner: Sendable {
         at url: URL,
         in kind: SearchLocation.Kind,
         contents: FolderContents,
-        isInsideAnotherAppsFolder: Bool
+        foldersAbove: FoldersAbove
     ) -> HoldBack? {
         // A wallet comes first: a cask's `zap` can name a coin app's whole data folder, which is where its keys
         // are. Holding it back costs a checkmark, and the row says what is inside.
@@ -366,7 +383,8 @@ public struct LeftoverScanner: Sendable {
         if kind == .sharedFolder { return .sharedWithEveryone }
         if Self.namedGroundOfSomebodyElse.contains(kind), match.restsOnAName { return .namedLikeTheApp }
         // An identifier names the app wherever it sits. Its name, inside somebody else's folder, does not.
-        if isInsideAnotherAppsFolder, match.restsOnAName { return .insideAnotherAppsFolder }
+        if match.restsOnAName, foldersAbove == .anotherApps { return .insideAnotherAppsFolder }
+        if match.restsOnAName, foldersAbove == .unknown { return .namedLikeTheApp }
         return nil
     }
 

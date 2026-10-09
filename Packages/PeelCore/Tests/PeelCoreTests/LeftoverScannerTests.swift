@@ -363,7 +363,38 @@ struct LeftoverScannerTests {
         #expect(byPath["SomeVendor/Tunewell"]?.match.heldBack == .insideAnotherAppsFolder)
         #expect(byPath["SomeVendor/Tunewell"]?.match.isRecommended == false)
         #expect(byPath["SomeVendor/net.example.client"]?.match.isRecommended == true, "an identifier names the app wherever it sits")
-        #expect(byPath["Nobody/Tunewell"]?.match.isRecommended == true, "a folder no installed app answers to is nobody's")
+        #expect(byPath["Nobody/Tunewell"]?.match.heldBack == .namedLikeTheApp, "a folder named for neither app nor maker")
+    }
+
+    /// A name found inside a folder counts only when every folder on the way is named for the app or its maker, by
+    /// the maker's part of its identifier or the developer its signature names. Inside any other folder, such as
+    /// macOS's own sync store or a command-line tool's settings, the name is all there is.
+    @Test func aNameInsideAFolderOfNeitherTheAppNorItsMakerIsNotEnough() async throws {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hollow.app"),
+            bundleIdentifier: "org.night-owl.hollow",
+            name: "Hollow",
+            developer: "Lantern Works, Inc."
+        )
+        let makers = ["Night Owl/Hollow", "night-owl/Hollow", "Lantern Works/Hollow", "Lantern.localized/Hollow"]
+        let others = ["SyncServices/Hollow", "tool/telemetry/hollow"]
+        let directory = try TemporaryDirectory()
+        for folder in makers + others {
+            try directory.file("home/Library/Application Support/\(folder)/state.db")
+        }
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+            ($0.url.path(percentEncoded: false).components(separatedBy: "Application Support/").last ?? "", $0)
+        })
+        for folder in makers {
+            #expect(found[folder]?.match.isRecommended == true, "\(folder)")
+        }
+        for folder in others {
+            #expect(found[folder]?.match.heldBack == .namedLikeTheApp, "\(folder)")
+            #expect(found[folder]?.match.isRecommended == false, "\(folder)")
+        }
     }
 
     /// Leaving a page cancels its scan, and a canceled scan starts no other measurement, so only those already under
@@ -1509,8 +1540,8 @@ struct LeftoverScannerTests {
         })
 
         #expect(found["home/Library/Caches/com.apple.python/Developer"]?.match.heldBack == .insideAnotherAppsFolder)
-        // A plain vendor folder that no app claims is not affected.
-        #expect(found["home/Library/Caches/CrashReporter/Developer"]?.match.isRecommended == true)
+        // A folder no app claims is somebody's too, and its name says nothing of this app or its maker.
+        #expect(found["home/Library/Caches/CrashReporter/Developer"]?.match.heldBack == .namedLikeTheApp)
     }
 
     /// Vendors keep a folder of their own in `/Users/Shared`. What is in there belongs to every account on the
