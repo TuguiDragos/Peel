@@ -831,6 +831,52 @@ struct UninstallationTests {
         #expect(found.map(\.url.lastPathComponent) == ["org.example.synth.app.pkg.plist"])
     }
 
+    /// A receipt named for its package is the app's when the package wrote the app and nothing else.
+    @Test func offersAReceiptWhosePackageWroteOnlyTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let bundle = try directory.directory("root/Applications/Example.app")
+        let example = InstalledApp(url: bundle, bundleIdentifier: "org.example.app", name: "Example")
+        for name in ["org.example.package.Example.app", "org.example.suite"] {
+            try directory.file("root/private/var/db/receipts/\(name).bom", bytes: 32)
+        }
+        let applications = PathPattern.canonical(bundle.deletingLastPathComponent())
+        let location = String(PathPattern.comparablePath(of: applications).dropFirst())
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--file-info-plist":
+                arguments[1].hasSuffix("/Example.app")
+                    ? PkgutilAnswer.fileInfo(
+                        arguments[1], packages: "org.example.package.Example.app", "org.example.suite"
+                    )
+                    : PkgutilAnswer.fileInfo(arguments[1])
+            case "--pkg-info-plist":
+                PkgutilAnswer.packageInfo(arguments[1], location: location)
+            case "--files":
+                arguments[1] == "org.example.suite"
+                    ? "Example.app\nExample.app/Contents\nOther.app\n"
+                    : ".\nExample.app\nExample.app/Contents\nExample.app/Contents/Info.plist\n"
+            default:
+                nil
+            }
+        }
+
+        let found = await Uninstallation.receiptLeftovers(
+            for: example,
+            receipts: ["org.example.package.example.app", "org.example.suite"],
+            installedApps: [example],
+            exclusions: .none,
+            environment: environment,
+            pkgutil: pkgutil
+        )
+
+        #expect(found.map(\.url.lastPathComponent) == ["org.example.package.Example.app.bom"])
+        #expect(found.map(\.match.isRecommended) == [true])
+    }
+
     @Test func offersNoReceiptWhenNoneNamesTheApp() async throws {
         let directory = try TemporaryDirectory()
         let environment = SearchEnvironment(

@@ -156,6 +156,32 @@ public enum PackageReceipts {
         return receipts
     }
 
+    /// The packages that wrote `app` and nothing outside it, the folders on the way to it aside. Once the app is gone,
+    /// such a receipt describes nothing on the disk. A receipt lists its files relative to its install location, and
+    /// they are compared name by name in that form, since most of them need not exist.
+    static func receipts(writingOnly app: URL, pkgutil: Pkgutil) async -> [String] {
+        let bundle = PathPattern.canonical(app)
+        let spellings = Self.spellings(of: PathPattern.comparablePath(of: bundle))
+        var identifiers: Set<String> = []
+        for path in spellings where identifiers.isEmpty && !Task.isCancelled {
+            identifiers = Set(Self.packageIdentifiers(in: await pkgutil(["--file-info-plist", path])))
+        }
+        let names = PathComponents.of(bundle.path(percentEncoded: false))
+        var found: [String] = []
+        for identifier in identifiers.sorted() where !Task.isCancelled {
+            guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil),
+                  let listing = await pkgutil(["--files", identifier])
+            else { continue }
+            let location = PathComponents.of(PathPattern.canonical(installLocation).path(percentEncoded: false))
+            guard names.starts(with: location) else { continue }
+            let wanted = Array(names.dropFirst(location.count))
+            let entries = lines(of: listing).map { PathComponents.of($0).filter { $0 != "." } }
+            let isTheAppOrOnTheWay = { (entry: [String]) in entry.starts(with: wanted) || wanted.starts(with: entry) }
+            if entries.contains(wanted), entries.allSatisfy(isTheAppOrOnTheWay) { found.append(identifier) }
+        }
+        return found
+    }
+
     /// Returns `path`, then the same path with its leading folders dropped one at a time (`/a/b/c`, `/b/c`,
     /// `/c`), since a receipt lists what it installed relative to its install location. Any of these can also
     /// match another package's file, so each answer is checked against what that package really installed.

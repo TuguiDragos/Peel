@@ -103,12 +103,16 @@ public struct Uninstallation: Sendable {
         receipts: Set<String>,
         installedApps: [InstalledApp],
         exclusions: Exclusions,
-        environment: SearchEnvironment
+        environment: SearchEnvironment,
+        pkgutil: PackageReceipts.Pkgutil = PackageReceipts.pkgutil
     ) async -> [Leftover] {
         let identifier = app.bundleIdentifier.lowercased()
         let identifiers = Set(installedApps.map { $0.bundleIdentifier.lowercased() } + [identifier])
+        let named = receipts.filter { PackageReceipts.owner(of: $0, among: identifiers) == identifier }
+        let wroteOnlyTheApp = await PackageReceipts.receipts(writingOnly: app.url, pkgutil: pkgutil)
+            .filter { !named.contains($0.lowercased()) }
         var leftovers: [Leftover] = []
-        for receipt in receipts.filter({ PackageReceipts.owner(of: $0, among: identifiers) == identifier }).sorted() {
+        for receipt in (Array(named) + wroteOnlyTheApp).sorted() {
             for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory)
             where !exclusions.excludes(url) {
                 leftovers.append(await LeftoverScanner.leftover(
