@@ -356,6 +356,32 @@ struct InstallersTests {
         #expect(items["Archive.zip.part"]?.heldBack == .changedRecently)
     }
 
+    /// Safari keeps a download in a `.download` package until it ends. The package is the unfinished download, and
+    /// the file growing inside it is what says when it last changed.
+    @Test func findsSafarisUnfinishedDownloadsByTheirNewestWrite() async throws {
+        let directory = try TemporaryDirectory()
+        let abandoned = try directory.directory("Downloads/Movie.mov.download")
+        let abandonedFile = try directory.file("Downloads/Movie.mov.download/Movie.mov", bytes: 400_000)
+        let going = try directory.directory("Downloads/Disk.dmg.download")
+        try directory.file("Downloads/Disk.dmg.download/Disk.dmg", bytes: 400_000)
+        try directory.directory("Applications")
+        let old: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(-3 * 24 * 60 * 60)]
+        for url in [abandonedFile, abandoned, going] {
+            try FileManager.default.setAttributes(old, ofItemAtPath: url.path(percentEncoded: false))
+        }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0) })
+        #expect(Set(items.keys) == ["Movie.mov.download", "Disk.dmg.download"])
+        #expect(items.values.allSatisfy { $0.kind == .incompleteDownload && ($0.size ?? 0) >= 400_000 })
+        #expect(items["Movie.mov.download"]?.heldBack == .some(nil))
+        #expect(items["Disk.dmg.download"]?.heldBack == .changedRecently)
+    }
+
     @Test func findsPackagesKeptInApplicationSupportAndLeavesThemToChoose() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Application Support/org.example.Studio/Updates/Studio-2.4.pkg", bytes: 400_000)

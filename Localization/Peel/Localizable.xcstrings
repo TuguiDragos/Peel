@@ -34587,108 +34587,108 @@
         }
       }
     },
-    "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox." : {
+    "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox, and .download for Safari." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stahování, která prohlížeč nikdy nedokončil a která stále nesou název, jaký souboru dává do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox."
+            "value" : "Stahování, která prohlížeč nikdy nedokončil a která stále nesou název, jaký souboru dává do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox a .download pro Safari."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads, die ein Browser nie abgeschlossen hat, noch unter dem Namen, den er einer Datei bis zum Ende des Downloads gibt: .crdownload für Chrome und die auf Chromium basierenden Browser, .part für Firefox."
+            "value" : "Downloads, die ein Browser nie abgeschlossen hat, noch unter dem Namen, den er einer Datei bis zum Ende des Downloads gibt: .crdownload für Chrome und die auf Chromium basierenden Browser, .part für Firefox und .download für Safari."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Descargas que un navegador nunca terminó, aún con el nombre que da a un archivo hasta que acaba la descarga: .crdownload en Chrome y en los navegadores basados en Chromium, .part en Firefox."
+            "value" : "Descargas que un navegador nunca terminó, aún con el nombre que da a un archivo hasta que acaba la descarga: .crdownload en Chrome y en los navegadores basados en Chromium, .part en Firefox y .download en Safari."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les téléchargements qu’un navigateur n’a jamais terminés, encore sous le nom qu’il donne à un fichier jusqu’à la fin du téléchargement : .crdownload pour Chrome et les navigateurs basés sur Chromium, .part pour Firefox."
+            "value" : "Les téléchargements qu’un navigateur n’a jamais terminés, encore sous le nom qu’il donne à un fichier jusqu’à la fin du téléchargement : .crdownload pour Chrome et les navigateurs basés sur Chromium, .part pour Firefox et .download pour Safari."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Download che un browser non ha mai completato, ancora con il nome che dà al file finché il download non termina: .crdownload per Chrome e i browser basati su Chromium, .part per Firefox."
+            "value" : "Download che un browser non ha mai completato, ancora con il nome che dà al file finché il download non termina: .crdownload per Chrome e i browser basati su Chromium, .part per Firefox e .download per Safari."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ブラウザが完了しなかったダウンロードです。ダウンロードが終わるまでブラウザがファイルに付ける名前のまま残っています。Chromeと、Chromiumをベースにしたブラウザでは.crdownload、Firefoxでは.partです。"
+            "value" : "ブラウザが完了しなかったダウンロードです。ダウンロードが終わるまでブラウザがファイルに付ける名前のまま残っています。Chromeと、Chromiumをベースにしたブラウザでは.crdownload、Firefoxでは.part、Safariでは.downloadです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "브라우저가 완료하지 못한 다운로드로, 다운로드가 끝날 때까지 브라우저가 파일에 붙이는 이름이 아직 그대로 남아 있습니다. Chrome 및 Chromium 기반 브라우저는 .crdownload, Firefox는 .part입니다."
+            "value" : "브라우저가 완료하지 못한 다운로드로, 다운로드가 끝날 때까지 브라우저가 파일에 붙이는 이름이 아직 그대로 남아 있습니다. Chrome 및 Chromium 기반 브라우저는 .crdownload, Firefox는 .part, Safari는 .download입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads die een browser nooit heeft voltooid, nog onder de naam die de browser een bestand geeft tot de download klaar is: .crdownload voor Chrome en de browsers die op Chromium zijn gebouwd, .part voor Firefox."
+            "value" : "Downloads die een browser nooit heeft voltooid, nog onder de naam die de browser een bestand geeft tot de download klaar is: .crdownload voor Chrome en de browsers die op Chromium zijn gebouwd, .part voor Firefox en .download voor Safari."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pliki, których przeglądarka nigdy nie skończyła pobierać, wciąż pod nazwą, jaką nadaje plikowi do końca pobierania: .crdownload w Chrome i przeglądarkach opartych na Chromium, .part w przeglądarce Firefox."
+            "value" : "Pliki, których przeglądarka nigdy nie skończyła pobierać, wciąż pod nazwą, jaką nadaje plikowi do końca pobierania: .crdownload w Chrome i przeglądarkach opartych na Chromium, .part w przeglądarce Firefox i .download w Safari."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads que um navegador nunca concluiu, ainda com o nome que ele dá a um arquivo até o fim do download: .crdownload no Chrome e nos navegadores baseados no Chromium, .part no Firefox."
+            "value" : "Downloads que um navegador nunca concluiu, ainda com o nome que ele dá a um arquivo até o fim do download: .crdownload no Chrome e nos navegadores baseados no Chromium, .part no Firefox e .download no Safari."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Descărcări pe care un browser nu le‑a terminat, încă sub numele pe care îl dă unui fișier până la încheierea descărcării: .crdownload pentru Chrome și browserele bazate pe Chromium, .part pentru Firefox."
+            "value" : "Descărcări pe care un browser nu le‑a terminat, încă sub numele pe care îl dă unui fișier până la încheierea descărcării: .crdownload pentru Chrome și browserele bazate pe Chromium, .part pentru Firefox și .download pentru Safari."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Загрузки, которые браузер так и не завершил. У таких файлов все еще временное имя, которое браузер дает файлу до окончания загрузки: .crdownload в Chrome и браузерах на основе Chromium, .part в Firefox."
+            "value" : "Загрузки, которые браузер так и не завершил. У таких файлов все еще временное имя, которое браузер дает файлу до окончания загрузки: .crdownload в Chrome и браузерах на основе Chromium, .part в Firefox и .download в Safari."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hämtningar som en webbläsare aldrig slutförde, fortfarande under det namn den ger en fil tills hämtningen är klar: .crdownload för Chrome och webbläsarna som bygger på Chromium, .part för Firefox."
+            "value" : "Hämtningar som en webbläsare aldrig slutförde, fortfarande under det namn den ger en fil tills hämtningen är klar: .crdownload för Chrome och webbläsarna som bygger på Chromium, .part för Firefox och .download för Safari."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir tarayıcının hiç tamamlamadığı indirmeler; indirme bitene kadar dosyaya verdiği adı hâlâ taşırlar: Chrome ve Chromium tabanlı tarayıcılar için .crdownload, Firefox için .part."
+            "value" : "Bir tarayıcının hiç tamamlamadığı indirmeler; indirme bitene kadar dosyaya verdiği adı hâlâ taşırlar: Chrome ve Chromium tabanlı tarayıcılar için .crdownload, Firefox için .part ve Safari için .download."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Викачування, яких браузер так і не завершив. Файл досі має назву, яку браузер дає йому, доки викачування не закінчиться: .crdownload у Chrome і браузерах на основі Chromium, .part у Firefox."
+            "value" : "Викачування, яких браузер так і не завершив. Файл досі має назву, яку браузер дає йому, доки викачування не закінчиться: .crdownload у Chrome і браузерах на основі Chromium, .part у Firefox і .download у Safari."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "浏览器未完成的下载，仍使用浏览器在下载结束前为文件指定的名称：Chrome及基于Chromium的浏览器为.crdownload，Firefox为.part。"
+            "value" : "浏览器未完成的下载，仍使用浏览器在下载结束前为文件指定的名称：Chrome及基于Chromium的浏览器为.crdownload，Firefox为.part，Safari浏览器为.download。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "瀏覽器未完成的下載項目，在下載結束前仍使用瀏覽器為檔案取的名稱：Chrome及以Chromium為基礎的瀏覽器使用.crdownload，Firefox使用.part。"
+            "value" : "瀏覽器未完成的下載項目，在下載結束前仍使用瀏覽器為檔案取的名稱：Chrome及以Chromium為基礎的瀏覽器使用.crdownload，Firefox使用.part，Safari使用.download。"
           }
         }
       }

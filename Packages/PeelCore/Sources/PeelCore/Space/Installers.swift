@@ -84,9 +84,10 @@ public enum Installers {
     static let installerExtensions: Set<String> = ["dmg", "iso", "pkg", "mpkg", "xip"]
     static let firmwareExtensions: Set<String> = ["ipsw"]
     /// What a browser adds to a download's name until it ends: Chromium's `.crdownload`
-    /// (`chrome/browser/download/download_target_determiner.cc`) and Firefox's `.part`
-    /// (`netwerk/base/nsIBackgroundFileSaver.idl`).
-    static let incompleteDownloadExtensions: Set<String> = ["crdownload", "part"]
+    /// (`chrome/browser/download/download_target_determiner.cc`), Firefox's `.part`
+    /// (`netwerk/base/nsIBackgroundFileSaver.idl`), and Safari's `.download`, a package its Info.plist declares as the
+    /// "Safari download" document type, with the file being written inside.
+    static let incompleteDownloadExtensions: Set<String> = ["crdownload", "part", "download"]
     /// A download that changed within this time may still be going, whatever holds it open.
     static let stillDownloading: TimeInterval = 24 * 60 * 60
 
@@ -147,11 +148,13 @@ public enum Installers {
                 guard isInstaller || isArchive || isIncomplete || firmwareExtensions.contains(suffix),
                       !exclusions.excludes(url), !exclusions.holds(url), !Task.isCancelled
                 else { continue }
-                let (size, seen) = await measured(url, by: measure)
+                let (size, seen, newestInside) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let heldBack = heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud, openFiles: openFiles)
                 if isIncomplete {
-                    items.append(incompleteDownload(at: url, size: size, heldBack: heldBack))
+                    items.append(
+                        incompleteDownload(at: url, size: size, heldBack: heldBack, newestInside: newestInside)
+                    )
                 } else if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
                     let installer = appInstaller(
@@ -269,13 +272,17 @@ public enum Installers {
         url.pathExtension.lowercased() == "dmg" && BoundedRead.prefix(of: url, count: 8) == Data("encrcdsa".utf8)
     }
 
-    /// What measuring `url` gave: its size, and why what it saw leaves the item for the person to choose.
+    /// What measuring `url` gave: its size, why what it saw leaves the item for the person to choose, and the newest
+    /// write it saw.
     private static func measured(
         _ url: URL,
         by measure: LeftoverScanner.Measure
-    ) async -> (size: Int64?, heldBack: HoldBack?) {
+    ) async -> (size: Int64?, heldBack: HoldBack?, newestChange: Date?) {
         let contents = await measure(url)
-        return (contents.flatMap { $0.couldNotBeRead ? nil : $0.size }, HoldBack.seen(in: contents))
+        return (
+            contents.flatMap { $0.couldNotBeRead ? nil : $0.size }, HoldBack.seen(in: contents),
+            contents?.newestChange
+        )
     }
 
     /// True when `size` reaches `minimumSize`. An unknown size could be any size, so it is kept.
@@ -409,7 +416,7 @@ public enum Installers {
             where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen) = await measured(url, by: measure)
+                let (size, seen, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let version = AppInspector.infoDictionary(
                     in: url.appending(path: "Contents", directoryHint: .isDirectory)
@@ -445,7 +452,7 @@ public enum Installers {
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, heldBack) = await measured(url, by: measure)
+                let (size, heldBack, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 items.append(firmware(at: url, size: size, heldBack: heldBack))
             }
@@ -487,7 +494,7 @@ public enum Installers {
         for (url, identifier) in found {
             guard !Task.isCancelled else { return items }
             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-            let (size, seen) = await measured(url, by: measure)
+            let (size, seen, _) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
             let isRunning = !NSRunningApplication.runningApplications(withBundleIdentifier: identifier).isEmpty
             items.append(InstallerItem(
@@ -533,7 +540,7 @@ public enum Installers {
                     continue
                 }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen) = await measured(url, by: measure)
+                let (size, seen, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
                 let heldBack = heldBack(url, seen: seen, in: place, isInTheCloud: isInTheCloud, openFiles: openFiles)
@@ -547,9 +554,12 @@ public enum Installers {
     }
 
     /// Makes the item for an unfinished download. One that changed within `stillDownloading` may still be going, so
-    /// it is left for the person to choose.
-    static func incompleteDownload(at url: URL, size: Int64?, heldBack: HoldBack?) -> InstallerItem {
-        let changed = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
+    /// it is left for the person to choose. A package changes when the file growing inside it does (`newestInside`).
+    static func incompleteDownload(
+        at url: URL, size: Int64?, heldBack: HoldBack?, newestInside: Date?
+    ) -> InstallerItem {
+        let own = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
+        let changed = [own, newestInside].compactMap(\.self).max()
         let isRecent = changed.map { Date.now.timeIntervalSince($0) < stillDownloading } ?? true
         return InstallerItem(
             url: url,
