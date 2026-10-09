@@ -501,7 +501,7 @@ final class AppLibrary {
     func checkForUpdates(_ targets: [InstalledApp], force: Bool = false) async {
         // Read here, where every caller passes. Settings promises that with this off, Peel contacts nothing on
         // its own, so even Rescan on an app's page only rescans files.
-        guard UserDefaults.standard.object(forKey: SettingsKey.checksForAppUpdates) as? Bool ?? true else { return }
+        guard UserDefaults.standard.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true) else { return }
         let now = Date.now
         // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
         let wanted = targets.filter { app in
