@@ -60,7 +60,10 @@ public struct Uninstallation: Sendable {
             )
         }
         scan = scan.adding(
-            await receiptLeftovers(for: app, receipts: receipts, exclusions: exclusions, environment: environment)
+            await receiptLeftovers(
+                for: app, receipts: receipts, installedApps: installedApps, exclusions: exclusions,
+                environment: environment
+            )
         )
         scan = scan.adding(
             await homebrewReceipt(
@@ -97,12 +100,14 @@ public struct Uninstallation: Sendable {
     static func receiptLeftovers(
         for app: InstalledApp,
         receipts: Set<String>,
+        installedApps: [InstalledApp],
         exclusions: Exclusions,
         environment: SearchEnvironment
     ) async -> [Leftover] {
         let identifier = app.bundleIdentifier.lowercased()
+        let identifiers = Set(installedApps.map { $0.bundleIdentifier.lowercased() } + [identifier])
         var leftovers: [Leftover] = []
-        for receipt in receipts.filter({ PackageReceipts.proves($0, isThe: identifier) }).sorted() {
+        for receipt in receipts.filter({ PackageReceipts.owner(of: $0, among: identifiers) == identifier }).sorted() {
             for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory)
             where !exclusions.excludes(url) {
                 leftovers.append(await LeftoverScanner.leftover(

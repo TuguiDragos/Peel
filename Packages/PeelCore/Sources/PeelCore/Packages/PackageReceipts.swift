@@ -28,6 +28,13 @@ public enum PackageReceipts {
         return receipt == identifier || [".", "-", "_"].contains { receipt.hasPrefix(identifier + $0) }
     }
 
+    /// The identifier among `identifiers` whose app `receipt` belongs to: the longest that proves it, since a receipt
+    /// named for one identifier and a separator can carry on into another app's (`…synth-fx.app.pkg` is Synth FX's,
+    /// not Synth's). All in lowercase.
+    public static func owner(of receipt: String, among identifiers: some Sequence<String>) -> String? {
+        identifiers.filter { proves(receipt, isThe: $0) }.max { $0.count < $1.count }
+    }
+
     /// Returns the identifiers of all installed packages, in lowercase, without reading each receipt. That is
     /// enough to find an app's own receipt and to tell whether a cask really belongs to an app.
     @concurrent

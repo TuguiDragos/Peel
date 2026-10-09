@@ -744,6 +744,7 @@ struct UninstallationTests {
         let found = await Uninstallation.receiptLeftovers(
             for: app,
             receipts: ["com.example.app.pkg", "com.example.app2.pkg", "com.other.thing"],
+            installedApps: [app],
             exclusions: .none,
             environment: environment
         )
@@ -753,6 +754,36 @@ struct UninstallationTests {
         #expect(found.map(\.match.confidence) == [.certain, .certain])
         #expect(found.map(\.match.isRecommended) == [true, true])
         #expect(found.map(\.kind) == [.receipts, .receipts])
+    }
+
+    /// A receipt whose name begins with this app's identifier can still be another installed app's, one whose
+    /// identifier carries on past the separator: `org.example.synth-fx.app.pkg` installed Synth FX, not Synth.
+    @Test func leavesAReceiptToTheAppItNamesMoreClosely() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let receipts = ["org.example.synth.app.pkg", "org.example.synth-fx.app.pkg"]
+        for name in receipts {
+            try directory.file("root/private/var/db/receipts/\(name).plist", bytes: 32)
+        }
+        let synth = InstalledApp(
+            url: URL(filePath: "/Applications/Synth.app"), bundleIdentifier: "org.example.synth", name: "Synth"
+        )
+        let effects = InstalledApp(
+            url: URL(filePath: "/Applications/Synth FX.app"), bundleIdentifier: "org.example.synth-fx", name: "Synth FX"
+        )
+
+        let found = await Uninstallation.receiptLeftovers(
+            for: synth,
+            receipts: Set(receipts),
+            installedApps: [synth, effects],
+            exclusions: .none,
+            environment: environment
+        )
+
+        #expect(found.map(\.url.lastPathComponent) == ["org.example.synth.app.pkg.plist"])
     }
 
     @Test func offersNoReceiptWhenNoneNamesTheApp() async throws {
@@ -766,6 +797,7 @@ struct UninstallationTests {
         let found = await Uninstallation.receiptLeftovers(
             for: app,
             receipts: ["com.example.appointments"],
+            installedApps: [app],
             exclusions: .none,
             environment: environment
         )
