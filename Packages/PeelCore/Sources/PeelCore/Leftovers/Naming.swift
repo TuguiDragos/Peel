@@ -15,6 +15,13 @@ enum Naming {
         String(string.lowercased().filter { $0.isLetter || $0.isNumber })
     }
 
+    /// The name a folder is known by: normalized, and without `.localized`, since a folder named `X.localized` is
+    /// named `X` (Apple, "Localizing the Name of a Directory").
+    static func folderName(_ name: String) -> String {
+        let suffix = ".localized"
+        return normalized(name.lowercased().hasSuffix(suffix) ? String(name.dropLast(suffix.count)) : name)
+    }
+
     static func isSignificant(_ name: String) -> Bool {
         let normalized = normalized(name)
         return normalized.count >= 3 && !genericNames.contains(normalized)

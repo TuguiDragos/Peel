@@ -9,17 +9,12 @@ struct MakersFolders {
     static let kinds: Set<SearchLocation.Kind> = [.applicationSupport, .caches, .logs, .plugIns, .library]
 
     let environment: SearchEnvironment
-    /// Lowercased, since disks ignore case by default.
+    /// As `Naming.folderName` writes them, so case and punctuation never tell two names apart.
     let names: Set<String>
 
-    /// Each app's identifier and name, its maker's part of the identifier, and that part's last name. Never Apple's.
+    /// The folder names of each app and its maker (`InstalledApp.ownFolderNames`). Never Apple's.
     static func names(of apps: [InstalledApp]) -> Set<String> {
-        Set(apps.flatMap { app -> [String] in
-            guard !ProtectedData.isApplesName(app.bundleIdentifier) else { return [] }
-            let maker = Identifier.vendor(of: app.bundleIdentifier)
-            return [app.bundleIdentifier, app.name, maker, maker?.split(separator: ".").last.map(String.init)]
-                .compactMap { $0?.lowercased() }
-        })
+        Set(apps.filter { !ProtectedData.isApplesName($0.bundleIdentifier) }.flatMap(\.ownFolderNames))
     }
 
     /// Deepest first. A folder with another name stops the walk, since it may be any app's.
@@ -32,7 +27,7 @@ struct MakersFolders {
             var folder = url.deletingLastPathComponent()
             var path = PathPattern.comparablePath(of: folder)
             while !ends.contains(path), places.contains(where: { PathComponents.isPath(path, inside: $0) }),
-                  names.contains(folder.lastPathComponent.lowercased()) {
+                  names.contains(Naming.folderName(folder.lastPathComponent)) {
                 folders[path] = folder
                 folder = folder.deletingLastPathComponent()
                 path = PathPattern.comparablePath(of: folder)

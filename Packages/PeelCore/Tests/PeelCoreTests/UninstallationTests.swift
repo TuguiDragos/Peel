@@ -728,6 +728,30 @@ struct UninstallationTests {
         }
     }
 
+    /// A maker's folder can be named for the developer the app's signature names rather than for its identifier,
+    /// as in `BraveSoftware/Brave-Browser`: once the profile has moved, the empty folder around it goes too.
+    @Test func aMakersFolderNamedForTheDeveloperIsTheMakers() throws {
+        let directory = try TemporaryDirectory()
+        let profile = try directory.directory("home/Library/Application Support/Seaside Works/Seaside-Browser")
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Seaside Browser.app"),
+            bundleIdentifier: "org.example.browser",
+            name: "Seaside Browser",
+            developer: "Seaside Works, Inc."
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let found = MakersFolders(environment: environment, names: MakersFolders.names(of: [app])).above([profile])
+
+        #expect(
+            found.map(PathPattern.comparablePath(of:))
+                == [PathPattern.comparablePath(of: profile.deletingLastPathComponent())]
+        )
+    }
+
     /// The receipt is what keeps macOS counting the package as installed, so it goes with the app. A receipt
     /// proves an app only up to a separator: `com.example.app2.pkg` is another package's.
     @Test func offersTheInstallerReceiptWithTheApp() async throws {

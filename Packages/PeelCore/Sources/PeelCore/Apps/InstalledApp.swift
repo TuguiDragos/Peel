@@ -154,6 +154,21 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         }
         return names
     }
+
+    /// What a folder of the app's or its maker's is called, as `Naming.folderName` writes it: the app's names, its
+    /// identifier, the maker's part of the identifier and that part's last name, and the leading words of the
+    /// developer its signature names (`BraveSoftware` for "Brave Software, Inc.").
+    var ownFolderNames: Set<String> {
+        var folders = Set(matchingNames.filter(Naming.isSignificant).map(Naming.normalized))
+        folders.insert(Naming.normalized(bundleIdentifier))
+        if let vendor = Identifier.vendor(of: bundleIdentifier.lowercased()) {
+            folders.insert(Naming.normalized(vendor))
+            folders.insert(Naming.normalized(String(vendor.split(separator: ".").last ?? "")))
+        }
+        let words = (developer ?? "").split { !$0.isLetter && !$0.isNumber }.map { $0.lowercased() }
+        for end in words.indices { folders.insert(words[...end].joined()) }
+        return folders.filter { !$0.isEmpty }
+    }
 }
 
 public enum Architecture: String, Sendable, Hashable, CaseIterable {
