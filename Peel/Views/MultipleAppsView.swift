@@ -93,12 +93,10 @@ struct MultipleAppsView: View {
                     }
                 }
 
-                if plan.apps.contains(where: {
-                    PrivacyReset.isAllowed(for: $0) && !plan.appsInTheTrash.contains($0.url)
-                }) {
+                if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
-                if !plan.appsInTheDock.isEmpty {
+                if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
                     DockTileRow(isOn: $removesDockTiles)
                 }
             }

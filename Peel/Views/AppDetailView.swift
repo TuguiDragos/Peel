@@ -179,10 +179,10 @@ struct AppDetailView: View {
 
                     recommendedSection
                     reviewSection
-                    if PrivacyReset.isAllowed(for: plan.app), !plan.isAppInTheTrash {
+                    if !PrivacyReset.apps(among: [plan.app], moving: plan.selectable).isEmpty {
                         PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                     }
-                    if plan.hasDockTile, plan.removedElsewhere == nil {
+                    if plan.hasDockTile, plan.selectable.contains(plan.app.url) {
                         DockTileRow(isOn: $removesDockTile)
                     }
                     defaultsSection
