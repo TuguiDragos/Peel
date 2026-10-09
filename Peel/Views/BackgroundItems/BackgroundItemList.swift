@@ -146,7 +146,7 @@ struct BackgroundItemList: View {
     /// The owner's name as the item's page gives it: the name found with the owner, which knows an app outside the
     /// scanned folders, and else the installed app's.
     private func ownerName(of item: BackgroundItem) -> String? {
-        item.ownerBundleIdentifier.map { item.ownerName ?? library.name(forBundleIdentifier: $0) }
+        item.ownerBundleIdentifier.map { item.ownerName ?? library.name(forReference: $0) }
     }
 }
 

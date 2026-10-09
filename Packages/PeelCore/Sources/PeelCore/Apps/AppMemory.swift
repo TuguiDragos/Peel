@@ -64,9 +64,10 @@ public struct AppMemory: Sendable {
             (known ?? []).map { ($0.bundleIdentifier, $0) },
             uniquingKeysWith: { first, _ in first }
         )
-        for app in apps where !app.bundleIdentifier.isEmpty && !app.isSystemProtected {
-            byIdentifier[app.bundleIdentifier] = RememberedApp(
-                bundleIdentifier: app.bundleIdentifier,
+        for app in apps where !app.isSystemProtected {
+            guard let identifier = app.bundleIdentifier else { continue }
+            byIdentifier[identifier] = RememberedApp(
+                bundleIdentifier: identifier,
                 name: app.name,
                 teamIdentifier: app.teamIdentifier,
                 lastSeen: now,

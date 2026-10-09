@@ -14,7 +14,7 @@ struct MakersFolders {
 
     /// The folder names of each app and its maker (`InstalledApp.ownFolderNames`). Never Apple's.
     static func names(of apps: [InstalledApp]) -> Set<String> {
-        Set(apps.filter { !ProtectedData.isApplesName($0.bundleIdentifier) }.flatMap(\.ownFolderNames))
+        Set(apps.filter { !$0.isApples }.flatMap(\.ownFolderNames))
     }
 
     /// Deepest first. A folder with another name stops the walk, since it may be any app's.

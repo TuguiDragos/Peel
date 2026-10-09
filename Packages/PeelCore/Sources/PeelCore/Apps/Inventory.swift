@@ -4,7 +4,7 @@ public import Foundation
 /// elsewhere, to set up a new Mac the same way or to keep a record of what was on this one.
 public struct InventoryEntry: Sendable, Hashable, Codable {
     public let name: String
-    public let bundleIdentifier: String
+    public let bundleIdentifier: String?
     public let version: String?
     public let build: String?
     /// Where the app came from: "Homebrew", "App Store", "Setapp", "Sparkle", "Electron", "Downloaded", or "Unknown".
@@ -134,7 +134,7 @@ public struct Inventory: Sendable {
         let rows = entries.map { entry in
             [
                 entry.name,
-                entry.bundleIdentifier,
+                entry.bundleIdentifier ?? "",
                 entry.version ?? "",
                 entry.build ?? "",
                 entry.source,

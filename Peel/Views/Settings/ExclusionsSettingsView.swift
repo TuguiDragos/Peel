@@ -120,13 +120,21 @@ struct ExclusionsSettingsView: View {
                 }
                 HStack {
                     Menu {
+                        // An app with no identifier is left alone by where it is, as its Control-click menu does.
                         ForEach(
-                            library.apps.filter {
-                                !exclusions.exclusions.excludes(bundleIdentifier: $0.bundleIdentifier)
+                            library.apps.filter { app in
+                                app.bundleIdentifier.map { !exclusions.exclusions.excludes(bundleIdentifier: $0) }
+                                    ?? !exclusions.exclusions.excludes(app.url)
                             }
                         ) { app in
                             Button(app.name) {
-                                Task { await exclusions.add(bundleIdentifier: app.bundleIdentifier) }
+                                Task {
+                                    if let identifier = app.bundleIdentifier {
+                                        await exclusions.add(bundleIdentifier: identifier)
+                                    } else {
+                                        await exclusions.add(paths: [app.url])
+                                    }
+                                }
                             }
                         }
                     } label: {

@@ -102,7 +102,7 @@ struct AppList: View {
             size: library.sizes[app.id],
             isUnmeasured: library.unmeasured.contains(app.id),
             sharesStorage: library.sharingStorage.contains(app.id),
-            teamChange: library.teamChanges[app.bundleIdentifier],
+            teamChange: app.bundleIdentifier.flatMap { library.teamChanges[$0] },
             sort: library.sort,
             hasUpdate: library.hasUpdate(app),
             isPicked: library.picked.contains(app.id),

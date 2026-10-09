@@ -32,7 +32,8 @@ public struct AppListFilter: Sendable, Hashable {
     public func keeps(
         _ app: InstalledApp, source: AppSource, developer appsDeveloper: String?, isUnused: Bool
     ) -> Bool {
-        if !text.isEmpty, !SearchText.matches(app.name, text), !SearchText.matches(app.bundleIdentifier, text),
+        if !text.isEmpty, !SearchText.matches(app.name, text),
+           !(app.bundleIdentifier.map { SearchText.matches($0, text) } ?? false),
            !(appsDeveloper.map { SearchText.matches($0, text) } ?? false) {
             return false
         }

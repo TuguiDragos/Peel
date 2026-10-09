@@ -233,10 +233,20 @@ struct AppInspectorTests {
         #expect(AppInspector.inspect(directory.url.appending(path: "Empty.app"))?.version == "7")
     }
 
-    @Test func rejectsFoldersWithoutBundleIdentifier() throws {
+    @Test func readsAnAppWhoseInfoPlistNamesNoIdentifier() throws {
         let directory = try TemporaryDirectory()
-        try plist(["CFBundleName": "Broken"], at: "Broken.app/Contents/Info.plist", in: directory)
-        #expect(AppInspector.inspect(directory.url.appending(path: "Broken.app")) == nil)
+        try plist(["CFBundleName": "Plain Editor", "CFBundleVersion": "4.0"], at: "Plain Editor.app/Contents/Info.plist", in: directory)
+        try plist(["CFBundleIdentifier": ""], at: "Empty.app/Contents/Info.plist", in: directory)
+        try directory.directory("Folder.app/Contents")
+
+        let app = try #require(AppInspector.inspect(directory.url.appending(path: "Plain Editor.app")))
+
+        #expect(app.bundleIdentifier == nil)
+        #expect(app.name == "Plain Editor")
+        #expect(app.version == "4.0")
+        #expect(app.reference == PathPattern.comparablePath(of: directory.url.appending(path: "Plain Editor.app")))
+        #expect(AppInspector.inspect(directory.url.appending(path: "Empty.app"))?.bundleIdentifier == nil)
+        #expect(AppInspector.inspect(directory.url.appending(path: "Folder.app")) == nil)
     }
 
     @Test func marksSystemAppsAsProtected() throws {

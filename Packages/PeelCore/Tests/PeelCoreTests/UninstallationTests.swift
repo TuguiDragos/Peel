@@ -182,11 +182,11 @@ struct UninstallationTests {
         #expect(beyond.suggestedSelection(canUseHelper: true).isEmpty, "the helper may not move the app")
 
         let other = InstalledApp(url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "com.example.other", name: "Other")
-        let shared = leftover("shared", sharedWith: [other.bundleIdentifier])
+        let shared = leftover("shared", sharedWith: [other.reference])
         let otherPlan = Uninstallation(
             app: other, appSize: 10_000, appRequiresPrivileges: false,
             scan: LeftoverScan(
-                leftovers: [leftover("com.example.other"), leftover("shared", sharedWith: [app.bundleIdentifier])],
+                leftovers: [leftover("com.example.other"), leftover("shared", sharedWith: [app.reference])],
                 unreadableLocations: []
             )
         )

@@ -43,7 +43,11 @@ public enum PrivacyReset {
     ) async -> [(app: InstalledApp, result: Result)] {
         var results: [(app: InstalledApp, result: Result)] = []
         for app in goingNow(apps, with: service) {
-            results.append((app, await reset(bundleIdentifier: app.bundleIdentifier)))
+            guard let identifier = app.bundleIdentifier else {
+                results.append((app, .refused))
+                continue
+            }
+            results.append((app, await reset(bundleIdentifier: identifier)))
         }
         return results
     }
@@ -70,7 +74,7 @@ public enum PrivacyReset {
     /// Returns the apps a removal resets: those whose own bundle is selected and that `isAllowed` accepts. An app
     /// whose leftovers alone are removed stays installed, and nobody asked to reset it.
     public static func apps(among apps: [InstalledApp], moving selected: Set<URL>) -> [InstalledApp] {
-        apps.filter { selected.contains($0.url) && isAllowed(bundleIdentifier: $0.bundleIdentifier) }
+        apps.filter { selected.contains($0.url) && isAllowed(for: $0) }
     }
 
     /// Interprets `tccutil`'s exit status and output. Kept apart from running it so it can be tested.
@@ -78,6 +82,11 @@ public enum PrivacyReset {
         if status == 0 { return .reset }
         if output.contains("No such bundle identifier") { return .notKnownToTheSystem }
         return .failed(output)
+    }
+
+    /// True when `app` has an identifier that may be handed to `tccutil`.
+    public static func isAllowed(for app: InstalledApp) -> Bool {
+        app.bundleIdentifier.map(isAllowed(bundleIdentifier:)) ?? false
     }
 
     /// True when `bundleIdentifier` may be handed to `tccutil`. Apple's own apps and every part of Peel are

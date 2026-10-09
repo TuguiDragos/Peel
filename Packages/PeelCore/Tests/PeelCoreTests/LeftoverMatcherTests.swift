@@ -109,6 +109,19 @@ struct LeftoverMatcherTests {
         #expect(updater.isRecommended)
     }
 
+    @Test func appsWithNoIdentifierAreNotCopiesOfEachOther() throws {
+        let editor = InstalledApp(url: URL(filePath: "/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
+        let other = InstalledApp(url: URL(filePath: "/Users/me/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
+
+        let alone = try #require(match("Plain Editor", in: .applicationSupport, for: editor))
+        let both = try #require(match("Plain Editor", in: .applicationSupport, for: editor, with: [other]))
+
+        #expect(alone.reason == .name)
+        #expect(alone.isRecommended)
+        #expect(both.otherCopies.isEmpty)
+        #expect(both.sharedWith == [other.reference])
+    }
+
     /// An app that sits inside the item goes with it, so it keeps none of it: an agent or an update the app keeps in
     /// its own support folder does not make that folder shared. The same apps kept anywhere else do.
     @Test func anAppInsideTheItemKeepsNoneOfIt() throws {

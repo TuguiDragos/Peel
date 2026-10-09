@@ -79,10 +79,10 @@ struct BulkUninstallationTests {
         ])
 
         #expect(bulk.staying(selected: [notes.url, copy.url, mail.url]).isEmpty)
-        #expect(bulk.staying(selected: [notes.url, mail.url]) == [notes.bundleIdentifier])
-        #expect(bulk.staying(selected: [notes.url, copy.url]) == [mail.bundleIdentifier])
-        #expect(bulk.files(of: notes.bundleIdentifier) == [own.url, shared.url])
-        #expect(bulk.files(of: mail.bundleIdentifier) == [shared.url])
+        #expect(bulk.staying(selected: [notes.url, mail.url]) == [notes.reference])
+        #expect(bulk.staying(selected: [notes.url, copy.url]) == [mail.reference])
+        #expect(bulk.files(of: notes.reference) == [own.url, shared.url])
+        #expect(bulk.files(of: mail.reference) == [shared.url])
     }
 
     /// Two copies of one app share its files. Choosing one of them among several apps leaves what the other copy

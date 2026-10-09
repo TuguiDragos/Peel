@@ -34,7 +34,7 @@ struct BackgroundItemDetailView: View {
                 if let owner = item.ownerBundleIdentifier {
                     LabeledContent("Added by") {
                         VStack(alignment: .trailing, spacing: 1) {
-                            Text(verbatim: item.ownerName ?? library.name(forBundleIdentifier: owner))
+                            Text(verbatim: item.ownerName ?? library.name(forReference: owner))
                             if !item.isOwnerInstalled {
                                 Text("No longer installed")
                                     .font(.caption)

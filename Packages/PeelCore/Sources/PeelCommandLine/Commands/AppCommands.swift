@@ -14,7 +14,9 @@ struct AppsCommand: AsyncParsableCommand {
         if output.json {
             try Output.json(apps.map(AppRecord.init))
         } else {
-            Output.table([["NAME", "VERSION", "IDENTIFIER", "PATH"]] + apps.map { [$0.name, $0.version ?? "", $0.bundleIdentifier, Output.path($0.url)] })
+            Output.table([["NAME", "VERSION", "IDENTIFIER", "PATH"]] + apps.map {
+                [$0.name, $0.version ?? "", $0.bundleIdentifier ?? "", Output.path($0.url)]
+            })
         }
         if let note = Output.unreadableNote(for: catalog) { Output.note(note) }
     }
@@ -374,7 +376,8 @@ struct UninstallCommand: AsyncParsableCommand {
     private static func whileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async -> CommandFailure? {
         let running = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
         guard !running.isEmpty else { return nil }
-        let identifiers = Set(running.map(\.bundleIdentifier)).sorted().map(Output.plain)
+        let identifiers = Set(running.compactMap { $0.bundleIdentifier ?? $0.bundleURL.map(Output.path) })
+            .sorted().map(Output.plain)
         return CommandFailure("Quit \(Output.plain(target.name)) first. Still running: \(identifiers.joined(separator: ", ")).")
     }
 
@@ -465,7 +468,7 @@ struct UninstallCommand: AsyncParsableCommand {
     /// Throws when Peel never resets the privacy permissions of `target`. Called for `--reset-privacy` before
     /// anything is listed: skipping the reset quietly would remove the app and leave its permissions on record.
     static func refuseIfPrivacyCannotBeReset(_ target: InstalledApp) throws {
-        guard !PrivacyReset.isAllowed(bundleIdentifier: target.bundleIdentifier) else { return }
+        guard !PrivacyReset.isAllowed(for: target) else { return }
         throw CommandFailure("Peel never resets privacy permissions for \(Output.plain(target.name)). Leave out --reset-privacy to remove it anyway.")
     }
 

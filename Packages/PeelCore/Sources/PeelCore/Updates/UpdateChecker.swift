@@ -158,11 +158,13 @@ public struct UpdateChecker: Sendable {
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
     /// Asking about other apps would send Apple, one identifier at a time, the list of installed apps.
     private func appStoreAnswer(for app: InstalledApp) async -> UpdateAnswer {
-        guard app.isFromAppStore, let installed = app.version else { return UpdateAnswer(status: .unsupported) }
-        var reply = await lookup(app.bundleIdentifier, in: country)
+        guard app.isFromAppStore, let installed = app.version, let identifier = app.bundleIdentifier else {
+            return UpdateAnswer(status: .unsupported)
+        }
+        var reply = await lookup(identifier, in: country)
         // A two-letter region with no store, such as Antarctica (AQ), is also refused with HTTP 400.
         if reply.status == 400, country != "us" {
-            reply = await lookup(app.bundleIdentifier, in: "us")
+            reply = await lookup(identifier, in: "us")
         }
         guard let data = reply.data else { return UpdateAnswer(status: .failed) }
         switch AppStoreLookup.answer(in: data) {

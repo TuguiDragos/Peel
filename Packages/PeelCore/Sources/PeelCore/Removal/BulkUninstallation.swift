@@ -8,10 +8,10 @@ public struct BulkUninstallation: Sendable {
         public let size: Int64
         public let kind: SearchLocation.Kind?
         public let requiresPrivileges: Bool
-        /// The bundle identifiers of the chosen apps this item belongs to.
+        /// The chosen apps this item belongs to, by `InstalledApp.reference`.
         public let apps: [String]
         public let match: LeftoverMatch?
-        /// The bundle identifiers of apps outside the selection that also claim this item.
+        /// The apps outside the selection that also claim this item, by `InstalledApp.reference`.
         public let sharedWithOthers: [String]
         /// Other copies of a chosen app, not chosen themselves, that use this item too.
         public var otherCopies: [URL] = []
@@ -116,7 +116,7 @@ public struct BulkUninstallation: Sendable {
     /// includes what it shares with another chosen app: it goes on using it.
     public func suggestedSelection(canUseHelper: Bool) -> Set<URL> {
         let staying = Set(
-            uninstallations.filter { $0.appStays(canUseHelper: canUseHelper) }.map(\.app.bundleIdentifier)
+            uninstallations.filter { $0.appStays(canUseHelper: canUseHelper) }.map(\.app.reference)
         )
         return Set(items.filter { item in
             item.isRecommended && (canUseHelper || !item.requiresPrivileges)
@@ -136,18 +136,18 @@ public struct BulkUninstallation: Sendable {
         }.map(\.url))
     }
 
-    /// The files of the app with `identifier`: its leftovers, and what it shares with another chosen app. Two copies
-    /// of an app share these, and each has a bundle of its own.
-    public func files(of identifier: String) -> Set<URL> {
-        Set(items.filter { !$0.isApplication && $0.apps.contains(identifier) }.map(\.url))
+    /// The files of the app `reference` names (`InstalledApp.reference`): its leftovers, and what it shares with
+    /// another chosen app. Two copies of an app share these, and each has a bundle of its own.
+    public func files(of reference: String) -> Set<URL> {
+        Set(items.filter { !$0.isApplication && $0.apps.contains(reference) }.map(\.url))
     }
 
-    /// The bundle identifiers of the chosen apps that stay: each one with a copy whose bundle is not selected. That
+    /// The chosen apps that stay, by `InstalledApp.reference`: each one with a copy whose bundle is not selected. That
     /// includes an app that cannot go (`Uninstallation.appStays(canUseHelper:)`), since its bundle never is, and
     /// leaves out a copy already in the Trash, which stays nowhere.
     public func staying(selected: Set<URL>) -> Set<String> {
         Set(
-            uninstallations.filter { !$0.isAppInTheTrash && !selected.contains($0.app.url) }.map(\.app.bundleIdentifier)
+            uninstallations.filter { !$0.isAppInTheTrash && !selected.contains($0.app.url) }.map(\.app.reference)
         )
     }
 
@@ -164,14 +164,14 @@ public struct BulkUninstallation: Sendable {
         let order = removalOrder(of: selection)
         let apps = Set(items.filter(\.isApplication).map(\.url))
         let owners = Dictionary(items.map { ($0.url, $0.apps) }, uniquingKeysWith: { first, _ in first })
-        let identifiers = Dictionary(
-            uninstallations.map { ($0.app.url, $0.app.bundleIdentifier) },
+        let references = Dictionary(
+            uninstallations.map { ($0.app.url, $0.app.reference) },
             uniquingKeysWith: { first, _ in first }
         )
         return await service.trash(
             apps: order.filter(apps.contains),
             thenFiles: { stayed in
-                let kept = Set(stayed.compactMap { identifiers[$0] })
+                let kept = Set(stayed.compactMap { references[$0] })
                 return order.filter { !apps.contains($0) && !(owners[$0] ?? []).contains(where: kept.contains) }
             },
             usingHelperFor: privilegedURLs,
@@ -185,24 +185,24 @@ public struct BulkUninstallation: Sendable {
         let failed = Set(result.failures.map(\.url))
         return apps.filter { app in
             selection.contains(app.url) && failed.contains(app.url)
-                && !files(of: app.bundleIdentifier).isDisjoint(with: selection)
+                && !files(of: app.reference).isDisjoint(with: selection)
         }
     }
 
     /// The chosen apps `urls` belong to: an app whose bundle is among them, and an app with a file of its own among
-    /// them. A file names the app by its identifier, which another copy of it shares, so only a bundle names a copy.
+    /// them. A file names the app by its reference, which another copy of it shares, so only a bundle names a copy.
     public func apps(owning urls: some Sequence<URL>) -> [InstalledApp] {
         let paths = Set(urls.map(PathPattern.comparablePath))
         let owners = Set(items.filter { paths.contains(PathPattern.comparablePath(of: $0.url)) }.flatMap(\.apps))
-        let copied = Set(Dictionary(grouping: apps, by: \.bundleIdentifier).filter { $0.value.count > 1 }.keys)
+        let copied = Set(Dictionary(grouping: apps, by: \.reference).filter { $0.value.count > 1 }.keys)
         return apps.filter { app in
             paths.contains(PathPattern.comparablePath(of: app.url))
-                || (owners.contains(app.bundleIdentifier) && !copied.contains(app.bundleIdentifier))
+                || (owners.contains(app.reference) && !copied.contains(app.reference))
         }
     }
 
     static func merge(_ uninstallations: [Uninstallation]) -> [Item] {
-        let chosen = Set(uninstallations.map(\.app.bundleIdentifier))
+        let chosen = Set(uninstallations.map(\.app.reference))
         let chosenBundles = Set(uninstallations.map { PathPattern.comparablePath(of: $0.app.url) })
         var byURL: [URL: Item] = [:]
         var order: [URL] = []
@@ -235,14 +235,14 @@ public struct BulkUninstallation: Sendable {
         }
 
         for uninstallation in uninstallations {
-            let identifier = uninstallation.app.bundleIdentifier
+            let reference = uninstallation.app.reference
             for leftover in uninstallation.scan.leftovers {
                 add(Item(
                     url: leftover.url,
                     size: leftover.size,
                     kind: leftover.kind,
                     requiresPrivileges: leftover.requiresPrivileges,
-                    apps: [identifier],
+                    apps: [reference],
                     match: leftover.match,
                     sharedWithOthers: leftover.match.sharedWith.filter { !chosen.contains($0) },
                     otherCopies: leftover.match.otherCopies.filter {
@@ -261,7 +261,7 @@ public struct BulkUninstallation: Sendable {
                 size: uninstallation.appSize,
                 kind: nil,
                 requiresPrivileges: uninstallation.appRequiresPrivileges,
-                apps: [identifier],
+                apps: [reference],
                 match: nil,
                 sharedWithOthers: [],
                 isExcluded: uninstallation.isExcluded,

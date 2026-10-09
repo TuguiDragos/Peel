@@ -63,8 +63,9 @@ final class OrphanLibrary {
     /// Takes `group` out of the list, as the person said it belongs to `app`. Nothing moves, and the group stays
     /// listed when the choice could not be saved.
     func give(_ group: OrphanGroup, to app: InstalledApp) {
-        guard OrphanOwners().give(group.identifier, to: app.bundleIdentifier), let scan else { return }
-        owners[group.identifier.lowercased()] = app.bundleIdentifier
+        guard let identifier = app.bundleIdentifier, OrphanOwners().give(group.identifier, to: identifier), let scan
+        else { return }
+        owners[group.identifier.lowercased()] = identifier
         self.scan = scan.without(group.id)
         selectedURLs.subtract(group.items.map(\.url))
         if selection == group.id { selection = nil }

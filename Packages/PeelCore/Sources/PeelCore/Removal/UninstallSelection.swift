@@ -17,9 +17,9 @@ public struct UninstallSelection: Sendable {
     }
 
     private var kept = KeptSelection()
-    /// Whether each app stayed at the last change, by bundle identifier.
+    /// Whether each app stayed at the last change, by `InstalledApp.reference`.
     private var stayed: [String: Bool] = [:]
-    /// The files each app the person keeps had selected when they kept it, by bundle identifier.
+    /// The files each app the person keeps had selected when they kept it, by `InstalledApp.reference`.
     private var setAside: [String: Set<URL>] = [:]
     /// What a checkbox can select as of the last update.
     public private(set) var selectable: Set<URL> = []
@@ -38,7 +38,7 @@ public struct UninstallSelection: Sendable {
         )
         return update(
             selected,
-            apps: [uninstallation.app.bundleIdentifier: app],
+            apps: [uninstallation.app.reference: app],
             selectable: uninstallation.selectable(canUseHelper: canUseHelper),
             suggested: uninstallation.suggestedSelection(canUseHelper: canUseHelper)
         )
@@ -48,13 +48,13 @@ public struct UninstallSelection: Sendable {
         let selectable = bulk.selectable(canUseHelper: canUseHelper)
         var apps: [String: App] = [:]
         for uninstallation in bulk.uninstallations {
-            let identifier = uninstallation.app.bundleIdentifier
+            let reference = uninstallation.app.reference
             let bundle = uninstallation.app.url
             let isKept = kept.hasOffered(bundle) && selectable.contains(bundle) && !selected.contains(bundle)
-            var app = apps[identifier] ?? App(stays: false, files: bulk.files(of: identifier), bundles: [])
+            var app = apps[reference] ?? App(stays: false, files: bulk.files(of: reference), bundles: [])
             app.stays = app.stays || uninstallation.appStays(canUseHelper: canUseHelper) || isKept
             app.bundles.insert(bundle)
-            apps[identifier] = app
+            apps[reference] = app
         }
         return update(
             selected,
@@ -74,20 +74,20 @@ public struct UninstallSelection: Sendable {
     ) -> Set<URL> {
         let staying = bulk.staying(selected: selected)
         var result = selected
-        for identifier in bulk.staying(selected: previous).symmetricDifference(staying) {
-            let files = bulk.files(of: identifier)
-            if staying.contains(identifier) {
-                setAside[identifier] = result.intersection(files)
+        for reference in bulk.staying(selected: previous).symmetricDifference(staying) {
+            let files = bulk.files(of: reference)
+            if staying.contains(reference) {
+                setAside[reference] = result.intersection(files)
                 result.subtract(files)
             } else {
-                result.formUnion((setAside.removeValue(forKey: identifier) ?? []).intersection(selectable))
+                result.formUnion((setAside.removeValue(forKey: reference) ?? []).intersection(selectable))
             }
-            stayed[identifier] = staying.contains(identifier)
+            stayed[reference] = staying.contains(reference)
         }
         return result
     }
 
-    /// `apps` says, for each app by bundle identifier, whether it stays now and what it holds.
+    /// `apps` says, for each app by `InstalledApp.reference`, whether it stays now and what it holds.
     private mutating func update(
         _ selected: Set<URL>,
         apps: [String: App],
@@ -96,11 +96,11 @@ public struct UninstallSelection: Sendable {
     ) -> Set<URL> {
         var suggested = suggested
         let isAsMade = selected == kept.made
-        for (identifier, app) in apps {
+        for (reference, app) in apps {
             if app.stays {
                 suggested.subtract(app.files)
             }
-            guard let before = stayed[identifier], before != app.stays else { continue }
+            guard let before = stayed[reference], before != app.stays else { continue }
             let holds = app.files.union(app.bundles)
             if app.stays || isAsMade {
                 kept.forget(holds)

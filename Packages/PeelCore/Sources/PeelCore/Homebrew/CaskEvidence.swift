@@ -104,20 +104,20 @@ public struct CaskEvidence: Sendable, Hashable {
     /// identifier, or list the app's installer receipt while it is on the Mac (`HomebrewPackage.noting(receipts:)`).
     static func proves(_ cask: HomebrewPackage, isThe app: InstalledApp) -> Bool {
         guard cask.kind == .cask else { return false }
-        let identifier = app.bundleIdentifier.lowercased()
+        let identifier = app.bundleIdentifier?.lowercased()
         let quits = cask.quitIdentifiers.map { $0.lowercased() }
 
         // A bundle's file name is whatever its maker called it, and two real casks install a `Caffeine.app`.
         // So the name counts unless the cask quits identifiers and every one of them is some other maker's.
         let bundleName = app.url.lastPathComponent
         if cask.appNames.contains(where: { $0.caseInsensitiveCompare(bundleName) == .orderedSame }) {
-            let maker = Identifier.vendor(of: identifier)
+            let maker = identifier.flatMap(Identifier.vendor(of:))
             if quits.isEmpty || quits.contains(where: { maker != nil && Identifier.vendor(of: $0) == maker }) {
                 return true
             }
         }
 
-        guard !identifier.isEmpty else { return false }
+        guard let identifier else { return false }
         if quits.contains(identifier) { return true }
 
         return cask.receiptsOnThisMac.contains { PackageReceipts.proves($0, isThe: identifier) }

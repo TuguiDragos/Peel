@@ -39,9 +39,9 @@ struct ReleaseNotesMemoryTests {
         )
         let update = UpdateStatus.updateAvailable(version: "2.0")
         let memory = ReleaseNotesMemory()
-        let skipped = UpdatePreferences(skippedVersions: [app.bundleIdentifier: "2.0"])
-        let skippedBefore = UpdatePreferences(skippedVersions: [app.bundleIdentifier: "1.9"])
-        let ignored = UpdatePreferences(ignoredIdentifiers: [app.bundleIdentifier])
+        let skipped = UpdatePreferences(skippedVersions: ["org.example.editor": "2.0"])
+        let skippedBefore = UpdatePreferences(skippedVersions: ["org.example.editor": "1.9"])
+        let ignored = UpdatePreferences(ignoredIdentifiers: ["org.example.editor"])
 
         #expect(memory.asks(about: update, of: app, with: UpdatePreferences()))
         #expect(!memory.asks(about: update, of: app, with: skipped))

@@ -26,14 +26,14 @@ public struct UpdatePreferences: Sendable, Hashable {
     }
 
     public func isIgnored(_ app: InstalledApp) -> Bool {
-        ignoredIdentifiers.contains(app.bundleIdentifier)
+        app.bundleIdentifier.map(ignoredIdentifiers.contains) ?? false
     }
 
     /// Whether `status` is an update worth showing: the app is not ignored and that version was not skipped.
     /// The app list, the menu bar count, the notification, and the command line all ask this, so they agree.
     public func isWaiting(_ status: UpdateStatus?, for app: InstalledApp) -> Bool {
         guard case .updateAvailable(let version, _, _) = status else { return false }
-        return !isIgnored(app) && skippedVersions[app.bundleIdentifier] != version
+        return !isIgnored(app) && app.bundleIdentifier.flatMap { skippedVersions[$0] } != version
     }
 
     /// The answer an app's page shows. An update the user muted, by skipping that version or by telling Peel never

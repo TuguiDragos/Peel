@@ -167,7 +167,7 @@ struct UninstallSelectionTests {
 
         let selected = choices.personChanged(from: suggested, to: suggested.subtracting([other.url]), in: bulk)
         #expect(selected == [app.url, own.url])
-        #expect(bulk.staying(selected: selected) == [other.bundleIdentifier])
+        #expect(bulk.staying(selected: selected) == [other.reference])
     }
 
     /// Selecting the bundle again brings back the app's files as they were, and nothing more: a file the person had

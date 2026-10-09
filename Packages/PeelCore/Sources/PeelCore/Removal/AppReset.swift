@@ -137,7 +137,7 @@ public struct AppReset: Sendable {
             app,
             installedApps: installedApps
         )
-        let keepsAppData = dataIsNeverOffered.contains(app.bundleIdentifier)
+        let keepsAppData = app.bundleIdentifier.map(dataIsNeverOffered.contains) ?? false
         // A container held back because of the documents or a wallet's keys inside it is still looked into: a reset
         // never touches `Documents`, never offers a folder that holds keys, and the settings beside them are what a
         // reset is for.
@@ -206,7 +206,8 @@ public struct AppReset: Sendable {
         guard preferences.isRealFolder else { return items }
         // Only the file named after the app, or after the container when it is a helper's: that is the file
         // `defaults` reads. A name that merely starts the same (`com.foo.AppOther`) belongs to another app.
-        let names = Set([app.bundleIdentifier, container.lastPathComponent].map { $0.lowercased() + ".plist" })
+        let names = Set(([app.bundleIdentifier] + [container.lastPathComponent]).compactMap { $0?.lowercased() })
+            .map { $0 + ".plist" }
         let contents = (try? FileManager.default.contentsOfDirectory(
             at: preferences,
             includingPropertiesForKeys: [.isSymbolicLinkKey]

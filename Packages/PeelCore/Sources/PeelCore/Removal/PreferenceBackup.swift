@@ -47,7 +47,8 @@ public enum PreferenceBackup {
         run: Run
     ) async -> Saved {
         let domains = PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier)
-        return await save(domains, of: app.bundleIdentifier, in: directory, through: service, run: run)
+        guard let identifier = app.bundleIdentifier else { return domains.isEmpty ? .nothingToSave : .failed }
+        return await save(domains, of: identifier, in: directory, through: service, run: run)
     }
 
     /// Exports every one of `candidates` that exists into a new folder in `directory`, named for `bundleIdentifier`.

@@ -56,7 +56,7 @@ public struct OrphanScanner: Sendable {
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
         let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
-        let here = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps, goneApps: goneApps, isRegisteredApp: isRegisteredApp
@@ -141,10 +141,10 @@ public struct OrphanScanner: Sendable {
     static func split(
         _ remembered: [RememberedApp], installedApps: [InstalledApp]
     ) -> (installed: [InstalledApp], gone: [RememberedApp]) {
-        let listed = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let listed = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let unlisted = remembered.filter { !listed.contains($0.bundleIdentifier.lowercased()) }
         let outOfSight = unlisted.compactMap { $0.stillInstalled() }
-        let here = listed.union(outOfSight.map { $0.bundleIdentifier.lowercased() })
+        let here = listed.union(outOfSight.compactMap { $0.bundleIdentifier?.lowercased() })
         return (installedApps + outOfSight, unlisted.filter { !here.contains($0.bundleIdentifier.lowercased()) })
     }
 

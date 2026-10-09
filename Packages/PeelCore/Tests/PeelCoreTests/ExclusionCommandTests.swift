@@ -63,6 +63,21 @@ struct ExclusionCommandTests {
         #expect(await saved(store).excludes(editor))
     }
 
+    @Test func addsAndRemovesAnAppWithNoIdentifierByItsPlace() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let plain = InstalledApp(
+            url: try directory.directory("Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor"
+        )
+
+        try await add(["--app", "Plain Editor"], in: store, among: [plain])
+
+        #expect(await saved(store).bundleIdentifiers.isEmpty)
+        #expect(await saved(store).excludes(plain))
+        try await remove(["--app", "Plain Editor"], in: store, among: [plain])
+        #expect(await saved(store).isEmpty)
+    }
+
     @Test func refusesAnAppItCannotFind() async throws {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)

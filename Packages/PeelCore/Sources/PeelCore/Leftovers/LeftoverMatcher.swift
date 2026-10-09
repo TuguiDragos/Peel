@@ -42,10 +42,10 @@ struct LeftoverMatcher: Sendable {
         var sharedWith: Set<String> = []
         var otherCopies: [URL] = []
         func share(with other: Profile) {
-            if other.identifier == target.identifier {
+            if other.isACopy(of: target) {
                 otherCopies.append(other.url)
             } else {
-                sharedWith.insert(other.bundleIdentifier)
+                sharedWith.insert(other.reference)
             }
         }
         // An app inside the item goes with it, such as an agent or an update an app keeps in its own folder.
@@ -95,8 +95,9 @@ struct LeftoverMatcher: Sendable {
     /// count as a rival for `com.google.Chrome.canary`. macOS is asked about each prefix of `key` with more
     /// components than the app's identifier. An app found inside this bundle is the app's own helper, not a rival.
     private func appsElsewhere(answeringTo key: String) -> [String] {
+        guard let identifier = target.identifier else { return [] }
         let parts = key.split(separator: ".", omittingEmptySubsequences: false)
-        let own = target.bundleIdentifier.split(separator: ".").count
+        let own = identifier.split(separator: ".").count
         guard parts.count > own else { return [] }
         return ((own + 1)...parts.count).compactMap { length in
             let identifier = parts.prefix(length).joined(separator: ".")
@@ -125,8 +126,8 @@ struct LeftoverMatcher: Sendable {
         let candidate = Candidate(Self.key(from: fileName, kind: kind))
         let claiming = others.filter { $0.evidence(for: candidate) != nil }
         return (
-            claiming.filter { $0.identifier != target.identifier }.map(\.bundleIdentifier).sorted(),
-            claiming.filter { $0.identifier == target.identifier }.map(\.url)
+            claiming.filter { !$0.isACopy(of: target) }.map(\.reference).sorted(),
+            claiming.filter { $0.isACopy(of: target) }.map(\.url)
         )
     }
 
@@ -288,8 +289,8 @@ extension LeftoverMatcher {
         let url: URL
         /// Where the bundle is, spelled to be compared (`PathPattern.comparablePath`).
         let path: String
-        let bundleIdentifier: String
-        let identifier: String
+        let reference: String
+        let identifier: String?
         let embeddedIdentifiers: [EmbeddedIdentifier]
         let prefixes: [String]
         let applicationGroups: Set<String>
@@ -304,16 +305,16 @@ extension LeftoverMatcher {
         init(_ app: InstalledApp) {
             url = app.url
             path = PathPattern.comparablePath(of: app.url)
-            bundleIdentifier = app.bundleIdentifier
-            identifier = app.bundleIdentifier.lowercased()
-            let vendor = Identifier.vendor(of: identifier)
+            reference = app.reference
+            identifier = app.bundleIdentifier?.lowercased()
+            let vendor = identifier.flatMap(Identifier.vendor(of:))
             embeddedIdentifiers = app.embeddedBundleIdentifiers.map {
                 EmbeddedIdentifier(
                     value: $0.lowercased(),
                     sharesVendor: vendor != nil && Identifier.vendor(of: $0) == vendor
                 )
             }
-            prefixes = ([identifier] + embeddedIdentifiers.map(\.value))
+            prefixes = ([identifier].compactMap(\.self) + embeddedIdentifiers.map(\.value))
                 .filter { Identifier.componentCount(of: $0) >= 3 }
                 .map { $0 + "." }
             applicationGroups = Set(app.applicationGroups.map { $0.lowercased() })
@@ -324,6 +325,11 @@ extension LeftoverMatcher {
             ownFolderNames = app.ownFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
+        }
+
+        /// Whether this is another copy of `other`: the same app, known by its identifier, somewhere else.
+        func isACopy(of other: Profile) -> Bool {
+            identifier != nil && identifier == other.identifier
         }
 
         func isSibling(of other: Profile) -> Bool {

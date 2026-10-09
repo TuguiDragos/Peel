@@ -64,13 +64,14 @@ public struct LeftoverScanner: Sendable {
     /// Spotlight names the maker's apps and Launch Services says where each is installed, so a copy inside a backup
     /// never counts.
     private func appsElsewhere(like app: InstalledApp, besides known: [InstalledApp]) async -> [InstalledApp] {
-        let own = app.bundleIdentifier.lowercased()
-        let makers = await AppInspector.indexedIdentifiers(beginningWith: Self.makersPrefixes(of: app.bundleIdentifier))
-        let identifiers = [app.bundleIdentifier] + makers.filter { $0.lowercased() != own }.sorted()
+        guard let identifier = app.bundleIdentifier else { return [] }
+        let own = identifier.lowercased()
+        let makers = await AppInspector.indexedIdentifiers(beginningWith: Self.makersPrefixes(of: identifier))
+        let identifiers = [identifier] + makers.filter { $0.lowercased() != own }.sorted()
         let wanted = Set(identifiers.map { $0.lowercased() })
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
         let listed = Set(
-            known.filter { wanted.contains($0.bundleIdentifier.lowercased()) }
+            known.filter { $0.bundleIdentifier.map { wanted.contains($0.lowercased()) } ?? false }
                 .map { PathPattern.comparablePath(of: PathPattern.canonical($0.url)) }
         )
         return identifiers.flatMap(AppInspector.applicationURLs).filter { url in

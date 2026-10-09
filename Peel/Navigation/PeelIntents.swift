@@ -98,7 +98,8 @@ struct ShowInPeel: AppIntent {
 }
 
 /// An installed app, as Shortcuts and Spotlight offer it: chosen from the apps on the Mac rather than typed by
-/// hand. Its `id` is the bundle identifier, so a Shortcut keeps working after the app moves.
+/// hand. Its `id` is the app's reference: its bundle identifier, so a Shortcut keeps working after the app moves, or
+/// where it is when it has none.
 struct InstalledAppEntity: AppEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "App")
     static let defaultQuery = InstalledAppQuery()
@@ -111,7 +112,7 @@ struct InstalledAppEntity: AppEntity {
     }
 
     init(_ app: InstalledApp) {
-        id = app.bundleIdentifier
+        id = app.reference
         name = app.name
     }
 }
@@ -119,7 +120,7 @@ struct InstalledAppEntity: AppEntity {
 struct InstalledAppQuery: EntityStringQuery {
     func entities(for identifiers: [String]) async throws -> [InstalledAppEntity] {
         let wanted = Set(identifiers)
-        return await AppCatalog.installedApps().filter { wanted.contains($0.bundleIdentifier) }
+        return await AppCatalog.installedApps().filter { wanted.contains($0.reference) }
             .map(InstalledAppEntity.init)
     }
 
@@ -127,7 +128,7 @@ struct InstalledAppQuery: EntityStringQuery {
         await AppCatalog.installedApps()
             .filter { app in
                 app.names.contains { SearchText.matches($0, string) }
-                    || SearchText.matches(app.bundleIdentifier, string)
+                    || app.bundleIdentifier.map { SearchText.matches($0, string) } == true
             }
             .map(InstalledAppEntity.init)
     }
@@ -156,7 +157,7 @@ struct ShowLeftoversInPeel: AppIntent {
     func perform() async throws -> some IntentResult {
         // Checked again here, because the app may have been removed after it was chosen. The error lets the
         // Shortcut handle that case, instead of opening an empty page.
-        guard let installed = await AppCatalog.installedApps().first(where: { $0.bundleIdentifier == app.id }) else {
+        guard let installed = await AppCatalog.installedApps().first(where: { $0.reference == app.id }) else {
             throw NoSuchApp(name: app.name)
         }
         Navigator.shared.requestedApp = installed.url
@@ -165,7 +166,7 @@ struct ShowLeftoversInPeel: AppIntent {
     }
 }
 
-/// The error a Shortcut gets when the app it names is not installed. The app is matched by bundle identifier, so
+/// The error a Shortcut gets when the app it names is not installed. The app is matched by its reference, so
 /// another app with the same name does not count. `AppIntentError(description:)` needs macOS 27 and Peel runs on
 /// macOS 26, so the message is this error's own `localizedStringResource`.
 struct NoSuchApp: Error, CustomLocalizedStringResourceConvertible {

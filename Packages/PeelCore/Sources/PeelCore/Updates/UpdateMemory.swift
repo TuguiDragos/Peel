@@ -48,7 +48,7 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         for apps: [InstalledApp],
         now: Date = .now
     ) -> [String: UpdateMemory] {
-        let installed = Dictionary(grouping: apps, by: \.bundleIdentifier)
+        let installed = InstalledApp.byIdentifier(apps)
         return memory.filter { identifier, entry in
             guard let copies = installed[identifier] else {
                 return entry.schedule.due.addingTimeInterval(longestAbsence) > now

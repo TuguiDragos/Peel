@@ -43,7 +43,9 @@ struct AppDetailView: View {
         }
         .confirmationDialog(Text("Reset privacy permissions for \(plan.app.name)?"), isPresented: $isConfirmingPrivacyReset) {
             Button("Reset", role: .destructive) {
-                Task { privacyReset = await PrivacyReset.reset(bundleIdentifier: plan.app.bundleIdentifier) }
+                if let identifier = plan.app.bundleIdentifier {
+                    Task { privacyReset = await PrivacyReset.reset(bundleIdentifier: identifier) }
+                }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
@@ -132,7 +134,7 @@ struct AppDetailView: View {
                     .listRowSeparator(.hidden)
             }
             if case .browser(let identifier) = plan.app.webApp {
-                let browser = library.name(forBundleIdentifier: identifier)
+                let browser = library.name(forReference: identifier)
                 Notice(
                     title: Text("A web app of \(browser)"),
                     detail: Text("Moving it to the Trash takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."),
@@ -140,7 +142,7 @@ struct AppDetailView: View {
                 ) {}
                 .listRowSeparator(.hidden)
             }
-            if let change = library.teamChanges[plan.app.bundleIdentifier] {
+            if let change = plan.app.bundleIdentifier.flatMap({ library.teamChanges[$0] }) {
                 Notice(
                     title: change.current.isEmpty ? Text("No developer signs this app anymore") : Text("This app is signed by someone else now"),
                     detail: change.current.isEmpty
@@ -177,7 +179,7 @@ struct AppDetailView: View {
 
                     recommendedSection
                     reviewSection
-                    if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
+                    if PrivacyReset.isAllowed(for: plan.app), !plan.isAppInTheTrash {
                         PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                     }
                     if plan.hasDockTile, plan.removedElsewhere == nil {
@@ -395,7 +397,7 @@ struct AppDetailView: View {
     private func warning(for leftover: Leftover) -> String? {
         var lines: [String] = []
         if leftover.match.isShared {
-            let users = leftover.match.sharedWith.map(library.name(forBundleIdentifier:))
+            let users = leftover.match.sharedWith.map(library.name(forReference:))
                 + leftover.match.otherCopies.map(\.abbreviatedPath)
             lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
         }

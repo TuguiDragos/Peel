@@ -3,7 +3,7 @@ import PeelCore
 
 struct AppRecord: Encodable {
     let name: String
-    let bundleIdentifier: String
+    let bundleIdentifier: String?
     let version: String?
     let path: String
     let isFromAppStore: Bool
@@ -24,8 +24,8 @@ struct AppRecord: Encodable {
         case isFromAppStore
     }
 
-    /// Encodes a missing version as `null`. The synthesized encoding would leave the key out, and a script needs
-    /// every record to have the same keys.
+    /// Encodes a missing identifier or version as `null`. The synthesized encoding would leave the key out, and a
+    /// script needs every record to have the same keys.
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)

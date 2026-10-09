@@ -39,15 +39,15 @@ struct SavedSettingsSection: View {
         }
         .confirmationDialog(putBackQuestion, isPresented: isAskingToPutBack, presenting: copyToPutBack) { copy in
             Button("Put Back") {
-                Task { await putBack(copy, named: library.name(forBundleIdentifier: copy.bundleIdentifier)) }
+                Task { await putBack(copy, named: library.name(forReference: copy.bundleIdentifier)) }
             }
             Button("Cancel", role: .cancel) {}
         } message: { copy in
-            Text("Peel first saves the settings \(library.name(forBundleIdentifier: copy.bundleIdentifier)) has now, as a copy of their own, then puts these in their place.")
+            Text("Peel first saves the settings \(library.name(forReference: copy.bundleIdentifier)) has now, as a copy of their own, then puts these in their place.")
         }
         .confirmationDialog(trashQuestion, isPresented: isAskingToTrash, presenting: copyToTrash) { copy in
             Button("Move to Trash") {
-                Task { await moveToTrash(copy, named: library.name(forBundleIdentifier: copy.bundleIdentifier)) }
+                Task { await moveToTrash(copy, named: library.name(forReference: copy.bundleIdentifier)) }
             }
             Button("Cancel", role: .cancel) {}
         }
@@ -59,7 +59,7 @@ struct SavedSettingsSection: View {
     }
 
     private func row(for copy: PreferenceBackup.Copy) -> some View {
-        let name = library.name(forBundleIdentifier: copy.bundleIdentifier)
+        let name = library.name(forReference: copy.bundleIdentifier)
         let isOpen = openApps.contains(copy.bundleIdentifier)
         return LabeledContent {
             HStack(spacing: 8) {
@@ -165,13 +165,13 @@ struct SavedSettingsSection: View {
 
     private var trashQuestion: Text {
         guard let copy = copyToTrash else { return Text(verbatim: "") }
-        let name = library.name(forBundleIdentifier: copy.bundleIdentifier)
+        let name = library.name(forReference: copy.bundleIdentifier)
         return Text("Move the settings saved for \(name) on \(copy.date, format: .dateTime.day().month().year().hour().minute()) to the Trash?")
     }
 
     private var putBackQuestion: Text {
         guard let copy = copyToPutBack else { return Text(verbatim: "") }
-        let name = library.name(forBundleIdentifier: copy.bundleIdentifier)
+        let name = library.name(forReference: copy.bundleIdentifier)
         return Text("Put back the settings saved for \(name) on \(copy.date, format: .dateTime.day().month().year().hour().minute())?")
     }
 

@@ -70,7 +70,7 @@ struct OrphansCommand: AsyncParsableCommand {
         // The same signals the app uses (the apps Peel remembers and the apps running), so both judge these
         // files alike. The memory of apps is only read here, never written.
         let remembered = await AppMemory().load()
-        let running = Set(await RunningCopies.current.map(\.bundleIdentifier))
+        let running = Set(await RunningCopies.current.compactMap(\.bundleIdentifier))
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
         let scan = await ProgressLine.counting {

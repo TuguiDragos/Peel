@@ -1170,7 +1170,8 @@ public enum DeveloperCaches {
         let codeCache = chromium + "content/browser/storage_partition_impl.cc#L1587-L1595"
         let exists = { (url: URL) in FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) }
         return apps.compactMap { app in
-            guard let name = app.bundleName, !name.isEmpty, !name.contains("/"), !covered.contains(name.lowercased()),
+            guard let identifier = app.bundleIdentifier, let name = app.bundleName, !name.isEmpty, !name.contains("/"),
+                  !covered.contains(name.lowercased()),
                   exists(app.url.appending(path: "Contents/Frameworks/Electron Framework.framework"))
             else { return nil }
             let data = "Library/Application Support/\(name)"
@@ -1184,8 +1185,8 @@ public enum DeveloperCaches {
                 Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
             }
             return Definition(
-                id: "electron.\(app.bundleIdentifier)", name: app.name, systemImage: "macwindow",
-                appBundleIdentifiers: [app.bundleIdentifier], folders: folders
+                id: "electron.\(identifier)", name: app.name, systemImage: "macwindow",
+                appBundleIdentifiers: [identifier], folders: folders
             )
         }
     }

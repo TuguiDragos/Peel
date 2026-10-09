@@ -112,7 +112,7 @@ struct AppPageHeader: View {
             Button("Show in Finder") {
                 NSWorkspace.shared.activateFileViewerSelecting([plan.app.url])
             }
-            if PrivacyReset.isAllowed(bundleIdentifier: plan.app.bundleIdentifier), !plan.isAppInTheTrash {
+            if PrivacyReset.isAllowed(for: plan.app), !plan.isAppInTheTrash {
                 Divider()
                 Button("Reset Privacy Permissions\u{2026}") { isConfirmingPrivacyReset = true }
                     .disabled(plan.isExcluded)

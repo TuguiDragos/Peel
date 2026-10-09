@@ -64,8 +64,7 @@ public struct MakersUninstaller: Sendable, Hashable {
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
     /// away from it.
     static func of(_ app: InstalledApp) -> MakersUninstaller? {
-        guard let team = app.teamIdentifier else { return nil }
-        let identifier = app.bundleIdentifier.lowercased()
+        guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased() else { return nil }
         guard let product = known.first(where: { product in
             product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
         }), let instructions = URL(string: product.page) else { return nil }

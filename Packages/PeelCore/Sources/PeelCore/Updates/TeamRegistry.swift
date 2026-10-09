@@ -62,8 +62,7 @@ public struct TeamRegistry: Sendable {
             var entries = stored
             var changes: [Change] = []
 
-            for (identifier, copies) in Dictionary(grouping: apps, by: \.bundleIdentifier)
-                .sorted(by: { $0.key < $1.key }) {
+            for (identifier, copies) in InstalledApp.byIdentifier(apps).sorted(by: { $0.key < $1.key }) {
                 let teams = Set(copies.compactMap(\.teamIdentifier).filter { !$0.isEmpty })
                 guard var entry = entries[identifier] else {
                     if let first = teams.sorted().first { entries[identifier] = Entry(team: first) }

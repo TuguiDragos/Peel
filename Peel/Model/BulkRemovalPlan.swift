@@ -65,7 +65,7 @@ final class BulkRemovalPlan {
     var runningProcesses: [NSRunningApplication] {
         let running = RunningCopies.current
         let owners = Set(items.filter { selectedURLs.contains($0.url) }.flatMap(\.apps))
-        return apps.filter { owners.contains($0.bundleIdentifier) }.flatMap { app in
+        return apps.filter { owners.contains($0.reference) }.flatMap { app in
             RunningCopies.belonging(to: app, among: running, installedApps: installedApps)
                 .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
         }

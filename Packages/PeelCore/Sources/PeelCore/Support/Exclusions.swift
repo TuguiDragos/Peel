@@ -216,7 +216,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     }
 
     public func excludes(_ app: InstalledApp) -> Bool {
-        excludes(bundleIdentifier: app.bundleIdentifier) || excludes(app.url)
+        app.bundleIdentifier.map(excludes(bundleIdentifier:)) == true || excludes(app.url)
     }
 
     /// True when `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
@@ -227,7 +227,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
         guard isKnown else { return true }
         let targets = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
         if targets.contains(where: { excludes($0) || holds($0) }) { return true }
-        if apps.contains(where: { excludes(bundleIdentifier: $0.bundleIdentifier) }) { return true }
+        if apps.contains(where: { $0.bundleIdentifier.map(excludes(bundleIdentifier:)) == true }) { return true }
         if package.quitIdentifiers.contains(where: { excludes(bundleIdentifier: $0) }) { return true }
         guard let prefix else { return false }
         let own = prefix

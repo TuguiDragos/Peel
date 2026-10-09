@@ -106,9 +106,11 @@ public struct Uninstallation: Sendable {
         environment: SearchEnvironment,
         pkgutil: PackageReceipts.Pkgutil = PackageReceipts.pkgutil
     ) async -> [Leftover] {
-        let identifier = app.bundleIdentifier.lowercased()
-        let identifiers = Set(installedApps.map { $0.bundleIdentifier.lowercased() } + [identifier])
-        let named = receipts.filter { PackageReceipts.owner(of: $0, among: identifiers) == identifier }
+        let identifier = app.bundleIdentifier?.lowercased()
+        let identifiers = Set((installedApps.map(\.bundleIdentifier) + [identifier]).compactMap { $0?.lowercased() })
+        let named = identifier.map { own in
+            receipts.filter { PackageReceipts.owner(of: $0, among: identifiers) == own }
+        } ?? []
         let wroteOnlyTheApp = await PackageReceipts.receipts(writingOnly: app.url, pkgutil: pkgutil)
             .filter { !named.contains($0.lowercased()) }
         var leftovers: [Leftover] = []
@@ -152,11 +154,11 @@ public struct Uninstallation: Sendable {
             !isTheApp(PathPattern.comparablePath(of: other.url))
                 && CaskEvidence.installedCask(for: other, in: casks)?.id == cask.id
         }
-        let sharedWith = Set(otherApps.map(\.bundleIdentifier) + others.map { target in
+        let sharedWith = Set(otherApps.map(\.reference) + others.map { target in
             let installed = installedApps.first {
                 PathPattern.comparablePath(of: $0.url).caseInsensitiveCompare(target) == .orderedSame
             }
-            return installed?.bundleIdentifier ?? Bundle(url: URL(filePath: target))?.bundleIdentifier ?? target
+            return installed?.reference ?? Bundle(url: URL(filePath: target))?.bundleIdentifier ?? target
         })
         let home = environment.homeDirectory.path(percentEncoded: false)
         let leftover = await LeftoverScanner.leftover(
@@ -319,9 +321,11 @@ public struct Uninstallation: Sendable {
 
     private func isUnreviewedOwn(_ leftover: Leftover) -> Bool {
         let match = leftover.match
-        let namespace = app.bundleIdentifier.lowercased() + "."
+        let isInItsNamespace = app.bundleIdentifier.map {
+            leftover.url.lastPathComponent.lowercased().hasPrefix($0.lowercased() + ".")
+        } ?? false
         return match.sharedWith.isEmpty && match.heldBack == nil && match.confidence >= .likely
-            && (match.confidence == .certain || leftover.url.lastPathComponent.lowercased().hasPrefix(namespace))
+            && (match.confidence == .certain || isInItsNamespace)
     }
 
     /// How many items could move once selected, and their total size: what a section header shows and the

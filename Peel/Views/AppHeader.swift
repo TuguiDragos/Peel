@@ -44,13 +44,17 @@ struct AppHeader<Actions: View>: View {
     private var identity: some View {
         FlowLayout(spacing: 6) {
             HStack(spacing: 5) {
-                Text(app.bundleIdentifier)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                    .textSelection(.enabled)
+                if let identifier = app.bundleIdentifier {
+                    Text(identifier)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .textSelection(.enabled)
+                }
                 if let version = app.version {
-                    Text(verbatim: "·")
-                        .accessibilityHidden(true)
+                    if app.bundleIdentifier != nil {
+                        Text(verbatim: "·")
+                            .accessibilityHidden(true)
+                    }
                     if let waitingVersion {
                         StatusLabel(
                             title: Text(verbatim: "\(version) → \(waitingVersion)"),

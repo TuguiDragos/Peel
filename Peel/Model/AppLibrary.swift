@@ -326,7 +326,8 @@ final class AppLibrary {
     /// Restores the update answers saved by earlier runs, for apps still at the build they describe.
     private func recall() {
         for app in apps {
-            guard let remembered = memory[app.bundleIdentifier], remembered.describes(app) else { continue }
+            guard let identifier = app.bundleIdentifier, let remembered = memory[identifier], remembered.describes(app)
+            else { continue }
             updateStatuses[app.id] = remembered.status
             if let checked = remembered.checked {
                 lastUpdateChecks[app.id] = checked
@@ -384,7 +385,7 @@ final class AppLibrary {
     }
 
     func developer(of app: InstalledApp) -> String? {
-        appDevelopers.developer(of: app, remembered: memory[app.bundleIdentifier]?.developer)
+        appDevelopers.developer(of: app, remembered: app.bundleIdentifier.flatMap { memory[$0]?.developer })
     }
 
     var developers: [String] {
@@ -502,14 +503,17 @@ final class AppLibrary {
         // its own, so even Rescan on an app's page only rescans files.
         guard UserDefaults.standard.object(forKey: SettingsKey.checksForAppUpdates) as? Bool ?? true else { return }
         let now = Date.now
+        // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
         let wanted = targets.filter { app in
-            guard !isIgnored(app), !appsInATrash.contains(app.id) else { return false }
+            guard let identifier = app.bundleIdentifier, !isIgnored(app), !appsInATrash.contains(app.id) else {
+                return false
+            }
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
             // An update whose notes were never asked for is checked once now rather than on its next turn.
             let notesWait = releaseNotes.asks(about: updateStatuses[app.id], of: app, with: updatePreferences)
-            return memory[app.bundleIdentifier]?.schedule.isDue(at: now) ?? true || notesWait
+            return memory[identifier]?.schedule.isDue(at: now) ?? true || notesWait
         }
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
@@ -554,7 +558,7 @@ final class AppLibrary {
                 if status != .failed {
                     lastUpdateChecks[id] = .now
                 }
-                let identifier = app.bundleIdentifier
+                guard let identifier = app.bundleIdentifier else { continue }
                 memory[identifier] = UpdateMemory(
                     status: kept,
                     schedule: UpdateSchedule.next(after: status, following: memory[identifier]?.schedule),
@@ -582,8 +586,8 @@ final class AppLibrary {
         await ask(notesToAsk, checker: checker)
         var waiting: [String: String] = [:]
         for app in apps {
-            if let version = updateStatuses[app.id]?.version {
-                waiting[app.bundleIdentifier] = version
+            if let version = updateStatuses[app.id]?.version, let identifier = app.bundleIdentifier {
+                waiting[identifier] = version
             }
         }
         releaseNotes.keep(only: waiting)
@@ -594,7 +598,8 @@ final class AppLibrary {
 
     /// What is new in the update `app` is waiting for, when it is known.
     func releaseNotes(of app: InstalledApp) -> ReleaseNotes? {
-        updateStatuses[app.id]?.version.flatMap { releaseNotes.notes(of: app.bundleIdentifier, version: $0) }
+        guard let identifier = app.bundleIdentifier else { return nil }
+        return updateStatuses[app.id]?.version.flatMap { releaseNotes.notes(of: identifier, version: $0) }
     }
 
     /// An update whose answer did not say what is new in it.
@@ -616,7 +621,9 @@ final class AppLibrary {
                 askNext()
             }
             while let (question, lookup) = await group.next() {
-                releaseNotes.record(lookup, of: question.app.bundleIdentifier, version: question.version)
+                if let identifier = question.app.bundleIdentifier {
+                    releaseNotes.record(lookup, of: identifier, version: question.version)
+                }
                 askNext()
             }
         }
@@ -693,22 +700,24 @@ final class AppLibrary {
     }
 
     func setIgnored(_ isIgnored: Bool, for app: InstalledApp) {
+        guard let identifier = app.bundleIdentifier else { return }
         var identifiers = ignoredIdentifiers
         if isIgnored {
-            identifiers.insert(app.bundleIdentifier)
+            identifiers.insert(identifier)
         } else {
-            identifiers.remove(app.bundleIdentifier)
+            identifiers.remove(identifier)
         }
         ignoredIdentifiers = identifiers
         UserDefaults.standard.set(Array(identifiers).sorted(), forKey: SettingsKey.ignoredUpdateApps)
     }
 
     func skippedVersion(for app: InstalledApp) -> String? {
-        skippedVersions[app.bundleIdentifier]
+        app.bundleIdentifier.flatMap { skippedVersions[$0] }
     }
 
     func skip(version: String, for app: InstalledApp) {
-        skippedVersions[app.bundleIdentifier] = version
+        guard let identifier = app.bundleIdentifier else { return }
+        skippedVersions[identifier] = version
         UserDefaults.standard.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
@@ -761,7 +770,7 @@ final class AppLibrary {
         updateStatuses = updateStatuses.filter { !outlived.contains($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { !outlived.contains($0.key) }
         for app in apps where outlived.contains(app.id) {
-            memory[app.bundleIdentifier] = nil
+            if let identifier = app.bundleIdentifier { memory[identifier] = nil }
         }
         UpdateMemoryStore.save(memory)
     }
@@ -799,8 +808,9 @@ final class AppLibrary {
     }
 
     func acknowledgeTeamChange(for app: InstalledApp) async {
-        teamChanges.removeValue(forKey: app.bundleIdentifier)
-        if let problem = await teamRegistry.acknowledge(app.bundleIdentifier) {
+        guard let identifier = app.bundleIdentifier else { return }
+        teamChanges.removeValue(forKey: identifier)
+        if let problem = await teamRegistry.acknowledge(identifier) {
             teamRecordProblem = problem
         }
     }
@@ -852,18 +862,19 @@ final class AppLibrary {
         AppCatalog.app(at: url, among: apps)
     }
 
-    /// The name of the app with `bundleIdentifier`: the listed app's, or the one Finder shows for an app macOS knows
-    /// elsewhere, such as a helper or a Nightly build on another disk. The identifier itself when macOS knows none.
-    func name(forBundleIdentifier bundleIdentifier: String) -> String {
+    /// The name of the app `reference` names (`InstalledApp.reference`): the listed app's, or the one Finder shows
+    /// for an app macOS knows elsewhere by that identifier, such as a helper or a Nightly build on another disk. The
+    /// reference itself when macOS knows none.
+    func name(forReference reference: String) -> String {
         if lastNames?.revision != revision {
             lastNames = (
                 revision,
-                Dictionary(apps.map { ($0.bundleIdentifier, $0.name) }, uniquingKeysWith: { first, _ in first })
+                Dictionary(apps.map { ($0.reference, $0.name) }, uniquingKeysWith: { first, _ in first })
             )
         }
-        if let name = lastNames?.names[bundleIdentifier] { return name }
-        let name = AppInspector.knownName(forBundleIdentifier: bundleIdentifier)
-        lastNames?.names[bundleIdentifier] = name
+        if let name = lastNames?.names[reference] { return name }
+        let name = AppInspector.knownName(forBundleIdentifier: reference)
+        lastNames?.names[reference] = name
         return name
     }
 }

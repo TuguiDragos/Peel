@@ -21,10 +21,10 @@ struct ExclusionsCommand: AsyncParsableCommand {
 
     private static let unreadable = "Peel couldn't read its exclusions file, so it won't change it. Open Peel and click Start Over in Settings > Exclusions."
 
-    /// Returns the bundle identifier of `app`, found by path, bundle identifier, or name, as the other commands do.
-    static func identifier(of app: String, among apps: [InstalledApp]? = nil) async throws -> String {
+    /// Returns the app `query` names, found by path, bundle identifier, or name, as the other commands do.
+    static func app(_ query: String, among apps: [InstalledApp]? = nil) async throws -> InstalledApp {
         let installed = if let apps { apps } else { await AppCatalog.installedApps() }
-        return try AppLookup.app(matching: app, in: installed).bundleIdentifier
+        return try AppLookup.app(matching: query, in: installed)
     }
 
     /// Changes the saved list with `transform`, read again and written under the file's lock, so what the app or
@@ -104,12 +104,14 @@ struct ExclusionsCommand: AsyncParsableCommand {
         func run(in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
             _ = try await ExclusionsCommand.current(in: store)
             // The app is looked up before the list is changed, since looking it up can take a while.
+            // An app with no identifier is left alone by where it is.
             var identifier: String?
+            var added = paths.map(URL.init(argument:))
             if let app {
-                identifier = try await ExclusionsCommand.identifier(of: app, among: apps)
+                let found = try await ExclusionsCommand.app(app, among: apps)
+                if let found = found.bundleIdentifier { identifier = found } else { added.append(found.url) }
             }
-            let added = paths.map(URL.init(argument:))
-            try await ExclusionsCommand.change(in: store) { [identifier] exclusions in
+            try await ExclusionsCommand.change(in: store) { [identifier, added] exclusions in
                 exclusions.add(added)
                 if let identifier { exclusions.bundleIdentifiers.insert(identifier) }
             }
@@ -138,22 +140,26 @@ struct ExclusionsCommand: AsyncParsableCommand {
 
         func run(in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
             let before = try await ExclusionsCommand.current(in: store)
-            let removed = paths.map(URL.init(argument:))
+            var removed = paths.map(URL.init(argument:))
             // `app` comes off exactly as written, so an app that isn't installed can still come off the list. Only
             // when the list has no such identifier is `app` looked up among the installed apps.
             var identifiers: Set<String> = []
             if let app {
                 if before.bundleIdentifiers.contains(app) {
                     identifiers.insert(app)
-                } else if let identifier = try? await ExclusionsCommand.identifier(of: app, among: apps) {
-                    identifiers.insert(identifier)
+                } else if let found = try? await ExclusionsCommand.app(app, among: apps) {
+                    if let identifier = found.bundleIdentifier {
+                        identifiers.insert(identifier)
+                    } else {
+                        removed.append(found.url)
+                    }
                 }
             }
             var remaining = before
             guard remaining.remove(removed) || !before.bundleIdentifiers.isDisjoint(with: identifiers) else {
                 throw CommandFailure("Peel wasn't leaving that alone. See `peel exclusions list`.")
             }
-            try await ExclusionsCommand.change(in: store) { [identifiers] exclusions in
+            try await ExclusionsCommand.change(in: store) { [identifiers, removed] exclusions in
                 exclusions.remove(removed)
                 exclusions.bundleIdentifiers.subtract(identifiers)
             }

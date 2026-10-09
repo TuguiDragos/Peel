@@ -94,8 +94,7 @@ struct MultipleAppsView: View {
                 }
 
                 if plan.apps.contains(where: {
-                    PrivacyReset.isAllowed(bundleIdentifier: $0.bundleIdentifier)
-                        && !plan.appsInTheTrash.contains($0.url)
+                    PrivacyReset.isAllowed(for: $0) && !plan.appsInTheTrash.contains($0.url)
                 }) {
                     PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
@@ -247,7 +246,7 @@ struct MultipleAppsView: View {
 
     /// The names of the apps with these bundle identifiers, as a list.
     private func names(of identifiers: [String]) -> String {
-        identifiers.map(library.name(forBundleIdentifier:)).formatted(.list(type: .and))
+        identifiers.map(library.name(forReference:)).formatted(.list(type: .and))
     }
 
     /// The warning in a row's note, in the same words an app's own page uses: which other apps use the item,
@@ -259,7 +258,7 @@ struct MultipleAppsView: View {
             lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
         }
         let users =
-            item.sharedWithOthers.map(library.name(forBundleIdentifier:)) + item.otherCopies.map(\.abbreviatedPath)
+            item.sharedWithOthers.map(library.name(forReference:)) + item.otherCopies.map(\.abbreviatedPath)
         if !users.isEmpty {
             lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
         }

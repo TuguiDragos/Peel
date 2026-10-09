@@ -200,10 +200,12 @@ public enum SpaceRemoval {
         for process in running {
             let bundle = process.bundleURL?.deletingPathExtension().lastPathComponent
             // Folders on disk carry the bundle's file name. The user sees the app's name as Finder shows it.
-            let displayed = process.bundleURL.map(AppInspector.displayName) ?? process.bundleIdentifier
+            guard let displayed = process.bundleURL.map(AppInspector.displayName) ?? process.bundleIdentifier else {
+                continue
+            }
             let spellings = [
                 process.bundleIdentifier,
-                process.bundleIdentifier.split(separator: ".").last.map(String.init),
+                process.bundleIdentifier?.split(separator: ".").last.map(String.init),
                 bundle,
             ].compactMap(\.self) + (process.bundleURL.map(AppInspector.applicationGroups) ?? [])
             for spelling in spellings where Naming.isSignificant(spelling) {

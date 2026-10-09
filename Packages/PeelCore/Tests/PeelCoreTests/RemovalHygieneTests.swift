@@ -703,6 +703,14 @@ struct PrivacyResetTests {
         #expect(await PrivacyReset.reset(bundleIdentifier: "") == .refused)
     }
 
+    /// `tccutil reset All` with no identifier resets every app, so an app that names none is never reset.
+    @Test func neverResetsAnAppWithNoIdentifier() {
+        let editor = InstalledApp(url: URL(filePath: "/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
+
+        #expect(!PrivacyReset.isAllowed(for: editor))
+        #expect(PrivacyReset.apps(among: [editor], moving: [editor.url]).isEmpty)
+    }
+
     /// A removal resets only the apps it moves. An app whose leftovers alone are selected stays installed, and
     /// the user did not ask to reset it. The same rule applies to one app and to several.
     @Test func resetsOnlyTheAppsThatAreThemselvesSelected() {

@@ -3,7 +3,8 @@ internal import PeelPrivileged
 
 public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let url: URL
-    public let bundleIdentifier: String
+    /// Nil for an app whose Info.plist names none, which macOS still opens.
+    public let bundleIdentifier: String?
     public let name: String
     public let bundleName: String?
     public let version: String?
@@ -45,7 +46,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
 
     public init(
         url: URL,
-        bundleIdentifier: String,
+        bundleIdentifier: String?,
         name: String,
         bundleName: String? = nil,
         version: String? = nil,
@@ -65,7 +66,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         webApp: WebApp? = nil
     ) {
         self.url = url
-        self.bundleIdentifier = bundleIdentifier
+        self.bundleIdentifier = bundleIdentifier.flatMap { $0.isEmpty ? nil : $0 }
         self.name = name
         self.bundleName = bundleName
         self.version = version
@@ -84,11 +85,24 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.webApp = webApp
         self.updateFeed = updateFeed
         let path = PathPattern.comparablePath(of: url)
-        isPeelItself = Self.isPeel(bundleIdentifier, at: path)
+        isPeelItself = Self.isPeel(self.bundleIdentifier, at: path)
         isTheRunningCopy = path == Self.runningBundle
     }
 
     public var id: URL { url }
+
+    /// The apps that have an identifier, grouped by it.
+    public static func byIdentifier(_ apps: [InstalledApp]) -> [String: [InstalledApp]] {
+        Dictionary(grouping: apps.compactMap { app in app.bundleIdentifier.map { ($0, app) } }, by: \.0)
+            .mapValues { $0.map(\.1) }
+    }
+
+    /// How Peel names the app where it records whose a file is (`LeftoverMatch.sharedWith`): its identifier, or else
+    /// where it is.
+    public var reference: String { bundleIdentifier ?? PathPattern.comparablePath(of: url) }
+
+    /// Whether Apple made the app, as its identifier says. An app with no identifier is somebody else's.
+    var isApples: Bool { bundleIdentifier.map(ProtectedData.isApplesName) ?? false }
 
     /// Whether this is a web app Safari made (`SafariWebApp`), whose identifier names it and nothing of Apple's.
     public var isASafariWebApp: Bool { webApp == .safari }
@@ -99,7 +113,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// suffix", and Setapp installs apps in an `Applications/Setapp` folder, the system's or the user's.
     public var isFromSetapp: Bool {
         let folder = url.deletingLastPathComponent()
-        return bundleIdentifier.lowercased().hasSuffix("-setapp")
+        return bundleIdentifier?.lowercased().hasSuffix("-setapp") == true
             || (folder.lastPathComponent == "Setapp" && folder.deletingLastPathComponent().lastPathComponent == "Applications")
     }
 
@@ -131,10 +145,11 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
 
     private static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
 
-    private static func isPeel(_ bundleIdentifier: String, at path: String) -> Bool {
+    private static func isPeel(_ bundleIdentifier: String?, at path: String) -> Bool {
         let own = HelperIdentity.appIdentifier.lowercased()
-        let identifier = bundleIdentifier.lowercased()
-        if identifier == own || identifier.hasPrefix(own + ".") { return true }
+        if let identifier = bundleIdentifier?.lowercased(), identifier == own || identifier.hasPrefix(own + ".") {
+            return true
+        }
         return PathComponents.isPath(runningBundle, inside: path)
     }
 
@@ -166,10 +181,12 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// developer its signature names (`BraveSoftware` for "Brave Software, Inc.").
     var ownFolderNames: Set<String> {
         var folders = Set(matchingNames.filter(Naming.isSignificant).map(Naming.normalized))
-        folders.insert(Naming.normalized(bundleIdentifier))
-        if let vendor = Identifier.vendor(of: bundleIdentifier.lowercased()) {
-            folders.insert(Naming.normalized(vendor))
-            folders.insert(Naming.normalized(String(vendor.split(separator: ".").last ?? "")))
+        if let bundleIdentifier {
+            folders.insert(Naming.normalized(bundleIdentifier))
+            if let vendor = Identifier.vendor(of: bundleIdentifier.lowercased()) {
+                folders.insert(Naming.normalized(vendor))
+                folders.insert(Naming.normalized(String(vendor.split(separator: ".").last ?? "")))
+            }
         }
         let words = (developer ?? "").split { !$0.isLetter && !$0.isNumber }.map { $0.lowercased() }
         for end in words.indices { folders.insert(words[...end].joined()) }

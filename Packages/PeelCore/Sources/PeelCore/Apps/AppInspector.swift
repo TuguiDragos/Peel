@@ -66,11 +66,8 @@ public enum AppInspector {
     public static func inspect(_ url: URL) -> InstalledApp? {
         let layout = AppBundleLayout(of: url)
         let contents = layout.infoFolder
-        guard
-            let info = infoDictionary(in: contents),
-            let bundleIdentifier = info["CFBundleIdentifier"] as? String,
-            !bundleIdentifier.isEmpty
-        else { return nil }
+        guard let info = infoDictionary(in: contents) else { return nil }
+        let bundleIdentifier = info["CFBundleIdentifier"] as? String
 
         let signing = signingInformation(for: layout.signedBundle)
         let executable = (info["CFBundleExecutable"] as? String).map { layout.executableFolder.appending(path: $0) }
@@ -106,7 +103,7 @@ public enum AppInspector {
                 isFromAppStore: isFromAppStore,
                 isSystemProtected: isSystemProtected
             ),
-            webApp: WebApp.of(identifier: bundleIdentifier, info: info)
+            webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) }
         )
     }
 

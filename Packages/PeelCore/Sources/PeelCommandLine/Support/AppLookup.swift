@@ -53,7 +53,7 @@ enum AppLookup {
         }
         // Two bundles can share an identifier: a copy in `~/Applications` beside one in `/Applications`, or a
         // beta beside the release. Taking the first match would remove whichever sorted first, so this throws.
-        let byIdentifier = apps.filter { $0.bundleIdentifier.caseInsensitiveCompare(query) == .orderedSame }
+        let byIdentifier = apps.filter { $0.bundleIdentifier?.caseInsensitiveCompare(query) == .orderedSame }
         switch byIdentifier.count {
         case 0: break
         case 1: return byIdentifier[0]

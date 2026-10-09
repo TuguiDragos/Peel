@@ -5,7 +5,7 @@ import PeelPrivileged
 /// one key that does not match is not enough reason to remove a job that an app may still need.
 public struct BackgroundItemOwnership: Sendable {
     public struct Owner: Sendable, Hashable {
-        public let bundleIdentifier: String
+        public let bundleIdentifier: String?
         public let name: String?
         /// Where the app is, or nil when it is gone.
         public let url: URL?
@@ -30,7 +30,7 @@ public struct BackgroundItemOwnership: Sendable {
         self.teamOfProgram = teamOfProgram
         apps = installedApps
         byIdentifier = Dictionary(
-            installedApps.map { ($0.bundleIdentifier.lowercased(), $0) },
+            installedApps.compactMap { app in app.bundleIdentifier.map { ($0.lowercased(), app) } },
             uniquingKeysWith: { first, _ in first }
         )
         byTeam = Dictionary(grouping: installedApps.compactMap { app in app.teamIdentifier.map { ($0, app) } }, by: \.0)
@@ -138,9 +138,9 @@ public struct BackgroundItemOwnership: Sendable {
     private func appMatching(label: String) -> InstalledApp? {
         let lowercased = label.lowercased()
         if let exact = byIdentifier[lowercased] { return exact }
-        return apps
-            .filter { lowercased.hasPrefix($0.bundleIdentifier.lowercased() + ".") }
-            .max { $0.bundleIdentifier.count < $1.bundleIdentifier.count }
+        return byIdentifier
+            .filter { lowercased.hasPrefix($0.key + ".") }
+            .max { $0.key.count < $1.key.count }?.value
     }
 
     static func bundleIdentifier(inProgramPath path: String?) -> String? {

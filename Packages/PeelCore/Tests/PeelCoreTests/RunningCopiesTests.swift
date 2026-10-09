@@ -20,7 +20,8 @@ struct RunningCopiesTests {
     }
 
     private func belonging(_ running: [RunningCopies.Process]) -> [String] {
-        RunningCopies.belonging(to: chrome, among: running, installedApps: [chrome, canary]).map(\.bundleIdentifier)
+        RunningCopies.belonging(to: chrome, among: running, installedApps: [chrome, canary])
+            .compactMap(\.bundleIdentifier)
     }
 
     /// What runs from inside the app counts whatever its name begins with. A slash and a combining mark after it
@@ -39,6 +40,17 @@ struct RunningCopiesTests {
             process("com.google.Keystone.Agent", at: "/Library/Google/GoogleSoftwareUpdate/Agent.app"),
             process("com.google.Chrome.framework.AlertNotificationService", at: nil),
         ]) == ["com.google.Chrome", "com.google.Chrome.helper", "com.google.Keystone.Agent", "com.google.Chrome.framework.AlertNotificationService"])
+    }
+
+    @Test func anAppWithNoIdentifierIsKnownByWhereItRuns() {
+        let editor = InstalledApp(url: URL(filePath: "/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
+        let running = [
+            RunningCopies.Process(identifier: 1, bundleIdentifier: nil, bundleURL: URL(filePath: "/Applications/Plain Editor.app")),
+            RunningCopies.Process(identifier: 2, bundleIdentifier: nil, bundleURL: URL(filePath: "/Applications/Other.app")),
+            RunningCopies.Process(identifier: 3, bundleIdentifier: "org.example.other", bundleURL: nil),
+        ]
+
+        #expect(RunningCopies.belonging(to: editor, among: running, installedApps: [editor]).map(\.identifier) == [1])
     }
 
     /// Chrome Canary continues Chrome's identifier and is another installed app, not a helper of Chrome's.

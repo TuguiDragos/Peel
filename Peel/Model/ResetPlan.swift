@@ -61,7 +61,7 @@ final class ResetPlan {
     }
 
     var canResetPrivacy: Bool {
-        PrivacyReset.isAllowed(bundleIdentifier: app.bundleIdentifier)
+        PrivacyReset.isAllowed(for: app)
     }
 
     /// Nothing is, until the scan has said what the reset would take: `performReset()` has nothing to go on before.
@@ -121,18 +121,22 @@ final class ResetPlan {
         askedToMove = urls.count
         didClearSettings = reset.clearsSettings(moving: result.trashed.map(\.originalURL))
         // The app stays installed, so `tccutil` still finds it after the move.
-        privacy =
-            resetsPrivacy && canResetPrivacy ? await PrivacyReset.reset(bundleIdentifier: app.bundleIdentifier) : nil
+        privacy = nil
+        if resetsPrivacy, canResetPrivacy, let identifier = app.bundleIdentifier {
+            privacy = await PrivacyReset.reset(bundleIdentifier: identifier)
+        }
         didReset = true
         return result
     }
 
     /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.
     func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
-        await QuitGuard.shared.run {
+        // A copy is saved under the app's identifier, so an app with none has no copy to put back.
+        guard let identifier = app.bundleIdentifier else { return .notSaved }
+        return await QuitGuard.shared.run {
             await PreferenceBackup.restore(
                 from: backup,
-                of: app.bundleIdentifier,
+                of: identifier,
                 exclusions: ExclusionsStore.shared.exclusions
             ) { @MainActor in
                 self.refreshRunningState()
