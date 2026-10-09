@@ -46,7 +46,17 @@ public struct LeftoverScanner: Sendable {
     /// outright. So are the apps macOS knows outside the list that may use the same files (`appsElsewhere`).
     func matcher(for app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverMatcher {
         let known = installedApps + (await AppCatalog.systemApps.value)
-        return LeftoverMatcher(app: app, installedApps: known + (await appsElsewhere(like: app, besides: known)))
+        // An app Peel saw installed is an app of its own once it is gone too, not a helper of this one.
+        let remembered = await AppMemory(url: AppMemory.url(inHome: environment.homeDirectory)).load()
+        let places = Dictionary(
+            remembered.map {
+                ($0.bundleIdentifier.lowercased(), URL(filePath: $0.lastPath, directoryHint: .isDirectory))
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
+        return LeftoverMatcher(app: app, installedApps: known + (await appsElsewhere(like: app, besides: known))) {
+            AppInspector.applicationURL(forBundleIdentifier: $0) ?? places[$0.lowercased()]
+        }
     }
 
     /// The apps macOS knows, outside `known`, that may use `app`'s files: every other copy of it, such as an older one

@@ -1176,6 +1176,24 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.kind == .frameworks })
     }
 
+    @Test func filesOfAnAppPeelSawGoAreNotTakenForAnAppWhoseIdentifierBeginsTheirs() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = environment(in: directory)
+        try directory.file("home/Library/Caches/org.example.solo.nightly/cache.db")
+        try directory.file("home/Library/Caches/org.example.solo.helper/cache.db")
+        let solo = InstalledApp(url: URL(filePath: "/Applications/Solo.app"), bundleIdentifier: "org.example.solo", name: "Solo")
+        let nightly = InstalledApp(
+            url: directory.url.appending(path: "Solo Nightly.app"), bundleIdentifier: "org.example.solo.nightly", name: "Solo Nightly"
+        )
+        await AppMemory(url: AppMemory.url(inHome: environment.homeDirectory)).remember([nightly])
+
+        let scan = await LeftoverScanner(environment: environment).scan(solo, installedApps: [solo])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(found["org.example.solo.nightly"]?.sharedWith == ["org.example.solo.nightly"])
+        #expect(found["org.example.solo.helper"]?.isRecommended == true)
+    }
+
     /// A launchd job is named by whoever wrote it, so a job whose program sits inside the app is the app's,
     /// whatever its file is called. That match is certain and outranks a weaker match on the file name.
     @Test func findsAJobByTheProgramItRuns() async throws {

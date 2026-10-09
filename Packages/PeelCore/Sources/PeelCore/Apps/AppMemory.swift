@@ -36,13 +36,17 @@ public struct AppMemory: Sendable {
         self.url = url
     }
 
-    public static var defaultURL: URL {
-        PeelFolder.url.appending(path: "apps.json")
+    public static var defaultURL: URL { url(inHome: .homeDirectory) }
+
+    static func url(inHome home: URL) -> URL {
+        PeelFolder.url(inHome: home).appending(path: "apps.json")
     }
 
     @concurrent
     public func load() async -> [RememberedApp] {
-        FileLock.whileHeld(beside: url) { read() } ?? []
+        // Taking the lock makes its file and folder, and a read must leave a home as it found it.
+        guard !url.isMissing else { return [] }
+        return FileLock.whileHeld(beside: url) { read() } ?? []
     }
 
     /// Records the apps currently installed, keeping every app seen before. Reading, merging, and writing happen

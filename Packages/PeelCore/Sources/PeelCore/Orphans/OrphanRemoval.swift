@@ -8,11 +8,12 @@ public enum OrphanRemoval {
     public static func trash(
         _ items: [OrphanItem],
         installedApps: [InstalledApp],
+        remembered: [RememberedApp],
         scanner: OrphanScanner,
         using trashService: TrashService,
         mayUseHelper: Bool
     ) async -> TrashResult {
-        let orphaned = await scanner.stillOrphaned(items, installedApps: installedApps)
+        let orphaned = await scanner.stillOrphaned(items, installedApps: installedApps, remembered: remembered)
         let kept = Set(orphaned.map(\.url))
         let privileged = Set(orphaned.filter(\.requiresPrivileges).map(\.url))
         let moving = mayUseHelper ? orphaned.map(\.url) : orphaned.map(\.url).filter { !privileged.contains($0) }

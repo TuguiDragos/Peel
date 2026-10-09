@@ -234,7 +234,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **Shared means left unselected.** Anything another app uses is shown and left unselected, and so is what another
   copy of the app uses: one macOS knows anywhere, such as an older copy in Downloads or one on another disk, named
   by where it is. An app of the same maker kept outside the Applications folders, such as a Nightly build on another
-  disk, counts like one inside them.
+  disk, counts like one inside them, and so does one Peel saw installed before: the files named for a Nightly you
+  removed are its, not this app's, and Orphaned Files lists them under it.
 - **A name alone is a guess.** Something matched by the app's name alone inside another app's folder, or one of
   Apple's, is shown and never selected, since it is most likely that app's data about this one; so is something
   matched by name alone at the top of your home folder or of a Library, or in a maker's folder there.

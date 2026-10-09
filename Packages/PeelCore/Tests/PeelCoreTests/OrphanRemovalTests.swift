@@ -25,6 +25,7 @@ struct OrphanRemovalTests {
         let result = await OrphanRemoval.trash(
             listed,
             installedApps: [back],
+            remembered: [],
             scanner: scanner,
             using: trash,
             mayUseHelper: true
@@ -64,6 +65,7 @@ struct OrphanRemovalTests {
         let result = await OrphanRemoval.trash(
             listed,
             installedApps: [],
+            remembered: [],
             scanner: scanner,
             using: trash,
             mayUseHelper: false
@@ -73,7 +75,9 @@ struct OrphanRemovalTests {
         #expect(result.failures.map(\.url) == privileged)
         #expect(result.failures.allSatisfy { $0.reason == .needsHelper })
 
-        _ = await OrphanRemoval.trash(listed, installedApps: [], scanner: scanner, using: trash, mayUseHelper: true)
+        _ = await OrphanRemoval.trash(
+            listed, installedApps: [], remembered: [], scanner: scanner, using: trash, mayUseHelper: true
+        )
         #expect(helperWasAsked.withLock { $0 } == privileged)
     }
 }

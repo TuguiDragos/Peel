@@ -285,7 +285,10 @@ struct FileCommandTests {
 
         await #expect(throws: CommandFailure.self) {
             try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-                .clean("com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: try service(in: directory))
+                .clean(
+                    "com.example.gone", in: scan, apps: [], remembered: [], scanner: scanner(in: directory),
+                    using: try service(in: directory)
+                )
         }
     }
 
@@ -305,6 +308,7 @@ struct FileCommandTests {
                 "COM.EXAMPLE.GONE",
                 in: scan,
                 apps: [],
+                remembered: [],
                 scanner: scanner(in: directory),
                 using: try service(in: directory),
                 recordingIn: logs.removals,
@@ -329,7 +333,7 @@ struct FileCommandTests {
 
         await #expect(throws: ExitCode.failure) {
             try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand).clean(
-                "com.example.gone", in: scan, apps: [], scanner: scanner(in: directory), using: service,
+                "com.example.gone", in: scan, apps: [], remembered: [], scanner: scanner(in: directory), using: service,
                 recordingIn: logs.removals, refusals: logs.refusals
             )
         }
@@ -356,6 +360,7 @@ struct FileCommandTests {
                     "com.example.gone",
                     in: scan,
                     apps: [],
+                    remembered: [],
                     scanner: scanner(in: directory),
                     using: try service(in: directory),
                     recordingIn: logs.removals,
@@ -387,6 +392,7 @@ struct FileCommandTests {
                     "com.example.gone",
                     in: scan,
                     apps: [],
+                    remembered: [],
                     scanner: scanner(in: directory),
                     using: try service(in: directory),
                     recordingIn: logs.removals,

@@ -283,7 +283,7 @@ struct OrphanScannerTests {
         #expect(listed.count == 3)
 
         let back = InstalledApp(url: URL(filePath: "/Applications/Back.app"), bundleIdentifier: "com.back.again", name: "Back")
-        let still = await scanner.stillOrphaned(listed, installedApps: installed + [back])
+        let still = await scanner.stillOrphaned(listed, installedApps: installed + [back], remembered: [])
 
         #expect(still.map(\.url.lastPathComponent) == ["com.gone.app"])
     }
@@ -312,9 +312,12 @@ struct OrphanScannerTests {
         #expect(group.items.allSatisfy { $0.heldBack == .namedLikeTheApp && $0.namedAfter == "com.figma.Desktop" })
         #expect(group.confidence == OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: "Figma")]))
 
-        #expect(await scanner.stillOrphaned(group.items, installedApps: installed).count == 3)
+        #expect(await scanner.stillOrphaned(group.items, installedApps: installed, remembered: [figma]).count == 3)
         let back = InstalledApp(url: URL(filePath: "/Applications/Figma.app"), bundleIdentifier: "com.figma.Desktop2", name: "Figma")
-        #expect(await scanner.stillOrphaned(group.items, installedApps: installed + [back]).isEmpty)
+        let afterwards = await scanner.stillOrphaned(
+            group.items, installedApps: installed + [back], remembered: [figma]
+        )
+        #expect(afterwards.isEmpty)
     }
 
     /// The settings a Safari web app leaves are named by its own identifier, which begins with `com.apple.`. Once
@@ -607,6 +610,21 @@ struct OrphanScannerTests {
 
         #expect(Set(scan.groups.map(\.identifier)) == ["com.gonevendor.gone", "com.gonevendor.reverb"])
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
+    }
+
+    @Test func showsWhatAnAppThatLeftKeptWhileAnotherOfItsMakerStays() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.solo.nightly/cache.db")
+        try directory.file("home/Library/Application Support/org.example.gonetool/data.db")
+        try directory.file("home/Library/Caches/org.example.solo.helper/cache.db")
+        let solo = InstalledApp(url: URL(filePath: "/Applications/Solo.app"), bundleIdentifier: "org.example.solo", name: "Solo")
+        let gone = ["org.example.solo.nightly", "org.example.gonetool"].map {
+            RememberedApp(bundleIdentifier: $0, name: $0, teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/\($0).app")
+        }
+
+        let scan = await scanner(in: directory, registered: ["org.example.solo"]).scan(installedApps: [solo], remembered: gone)
+
+        #expect(Set(scan.groups.map(\.identifier)) == ["org.example.solo.nightly", "org.example.gonetool"])
     }
 
     @Test func listsAMailBundleOfAnAppThatLeft() async throws {

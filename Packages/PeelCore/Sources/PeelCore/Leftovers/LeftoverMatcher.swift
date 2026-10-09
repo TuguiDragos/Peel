@@ -222,6 +222,7 @@ extension LeftoverMatcher {
         let reason: MatchReason
         let confidence: MatchConfidence
         let rank: Int
+        let specificity: Int
         let family: Family
         /// An identifier that is only a word, such as `notes`, which a folder of anybody's could be called.
         let isAWord: Bool
@@ -230,6 +231,7 @@ extension LeftoverMatcher {
             self.reason = reason
             self.confidence = confidence
             isAWord = false
+            self.specificity = specificity
             rank = Self.tier(of: reason) * 10_000 + specificity
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
@@ -247,7 +249,8 @@ extension LeftoverMatcher {
             self.reason = reason
             confidence = .likely
             isAWord = !candidate.key.contains(".")
-            rank = Self.tier(of: .name) * 10_000 + candidate.normalized.count
+            specificity = candidate.normalized.count
+            rank = Self.tier(of: .name) * 10_000 + specificity
             family = .name
         }
 

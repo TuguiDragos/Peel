@@ -55,14 +55,12 @@ public struct OrphanScanner: Sendable {
         owners: [String: String] = [:]
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
-        // `remembered` also holds the apps installed now, and only an app that is gone can have left files behind.
-        let listed = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
-        let unlisted = remembered.filter { !listed.contains($0.bundleIdentifier.lowercased()) }
-        let outOfSight = unlisted.compactMap { $0.stillInstalled() }
-        let installedApps = installedApps + outOfSight
-        let here = listed.union(outOfSight.map { $0.bundleIdentifier.lowercased() })
-        let gone = unlisted.filter { !here.contains($0.bundleIdentifier.lowercased()) }
-        let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
+        let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
+        let here = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
+        let ownership = AppOwnership(
+            installedApps: installedApps + systemApps, goneApps: goneApps, isRegisteredApp: isRegisteredApp
+        )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
         let goneBundles = Dictionary(
             gone.map {
@@ -74,7 +72,6 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
 
-        let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
         let goneNames = Dictionary(
             gone.map { ($0.name.lowercased(), $0.bundleIdentifier) },
             uniquingKeysWith: { first, _ in first }
@@ -138,11 +135,32 @@ public struct OrphanScanner: Sendable {
         )
     }
 
-    /// Checks `items` again against `installedApps` and returns the ones that are still orphaned.
+    /// The apps installed now, with those `remembered` holds that are only out of sight, and the remembered apps
+    /// that are gone. `remembered` also holds the apps installed now, and only an app that is gone can have left
+    /// files behind.
+    static func split(
+        _ remembered: [RememberedApp], installedApps: [InstalledApp]
+    ) -> (installed: [InstalledApp], gone: [RememberedApp]) {
+        let listed = Set(installedApps.map { $0.bundleIdentifier.lowercased() })
+        let unlisted = remembered.filter { !listed.contains($0.bundleIdentifier.lowercased()) }
+        let outOfSight = unlisted.compactMap { $0.stillInstalled() }
+        let here = listed.union(outOfSight.map { $0.bundleIdentifier.lowercased() })
+        return (installedApps + outOfSight, unlisted.filter { !here.contains($0.bundleIdentifier.lowercased()) })
+    }
+
+    /// Checks `items` again against `installedApps` and the apps Peel remembers, and returns the ones that are still
+    /// orphaned.
     @concurrent
-    public func stillOrphaned(_ items: [OrphanItem], installedApps: [InstalledApp]) async -> [OrphanItem] {
+    public func stillOrphaned(
+        _ items: [OrphanItem], installedApps: [InstalledApp], remembered: [RememberedApp]
+    ) async -> [OrphanItem] {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
-        let ownership = AppOwnership(installedApps: installedApps + systemApps, isRegisteredApp: isRegisteredApp)
+        let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
+        let ownership = AppOwnership(
+            installedApps: installedApps + systemApps,
+            goneApps: gone.map { $0.bundleIdentifier },
+            isRegisteredApp: isRegisteredApp
+        )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
         var kept: [OrphanItem] = []
         for item in items {

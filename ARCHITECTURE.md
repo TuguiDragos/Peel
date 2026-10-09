@@ -76,7 +76,8 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    by the program it runs, since anyone can name its file: a job that runs a program inside the app is the
    app's, and one that runs a program inside another installed app is that app's. The answer is a
    `LeftoverMatch`: a confidence (`certain`, `likely`, or `possible`), the reason, the other installed apps that
-   claim the file too (with the apps of the same maker that macOS knows outside the Applications folders), the
+   claim the file too (with the apps of the same maker that macOS knows outside the Applications folders, and the
+   apps Peel saw installed before, whose identifiers stay theirs once they are gone), the
    other copies of the app that use it (any macOS knows, wherever they are, named by their place), and, when Peel
    holds it back, why (`HoldBack`).
 3. **Measure.** `FileSize` walks each folder on a thread of its own, with a time budget. A size is what moving

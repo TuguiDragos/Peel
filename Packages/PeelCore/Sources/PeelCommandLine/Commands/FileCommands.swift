@@ -86,6 +86,7 @@ struct OrphansCommand: AsyncParsableCommand {
                 group,
                 in: scan,
                 apps: apps,
+                remembered: remembered,
                 scanner: scanner,
                 using: TrashService(exclusions: exclusions)
             )
@@ -159,6 +160,7 @@ struct OrphansCommand: AsyncParsableCommand {
         _ identifier: String,
         in scan: OrphanScan,
         apps: [InstalledApp],
+        remembered: [RememberedApp],
         scanner: OrphanScanner,
         using service: TrashService,
         recordingIn log: RemovalLog = RemovalLog(),
@@ -196,6 +198,7 @@ struct OrphansCommand: AsyncParsableCommand {
             return await OrphanRemoval.trash(
                 items.filter { wanted.contains($0.url) },
                 installedApps: apps,
+                remembered: remembered,
                 scanner: scanner,
                 using: service,
                 mayUseHelper: false
