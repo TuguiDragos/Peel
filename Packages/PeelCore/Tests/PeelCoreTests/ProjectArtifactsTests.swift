@@ -401,7 +401,8 @@ struct ProjectArtifactsTests {
     }
 
     /// What may exist nowhere else is never selected: a repository, or a wallet. A repository inside a folder its
-    /// tool tags as a cache is the tool's own clone, which it makes again, as Swift Package Manager does for `.build`.
+    /// tool tags as a cache is the tool's own clone, which it makes again, as Swift Package Manager does for `.build`;
+    /// a key is never made again, so Cargo's tag on `target` does not cover a Solana program's key inside it.
     @Test func anArtifactHoldingARepositoryOrAWalletIsNotSelected() async throws {
         let directory = try TemporaryDirectory()
         let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n# a cache directory tag\n".utf8)
@@ -413,12 +414,15 @@ struct ProjectArtifactsTests {
         try directory.file("Projects/old/Package.swift", bytes: 16)
         try directory.file("Projects/old/.build/CACHEDIR.TAG", contents: Data("not a tag".utf8))
         try directory.file("Projects/old/.build/checkouts/dep/.git/HEAD", bytes: 16)
+        try directory.file("Projects/program/Cargo.toml", bytes: 16)
+        try directory.file("Projects/program/target/CACHEDIR.TAG", contents: tag)
+        try directory.file("Projects/program/target/deploy/vault-keypair.json", bytes: 16)
         try age(directory.url, days: 60)
 
         let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
 
         let reasons = found.map { "\($0.project.lastPathComponent): \($0.heldBack.map(\.rawValue) ?? "none")" }.sorted()
-        #expect(reasons == ["old: holdsRepository", "site: holdsAWallet", "tool: none"])
+        #expect(reasons == ["old: holdsRepository", "program: holdsAWallet", "site: holdsAWallet", "tool: none"])
         #expect(found.filter(\.isRecommended).map(\.project.lastPathComponent) == ["tool"])
     }
 

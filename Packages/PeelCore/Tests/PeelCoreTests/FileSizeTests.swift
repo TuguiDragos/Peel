@@ -485,6 +485,7 @@ struct FileSizeTests {
             "wallet.dat.2026-10-05-12-30", "zecwallet-light-wallet.backup.1767225600.dat", "node_seed.dat",
             "channel_seed.dat", "voting-keystore.json", "all-accounts.keystore.json", "masterseed.json", "wallets.ldb",
             "WalletBackups", "starknet_open_zeppelin_accounts.json", "wallet.jmdat", "default_wallet_1767225600.legacy.bak",
+            "hello_world-keypair.json",
         ]
         for name in wallets {
             #expect(FileSize.isWallet(name), "\(name) was not read as a wallet")

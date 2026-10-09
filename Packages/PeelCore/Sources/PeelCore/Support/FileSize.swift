@@ -290,7 +290,8 @@ public enum FileSize {
     /// (Cosmos), `voting-keystore.json` (Lighthouse), `all-accounts.keystore.json` (Prysm), `masterseed.json` (Clef),
     /// `starknet_open_zeppelin_accounts.json` (sncast), `wallets.ldb` (Nano), `*.jmdat` (JoinMarket),
     /// `zecwallet-light-wallet.backup.*` (Zecwallet Lite), `sui.keystore`, `sqlite_wallets` (Algorand),
-    /// `encryption-identity.txt` (Zallet), and `.aptos`.
+    /// `encryption-identity.txt` (Zallet), `*-keypair.json` (a Solana program's key, which `cargo build-sbf` writes
+    /// in `target/deploy` and which gives the program its address), and `.aptos`.
     static func isWallet(_ name: String) -> Bool {
         let name = name.lowercased()
         return walletNames.contains(name) || walletSuffixes.contains { name.hasSuffix($0) }
@@ -305,7 +306,9 @@ public enum FileSize {
         "encryption-identity.txt", ".aptos",
     ]
 
-    private static let walletSuffixes = ["wallet.dat", ".legacy.bak", ".wallet", ".keys", ".mmdbdoc_v1", ".jmdat"]
+    private static let walletSuffixes = [
+        "wallet.dat", ".legacy.bak", ".wallet", ".keys", ".mmdbdoc_v1", ".jmdat", "-keypair.json",
+    ]
 
     private static let walletPrefixes = ["wallet.dat.", "zecwallet-light-wallet.backup."]
 
