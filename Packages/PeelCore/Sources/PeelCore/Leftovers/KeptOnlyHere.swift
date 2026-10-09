@@ -25,6 +25,9 @@ enum KeptOnlyHere {
         ("Library/Application Support/ThreemaDesktop", nil, .holdsMessageHistory),
         // TelegramSwift's `ApiEnvironment.group`; Telegram's FAQ: secret chats are device-specific.
         ("Library/Group Containers/6N38VWS5BX.ru.keepcoder.Telegram", nil, .holdsMessageHistory),
+        // WhatsApp's "How to restore your chat history": chats on WhatsApp on Mac can't be backed up or restored
+        // there, and aren't on its servers. The app's entitlements name this group, where it keeps them.
+        ("Library/Group Containers/group.net.whatsapp.WhatsApp.shared", nil, .holdsMessageHistory),
         // Strongbox's "Where are Strongbox local backups stored on my Mac".
         ("Library/Group Containers/group.strongbox.mac.mcguill", "backups", .holdsPasswordsOrCodes),
         // Ente's "Offline mode": the codes are stored only on that device.

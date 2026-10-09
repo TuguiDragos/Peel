@@ -13,6 +13,8 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Signal/sql/db.sqlite", .holdsMessageHistory),
             ("Library/Application Support/riot", .holdsMessageHistory),
             ("Library/Group Containers/6N38VWS5BX.ru.keepcoder.Telegram", .holdsMessageHistory),
+            ("Library/Group Containers/group.net.whatsapp.WhatsApp.shared", .holdsMessageHistory),
+            ("Library/Group Containers/group.net.whatsapp.WhatsApp.shared/ChatStorage.sqlite", .holdsMessageHistory),
             ("Library/Group Containers/group.strongbox.mac.mcguill", .holdsPasswordsOrCodes),
             ("Library/Containers/io.ente.auth.mac", .holdsPasswordsOrCodes),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
@@ -29,6 +31,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Signal Beta", "Library/Thunderbird/Crash Reports",
             "Library/Group Containers/group.strongbox.mac.mcguill/Library/Caches",
             "Library/Application Support/Tunnelblick/Logs", "Library/Logs/Viscosity",
+            "Library/Group Containers/group.net.whatsapp.family",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == nil, "\(path)")
