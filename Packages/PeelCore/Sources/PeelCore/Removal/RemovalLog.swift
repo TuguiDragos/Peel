@@ -38,11 +38,17 @@ public actor RemovalLog {
     /// What removals moved and have not recorded yet, item by item.
     private let journal: RemovalJournal
     private let totals: URL
+    private let flush: @Sendable (String) -> Bool
 
     public init(url: URL = RemovalHistory.defaultURL) {
+        self.init(url: url, flush: DriveFlush.file(at:))
+    }
+
+    init(url: URL, flush: @escaping @Sendable (String) -> Bool) {
         self.url = url
         journal = RemovalJournal(beside: url)
         totals = RemovalTotals.url(beside: url)
+        self.flush = flush
     }
 
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
@@ -67,7 +73,11 @@ public actor RemovalLog {
                 return RemovalLogOutcome(records: nil, problem: problem)
             }
             RemovalTotals.change(at: totals) { $0.add(records) }
-            journal.forget(records.map(\.trashedItem))
+            // The journal is what records these items if History is lost, so it lets them go only once History is on
+            // the drive.
+            if flush(url.path(percentEncoded: false)) {
+                journal.forget(records.map(\.trashedItem))
+            }
             // A removal that is recorded clears an earlier `.couldNotRecord`.
             if problem == .couldNotRecord { problem = nil }
             return RemovalLogOutcome(records: updated, problem: problem)

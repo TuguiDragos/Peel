@@ -76,6 +76,26 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty, "History recorded the item and the journal kept it")
     }
 
+    @Test func historyIsOnTheDriveBeforeTheJournalLetsGo() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let moved = item("com.example.app", in: directory)
+        journal.note([moved], batch: UUID(), by: .current)
+        let flushed = Mutex<[(path: String, waiting: Int)]>([])
+        let log = RemovalLog(url: history) { path in
+            flushed.withLock { $0.append((path, journal.entries().count)) }
+            return true
+        }
+
+        let record = RemovalRecord(batch: UUID(), item: moved, size: 10, source: "Editor", tool: "applications")
+        _ = await log.add([record])
+        _ = await log.remove([record.id])
+
+        #expect(flushed.withLock { $0.map(\.path) } == [history.path(percentEncoded: false)])
+        #expect(flushed.withLock { $0.first?.waiting } == 1, "the journal let the item go before History was on the drive")
+    }
+
     /// An item History already has is never recorded twice, as when a process wrote History and stopped before it
     /// could let the journal go.
     @Test func anItemHistoryHasIsNotRecordedAgain() async throws {

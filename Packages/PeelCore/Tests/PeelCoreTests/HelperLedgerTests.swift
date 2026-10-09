@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 @testable import PeelPrivileged
 import Testing
 
@@ -39,6 +40,24 @@ struct HelperLedgerTests {
         let item = try policy.open(path(relative, in: directory)).get()
         #expect(ledger.record([item], movedBy: getuid()))
         return try TrashMover.move(item, into: try #require(policy.openTrash(ownedBy: getuid()))).get()
+    }
+
+    @Test func nothingMovesBeforeItsRecordIsOnTheDrive() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let url = directory.url.appending(path: "private/moved.plist")
+        let flushed = Mutex<[String]>([])
+        let ledger = try #require(HelperLedger(at: url) { path in
+            flushed.withLock { $0.append(path) }
+            return true
+        })
+        let unflushed = try #require(HelperLedger(at: url) { _ in false })
+        try directory.file("root/Library/Caches/com.example.plist")
+        let item = try policy.open(path("root/Library/Caches/com.example.plist", in: directory)).get()
+
+        #expect(ledger.record([item], movedBy: getuid()))
+        #expect(flushed.withLock { $0 } == [url.path(percentEncoded: false)])
+        #expect(!unflushed.record([item], movedBy: getuid()), "an item could move with its record not on the drive")
     }
 
     @Test func knowsWhereItTookAnItemFromWhateverItIsCalledNow() throws {

@@ -27,13 +27,18 @@ public final class HelperLedger: Sendable {
 
     private let url: URL
     private let maximumEntries: Int
+    private let flush: @Sendable (String) -> Bool
     /// One lock for every ledger in the process: the helper serves each connection on a queue of its own, and each
     /// request opens the ledger afresh, so a lock of each instance's own would let two requests overwrite each other.
     private static let lock = NSLock()
 
     /// Returns nil when the folder cannot be made private to the helper. Nothing should be moved then either,
     /// because an item moved without a record cannot be put back.
-    public init?(at url: URL = HelperLedger.defaultURL, maximumEntries: Int = 20_000) {
+    public init?(
+        at url: URL = HelperLedger.defaultURL,
+        maximumEntries: Int = 20_000,
+        flush: @escaping @Sendable (String) -> Bool = DriveFlush.file(at:)
+    ) {
         let folder = url.deletingLastPathComponent().path(percentEncoded: false)
         mkdir(folder, 0o700)
         var info = stat()
@@ -43,6 +48,7 @@ public final class HelperLedger: Sendable {
         else { return nil }
         self.url = url
         self.maximumEntries = maximumEntries
+        self.flush = flush
     }
 
     /// Records `items` in one write, before any of them moves. Returns false when the write fails, and then
@@ -136,6 +142,7 @@ public final class HelperLedger: Sendable {
         guard let data = try? encoder.encode(Array(entries)), (try? data.write(to: url, options: .atomic)) != nil else {
             return false
         }
-        return chmod(url.path(percentEncoded: false), 0o600) == 0
+        let path = url.path(percentEncoded: false)
+        return chmod(path, 0o600) == 0 && flush(path)
     }
 }

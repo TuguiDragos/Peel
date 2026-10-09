@@ -183,8 +183,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - It opens folders by descriptor and works through them, so a path swapped for a link after the check leads
   nowhere.
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
-  and puts back only what that ledger knows. While the ledger can't be read it moves nothing, and one it can't make
-  sense of is kept under another name (`DamagedFile`), never written over.
+  and puts back only what that ledger knows. An item moves only once its record is on the drive (`DriveFlush`,
+  `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go. While the ledger can't be
+  read it moves nothing, and one it can't make sense of is kept under another name (`DamagedFile`), never written
+  over.
 - An update needs nothing from the person. launchd starts `Contents/MacOS/PeelHelper` from the app as it is at
   that moment, under a spawn constraint that names only the team and the helper's identifier, so the next request
   runs the new helper, and a helper still running when an update replaced its program quits as soon as it is idle
