@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 /// The helper's version question, under the selector Peel sends.
@@ -73,5 +74,35 @@ struct HelperAnswerTests {
 
     @Test func withNoConnectionThereIsNoAnswer() async {
         #expect(await !PrivilegedHelper.isResponding(over: nil))
+    }
+
+    @Test func aRequestIsNeverSentToAHelperThatDoesNotAnswer() async {
+        let helper = StandInHelper(answering: nil)
+        defer { helper.stop() }
+        let sent = Mutex(false)
+        let start = ContinuousClock.now
+
+        let answer = await PrivilegedHelper.request(connecting: { helper.connection }, fallback: "unanswered") {
+            _, finish in
+            sent.withLock { $0 = true }
+            finish("answered")
+        }
+
+        #expect(answer == "unanswered")
+        #expect(!sent.withLock { $0 })
+        #expect(ContinuousClock.now - start < .seconds(PrivilegedHelper.requestWait))
+    }
+
+    @Test func aRequestIsSentToTheHelperOfThisVersion() async {
+        let helper = StandInHelper(answering: HelperIdentity.protocolVersion)
+        defer { helper.stop() }
+
+        let answer = await PrivilegedHelper.request(
+            connecting: { helper.connection }, answerWait: Self.anyWait, fallback: "unanswered"
+        ) { _, finish in
+            finish("answered")
+        }
+
+        #expect(answer == "answered")
     }
 }

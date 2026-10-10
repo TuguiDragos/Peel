@@ -296,7 +296,19 @@ public enum PrivilegedHelper {
         fallback: T,
         _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        await ask(over: helperConnection(), waitingAtMost: requestWait, fallback: fallback, body)
+        await request(connecting: helperConnection, fallback: fallback, body)
+    }
+
+    /// Sends a request only once the helper has answered, within its own short wait, on a connection of its own: a
+    /// helper launchd keeps but cannot start never answers, and the request would wait the longest any request may.
+    static func request<T: Sendable>(
+        connecting connect: () -> NSXPCConnection?,
+        answerWait wait: TimeInterval = answerWait,
+        fallback: T,
+        _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+    ) async -> T {
+        guard await isResponding(over: connect(), waitingAtMost: wait) else { return fallback }
+        return await ask(over: connect(), waitingAtMost: requestWait, fallback: fallback, body)
     }
 
     /// A connection that takes only the helper's own code, or nil when Peel has no team to require.
