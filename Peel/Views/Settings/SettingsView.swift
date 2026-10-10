@@ -682,7 +682,7 @@ private struct HelperSettingsView: View {
             .listRowBackground(Color.clear)
         }
         .formStyle(.grouped)
-        .task(id: helper.status) {
+        .task {
             await helper.checkConnection()
         }
         .alert(helperFailureTitle, isPresented: isShowingFailure) {

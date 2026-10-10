@@ -78,6 +78,7 @@ final class HelperModel {
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
+        await checkConnection()
     }
 
     func repair() async {
@@ -110,5 +111,6 @@ final class HelperModel {
         }
         checks.changeEnds()
         refresh()
+        await checkConnection()
     }
 }
