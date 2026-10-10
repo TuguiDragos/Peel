@@ -236,7 +236,9 @@ public struct BulkUninstallation: Sendable {
 
         for uninstallation in uninstallations {
             let reference = uninstallation.app.reference
-            for leftover in uninstallation.scan.leftovers {
+            // A chosen app's bundle is that app's row, whatever another chosen app's scan says of it.
+            for leftover in uninstallation.scan.leftovers
+            where !chosenBundles.contains(PathPattern.comparablePath(of: leftover.url)) {
                 add(Item(
                     url: leftover.url,
                     size: leftover.size,

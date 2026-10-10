@@ -32,6 +32,22 @@ struct BulkUninstallationTests {
         )
     }
 
+    @Test func aChosenAppsBundleStaysAnAppWhenAnotherChosenAppListsIt() {
+        let synth = app("org.example.synth", "Synth")
+        let effects = app("org.example.synth-fx", "Synth Effects")
+        let synthsFiles = [leftover("/Applications/Synth Effects.app", size: 10, sharedWith: [effects.reference])]
+        let effectsFiles = [leftover("/Applications/Synth.app", size: 10, sharedWith: [synth.reference])]
+
+        for order in [[synth, effects], [effects, synth]] {
+            let bulk = BulkUninstallation(uninstallations: order.map {
+                uninstallation($0, $0 == synth ? synthsFiles : effectsFiles)
+            })
+
+            #expect(Set(bulk.items.filter(\.isApplication).map(\.url)) == [synth.url, effects.url])
+            #expect(bulk.items.count == 2)
+        }
+    }
+
     /// A checkbox can select what a row lets the person choose, by the rule of an app's own page: nothing Peel
     /// leaves alone or with something excluded inside, nothing that needs the helper while it cannot act, no app
     /// macOS keeps or the helper may not move, and nothing of an excluded app or of Peel. Everything Peel suggests
