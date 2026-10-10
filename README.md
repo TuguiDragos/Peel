@@ -61,6 +61,12 @@ day, and About Peel says when a new version is out. Peel shows what is new and i
 choose, once it has checked that the update is signed as Peel's. A copy Homebrew installed updates the same way, and
 `brew upgrade --cask peel` updates it too.
 
+> [!IMPORTANT]
+> Peel 1.0.1 came before Peel could update itself. To update from it, quit Peel, move it from Applications to the
+> Trash, and drag the new version into Applications: History, your exclusions, and your settings stay. If Home then
+> says the helper isn't answering, choose Repair. Remove Peel isn't the way to do it, since it takes History and your
+> settings too.
+
 ## What Peel does
 
 Dragging an app to the Trash leaves pieces of it behind: caches, settings, containers, launch agents, and support

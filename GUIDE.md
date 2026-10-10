@@ -322,6 +322,11 @@ Choose Check for Updates… in the Peel menu, or Install Update… in About Peel
 Check for app updates is on, Peel also looks once a day. It shows what is new and installs the update only when you
 choose, once it has checked that the update is signed as Peel's.
 
+> [!IMPORTANT]
+> Peel 1.0.1 can't install an update itself: quit it, move it from Applications to the Trash, and drag the new
+> version into Applications. History, your exclusions, and your settings stay, and if Home then says the helper
+> isn't answering, choose Repair.
+
 ### Something in Peel isn't clear. Where can I read more?
 
 Click the ⓘ next to its name. If it's still not clear,

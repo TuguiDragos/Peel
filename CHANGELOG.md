@@ -5,6 +5,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ## 1.1.0 (not released yet)
 
+> [!IMPORTANT]
+> Peel 1.0.1 can't install an update itself. To update from it, quit Peel, move it from Applications to the Trash,
+> and drag the new Peel into Applications: your History, exclusions, and settings stay. If Homebrew installed it, run
+> `brew upgrade --cask peel` instead. If Home then says the helper isn't answering, choose Repair. From 1.1.0 on,
+> Peel updates itself when you choose Install Update.
+
 ### Added
 
 - Peel tells you when a new version is out and updates itself when you choose to.
