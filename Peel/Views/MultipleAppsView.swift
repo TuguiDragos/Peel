@@ -36,6 +36,13 @@ struct MultipleAppsView: View {
                 if plan.requiresHelper, !helper.canAct {
                     HelperRequiredBanner()
                 }
+                // Here, above the lists, so they are seen before Move to Trash however long the lists run.
+                if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
+                    PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
+                }
+                if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
+                    DockTileRow(isOn: $removesDockTiles)
+                }
 
                 Section {
                     RemovalColumnHeaders()
@@ -92,13 +99,6 @@ struct MultipleAppsView: View {
                             )
                         }
                     }
-                }
-
-                if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
-                    PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
-                }
-                if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
-                    DockTileRow(isOn: $removesDockTiles)
                 }
             }
         }
