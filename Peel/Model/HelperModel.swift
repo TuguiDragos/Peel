@@ -64,6 +64,7 @@ final class HelperModel {
         guard !isChanging else { return }
         isChanging = true
         defer { isChanging = false }
+        checks.changeStarts()
         do {
             try await PrivilegedHelper.register()
         } catch {
@@ -72,7 +73,7 @@ final class HelperModel {
                 failure = Failure(action: .install, reason: error.localizedDescription)
             }
         }
-        checks.changed()
+        checks.changeEnds()
         refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
@@ -83,12 +84,13 @@ final class HelperModel {
         guard !isChanging else { return }
         isChanging = true
         defer { isChanging = false }
+        checks.changeStarts()
         do {
             try await PrivilegedHelper.repair()
         } catch {
             failure = Failure(action: .repair, reason: error.localizedDescription)
         }
-        checks.changed()
+        checks.changeEnds()
         refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
@@ -97,14 +99,16 @@ final class HelperModel {
     }
 
     func uninstall() async {
+        guard !isChanging else { return }
         isChanging = true
         defer { isChanging = false }
+        checks.changeStarts()
         do {
             try await PrivilegedHelper.unregister()
         } catch {
             failure = Failure(action: .uninstall, reason: error.localizedDescription)
         }
-        checks.changed()
+        checks.changeEnds()
         refresh()
     }
 }

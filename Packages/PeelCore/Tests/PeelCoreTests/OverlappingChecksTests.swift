@@ -35,13 +35,30 @@ struct OverlappingChecksTests {
     @Test func aChangeLeavesOutWhatChecksStartedBeforeItFound() {
         var checks = OverlappingChecks()
         let before = checks.start()
-        checks.changed()
+        checks.changeStarts()
+        checks.changeEnds()
 
         var shows = [checks.mayShow(before)]
         let after = checks.start()
         shows.append(checks.mayShow(after))
 
         #expect(shows == [false, true])
+    }
+
+    /// What a check finds while the helper is being repaired is neither the old helper nor the new one.
+    @Test func noAnswerShowsWhileAChangeRuns() {
+        var checks = OverlappingChecks()
+        let before = checks.start()
+        checks.changeStarts()
+        let during = checks.start()
+
+        var shows = [checks.mayShow(during), checks.mayShow(before)]
+        checks.changeEnds()
+        shows.append(checks.mayShow(during))
+        let after = checks.start()
+        shows.append(checks.mayShow(after))
+
+        #expect(shows == [false, false, false, true])
     }
 
     /// Each check outlasts the start of the next, as Home's and Settings' did while the helper didn't answer.
