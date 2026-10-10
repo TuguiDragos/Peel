@@ -50,6 +50,10 @@ before a fix rests on it.
 A choice about what Peel does for people, what it selects, what it says, or how it looks, is the maintainer's.
 Propose it with your reasons; don't make it on the way.
 
+**What Peel tells the person to do is documented or proved.** A place in System Settings, a menu, or a command Peel
+sends someone to is one that Apple's documentation, the man page, or the tool's own documentation gives, or one shown
+on a Mac. Never a guess at where macOS keeps a control: a step that leads nowhere leaves the person stuck.
+
 ## What must never break
 
 Tests enforce these rules. If a change makes one of them fail, the rule is right and the change is wrong.
@@ -137,6 +141,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Tests run as Peel runs, on the Mac running them**: the real Launch Services, the real system apps, the real
   disk. Nothing (a flag, a default, an environment variable) makes a test skip what Peel does. A stand-in is only
   for what a Mac can't do on demand, such as a folder that never answers.
+- **A test never assumes how the Mac running it is set.** With Show all filename extensions on, Finder names
+  Calculator "Calculator.app", while Peel never puts the extension in an app's name, so a test that compares Peel's
+  names with Finder's reads Finder's as Peel does.
 - **A test that fails now and then has a cause.** Run the whole suite again and again until it fails, find what
   differed, and fix that. Never run it again until it passes, and never widen a timeout to hide it.
 - **Never bound a test by the clock.** In a full run a short sleep or a timer can resume seconds late, so a test
@@ -183,6 +190,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
   `PathPattern.locatedWithoutOpening` and never opens them.
 - **`lstat` on a path that ends in a slash follows a link** to where it leads. A folder walk hands back folders
   with that slash, so paths are compared and checked through `PathPattern.comparablePath`, which drops it.
+- **What removing a file frees is its private size, never its length**: the bytes "not trapped inside a clone or
+  snapshot" (`getattrlist(2)`, `ATTR_CMNEXT_PRIVATESIZE`). Once iCloud has uploaded a file, the copy it keeps of it
+  shares the file's blocks, so removing that download frees nothing. `ReclaimableSpace.of` measures every size Peel
+  offers to free, and iCloud Drive says how many downloads it leaves out for that (`CloudScan.sharedDownloads`).
 - **Settings are forgotten with `defaults delete`, never by deleting their file.** cfprefsd keeps a domain in
   memory and writes it back, and `defaults delete` of a domain it still holds writes an empty file where the moved
   one was. `PreferenceCleanup` handles both.
@@ -247,6 +258,11 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   button in a row takes `RowButtonStyle` or `.borderless`, and the `ForEach` that repeats rows hides their
   separators, never a row its own. A `Label` beside a row's title pulls the row's separator under its own words, so
   a status or a tag sits in `LeavesRowSeparatorAlone`, as `StatusLabel` and `Badge` do.
+- **A binding made in a page's body reads its value there.** A SwiftUI `Binding` holds the value it was made with,
+  so `Bindable(plan).option` written in a page's body makes the whole page depend on the option: every click runs
+  the page's body again, and a `List` measures every visible row again. Make such a binding inside a small view of
+  its own, as `AppRemovalOptions` and `BulkRemovalOptions` do. Prove a cost like this by counting how often a body
+  runs, with a probe thrown away afterwards: the time of one click changes with what the list shows.
 - **`task(id:)` runs again only when its id changes.** A fact a page shows beside a scan is read in the model's
   refresh, or the task's id carries a count of scans (`BackgroundItemLibrary`'s `scans`, `RemovalHistoryStore`'s
   `reloads`); otherwise Rescan and Reload leave it as it was.
