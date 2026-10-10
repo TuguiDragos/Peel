@@ -338,7 +338,7 @@ x86_64 slices, or has its class data unsigned, in which Sparkle carries its XPC 
 missing, or which `syspolicy_check distribution` says macOS would not open.
 
 Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
-`CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set (261008),
+`CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set (261011),
 with the release's entry in CHANGELOG.md. The script needs a Developer ID Application certificate in the keychain, a
 notary profile stored once with `xcrun notarytool store-credentials` (it uses the one named Peel unless given another),
 and uv (`brew install uv`), and it refuses to start without uv.
