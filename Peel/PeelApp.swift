@@ -293,8 +293,8 @@ struct PeelApp: App {
         async let homebrewPackages: Void = Marks.interval("Homebrew") { await homebrew.refresh() }
         async let apps: Void = Marks.interval("Applications") { await library.load() }
         // Home's checks run at launch, whichever page opens first. They ask the helper whether it can act,
-        // which every page reads to lock the rows that need it.
-        await Marks.interval("Home checks") { await home.refresh() }
+        // which every page reads to lock the rows that need it, so nothing below waits for them.
+        async let homeChecked: Void = Marks.interval("Home checks") { await home.refresh() }
         await exclusionsRead
         trashMonitor.onApplicationTrashed = { [notifications] url in
             notifications.notify(applicationTrashed: url)
@@ -311,6 +311,7 @@ struct PeelApp: App {
         if checksForAppUpdates {
             await Marks.interval("Update checks") { await checkForUpdates() }
         }
+        await homeChecked
     }
 
     /// Checks the apps that are due, and posts one notification when updates appear that were not waiting before.
