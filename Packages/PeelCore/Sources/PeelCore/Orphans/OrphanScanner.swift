@@ -15,6 +15,7 @@ public struct OrphanScanner: Sendable {
     private let walk: LeftoverScanner.Measure
     /// The most folders listed per location while looking inside folders no orphan is named after.
     private let nestedFolderLimit: Int
+    private let systemExtensions: AppExtensions.SystemExtensionsAnswer
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         self.init(
@@ -30,7 +31,8 @@ public struct OrphanScanner: Sendable {
         isRegisteredApp: @escaping @Sendable (String) -> Bool,
         systemApps: [InstalledApp]? = nil,
         walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
-        nestedFolderLimit: Int = NestedSearch.folderLimit
+        nestedFolderLimit: Int = NestedSearch.folderLimit,
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) {
         self.environment = environment
         self.exclusions = exclusions
@@ -38,6 +40,7 @@ public struct OrphanScanner: Sendable {
         self.systemApps = systemApps
         self.walk = walk
         self.nestedFolderLimit = nestedFolderLimit
+        self.systemExtensions = systemExtensions
     }
 
     /// Finds the items that no app claims, in every location, grouped by identifier.
@@ -110,16 +113,27 @@ public struct OrphanScanner: Sendable {
         }
 
         let reach = HelperReach(environment: environment)
+        let staged = PathPattern.comparablePath(of: environment.rootDirectory.appending(path: "Library/SystemExtensions"))
+        let isStaged = { (item: OrphanItem) in
+            PathComponents.isPath(PathPattern.comparablePath(of: item.url), inside: staged)
+        }
+        let goingAtRestart = found.contains { isStaged($0.item) }
+            ? Set((await systemExtensions() ?? []).filter { $0.election == .beingRemoved }.compactMap(\.url)
+                .map(PathPattern.comparablePath(of:)))
+            : []
         let kept = found.filter {
             !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url)
                 && !exclusions.excludes(bundleIdentifier: $0.identifier)
                 && !(owners[$0.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false)
         }
         .map { entry in
-            guard entry.item.requiresPrivileges, entry.item.leftAlone == nil, reach.isBeyond(entry.item.url) else {
-                return entry
-            }
             var item = entry.item
+            if isStaged(item) {
+                let removing = goingAtRestart.contains(PathPattern.comparablePath(of: item.url))
+                item.heldBack = removing ? .systemExtensionGoingAtRestart : .systemExtension
+                return (entry.identifier, item)
+            }
+            guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return entry }
             item.heldBack = .beyondTheHelper
             return (entry.identifier, item)
         }

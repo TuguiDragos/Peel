@@ -325,6 +325,9 @@ and Select Recommended selects what Peel recommends there.
 Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these folders out as well: one in
 `/Users/Shared`, one with a repository, a wallet, a signing key, or a password database inside, one that may hold what
 exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
+The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
+only macOS removes it, when the app that uses it goes to the Trash in Finder, and its note says so, or that macOS
+removes it at the next restart.
 
 On every list, Select All selects every row you can select, what Peel holds back included, and asks first,
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason

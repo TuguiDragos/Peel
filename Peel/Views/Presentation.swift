@@ -271,6 +271,10 @@ extension HoldBack {
             "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here."
         case .leftToItsUninstaller:
             "Left alone: the app’s own uninstaller removes this once the app is in the Trash, and History can’t bring it back."
+        case .systemExtension:
+            "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac."
+        case .systemExtensionGoingAtRestart:
+            "Left alone: macOS removes this system extension when your Mac restarts."
         case .keptByMacOS:
             "Not selected: macOS keeps this cache for its own services, which may be using it right now."
         case .openedFromMail:

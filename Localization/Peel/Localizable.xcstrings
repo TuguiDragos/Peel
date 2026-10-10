@@ -66664,6 +66664,112 @@
         }
       }
     },
+    "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS nainstaloval toto rozšíření systému a odstraní ho jen tehdy, když se aplikace, která ho používá, přesune do koše ve Finderu. Pokud už tu tato aplikace není, znovu ji nainstalujte, otevřete ji a použijte funkci, která rozšíření potřebuje. Až se macOS zeptá, rozšíření povolte. Pak aplikaci přesuňte do koše ve Finderu a restartujte Mac."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS hat diese Systemerweiterung installiert und entfernt sie nur, wenn die App, die sie verwendet, im Finder in den Papierkorb gelegt wird. Ist diese App nicht mehr da, installiere sie erneut, öffne sie und verwende die Funktion, für die die Erweiterung benötigt wird. Erlaube die Erweiterung, wenn macOS dich fragt. Lege die App anschließend im Finder in den Papierkorb und starte deinen Mac neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS ha instalado esta extensión del sistema y solo la elimina cuando la app que la usa va a la papelera en el Finder. Si esa app ya no está, vuelve a instalarla, ábrela y usa la función que depende de la extensión, permítela cuando macOS te lo pida y, después, traslada la app a la papelera en el Finder y reinicia el Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS a installé cette extension système et ne la supprime que lorsque l’app qui l’utilise est placée dans la corbeille depuis le Finder. Si cette app a disparu, réinstallez-la, ouvrez-la et utilisez la fonctionnalité qui nécessite l’extension, autorisez celle-ci lorsque macOS vous le demande, puis placez l’app dans la corbeille depuis le Finder et redémarrez votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS ha installato questa estensione di sistema e la rimuove solo quando l’app che la usa viene spostata nel Cestino dal Finder. Se quell’app non c’è più, installala di nuovo, aprila e usa la funzionalità che richiede l’estensione, autorizzala quando macOS te lo chiede, poi sposta l’app nel Cestino dal Finder e riavvia il Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: このシステム機能拡張はmacOSがインストールしたもので、macOSが削除するのは、これを使用するアプリをFinderでゴミ箱に入れたときだけです。そのアプリがすでになくなっている場合は、再インストールして開き、この機能拡張を必要とする機能を使用して、macOSから求められたら許可してください。次に、Finderでアプリをゴミ箱に入れてから、Macを再起動してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 시스템 확장 프로그램은 macOS가 설치했으며, 이를 사용하는 앱이 Finder에서 휴지통으로 이동될 때만 macOS가 제거합니다. 해당 앱이 사라졌다면 앱을 다시 설치하고 열어서 이 확장 프로그램이 필요한 기능을 사용하고, macOS가 물으면 확장 프로그램을 허용한 다음, Finder에서 앱을 휴지통으로 이동하고 Mac을 재시동하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS heeft deze systeemextensie geïnstalleerd en verwijdert die alleen als de app die de extensie gebruikt, in Finder naar de prullenmand gaat. Als die app weg is, installeer die dan opnieuw, open de app en gebruik de functie die de extensie nodig heeft, sta de extensie toe als macOS erom vraagt, verplaats de app daarna in Finder naar de prullenmand en start je Mac opnieuw op."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS zainstalował to rozszerzenie systemowe i usuwa je tylko wtedy, gdy aplikacja, która go używa, zostanie przeniesiona do Kosza w Finderze. Jeśli tej aplikacji już nie ma, zainstaluj ją ponownie, otwórz ją i użyj funkcji, która wymaga tego rozszerzenia, pozwól na nie, gdy macOS o to zapyta, a potem przenieś aplikację do Kosza w Finderze i uruchom ponownie Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS instalou esta extensão do sistema e só a remove quando o app que a usa vai para o Lixo no Finder. Se esse app não existir mais, instale-o novamente, abra-o e use o recurso que precisa da extensão, permita-a quando o macOS pedir, depois mova o app para o Lixo no Finder e reinicie o Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS a instalat această extensie de sistem și o elimină doar când aplicația care o folosește este mutată în Coș din Finder. Dacă aplicația respectivă nu mai este instalată, instalați‑o din nou, deschideți‑o și folosiți funcționalitatea care necesită extensia, permiteți extensia când macOS vă întreabă, apoi mutați aplicația în Coș din Finder și reporniți Mac‑ul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS установила это системное расширение и удаляет его, только когда приложение, которое его использует, перемещают в Корзину в Finder. Если этого приложения уже нет, установите его снова, откройте его и воспользуйтесь функцией, для которой нужно это расширение, разрешите его, когда macOS попросит, а затем переместите приложение в Корзину в Finder и перезагрузите Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS har installerat det här systemtillägget och tar bort det bara när appen som använder det flyttas till papperskorgen i Finder. Om appen är borta installerar du den igen, öppnar den och använder funktionen som behöver tillägget, tillåter det när macOS frågar, flyttar sedan appen till papperskorgen i Finder och startar om datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bu sistem genişletmesini yükledi ve onu yalnızca genişletmeyi kullanan uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır. O uygulama artık yoksa onu yeniden yükleyin, açın ve genişletmeyi gerektiren özelliği kullanın, macOS sorduğunda genişletmeye izin verin, sonra uygulamayı Finder’da Çöp Sepeti’ne taşıyın ve Mac’inizi yeniden başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS інсталювала це системне розширення й вилучає його, лише коли програму, яка його використовує, переміщують у Смітник у Finder. Якщо цієї програми вже немає, інсталюйте її знову, відкрийте її та скористайтеся функцією, для якої потрібне це розширення, дозвольте його, коли macOS запитає, а потім перемістіть програму в Смітник у Finder і перезапустіть Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此系统扩展由macOS安装，只有在“访达”中将使用它的App移到废纸篓时，macOS才会将其移除。如果该App已不存在，请重新安装并打开它，使用需要此扩展的功能，在macOS询问时允许此扩展，然后在“访达”中将该App移到废纸篓，再重新启动你的Mac。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此系統延伸功能是由macOS安裝的，只有在Finder中將使用它的App丟到「垃圾桶」時，macOS才會移除它。如果該App已不存在，請重新安裝並打開它，使用需要此延伸功能才能運作的功能，並在macOS詢問時允許此延伸功能，然後在Finder中將該App丟到「垃圾桶」，再將Mac重新開機。"
+          }
+        }
+      }
+    },
     "Left alone: macOS removes %@ only when the app goes to the Trash in Finder." : {
       "localizations" : {
         "cs" : {
@@ -66766,6 +66872,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原地保留：只有在Finder中將App丟到「垃圾桶」時，macOS才會移除%@。"
+          }
+        }
+      }
+    },
+    "Left alone: macOS removes this system extension when your Mac restarts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS odstraní toto rozšíření systému po restartu Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS entfernt diese Systemerweiterung, wenn dein Mac neu startet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS eliminará esta extensión del sistema cuando el Mac se reinicie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS supprime cette extension système au redémarrage de votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS rimuoverà questa estensione di sistema al riavvio del Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: Macを再起動すると、macOSがこのシステム機能拡張を削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: Mac을 재시동하면 macOS가 이 시스템 확장 프로그램을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS verwijdert deze systeemextensie als je Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS usunie to rozszerzenie systemowe po ponownym uruchomieniu Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS remove esta extensão do sistema quando o Mac for reiniciado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS elimină această extensie de sistem când Mac‑ul repornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS удалит это системное расширение после перезагрузки Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS tar bort det här systemtillägget när datorn startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bu sistem genişletmesini Mac’iniz yeniden başladığında kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS вилучить це системне розширення після перезапуску Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：你的Mac重新启动时，macOS会移除此系统扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS會在Mac重新開機時移除此系統延伸功能。"
           }
         }
       }

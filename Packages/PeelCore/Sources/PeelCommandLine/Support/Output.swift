@@ -331,6 +331,9 @@ extension HoldBack {
         case .insideAnotherAppsFolder: "inside another app's folder"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
         case .leftToItsUninstaller: "removed by the app's own uninstaller once the app is in the Trash"
+        case .systemExtension:
+            "a system extension macOS installed, which it removes only when its app goes to the Trash in Finder"
+        case .systemExtensionGoingAtRestart: "a system extension macOS removes at the next restart"
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"

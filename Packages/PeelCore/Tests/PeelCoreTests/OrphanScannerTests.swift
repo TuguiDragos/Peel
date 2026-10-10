@@ -56,7 +56,8 @@ struct OrphanScannerTests {
         in directory: borrowing TemporaryDirectory,
         registered: Set<String> = [],
         systemApps: [InstalledApp] = [],
-        nestedFolderLimit: Int = NestedSearch.folderLimit
+        nestedFolderLimit: Int = NestedSearch.folderLimit,
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = { [] }
     ) -> OrphanScanner {
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -66,8 +67,32 @@ struct OrphanScannerTests {
             environment: environment,
             isRegisteredApp: { registered.contains($0) },
             systemApps: systemApps,
-            nestedFolderLimit: nestedFolderLimit
+            nestedFolderLimit: nestedFolderLimit,
+            systemExtensions: systemExtensions
         )
+    }
+
+    @Test func aSystemExtensionACopyOfWhichMacOSKeepsIsLeftToMacOS() async throws {
+        let directory = try TemporaryDirectory()
+        let kept = try directory.directory("root/Library/SystemExtensions/5DF88A99/org.example.mixer.camera.systemextension")
+        let going = try directory.directory("root/Library/SystemExtensions/77689A22/org.example.mixer.filter.systemextension")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mixer", name: "Mixer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mixer.app"
+        )
+        let removing = AppExtension(
+            identifier: "org.example.mixer.filter", name: "Mixer Filter", kind: .systemExtension, point: nil,
+            owner: nil, url: going, election: .beingRemoved, teamIdentifier: nil, reportedState: nil
+        )
+
+        let scan = await scanner(in: directory) { [removing] }.scan(installedApps: installed, remembered: [gone])
+
+        let items = scan.groups.flatMap(\.items)
+        func item(_ url: URL) -> OrphanItem? {
+            items.first { PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url) }
+        }
+        #expect(item(kept)?.leftAlone == .systemExtension)
+        #expect(item(going)?.leftAlone == .systemExtensionGoingAtRestart)
     }
 
     /// The recent documents list macOS 26 writes (`.sfl4`) belongs to the installed app it is named for.

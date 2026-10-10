@@ -84,6 +84,10 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
     /// the job that runs the uninstaller would stop it, and the rest of its cleanup would never happen.
     case leftToItsUninstaller
+    /// The copy macOS installed of an app's system extension, which only macOS removes.
+    case systemExtension
+    /// A system extension macOS removes at the next restart.
+    case systemExtensionGoingAtRestart
     /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
@@ -110,7 +114,7 @@ public enum HoldBack: String, Sendable, Hashable {
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .beyondTheHelper || self == .leftToItsUninstaller
-            || self == .holdsAnExclusion
+            || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .holdsAnExclusion
     }
 
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
