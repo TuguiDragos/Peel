@@ -149,6 +149,9 @@ public enum PrivilegedHelper {
     /// How long the helper is waited for before the request counts as unanswered.
     private static let longestWait: TimeInterval = 120
 
+    /// At utility quality these timers would wait behind any utility work queued before them.
+    static let timers = DispatchQueue.global(qos: .userInitiated)
+
     @concurrent
     public static func moveToTrash(_ urls: [URL]) async -> TrashResult {
         var result = TrashResult()
@@ -301,7 +304,7 @@ public enum PrivilegedHelper {
             // A helper that is running but never answers keeps the connection valid, so only this timer ends
             // the wait. `longestWait` outlasts any request: at most `HelperRequest.maximumItems` renames, or one
             // `launchctl` run that the helper stops after 30 seconds.
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + longestWait) { finish(fallback) }
+            timers.asyncAfter(deadline: .now() + longestWait) { finish(fallback) }
             guard
                 let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
                     as? any PeelHelperProtocol
