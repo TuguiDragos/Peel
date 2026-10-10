@@ -144,6 +144,31 @@ struct CloudStorageTests {
         #expect(sizes["clone.bin"] == nil, "a clone frees nothing")
     }
 
+    /// A download that takes a row's worth of space but shares it with another copy frees nothing, so it is left
+    /// out of the list and counted, for the page to say why it is missing.
+    @Test func countsTheDownloadsLeftOutBecauseAnotherCopySharesTheirSpace() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/plain.bin", bytes: 3_000_000)
+        let original = try directory.file("\(drive)/original.bin", bytes: 2_000_000)
+        let small = try directory.file("\(drive)/small.bin", bytes: 200_000)
+        let inPackage = try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
+        let drivePath = directory.url.appending(path: drive)
+        for (source, name) in [(original, "clone.bin"), (small, "small clone.bin"), (inPackage, "Notes.rtf")] {
+            let clone = drivePath.appending(path: name)
+            #expect(clonefile(source.path(percentEncoded: false), clone.path(percentEncoded: false), 0) == 0)
+        }
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: CloudStorage.minimumSize, exclusions: .none, into: collector,
+            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.name) == ["plain.bin"])
+        #expect(collector.collected.sharedDownloads == 4, "only the clones that take a row's worth count")
+    }
+
     @Test func leavesAFolderWithoutICloudAlone() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/plain.txt", bytes: 4_000_000)

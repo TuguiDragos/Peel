@@ -73,10 +73,15 @@ struct CloudView: View {
                         )
                     }
                 } footer: {
-                    if cloud.wasCutShort {
-                        Text("There is more in iCloud Drive than Peel could look at in one go, so this list isn’t all of it.")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
+                    if cloud.wasCutShort || cloud.sharedDownloads > 0 {
+                        VStack(alignment: .leading, spacing: 6) {
+                            if cloud.wasCutShort {
+                                Text("There is more in iCloud Drive than Peel could look at in one go, so this list isn’t all of it.")
+                            }
+                            sharedDownloadsNote
+                        }
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -98,17 +103,23 @@ struct CloudView: View {
                 }
             } else if cloud.files?.isEmpty == true, cloud.wasCutShort {
                 // The scan stopped early, so an empty list does not mean there is nothing to free.
-                ContentUnavailableView(
-                    "Nothing Found So Far",
-                    systemImage: "icloud",
-                    description: Text("There is more in iCloud Drive than Peel could look at in one go, and nothing in the part it read is big enough to be worth freeing.")
-                )
+                ContentUnavailableView {
+                    Label("Nothing Found So Far", systemImage: "icloud")
+                } description: {
+                    VStack(spacing: 8) {
+                        Text("There is more in iCloud Drive than Peel could look at in one go, and nothing in the part it read is big enough to be worth freeing.")
+                        sharedDownloadsNote
+                    }
+                }
             } else if cloud.files?.isEmpty == true {
-                ContentUnavailableView(
-                    "Nothing to Free",
-                    systemImage: "checkmark.seal",
-                    description: Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
-                )
+                ContentUnavailableView {
+                    Label("Nothing to Free", systemImage: "checkmark.seal")
+                } description: {
+                    VStack(spacing: 8) {
+                        Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
+                        sharedDownloadsNote
+                    }
+                }
             }
         }
         .edgeBar(.bottom) {
@@ -176,6 +187,12 @@ struct CloudView: View {
             try? await Task.sleep(for: .seconds(3))
             guard !Task.isCancelled else { return }
             freed = nil
+        }
+    }
+
+    @ViewBuilder private var sharedDownloadsNote: some View {
+        if cloud.sharedDownloads > 0 {
+            Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with another copy on this Mac: removing a download like that frees nothing now.")
         }
     }
 

@@ -70,7 +70,9 @@ Space shows what fills your disk, area by area, and what each area is.
   takes only what you can download again: an installed app's installer, or one in Downloads, never an encrypted disk
   image. A disk image can also be one you made to keep files in, so look before you select it.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac. Remove Downloads, as in
-  Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it.
+  Finder, takes away only the copy on this Mac: each file stays in iCloud and downloads again when you open it. A
+  download whose space on disk is shared with another copy on this Mac would free nothing, so it isn't listed, and
+  the page says how many there are.
 - **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Docker's disk,
   Space leaves to that app, with the command that frees it, when there is one, for you to copy.
 - **File Search:** large or old files, found through Spotlight.

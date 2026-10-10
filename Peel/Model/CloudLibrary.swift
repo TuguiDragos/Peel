@@ -24,6 +24,8 @@ final class CloudLibrary {
     /// `wasCutShort`: there is more than the list shows. `couldNotRead`: iCloud Drive couldn't be read at all.
     private(set) var wasCutShort = false
     private(set) var couldNotRead = false
+    /// The downloads left out because another copy on this Mac shares their space, so removing them frees nothing.
+    private(set) var sharedDownloads = 0
     var selectedURLs: Set<URL> = [] {
         didSet { updateSelectedSize() }
     }
@@ -59,6 +61,7 @@ final class CloudLibrary {
         files = scan.files
         wasCutShort = scan.wasCutShort
         couldNotRead = scan.couldNotRead
+        sharedDownloads = scan.sharedDownloads
         selectedURLs.formIntersection(Set(scan.files.map(\.url)))
     }
 

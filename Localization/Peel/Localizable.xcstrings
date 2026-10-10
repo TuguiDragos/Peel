@@ -103783,6 +103783,346 @@
         }
       }
     },
+    "Peel doesn’t list ^[%lld download](inflect: true) whose space on disk is shared with another copy on this Mac: removing a download like that frees nothing now." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nezobrazuje %lld stažené kopie, které sdílejí místo na disku s jinou kopií v tomto Macu: odstranění takové stažené kopie teď nic neuvolní."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nezobrazuje %lld stažené kopie, které sdílejí místo na disku s jinou kopií v tomto Macu: odstranění takové stažené kopie teď nic neuvolní."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nezobrazuje %lld staženou kopii, která sdílí místo na disku s jinou kopií v tomto Macu: odstranění takové stažené kopie teď nic neuvolní."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nezobrazuje %lld stažených kopií, které sdílejí místo na disku s jinou kopií v tomto Macu: odstranění takové stažené kopie teď nic neuvolní."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zeigt %lld Download nicht an, der sich Speicherplatz mit einer anderen Kopie auf diesem Mac teilt: Das Entfernen eines solchen Downloads gibt derzeit nichts frei."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zeigt %lld Downloads nicht an, die sich Speicherplatz mit einer anderen Kopie auf diesem Mac teilen: Das Entfernen eines solchen Downloads gibt derzeit nichts frei."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no muestra %lld de descargas que comparten almacenamiento con otra copia en este Mac: eliminar una descarga así no libera nada por ahora."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no muestra %lld descarga que comparte almacenamiento con otra copia en este Mac: eliminar una descarga así no libera nada por ahora."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no muestra %lld descargas que comparten almacenamiento con otra copia en este Mac: eliminar una descarga así no libera nada por ahora."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne liste pas %lld de téléchargements dont le stockage est partagé avec une autre copie sur ce Mac : retirer un tel téléchargement ne libère rien pour l’instant."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne liste pas %lld téléchargement dont le stockage est partagé avec une autre copie sur ce Mac : retirer un tel téléchargement ne libère rien pour l’instant."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne liste pas %lld téléchargements dont le stockage est partagé avec une autre copie sur ce Mac : retirer un tel téléchargement ne libère rien pour l’instant."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non elenca %lld di download che condividono lo spazio su disco con un’altra copia su questo Mac: rimuovere un download del genere ora non libera nulla."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non elenca %lld download che condivide lo spazio su disco con un’altra copia su questo Mac: rimuovere un download del genere ora non libera nulla."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non elenca %lld download che condividono lo spazio su disco con un’altra copia su questo Mac: rimuovere un download del genere ora non libera nulla."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、ダウンロードしたもののうち、このMac上の別のコピーとストレージを共有している%lld個を一覧に表示しません。このようなダウンロードしたものは、削除しても現在は何も解放されないためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 Mac에 있는 다른 복사본과 저장 공간을 공유하는 다운로드 %lld개를 목록에 표시하지 않습니다. 이런 다운로드는 제거해도 지금은 확보되는 공간이 없습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat %lld download weg die opslag deelt met een andere kopie op deze Mac: als je zo'n download verwijdert, komt er nu niets vrij."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel laat %lld downloads weg die opslag delen met een andere kopie op deze Mac: als je zo'n download verwijdert, komt er nu niets vrij."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie wyświetla %lld pobranych rzeczy, które współdzielą miejsce na dysku z inną kopią na tym Macu: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie wyświetla %lld pobranych rzeczy, które współdzielą miejsce na dysku z inną kopią na tym Macu: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie wyświetla %lld pobranej rzeczy, która współdzieli miejsce na dysku z inną kopią na tym Macu: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie wyświetla %lld pobranej rzeczy, która współdzieli miejsce na dysku z inną kopią na tym Macu: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não lista %lld de downloads que compartilham armazenamento com outra cópia neste Mac: remover um download assim não libera nada agora."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não lista %lld download que compartilha armazenamento com outra cópia neste Mac: remover um download assim não libera nada agora."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não lista %lld downloads que compartilham armazenamento com outra cópia neste Mac: remover um download assim não libera nada agora."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu listează %lld descărcări care partajează spațiul de stocare cu o altă copie de pe acest Mac: eliminarea unei astfel de descărcări nu eliberează nimic acum."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu listează %lld descărcare care partajează spațiul de stocare cu o altă copie de pe acest Mac: eliminarea unei astfel de descărcări nu eliberează nimic acum."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu listează %lld de descărcări care partajează spațiul de stocare cu o altă copie de pe acest Mac: eliminarea unei astfel de descărcări nu eliberează nimic acum."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показывает %lld загрузки, которые используют общее пространство на диске с другими копиями на этом Mac: удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показывает %lld загрузок, которые используют общее пространство на диске с другими копиями на этом Mac: удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показывает %lld загрузку, которая использует общее пространство на диске с другой копией на этом Mac: удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показывает %lld загрузки, которые используют общее пространство на диске с другими копиями на этом Mac: удаление такой загрузки сейчас ничего не освободит."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel visar inte %lld hämtning vars lagringsutrymme delas med en annan kopia på den här datorn: att ta bort en sådan hämtning frigör inget just nu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel visar inte %lld hämtningar vars lagringsutrymme delas med en annan kopia på den här datorn: att ta bort en sådan hämtning frigör inget just nu."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, bu Mac’teki başka bir kopyayla aynı saklama alanını paylaşan %lld indirilen dosyayı listelemiyor: böyle bir dosyanın indirilen kopyasını kaldırmak şu anda hiç yer boşaltmaz."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, bu Mac’teki başka bir kopyayla aynı saklama alanını paylaşan %lld indirilen dosyayı listelemiyor: böyle bir dosyanın indirilen kopyasını kaldırmak şu anda hiç yer boşaltmaz."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показує %lld викачування, які спільно використовують сховище з іншою копією на цьому Mac: вилучення такого викачування зараз нічого не звільнить."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показує %lld викачувань, які спільно використовують сховище з іншою копією на цьому Mac: вилучення такого викачування зараз нічого не звільнить."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показує %lld викачування, яке спільно використовує сховище з іншою копією на цьому Mac: вилучення такого викачування зараз нічого не звільнить."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не показує %lld викачування, які спільно використовують сховище з іншою копією на цьому Mac: вилучення такого викачування зараз нічого не звільнить."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未列出%lld个已下载的文件，它们与这台Mac上的另一个副本共享储存空间：移除这类文件的下载目前不会释放任何空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會列出%lld個與這部Mac上另一個副本共用儲存空間的下載項目：移除這類下載項目現在不會釋放任何空間。"
+          }
+        }
+      }
+    },
     "Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `%@` deletes Time Machine’s snapshots, if you are sure." : {
       "localizations" : {
         "cs" : {

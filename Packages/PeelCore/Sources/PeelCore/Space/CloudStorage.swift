@@ -28,6 +28,9 @@ public struct CloudScan: Sendable {
     public var wasCutShort = false
     /// iCloud Drive could not be read at all, which is what happens without Full Disk Access.
     public var couldNotRead = false
+    /// How many downloads were left out because another copy on this Mac shares their space: each takes at least
+    /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
+    public var sharedDownloads = 0
 }
 
 /// A file that was not freed, and why.
@@ -119,7 +122,8 @@ public enum CloudStorage {
         return CloudScan(
             files: collected.files.sorted { $0.size > $1.size },
             wasCutShort: finished == nil || collected.wasCutShort,
-            couldNotRead: collected.couldNotRead
+            couldNotRead: collected.couldNotRead,
+            sharedDownloads: collected.sharedDownloads
         )
     }
 
@@ -130,6 +134,7 @@ public enum CloudStorage {
             var files: [CloudFile] = []
             var wasCutShort = false
             var couldNotRead = false
+            var sharedDownloads = 0
         }
 
         private let state = Mutex(Collected())
@@ -188,6 +193,10 @@ public enum CloudStorage {
         func unreadable() {
             state.withLock { $0.couldNotRead = true }
         }
+
+        func leftOutAsShared() {
+            state.withLock { $0.sharedDownloads += 1 }
+        }
     }
 
     /// Walks iCloud Drive and adds each file worth freeing to `collector`. Stops at `deadline` as well as when
@@ -241,7 +250,10 @@ public enum CloudStorage {
                 isSafe(values)
             else { continue }
             let measured = values.isRegularFile == true
-                ? (size: ReclaimableSpace.of(url), modified: values.contentModificationDate)
+                ? (
+                    size: ReclaimableSpace.of(url), taken: ReclaimableSpace.allocated(url),
+                    modified: values.contentModificationDate
+                )
                 : package(url, values, exclusions: exclusions, countingFor: scan, unless: stopped)
             guard let measured else {
                 if stopped() {
@@ -250,7 +262,10 @@ public enum CloudStorage {
                 }
                 continue
             }
-            guard measured.size >= minimumSize else { continue }
+            guard measured.size >= minimumSize else {
+                if measured.taken >= minimumSize { collector.leftOutAsShared() }
+                continue
+            }
 
             let file = CloudFile(
                 url: url,
@@ -310,20 +325,22 @@ public enum CloudStorage {
         (error as? CocoaError)?.code == .fileLocking ? .inUse : .failed(error.localizedDescription)
     }
 
-    /// A document saved as a package, which iCloud keeps as one item: what removing its download frees, and the
-    /// newest date of anything inside, since editing a file inside leaves the package's own date as it was. Nil for
-    /// a package with something excluded inside, one that could not be read whole, or a walk that was stopped.
+    /// A document saved as a package, which iCloud keeps as one item: what removing its download frees, what it takes
+    /// on disk, and the newest date of anything inside, since editing a file inside leaves the package's own date as
+    /// it was. Nil for a package with something excluded inside, one that could not be read whole, or a walk that
+    /// was stopped.
     static func package(
         _ url: URL,
         _ values: URLResourceValues,
         exclusions: Exclusions,
         countingFor scan: ScanCount? = nil,
         unless isStopped: () -> Bool
-    ) -> (size: Int64, modified: Date?)? {
+    ) -> (size: Int64, taken: Int64, modified: Date?)? {
         guard !exclusions.holds(url), let contents = FileSize.walk(url, countingFor: scan, unless: isStopped),
               !contents.couldNotBeRead
         else { return nil }
-        return (contents.size, [values.contentModificationDate, contents.newestChange].compactMap(\.self).max())
+        let modified = [values.contentModificationDate, contents.newestChange].compactMap(\.self).max()
+        return (contents.size, contents.taken, modified)
     }
 
     /// The readable name of the iCloud folder that holds `url`: "iCloud Drive" for `com~apple~CloudDocs`, and
