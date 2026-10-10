@@ -421,10 +421,12 @@ public struct TrashService: Sendable {
         let more = await trash(rest, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: [])
         result.trashed += more.trashed
         result.failures += more.failures
-        // Nobody asked for these folders, so one that stays is no failure.
+        // Nobody asked for these folders, so one that stays is no failure, and they are not counted with the rest.
         for folder in MakersFolders(environment: environment, names: names).above(more.trashed.map(\.originalURL))
         where MakersFolders.isEmpty(folder) {
-            let moved = await trash([folder], usingHelperFor: [], removal: removal, lettingTheirProgramsRun: []).trashed
+            let moved = await MoveCount.$current.withValue(nil) {
+                await trash([folder], usingHelperFor: [], removal: removal, lettingTheirProgramsRun: []).trashed
+            }
             result.trashed += moved
             result.emptied.formUnion(moved.map(\.originalURL))
         }

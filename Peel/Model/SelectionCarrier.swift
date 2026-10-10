@@ -42,11 +42,8 @@ extension Tool {
 @Observable
 final class SelectionCarrier {
     private var carried = CarriedSelection()
-    /// True while a Move to Trash moves the parts, one after another.
-    private(set) var isMoving = false
-    /// How many of `toMove` items have moved, brought up to date ten times a second while a move runs.
-    private(set) var movedSoFar = 0
-    private(set) var toMove = 0
+    /// A Move to Trash moving the parts, one after another, until every tool that moved is up to date.
+    let progress = MoveProgress()
     @ObservationIgnored private let tools: [Tool: any CarriesSelection]
     @ObservationIgnored private let apps: AppLibrary
     @ObservationIgnored private let history: RemovalHistoryStore
@@ -93,24 +90,10 @@ final class SelectionCarrier {
     /// Moves `parts` as one removal. Each part is in History as soon as it moved, so nothing that moved is lost if
     /// Peel stops halfway, and a part whose tool kept it stays selected, with the app to quit named after.
     func move(_ parts: [CarriedSelection.Part]) async {
-        isMoving = true
-        movedSoFar = 0
-        toMove = parts.reduce(0) { $0 + $1.count }
-        let count = MoveCount()
-        let watching = Task { [weak self] in
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .milliseconds(100))
-                self?.movedSoFar = count.value
-            }
-        }
-        defer {
-            watching.cancel()
-            isMoving = false
-        }
-        var removal = RemovalInProgress()
-        var appsToQuit: [String] = []
-        let pass = await MoveCount.$current.withValue(count) {
-            await QuitGuard.shared.run {
+        await progress.run(toMove: parts.reduce(0) { $0 + $1.count }) {
+            var removal = RemovalInProgress()
+            var appsToQuit: [String] = []
+            let pass = await QuitGuard.shared.run {
                 await CarriedSelection.pass(parts) { part in
                     guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
                         appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
@@ -120,16 +103,16 @@ final class SelectionCarrier {
                     return result
                 }
             }
-        }
-        history.finish(removal)
-        outcome.report(pass.result, appsToQuit: appsToQuit)
-        for part in pass.refused {
-            tool(of: part)?.deselect(part)
-        }
-        let moved = pass.moved.map(\.part)
-        for name in moved.tools {
-            guard let tool = Tool(rawValue: name) else { continue }
-            await tools[tool]?.refresh(after: moved.filter { $0.page.tool == name }, apps: apps)
+            history.finish(removal)
+            outcome.report(pass.result, appsToQuit: appsToQuit)
+            for part in pass.refused {
+                tool(of: part)?.deselect(part)
+            }
+            let moved = pass.moved.map(\.part)
+            for name in moved.tools {
+                guard let tool = Tool(rawValue: name) else { continue }
+                await tools[tool]?.refresh(after: moved.filter { $0.page.tool == name }, apps: apps)
+            }
         }
     }
 

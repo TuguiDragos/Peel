@@ -15,6 +15,8 @@ struct RemovalBar: View {
     @State private var isShowingPages = false
     /// The page's own words under the question, worked out when Move to Trash was pressed.
     @State private var pageMessage: Text?
+    /// The apps last named in `waitingToQuit`, still named while the spinner stays up after the wait.
+    @State private var waitingNames = ""
     private let purpose: Purpose
     /// True while the page scans. The bar then moves nothing, whatever is selected.
     let isScanning: Bool
@@ -29,6 +31,10 @@ struct RemovalBar: View {
     /// A short message about what the page's own action just did, shown in place of the selection, for an
     /// action History doesn't record (freeing iCloud files, for example).
     var notice: BarNotice?
+    /// The page's own removal, counted beside the spinner while it moves.
+    var progress: MoveProgress?
+    /// The apps the page's removal waits for to quit.
+    var waitingToQuit: String?
 
     private enum Purpose {
         /// What the page itself selected, which `onRemove` acts on.
@@ -59,7 +65,9 @@ struct RemovalBar: View {
         onRemove: @escaping () -> Void,
         title: LocalizedStringResource = "Move to Trash",
         systemImage: String = "trash",
-        notice: BarNotice? = nil
+        notice: BarNotice? = nil,
+        progress: MoveProgress? = nil,
+        waitingToQuit: String? = nil
     ) {
         purpose = .own(
             SizeTotal(known: selectedSize, isComplete: isSelectionMeasured),
@@ -72,6 +80,8 @@ struct RemovalBar: View {
         self.title = title
         self.systemImage = systemImage
         self.notice = notice
+        self.progress = progress
+        self.waitingToQuit = waitingToQuit
     }
 
     /// A bar for a page of the storage tools, whose selection travels to the others' pages.
@@ -92,6 +102,11 @@ struct RemovalBar: View {
         if case .carried(let page, _) = purpose { page } else { nil }
     }
 
+    /// The removal this bar counts: the carried selection's on a storage tool's page, the page's own otherwise.
+    private var moving: MoveProgress? {
+        page == nil ? progress : carrier.progress
+    }
+
     private var reading: Reading {
         switch purpose {
         case .own(let total, let isEnabled, let onRemove):
@@ -106,7 +121,7 @@ struct RemovalBar: View {
             return Reading(
                 total: parts.total,
                 pages: parts.contains { $0.page != page } ? parts.count : nil,
-                isEnabled: !parts.isEmpty && !carrier.isMoving && !isScanning && !isWorking,
+                isEnabled: !parts.isEmpty && !carrier.progress.isMoving && !isScanning && !isWorking,
                 remove: { ask(about: parts) }
             )
         }
@@ -115,73 +130,81 @@ struct RemovalBar: View {
     var body: some View {
         let reading = reading
         let isEnabled = reading.isEnabled && exclusions.exclusions.isKnown && !history.isUnreadable
-        BusyShown(isBusy: page != nil && carrier.isMoving) { isShowingMove in
-            BusyShown(isBusy: isScanning) { isShowingScan in
-                BusyShown(isBusy: isWorking) { isShowingWork in
-                    FloatingBar {
-                        if let notice {
-                            Text(verbatim: notice.figure)
-                                .font(.barFigure)
-                                .monospacedDigit()
-                            Text(notice.words)
-                                .foregroundStyle(.secondary)
-                        } else if let moved {
-                            Text(moved.size.known > 0
-                                ? moved.size.text
-                                : String(inflecting: "^[\(moved.records.count) item](inflect: true)"))
-                                .font(.barFigure)
-                                .monospacedDigit()
-                            Text("Moved", comment: "A label after a figure at the foot of a page, for a moment after a removal: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, never as a form that agrees with the number or adds (s).")
-                                .foregroundStyle(.secondary)
-                        } else if isShowingScan || isShowingWork {
-                            ProgressView()
-                                .controlSize(.small)
-                            if isShowingScan {
-                                ReadSoFar(scan: scan)
+        BusyShown(isBusy: moving?.isMoving == true) { isShowingMove in
+            BusyShown(isBusy: waitingToQuit != nil) { isShowingWait in
+                BusyShown(isBusy: isScanning) { isShowingScan in
+                    BusyShown(isBusy: isWorking) { isShowingWork in
+                        FloatingBar {
+                            if let notice {
+                                Text(verbatim: notice.figure)
+                                    .font(.barFigure)
+                                    .monospacedDigit()
+                                Text(notice.words)
                                     .foregroundStyle(.secondary)
-                            }
-                        } else if isShowingMove {
-                            ProgressView()
-                                .controlSize(.small)
-                            Text("Moved \(carrier.movedSoFar, format: .number) of \(carrier.toMove, format: .number)")
-                                .monospacedDigit()
-                                .foregroundStyle(.secondary)
-                        } else if let pages = reading.pages, let page {
-                            // The pages go under the figure rather than beside it, so the capsule stays as wide as with
-                            // the selection of one page, which fits beside the button in every language at the
-                            // narrowest column.
-                            Button {
-                                isShowingPages = true
-                            } label: {
-                                VStack(alignment: .leading, spacing: 0) {
-                                    figure(reading.total)
-                                    HStack(spacing: 4) {
-                                        Text("Selected on ^[\(pages) page](inflect: true)", comment: "Under the figure in the bar at the foot of a page, when the selection is on several pages: the figure is a size, such as 426 kB. Word Selected as the bar's own \"Selected\" is worded, agreeing with no number but the pages'.")
-                                        Image(systemName: "chevron.up")
-                                            .font(.caption2.weight(.semibold))
-                                            .accessibilityHidden(true)
-                                    }
-                                    .font(.subheadline)
+                            } else if let moved {
+                                Text(moved.size.known > 0
+                                    ? moved.size.text
+                                    : String(inflecting: "^[\(moved.records.count) item](inflect: true)"))
+                                    .font(.barFigure)
+                                    .monospacedDigit()
+                                Text("Moved", comment: "A label after a figure at the foot of a page, for a moment after a removal: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, never as a form that agrees with the number or adds (s).")
                                     .foregroundStyle(.secondary)
+                            } else if isShowingScan || isShowingWork {
+                                ProgressView()
+                                    .controlSize(.small)
+                                if isShowingScan {
+                                    ReadSoFar(scan: scan)
+                                        .foregroundStyle(.secondary)
                                 }
-                                .contentShape(.rect)
+                            } else if isShowingMove, let moving {
+                                ProgressView()
+                                    .controlSize(.small)
+                                Text("Moved \(moving.moved, format: .number) of \(moving.toMove, format: .number)")
+                                    .monospacedDigit()
+                                    .foregroundStyle(.secondary)
+                            } else if isShowingWait {
+                                ProgressView()
+                                    .controlSize(.small)
+                                Text("Waiting for \(waitingNames) to quit")
+                                    .foregroundStyle(.secondary)
+                            } else if let pages = reading.pages, let page {
+                                // The pages go under the figure rather than beside it, so the capsule stays as wide
+                                // as with the selection of one page, which fits beside the button in every language
+                                // at the narrowest column.
+                                Button {
+                                    isShowingPages = true
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        figure(reading.total)
+                                        HStack(spacing: 4) {
+                                            Text("Selected on ^[\(pages) page](inflect: true)", comment: "Under the figure in the bar at the foot of a page, when the selection is on several pages: the figure is a size, such as 426 kB. Word Selected as the bar's own \"Selected\" is worded, agreeing with no number but the pages'.")
+                                            Image(systemName: "chevron.up")
+                                                .font(.caption2.weight(.semibold))
+                                                .accessibilityHidden(true)
+                                        }
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                    }
+                                    .contentShape(.rect)
+                                }
+                                .buttonStyle(.plain)
+                                .popover(isPresented: $isShowingPages, arrowEdge: .top) {
+                                    CarriedPartsList(page: page)
+                                }
+                            } else {
+                                figure(reading.total)
+                                Text("Selected", comment: "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).")
+                                    .foregroundStyle(.secondary)
                             }
-                            .buttonStyle(.plain)
-                            .popover(isPresented: $isShowingPages, arrowEdge: .top) {
-                                CarriedPartsList(page: page)
-                            }
-                        } else {
-                            figure(reading.total)
-                            Text("Selected", comment: "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).")
-                                .foregroundStyle(.secondary)
+                        } action: {
+                            Button(String(localized: title), systemImage: systemImage, action: reading.remove)
+                                .disabled(!isEnabled)
                         }
-                    } action: {
-                        Button(String(localized: title), systemImage: systemImage, action: reading.remove)
-                            .disabled(!isEnabled)
+                        .motion(value: isShowingMove)
+                        .motion(value: isShowingWait)
+                        .motion(value: isShowingScan)
+                        .motion(value: isShowingWork)
                     }
-                    .motion(value: isShowingMove)
-                    .motion(value: isShowingScan)
-                    .motion(value: isShowingWork)
                 }
             }
         }
@@ -190,6 +213,9 @@ struct RemovalBar: View {
         .motion(value: reading.pages)
         .motion(value: moved)
         .motion(value: notice)
+        .onChange(of: waitingToQuit, initial: true) { _, names in
+            if let names { waitingNames = names }
+        }
         .onChange(of: history.justMoved) { _, batch in
             moved = batch
         }

@@ -12,6 +12,7 @@ struct AppDetailView: View {
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
     @State private var resetsPrivacy = false
+    @State private var progress = MoveProgress()
     @State private var removesDockTile = true
     @State private var isConfirmingPrivacyReset = false
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
@@ -203,7 +204,9 @@ struct AppDetailView: View {
                     isScanning: isBusy,
                     scan: plan.scanRun,
                     isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,
-                    onRemove: requestRemoval
+                    onRemove: requestRemoval,
+                    progress: progress,
+                    waitingToQuit: quitting.isWaiting ? quitting.names : nil
                 )
             }
         }
@@ -475,25 +478,27 @@ struct AppDetailView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
-        let result = await QuitGuard.shared.run {
-            // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
-            let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
-            let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
-            let result = await plan.move(request)
-            let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
-            outcome.report(result, privacy: privacy, keptTheirFiles: keptItsFiles ? [plan.app.name] : [])
-            if removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
-                _ = await DockTiles().takeOut([plan.app.url])
+        let result = await progress.run(toMove: request.urls.count) {
+            await QuitGuard.shared.run {
+                // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
+                let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
+                let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
+                let result = await plan.move(request)
+                let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
+                outcome.report(result, privacy: privacy, keptTheirFiles: keptItsFiles ? [plan.app.name] : [])
+                if removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
+                    _ = await DockTiles().takeOut([plan.app.url])
+                }
+                if let state = AppManagement.state(
+                    after: result,
+                    appBundles: [plan.app.url],
+                    movedByTheHelper: plan.privilegedURLs
+                ) {
+                    home.record(appManagement: state)
+                }
+                await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
+                return result
             }
-            if let state = AppManagement.state(
-                after: result,
-                appBundles: [plan.app.url],
-                movedByTheHelper: plan.privilegedURLs
-            ) {
-                home.record(appManagement: state)
-            }
-            await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
-            return result
         }
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {

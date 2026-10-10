@@ -685,11 +685,17 @@ struct UninstallationTests {
             leftovers: [file(product, .applicationSupport), file(top, .applicationSupport), file(help, .caches)]
         )
 
-        let went = await plan.move([bundle, product, top, help], using: try service(in: directory, refusing: nil))
+        let service = try service(in: directory, refusing: nil)
+        let moves = MoveCount()
+
+        let went = await MoveCount.$current.withValue(moves) {
+            await plan.move([bundle, product, top, help], using: service)
+        }
 
         let maker = directory.url.appending(path: "\(support)/Example")
         #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
             == Set([bundle, product, top, help, maker].map(PathPattern.comparablePath(of:))))
+        #expect(moves.value == 4)
         let records = RemovalPart(source: "Notes", sourceKey: nil, tool: "applications")
             .records(of: went, sizes: [bundle: 4_096], batch: UUID())
         let size = { (url: URL) in

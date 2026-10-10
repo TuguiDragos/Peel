@@ -116,6 +116,7 @@ struct CloudView: View {
                 RemovalBar(
                     selectedSize: cloud.selectedSize,
                     isScanning: cloud.isScanning,
+                    isWorking: cloud.isFreeing,
                     scan: cloud.scanRun,
                     isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
                     onRemove: { isConfirming = true },

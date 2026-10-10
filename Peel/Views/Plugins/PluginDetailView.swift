@@ -81,6 +81,12 @@ struct PluginDetailView: View {
                         NSWorkspace.shared.activateFileViewerSelecting([plugin.url])
                     }
                     Spacer()
+                    BusyShown(isBusy: plugins.isRemoving) { isShown in
+                        if isShown {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+                    }
                     Button("Move to Trash", systemImage: "trash") {
                         isConfirmingRemoval = true
                     }

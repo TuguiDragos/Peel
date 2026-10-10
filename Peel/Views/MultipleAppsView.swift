@@ -10,6 +10,7 @@ struct MultipleAppsView: View {
     @State private var plan: BulkRemovalPlan
     @State private var quitting = QuitBeforeRemoving()
     @State private var resetsPrivacy = false
+    @State private var progress = MoveProgress()
     @State private var removesDockTiles = true
     @State private var isRescanning = false
     @State private var questionTitle = Text(verbatim: "")
@@ -114,7 +115,9 @@ struct MultipleAppsView: View {
                     isScanning: plan.isScanning,
                     scan: plan.scanRun,
                     isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,
-                    onRemove: requestRemoval
+                    onRemove: requestRemoval,
+                    progress: progress,
+                    waitingToQuit: quitting.isWaiting ? quitting.names : nil
                 )
             }
         }
@@ -344,27 +347,31 @@ struct MultipleAppsView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard plan.runningProcesses.isEmpty else { return requestRemoval() }
-        let result = await QuitGuard.shared.run {
-            // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its place.
-            let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
-            let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
-            let result = await plan.move(request)
-            let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
-            outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
-            if removesDockTiles {
-                let moved = Set(result.trashed.map(\.originalURL))
-                // Asked of every app that moved, since one opened after the last scan has a tile now.
-                _ = await DockTiles().takeOut(plan.apps.map(\.url).filter(moved.contains).sorted { $0.path < $1.path })
+        let result = await progress.run(toMove: request.urls.count) {
+            await QuitGuard.shared.run {
+                // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its
+                // place.
+                let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
+                let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
+                let result = await plan.move(request)
+                let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
+                outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
+                if removesDockTiles {
+                    let moved = Set(result.trashed.map(\.originalURL))
+                    // Asked of every app that moved, since one opened after the last scan has a tile now.
+                    let apps = plan.apps.map(\.url).filter(moved.contains).sorted { $0.path < $1.path }
+                    _ = await DockTiles().takeOut(apps)
+                }
+                if let state = AppManagement.state(
+                    after: result,
+                    appBundles: Set(plan.apps.map(\.url)),
+                    movedByTheHelper: plan.privilegedURLs
+                ) {
+                    home.record(appManagement: state)
+                }
+                await plan.record(result, sizes: request.sizes, in: history)
+                return result
             }
-            if let state = AppManagement.state(
-                after: result,
-                appBundles: Set(plan.apps.map(\.url)),
-                movedByTheHelper: plan.privilegedURLs
-            ) {
-                home.record(appManagement: state)
-            }
-            await plan.record(result, sizes: request.sizes, in: history)
-            return result
         }
         // When an app bundle moved, reloading the library changes the selection, which rebuilds this page. When
         // only files moved, the plan is refreshed here: otherwise they would stay listed, and moving them again
