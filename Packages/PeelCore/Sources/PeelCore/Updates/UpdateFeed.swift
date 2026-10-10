@@ -4,8 +4,6 @@ internal import PeelPrivileged
 public enum UpdateFeed: Sendable, Hashable {
     case sparkle(URL)
     case electron(URL)
-    /// Peel's own releases on GitHub (`GitHubRelease`).
-    case gitHubRelease(URL)
     case appStore
 }
 
@@ -68,9 +66,6 @@ extension UpdateFeed {
         guard !isSystemProtected else { return nil }
         if isFromAppStore {
             return .appStore
-        }
-        if (info["CFBundleIdentifier"] as? String)?.lowercased() == HelperIdentity.appIdentifier.lowercased() {
-            return .gitHubRelease(GitHubRelease.peel)
         }
         if let feed = (info["SUFeedURL"] as? String).flatMap(URL.init(string:)), feed.scheme == "https" {
             return .sparkle(feed)

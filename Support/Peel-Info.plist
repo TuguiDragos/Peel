@@ -40,5 +40,17 @@
 			</array>
 		</dict>
 	</array>
+	<key>SUFeedURL</key>
+	<string>https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>$(SPARKLE_PUBLIC_ED_KEY)</string>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
+	<key>SURequireSignedFeed</key>
+	<true/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUAllowsAutomaticUpdates</key>
+	<false/>
 </dict>
 </plist>

@@ -20,6 +20,8 @@
 		AA0000000000000000000012 /* PeelCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000011 /* PeelCore */; };
 		AA0000000000000000000066 /* PeelLink in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000065 /* PeelLink */; };
 		AA0000000000000000000068 /* PeelLink in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000067 /* PeelLink */; };
+		AA0000000000000000000069 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA000000000000000000006B /* Sparkle.framework */; };
+		AA000000000000000000006A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA000000000000000000006B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,17 @@
 			name = "Embed Command Line Tool";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA000000000000000000006D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA000000000000000000006A /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +124,7 @@
 		AA0000000000000000000050 /* Peel.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Peel.icon; sourceTree = "<group>"; };
 		AA0000000000000000000051 /* Logo.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Logo.xcassets; sourceTree = "<group>"; };
 		AA000000000000000000005B /* PeelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000000000000000000006B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = build/SparkleBuild/Build/Products/Release/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -166,6 +180,7 @@
 			files = (
 				AA0000000000000000000012 /* PeelCore in Frameworks */,
 				AA0000000000000000000068 /* PeelLink in Frameworks */,
+				AA0000000000000000000069 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +221,7 @@
 				AA0000000000000000000056 /* Localization */,
 				AA000000000000000000004F /* Logo */,
 				AA0000000000000000000031 /* Support */,
+				AA000000000000000000006C /* Frameworks */,
 				AA0000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -220,6 +236,14 @@
 				AA000000000000000000005B /* PeelUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000006C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000006B /* Sparkle.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		AA0000000000000000000056 /* Localization */ = {
@@ -328,6 +352,7 @@
 				AA0000000000000000000007 /* Sources */,
 				AA0000000000000000000008 /* Frameworks */,
 				AA0000000000000000000009 /* Resources */,
+				AA000000000000000000006D /* Embed Frameworks */,
 				AA000000000000000000002C /* Embed Helper */,
 				AA000000000000000000002E /* Embed Launch Daemon */,
 				AA000000000000000000003E /* Embed Foundation Extensions */,
@@ -843,6 +868,10 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/SparkleBuild/Build/Products/Release",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Support/Peel-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Peel;
@@ -855,6 +884,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPARKLE_PUBLIC_ED_KEY = "eAlTd7muV2cH25kXo/VTc9vwbLIbpwYDw9Z0PHQ5hVE=";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -878,6 +908,10 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/SparkleBuild/Build/Products/Release",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Support/Peel-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Peel;
@@ -890,6 +924,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPARKLE_PUBLIC_ED_KEY = "eAlTd7muV2cH25kXo/VTc9vwbLIbpwYDw9Z0PHQ5hVE=";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;

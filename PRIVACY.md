@@ -28,6 +28,10 @@ where its code comes from (the address of its source repository and the release 
 version, sent to `api.osv.dev`. Your own Homebrew settings (a `brew.env` file) can change what Homebrew does, and the
 Homebrew page then says what they change.
 
+Peel checks for its own updates with Sparkle: it reads Peel's signed feed on GitHub over https, saying only that Peel
+is asking, and downloads a new version only when you choose to install it, then checks that it is signed as Peel's
+before installing it.
+
 Turn off Check for app updates in Settings, and Peel contacts nothing on its own; the `peel updates` command still
 checks whenever you run it, whatever that switch says.
 
@@ -40,8 +44,7 @@ them as the page loads, and they are posted only if you send the issue.
 | Address | Why |
 |---|---|
 | `itunes.apple.com` | The latest version of an app bought from the App Store. No other app is ever asked about. |
-| `github.com` | Release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to, Repair Taps included. |
-| `api.github.com` | The latest release of Peel itself. Peel says when a new one is out and downloads nothing. |
+| `github.com` | Peel's own update feed, release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to, Repair Taps included. |
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades. A cask comes from its maker's own address. |
 | `api.osv.dev` | The database of known vulnerabilities that Homebrew's scan checks your formulae against. |

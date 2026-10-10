@@ -21827,6 +21827,112 @@
         }
       }
     },
+    "Check for Updates…" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyhledat aktualizaci…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach Updates suchen …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher les mises à jour…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica aggiornamenti…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek naar updates…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź uaktualnienia…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar Atualizações…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Căutați actualizări…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить наличие обновлений…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leta efter uppdateringar…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeleri Denetle…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірити наявність оновлень…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新項目⋯"
+          }
+        }
+      }
+    },
     "Check for app updates" : {
       "localizations" : {
         "cs" : {
@@ -26385,112 +26491,6 @@
         }
       }
     },
-    "Click to download it in About, then replace this copy in Applications." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klikněte a v okně O aplikaci Peel si stáhněte novou verzi. Pak jí nahraďte tuto kopii ve složce Aplikace."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klicke, um die neue Version unter „Über ‚Peel‘“ zu laden, und ersetze dann diese Kopie im Ordner „Programme“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haz clic para descargarla desde Acerca de Peel y luego reemplaza esta copia en la carpeta Aplicaciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cliquez pour le télécharger depuis « À propos de Peel », puis remplacez cette copie dans le dossier Applications."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fai clic per scaricarla da “Informazioni su Peel”, poi sostituisci questa copia nella cartella Applicazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クリックすると、“Peelについて”でダウンロードできます。その後、“アプリケーション”フォルダにあるこのPeelを新しいバージョンに置き換えてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "클릭하면 ‘Peel에 관하여’에서 다운로드할 수 있습니다. 그런 다음 응용 프로그램 폴더에서 이 복사본을 새로운 버전으로 대치하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klik om de nieuwe versie te downloaden via 'Over Peel' en vervang daarmee deze kopie in de map 'Apps'."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kliknij, aby ją pobrać w oknie „O programie Peel”, a potem zastąp nią tę kopię w folderze Aplikacje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clique para baixar a nova versão em Sobre o App Peel e depois substitua esta cópia na pasta Aplicativos."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Faceți clic pentru a o descărca din fereastra Despre Peel, apoi înlocuiți cu ea această copie din dosarul Aplicații."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нажмите, чтобы загрузить ее в окне «О приложении Peel», а затем замените эту копию в папке «Программы»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klicka för att hämta den i Om Peel. Ersätt sedan den här kopian i mappen Appar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni sürümü Peel Hakkında penceresinden indirmek için tıklayın, ardından Uygulamalar klasöründeki bu kopyayı yenisiyle değiştirin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Натисніть, щоб викачати її у вікні «Про програму», а потім замініть нею цю копію в папці «Програми»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点按即可在“关于Peel”窗口中下载新版本，然后在“应用程序”文件夹中用它替换此Peel副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按一下即可在「關於Peel」中下載新版本，然後用它取代「應用程式」檔案夾中的這份副本。"
-          }
-        }
-      }
-    },
     "Click to see what it left behind, under Applications." : {
       "localizations" : {
         "cs" : {
@@ -30205,112 +30205,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拷貝"
-          }
-        }
-      }
-    },
-    "Copy Command" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zkopírovat příkaz"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Befehl kopieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiar comando"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copier la commande"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copia comando"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コマンドをコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "명령 복사"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopieer commando"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopiuj polecenie"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiar Comando"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiați comanda"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скопировать команду"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopiera kommando"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Komutu Kopyala"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скопіювати команду"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拷贝命令"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拷貝指令"
           }
         }
       }
@@ -34795,218 +34689,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不要掃描此檔案夾"
-          }
-        }
-      }
-    },
-    "Download" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stáhnout"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descargar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Télécharger"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scarica"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ダウンロード"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다운로드"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pobierz"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baixar"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descărcați"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Загрузить"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hämta"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İndir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Викачати"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下载"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下載"
-          }
-        }
-      }
-    },
-    "Download it, then replace this copy in Applications." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stáhněte si ji a pak jí nahraďte tuto kopii ve složce Aplikace."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lade sie und ersetze dann diese Kopie im Ordner „Programme“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descárgala y luego reemplaza esta copia en la carpeta Aplicaciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Téléchargez-la, puis remplacez cette copie dans le dossier Applications."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scaricala, poi sostituisci questa copia nella cartella Applicazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ダウンロードしてから、“アプリケーション”フォルダにあるこのPeelを新しいバージョンに置き換えてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다운로드한 다음 응용 프로그램 폴더에서 이 복사본을 새로운 버전으로 대치하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download de nieuwe versie en vervang daarmee deze kopie in de map 'Apps'."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pobierz ją, a potem zastąp nią tę kopię w folderze Aplikacje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baixe-a e depois substitua esta cópia na pasta Aplicativos."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descărcați‑o, apoi înlocuiți cu ea această copie din dosarul Aplicații."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Загрузите ее, а затем замените эту копию в папке «Программы»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hämta den och ersätt sedan den här kopian i mappen Appar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İndirin, ardından Uygulamalar klasöründeki bu kopyayı yenisiyle değiştirin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Викачайте її, а потім замініть нею цю копію в папці «Програми»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请下载新版本，然后在“应用程序”文件夹中用它替换此Peel副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請下載新版本，然後用它取代「應用程式」檔案夾中的這份副本。"
           }
         }
       }
@@ -51428,218 +51110,6 @@
         }
       }
     },
-    "Homebrew installed this copy, so upgrade it by running the command in Terminal." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tuto kopii nainstaloval Homebrew, proto ji upgradujte spuštěním příkazu v Terminálu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da Homebrew diese Kopie installiert hat, führe für das Upgrade den Befehl im Terminal aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew instaló esta copia, así que, para actualizarla, ejecuta el comando en Terminal."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a installé cette copie : mettez-la donc à niveau en exécutant la commande dans Terminal."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa copia è stata installata da Homebrew, quindi aggiornala eseguendo il comando in Terminale."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このPeelはHomebrewでインストールされたため、ターミナルでコマンドを実行してアップグレードしてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 이 복사본을 설치했으므로 터미널에서 이 명령을 실행하여 업그레이드하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew heeft deze kopie geïnstalleerd, dus upgrade die door het commando in Terminal uit te voeren."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tę kopię zainstalował Homebrew, więc aby ją uaktualnić, uruchom polecenie w Terminalu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew instalou esta cópia, então faça upgrade dela executando o comando no Terminal."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a instalat această copie, așa că faceți‑i upgrade rulând comanda în Terminal."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Эту копию установил Homebrew, поэтому обновите ее, выполнив команду в Терминале."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew installerade den här kopian, så uppgradera den genom att köra kommandot i Terminal."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu kopyayı Homebrew yükledi, bu yüzden onu yükseltmek için komutu Terminal’de çalıştırın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цю копію інсталював Homebrew, тож оновіть її, виконавши команду в Терміналі."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此Peel副本由Homebrew安装，因此请在“终端”中运行该命令来升级它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這份副本是由Homebrew安裝的，因此請在「終端機」中執行此指令來升級它。"
-          }
-        }
-      }
-    },
-    "Homebrew installed this copy. Click to see the command that upgrades it, in About." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tuto kopii nainstaloval Homebrew. Klikněte a v okně O aplikaci Peel uvidíte příkaz, který ji upgraduje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew hat diese Kopie installiert. Klicke, um unter „Über ‚Peel‘“ den Befehl für das Upgrade zu sehen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew instaló esta copia. Haz clic para ver el comando que la actualiza, en Acerca de Peel."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a installé cette copie. Cliquez pour voir la commande qui la met à niveau, dans « À propos de Peel »."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa copia è stata installata da Homebrew. Fai clic per vedere il comando per aggiornarla, in “Informazioni su Peel”."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このPeelはHomebrewでインストールされています。クリックすると、“Peelについて”で、アップグレード用のコマンドを確認できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 이 복사본을 설치했습니다. 클릭하면 ‘Peel에 관하여’에서 업그레이드 명령을 볼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew heeft deze kopie geïnstalleerd. Klik om in 'Over Peel' het commando te zien waarmee je die upgradet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tę kopię zainstalował Homebrew. Kliknij, aby w oknie „O programie Peel” zobaczyć polecenie, które ją uaktualnia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew instalou esta cópia. Clique para ver o comando que faz upgrade dela, em Sobre o App Peel."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a instalat această copie. Faceți clic pentru a vedea comanda care îi face upgrade, în fereastra Despre Peel."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Эту копию установил Homebrew. Нажмите, чтобы увидеть в окне «О приложении Peel» команду для ее обновления."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew installerade den här kopian. Klicka för att se kommandot som uppgraderar den, i Om Peel."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu kopyayı Homebrew yükledi. Onu yükselten komutu Peel Hakkında penceresinde görmek için tıklayın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цю копію інсталював Homebrew. Натисніть, щоб побачити у вікні «Про програму» команду, яка її оновлює."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此Peel副本由Homebrew安装。点按即可在“关于Peel”窗口中查看升级它的命令。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這份副本是由Homebrew安裝的。按一下即可在「關於Peel」中查看升級它的指令。"
-          }
-        }
-      }
-    },
     "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel only runs Homebrew’s own commands and reads what they report." : {
       "localizations" : {
         "cs" : {
@@ -57176,6 +56646,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "安裝Peel的輔助程式，即可移除它所服務之系統檔案夾中的項目。"
+          }
+        }
+      }
+    },
+    "Install Update…" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalovat aktualizaci…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update installieren …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar actualización…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer la mise à jour…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa aggiornamento…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートをインストール…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 설치…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer update…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instaluj uaktualnienie…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar Atualização…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalați actualizarea…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить обновление…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installera uppdatering…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeyi Yükle…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інсталювати оновлення…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装更新…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安裝更新項目⋯"
           }
         }
       }
@@ -98968,112 +98544,6 @@
       "comment" : "The app's name, never translated.",
       "shouldTranslate" : false
     },
-    "Peel %@ is out" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vyšel Peel %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ ist verfügbar"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ disponible"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ est disponible"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ disponibile"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@が公開されました"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ 출시됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ is verschenen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dostępna wersja Peel %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ disponível"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A apărut Peel %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вышла версия Peel %@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ har släppts"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@ çıktı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вийшла Peel %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@已发布"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel %@已推出"
-          }
-        }
-      }
-    },
     "Peel Inventory.%@" : {
       "comment" : "A suggested file name. Translate the words before the dot. %@ is the file extension, such as json.",
       "localizations" : {
@@ -110345,6 +109815,113 @@
         }
       }
     },
+    "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)" : {
+      "comment" : "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se aktualizuje pomocí projektu [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aktualisiert sich selbst mit [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se actualiza con [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se met à jour grâce à [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si aggiorna con [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのアップデートには[Sparkle](peel-license:Sparkle-LICENSE)を使用しています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 [Sparkle](peel-license:Sparkle-LICENSE)를 사용하여 스스로 업데이트합니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel werkt zichzelf bij met [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uaktualnia się za pomocą [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel se atualiza com o [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se actualizează cu [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel обновляется с помощью [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uppdaterar sig själv med [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini [Sparkle](peel-license:Sparkle-LICENSE) ile günceller"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оновлюється за допомогою [Sparkle](peel-license:Sparkle-LICENSE)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用[Sparkle](peel-license:Sparkle-LICENSE)更新自身"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用[Sparkle](peel-license:Sparkle-LICENSE)更新自己"
+          }
+        }
+      }
+    },
     "Peel won’t move itself from here: its folder needs an administrator, or Peel is excluded in Settings. Drag it to the Trash in Finder, which asks for an administrator when one is needed." : {
       "localizations" : {
         "cs" : {
@@ -113549,6 +113126,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel自己的「iCloud雲碟」頁面可以逐一釋放這些檔案"
+          }
+        }
+      }
+    },
+    "Peel’s own update feed, the release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanál aktualizací samotného Peelu, kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud Homebrew také aktualizuje sám sebe a své taps, když ho požádáte o aktualizaci, upgrade nebo opravu jeho taps."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der eigene Update-Feed von Peel, der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert von hier auch sich selbst und seine Taps, wenn du Homebrew aktualisieren, ein Upgrade ausführen oder seine Taps reparieren lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El canal de actualizaciones del propio Peel, el canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí, junto con sus taps, cuando le pides que se actualice, que actualice paquetes o que repare sus taps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le flux de mises à jour propre à Peel, le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte, ainsi que ses taps, lorsque vous lui demandez une mise à jour, une mise à niveau ou la réparation de ses taps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il feed degli aggiornamenti di Peel stesso, il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, insieme ai suoi tap, quando gli chiedi di aggiornarsi, di aggiornare i pacchetti o di riparare i tap."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel自身のアップデートフィード、GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデート、アップグレード、またはtapsの修復を指示したときに、Homebrewもここから自身とtapsをアップデートします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 자체의 업데이트 피드, GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트, 업그레이드 또는 tap 복구를 요청하면 여기에서 자신과 자신의 tap을 업데이트합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De eigen updatefeed van Peel, de releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf en zijn taps hier ook bij als je Homebrew vraagt om bij te werken, te upgraden of zijn taps te herstellen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanał uaktualnień samego Peel, kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nowe wersje samego siebie i swoich tapów, gdy użyjesz polecenia Odśwież, Uaktualnij lub Napraw tapy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O feed de atualização do próprio Peel, o feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui, junto com os seus taps, quando você pede para ele atualizar, fazer upgrade ou reparar os seus taps."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fluxul de actualizări propriu al aplicației Peel, fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, împreună cu tap‑urile sale, când îi cereți să se actualizeze, să facă upgrade sau să își repare tap‑urile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собственная лента обновлений Peel, лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляет отсюда себя и свои taps, когда Вы запускаете обновление Homebrew или пакетов либо исправление taps."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels eget uppdateringsflöde, versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt och sina taps härifrån när du ber det att uppdatera, uppgradera eller reparera sina taps."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in kendi güncelleme akışı, GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini, yükseltmesini veya tap depolarını onarmasını istediğinizde kendini ve tap depolarını buradan günceller."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власна стрічка оновлень Peel, стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює звідси себе й свої taps, коли ви просите його оновитися, оновити пакети або полагодити taps."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel本身的更新源、通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级，或让它修复其taps时，Homebrew也会从这里更新自身及其taps。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel自己的更新Feed、透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新、升級或修復其taps時，Homebrew也會從這裡更新自己和其taps。"
           }
         }
       }
@@ -152560,112 +152243,6 @@
         }
       }
     },
-    "The latest release of Peel itself. Peel says when a new one is out and downloads nothing." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nejnovější vydání samotného Peelu. Peel dá vědět, když vyjde nové, a nic nestahuje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die neueste Version von Peel selbst. Peel zeigt an, wenn eine neue verfügbar ist, und lädt nichts."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La versión más reciente del propio Peel. Peel avisa cuando sale una nueva y no descarga nada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La dernière version de Peel lui-même. Peel indique quand une nouvelle version est disponible et ne télécharge rien."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’ultima versione di Peel stesso. Peel segnala quando ne è disponibile una nuova e non scarica nulla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel自身の最新リリースを確認します。新しいリリースが公開されたときに知らせますが、何もダウンロードしません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 자체의 최신 릴리즈 정보입니다. Peel은 새로운 버전이 출시되면 알려 주며, 아무것도 다운로드하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De nieuwste versie van Peel zelf. Peel laat weten wanneer er een nieuwe is verschenen, en downloadt niets."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Najnowsze wydanie samego Peel. Peel informuje, gdy pojawi się nowe, i niczego nie pobiera."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A versão mais recente do próprio Peel. O Peel avisa quando uma nova está disponível e não baixa nada."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cea mai recentă versiune a aplicației Peel înseși. Peel vă spune când apare una nouă și nu descarcă nimic."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Последний выпуск самого Peel. Peel сообщает, когда выходит новый, и ничего не загружает."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den senaste versionen av Peel själv. Peel talar om när en ny version har släppts och hämtar ingenting."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in kendi en son sürümü. Peel, yeni bir sürüm çıktığında bunu söyler ve hiçbir şey indirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Найновіший випуск самої Peel. Peel повідомляє, коли виходить новий, і нічого не викачує."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel本身的最新发布版本。Peel会在有新版本发布时告诉你，但不会下载任何内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel本身的最新發行版本。Peel會在有新版本推出時告訴你，但不會下載任何內容。"
-          }
-        }
-      }
-    },
     "The latest version of apps installed from the App Store." : {
       "localizations" : {
         "cs" : {
@@ -154889,112 +154466,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "過去的移除記錄已損毀"
-          }
-        }
-      }
-    },
-    "The release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud Homebrew také aktualizuje sám sebe a své taps, když ho požádáte o aktualizaci, upgrade nebo opravu jeho taps."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert von hier auch sich selbst und seine Taps, wenn du Homebrew aktualisieren, ein Upgrade ausführen oder seine Taps reparieren lässt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí, junto con sus taps, cuando le pides que se actualice, que actualice paquetes o que repare sus taps."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte, ainsi que ses taps, lorsque vous lui demandez une mise à jour, une mise à niveau ou la réparation de ses taps."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, insieme ai suoi tap, quando gli chiedi di aggiornarsi, di aggiornare i pacchetti o di riparare i tap."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデート、アップグレード、またはtapsの修復を指示したときに、Homebrewもここから自身とtapsをアップデートします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트, 업그레이드 또는 tap 복구를 요청하면 여기에서 자신과 자신의 tap을 업데이트합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf en zijn taps hier ook bij als je Homebrew vraagt om bij te werken, te upgraden of zijn taps te herstellen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nowe wersje samego siebie i swoich tapów, gdy użyjesz polecenia Odśwież, Uaktualnij lub Napraw tapy."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui, junto com os seus taps, quando você pede para ele atualizar, fazer upgrade ou reparar os seus taps."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, împreună cu tap‑urile sale, când îi cereți să se actualizeze, să facă upgrade sau să își repare tap‑urile."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляет отсюда себя и свои taps, когда Вы запускаете обновление Homebrew или пакетов либо исправление taps."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt och sina taps härifrån när du ber det att uppdatera, uppgradera eller reparera sina taps."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini, yükseltmesini veya tap depolarını onarmasını istediğinizde kendini ve tap depolarını buradan günceller."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює звідси себе й свої taps, коли ви просите його оновитися, оновити пакети або полагодити taps."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级，或让它修复其taps时，Homebrew也会从这里更新自身及其taps。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新、升級或修復其taps時，Homebrew也會從這裡更新自己和其taps。"
           }
         }
       }

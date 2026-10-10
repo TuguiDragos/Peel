@@ -104,7 +104,6 @@ public struct UpdateChecker: Sendable {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
         case .electron(let url): await electronAnswer(installed: installed, at: url)
-        case .gitHubRelease(let url): await gitHubReleaseAnswer(installed: installed, at: url)
         case .appStore: await appStoreAnswer(for: app)
         }
     }
@@ -139,19 +138,6 @@ public struct UpdateChecker: Sendable {
         return UpdateAnswer(
             status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil),
             notes: ElectronUpdater.releaseNotes(fromFeed: feed)
-        )
-    }
-
-    private func gitHubReleaseAnswer(installed: String, at url: URL) async -> UpdateAnswer {
-        guard let data = await fetch(url), let release = GitHubRelease.latest(in: data) else {
-            return UpdateAnswer(status: .failed)
-        }
-        guard VersionComparison.isNewer(release.version, than: installed) else {
-            return UpdateAnswer(status: .upToDate)
-        }
-        return UpdateAnswer(
-            status: .updateAvailable(version: release.version, source: .developer, releaseNotes: release.page),
-            notes: release.notes
         )
     }
 
@@ -222,7 +208,7 @@ public struct UpdateChecker: Sendable {
                   let notes = ElectronUpdater.releaseNotes(fromFeed: feed)
             else { return .notGiven }
             return .found(notes)
-        case .gitHubRelease, .appStore, nil:
+        case .appStore, nil:
             return .notGiven
         }
     }

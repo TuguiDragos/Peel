@@ -10,7 +10,7 @@ struct PeelFace: View {
     var size: CGFloat
 
     @Environment(RemovalHistoryStore.self) private var history
-    @Environment(AppLibrary.self) private var library
+    @Environment(PeelUpdater.self) private var updater
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Lets the face rest while no window is open. A closed window keeps its views, and no occlusion change
     /// reaches them, but the scene phase turns to `.background`, and back to active when the window returns.
@@ -25,8 +25,8 @@ struct PeelFace: View {
             .onChange(of: history.justMoved) { _, moved in
                 if moved != nil { Self.follow.cheer() }
             }
-            .task(id: library.newerPeel?.version) {
-                if let version = library.newerPeel?.version { Self.follow.surprise(for: version) }
+            .task(id: updater.newerVersion) {
+                if let version = updater.newerVersion { Self.follow.surprise(for: version) }
             }
     }
 

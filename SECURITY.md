@@ -142,6 +142,10 @@ have, and anything that destroys data that cannot be recovered.
   code execution, or that leaks data off the Mac, is in scope.
 - Leaking the list of a user's installed apps, file paths, or scan results off the Mac, beyond what
   [PRIVACY.md](PRIVACY.md) describes.
+- Peel's own updates: getting Peel to install, or to offer, an update that is not signed with Peel's
+  update key, one older than the copy installed, or one from anywhere but its signed feed. Peel
+  updates itself with Sparkle, so a flaw in Sparkle that reaches Peel is in scope too, and it is
+  passed on to the Sparkle project.
 
 **What Peel reads, runs, and writes.**
 

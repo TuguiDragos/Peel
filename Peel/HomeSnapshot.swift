@@ -64,12 +64,21 @@ enum HomeSnapshot {
                     to: "\(directory)/detail-narrow-\(name).png"
                 )
                 render(
-                    AboutContent().environment(AppLibrary()).fixedSize(horizontal: false, vertical: true),
+                    AboutContent().environment(PeelUpdater()).fixedSize(horizontal: false, vertical: true),
                     width: AboutContent.width,
                     on: Album.sheet,
                     scheme: scheme,
                     contrast: contrast,
                     to: "\(directory)/about-\(name).png"
+                )
+                render(
+                    AboutContent().environment(PeelUpdater(found: "1.0.2"))
+                        .fixedSize(horizontal: false, vertical: true),
+                    width: AboutContent.width,
+                    on: Album.sheet,
+                    scheme: scheme,
+                    contrast: contrast,
+                    to: "\(directory)/about-update-\(name).png"
                 )
                 render(
                     MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)

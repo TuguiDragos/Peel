@@ -7,7 +7,7 @@ struct AboutContent: View {
     static let width: CGFloat = 380
 
     @Environment(\.colorScheme) private var colorScheme
-    @Environment(AppLibrary.self) private var library
+    @Environment(PeelUpdater.self) private var updater
 
     var body: some View {
         VStack(spacing: 12) {
@@ -26,8 +26,8 @@ struct AboutContent: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .textSelection(.enabled)
-            if let update = library.newerPeel {
-                PeelUpdateNotice(update: update)
+            if let version = updater.newerVersion {
+                PeelUpdateNotice(version: version, install: updater.checkForUpdates)
             }
             Text(
                 "Remove apps and what they leave behind, free up space, and fine-tune your Mac.",
@@ -51,6 +51,7 @@ struct AboutContent: View {
             let page = switch name {
             case "GPL-3.0": Links.license
             case "blobatar-LICENSE": Links.blobatar
+            case "Sparkle-LICENSE": Links.sparkle
             default: Links.argumentParser
             }
             NSWorkspace.shared.open(page)
@@ -89,6 +90,10 @@ struct AboutContent: View {
                 "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)",
                 comment: "The face is Peel’s logo with eyes, at the head of the sidebar. Keep the link as it is."
             )
+            Text(
+                "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)",
+                comment: "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is."
+            )
             Link(destination: Links.repository) {
                 Text(verbatim: "github.com/TuguiDragos/Peel")
                     .creditTarget()
@@ -114,31 +119,18 @@ struct AboutContent: View {
     }
 }
 
-/// A newer Peel than this copy, and where to get it. Peel downloads and installs nothing itself.
+/// A newer Peel than this copy. Sparkle's window shows what is new in it and installs it when the person chooses.
 private struct PeelUpdateNotice: View {
-    let update: AppLibrary.PeelUpdate
+    let version: String
+    let install: () -> Void
 
     var body: some View {
         VStack(spacing: 8) {
-            Text("Version \(update.version) is out.")
+            Text("Version \(version) is out.")
                 .font(.system(.callout, design: .rounded, weight: .bold))
                 .foregroundStyle(Album.orangeInk)
-            if let command = update.homebrewCommand {
-                Text("Homebrew installed this copy, so upgrade it by running the command in Terminal.")
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.secondary)
-                Text(verbatim: command)
-                    .font(.callout.monospaced())
-                    .textSelection(.enabled)
-                CopyButton(text: command, title: "Copy Command")
-                    .buttonStyle(StickerButtonStyle(fill: Album.orange, size: 12, ink: Album.onOrange))
-            } else {
-                Text("Download it, then replace this copy in Applications.")
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.secondary)
-                Button("Download") { NSWorkspace.shared.open(update.page ?? Links.latestRelease) }
-                    .buttonStyle(StickerButtonStyle(fill: Album.orange, size: 12, ink: Album.onOrange))
-            }
+            Button("Install Update\u{2026}", action: install)
+                .buttonStyle(StickerButtonStyle(fill: Album.orange, size: 12, ink: Album.onOrange))
         }
         .font(.callout)
         .padding(.vertical, 4)

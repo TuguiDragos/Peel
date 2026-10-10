@@ -233,6 +233,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
     (`ZshRequirements`), Git its keys (`git help --config`), and ssh accepts the options on its own command line.
     The Tools tab installs nothing: `TerminalTool` gives each tool's Homebrew formulae and the lines its
     documentation gives, and Homebrew is asked whether it still offers them.
+- **Peel's own updates.** Sparkle, built from its source by `Scripts/build_sparkle.sh`, reads Peel's signed feed
+  on GitHub (`PeelUpdater`) and installs a new version only when the person chooses it, once the update is signed
+  with Peel's update key. What it may do is set in the Info.plist, the one place Sparkle reads its security
+  settings from. It asks on its own only while Check for app updates is on (`OwnUpdateCheck`), and the update
+  round of the other apps passes over Peel.
 - **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash: the home's, and the Trash of
   each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
   tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up
@@ -277,8 +282,9 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/` `*.lock` | The lock beside each file the app and `peel` both change, so a read and the write after it are one step (`FileLock`). |
 | `~/Library/Application Support/Peel/` `*-damaged-*` | A file of Peel's that could not be read, set aside under another name so the next save doesn't overwrite it (`DamagedFile`). |
 | `~/Library/Logs/Peel/<name>` | What the app measured while `PEEL_MEASURE=<name>` was set. |
+| `~/Library/Caches/com.tuguidragos.Peel/org.sparkle-project.Sparkle/` | Sparkle's download of an update the user chose to install, and what it prepares to install it. |
 | `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
-| Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
+| Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, when Sparkle last looked for a new Peel, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
 | Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's two lists of icons (`persistent-apps` and `recent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; and the Time Machine mark on each folder Build Artifacts leaves out of backups. |
 
 Remove Peel, in Settings, takes all of Peel's own files to the Trash but `Terminal/`, the settings zsh and ssh read
@@ -314,9 +320,11 @@ checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<ver
 `Peel-<version>.zip`, for Homebrew. The disk image is signed, notarized, and stapled too. It opens on a window of
 the album's paper with an arc from Peel to Applications, which `Scripts/make_dmg.sh` lays out with dmgbuild, run by
 uv, so nothing drives Finder; the background carries no words, since Finder writes the names in each Mac's language.
-It starts only from a committed tree whose package tests pass with warnings as errors, and it refuses a build in
-which any of the four programs can be debugged, lacks any of its arm64e, arm64, and x86_64 slices, or has its class
-data unsigned, in which a language is missing, or which `syspolicy_check distribution` says macOS would not open.
+It starts only from a committed tree whose package tests pass with warnings as errors, builds Sparkle from its source,
+and refuses a build in which any of the four programs can be debugged, in which any program, Sparkle's included, is
+not signed with Peel's Developer ID, the hardened runtime, and a secure timestamp, lacks any of its arm64e, arm64, and
+x86_64 slices, or has its class data unsigned, in which Sparkle carries its XPC services, in which a language is
+missing, or which `syspolicy_check distribution` says macOS would not open.
 
 Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
 `CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set (261008),

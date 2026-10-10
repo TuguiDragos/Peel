@@ -245,7 +245,7 @@ and takes you straight to the right place in System Settings.
 | Full Disk Access | Look inside the Trash and the private folders where apps keep their data. Without it, Peel can't find everything an app leaves behind. |
 | App Management | Move another developer's app to the Trash. Without it, Peel can still clear an app's files, but macOS may refuse to move the app itself. |
 | Helper | Move the leftovers that sit in folders only an administrator can change, and put them back, and start, stop, enable, or disable other developers' background items that run as root. It answers administrators only. macOS asks you to approve it once in Login Items & Extensions, and an update of Peel brings its new helper with it. |
-| Notifications (optional) | Tell you when your apps have updates, when a new version of Peel is out, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. |
+| Notifications (optional) | Tell you when your apps have updates, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. |
 | Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, and what builds left, inside another app's data for what it would leave behind, or at your cloud folders to measure them. |
 | Finder extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
 | Open at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
@@ -312,6 +312,12 @@ see everything an app leaves behind. [PRIVACY.md](PRIVACY.md) lists the only tim
 
 Yes. Peel is free and open source under the GNU General Public License, with no paid edition, no ads, and no
 account.
+
+### How does Peel update itself?
+
+Choose Check for Updates… in the Peel menu, or Install Update… in About Peel when it says a new version is out. While
+Check for app updates is on, Peel also looks once a day. It shows what is new and installs the update only when you
+choose, once it has checked that the update is signed as Peel's.
 
 ### Something in Peel isn't clear. Where can I read more?
 

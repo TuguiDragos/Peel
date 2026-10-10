@@ -47,6 +47,7 @@ struct MenuCommand {
 struct PeelCommands: Commands {
     /// What the Applications toolbar's two menus act on, so the menu bar can offer them as well.
     let library: AppLibrary
+    let updater: PeelUpdater
     let homebrew: HomebrewLibrary
     let textEditing: TextEditing
     let sheetInFront: SheetInFront
@@ -89,6 +90,8 @@ struct PeelCommands: Commands {
             Button("About Peel") {
                 openWindow(id: AboutView.windowID)
             }
+            Button("Check for Updates\u{2026}", action: updater.checkForUpdates)
+                .disabled(!updater.canCheckForUpdates)
         }
 
         // Replaces the standard Help item, which in an app with no help book only shows an alert that help is

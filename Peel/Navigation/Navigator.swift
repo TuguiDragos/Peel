@@ -25,10 +25,4 @@ final class Navigator {
         openWindow?(id: PeelApp.mainWindowID)
         NSApp.activate()
     }
-
-    /// Opens About, where a newer Peel is told with how to get it, and brings Peel forward.
-    func showAbout() {
-        openWindow?(id: AboutView.windowID)
-        NSApp.activate()
-    }
 }

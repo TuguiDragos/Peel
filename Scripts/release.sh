@@ -44,6 +44,9 @@ if ! swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > 
 fi
 grep -E "Test run with" "$build/test.log" || true
 
+echo "== Sparkle"
+zsh Scripts/build_sparkle.sh
+
 echo "== Archiving"
 # The output goes to a log, not through a pipe, so the `if` checks xcodebuild's own exit status. Pointer
 # authentication is set here as well as in the project, since Xcode gives the Swift packages only the settings
@@ -95,16 +98,27 @@ then
 fi
 grep -E "EXPORT" "$build/export.log" || true
 
-echo "== What the four binaries are signed with"
+echo "== What every program is signed with"
+sparkle="$app/Contents/Frameworks/Sparkle.framework"
 for binary in \
     "$app" \
     "$app/Contents/MacOS/PeelHelper" \
     "$app/Contents/PlugIns/PeelFinder.appex" \
-    "$app/Contents/Helpers/peel"
+    "$app/Contents/Helpers/peel" \
+    "$sparkle" \
+    "$sparkle/Versions/B/Autoupdate" \
+    "$sparkle/Versions/B/Updater.app"
 do
     echo "-- $binary"
     [ -e "$binary" ] || { echo "   REFUSED: $binary is not there"; exit 1; }
-    codesign -d --verbose=2 "$binary" 2>&1 | grep -E "Authority|TeamIdentifier|Timestamp|flags" || true
+    signature="$(codesign -d --verbose=2 "$binary" 2>&1)" \
+        || { echo "   REFUSED: codesign cannot read $binary"; exit 1; }
+    grep -E "Authority|TeamIdentifier|Timestamp|flags" <<< "$signature" || true
+    # Notarization needs each of these, and an update Sparkle installs is checked against the same signature.
+    [[ "$signature" == *"Authority=Developer ID Application: "*"(6R6J264YA2)"* ]] \
+        || { echo "   REFUSED: $binary is not signed with Peel's Developer ID"; exit 1; }
+    [[ "$signature" == *"flags="*"runtime"* ]] || { echo "   REFUSED: $binary lacks the hardened runtime"; exit 1; }
+    [[ "$signature" == *"Timestamp="* ]] || { echo "   REFUSED: $binary has no secure timestamp"; exit 1; }
     # Stop if `codesign` cannot read the binary, since its entitlements then cannot be checked.
     entitlements="$(codesign -d --entitlements - --xml "$binary" 2>/dev/null)" \
         || { echo "   REFUSED: codesign cannot read $binary"; exit 1; }
@@ -118,13 +132,24 @@ do
     fi
 done
 
+# Sparkle's XPC services are for sandboxed apps; Peel's build leaves them out, and nothing may bring them back.
+[ -z "$(find "$sparkle" -name '*.xpc')" ] || { echo "REFUSED: Sparkle.framework carries XPC services"; exit 1; }
+
+# Every program and library in the app, found rather than listed, so one added later is checked too.
+executables=()
+for file in ${(f)"$(find "$app" -type f -perm +111)"}; do
+    [[ "$(file -b "$file")" == Mach-O* ]] && executables+=("$file")
+done
+for expected in MacOS/Peel MacOS/PeelHelper PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder Helpers/peel \
+    Frameworks/Sparkle.framework/Versions/B/Sparkle Frameworks/Sparkle.framework/Versions/B/Autoupdate \
+    Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater
+do
+    (( ${executables[(Ie)$app/Contents/$expected]} )) || { echo "REFUSED: $expected was not found"; exit 1; }
+done
+
 echo "== Architectures"
 # arm64e is the slice with pointer authentication, which Apple silicon runs; arm64 and x86_64 are for the rest.
-for executable in \
-    "$app/Contents/MacOS/Peel" \
-    "$app/Contents/MacOS/PeelHelper" \
-    "$app/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder" \
-    "$app/Contents/Helpers/peel"
+for executable in $executables
 do
     archs="$(lipo -archs "$executable")" || { echo "REFUSED: lipo cannot read $executable"; exit 1; }
     for arch in arm64e arm64 x86_64; do
@@ -136,11 +161,7 @@ echo "Every binary: arm64e, arm64, x86_64"
 echo "== Signed class data"
 # In the arm64e slice, pointer authentication also signs each class's read-only data, which the Objective-C image
 # info marks with its flag 0x10; one object built without it turns it off for the whole binary.
-for executable in \
-    "$app/Contents/MacOS/Peel" \
-    "$app/Contents/MacOS/PeelHelper" \
-    "$app/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder" \
-    "$app/Contents/Helpers/peel"
+for executable in $executables
 do
     flags="$(otool -arch arm64e -s __DATA_CONST __objc_imageinfo "$executable" | awk 'END { print $3 }')"
     [[ -n "$flags" ]] && (( 16#$flags & 16#10 )) || { echo "REFUSED: $executable has its class data unsigned"; exit 1; }

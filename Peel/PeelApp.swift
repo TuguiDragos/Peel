@@ -53,6 +53,7 @@ struct PeelApp: App {
     @State private var plugins = PluginLibrary()
     @State private var homebrew = HomebrewLibrary()
     @State private var helper = HelperModel()
+    @State private var updater = PeelUpdater()
     @State private var home = HomeModel()
     @State private var history: RemovalHistoryStore
     @State private var outcome: RemovalOutcome
@@ -224,22 +225,6 @@ struct PeelApp: App {
         }
     }
 
-    /// Tells once for each newer version of Peel, whichever check found it.
-    private func followNewerPeel() async {
-        for await _ in Observations({ library.newerPeel?.version }) {
-            guard !Task.isCancelled else { return }
-            let defaults = UserDefaults.standard
-            let told = defaults.string(forKey: SettingsKey.toldNewerPeel)
-            let answer = NewerPeelNotice.check(newer: library.newerPeel?.version, told: told)
-            if answer.told != told {
-                defaults.set(answer.told, forKey: SettingsKey.toldNewerPeel)
-            }
-            if answer.tell, let update = library.newerPeel {
-                notifications.notify(newerPeel: update)
-            }
-        }
-    }
-
     /// Runs the update round every hour while update checks are on. Each app's schedule decides whether the round
     /// checks it.
     private func askWhenDue() async {
@@ -283,13 +268,14 @@ struct PeelApp: App {
         Navigator.shared.openWindow = openWindow
         background.start([
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
-            followHelper, followNewerPeel,
+            followHelper,
         ])
         textEditing.start()
         sheetInFront.start()
         // Work for Peel coming forward is in `followActivations`.
         guard !hasLaunched else { return }
         hasLaunched = true
+        updater.start()
         Task { await launch() }
     }
 
@@ -359,6 +345,7 @@ struct PeelApp: App {
                 .environment(stats)
                 .environment(found)
                 .environment(library)
+                .environment(updater)
                 .environment(orphans)
                 .environment(projects)
                 .environment(installers)
@@ -402,7 +389,10 @@ struct PeelApp: App {
         }
         .defaultSize(width: 1120, height: 764)
         .commands {
-            PeelCommands(library: library, homebrew: homebrew, textEditing: textEditing, sheetInFront: sheetInFront)
+            PeelCommands(
+                library: library, updater: updater, homebrew: homebrew, textEditing: textEditing,
+                sheetInFront: sheetInFront
+            )
         }
         .onChange(of: watchesTrash) { _, isWatching in
             if isWatching {
@@ -469,7 +459,7 @@ struct PeelApp: App {
 
         Window(Text(AboutView.title), id: AboutView.windowID) {
             AboutView()
-                .environment(library)
+                .environment(updater)
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)

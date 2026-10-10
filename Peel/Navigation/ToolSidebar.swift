@@ -13,7 +13,7 @@ enum SidebarDestination: Hashable {
 
 struct ToolSidebar: View {
     @Environment(HomeModel.self) private var home
-    @Environment(AppLibrary.self) private var library
+    @Environment(PeelUpdater.self) private var updater
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("sidebar.apps.expanded") private var isAppsExpanded = true
     @AppStorage("sidebar.storage.expanded") private var isStorageExpanded = true
@@ -115,7 +115,7 @@ struct ToolSidebar: View {
                 }
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                if library.newerPeel != nil {
+                if updater.newerVersion != nil {
                     Image(systemName: "arrow.down.circle.fill")
                         .resizable()
                         .scaledToFit()
@@ -126,7 +126,7 @@ struct ToolSidebar: View {
                         .transition(.opacity)
                 }
             }
-            .motion(value: library.newerPeel)
+            .motion(value: updater.newerVersion)
             .padding(.leading, Head.leading)
             .padding(.trailing, Head.trailing)
             .padding(.vertical, Head.vertical)
@@ -138,11 +138,11 @@ struct ToolSidebar: View {
         .padding(.top, Head.rise)
         .padding(.bottom, 8)
         .accessibilityLabel(Text(AboutView.title))
-        .accessibilityValue(library.newerPeel.map { Text("Version \($0.version) is out.") } ?? Text(verbatim: AppVersion.display))
+        .accessibilityValue(updater.newerVersion.map { Text("Version \($0) is out.") } ?? Text(verbatim: AppVersion.display))
     }
 
     private var versionLine: Text {
-        library.newerPeel.map { Text("\($0.version) is out") } ?? Text(verbatim: AppVersion.display)
+        updater.newerVersion.map { Text("\($0) is out") } ?? Text(verbatim: AppVersion.display)
     }
 
     /// The head's measures, which the ruler also reads to leave its second line room beside the face and the icon.
@@ -276,7 +276,7 @@ struct ToolSidebar: View {
     }
 
     private var headRoom: CGFloat {
-        let icon = library.newerPeel == nil ? 0 : Head.spacing + Head.icon
+        let icon = updater.newerVersion == nil ? 0 : Head.spacing + Head.icon
         return 2 * Head.margin + Head.leading + Head.face + Head.spacing + icon + Head.trailing - Self.rowInsets
     }
 

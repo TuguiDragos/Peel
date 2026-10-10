@@ -5,10 +5,10 @@ import PeelCore
 enum Links {
     static let author = URL(string: "https://tuguidragos.com")!
     static let repository = URL(string: "https://github.com/TuguiDragos/Peel")!
-    static let latestRelease = repository.appending(path: "releases/latest")
     static let license = URL(string: "https://www.gnu.org/licenses/gpl-3.0.html")!
     static let argumentParser = URL(string: "https://github.com/apple/swift-argument-parser")!
     static let blobatar = URL(string: "https://github.com/Alain00/blobatar")!
+    static let sparkle = URL(string: "https://github.com/sparkle-project/Sparkle")!
 
     /// A vulnerability's page on OSV.dev, which shows every record its API returns, under any of its identifiers.
     static func vulnerability(_ identifier: String) -> URL {

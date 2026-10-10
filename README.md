@@ -56,10 +56,10 @@ brew install --cask tuguidragos/tap/peel
 
 Homebrew also puts the `peel` command on your path.
 
-To update Peel, download the new release and replace the copy in your Applications folder, or run
-`brew upgrade --cask peel`. Peel asks GitHub once a day whether a new version is out, while update checks are on,
-and About Peel then says so, with a Download button, or the Homebrew command for a copy Homebrew installed,
-and downloads nothing itself. If you allow Peel's notifications, one also tells you, once for each version.
+To update Peel, choose Check for Updates… in the Peel menu. While Check for app updates is on, Peel also looks once a
+day, and About Peel says when a new version is out. Peel shows what is new and installs the update only when you
+choose, once it has checked that the update is signed as Peel's. A copy Homebrew installed updates the same way, and
+`brew upgrade --cask peel` updates it too.
 
 ## What Peel does
 
@@ -213,11 +213,12 @@ again.
 
 ## Build it yourself
 
-You need macOS Tahoe 26 or later, Xcode 27 (Swift 6.4), and a team to sign with, even a free one. Open
-`Peel.xcodeproj`, choose your team for the four targets under Signing & Capabilities, and run the Peel scheme. Or,
-from Terminal, with your own team ID:
+You need macOS Tahoe 26 or later, Xcode 27 (Swift 6.4), and a team to sign with, even a free one. First build Sparkle,
+which updates Peel, from its source with `zsh Scripts/build_sparkle.sh`. Then open `Peel.xcodeproj`, choose your team
+for the four targets under Signing & Capabilities, and run the Peel scheme. Or, from Terminal, with your own team ID:
 
 ```bash
+zsh Scripts/build_sparkle.sh
 xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build
 swift test --package-path Packages/PeelCore
 ```
@@ -246,6 +247,8 @@ with all my heart.
   every breath, glance, and smile it makes began there.
 - [Swift Argument Parser](https://github.com/apple/swift-argument-parser), by Apple, which every `peel` command is
   built on.
+- [Sparkle](https://github.com/sparkle-project/Sparkle), by the Sparkle Project, which updates Peel and checks that
+  every update is signed as Peel's.
 - [AppCleaner](https://freemacsoft.net/appcleaner/), by FreeMacSoft, and
   [Pearcleaner](https://github.com/alienator88/Pearcleaner), by alienator88, for the inspiration.
 - [Fable](https://claude.com/product/overview) and [Claude](https://claude.com), by
@@ -267,9 +270,10 @@ Copyright (C) 2026 [Țugui Dragoș-Constantin](https://tuguidragos.com)
 Peel moves the files it removes to the Trash, and History can put them back. As the GPL states, it comes with no
 warranty, to the extent the law allows.
 
-swift-argument-parser, Peel's only dependency, is by Apple Inc. under the Apache License 2.0. The motion of the
-face at the head of the sidebar is ported from [blobatar](https://github.com/Alain00/blobatar), by Alain, under the
-MIT License. Both licenses ship inside the app and are kept in `Peel/Licenses/`.
+swift-argument-parser is by Apple Inc. under the Apache License 2.0, and Sparkle, which updates Peel, is by the
+Sparkle Project under the MIT License. The motion of the face at the head of the sidebar is ported from
+[blobatar](https://github.com/Alain00/blobatar), by Alain, under the MIT License. These licenses ship inside the app
+and are kept in `Peel/Licenses/`.
 
 ## More from Țugui Dragoș
 

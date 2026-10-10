@@ -52,6 +52,10 @@ jobs:
             exit 1
           fi
 
+      # Sparkle, which updates Peel, is built from its source at the commit the script names, with arm64e.
+      - name: Build Sparkle
+        run: zsh Scripts/build_sparkle.sh
+
       - name: Build the app
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
@@ -66,20 +70,29 @@ jobs:
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
             -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES \
             MACOSX_DEPLOYMENT_TARGET=26.0 build
-          for binary in MacOS/Peel MacOS/PeelHelper Helpers/peel PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder; do
-            path="build/Release/Build/Products/Release/Peel.app/Contents/$binary"
+          app=build/Release/Build/Products/Release/Peel.app
+          # Every program and library in the app, found rather than listed, so one added later is checked too.
+          checked=0
+          while IFS= read -r -d '' path; do
+            case "$(file -b "$path")" in Mach-O*) ;; *) continue ;; esac
+            checked=$((checked + 1))
             archs=$(lipo -archs "$path")
             for arch in arm64e arm64 x86_64; do
               case " $archs " in
                 *" $arch "*) ;;
-                *) echo "::error::$binary is built for $archs, without $arch."; exit 1 ;;
+                *) echo "::error::$path is built for $archs, without $arch."; exit 1 ;;
               esac
             done
             flags=$(otool -arch arm64e -s __DATA_CONST __objc_imageinfo "$path" | awk 'END { print $3 }')
             if [ -z "$flags" ] || [ $(( 0x$flags & 0x10 )) -eq 0 ]; then
-              echo "::error::$binary has its class data unsigned."; exit 1
+              echo "::error::$path has its class data unsigned."; exit 1
             fi
-          done
+          done < <(find "$app" -type f -perm +111 -print0)
+          # Peel's four programs and Sparkle's three.
+          if [ "$checked" -lt 7 ]; then echo "::error::Only $checked programs were found in the app."; exit 1; fi
+          if [ -n "$(find "$app/Contents/Frameworks/Sparkle.framework" -name '*.xpc')" ]; then
+            echo "::error::Sparkle.framework carries XPC services."; exit 1
+          fi
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
       - name: Build the accessibility audit

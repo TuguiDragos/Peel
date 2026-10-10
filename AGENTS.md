@@ -98,7 +98,8 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
 - **Duplicates always keep at least one copy**, and refuse a file that changed since the scan.
 - **An update check sends no more than [PRIVACY.md](PRIVACY.md) says.** A feed request carries Peel's name and no
   language, a redirect is followed only to https, the session keeps no cache or cookie a server could read back,
-  and Apple is asked only about an app bought from the App Store (`UpdatePrivacyTests`).
+  and Apple is asked only about an app bought from the App Store (`UpdatePrivacyTests`). Peel's own check, through
+  Sparkle, carries Peel's name and no language, and Peel takes no cookie (`PeelUpdater`).
 - **No code reads macOS's privacy database.** What macOS records about privacy is not API, and from macOS 27 apps
   can't read it, so App Management is learned from what a removal shows, on every macOS (`PrivateDatabaseTests`).
 - **What can't be read is unknown, never empty or zero.** A folder macOS won't let Peel read, or one that doesn't

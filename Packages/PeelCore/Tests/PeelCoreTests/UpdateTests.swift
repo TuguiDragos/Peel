@@ -369,16 +369,18 @@ struct UpdateFeedDetectionTests {
         )
     }
 
-    /// Peel's own copy is checked against its releases on GitHub. No other app says where it is released, so no
-    /// other app is asked about there.
-    @Test func onlyPeelAsksGitHubForItsLatestRelease() throws {
+    @Test func peelReadsItsOwnFeedAsAnySparkleAppDoes() throws {
         let directory = try TemporaryDirectory()
         let contents = try directory.directory("Peel.app/Contents")
-        let peel = UpdateFeed.detect(info: ["CFBundleIdentifier": "com.tuguidragos.Peel"], contents: contents, isFromAppStore: false, isSystemProtected: false)
-        #expect(peel == .gitHubRelease(GitHubRelease.peel))
+        let feed = "https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml"
+        let peel = ["CFBundleIdentifier": "com.tuguidragos.Peel", "SUFeedURL": feed]
+        #expect(
+            UpdateFeed.detect(info: peel, contents: contents, isFromAppStore: false, isSystemProtected: false)
+                == .sparkle(URL(string: feed)!)
+        )
         #expect(
             UpdateFeed.detect(
-                info: ["CFBundleIdentifier": "com.example.editor"],
+                info: ["CFBundleIdentifier": "com.tuguidragos.Peel"],
                 contents: contents,
                 isFromAppStore: false,
                 isSystemProtected: false
