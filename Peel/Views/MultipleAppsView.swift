@@ -408,11 +408,20 @@ private struct BulkRemovalOptions: View {
     let plan: BulkRemovalPlan
 
     var body: some View {
-        if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
-            PrivacyResetRow(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
-        }
-        if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
-            DockTileRow(isOn: Bindable(plan).removesDockTiles)
+        let resets = !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty
+        let removesTiles = !plan.appsInTheDock.isDisjoint(with: plan.selectable)
+        if resets || removesTiles {
+            // Side by side while they fit, and the second on a line of its own when they don't.
+            FlowLayout(spacing: 24) {
+                if resets {
+                    PrivacyResetOption(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
+                }
+                if removesTiles {
+                    DockTileOption(isOn: Bindable(plan).removesDockTiles)
+                }
+            }
+            .padding(.vertical, 8)
+            .listRowSeparator(.hidden)
         }
     }
 }

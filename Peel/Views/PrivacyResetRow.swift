@@ -8,11 +8,7 @@ struct PrivacyResetRow: View {
 
     var body: some View {
         HStack(spacing: 5) {
-            Toggle(isOn: $isOn) {
-                Text("Also reset privacy permissions")
-            }
-            .toggleStyle(.checkbox)
-            InfoNote(name: String(localized: "Reset privacy permissions"), detail: detail)
+            PrivacyResetOption(isOn: $isOn, detail: detail)
             Spacer(minLength: 0)
         }
         .padding(.vertical, 8)
@@ -23,5 +19,21 @@ struct PrivacyResetRow: View {
     /// through Launch Services, which can't find it once it is in the Trash.
     static var beforeTheMove: Text {
         Text("macOS remembers what an app was allowed to access, such as the camera or the microphone, and keeps that after the app is gone. If this is selected, Peel clears it just before the app goes to the Trash, the last moment macOS can still find the app, so the app asks you again if you install it later. This happens only if the app itself is selected.")
+    }
+}
+
+/// The checkbox and its circled i, for a row of their own or beside another option.
+struct PrivacyResetOption: View {
+    @Binding var isOn: Bool
+    let detail: Text
+
+    var body: some View {
+        HStack(spacing: 5) {
+            Toggle(isOn: $isOn) {
+                Text("Also reset privacy permissions")
+            }
+            .toggleStyle(.checkbox)
+            InfoNote(name: String(localized: "Reset privacy permissions"), detail: detail)
+        }
     }
 }
