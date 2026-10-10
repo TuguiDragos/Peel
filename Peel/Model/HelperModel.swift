@@ -9,7 +9,6 @@ final class HelperModel {
     private(set) var status = PrivilegedHelper.status
     private(set) var changing: Action?
     private(set) var isResponding: Bool?
-    var failure: Failure?
 
     struct Failure {
         let action: Action
@@ -63,32 +62,29 @@ final class HelperModel {
     /// Registers the helper, and opens Login Items settings when it needs the user's approval. Per
     /// `SMAppService.h`, registering a service that is already registered, or not approved by the user,
     /// throws an error. Neither is reported as a failure, since the status says what happened.
-    func install() async {
-        guard !isChanging else { return }
+    func install() async -> Failure? {
+        guard !isChanging else { return nil }
         let error = await change(.install) { try await PrivilegedHelper.register() }
-        if let error, status != .requiresApproval, status != .enabled {
-            failure = Failure(action: .install, reason: error.localizedDescription)
-        }
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
+        guard let error, status != .requiresApproval, status != .enabled else { return nil }
+        return Failure(action: .install, reason: error.localizedDescription)
     }
 
-    func repair() async {
-        guard !isChanging else { return }
-        if let error = await change(.repair, { try await PrivilegedHelper.repair() }) {
-            failure = Failure(action: .repair, reason: error.localizedDescription)
-        }
+    func repair() async -> Failure? {
+        guard !isChanging else { return nil }
+        let error = await change(.repair) { try await PrivilegedHelper.repair() }
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
+        return error.map { Failure(action: .repair, reason: $0.localizedDescription) }
     }
 
-    func uninstall() async {
-        guard !isChanging else { return }
-        if let error = await change(.uninstall, { try await PrivilegedHelper.unregister() }) {
-            failure = Failure(action: .uninstall, reason: error.localizedDescription)
-        }
+    func uninstall() async -> Failure? {
+        guard !isChanging else { return nil }
+        let error = await change(.uninstall) { try await PrivilegedHelper.unregister() }
+        return error.map { Failure(action: .uninstall, reason: $0.localizedDescription) }
     }
 
     /// Runs a change of the helper's registration and answers the error it threw, if any. Nothing about the helper

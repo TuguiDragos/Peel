@@ -8,6 +8,7 @@ struct HomePermissionsContent: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.openSettings) private var openSettings
     @State private var pointingAt: HomeModel.Permission?
+    @State private var helperFailure: HelperModel.Failure?
 
     static let markSize: CGFloat = 36
     /// A whole number of points, so the mark's body (30) and edge (3 on each side) fall on whole pixels at
@@ -41,6 +42,7 @@ struct HomePermissionsContent: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .motion(value: home.states)
         .motion(value: helper.changing)
+        .helperFailureAlert($helperFailure)
     }
 
     /// A card for one section, laid out as a grid so the states line up in one column and the actions in
@@ -304,9 +306,9 @@ struct HomePermissionsContent: View {
             if state == .pending {
                 home.openLoginItemsSettings()
             } else if helper.standing == .notAnswering {
-                Task { await helper.repair() }
+                Task { helperFailure = await helper.repair() }
             } else {
-                Task { await helper.install() }
+                Task { helperFailure = await helper.install() }
             }
         case .notifications: Task { await home.requestNotifications() }
         case .fullDiskAccess, .appManagement, .finderExtension, .openAtLogin: reveal(permission)

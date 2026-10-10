@@ -622,6 +622,7 @@ extension GeneralSettingsView {
 
 private struct HelperSettingsView: View {
     @Environment(HelperModel.self) private var helper
+    @State private var failure: HelperModel.Failure?
 
     /// The helper's buttons have no label beside them, so each is centered in its row.
     var body: some View {
@@ -645,7 +646,7 @@ private struct HelperSettingsView: View {
                 switch helper.standing {
                 case .notInstalled:
                     Button("Install Helper", systemImage: "lock.shield") {
-                        Task { await helper.install() }
+                        Task { failure = await helper.install() }
                     }
                     .disabled(helper.isChanging)
                     .centeredInRow()
@@ -670,7 +671,7 @@ private struct HelperSettingsView: View {
                     Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
                         .font(.callout)
                     Button("Repair Helper", systemImage: "arrow.clockwise") {
-                        Task { await helper.repair() }
+                        Task { failure = await helper.repair() }
                     }
                     .disabled(helper.isChanging)
                     .centeredInRow()
@@ -685,16 +686,12 @@ private struct HelperSettingsView: View {
         .task {
             await helper.checkConnection()
         }
-        .alert(helperFailureTitle, isPresented: isShowingFailure) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(verbatim: helper.failure?.reason ?? "")
-        }
+        .helperFailureAlert($failure)
     }
 
     private var uninstallButton: some View {
         Button("Uninstall Helper", systemImage: "trash", role: .destructive) {
-            Task { await helper.uninstall() }
+            Task { failure = await helper.uninstall() }
         }
         .disabled(helper.isChanging)
         .centeredInRow()
@@ -720,21 +717,5 @@ private struct HelperSettingsView: View {
                 state("Not installed", "minus.circle", .secondary)
             }
         }
-    }
-
-    private var helperFailureTitle: Text {
-        switch helper.failure?.action {
-        case .install: Text("The helper couldn’t be installed.")
-        case .repair: Text("The helper couldn’t be repaired.")
-        case .uninstall: Text("The helper couldn’t be uninstalled.")
-        case nil: Text(verbatim: "")
-        }
-    }
-
-    private var isShowingFailure: Binding<Bool> {
-        Binding(
-            get: { helper.failure != nil },
-            set: { if !$0 { helper.failure = nil } }
-        )
     }
 }

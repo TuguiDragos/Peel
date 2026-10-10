@@ -72,14 +72,14 @@ final class SelfUninstall {
                 links = await TrashService(exclusions: exclusions).trash(own, usingHelperFor: Set(own))
             }
             ledger = await PrivilegedHelper.moveLedgerToTrash()
-            await helper.uninstall()
+            let helperFailure = await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {
                 work.resume()
                 if !links.trashed.isEmpty {
                     await record(TrashResult(trashed: links.trashed))
                 }
-                let reason = helper.failure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+                let reason = helperFailure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
                 failure = ledger == .moved ? "\(reason)\n\n\(Self.ledgerInTheTrash)" : reason
                 return
             }
