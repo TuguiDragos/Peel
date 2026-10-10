@@ -39,10 +39,6 @@ final class HelperModel {
     private(set) var isRegisteredByAnotherCopy = false
     private(set) var hasChecked = false
 
-    func refresh() {
-        status = PrivilegedHelper.status
-    }
-
     private var checks = OverlappingChecks()
 
     func checkConnection() async {
@@ -64,55 +60,46 @@ final class HelperModel {
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async {
         guard !isChanging else { return }
-        isChanging = true
-        defer { isChanging = false }
-        checks.changeStarts()
-        do {
-            try await PrivilegedHelper.register()
-        } catch {
-            refresh()
-            if status != .requiresApproval, status != .enabled {
-                failure = Failure(action: .install, reason: error.localizedDescription)
-            }
+        let error = await change { try await PrivilegedHelper.register() }
+        if let error, status != .requiresApproval, status != .enabled {
+            failure = Failure(action: .install, reason: error.localizedDescription)
         }
-        checks.changeEnds()
-        refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        await checkConnection()
     }
 
     func repair() async {
         guard !isChanging else { return }
-        isChanging = true
-        defer { isChanging = false }
-        checks.changeStarts()
-        do {
-            try await PrivilegedHelper.repair()
-        } catch {
+        if let error = await change({ try await PrivilegedHelper.repair() }) {
             failure = Failure(action: .repair, reason: error.localizedDescription)
         }
-        checks.changeEnds()
-        refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        await checkConnection()
     }
 
     func uninstall() async {
         guard !isChanging else { return }
+        if let error = await change({ try await PrivilegedHelper.unregister() }) {
+            failure = Failure(action: .uninstall, reason: error.localizedDescription)
+        }
+    }
+
+    /// Runs a change of the helper's registration and answers the error it threw, if any. Nothing about the helper
+    /// shows while it runs, and what it leaves shows only through the check that follows it.
+    private func change(_ body: () async throws -> Void) async -> (any Error)? {
         isChanging = true
         defer { isChanging = false }
         checks.changeStarts()
+        var error: (any Error)?
         do {
-            try await PrivilegedHelper.unregister()
-        } catch {
-            failure = Failure(action: .uninstall, reason: error.localizedDescription)
+            try await body()
+        } catch let thrown {
+            error = thrown
         }
         checks.changeEnds()
-        refresh()
         await checkConnection()
+        return error
     }
 }
