@@ -70,6 +70,8 @@ final class HomeModel {
         case pending
         /// Only an administrator account can use it, so this account has nothing to set up here.
         case notThisAccount
+        /// The helper's row until the helper's first answer, which can take the whole of its wait.
+        case checking
 
         var isMissing: Bool { self == .missing }
     }
@@ -98,7 +100,8 @@ final class HomeModel {
     private(set) var needsRelaunchForFullDiskAccess = false
     /// Peel could not open a fresh copy of itself, so it stayed.
     var couldNotRelaunch = false
-    /// False until the first check finishes. Until then no state is shown, so the panel never flashes a wrong one.
+    /// False until the first check finishes. Until then no state is shown, so the panel never flashes a wrong one. The
+    /// helper's row is checked apart and says so until its own answer.
     private(set) var hasChecked = false
     private var hasOpenedFullDiskAccessSettings = false
 
@@ -123,6 +126,10 @@ final class HomeModel {
         states[permission] ?? .pending
     }
 
+    var isStillChecking: Bool {
+        states.values.contains(.checking)
+    }
+
     /// Reads again what Home shows: the Mac's details and the state of every permission. One call runs at a
     /// time, since two overlapping calls would both find nothing read yet, and a call made meanwhile, such as the
     /// one after the helper is installed, runs once more when it ends.
@@ -145,11 +152,8 @@ final class HomeModel {
             }
         }
         async let access = FullDiskAccess.state()
+        async let helperChecked: Void = helper.checkConnection()
 
-        await helper.checkConnection()
-        helperStanding = helper.standing
-        isHelperResponding = helper.isResponding
-        isHelperFromAnotherCopy = helper.isRegisteredByAnotherCopy
         notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
         let isFinderExtensionEnabled = await Self.isFinderExtensionEnabled()
         isFinderExtensionFromAnotherCopy =
@@ -160,7 +164,7 @@ final class HomeModel {
         let opensAtLogin = await Self.opensAtLogin()
         states = [
             .fullDiskAccess: state(for: fullDisk),
-            .helper: helperState,
+            .helper: states[.helper] ?? .checking,
             .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
@@ -168,6 +172,12 @@ final class HomeModel {
             .commandLine: CommandLineTool.isOnThePath(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")) ? .on : .off,
         ]
         hasChecked = true
+
+        await helperChecked
+        helperStanding = helper.standing
+        isHelperResponding = helper.isResponding
+        isHelperFromAnotherCopy = helper.isRegisteredByAnotherCopy
+        states[.helper] = helperState
 
         // Free space is read every time, since it is how the user sees that a cleanup worked.
         if !isFirstRead, let device {

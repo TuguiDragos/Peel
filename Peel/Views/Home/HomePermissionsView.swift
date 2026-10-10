@@ -265,10 +265,14 @@ struct HomePermissionsContent: View {
                     .foregroundStyle(Album.orange)
                     .frame(width: 26, height: 26)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(home.hasChecked ? "You’re all set" : "Checking what Peel can reach")
+                    Text(home.hasChecked && !home.isStillChecking ? "You’re all set" : "Checking what Peel can reach")
                         .font(.system(size: 12.5, weight: .bold, design: .rounded))
                         .foregroundStyle(Album.ink)
-                    Text(home.hasChecked ? "Peel can see everything it needs to." : "Asking macOS what is allowed.")
+                    Text(
+                        home.hasChecked && !home.isStillChecking
+                            ? "Peel can see everything it needs to."
+                            : "Asking macOS what is allowed."
+                    )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -319,6 +323,7 @@ fileprivate extension HomeModel {
     func status(of permission: Permission) -> LocalizedStringResource {
         guard hasChecked else { return "Checking…" }
         return switch (permission, state(of: permission)) {
+        case (_, .checking): "Checking…"
         case (.helper, .missing):
             if isHelperResponding == false {
                 "Not answering"
@@ -348,7 +353,7 @@ fileprivate extension HomeModel {
         case .fullDiskAccess: return state == .on ? nil : "Open System Settings"
         case .helper:
             switch state {
-            case .on, .notThisAccount: return nil
+            case .on, .notThisAccount, .checking: return nil
             case .pending: return "Open System Settings"
             case .missing, .off: return isHelperResponding == false ? "Repair" : "Install"
             }
