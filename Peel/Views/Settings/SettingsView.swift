@@ -702,17 +702,21 @@ private struct HelperSettingsView: View {
 
     @ViewBuilder
     private var statusBadge: some View {
-        switch helper.standing {
-        case .notThisAccount:
-            state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
-        case .notAnswering:
-            state("Not answering", "exclamationmark.triangle", .orange)
-        case .ready:
-            state("Installed", "checkmark.circle", .green)
-        case .waitingForApproval:
-            state("Needs approval, or was turned off", "clock", .orange)
-        case .notInstalled:
-            state("Not installed", "minus.circle", .secondary)
+        if !helper.hasChecked {
+            state("Checking…", "hourglass", .secondary)
+        } else {
+            switch helper.standing {
+            case .notThisAccount:
+                state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
+            case .notAnswering:
+                state("Not answering", "exclamationmark.triangle", .orange)
+            case .ready:
+                state("Installed", "checkmark.circle", .green)
+            case .waitingForApproval:
+                state("Needs approval, or was turned off", "clock", .orange)
+            case .notInstalled:
+                state("Not installed", "minus.circle", .secondary)
+            }
         }
     }
 
