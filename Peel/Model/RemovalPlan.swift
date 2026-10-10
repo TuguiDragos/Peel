@@ -13,6 +13,9 @@ final class RemovalPlan {
     /// The question before a removal, and the removal it starts.
     let question = RemovalQuestion()
     var isRemoving: Bool { question.isRemoving }
+    /// The options of the removal, kept here rather than in the page, so a click updates only the option's own row.
+    var resetsPrivacy = false
+    var removesDockTile = true
     /// The kinds of files and links this app opens by default, so the page can say which app opens them once
     /// it is gone.
     private(set) var defaultRoles: [DefaultRole] = []

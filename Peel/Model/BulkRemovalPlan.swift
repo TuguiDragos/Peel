@@ -14,6 +14,9 @@ final class BulkRemovalPlan {
     /// The question before a removal, and the removal it starts.
     let question = RemovalQuestion()
     var isRemoving: Bool { question.isRemoving }
+    /// The options of the removal, kept here rather than in the page, so a click updates only the option's own row.
+    var resetsPrivacy = false
+    var removesDockTiles = true
     /// Every installed app as of the last scan, to tell a chosen app's processes from another installed app's.
     private var installedApps: [InstalledApp] = []
     var selectedURLs: Set<URL> = [] {

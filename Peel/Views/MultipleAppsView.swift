@@ -9,9 +9,7 @@ struct MultipleAppsView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var plan: BulkRemovalPlan
     @State private var quitting = QuitBeforeRemoving()
-    @State private var resetsPrivacy = false
     @State private var progress = MoveProgress()
-    @State private var removesDockTiles = true
     @State private var isRescanning = false
     @State private var questionTitle = Text(verbatim: "")
     @State private var questionNote = Text(verbatim: "")
@@ -37,12 +35,7 @@ struct MultipleAppsView: View {
                     HelperRequiredBanner()
                 }
                 // Here, above the lists, so they are seen before Move to Trash however long the lists run.
-                if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
-                    PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
-                }
-                if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
-                    DockTileRow(isOn: $removesDockTiles)
-                }
+                BulkRemovalOptions(plan: plan)
 
                 Section {
                     RemovalColumnHeaders()
@@ -318,7 +311,8 @@ struct MultipleAppsView: View {
 
     /// The apps whose privacy permissions a removal of `urls` resets.
     private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
-        resetsPrivacy ? PrivacyReset.apps(among: plan.apps, moving: urls) : []
+        guard !urls.isEmpty, plan.resetsPrivacy else { return [] }
+        return PrivacyReset.apps(among: plan.apps, moving: urls)
     }
 
     /// Asks the question once the apps have quit, since none of their files moves while they run, and after scanning
@@ -356,7 +350,7 @@ struct MultipleAppsView: View {
                 let result = await plan.move(request)
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
                 outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
-                if removesDockTiles {
+                if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))
                     // Asked of every app that moved, since one opened after the last scan has a tile now.
                     let apps = plan.apps.map(\.url).filter(moved.contains).sorted { $0.path < $1.path }
@@ -405,5 +399,20 @@ private struct AppStack: View {
         }
         .frame(width: 86, height: 76)
         .accessibilityHidden(true)
+    }
+}
+
+/// The options of the apps' removal, in a view of their own: a binding reads its value where it is made, so one made
+/// in the page's body would build the whole page, every row of its lists, again with every click.
+private struct BulkRemovalOptions: View {
+    let plan: BulkRemovalPlan
+
+    var body: some View {
+        if !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty {
+            PrivacyResetRow(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
+        }
+        if !plan.appsInTheDock.isDisjoint(with: plan.selectable) {
+            DockTileRow(isOn: Bindable(plan).removesDockTiles)
+        }
     }
 }

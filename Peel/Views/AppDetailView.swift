@@ -11,9 +11,7 @@ struct AppDetailView: View {
     @State private var quitting = QuitBeforeRemoving()
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
-    @State private var resetsPrivacy = false
     @State private var progress = MoveProgress()
-    @State private var removesDockTile = true
     @State private var isConfirmingPrivacyReset = false
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
     @State private var privacyReset: PrivacyReset.Result?
@@ -180,12 +178,7 @@ struct AppDetailView: View {
 
                     recommendedSection
                     reviewSection
-                    if !PrivacyReset.apps(among: [plan.app], moving: plan.selectable).isEmpty {
-                        PrivacyResetRow(isOn: $resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
-                    }
-                    if plan.hasDockTile, plan.selectable.contains(plan.app.url) {
-                        DockTileRow(isOn: $removesDockTile)
-                    }
+                    AppRemovalOptions(plan: plan)
                     defaultsSection
                     PackageReceiptSection(plan: plan, rescan: rescan)
                 }
@@ -427,7 +420,8 @@ struct AppDetailView: View {
 
     /// The app, when a removal of `urls` resets its privacy permissions.
     private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
-        resetsPrivacy ? PrivacyReset.apps(among: [plan.app], moving: urls) : []
+        guard !urls.isEmpty, plan.resetsPrivacy else { return [] }
+        return PrivacyReset.apps(among: [plan.app], moving: urls)
     }
 
     /// The confirmation's message: the privacy reset, which History can't undo, an app that uninstalls itself once
@@ -486,7 +480,7 @@ struct AppDetailView: View {
                 let result = await plan.move(request)
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
                 outcome.report(result, privacy: privacy, keptTheirFiles: keptItsFiles ? [plan.app.name] : [])
-                if removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
+                if plan.removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
                     _ = await DockTiles().takeOut([plan.app.url])
                 }
                 if let state = AppManagement.state(
@@ -510,6 +504,21 @@ struct AppDetailView: View {
                 casks: homebrew.caskEvidence,
                 receipts: homebrew.receipts
             )
+        }
+    }
+}
+
+/// The options of the app's removal, in a view of their own: a binding reads its value where it is made, so one made
+/// in the page's body would build the whole page again with every click.
+private struct AppRemovalOptions: View {
+    let plan: RemovalPlan
+
+    var body: some View {
+        if !PrivacyReset.apps(among: [plan.app], moving: plan.selectable).isEmpty {
+            PrivacyResetRow(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
+        }
+        if plan.hasDockTile, plan.selectable.contains(plan.app.url) {
+            DockTileRow(isOn: Bindable(plan).removesDockTile)
         }
     }
 }
