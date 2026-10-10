@@ -200,6 +200,11 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **A program's end is learned from the kernel.** `NSRunningApplication.isTerminated` isn't always updated once an
   app has quit, so `ProcessEnds` watches the kernel's report of the process ending, set up before Peel asks the app
   to quit.
+- **Only Finder removes an app's system extension.** macOS drops its hold on the extension when Finder moves the
+  app that carries it, and removes the extension at the next restart; a move by any other app tells macOS nothing.
+  So an uninstall never claims a `.systemextension`, an app carrying one macOS installed is left to Finder
+  (`RemovedElsewhere.byFinder`), and Orphaned Files says why the copy in `/Library/SystemExtensions` stays
+  (`HoldBack.systemExtension`).
 - **Homebrew warns on stderr and still exits 0**, and JSON with a warning after it is no longer JSON. An answer
   Peel reads comes from standard output alone (`Homebrew.Attempt`), while what the person is shown keeps both
   streams, in the order Homebrew wrote them.
@@ -281,6 +286,11 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - **A failure is a state of its own, never read from "not running".** A setting flipped in one place and the work
   it starts in an `onChange` elsewhere leave a moment where the model still says off, so a warning that something
   failed waits for a real failure (`TrashMonitor`'s `unavailable`).
+- **A fact is read from the model that owns it, never from a copy.** A copy taken at a model's own reads shows the
+  old state until it reads again, so `HomeModel` reads the helper's state from `HelperModel`. While the fact changes,
+  say what runs and show nothing half done: what the change left appears in one step, once a whole check has it
+  (`HelperModel.change`). A failure goes back to whoever asked for the change and is shown there alone
+  (`HelperFailureAlert`).
 
 ## Words and translations
 
