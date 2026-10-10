@@ -3,7 +3,6 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(HomeModel.self) private var home
-    @Environment(HelperModel.self) private var helper
     @State private var isRescanning = false
     /// The narrowest width that fits both halves side by side: the left half (360) and the narrowest width the
     /// permissions read well at (480, which `HomeSnapshot` also renders).
@@ -39,7 +38,7 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning) {
-                    await home.refresh(helper: helper)
+                    await home.refresh()
                 }
             }
         }

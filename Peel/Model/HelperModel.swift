@@ -37,6 +37,7 @@ final class HelperModel {
     /// so a second copy (in a build folder, or a download beside the one in Applications) reads "not installed"
     /// while the first copy's helper is there. This lets it say why.
     private(set) var isRegisteredByAnotherCopy = false
+    private(set) var hasChecked = false
 
     func refresh() {
         status = PrivilegedHelper.status
@@ -55,6 +56,7 @@ final class HelperModel {
         self.status = status
         self.isResponding = isResponding
         self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
+        hasChecked = true
     }
 
     /// Registers the helper, and opens Login Items settings when it needs the user's approval. Per

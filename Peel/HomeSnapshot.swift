@@ -12,12 +12,12 @@ enum HomeSnapshot {
 
     static func runIfRequested() async {
         guard let directory else { return }
-        let home = HomeModel()
         let helper = HelperModel()
+        let home = HomeModel(helper: helper)
         let stats = LifetimeStats()
         let found = FoundLastTimeStore()
         let homebrew = HomebrewLibrary()
-        await home.refresh(helper: helper)
+        await home.refresh()
         await ExclusionsStore.shared.load()
         let window = Color(nsColor: .windowBackgroundColor)
         for scheme in [ColorScheme.light, .dark] {

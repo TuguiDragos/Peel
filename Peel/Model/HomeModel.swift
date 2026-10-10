@@ -70,7 +70,7 @@ final class HomeModel {
         case pending
         /// Only an administrator account can use it, so this account has nothing to set up here.
         case notThisAccount
-        /// The helper's row until the helper's first answer, which can take the whole of its wait.
+        /// The helper's row until the helper is first checked, which can take the whole of the check's wait.
         case checking
 
         var isMissing: Bool { self == .missing }
@@ -79,17 +79,14 @@ final class HomeModel {
     private static let appManagementKey = "appManagementState"
     private static let modelNameKey = "modelName."
 
+    let helper: HelperModel
     private(set) var device: DeviceInfo?
-    /// A helper is registered, but by another copy of Peel, and this copy cannot talk to it.
-    private(set) var isHelperFromAnotherCopy = false
     /// The Finder extension is on, but macOS runs the one inside another copy of Peel, so this copy reads it as off.
     private(set) var isFinderExtensionFromAnotherCopy = false
     private let refreshes = OneRunAtATime()
     private var isReadingModelName = false
     private(set) var greeting = Greeting.at(.now)
-    private(set) var states: [Permission: State] = [:]
-    private(set) var helperStanding = PrivilegedHelper.Standing.notInstalled
-    private(set) var isHelperResponding: Bool?
+    private var found: [Permission: State] = [:]
     private(set) var notificationStatus: UNAuthorizationStatus = .notDetermined
     private(set) var appManagement: AccessState = .unknown
     /// The App Management state a removal revealed since Peel opened. That answer came from macOS itself,
@@ -105,8 +102,18 @@ final class HomeModel {
     private(set) var hasChecked = false
     private var hasOpenedFullDiskAccessSettings = false
 
-    init() {
+    init(helper: HelperModel) {
+        self.helper = helper
         appManagement = AccessState(stored: UserDefaults.standard.string(forKey: Self.appManagementKey))
+    }
+
+    /// What each row shows. The helper's row is the helper model's, as it changes, from Home's first read on.
+    var states: [Permission: State] {
+        var states = found
+        if hasChecked {
+            states[.helper] = helperState
+        }
+        return states
     }
 
     var missingRequired: [Permission] {
@@ -132,15 +139,15 @@ final class HomeModel {
 
     /// Reads again what Home shows: the Mac's details and the state of every permission. One call runs at a
     /// time, since two overlapping calls would both find nothing read yet, and a call made meanwhile, such as the
-    /// one after the helper is installed, runs once more when it ends.
-    func refresh(helper: HelperModel) async {
-        await refreshes.run { await read(helper: helper) }
+    /// one when Peel comes forward, runs once more when it ends.
+    func refresh() async {
+        await refreshes.run { await read() }
         // The model's marketing name is the only slow part (a `system_profiler` process), so it is read outside
         // the runs, which it would otherwise hold up.
         await readModelName()
     }
 
-    private func read(helper: HelperModel) async {
+    private func read() async {
         greeting = .at(.now)
         // The card needs none of the checks below, so it is read first and arrives with the window.
         let isFirstRead = device == nil
@@ -162,9 +169,8 @@ final class HomeModel {
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
         let opensAtLogin = await Self.opensAtLogin()
-        states = [
+        found = [
             .fullDiskAccess: state(for: fullDisk),
-            .helper: states[.helper] ?? .checking,
             .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
@@ -174,10 +180,6 @@ final class HomeModel {
         hasChecked = true
 
         await helperChecked
-        helperStanding = helper.standing
-        isHelperResponding = helper.isResponding
-        isHelperFromAnotherCopy = helper.isRegisteredByAnotherCopy
-        states[.helper] = helperState
 
         // Free space is read every time, since it is how the user sees that a cleanup worked.
         if !isFirstRead, let device {
@@ -213,7 +215,7 @@ final class HomeModel {
         guard state != appManagement else { return }
         appManagement = state
         UserDefaults.standard.set(state.stored, forKey: Self.appManagementKey)
-        states[.appManagement] = self.state(for: state)
+        found[.appManagement] = self.state(for: state)
     }
 
     func openFullDiskAccessSettings() {
@@ -227,7 +229,7 @@ final class HomeModel {
         appManagementSeenThisLaunch = nil
         appManagement = .unknown
         UserDefaults.standard.removeObject(forKey: Self.appManagementKey)
-        states[.appManagement] = state(for: .unknown)
+        found[.appManagement] = state(for: .unknown)
         NSWorkspace.shared.open(AppManagement.settingsURL)
     }
 
@@ -251,7 +253,7 @@ final class HomeModel {
         }
         _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert])
         notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
-        states[.notifications] = notificationStatus == .authorized ? .on : .off
+        found[.notifications] = notificationStatus == .authorized ? .on : .off
     }
 
     func openFinderExtensionSettings() {
@@ -296,7 +298,8 @@ final class HomeModel {
     /// The helper serves administrator accounts only, so on a standard account it is not missing: there is
     /// nothing for this account to install.
     private var helperState: State {
-        switch helperStanding {
+        guard helper.hasChecked else { return .checking }
+        return switch helper.standing {
         case .ready: .on
         case .waitingForApproval: .pending
         case .notInstalled, .notAnswering: .missing

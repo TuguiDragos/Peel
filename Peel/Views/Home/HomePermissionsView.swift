@@ -225,7 +225,7 @@ struct HomePermissionsContent: View {
             }
         } else if home.needsAttention {
             let notice = MissingPermissionsNotice(
-                helper: home.helperStanding,
+                helper: helper.standing,
                 othersMissing: home.missingRequired.contains { $0 != .helper }
             )
             let toSetUp = home.missingRequired.filter { notice == .setUp || $0 != .helper }
@@ -297,19 +297,13 @@ struct HomePermissionsContent: View {
         switch permission {
         case .helper:
             // Registering a helper that is already registered returns an error (`SMAppService.h`), so one
-            // that is registered but does not answer is repaired instead. The row is checked again afterwards.
+            // that is registered but does not answer is repaired instead.
             if state == .pending {
                 home.openLoginItemsSettings()
-            } else if home.isHelperResponding == false {
-                Task {
-                    await helper.repair()
-                    await home.refresh(helper: helper)
-                }
+            } else if helper.standing == .notAnswering {
+                Task { await helper.repair() }
             } else {
-                Task {
-                    await helper.install()
-                    await home.refresh(helper: helper)
-                }
+                Task { await helper.install() }
             }
         case .notifications: Task { await home.requestNotifications() }
         case .fullDiskAccess, .appManagement, .finderExtension, .openAtLogin: reveal(permission)
@@ -325,9 +319,9 @@ fileprivate extension HomeModel {
         return switch (permission, state(of: permission)) {
         case (_, .checking): "Checking…"
         case (.helper, .missing):
-            if isHelperResponding == false {
+            if helper.standing == .notAnswering {
                 "Not answering"
-            } else if isHelperFromAnotherCopy {
+            } else if helper.isRegisteredByAnotherCopy {
                 // The helper belongs to the bundle that registered it, and that is not this one.
                 "Installed by another copy of Peel"
             } else {
@@ -355,7 +349,7 @@ fileprivate extension HomeModel {
             switch state {
             case .on, .notThisAccount, .checking: return nil
             case .pending: return "Open System Settings"
-            case .missing, .off: return isHelperResponding == false ? "Repair" : "Install"
+            case .missing, .off: return helper.standing == .notAnswering ? "Repair" : "Install"
             }
         case .appManagement: return state == .on ? nil : "Open System Settings"
         // The optional rows open System Settings from their name, so they need no button. Notifications has

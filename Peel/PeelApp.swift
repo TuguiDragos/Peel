@@ -52,9 +52,9 @@ struct PeelApp: App {
     @State private var fileSearch: FileSearchLibrary
     @State private var plugins = PluginLibrary()
     @State private var homebrew = HomebrewLibrary()
-    @State private var helper = HelperModel()
+    @State private var helper: HelperModel
     @State private var updater = PeelUpdater()
-    @State private var home = HomeModel()
+    @State private var home: HomeModel
     @State private var history: RemovalHistoryStore
     @State private var outcome: RemovalOutcome
     @State private var intel = IntelLibrary()
@@ -75,6 +75,9 @@ struct PeelApp: App {
         let notifications = PeelNotifications()
         notifications.activate()
         _notifications = State(initialValue: notifications)
+        let helper = HelperModel()
+        _helper = State(initialValue: helper)
+        _home = State(initialValue: HomeModel(helper: helper))
 
         let (library, history, outcome) = (AppLibrary(), RemovalHistoryStore(), RemovalOutcome())
         let (orphans, space, developer, projects) = (
@@ -181,7 +184,7 @@ struct PeelApp: App {
             homebrew.checkInstalled()
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one. They read the helper's status again too.
-            Task { await home.refresh(helper: helper) }
+            Task { await home.refresh() }
             Task {
                 // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
                 // one reports what changed, and it may be this one rather than the folder watcher's.
@@ -291,7 +294,7 @@ struct PeelApp: App {
         async let apps: Void = Marks.interval("Applications") { await library.load() }
         // Home's checks run at launch, whichever page opens first. They ask the helper whether it can act,
         // which every page reads to lock the rows that need it.
-        await Marks.interval("Home checks") { await home.refresh(helper: helper) }
+        await Marks.interval("Home checks") { await home.refresh() }
         await exclusionsRead
         trashMonitor.onApplicationTrashed = { [notifications] url in
             notifications.notify(applicationTrashed: url)
