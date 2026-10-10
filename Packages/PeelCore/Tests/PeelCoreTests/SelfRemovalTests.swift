@@ -3,6 +3,16 @@ import Foundation
 import PeelPrivileged
 import Testing
 
+private actor HelperRequests {
+    private(set) var sent: [URL] = []
+    private(set) var ledgerMoves = 0
+    private(set) var questions = 0
+
+    func send(_ urls: [URL]) { sent += urls }
+    func moveLedger() { ledgerMoves += 1 }
+    func ask() { questions += 1 }
+}
+
 struct SelfRemovalTests {
     private func service(
         in directory: borrowing TemporaryDirectory,
@@ -22,6 +32,109 @@ struct SelfRemovalTests {
 
     private func paths(_ urls: [URL]) -> Set<String> {
         Set(urls.map(PathPattern.comparablePath))
+    }
+
+    private func service(
+        in directory: borrowing TemporaryDirectory,
+        sendingTo requests: HelperRequests
+    ) throws -> TrashService {
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        return TrashService(environment: environment, moveThroughHelper: { urls in
+            await requests.send(urls)
+            return TrashResult(trashed: urls.map {
+                TrashedItem(originalURL: $0, trashedURL: trash.appending(path: $0.lastPathComponent), date: .now)
+            })
+        }) { url in
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+    }
+
+    @Test func aHelperThatDoesNotAnswerIsSentNothingAndItsLinkAndLedgerStay() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+        let link = try directory.file("home/bin/peel")
+        let ledger = try directory.directory("root/var/db/org.example.helper")
+
+        let (links, moved) = await SelfRemoval.beforeTheHelperGoes(
+            links: [link],
+            helperIsEnabled: true,
+            using: try service(in: directory, sendingTo: requests),
+            answers: { false },
+            moveLedger: { await requests.moveLedger(); return .moved },
+            ledger: ledger
+        )
+
+        #expect(await requests.sent.isEmpty)
+        #expect(await requests.ledgerMoves == 0)
+        #expect(links.trashed.isEmpty)
+        #expect(links.failures == [TrashFailure(url: link, reason: .failed(PrivilegedHelper.unavailable))])
+        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.unavailable))))
+    }
+
+    @Test func aHelperWaitingForApprovalIsNotAskedAndItsLedgerStays() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+        let link = try directory.file("home/bin/peel")
+        let ledger = try directory.directory("root/var/db/org.example.helper")
+
+        let (links, moved) = await SelfRemoval.beforeTheHelperGoes(
+            links: [link],
+            helperIsEnabled: false,
+            using: try service(in: directory, sendingTo: requests),
+            answers: { await requests.ask(); return true },
+            moveLedger: { await requests.moveLedger(); return .moved },
+            ledger: ledger
+        )
+
+        #expect(await requests.questions == 0)
+        #expect(await requests.sent.isEmpty)
+        #expect(await requests.ledgerMoves == 0)
+        #expect(links.trashed.isEmpty && links.failures.isEmpty)
+        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.unavailable))))
+    }
+
+    @Test func withNoLedgerNoneStaysWhenTheHelperDoesNotAnswer() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+
+        let (_, moved) = await SelfRemoval.beforeTheHelperGoes(
+            links: [],
+            helperIsEnabled: true,
+            using: try service(in: directory, sendingTo: requests),
+            answers: { false },
+            moveLedger: { await requests.moveLedger(); return .moved },
+            ledger: directory.url.appending(path: "root/var/db/org.example.helper", directoryHint: .isDirectory)
+        )
+
+        #expect(moved == .none)
+        #expect(await requests.ledgerMoves == 0)
+    }
+
+    @Test func aHelperThatAnswersMovesTheLinkAndItsLedger() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+        let link = try directory.file("home/bin/peel")
+        let ledger = try directory.directory("root/var/db/org.example.helper")
+
+        let (links, moved) = await SelfRemoval.beforeTheHelperGoes(
+            links: [link],
+            helperIsEnabled: true,
+            using: try service(in: directory, sendingTo: requests),
+            answers: { true },
+            moveLedger: { await requests.moveLedger(); return .moved },
+            ledger: ledger
+        )
+
+        #expect(paths(await requests.sent) == paths([link]))
+        #expect(paths(links.trashed.map(\.originalURL)) == paths([link]))
+        #expect(moved == .moved)
+        #expect(await requests.ledgerMoves == 1)
     }
 
     /// History lives in the folder, so it is written first and goes with it.

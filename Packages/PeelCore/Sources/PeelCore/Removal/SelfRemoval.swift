@@ -44,6 +44,27 @@ public enum SelfRemoval {
         return result
     }
 
+    /// Has the helper take Peel's own links in the root folders and its ledger before it is unregistered, asking it
+    /// once first: a helper that cannot start would keep each request waiting, so then nothing is sent and both stay.
+    public static func beforeTheHelperGoes(
+        links: [URL],
+        helperIsEnabled: Bool,
+        using service: TrashService,
+        answers: () async -> Bool = { await PrivilegedHelper.isResponding() },
+        moveLedger: () async -> PrivilegedHelper.LedgerMove = { await PrivilegedHelper.moveLedgerToTrash() },
+        ledger: URL = PrivilegedHelper.ledgerFolder
+    ) async -> (links: TrashResult, ledger: PrivilegedHelper.LedgerMove) {
+        guard helperIsEnabled, await answers() else {
+            let unanswered = TrashFailure.Reason.failed(PrivilegedHelper.unavailable)
+            let left = helperIsEnabled ? links.map { TrashFailure(url: $0, reason: unanswered) } : []
+            return (
+                TrashResult(failures: left),
+                ledger.isThere ? .stayed(TrashFailure(url: ledger, reason: unanswered)) : .none
+            )
+        }
+        return (await service.trash(links, usingHelperFor: Set(links)), await moveLedger())
+    }
+
     /// Gathers everything in `folder` but `kept` into a folder named Peel inside it, so the Trash shows Peel's files
     /// as one item. An entry that cannot be gathered is answered on its own.
     private static func gathered(in folder: URL, leaving kept: URL) throws -> [URL] {

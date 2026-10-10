@@ -67,11 +67,11 @@ final class SelfUninstall {
         var ledger = PrivilegedHelper.LedgerMove.none
         var links = TrashResult()
         if isRegistered() {
-            if helper.status == .enabled {
-                let own = plan.unreviewedLinks
-                links = await TrashService(exclusions: exclusions).trash(own, usingHelperFor: Set(own))
-            }
-            ledger = await PrivilegedHelper.moveLedgerToTrash()
+            (links, ledger) = await SelfRemoval.beforeTheHelperGoes(
+                links: plan.unreviewedLinks,
+                helperIsEnabled: helper.status == .enabled,
+                using: TrashService(exclusions: exclusions)
+            )
             let helperFailure = await helper.uninstall()
             // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
             guard !isRegistered() else {

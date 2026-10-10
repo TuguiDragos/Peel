@@ -290,8 +290,9 @@ brew uninstall --zap --cask peel
 ```
 
 When only an administrator can remove the link to the `peel` command you made in Settings, and Peel's helper isn't
-installed, Remove Peel leaves the link, and Settings says so beforehand. `brew uninstall` removes only the link
-Homebrew made. Remove a link that stays yourself:
+installed, Remove Peel leaves the link, and Settings says so beforehand. When the helper is installed but doesn't
+answer, Remove Peel leaves the link and the helper's record of what it moved, and names both once it is done.
+`brew uninstall` removes only the link Homebrew made. Remove a link that stays yourself:
 
 ```bash
 sudo rm -f /usr/local/bin/peel
