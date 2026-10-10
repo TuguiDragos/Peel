@@ -37,6 +37,8 @@ public enum Subprocess {
     /// How long to wait for the rest of the output once the tool has ended. A process the tool started can
     /// outlive it and hold a pipe open, and the answer does not wait for that.
     static let drain: TimeInterval = 0.5
+    /// At utility quality these timers would wait behind any utility work queued before them.
+    static let timers = DispatchQueue.global(qos: .userInitiated)
 
     /// Runs `executable` with `arguments`, and stops it after `timeout` seconds, when there is one, or when the task
     /// is canceled. When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs,
@@ -78,7 +80,7 @@ public enum Subprocess {
         let output = Reader(outputPipe.fileHandleForReading.fileDescriptor, onRead: onOutput)
         let errors = errorPipe.map { Reader($0.fileHandleForReading.fileDescriptor, onRead: onOutput) }
         if let timeout {
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout) { [weak run] in
+            timers.asyncAfter(deadline: .now() + timeout) { [weak run] in
                 run?.stop(because: .timedOut)
             }
         }
@@ -145,11 +147,11 @@ public enum Subprocess {
             }
             guard isFirst else { return }
             process.terminate()
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+            Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
                 guard !state.withLock({ $0.hasEnded }), process.isRunning else { return }
                 kill(process.processIdentifier, SIGKILL)
                 // A tool stuck in the kernel survives even `SIGKILL`, so the waiter is let go anyway.
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+                Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
                     ended()
                 }
             }

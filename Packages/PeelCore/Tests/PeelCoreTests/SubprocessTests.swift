@@ -83,6 +83,10 @@ struct SubprocessTests {
         #expect(result == .failure(.timedOut))
     }
 
+    @Test func theTimersThatStopAToolNeverWaitBehindWorkOfLowerQuality() {
+        #expect(Subprocess.timers.label == DispatchQueue.global(qos: .userInitiated).label)
+    }
+
     /// What a tool writes reaches whoever asked while the tool still runs, from either stream, so a long run can
     /// be followed as it goes.
     @Test func handsOverWhatTheToolWritesAsItWrites() async throws {
