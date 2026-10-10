@@ -105,8 +105,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    - An item stays where it is while a program holds it (`OpenFiles`): a file one of the user's programs holds
      open, or the program any process runs from it. Inside an app, which is code and loses nothing when it moves,
      a file open only for reading holds nothing, and neither does the program running from an app that
-     uninstalls itself once it has moved (`UninstallsItself`, Mullvad VPN's daemon), whose uninstaller's files
-     are held back (`leftToItsUninstaller`) rather than moved first.
+     uninstalls itself once it has moved (`UninstallsItself`: Mullvad VPN's daemon, and Citrix Workspace's agent,
+     known by the `WatchPaths` of its job file), whose uninstaller's files are held back (`leftToItsUninstaller`)
+     rather than moved first.
    - What Peel itself runs from never moves, nor anything holding it, such as the folder a copy built from source
      runs from: only Remove Peel moves Peel (`TrashFailure.Reason.peelRunsFromIt`).
    - An app carrying a system extension macOS installed is left to Finder (`RemovedElsewhere.byFinder`): only

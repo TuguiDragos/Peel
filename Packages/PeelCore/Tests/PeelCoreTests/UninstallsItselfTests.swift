@@ -11,7 +11,7 @@ struct UninstallsItselfTests {
     @Test func mullvadUninstallsItselfOnceItLeavesTheApplicationsFolder() {
         #expect(UninstallsItself.when(moving: [mullvad.url], among: [mullvad]).map(\.app) == [mullvad])
         #expect(UninstallsItself.when(moving: [mullvad.url], among: [mullvad]).map(\.uninstaller) == [
-            "/Applications/Mullvad VPN.app/Contents/Resources/uninstall.sh",
+            .logsOut(script: "/Applications/Mullvad VPN.app/Contents/Resources/uninstall.sh"),
         ])
     }
 
@@ -196,5 +196,152 @@ struct UninstallsItselfTests {
         let installed = try Installed()
 
         #expect(PrivacyReset.goingNow([installed.app], with: try installed.service()) == [installed.app])
+    }
+
+    private struct Citrix: ~Copyable {
+        let directory: TemporaryDirectory
+        let app: InstalledApp
+        let environment: SearchEnvironment
+
+        init(watching watched: String? = nil, disabled: Bool = false, uninstallerInPlace: Bool = true) throws {
+            let directory = try TemporaryDirectory()
+            let bundle = try directory.directory("root/Applications/Citrix Workspace.app")
+            let uninstaller = "root/Library/Citrix Workspace/Uninstaller/Uninstall Citrix Workspace.app/Contents/MacOS/Uninstall Citrix Workspace"
+            if uninstallerInPlace {
+                try directory.file(uninstaller)
+                try directory.setPermissions(0o755, of: uninstaller)
+            }
+            try directory.file(
+                "root/Library/LaunchAgents/com.citrix.UninstallMonitor.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: [
+                        "Label": "com.citrix.UninstallMonitor",
+                        "Disabled": disabled,
+                        "ProgramArguments": [
+                            directory.url.appending(path: uninstaller).path(percentEncoded: false),
+                            "--monitor",
+                            "Citrix Workspace",
+                        ],
+                        "RunAtLoad": false,
+                        "WatchPaths": [watched ?? bundle.path(percentEncoded: false)],
+                    ],
+                    format: .xml,
+                    options: 0
+                )
+            )
+            self.app = InstalledApp(url: bundle, bundleIdentifier: "com.citrix.receiver.nomas", name: "Citrix Workspace")
+            self.environment = SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+            self.directory = directory
+        }
+
+        func job(_ path: String, running program: String) throws -> URL {
+            let job = [
+                "Label": URL(filePath: path).deletingPathExtension().lastPathComponent,
+                "Program": app.url.appending(path: program).path(percentEncoded: false),
+            ]
+            return try directory.file(
+                path,
+                contents: PropertyListSerialization.data(fromPropertyList: job, format: .xml, options: 0)
+            )
+        }
+    }
+
+    @Test func citrixUninstallsItselfThroughTheAgentThatWatchesItsPlace() throws {
+        let citrix = try Citrix()
+
+        #expect(UninstallsItself.of(citrix.app, environment: citrix.environment)?.uninstaller == .deletesTheApp)
+    }
+
+    @Test func citrixIsAnOrdinaryAppWhenNoAgentWouldOpenItsUninstaller() throws {
+        let elsewhere = try Citrix(watching: "/Applications/Another.app")
+        let disabled = try Citrix(disabled: true)
+        let noUninstaller = try Citrix(uninstallerInPlace: false)
+        let noAgent = try Citrix()
+        try FileManager.default.removeItem(
+            at: noAgent.environment.rootDirectory.appending(path: "Library/LaunchAgents/com.citrix.UninstallMonitor.plist")
+        )
+
+        #expect(UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
+        #expect(UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
+        #expect(UninstallsItself.of(noUninstaller.app, environment: noUninstaller.environment) == nil)
+        #expect(UninstallsItself.of(noAgent.app, environment: noAgent.environment) == nil)
+    }
+
+    @Test func leavesToCitrixsUninstallerWhatItDeletesAndOffersTheRest() async throws {
+        let citrix = try Citrix()
+        let helpers = "Contents/CitrixWorkspaceApps"
+        let deletedByIt = [
+            try citrix.job(
+                "root/Library/LaunchAgents/com.citrix.safariadapter.plist",
+                running: "\(helpers)/SafariAdapter.app/Contents/MacOS/SafariAdapter"
+            ),
+            try citrix.job("root/Library/LaunchDaemons/com.citrix.ctxusbd.plist", running: "\(helpers)/ctxusbd"),
+            citrix.environment.rootDirectory.appending(path: "Library/LaunchAgents/com.citrix.UninstallMonitor.plist"),
+            citrix.environment.rootDirectory.appending(path: "Library/Citrix Workspace"),
+            try citrix.directory.directory("root/Library/Logs/Citrix Workspace"),
+            try citrix.directory.directory("home/Library/Logs/Citrix Workspace"),
+            try citrix.directory.directory("home/Library/Application Support/Citrix Workspace"),
+            try citrix.directory.directory("home/Library/HTTPStorages/com.citrix.receiver.nomas"),
+            try citrix.directory.file("home/Library/Preferences/com.citrix.receiver.nomas.plist"),
+        ]
+        let leftByIt = [
+            try citrix.job(
+                "root/Library/LaunchAgents/com.citrix.PluginBroker.plist",
+                running: "\(helpers)/Citrix Plugin Broker.app/Contents/MacOS/Citrix Plugin Broker"
+            ),
+            try citrix.directory.directory("home/Library/Caches/com.citrix.receiver.nomas"),
+            try citrix.directory.directory("home/Library/WebKit/com.citrix.receiver.nomas"),
+        ]
+
+        let plan = await Uninstallation.prepare(
+            citrix.app, installedApps: [citrix.app], environment: citrix.environment
+        )
+
+        let heldBack = Dictionary(
+            plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        for url in deletedByIt {
+            #expect(heldBack[PathPattern.comparablePath(of: url)] == .some(.leftToItsUninstaller), "\(url.path())")
+        }
+        for url in leftByIt {
+            #expect(heldBack[PathPattern.comparablePath(of: url)] == .some(nil), "\(url.path())")
+        }
+    }
+
+    @Test func citrixsBundleMovesWhileItsHelperRunsFromIt() async throws {
+        let citrix = try Citrix()
+        let helper = try citrix.directory.runningProgram(
+            "root/Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/CtxWorkspaceHelperDaemon.app/Contents/MacOS/CtxWorkspaceHelperDaemon"
+        )
+        defer { helper.terminate() }
+        let trash = try citrix.directory.directory("home/.Trash")
+        let service = TrashService(environment: citrix.environment) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let plan = await Uninstallation.prepare(
+            citrix.app, installedApps: [citrix.app], environment: citrix.environment
+        )
+
+        let result = await plan.move([citrix.app.url], using: service)
+
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(result.trashed.map(\.originalURL) == [citrix.app.url])
+    }
+
+    @Test func peelUninstallWarnsThatCitrixsUninstallerDeletesTheApp() throws {
+        let citrix = try Citrix()
+
+        let warnings = UninstallCommand.warnings(
+            moving: [citrix.app.url], of: citrix.app, resettingPrivacy: false, environment: citrix.environment
+        )
+
+        #expect(warnings.count == 1)
+        #expect(warnings.first?.contains("deletes the app, even from the Trash") == true)
     }
 }

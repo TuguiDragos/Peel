@@ -93444,6 +93444,112 @@
         }
       }
     },
+    "Once %@ leaves the Applications folder, its own uninstaller opens and asks for an administrator’s password. If you continue there, it deletes the app, even from the Trash, and its system files, which History can’t bring back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile aplikace %@ opustí složku Aplikace, otevře se její vlastní odinstalátor a požádá o heslo správce. Pokud v něm budete pokračovat, smaže aplikaci, a to i z koše, a také její systémové soubory, které Historie nemůže vrátit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald %@ den Ordner „Programme“ verlässt, öffnet sich das eigene Deinstallationsprogramm der App und fragt nach dem Passwort eines Administrators. Wenn du dort fortfährst, löscht das Deinstallationsprogramm die App, selbst aus dem Papierkorb, und ihre Systemdateien, die sich über den Verlauf nicht zurückholen lassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ salga de la carpeta Aplicaciones, su propio desinstalador se abrirá y pedirá una contraseña de administrador. Si continúas en él, borrará la app, incluso de la papelera, y sus archivos del sistema, que Historial no puede recuperar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois %@ sorti du dossier Applications, son propre programme de désinstallation s’ouvre et demande le mot de passe d’un administrateur. Si vous continuez dans ce programme, il supprime l’app, même de la corbeille, ainsi que ses fichiers système, que l’Historique ne peut pas rétablir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando %@ esce dalla cartella Applicazioni, il suo stesso programma di disinstallazione si apre e chiede la password di un amministratore. Se continui lì, il programma elimina l’app, anche dal Cestino, e i suoi file di sistema, che la Cronologia non può ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@が“アプリケーション”フォルダから移動されると、アプリ独自のアンインストーラが開き、管理者のパスワードの入力を求めます。アンインストーラで操作を続けると、アプリはゴミ箱に入っていても、システム内に置いたファイルとともに削除され、履歴から元に戻すことはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 응용 프로그램 폴더에서 옮겨지면 앱 자체의 제거 프로그램이 열리고 관리자 암호를 요청합니다. 이 제거 프로그램에서 계속하면 앱이 휴지통에 있더라도 앱과 앱의 시스템 파일이 삭제되며, 이는 기록에서 되살릴 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra %@ de map 'Apps' verlaat, wordt het eigen de-installatieprogramma van de app geopend, dat om een beheerderswachtwoord vraagt. Als je daar doorgaat, verwijdert het de app definitief, zelfs uit de prullenmand, en ook de systeembestanden ervan, en Geschiedenis kan ze niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy aplikacja %@ opuści folder Aplikacje, jej własny dezinstalator otworzy się i poprosi o hasło administratora. Jeśli będziesz w nim kontynuować, usunie aplikację, nawet z Kosza, oraz jej pliki systemowe, których Historia nie może przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que %@ sair da pasta Aplicativos, o próprio desinstalador do app abre e pede a senha de um administrador. Se você continuar nele, ele apaga o app, mesmo do Lixo, e os arquivos do app no sistema, que o Histórico não pode trazer de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce %@ iese din dosarul Aplicații, programul propriu de dezinstalare al aplicației se deschide și cere parola unui administrator. Dacă continuați acolo, acesta șterge aplicația, chiar și din Coș, și fișierele ei de sistem, care nu pot fi readuse din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как только приложение «%@» покинет папку «Программы», его собственная программа удаления откроется и запросит пароль администратора. Если Вы продолжите в ней, она удалит приложение, даже из Корзины, и его системные файлы, которые История не сможет вернуть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ lämnar mappen Appar öppnas appens egen avinstallerare och ber om en administratörs lösenord. Om du fortsätter där raderar avinstalleraren appen, även från papperskorgen, och appens systemfiler, och dem kan Historik inte få tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, kendi yükleme kaldırıcısı açılır ve bir yönetici parolası ister. Orada devam ederseniz uygulamayı, Çöp Sepeti’nde olsa bile, sistem dosyalarıyla birlikte siler; Geçmiş bunları geri getiremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно програма «%@» залишить папку «Програми», її власний деінсталятор відкриється й попросить пароль адміністратора. Якщо ви продовжите в ньому, він видалить програму, навіть зі Смітника, а також її системні файли, і Історія не зможе їх повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦“%@”离开“应用程序”文件夹，它自己的卸载器就会打开，并要求你输入管理员密码。如果你在卸载器中继续，它会删除该App（即使已在废纸篓中也不例外）及其系统文件，“历史记录”无法将其恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦「%@」離開「應用程式」檔案夾，它自己的解除安裝程式就會打開，並要求輸入管理者密碼。如果你在那裡繼續，它就會刪除該App（即使已在「垃圾桶」中）及其系統檔案，而「歷史記錄」無法將其恢復。"
+          }
+        }
+      }
+    },
     "Once the file is in the Trash, the item is stopped." : {
       "localizations" : {
         "cs" : {

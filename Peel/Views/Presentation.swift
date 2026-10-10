@@ -117,7 +117,12 @@ extension SearchLocation.Kind {
 
 extension UninstallsItself {
     var warning: Text {
-        Text("Once \(app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `\(uninstaller)`.")
+        switch uninstaller {
+        case .logsOut(let script):
+            Text("Once \(app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `\(script)`.")
+        case .deletesTheApp:
+            Text("Once \(app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator’s password. If you continue there, it deletes the app, even from the Trash, and its system files, which History can’t bring back.")
+        }
     }
 }
 

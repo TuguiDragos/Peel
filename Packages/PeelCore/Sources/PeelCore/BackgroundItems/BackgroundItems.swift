@@ -340,6 +340,7 @@ struct JobDefinition {
     let associated: [String]
     /// True when `LimitLoadToSessionType`, a string or an array (`man launchd.plist`), names only Background.
     let loadsOnlyInTheBackground: Bool
+    let watchPaths: [String]
 
     init?(contentsOf url: URL) {
         guard
@@ -364,5 +365,6 @@ struct JobDefinition {
         let sessions = plist["LimitLoadToSessionType"]
         let types = (sessions as? String).map { [$0] } ?? (sessions as? [Any])?.compactMap { $0 as? String } ?? []
         loadsOnlyInTheBackground = types == ["Background"]
+        watchPaths = (plist["WatchPaths"] as? [Any])?.compactMap { $0 as? String } ?? []
     }
 }

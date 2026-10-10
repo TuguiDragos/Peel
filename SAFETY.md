@@ -144,7 +144,7 @@ process runs, and leaves where it is any file or folder with one of them inside,
 database or a cache from under an agent, a daemon, or a server that is using it would break it. An app is code,
 which loses nothing when it moves, so a program that only reads inside it, as Safari reads an app's Safari
 extension, does not keep it in place; one that runs from it or writes in it does, unless the app uninstalls itself
-once it is moved, as Mullvad VPN does: the program running from it is the one that cleans up. Peel itself counts
+once it is moved, as Mullvad VPN and Citrix Workspace do: their own uninstaller stops it. Peel itself counts
 too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of programs that
 run as another account or as root, macOS's own among them, only the program can be seen, never the files it holds
 open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of the disk, where
@@ -174,11 +174,14 @@ Four things Peel starts can't be undone by History, and Peel says so before you 
 Forgetting a preference domain after a removal is not one of them: it happens only once the file is in the Trash,
 and putting the file back undoes it, until the app writes its settings again.
 
-One app deletes something of its own once it is moved: Mullvad VPN's service logs the Mac out of its account and
-deletes its settings when the app leaves the Applications folder, which Peel says before it moves it. What that
-service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, and its
-settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it could
-clean up.
+Two apps delete something of their own once they are moved, which Peel says before it moves them. Mullvad VPN's
+service logs the Mac out of its account and deletes its settings when the app leaves the Applications folder; what
+that service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, and
+its settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it
+could clean up. Citrix Workspace's own agent opens Citrix's uninstaller once the app is gone from the Applications
+folder, which asks for an administrator's password and, if you continue, deletes the app, even from the Trash, and
+its system files; what it deletes (its launch agents and daemons, its folders in the Library, its logs, its receipt,
+and its settings) is listed and never moved by Peel, since moving the agent's file would stop the uninstaller.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing until it can, or until you

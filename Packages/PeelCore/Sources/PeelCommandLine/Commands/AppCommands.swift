@@ -415,13 +415,23 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     /// What the removal does that the Trash can't bring back, said before the question.
-    static func warnings(moving urls: Set<URL>, of app: InstalledApp, resettingPrivacy: Bool) -> [String] {
+    static func warnings(
+        moving urls: Set<URL>,
+        of app: InstalledApp,
+        resettingPrivacy: Bool,
+        environment: SearchEnvironment = .current
+    ) -> [String] {
         var warnings: [String] = []
         if resettingPrivacy {
             warnings.append("Peel resets \(app.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
         }
-        for app in UninstallsItself.when(moving: urls, among: [app]) {
-            warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(app.uninstaller)")
+        for app in UninstallsItself.when(moving: urls, among: [app], environment: environment) {
+            switch app.uninstaller {
+            case .logsOut(let script):
+                warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(script)")
+            case .deletesTheApp:
+                warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator's password. If you continue there, it deletes the app, even from the Trash, and its system files, which the Trash can't bring back.")
+            }
         }
         return warnings
     }
