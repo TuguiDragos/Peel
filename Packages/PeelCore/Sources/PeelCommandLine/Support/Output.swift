@@ -410,6 +410,8 @@ extension TrashFailure.Reason {
         case .heldOpen(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit \(processes.count == 1 ? "it" : "them") and try again"
         case .peelRunsFromIt: "Peel runs from here; only Remove Peel, in the app's Settings > General, removes Peel"
+        case .heldByAnotherAccount(let processes):
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop it in Background Items or with the app's own uninstaller, then try again"
         case .failed(let message): Output.plain(message)
         }
     }

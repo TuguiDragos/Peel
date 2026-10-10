@@ -148,7 +148,9 @@ once it is moved, as Mullvad VPN does: the program running from it is the one th
 too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of programs that
 run as another account or as root, macOS's own among them, only the program can be seen, never the files it holds
 open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of the disk, where
-those programs keep theirs, does not list them at all.
+those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program, so Peel never
+asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the app's own
+uninstaller.
 
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a

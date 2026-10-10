@@ -215,7 +215,7 @@ struct RefusalLogTests {
     private static let everyReason: [TrashFailure.Reason] = [
         .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable,
-        .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt, .failed("x"),
+        .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt, .heldByAnotherAccount(by: ["CtxHelper"]), .failed("x"),
     ] + GuardRefusal.allCases.map { .guarded($0) }
 
     /// A record stores its reason as a word, not a sentence, so a later version of Peel can still read it.
@@ -224,7 +224,7 @@ struct RefusalLogTests {
 
         #expect(Set(reasons.map(\.name)).count == reasons.count)
         #expect(reasons.allSatisfy { !$0.name.contains(" ") })
-        #expect(reasons.filter { $0.detail != nil }.count == 3)
+        #expect(reasons.filter { $0.detail != nil }.count == 4)
     }
 
     /// History words a refusal from the reason it stored, so every word leads back to its reason, and a word a

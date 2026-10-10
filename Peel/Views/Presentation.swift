@@ -155,6 +155,8 @@ extension TrashFailure.Reason {
         case .heldOpen(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.")
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.")
+        case .heldByAnotherAccount(let processes):
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

@@ -8,7 +8,9 @@ internal import PeelPrivileged
 struct OpenFiles {
     private enum Hold { case reads, writes, runs }
 
-    private let files: [(names: [String], process: String, hold: Hold)]
+    private typealias File = (names: [String], process: String, hold: Hold, isAnotherAccounts: Bool)
+
+    private let files: [File]
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
     private let excludedProgram: [String]?
 
@@ -18,13 +20,14 @@ struct OpenFiles {
         excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
-        var files: [(names: [String], process: String, hold: Hold)] = []
+        var files: [File] = []
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded && !Self.isACopyOfThisProcess(pid) {
             let program = Self.program(of: pid).map { [(path: $0, hold: Hold.runs)] } ?? []
             let paths = Self.paths(openBy: pid) + program
             guard !paths.isEmpty else { continue }
             let process = Self.name(of: pid)
-            files += paths.map { (PathComponents.of($0.path), process, $0.hold) }
+            let isAnotherAccounts = kill(pid, 0) != 0 && errno == EPERM
+            files += paths.map { (PathComponents.of($0.path), process, $0.hold, isAnotherAccounts) }
         }
         self.files = files
     }
@@ -32,9 +35,24 @@ struct OpenFiles {
     /// The programs that hold `url`. An app is code, which loses nothing when it moves, so a program that only reads
     /// inside it, as Safari reads an app's Safari extension, holds nothing: what runs from it or writes in it does.
     func holders(of url: URL, lettingItsProgramsRun: Bool = false) -> [String] {
+        Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.process)).sorted()
+    }
+
+    /// Why `url` can't move while it is held, or nil when nothing holds it.
+    func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
+        let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
+        if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
+        let holding = holding(url, lettingItsProgramsRun: lettingItsProgramsRun)
+        let others = Set(holding.filter(\.isAnotherAccounts).map(\.process)).sorted()
+        if !others.isEmpty { return .heldByAnotherAccount(by: others) }
+        let holders = Set(holding.map(\.process)).sorted()
+        return holders.isEmpty ? nil : .heldOpen(by: holders)
+    }
+
+    private func holding(_ url: URL, lettingItsProgramsRun: Bool) -> [File] {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         let isAnApp = url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
-        let holding = files.filter { file in
+        return files.filter { file in
             guard file.names.starts(with: names) else { return false }
             switch file.hold {
             case .reads: return !isAnApp
@@ -42,12 +60,6 @@ struct OpenFiles {
             case .runs: return !lettingItsProgramsRun
             }
         }
-        return Set(holding.map(\.process)).sorted()
-    }
-
-    func runsTheExcludedProcess(from url: URL, lettingItsProgramsRun: Bool = false) -> Bool {
-        guard !lettingItsProgramsRun, let excludedProgram else { return false }
-        return excludedProgram.starts(with: PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)))
     }
 
     private static func paths(openBy pid: pid_t) -> [(path: String, hold: Hold)] {

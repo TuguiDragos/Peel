@@ -85,6 +85,8 @@ public struct TrashFailure: Sendable, Hashable {
         case heldOpen(by: [String])
         /// Peel itself runs from it or from inside it, and only Remove Peel moves Peel.
         case peelRunsFromIt
+        /// Processes of another account, root's included, run from it, and neither the person nor Peel may quit them.
+        case heldByAnotherAccount(by: [String])
         case failed(String)
     }
 
@@ -104,7 +106,7 @@ extension TrashFailure.Reason {
         switch self {
         case .historyUnreadable, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
-             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .failed: true
+             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .failed: true
         }
     }
 
@@ -124,6 +126,7 @@ extension TrashFailure.Reason {
         case .historyUnreadable: "history-unreadable"
         case .heldOpen: "held-open"
         case .peelRunsFromIt: "peel-runs-from-it"
+        case .heldByAnotherAccount: "held-by-another-account"
         case .failed: "failed"
         }
     }
@@ -132,7 +135,7 @@ extension TrashFailure.Reason {
         switch self {
         case .failed(let message): message
         case .somethingElseMoved(let name): name
-        case .heldOpen(let processes): processes.joined(separator: "\n")
+        case .heldOpen(let processes), .heldByAnotherAccount(let processes): processes.joined(separator: "\n")
         default: nil
         }
     }
@@ -156,6 +159,8 @@ extension TrashFailure.Reason {
         case "history-unreadable": self = .historyUnreadable
         case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "peel-runs-from-it": self = .peelRunsFromIt
+        case "held-by-another-account":
+            self = .heldByAnotherAccount(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -297,11 +302,8 @@ public struct TrashService: Sendable {
         for url in urls {
             if let refusal = refusal(of: url) {
                 refusals[url] = refusal
-            } else if openFiles.runsTheExcludedProcess(from: url, lettingItsProgramsRun: apps.contains(url)) {
-                refusals[url] = .peelRunsFromIt
-            } else if case let holders = openFiles.holders(of: url, lettingItsProgramsRun: apps.contains(url)),
-                      !holders.isEmpty {
-                refusals[url] = .heldOpen(by: holders)
+            } else if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
+                refusals[url] = held
             }
         }
         return refusals
@@ -362,13 +364,8 @@ public struct TrashService: Sendable {
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
             guard !moved.hold(path) else { continue }
-            guard !openFiles.runsTheExcludedProcess(from: url, lettingItsProgramsRun: apps.contains(url)) else {
-                result.failures.append(TrashFailure(url: url, reason: .peelRunsFromIt))
-                continue
-            }
-            let holders = openFiles.holders(of: url, lettingItsProgramsRun: apps.contains(url))
-            guard holders.isEmpty else {
-                result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
+            if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
+                result.failures.append(TrashFailure(url: url, reason: held))
                 continue
             }
             do {
@@ -466,13 +463,8 @@ public struct TrashService: Sendable {
         var allowed: [URL] = []
         for url in permitted {
             guard !paths.hold(PathPattern.comparablePath(of: url)) else { continue }
-            guard !openFiles.runsTheExcludedProcess(from: url, lettingItsProgramsRun: apps.contains(url)) else {
-                result.failures.append(TrashFailure(url: url, reason: .peelRunsFromIt))
-                continue
-            }
-            let holders = openFiles.holders(of: url, lettingItsProgramsRun: apps.contains(url))
-            guard holders.isEmpty else {
-                result.failures.append(TrashFailure(url: url, reason: .heldOpen(by: holders)))
+            if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
+                result.failures.append(TrashFailure(url: url, reason: held))
                 continue
             }
             allowed.append(url)

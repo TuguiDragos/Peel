@@ -59618,6 +59618,112 @@
         }
       }
     },
+    "It is in use by %@, which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá ji %@, který běží pod jiným účtem nebo jako systém, takže ho nemůžete ukončit vy ani Peel. Zastavte ho na stránce Položky na pozadí nebo vlastním odinstalátorem aplikace a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ verwendet, ausgeführt unter einem anderen Benutzeraccount oder vom System, daher lässt es sich weder von dir noch von Peel beenden. Stoppe es auf der Seite „Hintergrundobjekte“ oder mit dem eigenen Deinstallationsprogramm der App und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@, que se ejecuta con otra cuenta o con la del sistema, así que ni tú ni Peel podéis salir de él. Detenlo en la página Ítems en segundo plano, o con el propio desinstalador de la app, antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@, qui s’exécute sous un autre compte ou sous celui du système, si bien que ni vous ni Peel ne pouvez le quitter. Arrêtez-le sur la page Éléments en arrière-plan, ou avec le programme de désinstallation propre à l’app, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@, in esecuzione con un altro account o come sistema, quindi né tu né Peel potete uscirne. Interrompine l’esecuzione in “Elementi in background” o con il programma di disinstallazione dell’app stessa, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。使用しているプログラムは別のアカウントまたはシステムとして実行されているため、手動でもPeelからも終了できません。“バックグラウンド項目”またはアプリ独自のアンインストーラで停止してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중입니다. 해당 프로그램은 다른 계정이나 시스템으로 실행되므로, 사용자도 Peel도 종료할 수 없습니다. 백그라운드 항목 페이지나 앱 자체의 제거 프로그램을 사용하여 중단한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@, actief als een andere account of als het systeem, zodat jij en Peel het niet kunnen stoppen. Stop het in 'Achtergrondonderdelen' of met het eigen de-installatieprogramma van de app en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Ten program działa na innym koncie lub jako system, więc ani Ty, ani Peel nie możecie go zakończyć. Zatrzymaj go na stronie Rzeczy działające w tle albo za pomocą własnego dezinstalatora aplikacji, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@, que é executado por outra conta ou pelo sistema, então nem você nem o Peel podem encerrá-lo. Interrompa-o na página Itens em Segundo Plano ou com o desinstalador do próprio app e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@, care rulează în numele altui cont sau al sistemului, așa că nici dvs., nici Peel nu îl puteți închide. Opriți‑l în pagina Articole de fundal sau cu programul propriu de dezinstalare al aplicației, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Эта программа выполняется от имени другой учетной записи или системы, поэтому ни Вы, ни Peel не можете ее завершить. Остановите ее в разделе «Фоновые объекты» или с помощью собственной программы удаления приложения, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@, som körs under ett annat konto eller av systemet, så varken du eller Peel kan avsluta det. Stoppa det på sidan Bakgrundsobjekt, eller med appens egen avinstallerare, och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor. Bu program başka bir hesapla veya sistem olarak çalıştığı için ne siz ne de Peel ondan çıkabilir. Onu Arka Plan Öğeleri’nde veya uygulamanın kendi yükleme kaldırıcısıyla durdurup yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовує %@, що працює від імені іншого облікового запису або системи, тож ні ви, ні Peel не можете завершити цей процес. Зупиніть його в розділі «Фонові елементи» або власним деінсталятором програми та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用，后者以另一个账户或系统的身份运行，因此你和Peel都无法退出它。请在“后台项目”中或使用该App自己的卸载器将其停止，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中，由於其以另一個帳號或系統的身分執行，你和Peel都無法將其結束。請在「背景項目」中停止它，或使用該App自己的解除安裝程式，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is in use by %@. Quit %@, then try again." : {
       "localizations" : {
         "cs" : {

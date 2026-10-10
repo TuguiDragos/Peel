@@ -8,11 +8,15 @@ public enum RunningCopies {
         public let identifier: pid_t
         public let bundleIdentifier: String?
         public let bundleURL: URL?
+        /// False for a process of another account, root's included, which neither the person nor Peel may signal
+        /// (`kill(2)` answers `EPERM`).
+        public let mayBeQuit: Bool
 
-        public init(identifier: pid_t, bundleIdentifier: String?, bundleURL: URL?) {
+        public init(identifier: pid_t, bundleIdentifier: String?, bundleURL: URL?, mayBeQuit: Bool = true) {
             self.identifier = identifier
             self.bundleIdentifier = bundleIdentifier
             self.bundleURL = bundleURL
+            self.mayBeQuit = mayBeQuit
         }
     }
 
@@ -23,17 +27,19 @@ public enum RunningCopies {
             return Process(
                 identifier: running.processIdentifier,
                 bundleIdentifier: running.bundleIdentifier,
-                bundleURL: running.bundleURL
+                bundleURL: running.bundleURL,
+                mayBeQuit: kill(running.processIdentifier, 0) == 0 || errno != EPERM
             )
         }
     }
 
-    /// Returns the processes in `running` that belong to `app`. The app itself is known by where it runs from:
-    /// a copy elsewhere is another app, and quitting it would close the one in use. The app's helpers run from
-    /// inside its bundle, or carry an identifier the bundle embeds or one that extends the app's, unless another
+    /// Returns the processes in `running` that belong to `app` and may be quit. The app itself is known by where it
+    /// runs from: a copy elsewhere is another app, and quitting it would close the one in use. The app's helpers run
+    /// from inside its bundle, or carry an identifier the bundle embeds or one that extends the app's, unless another
     /// installed app owns that identifier (Chrome Canary beside Chrome) or it runs as an app of its own outside a
     /// Library, as Canary does on another disk. A process whose location is unknown is judged by its identifier.
-    /// Identifiers are compared without case, as bundle identifiers are.
+    /// Identifiers are compared without case, as bundle identifiers are. A process of another account writes none of
+    /// the person's files, and while its program runs from inside the app, the move refuses the app.
     ///
     /// `sharingItsSettings` is for a reset: every copy of the app writes the same preference domain, wherever
     /// it runs from, so all of them count.
@@ -53,6 +59,7 @@ public enum RunningCopies {
             .filter { $0 != identifier }
 
         return running.filter { process in
+            guard process.mayBeQuit else { return false }
             let place = process.bundleURL.map(PathPattern.comparablePath)
             if let place, PathComponents.isPath(place, atOrInside: bundle) { return true }
             guard let identifier, let name = process.bundleIdentifier?.lowercased() else { return false }

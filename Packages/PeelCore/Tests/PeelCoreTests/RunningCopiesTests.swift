@@ -42,6 +42,18 @@ struct RunningCopiesTests {
         ]) == ["com.google.Chrome", "com.google.Chrome.helper", "com.google.Keystone.Agent", "com.google.Chrome.framework.AlertNotificationService"])
     }
 
+    @MainActor @Test func leavesOutWhatThisAccountCannotQuit() {
+        let running = RunningCopies.current
+        let unquittable = running.filter { kill($0.identifier, 0) != 0 && errno == EPERM }
+        for case let (process, bundle?) in unquittable.map({ ($0, $0.bundleURL) }) {
+            let app = InstalledApp(url: bundle, bundleIdentifier: process.bundleIdentifier, name: "")
+
+            let toQuit = RunningCopies.belonging(to: app, among: running, installedApps: [app])
+
+            #expect(!toQuit.contains { $0.identifier == process.identifier })
+        }
+    }
+
     @Test func anAppWithNoIdentifierIsKnownByWhereItRuns() {
         let editor = InstalledApp(url: URL(filePath: "/Applications/Plain Editor.app"), bundleIdentifier: nil, name: "Plain Editor")
         let running = [

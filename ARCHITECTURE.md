@@ -109,6 +109,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
      are held back (`leftToItsUninstaller`) rather than moved first.
    - What Peel itself runs from never moves, nor anything holding it, such as the folder a copy built from source
      runs from: only Remove Peel moves Peel (`TrashFailure.Reason.peelRunsFromIt`).
+   - A program another account runs, root's included, can't be quit by the person or by Peel (`kill(2)` answers
+     `EPERM`), so it is never in the question to quit apps (`RunningCopies.Process.mayBeQuit`), and what it runs
+     from stays with a reason of its own (`heldByAnotherAccount`). `OpenFiles.refusal(of:)` is the one rule.
    - The app's privacy permissions are reset, when that was chosen, just before the move and only once the
      checks the move makes first (the guard, History, and the programs holding it) say it will go
      (`PrivacyReset`).
