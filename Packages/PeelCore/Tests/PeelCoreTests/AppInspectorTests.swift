@@ -198,7 +198,9 @@ struct AppInspectorTests {
 
     @Test func anAppMacOSKnowsIsNamedAsFinderNamesIt() {
         let calculator = URL(filePath: "/System/Applications/Calculator.app", directoryHint: .isDirectory)
-        let finder = FileManager.default.displayName(atPath: calculator.path(percentEncoded: false))
+        let shown = FileManager.default.displayName(atPath: calculator.path(percentEncoded: false))
+        // Finder shows the extension when Show all filename extensions is on, and an app's name never carries it.
+        let finder = shown.hasSuffix(".app") ? String(shown.dropLast(4)) : shown
 
         #expect(AppInspector.displayName(of: calculator) == finder)
     }
