@@ -42,18 +42,16 @@ final class HelperModel {
         status = PrivilegedHelper.status
     }
 
-    /// Counts the checks, so when two overlap the later one's answer stands, whichever returns last.
-    private var generation = 0
+    private var checks = OverlappingChecks()
 
     func checkConnection() async {
-        generation += 1
-        let current = generation
+        let check = checks.start()
         let status = await PrivilegedHelper.currentStatus()
         let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
         let isRegisteredByAnotherCopy = status == .notRegistered
             ? await PrivilegedHelper.isRegisteredByAnyCopy()
             : false
-        guard current == generation else { return }
+        guard checks.mayShow(check) else { return }
         self.status = status
         self.isResponding = isResponding
         self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
@@ -74,6 +72,7 @@ final class HelperModel {
                 failure = Failure(action: .install, reason: error.localizedDescription)
             }
         }
+        checks.changed()
         refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
@@ -89,6 +88,7 @@ final class HelperModel {
         } catch {
             failure = Failure(action: .repair, reason: error.localizedDescription)
         }
+        checks.changed()
         refresh()
         if status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
@@ -104,6 +104,7 @@ final class HelperModel {
         } catch {
             failure = Failure(action: .uninstall, reason: error.localizedDescription)
         }
+        checks.changed()
         refresh()
     }
 }
