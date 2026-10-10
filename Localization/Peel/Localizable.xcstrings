@@ -113570,6 +113570,112 @@
         }
       }
     },
+    "Peel’s helper isn’t answering" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu neodpovídá"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel antwortet nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no responde"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel ne répond pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non risponde"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが応答しません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 응답하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel reageert niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie odpowiada"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não está respondendo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu răspunde"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не отвечает"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram svarar inte"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı yanıt vermiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не відповідає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序没有响应"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式沒有回應"
+          }
+        }
+      }
+    },
     "Peel’s helper isn’t answering. Repair it in Settings." : {
       "localizations" : {
         "cs" : {
@@ -123690,6 +123796,112 @@
         }
       }
     },
+    "Repair it below. Until then, Peel can’t move anything that needs an administrator." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opravte ho níže. Do té doby Peel nemůže přesunout nic, co vyžaduje oprávnění správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repariere es unten. Bis dahin kann Peel nichts verschieben, was einen Administrator benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repáralo más abajo. Hasta entonces, Peel no puede trasladar nada que necesite un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réparez-le ci-dessous. En attendant, Peel ne peut déplacer aucun élément qui nécessite un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riparalo qui sotto. Fino a quel momento, Peel non può spostare nulla che richieda un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下で修復してください。修復するまで、Peelは管理者が必要な項目を移動できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래에서 복구하십시오. 복구하기 전까지 Peel은 관리자가 필요한 항목을 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstel het hieronder. Tot die tijd kan Peel niets verplaatsen waarvoor een beheerder nodig is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napraw go poniżej. Do tego czasu Peel nie może przenieść niczego, co wymaga uprawnień administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repare-o abaixo. Até lá, o Peel não consegue mover nada que requeira um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparați‑l mai jos. Până atunci, Peel nu poate muta nimic din ce necesită un administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправьте его ниже. До тех пор Peel не сможет перемещать ничего, для чего нужен администратор."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reparera det nedan. Innan dess kan Peel inte flytta något som kräver en administratör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu aşağıdan onarın. O zamana kadar Peel, yönetici gerektiren hiçbir şeyi taşıyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полагодьте його нижче. До того часу Peel не може перемістити нічого, для чого потрібен адміністратор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在下方修复。在此之前，Peel无法移动任何需要管理员权限的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在下方修復。在此之前，Peel無法移動任何需要管理者權限的項目。"
+          }
+        }
+      }
+    },
     "Replaced" : {
       "localizations" : {
         "cs" : {
@@ -133700,6 +133912,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
+          }
+        }
+      }
+    },
+    "Set up %@ below, and repair the helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Níže nastavte: %@. Opravte také pomocníka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richte unten %@ ein und repariere das Hilfsprogramm."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura %@ más abajo, y repara el asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurez %@ ci-dessous, et réparez l’utilitaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura qui sotto: %@. Ripara anche l’assistente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下で%@を設定し、ヘルパーを修復してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래에서 %@을(를) 설정하고 보조 프로그램을 복구하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel hieronder %@ in en herstel het hulpprogramma."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skonfiguruj poniżej: %@, a także napraw pomocnika."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure %@ abaixo e repare o auxiliar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurați %@ mai jos și reparați instrumentul de ajutor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте ниже: %@. Также исправьте помощника."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ställ in %@ nedan och reparera hjälpprogrammet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aşağıdan ayarlayın: %@. Yardımcıyı da onarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштуйте нижче: %@. Також полагодьте помічника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在下方设置%@，并修复帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在下方設定%@，並修復輔助程式。"
           }
         }
       }

@@ -224,10 +224,22 @@ struct HomePermissionsContent: View {
                     .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
         } else if home.needsAttention {
-            let missing = home.missingRequired.map { String(localized: $0.title) }.formatted(.list(type: .and))
+            let notice = MissingPermissionsNotice(
+                helper: home.helperStanding,
+                othersMissing: home.missingRequired.contains { $0 != .helper }
+            )
+            let toSetUp = home.missingRequired.filter { notice == .setUp || $0 != .helper }
+            let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
+            let detail = switch notice {
+            case .setUp: Text("Set up \(missing) below.")
+            case .repairTheHelper: Text("Repair it below. Until then, Peel can’t move anything that needs an administrator.")
+            case .setUpAndRepairTheHelper: Text("Set up \(missing) below, and repair the helper.")
+            }
             Notice(
-                title: Text("Peel can’t see or remove everything yet"),
-                detail: Text("Set up \(missing) below."),
+                title: notice == .repairTheHelper
+                    ? Text("Peel’s helper isn’t answering")
+                    : Text("Peel can’t see or remove everything yet"),
+                detail: detail,
                 isAlbum: true
             ) {
                 if home.needsRelaunchForFullDiskAccess {
