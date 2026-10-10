@@ -115,6 +115,16 @@ extension SearchLocation.Kind {
     }
 }
 
+extension HelperModel.Action {
+    var progress: LocalizedStringResource {
+        switch self {
+        case .install: "Installing…"
+        case .repair: "Repairing…"
+        case .uninstall: "Uninstalling…"
+        }
+    }
+}
+
 extension UninstallsItself {
     var warning: Text {
         switch uninstaller {

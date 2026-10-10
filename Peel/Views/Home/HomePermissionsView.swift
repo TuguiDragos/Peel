@@ -40,6 +40,7 @@ struct HomePermissionsContent: View {
         .frame(maxWidth: 720, alignment: .leading)
         .frame(maxWidth: .infinity, alignment: .leading)
         .motion(value: home.states)
+        .motion(value: helper.changing)
     }
 
     /// A card for one section, laid out as a grid so the states line up in one column and the actions in
@@ -75,6 +76,7 @@ struct HomePermissionsContent: View {
 
     private func row(_ permission: HomeModel.Permission) -> some View {
         let state = home.state(of: permission)
+        let changing = permission == .helper ? helper.changing : nil
         return GridRow {
             // The state sits under the name, as in System Settings, and a long name wraps instead of
             // shrinking. A column of its own for the state would leave a translated name almost no room.
@@ -102,9 +104,9 @@ struct HomePermissionsContent: View {
                             isAlbum: true
                         )
                     }
-                    Text(home.status(of: permission))
+                    Text(changing?.progress ?? home.status(of: permission))
                         .font(.system(size: 11.5, weight: .medium))
-                        .foregroundStyle(state.isMissing ? Album.red : .secondary)
+                        .foregroundStyle(state.isMissing && changing == nil ? Album.red : .secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -176,6 +178,7 @@ struct HomePermissionsContent: View {
                         .keepsWordsWhole(String(localized: action))
                 }
                 .buttonStyle(state.isMissing ? .sticker(fill: Album.redFill, size: 11.5) : .stickerQuiet)
+                .disabled(permission == .helper && helper.isChanging)
                 .accessibilityLabel(Text("\(String(localized: action)): \(String(localized: permission.title))", comment: "What VoiceOver reads for a button. The first %@ is the action, such as Install. The second is what it acts on, such as Helper."))
             }
         } else {

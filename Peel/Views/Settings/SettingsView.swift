@@ -702,7 +702,9 @@ private struct HelperSettingsView: View {
 
     @ViewBuilder
     private var statusBadge: some View {
-        if !helper.hasChecked {
+        if let changing = helper.changing {
+            state(changing.progress, "hourglass", .secondary)
+        } else if !helper.hasChecked {
             state("Checking…", "hourglass", .secondary)
         } else {
             switch helper.standing {

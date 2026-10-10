@@ -4,15 +4,20 @@ import PeelCore
 
 @Observable
 final class HelperModel {
+    enum Action { case install, repair, uninstall }
+
     private(set) var status = PrivilegedHelper.status
-    private(set) var isChanging = false
+    private(set) var changing: Action?
     private(set) var isResponding: Bool?
     var failure: Failure?
 
     struct Failure {
-        enum Action { case install, repair, uninstall }
         let action: Action
         let reason: String
+    }
+
+    var isChanging: Bool {
+        changing != nil
     }
 
     /// Whether the helper can move items: it is registered, this account may use it, and it has not failed to
@@ -60,7 +65,7 @@ final class HelperModel {
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async {
         guard !isChanging else { return }
-        let error = await change { try await PrivilegedHelper.register() }
+        let error = await change(.install) { try await PrivilegedHelper.register() }
         if let error, status != .requiresApproval, status != .enabled {
             failure = Failure(action: .install, reason: error.localizedDescription)
         }
@@ -71,7 +76,7 @@ final class HelperModel {
 
     func repair() async {
         guard !isChanging else { return }
-        if let error = await change({ try await PrivilegedHelper.repair() }) {
+        if let error = await change(.repair, { try await PrivilegedHelper.repair() }) {
             failure = Failure(action: .repair, reason: error.localizedDescription)
         }
         if status == .requiresApproval {
@@ -81,16 +86,16 @@ final class HelperModel {
 
     func uninstall() async {
         guard !isChanging else { return }
-        if let error = await change({ try await PrivilegedHelper.unregister() }) {
+        if let error = await change(.uninstall, { try await PrivilegedHelper.unregister() }) {
             failure = Failure(action: .uninstall, reason: error.localizedDescription)
         }
     }
 
     /// Runs a change of the helper's registration and answers the error it threw, if any. Nothing about the helper
     /// shows while it runs, and what it leaves shows only through the check that follows it.
-    private func change(_ body: () async throws -> Void) async -> (any Error)? {
-        isChanging = true
-        defer { isChanging = false }
+    private func change(_ action: Action, _ body: () async throws -> Void) async -> (any Error)? {
+        changing = action
+        defer { changing = nil }
         checks.changeStarts()
         var error: (any Error)?
         do {
