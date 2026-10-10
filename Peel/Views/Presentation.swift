@@ -154,6 +154,7 @@ extension TrashFailure.Reason {
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.")
         case .heldOpen(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.")
+        case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

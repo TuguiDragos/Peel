@@ -409,6 +409,7 @@ extension TrashFailure.Reason {
         case .historyUnreadable: "History can't be read"
         case .heldOpen(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit \(processes.count == 1 ? "it" : "them") and try again"
+        case .peelRunsFromIt: "Peel runs from here; only Remove Peel, in the app's Settings > General, removes Peel"
         case .failed(let message): Output.plain(message)
         }
     }

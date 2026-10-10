@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct SelfRemovalTests {
@@ -47,6 +48,23 @@ struct SelfRemovalTests {
             }
         )
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
+    }
+
+    @Test func movesTheAppPeelRunsFrom() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try #require(RunningProgram.path(of: getpid()))
+        let app = URL(filePath: program).deletingLastPathComponent()
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let service = TrashService(environment: environment) { $0 }
+
+        let result = await SelfRemoval.move([app], app: app, folder: folder, using: service) { _ in }
+
+        #expect(!result.failures.contains { $0.reason == .peelRunsFromIt })
     }
 
     /// The link the helper moved before it went is written into History with the rest, as one removal.

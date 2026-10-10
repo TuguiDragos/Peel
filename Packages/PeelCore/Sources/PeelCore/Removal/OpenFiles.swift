@@ -9,10 +9,13 @@ struct OpenFiles {
     private enum Hold { case reads, writes, runs }
 
     private let files: [(names: [String], process: String, hold: Hold)]
+    /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
+    private let excludedProgram: [String]?
 
     /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
     /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
     init(excluding excluded: pid_t? = getpid()) {
+        excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [(names: [String], process: String, hold: Hold)] = []
@@ -40,6 +43,11 @@ struct OpenFiles {
             }
         }
         return Set(holding.map(\.process)).sorted()
+    }
+
+    func runsTheExcludedProcess(from url: URL, lettingItsProgramsRun: Bool = false) -> Bool {
+        guard !lettingItsProgramsRun, let excludedProgram else { return false }
+        return excludedProgram.starts(with: PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)))
     }
 
     private static func paths(openBy pid: pid_t) -> [(path: String, hold: Hold)] {

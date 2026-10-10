@@ -19,7 +19,7 @@ public enum SelfRemoval {
             apps: urls.filter { $0 == app },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: [],
-            lettingTheirProgramsRun: []
+            lettingTheirProgramsRun: [app]
         )
         result.trashed.insert(contentsOf: movedFirst, at: 0)
         await record(result)

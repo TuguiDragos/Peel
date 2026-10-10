@@ -105055,6 +105055,112 @@
         }
       }
     },
+    "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odtud běží samotný Peel a odstranit ho lze jen volbou „Odstranit Peel“ v Nastavení > Obecné."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel selbst wird von hier aus ausgeführt und nur mit „Peel entfernen“ unter „Einstellungen“ > „Allgemein“ entfernt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El propio Peel se ejecuta desde aquí, y solo “Eliminar Peel”, en Ajustes > General, elimina Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lui-même s’exécute à partir de cet emplacement, et seul « Supprimer Peel », dans Réglages > Général, supprime Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stesso viene eseguito da qui, e solo “Rimuovi Peel”, in Impostazioni > Generali, rimuove Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel自体がここから実行されており、Peelを取り除けるのは“設定”＞“一般”にある“Peelをアンインストール”だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 자체가 여기에서 실행되며, Peel은 설정 > 일반에 있는 ‘Peel 제거’로만 제거할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zelf wordt van hieruit uitgevoerd, en alleen 'Verwijder Peel' in Instellingen > Algemeen verwijdert Peel."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z tego miejsca działa sam Peel, a odinstalowuje go tylko „Odinstaluj Peel” w Ustawieniach > Ogólne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O próprio Peel é executado a partir daqui, e só “Remover o Peel”, em Ajustes > Geral, remove o Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel însuși rulează de aici și doar „Eliminați Peel”, din Configurări > General, elimină Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отсюда запущен сам Peel, а удалить Peel можно только с помощью пункта «Удалить Peel» в разделе «Настройки» > «Основные»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel själv körs härifrån, och bara ”Ta bort Peel” i Inställningar > Allmänt tar bort Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in kendisi buradan çalışıyor ve Peel yalnızca Ayarlar > Genel’deki “Peel’i Kaldır” ile kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Звідси працює сама Peel, і лише команда «Вилучити Peel» у розділі Параметри > Загальні вилучає Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel本身正从此处运行，并且只有“设置”>“通用”中的“移除Peel”才能移除Peel。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel本身正從這裡執行，而且只有「設定」>「一般」中的「移除Peel」才能移除Peel。"
+          }
+        }
+      }
+    },
     "Peel kept the old file and continued with what it could still read." : {
       "localizations" : {
         "cs" : {

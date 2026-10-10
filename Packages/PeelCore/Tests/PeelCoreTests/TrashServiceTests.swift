@@ -781,6 +781,25 @@ struct TrashServiceTests {
         ])
     }
 
+    @Test func leavesTheFolderThisVeryProgramRunsFrom() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try #require(RunningProgram.path(of: getpid()))
+        let folder = URL(filePath: program).deletingLastPathComponent()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment) { $0 }
+
+        let result = await service.trash([folder])
+        let throughTheHelper = await service.trash([folder], usingHelperFor: [folder])
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.peelRunsFromIt])
+        #expect(throughTheHelper.failures.map(\.reason) == [.peelRunsFromIt])
+        #expect(service.refusalsNow(of: [folder], lettingTheirProgramsRun: []) == [folder: .peelRunsFromIt])
+    }
+
     @Test func leavesAFolderAnotherProcessHoldsAFileOpenIn() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)
