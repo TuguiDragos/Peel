@@ -74,7 +74,7 @@
           "@id": "https://peel.tuguidragos.com/#app"
         },
         "primaryImageOfPage": "https://peel.tuguidragos.com/images/social.png",
-        "dateModified": "2026-10-09"
+        "dateModified": "2026-10-11"
       },
       {
         "@type": "Person",
@@ -717,6 +717,46 @@
       </div>
     </section>
 
+    <section class="section" id="trust" aria-labelledby="trust-title">
+      <div class="wrap">
+        <div class="feature-head center reveal">
+          <p class="eyebrow">Check it yourself</p>
+          <h2 class="headline" id="trust-title">Don’t take it on trust.<br>Check it.</h2>
+          <p class="lede">Every copy is signed with my Developer ID and notarized by Apple, <strong>every line is on GitHub</strong>, and a security problem has a private way in.</p>
+        </div>
+        <ul class="points">
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9.5" r="6"/><path d="m9.4 9.6 1.8 1.8 3.4-3.4M8.6 14.4 7.6 20.5l4.4-2.3 4.4 2.3-1-6.1"/></svg>
+            <h3>Signed and notarized.</h3>
+            <p>Every copy I build is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple. In Terminal, <code>spctl -a -vv</code> followed by the app’s path shows both. <a href="#real-copy">How to check your copy</a></p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.2V4.6a1.1 1.1 0 0 1 1.1-1.1h7.6l8.3 8.3a1.2 1.2 0 0 1 0 1.7l-6.7 6.7a1.2 1.2 0 0 1-1.7 0z"/><circle cx="8" cy="8" r="1.4"/></svg>
+            <h3>A release can’t change once it ships.</h3>
+            <p>Each release on GitHub is immutable: its files can’t be replaced after it is published, and GitHub’s <code>gh release verify-asset</code> checks the disk image you downloaded against it.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 5 6.4v5.3c0 4.2 2.9 7.6 7 8.8 4.1-1.2 7-4.6 7-8.8V6.4z"/><path d="m9.3 12 1.9 1.9 3.7-3.7"/></svg>
+            <h3>A helper with one job.</h3>
+            <p>Only what needs an administrator goes through Peel’s helper, which you allow once in Login Items &amp; Extensions. It answers only my signed Peel and only administrators, serves a fixed list of folders, has no shell, and keeps its own record of what it moves, so it puts back only what it took.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8.5 7.5-4.5 4.5 4.5 4.5M15.5 7.5l4.5 4.5-4.5 4.5M13.6 5l-3.2 14"/></svg>
+            <h3>Open source, every line.</h3>
+            <p>Peel is free software under the GNU GPL, version 3 or later, and all of it is on GitHub, the helper included.</p>
+          </li>
+          <li class="reveal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.6 7.2 7.4 5.8 7.4-5.8"/></svg>
+            <h3>Security problems, reported privately.</h3>
+            <p>Use <a href="https://github.com/TuguiDragos/Peel/security/advisories/new">Report a vulnerability</a> on the repository’s Security tab, or email <a href="mailto:contact@tuguidragos.com?subject=Peel%20security">contact@tuguidragos.com</a> with “Peel security” in the subject. The aim is an answer within two working days, and the security policy says what happens next.</p>
+          </li>
+        </ul>
+        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md">Read the security policy</a></p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
     <section class="section" id="privacy" aria-labelledby="privacy-title">
       <div class="wrap split">
         <div class="split-text reveal">
@@ -838,7 +878,7 @@
             <summary>Can I install Peel with Homebrew?</summary>
             <p>Yes. Run <code>brew install --cask tuguidragos/tap/peel</code> in Terminal. It installs the same release as the download on this page.</p>
           </details>
-          <details>
+          <details id="real-copy">
             <summary>How do I know my copy of Peel is the real one?</summary>
             <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I built answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it answers <code>invalid API object reference</code>, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>. Before you open the file you downloaded, GitHub’s <code>gh</code> tool can check it against its release: once you’re signed in with <code>gh auth login</code>, <code>gh release verify-asset v1.0.1 Peel-1.0.1.dmg -R TuguiDragos/Peel</code> (your version and your file’s name) answers <code>Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1</code>.</p>
           </details>
