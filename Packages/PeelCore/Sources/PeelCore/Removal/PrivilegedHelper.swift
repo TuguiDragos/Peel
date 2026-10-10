@@ -140,14 +140,26 @@ public enum PrivilegedHelper {
     /// signing checks.
     @concurrent
     public static func isResponding() async -> Bool {
-        let version: Int? = await withHelper(fallback: nil) { helper, finish in
+        await isResponding(over: helperConnection())
+    }
+
+    static func isResponding(
+        over connection: NSXPCConnection?,
+        waitingAtMost wait: TimeInterval = answerWait
+    ) async -> Bool {
+        let version: Int? = await ask(over: connection, waitingAtMost: wait, fallback: nil) { helper, finish in
             helper.protocolVersion { finish($0) }
         }
         return version == HelperIdentity.protocolVersion
     }
 
-    /// How long the helper is waited for before the request counts as unanswered.
-    private static let longestWait: TimeInterval = 120
+    /// How long a request is waited for before it counts as unanswered: longer than any request takes, at most
+    /// `HelperRequest.maximumItems` renames, or one `launchctl` run that the helper stops after 30 seconds.
+    static let requestWait: TimeInterval = 120
+
+    /// How long the helper is given to say it is there: launchd starts a job at most once every 10 seconds
+    /// (`man launchd.plist`, ThrottleInterval), and the helper itself starts in a fraction of a second.
+    static let answerWait: TimeInterval = 15
 
     /// At utility quality these timers would wait behind any utility work queued before them.
     static let timers = DispatchQueue.global(qos: .userInitiated)
@@ -284,13 +296,27 @@ public enum PrivilegedHelper {
         fallback: T,
         _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        guard let teamIdentifier = CodeSigning.currentTeamIdentifier() else { return fallback }
+        await ask(over: helperConnection(), waitingAtMost: requestWait, fallback: fallback, body)
+    }
 
+    /// A connection that takes only the helper's own code, or nil when Peel has no team to require.
+    private static func helperConnection() -> NSXPCConnection? {
+        guard let teamIdentifier = CodeSigning.currentTeamIdentifier() else { return nil }
         let connection = NSXPCConnection(machServiceName: HelperIdentity.machServiceName, options: .privileged)
-        connection.remoteObjectInterface = remoteInterface()
         connection.setCodeSigningRequirement(
             CodeSigning.requirement(identifier: HelperIdentity.helperIdentifier, teamIdentifier: teamIdentifier)
         )
+        return connection
+    }
+
+    static func ask<T: Sendable>(
+        over connection: NSXPCConnection?,
+        waitingAtMost wait: TimeInterval,
+        fallback: T,
+        _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+    ) async -> T {
+        guard let connection else { return fallback }
+        connection.remoteObjectInterface = remoteInterface()
         connection.resume()
         defer { connection.invalidate() }
 
@@ -301,10 +327,9 @@ public enum PrivilegedHelper {
                     continuation.resume(returning: value)
                 }
             }
-            // A helper that is running but never answers keeps the connection valid, so only this timer ends
-            // the wait. `longestWait` outlasts any request: at most `HelperRequest.maximumItems` renames, or one
-            // `launchctl` run that the helper stops after 30 seconds.
-            timers.asyncAfter(deadline: .now() + longestWait) { finish(fallback) }
+            // A helper that is running but never answers keeps the connection valid, and so does one launchd keeps
+            // and cannot start, so only this timer ends the wait.
+            timers.asyncAfter(deadline: .now() + wait) { finish(fallback) }
             guard
                 let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
                     as? any PeelHelperProtocol
