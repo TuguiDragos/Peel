@@ -3,7 +3,26 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
-## 1.0.1
+## 1.1.0 (not released yet)
+
+### Added
+
+- Peel tells you when a new version is out and updates itself when you choose to.
+- Every page that moves files shows how far it has got, and which app it is waiting for to quit.
+- Finds more to clean, such as downloads Safari never finished and updates Google's updater keeps.
+- Lists and uninstalls the few apps that carry no identifier, which it couldn't see before.
+
+### Changed
+
+- Never selects for you what may exist only on your Mac, such as WhatsApp's chats, game saves, and app backups.
+- Leaves an app with a system extension to Finder, and security and management tools to their makers' uninstallers.
+- Says what its helper is doing, and within seconds when the helper doesn't answer, with a way to repair it.
+
+### Fixed
+
+- Many smaller fixes: Peel never moves the folder it runs from, and never asks to quit what you can't quit.
+
+## 1.0.1 (2026-10-08)
 
 The first public release, for macOS 26 and later, on every Mac that runs it: Apple silicon, and the Intel Macs
 macOS 26 supports.
