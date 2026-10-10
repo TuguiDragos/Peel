@@ -20,76 +20,85 @@ struct MultipleAppsView: View {
     }
 
     var body: some View {
-        List {
-            header
-                .listRowSeparator(.hidden)
-            RemovalsHeldBanner()
-
-            if plan.bulk != nil {
-                if plan.bulk?.needsFullDiskAccess == true {
-                    FullDiskAccessBanner()
-                } else if !plan.unreadableLocations.isEmpty {
-                    UnreadableFoldersNotice(folders: plan.unreadableLocations.map(\.url))
-                }
-                if plan.requiresHelper, !helper.canAct {
-                    HelperRequiredBanner()
-                }
-                // Here, above the lists, so they are seen before Move to Trash however long the lists run.
-                BulkRemovalOptions(plan: plan)
-
-                Section {
-                    RemovalColumnHeaders()
-                    ForEach(Array(plan.applications.enumerated()), id: \.element.id) { index, item in
-                        row(item, isFirst: index == 0)
-                    }
+        ScrollViewReader { proxy in
+            List {
+                header
                     .listRowSeparator(.hidden)
-                } header: {
-                    SectionHeaderLine {
-                        Text("Apps")
-                    } actions: {
-                        SelectMenu(list: list(of: plan.applications), place: Text("Apps"), selection: plan)
-                    }
-                }
+                RemovalsHeldBanner()
 
-                if !plan.recommendedFiles.isEmpty {
+                if plan.bulk != nil {
+                    if plan.bulk?.needsFullDiskAccess == true {
+                        FullDiskAccessBanner()
+                    } else if !plan.unreadableLocations.isEmpty {
+                        UnreadableFoldersNotice(folders: plan.unreadableLocations.map(\.url))
+                    }
+                    if plan.requiresHelper, !helper.canAct {
+                        HelperRequiredBanner()
+                    }
+                    // Here, above the lists, so they are seen before Move to Trash however long the lists run.
+                    BulkRemovalOptions(plan: plan)
+                    ListJumps(
+                        toFiles: !plan.recommendedFiles.isEmpty,
+                        toReview: !plan.filesToReview.isEmpty,
+                        proxy: proxy
+                    )
+
                     Section {
                         RemovalColumnHeaders()
-                        ForEach(Array(plan.recommendedFiles.enumerated()), id: \.element.id) { index, item in
+                        ForEach(Array(plan.applications.enumerated()), id: \.element.id) { index, item in
                             row(item, isFirst: index == 0)
                         }
                         .listRowSeparator(.hidden)
                     } header: {
                         SectionHeaderLine {
-                            Text("Files They Leave Behind")
+                            Text("Apps")
                         } actions: {
-                            SelectMenu(
-                                list: list(of: plan.recommendedFiles),
-                                place: Text("Files They Leave Behind"),
-                                selection: plan
-                            )
+                            SelectMenu(list: list(of: plan.applications), place: Text("Apps"), selection: plan)
                         }
                     }
-                }
 
-                if !plan.filesToReview.isEmpty {
-                    Section {
-                        RemovalColumnHeaders()
-                        ForEach(Array(plan.filesToReview.enumerated()), id: \.element.id) { index, item in
-                            row(item, isFirst: index == 0)
+                    if !plan.recommendedFiles.isEmpty {
+                        Section {
+                            RemovalColumnHeaders()
+                                .id(ListJumps.Target.files)
+                            ForEach(Array(plan.recommendedFiles.enumerated()), id: \.element.id) { index, item in
+                                row(item, isFirst: index == 0)
+                            }
+                            .listRowSeparator(.hidden)
+                        } header: {
+                            SectionHeaderLine {
+                                Text("Files They Leave Behind")
+                            } actions: {
+                                SelectMenu(
+                                    list: list(of: plan.recommendedFiles),
+                                    place: Text("Files They Leave Behind"),
+                                    selection: plan
+                                )
+                            }
                         }
-                        .listRowSeparator(.hidden)
-                    } header: {
-                        SectionHeaderLine {
-                            heading(
-                                "Review Before Removing",
-                                "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
-                            )
-                        } actions: {
-                            SelectMenu(
-                                list: list(of: plan.filesToReview),
-                                place: Text("Review Before Removing"),
-                                selection: plan
-                            )
+                    }
+
+                    if !plan.filesToReview.isEmpty {
+                        Section {
+                            RemovalColumnHeaders()
+                                .id(ListJumps.Target.review)
+                            ForEach(Array(plan.filesToReview.enumerated()), id: \.element.id) { index, item in
+                                row(item, isFirst: index == 0)
+                            }
+                            .listRowSeparator(.hidden)
+                        } header: {
+                            SectionHeaderLine {
+                                heading(
+                                    "Review Before Removing",
+                                    "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
+                                )
+                            } actions: {
+                                SelectMenu(
+                                    list: list(of: plan.filesToReview),
+                                    place: Text("Review Before Removing"),
+                                    selection: plan
+                                )
+                            }
                         }
                     }
                 }
@@ -421,6 +430,41 @@ private struct BulkRemovalOptions: View {
                 }
             }
             .padding(.vertical, 8)
+            .listRowSeparator(.hidden)
+        }
+    }
+}
+
+/// Buttons that scroll to the lists further down, which with many apps chosen start far below the top of the page.
+private struct ListJumps: View {
+    enum Target { case files, review }
+
+    let toFiles: Bool
+    let toReview: Bool
+    let proxy: ScrollViewProxy
+
+    var body: some View {
+        if toFiles || toReview {
+            FlowLayout(spacing: 16) {
+                if toFiles {
+                    Button {
+                        proxy.scrollTo(Target.files, anchor: .top)
+                    } label: {
+                        Label("Files They Leave Behind", systemImage: "arrow.down")
+                            .minimumTarget()
+                    }
+                }
+                if toReview {
+                    Button {
+                        proxy.scrollTo(Target.review, anchor: .top)
+                    } label: {
+                        Label("Review Before Removing", systemImage: "arrow.down")
+                            .minimumTarget()
+                    }
+                }
+            }
+            .buttonStyle(.borderless)
+            .padding(.bottom, 4)
             .listRowSeparator(.hidden)
         }
     }
