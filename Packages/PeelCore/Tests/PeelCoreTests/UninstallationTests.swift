@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct UninstallationTests {
@@ -53,6 +54,85 @@ struct UninstallationTests {
         #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 0)
         #expect(plan.privilegedURLs.isEmpty)
         #expect(plan.removalOrder(of: [agent.url, daemon.url, support.url]).isEmpty)
+    }
+
+    private func appCarryingAFilter(in directory: borrowing TemporaryDirectory) throws -> InstalledApp {
+        let bundle = try directory.directory("root/Applications/Example.app")
+        try directory.file(
+            "root/Applications/Example.app/Contents/Library/SystemExtensions/org.example.filter.systemextension/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.filter", "CFBundleName": "Example Filter"],
+                format: .xml,
+                options: 0
+            )
+        )
+        return InstalledApp(url: bundle, bundleIdentifier: "org.example.app", name: "Example", teamIdentifier: "ABCDE12345")
+    }
+
+    private func installed(
+        _ election: AppExtension.Election,
+        team: String? = "ABCDE12345",
+        identifier: String = "org.example.filter"
+    ) -> AppExtensions.SystemExtensionsAnswer {
+        let item = AppExtension(
+            identifier: identifier, name: "Example Filter", kind: .systemExtension, point: nil, owner: nil, url: nil,
+            election: election, teamIdentifier: team, reportedState: nil
+        )
+        return { [item] }
+    }
+
+    @Test func leavesToFinderAnAppWhoseSystemExtensionMacOSInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try appCarryingAFilter(in: directory)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        func prepared(_ answer: AppExtensions.SystemExtensionsAnswer) async -> Uninstallation {
+            await Uninstallation.prepare(app, installedApps: [app], systemExtensions: answer, environment: environment)
+        }
+        let byFinder = RemovedElsewhere.byFinder(systemExtensions: ["Example Filter"])
+
+        let plan = await prepared(installed(.on))
+        #expect(plan.removedElsewhere == byFinder)
+        #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
+        #expect(plan.selectable(canUseHelper: true).isEmpty)
+        #expect(await prepared(installed(.waitingForApproval)).removedElsewhere == byFinder)
+        #expect(await prepared { nil }.removedElsewhere == byFinder, "macOS gave no answer")
+        #expect(await prepared(installed(.beingRemoved)).removedElsewhere == nil)
+        #expect(await prepared(installed(.on, team: "OTHER12345")).removedElsewhere == nil)
+        #expect(await prepared(installed(.on, identifier: "org.example.other")).removedElsewhere == nil)
+        #expect(await prepared { [] }.removedElsewhere == nil)
+    }
+
+    @Test func severalAppsAskMacOSOnceAndOnlyWhenOneCarriesASystemExtension() async throws {
+        let directory = try TemporaryDirectory()
+        let example = try appCarryingAFilter(in: directory)
+        let plain = InstalledApp(
+            url: try directory.directory("root/Applications/Plain.app"), bundleIdentifier: "org.example.plain", name: "Plain"
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let asked = Mutex(0)
+        let answer = installed(.on)
+        let counted: AppExtensions.SystemExtensionsAnswer = {
+            asked.withLock { $0 += 1 }
+            return await answer()
+        }
+
+        let both = await BulkUninstallation.prepare(
+            [example, plain], installedApps: [example, plain], systemExtensions: counted, environment: environment
+        )
+        _ = await BulkUninstallation.prepare(
+            [plain], installedApps: [example, plain], systemExtensions: counted, environment: environment
+        )
+
+        #expect(asked.withLock { $0 } == 1)
+        #expect(both.items.first { $0.url == example.url }?.removedElsewhere == .byFinder(systemExtensions: ["Example Filter"]))
+        #expect(!both.selectable(canUseHelper: true).contains(example.url))
+        #expect(both.selectable(canUseHelper: true).contains(plain.url))
     }
 
     /// When an app removes itself, nobody reviews a list first, so a match on its name is not enough. Only what

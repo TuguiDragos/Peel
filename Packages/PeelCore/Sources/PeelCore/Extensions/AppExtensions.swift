@@ -244,6 +244,44 @@ public enum AppExtensions {
         return AppInspector.displayName(of: URL(filePath: String(path[..<end.lowerBound]) + ".app"))
     }
 
+    /// Nil when macOS gave no answer Peel can read, which is not the same as none installed.
+    public typealias SystemExtensionsAnswer = @Sendable () async -> [AppExtension]?
+
+    public static let askingMacOS: SystemExtensionsAnswer = { await systemExtensions(run: run) }
+
+    /// When macOS gives no answer, every system extension `app` carries counts: only Finder's move removes one.
+    @concurrent
+    public static func installedNames(
+        carriedBy app: InstalledApp,
+        asking answer: SystemExtensionsAnswer = askingMacOS
+    ) async -> [String] {
+        let carried = systemExtensions(carriedBy: app.url)
+        guard !carried.isEmpty else { return [] }
+        guard let installed = await answer() else { return carried.map(\.name) }
+        let identifiers = Set(carried.map(\.identifier))
+        return installed.filter { item in
+            let team = item.teamIdentifier
+            let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
+            return identifiers.contains(item.identifier) && item.election != .beingRemoved && sameTeam
+        }.map(\.name)
+    }
+
+    /// A `.systemextension` keeps its `Info.plist` in `Contents`, and a `.dext` at its top.
+    static func systemExtensions(carriedBy app: URL) -> [(identifier: String, name: String)] {
+        let folder = app.appending(path: "Contents/Library/SystemExtensions", directoryHint: .isDirectory)
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+        return names.sorted().compactMap { name in
+            let bundle = folder.appending(path: name, directoryHint: .isDirectory)
+            let info: [String: Any]? = switch bundle.pathExtension {
+            case "systemextension": AppInspector.infoDictionary(in: bundle.appending(path: "Contents"))
+            case "dext": AppInspector.infoDictionary(in: bundle)
+            default: nil
+            }
+            guard let identifier = info?["CFBundleIdentifier"] as? String else { return nil }
+            return (identifier, Self.name(of: bundle, info: info))
+        }
+    }
+
     /// Returns the system extensions, or nil when `systemextensionsctl` gave no answer Peel can read: its first
     /// line counts the rows that follow, and a listing read short of it is not understood.
     static func systemExtensions(run: Runner) async -> [AppExtension]? {

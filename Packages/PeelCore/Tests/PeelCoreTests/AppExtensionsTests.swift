@@ -283,4 +283,26 @@ struct AppExtensionsTests {
         )
         #expect(Set(found.map(\.id)).count == found.count, "the same extension was listed twice")
     }
+
+    @Test func readsTheSystemExtensionsAnAppCarries() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Example.app")
+        let extensions = "Example.app/Contents/Library/SystemExtensions"
+        func info(_ identifier: String, _ name: String) throws -> Data {
+            try PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": identifier, "CFBundleName": name], format: .xml, options: 0
+            )
+        }
+        try directory.file(
+            "\(extensions)/org.example.filter.systemextension/Contents/Info.plist",
+            contents: info("org.example.filter", "Example Filter")
+        )
+        try directory.file("\(extensions)/org.example.driver.dext/Info.plist", contents: info("org.example.driver", "Example Driver"))
+        try directory.file("\(extensions)/notes.txt")
+
+        let carried = AppExtensions.systemExtensions(carriedBy: app)
+
+        #expect(carried.map(\.identifier) == ["org.example.driver", "org.example.filter"])
+        #expect(carried.map(\.name) == ["Example Driver", "Example Filter"])
+    }
 }

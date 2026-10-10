@@ -131,7 +131,7 @@ struct ExtensionDetailView: View {
         case .appExtension:
             "Peel doesn’t turn extensions on or off: macOS does. Removing one means removing the app it came with."
         case .systemExtension:
-            "macOS keeps its own copy of this, apart from the app. Remove the app in Finder and macOS uninstalls this too. To remove the app with Peel instead, turn this off in System Settings first."
+            "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder."
         }
     }
 }

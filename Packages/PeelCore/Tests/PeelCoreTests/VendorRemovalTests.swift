@@ -133,15 +133,6 @@ struct VendorRemovalTests {
         #expect(named?.lastPathComponent == "Studio Uninstaller.app")
     }
 
-    @Test func listsSystemExtensionsInsideTheBundle() throws {
-        let directory = try TemporaryDirectory()
-        try directory.directory("Example.app/Contents/Library/SystemExtensions/com.example.app.filter.systemextension")
-        try directory.directory("Example.app/Contents/Library/SystemExtensions/notes.txt")
-        let example = app(in: directory, path: "Example.app", name: "Example")
-
-        #expect(VendorRemoval.systemExtensions(in: example) == ["com.example.app.filter.systemextension"])
-    }
-
     @Test func showsOnlyFilesAPackagePutOutsideTheApp() throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Example.app")

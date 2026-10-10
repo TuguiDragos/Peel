@@ -94,8 +94,11 @@ public struct BulkUninstallation: Sendable {
         exclusions: Exclusions = .none,
         casks: [HomebrewPackage] = [],
         receipts: Set<String> = [],
+        systemExtensions: AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
         environment: SearchEnvironment = .current
     ) async -> BulkUninstallation {
+        let carriesOne = apps.contains { !AppExtensions.systemExtensions(carriedBy: $0.url).isEmpty }
+        let installed = carriesOne ? await systemExtensions() : nil
         var prepared: [Uninstallation] = []
         for app in apps where !Task.isCancelled {
             prepared.append(
@@ -105,6 +108,7 @@ public struct BulkUninstallation: Sendable {
                     exclusions: exclusions,
                     casks: casks,
                     receipts: receipts,
+                    systemExtensions: { installed },
                     environment: environment
                 )
             )

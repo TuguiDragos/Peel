@@ -442,8 +442,8 @@ struct UninstallCommand: AsyncParsableCommand {
     /// Throws for an app removed elsewhere. Peel removes itself from its own Settings, after unregistering its login
     /// item and privileged helper: if `peel` moved the app, the helper would stay registered with launchd and point
     /// into the Trash. An agent goes by its maker's uninstaller, which also takes what it keeps in the system.
-    static func refuseIfRemovedElsewhere(_ target: InstalledApp) throws {
-        switch target.removedElsewhere {
+    static func refuseIfRemovedElsewhere(_ target: InstalledApp, installedSystemExtensions: [String] = []) throws {
+        switch RemovedElsewhere.of(target, installedSystemExtensions: installedSystemExtensions) {
         case nil:
             return
         case .byRemovePeel:
@@ -454,6 +454,10 @@ struct UninstallCommand: AsyncParsableCommand {
             case .uninstaller(let url): "open \(url.path(percentEncoded: false))"
             }
             throw CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+        case .byFinder(let names):
+            let extensions = names.map(Output.plain).joined(separator: ", ")
+            let (what, them) = names.count == 1 ? ("a system extension", "it") : ("system extensions", "them")
+            throw CommandFailure("macOS installed \(what) that came with \(Output.plain(target.name)) (\(extensions)), and removes \(them) only when the app goes to the Trash in Finder. Move it to the Trash in Finder instead.")
         }
     }
 
@@ -489,7 +493,9 @@ struct UninstallCommand: AsyncParsableCommand {
     func run() async throws {
         let apps = await AppCatalog.installedApps()
         let target = try AppLookup.app(matching: app, in: apps)
-        try Self.refuseIfRemovedElsewhere(target)
+        try Self.refuseIfRemovedElsewhere(
+            target, installedSystemExtensions: await AppExtensions.installedNames(carriedBy: target)
+        )
         guard !target.isSystemProtected else {
             throw CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
         }

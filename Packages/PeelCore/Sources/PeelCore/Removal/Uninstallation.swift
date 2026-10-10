@@ -20,10 +20,13 @@ public struct Uninstallation: Sendable {
     /// it is never selected or counted, and what it left behind still is.
     public var isAppInTheTrash = false
     public var uninstallsItself: UninstallsItself?
-    /// How the app is removed when Peel never removes it from here: Peel itself from its own Settings, where its helper
-    /// and login item go first (`unreviewedSelection` is that way), and an agent by its maker's uninstaller. Its files
-    /// are listed, and nothing of it is selected or moved.
-    public var removedElsewhere: RemovedElsewhere? { app.removedElsewhere }
+    public var installedSystemExtensions: [String] = []
+    /// How the app is removed when Peel never removes it from here: Peel itself from Settings, where its helper and
+    /// login item go first (`unreviewedSelection` is that way), an agent by its maker's uninstaller, and an app with
+    /// system extensions macOS installed by Finder. Its files are listed, and nothing of it is selected or moved.
+    public var removedElsewhere: RemovedElsewhere? {
+        RemovedElsewhere.of(app, installedSystemExtensions: installedSystemExtensions)
+    }
 
     @concurrent
     public static func prepare(
@@ -32,6 +35,7 @@ public struct Uninstallation: Sendable {
         exclusions: Exclusions = .none,
         casks: [HomebrewPackage] = [],
         receipts: Set<String> = [],
+        systemExtensions: AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
         environment: SearchEnvironment = .current
     ) async -> Uninstallation {
         async let bundle = FileSize.contents(of: app.url)
@@ -91,7 +95,8 @@ public struct Uninstallation: Sendable {
             appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
             isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url),
-            uninstallsItself: uninstallsItself
+            uninstallsItself: uninstallsItself,
+            installedSystemExtensions: await AppExtensions.installedNames(carriedBy: app, asking: systemExtensions)
         )
     }
 

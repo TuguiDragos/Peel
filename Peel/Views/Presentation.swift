@@ -220,6 +220,8 @@ extension RemovedElsewhere {
         switch self {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
         case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker)’s own uninstaller removes it."
+        case .byFinder(let names):
+            "Left alone: macOS removes \(names.formatted(.list(type: .and))) only when the app goes to the Trash in Finder."
         }
     }
 }

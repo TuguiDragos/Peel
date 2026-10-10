@@ -109,6 +109,9 @@ Take the most common case, uninstalling an app. Every other page follows the sam
      are held back (`leftToItsUninstaller`) rather than moved first.
    - What Peel itself runs from never moves, nor anything holding it, such as the folder a copy built from source
      runs from: only Remove Peel moves Peel (`TrashFailure.Reason.peelRunsFromIt`).
+   - An app carrying a system extension macOS installed is left to Finder (`RemovedElsewhere.byFinder`): only
+     Finder's move tells macOS to remove the extension, so Peel moves nothing of the app, on its page, among several
+     apps and in `peel uninstall` alike (`AppExtensions.installedNames(carriedBy:)`).
    - A program another account runs, root's included, can't be quit by the person or by Peel (`kill(2)` answers
      `EPERM`), so it is never in the question to quit apps (`RunningCopies.Process.mayBeQuit`), and what it runs
      from stays with a reason of its own (`heldByAnotherAccount`). `OpenFiles.refusal(of:)` is the one rule.

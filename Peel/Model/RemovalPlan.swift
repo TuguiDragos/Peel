@@ -21,10 +21,9 @@ final class RemovalPlan {
     private(set) var defaultRoles: [DefaultRole] = []
     /// Every installed app as of the last scan. It tells this app's running helpers apart from another app's.
     private var installedApps: [InstalledApp] = []
-    /// Read from the bundle once per scan, off the main actor. The page reads both on every checkbox change,
-    /// and finding the uninstaller lists whole folders, such as Applications.
+    /// Read from the bundle once per scan, off the main actor. The page reads it on every checkbox change, and
+    /// finding the uninstaller lists whole folders, such as Applications.
     private(set) var vendorUninstaller: URL?
-    private(set) var systemExtensions: [String] = []
     /// Read once per scan as well, so Rescan shows them as they are now: whether the Dock holds a tile for the app,
     /// and the receipts of the packages that installed it, with what each put outside the app.
     private(set) var hasDockTile = false
@@ -79,9 +78,9 @@ final class RemovalPlan {
         uninstallation?.isAppInTheTrash ?? false
     }
 
-    /// Known before the scan, so the page says from the start how the app is removed instead.
+    /// From the app before the scan, and from the system extensions macOS installed once the scan has asked.
     var removedElsewhere: RemovedElsewhere? {
-        app.removedElsewhere
+        uninstallation?.removedElsewhere ?? app.removedElsewhere
     }
 
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
@@ -146,7 +145,7 @@ final class RemovalPlan {
             uniquingKeysWith: { first, _ in first }
         )
         self.installedApps = installedApps
-        (vendorUninstaller, systemExtensions) = bundle
+        vendorUninstaller = bundle
         (packageReceipts, filesOutside) = installed
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
         defaultRoles = await DefaultApps.roles(of: app)
@@ -175,10 +174,8 @@ final class RemovalPlan {
     }
 
     @concurrent
-    private nonisolated static func look(
-        inside app: InstalledApp
-    ) async -> (uninstaller: URL?, systemExtensions: [String]) {
-        (VendorRemoval.uninstaller(for: app), VendorRemoval.systemExtensions(in: app))
+    private nonisolated static func look(inside app: InstalledApp) async -> URL? {
+        VendorRemoval.uninstaller(for: app)
     }
 
     /// Moves what `request` asked about, whatever has been selected since.

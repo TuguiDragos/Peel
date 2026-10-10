@@ -246,7 +246,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **A plug-in goes by what it declares.** Its name says what it does rather than who made it, so a plug-in called
   like the app is selected only when the identifier it declares is the app's or its maker's: another maker's plug-in
   with the app's name is never selected.
-- **A system extension is left to macOS**, which uninstalls it itself when the app is deleted, so it is not listed.
+- **A system extension is left to macOS**, which removes it only when the app that uses it goes to the Trash in
+  Finder, so the copy macOS installed is never listed with the app.
 - **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one
   that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. An app
   that is part of another, such as a helper app inside the app it serves, is never moved on its own, from the app or
@@ -264,6 +265,13 @@ maker's instructions, since moved from its place, what it keeps in the system an
 stay behind. Peel knows it by the team its checked signature names and by its identifier, both as the maker
 documents them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the
 same uninstaller.
+
+An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
+the same way, and nothing of it can be selected: macOS removes the extension only when the app goes to the Trash in
+Finder, which tells macOS to, and moved by Peel the app would leave the extension installed. Its page says so, with
+Show in Finder, and `peel uninstall` refuses it with the same reason. Peel asks macOS which of the app's extensions it
+installed (`systemextensionsctl`), leaves out one macOS is already removing, and when macOS doesn't answer, counts
+every extension the app carries.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,

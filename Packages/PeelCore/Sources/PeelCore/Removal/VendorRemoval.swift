@@ -1,8 +1,8 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// Some apps ship their own uninstaller, install through a package, or carry a system extension.
-/// Peel points at those instead of guessing, because the vendor's own tool knows more than any scanner.
+/// Some apps ship their own uninstaller or install through a package. Peel points at those instead of guessing,
+/// because the vendor's own tool knows more than any scanner.
 public enum VendorRemoval {
     /// An uninstaller for `app`: one inside its bundle or beside it, or else one named for the app in the
     /// folders where makers keep their uninstallers.
@@ -85,14 +85,6 @@ public enum VendorRemoval {
     static func isApplicationsFolder(_ url: URL) -> Bool {
         let path = PathPattern.comparablePath(of: url)
         return path == "/Applications" || path.hasSuffix("/Applications")
-    }
-
-    /// The system extensions and DriverKit extensions inside the app's bundle. macOS manages them, so moving
-    /// files does not remove them.
-    public static func systemExtensions(in app: InstalledApp) -> [String] {
-        let folder = app.url.appending(path: "Contents/Library/SystemExtensions", directoryHint: .isDirectory)
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-        return names.filter { $0.hasSuffix(".systemextension") || $0.hasSuffix(".dext") }.sorted()
     }
 
     /// What a package installed outside the app's bundle and is still there, folders included: a support folder

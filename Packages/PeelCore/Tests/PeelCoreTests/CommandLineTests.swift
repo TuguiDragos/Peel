@@ -785,6 +785,19 @@ struct CommandLineTests {
         #expect(failure?.description.contains("uninstall_gp.sh") == true)
     }
 
+    @Test func refusesToUninstallAnAppWhoseSystemExtensionOnlyFinderRemoves() throws {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app", name: "Example"
+        )
+
+        let failure = #expect(throws: CommandFailure.self) {
+            try UninstallCommand.refuseIfRemovedElsewhere(app, installedSystemExtensions: ["Example Filter"])
+        }
+        #expect(failure?.description.contains("Trash in Finder") == true)
+        try UninstallCommand.refuseIfRemovedElsewhere(app)
+    }
+
     @Test func refusesToUninstallAnAppInsideAnotherApp() throws {
         let outer = URL(filePath: "/Applications/Outer.app", directoryHint: .isDirectory)
         let inner = InstalledApp(

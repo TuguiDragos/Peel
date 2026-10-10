@@ -132,6 +132,10 @@ struct AppDetailView: View {
                 MakersUninstallerNotice(app: plan.app.name, uninstaller: uninstaller)
                     .listRowSeparator(.hidden)
             }
+            if case .byFinder(let extensions) = plan.removedElsewhere {
+                SystemExtensionNotice(app: plan.app, extensions: extensions)
+                    .listRowSeparator(.hidden)
+            }
             if case .browser(let identifier) = plan.app.webApp {
                 let browser = library.name(forReference: identifier)
                 Notice(
@@ -173,9 +177,6 @@ struct AppDetailView: View {
                 }
 
                 Group {
-                    SystemExtensionNotice(app: plan.app, extensions: plan.systemExtensions)
-                        .listRowSeparator(.hidden)
-
                     recommendedSection
                     reviewSection
                     AppRemovalOptions(plan: plan)

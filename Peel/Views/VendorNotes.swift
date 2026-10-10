@@ -2,28 +2,23 @@ import AppKit
 import PeelCore
 import SwiftUI
 
-/// A notice that the app carries system extensions, which macOS installs and removes, not Peel. It sits with
-/// the other notices at the top of the page because it changes what removing the app can do. The extensions'
-/// names are in its info note rather than on the page.
+/// The note on the page of an app carrying system extensions macOS installed, which Peel leaves to Finder.
 struct SystemExtensionNotice: View {
     let app: InstalledApp
     let extensions: [String]
 
     var body: some View {
-        if !extensions.isEmpty {
-            Notice(
-                title: Text("^[\(extensions.count) system extension](inflect: true) inside"),
-                detail: Text("macOS manages these, and it isn’t known whether moving the app removes them. Remove \(app.name) in Finder and macOS uninstalls them too. To remove it with Peel instead, turn them off in System Settings first."),
-                kind: .note
-            ) {
-                InfoNote(
-                    name: String(localized: "System extensions"),
-                    detail: Text("The system extensions \(app.name) carries inside it, whether or not macOS has turned them on."),
-                    footnote: Text(verbatim: extensions.joined(separator: "\n"))
-                )
-                Button("Show in Finder", systemImage: "folder") {
-                    NSWorkspace.shared.activateFileViewerSelecting([app.url])
-                }
+        let names = extensions.formatted(.list(type: .and))
+        Notice(
+            title: Text("Move It to the Trash in Finder"),
+            // Two literals, so the string catalog finds both.
+            detail: extensions.count == 1
+                ? Text("macOS installed \(names), a system extension that came with \(app.name), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
+                : Text("macOS installed \(names), system extensions that came with \(app.name), and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left."),
+            kind: .note
+        ) {
+            Button("Show in Finder", systemImage: "folder") {
+                NSWorkspace.shared.activateFileViewerSelecting([app.url])
             }
         }
     }

@@ -66664,6 +66664,112 @@
         }
       }
     },
+    "Left alone: macOS removes %@ only when the app goes to the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS odstraní rozšíření %@ jen tehdy, když se aplikace přesune do koše ve Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS entfernt %@ nur, wenn die App im Finder in den Papierkorb gelegt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS solo elimina %@ cuando la app va a la papelera en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS ne supprime %@ que lorsque l’app est placée dans la corbeille depuis le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS rimuove %@ solo quando l’app viene spostata nel Cestino dal Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: macOSが%@を削除するのは、Finderでアプリをゴミ箱に入れたときだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS는 앱이 Finder에서 휴지통으로 이동될 때만 %@을(를) 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS verwijdert %@ alleen als de app in Finder naar de prullenmand gaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS usuwa %@ tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS só remove %@ quando o app vai para o Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS elimină %@ doar când aplicația este mutată în Coș din Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS удаляет %@, только когда приложение перемещают в Корзину в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS tar bort %@ bara när appen flyttas till papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: %@, yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında macOS tarafından kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS вилучає %@, лише коли програму переміщують у Смітник у Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：只有在“访达”中将App移到废纸篓时，macOS才会移除“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：只有在Finder中將App丟到「垃圾桶」時，macOS才會移除%@。"
+          }
+        }
+      }
+    },
     "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here." : {
       "localizations" : {
         "cs" : {
@@ -72847,6 +72953,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要將「%@」丟到「垃圾桶」嗎？"
+          }
+        }
+      }
+    },
+    "Move It to the Trash in Finder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesuňte aplikaci do koše ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Finder in den Papierkorb legen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasládala a la papelera en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À placer dans la corbeille depuis le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spostala nel Cestino dal Finder"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderでゴミ箱に入れてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 앱을 휴지통으로 이동"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaats in Finder naar de prullenmand"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś aplikację do Kosza w Finderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mova-o para o Lixo no Finder"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutați aplicația în Coș din Finder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместите его в Корзину в Finder"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flytta den till papperskorgen i Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder’da Çöp Sepeti’ne Taşıyın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістіть програму в Смітник у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“访达”中将它移到废纸篓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中將此App丟到「垃圾桶」"
           }
         }
       }
@@ -145374,112 +145586,6 @@
         }
       }
     },
-    "System extensions" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozšíření systému"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systemerweiterungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensiones del sistema"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensions système"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estensioni di sistema"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "システム機能拡張"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "시스템 확장 프로그램"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systeemextensies"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozszerzenia systemowe"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensões do sistema"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensii de sistem"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Системные расширения"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systemtillägg"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistem genişletmeleri"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Системні розширення"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系统扩展"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系統延伸功能"
-          }
-        }
-      }
-    },
     "System images Android Studio downloaded, and the virtual devices made from them." : {
       "localizations" : {
         "cs" : {
@@ -155866,112 +155972,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前一個指令失敗時，符號會變成紅色，讓失敗更加醒目。"
-          }
-        }
-      }
-    },
-    "The system extensions %@ carries inside it, whether or not macOS has turned them on." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozšíření systému, která aplikace %@ obsahuje, bez ohledu na to, zda je macOS zapnul."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Systemerweiterungen, die „%@“ in sich trägt, unabhängig davon, ob macOS sie aktiviert hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las extensiones del sistema que %@ lleva dentro, las haya activado macOS o no."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les extensions système que %@ contient, que macOS les ait activées ou non."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le estensioni di sistema che %@ contiene, che macOS le abbia attivate o no."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSがオンにしているかどうかにかかわらず、“%@”が内部に持っているシステム機能拡張です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 켰는지와 관계없이 ‘%@’ 내부에 들어 있는 시스템 확장 프로그램입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De systeemextensies die in %@ zitten, of macOS ze nu heeft ingeschakeld of niet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozszerzenia systemowe zawarte w aplikacji %@, niezależnie od tego, czy macOS je włączył."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As extensões do sistema que %@ traz dentro dele, quer o macOS as tenha ativado ou não."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensiile de sistem pe care %@ le conține, fie că macOS le‑a activat, fie că nu."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Системные расширения, которые приложение «%@» содержит внутри, независимо от того, включила ли их macOS."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systemtilläggen som %@ bär med sig inuti, oavsett om macOS har slagit på dem eller inte."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ uygulamasının içinde taşıdığı sistem genişletmeleri; macOS onları açmış olsun ya da olmasın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Системні розширення, які програма «%@» містить усередині, незалежно від того, чи увімкнула їх macOS."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@”内含的系统扩展，无论macOS是否已将其打开。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「%@」內含的系統延伸功能，無論macOS是否已將其開啟。"
           }
         }
       }
@@ -190027,346 +190027,6 @@
         }
       }
     },
-    "^[%lld system extension](inflect: true) inside" : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Uvnitř jsou %lld rozšíření systému"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Uvnitř je %lld rozšíření systému"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Uvnitř je %lld rozšíření systému"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Uvnitř je %lld rozšíření systému"
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Systemerweiterung enthalten"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Systemerweiterungen enthalten"
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Contiene %lld de extensiones del sistema"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Contiene una extensión del sistema"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Contiene %lld extensiones del sistema"
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld d’extensions système à l’intérieur"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extension système à l’intérieur"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extensions système à l’intérieur"
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld di estensioni di sistema all’interno"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Un’estensione di sistema all’interno"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld estensioni di sistema all’interno"
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld個のシステム機能拡張が含まれています"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내부에 시스템 확장 프로그램 %lld개"
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld systeemextensie in de app"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld systeemextensies in de app"
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld rozszerzenia systemowe w środku"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld rozszerzeń systemowych w środku"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld rozszerzenie systemowe w środku"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld rozszerzenia systemowego w środku"
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld de extensões do sistema dentro do app"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extensão do sistema dentro do app"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extensões do sistema dentro do app"
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extensii de sistem în interior"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld extensie de sistem în interior"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld de extensii de sistem în interior"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Внутри %lld системных расширения"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Внутри %lld системных расширений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Внутри %lld системное расширение"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Внутри %lld системного расширения"
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld systemtillägg inuti"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld systemtillägg inuti"
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "İçinde %lld sistem genişletmesi"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "İçinde %lld sistem genişletmesi"
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Усередині %lld системні розширення"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Усередині %lld системних розширень"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Усередині %lld системне розширення"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Усередині %lld системного розширення"
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "内含%lld个系统扩展"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "內含%lld個系統延伸功能"
-          }
-        }
-      }
-    },
     "^[%lld tool](inflect: true)" : {
       "localizations" : {
         "cs" : {
@@ -195463,6 +195123,218 @@
         }
       }
     },
+    "macOS installed %@, a system extension that came with %@, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření systému %@, které přišlo s aplikací %@, a odstraní ho jen tehdy, když se aplikace přesune do koše ve Finderu, někdy až po příštím restartu. Proto Peel aplikaci i její soubory ponechává na místě: přesuňte ji do koše ve Finderu a stránka Osiřelé soubory pak zobrazí, co po sobě aplikace zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat „%@“ installiert, eine Systemerweiterung, die mit „%@“ geliefert wurde, und entfernt sie nur, wenn die App im Finder in den Papierkorb gelegt wird, manchmal erst beim nächsten Neustart. Daher lässt Peel die App und ihre Dateien dort, wo sie sind: Lege die App im Finder in den Papierkorb. Was sie hinterlassen hat, zeigt dann die Seite „Verwaiste Dateien“ an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado %@, una extensión del sistema que vino con %@, y solo la elimina cuando la app va a la papelera en el Finder, a veces durante el siguiente reinicio. Por eso, Peel deja la app y sus archivos donde están: trasládala a la papelera en el Finder y, después, la página Archivos huérfanos mostrará lo que haya dejado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@, une extension système fournie avec %@, et ne la supprime que lorsque l’app est placée dans la corbeille depuis le Finder, parfois au prochain redémarrage. Peel laisse donc l’app là où elle est, avec ses fichiers : placez-la dans la corbeille depuis le Finder, et la page Fichiers orphelins liste ensuite ce que l’app a laissé derrière elle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@, un’estensione di sistema fornita con %@, e la rimuove solo quando l’app viene spostata nel Cestino dal Finder, a volte al prossimo riavvio. Quindi Peel lascia l’app e i suoi file dove sono: spostala nel Cestino dal Finder, e poi “File orfani” elencherà ciò che l’app ha lasciato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、“%@”に付属するシステム機能拡張です。macOSがこれを削除するのは、Finderでアプリをゴミ箱に入れたときだけで、Macを次に再起動するまで削除されない場合もあります。そのため、Peelはこのアプリとそのファイルをそのままにします。Finderでアプリをゴミ箱に入れてください。その後、このアプリが残したものが“孤立ファイル”に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 ‘%@’은(는) ‘%@’과(와) 함께 제공된 시스템 확장 프로그램입니다. macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 확장 프로그램을 제거하며, 다음에 Mac을 재시동할 때 제거하는 경우도 있습니다. 따라서 Peel은 앱과 앱의 파일을 그대로 둡니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 주인 없는 파일 페이지에 앱이 남긴 항목이 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ geïnstalleerd, een systeemextensie die bij %@ hoort, en verwijdert die alleen als de app in Finder naar de prullenmand gaat, soms pas bij de volgende herstart. Daarom laat Peel de app en de bestanden ervan staan: verplaats de app in Finder naar de prullenmand, en daarna toont de pagina 'Verweesde bestanden' wat de app heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenie systemowe %@, dostarczone z aplikacją %@, i usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia aplikację i jej pliki na miejscu: przenieś ją do Kosza w Finderze, a strona Osierocone pliki wyświetli potem pozostałości po niej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou %@, uma extensão do sistema que veio com %@, e só a remove quando o app vai para o Lixo no Finder, às vezes apenas no próximo reinício. Por isso, o Peel deixa o app e os arquivos dele onde estão: mova-o para o Lixo no Finder, e depois a página Arquivos Órfãos lista o que ele deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat %@, o extensie de sistem care a venit cu %@, și o elimină doar când aplicația este mutată în Coș din Finder, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația și fișierele ei acolo unde sunt: mutați‑o în Coș din Finder, iar pagina Fișiere orfane listează apoi ce a lăsat aplicația în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системное расширение «%@», которое поставлялось с приложением «%@», и удаляет его, только когда приложение перемещают в Корзину в Finder, иногда лишь при следующей перезагрузке. Поэтому Peel оставляет на месте и приложение, и его файлы: переместите его в Корзину в Finder, и затем раздел «Осиротевшие файлы» покажет его остатки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@, ett systemtillägg som följde med %@, och tar bort det bara när appen flyttas till papperskorgen i Finder, ibland först vid nästa omstart. Därför låter Peel appen och dess filer vara där de är: flytta den till papperskorgen i Finder, och sedan listar sidan Övergivna filer det som appen lämnade kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ adlı, %@ uygulamasıyla gelen bir sistem genişletmesini yükledi ve onu yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel uygulamaya ve dosyalarına dokunmaz: uygulamayı Finder’da Çöp Sepeti’ne taşıyın, ardından Sahipsiz Dosyalar, uygulamanın geride bıraktıklarını listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала «%@», системне розширення, що постачалося разом із програмою «%@», і вилучає його, лише коли програму переміщують у Смітник у Finder, іноді після наступного перезапуску. Тому Peel лишає програму та її файли на місці: перемістіть її в Смітник у Finder, і тоді розділ «Покинуті файли» покаже, що вона залишила по собі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了“%@”，这是随“%@”附带的系统扩展。只有在“访达”中将该App移到废纸篓时，macOS才会移除它，有时要等到Mac下次重新启动时才移除。因此Peel会将该App及其文件留在原处：请在“访达”中将它移到废纸篓，之后“孤立文件”会列出它留下的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了「%@」，這是隨附於「%@」的系統延伸功能。只有在Finder中將此App丟到「垃圾桶」時，macOS才會移除它，有時還要等到下次重新開機。因此Peel會將此App及其檔案原地保留：請在Finder中將它丟到「垃圾桶」，之後「孤立檔案」就會列出它留下的檔案。"
+          }
+        }
+      }
+    },
+    "macOS installed %@, system extensions that came with %@, and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření systému %@, která přišla s aplikací %@, a odstraní je jen tehdy, když se aplikace přesune do koše ve Finderu, někdy až po příštím restartu. Proto Peel aplikaci i její soubory ponechává na místě: přesuňte ji do koše ve Finderu a stránka Osiřelé soubory pak zobrazí, co po sobě aplikace zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat %@ installiert, Systemerweiterungen, die mit „%@“ geliefert wurden, und entfernt sie nur, wenn die App im Finder in den Papierkorb gelegt wird, manchmal erst beim nächsten Neustart. Daher lässt Peel die App und ihre Dateien dort, wo sie sind: Lege die App im Finder in den Papierkorb. Was sie hinterlassen hat, zeigt dann die Seite „Verwaiste Dateien“ an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado %@, extensiones del sistema que vinieron con %@, y solo las elimina cuando la app va a la papelera en el Finder, a veces durante el siguiente reinicio. Por eso, Peel deja la app y sus archivos donde están: trasládala a la papelera en el Finder y, después, la página Archivos huérfanos mostrará lo que haya dejado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@, des extensions système fournies avec %@, et ne les supprime que lorsque l’app est placée dans la corbeille depuis le Finder, parfois au prochain redémarrage. Peel laisse donc l’app là où elle est, avec ses fichiers : placez-la dans la corbeille depuis le Finder, et la page Fichiers orphelins liste ensuite ce que l’app a laissé derrière elle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@, estensioni di sistema fornite con %@, e le rimuove solo quando l’app viene spostata nel Cestino dal Finder, a volte al prossimo riavvio. Quindi Peel lascia l’app e i suoi file dove sono: spostala nel Cestino dal Finder, e poi “File orfani” elencherà ciò che l’app ha lasciato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、いずれも“%@”に付属するシステム機能拡張です。macOSがこれらを削除するのは、Finderでアプリをゴミ箱に入れたときだけで、Macを次に再起動するまで削除されない場合もあります。そのため、Peelはこのアプリとそのファイルをそのままにします。Finderでアプリをゴミ箱に入れてください。その後、このアプリが残したものが“孤立ファイル”に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 %@은(는) ‘%@’과(와) 함께 제공된 시스템 확장 프로그램입니다. macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 확장 프로그램들을 제거하며, 다음에 Mac을 재시동할 때 제거하는 경우도 있습니다. 따라서 Peel은 앱과 앱의 파일을 그대로 둡니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 주인 없는 파일 페이지에 앱이 남긴 항목이 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ geïnstalleerd, systeemextensies die bij %@ horen, en verwijdert die alleen als de app in Finder naar de prullenmand gaat, soms pas bij de volgende herstart. Daarom laat Peel de app en de bestanden ervan staan: verplaats de app in Finder naar de prullenmand, en daarna toont de pagina 'Verweesde bestanden' wat de app heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenia systemowe %@, dostarczone z aplikacją %@, i usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia aplikację i jej pliki na miejscu: przenieś ją do Kosza w Finderze, a strona Osierocone pliki wyświetli potem pozostałości po niej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou %@, extensões do sistema que vieram com %@, e só as remove quando o app vai para o Lixo no Finder, às vezes apenas no próximo reinício. Por isso, o Peel deixa o app e os arquivos dele onde estão: mova-o para o Lixo no Finder, e depois a página Arquivos Órfãos lista o que ele deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat %@, extensii de sistem care au venit cu %@, și le elimină doar când aplicația este mutată în Coș din Finder, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația și fișierele ei acolo unde sunt: mutați‑o în Coș din Finder, iar pagina Fișiere orfane listează apoi ce a lăsat aplicația în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системные расширения %@, которые поставлялись с приложением «%@», и удаляет их, только когда приложение перемещают в Корзину в Finder, иногда лишь при следующей перезагрузке. Поэтому Peel оставляет на месте и приложение, и его файлы: переместите его в Корзину в Finder, и затем раздел «Осиротевшие файлы» покажет его остатки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@, systemtillägg som följde med %@, och tar bort dem bara när appen flyttas till papperskorgen i Finder, ibland först vid nästa omstart. Därför låter Peel appen och dess filer vara där de är: flytta den till papperskorgen i Finder, och sedan listar sidan Övergivna filer det som appen lämnade kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ adlı, %@ uygulamasıyla gelen sistem genişletmelerini yükledi ve onları yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel uygulamaya ve dosyalarına dokunmaz: uygulamayı Finder’da Çöp Sepeti’ne taşıyın, ardından Sahipsiz Dosyalar, uygulamanın geride bıraktıklarını listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала %@, системні розширення, що постачалися разом із програмою «%@», і вилучає їх, лише коли програму переміщують у Смітник у Finder, іноді після наступного перезапуску. Тому Peel лишає програму та її файли на місці: перемістіть її в Смітник у Finder, і тоді розділ «Покинуті файли» покаже, що вона залишила по собі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了“%@”，这些是随“%@”附带的系统扩展。只有在“访达”中将该App移到废纸篓时，macOS才会移除它们，有时要等到Mac下次重新启动时才移除。因此Peel会将该App及其文件留在原处：请在“访达”中将它移到废纸篓，之后“孤立文件”会列出它留下的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了%@，這些是隨附於「%@」的系統延伸功能。只有在Finder中將此App丟到「垃圾桶」時，macOS才會移除它們，有時還要等到下次重新開機。因此Peel會將此App及其檔案原地保留：請在Finder中將它丟到「垃圾桶」，之後「孤立檔案」就會列出它留下的檔案。"
+          }
+        }
+      }
+    },
     "macOS installed this apart from the app that brought it, and keeps its own copy." : {
       "localizations" : {
         "cs" : {
@@ -195993,108 +195865,108 @@
         }
       }
     },
-    "macOS keeps its own copy of this, apart from the app. Remove the app in Finder and macOS uninstalls this too. To remove the app with Peel instead, turn this off in System Settings first." : {
+    "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace. Když aplikaci odstraníte ve Finderu, macOS odinstaluje i toto rozšíření. Chcete-li aplikaci místo toho odstranit pomocí Peelu, nejprve rozšíření vypněte v Nastavení systému."
+            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace, a odstraní ho jen tehdy, když se aplikace přesune do koše ve Finderu, někdy až po příštím restartu. Proto Peel tuto aplikaci nechává na Finderu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App. Entfernst du die App im Finder, deinstalliert macOS auch die Erweiterung. Um die App stattdessen mit Peel zu entfernen, deaktiviere die Erweiterung zuerst in den Systemeinstellungen."
+            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App, und entfernt die Erweiterung nur, wenn die App im Finder in den Papierkorb gelegt wird, manchmal erst beim nächsten Neustart. Daher überlässt Peel diese App dem Finder."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app. Si eliminas la app en el Finder, macOS también la desinstala. Si prefieres eliminar la app con Peel, antes desactiva la extensión en Ajustes del Sistema."
+            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app, y solo la elimina cuando la app va a la papelera en el Finder, a veces durante el siguiente reinicio. Por eso, Peel deja esa app en manos del Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS en conserve sa propre copie, séparément de l’app. Supprimez l’app dans le Finder, et macOS désinstalle aussi cette extension. Pour supprimer plutôt l’app avec Peel, désactivez d’abord cette extension dans Réglages Système."
+            "value" : "macOS en conserve sa propre copie, séparément de l’app, et ne la supprime que lorsque l’app est placée dans la corbeille depuis le Finder, parfois au prochain redémarrage. Peel laisse donc cette app au Finder."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ne conserva una copia propria, separata dall’app. Se rimuovi l’app nel Finder, macOS disinstalla anche questa. Per rimuovere invece l’app con Peel, prima disattiva questa estensione in Impostazioni di Sistema."
+            "value" : "macOS ne conserva una copia propria, separata dall’app, e la rimuove solo quando l’app viene spostata nel Cestino dal Finder, a volte al prossimo riavvio. Quindi Peel lascia al Finder la rimozione di quell’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、アプリとは別にこのコピーを保持しています。Finderでアプリをゴミ箱に入れると、macOSがこれもアンインストールします。代わりにPeelでアプリを取り除くには、先にシステム設定でこれをオフにしてください。"
+            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しています。macOSがこれを削除するのは、Finderでアプリをゴミ箱に入れたときだけで、Macを次に再起動するまで削除されない場合もあります。そのため、PeelはそのアプリをFinderに任せています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. Finder에서 앱을 제거하면 macOS가 이 항목도 제거합니다. 대신 Peel로 앱을 제거하려면 먼저 시스템 설정에서 이 항목을 끄십시오."
+            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 항목을 제거하며, 다음에 Mac을 재시동할 때 제거하는 경우도 있습니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart hiervan een eigen kopie, los van de app. Verwijder je de app in Finder, dan deïnstalleert macOS dit ook. Wil je de app in plaats daarvan met Peel verwijderen, schakel dit dan eerst uit in Systeeminstellingen."
+            "value" : "macOS bewaart hiervan een eigen kopie, los van de app, en verwijdert die alleen als de app in Finder naar de prullenmand gaat, soms pas bij de volgende herstart. Daarom laat Peel die app over aan Finder."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji. Gdy w Finderze przeniesiesz aplikację do Kosza, macOS odinstaluje też to rozszerzenie. Aby zamiast tego odinstalować aplikację za pomocą Peel, najpierw wyłącz to rozszerzenie w Ustawieniach systemowych."
+            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji, i usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia tę aplikację Finderowi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app. Remova o app no Finder e o macOS também a desinstala. Para remover o app com o Peel em vez disso, primeiro desative a extensão nos Ajustes do Sistema."
+            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app, e só a remove quando o app vai para o Lixo no Finder, às vezes apenas no próximo reinício. Por isso, o Peel deixa esse app para o Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație. Eliminați aplicația din Finder, iar macOS dezinstalează și extensia. Dacă doriți în schimb să eliminați aplicația cu Peel, dezactivați mai întâi extensia în Configurări sistem."
+            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație, și o elimină doar când aplicația este mutată în Coș din Finder, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația respectivă în seama Finder."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения. Если удалить приложение в Finder, macOS удалит и это расширение. Чтобы вместо этого удалить приложение с помощью Peel, сначала выключите расширение в Системных настройках."
+            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения и удаляет ее, только когда приложение перемещают в Корзину в Finder, иногда лишь при следующей перезагрузке. Поэтому Peel оставляет это приложение для Finder."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behåller en egen kopia av det här, separat från appen. Om du tar bort appen i Finder avinstallerar macOS även det här. Om du vill ta bort appen med Peel i stället stänger du först av det här i Systeminställningar."
+            "value" : "macOS behåller en egen kopia av det här, separat från appen, och tar bort det bara när appen flyttas till papperskorgen i Finder, ibland först vid nästa omstart. Därför lämnar Peel den appen åt Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar. Uygulamayı Finder’da kaldırırsanız macOS bunun da yüklemesini kaldırır. Uygulamayı bunun yerine Peel ile kaldırmak için önce bunu Sistem Ayarları’nda kapatın."
+            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar ve onu yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel o uygulamayı Finder’a bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає власну копію цього розширення, окремо від програми. Якщо вилучити програму у Finder, macOS деінсталює і його. Щоб натомість вилучити програму за допомогою Peel, спершу вимкніть це розширення в Системних параметрах."
+            "value" : "macOS зберігає власну копію цього розширення, окремо від програми, і вилучає його, лише коли програму переміщують у Смітник у Finder, іноді після наступного перезапуску. Тому Peel залишає цю програму для Finder."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS在App之外保留了它自己的副本。在“访达”中移除该App，macOS也会一并卸载此项。若要改用Peel移除该App，请先在“系统设置”中将此项关闭。"
+            "value" : "macOS在App之外保留了它自己的副本，只有在“访达”中将该App移到废纸篓时，macOS才会移除此项，有时要等到Mac下次重新启动时才移除。因此Peel会将该App交给“访达”处理。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會在App之外保留此項目的副本。在Finder中移除該App，macOS也會一併解除安裝此項目。若要改用Peel移除該App，請先在「系統設定」中關閉此項目。"
+            "value" : "macOS會在App之外保留此項目的副本，而且只有在Finder中將該App丟到「垃圾桶」時才會移除它，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
           }
         }
       }
@@ -196307,112 +196179,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會在更新前建立快照，以便恢復到更新前的狀態。這個快照會自行消失。"
-          }
-        }
-      }
-    },
-    "macOS manages these, and it isn’t known whether moving the app removes them. Remove %@ in Finder and macOS uninstalls them too. To remove it with Peel instead, turn them off in System Settings first." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spravuje je systém macOS a není známo, zda je přesunutí aplikace odstraní. Když aplikaci %@ odstraníte ve Finderu, macOS je odinstaluje také. Chcete-li ji místo toho odstranit pomocí Peelu, nejprve je vypněte v Nastavení systému."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS verwaltet diese, und es ist nicht bekannt, ob sie beim Verschieben der App entfernt werden. Entfernst du „%@“ im Finder, deinstalliert macOS sie ebenfalls. Um die App stattdessen mit Peel zu entfernen, deaktiviere die Erweiterungen zuerst in den Systemeinstellungen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS las gestiona, y no se sabe si al trasladar la app se eliminan. Si eliminas %@ en el Finder, macOS también las desinstala. Si prefieres eliminarla con Peel, antes desactívalas en Ajustes del Sistema."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS les gère, et on ne sait pas si déplacer l’app les supprime. Supprimez %@ dans le Finder, et macOS les désinstalle aussi. Pour le supprimer plutôt avec Peel, désactivez-les d’abord dans Réglages Système."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS le gestisce, e non si sa se spostare l’app le rimuova. Se rimuovi %@ nel Finder, macOS disinstalla anche quelle. Per rimuoverla invece con Peel, prima disattivale in Impostazioni di Sistema."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これらはmacOSが管理していて、アプリを移動したときにこれらが取り除かれるかどうかはわかりません。Finderで“%@”をゴミ箱に入れると、macOSがこれらもアンインストールします。代わりにPeelで取り除くには、先にシステム設定でこれらをオフにしてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 항목은 macOS가 관리하며, 앱을 이동하면 함께 제거되는지는 알 수 없습니다. Finder에서 ‘%@’을(를) 제거하면 macOS가 이 항목도 제거합니다. 대신 Peel로 제거하려면 먼저 시스템 설정에서 이 항목을 끄십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS beheert deze, en het is niet bekend of ze verdwijnen als de app wordt verplaatst. Verwijder je %@ in Finder, dan deïnstalleert macOS ze ook. Wil je de app in plaats daarvan met Peel verwijderen, schakel ze dan eerst uit in Systeeminstellingen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zarządza nimi macOS i nie wiadomo, czy przeniesienie aplikacji je usunie. Gdy w Finderze przeniesiesz aplikację %@ do Kosza, macOS także je odinstaluje. Aby zamiast tego odinstalować ją za pomocą Peel, najpierw wyłącz je w Ustawieniach systemowych."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS gerencia estas extensões, e não se sabe se mover o app as remove. Remova %@ no Finder e o macOS as desinstala também. Para removê-lo com o Peel em vez disso, desative-as primeiro nos Ajustes do Sistema."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS le gestionează și nu se știe dacă mutarea aplicației le elimină. Eliminați %@ din Finder, iar macOS le dezinstalează și pe ele. Dacă doriți în schimb să o eliminați cu Peel, dezactivați‑le mai întâi în Configurări sistem."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ими управляет macOS, и неизвестно, удалит ли их перемещение приложения. Если удалить приложение «%@» в Finder, macOS удалит и их. Чтобы вместо этого удалить его с помощью Peel, сначала выключите их в Системных настройках."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS hanterar dessa, och det är inte känt om de tas bort när appen flyttas. Om du tar bort %@ i Finder avinstallerar macOS även dem. Om du vill ta bort appen med Peel i stället stänger du först av dem i Systeminställningar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunları macOS yönetir ve uygulamayı taşımanın bunları kaldırıp kaldırmadığı bilinmiyor. %@ uygulamasını Finder’da kaldırırsanız macOS bunların da yüklemesini kaldırır. Uygulamayı bunun yerine Peel ile kaldırmak için önce bunları Sistem Ayarları’nda kapatın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ними керує macOS, і невідомо, чи вилучить їх переміщення програми. Якщо вилучити програму «%@» у Finder, macOS деінсталює і їх. Щоб натомість вилучити програму за допомогою Peel, спершу вимкніть їх у Системних параметрах."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这些由macOS管理，无法确定移动App是否会移除它们。在“访达”中移除“%@”，macOS也会一并卸载它们。若要改用Peel移除它，请先在“系统设置”中将它们关闭。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這些由macOS管理，目前無法得知移動App是否會移除它們。在Finder中移除「%@」，macOS也會一併解除安裝它們。若要改用Peel移除，請先在「系統設定」中將它們關閉。"
           }
         }
       }
