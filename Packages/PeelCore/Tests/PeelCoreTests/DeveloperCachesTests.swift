@@ -403,7 +403,7 @@ struct DeveloperCachesTests {
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
-            "metro-file-map-*",
+            "metro-file-map-*", "node-compile-cache/",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -1469,6 +1469,21 @@ struct DeveloperCachesTests {
         ).flatMap(\.locations)
 
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["metro-cache", "metro-file-map-0a1b2c-3d4e5f"])
+        #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
+    }
+
+    @Test func offersNodesCompileCacheInTheTemporaryFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        try directory.file("var/T/node-compile-cache/v24.10.0-arm64-5a7b9c-501/2f9e1c0d", bytes: 400_000)
+        try directory.file("var/T/node-cache-other/data", bytes: 400_000)
+        let node = DeveloperCaches.definitions.filter { $0.id == "nodejs" }
+
+        let locations = await DeveloperCaches.scan(
+            node, homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary
+        ).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["node-compile-cache"])
         #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 

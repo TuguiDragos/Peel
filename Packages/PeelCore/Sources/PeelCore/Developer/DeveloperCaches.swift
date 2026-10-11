@@ -433,6 +433,13 @@ public enum DeveloperCaches {
             Folder(".cache/tuist", .buildData, source: "https://github.com/tuist/tuist/blob/9365e96671e69386cccae77079743ff871e14b79/server/priv/docs/en/cli/directories.md"),
         ]),
         // JavaScript
+        Definition(id: "nodejs", name: "Node.js", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(
+                "node-compile-cache/", .cache,
+                source: "https://github.com/nodejs/node/blob/6f71b9ba66553e2f3b31d99db2e1cc19891b3614/doc/api/module.md#L378-L385",
+                base: .userTemporary
+            ),
+        ]),
         Definition(id: "npm", name: "npm", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".npm/_cacache", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L443", movedBy: .npmCache(inside: "_cacache")),
             Folder(".npm/_npx", .downloads, source: "https://github.com/npm/cli/blob/b317f16c80df02ea3628cfa77170d5ae9b59720c/workspaces/config/lib/definitions/definitions.js#L444", movedBy: .npmCache(inside: "_npx")),
