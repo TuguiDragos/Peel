@@ -464,6 +464,15 @@ public enum ProjectArtifacts {
             name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,
             source: "https://docs.godotengine.org/en/3.6/tutorials/best_practices/version_control_systems.html"
         ),
+        // Only what `atspkg clean` removes: never `cbits` or `gen` beside them, where people keep their own C.
+        Definition(
+            name: ".atspkg", markers: ["atspkg.dhall"], tool: "atspkg", isGeneric: false,
+            source: "https://github.com/vmchale/atspkg/blob/26cdd1ed1130a31e4bb4985fc54e50240228f7df/ats-pkg/src/Language/ATS/Package/Build.hs#L69-L76"
+        ),
+        Definition(
+            name: "ats-deps", markers: ["atspkg.dhall"], tool: "atspkg", isGeneric: false,
+            source: "https://github.com/vmchale/atspkg/blob/26cdd1ed1130a31e4bb4985fc54e50240228f7df/ats-pkg/src/Language/ATS/Package/Build.hs#L69-L76"
+        ),
         // Meson's own test for its build folder, whatever its name. The folder also keeps the options it was set up
         // with, which Meson's `--wipe` carries over and nothing else in the project holds.
         Definition(
