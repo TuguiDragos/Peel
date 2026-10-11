@@ -11,4 +11,16 @@ public enum RemovedElsewhere: Sendable, Hashable {
     public static func of(_ app: InstalledApp, installedSystemExtensions names: [String]) -> RemovedElsewhere? {
         app.removedElsewhere ?? (names.isEmpty ? nil : .byFinder(systemExtensions: names))
     }
+
+    /// How the first of `apps` that Peel never removes is removed instead, such as one of the apps a cask installed.
+    public static func first(
+        among apps: [InstalledApp],
+        asking answer: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
+    ) async -> RemovedElsewhere? {
+        for app in apps {
+            let names = await AppExtensions.installedNames(carriedBy: app, asking: answer)
+            if let found = of(app, installedSystemExtensions: names) { return found }
+        }
+        return nil
+    }
 }

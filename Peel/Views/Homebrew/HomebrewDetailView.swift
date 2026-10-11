@@ -8,6 +8,8 @@ struct HomebrewDetailView: View {
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
     @State private var casksToForget: [HomebrewPackage]?
+    /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
+    @State private var extensionsAnswer: (apps: [URL], removedElsewhere: RemovedElsewhere?)?
     let package: HomebrewPackage
 
     var body: some View {
@@ -170,6 +172,12 @@ struct HomebrewDetailView: View {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
         .forgetCasksDialog(for: $casksToForget)
+        .task(id: caskApps.filter(\.carriesSystemExtensions).map(\.url)) {
+            let carrying = caskApps.filter(\.carriesSystemExtensions)
+            guard !carrying.isEmpty else { return }
+            let found = await RemovedElsewhere.first(among: carrying)
+            extensionsAnswer = (carrying.map(\.url), found)
+        }
         .confirmationDialog("Uninstall \(package.name)?", isPresented: $isConfirmingUninstall) {
             Button("Uninstall", role: .destructive) {
                 // Checks again, since the exclusions can change while the dialog is open.
@@ -210,8 +218,19 @@ struct HomebrewDetailView: View {
     private var uninstallRefusal: LocalizedStringResource? {
         if exclusions.exclusions.isUnreadable { return "Exclusions can’t be read: see Settings" }
         if !exclusions.exclusions.hasBeenRead { return "Checking…" }
-        let apps = library.apps.filter { library.cask(for: $0)?.id == package.id }
+        let apps = caskApps
+        // Homebrew deletes the app, so an app its own page never removes is never uninstalled from here either.
+        if let removedElsewhere = apps.lazy.compactMap(\.removedElsewhere).first { return removedElsewhere.explanation }
+        let carrying = apps.filter(\.carriesSystemExtensions).map(\.url)
+        if !carrying.isEmpty {
+            guard let extensionsAnswer, extensionsAnswer.apps == carrying else { return "Checking…" }
+            if let removedElsewhere = extensionsAnswer.removedElsewhere { return removedElsewhere.explanation }
+        }
         return exclusions.exclusions.excludes(package, apps: apps, prefix: homebrew.installation?.prefix) ? "Excluded in Settings" : nil
+    }
+
+    private var caskApps: [InstalledApp] {
+        library.apps.filter { library.cask(for: $0)?.id == package.id }
     }
 
     private var isRunning: Bool {

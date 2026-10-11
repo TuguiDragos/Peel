@@ -38,6 +38,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let isTheRunningCopy: Bool
     /// The browser's web app this is, or nil for any other app.
     public let webApp: WebApp?
+    /// Whether the bundle carries a system extension, which macOS removes only when Finder moves the app.
+    public let carriesSystemExtensions: Bool
 
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
@@ -66,7 +68,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         dateAdded: Date? = nil,
         updateFeed: UpdateFeed? = nil,
         updaterFolder: String? = nil,
-        webApp: WebApp? = nil
+        webApp: WebApp? = nil,
+        carriesSystemExtensions: Bool = false
     ) {
         self.url = url
         self.bundleIdentifier = bundleIdentifier.flatMap { $0.isEmpty ? nil : $0 }
@@ -88,6 +91,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.webApp = webApp
         self.updateFeed = updateFeed
         self.updaterFolder = updaterFolder
+        self.carriesSystemExtensions = carriesSystemExtensions
         let path = PathPattern.comparablePath(of: url)
         isPeelItself = Self.isPeel(self.bundleIdentifier, at: path)
         isTheRunningCopy = path == Self.runningBundle
@@ -144,7 +148,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             dateAdded: dateAdded,
             updateFeed: updateFeed,
             updaterFolder: updaterFolder,
-            webApp: webApp
+            webApp: webApp,
+            carriesSystemExtensions: carriesSystemExtensions
         )
     }
 

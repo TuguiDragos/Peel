@@ -142,6 +142,20 @@ struct AppInspectorTests {
         #expect(app.embeddedBundleIdentifiers == ["org.example.updater.Downloader"])
     }
 
+    @Test func knowsAnAppThatCarriesASystemExtension() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.guard"], at: "Guard.app/Contents/Info.plist", in: directory)
+        try plist(
+            ["CFBundleIdentifier": "org.example.guard.filter"],
+            at: "Guard.app/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            in: directory
+        )
+        try plist(["CFBundleIdentifier": "org.example.plain"], at: "Plain.app/Contents/Info.plist", in: directory)
+
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Guard.app"))).carriesSystemExtensions)
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Plain.app"))).carriesSystemExtensions == false)
+    }
+
     /// Spotlight does not index the temporary folder, and answers there with the bundle's modification date for when
     /// it was last used.
     @Test func anAppSpotlightDoesNotIndexHasNoRecordOfBeingOpened() throws {

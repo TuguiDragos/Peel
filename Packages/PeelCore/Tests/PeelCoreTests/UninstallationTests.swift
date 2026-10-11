@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -103,6 +104,23 @@ struct UninstallationTests {
         #expect(await prepared(installed(.on, team: "OTHER12345")).removedElsewhere == nil)
         #expect(await prepared(installed(.on, identifier: "org.example.other")).removedElsewhere == nil)
         #expect(await prepared { [] }.removedElsewhere == nil)
+    }
+
+    @Test func namesHowTheFirstAppPeelNeverRemovesIsRemovedInstead() async throws {
+        let directory = try TemporaryDirectory()
+        let filtering = try appCarryingAFilter(in: directory)
+        let plain = InstalledApp(
+            url: try directory.directory("root/Applications/Plain.app"), bundleIdentifier: "org.example.plain", name: "Plain"
+        )
+        let peel = InstalledApp(
+            url: URL(filePath: "/Applications/Peel.app"), bundleIdentifier: HelperIdentity.appIdentifier, name: "Peel"
+        )
+
+        #expect(await RemovedElsewhere.first(among: [plain, filtering], asking: installed(.on))
+            == .byFinder(systemExtensions: ["Example Filter"]))
+        #expect(await RemovedElsewhere.first(among: [plain, peel], asking: installed(.on)) == .byRemovePeel)
+        #expect(await RemovedElsewhere.first(among: [plain], asking: installed(.on)) == nil)
+        #expect(await RemovedElsewhere.first(among: [filtering], asking: installed(.beingRemoved)) == nil)
     }
 
     @Test func severalAppsAskMacOSOnceAndOnlyWhenOneCarriesASystemExtension() async throws {
