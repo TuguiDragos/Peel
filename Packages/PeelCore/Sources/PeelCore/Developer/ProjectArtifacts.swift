@@ -335,6 +335,12 @@ public enum ProjectArtifacts {
             name: "target", markers: ["Cargo.toml"], tool: "Cargo", isGeneric: true,
             source: "https://doc.rust-lang.org/cargo/reference/build-cache.html"
         ),
+        // xwin's downloads and, by default, the Windows SDK and CRT it unpacks for the build, which only `xwin splat`
+        // with the person's own options puts back.
+        Definition(
+            name: ".xwin-cache", markers: ["Cargo.toml"], tool: "xwin", isGeneric: false, isEnvironment: true,
+            source: "https://github.com/Jake-Shadle/xwin/blob/723d758d484f505c214e1b8c298fe34b19ba9e92/README.md#L42"
+        ),
         Definition(
             name: "target", markers: ["pom.xml"], tool: "Maven", isGeneric: true,
             source: "https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"

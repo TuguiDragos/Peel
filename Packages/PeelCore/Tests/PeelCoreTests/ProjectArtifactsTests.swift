@@ -287,6 +287,7 @@ struct ProjectArtifactsTests {
             Kind(artifact: "zig-out", marker: "build.zig", tool: "Zig", isGeneric: false),
             Kind(artifact: ".zig-cache", marker: "build.zig", tool: "Zig", isGeneric: false),
             Kind(artifact: "zig-cache", marker: "build.zig", tool: "Zig", isGeneric: false),
+            Kind(artifact: ".xwin-cache", marker: "Cargo.toml", tool: "xwin", isGeneric: false, isEnvironment: true),
             Kind(artifact: ".cxx", marker: "build.gradle.kts", tool: "Android Gradle plugin", isGeneric: false),
             Kind(artifact: ".stack-work", marker: "stack.yaml", tool: "Stack", isGeneric: false),
             Kind(artifact: "dist-newstyle", marker: "app.cabal", tool: "Cabal", isGeneric: false),
