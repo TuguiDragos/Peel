@@ -44,6 +44,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case gitTrackingNotKnown
     /// `/Users/Shared`, which belongs to every account on the Mac rather than to one app.
     case sharedWithEveryone
+    /// A folder a package made, offered whole while it holds what something else put there: another package's
+    /// files, or the person's own.
+    case holdsWhatOthersPut
     /// Claimed on nothing but the app's name (or an identifier that is only a word), in the home folder or at the
     /// top of a Library, where a name alone is only a guess.
     case namedLikeTheApp

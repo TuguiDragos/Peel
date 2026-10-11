@@ -243,15 +243,18 @@ public enum PackageReceipts {
             guard !exclusions.excludes(url), seen.insert(PathPattern.comparablePath(of: url)).inserted else { continue }
             let requiresPrivileges = FileAccess.requiresPrivilegesToRemove(url)
             let contents = await FileSize.contents(of: url)
-            let path = PathPattern.comparablePath(of: url)
-            let isShared = shared.contains { PathComponents.isPath(path, atOrInside: $0) }
+            let place = PathPattern.comparablePath(of: url)
+            let isShared = shared.contains { PathComponents.isPath(place, atOrInside: $0) }
+            let isFilledByOthers = found.othersFilled.contains(path)
             items.append(PackageReceipt.Item(
                 url: url,
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: url),
                 heldBack: requiresPrivileges && reach.isBeyond(url)
-                    ? .beyondTheHelper : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
+                    ? .beyondTheHelper
+                    : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
+                        ?? (isFilledByOthers ? .holdsWhatOthersPut : nil)
             ))
         }
 
@@ -320,14 +323,15 @@ public enum PackageReceipts {
 
     /// Returns the outermost existing paths that are this package's own, never a shared directory such as
     /// `/Library`. `onDisk` holds all of them. `offered` leaves out protected data (`ProtectedData.refuses`),
-    /// which Peel never lists at all.
+    /// which Peel never lists at all. `othersFilled` holds the folders offered whole that hold what something
+    /// besides this package put there.
     static func topLevel(
         files: [String],
         installLocation: String,
         home: String = URL.homeDirectory.path(percentEncoded: false),
         namesInside: (String) -> [String]? = { try? FileManager.default.contentsOfDirectory(atPath: $0) },
         exists: (String) -> Bool = { URL(filePath: $0).isThere }
-    ) -> (onDisk: [String], offered: [String]) {
+    ) -> (onDisk: [String], offered: [String], othersFilled: Set<String>) {
         let root = (installLocation as NSString).standardizingPath
         let paths = files.map { file -> String in
             let relative = file.hasPrefix("./") ? String(file.dropFirst(2)) : file
@@ -346,10 +350,13 @@ public enum PackageReceipts {
         .filter(exists)
 
         let folded = Set(paths.map { $0.lowercased() })
+        var othersFilled: Set<String> = []
         let onDisk = outermost
-            .flatMap { onlyWhatThisPackageWrote($0, listed: folded, namesInside: namesInside) }
+            .flatMap {
+                onlyWhatThisPackageWrote($0, listed: folded, namesInside: namesInside, othersFilled: &othersFilled)
+            }
             .sorted()
-        return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) })
+        return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) }, othersFilled)
     }
 
     /// Returns `path` when this package installed everything inside it, and otherwise the parts inside it that
@@ -360,17 +367,25 @@ public enum PackageReceipts {
         _ path: String,
         listed: Set<String>,
         namesInside: (String) -> [String]?,
-        depth: Int = 0
+        depth: Int = 0,
+        othersFilled: inout Set<String>
     ) -> [String] {
-        guard (path as NSString).pathExtension.isEmpty, depth < deepestDescent else { return [path] }
+        guard (path as NSString).pathExtension.isEmpty else { return [path] }
         guard let names = namesInside(path) else { return [path] }
         let inside = names.map { (path as NSString).appendingPathComponent($0) }
         guard inside.contains(where: { !listed.contains($0.lowercased()) }) else { return [path] }
         let own = inside.filter { listed.contains($0.lowercased()) }
-        // Nothing inside is listed: the package installed the folder and something else filled it, so the
-        // folder is still the only thing this receipt can name.
-        guard !own.isEmpty else { return [path] }
-        return own.flatMap { onlyWhatThisPackageWrote($0, listed: listed, namesInside: namesInside, depth: depth + 1) }
+        // Nothing inside is listed, or the search went as deep as it goes: the folder is still the only thing this
+        // receipt can name, and what else is in it is not this package's.
+        guard !own.isEmpty, depth < deepestDescent else {
+            othersFilled.insert(path)
+            return [path]
+        }
+        return own.flatMap {
+            onlyWhatThisPackageWrote(
+                $0, listed: listed, namesInside: namesInside, depth: depth + 1, othersFilled: &othersFilled
+            )
+        }
     }
 
     /// A tool that could not be run, or that failed, says nothing about what is installed.

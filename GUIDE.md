@@ -142,7 +142,8 @@ lists them.
 - **Background Items:** launch agents and daemons, and the app that added each one.
 - **Extensions:** app extensions and system extensions, and the app each one came with.
 - **Plug-ins:** plug-ins of every kind, from audio units to Quick Look.
-- **Package Receipts:** what installer packages put on your Mac, item by item.
+- **Package Receipts:** what installer packages put on your Mac, item by item. A folder a package made that now
+  holds what something else put there is shown and never selected for you.
 - **Intel Software:** what still needs Rosetta: apps, the helpers and tools inside universal apps, plug-ins,
   drivers, background items, and the commands in `/usr/local`.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,

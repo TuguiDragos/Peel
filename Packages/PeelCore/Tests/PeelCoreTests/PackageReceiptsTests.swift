@@ -76,17 +76,18 @@ struct PackageReceiptsTests {
     }
 
     /// What may exist nowhere else is left for the person to choose, with its reason: a folder the package made
-    /// that now holds a repository or a wallet, and anything in `/Users/Shared`, which every account on the Mac uses.
+    /// that now holds a repository, a wallet, or what something else put there, and anything in `/Users/Shared`.
     @Test func leavesToThePersonWhatAReceiptsFolderHolds() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
         try directory.file("Library/Application Support/Vendor Repo/.git/HEAD", bytes: 16)
         try directory.file("Library/Application Support/Vendor Coin/wallet.dat", bytes: 16)
         try directory.file("Library/Application Support/Vendor Plain/data.db", bytes: 16)
+        try directory.file("Library/Application Support/Vendor Shared/Other.component/plugin", bytes: 16)
         try directory.file("Users/Shared/StudioSync/project.txt", bytes: 16)
         let locations = ["com.example.vendor": "Library/Application Support", "com.example.studio": "Users/Shared"]
         let files = [
-            "com.example.vendor": "Vendor Repo\nVendor Coin\nVendor Plain\nVendor Plain/data.db\n",
+            "com.example.vendor": "Vendor Repo\nVendor Coin\nVendor Plain\nVendor Plain/data.db\nVendor Shared\n",
             "com.example.studio": "StudioSync\n",
         ]
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
@@ -110,6 +111,7 @@ struct PackageReceiptsTests {
         let reasons = scan.receipts.flatMap(\.items).map { "\($0.url.lastPathComponent): \($0.heldBack.map(\.rawValue) ?? "none")" }
         #expect(reasons.sorted() == [
             "StudioSync: sharedWithEveryone", "Vendor Coin: holdsAWallet", "Vendor Plain: none", "Vendor Repo: holdsRepository",
+            "Vendor Shared: holdsWhatOthersPut",
         ])
     }
 

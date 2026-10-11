@@ -255,6 +255,8 @@ extension HoldBack {
             "Not selected: this folder is in a Git repository whose list of tracked files Peel couldn’t read, so it may be part of the project."
         case .sharedWithEveryone:
             "Not selected: /Users/Shared belongs to every account on this Mac rather than to one app."
+        case .holdsWhatOthersPut:
+            "Not selected: the package made this folder, but something else put files in it, which may be another program’s or yours."
         case .namedLikeTheApp:
             "Not selected: only the name matches, and a folder here may be another program’s, holding work you rely on."
         case .holdsAnExclusion:

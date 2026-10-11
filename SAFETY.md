@@ -305,6 +305,8 @@ Never selected for you, even when found:
   running, which may install it when the app quits.
 - An encrypted disk image, and a disk image, package, or archive outside Downloads that isn't an installed app's
   installer, which may be your own rather than something you can download again.
+- A build folder Git tracks files in, and a folder an installer package made that now holds what something else put
+  there, which may be another program's files or yours.
 
 A folder macOS would not let Peel read, and a folder Peel could not measure in time, are not selected either. Both are
 shown with their size as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to

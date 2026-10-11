@@ -89304,6 +89304,112 @@
         }
       }
     },
+    "Not selected: the package made this folder, but something else put files in it, which may be another program’s or yours." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: balíček tuto složku vytvořil, ale něco jiného do ní umístilo soubory, které mohou patřit jinému programu nebo vám."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Das Paket hat diesen Ordner erstellt, aber etwas anderes hat darin Dateien abgelegt, die möglicherweise einem anderen Programm oder dir gehören."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: el paquete creó esta carpeta, pero otra cosa ha guardado en ella archivos que pueden ser de otro programa o tuyos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : le paquet a créé ce dossier, mais quelque chose d’autre y a placé des fichiers, qui peuvent appartenir à un autre programme ou être les vôtres."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: il pacchetto ha creato questa cartella, ma qualcos’altro ci ha messo dentro dei file, che potrebbero appartenere a un altro programma o a te."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このフォルダはパッケージが作成したものですが、別の何かが中にファイルを入れており、それらはほかのプログラムのものか、自分のものである可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 폴더는 패키지가 만들었지만 다른 무언가가 안에 파일을 넣었으며, 그 파일은 다른 프로그램의 것이거나 사용자의 것일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: het pakket heeft deze map gemaakt, maar iets anders heeft er bestanden in gezet, die van een ander programma of van jou kunnen zijn."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: pakiet utworzył ten folder, ale coś innego umieściło w nim pliki, które mogą należeć do innego programu lub do Ciebie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o pacote criou esta pasta, mas outra coisa colocou nela arquivos que podem ser de outro programa ou seus."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: pachetul a creat acest dosar, dar altceva a pus în el fișiere, care pot fi ale altui program sau ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: эту папку создал пакет, но что-то другое поместило в нее файлы, которые могут принадлежать другой программе или Вам."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: paketet skapade den här mappen, men något annat har lagt filer i den, och de kan tillhöra ett annat program eller dig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: paket bu klasörü oluşturdu, ancak içinde başka bir şeyin koyduğu dosyalar var; bunlar başka bir programa veya size ait olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цю папку створив пакет, але щось інше поклало в неї файли, які можуть належати іншій програмі або вам."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：该软件包创建了此文件夹，但其中有并非由它放入的文件，这些文件可能属于其他程序，也可能是你自己的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這個檔案夾是由此套件產生的，但其中有來自其他來源的檔案，可能屬於其他程式，也可能是你自己的。"
+          }
+        }
+      }
+    },
     "Not selected: there is a repository inside, so this folder may hold work that was committed and never pushed anywhere." : {
       "localizations" : {
         "cs" : {
