@@ -72,6 +72,7 @@ struct ProjectList: View {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
                     Text("No build output was found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too.")
+                    unsearchableReasons
                 } actions: {
                     Button("Open System Settings") { home.openFullDiskAccessSettings() }
                 }
@@ -80,12 +81,13 @@ struct ProjectList: View {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
                     Text("Peel couldn’t look inside \(projects.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
+                    unsearchableReasons
                 }
             } else if projects.groups?.isEmpty == true, !projects.unsearchable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Searched", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text(verbatim: Self.reasons(projects.unsearchable))
+                    unsearchableReasons
                 }
             } else if projects.groups?.isEmpty == true {
                 ContentUnavailableView(
@@ -165,6 +167,12 @@ struct ProjectList: View {
             await projects.refresh()
         }
         .rescanOnExclusionChange("ProjectList") { await projects.refresh() }
+    }
+
+    @ViewBuilder private var unsearchableReasons: some View {
+        if !projects.unsearchable.isEmpty {
+            Text(verbatim: Self.reasons(projects.unsearchable))
+        }
     }
 
     private static func reasons(_ folders: [(url: URL, reason: ProjectArtifacts.Refusal)]) -> String {
