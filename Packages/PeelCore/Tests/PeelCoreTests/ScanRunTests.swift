@@ -85,9 +85,7 @@ struct ScanRunTests {
         }
         await waiting.untilStarted()
 
-        let clock = ContinuousClock()
-        let start = clock.now
-        while scan.itemsRead != 42, clock.now - start < .seconds(5) {
+        for _ in 0..<500 where scan.itemsRead != 42 {
             try? await Task.sleep(for: .milliseconds(10))
         }
 

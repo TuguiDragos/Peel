@@ -125,9 +125,7 @@ struct SubprocessTests {
                 started.withLock { $0 = true }
             }
         }
-        let clock = ContinuousClock()
-        let start = clock.now
-        while !started.withLock({ $0 }), clock.now - start < .seconds(10) {
+        for _ in 0..<2_000 where !started.withLock({ $0 }) {
             try await Task.sleep(for: .milliseconds(5))
         }
         guard started.withLock({ $0 }) else {
