@@ -148,15 +148,17 @@ lists them.
 - **Extensions:** app extensions and system extensions, and the app each one came with.
 - **Plug-ins:** plug-ins of every kind, from audio units to Quick Look.
 - **Package Receipts:** what installer packages put on your Mac, item by item. A folder a package made that now
-  holds what something else put there is shown and never selected for you.
+  holds what something else put there is shown and never selected for you, and an app a package installed follows
+  the rules of its own page: one whose system extension macOS installed is left for you to move in Finder.
 - **Intel Software:** what still needs Rosetta: apps, the helpers and tools inside universal apps, plug-ins,
   drivers, background items, and the commands in `/usr/local`.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,
   or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
   run in Terminal for a cask that asks for an administrator's password. Uninstall and the clean ups delete for good,
-  as Homebrew does, and Peel says so before you confirm them. A cask whose app is already gone, which Homebrew still
-  lists and can't upgrade, is listed apart with Forget, which moves Homebrew's record of it to the Trash so Homebrew
-  stops listing it, and History can put it back.
+  as Homebrew does, and Peel says so before you confirm them. Uninstall is not offered for a cask whose app Peel
+  leaves alone on the app's own page, such as one with a system extension. A cask whose app is already gone, which
+  Homebrew still lists and can't upgrade, is listed apart with Forget, which moves Homebrew's record of it to the
+  Trash so Homebrew stops listing it, and History can put it back.
 
 ## Fine-tune your Mac
 

@@ -266,7 +266,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   electron-updater 6, in `~/Library/Application Support/Caches`. That folder is the app's whatever the app is called,
   and shared only with another app, or another copy of it, that names the same folder.
 - **A system extension is left to macOS**, which removes it only when the app that uses it goes to the Trash in
-  Finder, so the copy macOS installed is never listed with the app.
+  Finder, so the copy macOS installed is never listed with the app, and the app itself is moved from no page of
+  Peel: its own page, Package Receipts and the Homebrew page all leave it to Finder.
 - **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one
   that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. An app
   that is part of another, such as a helper app inside the app it serves, is never moved on its own, from the app or
