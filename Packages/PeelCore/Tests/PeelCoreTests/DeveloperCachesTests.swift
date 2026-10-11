@@ -490,7 +490,8 @@ struct DeveloperCachesTests {
         for path in [
             ".claude/cache/changelog.md", ".claude/debug/session.txt", ".claude/statsig/flags",
             ".claude/shell-snapshots/snapshot-zsh.sh", ".claude/paste-cache/abc", ".claude/history.jsonl",
-            ".claude/projects/app/session.jsonl", ".codex/log/codex-tui.log", ".codex/sessions/rollout.jsonl",
+            ".claude/projects/app/session.jsonl", ".claude/image-cache/5f2a/1.png", ".claude/logs/2025-06-01.log",
+            ".codex/log/codex-tui.log", ".codex/sessions/rollout.jsonl",
         ] {
             try directory.file(path, bytes: 4_096)
         }
@@ -499,7 +500,9 @@ struct DeveloperCachesTests {
 
         let listed = environments.filter { ["claudecode", "codex"].contains($0.id) }
             .flatMap(\.locations).map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
-        #expect(Set(listed) == [".claude/cache", ".claude/debug", ".claude/statsig", ".codex/log"])
+        #expect(Set(listed) == [
+            ".claude/cache", ".claude/debug", ".claude/statsig", ".claude/image-cache", ".claude/logs", ".codex/log",
+        ])
     }
 
     @Test func listsWhatOtherCodingAgentsCacheAndLogButNeverTheirSettings() async throws {

@@ -945,6 +945,8 @@ public enum DeveloperCaches {
             Folder(".claude/cache", .cache, source: "https://code.claude.com/docs/en/claude-directory"),
             Folder(".claude/debug", .logs, source: "https://code.claude.com/docs/en/claude-directory"),
             Folder(".claude/statsig", .cache, source: "https://code.claude.com/docs/en/claude-directory"),
+            Folder(".claude/image-cache", .cache, source: "https://code.claude.com/docs/en/claude-directory"),
+            Folder(".claude/logs", .logs, source: "https://code.claude.com/docs/en/claude-directory"),
         ]),
         Definition(id: "codex", name: "Codex CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".codex/log", .logs, source: "https://github.com/openai/codex/blob/dde5f8c5ae9b644c6882b3a48581ac317255d597/codex-rs/core/src/config/mod.rs#L4089-L4093"),
