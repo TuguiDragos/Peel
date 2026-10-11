@@ -144,6 +144,30 @@ struct CloudStorageTests {
         #expect(sizes["clone.bin"] == nil, "a clone frees nothing")
     }
 
+    /// A folder kept only in the cloud, which no test can make, is named to the walk.
+    @Test func neverLooksIntoAFolderThatLivesOnlyInTheCloud() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/plain.bin", bytes: 3_000_000)
+        try directory.file("\(drive)/Evicted/inside.bin", bytes: 3_000_000)
+        let evicted = PathPattern.comparablePath(of: directory.url.appending(path: "\(drive)/Evicted"))
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url,
+            minimumSize: 1,
+            exclusions: .none,
+            into: collector,
+            deadline: .now + .seconds(20),
+            countingFor: nil,
+            isSafe: { _ in true },
+            isDataless: { PathPattern.comparablePath(of: $0) == evicted },
+            unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.name) == ["plain.bin"])
+    }
+
     /// A download that takes a row's worth of space but shares it with another copy frees nothing, so it is left
     /// out of the list and counted, for the page to say why it is missing.
     @Test func countsTheDownloadsLeftOutBecauseAnotherCopySharesTheirSpace() throws {

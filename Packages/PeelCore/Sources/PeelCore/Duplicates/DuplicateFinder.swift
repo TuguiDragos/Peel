@@ -13,6 +13,7 @@ public struct DuplicateFinder: Sendable {
     private let homeDirectory: URL
     private let exclusions: Exclusions
     private let digestMemory: DigestMemory?
+    private let isDataless: @Sendable (URL) -> Bool
 
     /// Without a `digestMemory`, every file is read and no digest is saved, so tests never touch the user's
     /// saved digests.
@@ -21,9 +22,22 @@ public struct DuplicateFinder: Sendable {
         exclusions: Exclusions = .none,
         digestMemory: DigestMemory? = nil
     ) {
+        self.init(homeDirectory: homeDirectory, exclusions: exclusions, digestMemory: digestMemory) {
+            FileSize.isDataless($0)
+        }
+    }
+
+    /// `isDataless` stands in for a folder a file provider keeps only in the cloud, which no test can make.
+    init(
+        homeDirectory: URL,
+        exclusions: Exclusions,
+        digestMemory: DigestMemory?,
+        isDataless: @escaping @Sendable (URL) -> Bool
+    ) {
         self.exclusions = exclusions
         self.homeDirectory = homeDirectory.resolvingSymlinksInPath()
         self.digestMemory = digestMemory
+        self.isDataless = isDataless
     }
 
     public var defaultFolders: [URL] {
@@ -78,7 +92,8 @@ public struct DuplicateFinder: Sendable {
             ? try await FolderDuplicates(
                 managed: Self.managedPaths(home: homeDirectory),
                 exclusions: exclusions,
-                neverProjects: neverProjects
+                neverProjects: neverProjects,
+                isDataless: isDataless
             ).groups(
                 in: scannable,
                 minimumSize: options.minimumSize,
@@ -210,7 +225,8 @@ public struct DuplicateFinder: Sendable {
                         // already offered whole covers everything inside it, so its files are not offered again.
                         if url.lastPathComponent == "node_modules" || excludedFolders.contains(Self.path(of: url))
                             || spokenFor.contains(Self.path(of: url))
-                            || exclusions.excludes(url) || Self.isRepository(url) || Self.isAUserLibrary(url) {
+                            || exclusions.excludes(url) || Self.isRepository(url) || Self.isAUserLibrary(url)
+                            || isDataless(url) {
                             enumerator.skipDescendants()
                         }
                         return

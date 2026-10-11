@@ -106,6 +106,22 @@ struct FolderDuplicateTests {
         #expect(result.suggestedFolderSelection.map(\.lastPathComponent) == ["Trip"])
     }
 
+    /// A folder kept only in the cloud, which no test can make, is named to the scan.
+    @Test func aFolderThatLivesOnlyInTheCloudIsNeverLookedInto() async throws {
+        let directory = try TemporaryDirectory()
+        try trip(in: directory)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let evicted = PathPattern.comparablePath(of: home.appending(path: "Pictures/Trip"))
+        let finder = DuplicateFinder(homeDirectory: home, exclusions: .none, digestMemory: nil) { url in
+            PathPattern.comparablePath(of: url) == evicted
+        }
+
+        let result = try await finder.scan(.everySize(in: [home]))
+
+        #expect(result.folderGroups.isEmpty)
+        #expect(result.groups.isEmpty)
+    }
+
     /// The folder row speaks for every file under it, so the same bytes are never offered twice.
     @Test func filesInsideAnOfferedFolderAreNotListedOnTheirOwn() async throws {
         let directory = try TemporaryDirectory()

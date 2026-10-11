@@ -211,6 +211,7 @@ public enum CloudStorage {
         deadline: ContinuousClock.Instant,
         countingFor scan: ScanCount?,
         isSafe: (URLResourceValues) -> Bool = isSafeToFree(_:),
+        isDataless: (URL) -> Bool = FileSize.isDataless(_:),
         unless isGivenUp: () -> Bool
     ) {
         let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
@@ -243,6 +244,10 @@ public enum CloudStorage {
                 return
             }
             scan?.add(1)
+            if isDataless(url) {
+                enumerator.skipDescendants()
+                continue
+            }
             guard
                 let values = try? url.resourceValues(forKeys: keys),
                 values.isRegularFile == true || values.isPackage == true,

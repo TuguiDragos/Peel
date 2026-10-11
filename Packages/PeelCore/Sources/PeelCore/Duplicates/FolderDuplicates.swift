@@ -12,11 +12,18 @@ struct FolderDuplicates: Sendable {
     private let exclusions: Exclusions
     private let managed: Set<String>
     private let neverProjects: Set<String>
+    private let isDataless: @Sendable (URL) -> Bool
 
-    init(managed: Set<String> = [], exclusions: Exclusions = .none, neverProjects: Set<String> = []) {
+    init(
+        managed: Set<String> = [],
+        exclusions: Exclusions = .none,
+        neverProjects: Set<String> = [],
+        isDataless: @escaping @Sendable (URL) -> Bool = { FileSize.isDataless($0) }
+    ) {
         self.managed = managed
         self.exclusions = exclusions
         self.neverProjects = neverProjects
+        self.isDataless = isDataless
     }
 
     private final class Folder {
@@ -211,7 +218,8 @@ struct FolderDuplicates: Sendable {
             guard !managed.contains(DuplicateFinder.path(of: entry)),
                   entry.lastPathComponent != "node_modules",
                   !DuplicateFinder.isAUserLibrary(entry),
-                  !DuplicateFinder.isRepository(entry)
+                  !DuplicateFinder.isRepository(entry),
+                  !isDataless(entry)
             else { return .leftOut }
             return .folder(
                 name: entry.lastPathComponent,
