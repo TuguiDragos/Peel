@@ -439,6 +439,8 @@ public enum ProjectArtifacts {
         public var unreadableLocations: [URL] = []
         /// True when macOS kept Peel out of one of them for want of Full Disk Access.
         public var needsFullDiskAccess = false
+        /// The chosen folders that were not searched at all, each with the reason, in the order they were given.
+        public var refusedRoots: [(url: URL, reason: Refusal)] = []
     }
 
     @concurrent
@@ -449,7 +451,12 @@ public enum ProjectArtifacts {
     @concurrent
     static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure) async -> Scan {
         await withTaskGroup(of: (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]).self) { group in
-            for root in roots where isSearchable(root) {
+            var refused: [(url: URL, reason: Refusal)] = []
+            for root in roots {
+                if let reason = refusal(for: root) {
+                    refused.append((root, reason))
+                    continue
+                }
                 group.addTask { await artifacts(in: root, exclusions: exclusions, measure: measure) }
             }
             var found: [ProjectArtifact] = []
@@ -469,7 +476,8 @@ public enum ProjectArtifacts {
                 unreadableLocations: unreadable.sorted {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
                 },
-                needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
+                needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing },
+                refusedRoots: refused
             )
         }
     }
@@ -524,10 +532,6 @@ public enum ProjectArtifacts {
             && isDirectory.boolValue
         guard isThere else { return .notAFolder }
         return root.isOrIsInsideAPackage ? .inAPackage : nil
-    }
-
-    static func isSearchable(_ root: URL, home: URL = .homeDirectory) -> Bool {
-        refusal(for: root, home: home) == nil
     }
 
     /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a

@@ -33,6 +33,15 @@ struct ProjectList: View {
             } else if !projects.unreadable.isEmpty, !filtered.isEmpty {
                 UnreadableFoldersNotice(folders: projects.unreadable)
             }
+            if !projects.unsearchable.isEmpty, !filtered.isEmpty {
+                Notice(
+                    title: Text("Some folders couldn’t be searched"),
+                    detail: Text(verbatim: Self.reasons(projects.unsearchable)),
+                    kind: .note
+                ) {}
+                .padding(.vertical, 6)
+                .listRowSeparator(.hidden)
+            }
             ForEach(filtered) { group in
                 ProjectRow(group: group)
             }
@@ -72,6 +81,12 @@ struct ProjectList: View {
                 } description: {
                     Text("Peel couldn’t look inside \(projects.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
                 }
+            } else if projects.groups?.isEmpty == true, !projects.unsearchable.isEmpty {
+                ContentUnavailableView {
+                    Label("Not Everything Could Be Searched", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text(verbatim: Self.reasons(projects.unsearchable))
+                }
             } else if projects.groups?.isEmpty == true {
                 ContentUnavailableView(
                     "Nothing Built Here",
@@ -96,7 +111,7 @@ struct ProjectList: View {
         .alert(projects.refused.count == 1 ? "That folder can’t be searched." : "These folders can’t be searched.", isPresented: isShowingRefusal) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text(verbatim: projects.refused.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n"))
+            Text(verbatim: Self.reasons(projects.refused))
         }
         .fadesInColumn(whenRowsChange: projects.groups?.map(\.id))
         .navigationTitle(Text(Tool.projects.title))
@@ -104,7 +119,8 @@ struct ProjectList: View {
             projects.isScanning,
             found: projects.summary,
             couldNotLook: projects.folders.isEmpty ? "No Folders Yet"
-                : !projects.unreadable.isEmpty ? "Not Everything Could Be Read" : nil,
+                : !projects.unreadable.isEmpty ? "Not Everything Could Be Read"
+                : !projects.unsearchable.isEmpty ? "Not Everything Could Be Searched" : nil,
             wasStopped: projects.scanRun.wasStopped
         )
         .toolbar {
@@ -149,6 +165,10 @@ struct ProjectList: View {
             await projects.refresh()
         }
         .rescanOnExclusionChange("ProjectList") { await projects.refresh() }
+    }
+
+    private static func reasons(_ folders: [(url: URL, reason: ProjectArtifacts.Refusal)]) -> String {
+        folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
     }
 
     private func phase(_ filtered: [ProjectGroup]) -> ScanPhase {

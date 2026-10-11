@@ -134,6 +134,20 @@ struct ProjectArtifactsTests {
         #expect(!scan.needsFullDiskAccess)
     }
 
+    @Test func namesEveryChosenFolderItCouldNotSearch() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Code/app/package.json", bytes: 16)
+        try directory.file("Code/app/node_modules/left-pad/index.js", bytes: 16)
+        let code = directory.url.appending(path: "Code", directoryHint: .isDirectory)
+        let unplugged = directory.url.appending(path: "Disk/Projects", directoryHint: .isDirectory)
+
+        let scan = await ProjectArtifacts.scan(roots: [unplugged, code])
+
+        #expect(scan.artifacts.map(\.name) == ["node_modules"])
+        #expect(scan.refusedRoots.map(\.url) == [unplugged])
+        #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
+    }
+
     private struct Kind {
         let artifact: String
         let marker: String
@@ -605,11 +619,11 @@ struct ProjectArtifactsTests {
     }
 
     @Test func refusesRootsThatAreTooBroadOrNotOurs() {
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/")))
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users")))
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")))
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")))
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/x/does-not-exist")))
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/")) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users")) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")) == .inTheCloud)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")) == .inTheCloud)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .notAFolder)
     }
 
     @Test func findsEveryKindItKnowsInAProjectOfItsOwn() async throws {
@@ -661,10 +675,10 @@ struct ProjectArtifactsTests {
         let home = try directory.directory("Users/someone")
         try directory.directory("Users/someone/Projects")
 
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Users/someone"), home: home))
-        #expect(!ProjectArtifacts.isSearchable(URL(filePath: "/Volumes/Disk"), home: home))
-        #expect(!ProjectArtifacts.isSearchable(home, home: home))
-        #expect(ProjectArtifacts.isSearchable(home.appending(path: "Projects"), home: home))
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/someone"), home: home) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Volumes/Disk"), home: home) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: home, home: home) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: home.appending(path: "Projects"), home: home) == nil)
     }
 
     /// An Electron app ships `package.json` beside `node_modules` inside its own bundle. That matches the marker
