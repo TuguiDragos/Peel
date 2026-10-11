@@ -277,6 +277,27 @@ struct DeveloperCachesTests {
         ])
     }
 
+    @Test func listsWhatVSCodeInsidersCachesAndNeverItsBackups() async throws {
+        let directory = try TemporaryDirectory()
+        let insiders = "Library/Application Support/Code - Insiders"
+        for path in [
+            "\(insiders)/CachedData/abc/main.js", "\(insiders)/logs/20261011/main.log",
+            "Library/Caches/com.microsoft.VSCodeInsiders.ShipIt/update.a1/Code.zip", "\(insiders)/Backups/1/untitled.txt",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let listed = try #require(environments.first { $0.id == "vscodeinsiders" }).locations.map {
+            String($0.url.path(percentEncoded: false).dropFirst(home.count))
+        }
+        #expect(Set(listed) == [
+            "\(insiders)/CachedData", "\(insiders)/logs", "Library/Caches/com.microsoft.VSCodeInsiders.ShipIt",
+        ])
+    }
+
     /// Chromium named its WebGPU cache `DawnCache` until 2024 and leaves the folder it wrote under that name behind.
     @Test func listsTheWebGPUCacheUnderItsFormerName() async throws {
         let directory = try TemporaryDirectory()
@@ -405,7 +426,8 @@ struct DeveloperCachesTests {
             "Library/Caches/org.R-project.R/R/renv", ".dartServer",
             // VS Code and the editors built on it keep unsaved files in `Backups`; Zed its database and threads;
             // Neovim its swap and undo files.
-            "Library/Application Support/Code", "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
+            "Library/Application Support/Code", "Library/Application Support/Code - Insiders",
+            "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
             "Library/Application Support/Zed", ".local/state/nvim",
             // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
             // Jan its chat history; Ollama a copy of its app while it updates.

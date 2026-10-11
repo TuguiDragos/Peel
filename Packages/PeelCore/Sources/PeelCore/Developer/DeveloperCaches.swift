@@ -785,6 +785,26 @@ public enum DeveloperCaches {
             ),
             Folder("Library/Caches/com.microsoft.VSCode.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/5c9e2133c09d6f8e2e3c5a45c5b0ffc00448c58a/Squirrel/SQRLUpdater.m#L814-L829"),
         ]),
+        // Insiders keeps VS Code's folders under its own name, as Homebrew's cask for it and VS Code's troubleshooting
+        // guide name it.
+        Definition(id: "vscodeinsiders", name: "Visual Studio Code - Insiders", systemImage: "curlybraces", appBundleIdentifiers: ["com.microsoft.VSCodeInsiders"], folders: [
+            Folder("Library/Application Support/Code - Insiders/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
+            Folder("Library/Application Support/Code - Insiders/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
+            Folder("Library/Application Support/Code - Insiders/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L127"),
+            Folder("Library/Application Support/Code - Insiders/logs", .logs, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L73-L79"),
+            Folder("Library/Application Support/Code - Insiders/Code Cache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/content/browser/storage_partition_impl.cc#L1587-L1595"),
+            Folder("Library/Application Support/Code - Insiders/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
+            Folder("Library/Application Support/Code - Insiders/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
+            Folder("Library/Application Support/Code - Insiders/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/Code - Insiders/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
+            Folder("Library/Application Support/Code - Insiders/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/Code - Insiders/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/Code - Insiders/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
+            Folder("Library/Caches/com.microsoft.VSCodeInsiders.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/5c9e2133c09d6f8e2e3c5a45c5b0ffc00448c58a/Squirrel/SQRLUpdater.m#L814-L829"),
+        ]),
         Definition(id: "vscodium", name: "VSCodium", systemImage: "curlybraces", appBundleIdentifiers: ["com.vscodium"], folders: [
             Folder("Library/Application Support/VSCodium/Cache", .cache, source: "https://github.com/VSCodium/vscodium/blob/5a73682ca091082675b10c9dc3f348c1d824d94f/docs/migration.md#L23"),
             Folder("Library/Application Support/VSCodium/CachedData", .cache, source: "https://github.com/VSCodium/vscodium/blob/5a73682ca091082675b10c9dc3f348c1d824d94f/docs/migration.md#L23"),
