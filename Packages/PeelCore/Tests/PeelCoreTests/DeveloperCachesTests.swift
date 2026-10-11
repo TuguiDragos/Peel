@@ -471,6 +471,8 @@ struct DeveloperCachesTests {
             // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`;
             // `~/.clojure` holds the person's own `deps.edn`.
             "Library/Caches/Coursier", ".ccache", ".clojure", ".cabal",
+            // Java's deployment folder keeps its settings and the certificates a person trusted.
+            "Library/Application Support/Oracle/Java/Deployment",
             // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
             ".cache/node/corepack",
             // Hex and Gleam keep a Hex account's key beside their packages; pub, RubyGems, rebar3, Stack, and opam
@@ -1625,6 +1627,21 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["onnx_models"])
         #expect(locations.allSatisfy { $0.kind == .models && !$0.isRecommended })
+    }
+
+    @Test func listsJavaWebStartsCacheWithoutSelectingItAndOffersItsLogs() async throws {
+        let directory = try TemporaryDirectory()
+        let deployment = "Library/Application Support/Oracle/Java/Deployment"
+        try directory.file("\(deployment)/cache/6.0/12/4a1b2c3d-5e6f7a8b", bytes: 400_000)
+        try directory.file("\(deployment)/log/plugin.trace", bytes: 4_096)
+        try directory.file("\(deployment)/deployment.properties", bytes: 64)
+        let java = DeveloperCaches.definitions.filter { $0.id == "oraclejava" }
+
+        let locations = await DeveloperCaches.scan(java, homeDirectory: directory.url).flatMap(\.locations)
+
+        let kinds = Dictionary(uniqueKeysWithValues: locations.map { ($0.url.lastPathComponent, $0.kind) })
+        #expect(kinds == ["cache": .environments, "log": .logs])
+        #expect(locations.allSatisfy { $0.isRecommended == ($0.kind == .logs) })
     }
 
     @Test func offersTheSonarScannersCacheAndNeverItsCertificates() async throws {

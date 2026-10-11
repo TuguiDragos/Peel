@@ -683,6 +683,11 @@ public enum DeveloperCaches {
             Folder(".coursier/cache/v1", .downloads, source: "https://github.com/coursier/coursier/blob/d3006393e44af0dc0165813f262de2de51e17a46/doc/docs/cache.md#L48-L54"),
             Folder("Library/Caches/sbt", .buildData, source: "https://github.com/sbt/sbt/blob/f4618946c5b7055083f8c74bf84e4d1ad5e6a1e9/main/src/main/scala/sbt/internal/SysProp.scala#L231-L245"),
         ]),
+        // Java Web Start keeps the applications a person installed in its cache, beside the ones it only cached.
+        Definition(id: "oraclejava", name: "Java Web Start", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/Oracle/Java/Deployment/cache", .environments, source: "https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/jcp.html"),
+            Folder("Library/Application Support/Oracle/Java/Deployment/log", .logs, source: "https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/properties.html"),
+        ]),
         Definition(id: "konan", name: "Kotlin/Native", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".konan/dependencies", .downloads, source: "https://github.com/JetBrains/kotlin/blob/4e93a0a3323a27fe7064103af6eb76e54afe16eb/native/utils/src/org/jetbrains/kotlin/konan/util/DependencyDirectories.kt#L12-L32"),
             Folder(".konan/cache", .buildData, source: "https://github.com/JetBrains/kotlin/blob/4e93a0a3323a27fe7064103af6eb76e54afe16eb/native/utils/src/org/jetbrains/kotlin/konan/util/DependencyDirectories.kt#L13-L36"),
