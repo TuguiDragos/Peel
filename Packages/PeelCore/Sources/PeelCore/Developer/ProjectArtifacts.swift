@@ -872,8 +872,11 @@ public enum ProjectArtifacts {
 
         let base = key(of: project)
         var samples = 0
+        // The project's artifacts are among its entries, so a walk that saw nothing could not read the folder.
+        var sawAnything = false
         for case let url as URL in enumerator {
             guard !isGivenUp() else { return (newest, false) }
+            sawAnything = true
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
             if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
@@ -887,7 +890,7 @@ public enum ProjectArtifacts {
             if newest == nil || date > newest! { newest = date }
             if date > cutoff { return (date, true) }
         }
-        return (newest, newest != nil)
+        return (newest, newest != nil || sawAnything)
     }
 
     static func key(of url: URL) -> String {

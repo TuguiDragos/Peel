@@ -1104,6 +1104,17 @@ struct ProjectArtifactsTests {
         #expect(try !isActive("packages"), "a package install is not work on the project")
     }
 
+    @Test func aFolderHoldingNothingButBuildOutputKnowsItHasNotChanged() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("old/__pycache__/app.cpython-313.pyc", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let artifact = try #require(await ProjectArtifacts.scan(roots: [directory.url]).artifacts.first)
+
+        #expect(artifact.lastActivityIsCertain)
+        #expect(artifact.isRecommended)
+    }
+
     /// Every git command that changes something writes under `.git`, so three files there tell when the whole
     /// repository was last used, without reading a sample of its files.
     @Test func readsWhenTheRepositoryWasLastUsed() throws {
