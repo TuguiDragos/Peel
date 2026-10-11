@@ -156,6 +156,24 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == Set(caches))
     }
 
+    @Test func listsTheCachesOfEveryBuildOfBrave() async throws {
+        let directory = try TemporaryDirectory()
+        let brave = "Library/Application Support/BraveSoftware"
+        let caches = ["Brave-Browser-Beta/ShaderCache", "Brave-Browser-Nightly/Default/GPUCache", "Brave-Origin/ShaderCache"]
+        for cache in caches {
+            try directory.file("\(brave)/\(cache)/data_0", bytes: 4_096)
+        }
+        try directory.file("\(brave)/Brave-Origin/Default/Local Storage/leveldb/000003.log", bytes: 4_096)
+
+        let environments = await scanned(directory.url)
+
+        let folder = directory.url.appending(path: brave).path(percentEncoded: false) + "/"
+        let listed = environments.filter { ["brave", "braveorigin"].contains($0.id) }.flatMap(\.locations).map {
+            $0.url.path(percentEncoded: false).replacingOccurrences(of: folder, with: "")
+        }
+        #expect(Set(listed) == Set(caches))
+    }
+
     /// Opera is built on Chromium and keeps the same caches in the folder Opera itself names.
     @Test func listsOperasCachesAsChromiumNamesThem() async throws {
         let directory = try TemporaryDirectory()
