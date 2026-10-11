@@ -397,6 +397,14 @@ public enum ProjectArtifacts {
             source: "https://docs.astral.sh/ruff/settings/"
         ),
         Definition(
+            name: ".pyre", markers: [".pyre_configuration", "pyproject.toml"], tool: "Pyre", isGeneric: false,
+            source: "https://github.com/facebook/pyre-check/blob/d5614e0a75f539443225fce3c3c55a77cfbfb72c/client/find_directories.py#L27-L32"
+        ),
+        Definition(
+            name: ".pytype", markers: ["setup.cfg"] + pythonProjectFiles, tool: "pytype", isGeneric: false,
+            source: "https://github.com/google/pytype/blob/f411a8b445c19500a737ba1671f071e001072618/pytype/tools/analyze_project/config.py#L65-L66"
+        ),
+        Definition(
             name: "htmlcov", markers: [".coveragerc", "pyproject.toml", "setup.cfg", "tox.ini"], tool: "Coverage.py",
             isGeneric: false, source: "https://coverage.readthedocs.io/en/latest/config.html"
         ),

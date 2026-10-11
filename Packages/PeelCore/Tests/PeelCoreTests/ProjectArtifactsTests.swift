@@ -255,6 +255,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".pytest_cache", marker: "conftest.py", tool: "pytest", isGeneric: false),
             Kind(artifact: ".mypy_cache", marker: "mypy.ini", tool: "mypy", isGeneric: false),
             Kind(artifact: ".ruff_cache", marker: "ruff.toml", tool: "Ruff", isGeneric: false),
+            Kind(artifact: ".pyre", marker: ".pyre_configuration", tool: "Pyre", isGeneric: false),
+            Kind(artifact: ".pytype", marker: "setup.cfg", tool: "pytype", isGeneric: false),
             Kind(artifact: "htmlcov", marker: ".coveragerc", tool: "Coverage.py", isGeneric: false),
             Kind(artifact: ".tox", marker: "tox.ini", tool: "tox", isGeneric: false, isEnvironment: true),
             Kind(artifact: ".nox", marker: "noxfile.py", tool: "Nox", isGeneric: false, isEnvironment: true),
