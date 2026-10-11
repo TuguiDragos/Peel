@@ -229,6 +229,30 @@ struct SpaceRemovalTests {
         #expect(plan.refused.isEmpty)
     }
 
+    @Test func offersTheAccountsCrashReportsButNeverTheirFolder() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            "org.example.tool/run.log", "DiagnosticReports/Example_2026-09-28.ips",
+            "DiagnosticReports/Retired/panic-full.ips",
+        ] {
+            try directory.file("home/Library/Logs/\(path)", bytes: 4_000)
+        }
+        let reports = directory.url.appending(path: "home/Library/Logs/DiagnosticReports", directoryHint: .isDirectory)
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: FileSize.measure
+        )
+        let logs = try #require(report.items.first { $0.id == "logs" })
+
+        let plan = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
+        #expect(logs.size.map { $0 < 12_000 } == true)
+        let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
+        #expect(removalGuard.refusal(of: reports) == .staysItself)
+    }
+
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/Caches/org.example.updater/data.bin")

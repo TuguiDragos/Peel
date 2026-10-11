@@ -152,6 +152,10 @@ those programs keep theirs, does not list them at all. Neither you nor Peel can 
 asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the app's own
 uninstaller.
 
+The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
+analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only
+the reports in it, as it does in `/Library/Logs/DiagnosticReports`.
+
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
 free name allows, and the move then replaces the placeholder.

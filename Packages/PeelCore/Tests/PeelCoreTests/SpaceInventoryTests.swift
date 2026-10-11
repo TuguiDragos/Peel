@@ -85,19 +85,35 @@ struct SpaceInventoryTests {
     /// Without Full Disk Access some areas are refused, and a refused one is kept like one that ran out of time.
     @Test(.permissionsHold) func keepsAFolderItCannotOpen() async throws {
         let directory = try TemporaryDirectory()
-        try directory.file("Library/Logs/big.log", bytes: 400_000)
-        try directory.setPermissions(0, of: "Library/Logs")
-        defer { try? directory.setPermissions(0o755, of: "Library/Logs") }
+        try directory.file("home/Library/Logs/big.log", bytes: 400_000)
+        try directory.setPermissions(0, of: "home/Library/Logs")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Logs") }
 
         let report = await SpaceInventory.scan(
-            home: directory.url,
-            root: directory.url,
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
             minimumSize: 100_000,
             measure: FileSize.measure
         )
         #expect(report.items.map(\.id) == ["logs"])
         #expect(report.items.first?.size == nil)
         #expect(!report.needsFullDiskAccess, "ordinary permissions were read as a refusal Full Disk Access would lift")
+    }
+
+    @Test(.permissionsHold) func keepsASharedAreaItCannotListAsUnknown() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Logs/org.example.tool/run.log", bytes: 400_000)
+        try directory.setPermissions(0, of: "root/Library/Logs")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Logs") }
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000,
+            measure: FileSize.measure
+        )
+        #expect(report.items.map(\.id) == ["system-logs"])
+        #expect(report.items.first?.size == nil)
     }
 
     @Test func leavesOutWhatIsExcludedAndWhatItHolds() async throws {
@@ -346,12 +362,14 @@ struct SpaceInventoryTests {
         let found = Set(places.map { "\($0.item.id): \($0.path)" })
         #expect(expected.subtracting(found).isEmpty, "\(expected.subtracting(found).sorted())")
         // A place in two areas, or inside a place measured whole, would count its bytes twice in the total. An area
-        // that leaves macOS's own measures what is in its places one by one, and passes over a place of its own.
+        // that leaves macOS's own, or offers only the files of a place of its own, measures what is in its places one
+        // by one, and passes over a place of its own.
         let twice = places.filter { place in
             places.contains { other in
                 let isAnotherArea = other.item.id != place.item.id
+                let measuresOneByOne = other.item.leavesMacOSsOwn || !other.item.onlyFilesIn.isEmpty
                 return (other.path == place.path && isAnotherArea)
-                    || (place.path.hasPrefix(other.path + "/") && (isAnotherArea || !other.item.leavesMacOSsOwn))
+                    || (place.path.hasPrefix(other.path + "/") && (isAnotherArea || !measuresOneByOne))
             }
         }
         #expect(twice.isEmpty, "counted twice: \(twice.map(\.path).sorted())")

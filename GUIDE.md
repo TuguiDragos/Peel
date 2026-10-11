@@ -108,9 +108,10 @@ simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space m
 with the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it
 deletes for good. In the Library at the top of the disk, Space also lists the caches and logs apps keep for every
 account, and the crash reports macOS keeps. Those an administrator owns go through Peel's helper, and what macOS
-keeps there for its own services is never listed. Nothing is selected for you: Select Recommended takes what Peel
-could measure in an area and nothing holds back. Peel can also warn you, with a notification that opens Space, when
-less than a tenth of your disk is available: turn it on in Settings > General.
+keeps there for its own services is never listed. In your own Logs, the folder macOS saves crash reports in stays and
+only the reports are offered, since macOS can't make that folder again. Nothing is selected for you: Select
+Recommended takes what Peel could measure in an area and nothing holds back. Peel can also warn you, with a
+notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings > General.
 
 </details>
 

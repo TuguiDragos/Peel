@@ -86,8 +86,16 @@ public enum SpaceInventory {
             } + (isTheUserCacheFolder ? [userCache].compactMap(\.self) : [])
         }
 
-        func onlyFilesIn(root: URL) -> [URL] {
-            onlyFilesIn.map { root.appending(path: String($0.dropFirst()), directoryHint: .isDirectory) }
+        /// True when the area's size is what it offers, child by child, rather than its places measured whole: one
+        /// place may sit inside another of its own, which would count twice.
+        var measuresWhatItOffers: Bool { leavesMacOSsOwn || !onlyFilesIn.isEmpty }
+
+        func onlyFilesIn(home: URL, root: URL) -> [URL] {
+            onlyFilesIn.map { path in
+                path.hasPrefix("/")
+                    ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
+                    : home.appending(path: path, directoryHint: .isDirectory)
+            }
         }
     }
 
@@ -244,12 +252,15 @@ public enum SpaceInventory {
             paths: ["Library/Mobile Documents/com~apple~CloudDocs"],
             handling: .readOnly
         ),
+        // macOS's analytics helper can't make the account's crash reports folder again once it is gone, so only the
+        // reports in it are offered.
         Definition(
             id: "logs",
             category: .library,
-            paths: ["Library/Logs"],
+            paths: ["Library/Logs", "Library/Logs/DiagnosticReports"],
             handling: .trash,
-            containerFolders: ["Data/Library/Logs"]
+            containerFolders: ["Data/Library/Logs"],
+            onlyFilesIn: ["Library/Logs/DiagnosticReports"]
         ),
         Definition(
             id: "caches",
@@ -350,14 +361,17 @@ public enum SpaceInventory {
             .filter { !ProtectedData.isApplesName($0.lastPathComponent) }
     }
 
-    /// What an area that leaves macOS's own out can offer in its `folders`: every child not named for macOS and not
-    /// one of the folders themselves, and only the files where macOS files its reports into folders.
-    private static func offered(in folders: [URL], of definition: Definition, root: URL) -> [URL] {
+    /// What an area can offer in its `folders`: every child that is not one of the folders themselves, only the files
+    /// where macOS files its reports into folders, and nothing named for macOS in an area that leaves macOS's own out.
+    private static func offered(in folders: [URL], of definition: Definition, home: URL, root: URL) -> [URL] {
         let paths = Set(folders.map(PathPattern.comparablePath))
-        let filesOnly = Set(definition.onlyFilesIn(root: root).map(PathPattern.comparablePath))
-        return folders.flatMap { folder in
-            let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-            return names.filter { !isMacOSsOwn($0) }.map { folder.appending(path: $0) }.filter { child in
+        let filesOnly = Set(definition.onlyFilesIn(home: home, root: root).map(PathPattern.comparablePath))
+        return folders.flatMap { folder -> [URL] in
+            // A folder that can't be listed is measured whole, so its size reads as unknown, never as nothing.
+            guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
+            else { return [folder] }
+            let kept = definition.leavesMacOSsOwn ? names.filter { !isMacOSsOwn($0) } : names
+            return kept.map { folder.appending(path: $0) }.filter { child in
                 !paths.contains(PathPattern.comparablePath(of: child))
                     && !(filesOnly.contains(PathPattern.comparablePath(of: folder)) && child.isRealFolder)
             }
@@ -428,8 +442,9 @@ public enum SpaceInventory {
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
-                let measured = definition.leavesMacOSsOwn
-                    ? offered(in: urls, of: definition, root: root).filter { !exclusions.excludes($0) } : urls
+                let measured = definition.measuresWhatItOffers
+                    ? offered(in: urls, of: definition, home: home, root: root).filter { !exclusions.excludes($0) }
+                    : urls
                 group.addTask { (definition, urls, await size(of: measured, leaving: exclusions, measure: measure)) }
                 return true
             }
@@ -445,7 +460,7 @@ public enum SpaceInventory {
                     handling: definition.handling,
                     heldBack: definition.heldBack,
                     leavesMacOSsOwn: definition.leavesMacOSsOwn,
-                    onlyFilesIn: definition.onlyFilesIn(root: root),
+                    onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
                     commands: definition.commands
                 ))
             }
