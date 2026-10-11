@@ -416,6 +416,20 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheEnvironmentsPixiMakesAgainAndNeverItsSettings() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("science/pixi.toml", bytes: 16)
+        try directory.file("science/.pixi/envs/default/conda-meta/pixi", bytes: 400_000)
+        try directory.file("science/.pixi/config.toml", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".pixi/envs"])
+        #expect(found.first?.tool == "Pixi")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheClasspathCacheTheClojureCLIKeepsInAProject() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/deps.edn", bytes: 16)

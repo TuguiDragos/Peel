@@ -331,6 +331,12 @@ public enum ProjectArtifacts {
             name: ".nox", markers: ["noxfile.py"], tool: "Nox", isGeneric: false, isEnvironment: true,
             source: "https://nox.thea.codes/en/stable/usage.html"
         ),
+        // Pixi makes these again from `pixi.lock` and never lets them be edited by hand; `.pixi` also holds the
+        // project's own `config.toml`.
+        Definition(
+            name: ".pixi/envs", markers: ["pixi.toml", "pyproject.toml"], tool: "Pixi", isGeneric: false,
+            source: "https://github.com/prefix-dev/pixi/blob/98535e0857e25ddc89457ef4779be2a961d8c2df/docs/workspace/environment.md#L70-L141"
+        ),
         Definition(
             name: "dist", markers: ["pyproject.toml"], tool: "Python", isGeneric: true,
             source: "https://packaging.python.org/en/latest/tutorials/packaging-projects/"

@@ -331,7 +331,8 @@ includes `node_modules` and `Pods`, which `npm install` and `pod install` put ba
 is part of the project, so it is listed and never selected, and so is one in a repository whose list of tracked files
 Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project. A
 Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into one by hand,
-and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing on its own,
+and so is Terraform's `.terraform`, which keeps the workspace you chose. Pixi's `.pixi/envs` can be suggested: Pixi
+makes it again from `pixi.lock` and never lets it be edited by hand. A folder whose name says nothing on its own,
 such as `target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the caches Godot
 makes again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and keys
 (`export_credentials.cfg`), which exist nowhere else. Nx's `.nx` is offered only when it holds nothing but the cache
