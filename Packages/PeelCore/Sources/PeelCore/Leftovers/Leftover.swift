@@ -110,7 +110,7 @@ public enum HoldBack: String, Sendable, Hashable {
     case openedFromMail
     /// A report macOS wrote when the app crashed, which its developer may still ask for.
     case crashReport
-    /// It syncs to the cloud, and `RemovalGuard` refuses to move it: the Trash would remove it from every device.
+    /// It syncs to the cloud, so `RemovalGuard` refuses to move it.
     case inTheCloud
     /// A file a program has open right now, which may still be downloading it.
     case openInAProgram

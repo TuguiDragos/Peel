@@ -285,7 +285,6 @@ struct InstallersTests {
         #expect(scan.items.map(\.name) == ["Other-2.dmg"])
     }
 
-    /// What syncs to the cloud is listed and cannot be selected: the guard refuses to move it.
     @Test func anInstallerThatSyncsToTheCloudCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
@@ -439,8 +438,6 @@ struct InstallersTests {
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
 
-    /// electron-updater keeps what it downloads in the folder its app's `app-update.yml` names, in `~/Library/Caches`,
-    /// or in `~/Library/Application Support/Caches` before electron-updater 6.
     @Test func findsWhatElectronUpdaterDownloadedInEitherPlace() async throws {
         let directory = try TemporaryDirectory()
         let old = "Library/Application Support/Caches"

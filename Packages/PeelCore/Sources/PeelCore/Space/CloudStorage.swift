@@ -31,7 +31,6 @@ public struct CloudScan: Sendable {
     /// How many downloads were left out because another copy on this Mac shares their space: each takes at least
     /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
     public var sharedDownloads = 0
-    /// `files` in the folders Finder shows them in, the folder whose downloads take the most first.
     public var folders: [CloudFolder] = []
 }
 
@@ -258,7 +257,7 @@ public enum CloudStorage {
             let isAppsOwnData = enumerator.level == 2 && !isICloudDrive
                 && url.lastPathComponent.caseInsensitiveCompare("Documents") != .orderedSame
             if isAppsOwnData || isDataless(url) {
-                // After a file, `skipDescendants()` would skip the next folder's contents instead.
+                // `skipDescendants()` after a file would skip the next folder.
                 if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                     enumerator.skipDescendants()
                 }
@@ -364,9 +363,8 @@ public enum CloudStorage {
         return (contents.size, contents.taken, modified)
     }
 
-    /// The readable name of the iCloud folder that holds `url`: "iCloud Drive" for `com~apple~CloudDocs`, and for an
-    /// app's folder the name macOS shows, which the app chooses, else the last part of the folder's identifier, so
-    /// `iCloud~com~acme~App` reads "App".
+    /// "iCloud Drive" for `com~apple~CloudDocs`; for an app's folder the name macOS shows, else the identifier's last
+    /// part, so `iCloud~com~acme~App` reads "App".
     static func containerName(of url: URL, under root: URL) -> String {
         let rootNames = PathComponents.of(PathPattern.comparablePath(of: root))
         let names = PathComponents.of(PathPattern.comparablePath(of: url))

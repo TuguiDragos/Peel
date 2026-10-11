@@ -123,8 +123,6 @@ struct FileSearchTests {
         #expect(!results.isTruncated)
     }
 
-    /// A file that syncs to the cloud, as Desktop and Documents do in iCloud Drive, is never listed, since the guard
-    /// refuses it. A temporary folder holds no such file, so which one syncs is given here, as macOS would answer.
     @Test func neverListsAFileThatSyncsToTheCloud() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

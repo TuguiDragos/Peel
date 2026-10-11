@@ -606,8 +606,6 @@ struct AttackRemovalGuardTests {
         }
     }
 
-    /// What syncs to the cloud stays wherever it is, as Desktop and Documents do in iCloud Drive: the Trash would
-    /// take it from the cloud and from every other device. Put Back still brings an item there.
     @Test func whatSyncsToTheCloudStaysWhereverItIs() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

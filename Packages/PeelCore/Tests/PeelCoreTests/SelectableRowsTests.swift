@@ -120,9 +120,6 @@ struct SelectableRowsTests {
         #expect(!locked.isNoneSelected(in: [repository]))
     }
 
-    /// One box for a group of rows, as a folder's for its files: it shows none, some, or every row selected. A click
-    /// adds what Peel recommends, or, once all of that is selected, takes the whole group out, so it never selects a
-    /// row Peel doesn't recommend.
     @Test func aGroupsBoxSelectsWhatPeelRecommends() {
         let group = SelectableRows(
             rows: [cache, log, repository], selectable: [cache, log, repository], recommended: [cache, log]

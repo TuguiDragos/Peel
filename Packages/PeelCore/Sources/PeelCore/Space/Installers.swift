@@ -460,11 +460,9 @@ public enum Installers {
         return items
     }
 
-    /// The updates apps downloaded and keep until they install them: in `~/Library/Caches`, Sparkle's folder inside
-    /// the app's own, `<identifier>/org.sparkle-project.Sparkle` (`SPULocalCacheDirectory.m`, which adds `.sparkle`
-    /// to an identifier ending like a bundle), and Squirrel's `<identifier>.ShipIt` (`SQRLShipItLauncher.m`); there
-    /// and in its former place, electron-updater's folder (`ElectronUpdater`). A folder the Developer table lists is
-    /// left to Developer.
+    /// Sparkle's `<identifier>/org.sparkle-project.Sparkle`, with `.sparkle` after an identifier that ends like a
+    /// bundle (`SPULocalCacheDirectory.m`), Squirrel's `<identifier>.ShipIt` (`SQRLShipItLauncher.m`), and
+    /// electron-updater's folder. A folder Developer lists is left to Developer.
     static func updateDownloads(
         home: URL,
         installedApps: [InstalledApp],

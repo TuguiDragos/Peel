@@ -148,8 +148,6 @@ struct CarriedSelectionTests {
         #expect(Set(pass.refused.flatMap(\.sizes.keys).map(\.lastPathComponent)) == ["com.apple.akd", "Kept.app"])
     }
 
-    /// Two tools can list the same item, as App Caches and Downloaded Updates both list an updater's folder: it
-    /// counts and moves once, with the first part, and a part left with nothing goes.
     @Test func anItemTwoPagesSelectedCountsOnce() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "installers", scope: "updateDownload"))
@@ -166,7 +164,6 @@ struct CarriedSelectionTests {
         #expect(parts.last.map { Set($0.sizes.keys.map(\.lastPathComponent)) } == ["org.example.app"])
     }
 
-    /// A shared item counts with the page Move to Trash is pressed on, when that page holds it.
     @Test func anItemTwoPagesSelectedCountsWithThePageAsking() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "installers", scope: "updateDownload"))
@@ -180,7 +177,6 @@ struct CarriedSelectionTests {
         #expect(parts.map(\.page.scope) == ["caches"])
     }
 
-    /// An item inside a folder another page selected moves with that folder, whichever page comes first.
     @Test func anItemInsideAFolderAnotherPageSelectedCountsWithTheFolder() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "installers", scope: "updateDownload"))
@@ -195,7 +191,6 @@ struct CarriedSelectionTests {
         #expect(parts.total.known == 900)
     }
 
-    /// One page's own selection is left as its tool made it.
     @Test func onePagesSelectionIsLeftAsItIs() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "space", scope: "caches"))
@@ -207,7 +202,6 @@ struct CarriedSelectionTests {
         #expect(parts.itemCount == 2)
     }
 
-    /// A page's own folder and an item inside it stay as its tool made them when another page carries a selection too.
     @Test func aPagesOwnFolderAndItsItemStayBesideAnotherPage() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "installers", scope: "updateDownload"))
@@ -221,7 +215,6 @@ struct CarriedSelectionTests {
         #expect(parts.itemCount == 3)
     }
 
-    /// An item under folders two other pages selected moves with the outermost, whichever page asks.
     @Test func anItemUnderFoldersTwoPagesSelectedMovesWithTheOutermost() {
         var selection = CarriedSelection()
         selection.saw(Page(tool: "installers", scope: "updateDownload"))
@@ -239,8 +232,6 @@ struct CarriedSelectionTests {
         #expect(parts.total.known == 950)
     }
 
-    /// After a pass, every part that holds an item that moved, or one inside a folder that moved, so its tool is
-    /// brought up to date even when another page moved it.
     @Test func findsThePartsHoldingWhatMoved() {
         let parts = [
             part("installers", "updateDownload", ["Library/Caches/notes-updater": 300]),

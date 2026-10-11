@@ -1,11 +1,9 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// The downloads in one folder of iCloud, with the names Finder shows from iCloud Drive or the app's folder down.
 public struct CloudFolder: Sendable, Hashable, Identifiable {
     public let url: URL
     public let names: [String]
-    /// The biggest first.
     public let files: [CloudFile]
     public let size: Int64
 
@@ -18,20 +16,17 @@ public struct CloudFolder: Sendable, Hashable, Identifiable {
         size = files.map(\.size).cappedSum
     }
 
-    /// The folder with only those of its files in `urls`, as a search narrows it, or nil when it holds none of them.
     public func keeping(_ urls: Set<URL>) -> CloudFolder? {
         let kept = files.filter { urls.contains($0.url) }
         return kept.isEmpty ? nil : CloudFolder(url: url, names: names, files: kept)
     }
 
-    /// The biggest first, and by name between two of the same size, so the order holds from one scan to the next.
     public static func ordered(_ folders: [CloudFolder]) -> [CloudFolder] {
         folders.sorted { $0.size != $1.size ? $0.size > $1.size : $0.names.lexicographicallyPrecedes($1.names) }
     }
 }
 
 extension CloudStorage {
-    /// `files` in the folders they sit in.
     static func folders(of files: [CloudFile], home: URL) -> [CloudFolder] {
         let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
         let grouped = Dictionary(grouping: files) {
@@ -44,8 +39,7 @@ extension CloudStorage {
         })
     }
 
-    /// The container's name, then each folder's below it as Finder shows it. Finder shows an app's `Documents` as the
-    /// app's folder itself, so that name is left out.
+    /// Finder shows an app's `Documents` as the app's folder itself, so that name is left out.
     static func names(of folder: URL, container: String, under root: URL) -> [String] {
         let rootNames = PathComponents.of(PathPattern.comparablePath(of: root))
         let names = PathComponents.of(PathPattern.comparablePath(of: folder))

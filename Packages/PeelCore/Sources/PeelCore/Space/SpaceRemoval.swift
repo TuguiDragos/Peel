@@ -108,11 +108,9 @@ public enum SpaceRemoval {
         )
     }
 
-    /// How long a cache counts as in use after something wrote to it.
     static let stillInUse: TimeInterval = 15 * 60
 
-    /// True when `child` or anything inside it was written within `stillInUse`. A walk dates what is inside, and the
-    /// folder's own date moves when an entry is added or removed.
+    /// The folder's own date counts too: it moves when an entry is added or removed.
     private static func wasWrittenRecently(_ child: URL, contents: FolderContents?) -> Bool {
         let own = (try? child.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
         guard let written = [own, contents?.newestChange].compactMap(\.self).max() else { return false }

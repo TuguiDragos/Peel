@@ -1274,7 +1274,6 @@ struct ProjectArtifactsTests {
         #expect(!artifact.isRecommended)
     }
 
-    /// A submodule's or a worktree's `.git` is a file, and the folder read after it is still read.
     @Test func readsTheFolderAfterAGitFile() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Project/package.json", bytes: 16)
@@ -1295,7 +1294,6 @@ struct ProjectArtifactsTests {
         #expect(activity.isCertain)
     }
 
-    /// A quiet project of a few thousand files is read to the end, so what a build left deep inside it is suggested.
     @Test func readsAQuietProjectOfThousandsOfFilesToTheEnd() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("lib/pyproject.toml", bytes: 16)

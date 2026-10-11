@@ -31,8 +31,7 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when what macOS keeps in its folders for its own services is neither measured nor offered: there they run
     /// as other accounts, whose open files Peel cannot see, or keep caches not even Full Disk Access can read.
     public var leavesMacOSsOwn = false
-    /// True when a child something wrote to in the last few minutes is held back (`SpaceRemoval.stillInUse`): Peel
-    /// knows an open app's caches only by the app's names, and a program may write under a name of its own.
+    /// A child something wrote to in the last few minutes is held back (`SpaceRemoval.stillInUse`).
     public var holdsBackRecentWrites = false
     /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
     public var onlyFilesIn: [URL] = []

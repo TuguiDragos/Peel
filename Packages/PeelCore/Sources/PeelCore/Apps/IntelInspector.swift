@@ -305,7 +305,7 @@ public enum IntelInspector {
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 if driverExtensions.contains(item.pathExtension) {
-                    // After a file, `skipDescendants()` would skip the next folder's contents instead.
+                    // `skipDescendants()` after a file would skip the next folder.
                     if (try? item.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                         enumerator.skipDescendants()
                     }

@@ -103,7 +103,6 @@ struct CloudStorageTests {
         #expect(CloudStorage.containerName(of: URL(filePath: "/somewhere/else"), under: root) == "")
     }
 
-    /// An app's iCloud folder is named as macOS shows it, which the app chooses, on this Mac's own folders.
     @Test func namesAnAppsFolderAsMacOSShowsIt() {
         let root = URL.homeDirectory.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
         let containers = (try? FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)) ?? []
@@ -116,8 +115,6 @@ struct CloudStorageTests {
         }
     }
 
-    /// Each download goes in the folder Finder shows it in, named from iCloud Drive or the app's folder down, an
-    /// app's `Documents` shown as the app's folder itself. A search keeps a folder only with the files it found.
     @Test func groupsTheDownloadsByTheFolderFinderShowsThemIn() throws {
         let directory = try TemporaryDirectory()
         let root = directory.url.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
@@ -334,7 +331,6 @@ struct CloudStorageTests {
         #expect(collector.collected.files.isEmpty)
     }
 
-    /// In an app's iCloud folder only `Documents` is what Finder shows; the rest is the app's own data.
     @Test func listsOnlyWhatFinderShows() throws {
         let directory = try TemporaryDirectory()
         let cloud = "Library/Mobile Documents"
@@ -353,7 +349,6 @@ struct CloudStorageTests {
         #expect(collector.collected.files.map(\.name).sorted() == ["Note.bin", "Shared.bin", "Song.mp3"])
     }
 
-    /// A file whose download was removed holds nothing here, and the folder after it is still looked into.
     @Test func looksIntoTheFolderAfterAFileWhoseDownloadWasRemoved() throws {
         let directory = try TemporaryDirectory()
         let drive = "Library/Mobile Documents/com~apple~CloudDocs"

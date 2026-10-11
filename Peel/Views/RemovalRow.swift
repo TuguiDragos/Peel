@@ -7,7 +7,7 @@ struct RemovalRow: View {
     }
 
     let url: URL
-    /// The item's name, shown and spoken in place of its path when the row sits under its folder.
+    /// Shown in place of the path, for a row under its folder.
     var name: String?
     let icon: Icon
     let detail: LocalizedStringResource?

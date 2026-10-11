@@ -14,7 +14,7 @@ struct CloudView: View {
     @State private var leftAlone: LeftAlone?
     @State private var isRescanning = false
     @State private var searchText = ""
-    /// The folders opened while browsing. While a search runs, each folder with a match is open unless closed in it.
+    /// Opened while browsing; during a search every folder with a match is open unless closed.
     @State private var opened: Set<URL> = []
     @State private var closedInSearch: Set<URL> = []
 
@@ -209,7 +209,6 @@ struct CloudView: View {
         }
     }
 
-    /// Every file a click can select, and those Peel recommends: all but the desktop picture, which macOS holds open.
     private func selectableRows(_ files: [CloudFile]) -> SelectableRows<URL> {
         SelectableRows(
             rows: files.map(\.url),

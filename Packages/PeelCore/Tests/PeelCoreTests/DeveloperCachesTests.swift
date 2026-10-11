@@ -301,7 +301,6 @@ struct DeveloperCachesTests {
         #expect(listed("org.example.chat") == ["GPUCache"])
     }
 
-    /// `.` or `..` for a name, in the bundle or in `product.json`, names no folder of the app's own.
     @Test func neverReadsAFolderAboveApplicationSupportAsAnElectronAppsData() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -373,7 +372,6 @@ struct DeveloperCachesTests {
         ])
     }
 
-    /// Chromium named its WebGPU cache `DawnCache` until 2024 and leaves the folder it wrote under that name behind.
     @Test func listsTheWebGPUCacheUnderItsFormerName() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -513,15 +511,13 @@ struct DeveloperCachesTests {
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
             // Unity keeps its licenses beside its caches; SonarScanner the client certificates it signs in with.
             "Library/Unity", ".sonar",
-            // Claude Code and Codex keep every conversation and prompt beside their caches and logs; Continue its
-            // configuration and sessions, Cline its sessions and the API keys in `data/settings`.
+            // Each keeps conversations, settings, or keys beside its caches.
             ".claude", ".codex", ".continue", ".cline", ".cline/data",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
         // which is the tool's only when its origin is that index. nvm's, pyenv's, rbenv's and rustup's folders hold
-        // every version they installed; only their download caches are caches, and rustup's temporary folder, which
-        // `rustup update` empties.
+        // every version they installed; only their download caches are caches, and rustup's `tmp`.
         let onlyTheseParts: [String: Set<String>] = [
             ".cocoapods/repos": [".cocoapods/repos/trunk", ".cocoapods/repos/master", ".cocoapods/repos/cocoapods"],
             ".nvm": [".nvm/.cache"], ".pyenv": [".pyenv/cache"], ".rbenv": [".rbenv/cache"],

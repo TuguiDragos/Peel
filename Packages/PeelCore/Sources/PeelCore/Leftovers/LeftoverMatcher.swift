@@ -46,9 +46,7 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
-    /// This app's claim on the folder electron-updater keeps its downloads in, which the app's own settings name:
-    /// `url` directly in one of its places under `home` (`ElectronUpdater.places`), whatever the app is called. It is
-    /// shared only with an app naming the same folder.
+    /// This app's claim on the folder its `app-update.yml` names for electron-updater's downloads.
     func updatersFolder(at url: URL, home: String) -> LeftoverMatch? {
         guard let folder = target.updaterFolder, url.lastPathComponent.lowercased() == folder else { return nil }
         let parent = PathComponents.of(url.deletingLastPathComponent().path(percentEncoded: false))
@@ -358,8 +356,7 @@ extension LeftoverMatcher {
             ownFolderNames = app.ownFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
-            // Only the name electron-builder writes, the app's and `-updater`: the settings are whoever built the
-            // app's, and any other name could be a folder other programs share.
+            // Only electron-builder's `<name>-updater`: any other name could be a folder other programs share.
             updaterFolder = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
         }
 

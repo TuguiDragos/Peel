@@ -197,9 +197,8 @@ public enum ProtectedData: Sendable {
         "Library/Nano/backup",
     ]
 
-    /// What iCloud and File Provider keep about the files on this Mac and in the cloud, and the containers of macOS's
-    /// own services, iCloud's among them. The services that keep these hold them open and make them again, and
-    /// removing one, or putting an old copy back, leaves iCloud Drive's records disagreeing with the files.
+    /// iCloud's and File Provider's records of the files here and in the cloud, and macOS's own services' containers:
+    /// their services hold them open, and removing one or putting an old copy back leaves those records wrong.
     static let cloudState = [
         "Library/Application Support/CloudDocs",
         "Library/Application Support/FileProvider",
@@ -209,13 +208,11 @@ public enum ProtectedData: Sendable {
         "Library/Caches/com.apple.cloudd",
     ]
 
-    /// How the caches of File Provider's and CloudKit's own programs begin in a home's `Library/Caches`: Apple names
-    /// each of them for its program and adds programs between releases, so they are known by that start. Lowercase.
+    /// How File Provider's and CloudKit's caches begin, since Apple adds programs between releases. Lowercase.
     private static let cloudStateCaches = ["com.apple.fileprovider", "com.apple.cloudkit"]
 
-    /// Every protected place named from a home folder: `homeFolders`, `homeKeys`, `walletKeys` and `cloudState`.
-    /// `refuses`, `holds` and `RemovalGuard` all read it, so a place added to one of those lists is protected by all
-    /// three.
+    /// Every protected place named from a home folder (`homeFolders`, `homeKeys`, `walletKeys`, `cloudState`), which
+    /// `refuses`, `holds` and `RemovalGuard` all read, so a place added to one of them is protected by all three.
     public static let homeTrees = homeFolders + homeKeys + walletKeys + cloudState
 
     /// Hidden items in the home folder that belong to no single app: shells, git, and the folders many tools
@@ -373,7 +370,6 @@ public enum ProtectedData: Sendable {
 
         private struct Branch {
             var endsATree = false
-            /// A name in this folder that begins with one of these is a tree too.
             var beginnings: [String] = []
             var next: [String: Branch] = [:]
 
@@ -387,8 +383,7 @@ public enum ProtectedData: Sendable {
             }
         }
 
-        /// `trees` are named in full; in each folder of `beginnings`, every name that begins with one of its starts is
-        /// a tree.
+        /// In each folder of `beginnings`, every name that begins with one of its starts is a tree too.
         init(_ trees: [[String]], beginnings: [(folder: [String], starts: [String])] = []) {
             var root = Branch()
             for tree in trees {

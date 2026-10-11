@@ -17,7 +17,6 @@ final class CloudLibrary {
     /// The last search and what it found. A view asks again whenever it is drawn, a checkbox included.
     @ObservationIgnored private var lastMatch: (query: String, files: [CloudFile])?
     @ObservationIgnored private var sizes: [URL: Int64] = [:]
-    /// `files` in the folders Finder shows them in, from the same scan.
     private(set) var folders: [CloudFolder] = [] {
         didSet { lastFolders = nil }
     }
@@ -51,7 +50,6 @@ final class CloudLibrary {
         return found
     }
 
-    /// The folders holding the files `query` finds, each with only those files; every folder for an empty one.
     func folders(matching query: String) -> [CloudFolder] {
         guard !query.isEmpty else { return folders }
         if let lastFolders, lastFolders.query == query { return lastFolders.folders }

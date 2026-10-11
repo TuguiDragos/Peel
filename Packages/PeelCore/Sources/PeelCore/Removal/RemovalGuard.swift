@@ -187,7 +187,7 @@ struct RemovalGuard: Sendable {
         var info = stat()
         let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_NOUNLINK)
         guard lstat(path, &info) != 0 || info.st_flags & protectedFlags == 0 else { return .protectedLocation }
-        // Moving what syncs to the cloud would remove it there and from every other device. Put Back removes nothing.
+        // Not for Put Back, which removes nothing from the cloud.
         if item == nil, names.contains(where: { isInTheCloud(URL(filePath: $0)) }) { return .inTheCloud }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.

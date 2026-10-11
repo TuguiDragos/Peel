@@ -9,7 +9,6 @@ struct NativeCheckbox: NSViewRepresentable {
     let label: String
     var help: String?
     var hint: String?
-    /// Shows the box as mixed, as one standing for several rows does while only some of them are selected.
     var isMixed = false
 
     func makeCoordinator() -> Coordinator {
@@ -89,7 +88,7 @@ struct NativeCheckbox: NSViewRepresentable {
         }
 
         @objc func toggle(_ button: NSButton) {
-            // A box that allows mixed goes from off to mixed on a click (`NSButton.h`), so only off reads as off.
+            // With mixed allowed, a click on off goes to mixed (`NSButton.h`).
             isOn.wrappedValue = button.state != .off
         }
     }

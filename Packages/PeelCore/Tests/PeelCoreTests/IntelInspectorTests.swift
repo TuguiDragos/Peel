@@ -90,7 +90,6 @@ struct IntelInspectorTests {
         #expect(walked.1.isEmpty)
     }
 
-    /// A file named like a bundle, as `git bundle` writes one, has nothing inside, and the folder after it is walked.
     @Test func walksTheFolderAfterAFileNamedLikeABundle() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Printers/Backup.bundle", bytes: 16)

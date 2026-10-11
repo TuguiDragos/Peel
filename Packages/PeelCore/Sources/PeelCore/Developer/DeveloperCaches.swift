@@ -547,7 +547,6 @@ public enum DeveloperCaches {
             Folder("Library/Caches/electron", .downloads, source: "https://github.com/electron/get/blob/53178fdcbd62f0e229a4f9695632003637c0f35e/README.md#L123"),
             Folder("Library/Caches/electron-builder", .downloads, source: "https://github.com/electron-userland/electron-builder/blob/ec9135d0626879479ffa4235006f06b14375cc43/website/docs/environment-variables.md#L166"),
             Folder(".electron-gyp", .downloads, source: "https://github.com/electron/rebuild/blob/8b14ce89664a4d341afebb0e5964e912d4453b7f/src/constants.ts#L4"),
-            // The cache older versions of electron-download used, before `@electron/get` replaced it.
             Folder(".electron", .downloads, source: "https://unpkg.com/electron-download@4.1.1/lib/index.js"),
         ]),
         Definition(id: "nodegyp", name: "node-gyp", systemImage: "cube", appBundleIdentifiers: [], folders: [
@@ -748,8 +747,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "cabal", name: "Cabal", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".cache/cabal", .downloads, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/doc/config.rst#L112-L115"),
-            // The same folders while Cabal still keeps everything in `~/.cabal`, beside its settings and what it
-            // installed.
+            // Cabal's older layout, with everything in `~/.cabal`.
             Folder(".cabal/packages", .downloads, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/cabal-install/src/Distribution/Client/Config.hs#L771-L823"),
             Folder(".cabal/script-builds", .buildData, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/cabal-install/src/Distribution/Client/Config.hs#L771-L823"),
         ]),
@@ -819,8 +817,6 @@ public enum DeveloperCaches {
             ),
             Folder("Library/Caches/com.microsoft.VSCode.ShipIt", .downloads, source: "https://github.com/Squirrel/Squirrel.Mac/blob/5c9e2133c09d6f8e2e3c5a45c5b0ffc00448c58a/Squirrel/SQRLUpdater.m#L814-L829"),
         ]),
-        // Insiders keeps VS Code's folders under its own name, as Homebrew's cask for it and VS Code's troubleshooting
-        // guide name it.
         Definition(id: "vscodeinsiders", name: "Visual Studio Code - Insiders", systemImage: "curlybraces", appBundleIdentifiers: ["com.microsoft.VSCodeInsiders"], folders: [
             Folder("Library/Application Support/Code - Insiders/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
             Folder("Library/Application Support/Code - Insiders/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
@@ -1181,7 +1177,7 @@ public enum DeveloperCaches {
         ]),
         // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, brave-core's
         // `build/config.gni` and `app/theme/*/BRANDING` each Brave build's folder and identifier, and Opera's desktop
-        // blog names Opera's (blogs.opera.com/desktop/2023/08). Their disk caches are in `Library/Caches`, which Space
+        // blog Opera's (blogs.opera.com/desktop/2023/08). Their disk caches are in `Library/Caches`, which Space
         // empties.
         Definition(
             id: "chrome", name: "Google Chrome", systemImage: "globe",
@@ -1244,8 +1240,7 @@ public enum DeveloperCaches {
         identifiers + identifiers.map { $0 + "-EAP" }
     }
 
-    /// Where Chromium named its WebGPU cache `DawnCache`, before it renamed it `DawnWebGPUCache`. Nothing removes the
-    /// folder an app wrote under the old name.
+    /// Chromium's WebGPU cache before it was renamed `DawnWebGPUCache`; nothing removes the old folder.
     private static let formerWebGPUCache =
         "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"
 
@@ -1349,8 +1344,7 @@ public enum DeveloperCaches {
         }
     }
 
-    /// The name an editor built on VS Code keeps its data under: `nameShort` in the `product.json` its build ships,
-    /// which VS Code passes to the path of its user data. Nil for an app that carries no such file.
+    /// `nameShort` in the app's `product.json`, the name VS Code keeps its data under.
     private static func vsCodeProductName(of app: InstalledApp) -> String? {
         let file = app.url.appending(path: "Contents/Resources/app/product.json")
         guard let data = BoundedRead.data(at: file, maximum: 1_024 * 1_024),
@@ -1360,7 +1354,7 @@ public enum DeveloperCaches {
         return name
     }
 
-    /// VS Code's own caches and logs in an editor's data folder, and the state of its workspaces that are gone.
+    /// Also the state of workspaces that are gone.
     private static func vsCodesOwnFolders(in data: String) -> [Folder] {
         let vsCode = "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/"
         return [

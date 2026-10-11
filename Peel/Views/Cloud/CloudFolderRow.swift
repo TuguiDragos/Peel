@@ -1,8 +1,6 @@
 import PeelCore
 import SwiftUI
 
-/// A folder of the iCloud Drive page: its box selects the downloads in it Peel recommends, and the rest of the row
-/// opens the folder to list them under it.
 struct CloudFolderRow: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let folder: CloudFolder
@@ -42,10 +40,9 @@ struct CloudFolderRow: View {
                         .frame(width: Self.chevronWidth)
                     AppIcon(url: folder.url)
                         .frame(width: 18, height: 18)
-                        // Centers the icon on the first line of text, as a file's row does.
                         .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 4 }
                         .frame(width: 20)
-                    // Finder's own separator between the folders of a path, the same in every language Peel speaks.
+                    // Finder's path separator, the same in every language Peel speaks.
                     Text(verbatim: folder.names.joined(separator: " ▸ "))
                         .lineLimit(1)
                         .truncationMode(.middle)

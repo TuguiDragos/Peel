@@ -81,9 +81,7 @@ public enum ProjectArtifacts {
         var proof: Proof?
         var keepsItsSetup = false
 
-        /// The artifacts this kind names among the entries of `folder`: a name ending in `*` is a prefix, as CLion
-        /// names a build folder for each profile, and a path names a folder inside one of them, as Rails keeps
-        /// `tmp/cache`, or each one that begins so, as Trigger.dev keeps `.trigger/tmp-<branch>`.
+        /// Names ending in `*` are prefixes, and a path such as `tmp/cache` names a folder inside another.
         func candidates(among names: Set<String>, in folder: URL) -> [String] {
             let parts = PathComponents.of(name)
             guard let first = parts.first, let last = parts.last else { return [] }
@@ -117,8 +115,7 @@ public enum ProjectArtifacts {
         case holdsOnlyFilesEnding(String)
         /// Nothing but entries with these names, `including` among them.
         case holdsOnly(Set<String>, including: String)
-        /// Nothing but folders named by a lowercase hexadecimal digest of this many characters, as Ruby Sass names
-        /// each folder of its cache by the SHA-1 of the folder its stylesheet sits in.
+        /// Only folders named by a lowercase hexadecimal digest of this length, as Ruby Sass names its cache's.
         case holdsOnlyFoldersNamedByDigest(characters: Int)
 
         func holds(at url: URL) -> Bool {
@@ -281,8 +278,7 @@ public enum ProjectArtifacts {
             name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
             source: "https://github.com/serverless/serverless/blob/de91219a8c8f28e07c308b2efc5187fae5445208/docs/sf/providers/aws/cli-reference/package.md#L16"
         ),
-        // `.trigger` also keeps the dev session's state, so only its builds are offered: `tmp`, and `tmp-<branch>` for
-        // a session on another branch.
+        // `.trigger` also keeps the dev session's state, so only its builds are offered.
         Definition(
             name: ".trigger/tmp", markers: ["trigger.config.ts", "trigger.config.mjs", "trigger.config.js"],
             tool: "Trigger.dev", isGeneric: false,
@@ -359,8 +355,7 @@ public enum ProjectArtifacts {
             name: "_site", markers: eleventyConfigFiles, tool: "Eleventy", isGeneric: true,
             source: "https://github.com/11ty/eleventy/blob/c0bb3f4219e00629f4f58a771c1783c898b9bdab/src/Util/ProjectDirectories.js#L10-L15"
         ),
-        // Other site generators name their output `_site` too, and Jekyll keeps there, from one build to the next,
-        // whatever its `keep_files` setting names.
+        // `_site` is a generic name, and Jekyll keeps in it whatever its `keep_files` setting names.
         Definition(
             name: "_site", markers: jekyllConfigFiles, tool: "Jekyll", isGeneric: true,
             source: "https://github.com/jekyll/jekyll/blob/541d8b2ee75c8907de4744d4b87a7a6f1f997cae/lib/jekyll/configuration.rb#L9-L12"
@@ -369,8 +364,7 @@ public enum ProjectArtifacts {
             name: ".jekyll-cache", markers: jekyllConfigFiles, tool: "Jekyll", isGeneric: false,
             source: "https://github.com/jekyll/jekyll/blob/541d8b2ee75c8907de4744d4b87a7a6f1f997cae/lib/jekyll/commands/clean.rb#L20-L31"
         ),
-        // `.quarto` keeps only what Quarto makes again; the results a project chose to freeze are in `_freeze`, which
-        // Quarto has the person keep in version control, so it is never listed.
+        // `_freeze` holds results a project keeps in version control, so it is never listed.
         Definition(
             name: ".quarto", markers: quartoProjectFiles, tool: "Quarto", isGeneric: false,
             source: "https://github.com/quarto-dev/quarto-cli/blob/a57cc76458d91a0577c162a474929119e6b663ba/src/project/project-scratch.ts#L12-L24"
@@ -427,8 +421,7 @@ public enum ProjectArtifacts {
             name: "project/target", markers: ["build.sbt"], tool: "sbt", isGeneric: true,
             source: "https://www.scala-sbt.org/1.x/docs/Directories.html"
         ),
-        // Beside what an export and a compile make again, `.bloop` keeps `bloop.settings.json`, the workspace settings
-        // the person or an editor wrote there.
+        // `.bloop` also keeps `bloop.settings.json`, the workspace settings written there.
         Definition(
             name: ".bloop", markers: ["build.sbt", "build.sc", "build.mill", "pom.xml"] + gradleFiles, tool: "Bloop",
             isGeneric: false,
@@ -723,8 +716,7 @@ public enum ProjectArtifacts {
             name: ".terragrunt-cache", markers: ["terragrunt.hcl"], tool: "Terragrunt", isGeneric: false,
             source: "https://docs.terragrunt.com/features/units/terragrunt-cache/"
         ),
-        // `.aws-sam` also keeps the pipeline `sam pipeline bootstrap` set up (`pipeline/pipelineconfig.toml`), so only
-        // the parts `sam build` and `sam sync` make again are offered.
+        // `.aws-sam` also keeps the pipeline `sam pipeline bootstrap` set up, so only build output is offered.
         Definition(
             name: ".aws-sam/build", markers: samProjectFiles, tool: "AWS SAM", isGeneric: false,
             source: "https://github.com/aws/aws-sam-cli/blob/b73a020cc555abaf6c2cbd3b902b9c91558a3ad9/samcli/commands/_utils/constants.py#L8"
@@ -977,7 +969,6 @@ public enum ProjectArtifacts {
         return (await withLastActivity(pending), next < queue.count, unreadable)
     }
 
-    /// An artifact the walk found, waiting for its project's last change.
     private struct Pending: Sendable {
         let url: URL
         let project: URL
@@ -985,8 +976,7 @@ public enum ProjectArtifacts {
         let contents: FolderContents?
     }
 
-    /// Reads each project's last change once, after the walk, passing by every artifact inside the project, its
-    /// own and those of a project within it, since a build or a run writes into them while nobody works on it.
+    /// Builds write into artifacts while nobody works on a project, so its last change passes by every one inside.
     private static func withLastActivity(_ pending: [Pending]) async -> [ProjectArtifact] {
         let projects = Dictionary(
             pending.map { (key(of: $0.project), $0.project) }, uniquingKeysWith: { first, _ in first }
@@ -1032,9 +1022,7 @@ public enum ProjectArtifacts {
         }
     }
 
-    /// The project an artifact found without its tool's file belongs to: the nearest folder at or above `folder`,
-    /// never above `root`, that holds a repository or a file a tool makes its project from, or else `folder`. Each
-    /// folder asked about is read once a walk.
+    /// The nearest folder from `folder` up to `root` holding a repository or a tool's project file, else `folder`.
     private static func project(
         above folder: URL,
         within root: URL,
@@ -1062,8 +1050,6 @@ public enum ProjectArtifacts {
         }
     }
 
-    /// Whether a folder holding `names` is a project: a repository, or the place of a file a tool makes its project
-    /// from.
     static func holdsAProject(names: Set<String>, in folder: URL) -> Bool {
         names.contains(".git")
             || definitions.contains { !$0.markers.isEmpty && $0.hasMarker(besides: names, in: folder) }
@@ -1079,7 +1065,6 @@ public enum ProjectArtifacts {
         let name: String
         let definition: Definition?
         let isTaggedAsACache: Bool
-        /// True when the file of the tool that makes it stands beside it, which makes that folder its project.
         var isBesideItsToolsFile = false
     }
 
@@ -1162,7 +1147,7 @@ public enum ProjectArtifacts {
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
             if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
-                // After a file, as a submodule's `.git` is, `skipDescendants()` would skip the next folder instead.
+                // `skipDescendants()` after a file, such as a submodule's `.git`, would skip the next folder.
                 if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                     enumerator.skipDescendants()
                 }

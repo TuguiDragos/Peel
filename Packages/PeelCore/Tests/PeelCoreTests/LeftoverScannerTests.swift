@@ -125,9 +125,6 @@ struct LeftoverScannerTests {
     /// Another copy of an app that macOS knows outside the Applications folders uses the same files. Every Mac has one
     /// of the character palette in its input methods folder, so a copy of it in Applications shares its settings, and
     /// that copy is counted once when the list of apps holds it too.
-    /// electron-updater keeps an app's downloads in the folder the app's own settings name, in `~/Library/Caches` or
-    /// its former place in Application Support, whatever the app is called. Only electron-builder's own shape of
-    /// name claims a folder, and only in those two places.
     @Test func findsTheFolderTheAppsUpdaterKeepsItsDownloadsIn() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/tide2-updater/update.zip", bytes: 4096)
@@ -154,7 +151,6 @@ struct LeftoverScannerTests {
         #expect(!kelps.contains { $0.url.lastPathComponent == "Shared" })
     }
 
-    /// Another copy of the app names the same folder, so the folder stays with it.
     @Test func anUpdaterFolderAnotherCopyNamesStaysWithIt() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/tide2-updater/update.zip", bytes: 4096)
@@ -1095,8 +1091,6 @@ struct LeftoverScannerTests {
         #expect(await leftover(photos, .applicationSupport).match.heldBack == .holdsALibrary)
     }
 
-    /// What syncs to the cloud, as a cask's folder in Documents does in iCloud Drive, cannot be selected, since the
-    /// guard refuses it. A temporary folder holds no such folder, so which one syncs is given here.
     @Test func aLeftoverThatSyncsToTheCloudCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         let synced = try directory.directory("home/Documents/Example")
