@@ -677,6 +677,30 @@ code {
   color: var(--orange);
 }
 
+/* One point to a row: its icon and title, then what it says. */
+.points.rows {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.points.rows li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.75fr);
+  column-gap: 14px;
+  padding: 24px 0;
+}
+
+.points.rows .icon {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.points.rows p {
+  margin: 0 0 0 26px;
+}
+
 /* A link in running text is underlined, since its color alone doesn't set it apart from the words around it. */
 main p a:not(.more) {
   text-decoration-line: underline;
@@ -1423,6 +1447,15 @@ footer .maker + nav ul {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
     margin-top: 44px;
+  }
+
+  .points.rows li {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .points.rows p {
+    grid-column: 1 / -1;
+    margin: 10px 0 0;
   }
 
   .terminal {
