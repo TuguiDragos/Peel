@@ -375,7 +375,22 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".terragrunt-cache", marker: "terragrunt.hcl", tool: "Terragrunt", isGeneric: false),
             Kind(artifact: "_site", marker: "_config.yml", tool: "Jekyll", isGeneric: true),
             Kind(artifact: ".jekyll-cache", marker: "_config.toml", tool: "Jekyll", isGeneric: false),
+            Kind(artifact: ".quarto", marker: "_quarto.yml", tool: "Quarto", isGeneric: false),
+            Kind(artifact: "_site", marker: "_quarto.yaml", tool: "Quarto", isGeneric: true),
+            Kind(artifact: "_book", marker: "_quarto.yml", tool: "Quarto", isGeneric: true),
         ])
+    }
+
+    @Test func neverListsTheResultsAQuartoProjectFroze() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("paper/_quarto.yml", bytes: 16)
+        try directory.file("paper/_freeze/analysis/execute-results/html.json", bytes: 400_000)
+        try directory.file("paper/.quarto/_freeze/analysis/execute-results/html.json", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".quarto"])
     }
 
     @Test func findsAidersTagsCacheOnlyWithItsDatabase() async throws {
