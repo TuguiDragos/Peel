@@ -153,6 +153,7 @@ public enum ProjectArtifacts {
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
+    private static let jekyllConfigFiles = ["_config.yml", "_config.yaml", "_config.toml"]
     private static let eleventyConfigFiles = [".eleventy.js"] + ["buildawesome.config", "eleventy.config"].flatMap { name in
         ["js", "mjs", "cjs", "ts", "mts", "cts"].map { "\(name).\($0)" }
     }
@@ -330,6 +331,16 @@ public enum ProjectArtifacts {
         Definition(
             name: "public", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
             source: "https://www.gatsbyjs.com/docs/reference/gatsby-cli/"
+        ),
+        // Other site generators name their output `_site` too, and Jekyll keeps there, from one build to the next,
+        // whatever its `keep_files` setting names.
+        Definition(
+            name: "_site", markers: jekyllConfigFiles, tool: "Jekyll", isGeneric: true,
+            source: "https://github.com/jekyll/jekyll/blob/541d8b2ee75c8907de4744d4b87a7a6f1f997cae/lib/jekyll/configuration.rb#L9-L12"
+        ),
+        Definition(
+            name: ".jekyll-cache", markers: jekyllConfigFiles, tool: "Jekyll", isGeneric: false,
+            source: "https://github.com/jekyll/jekyll/blob/541d8b2ee75c8907de4744d4b87a7a6f1f997cae/lib/jekyll/commands/clean.rb#L20-L31"
         ),
         Definition(
             name: ".dart_tool", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: false,

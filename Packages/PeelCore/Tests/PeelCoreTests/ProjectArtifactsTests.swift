@@ -372,6 +372,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: "lib", marker: "shard.lock", tool: "Shards", isGeneric: true, isEnvironment: true),
             Kind(artifact: "vendor", marker: "composer.json", tool: "Composer", isGeneric: true, isEnvironment: true),
             Kind(artifact: ".terragrunt-cache", marker: "terragrunt.hcl", tool: "Terragrunt", isGeneric: false),
+            Kind(artifact: "_site", marker: "_config.yml", tool: "Jekyll", isGeneric: true),
+            Kind(artifact: ".jekyll-cache", marker: "_config.toml", tool: "Jekyll", isGeneric: false),
         ])
     }
 
