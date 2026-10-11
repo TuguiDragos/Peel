@@ -464,6 +464,10 @@ public enum ProjectArtifacts {
             name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,
             source: "https://docs.godotengine.org/en/3.6/tutorials/best_practices/version_control_systems.html"
         ),
+        Definition(
+            name: ".liquid", markers: ["*.hs", "*.lhs"], tool: "LiquidHaskell", isGeneric: false,
+            source: "https://github.com/ucsd-progsys/liquid-fixpoint/blob/684d0829c19fbee83b892c9f5e20c2598897297c/src/Language/Fixpoint/Utils/Files.hs#L146-L158"
+        ),
         // Only what `atspkg clean` removes: never `cbits` or `gen` beside them, where people keep their own C.
         Definition(
             name: ".atspkg", markers: ["atspkg.dhall"], tool: "atspkg", isGeneric: false,
