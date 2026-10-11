@@ -248,7 +248,10 @@ public enum CloudStorage {
             // Each folder directly in Mobile Documents is one container, named once for everything inside it.
             if enumerator.level == 1 { container = containerName(of: url, under: root) }
             if isDataless(url) {
-                enumerator.skipDescendants()
+                // After a file, `skipDescendants()` would skip the next folder's contents instead.
+                if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
+                    enumerator.skipDescendants()
+                }
                 continue
             }
             guard

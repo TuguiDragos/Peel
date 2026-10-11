@@ -302,6 +302,26 @@ struct CloudStorageTests {
     }
 
     /// iCloud Drive keeps a document saved as a package as one item, and Finder removes its download whole.
+    /// A file whose download was removed holds nothing here, and the folder after it is still looked into.
+    @Test func looksIntoTheFolderAfterAFileWhoseDownloadWasRemoved() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        let evicted = try directory.file("\(drive)/Evicted.bin", bytes: 2_000_000)
+        for folder in ["A", "B", "C", "D", "E"] {
+            try directory.file("\(drive)/\(folder)/x.bin", bytes: 2_000_000)
+        }
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
+            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true },
+            isDataless: { $0.lastPathComponent == evicted.lastPathComponent }, unless: { false }
+        )
+
+        let folders = collector.collected.files.map { $0.url.deletingLastPathComponent().lastPathComponent }
+        #expect(folders.sorted() == ["A", "B", "C", "D", "E"])
+    }
+
     @Test func aDocumentSavedAsAPackageIsOneItem() throws {
         let directory = try TemporaryDirectory()
         let drive = "Library/Mobile Documents/com~apple~CloudDocs"
