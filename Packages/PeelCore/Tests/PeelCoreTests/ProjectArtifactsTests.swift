@@ -416,6 +416,24 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersNxsFolderOnlyWhenItHoldsWhatNxResetRemoves() async throws {
+        let directory = try TemporaryDirectory()
+        for project in ["reset", "plans", "cacheOnly"] {
+            try directory.file("\(project)/nx.json", bytes: 16)
+            try directory.file("\(project)/.nx/cache/0123/outputs/main.js", bytes: 400_000)
+        }
+        try directory.file("reset/.nx/workspace-data/nx.db", bytes: 400_000)
+        try directory.file("plans/.nx/workspace-data/nx.db", bytes: 400_000)
+        try directory.file("plans/.nx/version-plans/release.md", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)" } == ["reset/.nx"])
+        #expect(found.first?.tool == "Nx")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func findsAVirtualEnvironmentUnderAGenericNameOnlyByItsOwnFile() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/pyproject.toml", bytes: 16)
@@ -726,6 +744,7 @@ struct ProjectArtifactsTests {
             switch definition.proof {
             case .holds(let file): try directory.file("\(artifact)/\(file)")
             case .holdsOnlyFilesEnding(let ending): try directory.file("\(artifact)/module\(ending)")
+            case .holdsOnly(_, let including): try directory.file("\(artifact)/\(including)/content")
             case nil: try directory.file("\(artifact)/content")
             }
             expected[artifact] = definition.tool

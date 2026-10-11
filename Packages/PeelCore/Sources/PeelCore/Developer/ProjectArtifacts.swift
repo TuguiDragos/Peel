@@ -113,6 +113,8 @@ public enum ProjectArtifacts {
         case holds(String)
         /// Nothing but files with this ending, as Python writes only compiled `.pyc` files into `__pycache__`.
         case holdsOnlyFilesEnding(String)
+        /// Nothing but entries with these names, `including` among them.
+        case holdsOnly(Set<String>, including: String)
 
         func holds(at url: URL) -> Bool {
             switch self {
@@ -120,6 +122,10 @@ public enum ProjectArtifacts {
                 var info = stat()
                 let path = url.appending(path: name).path(percentEncoded: false)
                 return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFREG
+            case .holdsOnly(let names, let including):
+                let path = url.path(percentEncoded: false)
+                let entries = Set((try? FileManager.default.contentsOfDirectory(atPath: path)) ?? [])
+                return entries.contains(including) && entries.isSubset(of: names)
             case .holdsOnlyFilesEnding(let ending):
                 let entries = (try? FileManager.default.contentsOfDirectory(
                     at: url, includingPropertiesForKeys: [.isRegularFileKey]
@@ -192,6 +198,13 @@ public enum ProjectArtifacts {
         Definition(
             name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        // Only what `nx reset` removes, the cache and the database together: before Nx's #37111 a database row whose
+        // files were gone was a hit that restored nothing. `.nx` can also hold the release plans a team commits.
+        Definition(
+            name: ".nx", markers: ["nx.json"], tool: "Nx", isGeneric: false,
+            source: "https://github.com/nrwl/nx/blob/ead04276f840b920ffab97eb3f809fef2baf130b/packages/nx/src/command-line/reset/reset.ts#L156-L205",
+            proof: .holdsOnly(["cache", "workspace-data"], including: "workspace-data")
         ),
         Definition(
             name: ".parcel-cache", markers: ["package.json"], tool: "Parcel", isGeneric: false,
