@@ -764,6 +764,33 @@ struct DeveloperCachesTests {
         #expect(locations.first?.isRecommended == true)
     }
 
+    @Test func listsWhatTheXcodeBuildServerKeepsForEachWorkspaceAndNeverItsState() async throws {
+        let directory = try TemporaryDirectory()
+        let workspaces = [
+            "Library/Developer/MobileBuildMCP/workspaces/app-1234", "Library/Developer/XcodeBuildMCP/workspaces/app-5678",
+        ]
+        for workspace in workspaces {
+            for part in ["DerivedData/Build/x", "result-bundles/r.xcresult/x", "test-products/p/x", "logs/build.log",
+                         "state/marker", "locks/lock"] {
+                try directory.file("\(workspace)/\(part)", bytes: 4_096)
+            }
+        }
+        try directory.file("Library/Developer/XcodeBuildMCP/DerivedData/Build/x", bytes: 4_096)
+        try directory.file("Library/Developer/XcodeBuildMCP/logs/build.log", bytes: 4_096)
+
+        let locations = await scanned(directory.url).flatMap(\.locations)
+
+        let listed = Set(locations.map {
+            $0.url.pathComponents.drop { $0 != "Developer" }.dropFirst().joined(separator: "/")
+        })
+        let kept = ["DerivedData", "result-bundles", "test-products", "logs"]
+        let expected = Set(workspaces.flatMap { workspace in
+            kept.map { "\(workspace.dropFirst("Library/Developer/".count))/\($0)" }
+        } + ["XcodeBuildMCP/DerivedData", "XcodeBuildMCP/logs"])
+        #expect(listed == expected)
+        #expect(locations.allSatisfy { $0.isRecommended })
+    }
+
     @Test func neverSelectsMavensRepositoryAndOffersWhatOtherBuildToolsDownloadAgain() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".m2/repository/org/example/app/1.0/app-1.0.jar", bytes: 400_000)

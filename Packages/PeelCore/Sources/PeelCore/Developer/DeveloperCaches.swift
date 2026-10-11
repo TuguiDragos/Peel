@@ -385,6 +385,20 @@ public enum DeveloperCaches {
                 rowsDepth: 2, rowEnding: ".xcarchive", movedBy: .xcodeSetting("IDECustomDistributionArchivesLocation")
             ),
         ]),
+        // MobileBuildMCP was XcodeBuildMCP before it was renamed: each name's folders as each version wrote them, never
+        // its state or locks.
+        Definition(id: "mobilebuildmcp", name: "MobileBuildMCP", systemImage: "hammer", appBundleIdentifiers: [], folders: [
+            Folder("Library/Developer/MobileBuildMCP/workspaces/*/DerivedData", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/MobileBuildMCP/workspaces/*/result-bundles", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/MobileBuildMCP/workspaces/*/test-products", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/MobileBuildMCP/workspaces/*/logs", .logs, source: "https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/XcodeBuildMCP/workspaces/*/DerivedData", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/e21bf437b923d9717624b6c97c9d367dbf210dff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/XcodeBuildMCP/workspaces/*/result-bundles", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/e21bf437b923d9717624b6c97c9d367dbf210dff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/XcodeBuildMCP/workspaces/*/test-products", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/e21bf437b923d9717624b6c97c9d367dbf210dff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/XcodeBuildMCP/workspaces/*/logs", .logs, source: "https://github.com/getsentry/MobileBuildMCP/blob/e21bf437b923d9717624b6c97c9d367dbf210dff/src/utils/log-paths.ts#L55-L62"),
+            Folder("Library/Developer/XcodeBuildMCP/DerivedData", .buildData, source: "https://github.com/getsentry/MobileBuildMCP/blob/8ad1a781cb6145acc176965dede823ed245357ac/src/utils/log-paths.ts#L4-L7"),
+            Folder("Library/Developer/XcodeBuildMCP/logs", .logs, source: "https://github.com/getsentry/MobileBuildMCP/blob/8ad1a781cb6145acc176965dede823ed245357ac/src/utils/log-paths.ts#L4-L7"),
+        ]),
         Definition(id: "swiftpm", name: "Swift Package Manager", systemImage: "swift", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/org.swift.swiftpm", .downloads, source: "https://github.com/swiftlang/swift-package-manager/blob/708c2736d671a3c32a6a058cd3ee331b36852876/Sources/Basics/FileSystem/FileSystem+Extensions.swift#L246-L253"),
         ]),
