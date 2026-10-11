@@ -89517,6 +89517,112 @@
         }
       }
     },
+    "Not selected: something wrote to this in the last 15 minutes, so a program may still be using it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: do této mezipaměti za posledních 15 minut něco zapsalo, takže ji nějaký program možná ještě používá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: In dieses Objekt wurde innerhalb der letzten 15 Minuten geschrieben, daher wird es möglicherweise noch von einem Programm verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: algo ha escrito aquí en los últimos 15 minutos, así que puede que un programa aún lo esté usando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : quelque chose a écrit dans ce cache au cours des 15 dernières minutes, un programme l’utilise donc peut-être encore."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: qualcosa ci ha scritto dentro negli ultimi 15 minuti, quindi un programma potrebbe ancora usarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 過去15分以内に書き込みがあったため、ほかのプログラムがこれをまだ使用中の可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 지난 15분 사이에 무언가가 이 캐시에 기록했으므로, 어떤 프로그램이 아직 이 캐시를 사용하고 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: hier is in de afgelopen 15 minuten iets in geschreven, dus een programma gebruikt het misschien nog."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: w ciągu ostatnich 15 minut coś zapisało dane w tej pamięci podręcznej, więc jakiś program może z niej jeszcze korzystać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: algo gravou neste item nos últimos 15 minutos, então um programa pode ainda estar usando-o."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: ceva a scris în această memorie tampon în ultimele 15 minute, așa că un program o poate utiliza încă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: за последние 15 минут в этот кэш что-то записывалось, поэтому, возможно, какая-то программа еще использует его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: något har skrivit till den här cachen under de senaste 15 minuterna, så ett program kanske fortfarande använder den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu önbelleğe son 15 dakika içinde bir şey yazıldı, bu nedenle bir program onu hâlâ kullanıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: щось записувало в цей кеш за останні 15 хвилин, тож, можливо, якась програма ще ним користується."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此缓存在过去15分钟内被写入过，因此某个程序可能仍在使用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此項目在過去15分鐘內有資料寫入，因此某個程式可能仍在使用它。"
+          }
+        }
+      }
+    },
     "Not selected: the app is running and may install this update when it quits." : {
       "localizations" : {
         "cs" : {

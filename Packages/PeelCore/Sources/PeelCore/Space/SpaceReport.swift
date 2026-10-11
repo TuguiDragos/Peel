@@ -31,6 +31,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when what macOS keeps in its folders for its own services is neither measured nor offered: there they run
     /// as other accounts, whose open files Peel cannot see, or keep caches not even Full Disk Access can read.
     public var leavesMacOSsOwn = false
+    /// True when a child something wrote to in the last few minutes is held back (`SpaceRemoval.stillInUse`): Peel
+    /// knows an open app's caches only by the app's names, and a program may write under a name of its own.
+    public var holdsBackRecentWrites = false
     /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
     public var onlyFilesIn: [URL] = []
     /// The commands that free an area Peel leaves alone, as its tool's documentation gives them. Peel shows them to
@@ -122,6 +125,7 @@ public enum SpaceInventory {
         var isTheUserCacheFolder = false
         var heldBack: HoldBack?
         var leavesMacOSsOwn = false
+        var holdsBackRecentWrites = false
         var onlyFilesIn: [String] = []
         var commands: [Command] = []
         var managedBy: ManagingApps?
@@ -329,7 +333,8 @@ public enum SpaceInventory {
             id: "caches",
             category: .library,
             paths: ["Library/Caches"],
-            handling: .trash
+            handling: .trash,
+            holdsBackRecentWrites: true
         ),
         // macOS empties this folder only in a safe boot (`man confstr`). Apps' helpers keep caches in it, and so do
         // macOS's own services, some of them where not even Full Disk Access reaches.
@@ -339,7 +344,8 @@ public enum SpaceInventory {
             paths: [],
             handling: .trash,
             isTheUserCacheFolder: true,
-            leavesMacOSsOwn: true
+            leavesMacOSsOwn: true,
+            holdsBackRecentWrites: true
         ),
         Definition(
             id: "container-caches",
@@ -553,6 +559,7 @@ public enum SpaceInventory {
             handling: definition.handling,
             heldBack: definition.heldBack,
             leavesMacOSsOwn: definition.leavesMacOSsOwn,
+            holdsBackRecentWrites: definition.holdsBackRecentWrites,
             onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
             managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false

@@ -114,6 +114,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case openInAProgram
     /// A download that changed within the last day, which may still be going.
     case changedRecently
+    /// A cache something wrote to in the last few minutes, which a program may still be using.
+    case writtenRecently
     /// An installer package in a folder an app keeps in Application Support, which the app may still need.
     case keptByAnApp
     /// An update whose app is running, which may install it when it quits.

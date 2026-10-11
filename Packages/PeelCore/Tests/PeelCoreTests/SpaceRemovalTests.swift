@@ -158,6 +158,36 @@ struct SpaceRemovalTests {
         #expect(names(Array(logged.suggested)) == ["com.apple.example"])
     }
 
+    @Test func holdsBackACacheWrittenInTheLastMinutesInTheCacheAreasOnly() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
+        let anHourAgo = Date.now.addingTimeInterval(-3600)
+        for folder in ["home/Library/Caches", "C", "home/Library/Logs"] {
+            try directory.file("\(folder)/org.example.busy/data.db")
+            let idle = try directory.file("\(folder)/org.example.idle/data.db")
+            for url in [idle, idle.deletingLastPathComponent()] {
+                try FileManager.default.setAttributes(
+                    [.modificationDate: anHourAgo], ofItemAtPath: url.path(percentEncoded: false)
+                )
+            }
+        }
+        var environment = environment(directory)
+        environment.userCacheDirectory = userCache
+        let report = await SpaceInventory.scan(
+            home: home, root: directory.url.appending(path: "root"), userCache: userCache, minimumSize: 1,
+            measure: FileSize.measure
+        )
+
+        for id in ["caches", "user-caches", "logs"] {
+            let area = try #require(report.items.first { $0.id == id })
+            let plan = await SpaceRemoval.plan(for: area, environment: environment, running: [:])
+            let busy = try #require(plan.removable.first { $0.lastPathComponent == "org.example.busy" })
+            #expect(plan.heldBack[busy] == (id == "logs" ? nil : .writtenRecently), "\(id)")
+            #expect(plan.suggested.contains { $0.lastPathComponent == "org.example.idle" }, "\(id)")
+        }
+    }
+
     @Test func leavesICloudsOwnStateInTheCachesAlone() async throws {
         let directory = try TemporaryDirectory()
         let state = ["CloudKit", "com.apple.bird", "com.apple.FileProviderDaemon.AppStoreService"]

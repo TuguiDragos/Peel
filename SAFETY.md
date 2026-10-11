@@ -296,6 +296,9 @@ Never selected for you, even when found:
   boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists.
 - A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, the fonts') or in the container of one of
   Apple's apps.
+- A cache in `~/Library/Caches`, or in the folder macOS gives your account for caches, that something wrote to in
+  the last 15 minutes: Peel knows an open app's caches only by the app's names, and a program may still be using
+  one under a name of its own.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project you worked on this week, and a download that changed in the last day, which may still be going.
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)

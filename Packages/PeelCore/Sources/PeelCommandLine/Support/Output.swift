@@ -346,6 +346,7 @@ extension HoldBack {
         case .inTheCloud: "in iCloud Drive, so moving it removes it from every device"
         case .openInAProgram: "open in a program right now, which may still be downloading it"
         case .changedRecently: "changed in the last day, so it may still be downloading"
+        case .writtenRecently: "written to in the last 15 minutes, so a program may still be using it"
         case .keptByAnApp: "in an app's folder in Application Support, and the app may still need it"
         case .appIsRunning: "its app is running and may install this update when it quits"
         case .mayBeTheOnlyCopy: "outside Downloads and no installed app's installer, so it may be yours, not a download"
