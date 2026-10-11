@@ -301,6 +301,29 @@ struct DeveloperCachesTests {
         #expect(listed("org.example.chat") == ["GPUCache"])
     }
 
+    /// `.` or `..` for a name, in the bundle or in `product.json`, names no folder of the app's own.
+    @Test func neverReadsAFolderAboveApplicationSupportAsAnElectronAppsData() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Library/Local State")
+        try directory.file("home/Library/Application Support/Local State")
+        let apps = try [("Up", "..", "{\"nameShort\": \"..\", \"dataFolderName\": \".up\"}"),
+                        ("Here", ".", "{\"nameShort\": \".\", \"dataFolderName\": \".here\"}"),
+                        ("Parent", "..", nil), ("Same", ".", nil)].map { file, name, product in
+            try directory.directory("Applications/\(file).app/Contents/Frameworks/Electron Framework.framework")
+            if let product {
+                try directory.file("Applications/\(file).app/Contents/Resources/app/product.json", contents: Data(product.utf8))
+            }
+            return InstalledApp(
+                url: directory.url.appending(path: "Applications/\(file).app", directoryHint: .isDirectory),
+                bundleIdentifier: "org.example.\(file.lowercased())", name: file,
+                bundleName: product == nil ? name : file
+            )
+        }
+
+        #expect(DeveloperCaches.electronDefinitions(for: apps, home: home).isEmpty)
+    }
+
     @Test func listsTheCachesOfAnElectronAppsPartitionsAndNeverTheirStorage() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

@@ -1319,7 +1319,8 @@ public enum DeveloperCaches {
             else { return nil }
             let editor = vsCodeProductName(of: app)
             let name = editor ?? bundleName
-            guard !name.isEmpty, !name.contains("/"), !covered.contains(name.lowercased()) else { return nil }
+            guard !name.isEmpty, !name.contains("/"), name != ".", name != "..", !covered.contains(name.lowercased())
+            else { return nil }
             let data = "Library/Application Support/\(name)"
             guard exists(home.appending(path: "\(data)/Local State")) else { return nil }
             // Each persistent session an app opens keeps the same caches in a folder of its own.
