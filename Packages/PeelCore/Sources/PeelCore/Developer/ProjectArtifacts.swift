@@ -478,6 +478,34 @@ public enum ProjectArtifacts {
             source: "https://github.com/elm/compiler/blob/1c278bf5ecf4136f122ce1cba436783c7f561dac/builder/src/Reporting/Exit.hs#L1994-L2001"
         ),
         Definition(
+            name: ".pulp-cache", markers: ["bower.json", "psc-package.json"], tool: "Pulp", isGeneric: false,
+            source: "https://github.com/purescript-contrib/pulp/blob/78f7aa6ae76337ea6f8362cac03fb1c8ee1858cd/src/Pulp/Project.purs#L57-L62"
+        ),
+        Definition(
+            name: ".psc-package", markers: ["psc-package.json"], tool: "psc-package", isGeneric: false,
+            source: "https://github.com/purescript/psc-package/blob/2817cfd7bbc29de790d2ab7bee582cd6167c16b5/docs/faq.md#L11-L20"
+        ),
+        Definition(
+            name: ".spago", markers: ["spago.yaml", "spago.dhall"], tool: "Spago", isGeneric: false,
+            source: "https://github.com/purescript/spago/blob/b9ea21cb1416acb724977cba08f1e9325fae358d/README.md#L1589-L1593"
+        ),
+        // Not beside `bower.json` alone, which projects that never compile PureScript carry too.
+        Definition(
+            name: "output", markers: ["spago.yaml", "spago.dhall", "psc-package.json"], tool: "PureScript",
+            isGeneric: true,
+            source: "https://github.com/purescript/purescript/blob/cb3c4965c8468d26c9b14cf0319db6dbd06ee4ff/app/Command/Compile.hs#L81-L85"
+        ),
+        Definition(
+            name: "bower_components", markers: ["bower.json"], tool: "Bower", isGeneric: false,
+            source: "https://github.com/bower/bower/blob/4e0c3c1181c21624c5b3ab5bdf5d3becdb172b5a/packages/bower-config/lib/util/defaults.js#L23-L25"
+        ),
+        // aider runs in any repository, so its tags cache is known by the database diskcache keeps in it.
+        Definition(
+            name: ".aider.tags.cache.v*", markers: [], tool: "aider", isGeneric: false,
+            source: "https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/repomap.py#L33-L43",
+            proof: .holds("cache.db")
+        ),
+        Definition(
             name: ".reco-work", markers: ["main.go"], tool: "reco", isGeneric: false,
             source: "https://github.com/ReconfigureIO/reco/blob/1aaa5f0874528e5da8ce549071aad6e03e1cc3bb/helper.go#L117-L143"
         ),

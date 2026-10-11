@@ -338,6 +338,14 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".reco-work", marker: "main.go", tool: "reco", isGeneric: false),
             Kind(artifact: "elm-stuff", marker: "elm.json", tool: "Elm", isGeneric: false),
             Kind(artifact: "elm-stuff", marker: "elm-package.json", tool: "Elm", isGeneric: false, isEnvironment: true),
+            Kind(artifact: ".pulp-cache", marker: "bower.json", tool: "Pulp", isGeneric: false),
+            Kind(artifact: ".pulp-cache", marker: "psc-package.json", tool: "Pulp", isGeneric: false),
+            Kind(artifact: ".psc-package", marker: "psc-package.json", tool: "psc-package", isGeneric: false),
+            Kind(artifact: ".spago", marker: "spago.yaml", tool: "Spago", isGeneric: false),
+            Kind(artifact: ".spago", marker: "spago.dhall", tool: "Spago", isGeneric: false),
+            Kind(artifact: "output", marker: "spago.yaml", tool: "PureScript", isGeneric: true),
+            Kind(artifact: "output", marker: "psc-package.json", tool: "PureScript", isGeneric: true),
+            Kind(artifact: "bower_components", marker: "bower.json", tool: "Bower", isGeneric: false),
             Kind(artifact: ".cxx", marker: "build.gradle.kts", tool: "Android Gradle plugin", isGeneric: false),
             Kind(artifact: ".stack-work", marker: "stack.yaml", tool: "Stack", isGeneric: false),
             Kind(artifact: "dist-newstyle", marker: "app.cabal", tool: "Cabal", isGeneric: false),
@@ -348,6 +356,20 @@ struct ProjectArtifactsTests {
             Kind(artifact: "vendor", marker: "composer.json", tool: "Composer", isGeneric: true, isEnvironment: true),
             Kind(artifact: ".terragrunt-cache", marker: "terragrunt.hcl", tool: "Terragrunt", isGeneric: false),
         ])
+    }
+
+    @Test func findsAidersTagsCacheOnlyWithItsDatabase() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("tool/main.py", bytes: 16)
+        try directory.file("tool/.aider.tags.cache.v4/cache.db", bytes: 400_000)
+        try directory.file("tool/.aider.chat.history.md", bytes: 16)
+        try directory.file("notes/.aider.tags.cache.v3/notes.txt", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)" } == ["tool/.aider.tags.cache.v4"])
+        #expect(found.allSatisfy { $0.tool == "aider" && $0.isRecommended })
     }
 
     @Test func findsEveryBuildFolderCLionNamesForItsProfiles() async throws {
