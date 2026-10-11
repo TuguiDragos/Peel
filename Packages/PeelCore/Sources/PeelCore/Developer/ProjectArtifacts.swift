@@ -503,6 +503,14 @@ public enum ProjectArtifacts {
             source: "https://github.com/elixir-lsp/elixir-ls/blob/68df44b681ee0dbef91b8008b0354003a9a451fa/README.md"
         ),
         Definition(
+            name: ".elixir-tools", markers: ["mix.exs"], tool: "Next LS", isGeneric: false,
+            source: "https://github.com/elixir-tools/next-ls/blob/eb47c98eef92ffe2b369c7c2bf56ce63b837f949/lib/next_ls/runtime/supervisor.ex#L17-L33"
+        ),
+        Definition(
+            name: ".lexical", markers: ["mix.exs"], tool: "Lexical", isGeneric: false,
+            source: "https://github.com/lexical-lsp/lexical/blob/477e8b418b27960710109d0014167bb371b0cade/projects/lexical_shared/lib/lexical/project.ex#L31"
+        ),
+        Definition(
             name: "lib", markers: ["shard.lock"], tool: "Shards", isGeneric: true, isEnvironment: true,
             source: "https://crystal-lang.org/reference/latest/man/shards/index.html"
         ),

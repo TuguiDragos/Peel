@@ -496,6 +496,20 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersWhatElixirsLanguageServersKeepInAProject() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("api/mix.exs", bytes: 16)
+        try directory.file("api/.elixir-tools/_build/dev/lib/api/ebin/api.beam", bytes: 400_000)
+        try directory.file("api/.elixir-tools/nextls.db", bytes: 400_000)
+        try directory.file("api/.lexical/build/dev/lib/api/ebin/api.beam", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.name) \($0.tool ?? "")" }.sorted() == [".elixir-tools Next LS", ".lexical Lexical"])
+        #expect(found.allSatisfy { $0.isRecommended })
+    }
+
     @Test func offersTheBundlesTheShopifyCLIBuildsAndNeverItsCertificates() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("store/shopify.app.toml", bytes: 16)
