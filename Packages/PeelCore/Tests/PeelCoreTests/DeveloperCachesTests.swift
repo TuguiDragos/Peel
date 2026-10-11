@@ -384,8 +384,9 @@ struct DeveloperCachesTests {
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
             // Unity keeps its licenses beside its caches; SonarScanner the client certificates it signs in with.
             "Library/Unity", ".sonar",
-            // Claude Code and Codex keep every conversation and prompt beside their caches and logs.
-            ".claude", ".codex",
+            // Claude Code and Codex keep every conversation and prompt beside their caches and logs; Continue its
+            // configuration and sessions, Cline its sessions and the API keys in `data/settings`.
+            ".claude", ".codex", ".continue", ".cline", ".cline/data",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
@@ -428,6 +429,24 @@ struct DeveloperCachesTests {
         let listed = environments.filter { ["claudecode", "codex"].contains($0.id) }
             .flatMap(\.locations).map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
         #expect(Set(listed) == [".claude/cache", ".claude/debug", ".claude/statsig", ".codex/log"])
+    }
+
+    @Test func listsWhatOtherCodingAgentsCacheAndLogButNeverTheirSettings() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            ".cache/kilo/bin/rg", ".local/share/kilo/sessions/session.json", ".continue/logs/core.log",
+            ".continue/logs/prompt.log", ".continue/config.yaml", ".continue/sessions/session.json",
+            ".cline/data/logs/cline.log", ".cline/data/settings/providers.json", ".cline/data/sessions/1/messages.json",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let listed = environments.filter { ["kilo", "continue", "cline"].contains($0.id) }
+            .flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }
+        #expect(Set(listed) == [".cache/kilo", ".continue/logs", ".cline/data/logs"])
     }
 
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names
@@ -848,12 +867,13 @@ struct DeveloperCachesTests {
     @Test func offersTheDocumentationXcodeCaches() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Developer/Xcode/DocumentationCache/v27/index.db", bytes: 400_000)
+        try directory.file("Library/Developer/Xcode/DocumentationIndex/index.db", bytes: 400_000)
         let xcode = DeveloperCaches.definitions.filter { $0.id == "xcode" }
 
         let locations = await DeveloperCaches.scan(xcode, homeDirectory: directory.url).flatMap(\.locations)
 
-        #expect(locations.map(\.url.lastPathComponent) == ["DocumentationCache"])
-        #expect(locations.first?.kind == .cache)
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["DocumentationCache", "DocumentationIndex"])
+        #expect(locations.allSatisfy { $0.kind == .cache })
     }
 
     @Test func offersTheLogsOfTheSimulatorsAndSpaceLeavesThemToDeveloper() async throws {

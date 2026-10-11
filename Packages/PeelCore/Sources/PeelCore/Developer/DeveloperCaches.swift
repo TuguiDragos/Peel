@@ -375,6 +375,7 @@ public enum DeveloperCaches {
             Folder("Library/Developer/Xcode/visionOS DeviceSupport", .deviceSupport, source: "Xcode 27: DVTFoundation.framework (\"%@ DeviceSupport\") and XROS.platform/Info.plist (Description visionOS)", rowsDepth: 1),
             Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
             Folder("Library/Developer/Xcode/DocumentationCache", .cache, source: "Xcode 27: DVTFoundation.framework, -[DVTDeveloperPaths documentationCacheDirectoryForCurrentApplication]"),
+            Folder("Library/Developer/Xcode/DocumentationIndex", .cache, source: "Xcode 27: DVTFoundation.framework, -[DVTDeveloperPaths documentationIndexDirectoryForCurrentApplication]"),
             Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_3-release-notes"),
             Folder("Library/Logs/CoreSimulator", .logs, source: "Xcode 27: /Library/Developer/PrivateFrameworks/CoreSimulator.framework (\"%s/Library/Logs/CoreSimulator\")"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
@@ -885,6 +886,15 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "opencode", name: "opencode", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".cache/opencode", .cache, source: "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/core/src/global.ts#L12"),
+        ]),
+        Definition(id: "kilo", name: "Kilo Code", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".cache/kilo", .cache, source: "https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/kilo-docs/pages/getting-started/settings/sandboxing.md#L108-L113"),
+        ]),
+        Definition(id: "continue", name: "Continue", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".continue/logs", .logs, source: "https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/paths.ts#L385-L399"),
+        ]),
+        Definition(id: "cline", name: "Cline", systemImage: "terminal", appBundleIdentifiers: [], folders: [
+            Folder(".cline/data/logs", .logs, source: "https://github.com/cline/cline/blob/c3a40572765b76873c597247941118c1778d02c8/docs/cli/cli-reference.mdx#L363-L376"),
         ]),
         // Cloud tools
         Definition(id: "gcloud", name: "Google Cloud CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
