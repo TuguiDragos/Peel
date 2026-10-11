@@ -140,7 +140,8 @@ struct LeftoverMatcher: Sendable {
     /// The absolute program the launchd job at `url` runs, spelled to be compared, or nil for anything else.
     static func program(ofJobAt url: URL, kind: SearchLocation.Kind) -> String? {
         guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist" else { return nil }
-        guard let program = JobDefinition(contentsOf: url)?.program, program.hasPrefix("/") else { return nil }
+        guard let program = JobDefinition(contentsOf: url)?.program, program.hasPrefix("/"), !program.utf8.contains(0)
+        else { return nil }
         return PathPattern.comparablePath(of: URL(filePath: program))
     }
 

@@ -34,6 +34,14 @@ struct BackgroundItemOwnershipTests {
         #expect(reads.programs.withLock { $0 } == ["/opt/org.example/gone"])
     }
 
+    @Test func neverCallsGoneAProgramWhosePathHoldsANul() throws {
+        let ownership = BackgroundItemOwnership(installedApps: []) { _ in nil }
+        let job = try #require(JobDefinition(["Label": "org.example.cut", "Program": "/bin/sh\u{0}gone"]))
+
+        #expect(!ownership.isOrphan(job))
+        #expect(!ownership.isOrphan(label: "org.example.cut", program: "/bin/sh\u{0}gone", owner: nil))
+    }
+
     /// What the helper refuses, the page must not offer: both read the same label.
     @Test func knowsTheJobTheHelperWillNotActOn() {
         func item(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {

@@ -1361,6 +1361,22 @@ struct LeftoverScannerTests {
         #expect(found["net.example.nagger.plist"]?.reason == .launchdJob)
     }
 
+    @Test func neverClaimsAJobByAProgramPathWithANul() async throws {
+        let directory = try TemporaryDirectory()
+        let program = "/Applications/Other.app/Contents/MacOS/Agent\u{0}/../../../../Tunewell.app/Contents/MacOS/Agent"
+        let plist = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "com.elsewhere.agent", "Program": program], format: .binary, options: 0
+        )
+        try directory.file("home/Library/LaunchAgents/com.elsewhere.agent.plist", contents: plist)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+            tunewell,
+            installedApps: [tunewell]
+        )
+
+        #expect(scan.leftovers.isEmpty)
+    }
+
     /// A link in `/usr/local/bin` or `/usr/local/sbin` is named for the tool it runs, such as `docker` or `code`,
     /// which says nothing about whose it is. Where it leads does.
     @Test func findsALinkToAToolInsideTheApp() async throws {

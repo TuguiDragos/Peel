@@ -92,6 +92,8 @@ public struct BackgroundItemOwnership: Sendable {
         guard !label.hasPrefix("com.apple."), !label.hasPrefix("application.") else { return false }
         if let owner, owner.isInstalled { return false }
         guard let program, !program.isEmpty else { return true }
+        // A NUL ends the path where the kernel reads it, so what launchd would run is not known.
+        guard !program.utf8.contains(0) else { return false }
         return !Self.exists(program)
     }
 
