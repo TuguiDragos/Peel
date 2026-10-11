@@ -282,6 +282,11 @@ public enum ProjectArtifacts {
             tool: "Trigger.dev", isGeneric: false,
             source: "https://github.com/triggerdotdev/trigger.dev/blob/93465d8549a735074d1ce7696bae3faebe577e8d/packages/cli-v3/src/utilities/tempDirectories.ts#L6-L74"
         ),
+        // `.vercel` also names the linked project and keeps the variables `vercel pull` wrote.
+        Definition(
+            name: ".vercel/output", markers: [".vercel/project.json", "vercel.json"], tool: "Vercel", isGeneric: false,
+            source: "https://github.com/vercel/vercel/blob/c628be7835e03a965b93e9cf9e2bd5ac2acbf5eb/packages/cli/src/commands/build/index.ts#L366-L383"
+        ),
         Definition(
             name: ".nyc_output", markers: ["package.json"] + nycConfigFiles, tool: "nyc", isGeneric: false,
             source: "https://github.com/istanbuljs/nyc/blob/908620475199fa7b9ea0ea8b21d6d8ad6921e3ae/README.md#L87-L113"

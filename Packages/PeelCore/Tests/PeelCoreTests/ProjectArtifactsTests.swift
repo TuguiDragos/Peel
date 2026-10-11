@@ -248,6 +248,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".cache", marker: "gatsby-config.ts", tool: "Gatsby", isGeneric: true),
             Kind(artifact: "public", marker: "gatsby-config.js", tool: "Gatsby", isGeneric: true),
             Kind(artifact: ".trigger/tmp", marker: "trigger.config.ts", tool: "Trigger.dev", isGeneric: false),
+            Kind(artifact: ".vercel/output", marker: ".vercel/project.json", tool: "Vercel", isGeneric: false),
+            Kind(artifact: ".vercel/output", marker: "vercel.json", tool: "Vercel", isGeneric: false),
             Kind(artifact: "_site", marker: "eleventy.config.js", tool: "Eleventy", isGeneric: true),
         ])
     }
