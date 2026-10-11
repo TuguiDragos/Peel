@@ -628,7 +628,7 @@ public enum DeveloperCaches {
             Folder(".pyenv/cache", .downloads, source: "https://github.com/pyenv/pyenv/blob/f9d17bfc06ccbda37edd84df99a4f50d8d7d2a4a/plugins/python-build/bin/pyenv-install#L235-L238"),
         ]),
         // Rust and Go
-        // Only what rustup downloaded, which `rustup update` empties itself, never the toolchains it installed.
+        // Only rustup's downloads and temporary files, which `rustup update` empties itself, never its toolchains.
         Definition(id: "rustup", name: "rustup", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder(".rustup/downloads", .downloads, source: "https://github.com/rust-lang/rustup/blob/b46db5ea94c1024c7cd2e7133a7f9b2ec1927478/src/cli/rustup_mode.rs#L1203-L1205"),
             Folder(".rustup/tmp", .cache, source: "https://github.com/rust-lang/rustup/blob/b46db5ea94c1024c7cd2e7133a7f9b2ec1927478/src/dist/download.rs#L44-L45"),
