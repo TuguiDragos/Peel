@@ -677,6 +677,12 @@ code {
   color: var(--orange);
 }
 
+/* A link in running text is underlined, since its color alone doesn't set it apart from the words around it. */
+main p a:not(.more) {
+  text-decoration-line: underline;
+  text-underline-offset: 0.15em;
+}
+
 .split {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
