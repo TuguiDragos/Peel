@@ -1295,7 +1295,8 @@ public enum DeveloperCaches {
 
     /// One definition for each installed Electron app whose session data folder, `Application Support/<its name>` as
     /// Electron's `docs/api/app.md` puts it, holds the `Local State` Electron writes there. It lists only what Electron
-    /// and Chromium name as caches, and an app a definition of the table already covers is left to that definition.
+    /// and Chromium name as caches, and VS Code's own for an editor built on VS Code, and an app a definition of the
+    /// table already covers is left to that definition.
     static func electronDefinitions(for apps: [InstalledApp], home: URL) -> [Definition] {
         let covered = Set(definitions.flatMap(\.folders).compactMap { folder -> String? in
             let names = PathComponents.of(folder.path)
@@ -1307,10 +1308,13 @@ public enum DeveloperCaches {
         let codeCache = chromium + "content/browser/storage_partition_impl.cc#L1587-L1595"
         let exists = { (url: URL) in FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) }
         return apps.compactMap { app in
-            guard let identifier = app.bundleIdentifier, let name = app.bundleName, !name.isEmpty, !name.contains("/"),
-                  !covered.contains(name.lowercased()),
+            guard let identifier = app.bundleIdentifier, let bundleName = app.bundleName,
+                  !covered.contains(bundleName.lowercased()),
                   exists(app.url.appending(path: "Contents/Frameworks/Electron Framework.framework"))
             else { return nil }
+            let editor = vsCodeProductName(of: app)
+            let name = editor ?? bundleName
+            guard !name.isEmpty, !name.contains("/"), !covered.contains(name.lowercased()) else { return nil }
             let data = "Library/Application Support/\(name)"
             guard exists(home.appending(path: "\(data)/Local State")) else { return nil }
             // Each persistent session an app opens keeps the same caches in a folder of its own.
@@ -1331,12 +1335,49 @@ public enum DeveloperCaches {
                 Folder("\(partitions)/DawnCache", .cache, source: formerWebGPUCache),
             ] + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
                 Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
-            }
+            } + (editor == nil ? [] : vsCodesOwnFolders(in: data))
             return Definition(
                 id: "electron.\(identifier)", name: app.name, systemImage: "macwindow",
                 appBundleIdentifiers: [identifier], folders: folders
             )
         }
+    }
+
+    /// The name an editor built on VS Code keeps its data under: `nameShort` in the `product.json` its build ships,
+    /// which VS Code passes to the path of its user data. Nil for an app that carries no such file.
+    private static func vsCodeProductName(of app: InstalledApp) -> String? {
+        let file = app.url.appending(path: "Contents/Resources/app/product.json")
+        guard let data = BoundedRead.data(at: file, maximum: 1_024 * 1_024),
+              let product = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              product["dataFolderName"] is String, let name = product["nameShort"] as? String
+        else { return nil }
+        return name
+    }
+
+    /// VS Code's own caches and logs in an editor's data folder, and the state of its workspaces that are gone.
+    private static func vsCodesOwnFolders(in data: String) -> [Folder] {
+        let vsCode = "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/"
+        return [
+            Folder("\(data)/CachedData", .cache, source: vsCode + "mainImpl.ts#L649-L668"),
+            Folder("\(data)/logs", .logs, source: vsCode + "vs/platform/environment/common/environmentService.ts#L73-L79"),
+            Folder(
+                "\(data)/CachedExtensionVSIXs", .downloads,
+                source: vsCode + "vs/platform/environment/common/environmentService.ts#L127"
+            ),
+            Folder(
+                "\(data)/CachedProfilesData", .cache,
+                source: vsCode + "vs/platform/userDataProfile/common/userDataProfile.ts#L274"
+            ),
+            Folder(
+                "\(data)/CachedConfigurations", .cache,
+                source: vsCode + "vs/workbench/services/configuration/common/configurationCache.ts#L66"
+            ),
+            Folder(
+                "\(data)/User/workspaceStorage", .projectState,
+                source: vsCode + "vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
+        ]
     }
 
     static func scan(

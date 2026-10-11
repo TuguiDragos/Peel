@@ -267,6 +267,40 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent).sorted() == ["Cache", "GPUCache"])
     }
 
+    @Test func listsVSCodesOwnFoldersForAnEditorBuiltOnItAndNeverItsBackups() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let app = { (name: String, product: String?) throws -> InstalledApp in
+            try directory.directory("Applications/\(name).app/Contents/Frameworks/Electron Framework.framework")
+            if let product {
+                try directory.file("Applications/\(name).app/Contents/Resources/app/product.json", contents: Data(product.utf8))
+            }
+            return InstalledApp(
+                url: directory.url.appending(path: "Applications/\(name).app", directoryHint: .isDirectory),
+                bundleIdentifier: "org.example.\(name.lowercased())", name: name, bundleName: name
+            )
+        }
+        let forge = try app("Forge Editor", #"{"nameShort": "Forge", "dataFolderName": ".forge"}"#)
+        let chat = try app("Chat", nil)
+        for name in ["Forge", "Chat"] {
+            for path in ["Local State", "GPUCache/data_0", "CachedData/1a2b/x.code", "CachedExtensionVSIXs/x.vsix",
+                         "logs/20261011T120000/main.log", "Backups/1/untitled"] {
+                try directory.file("home/Library/Application Support/\(name)/\(path)", bytes: 4_096)
+            }
+        }
+
+        let environments = await DeveloperCaches.scan(
+            DeveloperCaches.electronDefinitions(for: [forge, chat], home: home), homeDirectory: home
+        )
+
+        let listed = { (identifier: String) in
+            let environment = environments.first { $0.appBundleIdentifiers == [identifier] }
+            return Set(environment?.locations.map(\.url.lastPathComponent) ?? [])
+        }
+        #expect(listed("org.example.forge editor") == ["GPUCache", "CachedData", "CachedExtensionVSIXs", "logs"])
+        #expect(listed("org.example.chat") == ["GPUCache"])
+    }
+
     @Test func listsTheCachesOfAnElectronAppsPartitionsAndNeverTheirStorage() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
