@@ -277,6 +277,34 @@ struct DeveloperCachesTests {
         ])
     }
 
+    /// Chromium named its WebGPU cache `DawnCache` until 2024 and leaves the folder it wrote under that name behind.
+    @Test func listsTheWebGPUCacheUnderItsFormerName() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let support = "Library/Application Support"
+        try directory.directory("Applications/Chat.app/Contents/Frameworks/Electron Framework.framework")
+        let chat = InstalledApp(
+            url: directory.url.appending(path: "Applications/Chat.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.chat", name: "Chat", bundleName: "Chat"
+        )
+        try directory.file("home/\(support)/Chat/Local State")
+        let caches = [
+            "\(support)/Google/Chrome/Default/DawnCache", "\(support)/Code/DawnCache", "\(support)/Chat/DawnCache",
+            "\(support)/Chat/Partitions/workspace/DawnCache",
+        ]
+        for cache in caches {
+            try directory.file("home/\(cache)/data_0", bytes: 4_096)
+        }
+
+        let definitions = DeveloperCaches.definitions + DeveloperCaches.electronDefinitions(for: [chat], home: home)
+        let environments = await DeveloperCaches.scan(definitions, homeDirectory: home)
+
+        let prefix = home.path(percentEncoded: false)
+        let listed = environments.flatMap(\.locations).filter { $0.url.lastPathComponent == "DawnCache" }
+        #expect(Set(listed.map { String($0.url.path(percentEncoded: false).dropFirst(prefix.count)) }) == Set(caches))
+        #expect(listed.allSatisfy { $0.isRecommended })
+    }
+
     @Test func readsTheAppsInTheFoldersChosenInTheHomeItScans() async throws {
         let directory = try TemporaryDirectory()
         let tools = try directory.directory("Tools")

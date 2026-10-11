@@ -776,6 +776,7 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Code/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
             Folder("Library/Application Support/Code/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/Code/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/Code/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
             Folder("Library/Application Support/Code/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/Code/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
             Folder(
@@ -794,6 +795,7 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/VSCodium/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
             Folder("Library/Application Support/VSCodium/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/VSCodium/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/VSCodium/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
             Folder("Library/Application Support/VSCodium/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/VSCodium/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
             Folder(
@@ -810,6 +812,7 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Cursor/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
             Folder("Library/Application Support/Cursor/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
             Folder("Library/Application Support/Cursor/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/Cursor/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
             Folder("Library/Application Support/Cursor/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L127"),
             Folder("Library/Application Support/Cursor/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
             Folder("Library/Application Support/Cursor/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
@@ -1137,6 +1140,11 @@ public enum DeveloperCaches {
 
     /// The caches and models Chromium keeps in a browser's user data folder, beside its profiles and in each of them,
     /// named where Chromium names them. What a profile holds for the person, its site data included, is never listed.
+    /// Where Chromium named its WebGPU cache `DawnCache`, before it renamed it `DawnWebGPUCache`. Nothing removes the
+    /// folder an app wrote under the old name.
+    private static let formerWebGPUCache =
+        "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"
+
     private static func chromiumFolders(in userData: String) -> [Folder] {
         let browser = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/chrome/browser/"
         let gpu = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"
@@ -1153,7 +1161,7 @@ public enum DeveloperCaches {
             ),
         ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
             Folder("\(userData)/*/\($0)", .cache, source: gpu)
-        } + chromiumModels(in: userData)
+        } + [Folder("\(userData)/*/DawnCache", .cache, source: formerWebGPUCache)] + chromiumModels(in: userData)
     }
 
     /// The on-device models the component updater installs again when a feature asks for one, and the models the
@@ -1217,7 +1225,10 @@ public enum DeveloperCaches {
                     Folder("\(data)/\(cache)", .cache, source: chromium + "gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"),
                     Folder("\(partitions)/\(cache)", .cache, source: partition),
                 ]
-            } + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
+            } + [
+                Folder("\(data)/DawnCache", .cache, source: formerWebGPUCache),
+                Folder("\(partitions)/DawnCache", .cache, source: formerWebGPUCache),
+            ] + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
                 Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
             }
             return Definition(
