@@ -141,6 +141,26 @@ struct DuplicateFinderTests {
         #expect(result.folderGroups.isEmpty)
     }
 
+    /// The Finder keeps a comment in the copy's extended attributes, so it goes with the copy, as tags do.
+    @Test func copiesWithAnotherFinderCommentAreNotDuplicates() async throws {
+        let directory = try TemporaryDirectory()
+        let report = randomData(count: 4_000)
+        try directory.file("home/Documents/Report.pdf", contents: report)
+        let commented = try directory.file("home/Desktop/Report.pdf", contents: report)
+        let comment = try PropertyListSerialization.data(fromPropertyList: "Signed copy", format: .binary, options: 0)
+        let written = comment.withUnsafeBytes {
+            setxattr(
+                commented.path(percentEncoded: false), "com.apple.metadata:kMDItemFinderComment", $0.baseAddress,
+                comment.count, 0, 0
+            )
+        }
+        #expect(written == 0)
+
+        let result = try await scan(directory)
+
+        #expect(result.groups.isEmpty)
+    }
+
     /// Duplicates scans again only when asked, so what is excluded after a scan is taken out of it: the copy
     /// leaves its group, a group left with one copy goes, and a group that lost its kept copy keeps the next one.
     @Test func whatIsExcludedAfterTheScanLeavesIt() async throws {

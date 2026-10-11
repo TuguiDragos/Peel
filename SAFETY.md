@@ -349,9 +349,11 @@ On every list, Select All selects every row you can select, what Peel holds back
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason
 beside it.
 
-In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing
-inside an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`:
-they only count toward the folder around them.
+In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing inside
+an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`: they only
+count toward the folder around them. Copies that differ in their Finder tags, their Finder comment, or their resource
+fork are not duplicates, since moving one would take that away, and a folder kept only in the cloud is never looked
+into.
 
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and
 Backups, Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of
