@@ -378,6 +378,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".quarto", marker: "_quarto.yml", tool: "Quarto", isGeneric: false),
             Kind(artifact: "_site", marker: "_quarto.yaml", tool: "Quarto", isGeneric: true),
             Kind(artifact: "_book", marker: "_quarto.yml", tool: "Quarto", isGeneric: true),
+            Kind(artifact: "_site", marker: "site.hs", tool: "Hakyll", isGeneric: true),
+            Kind(artifact: "_cache", marker: "site.hs", tool: "Hakyll", isGeneric: true),
         ])
     }
 

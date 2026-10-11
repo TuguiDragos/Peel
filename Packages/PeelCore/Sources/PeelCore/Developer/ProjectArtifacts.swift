@@ -362,6 +362,14 @@ public enum ProjectArtifacts {
             source: "https://github.com/quarto-dev/quarto-cli/blob/a57cc76458d91a0577c162a474929119e6b663ba/src/project/types/book/book.ts#L115"
         ),
         Definition(
+            name: "_site", markers: ["site.hs"], tool: "Hakyll", isGeneric: true,
+            source: "https://github.com/jaspervdj/hakyll/blob/092b6a497326ba7b80d17249b6bbd41ca9bf5e19/lib/Hakyll/Core/Configuration.hs#L109-L111"
+        ),
+        Definition(
+            name: "_cache", markers: ["site.hs"], tool: "Hakyll", isGeneric: true,
+            source: "https://github.com/jaspervdj/hakyll/blob/092b6a497326ba7b80d17249b6bbd41ca9bf5e19/lib/Hakyll/Core/Configuration.hs#L109-L111"
+        ),
+        Definition(
             name: ".dart_tool", markers: ["pubspec.yaml"], tool: "Dart & Flutter", isGeneric: false,
             source: "https://dart.dev/tools/pub/package-layout"
         ),
