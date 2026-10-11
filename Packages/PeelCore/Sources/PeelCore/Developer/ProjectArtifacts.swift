@@ -81,15 +81,20 @@ public enum ProjectArtifacts {
         var proof: Proof?
         var keepsItsSetup = false
 
-        /// The artifacts this kind names among a folder's entries: a name ending in `*` is a prefix, as CLion names
-        /// a build folder for each profile, and a path names a folder inside one of them, as Rails keeps `tmp/cache`.
-        func candidates(among names: Set<String>) -> [String] {
-            if name.hasSuffix("*") {
-                let prefix = name.dropLast()
-                return names.filter { $0.hasPrefix(prefix) && $0.count > prefix.count }.sorted()
-            }
-            guard let first = PathComponents.of(name).first, names.contains(first) else { return [] }
-            return [name]
+        /// The artifacts this kind names among the entries of `folder`: a name ending in `*` is a prefix, as CLion
+        /// names a build folder for each profile, and a path names a folder inside one of them, as Rails keeps
+        /// `tmp/cache`, or each one that begins so, as Trigger.dev keeps `.trigger/tmp-<branch>`.
+        func candidates(among names: Set<String>, in folder: URL) -> [String] {
+            let parts = PathComponents.of(name)
+            guard let first = parts.first, let last = parts.last else { return [] }
+            guard last.hasSuffix("*") else { return names.contains(first) ? [name] : [] }
+            let above = parts.dropLast().joined(separator: "/")
+            guard above.isEmpty || names.contains(first) else { return [] }
+            let entries = above.isEmpty
+                ? Array(names) : ProjectArtifacts.contents(of: folder.appending(path: above))?.map(\.lastPathComponent)
+            let prefix = last.dropLast()
+            return (entries ?? []).filter { $0.hasPrefix(prefix) && $0.count > prefix.count }
+                .map { above.isEmpty ? $0 : "\(above)/\($0)" }.sorted()
         }
 
         /// Whether a file of the tool stands in `folder`, or the kind needs none.
@@ -276,11 +281,17 @@ public enum ProjectArtifacts {
             name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
             source: "https://github.com/serverless/serverless/blob/de91219a8c8f28e07c308b2efc5187fae5445208/docs/sf/providers/aws/cli-reference/package.md#L16"
         ),
-        // `.trigger` also keeps the dev session's state, so only the builds in `tmp` are offered.
+        // `.trigger` also keeps the dev session's state, so only its builds are offered: `tmp`, and `tmp-<branch>` for
+        // a session on another branch.
         Definition(
             name: ".trigger/tmp", markers: ["trigger.config.ts", "trigger.config.mjs", "trigger.config.js"],
             tool: "Trigger.dev", isGeneric: false,
             source: "https://github.com/triggerdotdev/trigger.dev/blob/93465d8549a735074d1ce7696bae3faebe577e8d/packages/cli-v3/src/utilities/tempDirectories.ts#L6-L74"
+        ),
+        Definition(
+            name: ".trigger/tmp-*", markers: ["trigger.config.ts", "trigger.config.mjs", "trigger.config.js"],
+            tool: "Trigger.dev", isGeneric: false,
+            source: "https://github.com/triggerdotdev/trigger.dev/blob/93465d8549a735074d1ce7696bae3faebe577e8d/packages/cli-v3/src/utilities/tempDirectories.ts#L6-L18"
         ),
         // `.vercel` also names the linked project and keeps the variables `vercel pull` wrote.
         Definition(
@@ -1079,7 +1090,7 @@ public enum ProjectArtifacts {
         var artifactNames: Set<String> = []
         var found: [Found] = []
         for definition in definitions {
-            let candidates = definition.candidates(among: names)
+            let candidates = definition.candidates(among: names, in: folder)
             guard !candidates.isEmpty, definition.hasMarker(besides: names, in: folder) else { continue }
             for name in candidates {
                 let url = folder.appending(path: name)
