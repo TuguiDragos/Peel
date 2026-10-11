@@ -323,6 +323,33 @@ struct DeveloperCachesTests {
         #expect(DeveloperCaches.electronDefinitions(for: apps, home: home).isEmpty)
     }
 
+    @Test func takesAnElectronAppsNameAsWrittenWhereItsFoldersAreLookedFor() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let apps = try [("Chat [Beta]", "beta"), ("*", "star")].map { name, identifier in
+            try directory.directory("Applications/\(identifier).app/Contents/Frameworks/Electron Framework.framework")
+            try directory.file("home/Library/Application Support/\(name)/Local State")
+            try directory.file("home/Library/Application Support/\(name)/Partitions/team/Cache/index", bytes: 4_096)
+            return InstalledApp(
+                url: directory.url.appending(path: "Applications/\(identifier).app", directoryHint: .isDirectory),
+                bundleIdentifier: "org.example.\(identifier)", name: name, bundleName: name
+            )
+        }
+        try directory.file("home/Library/Application Support/Chat B/Partitions/team/Cache/index", bytes: 4_096)
+        try directory.file("home/Library/Application Support/Other/Cache/index", bytes: 4_096)
+
+        let environments = await DeveloperCaches.scan(
+            DeveloperCaches.electronDefinitions(for: apps, home: home), homeDirectory: home
+        )
+
+        let listed = { (identifier: String) in
+            let environment = environments.first { $0.appBundleIdentifiers == ["org.example.\(identifier)"] }
+            return environment?.locations.map { $0.url.pathComponents.suffix(4).joined(separator: "/") } ?? []
+        }
+        #expect(listed("beta") == ["Chat [Beta]/Partitions/team/Cache"])
+        #expect(listed("star") == ["*/Partitions/team/Cache"])
+    }
+
     @Test func listsTheCachesOfAnElectronAppsPartitionsAndNeverTheirStorage() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

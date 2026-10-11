@@ -1316,8 +1316,8 @@ public enum DeveloperCaches {
             let name = editor ?? bundleName
             guard !name.isEmpty, !name.contains("/"), name != ".", name != "..", !covered.contains(name.lowercased())
             else { return nil }
-            let data = "Library/Application Support/\(name)"
-            guard exists(home.appending(path: "\(data)/Local State")) else { return nil }
+            guard exists(home.appending(path: "Library/Application Support/\(name)/Local State")) else { return nil }
+            let data = "Library/Application Support/\(PathPattern.literal(name))"
             // Each persistent session an app opens keeps the same caches in a folder of its own.
             let partitions = "\(data)/Partitions/*"
             let partition = electron + "electron_browser_context.cc#L384-L390"

@@ -100,6 +100,18 @@ public enum PathPattern {
         case cask
     }
 
+    /// `name` written into a `.peel` pattern so that it matches only itself. Peel's patterns are read without
+    /// backslash escapes, so each `*`, `?` and `[` goes inside brackets of its own.
+    static func literal(_ name: String) -> String {
+        name.reduce(into: "") { text, character in
+            if "*?[".contains(character) {
+                text += "[\(character)]"
+            } else {
+                text.append(character)
+            }
+        }
+    }
+
     private static let entriesAStarReads = 16_384
 
     /// The existing files `pattern` names, leaving out irreplaceable ones (`isIrreplaceable`). A pattern without a
