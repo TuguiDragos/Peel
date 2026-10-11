@@ -23,10 +23,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Never selects for you what may exist only on your Mac, such as WhatsApp's chats, game saves, and app backups.
 - Leaves an app with a system extension to Finder, and security and management tools to their makers' uninstallers.
 - Says what its helper is doing, and within seconds when the helper doesn't answer, with a way to repair it.
+- Leaves alone more of what macOS and other apps rely on, such as the folder crash reports are saved in and a Godot
+  project's export passwords.
 
 ### Fixed
 
 - Many smaller fixes: Peel never moves the folder it runs from, and never asks to quit what you can't quit.
+- No longer points to an app's leftovers when another copy of the app is still installed.
 
 ## 1.0.1 (2026-10-08)
 
