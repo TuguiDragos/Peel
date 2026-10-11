@@ -232,6 +232,15 @@ public enum ProjectArtifacts {
             name: ".swc", markers: ["package.json", ".swcrc"], tool: "SWC", isGeneric: false,
             source: "https://github.com/swc-project/website/blob/81b00b1c8cc95477b64efd7f3f7a366a787757bd/apps/website/docs/docs/configuration/compilation.mdx#L671-L675"
         ),
+        // Only the two bundles: `.shopify` also holds the app's local certificate and key, and its logs.
+        Definition(
+            name: ".shopify/deploy-bundle", markers: ["shopify.app.toml"], tool: "Shopify CLI", isGeneric: false,
+            source: "https://github.com/Shopify/cli/blob/a9f536b4c023c89a9153dab0e31f899203443f5a/packages/app/src/cli/services/deploy/bundle.ts#L24-L26"
+        ),
+        Definition(
+            name: ".shopify/dev-bundle", markers: ["shopify.app.toml"], tool: "Shopify CLI", isGeneric: false,
+            source: "https://github.com/Shopify/cli/blob/a9f536b4c023c89a9153dab0e31f899203443f5a/packages/app/src/cli/services/dev/app-events/app-event-watcher.ts#L105"
+        ),
         Definition(
             name: ".cache", markers: remixConfigFiles, tool: "Remix", isGeneric: true,
             source: "https://github.com/remix-run/remix/blob/5ff6f9a17add06e7f70da48480c1911ad0a1310f/docs/file-conventions/remix-config.md#L70-L73"

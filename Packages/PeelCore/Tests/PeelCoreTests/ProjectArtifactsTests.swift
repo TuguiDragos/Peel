@@ -496,6 +496,20 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheBundlesTheShopifyCLIBuildsAndNeverItsCertificates() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("store/shopify.app.toml", bytes: 16)
+        try directory.file("store/.shopify/deploy-bundle/manifest.json", bytes: 400_000)
+        try directory.file("store/.shopify/dev-bundle/extension/dist/main.js", bytes: 400_000)
+        try directory.file("store/.shopify/localhost-key.pem", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name).sorted() == [".shopify/deploy-bundle", ".shopify/dev-bundle"])
+        #expect(found.allSatisfy { $0.tool == "Shopify CLI" && $0.isRecommended })
+    }
+
     @Test func listsWhatRemixAndReactRouterBuildWithoutSelectingIt() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("classic/remix.config.js", bytes: 16)
