@@ -1104,6 +1104,13 @@ public enum DeveloperCaches {
         Definition(id: "tensorflow", name: "TensorFlow Datasets", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder("tensorflow_datasets", .models, source: "https://github.com/tensorflow/datasets/blob/ff9ea5fdcba7cc4d25bac833ecb6659397694c12/tensorflow_datasets/core/constants.py#L36-L37"),
         ]),
+        Definition(id: "tfhub", name: "TensorFlow Hub", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(
+                "tfhub_modules/", .models,
+                source: "https://github.com/tensorflow/hub/blob/26c94f67716f457efaa70c63b4d1b561a08be9f1/tensorflow_hub/resolver.py#L102-L106",
+                base: .userTemporary
+            ),
+        ]),
         Definition(id: "keras", name: "Keras", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".keras/datasets", .models, source: "https://github.com/keras-team/keras/blob/f7116e50cde59245a7b56871b337ca03eb703d11/keras/src/utils/file_utils.py#L230-L232"),
             Folder(".keras/models", .models, source: "https://github.com/keras-team/keras/blob/f7116e50cde59245a7b56871b337ca03eb703d11/keras/src/applications/resnet.py#L209"),

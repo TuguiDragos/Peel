@@ -403,7 +403,7 @@ struct DeveloperCachesTests {
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
-            "metro-file-map-*", "node-compile-cache/",
+            "metro-file-map-*", "node-compile-cache/", "tfhub_modules/",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -1485,6 +1485,20 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["node-compile-cache"])
         #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
+    }
+
+    @Test func listsTensorFlowHubsModelsInTheTemporaryFolderWithoutSelectingThem() async throws {
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        try directory.file("var/T/tfhub_modules/5a3e9c1b/saved_model.pb", bytes: 400_000)
+        let hub = DeveloperCaches.definitions.filter { $0.id == "tfhub" }
+
+        let locations = await DeveloperCaches.scan(
+            hub, homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary
+        ).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["tfhub_modules"])
+        #expect(locations.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
     @Test func offersTheSonarScannersCacheAndNeverItsCertificates() async throws {
