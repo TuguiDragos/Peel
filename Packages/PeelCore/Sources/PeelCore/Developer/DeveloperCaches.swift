@@ -871,10 +871,36 @@ public enum DeveloperCaches {
             ),
         ]),
         Definition(id: "windsurf", name: "Windsurf & Devin", systemImage: "curlybraces", appBundleIdentifiers: ["com.exafunction.windsurf", "ai.cognition.devin"], folders: [
-            Folder("Library/Application Support/Devin/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
+            Folder("Library/Application Support/Devin/Cache", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/node/userDataPath.ts#L95-L105"),
             Folder("Library/Application Support/Devin/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
-            Folder("Library/Application Support/Windsurf/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),
+            Folder("Library/Application Support/Devin/logs", .logs, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L73-L79"),
+            Folder("Library/Application Support/Devin/Code Cache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/content/browser/storage_partition_impl.cc#L1587-L1595"),
+            Folder("Library/Application Support/Devin/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
+            Folder("Library/Application Support/Devin/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
+            Folder("Library/Application Support/Devin/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/Devin/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
+            Folder("Library/Application Support/Devin/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L127"),
+            Folder("Library/Application Support/Devin/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/Devin/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/Devin/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
+            Folder("Library/Application Support/Windsurf/Cache", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/node/userDataPath.ts#L95-L105"),
             Folder("Library/Application Support/Windsurf/CachedData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/mainImpl.ts#L649-L668"),
+            Folder("Library/Application Support/Windsurf/logs", .logs, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L73-L79"),
+            Folder("Library/Application Support/Windsurf/Code Cache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/content/browser/storage_partition_impl.cc#L1587-L1595"),
+            Folder("Library/Application Support/Windsurf/GPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L46"),
+            Folder("Library/Application Support/Windsurf/DawnWebGPUCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L48"),
+            Folder("Library/Application Support/Windsurf/DawnGraphiteCache", .cache, source: "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L50"),
+            Folder("Library/Application Support/Windsurf/DawnCache", .cache, source: "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"),
+            Folder("Library/Application Support/Windsurf/CachedExtensionVSIXs", .downloads, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/environment/common/environmentService.ts#L127"),
+            Folder("Library/Application Support/Windsurf/CachedProfilesData", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/userDataProfile/common/userDataProfile.ts#L274"),
+            Folder("Library/Application Support/Windsurf/CachedConfigurations", .cache, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/workbench/services/configuration/common/configurationCache.ts#L66"),
+            Folder(
+                "Library/Application Support/Windsurf/User/workspaceStorage", .projectState, source: "https://github.com/microsoft/vscode/blob/0817aaa824590067854c361e77eb973a08b3cf48/src/vs/platform/storage/electron-main/storageMain.ts#L469-L482",
+                rowsDepth: 1, rowsAreProjectState: true
+            ),
         ]),
         Definition(id: "nova", name: "Nova", systemImage: "curlybraces", appBundleIdentifiers: ["com.panic.Nova"], folders: [
             Folder("Library/Caches/com.panic.Nova", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),

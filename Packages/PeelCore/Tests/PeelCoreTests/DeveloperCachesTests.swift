@@ -447,6 +447,7 @@ struct DeveloperCachesTests {
             // Neovim its swap and undo files.
             "Library/Application Support/Code", "Library/Application Support/Code - Insiders",
             "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
+            "Library/Application Support/Windsurf", "Library/Application Support/Devin",
             "Library/Application Support/Zed", ".local/state/nvim",
             // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
             // Jan its chat history; Ollama a copy of its app while it updates.
@@ -1376,20 +1377,40 @@ struct DeveloperCachesTests {
 
     @Test func offersTheConfigurationAndProfileCachesOfEveryEditorBuiltOnVSCode() async throws {
         let directory = try TemporaryDirectory()
-        for app in ["Code", "VSCodium", "Cursor"] {
+        let apps = ["Code", "VSCodium", "Cursor", "Windsurf", "Devin"]
+        for app in apps {
             try directory.file("Library/Application Support/\(app)/CachedConfigurations/folder/key/configuration.json", bytes: 4_096)
             try directory.file("Library/Application Support/\(app)/CachedProfilesData/__default__profile__/extensions.user.cache", bytes: 4_096)
             try directory.file("Library/Application Support/\(app)/Backups/1/untitled", bytes: 4_096)
         }
-        let editors = DeveloperCaches.definitions.filter { ["vscode", "vscodium", "cursor"].contains($0.id) }
+        let editors = DeveloperCaches.definitions.filter { ["vscode", "vscodium", "cursor", "windsurf"].contains($0.id) }
 
         let locations = await DeveloperCaches.scan(editors, homeDirectory: directory.url).flatMap(\.locations)
 
         let support = directory.url.appending(path: "Library/Application Support").path(percentEncoded: false)
-        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(support.count + 1)) }) == [
-            "Code/CachedConfigurations", "Code/CachedProfilesData", "VSCodium/CachedConfigurations",
-            "VSCodium/CachedProfilesData", "Cursor/CachedConfigurations", "Cursor/CachedProfilesData",
-        ])
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(support.count + 1)) }) == Set(
+            apps.flatMap { ["\($0)/CachedConfigurations", "\($0)/CachedProfilesData"] }
+        ))
+    }
+
+    @Test func offersWhatWindsurfAndDevinCacheAsVSCodeDoesAndNeverTheirBackups() async throws {
+        let directory = try TemporaryDirectory()
+        let cached = ["Code Cache/js/index", "GPUCache/data_0", "DawnWebGPUCache/data_0", "CachedExtensionVSIXs/x.vsix",
+                      "logs/20261011T120000/main.log"]
+        for app in ["Windsurf", "Devin"] {
+            for path in cached + ["Backups/1/untitled"] {
+                try directory.file("Library/Application Support/\(app)/\(path)", bytes: 4_096)
+            }
+        }
+        let windsurf = DeveloperCaches.definitions.filter { $0.id == "windsurf" }
+
+        let locations = await DeveloperCaches.scan(windsurf, homeDirectory: directory.url).flatMap(\.locations)
+
+        let support = directory.url.appending(path: "Library/Application Support").path(percentEncoded: false)
+        let folders = cached.map { String($0.split(separator: "/").first!) }
+        #expect(Set(locations.map { String($0.url.path(percentEncoded: false).dropFirst(support.count + 1)) }) == Set(
+            ["Windsurf", "Devin"].flatMap { app in folders.map { "\(app)/\($0)" } }
+        ))
     }
 
     @Test func offersTheNpmCacheOfZedsNodeAndNeverTheNodeItself() async throws {
