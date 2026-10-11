@@ -253,6 +253,18 @@ struct SpaceRemovalTests {
         #expect(removalGuard.refusal(of: reports) == .staysItself)
     }
 
+    @Test func putsBackTheAccountsCrashReportsFolderOnlyAsAFolder() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Logs")
+        let trashedFolder = try directory.directory("home/.Trash/DiagnosticReports")
+        let trashedFile = try directory.file("home/.Trash/report")
+        let reports = directory.url.appending(path: "home/Library/Logs/DiagnosticReports", directoryHint: .isDirectory)
+        let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
+
+        #expect(removalGuard.allowsPuttingBack(trashedFolder, at: reports))
+        #expect(!removalGuard.allowsPuttingBack(trashedFile, at: reports))
+    }
+
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/Caches/org.example.updater/data.bin")

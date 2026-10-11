@@ -150,9 +150,11 @@ struct RemovalGuard: Sendable {
             guard !ProtectedData.holds(spellings: spellings, home: home) else { return .holdsProtectedData }
         }
 
+        // A folder that stays itself never moves, though one that is gone may come back as the folder it was.
+        let comesBackAsAFolder = item != nil && type == S_IFDIR
         for spelling in spelled.values.reduce(into: Set<String>(), { $0.formUnion($1) }) {
             let isUnderAPrefix = Self.protectedPrefixes.contains { PathComponents.isPath(spelling, inside: $0) }
-            guard !protectedPaths.contains(spelling) else { return .staysItself }
+            guard comesBackAsAFolder || !protectedPaths.contains(spelling) else { return .staysItself }
             let mayGo = Self.isAToolsLink(spelling, isALink: type == S_IFLNK)
                 || Self.isACasksRecord(spelling, isAFolder: type == S_IFDIR)
             guard !isUnderAPrefix || mayGo else { return .protectedLocation }
