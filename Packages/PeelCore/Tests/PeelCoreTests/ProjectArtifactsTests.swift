@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func listsWhatEleventyFetchKeepsAndNeverSelectsItsGenericName() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("blog/eleventy.config.mjs", bytes: 16)
+        try directory.file("blog/.cache/eleventy-fetch-0123abc", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".cache"])
+        #expect(found.first?.tool == "Eleventy Fetch")
+        #expect(found.first?.hasGenericName == true && found.first?.isRecommended == false)
+    }
+
     @Test func offersTheIncrementalBuildRollupsTypeScriptPluginKeeps() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("lib/package.json", bytes: 16)

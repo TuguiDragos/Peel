@@ -145,6 +145,9 @@ public enum ProjectArtifacts {
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
+    private static let eleventyConfigFiles = [".eleventy.js"] + ["buildawesome.config", "eleventy.config"].flatMap { name in
+        ["js", "mjs", "cjs", "ts", "mts", "cts"].map { "\(name).\($0)" }
+    }
     private static let docusaurusConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "docusaurus.config." + $0 }
     private static let nycConfigFiles = [".nycrc", ".nycrc.json", ".nycrc.yaml", ".nycrc.yml"]
         + ["js", "cjs", "mjs"].map { "nyc.config." + $0 }
@@ -279,6 +282,10 @@ public enum ProjectArtifacts {
         Definition(
             name: ".cache", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
             source: "https://www.gatsbyjs.com/docs/reference/gatsby-cli/"
+        ),
+        Definition(
+            name: ".cache", markers: eleventyConfigFiles, tool: "Eleventy Fetch", isGeneric: true,
+            source: "https://github.com/11ty/eleventy-fetch/blob/b8e94a79cf3a950dd89d35a85e3e9586ed4fefe5/eleventy-fetch.js#L8-L11"
         ),
         Definition(
             name: "public", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
