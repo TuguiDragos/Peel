@@ -90,6 +90,23 @@ struct IntelInspectorTests {
         #expect(walked.1.isEmpty)
     }
 
+    /// A file named like a bundle, as `git bundle` writes one, has nothing inside, and the folder after it is walked.
+    @Test func walksTheFolderAfterAFileNamedLikeABundle() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Printers/Backup.bundle", bytes: 16)
+        for folder in ["Filters", "Tools", "Utilities", "Scripts", "Helpers"] {
+            let filter = try directory.file("Printers/\(folder)/filter", contents: intelHeader(fileType: 2))
+            try FileManager.default.setAttributes(
+                [.posixPermissions: 0o755], ofItemAtPath: filter.path(percentEncoded: false)
+            )
+        }
+        let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
+
+        let folders = IntelInspector.programs(in: [printers]).map { $0.deletingLastPathComponent().lastPathComponent }
+
+        #expect(folders.sorted() == ["Filters", "Helpers", "Scripts", "Tools", "Utilities"])
+    }
+
     private func bundle(_ directory: borrowing TemporaryDirectory, _ path: String, cpuTypes: [UInt32]) throws -> URL {
         let name = (path as NSString).lastPathComponent
         let executableName = (name as NSString).deletingPathExtension
