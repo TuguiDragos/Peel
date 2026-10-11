@@ -205,6 +205,14 @@ public enum ProjectArtifacts {
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
         ),
         Definition(
+            name: ".solid", markers: ["package.json"], tool: "SolidStart", isGeneric: false,
+            source: "https://github.com/solidjs/solid-start/blob/2f44d456e4814b997058fb366d7361f0d6b1e4e8/packages/start-static/index.js#L28-L30"
+        ),
+        Definition(
+            name: ".solid-start", markers: ["package.json"], tool: "SolidStart", isGeneric: false,
+            source: "https://github.com/solidjs/solid-start/blob/9b943dc4a168e45bdce94dedc8a7ff54d402b4e8/packages/start/src/config/manifest.ts#L84"
+        ),
+        Definition(
             name: ".swc", markers: ["package.json", ".swcrc"], tool: "SWC", isGeneric: false,
             source: "https://github.com/swc-project/website/blob/81b00b1c8cc95477b64efd7f3f7a366a787757bd/apps/website/docs/docs/configuration/compilation.mdx#L671-L675"
         ),

@@ -416,6 +416,21 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheBuildsSolidStartMakes() async throws {
+        let directory = try TemporaryDirectory()
+        for app in ["old", "new"] {
+            try directory.file("\(app)/package.json", bytes: 16)
+        }
+        try directory.file("old/.solid/server/server.js", bytes: 400_000)
+        try directory.file("new/.solid-start/client/.vite/manifest.json", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)" }.sorted() == ["new/.solid-start", "old/.solid"])
+        #expect(found.allSatisfy { $0.tool == "SolidStart" && $0.isRecommended })
+    }
+
     @Test func offersTheCacheSWCKeepsForItsPlugins() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("web/.swcrc", bytes: 16)
