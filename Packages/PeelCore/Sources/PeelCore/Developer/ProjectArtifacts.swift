@@ -414,6 +414,10 @@ public enum ProjectArtifacts {
             keepsItsSetup: true
         ),
         Definition(
+            name: "out", markers: ["build.mill", "build.mill.yaml", "build.sc"], tool: "Mill", isGeneric: true,
+            source: "https://github.com/com-lihaoyi/mill/blob/454a2141b7f6baadaaa0dc3e85580221df675220/example/fundamentals/out-dir/1-out-files/build.mill#L1-L35"
+        ),
+        Definition(
             name: ".cpcache", markers: ["deps.edn"], tool: "Clojure CLI", isGeneric: false,
             source: "https://github.com/clojure/clojure-site/blob/15d0adc7ccd1dc8aa1c622dc824bef76507c276a/content/reference/clojure_cli.adoc#L490-L504"
         ),
