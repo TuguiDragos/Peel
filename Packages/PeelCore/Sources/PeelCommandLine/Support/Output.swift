@@ -337,6 +337,7 @@ extension HoldBack {
         case .holdsKeys: "holds a wallet or a key Peel protects"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .insideAnotherAppsFolder: "inside another app's folder"
+        case .holdsAnotherAppsData: "holds what another installed app keeps as its own"
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
         case .leftToItsUninstaller: "removed by the app's own uninstaller once the app is in the Trash"
         case .systemExtension:

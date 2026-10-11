@@ -258,6 +258,9 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   nor its maker, such as another app's, one of Apple's, or a command-line tool's, is shown and never selected, since a
   folder of that name may be that program's own; so is something matched by name alone at the top of your home folder
   or of a Library, or in a maker's folder there.
+- **Another app's data stays with it.** A folder that holds what another installed app keeps as its own, as the
+  Developer page names it, such as Xcode's folders in `~/Library/Developer`, is listed with that app named and can't
+  be selected: it goes with that app, never with this one.
 - **A plug-in goes by what it declares.** Its name says what it does rather than who made it, so a plug-in called
   like the app is selected only when the identifier it declares is the app's or its maker's: another maker's plug-in
   with the app's name is never selected.

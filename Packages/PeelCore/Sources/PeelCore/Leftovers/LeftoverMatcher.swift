@@ -37,6 +37,21 @@ struct LeftoverMatcher: Sendable {
             .map(\.reference).sorted()
     }
 
+    /// Each place on disk an installed app besides this one, and not a copy of it, keeps as its own, as Developer's
+    /// table names it, with that app.
+    func placesOthersKeep(home: URL) -> [(place: String, app: String)] {
+        let owners = others.filter { !$0.isACopy(of: target) }
+        return DeveloperCaches.definitions.flatMap { definition -> [(place: String, app: String)] in
+            let apps = Set(definition.appBundleIdentifiers.map { $0.lowercased() })
+            guard let owner = owners.first(where: { $0.identifier.map(apps.contains) ?? false }) else { return [] }
+            return definition.folders.filter { $0.base == .home }.flatMap { folder in
+                PathPattern.expand(folder.path, home: home, from: .peel).map {
+                    (PathPattern.comparablePath(of: $0), owner.reference)
+                }
+            }
+        }
+    }
+
     /// The installed apps besides this one that manage the area, and this app's other copies.
     func others(managing area: SpaceInventory.ManagingApps) -> (apps: [String], copies: [URL]) {
         let managing = others.filter { area.includes($0.identifier) }

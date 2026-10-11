@@ -123,6 +123,37 @@ struct UninstallationTests {
         #expect(await RemovedElsewhere.first(among: [filtering], asking: installed(.beingRemoved)) == nil)
     }
 
+    @Test func leavesAloneAFolderHoldingWhatAnotherInstalledAppKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Library/Developer/Xcode/DerivedData/Example-abc/info.plist", bytes: 64)
+        let developer = InstalledApp(
+            url: try directory.directory("root/Applications/Developer.app"), bundleIdentifier: "org.example.developer",
+            name: "Developer"
+        )
+        let xcode = InstalledApp(
+            url: try directory.directory("root/Applications/Xcode.app"), bundleIdentifier: "com.apple.dt.Xcode", name: "Xcode"
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let folder = PathPattern.comparablePath(of: home.appending(path: "Library/Developer"))
+        func plan(installed: [InstalledApp]) async -> Uninstallation {
+            await Uninstallation.prepare(
+                developer, installedApps: installed, systemExtensions: { [] }, environment: environment
+            )
+        }
+
+        let withXcode = await plan(installed: [developer, xcode])
+        let kept = try #require(withXcode.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == folder })
+        #expect(kept.match.heldBack == .holdsAnotherAppsData)
+        #expect(kept.match.sharedWith == ["com.apple.dt.Xcode"])
+        #expect(!withXcode.selectable(canUseHelper: true).contains(kept.url))
+        let alone = await plan(installed: [developer])
+        let named = alone.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == folder }
+        #expect(named?.match.heldBack == .namedLikeTheApp)
+    }
+
     @Test func severalAppsAskMacOSOnceAndOnlyWhenOneCarriesASystemExtension() async throws {
         let directory = try TemporaryDirectory()
         let example = try appCarryingAFilter(in: directory)

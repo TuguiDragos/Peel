@@ -296,6 +296,8 @@ extension HoldBack {
             "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
         case .insideAnotherAppsFolder:
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
+        case .holdsAnotherAppsData:
+            "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too."
         case .beyondTheHelper:
             "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here."
         case .leftToItsUninstaller:

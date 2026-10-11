@@ -66983,6 +66983,112 @@
         }
       }
     },
+    "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: uvnitř si jiná aplikace v tomto Macu uchovává vlastní data a přesunutím by se tato data přesunula také."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Eine andere App auf diesem Mac bewahrt darin ihre eigenen Daten auf, und ein Verschieben würde diese Daten mitnehmen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: otra app de este Mac guarda dentro sus propios datos, y trasladar esto se llevaría también esos datos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : une autre app de ce Mac y conserve ses propres données, et le déplacer emporterait aussi ces données."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: un’altra app su questo Mac conserva i propri dati all’interno, e spostare questo elemento porterebbe con sé anche quei dati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: このMacのほかのアプリが自身のデータを中に保管しており、これを移動するとそのデータも一緒に移動してしまいます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 Mac의 다른 앱이 안에 자체 데이터를 보관하고 있어서, 이 항목을 이동하면 그 데이터도 함께 이동됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: een andere app op deze Mac bewaart er zijn eigen gegevens in, en als dit wordt verplaatst, gaan die gegevens ook mee."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: inna aplikacja na tym Macu przechowuje w środku własne dane, a przeniesienie całości przeniosłoby także te dane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: outro app deste Mac guarda os próprios dados aqui dentro, e mover isto levaria esses dados também."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: o altă aplicație de pe acest Mac își păstrează înăuntru propriile date, iar mutarea acestui articol ar lua și datele respective."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: другое приложение на этом Mac хранит внутри свои данные, и перемещение захватило бы и эти данные."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: en annan app på den här datorn sparar sina egna data i den, och om den flyttades skulle även dessa data följa med."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bu Mac’teki başka bir uygulama kendi verilerini bunun içinde tutuyor ve bunu taşımak o verileri de götürür."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: інша програма на цьому Mac зберігає всередині власні дані, і переміщення забрало б і ці дані."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：这台Mac上的另一个App在其中存放着自己的数据，移动此项会连带移走这些数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：這部Mac上的其他App在其中存放自己的資料，移動此項目會連帶移動這些資料。"
+          }
+        }
+      }
+    },
     "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac." : {
       "localizations" : {
         "cs" : {

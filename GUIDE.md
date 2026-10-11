@@ -21,9 +21,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
   may exist only on this Mac, such as local mail, message history, sign-in codes, VPN connections, a game's saves, a
   database, or an app's own backups. Uninstalling Xcode lists the simulators it made the same way.
-- **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected. What
-  Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also uses, waits
-  under Review Before Removing.
+- **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected, and a
+  folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
+  all. What Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also
+  uses, waits under Review Before Removing.
 - **The Select menu** has Select Recommended, Select All, and Deselect All. Select All selects everything you can
   select, what Peel holds back included, and asks first when that takes anything Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or

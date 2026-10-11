@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 public enum MatchReason: String, Sendable, Hashable {
     case bundleIdentifier
@@ -95,6 +96,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// installed app or to Apple. It is probably the other app's data about this one, as a documentation browser
     /// or a controller app keeps.
     case insideAnotherAppsFolder
+    /// Holds what another installed app keeps as its own, as Developer's table names it, such as Xcode's folders in
+    /// `~/Library/Developer`: it goes with that app, never with this one.
+    case holdsAnotherAppsData
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).
     case beyondTheHelper
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
@@ -133,7 +137,7 @@ public enum HoldBack: String, Sendable, Hashable {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .beyondTheHelper || self == .leftToItsUninstaller
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .holdsAnExclusion
-            || self == .inTheCloud
+            || self == .inTheCloud || self == .holdsAnotherAppsData
     }
 
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
@@ -300,6 +304,21 @@ public struct LeftoverScan: Sendable {
             leftovers: leftovers.map { leftover in
                 guard leftover.requiresPrivileges, reach.isBeyond(leftover.url, leaving: app) else { return leftover }
                 return leftover.heldBack(.beyondTheHelper)
+            },
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
+    /// The same scan, each item holding a place another installed app keeps (`places`) left alone and shared with it.
+    func holdingBack(placesOthersKeep places: [(place: String, app: String)]) -> LeftoverScan {
+        LeftoverScan(
+            leftovers: leftovers.map { leftover in
+                let item = PathPattern.comparablePath(of: leftover.url)
+                let keepers = Set(places.filter { PathComponents.isPath($0.place, atOrInside: item) }.map(\.app))
+                guard !keepers.isEmpty else { return leftover }
+                return leftover.sharing(with: keepers.sorted()).heldBack(.holdsAnotherAppsData)
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,

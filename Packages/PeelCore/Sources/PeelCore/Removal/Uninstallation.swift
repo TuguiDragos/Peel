@@ -82,6 +82,7 @@ public struct Uninstallation: Sendable {
                 environment: environment
             )
         )
+        scan = scan.holdingBack(placesOthersKeep: matcher.placesOthersKeep(home: environment.homeDirectory))
         let uninstallsItself = UninstallsItself.of(app, environment: environment)
         if let uninstallsItself {
             scan = scan.leavingToItsUninstaller(uninstallsItself)
