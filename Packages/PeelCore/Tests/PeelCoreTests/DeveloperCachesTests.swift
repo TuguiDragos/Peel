@@ -1276,6 +1276,18 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 
+    @Test func offersTheArtifactsSbtsLauncherCopiedForOfflineUse() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".sbt/preloaded/org/scala-sbt/sbt/1.11.7/sbt-1.11.7.jar", bytes: 400_000)
+        try directory.file(".sbt/1.0/global.sbt", bytes: 64)
+        let sbt = DeveloperCaches.definitions.filter { $0.id == "sbt" }
+
+        let locations = await DeveloperCaches.scan(sbt, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["preloaded"])
+        #expect(locations.allSatisfy { $0.kind == .downloads && $0.isRecommended })
+    }
+
     @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/downloads/4b1c.partial", bytes: 400_000)

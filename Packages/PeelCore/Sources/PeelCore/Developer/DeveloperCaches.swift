@@ -672,6 +672,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "sbt", name: "sbt & Coursier", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             Folder(".sbt/boot", .downloads, source: "https://github.com/sbt/website/blob/5d50117e6ecf26a7557809a3d0c623c44cfc6d8c/src/reference/01-Faq/00.md#L283-L284"),
+            Folder(".sbt/preloaded", .downloads, source: "https://github.com/sbt/sbt/blob/967147a876492075aed2e26517e38016186b2304/sbt#L450-L480"),
             Folder(".ivy2/cache", .downloads, source: "https://github.com/apache/ant-ivy/blob/e82f1882b1fdc580fc1c5dcd0935115ad963a747/asciidoc/settings/caches.adoc#L48"),
             // Only the cache. `Coursier/jvm` beside it holds the JVMs `cs java` installed, which `JAVA_HOME`
             // points at (https://get-coursier.io/docs/cache and https://get-coursier.io/docs/cli-java).
