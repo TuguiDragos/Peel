@@ -249,6 +249,34 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent).sorted() == ["Cache", "GPUCache"])
     }
 
+    @Test func listsTheCachesOfAnElectronAppsPartitionsAndNeverTheirStorage() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("Applications/Chat.app/Contents/Frameworks/Electron Framework.framework")
+        let chat = InstalledApp(
+            url: directory.url.appending(path: "Applications/Chat.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.chat", name: "Chat", bundleName: "Chat"
+        )
+        let partition = "home/Library/Application Support/Chat/Partitions/workspace"
+        try directory.file("home/Library/Application Support/Chat/Local State")
+        try directory.file("\(partition)/Cache/Cache_Data/index", bytes: 4_096)
+        try directory.file("\(partition)/Code Cache/js/index", bytes: 4_096)
+        try directory.file("\(partition)/GPUCache/data_0", bytes: 4_096)
+        try directory.file("\(partition)/Local Storage/leveldb/000003.log", bytes: 4_096)
+        try directory.file("\(partition)/IndexedDB/https_app.example_0.indexeddb.leveldb/000003.log", bytes: 4_096)
+
+        let environments = await DeveloperCaches.scan(
+            DeveloperCaches.electronDefinitions(for: [chat], home: home), homeDirectory: home
+        )
+
+        let listed = try #require(environments.first).locations.map {
+            $0.url.pathComponents.suffix(3).joined(separator: "/")
+        }
+        #expect(listed.sorted() == [
+            "Partitions/workspace/Cache", "Partitions/workspace/Code Cache", "Partitions/workspace/GPUCache",
+        ])
+    }
+
     @Test func readsTheAppsInTheFoldersChosenInTheHomeItScans() async throws {
         let directory = try TemporaryDirectory()
         let tools = try directory.directory("Tools")

@@ -1180,11 +1180,19 @@ public enum DeveloperCaches {
             else { return nil }
             let data = "Library/Application Support/\(name)"
             guard exists(home.appending(path: "\(data)/Local State")) else { return nil }
+            // Each persistent session an app opens keeps the same caches in a folder of its own.
+            let partitions = "\(data)/Partitions/*"
+            let partition = electron + "electron_browser_context.cc#L384-L390"
             let folders = [
                 Folder("\(data)/Cache", .cache, source: electron + "net/network_context_service.cc#L94-L95"),
                 Folder("\(data)/Code Cache", .cache, source: codeCache),
-            ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].map {
-                Folder("\(data)/\($0)", .cache, source: chromium + "gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50")
+                Folder("\(partitions)/Cache", .cache, source: partition),
+                Folder("\(partitions)/Code Cache", .cache, source: partition),
+            ] + ["GPUCache", "DawnWebGPUCache", "DawnGraphiteCache"].flatMap { cache in
+                [
+                    Folder("\(data)/\(cache)", .cache, source: chromium + "gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"),
+                    Folder("\(partitions)/\(cache)", .cache, source: partition),
+                ]
             } + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
                 Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
             }
