@@ -37,6 +37,11 @@ public struct CarriedSelection: Sendable {
         public var count: Int { sizes.count }
         public var total: SizeTotal { SizeTotal(sizes.values) }
 
+        /// The same part with only `sizes`, some of its own.
+        func keeping(_ sizes: [URL: Int64?]) -> Part {
+            Part(page: page, title: title, source: source, sourceKey: sourceKey, sizes: sizes)
+        }
+
         public var removalPart: RemovalPart {
             RemovalPart(source: source, sourceKey: sourceKey, tool: page.tool)
         }
@@ -74,6 +79,19 @@ public struct CarriedSelection: Sendable {
     /// The pages seen so far, in the order they were first seen.
     private var seen: [Page] = []
 
+    /// A path as written, without a trailing slash, which two tools' URLs for one item share. Not `comparablePath`,
+    /// which reads the disk, while the bar asks for the parts whenever a selection changes.
+    static func writtenPath(of url: URL) -> Substring {
+        let path = url.path(percentEncoded: false)
+        return path.count > 1 && path.hasSuffix("/") ? path.dropLast() : Substring(path)
+    }
+
+    /// The folders above `path`, each the part of it before a slash. Split at the slash byte, since a `Character`
+    /// joins a slash and a combining mark after it.
+    static func folders(above path: Substring) -> some Sequence<Substring> {
+        path.utf8.indices.lazy.filter { $0 != path.startIndex && path.utf8[$0] == UInt8(ascii: "/") }.map { path[..<$0] }
+    }
+
     public init() {}
 
     public mutating func saw(_ page: Page) {
@@ -85,14 +103,38 @@ public struct CarriedSelection: Sendable {
     }
 
     /// The parts that move: those of `candidates` whose page was seen and has something selected, in the order of
-    /// `tools`, which is the sidebar's, and within a tool in the order its pages were seen.
-    public func parts(from candidates: [Part], order tools: [String]) -> [Part] {
+    /// `tools`, which is the sidebar's, and within a tool in the order its pages were seen. Each item is in one of
+    /// them only (`eachItemOnce`), the part of the page `asking`, where Move to Trash is pressed, first.
+    public func parts(from candidates: [Part], order tools: [String], asking page: Page? = nil) -> [Part] {
         func place(_ part: Part) -> (Int, Int) {
             (tools.firstIndex(of: part.page.tool) ?? tools.count, seen.firstIndex(of: part.page) ?? seen.count)
         }
-        return candidates
-            .filter { !$0.sizes.isEmpty && seen.contains($0.page) }
-            .sorted { place($0) < place($1) }
+        let parts = candidates.filter { !$0.sizes.isEmpty && seen.contains($0.page) }.sorted { place($0) < place($1) }
+        return Self.eachItemOnce(in: parts, asking: page)
+    }
+
+    /// Two tools can list the same item, or one inside a folder the other lists, and an item selected on both pages
+    /// would count and move twice. So an item inside a folder another part holds goes with that folder, an item two
+    /// parts hold stays in the asking page's part or else the first, and a part left with nothing goes. One page's
+    /// own selection is left as its tool made it.
+    private static func eachItemOnce(in parts: [Part], asking page: Page?) -> [Part] {
+        guard parts.count > 1 else { return parts }
+        let paths = parts.map { part in part.sizes.keys.map { (url: $0, path: writtenPath(of: $0)) } }
+        var holder: [Substring: Int] = [:]
+        let asking = parts.indices.filter { parts[$0].page == page }
+        for index in asking + parts.indices.filter({ !asking.contains($0) }) {
+            for (_, path) in paths[index] where holder[path] == nil {
+                holder[path] = index
+            }
+        }
+        return parts.indices.compactMap { index in
+            let kept = paths[index].filter { _, path in
+                holder[path] == index && !folders(above: path).contains { holder[$0].map { $0 != index } ?? false }
+            }
+            guard kept.count < parts[index].sizes.count else { return parts[index] }
+            let urls = Set(kept.map(\.url))
+            return kept.isEmpty ? nil : parts[index].keeping(parts[index].sizes.filter { urls.contains($0.key) })
+        }
     }
 
     /// Moves each part in turn with `move`, which runs the part's own tool with its own checks and answers nil when
@@ -114,6 +156,19 @@ public struct CarriedSelection: Sendable {
 extension Sequence where Element == CarriedSelection.Part {
     public var itemCount: Int { reduce(0) { $0 + $1.count } }
     public var total: SizeTotal { SizeTotal(flatMap(\.sizes.values)) }
+
+    /// The parts holding an item in `moved`, or one inside a folder in it, each with only those items: what their
+    /// tools have to bring up to date, whichever part moved it.
+    public func holding(_ moved: [URL]) -> [CarriedSelection.Part] {
+        let gone = Set(moved.map(CarriedSelection.writtenPath(of:)))
+        return compactMap { part in
+            let sizes = part.sizes.filter { url, _ in
+                let path = CarriedSelection.writtenPath(of: url)
+                return gone.contains(path) || CarriedSelection.folders(above: path).contains(where: gone.contains)
+            }
+            return sizes.isEmpty ? nil : part.keeping(sizes)
+        }
+    }
 
     /// The tools the parts come from, each once, in the parts' order.
     public var tools: [String] {

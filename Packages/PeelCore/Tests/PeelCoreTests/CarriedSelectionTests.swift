@@ -148,6 +148,80 @@ struct CarriedSelectionTests {
         #expect(Set(pass.refused.flatMap(\.sizes.keys).map(\.lastPathComponent)) == ["com.apple.akd", "Kept.app"])
     }
 
+    /// Two tools can list the same item, as App Caches and Downloaded Updates both list an updater's folder: it
+    /// counts and moves once, with the first part, and a part left with nothing goes.
+    @Test func anItemTwoPagesSelectedCountsOnce() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "installers", scope: "updateDownload"))
+        selection.saw(Page(tool: "space", scope: "caches"))
+
+        let parts = selection.parts(from: [
+            part("installers", "updateDownload", ["Library/Caches/notes-updater": 300]),
+            part("space", "caches", ["Library/Caches/notes-updater/": 300, "Library/Caches/org.example.app": 50]),
+        ], order: tools)
+
+        #expect(parts.map(\.page.scope) == ["updateDownload", "caches"])
+        #expect(parts.itemCount == 2)
+        #expect(parts.total.known == 350)
+        #expect(parts.last.map { Set($0.sizes.keys.map(\.lastPathComponent)) } == ["org.example.app"])
+    }
+
+    /// A shared item counts with the page Move to Trash is pressed on, when that page holds it.
+    @Test func anItemTwoPagesSelectedCountsWithThePageAsking() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "installers", scope: "updateDownload"))
+        selection.saw(Page(tool: "space", scope: "caches"))
+
+        let parts = selection.parts(from: [
+            part("installers", "updateDownload", ["Library/Caches/notes-updater": 300]),
+            part("space", "caches", ["Library/Caches/notes-updater/": 300]),
+        ], order: tools, asking: Page(tool: "space", scope: "caches"))
+
+        #expect(parts.map(\.page.scope) == ["caches"])
+    }
+
+    /// An item inside a folder another page selected moves with that folder, whichever page comes first.
+    @Test func anItemInsideAFolderAnotherPageSelectedCountsWithTheFolder() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "installers", scope: "updateDownload"))
+        selection.saw(Page(tool: "space", scope: "caches"))
+
+        let parts = selection.parts(from: [
+            part("installers", "updateDownload", ["Library/Caches/org.example.notes/org.sparkle-project.Sparkle": 300]),
+            part("space", "caches", ["Library/Caches/org.example.notes": 900]),
+        ], order: tools)
+
+        #expect(parts.map(\.page.scope) == ["caches"])
+        #expect(parts.total.known == 900)
+    }
+
+    /// One page's own selection is left as its tool made it.
+    @Test func onePagesSelectionIsLeftAsItIs() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "space", scope: "caches"))
+
+        let parts = selection.parts(from: [
+            part("space", "caches", ["Library/Caches/org.example.notes": 900, "Library/Caches/org.example.notes/a": 1]),
+        ], order: tools)
+
+        #expect(parts.itemCount == 2)
+    }
+
+    /// After a pass, every part that holds an item that moved, or one inside a folder that moved, so its tool is
+    /// brought up to date even when another page moved it.
+    @Test func findsThePartsHoldingWhatMoved() {
+        let parts = [
+            part("installers", "updateDownload", ["Library/Caches/notes-updater": 300]),
+            part("installers", "updateDownload2", ["Library/Caches/org.example.notes/org.sparkle-project.Sparkle": 9]),
+            part("developer", "npm", ["_cacache": 300]),
+        ]
+        let moved = ["Library/Caches/notes-updater/", "Library/Caches/org.example.notes"].map {
+            URL(filePath: "/Users/x/\($0)")
+        }
+
+        #expect(parts.holding(moved).map(\.page.scope) == ["updateDownload", "updateDownload2"])
+    }
+
     /// What a pass moved is one History batch, each record under its own part's source and tool, with the size
     /// its page measured, and none for an item whose size was not known.
     @Test func whatMovedIsOneBatchWithEachPartsName() async {

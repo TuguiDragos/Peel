@@ -294,8 +294,18 @@ extension DuplicateLibrary: CarriesSelection {
         return result
     }
 
-    /// Nothing to bring up to date: the move took what it moved out of the list.
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
+    /// Takes out of the list what another page moved. What this page's own move took is out already.
+    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+        let selected = selectedURLs.union(selectedFolders)
+        let gone = Set(parts.flatMap(\.sizes.keys).filter { selected.contains($0) && $0.isMissing })
+        guard let scan, !gone.isEmpty else { return }
+        let remaining = scan.removing(gone)
+        self.scan = remaining
+        unselect(gone)
+        if let selection, !remaining.holds(selection) {
+            self.selection = nil
+        }
+    }
 
     func deselect(_ part: CarriedSelection.Part) {
         unselect(part.sizes.keys)

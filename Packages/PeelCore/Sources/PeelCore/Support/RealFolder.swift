@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 internal import PeelPrivileged
 
 extension URL {
@@ -11,7 +11,7 @@ extension URL {
 
     /// True only when nothing is there under this name. A name macOS cannot look up, as in a folder that cannot be
     /// searched, is not missing, so one of Peel's files it cannot reach is never read as one that is not there.
-    var isMissing: Bool {
+    public var isMissing: Bool {
         var info = stat()
         return lstat(path(percentEncoded: false), &info) != 0 && errno == ENOENT
     }

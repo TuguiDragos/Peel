@@ -70,7 +70,9 @@ final class SelectionCarrier {
         var carried = carried
         carried.saw(page)
         let order = Tool.Group.allCases.flatMap(\.tools)
-        return carried.parts(from: order.compactMap { tools[$0] }.flatMap(\.carriedParts), order: order.map(\.rawValue))
+        return carried.parts(
+            from: order.compactMap { tools[$0] }.flatMap(\.carriedParts), order: order.map(\.rawValue), asking: page
+        )
     }
 
     func appToQuit(among parts: [CarriedSelection.Part]) -> String? {
@@ -108,10 +110,13 @@ final class SelectionCarrier {
             for part in pass.refused {
                 tool(of: part)?.deselect(part)
             }
-            let moved = pass.moved.map(\.part)
-            for name in moved.tools {
+            // A tool whose selection holds what another page moved is brought up to date as well.
+            let held = Tool.Group.allCases.flatMap(\.tools).compactMap { tools[$0] }.flatMap(\.carriedParts)
+                .holding(pass.result.trashed.map(\.originalURL))
+            let changed = pass.moved.map(\.part) + held
+            for name in changed.tools {
                 guard let tool = Tool(rawValue: name) else { continue }
-                await tools[tool]?.refresh(after: moved.filter { $0.page.tool == name }, apps: apps)
+                await tools[tool]?.refresh(after: changed.filter { $0.page.tool == name }, apps: apps)
             }
         }
     }
