@@ -436,7 +436,7 @@ struct DeveloperCachesTests {
             "Library/Application Support/nomic.ai/GPT4All", "Library/Application Support/Adobe/Common",
             // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`;
             // `~/.clojure` holds the person's own `deps.edn`.
-            "Library/Caches/Coursier", ".ccache", ".clojure",
+            "Library/Caches/Coursier", ".ccache", ".clojure", ".cabal",
             // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
             ".cache/node/corepack",
             // Hex and Gleam keep a Hex account's key beside their packages; pub, RubyGems, rebar3, Stack, and opam
@@ -1286,6 +1286,21 @@ struct DeveloperCachesTests {
 
         #expect(locations.map(\.url.lastPathComponent) == ["preloaded"])
         #expect(locations.allSatisfy { $0.kind == .downloads && $0.isRecommended })
+    }
+
+    @Test func offersCabalsDownloadsInItsOldFolderAndNeverWhatItInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cabal/packages/hackage.haskell.org/text/2.1.2/text-2.1.2.tar.gz", bytes: 400_000)
+        try directory.file(".cabal/script-builds/9f2c/cache/plan.json", bytes: 400_000)
+        try directory.file(".cabal/config", bytes: 64)
+        try directory.file(".cabal/store/ghc-9.10.1/text-2.1.2-a1b2/lib/Data/Text.hi", bytes: 400_000)
+        try directory.file(".cabal/bin/pandoc", bytes: 400_000)
+        let cabal = DeveloperCaches.definitions.filter { $0.id == "cabal" }
+
+        let locations = await DeveloperCaches.scan(cabal, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["packages", "script-builds"])
+        #expect(locations.allSatisfy(\.isRecommended) == true)
     }
 
     @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {

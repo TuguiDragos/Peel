@@ -740,6 +740,10 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "cabal", name: "Cabal", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".cache/cabal", .downloads, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/doc/config.rst#L112-L115"),
+            // The same folders while Cabal still keeps everything in `~/.cabal`, beside its settings and what it
+            // installed.
+            Folder(".cabal/packages", .downloads, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/cabal-install/src/Distribution/Client/Config.hs#L771-L823"),
+            Folder(".cabal/script-builds", .buildData, source: "https://github.com/haskell/cabal/blob/cdb488e5ef41005cb1fa9a534708a459a6e98b2e/cabal-install/src/Distribution/Client/Config.hs#L771-L823"),
         ]),
         Definition(id: "stack", name: "Haskell Stack", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".stack/pantry/hackage", .downloads, source: "https://github.com/commercialhaskell/stack/blob/d5effcd3f32e1dc3e6fc352c65938310f3acd675/doc/topics/stack_root.md#L228-L232"),
