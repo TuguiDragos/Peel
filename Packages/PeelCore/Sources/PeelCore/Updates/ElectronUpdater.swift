@@ -4,6 +4,8 @@ enum ElectronUpdater {
     /// Where electron-updater kept an app's downloads before version 6, relative to the home folder. Since then they
     /// are in `~/Library/Caches` (`AppAdapter.ts`).
     static let formerPlace = "Library/Application Support/Caches"
+    /// Both places, relative to the home folder.
+    static let places = ["Library/Caches", formerPlace]
 
     /// The app's electron-updater settings, `Resources/app-update.yml` in `contents`, or nil when it has none. A real
     /// one is a few lines, so anything over 64 KB, or anything that is not a regular file, is ignored.

@@ -46,6 +46,23 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
+    /// This app's claim on the folder electron-updater keeps its downloads in, which the app's own settings name:
+    /// `url` directly in one of its places under `home` (`ElectronUpdater.places`), whatever the app is called. It is
+    /// shared only with an app naming the same folder.
+    func updatersFolder(at url: URL, home: String) -> LeftoverMatch? {
+        guard let folder = target.updaterFolder, url.lastPathComponent.lowercased() == folder else { return nil }
+        let parent = PathComponents.of(url.deletingLastPathComponent().path(percentEncoded: false))
+        let home = PathComponents.of(home)
+        guard ElectronUpdater.places.contains(where: { parent == home + PathComponents.of($0) }) else { return nil }
+        let naming = others.filter { $0.updaterFolder == folder }
+        return LeftoverMatch(
+            reason: .updaterDownloads,
+            confidence: .certain,
+            sharedWith: Set(naming.filter { !$0.isACopy(of: target) }.map(\.reference)).sorted(),
+            otherCopies: naming.filter { $0.isACopy(of: target) }.map(\.url)
+        )
+    }
+
     /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
     func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)
@@ -257,7 +274,7 @@ extension LeftoverMatcher {
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
                 .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt, .homebrewReceipt,
-                .leadsIntoItsHomebrewReceipt, .managedByTheApp:
+                .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix: .maker
@@ -280,7 +297,7 @@ extension LeftoverMatcher {
             // A job's or a manifest's program, or a link's target, lies inside the app's bundle, which no other app
             // can share.
             case .launchdJob, .linksToTheApp, .nativeMessagingHost, .leadsIntoItsHomebrewReceipt: 8
-            case .bundleIdentifier, .installerReceipt, .homebrewReceipt, .managedByTheApp: 7
+            case .bundleIdentifier, .installerReceipt, .homebrewReceipt, .managedByTheApp, .updaterDownloads: 7
             case .embeddedBundleIdentifier, .applicationGroup: 6
             case .bundleIdentifierPrefix: 5
             case .name: 4
@@ -316,6 +333,7 @@ extension LeftoverMatcher {
         let ownFolderNames: Set<String>
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
+        let updaterFolder: String?
 
         init(_ app: InstalledApp) {
             url = app.url
@@ -340,6 +358,9 @@ extension LeftoverMatcher {
             ownFolderNames = app.ownFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
+            // Only the name electron-builder writes, the app's and `-updater`: the settings are whoever built the
+            // app's, and any other name could be a folder other programs share.
+            updaterFolder = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
         }
 
         /// Whether this is another copy of `other`: the same app, known by its identifier, somewhere else.

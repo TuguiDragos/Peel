@@ -257,6 +257,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **A plug-in goes by what it declares.** Its name says what it does rather than who made it, so a plug-in called
   like the app is selected only when the identifier it declares is the app's or its maker's: another maker's plug-in
   with the app's name is never selected.
+- **What the app's updater downloaded goes with it.** electron-updater, which many Electron apps ship, keeps an app's
+  downloads in the folder the app's own settings name, the app's name and `-updater`, in `~/Library/Caches` or, before
+  electron-updater 6, in `~/Library/Application Support/Caches`. That folder is the app's whatever the app is called,
+  and shared only with another app, or another copy of it, that names the same folder.
 - **A system extension is left to macOS**, which removes it only when the app that uses it goes to the Trash in
   Finder, so the copy macOS installed is never listed with the app.
 - **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one

@@ -275,6 +275,7 @@ extension MatchReason {
         case .leadsIntoItsHomebrewReceipt: "leads into the Homebrew receipt"
         case .homebrewCask: "Homebrew cask"
         case .managedByTheApp: "managed by the app"
+        case .updaterDownloads: "where its updater keeps its downloads"
         }
     }
 }

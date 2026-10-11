@@ -222,7 +222,7 @@ public struct LeftoverScanner: Sendable {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             let path = url.path(percentEncoded: false)
-            if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle),
+            if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle, home: home),
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) else {
                     continue
@@ -265,7 +265,8 @@ public struct LeftoverScanner: Sendable {
             let path = url.path(percentEncoded: false)
             // A browser's manifest is whoever's program it runs, whatever it is called.
             let match = url.deletingLastPathComponent().lastPathComponent.lowercased() == "nativemessaginghosts"
-                ? runsSomethingInside(bundle, manifest: url) : Self.match(name, at: url, kind: kind, matcher: matcher)
+                ? runsSomethingInside(bundle, manifest: url)
+                : Self.match(name, at: url, kind: kind, matcher: matcher, home: home)
             if let match, match.confidence >= .likely,
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
@@ -408,12 +409,13 @@ public struct LeftoverScanner: Sendable {
         at url: URL,
         kind: SearchLocation.Kind,
         matcher: LeftoverMatcher,
-        bundle: String
+        bundle: String,
+        home: String
     ) -> LeftoverMatch? {
         guard !kind.isForLinks else { return leadsInside(bundle, link: url) }
         guard kind != .nativeMessagingHosts else { return runsSomethingInside(bundle, manifest: url) }
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
-            return match(name, at: url, kind: kind, matcher: matcher)
+            return match(name, at: url, kind: kind, matcher: matcher, home: home)
         }
         let byName = matcher.match(fileName: name, kind: kind, at: url)
         return byName?.confidence == .certain ? byName : inside
@@ -426,10 +428,12 @@ public struct LeftoverScanner: Sendable {
         _ name: String,
         at url: URL,
         kind: SearchLocation.Kind,
-        matcher: LeftoverMatcher
+        matcher: LeftoverMatcher,
+        home: String
     ) -> LeftoverMatch? {
         // A system extension macOS activated is its own to remove: it uninstalls one with the app it came in.
         guard url.pathExtension.lowercased() != "systemextension" else { return nil }
+        if let updaters = matcher.updatersFolder(at: url, home: home) { return updaters }
         let byName = DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
             ? nil : matcher.match(fileName: name, kind: kind, at: url)
         guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }

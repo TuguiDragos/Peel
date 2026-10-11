@@ -26,6 +26,8 @@ public enum MatchReason: String, Sendable, Hashable {
     /// What an area the app manages keeps in the home folder, such as the simulators Xcode makes
     /// (`SpaceInventory.Definition.managedBy`).
     case managedByTheApp
+    /// The folder the app's own settings name for what its updater downloads (`InstalledApp.updaterFolder`).
+    case updaterDownloads
 }
 
 public enum MatchConfidence: Int, Sendable, Hashable, Comparable {

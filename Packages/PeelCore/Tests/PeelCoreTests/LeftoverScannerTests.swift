@@ -125,6 +125,57 @@ struct LeftoverScannerTests {
     /// Another copy of an app that macOS knows outside the Applications folders uses the same files. Every Mac has one
     /// of the character palette in its input methods folder, so a copy of it in Applications shares its settings, and
     /// that copy is counted once when the list of apps holds it too.
+    /// electron-updater keeps an app's downloads in the folder the app's own settings name, in `~/Library/Caches` or
+    /// its former place in Application Support, whatever the app is called. Only electron-builder's own shape of
+    /// name claims a folder, and only in those two places.
+    @Test func findsTheFolderTheAppsUpdaterKeepsItsDownloadsIn() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/tide2-updater/update.zip", bytes: 4096)
+        try directory.file("home/Library/Application Support/Caches/tide2-updater/pending/update-info.json", bytes: 64)
+        try directory.file("home/Library/Logs/tide2-updater/main.log", bytes: 64)
+        try directory.file("home/Library/Caches/Shared/data", bytes: 64)
+        let tide = InstalledApp(
+            url: URL(filePath: "/Applications/Tide Studio.app"), bundleIdentifier: "org.example.tidestudio",
+            name: "Tide Studio", updaterFolder: "tide2-updater"
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Kelp.app"), bundleIdentifier: "org.example.kelp", name: "Kelp",
+            updaterFolder: "Shared"
+        )
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let found = await scanner.scan(tide, installedApps: [tide, other]).leftovers
+            .filter { $0.match.reason == .updaterDownloads }
+        let kelps = await scanner.scan(other, installedApps: [tide, other]).leftovers
+
+        #expect(Set(found.map { $0.url.deletingLastPathComponent().lastPathComponent }) == ["Caches"])
+        #expect(found.count == 2)
+        #expect(found.allSatisfy { $0.match.confidence == .certain && $0.match.isRecommended })
+        #expect(!kelps.contains { $0.url.lastPathComponent == "Shared" })
+    }
+
+    /// Another copy of the app names the same folder, so the folder stays with it.
+    @Test func anUpdaterFolderAnotherCopyNamesStaysWithIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/tide2-updater/update.zip", bytes: 4096)
+        let tide = InstalledApp(
+            url: URL(filePath: "/Applications/Tide Studio.app"), bundleIdentifier: "org.example.tidestudio",
+            name: "Tide Studio", updaterFolder: "tide2-updater"
+        )
+        let copy = InstalledApp(
+            url: URL(filePath: "/Users/x/Applications/Tide Studio.app"), bundleIdentifier: "org.example.tidestudio",
+            name: "Tide Studio", updaterFolder: "tide2-updater"
+        )
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tide, installedApps: [tide, copy])
+        let folder = try #require(scan.leftovers.first { $0.url.lastPathComponent == "tide2-updater" })
+
+        #expect(folder.match.reason == .updaterDownloads)
+        #expect(folder.match.otherCopies == [copy.url])
+        #expect(!folder.match.isRecommended)
+    }
+
     /// A preference file whose bytes are not a property list holds settings nobody can read, so its row says so. A
     /// file that reads as one does not.
     @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {
