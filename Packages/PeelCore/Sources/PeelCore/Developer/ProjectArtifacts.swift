@@ -205,6 +205,10 @@ public enum ProjectArtifacts {
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
         ),
         Definition(
+            name: ".rollup.cache", markers: ["package.json"], tool: "@rollup/plugin-typescript", isGeneric: false,
+            source: "https://github.com/rollup/plugins/blob/639f45638234c1c3fabfb13615c78bebaef89ef2/packages/typescript/README.md#L289-L296"
+        ),
+        Definition(
             name: ".rpt2_cache", markers: ["package.json"], tool: "rollup-plugin-typescript2", isGeneric: false,
             source: "https://github.com/ezolenko/rollup-plugin-typescript2/blob/afaf7140fd640beb6164084a8f27f49e5f9b727e/src/index.ts#L52"
         ),

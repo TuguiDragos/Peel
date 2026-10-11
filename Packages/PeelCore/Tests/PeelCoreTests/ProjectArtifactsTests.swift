@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheIncrementalBuildRollupsTypeScriptPluginKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("lib/package.json", bytes: 16)
+        try directory.file("lib/.rollup.cache/Users/me/lib/dist/index.js", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".rollup.cache"])
+        #expect(found.first?.tool == "@rollup/plugin-typescript")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheCacheOlderTypeScriptBuildsForRollupKept() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("lib/package.json", bytes: 16)
