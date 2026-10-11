@@ -17,8 +17,7 @@ struct OutputTailTests {
         var output = Data()
         for _ in 0..<200_000 { output.append(line) }
 
-        let clock = ContinuousClock()
-        let took = clock.measure { _ = OutputTail.lastLines(of: output, count: 400) }
+        let took = processorTime { _ = OutputTail.lastLines(of: output, count: 400) }
         #expect(took < .milliseconds(5), "\(took)")
     }
 }

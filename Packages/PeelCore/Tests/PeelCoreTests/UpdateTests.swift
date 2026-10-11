@@ -91,10 +91,9 @@ struct AppcastTests {
             </channel></rss>
             """.utf8)
         }
-        let clock = ContinuousClock()
         var reading: Appcast.Reading?
 
-        let took = clock.measure { reading = Appcast.read(feed(using: "&a10;"), systemVersion: "26.7.0", isAppleSilicon: true) }
+        let took = processorTime { reading = Appcast.read(feed(using: "&a10;"), systemVersion: "26.7.0", isAppleSilicon: true) }
 
         #expect(reading == .unreadable)
         #expect(took < .seconds(1))

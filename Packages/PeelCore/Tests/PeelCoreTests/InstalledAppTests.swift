@@ -7,10 +7,7 @@ struct InstalledAppTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor")
         var answers = 0
 
-        // The time the processor spent on this thread, which other tests running beside it do not stretch.
-        let started = clock_gettime_nsec_np(CLOCK_THREAD_CPUTIME_ID)
-        for _ in 0..<200_000 where app.isPeelItself { answers += 1 }
-        let took = Duration.nanoseconds(Int64(clock_gettime_nsec_np(CLOCK_THREAD_CPUTIME_ID) - started))
+        let took = processorTime { for _ in 0..<200_000 where app.isPeelItself { answers += 1 } }
 
         #expect(answers == 0)
         #expect(took < .milliseconds(100))

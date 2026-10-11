@@ -426,17 +426,16 @@ struct DuplicateFinderTests {
         #expect(!DuplicateFinder.hasCopySuffix("Invoice (3a)"))
     }
 
-    /// `hasCopySuffix` is asked once for every file in every group, so it has to stay fast on a large scan. The
-    /// time limit is generous, so that a busy Mac slows the test without failing it.
+    /// `hasCopySuffix` is asked once for every file in every group, so it has to stay fast on a large scan.
     @Test func recognizesCopySuffixesQuickly() {
-        let clock = ContinuousClock()
-        let start = clock.now
         var copies = 0
-        for index in 0..<20_000 where DuplicateFinder.hasCopySuffix("small-\(index) copy") {
-            copies += 1
+        let took = processorTime {
+            for index in 0..<20_000 where DuplicateFinder.hasCopySuffix("small-\(index) copy") {
+                copies += 1
+            }
         }
         #expect(copies == 20_000)
-        #expect(clock.now - start < .seconds(1))
+        #expect(took < .seconds(1))
     }
 
     @Test func scansOnlyUserContentFolders() throws {
