@@ -402,7 +402,8 @@ struct DeveloperCachesTests {
         // The only top-level entries in the table, each owned outright by the one tool that made it.
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
-            ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/",
+            ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
+            "metro-file-map-*",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -634,7 +635,7 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         var expected: Set<String> = []
         for definition in DeveloperCaches.definitions {
-            for folder in definition.folders {
+            for (index, folder) in definition.folders.enumerated() {
                 // A wildcard becomes a name it matches: `*` any folder, `[0-9a-f]` one of ccache's shards. A pattern
                 // that ends in `/` matches every folder beside, so what sits beside its match is a file.
                 let concrete = folder.path.replacingOccurrences(of: "*", with: "match").replacingOccurrences(of: "[0-9a-f]", with: "a")
@@ -658,7 +659,7 @@ struct DeveloperCachesTests {
                         )
                     }
                     expected.insert("\(entry)/old")
-                    try directory.file("\(entry)/../elsewhere-\(definition.id)/content", bytes: 400_000)
+                    try directory.file("\(entry)/../elsewhere-\(definition.id)-\(index)/content", bytes: 400_000)
                     continue
                 }
                 let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
@@ -669,7 +670,9 @@ struct DeveloperCachesTests {
                     try directory.file("\(row)/workspace.json", contents: Data(#"{"folder": "\#(gone)"}"#.utf8))
                 }
                 expected.insert(row)
-                try directory.file("\(entry)/../elsewhere-\(definition.id)" + (foldersOnly ? "" : "/content"), bytes: 400_000)
+                try directory.file(
+                    "\(entry)/../elsewhere-\(definition.id)-\(index)" + (foldersOnly ? "" : "/content"), bytes: 400_000
+                )
             }
         }
 
@@ -1446,6 +1449,26 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.url.lastPathComponent)) == [
             "playwright_chromiumdev_profile-a1b2c3", "playwright-artifacts-d4e5f6",
         ])
+        #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
+    }
+
+    @Test func offersMetrosCachesInTheTemporaryFolderAndNothingInUse() async throws {
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        try directory.file("var/T/metro-cache/4f/2a/9e1c0d", bytes: 400_000)
+        try directory.file("var/T/metro-file-map-0a1b2c-3d4e5f", bytes: 400_000)
+        let live = try directory.file("var/T/metro-file-map-6a7b8c-9d0e1f", bytes: 400_000)
+        try directory.file("var/T/metro-bundles/main.js", bytes: 400_000)
+        let bundler = try FileHandle(forWritingTo: live)
+        defer { try? bundler.close() }
+        let metro = DeveloperCaches.definitions.filter { $0.id == "metro" }
+
+        let locations = await DeveloperCaches.scan(
+            metro, homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary,
+            openFiles: OpenFiles(excluding: nil)
+        ).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["metro-cache", "metro-file-map-0a1b2c-3d4e5f"])
         #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 

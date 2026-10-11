@@ -473,6 +473,18 @@ public enum DeveloperCaches {
         Definition(id: "reactnative", name: "React Native CLI", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/react-native-cli", .cache, source: "https://github.com/react-native-community/cli/blob/f4c4ef37ccf98e0205d4a8bc5d9f40f24f1120fd/packages/cli-tools/src/cacheManager.ts#L49-L50"),
         ]),
+        Definition(id: "metro", name: "Metro", systemImage: "cube", appBundleIdentifiers: [], folders: [
+            Folder(
+                "metro-cache/", .cache,
+                source: "https://github.com/facebook/metro/blob/55d9481977172bb8fd35b5f9f4e19685202717a0/packages/metro-config/src/defaults/index.js#L159-L161",
+                base: .userTemporary
+            ),
+            Folder(
+                "metro-file-map-*", .cache,
+                source: "https://github.com/facebook/metro/blob/55d9481977172bb8fd35b5f9f4e19685202717a0/packages/metro-file-map/src/cache/DiskCacheManager.js#L70-L84",
+                base: .userTemporary
+            ),
+        ]),
         Definition(id: "expo", name: "Expo", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".expo/expo-go", .downloads, source: "https://github.com/expo/expo/blob/57441f28c9eea248b6672ffbdcd529b072ea271e/packages/@expo/cli/src/utils/downloadExpoGoAsync.ts#L128-L129"),
             Folder(".expo/versions-cache", .cache, source: "https://github.com/expo/expo/blob/57441f28c9eea248b6672ffbdcd529b072ea271e/packages/@expo/cli/src/api/getVersions.ts#L47"),
