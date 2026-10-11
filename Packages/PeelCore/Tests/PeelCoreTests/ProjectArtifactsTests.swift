@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheClasspathCacheTheClojureCLIKeepsInAProject() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/deps.edn", bytes: 16)
+        try directory.file("app/.cpcache/1234567890.cp", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".cpcache"])
+        #expect(found.first?.tool == "Clojure CLI")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheCacheAutoconfsToolsShare() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("lib/configure.ac", bytes: 16)

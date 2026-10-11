@@ -280,6 +280,10 @@ public enum ProjectArtifacts {
             source: "https://www.scala-sbt.org/1.x/docs/Directories.html"
         ),
         Definition(
+            name: ".cpcache", markers: ["deps.edn"], tool: "Clojure CLI", isGeneric: false,
+            source: "https://github.com/clojure/clojure-site/blob/15d0adc7ccd1dc8aa1c622dc824bef76507c276a/content/reference/clojure_cli.adoc#L490-L504"
+        ),
+        Definition(
             name: "build", markers: gradleFiles, tool: "Gradle", isGeneric: true,
             source: "https://docs.gradle.org/current/userguide/directory_layout.html"
         ),

@@ -338,8 +338,9 @@ struct DeveloperCachesTests {
             ".kube/cache", ".azure", ".config/gcloud", ".pulumi", ".qiskit", ".qbraid", ".expo", ".lmstudio",
             "Library/Preferences/netlify", "Library/Application Support/com.vercel.cli",
             "Library/Application Support/nomic.ai/GPT4All", "Library/Application Support/Adobe/Common",
-            // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`.
-            "Library/Caches/Coursier", ".ccache",
+            // Coursier keeps the JVMs `cs java` installs beside its cache; a legacy `~/.ccache` holds `ccache.conf`;
+            // `~/.clojure` holds the person's own `deps.edn`.
+            "Library/Caches/Coursier", ".ccache", ".clojure",
             // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
             ".cache/node/corepack",
             // Hex and Gleam keep a Hex account's key beside their packages; pub, RubyGems, rebar3, Stack, and opam
@@ -722,6 +723,17 @@ struct DeveloperCachesTests {
         let suggested = locations.filter(\.isRecommended).map(\.url).map { $0.lastPathComponent }
         #expect(locations.count == 7)
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
+    }
+
+    @Test func offersTheClojureCLIsOwnClasspathCacheAndNeverItsSettings() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".clojure/.cpcache/1234567890.cp", bytes: 400_000)
+        try directory.file(".clojure/deps.edn", bytes: 400_000)
+
+        let locations = await scanned(directory.url).flatMap(\.locations)
+
+        #expect(locations.map { $0.url.pathComponents.suffix(2).joined(separator: "/") } == [".clojure/.cpcache"])
+        #expect(locations.first?.isRecommended == true)
     }
 
     @Test func neverSelectsMavensRepositoryAndOffersWhatOtherBuildToolsDownloadAgain() async throws {

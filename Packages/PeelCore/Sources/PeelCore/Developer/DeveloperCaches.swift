@@ -721,6 +721,8 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "clojure", name: "Clojure", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder(".gitlibs", .downloads, source: "https://github.com/clojure/tools.gitlibs/blob/a306db607ca0232282870d439f2b676912360e84/README.md#L44"),
+            // Only the cache: `.clojure` holds the person's own `deps.edn` and tools beside it.
+            Folder(".clojure/.cpcache", .cache, source: "https://github.com/clojure/clojure-site/blob/15d0adc7ccd1dc8aa1c622dc824bef76507c276a/content/reference/clojure_cli.adoc#L490-L504"),
         ]),
         Definition(id: "mise", name: "mise", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/mise", .cache, source: "https://github.com/jdx/mise/blob/95bd89446f8fd2c62c355317d8567693243cc439/docs/directories.md#L34-L41"),
