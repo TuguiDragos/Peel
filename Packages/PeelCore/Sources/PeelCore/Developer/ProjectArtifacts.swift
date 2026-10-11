@@ -205,6 +205,10 @@ public enum ProjectArtifacts {
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
         ),
         Definition(
+            name: ".swc", markers: ["package.json", ".swcrc"], tool: "SWC", isGeneric: false,
+            source: "https://github.com/swc-project/website/blob/81b00b1c8cc95477b64efd7f3f7a366a787757bd/apps/website/docs/docs/configuration/compilation.mdx#L671-L675"
+        ),
+        Definition(
             name: ".react-router", markers: ["package.json"] + reactRouterConfigFiles, tool: "React Router",
             isGeneric: false,
             source: "https://github.com/remix-run/react-router/blob/dee9ad2dab41889e8fbdc6848b5781255d9f133a/docs/how-to/route-module-type-safety.md#L17-L22"

@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheCacheSWCKeepsForItsPlugins() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("web/.swcrc", bytes: 16)
+        try directory.file("web/.swc/plugins/v7_macos_aarch64_0.106.0/plugin.wasm", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".swc"])
+        #expect(found.first?.tool == "SWC")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheTypesReactRouterGenerates() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("web/package.json", bytes: 16)
