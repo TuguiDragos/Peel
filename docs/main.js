@@ -33,14 +33,14 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
-// Chip rows wrap evenly, like balanced text.
-const chipLists = document.querySelectorAll(".chips, .languages");
-const balanceChips = () => chipLists.forEach((list) => {
+// Chip rows wrap evenly, like balanced text, never narrower than their widest chip.
+const balanceChips = (list) => {
   list.style.maxWidth = "";
-  const rows = () => new Set([...list.children].map((item) => item.offsetTop)).size;
+  const items = [...list.children];
+  const rows = () => new Set(items.map((item) => item.offsetTop)).size;
   const count = rows();
   if (count < 2) return;
-  let [low, high] = [0, list.clientWidth];
+  let [low, high] = [Math.max(...items.map((item) => item.offsetWidth)), list.clientWidth];
   while (high - low > 2) {
     const middle = (low + high) / 2;
     list.style.maxWidth = `${middle}px`;
@@ -48,14 +48,21 @@ const balanceChips = () => chipLists.forEach((list) => {
     else high = middle;
   }
   list.style.maxWidth = `${Math.ceil(high)}px`;
+};
+// Balanced again whenever the room around a list changes width, which a page laid out before it was shown needs too.
+const chipLists = new Map(
+  [...document.querySelectorAll(".chips, .languages")].map((list) => [list.parentElement, list])
+);
+chipLists.forEach(balanceChips);
+const chipRoom = new Map();
+const chipObserver = new ResizeObserver((entries) => {
+  for (const { target, contentRect } of entries) {
+    if (chipRoom.get(target) === contentRect.width) continue;
+    chipRoom.set(target, contentRect.width);
+    requestAnimationFrame(() => balanceChips(chipLists.get(target)));
+  }
 });
-balanceChips();
-let chipWidth = innerWidth;
-addEventListener("resize", () => {
-  if (innerWidth === chipWidth) return;
-  chipWidth = innerWidth;
-  requestAnimationFrame(balanceChips);
-});
+chipLists.forEach((list, room) => chipObserver.observe(room));
 
 const toTop = document.querySelector(".to-top");
 const heroActions = document.querySelector(".hero .actions");
