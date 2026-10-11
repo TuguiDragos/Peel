@@ -468,6 +468,15 @@ public enum ProjectArtifacts {
             name: ".liquid", markers: ["*.hs", "*.lhs"], tool: "LiquidHaskell", isGeneric: false,
             source: "https://github.com/ucsd-progsys/liquid-fixpoint/blob/684d0829c19fbee83b892c9f5e20c2598897297c/src/Language/Fixpoint/Utils/Files.hs#L146-L158"
         ),
+        // Elm 0.18 keeps the project's packages there, and the exact versions it solved, which nothing else holds.
+        Definition(
+            name: "elm-stuff", markers: ["elm-package.json"], tool: "Elm", isGeneric: false, isEnvironment: true,
+            source: "https://github.com/elm-lang/elm-package/blob/2076638d812d9dea641e6e695951495f523bb98f/src/Elm/Package/Paths.hs#L8-L45"
+        ),
+        Definition(
+            name: "elm-stuff", markers: ["elm.json"], tool: "Elm", isGeneric: false,
+            source: "https://github.com/elm/compiler/blob/1c278bf5ecf4136f122ce1cba436783c7f561dac/builder/src/Reporting/Exit.hs#L1994-L2001"
+        ),
         Definition(
             name: ".reco-work", markers: ["main.go"], tool: "reco", isGeneric: false,
             source: "https://github.com/ReconfigureIO/reco/blob/1aaa5f0874528e5da8ce549071aad6e03e1cc3bb/helper.go#L117-L143"
