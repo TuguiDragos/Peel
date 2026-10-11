@@ -116,6 +116,39 @@ struct CloudStorageTests {
         }
     }
 
+    /// Each download goes in the folder Finder shows it in, named from iCloud Drive or the app's folder down, an
+    /// app's `Documents` shown as the app's folder itself. A search keeps a folder only with the files it found.
+    @Test func groupsTheDownloadsByTheFolderFinderShowsThemIn() throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
+        func file(_ path: String, _ size: Int64) throws -> CloudFile {
+            let url = try directory.file("Library/Mobile Documents/\(path)")
+            let container = CloudStorage.containerName(of: url, under: root)
+            return CloudFile(url: url, name: url.lastPathComponent, container: container, size: size, modified: nil)
+        }
+        let files = [
+            try file("com~apple~CloudDocs/Muzica/A.mp3", 20),
+            try file("iCloud~org~example~Notes/Documents/Letter.txt", 5),
+            try file("com~apple~CloudDocs/Archive.zip", 40),
+            try file("com~apple~CloudDocs/Muzica/B.mp3", 30),
+            try file("com~apple~CloudDocs/Documents/pfp/Me.png", 15),
+            try file("iCloud~org~example~Notes/documents/Drafts/Plan.txt", 2),
+        ]
+
+        let folders = CloudStorage.folders(of: files, home: directory.url)
+
+        #expect(folders.map(\.names) == [
+            ["iCloud Drive", "Muzica"], ["iCloud Drive"], ["iCloud Drive", "Documents", "pfp"], ["Notes"],
+            ["Notes", "Drafts"],
+        ])
+        #expect(folders.map(\.size) == [50, 40, 15, 5, 2])
+        #expect(folders.first?.files.map(\.name) == ["B.mp3", "A.mp3"])
+        let found = Set(files.filter { $0.name == "A.mp3" }.map(\.url))
+        #expect(folders.first?.keeping(found)?.files.map(\.name) == ["A.mp3"])
+        #expect(folders.first?.keeping(found)?.size == 20)
+        #expect(folders.last?.keeping(found) == nil)
+    }
+
     /// Scans the real iCloud Drive of the Mac running the tests, which must work and change nothing.
     @Test func readsThisMacWithoutFreeingAnything() async {
         let scan = await CloudStorage.downloaded()

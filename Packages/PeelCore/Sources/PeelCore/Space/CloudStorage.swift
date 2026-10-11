@@ -31,6 +31,8 @@ public struct CloudScan: Sendable {
     /// How many downloads were left out because another copy on this Mac shares their space: each takes at least
     /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
     public var sharedDownloads = 0
+    /// `files` in the folders Finder shows them in, the folder whose downloads take the most first.
+    public var folders: [CloudFolder] = []
 }
 
 /// A file that was not freed, and why.
@@ -123,7 +125,8 @@ public enum CloudStorage {
             files: collected.files.sorted { $0.size > $1.size },
             wasCutShort: finished == nil || collected.wasCutShort,
             couldNotRead: collected.couldNotRead,
-            sharedDownloads: collected.sharedDownloads
+            sharedDownloads: collected.sharedDownloads,
+            folders: folders(of: collected.files, home: home)
         )
     }
 

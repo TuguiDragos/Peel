@@ -120,6 +120,27 @@ struct SelectableRowsTests {
         #expect(!locked.isNoneSelected(in: [repository]))
     }
 
+    /// One box for a group of rows, as a folder's for its files: it shows none, some, or every row selected. A click
+    /// adds what Peel recommends, or, once all of that is selected, takes the whole group out, so it never selects a
+    /// row Peel doesn't recommend.
+    @Test func aGroupsBoxSelectsWhatPeelRecommends() {
+        let group = SelectableRows(
+            rows: [cache, log, repository], selectable: [cache, log, repository], recommended: [cache, log]
+        )
+
+        #expect(group.groupSelection(in: [elsewhere]) == .none)
+        #expect(group.clickingGroup(in: [elsewhere]) == [cache, log, elsewhere])
+        #expect(group.groupSelection(in: [cache, log]) == .some)
+        #expect(group.clickingGroup(in: [cache, log, elsewhere]) == [elsewhere])
+        #expect(group.groupSelection(in: [repository]) == .some)
+        #expect(group.clickingGroup(in: [repository]) == [cache, log, repository])
+        #expect(group.groupSelection(in: [cache, log, repository]) == .all)
+        #expect(group.clickingGroup(in: [cache, log, repository]) == [])
+        let nothingRecommended = SelectableRows(rows: [repository], selectable: [repository], recommended: [])
+        #expect(nothingRecommended.clickingGroup(in: [repository]) == [])
+        #expect(nothingRecommended.clickingGroup(in: []) == [])
+    }
+
     @Test func everyPageSelectsAsOneList() {
         let first = SelectableRows(
             rows: [repository, cache], selectable: [repository, cache], recommended: [cache]

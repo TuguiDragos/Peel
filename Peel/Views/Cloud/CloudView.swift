@@ -14,9 +14,13 @@ struct CloudView: View {
     @State private var leftAlone: LeftAlone?
     @State private var isRescanning = false
     @State private var searchText = ""
+    /// The folders opened while browsing. While a search runs, each folder with a match is open unless closed in it.
+    @State private var opened: Set<URL> = []
+    @State private var closedInSearch: Set<URL> = []
 
     var body: some View {
         let listed = cloud.files(matching: searchText)
+        let folders = cloud.folders(matching: searchText)
         List {
             header
                 .listRowSeparator(.hidden)
@@ -42,18 +46,33 @@ struct CloudView: View {
 
             if !listed.isEmpty {
                 Section {
-                    ForEach(Array(listed.enumerated()), id: \.element.id) { index, file in
-                        RemovalRow(
-                            url: file.url,
-                            icon: .file(file.url),
-                            detail: file.isDesktopPicture
-                                ? "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now."
-                                : nil,
-                            size: file.size,
+                    ForEach(Array(folders.enumerated()), id: \.element.id) { index, folder in
+                        let open = isOpen(folder)
+                        CloudFolderRow(
+                            folder: folder,
+                            rows: selectableRows(folder.files),
+                            isOpen: open,
                             isFirst: index == 0,
-                            hasNoteColumn: false,
-                            selection: cloud, isSelected: cloud.isSelected(file.url)
+                            selection: cloud,
+                            toggleOpen: { toggle(folder) }
                         )
+                        if open {
+                            ForEach(folder.files) { file in
+                                RemovalRow(
+                                    url: file.url,
+                                    name: file.name,
+                                    icon: .file(file.url),
+                                    detail: file.isDesktopPicture
+                                        ? "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now."
+                                        : nil,
+                                    size: file.size,
+                                    hasNoteColumn: false,
+                                    selection: cloud, isSelected: cloud.isSelected(file.url)
+                                )
+                                .padding(.leading, CloudFolderRow.indent)
+                            }
+                            .listRowSeparator(.hidden)
+                        }
                     }
                     .listRowSeparator(.hidden)
                 } header: {
@@ -63,14 +82,7 @@ struct CloudView: View {
                             "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
                         )
                     } actions: {
-                        SelectMenu(
-                            list: SelectableRows(
-                                rows: listed.map(\.url), selectable: listed.map(\.url),
-                                recommended: listed.filter { !$0.isDesktopPicture }.map(\.url)
-                            ),
-                            place: Text(Tool.cloud.title),
-                            selection: cloud
-                        )
+                        SelectMenu(list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud)
                     }
                 } footer: {
                     if cloud.wasCutShort || cloud.sharedDownloads > 0 {
@@ -182,6 +194,7 @@ struct CloudView: View {
             await cloud.refresh()
         }
         .rescanOnExclusionChange("CloudView") { await cloud.refresh() }
+        .onChange(of: searchText) { closedInSearch = [] }
         .task(id: freed) {
             guard freed != nil else { return }
             try? await Task.sleep(for: .seconds(3))
@@ -193,6 +206,27 @@ struct CloudView: View {
     @ViewBuilder private var sharedDownloadsNote: some View {
         if cloud.sharedDownloads > 0 {
             Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with another copy on this Mac: removing a download like that frees nothing now.")
+        }
+    }
+
+    /// Every file a click can select, and those Peel recommends: all but the desktop picture, which macOS holds open.
+    private func selectableRows(_ files: [CloudFile]) -> SelectableRows<URL> {
+        SelectableRows(
+            rows: files.map(\.url),
+            selectable: files.map(\.url),
+            recommended: files.filter { !$0.isDesktopPicture }.map(\.url)
+        )
+    }
+
+    private func isOpen(_ folder: CloudFolder) -> Bool {
+        searchText.isEmpty ? opened.contains(folder.url) : !closedInSearch.contains(folder.url)
+    }
+
+    private func toggle(_ folder: CloudFolder) {
+        if searchText.isEmpty {
+            opened.formSymmetricDifference([folder.url])
+        } else {
+            closedInSearch.formSymmetricDifference([folder.url])
         }
     }
 

@@ -7,6 +7,8 @@ struct RemovalRow: View {
     }
 
     let url: URL
+    /// The item's name, shown and spoken in place of its path when the row sits under its folder.
+    var name: String?
     let icon: Icon
     let detail: LocalizedStringResource?
     /// The kind of item, shown in a column of its own. Tools with nothing to show there pass nil, and the
@@ -112,7 +114,7 @@ struct RemovalRow: View {
     private var spokenItem: String {
         let badge = badgeKind.map { String(localized: $0.title) }
         let size = isMeasured ? size.byteCount : String(localized: "Unknown")
-        return [url.abbreviatedPath, badge, kind.map { String(localized: $0) }, size]
+        return [name ?? url.abbreviatedPath, badge, kind.map { String(localized: $0) }, size]
             .compactMap(\.self)
             .joined(separator: ", ")
     }
@@ -160,7 +162,7 @@ struct RemovalRow: View {
     }
 
     private var path: some View {
-        Text(url.abbreviatedPath)
+        Text(name ?? url.abbreviatedPath)
             .lineLimit(1)
             .truncationMode(.middle)
             .help(Text(verbatim: url.path(percentEncoded: false)))

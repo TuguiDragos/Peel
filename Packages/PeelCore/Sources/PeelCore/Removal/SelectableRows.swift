@@ -43,6 +43,25 @@ public struct SelectableRows<ID: Hashable> {
         let recommended = Set(recommended)
         return selectable.filter { !recommended.contains($0) && !selection.contains($0) }
     }
+
+    /// What a box standing for every row shows, as a folder's box does for its files.
+    public func groupSelection(in selection: Set<ID>) -> GroupSelection {
+        if isNoneSelected(in: selection) { return .none }
+        return isAllSelected(in: selection) ? .all : .some
+    }
+
+    /// A click on that box: what Peel recommends goes in, or, once all of it is selected, every row comes out. A row
+    /// Peel doesn't recommend is selected only by its own box, or by Select All, which asks first.
+    public func clickingGroup(in selection: Set<ID>) -> Set<ID> {
+        recommended.allSatisfy(selection.contains) ? deselectingAll(in: selection) : selection.union(recommended)
+    }
+}
+
+/// How many of a group's rows are selected, which its box shows as off, mixed, or on.
+public enum GroupSelection: Sendable {
+    case none
+    case some
+    case all
 }
 
 /// The rows of every page a tool lists, for one Select menu over all of them.

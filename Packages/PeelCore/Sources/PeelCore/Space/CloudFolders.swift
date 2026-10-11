@@ -1,0 +1,65 @@
+public import Foundation
+internal import PeelPrivileged
+
+/// The downloads in one folder of iCloud, with the names Finder shows from iCloud Drive or the app's folder down.
+public struct CloudFolder: Sendable, Hashable, Identifiable {
+    public let url: URL
+    public let names: [String]
+    /// The biggest first.
+    public let files: [CloudFile]
+    public let size: Int64
+
+    public var id: URL { url }
+
+    init(url: URL, names: [String], files: [CloudFile]) {
+        self.url = url
+        self.names = names
+        self.files = files.sorted { $0.size > $1.size }
+        size = files.map(\.size).cappedSum
+    }
+
+    /// The folder with only those of its files in `urls`, as a search narrows it, or nil when it holds none of them.
+    public func keeping(_ urls: Set<URL>) -> CloudFolder? {
+        let kept = files.filter { urls.contains($0.url) }
+        return kept.isEmpty ? nil : CloudFolder(url: url, names: names, files: kept)
+    }
+
+    /// The biggest first, and by name between two of the same size, so the order holds from one scan to the next.
+    public static func ordered(_ folders: [CloudFolder]) -> [CloudFolder] {
+        folders.sorted { $0.size != $1.size ? $0.size > $1.size : $0.names.lexicographicallyPrecedes($1.names) }
+    }
+}
+
+extension CloudStorage {
+    /// `files` in the folders they sit in.
+    static func folders(of files: [CloudFile], home: URL) -> [CloudFolder] {
+        let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
+        let grouped = Dictionary(grouping: files) {
+            PathPattern.comparablePath(of: $0.url.deletingLastPathComponent())
+        }
+        return CloudFolder.ordered(grouped.values.map { files in
+            let folder = files[0].url.deletingLastPathComponent()
+            let shown = names(of: folder, container: files[0].container, under: root)
+            return CloudFolder(url: folder, names: shown, files: files)
+        })
+    }
+
+    /// The container's name, then each folder's below it as Finder shows it. Finder shows an app's `Documents` as the
+    /// app's folder itself, so that name is left out.
+    static func names(of folder: URL, container: String, under root: URL) -> [String] {
+        let rootNames = PathComponents.of(PathPattern.comparablePath(of: root))
+        let names = PathComponents.of(PathPattern.comparablePath(of: folder))
+        guard names.count > rootNames.count, names.starts(with: rootNames) else { return [folder.lastPathComponent] }
+        var place = root.appending(path: names[rootNames.count], directoryHint: .isDirectory)
+        var shown = [container]
+        for (depth, name) in names.dropFirst(rootNames.count + 1).enumerated() {
+            place = place.appending(path: name, directoryHint: .isDirectory)
+            let isAnAppsDocuments = depth == 0 && names[rootNames.count] != "com~apple~CloudDocs"
+                && name.caseInsensitiveCompare("Documents") == .orderedSame
+            if !isAnAppsDocuments {
+                shown.append(FileManager.default.displayName(atPath: place.path(percentEncoded: false)))
+            }
+        }
+        return shown
+    }
+}

@@ -8,6 +8,7 @@ final class CloudLibrary {
         didSet {
             searchable = SearchableList(files ?? [], key: \.searchKey)
             lastMatch = nil
+            lastFolders = nil
             sizes = Dictionary((files ?? []).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
             updateSelectedSize()
         }
@@ -16,6 +17,11 @@ final class CloudLibrary {
     /// The last search and what it found. A view asks again whenever it is drawn, a checkbox included.
     @ObservationIgnored private var lastMatch: (query: String, files: [CloudFile])?
     @ObservationIgnored private var sizes: [URL: Int64] = [:]
+    /// `files` in the folders Finder shows them in, from the same scan.
+    private(set) var folders: [CloudFolder] = [] {
+        didSet { lastFolders = nil }
+    }
+    @ObservationIgnored private var lastFolders: (query: String, folders: [CloudFolder])?
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -45,6 +51,16 @@ final class CloudLibrary {
         return found
     }
 
+    /// The folders holding the files `query` finds, each with only those files; every folder for an empty one.
+    func folders(matching query: String) -> [CloudFolder] {
+        guard !query.isEmpty else { return folders }
+        if let lastFolders, lastFolders.query == query { return lastFolders.folders }
+        let found = Set(files(matching: query).map(\.url))
+        let narrowed = CloudFolder.ordered(folders.compactMap { $0.keeping(found) })
+        lastFolders = (query, narrowed)
+        return narrowed
+    }
+
     private func updateSelectedSize() {
         selectedSize = selectedURLs.map { sizes[$0] ?? 0 }.cappedSum
     }
@@ -58,6 +74,7 @@ final class CloudLibrary {
                 await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions, desktopPictures: pictures)
             })
         else { return }
+        folders = scan.folders
         files = scan.files
         wasCutShort = scan.wasCutShort
         couldNotRead = scan.couldNotRead
