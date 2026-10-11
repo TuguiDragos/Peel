@@ -238,12 +238,15 @@ public enum CloudStorage {
 
         // The budget is spent, or the page that asked was left or stopped.
         func stopped() -> Bool { ContinuousClock.now >= deadline || isGivenUp() }
+        var container = ""
         for case let url as URL in enumerator {
             guard !stopped() else {
                 collector.cutShort()
                 return
             }
             scan?.add(1)
+            // Each folder directly in Mobile Documents is one container, named once for everything inside it.
+            if enumerator.level == 1 { container = containerName(of: url, under: root) }
             if isDataless(url) {
                 enumerator.skipDescendants()
                 continue
@@ -275,7 +278,7 @@ public enum CloudStorage {
             let file = CloudFile(
                 url: url,
                 name: url.lastPathComponent,
-                container: containerName(of: url, under: root),
+                container: container,
                 size: measured.size,
                 modified: measured.modified,
                 isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url))
@@ -348,8 +351,9 @@ public enum CloudStorage {
         return (contents.size, contents.taken, modified)
     }
 
-    /// The readable name of the iCloud folder that holds `url`: "iCloud Drive" for `com~apple~CloudDocs`, and
-    /// the last part of the identifier for an app's folder, so `iCloud~com~acme~App` reads "App".
+    /// The readable name of the iCloud folder that holds `url`: "iCloud Drive" for `com~apple~CloudDocs`, and for an
+    /// app's folder the name macOS shows, which the app chooses, else the last part of the folder's identifier, so
+    /// `iCloud~com~acme~App` reads "App".
     static func containerName(of url: URL, under root: URL) -> String {
         let rootNames = PathComponents.of(PathPattern.comparablePath(of: root))
         let names = PathComponents.of(PathPattern.comparablePath(of: url))
@@ -362,6 +366,11 @@ public enum CloudStorage {
                 atPath: root.appending(path: folder).path(percentEncoded: false)
             )
             return shown == folder ? "iCloud Drive" : shown
+        }
+        let container = root.appending(path: folder, directoryHint: .isDirectory)
+        if let shown = try? container.resourceValues(forKeys: [.ubiquitousItemContainerDisplayNameKey])
+            .ubiquitousItemContainerDisplayName, !shown.isEmpty {
+            return shown
         }
         var name = folder.replacingOccurrences(of: "~", with: ".")
         if let range = name.range(of: "iCloud.") { name = String(name[range.upperBound...]) }

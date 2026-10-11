@@ -103,6 +103,19 @@ struct CloudStorageTests {
         #expect(CloudStorage.containerName(of: URL(filePath: "/somewhere/else"), under: root) == "")
     }
 
+    /// An app's iCloud folder is named as macOS shows it, which the app chooses, on this Mac's own folders.
+    @Test func namesAnAppsFolderAsMacOSShowsIt() {
+        let root = URL.homeDirectory.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
+        let containers = (try? FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)) ?? []
+        for container in containers where container.lastPathComponent != "com~apple~CloudDocs" {
+            guard let shown = try? container.resourceValues(forKeys: [.ubiquitousItemContainerDisplayNameKey])
+                .ubiquitousItemContainerDisplayName, !shown.isEmpty
+            else { continue }
+            let file = container.appending(path: "Documents/Report.pages")
+            #expect(CloudStorage.containerName(of: file, under: root) == shown, "\(container.lastPathComponent)")
+        }
+    }
+
     /// Scans the real iCloud Drive of the Mac running the tests, which must work and change nothing.
     @Test func readsThisMacWithoutFreeingAnything() async {
         let scan = await CloudStorage.downloaded()
