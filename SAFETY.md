@@ -339,7 +339,8 @@ Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these
 exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
 The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
 only macOS removes it, when the app that uses it goes to the Trash in Finder, and its note says so, or that macOS
-removes it at the next restart.
+removes it at the next restart. A file named for a background job whose program is still there, such as the
+settings a remote access host keeps beside its job, is that job's and is never listed.
 
 On every list, Select All selects every row you can select, what Peel holds back included, and asks first,
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason

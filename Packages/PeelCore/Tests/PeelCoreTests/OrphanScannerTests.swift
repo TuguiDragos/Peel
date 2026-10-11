@@ -609,6 +609,29 @@ struct OrphanScannerTests {
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["org.example.empty.plist"])
     }
 
+    @Test func aFileNamedForAJobThatStillRunsIsThatJobs() async throws {
+        let directory = try TemporaryDirectory()
+        let host = try directory.file("root/Library/PrivilegedHelperTools/Remote Host.app/Contents/MacOS/host")
+        let gone = directory.url.appending(path: "root/opt/gone/bin/agent").path(percentEncoded: false)
+        try directory.file("root/Library/PrivilegedHelperTools/org.example.remote.json")
+        try directory.file("root/Library/PrivilegedHelperTools/org.example.remote.settings.json")
+        try directory.file("root/Library/LaunchAgents/org.example.gone.plist", contents: job("org.example.gone", runs: [gone]))
+        try directory.file("root/Library/PrivilegedHelperTools/org.example.gone.json")
+        let scanner = scanner(in: directory)
+        let before = await scanner.scan(installedApps: installed).groups.flatMap(\.items)
+        try directory.file(
+            "root/Library/LaunchAgents/org.example.remote.plist",
+            contents: job("org.example.remote", runs: [host.path(percentEncoded: false)])
+        )
+
+        let scan = await scanner.scan(installedApps: installed)
+        let still = await scanner.stillOrphaned(before, installedApps: installed, remembered: [])
+
+        let gonesFiles: Set<String> = ["org.example.gone.json", "org.example.gone.plist"]
+        #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == gonesFiles)
+        #expect(Set(still.map(\.url.lastPathComponent)) == gonesFiles)
+    }
+
     /// A plug-in is named for what it does, so it is listed under the identifier it declares inside, and only when
     /// Peel saw the app it came with go: its identifier is that app's, extends it, or is its maker's. One an installer
     /// put there on its own, with no app, is no orphan however old it is, and neither is one an installed app claims.

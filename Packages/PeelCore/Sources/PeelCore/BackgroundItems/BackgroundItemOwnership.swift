@@ -20,6 +20,7 @@ public struct BackgroundItemOwnership: Sendable {
     private let byIdentifier: [String: InstalledApp]
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
+    private var liveLabels: Set<String> = []
 
     public init(installedApps: [InstalledApp]) {
         self.init(installedApps: installedApps) { CodeSignature.teamIdentifier(at: URL(filePath: $0)) }
@@ -98,6 +99,25 @@ public struct BackgroundItemOwnership: Sendable {
     func isOrphan(_ job: JobDefinition) -> Bool {
         let owner = owner(label: job.label, associated: job.associated, program: job.program)
         return isOrphan(label: job.label, program: job.program, owner: owner)
+    }
+
+    /// This ownership, also knowing the jobs defined in `folders` that are not orphans: a helper keeps its settings
+    /// beside its job, named for the job's label, while the app behind it may have another identifier.
+    func knowingJobs(in folders: [URL]) -> BackgroundItemOwnership {
+        var knowing = self
+        let files = folders.flatMap {
+            (try? FileManager.default.contentsOfDirectory(at: $0, includingPropertiesForKeys: nil)) ?? []
+        }
+        knowing.liveLabels = Set(
+            files.filter { $0.pathExtension == "plist" }.compactMap(JobDefinition.init(contentsOf:))
+                .filter { !isOrphan($0) }.map { $0.label.lowercased() }
+        )
+        return knowing
+    }
+
+    func ownsItem(named identifier: String) -> Bool {
+        let name = identifier.lowercased()
+        return liveLabels.contains { name == $0 || name.hasPrefix($0 + ".") }
     }
 
     /// The folders launchd searches when the first item of `ProgramArguments` is a relative path.

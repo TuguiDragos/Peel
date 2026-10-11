@@ -43,6 +43,10 @@ public struct OrphanScanner: Sendable {
         self.systemExtensions = systemExtensions
     }
 
+    private var launchdFolders: [URL] {
+        environment.locations.filter { $0.kind == .launchAgents || $0.kind == .launchDaemons }.map(\.url)
+    }
+
     /// Finds the items that no app claims, in every location, grouped by identifier.
     ///
     /// `installedApps` must be the complete list: anything it does not claim can be reported as orphaned.
@@ -64,7 +68,7 @@ public struct OrphanScanner: Sendable {
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps, goneApps: goneApps, isRegisteredApp: isRegisteredApp
         )
-        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
+        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         let goneBundles = Dictionary(
             gone.map {
                 (
@@ -175,7 +179,7 @@ public struct OrphanScanner: Sendable {
             goneApps: gone.map { $0.bundleIdentifier },
             isRegisteredApp: isRegisteredApp
         )
-        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps)
+        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         var kept: [OrphanItem] = []
         for item in items {
             let isStillOrphaned = if let app = item.namedAfter {
@@ -342,6 +346,7 @@ public struct OrphanScanner: Sendable {
                 ?? DeclaredIdentifier.of(url, kind: kind).flatMap({ orphanIdentifier(forKey: $0, kind: kind) }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
+            !jobs.ownsItem(named: identifier),
             await !holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership),
             !isStillAJob(url, kind: kind, jobs: jobs)
         else { return nil }
