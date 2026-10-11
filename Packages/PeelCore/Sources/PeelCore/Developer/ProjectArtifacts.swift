@@ -468,6 +468,10 @@ public enum ProjectArtifacts {
             name: ".liquid", markers: ["*.hs", "*.lhs"], tool: "LiquidHaskell", isGeneric: false,
             source: "https://github.com/ucsd-progsys/liquid-fixpoint/blob/684d0829c19fbee83b892c9f5e20c2598897297c/src/Language/Fixpoint/Utils/Files.hs#L146-L158"
         ),
+        Definition(
+            name: ".reco-work", markers: ["main.go"], tool: "reco", isGeneric: false,
+            source: "https://github.com/ReconfigureIO/reco/blob/1aaa5f0874528e5da8ce549071aad6e03e1cc3bb/helper.go#L117-L143"
+        ),
         // Only what `atspkg clean` removes: never `cbits` or `gen` beside them, where people keep their own C.
         Definition(
             name: ".atspkg", markers: ["atspkg.dhall"], tool: "atspkg", isGeneric: false,

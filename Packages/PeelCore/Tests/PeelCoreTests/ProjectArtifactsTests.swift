@@ -321,6 +321,7 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".atspkg", marker: "atspkg.dhall", tool: "atspkg", isGeneric: false),
             Kind(artifact: "ats-deps", marker: "atspkg.dhall", tool: "atspkg", isGeneric: false),
             Kind(artifact: ".liquid", marker: "Main.hs", tool: "LiquidHaskell", isGeneric: false),
+            Kind(artifact: ".reco-work", marker: "main.go", tool: "reco", isGeneric: false),
             Kind(artifact: ".cxx", marker: "build.gradle.kts", tool: "Android Gradle plugin", isGeneric: false),
             Kind(artifact: ".stack-work", marker: "stack.yaml", tool: "Stack", isGeneric: false),
             Kind(artifact: "dist-newstyle", marker: "app.cabal", tool: "Cabal", isGeneric: false),
