@@ -59,6 +59,34 @@ public struct SpaceReport: Sendable {
 }
 
 public enum SpaceInventory {
+    struct Command: Sendable, ExpressibleByStringLiteral {
+        enum Need: Sendable {
+            case simctl
+            case simctlRuntimeOption(String)
+        }
+
+        let line: String
+        var need: Need?
+
+        init(stringLiteral line: String) {
+            self.line = line
+        }
+
+        init(_ line: String, needs need: Need) {
+            self.line = line
+            self.need = need
+        }
+
+        func isKnown(simctlRuntimeHelp help: String?) -> Bool {
+            switch need {
+            case nil: true
+            case .simctl: help != nil
+            case .simctlRuntimeOption(let option):
+                help?.split { !($0.isLetter || $0.isNumber || $0 == "-") }.contains { $0 == option } ?? false
+            }
+        }
+    }
+
     struct Definition: Sendable {
         let id: String
         let category: SpaceItem.Category
@@ -75,7 +103,7 @@ public enum SpaceInventory {
         var heldBack: HoldBack?
         var leavesMacOSsOwn = false
         var onlyFilesIn: [String] = []
-        var commands: [String] = []
+        var commands: [Command] = []
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL, userCache: URL?) -> [URL] {
@@ -109,7 +137,10 @@ public enum SpaceInventory {
             category: .development,
             paths: ["Library/Developer/CoreSimulator/Devices", "/Library/Developer/CoreSimulator/Images"],
             handling: .readOnly,
-            commands: ["xcrun simctl runtime delete --outdated", "xcrun simctl delete unavailable"]
+            commands: [
+                Command("xcrun simctl runtime delete --outdated", needs: .simctlRuntimeOption("--outdated")),
+                Command("xcrun simctl delete unavailable", needs: .simctl),
+            ]
         ),
         Definition(
             id: "android-sdk",
@@ -417,7 +448,8 @@ public enum SpaceInventory {
         userCache: URL? = nil,
         minimumSize: Int64,
         exclusions: Exclusions = .none,
-        measure: @escaping FileSize.Measure
+        measure: @escaping FileSize.Measure,
+        simctlRuntimeHelp: @escaping @Sendable () async -> String? = Simctl.runtimeHelp
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
         let groups = groupContainers(in: home)
@@ -433,11 +465,13 @@ public enum SpaceInventory {
             let kept = urls.filter { !exclusions.excludes($0) }
             return kept.isEmpty ? nil : (definition, kept)
         }
+        let asksSimctl = wanted.contains { definition, _ in definition.commands.contains { $0.need != nil } }
+        async let simctlHelp = asksSimctl ? simctlRuntimeHelp() : nil
 
         // Four areas are measured at a time. One after another, the wait would be the sum of them all, and a
         // folder that never answers would delay every area after it by its whole budget. Four leaves room for
         // the rest of the app.
-        var items: [SpaceItem] = []
+        var measured: [(definition: Definition, urls: [URL], size: Int64?)] = []
         await withTaskGroup(of: (Definition, [URL], Int64?).self) { group in
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
@@ -449,21 +483,24 @@ public enum SpaceInventory {
                 return true
             }
             for _ in 0..<4 where addNext() {}
-            while let (definition, urls, size) = await group.next() {
+            while let area = await group.next() {
                 _ = addNext()
-                guard size.map({ $0 >= minimumSize }) ?? true else { continue }
-                items.append(SpaceItem(
-                    id: definition.id,
-                    category: definition.category,
-                    urls: urls,
-                    size: size,
-                    handling: definition.handling,
-                    heldBack: definition.heldBack,
-                    leavesMacOSsOwn: definition.leavesMacOSsOwn,
-                    onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
-                    commands: definition.commands
-                ))
+                measured.append(area)
             }
+        }
+        let help = await simctlHelp
+        let items = measured.filter { $0.size.map { $0 >= minimumSize } ?? true }.map { definition, urls, size in
+            SpaceItem(
+                id: definition.id,
+                category: definition.category,
+                urls: urls,
+                size: size,
+                handling: definition.handling,
+                heldBack: definition.heldBack,
+                leavesMacOSsOwn: definition.leavesMacOSsOwn,
+                onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
+                commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line)
+            )
         }
 
         return SpaceReport(

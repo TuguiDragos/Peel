@@ -384,11 +384,55 @@ struct SpaceInventoryTests {
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }
 
-    @Test func theSimulatorsAreaGivesApplesCommandsThatThisMacsSimctlKnows() throws {
-        let simulators = try #require(SpaceInventory.definitions.first { $0.id == "simulators" })
-        #expect(simulators.commands == ["xcrun simctl runtime delete --outdated", "xcrun simctl delete unavailable"])
-        #expect(try simctlHelp("runtime").contains("--outdated"))
-        #expect(try simctlHelp("delete").contains("unavailable"))
+    @Test func showsASimulatorCommandOnlyWhenTheSimulatorToolKnowsIt() {
+        let outdated = SpaceInventory.Command(
+            "xcrun simctl runtime delete --outdated", needs: .simctlRuntimeOption("--outdated")
+        )
+        let unavailable = SpaceInventory.Command("xcrun simctl delete unavailable", needs: .simctl)
+        let knows = "delete (<identifier>|--notUsedSinceDays <days>|--unusable|--outdated) [--dry-run] [--keep-asset]"
+        let older = "delete (<identifier>|--notUsedSinceDays <days>|--unusable) [--dry-run] [--keep-asset]"
+
+        #expect(outdated.isKnown(simctlRuntimeHelp: knows))
+        #expect(!outdated.isKnown(simctlRuntimeHelp: older))
+        #expect(!outdated.isKnown(simctlRuntimeHelp: "delete [--outdatedOnly]"))
+        #expect(!outdated.isKnown(simctlRuntimeHelp: nil))
+        #expect(unavailable.isKnown(simctlRuntimeHelp: older))
+        #expect(!unavailable.isKnown(simctlRuntimeHelp: nil))
+        #expect(SpaceInventory.Command("colima delete --data").isKnown(simctlRuntimeHelp: nil))
+    }
+
+    /// An older simulator tool, which this Mac can't produce on demand, stands in as the help it prints.
+    @Test func theSimulatorsAreaGivesOnlyTheCommandsTheSimulatorToolKnows() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Library/Developer/CoreSimulator/Devices")
+        let older = "delete (<identifier>|--notUsedSinceDays <days>|--unusable) [--dry-run] [--keep-asset]"
+
+        func commands(_ help: String?) async throws -> [String] {
+            let report = await SpaceInventory.scan(
+                home: directory.url, root: directory.url, minimumSize: 0, measure: FileSize.measure,
+                simctlRuntimeHelp: { help }
+            )
+            return try #require(report.items.first { $0.id == "simulators" }).commands
+        }
+
+        #expect(try await commands(older) == ["xcrun simctl delete unavailable"])
+        #expect(try await commands(nil).isEmpty)
+    }
+
+    @Test func readsTheRuntimeHelpOfTheSimulatorToolXcrunWouldRun() async {
+        let developer = await DeveloperFolder.active()
+        let xcrunFindsOne = developer.map {
+            FileManager.default.isExecutableFile(atPath: $0.appending(path: "usr/bin/simctl").path(percentEncoded: false))
+        } ?? false
+        let isInstalled = FileManager.default.isExecutableFile(atPath: Simctl.program.path(percentEncoded: false))
+
+        let help = await Simctl.runtimeHelp()
+
+        if xcrunFindsOne && isInstalled {
+            #expect(help?.contains("Usage: simctl runtime") == true)
+        } else {
+            #expect(help == nil)
+        }
     }
 
     @Test func showsRustToolchainsAndAndroidNDKsForTheirToolsToRemove() async throws {
@@ -410,26 +454,13 @@ struct SpaceInventoryTests {
 
     @Test func colimaIsToldToDeleteItsDataDiskToo() throws {
         let colima = try #require(SpaceInventory.definitions.first { $0.id == "colima" })
-        #expect(colima.commands == ["colima delete --data"])
+        #expect(colima.commands.map(\.line) == ["colima delete --data"])
     }
 
     @Test func onlyAnAreaPeelLeavesAloneGivesCommands() {
         for definition in SpaceInventory.definitions where !definition.commands.isEmpty {
             #expect(definition.handling == .readOnly, "\(definition.id)")
         }
-    }
-
-    private func simctlHelp(_ topic: String) throws -> String {
-        let process = Process()
-        let output = Pipe()
-        process.executableURL = URL(filePath: "/usr/bin/xcrun")
-        process.arguments = ["simctl", "help", topic]
-        process.standardOutput = output
-        process.standardError = output
-        try process.run()
-        let data = output.fileHandleForReading.readDataToEndOfFile()
-        process.waitUntilExit()
-        return String(decoding: data, as: UTF8.self)
     }
 
     /// Space says it leaves a read only area to the app that made it, so nothing in one is what Developer

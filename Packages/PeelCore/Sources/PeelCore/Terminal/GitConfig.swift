@@ -8,12 +8,7 @@ public struct GitConfig: Sendable {
     let home: URL
 
     public static func find(home: URL = .homeDirectory) async -> GitConfig? {
-        let developer = await Subprocess.run("/usr/bin/xcode-select", ["-p"], environment: [:], timeout: 10)
-        let folder: URL? = if case .success(let output) = developer, output.status == 0 {
-            URL(filePath: output.text.trimmingCharacters(in: .whitespacesAndNewlines), directoryHint: .isDirectory)
-        } else {
-            nil
-        }
+        let folder = await DeveloperFolder.active()
         let homebrew = Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
         return find(developerFolder: folder, homebrewPrefix: homebrew, home: home)
     }
