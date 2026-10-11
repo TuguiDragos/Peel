@@ -661,6 +661,8 @@ public enum DeveloperCaches {
             Folder(".gradle/daemon", .cache, source: "https://github.com/gradle/gradle/blob/07329ddefeabecfd93dc018ac91840f3efe542f2/platforms/documentation/docs/src/docs/userguide/reference/runtime-configuration/directory_layout.adoc#L49"),
             Folder(".gradle/notifications", .cache, source: "https://github.com/gradle/gradle/blob/07329ddefeabecfd93dc018ac91840f3efe542f2/platforms/core-runtime/gradle-cli/src/main/java/org/gradle/launcher/cli/WelcomeMessageAction.java#L121-L126"),
             Folder(".gradle/workers", .cache, source: "https://github.com/gradle/gradle/blob/07329ddefeabecfd93dc018ac91840f3efe542f2/platforms/core-execution/worker-main/src/main/java/org/gradle/process/internal/worker/child/DefaultWorkerDirectoryProvider.java#L31-L38"),
+            Folder(".gradle/native", .cache, source: "https://github.com/gradle/gradle/blob/07329ddefeabecfd93dc018ac91840f3efe542f2/platforms/core-runtime/native/src/main/java/org/gradle/internal/nativeintegration/services/NativeServices.java#L355-L362"),
+            Folder(".gradle/.tmp", .cache, source: "https://github.com/gradle/gradle/blob/07329ddefeabecfd93dc018ac91840f3efe542f2/platforms/core-runtime/base-services/src/main/java/org/gradle/api/internal/file/temp/GradleUserHomeTemporaryFileProvider.java#L29-L37"),
         ]),
         Definition(id: "maven", name: "Maven", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
             // `mvn install` puts the person's own modules here, which exist nowhere else (Maven's introduction to

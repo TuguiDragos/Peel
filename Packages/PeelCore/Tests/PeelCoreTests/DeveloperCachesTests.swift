@@ -1263,6 +1263,19 @@ struct DeveloperCachesTests {
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["notifications", "workers"])
     }
 
+    @Test func offersGradlesNativeLibrariesAndTemporaryFiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".gradle/native/3b8e0c1d/osx-aarch64/libnative-platform.dylib", bytes: 400_000)
+        try directory.file(".gradle/.tmp/gradle_download7.bin", bytes: 400_000)
+        try directory.file(".gradle/gradle.properties", bytes: 64)
+        let gradle = DeveloperCaches.definitions.filter { $0.id == "gradle" }
+
+        let locations = await DeveloperCaches.scan(gradle, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["native", ".tmp"])
+        #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
+    }
+
     @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/downloads/4b1c.partial", bytes: 400_000)
