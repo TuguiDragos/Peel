@@ -263,6 +263,23 @@ struct ProjectArtifactsTests {
         ])
     }
 
+    @Test func listsMesonsBuildFolderWhateverItsNameAndKeepsItsSetup() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("lib/meson.build", bytes: 16)
+        try directory.file("lib/builddir/meson-private/coredata.dat", bytes: 400_000)
+        try directory.file("lib/build/meson-private/coredata.dat", bytes: 400_000)
+        let tag = "Signature: 8a477f597d28d172789f06886806bc55\n# This file is a cache directory tag created by meson.\n"
+        try directory.file("lib/build/CACHEDIR.TAG", contents: Data(tag.utf8))
+        try directory.file("lib/out/notes.txt", bytes: 400_000)
+        try directory.file("lib/subprojects/zlib/meson.build", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name).sorted() == ["build", "builddir"])
+        #expect(found.allSatisfy { $0.tool == "Meson" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
+    }
+
     @Test func listsPDMsPackagesAndNothingInsideThem() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/pyproject.toml", bytes: 16)

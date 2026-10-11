@@ -88351,6 +88351,112 @@
         }
       }
     },
+    "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: uchovává také volby, se kterými bylo toto sestavení nastaveno a které nejsou uložené nikde jinde v projektu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Er bewahrt auch die Optionen auf, mit denen dieser Build eingerichtet wurde und die es nirgendwo sonst im Projekt gibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: también guarda las opciones con las que se configuró esta compilación, que no están en ningún otro sitio del proyecto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce dossier conserve aussi les options avec lesquelles cette compilation a été configurée, qui ne figurent nulle part ailleurs dans le projet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: conserva anche le opzioni con cui è stata configurata questa build, che nient’altro nel progetto contiene."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このビルドの設定時に指定したオプションも含まれていて、これらはプロジェクト内のほかのどこにも保存されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 빌드를 설정할 때 지정한 옵션도 들어 있으며, 이는 프로젝트의 다른 어디에도 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat ook de opties waarmee deze build is geconfigureerd, die nergens anders in het project staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: przechowuje też opcje, z którymi skonfigurowano tę kompilację, a których nie zawiera nic innego w projekcie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: também guarda as opções com que esta compilação foi configurada, que não estão em nenhum outro lugar do projeto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: păstrează și opțiunile cu care a fost configurată această compilare, pe care nu le conține nimic altceva din proiect."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь также хранятся параметры, с которыми была настроена эта сборка и которых больше нигде в проекте нет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller också de alternativ som det här bygget konfigurerades med, och de finns inte någon annanstans i projektet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu derlemenin ayarlandığı seçenekleri de tutar; projede bunları içeren başka bir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут також зберігаються параметри, з якими налаштовано цю збірку, і більше ніде в проєкті їх немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它还存有配置此构建时所用的选项，而项目中的其他任何地方都没有这些选项。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中也存有設定此建置時所用的選項，而計畫案中沒有其他地方保存這些選項。"
+          }
+        }
+      }
+    },
     "Not selected: it belongs to an app macOS keeps, so it is in use." : {
       "localizations" : {
         "cs" : {

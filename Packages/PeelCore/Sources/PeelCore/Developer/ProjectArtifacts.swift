@@ -79,6 +79,7 @@ public enum ProjectArtifacts {
         let source: String
         /// What the folder holds that only its tool writes, for a kind no project file stands beside.
         var proof: Proof?
+        var keepsItsSetup = false
 
         /// The artifacts this kind names among a folder's entries: a name ending in `*` is a prefix, as CLion names
         /// a build folder for each profile, and a path names a folder inside one of them, as Rails keeps `tmp/cache`.
@@ -91,13 +92,9 @@ public enum ProjectArtifacts {
             return [name]
         }
 
-        func matches(_ url: URL, in folder: URL, besides names: Set<String>) -> Bool {
-            guard markers.isEmpty || hasMarker(besides: names, in: folder) else { return false }
-            return proof?.holds(at: url) ?? true
-        }
-
-        private func hasMarker(besides names: Set<String>, in folder: URL) -> Bool {
-            markers.contains { marker in
+        /// Whether a file of the tool stands in `folder`, or the kind needs none.
+        func hasMarker(besides names: Set<String>, in folder: URL) -> Bool {
+            markers.isEmpty || markers.contains { marker in
                 if marker.hasPrefix("*") {
                     let suffix = marker.dropFirst()
                     return names.contains { $0.hasSuffix(suffix) && $0.count > suffix.count }
@@ -467,6 +464,13 @@ public enum ProjectArtifacts {
             name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,
             source: "https://docs.godotengine.org/en/3.6/tutorials/best_practices/version_control_systems.html"
         ),
+        // Meson's own test for its build folder, whatever its name. The folder also keeps the options it was set up
+        // with, which Meson's `--wipe` carries over and nothing else in the project holds.
+        Definition(
+            name: "*", markers: ["meson.build"], tool: "Meson", isGeneric: false,
+            source: "https://github.com/mesonbuild/meson/blob/d73f48d3b421a25112cc23e5ab629dc68f3d3791/mesonbuild/mcompile.py#L30-L35",
+            proof: .holds("meson-private/coredata.dat"), keepsItsSetup: true
+        ),
         Definition(
             name: "build", markers: ["CMakeLists.txt"], tool: "CMake", isGeneric: true,
             source: "https://cmake.org/cmake/help/latest/manual/cmake.1.html"
@@ -781,7 +785,8 @@ public enum ProjectArtifacts {
                     hasGenericName: artifact.definition?.isGeneric ?? false,
                     isEnvironment: artifact.definition?.isEnvironment ?? false,
                     // A tool that tags its folder as a cache makes everything in it again, its own clones included.
-                    heldBack: heldBack == .holdsRepository && artifact.isTaggedAsACache ? nil : heldBack
+                    heldBack: (heldBack == .holdsRepository && artifact.isTaggedAsACache ? nil : heldBack)
+                        ?? (artifact.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
                 ))
             }
 
@@ -815,9 +820,11 @@ public enum ProjectArtifacts {
         var artifactNames: Set<String> = []
         var found: [Found] = []
         for definition in definitions {
-            for name in definition.candidates(among: names) {
+            let candidates = definition.candidates(among: names)
+            guard !candidates.isEmpty, definition.hasMarker(besides: names, in: folder) else { continue }
+            for name in candidates {
                 let url = folder.appending(path: name)
-                guard isRealFolder(url), definition.matches(url, in: folder, besides: names) else { continue }
+                guard isRealFolder(url), definition.proof?.holds(at: url) ?? true else { continue }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 guard artifactNames.insert(name).inserted else { continue }
                 found.append(Found(name: name, definition: definition, isTaggedAsACache: isTaggedAsACache(url)))

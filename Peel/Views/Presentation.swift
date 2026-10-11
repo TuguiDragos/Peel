@@ -254,6 +254,8 @@ extension HoldBack {
             "Not selected: Git tracks files in this folder, so it is part of the project. Moving it would show them as deleted in Git."
         case .gitTrackingNotKnown:
             "Not selected: this folder is in a Git repository whose list of tracked files Peel couldn’t read, so it may be part of the project."
+        case .keepsItsSetup:
+            "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds."
         case .sharedWithEveryone:
             "Not selected: /Users/Shared belongs to every account on this Mac rather than to one app."
         case .holdsWhatOthersPut:

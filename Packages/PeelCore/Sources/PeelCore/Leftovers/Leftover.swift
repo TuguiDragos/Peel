@@ -45,6 +45,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case trackedByGit
     /// Inside a Git repository whose index could not be read, so whether Git tracks files inside is not known.
     case gitTrackingNotKnown
+    /// A build folder that also keeps the options its build was set up with, which nothing else in the project holds.
+    case keepsItsSetup
     /// `/Users/Shared`, which belongs to every account on the Mac rather than to one app.
     case sharedWithEveryone
     /// A folder a package made, offered whole while it holds what something else put there: another package's

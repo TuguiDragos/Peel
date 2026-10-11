@@ -314,6 +314,7 @@ extension HoldBack {
         case .holdsRepository: "holds a repository"
         case .trackedByGit: "Git tracks files in it"
         case .gitTrackingNotKnown: "in a Git repository whose tracked files couldn't be read"
+        case .keepsItsSetup: "keeps the options its build was set up with"
         case .sharedWithEveryone: "belongs to everyone on this Mac"
         case .holdsWhatOthersPut: "holds files something besides this package put there"
         case .namedLikeTheApp: "claimed on the app's name alone"
