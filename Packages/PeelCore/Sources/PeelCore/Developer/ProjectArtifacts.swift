@@ -112,6 +112,9 @@ public enum ProjectArtifacts {
         case holdsOnlyFilesEnding(String)
         /// Nothing but entries with these names, `including` among them.
         case holdsOnly(Set<String>, including: String)
+        /// Nothing but folders named by a lowercase hexadecimal digest of this many characters, as Ruby Sass names
+        /// each folder of its cache by the SHA-1 of the folder its stylesheet sits in.
+        case holdsOnlyFoldersNamedByDigest(characters: Int)
 
         func holds(at url: URL) -> Bool {
             switch self {
@@ -130,6 +133,13 @@ public enum ProjectArtifacts {
                 return !entries.isEmpty && entries.allSatisfy { entry in
                     entry.lastPathComponent.hasSuffix(ending)
                         && (try? entry.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile) == true
+                }
+            case .holdsOnlyFoldersNamedByDigest(let characters):
+                let entries = ProjectArtifacts.contents(of: url) ?? []
+                return !entries.isEmpty && entries.allSatisfy { entry in
+                    let name = entry.lastPathComponent.utf8
+                    return name.count == characters && name.allSatisfy { "0123456789abcdef".utf8.contains($0) }
+                        && ProjectArtifacts.isRealFolder(entry)
                 }
             }
         }
@@ -286,6 +296,12 @@ public enum ProjectArtifacts {
         Definition(
             name: ".parcel-cache", markers: ["package.json"], tool: "Parcel", isGeneric: false,
             source: "https://parceljs.org/features/cli/"
+        ),
+        // Ruby Sass leaves its cache in whatever folder it ran from, so it is known by what it holds.
+        Definition(
+            name: ".sass-cache", markers: [], tool: "Ruby Sass", isGeneric: false,
+            source: "https://github.com/sass/ruby-sass/blob/7a50eae567260a23d3bbf4d5aaf1a76db43dec32/lib/sass/engine.rb#L171",
+            proof: .holdsOnlyFoldersNamedByDigest(characters: 40)
         ),
         Definition(
             name: "storybook-static", markers: [".storybook"], tool: "Storybook", isGeneric: false,

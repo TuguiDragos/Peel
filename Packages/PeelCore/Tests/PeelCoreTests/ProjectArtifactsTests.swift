@@ -296,6 +296,21 @@ struct ProjectArtifactsTests {
         #expect(found.allSatisfy { $0.tool == "Meson" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
     }
 
+    @Test func listsRubySassCacheWhereverItRan() async throws {
+        let directory = try TemporaryDirectory()
+        let digest = String(repeating: "3f", count: 20)
+        try directory.file("site/stylesheets/.sass-cache/\(digest)/screen.scssc", bytes: 400_000)
+        try directory.file("site/stylesheets/screen.scss", bytes: 16)
+        try directory.file("notes/.sass-cache/readme.txt", bytes: 400_000)
+        try directory.file("other/.sass-cache/drafts/screen.scssc", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.project.lastPathComponent) == ["stylesheets"])
+        #expect(found.allSatisfy { $0.name == ".sass-cache" && $0.tool == "Ruby Sass" && $0.isRecommended })
+    }
+
     @Test func listsPDMsPackagesAndNothingInsideThem() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/pyproject.toml", bytes: 16)
@@ -1071,6 +1086,8 @@ struct ProjectArtifactsTests {
             case .holds(let file): try directory.file("\(artifact)/\(file)")
             case .holdsOnlyFilesEnding(let ending): try directory.file("\(artifact)/module\(ending)")
             case .holdsOnly(_, let including): try directory.file("\(artifact)/\(including)/content")
+            case .holdsOnlyFoldersNamedByDigest(let characters):
+                try directory.file("\(artifact)/\(String(repeating: "a", count: characters))/content")
             case nil: try directory.file("\(artifact)/content")
             }
             expected[artifact] = definition.tool
