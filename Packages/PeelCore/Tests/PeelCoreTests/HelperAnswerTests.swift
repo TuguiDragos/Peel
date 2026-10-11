@@ -63,10 +63,12 @@ struct HelperAnswerTests {
     @Test func aHelperThatNeverAnswersIsNotAnsweringOnceItsOwnWaitEnds() async {
         let helper = StandInHelper(answering: nil)
         defer { helper.stop() }
-        let start = ContinuousClock.now
+        let connecting = helper.connecting
 
-        #expect(await !PrivilegedHelper.isResponding(connecting: helper.connecting))
-        #expect(ContinuousClock.now - start < .seconds(PrivilegedHelper.requestWait))
+        let question = await timedWhereItRuns { await PrivilegedHelper.isResponding(connecting: connecting) }
+
+        #expect(!question.value)
+        #expect(question.took < .seconds(PrivilegedHelper.requestWait))
     }
 
     @Test func theHelperOfThisVersionIsAnswering() async {
@@ -90,18 +92,19 @@ struct HelperAnswerTests {
     @Test func aRequestIsNeverSentToAHelperThatDoesNotAnswer() async {
         let helper = StandInHelper(answering: nil)
         defer { helper.stop() }
+        let connecting = helper.connecting
         let sent = Record(false)
-        let start = ContinuousClock.now
 
-        let answer = await PrivilegedHelper.request(connecting: helper.connecting, fallback: "unanswered") {
-            _, finish in
-            sent.value.withLock { $0 = true }
-            finish("answered")
+        let request = await timedWhereItRuns {
+            await PrivilegedHelper.request(connecting: connecting, fallback: "unanswered") { _, finish in
+                sent.value.withLock { $0 = true }
+                finish("answered")
+            }
         }
 
-        #expect(answer == "unanswered")
+        #expect(request.value == "unanswered")
         #expect(!sent.value.withLock { $0 })
-        #expect(ContinuousClock.now - start < .seconds(PrivilegedHelper.requestWait))
+        #expect(request.took < .seconds(PrivilegedHelper.requestWait))
     }
 
     @Test func aRequestIsSentToTheHelperOfThisVersion() async {

@@ -339,9 +339,9 @@ struct FileSizeTests {
         withdrawn.cancel()
         #expect(await withdrawn.value == nil)
 
-        let asked = ContinuousClock.now
-        #expect(await FileSize.contents(of: folder, within: 5, walking: walking) != nil)
-        #expect(ContinuousClock.now - asked < .seconds(4), "the question waited on the walk that was stopped")
+        let question = await timedWhereItRuns { await FileSize.contents(of: folder, within: 5, walking: walking) }
+        #expect(question.value != nil)
+        #expect(question.took < .seconds(4), "the question waited on the walk that was stopped")
     }
 
     /// A late answer describes the folder as it was when the walk ended. It is handed over while that is recent,
