@@ -916,13 +916,14 @@ public enum ProjectArtifacts {
         measure: LeftoverScanner.Measure,
         listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
     ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]) {
-        var found: [ProjectArtifact] = []
+        var pending: [Pending] = []
         var unreadable: [URL] = []
         var queue: [(url: URL, depth: Int)] = [(root, 0)]
         // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
         var visited = 0
         var reached: Set<String> = []
+        var projectFolders: [String: Bool] = [:]
 
         while next < queue.count, visited < maximumFolders, !Task.isCancelled {
             let (folder, depth) = queue[next]
@@ -942,35 +943,16 @@ public enum ProjectArtifacts {
                 continue
             }
             ScanCount.current?.add(look.entries.count)
-            let artifactNames = Set(look.found.map(\.name))
             for artifact in look.found {
                 reached.insert(Self.key(of: folder.appending(path: artifact.name)))
             }
 
-            // Read after all of the project's artifacts are found, so the walk skips every one of them.
-            let activity = look.found.isEmpty
-                ? (date: nil, isCertain: true)
-                : await SlowRead.answer(within: FileSize.budget) { isGivenUp in
-                    lastActivity(in: folder, ignoring: artifactNames, isGivenUp: isGivenUp)
-                } ?? (date: nil, isCertain: false)
             for artifact in look.found {
                 let url = folder.appending(path: artifact.name)
-                let contents = await measure(url)
-                let heldBack = HoldBack.seen(in: contents)
-                found.append(ProjectArtifact(
-                    url: url,
-                    project: folder,
-                    name: artifact.name,
-                    tool: artifact.definition?.tool,
-                    size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
-                    lastActivity: activity.date,
-                    lastActivityIsCertain: activity.isCertain,
-                    hasGenericName: artifact.definition?.isGeneric ?? false,
-                    isEnvironment: artifact.definition?.isEnvironment ?? false,
-                    // A tool that tags its folder as a cache makes everything in it again, its own clones included.
-                    heldBack: (heldBack == .holdsRepository && artifact.isTaggedAsACache ? nil : heldBack)
-                        ?? (artifact.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
-                ))
+                let project = artifact.isBesideItsToolsFile
+                    ? folder
+                    : await project(above: folder, within: root, listing: listing, known: &projectFolders)
+                pending.append(Pending(url: url, project: project, found: artifact, contents: await measure(url)))
             }
 
             guard depth < maximumDepth else { continue }
@@ -981,7 +963,99 @@ public enum ProjectArtifacts {
                 queue.append((entry, depth + 1))
             }
         }
-        return (found, next < queue.count, unreadable)
+        return (await withLastActivity(pending), next < queue.count, unreadable)
+    }
+
+    /// An artifact the walk found, waiting for its project's last change.
+    private struct Pending: Sendable {
+        let url: URL
+        let project: URL
+        let found: Found
+        let contents: FolderContents?
+    }
+
+    /// Reads each project's last change once, after the walk, passing by every artifact inside the project, its
+    /// own and those of a project within it, since a build or a run writes into them while nobody works on it.
+    private static func withLastActivity(_ pending: [Pending]) async -> [ProjectArtifact] {
+        let projects = Dictionary(
+            pending.map { (key(of: $0.project), $0.project) }, uniquingKeysWith: { first, _ in first }
+        )
+        var inside: [String: Set<String>] = [:]
+        for artifact in pending {
+            let path = key(of: artifact.url)
+            var above = artifact.url.deletingLastPathComponent()
+            while true {
+                let folder = key(of: above)
+                if projects[folder] != nil {
+                    inside[folder, default: []].insert(String(path.dropFirst(folder.count + 1)))
+                }
+                guard folder != "/" else { break }
+                above = above.deletingLastPathComponent()
+            }
+        }
+        var activities: [String: (date: Date?, isCertain: Bool)] = [:]
+        for (project, folder) in projects {
+            guard !Task.isCancelled else { break }
+            let ignoring = inside[project] ?? []
+            activities[project] = await SlowRead.answer(within: FileSize.budget) { isGivenUp in
+                lastActivity(in: folder, ignoring: ignoring, isGivenUp: isGivenUp)
+            } ?? (date: nil, isCertain: false)
+        }
+        return pending.map { artifact in
+            let activity = activities[key(of: artifact.project)] ?? (date: nil, isCertain: false)
+            let heldBack = HoldBack.seen(in: artifact.contents)
+            return ProjectArtifact(
+                url: artifact.url,
+                project: artifact.project,
+                name: artifact.found.name,
+                tool: artifact.found.definition?.tool,
+                size: artifact.contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+                lastActivity: activity.date,
+                lastActivityIsCertain: activity.isCertain,
+                hasGenericName: artifact.found.definition?.isGeneric ?? false,
+                isEnvironment: artifact.found.definition?.isEnvironment ?? false,
+                // A tool that tags its folder as a cache makes everything in it again, its own clones included.
+                heldBack: (heldBack == .holdsRepository && artifact.found.isTaggedAsACache ? nil : heldBack)
+                    ?? (artifact.found.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
+            )
+        }
+    }
+
+    /// The project an artifact found without its tool's file belongs to: the nearest folder at or above `folder`,
+    /// never above `root`, that holds a repository or a file a tool makes its project from, or else `folder`. Each
+    /// folder asked about is read once a walk.
+    private static func project(
+        above folder: URL,
+        within root: URL,
+        listing: @escaping @Sendable (URL) -> [URL]?,
+        known: inout [String: Bool]
+    ) async -> URL {
+        let top = key(of: root)
+        var candidate = folder
+        while true {
+            let path = key(of: candidate)
+            guard path == top || PathComponents.isPath(path, atOrInside: top) else { return folder }
+            let isProject: Bool
+            if let answer = known[path] {
+                isProject = answer
+            } else {
+                let place = candidate
+                isProject = await SlowRead.answer(within: FileSize.budget) { _ in
+                    listing(place).map { holdsAProject(names: Set($0.map(\.lastPathComponent)), in: place) } ?? false
+                } ?? false
+                known[path] = isProject
+            }
+            if isProject { return candidate }
+            guard path != top else { return folder }
+            candidate = candidate.deletingLastPathComponent()
+        }
+    }
+
+    /// Whether a folder holding `names` is a project: a repository, or the place of a file a tool makes its project
+    /// from.
+    static func holdsAProject(names: Set<String>, in folder: URL) -> Bool {
+        names.contains(".git")
+            || definitions.contains { !$0.markers.isEmpty && $0.hasMarker(besides: names, in: folder) }
     }
 
     /// What one folder holds and which of its entries are artifacts.
@@ -994,6 +1068,8 @@ public enum ProjectArtifacts {
         let name: String
         let definition: Definition?
         let isTaggedAsACache: Bool
+        /// True when the file of the tool that makes it stands beside it, which makes that folder its project.
+        var isBesideItsToolsFile = false
     }
 
     /// Lists `folder` and finds the artifacts in it, or nil when it cannot be listed.
@@ -1010,7 +1086,10 @@ public enum ProjectArtifacts {
                 guard isRealFolder(url), definition.proof?.holds(at: url) ?? true else { continue }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 guard artifactNames.insert(name).inserted else { continue }
-                found.append(Found(name: name, definition: definition, isTaggedAsACache: isTaggedAsACache(url)))
+                found.append(Found(
+                    name: name, definition: definition, isTaggedAsACache: isTaggedAsACache(url),
+                    isBesideItsToolsFile: !definition.markers.isEmpty
+                ))
             }
         }
         for entry in entries where !artifactNames.contains(entry.lastPathComponent) {

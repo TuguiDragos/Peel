@@ -572,6 +572,62 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func groupsWhatIsFoundWithoutItsToolsFileUnderTheProjectAbove() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n".utf8)
+        try directory.file("qlib/pyproject.toml", bytes: 16)
+        try directory.file("qlib/qlib/core/gate.py", bytes: 16)
+        try directory.file("qlib/qlib/core/__pycache__/gate.cpython-313.pyc", bytes: 400_000)
+        try directory.file("qlib/qlib/util/text.py", bytes: 16)
+        try directory.file("qlib/qlib/util/__pycache__/text.cpython-313.pyc", bytes: 400_000)
+        try directory.file("qlib/tests/__pycache__/test_gate.cpython-313.pyc", bytes: 400_000)
+        try directory.file("qlib/docs/scratch-cache/CACHEDIR.TAG", contents: tag)
+        try directory.file("qlib/docs/scratch-cache/objects/blob", bytes: 400_000)
+        try directory.file("scripts/tool.py", bytes: 16)
+        try directory.file("scripts/__pycache__/tool.cpython-313.pyc", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+        let inside = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "qlib/qlib")]).artifacts
+
+        #expect(Dictionary(grouping: found, by: \.project.lastPathComponent).mapValues(\.count) == ["qlib": 4, "scripts": 1])
+        #expect(Set(inside.map(\.project.lastPathComponent)) == ["core", "util"])
+    }
+
+    @Test func readsWhetherTheWholeProjectChangedForWhatIsFoundDeepInside() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/pyproject.toml", bytes: 16)
+        try directory.file("app/app/core/model.py", bytes: 16)
+        try directory.file("app/app/core/__pycache__/model.cpython-313.pyc", bytes: 400_000)
+        try age(directory.url, days: 60)
+        try directory.file("app/app/web/view.py", bytes: 16)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        let cache = try #require(found.first { $0.name == "__pycache__" })
+        #expect(cache.project.lastPathComponent == "app")
+        #expect(cache.isRecentlyActive)
+        #expect(!cache.isRecommended)
+    }
+
+    @Test func leavesEveryArtifactInsideOutOfAProjectsLastChange() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("suite/pyproject.toml", bytes: 16)
+        try directory.file("suite/core/__pycache__/model.cpython-313.pyc", bytes: 400_000)
+        try directory.file("suite/core/model.py", bytes: 16)
+        try directory.file("suite/plugin/pyproject.toml", bytes: 16)
+        try directory.file("suite/plugin/plugin.py", bytes: 16)
+        try directory.file("suite/plugin/__pycache__/plugin.cpython-312.pyc", bytes: 400_000)
+        try age(directory.url, days: 60)
+        try directory.file("suite/plugin/__pycache__/plugin.cpython-313.pyc", bytes: 400_000)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        let outer = try #require(found.first { $0.project.lastPathComponent == "suite" })
+        #expect(!outer.isRecentlyActive)
+        #expect(outer.isRecommended)
+    }
+
     @Test func listsWhatEleventyFetchKeepsAndNeverSelectsItsGenericName() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("blog/eleventy.config.mjs", bytes: 16)

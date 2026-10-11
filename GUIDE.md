@@ -97,7 +97,9 @@ a password database inside. Nothing is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`, `.nuxt`,
 `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only when a file of
-the tool that makes it proves it. Nothing is selected for you, and Select Recommended passes by a project changed in the
+the tool that makes it proves it. One found with no such file beside it, as Python leaves `__pycache__` in every
+package, belongs to the project above it: the nearest folder holding a repository or a project's own file, such as
+`pyproject.toml`. Nothing is selected for you, and Select Recommended passes by a project changed in the
 last 7 days, installed packages (a Python environment, `vendor`, Terraform's `.terraform`), a folder like `target` whose
 name says nothing on its own, a Meson build folder, which also keeps the options its build was set up with, and a folder
 Git tracks files in, such as a `Pods` folder kept in the repository, which is part of the project. Until you choose a
