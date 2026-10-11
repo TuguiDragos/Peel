@@ -107962,7 +107962,7 @@
         }
       }
     },
-    "Peel leaves ^[%lld folder](inflect: true) here alone because it protects what is there, such as a wallet, an app’s documents, or a library." : {
+    "Peel leaves ^[%lld folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library." : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -107970,25 +107970,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože chrání, co v ní je, například peněženku, dokumenty aplikace nebo knihovnu."
+                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože chrání, co v ní je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složek ponechává nedotčených, protože chrání, co v nich je, například peněženku, dokumenty aplikace nebo knihovnu."
+                  "value" : "Peel zde %lld složek ponechává nedotčených, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
                 }
               }
             }
@@ -108000,13 +108000,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa eine Wallet, die Dokumente einer App oder eine Mediathek."
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa das, was iCloud zum Synchronisieren aufbewahrt, eine Wallet, die Dokumente einer App oder eine Mediathek."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa eine Wallet, die Dokumente einer App oder eine Mediathek."
+                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa das, was iCloud zum Synchronisieren aufbewahrt, eine Wallet, die Dokumente einer App oder eine Mediathek."
                 }
               }
             }
@@ -108018,19 +108018,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja una carpeta de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                  "value" : "Peel deja una carpeta de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque protege lo que hay dentro, como un monedero digital, los documentos de una app o una biblioteca."
+                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
                 }
               }
             }
@@ -108042,19 +108042,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld de dossiers en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                  "value" : "Ici, Peel laisse %lld de dossiers en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossier en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                  "value" : "Ici, Peel laisse %lld dossier en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossiers en place, car il protège ce qui s’y trouve, comme un portefeuille, les documents d’une app ou une bibliothèque."
+                  "value" : "Ici, Peel laisse %lld dossiers en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
                 }
               }
             }
@@ -108066,19 +108066,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come un wallet, i documenti di un’app o una libreria."
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dov’è una di queste cartelle, perché protegge ciò che contiene, come un wallet, i documenti di un’app o una libreria."
+                  "value" : "Peel lascia dov’è una di queste cartelle, perché protegge ciò che contiene, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come un wallet, i documenti di un’app o una libreria."
+                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
                 }
               }
             }
@@ -108087,13 +108087,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。ウォレット、アプリの書類、ライブラリなど、Peelが保護しているものが中にあるためです。"
+            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。iCloudが同期のために保管しているデータ、ウォレット、アプリの書類、ライブラリなど、Peelが保護しているものが中にあるためです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. 지갑, 앱의 문서 또는 보관함처럼 그곳에 있는 항목을 Peel이 보호하기 때문입니다."
+            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. iCloud가 동기화된 상태를 유지하기 위해 보관하는 데이터, 지갑, 앱의 문서 또는 보관함처럼 그곳에 있는 항목을 Peel이 보호하기 때문입니다."
           }
         },
         "nl" : {
@@ -108102,13 +108102,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel laat één map hier met rust, omdat het beschermt wat erin zit, zoals een wallet, de documenten van een app of een bibliotheek."
+                  "value" : "Peel laat één map hier met rust, omdat het beschermt wat erin zit, zoals wat iCloud bewaart om synchroon te blijven, een wallet, de documenten van een app of een bibliotheek."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel laat %lld mappen hier met rust, omdat het beschermt wat erin zit, zoals een wallet, de documenten van een app of een bibliotheek."
+                  "value" : "Peel laat %lld mappen hier met rust, omdat het beschermt wat erin zit, zoals wat iCloud bewaart om synchroon te blijven, een wallet, de documenten van een app of een bibliotheek."
                 }
               }
             }
@@ -108120,25 +108120,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ chroni to, co jest w środku, na przykład portfel, dokumenty aplikacji lub bibliotekę."
+                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
                 }
               }
             }
@@ -108150,19 +108150,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque protege o que há nelas, como uma carteira, os documentos de um app ou uma biblioteca."
+                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque protege o que há nelas, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld pasta daqui intocada porque protege o que há nela, como uma carteira, os documentos de um app ou uma biblioteca."
+                  "value" : "O Peel deixa %lld pasta daqui intocada porque protege o que há nela, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld pastas daqui intocadas porque protege o que há nelas, como uma carteira, os documentos de um app ou uma biblioteca."
+                  "value" : "O Peel deixa %lld pastas daqui intocadas porque protege o que há nelas, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
                 }
               }
             }
@@ -108174,19 +108174,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi un portofel, documentele unei aplicații sau o bibliotecă."
+                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
                 }
               }
             }
@@ -108198,25 +108198,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папок, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                  "value" : "Peel оставляет здесь на месте %lld папок, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папку, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                  "value" : "Peel оставляет здесь на месте %lld папку, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например кошелек, документы приложения или медиатеку."
+                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
                 }
               }
             }
@@ -108228,13 +108228,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lämnar %lld mapp här orörd eftersom Peel skyddar det som ligger i den, till exempel en plånbok, en apps dokument eller ett bibliotek."
+                  "value" : "Peel lämnar %lld mapp här orörd eftersom Peel skyddar det som ligger i den, till exempel det som iCloud sparar för att hålla allt synkroniserat, en plånbok, en apps dokument eller ett bibliotek."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lämnar %lld mappar här orörda eftersom Peel skyddar det som ligger i dem, till exempel en plånbok, en apps dokument eller ett bibliotek."
+                  "value" : "Peel lämnar %lld mappar här orörda eftersom Peel skyddar det som ligger i dem, till exempel det som iCloud sparar för att hålla allt synkroniserat, en plånbok, en apps dokument eller ett bibliotek."
                 }
               }
             }
@@ -108246,13 +108246,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü içindekileri korur: örneğin bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü içindekileri korur: örneğin iCloud’un eşzamanlı kalmak için tuttukları, bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bu klasörlerin içindekileri korur: örneğin bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bu klasörlerin içindekileri korur: örneğin iCloud’un eşzamanlı kalmak için tuttukları, bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
                 }
               }
             }
@@ -108264,25 +108264,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папок звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                  "value" : "Peel не переміщує %lld папок звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папку звідси, бо захищає те, що в ній є, як-от гаманець, документи програми або медіатеку."
+                  "value" : "Peel не переміщує %lld папку звідси, бо захищає те, що в ній є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от гаманець, документи програми або медіатеку."
+                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
                 }
               }
             }
@@ -108291,13 +108291,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会触碰此处的%lld个文件夹，因为其中的内容受Peel保护，例如钱包、App的文稿或资料库。"
+            "value" : "Peel不会触碰此处的%lld个文件夹，因为其中的内容受Peel保护，例如iCloud为保持同步而保留的数据、钱包、App的文稿或资料库。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為它會保護其中的內容，例如錢包、App的文件或資料庫。"
+            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為它會保護其中的內容，例如iCloud為保持同步而保存的資料、錢包、App的文件或資料庫。"
           }
         }
       }

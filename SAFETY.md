@@ -31,6 +31,8 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | --- | --- |
 | `Mobile Documents` | iCloud Drive. A file removed here is removed from every device you own. |
 | `CloudStorage` | Dropbox, Google Drive, OneDrive, and the rest. Same reason. |
+| `Application Support/CloudDocs`, `Application Support/FileProvider`, `Daemon Containers` | What iCloud Drive and File Provider keep about which files are on this Mac and which are in the cloud, and the containers of macOS's own services. Their services hold these open and make them again: removing one, or putting an old copy back, leaves iCloud Drive's records disagreeing with your files. |
+| `Caches/CloudKit`, `Caches/com.apple.bird`, `Caches/com.apple.cloudd`, and every folder in `Caches` whose name begins with `com.apple.cloudkit` or `com.apple.FileProvider` | The same records, in the caches of iCloud's and File Provider's own programs. |
 | `Keychains` | Your passwords and keys. |
 | `Passes` | Wallet. |
 | `Spelling`, `KeyboardServices` | Words you taught the Mac, and your text replacements. |
@@ -292,8 +294,8 @@ Never selected for you, even when found:
   and the reports macOS wrote when an app crashed, which its developer may still ask for.
 - Model weights, the packages a tool keeps installed outside your projects, virtual environments, the installers and
   boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists.
-- A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, iCloud's, the fonts') or in the container
-  of one of Apple's apps.
+- A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, the fonts') or in the container of one of
+  Apple's apps.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project you worked on this week, and a download that changed in the last day, which may still be going.
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)

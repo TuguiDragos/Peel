@@ -1111,6 +1111,20 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.kind == .plugIns })
     }
 
+    @Test func leavesTheAppsPartOfCloudKitsCacheToCloudKit() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Cloud App.app"), bundleIdentifier: "org.example.cloudapp", name: "Cloud App"
+        )
+        try directory.file("home/Library/Caches/org.example.cloudapp/blob")
+        try directory.file("home/Library/Caches/CloudKit/org.example.cloudapp/records.db")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let found = scan.leftovers.map(\.url)
+        #expect(found.map { $0.deletingLastPathComponent().lastPathComponent } == ["Caches"], "\(found)")
+    }
+
     @Test func findsTheAppsMailBundle() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

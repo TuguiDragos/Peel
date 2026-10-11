@@ -157,7 +157,7 @@ struct SpaceDetailView: View {
                         Text("Peel leaves ^[\(keepingWork) folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history.")
                     }
                     if plan.refused.count > keepingWork {
-                        Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as a wallet, an app’s documents, or a library.")
+                        Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library.")
                     }
                 }
                 .font(.callout)

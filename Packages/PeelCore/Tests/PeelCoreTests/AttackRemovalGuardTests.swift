@@ -563,6 +563,49 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    @Test func iCloudsAndFileProvidersOwnStateStaysAndNothingIsPutBackThere() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let homePath = home.path(percentEncoded: false)
+        let state = [
+            "Library/Application Support/CloudDocs/session/db/client.db",
+            "Library/Application Support/FileProvider/5A3E2C1D-0000-4000-8000-000000000001/database/db",
+            "Library/Daemon Containers/5A3E2C1D-0000-4000-8000-000000000002/Data/Library/Caches/state.db",
+            "Library/Caches/CloudKit/CloudKitMetadata",
+            "Library/Caches/CloudKit/org.example.cloudapp/records.db",
+            "Library/Caches/com.apple.bird/session.db",
+            "Library/Caches/com.apple.cloudd/cache.db",
+            "Library/Caches/com.apple.cloudkit/cache.db",
+            "Library/Caches/com.apple.cloudkit.CloudKitDaemon/cache.db",
+            "Library/Caches/com.apple.FileProviderDaemon.AppStoreService/cache.db",
+            "Library/Caches/com.apple.fileproviderd/cache.db",
+        ]
+        let controls = [
+            "Library/Caches/com.apple.Spotlight/index.db",
+            "Library/Caches/org.example.cloudkit/cache.db",
+            "Library/Application Support/org.example.FileProvider/state.db",
+        ]
+        for file in state + controls {
+            try directory.file("home/\(file)")
+        }
+        let trashed = try directory.directory("home/.Trash/CloudKit")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        for file in state {
+            let folder = home.appending(path: file).deletingLastPathComponent()
+            for url in [home.appending(path: file), folder] {
+                #expect(!guardian.allowsRemoval(of: url), "\(url.path(percentEncoded: false)) may be removed")
+                #expect(ProtectedData.refuses(url.path(percentEncoded: false), home: homePath), "\(file) is not refused for the helper")
+            }
+        }
+        #expect(!guardian.allowsPuttingBack(trashed, at: home.appending(path: "Library/Caches/CloudKit")))
+        for file in controls {
+            #expect(guardian.allowsRemoval(of: home.appending(path: file).deletingLastPathComponent()), "\(file) is refused")
+        }
+    }
+
     /// The guard refuses what is inside a container's `Data/Documents`, where a sandboxed app keeps what its
     /// user made. An uninstall lists the container around it, so the container is refused too while that folder
     /// holds anything or cannot be read.

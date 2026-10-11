@@ -19,6 +19,9 @@ struct AttackHelperPolicyTests {
             "home/Library/Mobile Documents/com~apple~CloudDocs/Thesis.pages",
             "home/Library/Keychains/login.keychain-db",
             "home/Library/Messages/chat.db",
+            "home/Library/Application Support/CloudDocs/session/db/client.db",
+            "home/Library/Caches/CloudKit/CloudKitMetadata",
+            "home/Library/Caches/com.apple.FileProviderDaemon.AppStoreService/cache.db",
         ]
         for path in paths {
             try directory.file(path)

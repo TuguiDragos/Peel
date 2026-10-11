@@ -197,9 +197,26 @@ public enum ProtectedData: Sendable {
         "Library/Nano/backup",
     ]
 
-    /// Every protected place named from a home folder: `homeFolders`, `homeKeys` and `walletKeys`. `refuses`,
-    /// `holds` and `RemovalGuard` all read it, so a place added to one of those lists is protected by all three.
-    public static let homeTrees = homeFolders + homeKeys + walletKeys
+    /// What iCloud and File Provider keep about the files on this Mac and in the cloud, and the containers of macOS's
+    /// own services, iCloud's among them. The services that keep these hold them open and make them again, and
+    /// removing one, or putting an old copy back, leaves iCloud Drive's records disagreeing with the files.
+    static let cloudState = [
+        "Library/Application Support/CloudDocs",
+        "Library/Application Support/FileProvider",
+        "Library/Daemon Containers",
+        "Library/Caches/CloudKit",
+        "Library/Caches/com.apple.bird",
+        "Library/Caches/com.apple.cloudd",
+    ]
+
+    /// How the caches of File Provider's and CloudKit's own programs begin in a home's `Library/Caches`: Apple names
+    /// each of them for its program and adds programs between releases, so they are known by that start. Lowercase.
+    private static let cloudStateCaches = ["com.apple.fileprovider", "com.apple.cloudkit"]
+
+    /// Every protected place named from a home folder: `homeFolders`, `homeKeys`, `walletKeys` and `cloudState`.
+    /// `refuses`, `holds` and `RemovalGuard` all read it, so a place added to one of those lists is protected by all
+    /// three.
+    public static let homeTrees = homeFolders + homeKeys + walletKeys + cloudState
 
     /// Hidden items in the home folder that belong to no single app: shells, git, and the folders many tools
     /// share. Never removed on any app's behalf, but what sits inside `.config`, `.cache`, and `.local` still
@@ -356,30 +373,40 @@ public enum ProtectedData: Sendable {
 
         private struct Branch {
             var endsATree = false
+            /// A name in this folder that begins with one of these is a tree too.
+            var beginnings: [String] = []
             var next: [String: Branch] = [:]
 
-            mutating func add(_ names: ArraySlice<String>) {
+            mutating func add(_ names: ArraySlice<String>, beginnings: [String] = []) {
                 guard let name = names.first else {
-                    endsATree = true
+                    endsATree = endsATree || beginnings.isEmpty
+                    self.beginnings += beginnings
                     return
                 }
-                next[name, default: Branch()].add(names.dropFirst())
+                next[name, default: Branch()].add(names.dropFirst(), beginnings: beginnings)
             }
         }
 
-        init(_ trees: [[String]]) {
+        /// `trees` are named in full; in each folder of `beginnings`, every name that begins with one of its starts is
+        /// a tree.
+        init(_ trees: [[String]], beginnings: [(folder: [String], starts: [String])] = []) {
             var root = Branch()
             for tree in trees {
                 root.add(tree[...])
             }
+            for (folder, starts) in beginnings {
+                root.add(folder[...], beginnings: starts)
+            }
             self.root = root
-            ancestors = Set(trees.flatMap { tree in (0..<tree.count).map { Array(tree[..<$0]) } })
+            let above = { (names: [String]) in (0..<names.count).map { Array(names[..<$0]) } }
+            ancestors = Set(trees.flatMap(above) + beginnings.flatMap { above($0.folder) + [$0.folder] })
         }
 
         /// True when `names` is a tree or sits inside one.
         func contain(_ names: [String]) -> Bool {
             var branch = root
             for name in names {
+                if branch.beginnings.contains(where: name.hasPrefix) { return true }
                 guard let next = branch.next[name] else { return false }
                 if next.endsATree { return true }
                 branch = next
@@ -400,8 +427,11 @@ public enum ProtectedData: Sendable {
     private static func trees(under home: String) -> Trees {
         treesByHome.withLock { cache in
             if let trees = cache[home] { return trees }
+            let names = { (path: String) in
+                PathComponents.of((home as NSString).appendingPathComponent(path).lowercased())
+            }
             let trees = Trees(
-                homeTrees.map { PathComponents.of((home as NSString).appendingPathComponent($0).lowercased()) }
+                homeTrees.map(names), beginnings: [(folder: names("Library/Caches"), starts: cloudStateCaches)]
             )
             if cache.count >= 32 { cache.removeAll() }
             cache[home] = trees
