@@ -1151,7 +1151,10 @@ struct SuggestedSelectionOnThisMacTests {
             let needsTheHelper = Set(uninstallation.scan.leftovers.filter(\.requiresPrivileges).map(\.url))
             for url in uninstallation.suggestedSelection(canUseHelper: true) where url != app.url {
                 #expect(guardian.allowsRemoval(of: url), "\(app.name): the guard refuses \(url.path(percentEncoded: false))")
-                #expect(!needsTheHelper.contains(url) || !reach.isBeyond(url), "\(app.name): the helper refuses \(url.path(percentEncoded: false))")
+                #expect(
+                    !needsTheHelper.contains(url) || !reach.isBeyond(url, leaving: app.url),
+                    "\(app.name): the helper refuses \(url.path(percentEncoded: false))"
+                )
             }
         }
     }
