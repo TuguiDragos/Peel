@@ -405,6 +405,14 @@ public enum ProjectArtifacts {
             name: "project/target", markers: ["build.sbt"], tool: "sbt", isGeneric: true,
             source: "https://www.scala-sbt.org/1.x/docs/Directories.html"
         ),
+        // Beside what an export and a compile make again, `.bloop` keeps `bloop.settings.json`, the workspace settings
+        // the person or an editor wrote there.
+        Definition(
+            name: ".bloop", markers: ["build.sbt", "build.sc", "build.mill", "pom.xml"] + gradleFiles, tool: "Bloop",
+            isGeneric: false,
+            source: "https://github.com/scalacenter/bloop/blob/7d07f8224a2c5519c85e37edfef0ce4f42d4d4e6/docs/build-tools/sbt.md#L32-L36",
+            keepsItsSetup: true
+        ),
         Definition(
             name: ".cpcache", markers: ["deps.edn"], tool: "Clojure CLI", isGeneric: false,
             source: "https://github.com/clojure/clojure-site/blob/15d0adc7ccd1dc8aa1c622dc824bef76507c276a/content/reference/clojure_cli.adoc#L490-L504"

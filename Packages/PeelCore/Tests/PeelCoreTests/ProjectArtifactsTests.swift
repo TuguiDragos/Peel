@@ -297,6 +297,23 @@ struct ProjectArtifactsTests {
         #expect(found.allSatisfy { $0.tool == "Meson" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
     }
 
+    @Test func listsBloopsFolderAndKeepsItsWorkspaceSettings() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/build.sbt", bytes: 16)
+        try directory.file("app/.bloop/app.json", bytes: 16)
+        try directory.file("app/.bloop/bloop.settings.json", bytes: 16)
+        try directory.file("app/.bloop/app/bloop-bsp-clients-classes/classes-Metals/Main.class", bytes: 400_000)
+        try directory.file("lib/build.mill", bytes: 16)
+        try directory.file("lib/.bloop/lib.json", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.project.lastPathComponent).sorted() == ["app", "lib"])
+        #expect(found.allSatisfy { $0.name == ".bloop" && $0.tool == "Bloop" && $0.heldBack == .keepsItsSetup })
+        #expect(found.allSatisfy { !$0.isRecommended })
+    }
+
     @Test func listsRubySassCacheWhereverItRan() async throws {
         let directory = try TemporaryDirectory()
         let digest = String(repeating: "3f", count: 20)
