@@ -403,7 +403,7 @@ struct DeveloperCachesTests {
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
-            "metro-file-map-*", "node-compile-cache/", "tfhub_modules/",
+            "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -1301,6 +1301,18 @@ struct DeveloperCachesTests {
 
         #expect(Set(locations.map(\.url.lastPathComponent)) == ["packages", "script-builds"])
         #expect(locations.allSatisfy(\.isRecommended) == true)
+    }
+
+    @Test func offersTheElectronDownloadsAnOlderToolKeptInTheHomeFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".electron/electron-v3.1.13-darwin-x64.zip", bytes: 400_000)
+        try directory.file(".electron/SHASUMS256.txt-3.1.13", bytes: 4_096)
+        let electron = DeveloperCaches.definitions.filter { $0.id == "electron" }
+
+        let locations = await DeveloperCaches.scan(electron, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == [".electron"])
+        #expect(locations.allSatisfy { $0.kind == .downloads && $0.isRecommended })
     }
 
     @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {

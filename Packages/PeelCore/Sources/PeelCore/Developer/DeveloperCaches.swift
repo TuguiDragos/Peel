@@ -547,6 +547,8 @@ public enum DeveloperCaches {
             Folder("Library/Caches/electron", .downloads, source: "https://github.com/electron/get/blob/53178fdcbd62f0e229a4f9695632003637c0f35e/README.md#L123"),
             Folder("Library/Caches/electron-builder", .downloads, source: "https://github.com/electron-userland/electron-builder/blob/ec9135d0626879479ffa4235006f06b14375cc43/website/docs/environment-variables.md#L166"),
             Folder(".electron-gyp", .downloads, source: "https://github.com/electron/rebuild/blob/8b14ce89664a4d341afebb0e5964e912d4453b7f/src/constants.ts#L4"),
+            // The cache older versions of electron-download used, before `@electron/get` replaced it.
+            Folder(".electron", .downloads, source: "https://unpkg.com/electron-download@4.1.1/lib/index.js"),
         ]),
         Definition(id: "nodegyp", name: "node-gyp", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/node-gyp", .downloads, source: "https://github.com/nodejs/node-gyp/blob/399f6faedf5abc1eb791678e0a03a91d3fef12aa/bin/node-gyp.js#L25"),
