@@ -502,6 +502,49 @@ struct ProjectArtifactsTests {
         #expect(found.filter(\.isRecommended).map(\.project.lastPathComponent) == ["tool"])
     }
 
+    @Test func aFolderGitTracksIsListedAndNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let git = try await GitFixture(home: directory.url.appending(path: "home"))
+        for name in ["Tracked", "Ignored"] {
+            try directory.file("Code/\(name)/Podfile")
+            try directory.file("Code/\(name)/Pods/Foo/Foo.m")
+            try directory.file("Code/\(name)/src/App.swift")
+        }
+        try directory.file("Code/Ignored/.gitignore", contents: Data("Pods/\n".utf8))
+        for name in ["Tracked", "Ignored"] {
+            let project = directory.url.appending(path: "Code/\(name)", directoryHint: .isDirectory)
+            try await git.run("init", "-q", in: project)
+            try await git.run("add", "-A", in: project)
+        }
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")]).artifacts
+
+        let reasons = found.map { "\($0.project.lastPathComponent): \($0.heldBack.map(\.rawValue) ?? "none")" }.sorted()
+        #expect(reasons == ["Ignored: none", "Tracked: trackedByGit"])
+        #expect(found.filter(\.isRecommended).map(\.project.lastPathComponent) == ["Ignored"])
+    }
+
+    @Test(.permissionsHold) func whatGitTracksIsNotKnownWhileItsIndexCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let git = try await GitFixture(home: directory.url.appending(path: "home"))
+        try directory.file("Code/App/Podfile")
+        try directory.file("Code/App/Pods/Foo/Foo.m")
+        let project = directory.url.appending(path: "Code/App", directoryHint: .isDirectory)
+        try await git.run("init", "-q", in: project)
+        try await git.run("add", "Podfile", in: project)
+        try age(directory.url, days: 60)
+        let index = project.appending(path: ".git/index")
+        try directory.setPermissions(0, of: index)
+        defer { try? directory.setPermissions(0o644, of: index) }
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")]).artifacts
+
+        let pods = try #require(found.first)
+        #expect(pods.heldBack == .gitTrackingNotKnown)
+        #expect(!pods.isRecommended)
+    }
+
     /// A large `node_modules` is the folder most likely to run out of time. Its size is then unknown, not zero,
     /// so it is listed first and never selected for the user.
     @Test func anArtifactThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {

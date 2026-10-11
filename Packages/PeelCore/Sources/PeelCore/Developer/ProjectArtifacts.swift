@@ -476,7 +476,7 @@ public enum ProjectArtifacts {
                 }
             }
             return Scan(
-                artifacts: found.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
+                artifacts: await holdingBackWhatGitTracks(found).sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
                 unreadableLocations: unreadable.sorted {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
@@ -485,6 +485,47 @@ public enum ProjectArtifacts {
                 refusedRoots: refused
             )
         }
+    }
+
+    /// Holds back each artifact Git tracks files in, which is part of the project rather than something a build makes
+    /// again, and each in a repository whose index can't be read. What the walk saw inside comes first.
+    static func holdingBackWhatGitTracks(_ artifacts: [ProjectArtifact]) async -> [ProjectArtifact] {
+        var result = artifacts
+        var indexes: [GitIndex.Repository: GitIndex?] = [:]
+        let projects = Dictionary(grouping: result.indices.filter { result[$0].heldBack == nil }) { result[$0].project }
+        for (project, positions) in projects {
+            guard !Task.isCancelled else { break }
+            func hold(_ reason: HoldBack, _ held: [Int]) {
+                for position in held { result[position].heldBack = reason }
+            }
+            let found = await SlowRead.answer(within: FileSize.budget) { _ in GitIndex.repository(containing: project) }
+            guard let found else {
+                hold(.gitTrackingNotKnown, positions)
+                continue
+            }
+            guard let repository = found else { continue }
+            let index: GitIndex?
+            if let read = indexes[repository] {
+                index = read
+            } else {
+                index = await SlowRead.answer(within: FileSize.budget) { _ in GitIndex.read(repository) } ?? nil
+                indexes.updateValue(index, forKey: repository)
+            }
+            guard let index else {
+                hold(.gitTrackingNotKnown, positions)
+                continue
+            }
+            let folders = positions.map { result[$0].url }
+            let tracked = await SlowRead.answer(within: FileSize.budget) { _ in
+                folders.map { index.tracksSomething(atOrInside: $0, of: repository) }
+            }
+            guard let tracked else {
+                hold(.gitTrackingNotKnown, positions)
+                continue
+            }
+            hold(.trackedByGit, zip(positions, tracked).filter(\.1).map(\.0))
+        }
+        return result
     }
 
     public enum Refusal: Sendable, Hashable {

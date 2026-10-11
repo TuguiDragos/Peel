@@ -249,6 +249,10 @@ extension HoldBack {
         switch self {
         case .holdsRepository:
             "Not selected: there is a repository inside, so this folder may hold work that was committed and never pushed anywhere."
+        case .trackedByGit:
+            "Not selected: Git tracks files in this folder, so it is part of the project. Moving it would show them as deleted in Git."
+        case .gitTrackingNotKnown:
+            "Not selected: this folder is in a Git repository whose list of tracked files Peel couldn’t read, so it may be part of the project."
         case .sharedWithEveryone:
             "Not selected: /Users/Shared belongs to every account on this Mac rather than to one app."
         case .namedLikeTheApp:

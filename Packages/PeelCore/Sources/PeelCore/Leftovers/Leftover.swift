@@ -38,6 +38,10 @@ public enum MatchConfidence: Int, Sendable, Hashable, Comparable {
 public enum HoldBack: String, Sendable, Hashable {
     /// A repository inside, so the folder may carry work that was committed and never pushed anywhere.
     case holdsRepository
+    /// Git tracks files inside, so the folder is part of the project rather than something a build makes again.
+    case trackedByGit
+    /// Inside a Git repository whose index could not be read, so whether Git tracks files inside is not known.
+    case gitTrackingNotKnown
     /// `/Users/Shared`, which belongs to every account on the Mac rather than to one app.
     case sharedWithEveryone
     /// Claimed on nothing but the app's name (or an identifier that is only a word), in the home folder or at the

@@ -111,28 +111,31 @@ struct ToolSettings: Sendable {
 
     /// Where the Git clone in `folder` comes from, as `gitAddress` writes it: the `url` of its `origin` remote.
     static func cloneAddress(of folder: URL) -> String? {
-        text(at: folder.appending(path: ".git/config")).flatMap { gitValue(of: "url", inRemote: "origin", in: $0) }
+        text(at: folder.appending(path: ".git/config"))
+            .flatMap { gitValue(of: "url", inSection: "remote", named: "origin", in: $0) }
             .map(gitAddress)
     }
 
     // MARK: - The formats
 
-    /// The value of `key` in a remote's section of a Git configuration file, as `git-config(1)` describes it: the
-    /// section's and the key's names without case, the remote's name with it, a value quoted in parts or ending at a
-    /// comment. The last one counts.
-    static func gitValue(of key: String, inRemote remote: String, in text: String) -> String? {
-        var isInTheRemote = false
+    /// The value of `key` in a section of a Git configuration file, as `git-config(1)` describes it: the section's
+    /// and the key's names without case, a subsection's name (a remote's) with it, a value quoted in parts or ending
+    /// at a comment. The last one counts.
+    static func gitValue(
+        of key: String, inSection section: String, named name: String? = nil, in text: String
+    ) -> String? {
+        var isInTheSection = false
         var found: String?
         for line in text.split(whereSeparator: { $0 == "\n" || $0 == "\r" }) {
             let content = line.trimmingCharacters(in: .whitespaces)
             if content.isEmpty || content.hasPrefix("#") || content.hasPrefix(";") { continue }
             if content.hasPrefix("["), content.hasSuffix("]") {
                 let header = content.dropFirst().dropLast().split(separator: " ", maxSplits: 1)
-                isInTheRemote = header.count == 2 && header[0].lowercased() == "remote"
-                    && header[1].trimmingCharacters(in: .whitespaces) == "\"\(remote)\""
+                let subsection = header.count == 2 ? header[1].trimmingCharacters(in: .whitespaces) : nil
+                isInTheSection = header.first?.lowercased() == section && subsection == name.map { "\"\($0)\"" }
                 continue
             }
-            guard isInTheRemote, let equals = content.firstIndex(of: "="),
+            guard isInTheSection, let equals = content.firstIndex(of: "="),
                   content[..<equals].trimmingCharacters(in: .whitespaces).lowercased() == key
             else { continue }
             found = gitUnquoted(content[content.index(after: equals)...])

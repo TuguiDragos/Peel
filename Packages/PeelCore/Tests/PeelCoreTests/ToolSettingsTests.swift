@@ -78,8 +78,12 @@ struct ToolSettingsTests {
             \turl = https://example.org/another.git
             """
 
-        #expect(ToolSettings.gitValue(of: "url", inRemote: "origin", in: config) == "https://github.com/CocoaPods/Specs.git")
-        #expect(ToolSettings.gitValue(of: "url", inRemote: "upstream", in: config) == nil)
+        #expect(
+            ToolSettings.gitValue(of: "url", inSection: "remote", named: "origin", in: config)
+                == "https://github.com/CocoaPods/Specs.git"
+        )
+        #expect(ToolSettings.gitValue(of: "url", inSection: "remote", named: "upstream", in: config) == nil)
+        #expect(ToolSettings.gitValue(of: "url", inSection: "core", in: config) == "https://example.org/not-a-remote.git")
         for address in [
             "https://github.com/CocoaPods/Specs.git", "https://github.com/cocoapods/specs/", "git@github.com:CocoaPods/Specs.git",
             "ssh://git@github.com/CocoaPods/Specs",

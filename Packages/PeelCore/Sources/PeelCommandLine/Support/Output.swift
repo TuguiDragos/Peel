@@ -311,6 +311,8 @@ extension HoldBack {
     var summary: String {
         switch self {
         case .holdsRepository: "holds a repository"
+        case .trackedByGit: "Git tracks files in it"
+        case .gitTrackingNotKnown: "in a Git repository whose tracked files couldn't be read"
         case .sharedWithEveryone: "belongs to everyone on this Mac"
         case .namedLikeTheApp: "claimed on the app's name alone"
         case .holdsAnExclusion: "holds something you excluded"

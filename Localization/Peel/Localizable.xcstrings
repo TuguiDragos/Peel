@@ -87290,6 +87290,112 @@
         }
       }
     },
+    "Not selected: Git tracks files in this folder, so it is part of the project. Moving it would show them as deleted in Git." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tato složka obsahuje soubory sledované Gitem, takže je součástí projektu. Jejím přesunutím by se tyto soubory v Gitu zobrazily jako smazané."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Git versioniert Dateien in diesem Ordner, daher gehört er zum Projekt. Wenn du ihn verschiebst, zeigt Git sie als gelöscht an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: esta carpeta contiene archivos que Git rastrea, así que forma parte del proyecto. Si la trasladas a la papelera, Git los mostrará como borrados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce dossier contient des fichiers suivis par Git et fait donc partie du projet. Le déplacer les ferait apparaître comme supprimés dans Git."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: questa cartella contiene file tracciati da Git, quindi fa parte del progetto. Se la sposti, Git li mostrerà come eliminati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このフォルダにはGitで追跡されているファイルがあるため、プロジェクトの一部です。移動すると、Gitではそれらのファイルが削除されたものとして表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: Git이 이 폴더 안의 파일을 추적하므로 이 폴더는 프로젝트의 일부입니다. 이 폴더를 이동하면 Git에서 해당 파일이 삭제된 것으로 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: Git volgt bestanden in deze map, dus de map hoort bij het project. Als je de map verplaatst, toont Git die bestanden als verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: Git śledzi pliki w tym folderze, więc to część projektu. Jeśli go przeniesiesz, Git pokaże te pliki jako usunięte."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o Git rastreia arquivos nesta pasta, então ela faz parte do projeto. Movê-la faria com que esses arquivos aparecessem como apagados no Git."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest dosar conține fișiere urmărite de Git, așa că face parte din proiect. Mutarea lui le‑ar face să apară ca șterse în Git."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: Git отслеживает файлы в этой папке, поэтому она является частью проекта. Если ее переместить, Git покажет эти файлы как удаленные."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: Git spårar filer i den här mappen, så den är en del av projektet. Om den flyttades skulle Git visa filerna som borttagna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu klasörde Git’in izlediği dosyalar var, bu yüzden klasör projenin bir parçası. Taşınırsa, Git bu dosyaları silinmiş olarak gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: Git відстежує файли в цій папці, тож вона є частиною проєкту. Якщо її перемістити, Git показуватиме ці файли як видалені."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此文件夹中有受Git跟踪的文件，因此它是项目的一部分。移走它会使这些文件在Git中显示为已删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此檔案夾中有受Git追蹤的檔案，因此它是計畫案的一部分。移動它會讓這些檔案在Git中顯示為已刪除。"
+          }
+        }
+      }
+    },
     "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else." : {
       "localizations" : {
         "cs" : {
@@ -89512,6 +89618,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：此項目在過去一天內有變更，因此可能仍在下載。"
+          }
+        }
+      }
+    },
+    "Not selected: this folder is in a Git repository whose list of tracked files Peel couldn’t read, so it may be part of the project." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tato složka je v repozitáři Gitu, jehož seznam sledovaných souborů Peel nemohl přečíst, takže může být součástí projektu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieser Ordner liegt in einem Git-Repository, dessen Liste der versionierten Dateien Peel nicht lesen konnte, daher gehört er möglicherweise zum Projekt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: esta carpeta está en un repositorio de Git del que Peel no ha podido leer la lista de archivos rastreados, así que puede que forme parte del proyecto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce dossier se trouve dans un dépôt Git dont Peel n’a pas pu lire la liste des fichiers suivis, et peut donc faire partie du projet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: questa cartella si trova in un repository Git di cui Peel non è riuscito a leggere l’elenco dei file tracciati, quindi potrebbe far parte del progetto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このフォルダはGitリポジトリ内にあり、そのリポジトリで追跡されているファイルのリストをPeelが読み取れなかったため、プロジェクトの一部である可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 폴더는 Git 저장소 안에 있으며, 이 저장소에서 추적되는 파일 목록을 Peel이 읽을 수 없었으므로 프로젝트의 일부일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: deze map staat in een Git-repository waarvan Peel de lijst met gevolgde bestanden niet kon lezen, dus de map hoort misschien bij het project."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten folder jest w repozytorium Git, w którym Peel nie mógł odczytać listy śledzonych plików, więc może to być część projektu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: esta pasta está em um repositório Git cuja lista de arquivos rastreados o Peel não conseguiu ler, então ela pode fazer parte do projeto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest dosar se află într‑un depozit Git pentru care Peel nu a putut citi lista fișierelor urmărite, așa că ar putea face parte din proiect."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: эта папка находится в репозитории Git, список отслеживаемых файлов которого Peel не удалось прочитать, поэтому она может быть частью проекта."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den här mappen ligger i ett Git-kodförråd där Peel inte kunde läsa listan över spårade filer, så mappen kan vara en del av projektet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu klasör, Peel’in izlenen dosyaların listesini okuyamadığı bir Git deposunda, bu yüzden projenin bir parçası olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: ця папка міститься в репозиторії Git, список відстежуваних файлів якого Peel не вдалося прочитати, тож вона може бути частиною проєкту."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此文件夹位于Git代码仓库中，而Peel未能读取该仓库的已跟踪文件列表，因此它可能是项目的一部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此檔案夾位於Git儲存庫中，而Peel無法讀取該儲存庫的已追蹤檔案列表，因此它可能是計畫案的一部分。"
           }
         }
       }

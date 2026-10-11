@@ -322,14 +322,17 @@ offered: its checkouts, which people commit in, carry no such tag and are never 
 Build Artifacts recommends what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
 includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
-`Podfile`. A Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into
-one by hand, and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing
-on its own, such as `target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the
-caches Godot makes again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and
-keys (`export_credentials.cfg`), which exist nowhere else. Build Artifacts never searches a hidden
-folder, a Library, or a folder a tool fills, such as `node_modules`: apps and tools keep there what they install, as
-an editor keeps each extension's `package.json` beside the `node_modules` it runs with. A folder chosen to search
-that is one of those, or sits inside one, is refused with the reason.
+`Podfile`, unless Git tracks files in them: CocoaPods suggests keeping `Pods` in the repository, and a folder Git tracks
+is part of the project, so it is listed and never selected, and so is one in a repository whose list of tracked files
+Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project. A
+Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into one by hand,
+and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing on its own,
+such as `target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the caches Godot
+makes again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and keys
+(`export_credentials.cfg`), which exist nowhere else. Build Artifacts never searches a hidden folder, a Library, or a
+folder a tool fills, such as `node_modules`: apps and tools keep there what they install, as an editor keeps each
+extension's `package.json` beside the `node_modules` it runs with. A folder chosen to search that is one of those, or
+sits inside one, is refused with the reason.
 
 Developer, Build Artifacts, Space, and Installers and Backups select nothing for you: opening a page selects nothing,
 and Select Recommended selects what Peel recommends there.

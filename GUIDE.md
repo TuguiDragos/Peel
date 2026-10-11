@@ -94,15 +94,16 @@ copied from your devices, model weights, installed packages, what a tool keeps f
 boxes, Asset Store packages, Godot's export templates), an editor's saved state for a project that no longer
 exists, and a cache with a wallet, a signing key, or a password database inside. Nothing is selected for you.
 
-**Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`,
-`.nuxt`, `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only
-when a file of the tool that makes it proves it. Nothing is selected for you, and Select Recommended passes by a
-project changed in the last 7 days, installed packages (a Python environment, `vendor`, Terraform's `.terraform`),
-and a folder like `target` whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`,
-`~/Projects`, `~/Code`, or `~/src` when you have one, and adds it only when you say so. A chosen folder Peel can't
-search, such as one on a disk that isn't connected, is named at the top of the page with the reason, never taken for
-one with nothing built in it. Peel never searches a hidden folder, a Library, or a folder a tool fills, such as
-`node_modules`, where apps and tools keep what they install, so choosing one, or a folder inside one, is refused.
+**Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`, `.nuxt`,
+`__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only when a file of
+the tool that makes it proves it. Nothing is selected for you, and Select Recommended passes by a project changed in the
+last 7 days, installed packages (a Python environment, `vendor`, Terraform's `.terraform`), a folder like `target` whose
+name says nothing on its own, and a folder Git tracks files in, such as a `Pods` folder kept in the repository, which is
+part of the project. Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`, or `~/src` when you
+have one, and adds it only when you say so. A chosen folder Peel can't search, such as one on a disk that isn't
+connected, is named at the top of the page with the reason, never taken for one with nothing built in it. Peel never
+searches a hidden folder, a Library, or a folder a tool fills, such as `node_modules`, where apps and tools keep what
+they install, so choosing one, or a folder inside one, is refused.
 
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,
