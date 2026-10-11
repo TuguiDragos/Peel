@@ -422,6 +422,24 @@ struct ProjectArtifactsTests {
         #expect(found.allSatisfy { $0.isRecommended })
     }
 
+    @Test func offersWhatAWSSAMBuildsAndNeverItsPipeline() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("api/template.yaml", bytes: 16)
+        for part in ["build/HelloWorld/app.py", "cache/abc/app.py", "deps/abc/requests/api.py",
+                     "auto-dependency-layer/HelloWorld/app.py"] {
+            try directory.file("api/.aws-sam/\(part)", bytes: 400_000)
+        }
+        try directory.file("api/.aws-sam/pipeline/pipelineconfig.toml", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map(\.name)) == [
+            ".aws-sam/build", ".aws-sam/cache", ".aws-sam/deps", ".aws-sam/auto-dependency-layer",
+        ])
+        #expect(found.allSatisfy { $0.isRecommended && $0.tool == "AWS SAM" })
+    }
+
     @Test func findsRailsCacheInsideItsTemporaryFolderAndOnlyThere() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("shop/config/application.rb", bytes: 16)

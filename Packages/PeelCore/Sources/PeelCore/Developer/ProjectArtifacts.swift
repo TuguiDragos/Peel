@@ -138,6 +138,7 @@ public enum ProjectArtifacts {
     private static let gradleFiles = ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"]
     private static let pythonProjectFiles = ["pyproject.toml", "requirements.txt", "Pipfile", "setup.py"]
     private static let nextConfigFiles = ["next.config.js", "next.config.mjs", "next.config.ts"]
+    private static let samProjectFiles = ["template.yaml", "template.yml", "samconfig.toml"]
     private static let nuxtConfigFiles = ["nuxt.config.ts", "nuxt.config.js", "nuxt.config.mjs"]
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
@@ -600,6 +601,24 @@ public enum ProjectArtifacts {
         Definition(
             name: ".terragrunt-cache", markers: ["terragrunt.hcl"], tool: "Terragrunt", isGeneric: false,
             source: "https://docs.terragrunt.com/features/units/terragrunt-cache/"
+        ),
+        // `.aws-sam` also keeps the pipeline `sam pipeline bootstrap` set up (`pipeline/pipelineconfig.toml`), so only
+        // the parts `sam build` and `sam sync` make again are offered.
+        Definition(
+            name: ".aws-sam/build", markers: samProjectFiles, tool: "AWS SAM", isGeneric: false,
+            source: "https://github.com/aws/aws-sam-cli/blob/b73a020cc555abaf6c2cbd3b902b9c91558a3ad9/samcli/commands/_utils/constants.py#L8"
+        ),
+        Definition(
+            name: ".aws-sam/cache", markers: samProjectFiles, tool: "AWS SAM", isGeneric: false,
+            source: "https://github.com/aws/aws-sam-cli/blob/b73a020cc555abaf6c2cbd3b902b9c91558a3ad9/samcli/commands/_utils/constants.py#L10"
+        ),
+        Definition(
+            name: ".aws-sam/deps", markers: samProjectFiles, tool: "AWS SAM", isGeneric: false,
+            source: "https://github.com/aws/aws-sam-cli/blob/b73a020cc555abaf6c2cbd3b902b9c91558a3ad9/samcli/lib/build/build_graph.py#L32"
+        ),
+        Definition(
+            name: ".aws-sam/auto-dependency-layer", markers: samProjectFiles, tool: "AWS SAM", isGeneric: false,
+            source: "https://github.com/aws/aws-sam-cli/blob/b73a020cc555abaf6c2cbd3b902b9c91558a3ad9/samcli/commands/_utils/constants.py#L9"
         ),
         // After the game engines, whose projects carry a .NET project file too.
         Definition(
