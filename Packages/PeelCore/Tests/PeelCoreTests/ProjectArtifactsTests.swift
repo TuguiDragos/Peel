@@ -247,6 +247,7 @@ struct ProjectArtifactsTests {
             Kind(artifact: "coverage", marker: "vitest.config.mts", tool: "Vitest", isGeneric: true),
             Kind(artifact: ".cache", marker: "gatsby-config.ts", tool: "Gatsby", isGeneric: true),
             Kind(artifact: "public", marker: "gatsby-config.js", tool: "Gatsby", isGeneric: true),
+            Kind(artifact: "_site", marker: "eleventy.config.js", tool: "Eleventy", isGeneric: true),
         ])
     }
 

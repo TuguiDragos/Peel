@@ -332,6 +332,10 @@ public enum ProjectArtifacts {
             name: "public", markers: gatsbyConfigFiles, tool: "Gatsby", isGeneric: true,
             source: "https://www.gatsbyjs.com/docs/reference/gatsby-cli/"
         ),
+        Definition(
+            name: "_site", markers: eleventyConfigFiles, tool: "Eleventy", isGeneric: true,
+            source: "https://github.com/11ty/eleventy/blob/c0bb3f4219e00629f4f58a771c1783c898b9bdab/src/Util/ProjectDirectories.js#L10-L15"
+        ),
         // Other site generators name their output `_site` too, and Jekyll keeps there, from one build to the next,
         // whatever its `keep_files` setting names.
         Definition(
