@@ -421,7 +421,7 @@ public enum ProjectArtifacts {
         Definition(
             name: ".bloop", markers: ["build.sbt", "build.sc", "build.mill", "pom.xml"] + gradleFiles, tool: "Bloop",
             isGeneric: false,
-            source: "https://github.com/scalacenter/bloop/blob/7d07f8224a2c5519c85e37edfef0ce4f42d4d4e6/docs/build-tools/sbt.md#L32-L36",
+            source: "https://github.com/scalacenter/bloop/blob/7d07f8224a2c5519c85e37edfef0ce4f42d4d4e6/docs/build-tools/sbt.md#L32-L37",
             keepsItsSetup: true
         ),
         Definition(
