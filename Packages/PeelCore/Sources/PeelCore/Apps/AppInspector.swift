@@ -20,6 +20,16 @@ public enum AppInspector {
         }
     }
 
+    /// Whether a copy of the app at `url` other than that one is installed, outside a Trash: one of `installedApps`, or
+    /// one macOS knows, with the same identifier. An app with no valid identifier has no copies to tell apart.
+    public static func anotherCopyIsInstalled(of url: URL, among installedApps: [InstalledApp]) -> Bool {
+        guard let identifier = inspect(url)?.bundleIdentifier, Identifier.isValid(identifier) else { return false }
+        let own = PathPattern.comparablePath(of: url)
+        let copies = installedApps.filter { $0.bundleIdentifier?.lowercased() == identifier.lowercased() }.map(\.url)
+            + applicationURLs(forBundleIdentifier: identifier)
+        return copies.contains { !isInATrash($0) && PathPattern.comparablePath(of: $0) != own }
+    }
+
     static func isInATrash(_ url: URL) -> Bool {
         let names = PathComponents.of(url.path(percentEncoded: false))
         return names.contains(".Trash") || names.contains(".Trashes")

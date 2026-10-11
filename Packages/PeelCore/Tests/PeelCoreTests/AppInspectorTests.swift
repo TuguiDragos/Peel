@@ -18,6 +18,27 @@ struct AppInspectorTests {
         #expect(!AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash Old/Example.app")))
     }
 
+    @Test func knowsWhenAnotherCopyOfATrashedAppIsInstalled() throws {
+        let directory = try TemporaryDirectory()
+        func bundle(_ path: String, _ identifier: String?) throws -> URL {
+            var info: [String: Any] = ["CFBundleName": "Probe", "CFBundlePackageType": "APPL"]
+            info["CFBundleIdentifier"] = identifier
+            let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            try directory.file("\(path)/Contents/Info.plist", contents: data)
+            return directory.url.appending(path: path, directoryHint: .isDirectory)
+        }
+        let trashed = try bundle("home/.Trash/Probe.app", "org.example.inspector.copy")
+        let kept = try bundle("home/Applications/Probe.app", "org.example.inspector.copy")
+        let alone = try bundle("home/.Trash/Alone.app", "org.example.inspector.alone")
+        let nameless = try bundle("home/.Trash/Nameless.app", nil)
+        let installed = [kept, trashed, nameless].compactMap(AppInspector.inspect)
+
+        #expect(AppInspector.anotherCopyIsInstalled(of: trashed, among: installed))
+        #expect(!AppInspector.anotherCopyIsInstalled(of: alone, among: installed))
+        #expect(!AppInspector.anotherCopyIsInstalled(of: nameless, among: installed))
+        #expect(!AppInspector.anotherCopyIsInstalled(of: trashed, among: [trashed].compactMap(AppInspector.inspect)))
+    }
+
     /// The shapes a binary comes in: thin (the usual shape of an Intel-only app), and fat with 20-byte or 32-byte
     /// entries. A fat header that claims too many architectures to be real is read as nothing: a Java class file
     /// also starts with `cafebabe`, and its version sits where the count would be.
