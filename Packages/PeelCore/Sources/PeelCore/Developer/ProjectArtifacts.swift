@@ -860,7 +860,9 @@ public enum ProjectArtifacts {
             guard isRealFolder(entry), isTaggedAsACache(entry) else { continue }
             guard !exclusions.excludes(entry), !exclusions.holds(entry) else { continue }
             artifactNames.insert(entry.lastPathComponent)
-            found.append(Found(name: entry.lastPathComponent, definition: nil, isTaggedAsACache: true))
+            // A kind known by its tool's own files, whatever the name, still names the folder away from its project.
+            let definition = definitions.first { $0.name == "*" && $0.proof?.holds(at: entry) == true }
+            found.append(Found(name: entry.lastPathComponent, definition: definition, isTaggedAsACache: true))
         }
         return Look(entries: entries, found: found)
     }
