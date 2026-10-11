@@ -20,10 +20,12 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         /// or a repository), or `/Users/Shared`, which every account on the Mac uses. Or why it cannot be moved at
         /// all: it needs an administrator, and the helper would refuse it.
         public var heldBack: HoldBack?
+        /// How an app the package installed is removed instead, by the rules its own page follows.
+        public var removedElsewhere: RemovedElsewhere?
 
         /// True when Peel never moves this item. It is listed but never offered.
         public var isLeftAlone: Bool {
-            refusal != nil || heldBack?.cannotBeMoved == true
+            refusal != nil || heldBack?.cannotBeMoved == true || removedElsewhere != nil
         }
 
         public var id: URL { url }

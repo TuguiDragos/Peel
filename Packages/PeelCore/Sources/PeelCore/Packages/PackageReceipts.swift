@@ -66,11 +66,13 @@ public enum PackageReceipts {
     static func list(
         exclusions: Exclusions,
         pkgutil: @escaping Pkgutil,
-        environment: SearchEnvironment = .current
+        environment: SearchEnvironment = .current,
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) async -> PackageScan {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let reach = HelperReach(environment: environment)
         let shared = sharedFolders(in: environment)
+        let installed = InstalledSystemExtensions(asking: systemExtensions)
         guard let packages = packageList(in: await pkgutil(["--pkgs-plist"])) else {
             return PackageScan(receipts: [], couldNotAsk: true)
         }
@@ -88,7 +90,8 @@ public enum PackageReceipts {
                         pkgutil: pkgutil,
                         removalGuard: removalGuard,
                         reach: reach,
-                        shared: shared
+                        shared: shared,
+                        installed: installed
                     ).receipt
                 }
             }
@@ -102,7 +105,8 @@ public enum PackageReceipts {
                             pkgutil: pkgutil,
                             removalGuard: removalGuard,
                             reach: reach,
-                            shared: shared
+                            shared: shared,
+                            installed: installed
                         ).receipt
                     }
                 }
@@ -129,7 +133,8 @@ public enum PackageReceipts {
     static func receipts(
         installing url: URL,
         exclusions: Exclusions,
-        pkgutil: @escaping Pkgutil
+        pkgutil: @escaping Pkgutil,
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
         var identifiers: Set<String> = []
@@ -141,6 +146,7 @@ public enum PackageReceipts {
         let removalGuard = RemovalGuard(environment: .current, exclusions: exclusions)
         let reach = HelperReach(environment: .current)
         let shared = sharedFolders(in: .current)
+        let installed = InstalledSystemExtensions(asking: systemExtensions)
         for identifier in identifiers.sorted() where !Task.isCancelled {
             let found = await receipt(
                 identifier,
@@ -148,7 +154,8 @@ public enum PackageReceipts {
                 pkgutil: pkgutil,
                 removalGuard: removalGuard,
                 reach: reach,
-                shared: shared
+                shared: shared,
+                installed: installed
             )
             guard found.installs(wanted) else { continue }
             receipts.append(found.receipt)
@@ -215,7 +222,8 @@ public enum PackageReceipts {
         pkgutil: Pkgutil,
         removalGuard: RemovalGuard,
         reach: HelperReach,
-        shared: [String]
+        shared: [String],
+        installed: InstalledSystemExtensions
     ) async -> Found {
         guard let (info, volume, installLocation) = await description(of: identifier, pkgutil: pkgutil) else {
             // `pkgutil` named the package but did not describe it. It stays listed, with what it installed unknown,
@@ -254,7 +262,8 @@ public enum PackageReceipts {
                 heldBack: requiresPrivileges && reach.isBeyond(url)
                     ? .beyondTheHelper
                     : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
-                        ?? (isFilledByOthers ? .holdsWhatOthersPut : nil)
+                        ?? (isFilledByOthers ? .holdsWhatOthersPut : nil),
+                removedElsewhere: await removedElsewhere(url, installed: installed)
             ))
         }
 
@@ -271,6 +280,15 @@ public enum PackageReceipts {
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
         )
+    }
+
+    /// How an app a package installed is removed instead, by the rules its own page follows: Finder for its system
+    /// extensions, Remove Peel for Peel, its maker's uninstaller for an agent.
+    private static func removedElsewhere(_ url: URL, installed: InstalledSystemExtensions) async -> RemovedElsewhere? {
+        guard url.pathExtension.caseInsensitiveCompare("app") == .orderedSame, let app = AppInspector.inspect(url)
+        else { return nil }
+        let names = await AppExtensions.installedNames(carriedBy: app) { await installed.answer() }
+        return RemovedElsewhere.of(app, installedSystemExtensions: names)
     }
 
     /// What `pkgutil --pkg-info-plist` says of a package, with the volume and the folder its file list is relative to.
@@ -392,5 +410,23 @@ public enum PackageReceipts {
     static func pkgutil(_ arguments: [String]) async -> String? {
         guard case .success(let output) = await Subprocess.run("/usr/sbin/pkgutil", arguments, timeout: 30) else { return nil }
         return output.status == 0 ? output.text : nil
+    }
+}
+
+/// Which system extensions macOS has installed, asked at most once for a scan, and only once an app carries one.
+actor InstalledSystemExtensions {
+    private let asking: AppExtensions.SystemExtensionsAnswer
+    private var asked: Task<[AppExtension]?, Never>?
+
+    init(asking: @escaping AppExtensions.SystemExtensionsAnswer) {
+        self.asking = asking
+    }
+
+    func answer() async -> [AppExtension]? {
+        if let asked { return await asked.value }
+        let asking = asking
+        let task = Task { await asking() }
+        asked = task
+        return await task.value
     }
 }

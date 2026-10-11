@@ -30,7 +30,7 @@ struct PackageDetailView: View {
                         url: item.url,
                         icon: item.url.pathExtension == "app" ? .file(item.url) : .symbol("doc"),
                         detail: item.refusal?.explanation,
-                        warning: item.refusal == nil ? item.heldBack.map { String(localized: $0.explanation) } : nil,
+                        warning: item.refusal == nil ? note(for: item) : nil,
                         size: item.size ?? 0,
                         isMeasured: item.size != nil,
                         isLocked: isLocked(item),
@@ -168,6 +168,11 @@ struct PackageDetailView: View {
 
     private func isLocked(_ item: PackageReceipt.Item) -> Bool {
         item.requiresPrivileges && !helper.canAct
+    }
+
+    private func note(for item: PackageReceipt.Item) -> String? {
+        if let removedElsewhere = item.removedElsewhere { return String(localized: removedElsewhere.explanation) }
+        return item.heldBack.map { String(localized: $0.explanation) }
     }
 
 }

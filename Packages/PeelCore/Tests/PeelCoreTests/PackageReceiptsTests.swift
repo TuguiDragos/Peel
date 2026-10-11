@@ -115,6 +115,53 @@ struct PackageReceiptsTests {
         ])
     }
 
+    @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        func info(_ identifier: String, _ name: String) throws -> Data {
+            try PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": identifier, "CFBundleName": name], format: .xml, options: 0
+            )
+        }
+        try directory.file("Applications/Guard.app/Contents/Info.plist", contents: info("org.example.guard", "Guard"))
+        try directory.file(
+            "Applications/Guard.app/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            contents: info("org.example.guard.filter", "Guard Filter")
+        )
+        try directory.file("Applications/Plain.app/Contents/Info.plist", contents: info("org.example.plain", "Plain"))
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.guard.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Applications"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return "Guard.app\nPlain.app\n"
+            default:
+                return nil
+            }
+        }
+        let filter = AppExtension(
+            identifier: "org.example.guard.filter", name: "Guard Filter", kind: .systemExtension, point: nil, owner: nil,
+            url: nil, election: .on, teamIdentifier: nil, reportedState: nil
+        )
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [filter] }
+        )
+
+        let items = Dictionary(
+            uniqueKeysWithValues: scan.receipts.flatMap(\.items).map { ($0.url.lastPathComponent, $0) }
+        )
+        #expect(items["Guard.app"]?.removedElsewhere == .byFinder(systemExtensions: ["Guard Filter"]))
+        #expect(items["Guard.app"]?.isLeftAlone == true)
+        #expect(items["Plain.app"]?.removedElsewhere == nil)
+        #expect(items["Plain.app"]?.isLeftAlone == false)
+    }
+
     /// A receipt's file list leaves out the install prefix, such as `Applications`, so the path is asked about again
     /// without its leading folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {
