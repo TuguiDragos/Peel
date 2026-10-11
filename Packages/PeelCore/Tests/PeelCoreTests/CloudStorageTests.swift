@@ -301,6 +301,25 @@ struct CloudStorageTests {
         #expect(collector.collected.files.isEmpty)
     }
 
+    /// In an app's iCloud folder only `Documents` is what Finder shows; the rest is the app's own data.
+    @Test func listsOnlyWhatFinderShows() throws {
+        let directory = try TemporaryDirectory()
+        let cloud = "Library/Mobile Documents"
+        try directory.file("\(cloud)/com~apple~CloudDocs/Song.mp3", bytes: 2_000_000)
+        try directory.file("\(cloud)/com~apple~CloudDocs/Data/Shared.bin", bytes: 2_000_000)
+        try directory.file("\(cloud)/iCloud~org~example~notes/Documents/Note.bin", bytes: 2_000_000)
+        try directory.file("\(cloud)/iCloud~org~example~notes/Data/cache.bin", bytes: 2_000_000)
+        try directory.file("\(cloud)/iCloud~org~example~notes/state.bin", bytes: 2_000_000)
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
+            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.name).sorted() == ["Note.bin", "Shared.bin", "Song.mp3"])
+    }
+
     /// A file whose download was removed holds nothing here, and the folder after it is still looked into.
     @Test func looksIntoTheFolderAfterAFileWhoseDownloadWasRemoved() throws {
         let directory = try TemporaryDirectory()

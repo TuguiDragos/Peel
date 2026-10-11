@@ -239,6 +239,7 @@ public enum CloudStorage {
         // The budget is spent, or the page that asked was left or stopped.
         func stopped() -> Bool { ContinuousClock.now >= deadline || isGivenUp() }
         var container = ""
+        var isICloudDrive = false
         for case let url as URL in enumerator {
             guard !stopped() else {
                 collector.cutShort()
@@ -246,8 +247,14 @@ public enum CloudStorage {
             }
             scan?.add(1)
             // Each folder directly in Mobile Documents is one container, named once for everything inside it.
-            if enumerator.level == 1 { container = containerName(of: url, under: root) }
-            if isDataless(url) {
+            if enumerator.level == 1 {
+                container = containerName(of: url, under: root)
+                isICloudDrive = url.lastPathComponent == "com~apple~CloudDocs"
+            }
+            // Of an app's container Finder shows only `Documents`; the rest is the app's own data.
+            let isAppsOwnData = enumerator.level == 2 && !isICloudDrive
+                && url.lastPathComponent.caseInsensitiveCompare("Documents") != .orderedSame
+            if isAppsOwnData || isDataless(url) {
                 // After a file, `skipDescendants()` would skip the next folder's contents instead.
                 if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                     enumerator.skipDescendants()
