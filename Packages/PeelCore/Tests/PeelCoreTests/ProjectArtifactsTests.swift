@@ -399,6 +399,12 @@ struct ProjectArtifactsTests {
             Kind(artifact: "_cache", marker: "site.hs", tool: "Hakyll", isGeneric: true),
             Kind(artifact: "out", marker: "build.mill", tool: "Mill", isGeneric: true),
             Kind(artifact: "out", marker: "build.sc", tool: "Mill", isGeneric: true),
+            Kind(artifact: "ios/Flutter/ephemeral", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
+            Kind(artifact: "macos/Flutter/ephemeral", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
+            Kind(artifact: "linux/flutter/ephemeral", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
+            Kind(artifact: "windows/flutter/ephemeral", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
+            Kind(artifact: ".ios", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
+            Kind(artifact: ".android", marker: "pubspec.yaml", tool: "Flutter", isGeneric: false),
         ])
     }
 
@@ -1150,7 +1156,7 @@ struct ProjectArtifactsTests {
             #expect(!definition.name.isEmpty)
             #expect(!definition.markers.isEmpty || definition.proof != nil, "\(definition.name) has no proof")
             #expect(!definition.tool.isEmpty)
-            #expect(definition.name.split(separator: "/").count <= 2, "\(definition.name) goes deeper than one folder")
+            #expect(definition.name.split(separator: "/").count <= 3, "\(definition.name) goes deeper than two folders")
             let isAPage = definition.source.hasPrefix("https://") && URL(string: definition.source)?.host() != nil
             #expect(isAPage || definition.source.hasPrefix("Xcode 27: "), "\(definition.name) names \(definition.source)")
         }

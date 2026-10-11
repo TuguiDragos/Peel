@@ -430,6 +430,31 @@ public enum ProjectArtifacts {
             source: "https://docs.flutter.dev/reference/flutter-cli"
         ),
         Definition(
+            name: "ios/Flutter/ephemeral", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/xcode_project.dart#L162-L170"
+        ),
+        Definition(
+            name: "macos/Flutter/ephemeral", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/xcode_project.dart#L162-L170"
+        ),
+        Definition(
+            name: "linux/flutter/ephemeral", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/cmake_project.dart#L114-L121"
+        ),
+        Definition(
+            name: "windows/flutter/ephemeral", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/cmake_project.dart#L80-L87"
+        ),
+        // A module's host apps, which Flutter writes again from its templates; editable ones are `ios` and `android`.
+        Definition(
+            name: ".ios", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/xcode_project.dart#L1092-L1125"
+        ),
+        Definition(
+            name: ".android", markers: ["pubspec.yaml"], tool: "Flutter", isGeneric: false,
+            source: "https://github.com/flutter/flutter/blob/3d9c69bf9efd3b4ac086629657003b47a0fde2f0/packages/flutter_tools/lib/src/project.dart#L1109-L1156"
+        ),
+        Definition(
             name: ".venv", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
             source: "https://docs.python.org/3/library/venv.html"
         ),
