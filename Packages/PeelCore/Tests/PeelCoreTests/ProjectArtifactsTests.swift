@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheCacheOlderTypeScriptBuildsForRollupKept() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("lib/package.json", bytes: 16)
+        try directory.file("lib/.rpt2_cache/rpt2_9a7c/code/cache/0a1b", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".rpt2_cache"])
+        #expect(found.first?.tool == "rollup-plugin-typescript2")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersWhatAnInterruptedViteSSGBuildLeft() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("site/package.json", bytes: 16)

@@ -205,6 +205,10 @@ public enum ProjectArtifacts {
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
         ),
         Definition(
+            name: ".rpt2_cache", markers: ["package.json"], tool: "rollup-plugin-typescript2", isGeneric: false,
+            source: "https://github.com/ezolenko/rollup-plugin-typescript2/blob/afaf7140fd640beb6164084a8f27f49e5f9b727e/src/index.ts#L52"
+        ),
+        Definition(
             name: ".vite-ssg-temp", markers: ["package.json"], tool: "Vite SSG", isGeneric: false,
             source: "https://github.com/antfu-collective/vite-ssg/blob/4be6e3c31b905f991cda89bcfd598442f8388ffd/src/node/build.ts#L38-L64"
         ),
