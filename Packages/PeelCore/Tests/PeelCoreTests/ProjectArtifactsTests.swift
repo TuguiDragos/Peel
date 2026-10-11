@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersWhatAnInterruptedViteSSGBuildLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("site/package.json", bytes: 16)
+        try directory.file("site/.vite-ssg-temp/3k2l1j0h9g/main.mjs", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".vite-ssg-temp"])
+        #expect(found.first?.tool == "Vite SSG")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheBuildsSolidStartMakes() async throws {
         let directory = try TemporaryDirectory()
         for app in ["old", "new"] {
