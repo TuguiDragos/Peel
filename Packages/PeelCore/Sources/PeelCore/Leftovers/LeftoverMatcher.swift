@@ -31,6 +31,12 @@ struct LeftoverMatcher: Sendable {
         self.registeredApp = registeredApp
     }
 
+    /// The other installed apps that read `location` too (`SearchLocation.alsoReadBy`). A copy of this app is this app.
+    func installedApps(alsoReading location: SearchLocation) -> [String] {
+        others.filter { !$0.isACopy(of: target) && location.isAlsoRead(byAppKnownAs: $0.identifier) }
+            .map(\.reference).sorted()
+    }
+
     /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
     func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)

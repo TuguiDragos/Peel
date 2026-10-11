@@ -127,7 +127,15 @@ public struct LeftoverScanner: Sendable {
                 unreadableLocations.append(location)
             }
         }
-        let leftovers = Self.merged(found)
+        // A folder another installed app reads too, or one around it, is that app's as well.
+        let alsoRead = environment.locations.filter { !$0.alsoReadBy.isEmpty }
+        let leftovers = Self.merged(found).map { leftover in
+            let item = PathPattern.comparablePath(of: leftover.url)
+            let readers = alsoRead
+                .filter { PathComponents.isPath(PathPattern.comparablePath(of: $0.url), atOrInside: item) }
+                .flatMap(matcher.installedApps(alsoReading:))
+            return readers.isEmpty ? leftover : leftover.sharing(with: readers)
+        }
 
         let byPath: (SearchLocation, SearchLocation) -> Bool = {
             $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)

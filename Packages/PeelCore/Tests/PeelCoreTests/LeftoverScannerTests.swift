@@ -84,6 +84,35 @@ struct LeftoverScannerTests {
         name: "Tunewell"
     )
 
+    /// Brave reads the native messaging manifests other apps leave in Chrome's folders, whichever of its builds it is.
+    @Test func chromesFoldersThatBraveReadsAreSharedWithBrave() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Google/Chrome/NativeMessagingHosts/org.example.host.json")
+        try directory.file("home/Library/Application Support/Google/Chrome/Default/Preferences", bytes: 4096)
+        try directory.file("root/Library/Google/Chrome/NativeMessagingHosts/org.example.host.json")
+        let chrome = InstalledApp(
+            url: URL(filePath: "/Applications/Google Chrome.app"), bundleIdentifier: "com.google.Chrome", name: "Google Chrome",
+            bundleName: "Chrome"
+        )
+        let brave = InstalledApp(
+            url: URL(filePath: "/Applications/Brave Browser Beta.app"), bundleIdentifier: "com.brave.Browser.beta",
+            name: "Brave Browser Beta"
+        )
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        func sharing(besides others: [InstalledApp]) async -> [String: [String]] {
+            let matcher = LeftoverMatcher(app: chrome, installedApps: [chrome] + others) { _ in nil }
+            let leftovers = await scanner.scan(chrome, matcher: matcher).leftovers
+            return Dictionary(uniqueKeysWithValues: leftovers.compactMap { leftover in
+                let path = leftover.url.path(percentEncoded: false)
+                guard path.hasSuffix("Google/Chrome") || path.hasSuffix("Google/Chrome/") else { return nil }
+                return (path.contains("/home/") ? "user" : "local", leftover.match.sharedWith)
+            })
+        }
+
+        #expect(await sharing(besides: [brave]) == ["user": ["com.brave.Browser.beta"], "local": ["com.brave.Browser.beta"]])
+        #expect(await sharing(besides: []) == ["user": [], "local": []])
+    }
+
     private func environment(in directory: borrowing TemporaryDirectory) -> SearchEnvironment {
         SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),

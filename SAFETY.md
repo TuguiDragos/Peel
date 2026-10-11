@@ -241,11 +241,13 @@ The first three happen after a move, and only for what really moved:
 
 Only matches Peel is `certain` or `likely` about, and only when nothing else installed on the Mac uses them.
 
-- **Shared means left unselected.** Anything another app uses is shown and left unselected, and so is what another
-  copy of the app uses: one macOS knows anywhere, such as an older copy in Downloads or one on another disk, named
-  by where it is. An app of the same maker kept outside the Applications folders, such as a Nightly build on another
-  disk, counts like one inside them, and so does one Peel saw installed before: the files named for a Nightly you
-  removed are its, not this app's, and Orphaned Files lists them under it.
+- **Shared means left unselected.** Anything another app uses is shown and left unselected, and so is what another copy
+  of the app uses: one macOS knows anywhere, such as an older copy in Downloads or one on another disk, named by where
+  it is. An app of the same maker kept outside the Applications folders, such as a Nightly build on another disk, counts
+  like one inside them, and so does one Peel saw installed before: the files named for a Nightly you removed are its,
+  not this app's, and Orphaned Files lists them under it. A browser's folder another installed browser reads too is
+  shared with it: every build of Brave reads the native messaging manifests other apps, such as a password manager,
+  leave in Chrome's folders, so uninstalling Chrome leaves them while Brave is installed.
 - **A name alone is a guess.** Something matched by the app's name alone inside a folder named for neither the app
   nor its maker, such as another app's, one of Apple's, or a command-line tool's, is shown and never selected, since a
   folder of that name may be that program's own; so is something matched by name alone at the top of your home folder

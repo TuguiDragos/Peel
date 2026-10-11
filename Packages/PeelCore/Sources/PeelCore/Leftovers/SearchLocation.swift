@@ -67,20 +67,32 @@ public struct SearchLocation: Sendable, Hashable {
     /// At the top of a Library, the names that same Library searches as places of their own, which it never offers
     /// whole: `Preferences` is looked inside and never moved.
     let skipped: Set<String>
+    /// For a browser's native messaging folder, the apps that read it besides the browser it is named for, each
+    /// known by an identifier that is theirs or that theirs continues after a dot.
+    let alsoReadBy: [String]
 
     public init(kind: Kind, url: URL) {
         self.init(kind: kind, url: url, skipped: [])
     }
 
-    init(kind: Kind, url: URL, skipped: Set<String>) {
+    init(kind: Kind, url: URL, skipped: Set<String> = [], alsoReadBy: [String] = []) {
         self.kind = kind
         self.url = url
         self.skipped = skipped
+        self.alsoReadBy = alsoReadBy
     }
 
     /// True when this location looks at an entry with this name.
     func considers(fileName: String) -> Bool {
         kind.considers(fileName: fileName) && !skipped.contains(fileName)
+    }
+
+    func isAlsoRead(byAppKnownAs identifier: String?) -> Bool {
+        guard let identifier = identifier?.lowercased() else { return false }
+        return alsoReadBy.contains { reader in
+            let reader = reader.lowercased()
+            return identifier == reader || identifier.hasPrefix(reader + ".")
+        }
     }
 }
 
@@ -226,8 +238,14 @@ public struct SearchEnvironment: Sendable {
         }
         let hosts = [(userLibrary, Self.nativeMessagingHosts.user), (localLibrary, Self.nativeMessagingHosts.local)]
         locations += hosts.flatMap { library, folders in
-            folders.map { library.appending(path: $0, directoryHint: .isDirectory) }
-        }.map { SearchLocation(kind: .nativeMessagingHosts, url: $0) }
+            folders.map { folder in
+                SearchLocation(
+                    kind: .nativeMessagingHosts,
+                    url: library.appending(path: folder.path, directoryHint: .isDirectory),
+                    alsoReadBy: folder.alsoReadBy
+                )
+            }
+        }
         locations.append(SearchLocation(kind: .safariWebApps, url: SafariWebApp.containers(inLibrary: userLibrary)))
         locations.append(SearchLocation(
             kind: .sharedFolder,
@@ -242,13 +260,30 @@ public struct SearchEnvironment: Sendable {
         return locations
     }
 
+    /// A folder browsers read native messaging manifests from, with the apps that read it besides its own browser.
+    struct NativeMessagingFolder: Sendable, ExpressibleByStringLiteral {
+        let path: String
+        var alsoReadBy: [String] = []
+
+        init(stringLiteral path: String) {
+            self.path = path
+        }
+
+        init(_ path: String, alsoReadBy: [String]) {
+            self.path = path
+            self.alsoReadBy = alsoReadBy
+        }
+    }
+
     /// Each browser's own documentation: Chrome's and Chromium's "Native messaging", MDN's "Native manifests" for
     /// Firefox, and Microsoft's "Native messaging" for Edge and its Beta, Dev, and Canary channels. Chrome's other
     /// channels keep theirs in their own user data folder (Chromium's `docs/user_data_dir.md`), and Chrome for
-    /// Testing has its own in `/Library` (`chrome/common/chrome_paths.cc`).
-    static let nativeMessagingHosts = (
+    /// Testing has its own in `/Library` (`chrome/common/chrome_paths.cc`). Every build of Brave reads Chrome's two
+    /// on the Mac, where other apps leave their manifests (brave-core `app/brave_main_delegate.cc` at
+    /// 5e268a047e51ba615c536db3aabbb782eb34550c, and its `app/theme/*/BRANDING` for each build's identifier).
+    static let nativeMessagingHosts: (user: [NativeMessagingFolder], local: [NativeMessagingFolder]) = (
         user: [
-            "Application Support/Google/Chrome/NativeMessagingHosts",
+            NativeMessagingFolder("Application Support/Google/Chrome/NativeMessagingHosts", alsoReadBy: ["com.brave.Browser"]),
             "Application Support/Google/Chrome Beta/NativeMessagingHosts",
             "Application Support/Google/Chrome Dev/NativeMessagingHosts",
             "Application Support/Google/Chrome Canary/NativeMessagingHosts",
@@ -261,7 +296,7 @@ public struct SearchEnvironment: Sendable {
             "Application Support/Microsoft Edge Canary/NativeMessagingHosts",
         ],
         local: [
-            "Google/Chrome/NativeMessagingHosts",
+            NativeMessagingFolder("Google/Chrome/NativeMessagingHosts", alsoReadBy: ["com.brave.Browser"]),
             "Google/ChromeForTesting/NativeMessagingHosts",
             "Application Support/Chromium/NativeMessagingHosts",
             "Application Support/Mozilla/NativeMessagingHosts",

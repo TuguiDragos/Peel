@@ -192,6 +192,14 @@ public struct LeftoverMatch: Sendable, Hashable {
         )
     }
 
+    /// Returns the same match, shared with `apps` as well.
+    func sharing(with apps: [String]) -> LeftoverMatch {
+        LeftoverMatch(
+            reason: reason, confidence: confidence, sharedWith: Set(sharedWith).union(apps).sorted(),
+            otherCopies: otherCopies, heldBack: heldBack, isAWord: isAWord
+        )
+    }
+
     /// Returns the same match, no surer than `ceiling`.
     func atMost(_ ceiling: MatchConfidence) -> LeftoverMatch {
         LeftoverMatch(
@@ -235,6 +243,13 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public var holdsDamagedSettings = false
 
     public var id: URL { url }
+
+    func sharing(with apps: [String]) -> Leftover {
+        Leftover(
+            url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
+            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings
+        )
+    }
 
     /// Returns the same leftover, held back for `reason`: shown, but never selected. A reason that already blocks
     /// the move stays, since it outranks one that only leaves the item unselected.
