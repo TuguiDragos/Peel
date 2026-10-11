@@ -492,6 +492,7 @@ struct DeveloperCachesTests {
             ".claude/shell-snapshots/snapshot-zsh.sh", ".claude/paste-cache/abc", ".claude/history.jsonl",
             ".claude/projects/app/session.jsonl", ".claude/image-cache/5f2a/1.png", ".claude/logs/2025-06-01.log",
             ".codex/log/codex-tui.log", ".codex/sessions/rollout.jsonl",
+            ".codex/cache/tui-pets/frame-cache/cat/1a2b/frames/0.png",
         ] {
             try directory.file(path, bytes: 4_096)
         }
@@ -502,6 +503,7 @@ struct DeveloperCachesTests {
             .flatMap(\.locations).map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
         #expect(Set(listed) == [
             ".claude/cache", ".claude/debug", ".claude/statsig", ".claude/image-cache", ".claude/logs", ".codex/log",
+            ".codex/cache",
         ])
     }
 

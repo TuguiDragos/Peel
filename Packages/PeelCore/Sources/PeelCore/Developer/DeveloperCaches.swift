@@ -950,6 +950,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "codex", name: "Codex CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".codex/log", .logs, source: "https://github.com/openai/codex/blob/dde5f8c5ae9b644c6882b3a48581ac317255d597/codex-rs/core/src/config/mod.rs#L4089-L4093"),
+            Folder(".codex/cache", .cache, source: "https://github.com/openai/codex/blob/8c0f7011674145da7e10627769fb221c74fbf7a0/codex-rs/tui/src/pets/ambient.rs#L157-L164"),
         ]),
         Definition(id: "copilotcli", name: "GitHub Copilot CLI", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/copilot", .cache, source: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference"),
