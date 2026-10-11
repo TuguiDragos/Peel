@@ -44,6 +44,37 @@ struct GitIndexTests {
         #expect(!index.tracksSomething(atOrInside: project.appending(path: "Other"), of: repository))
     }
 
+    @Test func aSplitIndexLeavesOutWhatItDeletedFromTheSharedIndex() async throws {
+        let directory = try TemporaryDirectory()
+        let project = try makeProject(in: directory)
+        for number in 1...40 { _ = try directory.file("App/src/file\(number).swift") }
+        let git = try await GitFixture(home: directory.url.appending(path: "home"))
+        try await git.run("init", "-q", in: project)
+        try await git.run("-c", "core.splitIndex=true", "-c", "index.version=4", "add", "Podfile", "Pods", "src", in: project)
+        _ = try directory.file("App/src/file3.swift", bytes: 8)
+        try await git.run("-c", "core.splitIndex=true", "add", "src/file3.swift", "Other", in: project)
+        try await git.run("-c", "core.splitIndex=true", "rm", "-r", "-q", "--cached", "Pods", in: project)
+
+        let repository = try #require(GitIndex.repository(containing: project))
+        let store = try FileManager.default.contentsOfDirectory(
+            atPath: repository.gitDirectory.path(percentEncoded: false)
+        )
+        #expect(store.contains { $0.hasPrefix("sharedindex.") })
+        let index = try #require(GitIndex.read(repository))
+        #expect(!index.tracksSomething(atOrInside: project.appending(path: "Pods"), of: repository))
+        #expect(!index.tracksSomething(atOrInside: project.appending(path: "Pods/Foo"), of: repository))
+        #expect(index.tracksSomething(atOrInside: project.appending(path: "src"), of: repository))
+        #expect(index.tracksSomething(atOrInside: project.appending(path: "Other"), of: repository))
+
+        let file = repository.gitDirectory.appending(path: "index")
+        var written = try Data(contentsOf: file)
+        #expect(written.dropFirst(7).first == 4)
+        let link = try #require(written.firstRange(of: Data("link".utf8))).lowerBound
+        written.replaceSubrange(link + 8 + 20 + 4..<link + 8 + 20 + 8, with: [0x7F, 0xFF, 0xFF, 0xFF])
+        try written.write(to: file)
+        #expect(GitIndex.read(repository) == nil)
+    }
+
     @Test func readsTheIndexOfAWorktree() async throws {
         let directory = try TemporaryDirectory()
         let project = try makeProject(in: directory)

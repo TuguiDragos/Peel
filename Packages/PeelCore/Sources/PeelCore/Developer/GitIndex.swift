@@ -74,10 +74,10 @@ struct GitIndex: Sendable {
         else { return nil }
         var index = GitIndex()
         do {
-            if let shared = try index.add(data, objectNameLength: length) {
-                let sharedFile = git.appending(path: "sharedindex.\(shared)")
+            if let link = try index.add(data, objectNameLength: length) {
+                let sharedFile = git.appending(path: "sharedindex.\(link.sharedIndex)")
                 guard let sharedData = BoundedRead.data(at: sharedFile, maximum: maximumSize),
-                      try index.add(sharedData, objectNameLength: length) == nil
+                      try index.add(sharedData, objectNameLength: length, leavingOut: link.deleted) == nil
                 else { return nil }
             }
         } catch {
@@ -120,12 +120,20 @@ struct GitIndex: Sendable {
         return folders.contains(relative) || sparseFolders.contains { relative.starts(with: $0) }
     }
 
-    /// Adds the entries of one index file, and returns the name of the shared index a split index lays them over.
-    private mutating func add(_ data: Data, objectNameLength: Int) throws -> String? {
-        try data.withUnsafeBytes { bytes in try add(bytes, objectNameLength: objectNameLength) }
+    private struct Link {
+        let sharedIndex: String
+        let deleted: IndexSet
     }
 
-    private mutating func add(_ bytes: UnsafeRawBufferPointer, objectNameLength: Int) throws -> String? {
+    /// Adds the entries of one index file but those at the positions `deleted` names, and returns the shared index a
+    /// split index lays them over.
+    private mutating func add(_ data: Data, objectNameLength: Int, leavingOut deleted: IndexSet = []) throws -> Link? {
+        try data.withUnsafeBytes { bytes in try add(bytes, objectNameLength: objectNameLength, leavingOut: deleted) }
+    }
+
+    private mutating func add(
+        _ bytes: UnsafeRawBufferPointer, objectNameLength: Int, leavingOut deleted: IndexSet
+    ) throws -> Link? {
         // The index ends with a checksum as long as an object name.
         let end = bytes.count - objectNameLength
         guard end >= 12, bytes.bigEndian32(at: 0) == 0x4449_5243 else { throw Unreadable() }
@@ -135,7 +143,7 @@ struct GitIndex: Sendable {
         var offset = 12
         var previous: [UInt8] = []
         var previousFolder: ArraySlice<UInt8> = []
-        for _ in 0..<bytes.bigEndian32(at: 8) {
+        for position in 0..<Int(bytes.bigEndian32(at: 8)) {
             let start = offset
             offset += 40 + objectNameLength + 2
             guard offset <= end else { throw Unreadable() }
@@ -164,6 +172,7 @@ struct GitIndex: Sendable {
             let length = Int(flags & 0x0FFF)
             guard length == 0x0FFF ? path.count >= 0x0FFF : path.count == length else { throw Unreadable() }
             previous = path
+            guard !deleted.contains(position) else { continue }
 
             let folder = path[..<(path.lastIndex(of: UInt8(ascii: "/")) ?? 0)]
             let kind = mode & 0o170000
@@ -173,7 +182,7 @@ struct GitIndex: Sendable {
             }
         }
 
-        var shared: String?
+        var link: Link?
         while offset < end {
             guard end - offset >= 8 else { throw Unreadable() }
             let signature = Array(bytes[offset..<offset + 4])
@@ -183,14 +192,22 @@ struct GitIndex: Sendable {
             if signature == Array("link".utf8) {
                 guard size >= objectNameLength else { throw Unreadable() }
                 let name = bytes[body..<body + objectNameLength]
-                if name.contains(where: { $0 != 0 }) { shared = name.hexadecimal }
+                // The shared index's name, then the entries there it deletes and those it replaces, as two bitmaps.
+                var deleted = IndexSet()
+                if size > objectNameLength {
+                    let deletions = try Self.bitmap(in: bytes, at: body + objectNameLength, end: body + size)
+                    let replacements = try Self.bitmap(in: bytes, at: deletions.end, end: body + size)
+                    guard replacements.end == body + size else { throw Unreadable() }
+                    deleted = deletions.bits
+                }
+                if name.contains(where: { $0 != 0 }) { link = Link(sharedIndex: name.hexadecimal, deleted: deleted) }
             } else if !(UInt8(ascii: "A")...UInt8(ascii: "Z")).contains(signature[0]), signature != Array("sdir".utf8) {
                 // An extension whose name starts in lowercase changes what the entries mean.
                 throw Unreadable()
             }
             offset = body + size
         }
-        return shared
+        return link
     }
 
     private mutating func add(path: [UInt8], isTrackedWhole: Bool, isSparse: Bool) {
@@ -200,6 +217,40 @@ struct GitIndex: Sendable {
             guard folders.insert(Array(names.prefix(count))).inserted else { break }
         }
         if isSparse { sparseFolders.append(names) }
+    }
+
+    /// The bits set in an EWAH bitmap as Git writes one (`ewah/ewah_io.c`), below the count of bits it holds, and
+    /// where it ends: its sizes, its 64-bit words, and the position of its last marker word.
+    private static func bitmap(
+        in bytes: UnsafeRawBufferPointer, at start: Int, end: Int
+    ) throws -> (bits: IndexSet, end: Int) {
+        guard end - start >= 12 else { throw Unreadable() }
+        let count = Int(bytes.bigEndian32(at: start))
+        let words = Int(bytes.bigEndian32(at: start + 4))
+        let first = start + 8
+        guard words <= (end - first - 4) / 8 else { throw Unreadable() }
+        var bits = IndexSet()
+        var position = 0
+        var word = 0
+        // Each marker word says how many words of one bit come first, then how many words follow as they are.
+        while word < words, position < count {
+            let marker = bytes.bigEndian64(at: first + word * 8)
+            let run = Int((marker >> 1) & 0xFFFF_FFFF) * 64
+            let literals = Int(marker >> 33)
+            word += 1
+            guard literals <= words - word else { throw Unreadable() }
+            if marker & 1 != 0, run > 0 { bits.insert(integersIn: position..<min(position + run, count)) }
+            position += run
+            for _ in 0..<literals where position < count {
+                let literal = bytes.bigEndian64(at: first + word * 8)
+                for bit in 0..<min(64, count - position) where (literal >> UInt64(bit)) & 1 != 0 {
+                    bits.insert(position + bit)
+                }
+                position += 64
+                word += 1
+            }
+        }
+        return (bits, first + words * 8 + 4)
     }
 
     /// The number Git's offset encoding writes (`gitformat-pack(5)`), and how many bytes it took.
@@ -233,5 +284,9 @@ private extension UnsafeRawBufferPointer {
 
     func bigEndian16(at offset: Int) -> UInt16 {
         UInt16(bigEndian: loadUnaligned(fromByteOffset: offset, as: UInt16.self))
+    }
+
+    func bigEndian64(at offset: Int) -> UInt64 {
+        UInt64(bigEndian: loadUnaligned(fromByteOffset: offset, as: UInt64.self))
     }
 }
