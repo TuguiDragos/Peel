@@ -300,7 +300,8 @@ Never selected for you, even when found:
   inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's backups and an
   authenticator's codes, VPN connections, a game's saves and a database, each where the app's own documentation or
-  source says it keeps them, and anything named as an app's backups.
+  source says it keeps them, and anything named as an app's backups. When you uninstall Xcode, the simulators it made in
+  your home folder are listed too, with the apps installed in them and their data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file in iCloud Drive, which the Trash would take from every device, and a file a program has open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is

@@ -36,6 +36,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// The commands that free an area Peel leaves alone, as its tool's documentation gives them. Peel shows them to
     /// copy and never runs them: they delete for good.
     public var commands: [String] = []
+    /// True when the apps that make and clear this area are all gone from this Mac, so its words can't send the
+    /// person to them.
+    public var managingAppIsMissing = false
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -87,6 +90,23 @@ public enum SpaceInventory {
         }
     }
 
+    /// The apps that make and clear an area, as the area's words in the app name them, and why what the area keeps
+    /// in the home folder is only offered for review when one of them is uninstalled.
+    struct ManagingApps: Sendable {
+        let identifiers: [String]
+        let leftBehind: HoldBack
+
+        func includes(_ identifier: String?) -> Bool {
+            guard let identifier = identifier?.lowercased() else { return false }
+            return identifiers.contains { $0.lowercased() == identifier }
+        }
+
+        /// Whether one of them is on this Mac, wherever it is, outside a Trash.
+        var oneIsOnThisMac: Bool {
+            identifiers.contains { !AppInspector.applicationURLs(forBundleIdentifier: $0).isEmpty }
+        }
+    }
+
     struct Definition: Sendable {
         let id: String
         let category: SpaceItem.Category
@@ -104,6 +124,7 @@ public enum SpaceInventory {
         var leavesMacOSsOwn = false
         var onlyFilesIn: [String] = []
         var commands: [Command] = []
+        var managedBy: ManagingApps?
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL, userCache: URL?) -> [URL] {
@@ -112,6 +133,11 @@ public enum SpaceInventory {
                     ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
                     : home.appending(path: path, directoryHint: .isDirectory)
             } + (isTheUserCacheFolder ? [userCache].compactMap(\.self) : [])
+        }
+
+        /// Each of `paths` in the home folder: those outside it belong to every account on the Mac.
+        func placesInTheHome(_ home: URL) -> [URL] {
+            paths.filter { !$0.hasPrefix("/") }.map { home.appending(path: $0, directoryHint: .isDirectory) }
         }
 
         /// True when the area's size is what it offers, child by child, rather than its places measured whole: one
@@ -131,6 +157,9 @@ public enum SpaceInventory {
     /// live in the app, because this package has no string catalog.
     public static var definitionIdentifiers: [String] { definitions.map(\.id) }
 
+    /// The identifier of every area its apps manage, which the app gives words for when those apps are gone.
+    public static var managedAreaIdentifiers: [String] { definitions.filter { $0.managedBy != nil }.map(\.id) }
+
     static let definitions: [Definition] = [
         Definition(
             id: "simulators",
@@ -140,7 +169,10 @@ public enum SpaceInventory {
             commands: [
                 Command("xcrun simctl runtime delete --outdated", needs: .simctlRuntimeOption("--outdated")),
                 Command("xcrun simctl delete unavailable", needs: .simctl),
-            ]
+            ],
+            // Apple's "Managing your simulated and physical devices in Device Hub": simulators are made and removed in
+            // Xcode, whose first launch installs CoreSimulator, which keeps them in the home folder.
+            managedBy: ManagingApps(identifiers: ["com.apple.dt.Xcode"], leftBehind: .holdsSimulators)
         ),
         Definition(
             id: "android-sdk",
@@ -490,17 +522,7 @@ public enum SpaceInventory {
         }
         let help = await simctlHelp
         let items = measured.filter { $0.size.map { $0 >= minimumSize } ?? true }.map { definition, urls, size in
-            SpaceItem(
-                id: definition.id,
-                category: definition.category,
-                urls: urls,
-                size: size,
-                handling: definition.handling,
-                heldBack: definition.heldBack,
-                leavesMacOSsOwn: definition.leavesMacOSsOwn,
-                onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
-                commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line)
-            )
+            item(definition, urls: urls, size: size, home: home, root: root, simctlRuntimeHelp: help)
         }
 
         return SpaceReport(
@@ -512,6 +534,28 @@ public enum SpaceInventory {
             needsFullDiskAccess: items.contains {
                 $0.size == nil && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
             }
+        )
+    }
+
+    static func item(
+        _ definition: Definition,
+        urls: [URL],
+        size: Int64?,
+        home: URL,
+        root: URL,
+        simctlRuntimeHelp help: String?
+    ) -> SpaceItem {
+        SpaceItem(
+            id: definition.id,
+            category: definition.category,
+            urls: urls,
+            size: size,
+            handling: definition.handling,
+            heldBack: definition.heldBack,
+            leavesMacOSsOwn: definition.leavesMacOSsOwn,
+            onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
+            commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
+            managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false
         )
     }
 

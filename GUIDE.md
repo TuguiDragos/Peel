@@ -20,7 +20,7 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password
   database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
   may exist only on this Mac, such as local mail, message history, sign-in codes, VPN connections, a game's saves, a
-  database, or an app's own backups.
+  database, or an app's own backups. Uninstalling Xcode lists the simulators it made the same way.
 - **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected. What
   Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also uses, waits
   under Review Before Removing.
@@ -108,7 +108,8 @@ they install, so choosing one, or a folder inside one, is refused.
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,
 with the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it
-deletes for good. In the Library at the top of the disk, Space also lists the caches and logs apps keep for every
+deletes for good. Once Xcode is gone, the Simulators area says to install it again before using its settings. In the
+Library at the top of the disk, Space also lists the caches and logs apps keep for every
 account, and the crash reports macOS keeps. Those an administrator owns go through Peel's helper, and what macOS
 keeps there for its own services is never listed. In your own Logs, the folder macOS saves crash reports in stays and
 only the reports are offered, since macOS can't make that folder again. Nothing is selected for you: Select

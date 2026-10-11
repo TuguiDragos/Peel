@@ -56756,6 +56756,113 @@
         }
       }
     },
+    "Install Xcode again, then Xcode > Settings > Components" : {
+      "comment" : "Xcode > Settings > Components are Xcode's own menus, which are English in every language.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znovu nainstalujte Xcode a pak zvolte Xcode > Settings > Components"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installiere Xcode erneut und wähle dann Xcode > Settings > Components"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a instalar Xcode y luego Xcode > Settings > Components"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinstallez Xcode, puis Xcode > Settings > Components"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa di nuovo Xcode, poi Xcode > Settings > Components"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcodeを再インストールしてから、Xcode > Settings > Componentsと選択してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode를 다시 설치한 다음 Xcode > Settings > Components"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer Xcode opnieuw en kies daarna Xcode > Settings > Components"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstaluj ponownie Xcode, a potem wybierz Xcode > Settings > Components"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instale o Xcode novamente e depois Xcode > Settings > Components"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalați Xcode din nou, apoi Xcode > Settings > Components"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите Xcode снова, затем Xcode > Settings > Components"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installera Xcode igen och välj sedan Xcode > Settings > Components"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode’u yeniden yükleyin, ardından Xcode > Settings > Components"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інсталюйте Xcode знову, а потім Xcode > Settings > Components"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新安装Xcode，然后前往Xcode > Settings > Components"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新安裝Xcode，然後選擇Xcode > Settings > Components"
+          }
+        }
+      }
+    },
     "Install and set up" : {
       "localizations" : {
         "cs" : {
@@ -71363,6 +71470,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由它自己的App管理"
+          }
+        }
+      }
+    },
+    "Managed by the app" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spravováno aplikací"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von der App verwaltet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo gestiona la app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Géré par l’app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestito dall’app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリによる管理"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱에서 관리됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beheerd door de app"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zarządzane przez aplikację"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerenciado pelo app"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestionat de aplicație"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управляется приложением"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanteras av appen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama tarafından yönetiliyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Керується програмою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由App管理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由App管理"
           }
         }
       }
@@ -90254,6 +90467,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：其中存有可能只存在於這部Mac上的密碼或登入驗證碼。一旦清空「垃圾桶」，除非你有備份，否則它們就會永久消失。"
+          }
+        }
+      }
+    },
+    "Not selected: this holds the app’s simulators, with the apps installed in them and their data, which may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje simulátory aplikace i s aplikacemi v nich nainstalovanými a jejich daty, které mohou existovat jen v tomto Macu. Jakmile se koš vysype, budou trvale ztraceny, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält die Simulatoren der App mit den darin installierten Apps und ihren Daten, die es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, sind sie endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene los simuladores de la app, con las apps instaladas en ellos y sus datos, que puede que solo existan en este Mac. En cuanto se vacíe la papelera, se perderán definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient les simulateurs de l’app, avec les apps qui y sont installées et leurs données, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene i simulatori dell’app, con le app installate al loro interno e i relativi dati, che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, sono persi definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、このアプリのシミュレータと、その中にインストールされているアプリおよびそのデータが含まれており、このMacにしか存在しない可能性があります。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 앱의 시뮬레이터와 그 안에 설치된 앱 및 해당 데이터가 들어 있으며, 이는 이 Mac에만 있을 수 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat de simulators van de app, met de daarin geïnstalleerde apps en hun gegevens, die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, zijn ze definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera symulatory aplikacji, które mogą istnieć tylko na tym Macu, wraz z zainstalowanymi w nich aplikacjami i ich danymi. Po opróżnieniu Kosza przepadną na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém os simuladores do app, com os apps instalados neles e os dados deles, que podem existir só neste Mac. Depois que o Lixo for esvaziado, eles se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține simulatoarele aplicației, cu aplicațiile instalate în ele și datele lor, care pot exista doar pe acest Mac. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся симуляторы приложения с установленными в них приложениями и их данными, и, возможно, они есть только на этом Mac. После очистки Корзины они будут потеряны безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller appens simulatorer, med apparna som är installerade på dem och deras data, som kanske bara finns på den här datorn. När papperskorgen har tömts är de borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, içlerinde yüklü uygulamalar ve bunların verileriyle birlikte, uygulamanın yalnızca bu Mac’te bulunabilecek simülatörlerini içerir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються симулятори програми разом з інстальованими в них програмами та їхніми даними, які можуть існувати лише на цьому Mac. Коли Смітник буде очищено, їх буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有该App的模拟器，以及安装在其中的App及其数据，这些内容可能仅存在于这台Mac上。一旦清倒废纸篓，除非你有备份，否则它们将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有此App的模擬器，連同模擬器中安裝的App及其資料，這些內容可能只存在於這部Mac上。一旦清空「垃圾桶」，除非你有備份，否則它們就會永久消失。"
           }
         }
       }

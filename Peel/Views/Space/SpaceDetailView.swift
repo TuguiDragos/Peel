@@ -32,9 +32,9 @@ struct SpaceDetailView: View {
             Section {
                 Text(item.words.detail)
                     .font(.callout)
-                if item.words.hint != nil || !item.commands.isEmpty {
+                if item.howToFreeIt != nil || !item.commands.isEmpty {
                     LabeledContent {
-                        if let hint = item.words.hint {
+                        if let hint = item.howToFreeIt {
                             Text(hint)
                                 .font(.callout)
                                 .textSelection(.enabled)

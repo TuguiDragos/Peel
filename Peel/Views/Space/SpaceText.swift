@@ -11,6 +11,8 @@ nonisolated extension SpaceItem {
         let title: LocalizedStringResource
         let detail: LocalizedStringResource
         var hint: LocalizedStringResource?
+        /// The hint while the apps that manage the area are gone from this Mac.
+        var hintWithoutItsApp: LocalizedStringResource?
     }
 
     /// The words shown for this area. An area with no words here stops a Debug build, and a Release build
@@ -28,12 +30,20 @@ nonisolated extension SpaceItem {
         words[id]
     }
 
+    var howToFreeIt: LocalizedStringResource? {
+        managingAppIsMissing ? words.hintWithoutItsApp ?? words.hint : words.hint
+    }
+
     private static let words: [String: Words] = [
         "simulators": Words(
             title: "Simulators",
             detail: "Devices and runtimes Xcode keeps for testing.",
             hint: LocalizedStringResource(
                 "Xcode > Settings > Components", comment: "Xcode's own menus, which are English in every language."
+            ),
+            hintWithoutItsApp: LocalizedStringResource(
+                "Install Xcode again, then Xcode > Settings > Components",
+                comment: "Xcode > Settings > Components are Xcode's own menus, which are English in every language."
             )
         ),
         "android-sdk": Words(
@@ -188,6 +198,9 @@ extension SpaceItem {
             if let hint = found.hint {
                 assert(!hint.key.isEmpty, "\(id) has an empty hint")
             }
+        }
+        for id in SpaceInventory.managedAreaIdentifiers {
+            assert(words[id]?.hintWithoutItsApp != nil, "\(id) has no hint for when its app is gone")
         }
     }
 }

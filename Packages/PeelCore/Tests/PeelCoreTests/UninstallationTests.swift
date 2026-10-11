@@ -981,6 +981,147 @@ struct UninstallationTests {
 
         #expect(found.isEmpty)
     }
+
+    private func machines(managedBy identifiers: [String], paths: [String] = ["Library/Example/Machines"])
+        -> SpaceInventory.Definition {
+        SpaceInventory.Definition(
+            id: "machines",
+            category: .virtualMachines,
+            paths: paths + ["/Library/Example/Shared"],
+            handling: .readOnly,
+            managedBy: .init(identifiers: identifiers, leftBehind: .holdsWorkMadeWithTheApp)
+        )
+    }
+
+    private func leftoversOfManagedAreas(
+        of app: InstalledApp,
+        among installedApps: [InstalledApp],
+        exclusions: Exclusions = .none,
+        areas: [SpaceInventory.Definition],
+        environment: SearchEnvironment
+    ) async -> [Leftover] {
+        let matcher = await LeftoverScanner(environment: environment, exclusions: exclusions)
+            .matcher(for: app, installedApps: installedApps)
+        return await Uninstallation.leftoversOfManagedAreas(
+            of: app, matcher: matcher, exclusions: exclusions, environment: environment, areas: areas
+        )
+    }
+
+    @Test func listsWhatAnAreaTheAppManagesKeepsInTheHomeForReview() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Library/Example/Machines/one/disk.img", bytes: 4_096)
+        try directory.file("root/Library/Example/Shared/runtime.img", bytes: 4_096)
+        let app = InstalledApp(
+            url: try directory.directory("home/Applications/Machines.app"),
+            bundleIdentifier: "org.example.machines",
+            name: "Machines"
+        )
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let found = await leftoversOfManagedAreas(
+            of: app, among: [app], areas: [machines(managedBy: ["org.example.machines"])], environment: environment
+        )
+
+        let leftover = try #require(found.first)
+        #expect(found.count == 1, "the place every account shares was offered")
+        #expect(PathPattern.comparablePath(of: leftover.url) == PathPattern.comparablePath(
+            of: home.appending(path: "Library/Example/Machines")
+        ))
+        #expect(leftover.match.reason == .managedByTheApp)
+        #expect(leftover.match.confidence == .certain)
+        #expect(leftover.match.heldBack == .holdsWorkMadeWithTheApp)
+        #expect(!leftover.match.isRecommended)
+        #expect(leftover.isMeasured && leftover.size >= 4_096)
+    }
+
+    @Test func anotherCopyOrAnotherAppThatManagesTheAreaUsesItToo() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Library/Example/Machines/one/disk.img", bytes: 4_096)
+        func app(_ name: String, _ identifier: String) throws -> InstalledApp {
+            InstalledApp(
+                url: try directory.directory("home/Applications/\(name).app"), bundleIdentifier: identifier, name: name
+            )
+        }
+        let machinesApp = try app("Machines", "org.example.machines")
+        let copy = try app("Machines Beta", "org.example.machines")
+        let fleet = try app("Fleet", "org.example.fleet")
+        let bystander = try app("Notes", "org.example.notes")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let found = await leftoversOfManagedAreas(
+            of: machinesApp,
+            among: [machinesApp, copy, fleet, bystander],
+            areas: [machines(managedBy: ["org.example.machines", "org.example.fleet"])],
+            environment: environment
+        )
+
+        let leftover = try #require(found.first)
+        #expect(leftover.match.sharedWith == ["org.example.fleet"])
+        #expect(leftover.match.otherCopies.map(PathPattern.comparablePath(of:)) == [
+            PathPattern.comparablePath(of: copy.url)
+        ])
+    }
+
+    @Test func leavesAnAreaToTheAppsThatManageItAndToExclusions() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let disk = try directory.file("home/Library/Example/Machines/one/disk.img", bytes: 4_096)
+        let place = disk.deletingLastPathComponent().deletingLastPathComponent()
+        let app = InstalledApp(
+            url: try directory.directory("home/Applications/Machines.app"),
+            bundleIdentifier: "org.example.machines",
+            name: "Machines"
+        )
+        let notes = InstalledApp(
+            url: try directory.directory("home/Applications/Notes.app"),
+            bundleIdentifier: "org.example.notes",
+            name: "Notes"
+        )
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        let area = machines(managedBy: ["org.example.machines"])
+
+        let forAnotherApp = await leftoversOfManagedAreas(
+            of: notes, among: [app, notes], areas: [area], environment: environment
+        )
+        let excluded = await leftoversOfManagedAreas(
+            of: app, among: [app], exclusions: Exclusions(paths: [place]), areas: [area], environment: environment
+        )
+        let holdingAnExclusion = await leftoversOfManagedAreas(
+            of: app, among: [app], exclusions: Exclusions(paths: [disk]), areas: [area], environment: environment
+        )
+        let missing = await leftoversOfManagedAreas(
+            of: app,
+            among: [app],
+            areas: [machines(managedBy: ["org.example.machines"], paths: ["Library/Example/Nothing"])],
+            environment: environment
+        )
+
+        #expect(forAnotherApp.isEmpty)
+        #expect(excluded.isEmpty)
+        #expect(holdingAnExclusion.map(\.match.heldBack) == [.holdsAnExclusion])
+        #expect(missing.isEmpty)
+    }
+
+    @Test func uninstallingXcodeListsItsSimulatorsUnselected() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Library/Developer/CoreSimulator/Devices/device_set.plist", bytes: 351)
+        let xcode = InstalledApp(
+            url: try directory.directory("home/Applications/Xcode.app"),
+            bundleIdentifier: "com.apple.dt.Xcode",
+            name: "Xcode"
+        )
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(xcode, installedApps: [xcode], environment: environment)
+
+        let devices = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "Devices" })
+        #expect(devices.match.reason == .managedByTheApp)
+        #expect(devices.match.heldBack == .holdsSimulators)
+        #expect(!plan.suggestedSelection(canUseHelper: true).contains(devices.url))
+    }
 }
 
 /// Anything Peel selects on its own has to pass the guard, and the helper when it needs one, or it would be

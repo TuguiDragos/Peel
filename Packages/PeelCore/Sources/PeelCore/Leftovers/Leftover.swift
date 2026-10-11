@@ -23,6 +23,9 @@ public enum MatchReason: String, Sendable, Hashable {
     case leadsIntoItsHomebrewReceipt
     /// The app's Homebrew cask lists this path in its uninstall or zap stanza.
     case homebrewCask
+    /// What an area the app manages keeps in the home folder, such as the simulators Xcode makes
+    /// (`SpaceInventory.Definition.managedBy`).
+    case managedByTheApp
 }
 
 public enum MatchConfidence: Int, Sendable, Hashable, Comparable {
@@ -77,6 +80,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// What the person made with the app, such as saved games, databases, or the app's own backups, that may exist
     /// only on this Mac (`KeptOnlyHere`).
     case holdsWorkMadeWithTheApp
+    /// Simulators, with the apps installed in them and their data, which may exist only on this Mac.
+    case holdsSimulators
     /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
     case holdsKeys
     /// Work kept nowhere else is inside a cache folder, such as an editor's local history of the person's files, and

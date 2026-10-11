@@ -435,6 +435,50 @@ struct SpaceInventoryTests {
         }
     }
 
+    @Test func xcodeManagesTheSimulatorsAndLeavesThemForReview() throws {
+        let simulators = try #require(SpaceInventory.definitions.first { $0.id == "simulators" })
+        let home = URL(filePath: "/Users/someone/", directoryHint: .isDirectory)
+
+        let managedBy = try #require(simulators.managedBy)
+        #expect(managedBy.identifiers == ["com.apple.dt.Xcode"])
+        #expect(managedBy.leftBehind == .holdsSimulators)
+        #expect(simulators.placesInTheHome(home) == [
+            home.appending(path: "Library/Developer/CoreSimulator/Devices", directoryHint: .isDirectory)
+        ])
+        #expect(SpaceInventory.managedAreaIdentifiers == ["simulators"])
+    }
+
+    @Test func knowsWhetherAnAppThatManagesAnAreaIsOnThisMac() {
+        let gone = SpaceInventory.ManagingApps(identifiers: ["org.example.gone"], leftBehind: .holdsSimulators)
+        let finder = SpaceInventory.ManagingApps(
+            identifiers: ["org.example.gone", "com.apple.finder"], leftBehind: .holdsSimulators
+        )
+
+        #expect(!gone.oneIsOnThisMac)
+        #expect(finder.oneIsOnThisMac)
+        #expect(finder.includes("COM.apple.Finder"))
+        #expect(!finder.includes("com.apple.finder.helper"))
+        #expect(!finder.includes(nil))
+    }
+
+    @Test func saysWhenTheAppsThatManageAnAreaAreGone() {
+        let home = URL(filePath: "/Users/someone/", directoryHint: .isDirectory)
+        func item(managedBy identifiers: [String]?) -> SpaceItem {
+            let area = SpaceInventory.Definition(
+                id: "machines",
+                category: .virtualMachines,
+                paths: ["Machines"],
+                handling: .readOnly,
+                managedBy: identifiers.map { .init(identifiers: $0, leftBehind: .holdsWorkMadeWithTheApp) }
+            )
+            return SpaceInventory.item(area, urls: [], size: 0, home: home, root: home, simctlRuntimeHelp: nil)
+        }
+
+        #expect(item(managedBy: ["org.example.gone"]).managingAppIsMissing)
+        #expect(!item(managedBy: ["com.apple.finder"]).managingAppIsMissing)
+        #expect(!item(managedBy: nil).managingAppIsMissing)
+    }
+
     @Test func showsRustToolchainsAndAndroidNDKsForTheirToolsToRemove() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)

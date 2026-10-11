@@ -71,6 +71,9 @@ public struct Uninstallation: Sendable {
             )
         )
         scan = scan.adding(
+            await leftoversOfManagedAreas(of: app, matcher: matcher, exclusions: exclusions, environment: environment)
+        )
+        scan = scan.adding(
             await homebrewReceipt(
                 of: app,
                 casks: casks,
@@ -98,6 +101,39 @@ public struct Uninstallation: Sendable {
             uninstallsItself: uninstallsItself,
             installedSystemExtensions: await AppExtensions.installedNames(carriedBy: app, asking: systemExtensions)
         )
+    }
+
+    /// What the areas `app` manages keep in the home folder, such as Xcode's simulators, which stay when the app goes.
+    static func leftoversOfManagedAreas(
+        of app: InstalledApp,
+        matcher: LeftoverMatcher,
+        exclusions: Exclusions,
+        environment: SearchEnvironment,
+        areas: [SpaceInventory.Definition] = SpaceInventory.definitions
+    ) async -> [Leftover] {
+        let home = environment.homeDirectory
+        var leftovers: [Leftover] = []
+        for area in areas {
+            guard let managedBy = area.managedBy, managedBy.includes(app.bundleIdentifier) else { continue }
+            let others = matcher.others(managing: managedBy)
+            for url in area.placesInTheHome(home) where url.isRealFolder && !exclusions.excludes(url) {
+                let leftover = await LeftoverScanner.leftover(
+                    at: url,
+                    kind: place(of: url, in: environment).kind,
+                    match: LeftoverMatch(
+                        reason: .managedByTheApp,
+                        confidence: .certain,
+                        sharedWith: others.apps,
+                        otherCopies: others.copies
+                    ),
+                    parent: ParentAccess(url.deletingLastPathComponent()),
+                    home: home.path(percentEncoded: false)
+                )
+                .heldBack(managedBy.leftBehind)
+                leftovers.append(exclusions.holds(url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
+            }
+        }
+        return leftovers
     }
 
     /// The installer receipt files that belong to `app`. The receipt is the only reason macOS still counts the
