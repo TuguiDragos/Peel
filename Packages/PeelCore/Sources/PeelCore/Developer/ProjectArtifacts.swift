@@ -1162,7 +1162,10 @@ public enum ProjectArtifacts {
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
             if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
-                enumerator.skipDescendants()
+                // After a file, as a submodule's `.git` is, `skipDescendants()` would skip the next folder instead.
+                if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
+                    enumerator.skipDescendants()
+                }
                 continue
             }
             samples += 1

@@ -1274,6 +1274,27 @@ struct ProjectArtifactsTests {
         #expect(!artifact.isRecommended)
     }
 
+    /// A submodule's or a worktree's `.git` is a file, and the folder read after it is still read.
+    @Test func readsTheFolderAfterAGitFile() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Project/package.json", bytes: 16)
+        try directory.file("Project/node_modules/dep/index.js", bytes: 16)
+        try directory.file("Project/.git", contents: Data("gitdir: ../.git/modules/project\n".utf8))
+        for folder in ["app", "lib", "docs", "tests", "src"] {
+            try directory.file("Project/\(folder)/file.txt", bytes: 16)
+        }
+        try age(directory.url, days: 60)
+        let edited = directory.url.appending(path: "Project/src/file.txt").path(percentEncoded: false)
+        try FileManager.default.setAttributes([.modificationDate: Date.now], ofItemAtPath: edited)
+
+        let activity = ProjectArtifacts.lastActivity(
+            in: directory.url.appending(path: "Project", directoryHint: .isDirectory), ignoring: ["node_modules"]
+        )
+
+        #expect(try #require(activity.date).timeIntervalSinceNow > -60)
+        #expect(activity.isCertain)
+    }
+
     /// A quiet project of a few thousand files is read to the end, so what a build left deep inside it is suggested.
     @Test func readsAQuietProjectOfThousandsOfFilesToTheEnd() async throws {
         let directory = try TemporaryDirectory()
