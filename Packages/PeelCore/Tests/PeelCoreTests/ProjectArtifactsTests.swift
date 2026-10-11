@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheRawCoverageNycWrites() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/.nycrc.json", bytes: 16)
+        try directory.file("app/.nyc_output/processinfo/index.json", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".nyc_output"])
+        #expect(found.first?.tool == "nyc")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersWhatDocusaurusClearRemoves() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("site/docusaurus.config.mjs", bytes: 16)

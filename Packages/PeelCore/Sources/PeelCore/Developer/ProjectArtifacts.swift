@@ -146,6 +146,8 @@ public enum ProjectArtifacts {
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
     private static let docusaurusConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "docusaurus.config." + $0 }
+    private static let nycConfigFiles = [".nycrc", ".nycrc.json", ".nycrc.yaml", ".nycrc.yml"]
+        + ["js", "cjs", "mjs"].map { "nyc.config." + $0 }
     private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
     private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
@@ -199,6 +201,10 @@ public enum ProjectArtifacts {
         Definition(
             name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        Definition(
+            name: ".nyc_output", markers: ["package.json"] + nycConfigFiles, tool: "nyc", isGeneric: false,
+            source: "https://github.com/istanbuljs/nyc/blob/908620475199fa7b9ea0ea8b21d6d8ad6921e3ae/README.md#L87-L113"
         ),
         Definition(
             name: ".docusaurus", markers: docusaurusConfigFiles, tool: "Docusaurus", isGeneric: false,
