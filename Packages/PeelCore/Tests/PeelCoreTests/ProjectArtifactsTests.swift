@@ -496,6 +496,24 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func listsWhatRemixAndReactRouterBuildWithoutSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("classic/remix.config.js", bytes: 16)
+        try directory.file("classic/.cache/browser-build/meta.json", bytes: 400_000)
+        try directory.file("classic/public/build/entry.client.js", bytes: 400_000)
+        try directory.file("classic/build/index.js", bytes: 400_000)
+        try directory.file("framework/react-router.config.ts", bytes: 16)
+        try directory.file("framework/build/server/index.js", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map { "\($0.project.lastPathComponent)/\($0.name)/\($0.tool ?? "")" }.sorted() == [
+            "classic/.cache/Remix", "classic/build/Remix", "classic/public/build/Remix", "framework/build/React Router",
+        ])
+        #expect(found.allSatisfy { $0.hasGenericName && !$0.isRecommended })
+    }
+
     @Test func offersTheTypesReactRouterGenerates() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("web/package.json", bytes: 16)

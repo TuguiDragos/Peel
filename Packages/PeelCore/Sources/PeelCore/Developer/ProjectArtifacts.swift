@@ -153,6 +153,7 @@ public enum ProjectArtifacts {
         + ["js", "cjs", "mjs"].map { "nyc.config." + $0 }
     private static let serverlessFiles = ["yml", "yaml", "json", "js", "mjs", "cjs", "ts"].map { "serverless." + $0 }
     private static let reactRouterConfigFiles = ["js", "jsx", "ts", "tsx", "mjs", "mts"].map { "react-router.config." + $0 }
+    private static let remixConfigFiles = ["js", "cjs", "mjs"].map { "remix.config." + $0 }
     private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
     private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
@@ -230,6 +231,22 @@ public enum ProjectArtifacts {
         Definition(
             name: ".swc", markers: ["package.json", ".swcrc"], tool: "SWC", isGeneric: false,
             source: "https://github.com/swc-project/website/blob/81b00b1c8cc95477b64efd7f3f7a366a787757bd/apps/website/docs/docs/configuration/compilation.mdx#L671-L675"
+        ),
+        Definition(
+            name: ".cache", markers: remixConfigFiles, tool: "Remix", isGeneric: true,
+            source: "https://github.com/remix-run/remix/blob/5ff6f9a17add06e7f70da48480c1911ad0a1310f/docs/file-conventions/remix-config.md#L70-L73"
+        ),
+        Definition(
+            name: "public/build", markers: remixConfigFiles, tool: "Remix", isGeneric: true,
+            source: "https://github.com/remix-run/remix/blob/5ff6f9a17add06e7f70da48480c1911ad0a1310f/docs/file-conventions/remix-config.md#L44-L47"
+        ),
+        Definition(
+            name: "build", markers: remixConfigFiles, tool: "Remix", isGeneric: true,
+            source: "https://github.com/remix-run/remix/blob/5ff6f9a17add06e7f70da48480c1911ad0a1310f/docs/file-conventions/remix-config.md#L151-L155"
+        ),
+        Definition(
+            name: "build", markers: reactRouterConfigFiles, tool: "React Router", isGeneric: true,
+            source: "https://github.com/remix-run/react-router/blob/dee9ad2dab41889e8fbdc6848b5781255d9f133a/packages/react-router-dev/config/config.ts#L548"
         ),
         Definition(
             name: ".react-router", markers: ["package.json"] + reactRouterConfigFiles, tool: "React Router",
