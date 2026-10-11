@@ -148,6 +148,7 @@ public enum ProjectArtifacts {
     private static let docusaurusConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "docusaurus.config." + $0 }
     private static let nycConfigFiles = [".nycrc", ".nycrc.json", ".nycrc.yaml", ".nycrc.yml"]
         + ["js", "cjs", "mjs"].map { "nyc.config." + $0 }
+    private static let serverlessFiles = ["yml", "yaml", "json", "js", "mjs", "cjs", "ts"].map { "serverless." + $0 }
     private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
     private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
@@ -201,6 +202,10 @@ public enum ProjectArtifacts {
         Definition(
             name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        Definition(
+            name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
+            source: "https://github.com/serverless/serverless/blob/de91219a8c8f28e07c308b2efc5187fae5445208/docs/sf/providers/aws/cli-reference/package.md#L16"
         ),
         Definition(
             name: ".nyc_output", markers: ["package.json"] + nycConfigFiles, tool: "nyc", isGeneric: false,

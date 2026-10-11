@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersThePackageTheServerlessFrameworkBuilds() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("api/serverless.ts", bytes: 16)
+        try directory.file("api/.serverless/api.zip", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".serverless"])
+        #expect(found.first?.tool == "Serverless Framework")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheEnvironmentsPixiMakesAgainAndNeverItsSettings() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("science/pixi.toml", bytes: 16)
