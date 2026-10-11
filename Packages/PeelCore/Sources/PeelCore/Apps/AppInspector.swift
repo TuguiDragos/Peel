@@ -88,6 +88,7 @@ public enum AppInspector {
         let isFromAppStore = FileManager.default.fileExists(atPath: receipt.path(percentEncoded: false))
         let isSystemProtected = isSystemProtected(url)
         let use = use(of: url)
+        let electronConfiguration = ElectronUpdater.configuration(in: contents)
 
         return InstalledApp(
             url: url,
@@ -110,10 +111,11 @@ public enum AppInspector {
             dateAdded: dateAdded(of: url),
             updateFeed: UpdateFeed.detect(
                 info: info,
-                contents: contents,
+                electronConfiguration: electronConfiguration,
                 isFromAppStore: isFromAppStore,
                 isSystemProtected: isSystemProtected
             ),
+            updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
             webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) }
         )
     }

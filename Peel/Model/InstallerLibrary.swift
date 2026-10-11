@@ -99,7 +99,7 @@ nonisolated extension InstallerItem.Kind {
         case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it."
         case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and leaves the rest to Finder."
         case .incompleteDownload: "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox, and .download for Safari."
-        case .updateDownload: "Updates an app downloaded with Sparkle or Squirrel and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates."
+        case .updateDownload: "Updates an app downloaded with Sparkle, Squirrel, or electron-updater and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates."
         }
     }
 

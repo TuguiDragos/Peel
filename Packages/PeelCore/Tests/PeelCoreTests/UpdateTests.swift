@@ -353,35 +353,50 @@ struct UpdateFeedDetectionTests {
         #expect(electronApp.updateFeed == .electron(URL(string: "https://example.com/updates/latest-mac.yml")!))
     }
 
+    @Test func readsTheFolderElectronUpdaterKeepsItsDownloadsIn() throws {
+        let cases: [(settings: String, folder: String?)] = [
+            ("provider: generic\nurl: https://example.com/updates\nupdaterCacheDirName: notes-updater\n", "notes-updater"),
+            ("provider: generic\r\nupdaterCacheDirName: 'notes-updater'\r\n", "notes-updater"),
+            ("updaterCacheDirName: \"@example_notes-updater\"\n", "@example_notes-updater"),
+            ("provider: generic\nurl: https://example.com/updates\n", nil),
+            ("updaterCacheDirName: ../notes-updater\n", nil),
+            ("publish:\n  updaterCacheDirName: notes-updater\n", nil),
+        ]
+        for (settings, folder) in cases {
+            let directory = try TemporaryDirectory()
+            let app = try #require(
+                AppInspector.inspect(try bundle(info: [:], files: ["Resources/app-update.yml": settings], in: directory))
+            )
+            #expect(app.updaterFolder == folder, "\(settings)")
+        }
+    }
+
     /// Apps that come with macOS are kept current by Software Update, whatever feed their bundle names. The test
     /// uses a bundle with a feed, since Calculator names none and would pass with or without the rule.
     @Test func skipsSystemApps() throws {
-        let directory = try TemporaryDirectory()
-        let contents = try directory.directory("Example.app/Contents")
         let info = ["SUFeedURL": "https://example.com/appcast.xml"]
 
         #expect(
-            UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: true) == nil
+            UpdateFeed.detect(info: info, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: true)
+                == nil
         )
         #expect(
-            UpdateFeed.detect(info: info, contents: contents, isFromAppStore: false, isSystemProtected: false)
+            UpdateFeed.detect(info: info, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: false)
                 == .sparkle(try #require(URL(string: "https://example.com/appcast.xml")))
         )
     }
 
     @Test func peelReadsItsOwnFeedAsAnySparkleAppDoes() throws {
-        let directory = try TemporaryDirectory()
-        let contents = try directory.directory("Peel.app/Contents")
         let feed = "https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml"
         let peel = ["CFBundleIdentifier": "com.tuguidragos.Peel", "SUFeedURL": feed]
         #expect(
-            UpdateFeed.detect(info: peel, contents: contents, isFromAppStore: false, isSystemProtected: false)
+            UpdateFeed.detect(info: peel, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: false)
                 == .sparkle(URL(string: feed)!)
         )
         #expect(
             UpdateFeed.detect(
                 info: ["CFBundleIdentifier": "com.tuguidragos.Peel"],
-                contents: contents,
+                electronConfiguration: nil,
                 isFromAppStore: false,
                 isSystemProtected: false
             ) == nil

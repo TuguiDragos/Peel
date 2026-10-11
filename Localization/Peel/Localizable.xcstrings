@@ -170056,108 +170056,108 @@
         }
       }
     },
-    "Updates an app downloaded with Sparkle or Squirrel and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates." : {
+    "Updates an app downloaded with Sparkle, Squirrel, or electron-updater and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktualizace, které aplikace stáhla pomocí Sparkle nebo Squirrel a uchovává je ve svých mezipamětech, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu."
+            "value" : "Aktualizace, které aplikace stáhla pomocí Sparkle, Squirrel nebo electron-updater a uchovává je ve svých mezipamětech, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates, die eine App mit Sparkle oder Squirrel geladen hat und in ihren Caches aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut."
+            "value" : "Updates, die eine App mit Sparkle, Squirrel oder electron-updater geladen hat und in ihren Caches aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizaciones que una app descargó con Sparkle o Squirrel y guarda en sus cachés hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice."
+            "value" : "Actualizaciones que una app descargó con Sparkle, Squirrel o electron-updater y guarda en sus cachés hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mises à jour qu’une app a téléchargées avec Sparkle ou Squirrel et qu’elle conserve dans ses caches jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour."
+            "value" : "Mises à jour qu’une app a téléchargées avec Sparkle, Squirrel ou electron-updater et qu’elle conserve dans ses caches jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiornamenti che un’app ha scaricato con Sparkle o Squirrel e conserva nelle sue cache finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento."
+            "value" : "Aggiornamenti che un’app ha scaricato con Sparkle, Squirrel o electron-updater e conserva nelle sue cache finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがSparkleまたはSquirrelでダウンロードし、インストールするまでキャッシュに保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。"
+            "value" : "アプリがSparkle、Squirrel、またはelectron-updaterでダウンロードし、インストールするまでキャッシュに保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 Sparkle 또는 Squirrel로 다운로드하여 설치할 때까지 캐시에 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다."
+            "value" : "앱이 Sparkle, Squirrel 또는 electron-updater로 다운로드하여 설치할 때까지 캐시에 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates die een app met Sparkle of Squirrel heeft gedownload en in de eigen caches bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update."
+            "value" : "Updates die een app met Sparkle, Squirrel of electron-updater heeft gedownload en in de eigen caches bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle lub Squirrel i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
+            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle, Squirrel lub electron-updater i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atualizações que um app baixou com o Sparkle ou o Squirrel e guarda nos seus caches até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar."
+            "value" : "Atualizações que um app baixou com o Sparkle, o Squirrel ou o electron-updater e guarda nos seus caches até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizări pe care o aplicație le‑a descărcat cu Sparkle sau Squirrel și le păstrează în memoriile sale tampon până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează."
+            "value" : "Actualizări pe care o aplicație le‑a descărcat cu Sparkle, Squirrel sau electron-updater și le păstrează în memoriile sale tampon până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обновления, которые приложение загрузило с помощью Sparkle или Squirrel и хранит в своих кэшах, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении."
+            "value" : "Обновления, которые приложение загрузило с помощью Sparkle, Squirrel или electron-updater и хранит в своих кэшах, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uppdateringar som en app har hämtat med Sparkle eller Squirrel och sparar i sina cachar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras."
+            "value" : "Uppdateringar som en app har hämtat med Sparkle, Squirrel eller electron-updater och sparar i sina cachar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamanın Sparkle veya Squirrel ile indirdiği ve yükleyene kadar önbelleklerinde tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir."
+            "value" : "Bir uygulamanın Sparkle, Squirrel veya electron-updater ile indirdiği ve yükleyene kadar önbelleklerinde tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оновлення, які програма викачала за допомогою Sparkle або Squirrel і зберігає у своїх кешах, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення."
+            "value" : "Оновлення, які програма викачала за допомогою Sparkle, Squirrel або electron-updater і зберігає у своїх кешах, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App通过Sparkle或Squirrel下载、并在安装之前保留在其缓存中的更新。如果某个更新已不在，该App会在下次更新时重新下载它。"
+            "value" : "App通过Sparkle、Squirrel或electron-updater下载、并在安装之前保留在其缓存中的更新。如果某个更新已不在，该App会在下次更新时重新下载它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App透過Sparkle或Squirrel下載、並在安裝前保留在其快取中的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。"
+            "value" : "App透過Sparkle、Squirrel或electron-updater下載、並在安裝前保留在其快取中的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。"
           }
         }
       }

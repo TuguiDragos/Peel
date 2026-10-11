@@ -436,6 +436,46 @@ struct InstallersTests {
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
 
+    /// electron-updater keeps what it downloads in the folder its app's `app-update.yml` names, in `~/Library/Caches`,
+    /// or in `~/Library/Application Support/Caches` before electron-updater 6.
+    @Test func findsWhatElectronUpdaterDownloadedInEitherPlace() async throws {
+        let directory = try TemporaryDirectory()
+        let old = "Library/Application Support/Caches"
+        try directory.file("\(old)/notes-updater/update.zip", bytes: 400_000)
+        try directory.file("\(old)/notes-updater/pending/update-info.json", bytes: 100)
+        try directory.file("Library/Caches/studio-updater/pending/update-info.json", bytes: 100)
+        try directory.file("Library/Caches/studio-updater/pending/Studio-2.0-mac.zip", bytes: 400_000)
+        try directory.file("Library/Caches/finder-updater/update.zip", bytes: 400_000)
+        try directory.file("\(old)/gone-updater/update.zip", bytes: 400_000)
+        try directory.file("\(old)/tide/update.zip", bytes: 400_000)
+        try directory.file("\(old)/other-updater/settings.json", bytes: 400_000)
+        try directory.file("\(old)/notes/update.zip", bytes: 400_000)
+        try directory.directory("Applications")
+        let installed = [
+            ("Notes", "org.example.notes", "notes-updater"), ("Studio", "org.example.studio", "studio-updater"),
+            ("Finder", "com.apple.finder", "finder-updater"), ("Tide", "org.example.tide", "tide"),
+        ].map { name, identifier, folder in
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: identifier, name: name,
+                updaterFolder: folder
+            )
+        }
+
+        let scan = await Installers.scan(
+            installedApps: installed, home: directory.url, root: directory.url, exclusions: .none,
+            minimumSize: 100_000, measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items(in: .updateDownload).map { ($0.name, $0) })
+        #expect(Set(items.keys) == ["notes-updater", "studio-updater", "finder-updater", "gone-updater", "tide"])
+        #expect(items["notes-updater"]?.installedApp == "Notes")
+        #expect(items["studio-updater"]?.installedApp == "Studio")
+        #expect(items["tide"]?.installedApp == "Tide")
+        #expect(items["gone-updater"]?.installedApp == nil)
+        #expect(items["notes-updater"]?.heldBack == .some(nil))
+        #expect(items["finder-updater"]?.heldBack == .appIsRunning)
+    }
+
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)

@@ -59,7 +59,7 @@ public enum UpdateStatus: Sendable, Hashable, Codable {
 extension UpdateFeed {
     static func detect(
         info: [String: Any],
-        contents: URL,
+        electronConfiguration: String?,
         isFromAppStore: Bool,
         isSystemProtected: Bool
     ) -> UpdateFeed? {
@@ -70,11 +70,7 @@ extension UpdateFeed {
         if let feed = (info["SUFeedURL"] as? String).flatMap(URL.init(string:)), feed.scheme == "https" {
             return .sparkle(feed)
         }
-        let configuration = contents.appending(path: "Resources/app-update.yml")
-        // The app's own file, read for every bundle on every refresh. A real one is a few lines, so anything
-        // over 64 KB, or anything that is not a regular file, is ignored.
-        if let data = BoundedRead.data(at: configuration, maximum: 64 * 1_024),
-           let feed = ElectronUpdater.feedURL(fromConfiguration: String(decoding: data, as: UTF8.self)) {
+        if let feed = electronConfiguration.flatMap(ElectronUpdater.feedURL(fromConfiguration:)) {
             return .electron(feed)
         }
         // An app that names no update source gets no feed. Asking Apple about it would send its identifier

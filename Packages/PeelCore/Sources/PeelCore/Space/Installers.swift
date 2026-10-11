@@ -12,7 +12,7 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
         case deviceBackup
         /// A download a browser never finished, still under the name it writes to until the end.
         case incompleteDownload
-        /// An update an app downloaded with Sparkle or Squirrel, which it keeps in its caches until it installs it.
+        /// An update an app downloaded with Sparkle, Squirrel, or electron-updater, kept until it is installed.
         case updateDownload
     }
 
@@ -460,10 +460,11 @@ public enum Installers {
         return items
     }
 
-    /// The updates apps downloaded and keep in `~/Library/Caches`: Sparkle's folder inside the app's own,
-    /// `<identifier>/org.sparkle-project.Sparkle` (`SPULocalCacheDirectory.m`, which adds `.sparkle` to an identifier
-    /// ending like a bundle), and Squirrel's `<identifier>.ShipIt` (`SQRLShipItLauncher.m`). A folder the Developer
-    /// table lists is left to Developer.
+    /// The updates apps downloaded and keep until they install them: in `~/Library/Caches`, Sparkle's folder inside
+    /// the app's own, `<identifier>/org.sparkle-project.Sparkle` (`SPULocalCacheDirectory.m`, which adds `.sparkle`
+    /// to an identifier ending like a bundle), and Squirrel's `<identifier>.ShipIt` (`SQRLShipItLauncher.m`); there
+    /// and in its former place, electron-updater's folder (`ElectronUpdater`). A folder the Developer table lists is
+    /// left to Developer.
     static func updateDownloads(
         home: URL,
         installedApps: [InstalledApp],
@@ -477,33 +478,56 @@ public enum Installers {
         let developers = Set(DeveloperCaches.definitions.flatMap(\.folders).filter { $0.base == .home }.map {
             $0.path.lowercased()
         })
-        var found: [(url: URL, identifier: String)] = []
+        let installed = { (identifier: String) in installedApps.first { $0.bundleIdentifier == identifier } }
+        let updaters = Dictionary(
+            installedApps.compactMap { app in app.updaterFolder.map { ($0.lowercased(), app) } }
+        ) { first, _ in first }
+        var found: [(url: URL, identifier: String?, app: InstalledApp?)] = []
+        // A folder an installed app's settings name, or one named as electron-builder names them all.
+        let addIfElectronUpdaters = { (url: URL) in
+            let name = url.lastPathComponent.lowercased()
+            let app = updaters[name]
+            guard app != nil || name.hasSuffix("-updater"), ElectronUpdater.holdsADownload(url) else { return }
+            found.append((url, app?.bundleIdentifier, app))
+        }
         for url in files(in: caches) where url.isRealFolder {
             let name = url.lastPathComponent
             guard !developers.contains("library/caches/" + name.lowercased()) else { continue }
             if name.hasSuffix(".ShipIt") {
-                found.append((url, String(name.dropLast(".ShipIt".count))))
+                let identifier = String(name.dropLast(".ShipIt".count))
+                found.append((url, identifier, installed(identifier)))
             }
             let sparkle = url.appending(path: "org.sparkle-project.Sparkle", directoryHint: .isDirectory)
             if sparkle.isRealFolder {
-                found.append((sparkle, name.removingSuffix(".sparkle")))
+                let identifier = name.removingSuffix(".sparkle")
+                found.append((sparkle, identifier, installed(identifier)))
             }
+            addIfElectronUpdaters(url)
+        }
+        let former = home.appending(path: ElectronUpdater.formerPlace, directoryHint: .isDirectory)
+        for url in files(in: former) where url.isRealFolder {
+            guard !developers.contains("\(ElectronUpdater.formerPlace)/\(url.lastPathComponent)".lowercased()) else {
+                continue
+            }
+            addIfElectronUpdaters(url)
         }
         let place = Folder(url: caches, isSharedWithEveryone: false)
         var items: [InstallerItem] = []
-        for (url, identifier) in found {
+        for (url, identifier, app) in found {
             guard !Task.isCancelled else { return items }
             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
             let (size, seen, _) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
-            let isRunning = !NSRunningApplication.runningApplications(withBundleIdentifier: identifier).isEmpty
+            let isRunning = identifier.map {
+                !NSRunningApplication.runningApplications(withBundleIdentifier: $0).isEmpty
+            } ?? false
             items.append(InstallerItem(
                 url: url,
                 kind: .updateDownload,
                 name: url.lastPathComponent,
                 size: size,
                 date: (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate,
-                installedApp: installedApps.first { $0.bundleIdentifier == identifier }?.name,
+                installedApp: app?.name,
                 isReadOnly: false,
                 notes: [],
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
