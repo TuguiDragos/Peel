@@ -107,8 +107,14 @@ const centerTheme = (button, behavior) => {
   const item = button.parentElement;
   themeList.scrollTo({ left: item.offsetLeft - (themeList.clientWidth - item.offsetWidth) / 2, behavior });
 };
-const pressed = document.querySelector('[data-theme][aria-pressed="true"]');
-if (pressed) addEventListener("load", () => centerTheme(pressed, "instant"), { once: true });
+// The theme shown is centered again whenever the row changes width, as when it is first laid out.
+let themeRowWidth;
+new ResizeObserver(([{ contentRect }]) => {
+  if (contentRect.width === themeRowWidth) return;
+  themeRowWidth = contentRect.width;
+  const shown = document.querySelector('[data-theme][aria-pressed="true"]');
+  if (shown) centerTheme(shown, "instant");
+}).observe(themeList);
 
 themeButtons.forEach((button) => {
   const warm = () => { new Image().src = themeURL(button); };
