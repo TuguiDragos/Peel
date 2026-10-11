@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 struct BackgroundItemOwnershipTests {
@@ -16,6 +17,21 @@ struct BackgroundItemOwnershipTests {
             installedApps: [app("com.example.app", "Example", team: "ABCDE12345"), app("com.other.tool", "Tool")],
             teamOfProgram: { Self.teams[$0] }
         )
+    }
+
+    @Test func readsAJobsSignatureOnlyWhenItsProgramIsGone() throws {
+        final class Reads: Sendable { let programs = Mutex<[String]>([]) }
+        let reads = Reads()
+        let ownership = BackgroundItemOwnership(installedApps: []) { program in
+            reads.programs.withLock { $0.append(program) }
+            return nil
+        }
+        let live = try #require(JobDefinition(["Label": "org.example.live", "Program": "/bin/sh"]))
+        let gone = try #require(JobDefinition(["Label": "org.example.gone", "Program": "/opt/org.example/gone"]))
+
+        #expect(!ownership.isOrphan(live))
+        #expect(ownership.isOrphan(gone))
+        #expect(reads.programs.withLock { $0 } == ["/opt/org.example/gone"])
     }
 
     /// What the helper refuses, the page must not offer: both read the same label.
