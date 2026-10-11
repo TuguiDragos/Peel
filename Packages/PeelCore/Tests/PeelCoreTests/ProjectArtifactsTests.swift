@@ -258,8 +258,21 @@ struct ProjectArtifactsTests {
             Kind(artifact: "htmlcov", marker: ".coveragerc", tool: "Coverage.py", isGeneric: false),
             Kind(artifact: ".tox", marker: "tox.ini", tool: "tox", isGeneric: false, isEnvironment: true),
             Kind(artifact: ".nox", marker: "noxfile.py", tool: "Nox", isGeneric: false, isEnvironment: true),
+            Kind(artifact: "__pypackages__", marker: "pyproject.toml", tool: "PDM", isGeneric: false, isEnvironment: true),
             Kind(artifact: "dist", marker: "pyproject.toml", tool: "Python", isGeneric: true),
         ])
+    }
+
+    @Test func listsPDMsPackagesAndNothingInsideThem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/pyproject.toml", bytes: 16)
+        try directory.file("app/__pypackages__/3.13/lib/requests/__pycache__/api.cpython-313.pyc", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == ["__pypackages__"])
+        #expect(found.allSatisfy { !$0.isRecommended })
     }
 
     @Test func findsWhatGameEnginesAndDotNetBuild() async throws {

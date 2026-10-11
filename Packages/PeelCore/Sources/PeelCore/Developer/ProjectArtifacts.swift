@@ -373,6 +373,11 @@ public enum ProjectArtifacts {
             name: "venv", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
             source: "https://docs.python.org/3/library/venv.html"
         ),
+        // PDM installs a project's packages here, and the folder alone switches PDM to this mode.
+        Definition(
+            name: "__pypackages__", markers: pythonProjectFiles, tool: "PDM", isGeneric: false, isEnvironment: true,
+            source: "https://github.com/pdm-project/pdm/blob/b5b69f414480b6974b8ab994b69b57bab91c0358/docs/usage/pep582.md#L7-L11"
+        ),
         Definition(
             name: "env", markers: pythonProjectFiles, tool: "Python", isGeneric: true, isEnvironment: true,
             source: "https://docs.python.org/3/library/venv.html", proof: .holds("pyvenv.cfg")
