@@ -1244,13 +1244,13 @@ public enum DeveloperCaches {
         identifiers + identifiers.map { $0 + "-EAP" }
     }
 
-    /// The caches and models Chromium keeps in a browser's user data folder, beside its profiles and in each of them,
-    /// named where Chromium names them. What a profile holds for the person, its site data included, is never listed.
     /// Where Chromium named its WebGPU cache `DawnCache`, before it renamed it `DawnWebGPUCache`. Nothing removes the
     /// folder an app wrote under the old name.
     private static let formerWebGPUCache =
         "https://github.com/chromium/chromium/blob/68b0fb2a9324b16f8d9c7fc91ef27fde78437821/gpu/ipc/common/gpu_disk_cache_type.cc#L42"
 
+    /// The caches and models Chromium keeps in a browser's user data folder, beside its profiles and in each of them,
+    /// named where Chromium names them. What a profile holds for the person, its site data included, is never listed.
     private static func chromiumFolders(in userData: String) -> [Folder] {
         let browser = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/chrome/browser/"
         let gpu = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/gpu/ipc/common/gpu_disk_cache_type.cc#L43-L50"
