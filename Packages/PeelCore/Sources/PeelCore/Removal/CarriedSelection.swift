@@ -120,20 +120,60 @@ public struct CarriedSelection: Sendable {
     private static func eachItemOnce(in parts: [Part], asking page: Page?) -> [Part] {
         guard parts.count > 1 else { return parts }
         let paths = parts.map { part in part.sizes.keys.map { (url: $0, path: writtenPath(of: $0)) } }
-        var holder: [Substring: Int] = [:]
+        var holder = [Substring: Int](minimumCapacity: paths.reduce(0) { $0 + $1.count })
         let asking = parts.indices.filter { parts[$0].page == page }
-        for index in asking + parts.indices.filter({ !asking.contains($0) }) {
-            for (_, path) in paths[index] where holder[path] == nil {
+        // Written last to first, so a path two parts share is left to the first.
+        for index in (asking + parts.indices.filter { !asking.contains($0) }).reversed() {
+            for (_, path) in paths[index] {
                 holder[path] = index
             }
         }
+        var above = FolderHolders(holder: holder)
         return parts.indices.compactMap { index in
             let kept = paths[index].filter { _, path in
-                holder[path] == index && !folders(above: path).contains { holder[$0].map { $0 != index } ?? false }
+                holder[path] == index && above.noPartBut(index, holdsAFolderAbove: path)
             }
             guard kept.count < parts[index].sizes.count else { return parts[index] }
             let urls = Set(kept.map(\.url))
             return kept.isEmpty ? nil : parts[index].keeping(parts[index].sizes.filter { urls.contains($0.key) })
+        }
+    }
+
+    /// Which parts hold the folders above a path, worked out once for each folder: the items of a selection share
+    /// their folders, and the bar asks for the parts whenever a selection changes.
+    private struct FolderHolders {
+        private enum Holders {
+            case none, one(Int), several
+        }
+
+        let holder: [Substring: Int]
+        private var known: [Substring: Holders] = [:]
+
+        init(holder: [Substring: Int]) {
+            self.holder = holder
+        }
+
+        mutating func noPartBut(_ index: Int, holdsAFolderAbove path: Substring) -> Bool {
+            switch holders(above: path) {
+            case .none: true
+            case .one(let holder): holder == index
+            case .several: false
+            }
+        }
+
+        /// The parts holding a folder above `path`, from those holding the folder above its own.
+        private mutating func holders(above path: Substring) -> Holders {
+            guard let slash = path.utf8.lastIndex(of: UInt8(ascii: "/")), slash != path.startIndex else { return .none }
+            let folder = path[..<slash]
+            if let holders = known[folder] { return holders }
+            var holders = holders(above: folder)
+            switch (holders, holder[folder]) {
+            case (.none, let index?): holders = .one(index)
+            case (.one(let other), let index?) where other != index: holders = .several
+            default: break
+            }
+            known[folder] = holders
+            return holders
         }
     }
 

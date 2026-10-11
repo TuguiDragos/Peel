@@ -207,6 +207,38 @@ struct CarriedSelectionTests {
         #expect(parts.itemCount == 2)
     }
 
+    /// A page's own folder and an item inside it stay as its tool made them when another page carries a selection too.
+    @Test func aPagesOwnFolderAndItsItemStayBesideAnotherPage() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "installers", scope: "updateDownload"))
+        selection.saw(Page(tool: "space", scope: "caches"))
+
+        let parts = selection.parts(from: [
+            part("installers", "updateDownload", ["Library/Caches/notes-updater": 300]),
+            part("space", "caches", ["Library/Caches/org.example.notes": 900, "Library/Caches/org.example.notes/a": 1]),
+        ], order: tools)
+
+        #expect(parts.itemCount == 3)
+    }
+
+    /// An item under folders two other pages selected moves with the outermost, whichever page asks.
+    @Test func anItemUnderFoldersTwoPagesSelectedMovesWithTheOutermost() {
+        var selection = CarriedSelection()
+        selection.saw(Page(tool: "installers", scope: "updateDownload"))
+        selection.saw(Page(tool: "duplicates", scope: ""))
+        selection.saw(Page(tool: "space", scope: "caches"))
+        let sparkle = "Library/Caches/org.example.notes/org.sparkle-project.Sparkle"
+
+        let parts = selection.parts(from: [
+            part("installers", "updateDownload", [sparkle: 300]),
+            part("duplicates", "", ["\(sparkle)/1/update.zip": 200, "Downloads/a.dmg": 50]),
+            part("space", "caches", ["Library/Caches/org.example.notes": 900]),
+        ], order: tools, asking: Page(tool: "duplicates", scope: ""))
+
+        #expect(parts.map(\.page.tool) == ["duplicates", "space"])
+        #expect(parts.total.known == 950)
+    }
+
     /// After a pass, every part that holds an item that moved, or one inside a folder that moved, so its tool is
     /// brought up to date even when another page moved it.
     @Test func findsThePartsHoldingWhatMoved() {
