@@ -215,7 +215,11 @@ struct AppExtensionsTests {
             #expect(path.hasSuffix(".systemextension/") || path.hasSuffix(".dext/"), "\(item.identifier) is at \(path)")
             #expect(FileManager.default.fileExists(atPath: path), "\(item.identifier) is at \(path), which isn't there")
             #expect(item.reportedState?.isEmpty == false, "\(item.identifier) reported no state")
-            #expect(item.owner != nil, "nothing says which app brought \(item.identifier)")
+            // When Finder moves the app, macOS forgets which app it was and removes the extension at the next restart.
+            #expect(
+                item.owner != nil || item.election == .beingRemoved,
+                "nothing says which app brought \(item.identifier)"
+            )
         }
     }
 
