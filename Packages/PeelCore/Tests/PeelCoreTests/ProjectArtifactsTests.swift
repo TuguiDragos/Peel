@@ -496,6 +496,20 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersWhatPantsSaysIsSafeToDeleteInARepository() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("repo/pants.toml", bytes: 16)
+        try directory.file("repo/.pants.d/workdir/pantsd/pantsd.log", bytes: 400_000)
+        try directory.file("repo/dist/app.pex", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name).sorted() == [".pants.d", "dist"])
+        #expect(found.allSatisfy { $0.tool == "Pants" })
+        #expect(found.filter(\.isRecommended).map(\.name) == [".pants.d"])
+    }
+
     @Test func offersWhatElixirsLanguageServersKeepInAProject() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("api/mix.exs", bytes: 16)

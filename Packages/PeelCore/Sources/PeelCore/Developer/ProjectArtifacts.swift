@@ -406,6 +406,12 @@ public enum ProjectArtifacts {
             source: "https://github.com/prefix-dev/pixi/blob/98535e0857e25ddc89457ef4779be2a961d8c2df/docs/workspace/environment.md#L70-L141"
         ),
         Definition(
+            name: ".pants.d", markers: ["pants.toml"], tool: "Pants", isGeneric: false, source: "https://github.com/pantsbuild/pants/blob/5ec37d43741c80b9e7e999a51ef12cc3e6f3a6c8/docs/docs/using-pants/troubleshooting-common-issues.mdx#L153-L167"
+        ),
+        Definition(
+            name: "dist", markers: ["pants.toml"], tool: "Pants", isGeneric: true, source: "https://github.com/pantsbuild/pants/blob/5ec37d43741c80b9e7e999a51ef12cc3e6f3a6c8/docs/docs/using-pants/troubleshooting-common-issues.mdx#L153-L167"
+        ),
+        Definition(
             name: "dist", markers: ["pyproject.toml"], tool: "Python", isGeneric: true,
             source: "https://packaging.python.org/en/latest/tutorials/packaging-projects/"
         ),
