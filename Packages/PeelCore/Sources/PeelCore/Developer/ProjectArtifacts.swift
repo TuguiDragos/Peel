@@ -276,6 +276,12 @@ public enum ProjectArtifacts {
             name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
             source: "https://github.com/serverless/serverless/blob/de91219a8c8f28e07c308b2efc5187fae5445208/docs/sf/providers/aws/cli-reference/package.md#L16"
         ),
+        // `.trigger` also keeps the dev session's state, so only the builds in `tmp` are offered.
+        Definition(
+            name: ".trigger/tmp", markers: ["trigger.config.ts", "trigger.config.mjs", "trigger.config.js"],
+            tool: "Trigger.dev", isGeneric: false,
+            source: "https://github.com/triggerdotdev/trigger.dev/blob/93465d8549a735074d1ce7696bae3faebe577e8d/packages/cli-v3/src/utilities/tempDirectories.ts#L6-L74"
+        ),
         Definition(
             name: ".nyc_output", markers: ["package.json"] + nycConfigFiles, tool: "nyc", isGeneric: false,
             source: "https://github.com/istanbuljs/nyc/blob/908620475199fa7b9ea0ea8b21d6d8ad6921e3ae/README.md#L87-L113"
