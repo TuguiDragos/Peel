@@ -413,12 +413,6 @@ struct ProjectsCommand: AsyncParsableCommand {
 
     func run() async throws {
         let roots = folders.map(URL.init(argument:))
-        // Each folder that can't be searched gets a note, so it isn't mistaken for one with nothing built in it.
-        for root in roots {
-            if let refusal = ProjectArtifacts.refusal(for: root) {
-                Output.note("\(Output.plain(Output.path(root))): \(refusal.summary)")
-            }
-        }
         let exclusions = await UnreadableExclusions.load()
         let scan = await ProgressLine.counting { await ProjectArtifacts.scan(roots: roots, exclusions: exclusions) }
         let artifacts = scan.artifacts
@@ -446,7 +440,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     /// What the scan couldn't look at, said on standard error whatever the output, so that an empty answer is not
     /// read as nothing being there.
     static func notes(for scan: ProjectArtifacts.Scan) -> [String] {
-        var notes: [String] = []
+        var notes = scan.refusedRoots.map { "\(Output.path($0.url)): \($0.reason.summary)" }
         if !scan.unreadableLocations.isEmpty {
             notes.append(
                 Output.unreadableNote(for: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess)

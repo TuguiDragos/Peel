@@ -601,6 +601,13 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Safari"])
     }
 
+    @Test func namesEachChosenFolderTheScanDidNotSearch() {
+        let unplugged = URL(filePath: "/Volumes/Disk/Projects", directoryHint: .isDirectory)
+        let scan = ProjectArtifacts.Scan(refusedRoots: [(unplugged, .notAFolder)])
+
+        #expect(ProjectsCommand.notes(for: scan) == ["/Volumes/Disk/Projects: it isn't a folder Peel can reach"])
+    }
+
     /// `peel caches --json` says which folders `--remove` would take.
     @Test func theCachesListSaysWhatRemoveWouldTake() throws {
         let directory = try TemporaryDirectory()
