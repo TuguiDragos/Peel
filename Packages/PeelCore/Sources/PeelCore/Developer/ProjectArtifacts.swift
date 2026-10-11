@@ -674,7 +674,9 @@ public enum ProjectArtifacts {
     /// Why `root` cannot be searched, or nil. Every spelling of the path is checked: `/users/me` and
     /// `/System/Volumes/Data/Users/me` are the same home folder, and a link into a cloud folder is that cloud folder.
     public static func refusal(for root: URL, home: URL = .homeDirectory) -> Refusal? {
-        let spellings = ([PathPattern.comparablePath(of: root), PathPattern.canonical(root).path(percentEncoded: false)]
+        // The kernel's name for the folder: links resolved, each name as the disk holds it, as the walk sees names.
+        let kernelName = PathPattern.canonical(root).path(percentEncoded: false)
+        let spellings = ([PathPattern.comparablePath(of: root), kernelName]
             + Array(ProtectedData.spellings(of: PathPattern.comparablePath(of: root)))).map { $0.lowercased() }
         let homes = ([PathPattern.comparablePath(of: home), PathPattern.canonical(home).path(percentEncoded: false)]
             + Array(ProtectedData.spellings(of: PathPattern.comparablePath(of: home)))).map { spelling in
@@ -704,9 +706,7 @@ public enum ProjectArtifacts {
             && isDirectory.boolValue
         guard isThere else { return .notAFolder }
         if root.isOrIsInsideAPackage { return .inAPackage }
-        // The kernel's name for the folder: links resolved, each name as the disk holds it, as the walk sees names.
-        let names = PathComponents.of(PathPattern.canonical(root).path(percentEncoded: false))
-        return names.contains(where: isSkipped) ? .neverSearched : nil
+        return PathComponents.of(kernelName).contains(where: isSkipped) ? .neverSearched : nil
     }
 
     /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a
