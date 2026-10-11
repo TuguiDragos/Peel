@@ -1273,6 +1273,23 @@ struct ProjectArtifactsTests {
         #expect(!artifact.isRecommended)
     }
 
+    /// A quiet project of a few thousand files is read to the end, so what a build left deep inside it is suggested.
+    @Test func readsAQuietProjectOfThousandsOfFilesToTheEnd() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("lib/pyproject.toml", bytes: 16)
+        try directory.file("lib/lib/core/__pycache__/gate.cpython-313.pyc", bytes: 400_000)
+        for index in 0..<4_500 {
+            try directory.file("lib/lib/core/module\(index).py", bytes: 1)
+        }
+        try age(directory.url, days: 60)
+
+        let cache = try #require(await ProjectArtifacts.scan(roots: [directory.url]).artifacts.first)
+
+        #expect(cache.project.lastPathComponent == "lib")
+        #expect(cache.lastActivityIsCertain)
+        #expect(cache.isRecommended)
+    }
+
     /// Work in a hidden file, in `.github`, or in a folder of the person's own that a tool's table also names is
     /// work: only the artifacts found and what installed packages bring along are passed by.
     @Test func countsWorkInHiddenFilesAndFoldersNamedLikeArtifacts() async throws {
