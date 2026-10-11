@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheTypesReactRouterGenerates() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("web/package.json", bytes: 16)
+        try directory.file("web/.react-router/types/app/+types/root.d.ts", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".react-router"])
+        #expect(found.first?.tool == "React Router")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersThePackageTheServerlessFrameworkBuilds() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("api/serverless.ts", bytes: 16)

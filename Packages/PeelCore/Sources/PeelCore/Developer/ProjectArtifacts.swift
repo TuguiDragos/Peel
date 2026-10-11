@@ -149,6 +149,7 @@ public enum ProjectArtifacts {
     private static let nycConfigFiles = [".nycrc", ".nycrc.json", ".nycrc.yaml", ".nycrc.yml"]
         + ["js", "cjs", "mjs"].map { "nyc.config." + $0 }
     private static let serverlessFiles = ["yml", "yaml", "json", "js", "mjs", "cjs", "ts"].map { "serverless." + $0 }
+    private static let reactRouterConfigFiles = ["js", "jsx", "ts", "tsx", "mjs", "mts"].map { "react-router.config." + $0 }
     private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
     private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
@@ -202,6 +203,11 @@ public enum ProjectArtifacts {
         Definition(
             name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        Definition(
+            name: ".react-router", markers: ["package.json"] + reactRouterConfigFiles, tool: "React Router",
+            isGeneric: false,
+            source: "https://github.com/remix-run/react-router/blob/dee9ad2dab41889e8fbdc6848b5781255d9f133a/docs/how-to/route-module-type-safety.md#L17-L22"
         ),
         Definition(
             name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
