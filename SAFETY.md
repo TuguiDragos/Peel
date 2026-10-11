@@ -75,6 +75,10 @@ library along, and the row says so instead of failing when you press the button.
 wallet in it stays the same way, and so does a folder that holds one a level or two down: see
 [Crypto wallets](#crypto-wallets).
 
+Anything that syncs to iCloud or another cloud service stays too, wherever it is, such as what is on your Desktop and
+in Documents when they are in iCloud Drive: the Trash would take it from the cloud and from your other devices. Its
+row says so, and File Search doesn't list it.
+
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android
 Studio record your unsaved edits in `LocalHistory`, beside their caches, and Deno keeps `localStorage` and its
 key-value databases in `location_data`. Those folders, and any cache folder that holds one, stay: emptying
@@ -312,7 +316,7 @@ Never selected for you, even when found:
   source says it keeps them, and anything named as an app's backups. When you uninstall Xcode, the simulators it made in
   your home folder are listed too, with the apps installed in them and their data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
-- A file in iCloud Drive, which the Trash would take from every device, and a file a program has open right now.
+- A file a program has open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
   running, which may install it when the app quits.
 - An encrypted disk image, and a disk image, package, or archive outside Downloads that isn't an installed app's

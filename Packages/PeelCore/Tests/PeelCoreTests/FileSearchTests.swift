@@ -123,22 +123,23 @@ struct FileSearchTests {
         #expect(!results.isTruncated)
     }
 
-    /// A file in iCloud Drive, as Desktop and Documents are when they sync, is listed with that said: moving it to
-    /// the Trash removes it from every device. A temporary folder holds no iCloud item, so which file is one is
-    /// given here, as macOS would answer.
-    @Test func saysWhichFilesAreInTheCloud() throws {
+    /// A file that syncs to the cloud, as Desktop and Documents do in iCloud Drive, is never listed, since the guard
+    /// refuses it. A temporary folder holds no such file, so which one syncs is given here, as macOS would answer.
+    @Test func neverListsAFileThatSyncsToTheCloud() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let synced = try directory.file("home/Documents/Report.pdf", bytes: 9_000)
         let local = try directory.file("home/Downloads/Setup.dmg", bytes: 1_000)
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+        let guardian = RemovalGuard(environment: environment, isInTheCloud: { $0.lastPathComponent == "Report.pdf" })
 
         let results = FileSearch.results(
             from: [synced, local].map { $0.path(percentEncoded: false) },
-            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
-            isInTheCloud: { $0.lastPathComponent == "Report.pdf" }
+            environment: environment,
+            allows: guardian.allowsRemoval(of:)
         )
 
-        #expect(results.files.map { "\($0.url.lastPathComponent): \($0.isInTheCloud)" } == ["Report.pdf: true", "Setup.dmg: false"])
+        #expect(results.files.map(\.url.lastPathComponent) == ["Setup.dmg"])
     }
 
     /// A file whose contents live only in the cloud (`SF_DATALESS`) takes no room on this Mac, so moving it frees

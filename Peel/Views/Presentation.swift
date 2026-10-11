@@ -147,6 +147,7 @@ extension GuardRefusal {
         case .staysItself: "Peel won’t move this folder itself, since macOS expects to find it. What is inside it can go."
         case .protectedLocation: "Peel won’t move this: it is part of macOS, or inside something Peel protects."
         case .holdsProtectedData: "Peel won’t move this: something Peel protects is inside, such as a keychain or a wallet."
+        case .inTheCloud: "Peel won’t move this: it syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices."
         case .holdsDocuments: "Peel won’t move this: an app’s documents are inside."
         case .holdsALibrary: "Peel won’t move this: a photo, music, or video library is inside."
         case .holdsWorkKeptInACache: "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
@@ -310,7 +311,7 @@ extension HoldBack {
         case .crashReport:
             "Not selected: a report macOS wrote when the app crashed, which its developer may still ask you for."
         case .inTheCloud:
-            "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices."
+            "Left alone: this syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be downloading it."
         case .changedRecently:

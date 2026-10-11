@@ -110,7 +110,7 @@ public enum HoldBack: String, Sendable, Hashable {
     case openedFromMail
     /// A report macOS wrote when the app crashed, which its developer may still ask for.
     case crashReport
-    /// A file in iCloud Drive, which moving to the Trash removes from every device.
+    /// It syncs to the cloud, and `RemovalGuard` refuses to move it: the Trash would remove it from every device.
     case inTheCloud
     /// A file a program has open right now, which may still be downloading it.
     case openInAProgram
@@ -133,6 +133,7 @@ public enum HoldBack: String, Sendable, Hashable {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .beyondTheHelper || self == .leftToItsUninstaller
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .holdsAnExclusion
+            || self == .inTheCloud
     }
 
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may

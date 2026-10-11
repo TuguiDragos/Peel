@@ -67725,6 +67725,112 @@
         }
       }
     },
+    "Left alone: this syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tato položka se synchronizuje s iCloudem nebo jinou cloudovou službou a přesunutím do koše byste ji odstranili také z cloudu i z vašich ostatních zařízení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Dieses Objekt wird mit iCloud oder einem anderen Cloud-Dienst synchronisiert, und es in den Papierkorb zu legen, würde es auch aus der Cloud und von deinen anderen Geräten entfernen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: se sincroniza con iCloud o con otro servicio en la nube, y trasladarlo a la papelera también lo eliminaría de la nube y de tus otros dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : cet élément est synchronisé avec iCloud ou avec un autre service de cloud, et le placer dans la corbeille le supprimerait aussi du cloud et de vos autres appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: si sincronizza con iCloud o con un altro servizio cloud, e spostarlo nel Cestino lo rimuoverebbe anche dal cloud e dagli altri tuoi dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: これはiCloudまたはほかのクラウドサービスと同期されているため、ゴミ箱に入れると、クラウドからも、ほかのデバイスからも削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 항목은 iCloud나 다른 클라우드 서비스와 동기화되며, 휴지통으로 이동하면 클라우드는 물론 다른 기기에서도 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: dit wordt gesynchroniseerd met iCloud of een andere cloudvoorziening, en als je het naar de prullenmand verplaatst, verdwijnt het ook uit de cloud en van je andere apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: jest synchronizowane z iCloud lub z inną usługą w chmurze, a po przeniesieniu do Kosza zostałoby usunięte także z chmury i z Twoich pozostałych urządzeń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: este item é sincronizado com o iCloud ou com outro serviço de nuvem, e movê-lo para o Lixo também o removeria da nuvem e dos seus outros dispositivos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: acest articol se sincronizează cu iCloud sau cu un alt serviciu cloud, iar mutarea lui în Coș l‑ar elimina și din cloud, și de pe celelalte dispozitive ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: этот объект синхронизируется с iCloud или другой облачной службой, и, если переместить его в Корзину, он будет удален также из облака и с других Ваших устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: det här synkroniseras med iCloud eller en annan molntjänst, och om det flyttades till papperskorgen skulle det också tas bort från molnet och från dina andra enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bu, iCloud veya başka bir bulut servisiyle eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa buluttan ve diğer aygıtlarınızdan da silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: цей елемент синхронізується з iCloud або іншою хмарною службою, і переміщення в Смітник також прибрало б його з хмари й з інших ваших пристроїв."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此项与iCloud或其他云服务同步，如果将它移到废纸篓，它也会从云端和你的其他设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此項目會與iCloud或其他雲端服務同步，丟到「垃圾桶」也會將它從雲端和你的其他裝置上移除。"
+          }
+        }
+      }
+    },
     "Left out: %@." : {
       "localizations" : {
         "cs" : {
@@ -91001,112 +91107,6 @@
         }
       }
     },
-    "Not selected: this is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nevybráno: tento soubor je na iCloud Drivu, takže přesunutím do koše ho odstraníte z iCloudu i z vašich ostatních zařízení."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht ausgewählt: Dieses Objekt liegt in iCloud Drive, daher wird es aus iCloud und von deinen anderen Geräten entfernt, wenn du es in den Papierkorb legst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin seleccionar: está en iCloud Drive, así que trasladarlo a la papelera lo elimina de iCloud y de tus otros dispositivos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non sélectionné : ce fichier se trouve dans iCloud Drive ; le placer dans la corbeille le supprime donc d’iCloud et de vos autres appareils."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non selezionato: questo file si trova su iCloud Drive, quindi, se lo sposti nel Cestino, viene rimosso da iCloud e dagli altri tuoi dispositivi."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未選択: これはiCloud Driveにあるため、ゴミ箱に入れると、iCloudからも、ほかのデバイスからも削除されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택되지 않음: 이 파일은 iCloud Drive에 있으므로 휴지통으로 이동하면 iCloud는 물론 다른 기기에서도 삭제됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niet geselecteerd: dit staat op iCloud Drive, dus als je het naar de prullenmand verplaatst, verdwijnt het uit iCloud en van je andere apparaten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie zaznaczono: ten plik jest na iCloud Drive, więc po przeniesieniu do Kosza zostanie usunięty z iCloud i z Twoich pozostałych urządzeń."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não selecionado: este item está no iCloud Drive, então, se você o mover para o Lixo, ele será removido do iCloud e dos seus outros dispositivos."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neselectat: acest fișier se află pe iCloud Drive, așa că mutarea lui în Coș îl elimină de pe iCloud și de pe celelalte dispozitive ale dvs."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не выбрано: этот файл находится в iCloud Drive, поэтому, если переместить его в Корзину, он будет удален из iCloud и с других Ваших устройств."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inte markerad: den här filen ligger i iCloud Drive, så om du flyttar den till papperskorgen tas den bort från iCloud och från dina andra enheter."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçilmedi: bu dosya, iCloud Drive’da olduğu için Çöp Sepeti’ne taşınırsa iCloud’dan ve diğer aygıtlarınızdan silinir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вибрано: цей файл зберігається в iCloud Drive, тож переміщення в Смітник прибирає його з iCloud і з інших ваших пристроїв."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未选择：此文件位于iCloud云盘中，因此将它移到废纸篓后，它会从iCloud和你的其他设备中删除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未選取：此項目位於「iCloud雲碟」中，因此丟到「垃圾桶」會將它從iCloud和你的其他裝置上移除。"
-          }
-        }
-      }
-    },
     "Not selected: this isn’t in Downloads and isn’t an installed app’s installer, so it may be yours rather than something you can download again." : {
       "localizations" : {
         "cs" : {
@@ -113015,6 +113015,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：它受到保護，或是你在「設定」中的排除項目讓它留在原處。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: it syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: synchronizuje se s iCloudem nebo jinou cloudovou službou a přesunutím do koše byste ji odstranili také z cloudu i z vašich ostatních zařízení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Es wird mit iCloud oder einem anderen Cloud-Dienst synchronisiert, und es in den Papierkorb zu legen, würde es auch aus der Cloud und von deinen anderen Geräten entfernen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: se sincroniza con iCloud o con otro servicio en la nube, y trasladarlo a la papelera también lo eliminaría de la nube y de tus otros dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il est synchronisé avec iCloud ou avec un autre service de cloud, et le placer dans la corbeille le supprimerait aussi du cloud et de vos autres appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: si sincronizza con iCloud o con un altro servizio cloud, e spostarlo nel Cestino lo rimuoverebbe anche dal cloud e dagli altri tuoi dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。iCloudまたはほかのクラウドサービスと同期されているため、ゴミ箱に入れると、クラウドからも、ほかのデバイスからも削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. iCloud나 다른 클라우드 서비스와 동기화되며, 휴지통으로 이동하면 클라우드는 물론 다른 기기에서도 삭제되기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: het wordt gesynchroniseerd met iCloud of een andere cloudvoorziening, en als je het naar de prullenmand verplaatst, verdwijnt het ook uit de cloud en van je andere apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: jest synchronizowane z iCloud lub z inną usługą w chmurze, a po przeniesieniu do Kosza zostałoby usunięte także z chmury i z Twoich pozostałych urządzeń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: é sincronizado com o iCloud ou com outro serviço de nuvem, e movê-lo para o Lixo também o removeria da nuvem e dos seus outros dispositivos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: se sincronizează cu iCloud sau cu un alt serviciu cloud, iar mutarea lui în Coș l‑ar elimina și din cloud, și de pe celelalte dispozitive ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: объект синхронизируется с iCloud или другой облачной службой, и, если переместить его в Корзину, он будет удален также из облака и с других Ваших устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: det synkroniseras med iCloud eller en annan molntjänst, och om det flyttades till papperskorgen skulle det också tas bort från molnet och från dina andra enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: iCloud veya başka bir bulut servisiyle eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa buluttan ve diğer aygıtlarınızdan da silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: елемент синхронізується з iCloud або іншою хмарною службою, і переміщення в Смітник також прибрало б його з хмари й з інших ваших пристроїв."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：它与iCloud或其他云服务同步，如果将它移到废纸篓，它也会从云端和你的其他设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：它會與iCloud或其他雲端服務同步，丟到「垃圾桶」也會將它從雲端和你的其他裝置上移除。"
           }
         }
       }
@@ -162673,112 +162779,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此驅動程式僅支援Intel。若沒有Rosetta，它所服務的裝置可能會停止運作。"
-          }
-        }
-      }
-    },
-    "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tento soubor je na iCloud Drivu, takže přesunutím do koše ho odstraníte z iCloudu i z vašich ostatních zařízení."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Datei liegt in iCloud Drive, daher wird sie aus iCloud und von deinen anderen Geräten entfernt, wenn du sie in den Papierkorb legst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este archivo está en iCloud Drive, así que trasladarlo a la papelera lo elimina de iCloud y de tus otros dispositivos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce fichier se trouve dans iCloud Drive : le placer dans la corbeille le supprime donc d’iCloud et de vos autres appareils."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questo file si trova su iCloud Drive, quindi, se lo sposti nel Cestino, viene rimosso da iCloud e dagli altri tuoi dispositivi."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このファイルはiCloud Driveにあるため、ゴミ箱に入れると、iCloudからも、ほかのデバイスからも削除されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 파일은 iCloud Drive에 있으므로 휴지통으로 이동하면 iCloud는 물론 다른 기기에서도 삭제됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit bestand staat op iCloud Drive, dus als je het naar de prullenmand verplaatst, verdwijnt het uit iCloud en van je andere apparaten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ten plik jest na iCloud Drive, więc po przeniesieniu do Kosza zostanie usunięty z iCloud i z Twoich pozostałych urządzeń."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este arquivo está no iCloud Drive, então, se você o mover para o Lixo, ele será removido do iCloud e dos seus outros dispositivos."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acest fișier se află pe iCloud Drive, așa că mutarea lui în Coș îl elimină de pe iCloud și de pe celelalte dispozitive ale dvs."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Этот файл находится в iCloud Drive, поэтому, если переместить его в Корзину, он будет удален из iCloud и с других Ваших устройств."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den här filen ligger i iCloud Drive, så om du flyttar den till papperskorgen tas den bort från iCloud och från dina andra enheter."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu dosya, iCloud Drive’da olduğu için Çöp Sepeti’ne taşınırsa iCloud’dan ve diğer aygıtlarınızdan silinir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей файл зберігається в iCloud Drive, тож переміщення в Смітник прибирає його з iCloud і з інших ваших пристроїв."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此文件位于iCloud云盘中，因此将它移到废纸篓后，它会从iCloud和你的其他设备中删除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此檔案位於「iCloud雲碟」中，因此丟到「垃圾桶」會將它從iCloud和你的其他裝置上移除。"
           }
         }
       }

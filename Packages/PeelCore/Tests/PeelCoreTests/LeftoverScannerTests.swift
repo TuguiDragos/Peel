@@ -1095,6 +1095,28 @@ struct LeftoverScannerTests {
         #expect(await leftover(photos, .applicationSupport).match.heldBack == .holdsALibrary)
     }
 
+    /// What syncs to the cloud, as a cask's folder in Documents does in iCloud Drive, cannot be selected, since the
+    /// guard refuses it. A temporary folder holds no such folder, so which one syncs is given here.
+    @Test func aLeftoverThatSyncsToTheCloudCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        let synced = try directory.directory("home/Documents/Example")
+        let local = try directory.directory("home/Documents/Other")
+        func leftover(_ url: URL) async -> Leftover {
+            await LeftoverScanner.leftover(
+                at: url,
+                kind: .elsewhere,
+                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+                parent: ParentAccess(url.deletingLastPathComponent()),
+                home: directory.url.appending(path: "home").path(percentEncoded: false),
+                isInTheCloud: { $0.lastPathComponent == "Example" }
+            )
+        }
+
+        #expect(await leftover(synced).match.heldBack == .inTheCloud)
+        #expect(await leftover(synced).match.heldBack?.cannotBeMoved == true)
+        #expect(await leftover(local).match.heldBack == nil)
+    }
+
     /// A browser's folder that holds a profile with a wallet extension cannot be selected either.
     @Test func aBrowsersFolderHoldingAWalletCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()

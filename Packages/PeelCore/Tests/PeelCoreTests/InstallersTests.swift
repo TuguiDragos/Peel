@@ -285,7 +285,8 @@ struct InstallersTests {
         #expect(scan.items.map(\.name) == ["Other-2.dmg"])
     }
 
-    @Test func anInstallerInICloudDriveIsLeftForThePersonToChoose() async throws {
+    /// What syncs to the cloud is listed and cannot be selected: the guard refuses to move it.
+    @Test func anInstallerThatSyncsToTheCloudCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
         try directory.directory("Documents/Install macOS Tahoe.app/Contents")
@@ -303,6 +304,8 @@ struct InstallersTests {
         #expect(heldBack["Tool-2.dmg"] == .inTheCloud)
         #expect(heldBack["Install macOS Tahoe"] == .inTheCloud)
         #expect(heldBack["Other-3.dmg"] == .some(nil))
+        let selectable = scan.items.selectableRows(canUseHelper: true).selectable
+        #expect(Set(scan.items.filter { selectable.contains($0.url) }.map(\.name)) == ["Other-3.dmg"])
     }
 
     /// An item only an administrator can move goes through the helper, which takes a macOS installer from

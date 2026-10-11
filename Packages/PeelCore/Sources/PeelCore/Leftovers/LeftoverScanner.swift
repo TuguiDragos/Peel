@@ -334,7 +334,8 @@ public struct LeftoverScanner: Sendable {
         parent: ParentAccess,
         home: String,
         foldersAbove: FoldersAbove = .itsOwn,
-        measure: Measure = LeftoverScanner.walk
+        measure: Measure = LeftoverScanner.walk,
+        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
     ) async -> Leftover {
         // The walk that measures the folder also reports whether it saw a repository or a wallet, so neither
         // check costs extra reading. A repository means the folder holds more than the app's state, such as work
@@ -354,6 +355,8 @@ public struct LeftoverScanner: Sendable {
             .holdsALibrary
         } else if ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) {
             .holdsWorkKeptInACache
+        } else if isInTheCloud(url) {
+            .inTheCloud
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: url.path(percentEncoded: false), home: home) {
             keptOnlyHere
         } else if contents?.couldNotBeRead == true {

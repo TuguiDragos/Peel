@@ -125,9 +125,7 @@ struct FileSearchList: View {
             file.requiresPrivileges
                 ? String(localized: "File Search moves only what your account can move. Use Finder for this one.")
                 : nil,
-            file.isInTheCloud
-                ? String(localized: "This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
-                : file.belongsToAnApp
+            file.belongsToAnApp
                 ? String(localized: "An app keeps this in its Library folder, and may be using it right now.")
                 : nil,
         ].compactMap(\.self)

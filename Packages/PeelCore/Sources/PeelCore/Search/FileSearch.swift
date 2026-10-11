@@ -38,9 +38,6 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     /// True when the file sits in a Library folder, so it is an app's working data rather than something the user
     /// made. Such a file is listed last and never selected for the user.
     public var belongsToAnApp = false
-    /// True when the file is in iCloud Drive, as Desktop and Documents are when they sync: moving it to the Trash
-    /// removes it from every device. It is never selected for the user.
-    public var isInTheCloud = false
     /// The file's identity when it was listed. Results can stay on screen for a long time, and a file written
     /// again under the same name is not the one the row describes.
     public var identity: FileIdentity?
@@ -114,8 +111,7 @@ public enum FileSearch {
         from paths: [String],
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
-        allows: ((URL) -> Bool)? = nil,
-        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud }
+        allows: ((URL) -> Bool)? = nil
     ) -> FileSearchResults {
         let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
         let appData = AppDataFolders(home: environment.homeDirectory)
@@ -148,7 +144,6 @@ public enum FileSearch {
                 modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                 belongsToAnApp: candidate.belongsToAnApp,
-                isInTheCloud: isInTheCloud(url),
                 identity: FileIdentity(candidate.info)
             ))
         }

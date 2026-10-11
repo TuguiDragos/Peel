@@ -606,6 +606,29 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    /// What syncs to the cloud stays wherever it is, as Desktop and Documents do in iCloud Drive: the Trash would
+    /// take it from the cloud and from every other device. Put Back still brings an item there.
+    @Test func whatSyncsToTheCloudStaysWhereverItIs() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let file = try directory.file("home/Desktop/Report.pdf")
+        let folder = try directory.directory("home/Documents/Trip")
+        let local = try directory.file("home/Desktop/Setup.dmg")
+        let trashed = try directory.file("home/.Trash/Notes.txt")
+        let synced: Set = ["Report.pdf", "Trip", "Notes.txt"]
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")),
+            isInTheCloud: { synced.contains($0.lastPathComponent) }
+        )
+        let (device, number) = try #require(inode(file.path(percentEncoded: false)))
+
+        #expect(guardian.refusal(of: file) == .inTheCloud)
+        #expect(guardian.refusal(of: folder) == .inTheCloud)
+        #expect(guardian.refusal(of: URL(filePath: "/.vol/\(device)/\(number)")) == .inTheCloud, "asked by its numbers")
+        #expect(guardian.refusal(of: local) == nil)
+        #expect(guardian.allowsPuttingBack(trashed, at: home.appending(path: "Desktop/Notes.txt")))
+    }
+
     /// The guard refuses what is inside a container's `Data/Documents`, where a sandboxed app keeps what its
     /// user made. An uninstall lists the container around it, so the container is refused too while that folder
     /// holds anything or cannot be read.

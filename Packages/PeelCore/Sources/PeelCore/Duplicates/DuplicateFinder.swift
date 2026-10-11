@@ -131,9 +131,7 @@ public struct DuplicateFinder: Sendable {
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
-        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names) {
-            removalGuard.allowsRemoval(of: $0) && !$0.isInTheCloud
-        }
+        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names, isMovable: removalGuard.allowsRemoval)
         let finalGroups = sampledGroups.filter { !FileDigest.isSampled(size: $0[0].item.identity.size) }
 
         let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }
@@ -251,9 +249,8 @@ public struct DuplicateFinder: Sendable {
     }
 
     /// The groups as they may move: each file under the first of its `names`, in the order the walk found them,
-    /// that `isMovable` allows, and a group only while two files are left. `isMovable`, the guard and the cloud
-    /// check, which open the file and the folders above it, is asked only here, of files whose first and last
-    /// bytes already match another's.
+    /// that `isMovable` allows, and a group only while two files are left. `isMovable`, the guard, which opens the
+    /// file and the folders above it, is asked only here, of files whose first and last bytes already match another's.
     static func movable(
         _ groups: [[HashedCandidate]],
         names: [FileIdentity.Link: [Candidate]],

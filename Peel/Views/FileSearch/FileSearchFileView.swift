@@ -39,11 +39,6 @@ struct FileSearchFileView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
-                if file.isInTheCloud {
-                    Text("This file is in iCloud Drive, so moving it to the Trash removes it from iCloud and from your other devices.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
                 if file.belongsToAnApp {
                     Text("An app keeps this in its Library folder, and may be using it right now.")
                         .font(.callout)
