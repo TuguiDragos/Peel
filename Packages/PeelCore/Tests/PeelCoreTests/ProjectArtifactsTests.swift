@@ -416,6 +416,20 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersWhatDocusaurusClearRemoves() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("site/docusaurus.config.mjs", bytes: 16)
+        try directory.file("site/.docusaurus/client-modules.js", bytes: 400_000)
+        try directory.file("site/build/index.html", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name).sorted() == [".docusaurus", "build"])
+        #expect(found.allSatisfy { $0.tool == "Docusaurus" })
+        #expect(found.filter(\.isRecommended).map(\.name) == [".docusaurus"])
+    }
+
     @Test func offersNxsFolderOnlyWhenItHoldsWhatNxResetRemoves() async throws {
         let directory = try TemporaryDirectory()
         for project in ["reset", "plans", "cacheOnly"] {

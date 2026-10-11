@@ -145,6 +145,7 @@ public enum ProjectArtifacts {
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
+    private static let docusaurusConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "docusaurus.config." + $0 }
     private static let unityProjectFile = "ProjectSettings/ProjectVersion.txt"
     private static let dotNetProjectFiles = ["*.csproj", "*.fsproj", "*.vbproj", "*.sln"]
     private static let pytestFiles = [
@@ -198,6 +199,14 @@ public enum ProjectArtifacts {
         Definition(
             name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
             source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+        ),
+        Definition(
+            name: ".docusaurus", markers: docusaurusConfigFiles, tool: "Docusaurus", isGeneric: false,
+            source: "https://github.com/facebook/docusaurus/blob/c245217563f6491fdb79bf5ac91bfa16536e5de9/packages/docusaurus/src/commands/clear.ts#L33-L52"
+        ),
+        Definition(
+            name: "build", markers: docusaurusConfigFiles, tool: "Docusaurus", isGeneric: true,
+            source: "https://github.com/facebook/docusaurus/blob/c245217563f6491fdb79bf5ac91bfa16536e5de9/packages/docusaurus/src/commands/clear.ts#L33-L52"
         ),
         // Only what `nx reset` removes, the cache and the database together: before Nx's #37111 a database row whose
         // files were gone was a hit that restored nothing. `.nx` can also hold the release plans a team commits.
