@@ -377,6 +377,10 @@ public enum ProjectArtifacts {
             source: "https://cmake.org/cmake/help/latest/manual/cmake.1.html"
         ),
         Definition(
+            name: "autom4te.cache", markers: ["configure.ac", "configure.in"], tool: "Autoconf", isGeneric: false,
+            source: "https://www.gnu.org/software/autoconf/manual/autoconf-2.72/html_node/Autom4te-Cache.html"
+        ),
+        Definition(
             name: "cmake-build-*", markers: ["CMakeLists.txt"], tool: "CLion", isGeneric: false,
             source: "https://www.jetbrains.com/help/clion/quick-cmake-tutorial.html"
         ),

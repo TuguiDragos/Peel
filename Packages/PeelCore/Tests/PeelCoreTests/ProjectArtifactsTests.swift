@@ -416,6 +416,19 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func offersTheCacheAutoconfsToolsShare() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("lib/configure.ac", bytes: 16)
+        try directory.file("lib/autom4te.cache/output.0", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == ["autom4te.cache"])
+        #expect(found.first?.tool == "Autoconf")
+        #expect(found.first?.isRecommended == true)
+    }
+
     @Test func offersTheRawCoverageNycWrites() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/.nycrc.json", bytes: 16)
