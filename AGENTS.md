@@ -94,6 +94,11 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   selected in two places, since its tool clones it again: inside a folder its tool tags as a cache
   (`CACHEDIR.TAG`), such as Swift Package Manager's `.build`, and inside a cache on the Developer page.
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
+- **A folder a scan never walks into can't be chosen as the place to start one.** Build Artifacts never enters a
+  hidden folder, a `Library`, or a folder a tool fills, such as `node_modules`: what is there is a tool's own
+  installation, and an editor's extension keeps its `package.json` beside the `node_modules` it runs with. So a
+  folder chosen to scan that is one of those, or sits inside one, is refused like a package
+  (`ProjectArtifacts.refusal(for:)`), in the app and in `peel projects` alike.
 - **Resetting an app clears its settings, never the app.** It takes the app's own data only when the user selects
   it, needs the app to be quit, and inside a sandboxed app's container never touches `Documents`,
   `Application Support`, or `Autosave Information`.
