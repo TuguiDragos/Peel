@@ -32,11 +32,16 @@ struct AppInspectorTests {
         let alone = try bundle("home/.Trash/Alone.app", "org.example.inspector.alone")
         let nameless = try bundle("home/.Trash/Nameless.app", nil)
         let installed = [kept, trashed, nameless].compactMap(AppInspector.inspect)
+        let listedBeforeItMoved = try bundle("home/Applications/Moved.app", "org.example.inspector.moved")
+        let stillListed = [listedBeforeItMoved].compactMap(AppInspector.inspect)
+        let moved = directory.url.appending(path: "home/.Trash/Moved.app", directoryHint: .isDirectory)
+        try FileManager.default.moveItem(at: listedBeforeItMoved, to: moved)
 
         #expect(AppInspector.anotherCopyIsInstalled(of: trashed, among: installed))
         #expect(!AppInspector.anotherCopyIsInstalled(of: alone, among: installed))
         #expect(!AppInspector.anotherCopyIsInstalled(of: nameless, among: installed))
         #expect(!AppInspector.anotherCopyIsInstalled(of: trashed, among: [trashed].compactMap(AppInspector.inspect)))
+        #expect(!AppInspector.anotherCopyIsInstalled(of: moved, among: stillListed))
     }
 
     /// The shapes a binary comes in: thin (the usual shape of an Intel-only app), and fat with 20-byte or 32-byte
