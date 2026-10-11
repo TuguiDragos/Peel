@@ -631,6 +631,7 @@ public enum DeveloperCaches {
         // Only what rustup downloaded, which `rustup update` empties itself, never the toolchains it installed.
         Definition(id: "rustup", name: "rustup", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder(".rustup/downloads", .downloads, source: "https://github.com/rust-lang/rustup/blob/b46db5ea94c1024c7cd2e7133a7f9b2ec1927478/src/cli/rustup_mode.rs#L1203-L1205"),
+            Folder(".rustup/tmp", .cache, source: "https://github.com/rust-lang/rustup/blob/b46db5ea94c1024c7cd2e7133a7f9b2ec1927478/src/dist/download.rs#L44-L45"),
         ]),
         Definition(id: "cargo", name: "Cargo", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder(".cargo/registry/cache", .downloads, source: "https://github.com/rust-lang/cargo/blob/bb2126cffae48394a37db8728dc50a17bbfe54d4/doc/book/src/guide/cargo-home.md#L47-L48"),

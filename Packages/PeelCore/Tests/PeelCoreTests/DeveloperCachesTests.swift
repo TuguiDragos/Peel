@@ -460,11 +460,12 @@ struct DeveloperCachesTests {
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
         // which is the tool's only when its origin is that index. nvm's, pyenv's, rbenv's and rustup's folders hold
-        // every version they installed; only their download caches are caches.
+        // every version they installed; only their download caches are caches, and rustup's temporary folder, which
+        // `rustup update` empties.
         let onlyTheseParts: [String: Set<String>] = [
             ".cocoapods/repos": [".cocoapods/repos/trunk", ".cocoapods/repos/master", ".cocoapods/repos/cocoapods"],
             ".nvm": [".nvm/.cache"], ".pyenv": [".pyenv/cache"], ".rbenv": [".rbenv/cache"],
-            ".rustup": [".rustup/downloads"],
+            ".rustup": [".rustup/downloads", ".rustup/tmp"],
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -1315,15 +1316,16 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .downloads && $0.isRecommended })
     }
 
-    @Test func offersWhatRustupDownloadedAndNeverItsToolchains() async throws {
+    @Test func offersWhatRustupDownloadedOrLeftInItsTemporaryFolderAndNeverItsToolchains() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/downloads/4b1c.partial", bytes: 400_000)
+        try directory.file(".rustup/tmp/7d2e_dir/lib/librustc_driver.dylib", bytes: 400_000)
         try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)
         let rustup = DeveloperCaches.definitions.filter { $0.id == "rustup" }
 
         let locations = await DeveloperCaches.scan(rustup, homeDirectory: directory.url).flatMap(\.locations)
 
-        #expect(locations.map(\.url.lastPathComponent) == ["downloads"])
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["downloads", "tmp"])
     }
 
     @Test func offersCpansBuildFolderAndNeverItsPreferences() async throws {
