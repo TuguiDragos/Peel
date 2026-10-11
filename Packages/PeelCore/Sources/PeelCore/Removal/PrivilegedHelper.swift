@@ -140,14 +140,14 @@ public enum PrivilegedHelper {
     /// signing checks.
     @concurrent
     public static func isResponding() async -> Bool {
-        await isResponding(over: helperConnection())
+        await isResponding(connecting: helperConnection)
     }
 
     static func isResponding(
-        over connection: NSXPCConnection?,
+        connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         waitingAtMost wait: TimeInterval = answerWait
     ) async -> Bool {
-        let version: Int? = await ask(over: connection, waitingAtMost: wait, fallback: nil) { helper, finish in
+        let version: Int? = await ask(connecting: connect, waitingAtMost: wait, fallback: nil) { helper, finish in
             helper.protocolVersion { finish($0) }
         }
         return version == HelperIdentity.protocolVersion
@@ -294,7 +294,7 @@ public enum PrivilegedHelper {
 
     private static func withHelper<T: Sendable>(
         fallback: T,
-        _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
         await request(connecting: helperConnection, fallback: fallback, body)
     }
@@ -302,13 +302,13 @@ public enum PrivilegedHelper {
     /// Sends a request only once the helper has answered, within its own short wait, on a connection of its own: a
     /// helper launchd keeps but cannot start never answers, and the request would wait the longest any request may.
     static func request<T: Sendable>(
-        connecting connect: () -> NSXPCConnection?,
+        connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         answerWait wait: TimeInterval = answerWait,
         fallback: T,
-        _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        guard await isResponding(over: connect(), waitingAtMost: wait) else { return fallback }
-        return await ask(over: connect(), waitingAtMost: requestWait, fallback: fallback, body)
+        guard await isResponding(connecting: connect, waitingAtMost: wait) else { return fallback }
+        return await ask(connecting: connect, waitingAtMost: requestWait, fallback: fallback, body)
     }
 
     /// A connection that takes only the helper's own code, or nil when Peel has no team to require.
@@ -322,35 +322,39 @@ public enum PrivilegedHelper {
     }
 
     static func ask<T: Sendable>(
-        over connection: NSXPCConnection?,
+        connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         waitingAtMost wait: TimeInterval,
         fallback: T,
-        _ body: (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        guard let connection else { return fallback }
-        connection.remoteObjectInterface = remoteInterface()
-        connection.resume()
-        defer { connection.invalidate() }
+        // XPC delivers a reply at the quality its message went out with, and never while Peel keeps every thread at
+        // that quality busy, so the message goes out at the timer's quality, whatever the task that asks.
+        await Task.detached(priority: .userInitiated) {
+            guard let connection = connect() else { return fallback }
+            connection.remoteObjectInterface = remoteInterface()
+            connection.resume()
+            defer { connection.invalidate() }
 
-        return await withCheckedContinuation { continuation in
-            let once = ResumeOnce()
-            let finish: @Sendable (T) -> Void = { value in
-                if once.claim() {
-                    continuation.resume(returning: value)
+            return await withCheckedContinuation { continuation in
+                let once = ResumeOnce()
+                let finish: @Sendable (T) -> Void = { value in
+                    if once.claim() {
+                        continuation.resume(returning: value)
+                    }
                 }
+                // A helper that is running but never answers keeps the connection valid, and so does one launchd
+                // keeps and cannot start, so only this timer ends the wait.
+                timers.asyncAfter(deadline: .now() + wait) { finish(fallback) }
+                guard
+                    let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
+                        as? any PeelHelperProtocol
+                else {
+                    finish(fallback)
+                    return
+                }
+                body(helper, finish)
             }
-            // A helper that is running but never answers keeps the connection valid, and so does one launchd keeps
-            // and cannot start, so only this timer ends the wait.
-            timers.asyncAfter(deadline: .now() + wait) { finish(fallback) }
-            guard
-                let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
-                    as? any PeelHelperProtocol
-            else {
-                finish(fallback)
-                return
-            }
-            body(helper, finish)
-        }
+        }.value
     }
 }
 
