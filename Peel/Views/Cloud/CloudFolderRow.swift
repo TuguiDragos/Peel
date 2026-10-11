@@ -29,14 +29,15 @@ struct CloudFolderRow: View {
                 isMixed: group == .some
             )
             .disabled(rows.clickingGroup(in: selected) == selected)
-            Button {
-                withAnimation(reduceMotion ? nil : Motion.step.animation) { toggleOpen() }
-            } label: {
+            // Only the chevron is animated: rows a list inserts in an animation that shows or hides the scroll bar
+            // leave AppKit's table wider than the list, and the section header with it.
+            Button(action: toggleOpen) {
                 HStack(alignment: .firstTextBaseline, spacing: Self.spacing) {
                     Image(systemName: "chevron.right")
                         .font(.caption.weight(.bold))
                         .foregroundStyle(.secondary)
                         .rotationEffect(.degrees(isOpen ? 90 : 0))
+                        .animation(reduceMotion ? nil : Motion.step.animation, value: isOpen)
                         .frame(width: Self.chevronWidth)
                     AppIcon(url: folder.url)
                         .frame(width: 18, height: 18)
