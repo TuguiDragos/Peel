@@ -59300,6 +59300,112 @@
         }
       }
     },
+    "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to skrytá složka, složka Knihovna nebo složka jako node_modules, kterou plní nějaký nástroj, nebo se nachází uvnitř některé z nich. Aplikace a nástroje si tam ukládají, co instalují, a proto v ní Peel projekty nehledá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein ausgeblendeter Ordner, ein Library-Ordner oder ein Ordner, den ein Tool füllt, etwa node_modules, oder liegt in einem solchen. Apps und Tools bewahren dort auf, was sie installieren, daher sucht Peel darin nicht nach Projekten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es una carpeta oculta, una carpeta Biblioteca o una carpeta que una herramienta llena, como node_modules, o está dentro de una. Las apps y las herramientas guardan ahí lo que instalan, así que Peel no busca proyectos en ella."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un dossier masqué, un dossier Bibliothèque ou un dossier qu’un outil remplit, comme node_modules, ou il se trouve dans l’un d’eux. Les apps et les outils y conservent ce qu’ils installent : Peel n’y recherche donc pas de projets."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È una cartella nascosta, una cartella Libreria o una cartella che uno strumento riempie, come node_modules, oppure si trova all’interno di una di esse. Le app e gli strumenti conservano lì ciò che installano, quindi Peel non cerca progetti al suo interno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隠しフォルダ、ライブラリフォルダ、またはツールが中身を入れるフォルダ（node_modulesなど）であるか、そのいずれかの中にあります。アプリやツールがインストールしたものをそこに保管するため、Peelはその中でプロジェクトを探しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "숨김 폴더, 라이브러리 폴더 또는 node_modules처럼 도구가 채우는 폴더이거나 그 안에 있습니다. 앱과 도구는 설치하는 항목을 이러한 폴더에 보관하므로 Peel은 그 안에서 프로젝트를 찾지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een verborgen map, een bibliotheekmap of een map die door een tool wordt gevuld, zoals node_modules, of het staat in zo'n map. Apps en tools bewaren daar wat ze installeren, dus Peel zoekt er niet naar projecten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ukryty folder, folder Biblioteki lub folder wypełniany przez narzędzie, taki jak node_modules, albo folder wewnątrz jednego z nich. Aplikacje i narzędzia przechowują tam to, co instalują, więc Peel nie szuka w nim projektów."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É uma pasta oculta, uma pasta Biblioteca ou uma pasta que uma ferramenta preenche, como node_modules, ou está dentro de uma. Os apps e as ferramentas guardam ali o que instalam, então o Peel não procura projetos nela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un dosar ascuns, un dosar Bibliotecă sau un dosar pe care îl umple un instrument, cum ar fi node_modules, ori se află într‑unul. Aplicațiile și instrumentele păstrează acolo ce instalează, așa că Peel nu caută proiecte în el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это скрытая папка, папка «Библиотека» или папка, которую заполняет инструмент, например node_modules, либо папка внутри одной из них. Приложения и инструменты хранят там то, что устанавливают, поэтому Peel не ищет в ней проекты."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den är en gömd mapp, en biblioteksmapp eller en mapp som ett verktyg fyller, till exempel node_modules, eller ligger i en sådan. Appar och verktyg sparar det som de installerar där, så Peel letar inte efter projekt i den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizli bir klasör, bir Kitaplık klasörü veya bir aracın doldurduğu, node_modules gibi bir klasör ya da bunlardan birinin içinde. Uygulamalar ve araçlar yüklediklerini orada tutar, bu yüzden Peel bunun içinde proje aramaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це прихована папка, Бібліотека чи папка, яку заповнює інструмент, як-от node_modules, або папка всередині однієї з них. Програми та інструменти зберігають там те, що інсталюють, тож Peel не шукає в ній проєктів."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是隐藏文件夹、“资源库”文件夹或由工具填充的文件夹（例如node_modules），或者位于其中。App和工具会将它们安装的内容保存在那里，因此Peel不会在其中查找项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是隱藏的檔案夾、「資源庫」檔案夾或由工具填入內容的檔案夾（例如node_modules），或位於其中。App和工具會將所安裝的內容存放在那裡，因此Peel不會在其中尋找計畫案。"
+          }
+        }
+      }
+    },
     "It is an app or another package, or inside one, and what is inside belongs to it." : {
       "localizations" : {
         "cs" : {

@@ -355,6 +355,7 @@ extension ProjectArtifacts.Refusal {
         case .inTheCloud: "it is in a cloud folder, which Peel leaves to the app that syncs it"
         case .notAFolder: "it isn't a folder Peel can reach"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
+        case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"
         }
     }
 }

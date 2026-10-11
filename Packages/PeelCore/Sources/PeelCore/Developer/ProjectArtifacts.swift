@@ -488,6 +488,8 @@ public enum ProjectArtifacts {
         case notAFolder
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
+        /// A folder the walk never enters (`isSkipped`), or one inside it: apps and tools keep what they install there.
+        case neverSearched
     }
 
     /// The folders in the home folder where people usually keep projects, suggested until one is chosen: each is
@@ -531,7 +533,10 @@ public enum ProjectArtifacts {
             FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory)
             && isDirectory.boolValue
         guard isThere else { return .notAFolder }
-        return root.isOrIsInsideAPackage ? .inAPackage : nil
+        if root.isOrIsInsideAPackage { return .inAPackage }
+        // The kernel's name for the folder: links resolved, each name as the disk holds it, as the walk sees names.
+        let names = PathComponents.of(PathPattern.canonical(root).path(percentEncoded: false))
+        return names.contains(where: isSkipped) ? .neverSearched : nil
     }
 
     /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a

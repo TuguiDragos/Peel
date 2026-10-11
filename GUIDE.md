@@ -100,7 +100,8 @@ project changed in the last 7 days, installed packages (a Python environment, `v
 and a folder like `target` whose name says nothing on its own. Until you choose a folder, Peel offers `~/Developer`,
 `~/Projects`, `~/Code`, or `~/src` when you have one, and adds it only when you say so. A chosen folder Peel can't
 search, such as one on a disk that isn't connected, is named at the top of the page with the reason, never taken for
-one with nothing built in it.
+one with nothing built in it. Peel never searches a hidden folder, a Library, or a folder a tool fills, such as
+`node_modules`, where apps and tools keep what they install, so choosing one, or a folder inside one, is refused.
 
 **Space:** what's taking up room, and which app it belongs to. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool,

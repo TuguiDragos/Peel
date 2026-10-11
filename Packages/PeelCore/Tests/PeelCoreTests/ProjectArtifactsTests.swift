@@ -148,6 +148,34 @@ struct ProjectArtifactsTests {
         #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
     }
 
+    /// An editor keeps an installed extension's `package.json` beside its `node_modules`, where the walk never goes.
+    @Test func refusesAFolderTheWalkNeverEnters() async throws {
+        let directory = try TemporaryDirectory()
+        let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
+        try directory.file("Tool/.editor/extensions/org.example.sample-1.0.0/package.json")
+        try directory.file("Tool/.editor/extensions/org.example.sample-1.0.0/node_modules/org-example-dep/index.js")
+        let extensions = directory.url.appending(path: "Tool/.editor/extensions", directoryHint: .isDirectory)
+        let installed = try directory.directory("Code/app/node_modules/org-example-dep")
+        let library = try directory.directory("Work/Library/Application Support/Editor")
+        let dotted = try directory.directory("Code/my.projects")
+        let real = try directory.directory("Code/real")
+        let linkInside = directory.url.appending(path: "Tool/.editor/real")
+        try FileManager.default.createSymbolicLink(at: linkInside, withDestinationURL: real)
+        let linkToExtensions = directory.url.appending(path: "Code/extensions")
+        try FileManager.default.createSymbolicLink(at: linkToExtensions, withDestinationURL: extensions)
+
+        #expect(ProjectArtifacts.refusal(for: extensions, home: home) == .neverSearched)
+        #expect(ProjectArtifacts.refusal(for: installed, home: home) == .neverSearched)
+        #expect(ProjectArtifacts.refusal(for: library, home: home) == .neverSearched)
+        #expect(ProjectArtifacts.refusal(for: linkToExtensions, home: home) == .neverSearched)
+        #expect(ProjectArtifacts.refusal(for: linkInside, home: home) == nil)
+        #expect(ProjectArtifacts.refusal(for: dotted, home: home) == nil)
+
+        let scan = await ProjectArtifacts.scan(roots: [extensions])
+        #expect(scan.artifacts.isEmpty)
+        #expect(scan.refusedRoots.map(\.reason) == [.neverSearched])
+    }
+
     private struct Kind {
         let artifact: String
         let marker: String
@@ -613,7 +641,7 @@ struct ProjectArtifactsTests {
         try directory.file("Sample.app/Contents/Resources/app/package.json")
         let app = directory.url.appending(path: "Sample.app", directoryHint: .isDirectory)
 
-        #expect(ProjectArtifacts.refusal(for: kit, home: home) == nil)
+        #expect(ProjectArtifacts.refusal(for: kit, home: home) == .neverSearched)
         #expect(ProjectArtifacts.refusal(for: app, home: home) == .inAPackage)
         #expect(ProjectArtifacts.refusal(for: app.appending(path: "Contents/Resources/app"), home: home) == .inAPackage)
     }
