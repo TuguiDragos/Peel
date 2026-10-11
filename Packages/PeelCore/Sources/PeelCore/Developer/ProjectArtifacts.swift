@@ -331,9 +331,14 @@ public enum ProjectArtifacts {
             name: "DerivedDataCache", markers: ["*.uproject"], tool: "Unreal Engine", isGeneric: false,
             source: "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-directory-structure"
         ),
+        // `.godot` itself also holds the export passwords and keys (`export_credentials.cfg`), kept nowhere else.
         Definition(
-            name: ".godot", markers: ["project.godot"], tool: "Godot", isGeneric: false,
-            source: "https://docs.godotengine.org/en/stable/tutorials/best_practices/version_control_systems.html"
+            name: ".godot/imported", markers: ["project.godot"], tool: "Godot", isGeneric: false,
+            source: "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/import_process.html"
+        ),
+        Definition(
+            name: ".godot/shader_cache", markers: ["project.godot"], tool: "Godot", isGeneric: false,
+            source: "https://github.com/godotengine/godot/blob/232e6b14abf6e590b41d60f11704e42de22bff72/main/main.cpp#L2113-L2116"
         ),
         Definition(
             name: ".import", markers: ["project.godot"], tool: "Godot", isGeneric: false,

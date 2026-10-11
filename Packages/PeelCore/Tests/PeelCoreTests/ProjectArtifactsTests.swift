@@ -272,7 +272,8 @@ struct ProjectArtifactsTests {
             Kind(artifact: "Binaries", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: true),
             Kind(artifact: "Intermediate", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: true),
             Kind(artifact: "DerivedDataCache", marker: "Game.uproject", tool: "Unreal Engine", isGeneric: false),
-            Kind(artifact: ".godot", marker: "project.godot", tool: "Godot", isGeneric: false),
+            Kind(artifact: ".godot/imported", marker: "project.godot", tool: "Godot", isGeneric: false),
+            Kind(artifact: ".godot/shader_cache", marker: "project.godot", tool: "Godot", isGeneric: false),
             Kind(artifact: ".import", marker: "project.godot", tool: "Godot", isGeneric: false),
             Kind(artifact: "bin", marker: "App.csproj", tool: ".NET", isGeneric: true),
             Kind(artifact: "obj", marker: "Library.fsproj", tool: ".NET", isGeneric: true),
@@ -331,6 +332,21 @@ struct ProjectArtifactsTests {
             "service/target", "service/project/target",
         ])
         #expect(found.allSatisfy { $0.tool == "sbt" })
+    }
+
+    @Test func offersGodotsCachesAndNeverItsExportCredentials() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("game/project.godot", bytes: 16)
+        try directory.file("game/.godot/imported/icon.svg-org-example.ctex", bytes: 400_000)
+        try directory.file("game/.godot/shader_cache/CanvasShaderRD/org-example.cache", bytes: 400_000)
+        try directory.file("game/.godot/editor/filesystem_cache10", bytes: 16)
+        try directory.file("game/.godot/export_credentials.cfg", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map(\.name)) == [".godot/imported", ".godot/shader_cache"])
+        #expect(found.allSatisfy { $0.isRecommended })
     }
 
     @Test func findsRailsCacheInsideItsTemporaryFolderAndOnlyThere() async throws {

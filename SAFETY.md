@@ -320,7 +320,9 @@ Build Artifacts recommends what a build or a package manager makes again from th
 includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
 `Podfile`. A Python environment (`.venv`, `venv`) is listed and never selected, since packages are often installed into
 one by hand, and so is Terraform's `.terraform`, which keeps the workspace you chose. A folder whose name says nothing
-on its own, such as `target` or `build`, is listed and never selected either. Build Artifacts never searches a hidden
+on its own, such as `target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the
+caches Godot makes again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and
+keys (`export_credentials.cfg`), which exist nowhere else. Build Artifacts never searches a hidden
 folder, a Library, or a folder a tool fills, such as `node_modules`: apps and tools keep there what they install, as
 an editor keeps each extension's `package.json` beside the `node_modules` it runs with. A folder chosen to search
 that is one of those, or sits inside one, is refused with the reason.
