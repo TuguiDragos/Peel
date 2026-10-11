@@ -118,6 +118,25 @@ struct AppInspectorTests {
         #expect(!app.isSystemProtected)
     }
 
+    @Test func aServiceAFrameworkCarriesIsTheAppsOnce() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.carrier"], at: "Carrier.app/Contents/Info.plist", in: directory)
+        let framework = directory.url.appending(path: "Carrier.app/Contents/Frameworks/Updater.framework")
+        try plist(
+            ["CFBundleIdentifier": "org.example.updater.Downloader"],
+            at: "Carrier.app/Contents/Frameworks/Updater.framework/Versions/B/XPCServices/Downloader.xpc/Contents/Info.plist",
+            in: directory
+        )
+        try FileManager.default.createSymbolicLink(at: framework.appending(path: "Versions/Current"), withDestinationURL: URL(filePath: "B"))
+        try FileManager.default.createSymbolicLink(
+            at: framework.appending(path: "XPCServices"), withDestinationURL: URL(filePath: "Versions/Current/XPCServices")
+        )
+
+        let app = try #require(AppInspector.inspect(directory.url.appending(path: "Carrier.app")))
+
+        #expect(app.embeddedBundleIdentifiers == ["org.example.updater.Downloader"])
+    }
+
     /// Spotlight does not index the temporary folder, and answers there with the bundle's modification date for when
     /// it was last used.
     @Test func anAppSpotlightDoesNotIndexHasNoRecordOfBeingOpened() throws {

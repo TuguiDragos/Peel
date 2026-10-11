@@ -42,6 +42,29 @@ struct RunningCopiesTests {
         ]) == ["com.google.Chrome", "com.google.Chrome.helper", "com.google.Keystone.Agent", "com.google.Chrome.framework.AlertNotificationService"])
     }
 
+    /// A component many apps carry, such as an updater's downloader, runs from inside each of them, and what runs
+    /// from inside another installed app is that app's.
+    @Test func aComponentRunningFromInsideAnotherInstalledAppIsThatApps() {
+        func app(_ name: String) -> InstalledApp {
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
+                bundleIdentifier: "org.example.\(name.lowercased())", name: name,
+                embeddedBundleIdentifiers: ["org.example.updater.Downloader"]
+            )
+        }
+        let first = app("First"), second = app("Second")
+        let downloader = "Contents/Frameworks/Updater.framework/Versions/B/XPCServices/Downloader.xpc"
+        let running = [
+            process("org.example.updater.Downloader", at: "/Applications/Second.app/\(downloader)", pid: 2),
+            process("org.example.updater.Downloader", at: "/Applications/First.app/\(downloader)", pid: 3),
+            process("org.example.updater.Downloader", at: nil, pid: 4),
+        ]
+
+        let toQuit = RunningCopies.belonging(to: first, among: running, installedApps: [first, second])
+
+        #expect(toQuit.map(\.identifier) == [3, 4])
+    }
+
     @MainActor @Test func leavesOutWhatThisAccountCannotQuit() {
         let running = RunningCopies.current
         let unquittable = running.filter { kill($0.identifier, 0) != 0 && errno == EPERM }

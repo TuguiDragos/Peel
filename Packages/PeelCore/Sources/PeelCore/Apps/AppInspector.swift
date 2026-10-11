@@ -210,6 +210,13 @@ public enum AppInspector {
             }
         }
 
+        if !isWrapped {
+            for bundle in IntelInspector.frameworkProcesses(inside: contents.deletingLastPathComponent()) {
+                let info = infoDictionary(in: bundle.appending(path: "Contents", directoryHint: .isDirectory))
+                if let identifier = info?["CFBundleIdentifier"] as? String { identifiers.append(identifier) }
+            }
+        }
+
         let launchServices = contents.appending(path: "Library/LaunchServices", directoryHint: .isDirectory)
         if let helpers = try? fileManager.contentsOfDirectory(atPath: launchServices.path(percentEncoded: false)) {
             identifiers += helpers.filter { $0.split(separator: ".").count >= 3 }
