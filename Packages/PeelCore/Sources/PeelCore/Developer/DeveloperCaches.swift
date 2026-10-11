@@ -1150,6 +1150,9 @@ public enum DeveloperCaches {
                 base: .userTemporary
             ),
         ]),
+        Definition(id: "chroma", name: "Chroma", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/chroma/onnx_models", .models, source: "https://github.com/chroma-core/chroma/blob/5f30478c11ffdcf8cba1f872993c29d8f84ce0d9/chromadb/utils/embedding_functions/onnx_mini_lm_l6_v2.py#L38-L39"),
+        ]),
         Definition(id: "keras", name: "Keras", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".keras/datasets", .models, source: "https://github.com/keras-team/keras/blob/f7116e50cde59245a7b56871b337ca03eb703d11/keras/src/utils/file_utils.py#L230-L232"),
             Folder(".keras/models", .models, source: "https://github.com/keras-team/keras/blob/f7116e50cde59245a7b56871b337ca03eb703d11/keras/src/applications/resnet.py#L209"),

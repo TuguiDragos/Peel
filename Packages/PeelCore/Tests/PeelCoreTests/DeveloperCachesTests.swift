@@ -1581,6 +1581,18 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
+    @Test func listsChromasDownloadedModelWithoutSelectingIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cache/chroma/onnx_models/all-MiniLM-L6-v2/onnx/model.onnx", bytes: 400_000)
+        try directory.file(".cache/chroma/telemetry_user_id", bytes: 64)
+        let chroma = DeveloperCaches.definitions.filter { $0.id == "chroma" }
+
+        let locations = await DeveloperCaches.scan(chroma, homeDirectory: directory.url).flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["onnx_models"])
+        #expect(locations.allSatisfy { $0.kind == .models && !$0.isRecommended })
+    }
+
     @Test func offersTheSonarScannersCacheAndNeverItsCertificates() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".sonar/cache/0f2e/sonar-scanner-engine-shaded-10.jar", bytes: 400_000)
