@@ -649,8 +649,10 @@ public enum DeveloperCaches {
         ]),
         // Other languages
         Definition(id: "dart", name: "Dart & Flutter", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder(".pub-cache/hosted", .downloads, source: "https://github.com/dart-lang/site-www/blob/0590fb830cc9d02c97d4c71777f902c3a7936d78/src/content/tools/pub/cmd/pub-get.md#L99-L100"),
-            Folder(".pub-cache/git", .downloads, source: "https://github.com/dart-lang/pub/blob/90bb91c90cc8edc0d32693f16a4075be6b1e4fce/lib/src/system_cache.dart#L48"),
+            // Every Dart project names its packages' folders here in `.dart_tool/package_config.json`, and pub's own
+            // `cache clean` warns that each project needs `pub get` again, so they are never selected.
+            Folder(".pub-cache/hosted", .environments, source: "https://github.com/dart-lang/site-www/blob/0590fb830cc9d02c97d4c71777f902c3a7936d78/src/content/tools/pub/cmd/pub-get.md#L99-L100"),
+            Folder(".pub-cache/git", .environments, source: "https://github.com/dart-lang/pub/blob/90bb91c90cc8edc0d32693f16a4075be6b1e4fce/lib/src/system_cache.dart#L48"),
             Folder(".dartServer/.analysis-driver", .cache, source: "https://github.com/dart-lang/sdk/blob/5c1f33f9ea7d580c0ab58d913da7daa7dafee77a/pkg/analysis_server/lib/src/analysis_server.dart#L737-L741"),
         ]),
         Definition(id: "composer", name: "Composer", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [

@@ -90,9 +90,10 @@ and the browser profiles a Playwright run left in the temporary folder when it e
 browser or an app keeps for you, a profile a browser still has open, a toolchain, or anything holding an account.
 
 Some of what it lists you may want again, so Select Recommended passes it by: Xcode's archives and the symbols it
-copied from your devices, model weights, installed packages, what a tool keeps for you to install again (Vagrant
-boxes, Asset Store packages, Godot's export templates), an editor's saved state for a project that no longer
-exists, and a cache with a wallet, a signing key, or a password database inside. Nothing is selected for you.
+copied from your devices, model weights, installed packages and the stores your projects load them from, such as
+pnpm's and Dart's, what a tool keeps for you to install again (Vagrant boxes, Asset Store packages, Godot's export
+templates), an editor's saved state for a project that no longer exists, and a cache with a wallet, a signing key, or
+a password database inside. Nothing is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`, `.nuxt`,
 `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only when a file of

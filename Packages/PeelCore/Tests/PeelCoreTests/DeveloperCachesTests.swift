@@ -706,8 +706,8 @@ struct DeveloperCachesTests {
     }
 
     /// A store that installed packages link into is not a download cache. In setups that conda, uv, and pnpm
-    /// document, clearing it leaves every installed package linking to nothing, and Yarn's Plug'n'Play projects
-    /// load every package from its global cache.
+    /// document, clearing it leaves every installed package linking to nothing, Yarn's Plug'n'Play projects load
+    /// every package from its global cache, and every Dart project names its packages' folders in pub's.
     @Test func neverSelectsAStoreInstalledPackagesLinkInto() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("miniconda3/pkgs/numpy/info.json", bytes: 400_000)
@@ -715,10 +715,12 @@ struct DeveloperCachesTests {
         try directory.file("Library/pnpm/store/v10/files/00/abc", bytes: 400_000)
         try directory.file("Library/Caches/pnpm/metadata/registry.json", bytes: 400_000)
         try directory.file(".yarn/berry/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip", bytes: 400_000)
+        try directory.file(".pub-cache/hosted/pub.dev/path-1.9.1/lib/path.dart", bytes: 400_000)
+        try directory.file(".pub-cache/git/path-0123456789abcdef0123456789abcdef01234567/lib/path.dart", bytes: 400_000)
 
         let locations = await scanned(directory.url).flatMap(\.locations)
         let suggested = locations.filter(\.isRecommended).map(\.url).map { $0.lastPathComponent }
-        #expect(locations.count == 5)
+        #expect(locations.count == 7)
         #expect(suggested == ["pnpm"], "a store installed packages link into was suggested")
     }
 
