@@ -81,13 +81,14 @@ struct TemporaryDirectory: ~Copyable {
     }()
 
     /// macOS kills a copy of one of its own programs started from anywhere else (a launch constraint), so the copy of
-    /// `sleep` is signed ad hoc first. It lives five minutes, longer than the rest of the suite can hold a test back,
-    /// and each test ends its own.
+    /// `cat` is signed ad hoc first. It runs until the test ends it or lets go of it.
     func runningProgram(_ path: String) throws -> Process {
         try runningPrograms([path])[0]
     }
 
     /// Every copy is made before any starts: once a program inside an app starts, macOS may refuse to write into it.
+    /// Each is returned once it has echoed a line, so macOS has let it run: until then Gatekeeper reads it where it
+    /// started, and ends it if the test has moved it.
     func runningPrograms(_ paths: [String]) throws -> [Process] {
         let programs = try paths.map { path in
             let program = url.appending(path: path)
@@ -95,7 +96,7 @@ struct TemporaryDirectory: ~Copyable {
                 at: program.deletingLastPathComponent(),
                 withIntermediateDirectories: true
             )
-            try FileManager.default.copyItem(at: URL(filePath: "/bin/sleep"), to: program)
+            try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: program)
             let signing = try Process.run(
                 URL(filePath: "/usr/bin/codesign"),
                 arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
@@ -106,7 +107,24 @@ struct TemporaryDirectory: ~Copyable {
             }
             return program
         }
-        return try programs.map { try Process.run($0, arguments: ["300"]) }
+        let line = Data("running\n".utf8)
+        let started = try programs.map { program in
+            let input = Pipe()
+            let output = Pipe()
+            try input.fileHandleForWriting.write(contentsOf: line)
+            let process = Process()
+            process.executableURL = program
+            process.standardInput = input
+            process.standardOutput = output
+            try process.run()
+            return (process, output.fileHandleForReading)
+        }
+        for (process, echo) in started {
+            guard try echo.read(upToCount: line.count) == line else {
+                throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: process.executableURL?.path ?? ""])
+            }
+        }
+        return started.map(\.0)
     }
 
     func setPermissions(_ permissions: Int, of path: String) throws {
