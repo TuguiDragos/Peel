@@ -100,6 +100,11 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   installation, and an editor's extension keeps its `package.json` beside the `node_modules` it runs with. So a
   folder chosen to scan that is one of those, or sits inside one, is refused like a package
   (`ProjectArtifacts.refusal(for:)`), in the app and in `peel projects` alike.
+- **Peel never runs Git in a project, and never suggests a folder Git tracks.** A project's own Git settings can
+  name a program for Git to run (`core.fsmonitor`), so whether a build folder holds files Git tracks is read from
+  the index itself, as `gitformat-index(5)` describes it (`GitIndex`), never asked of Git. A folder that holds
+  tracked files, such as `Pods` kept in the repository as CocoaPods suggests, is listed with that reason and never
+  recommended, and so is one in a repository whose index can't be read.
 - **Resetting an app clears its settings, never the app.** It takes the app's own data only when the user selects
   it, needs the app to be quit, and inside a sandboxed app's container never touches `Documents`,
   `Application Support`, or `Autosave Information`.
