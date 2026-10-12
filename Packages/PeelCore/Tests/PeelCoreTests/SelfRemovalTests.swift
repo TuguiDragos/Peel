@@ -277,4 +277,29 @@ struct SelfRemovalTests {
         #expect(result.failures.isEmpty)
         #expect(paths(result.trashed.map(\.originalURL)) == paths([app]))
     }
+
+    @Test func endsOnlyTheExtensionsStillRunningFromTheMovedApp() async throws {
+        let directory = try TemporaryDirectory()
+        let app = "Applications/Peel.app"
+        let finder = try directory.runningProgram("\(app)/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder")
+        let tool = try directory.runningProgram("\(app)/Contents/Helpers/peel")
+        let other = try directory.runningProgram("Other.app/Contents/PlugIns/Other.appex/Contents/MacOS/Other")
+        defer { [finder, tool, other].forEach { $0.terminate() } }
+        let moved = try directory.directory("Trash").appending(path: "Peel.app")
+        try FileManager.default.moveItem(at: directory.url.appending(path: app), to: moved)
+
+        let ended = SelfRemoval.endExtensions(runningFrom: moved)
+
+        try #require(ended == [finder.processIdentifier])
+        let endedInTime = await withTaskGroup(of: Bool.self) { group in
+            group.addTask { for await _ in ProcessEnds.of(ended) {}; return true }
+            group.addTask { try? await Task.sleep(for: .seconds(60)); return false }
+            let first = await group.next() ?? false
+            group.cancelAll()
+            return first
+        }
+        #expect(endedInTime)
+        #expect(kill(tool.processIdentifier, 0) == 0)
+        #expect(kill(other.processIdentifier, 0) == 0)
+    }
 }

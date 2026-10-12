@@ -122,8 +122,8 @@ struct OpenFiles {
         return ["/System", "/usr/libexec", "/usr/sbin", "/sbin", "/Library/Apple"].contains(where: isInside)
     }
 
-    /// The program at `path`, which a process runs, unless it is an app extension: macOS starts and ends those on
-    /// their app's behalf, so the person could not quit one to let its app go.
+    /// The program at `path`, which a process runs, unless it is an app extension: macOS starts those on their app's
+    /// behalf, so the person could not quit one to let its app go.
     private static func program(at path: String) -> String? {
         PathComponents.of(path).contains { $0.hasSuffix(".appex") } ? nil : path
     }

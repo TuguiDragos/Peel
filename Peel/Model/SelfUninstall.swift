@@ -96,12 +96,13 @@ final class SelfUninstall {
             using: TrashService(exclusions: exclusions),
             recording: record
         )
-        guard result.trashed.contains(where: { $0.originalURL == bundleURL }) else {
+        guard let moved = result.trashed.first(where: { $0.originalURL == bundleURL }) else {
             work.resume()
             let lines = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
             failure = (lines + (ledger == .moved ? [Self.ledgerInTheTrash] : [])).joined(separator: "\n\n")
             return
         }
+        SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
         _ = await DockTiles().takeOut([bundleURL], remembering: false)
         var stayed = result.failures + links.failures
         if case .stayed(let failure) = ledger {
