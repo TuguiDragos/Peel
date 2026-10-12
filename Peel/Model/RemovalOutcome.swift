@@ -2,8 +2,8 @@ import Foundation
 import Observation
 import PeelCore
 
-/// What a removal could not do, held by the app rather than by the page that asked. Removing an app closes its
-/// page, and an alert owned by that page would close with it.
+/// What a removal could not do, or left for a restart to finish, held by the app rather than by the page that asked.
+/// Removing an app closes its page, and an alert owned by that page would close with it.
 @Observable
 final class RemovalOutcome {
     /// What came of one app's privacy reset.
@@ -19,12 +19,15 @@ final class RemovalOutcome {
     private(set) var appsToQuit: [String] = []
     /// The apps that stayed while files of their own were selected, which stayed with them.
     private(set) var keptTheirFiles: [String] = []
+    /// The audio drivers that moved, which macOS keeps running until the Mac restarts.
+    private(set) var driversAwaitingARestart: [String] = []
     private(set) var movedCount = 0
 
-    var isEmpty: Bool { failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty }
+    var isEmpty: Bool { failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty }
 
-    /// Keeps what the removal could not do, for the alert. `privacy` is every reset the removal ran, and
-    /// `PrivacyReset.worthTelling` picks which of them to tell. A removal with nothing to tell changes nothing.
+    /// Keeps what the removal could not do, and the audio drivers a restart finishes removing, for the alert.
+    /// `privacy` is every reset the removal ran, and `PrivacyReset.worthTelling` picks which of them to tell. A
+    /// removal with nothing to tell changes nothing.
     func report(
         _ result: TrashResult,
         privacy resets: [(app: InstalledApp, result: PrivacyReset.Result)] = [],
@@ -34,12 +37,14 @@ final class RemovalOutcome {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
         }
-        guard !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty else { return }
+        let drivers = AudioDrivers.awaitingARestart(after: result)
+        guard !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty else { return }
         failures = result.failures
         movedCount = result.trashed.count
         self.privacy = privacy
         self.appsToQuit = appsToQuit
         self.keptTheirFiles = keptTheirFiles
+        driversAwaitingARestart = drivers
     }
 
     func clear() {
@@ -48,5 +53,6 @@ final class RemovalOutcome {
         privacy = []
         appsToQuit = []
         keptTheirFiles = []
+        driversAwaitingARestart = []
     }
 }

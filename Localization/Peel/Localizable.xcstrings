@@ -126977,6 +126977,112 @@
         }
       }
     },
+    "Restart your Mac to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li odstranění dokončit, restartujte Mac."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starte deinen Mac neu, um das Entfernen abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinicia el Mac para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrez votre Mac pour terminer la suppression."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riavvia il Mac per completare la rimozione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了するにはMacを再起動してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거를 완료하려면 Mac을 재시동하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start je Mac opnieuw op om de verwijdering te voltooien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby zakończyć, uruchom ponownie Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinicie o Mac para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reporniți Mac‑ul pentru a încheia eliminarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы завершить удаление, перезагрузите Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starta om datorn för att slutföra borttagningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldırma işlemini tamamlamak için Mac’inizi yeniden başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перезапустіть Mac, щоб завершити вилучення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新启动你的Mac以完成移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請將Mac重新開機以完成移除。"
+          }
+        }
+      }
+    },
     "Restarts itself" : {
       "localizations" : {
         "cs" : {
@@ -198830,6 +198936,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會在App之外保留此項目的副本，而且只有在Finder中將該App丟到「垃圾桶」時才會移除它，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
+          }
+        }
+      }
+    },
+    "macOS keeps the audio driver %@ running until you restart your Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ponechá zvukový ovladač %@ spuštěný, dokud nerestartujete Mac."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lässt den Audiotreiber „%@“ weiterlaufen, bis du deinen Mac neu startest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene en ejecución el driver de audio %@ hasta que reinicies el Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continue d’exécuter le gestionnaire audio %@ jusqu’à ce que vous redémarriez votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene in esecuzione il driver audio %@ finché non riavvii il Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macを再起動するまで、macOSはオーディオドライバ“%@”を実行し続けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac을 재시동할 때까지 macOS가 ‘%@’ 오디오 드라이버를 계속 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS houdt het audiobesturingsbestand %@ actief totdat je je Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS utrzymuje działanie sterownika audio %@, dopóki nie uruchomisz ponownie Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém o driver de áudio %@ em execução até você reiniciar o Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continuă să ruleze driverul audio %@ până când reporniți Mac‑ul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудиодрайвер «%@» продолжит работать в macOS, пока Вы не перезагрузите Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS håller ljuddrivrutinen %@ igång tills du startar om datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ ses sürücüsünü Mac’iniz yeniden başlatılana kadar çalışır durumda tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS залишає запущеним аудіодрайвер «%@», доки ви не перезапустите Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS会让音频驱动程序“%@”保持运行，直到你重新启动Mac。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會讓音訊驅動程式「%@」繼續執行，直到你將Mac重新開機。"
+          }
+        }
+      }
+    },
+    "macOS keeps the audio drivers %@ running until you restart your Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ponechá zvukové ovladače %@ spuštěné, dokud nerestartujete Mac."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lässt die Audiotreiber %@ weiterlaufen, bis du deinen Mac neu startest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene en ejecución los drivers de audio %@ hasta que reinicies el Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continue d’exécuter les gestionnaires audio %@ jusqu’à ce que vous redémarriez votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene in esecuzione i driver audio %@ finché non riavvii il Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macを再起動するまで、macOSはオーディオドライバ%@を実行し続けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac을 재시동할 때까지 macOS가 %@ 오디오 드라이버를 계속 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS houdt de audiobesturingsbestanden %@ actief totdat je je Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS utrzymuje działanie sterowników audio %@, dopóki nie uruchomisz ponownie Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém os drivers de áudio %@ em execução até você reiniciar o Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continuă să ruleze driverele audio %@ până când reporniți Mac‑ul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудиодрайверы %@ продолжат работать в macOS, пока Вы не перезагрузите Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS håller ljuddrivrutinerna %@ igång tills du startar om datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ ses sürücülerini Mac’iniz yeniden başlatılana kadar çalışır durumda tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS залишає запущеними аудіодрайвери %@, доки ви не перезапустите Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS会让音频驱动程序“%@”保持运行，直到你重新启动Mac。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會讓音訊驅動程式%@繼續執行，直到你將Mac重新開機。"
           }
         }
       }

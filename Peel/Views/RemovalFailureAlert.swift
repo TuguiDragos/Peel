@@ -3,8 +3,8 @@ import PeelCore
 import SwiftUI
 
 /// The alert every tool shows when a removal fails for some items: which ones, and why, with a button that
-/// fixes the cause when there is one. It also reports the privacy resets worth telling about, since two
-/// alerts cannot be up at once.
+/// fixes the cause when there is one. It also reports the privacy resets worth telling about, and the audio drivers
+/// that wait for a restart, since two alerts cannot be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
@@ -40,6 +40,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private var title: Text {
+        if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
+            return Text("Restart your Mac to finish.")
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty {
             return outcome.privacy.count == 1 ? Text("Privacy permissions weren’t reset.") : Text("Some privacy permissions weren’t reset.")
         }
@@ -53,8 +56,17 @@ struct RemovalFailureAlert: ViewModifier {
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
-        lines += keptLines + extraLines
+        lines += keptLines + driverLines + extraLines
         return lines.joined(separator: "\n\n")
+    }
+
+    private var driverLines: [String] {
+        let drivers = outcome.driversAwaitingARestart
+        guard !drivers.isEmpty else { return [] }
+        let names = drivers.formatted(.list(type: .and))
+        return drivers.count == 1
+            ? [String(localized: "macOS keeps the audio driver \(names) running until you restart your Mac.")]
+            : [String(localized: "macOS keeps the audio drivers \(names) running until you restart your Mac.")]
     }
 
     /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
@@ -75,7 +87,7 @@ struct RemovalFailureAlert: ViewModifier {
     /// selected.
     private func copyDetails() {
         let lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
-            + keptLines + extraLines
+            + keptLines + driverLines + extraLines
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
     }
