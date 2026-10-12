@@ -930,12 +930,13 @@ struct TrashServiceTests {
         let openFiles = OpenFiles()
         let unquittable = RunningCopies.current.filter { kill($0.identifier, 0) != 0 && errno == EPERM }
         for case let (process, bundle?) in unquittable.map({ ($0, $0.bundleURL) }) {
-            guard case .heldByAnotherAccount(let names) = openFiles.refusal(of: bundle, lettingItsProgramsRun: false)
-            else {
-                Issue.record("\(bundle.path(percentEncoded: false)) was refused for no reason of its own")
-                continue
+            let isMacOSs = RunningProgram.path(of: process.identifier).map(OpenFiles.isMacOSsOwn) ?? false
+            switch openFiles.refusal(of: bundle, lettingItsProgramsRun: false) {
+            case .inUseByMacOS(let names) where isMacOSs, .heldByAnotherAccount(let names) where !isMacOSs:
+                #expect(names.contains(OpenFiles.name(of: process.identifier)))
+            case let refusal:
+                Issue.record("\(bundle.path(percentEncoded: false)) was refused as \(String(describing: refusal))")
             }
-            #expect(names.contains(OpenFiles.name(of: process.identifier)))
         }
     }
 

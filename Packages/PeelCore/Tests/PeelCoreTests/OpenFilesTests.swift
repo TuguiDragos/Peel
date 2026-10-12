@@ -121,6 +121,62 @@ struct OpenFilesTests {
         #expect(OpenFiles(excluding: nil).holders(of: directory.url.appending(path: "Example.app")).isEmpty)
     }
 
+    @Test func namesMacOSWhenOnlyItsOwnProgramsHoldAnItem() throws {
+        let directory = try TemporaryDirectory()
+        let log = try directory.file("Cache/stats.log")
+        let iostat = try Self.macOSProgram(writingTo: log)
+        defer { iostat.terminate() }
+
+        let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
+        #expect(refusal == .inUseByMacOS(by: ["iostat"]))
+    }
+
+    @Test func leavesMacOSOutWhileAProgramThatCanQuitHoldsTheItemToo() throws {
+        let directory = try TemporaryDirectory()
+        let log = try directory.file("Support/stats.log")
+        let iostat = try Self.macOSProgram(writingTo: log)
+        defer { iostat.terminate() }
+        let agent = try directory.runningProgram("Support/agent")
+        defer { agent.terminate() }
+
+        let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
+        #expect(refusal == .heldOpen(by: ["agent"]))
+    }
+
+    @Test func knowsMacOSsOwnProgramsByWhereTheyRun() {
+        let macOSs = [
+            "/usr/libexec/appleaccountd", "/usr/sbin/cfprefsd", "/sbin/launchd",
+            "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared",
+            "/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock",
+            "/System/Volumes/Preboot/Cryptexes/App/usr/libexec/webpushd",
+            "/System/iOSSupport/System/Library/PrivateFrameworks/HomeEnergyDaemon.framework/Support/homeenergyd",
+            "/Library/Apple/System/Library/CoreServices/XProtect.app/Contents/XPCServices/XProtectPluginService.xpc/Contents/MacOS/XProtectPluginService",
+        ]
+        let thePersons = [
+            "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/Contents/MacOS/Safari",
+            "/System/Cryptexes/App/System/Applications/Safari.app/Contents/MacOS/Safari",
+            "/System/Applications/Utilities/Console.app/Contents/MacOS/Console",
+            "/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility",
+            "/System/Volumes/Data/Applications/Example.app/Contents/MacOS/Example",
+            "/usr/bin/tail", "/bin/zsh", "/usr/local/bin/node", "/Applications/Example.app/Contents/MacOS/Example",
+        ]
+
+        #expect(macOSs.filter { !OpenFiles.isMacOSsOwn($0) } == [])
+        #expect(thePersons.filter(OpenFiles.isMacOSsOwn) == [])
+    }
+
+    /// `iostat`, run from where macOS keeps it, writing into `file`, which it holds open until it ends five minutes on.
+    private static func macOSProgram(writingTo file: URL) throws -> Process {
+        let process = Process()
+        process.executableURL = URL(filePath: "/usr/sbin/iostat")
+        process.arguments = ["-w", "300", "-c", "2"]
+        let output = try FileHandle(forWritingTo: file)
+        defer { try? output.close() }
+        process.standardOutput = output
+        try process.run()
+        return process
+    }
+
     /// A copy of this process holding only `descriptor`, made by another copy when `madeByACopy`. A copy calls only C:
     /// another thread may have held a lock of Swift's runtime, and returning into the test would run its cleanup.
     private static func copyOfThisProcess(

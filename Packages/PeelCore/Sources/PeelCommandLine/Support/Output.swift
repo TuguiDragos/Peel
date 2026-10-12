@@ -421,11 +421,16 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
+        case .heldOpen(let processes) where processes.count > 1:
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in Background Items if they have no window, then try again"
         case .heldOpen(let processes):
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit \(processes.count == 1 ? "it" : "them") and try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, or stop it in Background Items if it has no window, then try again"
         case .peelRunsFromIt: "Peel runs from here; only Remove Peel, in the app's Settings > General, removes Peel"
+        case .heldByAnotherAccount(let processes) where processes.count > 1:
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again"
         case .heldByAnotherAccount(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop it in Background Items or with the app's own uninstaller, then try again"
+        case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .failed(let message): Output.plain(message)
         }
     }

@@ -59937,6 +59937,112 @@
         }
       }
     },
+    "It is in use by %@, which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používají ji %@, které běží pod jiným účtem nebo jako systém, takže je nemůžete ukončit vy ani Peel. Zastavte je na stránce Položky na pozadí nebo vlastním odinstalátorem aplikace a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ verwendet, ausgeführt unter einem anderen Benutzeraccount oder vom System, daher lassen sie sich weder von dir noch von Peel beenden. Stoppe sie auf der Seite „Hintergrundobjekte“ oder mit dem eigenen Deinstallationsprogramm der App und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@, que se ejecutan con otra cuenta o con la del sistema, así que ni tú ni Peel podéis salir de ellos. Detenlos en la página Ítems en segundo plano, o con el propio desinstalador de la app, antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@, qui s’exécutent sous un autre compte ou sous celui du système, si bien que ni vous ni Peel ne pouvez les quitter. Arrêtez-les sur la page Éléments en arrière-plan, ou avec le programme de désinstallation propre à l’app, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@, in esecuzione con un altro account o come sistema, quindi né tu né Peel potete uscirne. Interrompine l’esecuzione in “Elementi in background” o con il programma di disinstallazione dell’app stessa, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。使用しているプログラムはいずれも、別のアカウントまたはシステムとして実行されているため、手動でもPeelからも終了できません。“バックグラウンド項目”またはアプリ独自のアンインストーラで停止してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중입니다. 해당 프로그램들은 다른 계정이나 시스템으로 실행되므로, 사용자도 Peel도 종료할 수 없습니다. 백그라운드 항목 페이지나 앱 자체의 제거 프로그램을 사용하여 중단한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@, actief als een andere account of als het systeem, zodat jij en Peel ze niet kunnen stoppen. Stop ze in 'Achtergrondonderdelen' of met het eigen de-installatieprogramma van de app en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Te programy działają na innym koncie lub jako system, więc ani Ty, ani Peel nie możecie ich zakończyć. Zatrzymaj je na stronie Rzeczy działające w tle albo za pomocą własnego dezinstalatora aplikacji, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@, que são executados por outra conta ou pelo sistema, então nem você nem o Peel podem encerrá-los. Interrompa-os na página Itens em Segundo Plano ou com o desinstalador do próprio app e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@, care rulează în numele altui cont sau al sistemului, așa că nici dvs., nici Peel nu le puteți închide. Opriți‑le în pagina Articole de fundal sau cu programul propriu de dezinstalare al aplicației, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Эти программы выполняются от имени другой учетной записи или системы, поэтому ни Вы, ни Peel не можете их завершить. Остановите их в разделе «Фоновые объекты» или с помощью собственной программы удаления приложения, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@, som körs under ett annat konto eller av systemet, så varken du eller Peel kan avsluta dem. Stoppa dem på sidan Bakgrundsobjekt, eller med appens egen avinstallerare, och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor. Bu programlar başka bir hesapla veya sistem olarak çalıştıkları için ne siz ne de Peel onlardan çıkabilir. Onları Arka Plan Öğeleri’nde veya uygulamanın kendi yükleme kaldırıcısıyla durdurup yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовують %@, що працюють від імені іншого облікового запису або системи, тож ні ви, ні Peel не можете завершити ці процеси. Зупиніть їх у розділі «Фонові елементи» або власним деінсталятором програми та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用，这些程序以另一个账户或系统的身份运行，因此你和Peel都无法退出它们。请在“后台项目”中或使用该App自己的卸载器将其停止，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中，由於其以另一個帳號或系統的身分執行，你和Peel都無法將其結束。請在「背景項目」中停止它們，或使用該App自己的解除安裝程式，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is in use by %@, which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again." : {
       "localizations" : {
         "cs" : {
@@ -60043,108 +60149,214 @@
         }
       }
     },
-    "It is in use by %@. Quit %@, then try again." : {
+    "It is in use by %@. Quit %@, or stop it in Background Items if it has no window, then try again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Používá ji %@. Ukončete %@ a zkuste to znovu."
+            "value" : "Používá ji %@. Ukončete %@, nebo ho zastavte na stránce Položky na pozadí, pokud nemá žádné okno, a zkuste to znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es wird gerade von %@ verwendet. Beende %@ und versuche es dann erneut."
+            "value" : "Es wird gerade von %@ verwendet. Beende %@ oder stoppe es auf der Seite „Hintergrundobjekte“, wenn es kein Fenster hat, und versuche es dann erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está en uso por %@. Sal de %@ antes de volver a intentarlo."
+            "value" : "Está en uso por %@. Sal de %@, o detenlo en la página Ítems en segundo plano si no tiene ventana, antes de volver a intentarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il est utilisé par %@. Quittez %@, puis réessayez."
+            "value" : "Il est utilisé par %@. Quittez %@, ou arrêtez-le sur la page Éléments en arrière-plan s’il n’a pas de fenêtre, puis réessayez."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È in uso da %@. Esci da %@, poi riprova."
+            "value" : "È in uso da %@. Esci da %@, oppure interrompine l’esecuzione in “Elementi in background” se non ha finestre, poi riprova."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@で使用中です。%@を終了してから、やり直してください。"
+            "value" : "%@で使用中です。%@を終了するか、ウインドウがない場合は“バックグラウンド項目”で停止してから、やり直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@에서 사용 중입니다. %@을(를) 종료한 다음 다시 시도하십시오."
+            "value" : "%@에서 사용 중입니다. %@을(를) 종료하거나, 윈도우가 없는 프로그램이면 백그라운드 항목 페이지에서 중단한 다음 다시 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het wordt gebruikt door %@. Stop %@ en probeer het opnieuw."
+            "value" : "Het wordt gebruikt door %@. Stop %@, of stop het in 'Achtergrondonderdelen' als het geen venster heeft, en probeer het opnieuw."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jest używane przez: %@. Zakończ %@, a potem spróbuj ponownie."
+            "value" : "Jest używane przez: %@. Zakończ %@ albo zatrzymaj go na stronie Rzeczy działające w tle, jeśli nie ma okna, a potem spróbuj ponownie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está em uso por %@. Encerre %@ e tente novamente."
+            "value" : "Está em uso por %@. Encerre %@ ou, se ele não tiver janela, interrompa-o na página Itens em Segundo Plano e tente novamente."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este utilizat de %@. Închideți %@, apoi încercați din nou."
+            "value" : "Este utilizat de %@. Închideți %@ sau, dacă nu are ferestre, opriți‑l în pagina Articole de fundal, apoi încercați din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Объект используется: %@. Завершите %@, а затем повторите попытку."
+            "value" : "Объект используется: %@. Завершите %@ или, если у программы нет окна, остановите ее в разделе «Фоновые объекты», а затем повторите попытку."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det används av %@. Avsluta %@ och försök sedan igen."
+            "value" : "Det används av %@. Avsluta %@, eller stoppa det på sidan Bakgrundsobjekt om det saknar fönster, och försök sedan igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ tarafından kullanılıyor. Şu programlardan çıkıp yeniden deneyin: %@."
+            "value" : "%@ tarafından kullanılıyor. Şu programdan çıkıp veya penceresi yoksa onu Arka Plan Öğeleri’nde durdurup yeniden deneyin: %@."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його використовує %@. Завершіть %@ та спробуйте ще раз."
+            "value" : "Його використовує %@. Завершіть %@ або зупиніть його в розділі «Фонові елементи», якщо він не має вікна, та спробуйте ще раз."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它正在被“%@”使用。请退出“%@”，然后重试。"
+            "value" : "它正在被“%@”使用。请退出“%@”，如果它没有窗口，则在“后台项目”中将其停止，然后重试。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它正由%@使用中。請結束%@，然後再試一次。"
+            "value" : "它正由%@使用中。請結束%@，或者如果它沒有視窗，請在「背景項目」中停止它，然後再試一次。"
+          }
+        }
+      }
+    },
+    "It is in use by %@. Quit %@, or stop them in Background Items if they have no window, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používají ji %@. Ukončete %@, nebo je zastavte na stránce Položky na pozadí, pokud nemají žádné okno, a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ verwendet. Beende %@ oder stoppe sie auf der Seite „Hintergrundobjekte“, wenn sie kein Fenster haben, und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@. Sal de %@, o detenlos en la página Ítems en segundo plano si no tienen ventana, antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@. Quittez %@, ou arrêtez-les sur la page Éléments en arrière-plan s’ils n’ont pas de fenêtre, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@. Esci da %@, oppure interrompine l’esecuzione in “Elementi in background” se non hanno finestre, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。%@を終了するか、ウインドウがないものは“バックグラウンド項目”で停止してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중입니다. %@을(를) 종료하거나, 윈도우가 없는 프로그램은 백그라운드 항목 페이지에서 중단한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@. Stop %@, of stop ze in 'Achtergrondonderdelen' als ze geen venster hebben, en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Zakończ %@ albo zatrzymaj je na stronie Rzeczy działające w tle, jeśli nie mają okien, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@. Encerre %@ ou, se eles não tiverem janela, interrompa-os na página Itens em Segundo Plano e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@. Închideți %@ sau, dacă nu au ferestre, opriți‑le în pagina Articole de fundal, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Завершите %@ или, если у программ нет окон, остановите их в разделе «Фоновые объекты», а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@. Avsluta %@, eller stoppa dem på sidan Bakgrundsobjekt om de saknar fönster, och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor. Şu programlardan çıkıp veya pencereleri yoksa onları Arka Plan Öğeleri’nde durdurup yeniden deneyin: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовують %@. Завершіть %@ або зупиніть їх у розділі «Фонові елементи», якщо вони не мають вікон, та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用。请退出“%@”，如果它们没有窗口，则在“后台项目”中将其停止，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中。請結束%@，或者如果它們沒有視窗，請在「背景項目」中停止它們，然後再試一次。"
           }
         }
       }
@@ -198088,6 +198300,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS正在移除此項目。有些移除作業要等到Mac重新開機後才會完成。"
+          }
+        }
+      }
+    },
+    "macOS is using it right now, through %@, so it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji právě teď používá přes %@, proto zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS verwendet es gerade über %@, daher bleibt es, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lo está usando ahora mismo, a través de %@, así que se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS l’utilise en ce moment via %@ : il reste donc en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lo sta usando proprio ora, tramite %@, quindi resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが%@を通じて現在使用中のため、そのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 지금 %@을(를) 통해 이 항목을 사용하고 있으므로 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS gebruikt het op dit moment via %@, dus het blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS właśnie z tego korzysta za pośrednictwem: %@, więc zostaje to na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS está usando-o neste momento, por meio de %@, então ele fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS îl utilizează chiar acum, prin %@, așa că el rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS прямо сейчас использует этот объект через %@, поэтому он остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS använder det just nu, via %@, så det stannar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS şu anda onu %@ aracılığıyla kullanıyor, bu yüzden öğe olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS саме зараз ним користується через %@, тож він лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS现在正在通过“%@”使用它，因此它会留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS現在正在透過%@使用它，因此它會留在原處。"
           }
         }
       }

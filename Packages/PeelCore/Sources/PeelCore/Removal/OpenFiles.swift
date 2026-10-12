@@ -11,6 +11,8 @@ struct OpenFiles {
     private typealias File = (names: [String], process: String, pid: pid_t, hold: Hold, isAnotherAccounts: Bool)
 
     private let files: [File]
+    /// The program each process that holds something runs, by its identifier.
+    private let programs: [pid_t: String]
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
     private let excludedProgram: [String]?
 
@@ -21,16 +23,19 @@ struct OpenFiles {
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [File] = []
+        var programs: [pid_t: String] = [:]
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded && !Self.isACopyOfThisProcess(pid) {
             let path = RunningProgram.path(of: pid)
             let program = path.flatMap(Self.program(at:)).map { [(path: $0, hold: Hold.runs)] } ?? []
             let paths = Self.paths(openBy: pid) + program
             guard !paths.isEmpty else { continue }
+            programs[pid] = path
             let process = Self.name(of: pid, program: path)
             let isAnotherAccounts = kill(pid, 0) != 0 && errno == EPERM
             files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, isAnotherAccounts) }
         }
         self.files = files
+        self.programs = programs
     }
 
     /// The programs that hold `url`. An app is code, which loses nothing when it moves, so a program that only reads
@@ -48,10 +53,13 @@ struct OpenFiles {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
         let holding = holding(url, lettingItsProgramsRun: lettingItsProgramsRun)
-        let others = Set(holding.filter(\.isAnotherAccounts).map(\.process)).sorted()
+        guard !holding.isEmpty else { return nil }
+        // macOS's own programs are named only when nothing else holds the item, since nobody quits them.
+        let named = holding.filter { !(programs[$0.pid].map(Self.isMacOSsOwn) ?? false) }
+        guard !named.isEmpty else { return .inUseByMacOS(by: Set(holding.map(\.process)).sorted()) }
+        let others = Set(named.filter(\.isAnotherAccounts).map(\.process)).sorted()
         if !others.isEmpty { return .heldByAnotherAccount(by: others) }
-        let holders = Set(holding.map(\.process)).sorted()
-        return holders.isEmpty ? nil : .heldOpen(by: holders)
+        return .heldOpen(by: Set(named.map(\.process)).sorted())
     }
 
     private func holding(_ url: URL, lettingItsProgramsRun: Bool) -> [File] {
@@ -97,6 +105,21 @@ struct OpenFiles {
             return false
         }
         return RunningProgram.path(of: pid) == RunningProgram.path(of: getpid())
+    }
+
+    /// Whether the program at `path` is one of macOS's own, which nobody quits: on the sealed system volume or in its
+    /// cryptexes, in `/usr/libexec`, `/usr/sbin`, `/sbin` or `/Library/Apple`. An app in the system's Applications
+    /// folders and a command in `/bin` or `/usr/bin` are the person's to quit.
+    static func isMacOSsOwn(_ path: String) -> Bool {
+        let isInside = { (folder: String) in PathComponents.isPath(path, inside: folder) }
+        let cryptexes = "/System/Volumes/Preboot/Cryptexes"
+        let apps = [
+            "/System/Applications", "/System/Library/CoreServices/Applications",
+            "/System/Cryptexes/App/System/Applications", "\(cryptexes)/App/System/Applications",
+        ]
+        guard !apps.contains(where: isInside) else { return false }
+        if isInside("/System/Volumes") { return isInside(cryptexes) }
+        return ["/System", "/usr/libexec", "/usr/sbin", "/sbin", "/Library/Apple"].contains(where: isInside)
     }
 
     /// The program at `path`, which a process runs, unless it is an app extension: macOS starts and ends those on

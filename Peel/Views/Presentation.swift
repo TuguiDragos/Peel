@@ -170,11 +170,17 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.")
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.")
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.")
+        case .heldOpen(let processes) where processes.count > 1:
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.")
         case .heldOpen(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items if it has no window, then try again.")
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.")
+        case .heldByAnotherAccount(let processes) where processes.count > 1:
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again.")
         case .heldByAnotherAccount(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.")
+        case .inUseByMacOS(let processes):
+            String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

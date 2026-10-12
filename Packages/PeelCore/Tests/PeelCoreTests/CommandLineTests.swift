@@ -822,10 +822,11 @@ struct CommandLineTests {
         #expect(command.resetPrivacy)
     }
 
-    /// A refusal for a program using the item says what to quit before trying again.
-    @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuit() {
-        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it and try again")
-        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them and try again")
+    @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuitOrStop() {
+        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it, or stop it in Background Items if it has no window, then try again")
+        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them, or stop them in Background Items if they have no window, then try again")
+        #expect(TrashFailure.Reason.heldByAnotherAccount(by: ["CtxHelper", "updater"]).summary == "in use by CtxHelper, updater, running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again")
+        #expect(TrashFailure.Reason.inUseByMacOS(by: ["geod", "appleaccountd"]).summary == "in use by macOS (geod, appleaccountd)")
     }
 
     /// The line printed about the privacy reset after the move, and whether it makes the command fail.
