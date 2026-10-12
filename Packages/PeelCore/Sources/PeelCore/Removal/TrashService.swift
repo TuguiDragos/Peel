@@ -192,6 +192,8 @@ public struct TrashResult: Sendable {
     public var failures: [TrashFailure] = []
     /// The folders an uninstall left empty and moved too, which free nothing.
     public internal(set) var emptied: Set<URL> = []
+    /// The apps that moved whose background items macOS still starts at login, now from the Trash, until it is emptied.
+    public internal(set) var startsFromTheTrash: [URL] = []
 
     public init(trashed: [TrashedItem] = [], failures: [TrashFailure] = []) {
         self.trashed = trashed
@@ -217,6 +219,7 @@ public struct TrashService: Sendable {
     typealias PutBackDockTiles = @Sendable (URL) async -> Void
     typealias RunningInside = @Sendable (_ app: URL) async -> [LaunchdCleanup.Running]
     typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
+    typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
 
     let environment: SearchEnvironment
     private let removalGuard: RemovalGuard
@@ -227,6 +230,7 @@ public struct TrashService: Sendable {
     private let putBackDockTiles: PutBackDockTiles
     private let runningInside: RunningInside
     private let stopRunning: StopRunning
+    private let registrationAtLogin: RegistrationAtLogin
     private let moveToTrash: @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
@@ -244,14 +248,19 @@ public struct TrashService: Sendable {
             putBackDockTiles: { await DockTiles().putBack($0) },
             runningInside: { await LaunchdCleanup.running(inside: $0, environment: environment) },
             stopRunning: { await LaunchdCleanup.stop($0, canUseHelper: $1) },
+            // Seen on macOS 27, which is where the note that reads it is shown.
+            registrationAtLogin: { app in
+                guard #available(macOS 27, *) else { return nil }
+                return await StartsAtLogin.registration(of: app)
+            },
             moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
         )
     }
 
-    /// For tests. Unless a test passes its own, it stops and starts no launchd job, forgets no preference domain, acts
-    /// as if there were no helper, changes no Dock, and writes no journal.
+    /// For tests. Unless a test passes its own, it stops and starts no launchd job, asks launchd nothing, forgets no
+    /// preference domain, acts as if there were no helper, changes no Dock, and writes no journal.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -262,6 +271,7 @@ public struct TrashService: Sendable {
         putBackDockTiles: @escaping PutBackDockTiles = { _ in },
         runningInside: @escaping RunningInside = { _ in [] },
         stopRunning: @escaping StopRunning = { _, _ in [] },
+        registrationAtLogin: @escaping RegistrationAtLogin = { _ in nil },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
@@ -276,6 +286,7 @@ public struct TrashService: Sendable {
             putBackDockTiles: putBackDockTiles,
             runningInside: runningInside,
             stopRunning: stopRunning,
+            registrationAtLogin: registrationAtLogin,
             moveToTrash: moveToTrash,
             ownMoves: ownMoves,
             journal: journal
@@ -292,6 +303,7 @@ public struct TrashService: Sendable {
         putBackDockTiles: @escaping PutBackDockTiles,
         runningInside: @escaping RunningInside,
         stopRunning: @escaping StopRunning,
+        registrationAtLogin: @escaping RegistrationAtLogin,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -305,6 +317,7 @@ public struct TrashService: Sendable {
         self.putBackDockTiles = putBackDockTiles
         self.runningInside = runningInside
         self.stopRunning = stopRunning
+        self.registrationAtLogin = registrationAtLogin
         self.moveToTrash = moveToTrash
         self.ownMoves = ownMoves
         self.journal = journal
@@ -449,6 +462,11 @@ public struct TrashService: Sendable {
         emptiedFoldersNamed names: Set<String> = []
     ) async -> TrashResult {
         let removal = UUID()
+        // Asked before anything moves: a job stopped so its app could move is no longer named by launchd.
+        var registrations: [URL: StartsAtLogin.Registration] = [:]
+        for app in apps {
+            registrations[app] = await registrationAtLogin(app)
+        }
         var result = apps.isEmpty
             ? TrashResult()
             : await trash(apps, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: running)
@@ -457,6 +475,11 @@ public struct TrashService: Sendable {
             lettingTheirProgramsRun: running
         )
         let moved = Set(result.trashed.map(\.originalURL))
+        // With another copy installed, macOS may start the items from that copy.
+        result.startsFromTheTrash = apps.filter { app in
+            guard moved.contains(app), let registration = registrations[app] else { return false }
+            return AppInspector.applicationURLs(forBundleIdentifier: registration.identifier).isEmpty
+        }
         let rest = files(Set(apps.filter { !moved.contains($0) }))
         guard !rest.isEmpty else {
             await startAgain(stopped, unlessMoved: [])

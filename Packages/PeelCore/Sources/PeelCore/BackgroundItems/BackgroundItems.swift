@@ -3,7 +3,7 @@ import Foundation
 import PeelPrivileged
 
 public enum BackgroundItems {
-    private static let serviceManagement = "com.apple.xpc.ServiceManagement"
+    static let serviceManagement = "com.apple.xpc.ServiceManagement"
     private static let concurrentDetailQueries = 8
 
     public struct Scan: Sendable {

@@ -392,6 +392,12 @@ struct UninstallCommand: AsyncParsableCommand {
         return "Peel takes \(Output.plain(app.name))'s icon out of the Dock once it is in the Trash, and puts it back if you put the app back. Add --keep-in-dock to leave it."
     }
 
+    /// What macOS still starts from the Trash once the app moved: its background items, at each login.
+    static func startsFromTheTrashNote(for app: InstalledApp, after result: TrashResult) -> String? {
+        guard result.startsFromTheTrash.contains(app.url) else { return nil }
+        return "macOS still starts the background items of \(Output.plain(app.name)) from the Trash each time you log in, until you empty the Trash. System Settings > General > Login Items & Extensions can turn them off."
+    }
+
     /// What would stop the move now, as a note on a dry run, which moves nothing, and as the refusal otherwise.
     static func note(for failure: CommandFailure?, dryRun: Bool) throws -> String? {
         guard let failure else { return nil }
@@ -619,6 +625,9 @@ struct UninstallCommand: AsyncParsableCommand {
             if let privacy {
                 privacy.failed ? Output.note(privacy.line) : Output.line(privacy.line)
             }
+        }
+        if let note = Self.startsFromTheTrashNote(for: target, after: result) {
+            Output.note(note)
         }
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")

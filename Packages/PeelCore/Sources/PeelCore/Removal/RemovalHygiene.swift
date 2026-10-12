@@ -68,7 +68,7 @@ enum LaunchdCleanup {
         return stopped
     }
 
-    private static func isAppsOwn(_ label: String) -> Bool {
+    static func isAppsOwn(_ label: String) -> Bool {
         !label.hasPrefix("application.") && PrivilegedPathPolicy.isValidLabel(label) && label != HelperIdentity.helperIdentifier
             && !SystemDaemons.shipped.contains(label) && !SystemAgents.shipped.contains(label)
     }

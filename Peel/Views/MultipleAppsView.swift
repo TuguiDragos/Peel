@@ -358,7 +358,12 @@ struct MultipleAppsView: View {
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
                 let result = await plan.move(request)
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
-                outcome.report(result, privacy: privacy, keptTheirFiles: kept.map(\.name))
+                outcome.report(
+                    result,
+                    privacy: privacy,
+                    keptTheirFiles: kept.map(\.name),
+                    startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name)
+                )
                 if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))
                     // Asked of every app that moved, since one opened after the last scan has a tile now.

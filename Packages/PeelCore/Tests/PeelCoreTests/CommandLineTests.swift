@@ -77,6 +77,21 @@ struct CommandLineTests {
         #expect(UninstallCommand.dockNote(for: app, isInTheDock: true, keeping: true) == nil)
     }
 
+    @Test func saysWhatMacOSStillStartsFromTheTrash() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app", name: "Example"
+        )
+        let trashed = URL(filePath: "/Users/me/.Trash/Example.app")
+        var noted = TrashResult(trashed: [TrashedItem(originalURL: app.url, trashedURL: trashed, date: .now)])
+        noted.startsFromTheTrash = [app.url]
+
+        let note = UninstallCommand.startsFromTheTrashNote(for: app, after: noted)
+        #expect(note?.hasPrefix("macOS still starts the background items of Example from the Trash") == true)
+        #expect(note?.contains("Login Items & Extensions") == true)
+        #expect(UninstallCommand.startsFromTheTrashNote(for: app, after: TrashResult()) == nil)
+    }
+
     /// A dry run moves nothing, so what would stop the move now, an app still running or a permission missing, is
     /// said beside the plan instead of standing in for it.
     @Test func aDryRunShowsThePlanAndSaysWhatWouldStopTheMove() throws {

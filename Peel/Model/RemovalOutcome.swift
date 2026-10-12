@@ -21,30 +21,42 @@ final class RemovalOutcome {
     private(set) var keptTheirFiles: [String] = []
     /// The audio drivers that moved, which macOS keeps running until the Mac restarts.
     private(set) var driversAwaitingARestart: [String] = []
+    /// The apps that moved whose background items macOS still starts at login from the Trash (`TrashResult`).
+    private(set) var appsStartingFromTheTrash: [String] = []
     private(set) var movedCount = 0
 
-    var isEmpty: Bool { failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty }
+    var isEmpty: Bool {
+        failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
+            && appsStartingFromTheTrash.isEmpty
+    }
 
-    /// Keeps what the removal could not do, and the audio drivers a restart finishes removing, for the alert.
+    /// Keeps what the removal could not do, and what a restart or an emptied Trash finishes, for the alert.
     /// `privacy` is every reset the removal ran, and `PrivacyReset.worthTelling` picks which of them to tell. A
     /// removal with nothing to tell changes nothing.
     func report(
         _ result: TrashResult,
         privacy resets: [(app: InstalledApp, result: PrivacyReset.Result)] = [],
         appsToQuit: [String] = [],
-        keptTheirFiles: [String] = []
+        keptTheirFiles: [String] = [],
+        startingFromTheTrash: [String] = []
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
         }
         let drivers = AudioDrivers.awaitingARestart(after: result)
-        guard !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty else { return }
+        guard
+            !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty
+                || !startingFromTheTrash.isEmpty
+        else { return }
         failures = result.failures
         movedCount = result.trashed.count
         self.privacy = privacy
         self.appsToQuit = appsToQuit
         self.keptTheirFiles = keptTheirFiles
         driversAwaitingARestart = drivers
+        // Two copies of an app share its name and its background items.
+        var named: Set<String> = []
+        appsStartingFromTheTrash = startingFromTheTrash.filter { named.insert($0).inserted }
     }
 
     func clear() {
@@ -54,5 +66,6 @@ final class RemovalOutcome {
         appsToQuit = []
         keptTheirFiles = []
         driversAwaitingARestart = []
+        appsStartingFromTheTrash = []
     }
 }

@@ -36919,6 +36919,112 @@
         }
       }
     },
+    "Empty the Trash to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li odstranění dokončit, vysypte koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entleere den Papierkorb, um das Entfernen abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vacía la papelera para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Videz la corbeille pour terminer la suppression."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svuota il Cestino per completare la rimozione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了するにはゴミ箱を空にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거를 완료하려면 휴지통을 비우십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg de prullenmand om de verwijdering te voltooien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby zakończyć, opróżnij Kosz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esvazie o Lixo para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goliți Coșul pentru a încheia eliminarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы завершить удаление, очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Töm papperskorgen för att slutföra borttagningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldırma işlemini tamamlamak için Çöp Sepeti’ni boşaltın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистьте Смітник, щоб завершити вилучення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清倒废纸篓以完成移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請清空「垃圾桶」以完成移除。"
+          }
+        }
+      }
+    },
     "Enable" : {
       "localizations" : {
         "cs" : {
@@ -99487,6 +99593,112 @@
         }
       }
     },
+    "Open Login Items & Extensions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít nastavení Aktivace položek a rozšíření při přihlášení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anmeldeobjekte & Erweiterungen öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ítems de inicio y extensiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Ouverture et extensions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri “Elementi login ed estensioni”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン項目と機能拡張を開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 항목 및 확장 프로그램 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open 'Inlogonderdelen en extensies'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Rzeczy i rozszerzenia otwierane podczas logowania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Itens de Início de Sessão e Extensões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți Lansare la login și extensii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть раздел «Объекты входа и расширения»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Startobjekt och tillägg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum Açma Öğeleri ve Genişletmeler’i Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити Автозапуск і розширення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开登录项与扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開登入項目與延伸功能"
+          }
+        }
+      }
+    },
     "Open Peel" : {
       "localizations" : {
         "cs" : {
@@ -130047,6 +130259,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置⋯"
+          }
+        }
+      }
+    },
+    "Restart your Mac and empty the Trash to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li odstranění dokončit, restartujte Mac a vysypte koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starte deinen Mac neu und entleere den Papierkorb, um das Entfernen abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinicia el Mac y vacía la papelera para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrez votre Mac et videz la corbeille pour terminer la suppression."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riavvia il Mac e svuota il Cestino per completare la rimozione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了するにはMacを再起動してゴミ箱を空にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거를 완료하려면 Mac을 재시동하고 휴지통을 비우십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start je Mac opnieuw op en leeg de prullenmand om de verwijdering te voltooien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby zakończyć, uruchom ponownie Maca i opróżnij Kosz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinicie o Mac e esvazie o Lixo para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reporniți Mac‑ul și goliți Coșul pentru a încheia eliminarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы завершить удаление, перезагрузите Mac и очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starta om datorn och töm papperskorgen för att slutföra borttagningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldırma işlemini tamamlamak için Mac’inizi yeniden başlatın ve Çöp Sepeti’ni boşaltın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перезапустіть Mac і очистьте Смітник, щоб завершити вилучення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新启动你的Mac并清倒废纸篓以完成移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請將Mac重新開機並清空「垃圾桶」以完成移除。"
           }
         }
       }
@@ -205532,6 +205850,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS仍將此套件視為已安裝，但它放在磁碟上的內容已全部不在。"
+          }
+        }
+      }
+    },
+    "macOS still starts the background items of %@ from the Trash each time you log in, until you empty the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ leží v koši spolu se svými položkami na pozadí, které systém macOS odtud při každém přihlášení dál spouští, dokud nevysypete koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startet die Hintergrundobjekte von %@ weiterhin bei jeder Anmeldung aus dem Papierkorb, bis du den Papierkorb entleerst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sigue iniciando los ítems en segundo plano de %@ desde la papelera cada vez que inicias sesión, hasta que vacíes la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continue de lancer les éléments en arrière-plan de %@ depuis la corbeille à chaque ouverture de session, jusqu’à ce que vous vidiez la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS continua ad avviare dal Cestino gli elementi in background di %@ ogni volta che esegui il login, finché non svuoti il Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱を空にするまで、macOSはログインするたびに%@のバックグラウンド項目をゴミ箱から起動し続けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통을 비울 때까지는 로그인할 때마다 macOS가 휴지통에서 %@의 백그라운드 항목을 계속 시작합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS start de achtergrondonderdelen van %@ nog steeds vanuit de prullenmand telkens als je inlogt, totdat je de prullenmand leegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nadal uruchamia z Kosza rzeczy działające w tle aplikacji %@ przy każdym logowaniu, dopóki nie opróżnisz Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS ainda inicia os itens em segundo plano de %@ a partir do Lixo sempre que você iniciar a sessão, até você esvaziar o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La fiecare login, macOS pornește în continuare din Coș articolele de fundal de la %@, până când goliți Coșul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS продолжит запускать фоновые объекты %@ из Корзины при каждом входе в систему, пока Вы не очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startar fortfarande bakgrundsobjekten för %@ från papperskorgen varje gång du loggar in, tills du tömmer papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti boşaltılana kadar macOS, her oturum açtığınızda %@ arka plan öğelerini Çöp Sepeti’nden başlatmaya devam eder."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS і далі запускає зі Смітника фонові елементи %@ щоразу, коли ви входите в систему, доки ви не очистите Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS仍会在你每次登录时从废纸篓中启动“%@”的后台项目，直到你清倒废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS仍會在你每次登入時從「垃圾桶」啟動%@的背景項目，直到你清空「垃圾桶」。"
           }
         }
       }

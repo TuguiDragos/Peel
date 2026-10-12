@@ -1,10 +1,12 @@
 import AppKit
 import PeelCore
+import ServiceManagement
 import SwiftUI
 
 /// The alert every tool shows when a removal fails for some items: which ones, and why, with a button that
-/// fixes the cause when there is one. It also reports the privacy resets worth telling about, and the audio drivers
-/// that wait for a restart, since two alerts cannot be up at once.
+/// fixes the cause when there is one. It also reports the privacy resets worth telling about, the audio drivers that
+/// wait for a restart, and on macOS 27 the background items macOS still starts from the Trash, since two alerts cannot
+/// be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
@@ -19,6 +21,9 @@ struct RemovalFailureAlert: ViewModifier {
             }
             if needsHelper {
                 Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
+            }
+            if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty {
+                Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
             }
             if !outcome.failures.isEmpty {
                 Button("Copy Details") { copyDetails() }
@@ -40,6 +45,12 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private var title: Text {
+        if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty,
+           outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
+            return outcome.driversAwaitingARestart.isEmpty
+                ? Text("Empty the Trash to finish.")
+                : Text("Restart your Mac and empty the Trash to finish.")
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return Text("Restart your Mac to finish.")
         }
@@ -57,6 +68,9 @@ struct RemovalFailureAlert: ViewModifier {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
         lines += keptLines + driverLines + extraLines
+        if #available(macOS 27, *) {
+            lines += trashLines
+        }
         return lines.joined(separator: "\n\n")
     }
 
@@ -67,6 +81,14 @@ struct RemovalFailureAlert: ViewModifier {
         return drivers.count == 1
             ? [String(localized: "macOS keeps the audio driver \(names) running until you restart your Mac.")]
             : [String(localized: "macOS keeps the audio drivers \(names) running until you restart your Mac.")]
+    }
+
+    /// One line for the apps whose background items macOS still starts from the Trash at each login.
+    private var trashLines: [String] {
+        let apps = outcome.appsStartingFromTheTrash
+        guard !apps.isEmpty else { return [] }
+        let names = apps.formatted(.list(type: .and))
+        return [String(localized: "macOS still starts the background items of \(names) from the Trash each time you log in, until you empty the Trash.")]
     }
 
     /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
@@ -86,8 +108,11 @@ struct RemovalFailureAlert: ViewModifier {
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
     /// selected.
     private func copyDetails() {
-        let lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
+        var lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
             + keptLines + driverLines + extraLines
+        if #available(macOS 27, *) {
+            lines += trashLines
+        }
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
     }
