@@ -126,9 +126,9 @@ final class SelfUninstall {
         return String(localized: "Peel’s helper keeps a record of what it moves, and that record is already in the Trash, as \(folder.lastPathComponent). Until it is back in \(folder.deletingLastPathComponent().abbreviatedPath), History can’t put back what the helper moved.")
     }
 
-    /// Exits at once rather than through `NSApp.terminate`, which would let AppKit write the window's frame
-    /// and saved state again, both of which were just removed.
+    /// Exits at once with `_exit`: `NSApp.terminate` would let AppKit write the window's frame and saved state again,
+    /// and `exit` runs the handlers that write the cookie store at exit, all of which were just removed.
     func quit() {
-        exit(0)
+        _exit(EXIT_SUCCESS)
     }
 }
