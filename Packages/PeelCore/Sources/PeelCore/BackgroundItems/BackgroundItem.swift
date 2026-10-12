@@ -50,12 +50,15 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for an agent its file limits to the Background session, which launchd keeps in the user domain rather
     /// than the GUI one: started, stopped and asked about there.
     public var loadsInTheBackgroundSession = false
+    /// True while an app's job runs from inside a Trash: its app was moved there, and macOS starts it from there at
+    /// each login until the Trash is emptied.
+    public var runsFromTheTrash = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
-    /// True for a job an app submitted that is still loaded after the app went, with nothing left to run: the app
-    /// that would unregister it is gone, so only taking it out of launchd removes it.
-    public var isLeftByAGoneApp: Bool { source == .app && !isOwnerInstalled && isOrphan }
+    /// True for a job an app submitted that is still loaded after the app went, its program gone or not named by
+    /// launchctl: the app that would unregister it is gone, so only taking it out of launchd removes it.
+    public var isLeftByAGoneApp: Bool { source == .app && !isOwnerInstalled && (isOrphan || program == nil) }
 
     /// Includes the file's path, because two files can declare one label (a per-user copy beside the
     /// system-wide one), and each file needs a row of its own.

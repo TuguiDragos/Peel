@@ -26,20 +26,75 @@ struct BackgroundItemActionsTests {
         #expect(try !#require(JobDefinition(["Label": "a"])).loadsOnlyInTheBackground)
     }
 
-    @Test func knowsAJobItsGoneAppLeftLoadedWithNothingToRun() {
-        let job = { (source: BackgroundItem.Source, owner: URL?, isOrphan: Bool) in
+    @Test func knowsAJobItsGoneAppLeftLoaded() {
+        let job = { (source: BackgroundItem.Source, owner: URL?, isOrphan: Bool, program: String?) in
             BackgroundItem(
-                label: "org.example.helper", kind: .agent, source: source, plistURL: nil, program: nil,
+                label: "org.example.helper", kind: .agent, source: source, plistURL: nil, program: program,
                 runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: "org.example.app", ownerName: "Example",
                 ownerURL: owner, isOrphan: isOrphan, state: .loaded, isDisabled: false
             )
         }
         let installed = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
+        let gone = "/Applications/Example.app/Contents/MacOS/helper"
 
-        #expect(job(.app, nil, true).isLeftByAGoneApp)
-        #expect(!job(.app, installed, false).isLeftByAGoneApp)
-        #expect(!job(.app, nil, false).isLeftByAGoneApp)
-        #expect(!job(.userLibrary, nil, true).isLeftByAGoneApp)
+        #expect(job(.app, nil, true, gone).isLeftByAGoneApp)
+        #expect(job(.app, nil, false, nil).isLeftByAGoneApp)
+        #expect(!job(.app, installed, false, nil).isLeftByAGoneApp)
+        #expect(!job(.app, nil, false, "/bin/sh").isLeftByAGoneApp)
+        #expect(!job(.userLibrary, nil, true, gone).isLeftByAGoneApp)
+    }
+
+    @Test func anAppsJobWhoseProgramLaunchctlLeavesOutIsNeverCalledOrphaned() throws {
+        let directory = try TemporaryDirectory()
+        let helper = "Tide.app/Contents/Library/LoginItems/TideHelper.app/Contents/MacOS/TideHelper"
+        let inTheTrash = try directory.runningProgram("home/.Trash/\(helper)")
+        defer { inTheTrash.terminate() }
+        let inPlace = try directory.runningProgram("home/Applications/\(helper)")
+        defer { inPlace.terminate() }
+        let registered = Launchctl.JobDetails(
+            path: "(submitted by smd.341)", managedBy: "com.apple.xpc.ServiceManagement",
+            parentBundleIdentifier: "org.example.tide"
+        )
+        func item(_ details: Launchctl.JobDetails, running pid: Int32?) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                ("org.example.tide.helper", .agent, "gui/501/org.example.tide.helper"),
+                answer: .details(details),
+                ownership: BackgroundItemOwnership(installedApps: []),
+                loaded: .init(user: ["org.example.tide.helper": pid]),
+                exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+
+        let fromTheTrash = try item(registered, running: inTheTrash.processIdentifier)
+        #expect(fromTheTrash.runsFromTheTrash)
+        #expect(!fromTheTrash.isOrphan)
+        #expect(fromTheTrash.isLeftByAGoneApp)
+
+        let stopped = try item(registered, running: nil)
+        #expect(!stopped.runsFromTheTrash)
+        #expect(!stopped.isOrphan)
+        #expect(stopped.isLeftByAGoneApp)
+
+        let elsewhere = try item(registered, running: inPlace.processIdentifier)
+        #expect(!elsewhere.runsFromTheTrash)
+        #expect(!elsewhere.isOrphan)
+
+        var named = registered
+        named.program = "/Applications/Tide.app/Contents/MacOS/org.example.tide.gone"
+        let goneProgram = try item(named, running: nil)
+        #expect(goneProgram.isOrphan)
+        #expect(goneProgram.isLeftByAGoneApp)
+
+        let trashedProgram = try #require(RunningProgram.path(of: inTheTrash.processIdentifier))
+        named.program = trashedProgram
+        #expect(try !item(named, running: inTheTrash.processIdentifier).runsFromTheTrash)
+
+        named.program = "/bin/sh"
+        let present = try item(named, running: nil)
+        #expect(!present.isOrphan)
+        #expect(!present.isLeftByAGoneApp)
     }
 
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {

@@ -301,8 +301,12 @@ public enum BackgroundItems {
             associated: job?.associated ?? [],
             program: program
         )
+        let state = loaded.state(of: candidate.label, candidate.kind)
+        // launchctl names no program for an app's login item or agent: macOS finds it in the app as it starts it.
+        let programIsUnnamed = isAnApps && program == nil
+        let running = if case .running(let pid) = state { RunningProgram.path(of: pid) } else { String?.none }
 
-        return .item(BackgroundItem(
+        var item = BackgroundItem(
             label: candidate.label,
             kind: candidate.kind,
             source: isAnApps ? .app : .otherFile,
@@ -313,12 +317,14 @@ public enum BackgroundItems {
             ownerBundleIdentifier: owner?.bundleIdentifier,
             ownerName: owner?.name,
             ownerURL: owner?.url,
-            isOrphan: ownership.isOrphan(label: candidate.label, program: program, owner: owner),
-            state: loaded.state(of: candidate.label, candidate.kind),
+            isOrphan: !programIsUnnamed && ownership.isOrphan(label: candidate.label, program: program, owner: owner),
+            state: state,
             isDisabled: loaded.override(of: candidate.label, candidate.kind) ?? false,
             isOwnerConfirmed: owner?.isConfirmed ?? false,
             unusualCommand: UnusualCommand(arguments: job?.arguments ?? program.map { [$0] } ?? [])
-        ))
+        )
+        item.runsFromTheTrash = programIsUnnamed && running.map { AppInspector.isInATrash(URL(filePath: $0)) } == true
+        return .item(item)
     }
 
     private static func plists(in folder: URL) -> [URL] {

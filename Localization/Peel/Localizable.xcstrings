@@ -64205,6 +64205,112 @@
         }
       }
     },
+    "Its app is in the Trash, and macOS starts it from there each time you log in, until you empty the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka leží v koši spolu se svou aplikací a systém macOS ji odtud při každém přihlášení spouští, dokud nevysypete koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die zugehörige App ist im Papierkorb, und macOS startet dieses Objekt bei jeder Anmeldung von dort, bis du den Papierkorb entleerst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app está en la papelera y macOS lo inicia desde ahí cada vez que inicias sesión, hasta que vacíes la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app est dans la corbeille, et macOS le lance depuis celle-ci à chaque ouverture de session, jusqu’à ce que vous vidiez la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app è nel Cestino e macOS lo avvia da lì ogni volta che esegui il login, finché non svuoti il Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これを追加したアプリはゴミ箱にあり、ゴミ箱を空にするまで、macOSはログインするたびにこれをゴミ箱から起動し続けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 앱이 휴지통에 있으며, 휴지통을 비울 때까지는 로그인할 때마다 macOS가 그곳에서 이 항목을 시작합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bijbehorende app staat in de prullenmand, en macOS start het van daaruit telkens als je inlogt, totdat je de prullenmand leegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz należy do aplikacji w Koszu, a macOS uruchamia ją stamtąd przy każdym logowaniu, dopóki nie opróżnisz Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele está no Lixo, e o macOS o inicia a partir de lá sempre que você iniciar a sessão, até você esvaziar o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa este în Coș, iar macOS îl pornește de acolo la fiecare login, până când goliți Coșul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его приложение находится в Корзине, и macOS запускает его оттуда при каждом входе в систему, пока Вы не очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen ligger i papperskorgen, och macOS startar det därifrån varje gång du loggar in, tills du tömmer papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması Çöp Sepeti’nde ve Çöp Sepeti boşaltılana kadar macOS, her oturum açtığınızda bu öğeyi oradan başlatır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його програма в Смітнику, і macOS запускає його звідти щоразу, коли ви входите в систему, доки ви не очистите Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已在废纸篓中，macOS会在你每次登录时从那里启动它，直到你清倒废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App在「垃圾桶」中，而macOS會在你每次登入時從那裡啟動它，直到你清空「垃圾桶」。"
+          }
+        }
+      }
+    },
     "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too." : {
       "localizations" : {
         "cs" : {
@@ -132595,6 +132701,112 @@
         }
       }
     },
+    "Runs from the Trash" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Běží z koše"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läuft aus dem Papierkorb"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ejecuta desde la papelera"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S’exécute depuis la corbeille"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In esecuzione dal Cestino"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱から実行されます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통에서 실행됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief vanuit de prullenmand"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Działa z Kosza"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Executado a partir do Lixo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulează din Coș"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускается из Корзины"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Körs från papperskorgen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti’nden çalışıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускається зі Смітника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从废纸篓中运行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從「垃圾桶」執行"
+          }
+        }
+      }
+    },
     "Rust Toolchains" : {
       "localizations" : {
         "cs" : {
@@ -153007,6 +153219,112 @@
         }
       }
     },
+    "Take it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebrat úlohu z launchd. Její aplikace leží v koši, takže systém macOS úlohu při příštím přihlášení znovu spustí, dokud nevysypete koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Objekt jetzt aus launchd entfernen. Die zugehörige App ist im Papierkorb, daher startet macOS es ab der nächsten Anmeldung erneut, bis du den Papierkorb entleerst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quítalo de launchd ahora. Su app está en la papelera, así que macOS lo vuelve a iniciar la próxima vez que inicies sesión, hasta que vacíes la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer maintenant cet élément de launchd. Son app est dans la corbeille : macOS le relancera donc dès la prochaine ouverture de session, jusqu’à ce que vous vidiez la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toglilo ora da launchd. La sua app è nel Cestino, quindi macOS lo avvia di nuovo al prossimo login, finché non svuoti il Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはゴミ箱にあるため、ゴミ箱を空にするまでは、次回のログイン時にmacOSがこれを再び起動します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거하십시오. 이 항목의 앱이 휴지통에 있으므로, 휴지통을 비울 때까지는 다음 로그인 시 macOS가 이 항목을 다시 시작합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haal het nu uit launchd. De bijbehorende app staat in de prullenmand, dus macOS start het opnieuw de volgende keer dat je inlogt, totdat je de prullenmand leegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń teraz tę rzecz z launchd. Należy ona do aplikacji w Koszu, więc macOS uruchamia ją ponownie przy kolejnym logowaniu, dopóki nie opróżnisz Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirar este item do launchd agora. O app dele está no Lixo, então o macOS vai iniciá-lo novamente na próxima vez que você iniciar a sessão, até você esvaziar o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scoateți‑l acum din launchd. Aplicația sa este în Coș, așa că macOS îl pornește din nou la următorul login până când goliți Coșul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убрать его из launchd сейчас. Его приложение находится в Корзине, поэтому macOS снова запустит его при следующем входе в систему, если Вы не очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort det ur launchd nu. Appen ligger i papperskorgen, så macOS startar det igen vid nästa inloggning tills du tömmer papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkar. Uygulaması Çöp Sepeti’nde, bu yüzden Çöp Sepeti boşaltılana kadar macOS, bir sonraki oturum açışınızda bu öğeyi yeniden başlatır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити його з launchd зараз. Його програма в Смітнику, тож macOS знову запускатиме його під час кожного наступного входу в систему, доки ви не очистите Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除。它的App已在废纸篓中，因此在你清倒废纸篓之前，macOS会在下次登录时再次启动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除。它的App在「垃圾桶」中，因此macOS會在下次登入時再次啟動它，直到你清空「垃圾桶」。"
+          }
+        }
+      }
+    },
     "Take it out of launchd now: the app that added it is gone, and so is what it ran." : {
       "localizations" : {
         "cs" : {
@@ -153109,6 +153427,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "立即將它從launchd中移除：加入它的App已不存在，它所執行的程式也已不存在。"
+          }
+        }
+      }
+    },
+    "Take it out of launchd now: the app that added it is no longer installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebrat úlohu z launchd: aplikace, která ji přidala, už není nainstalována."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Objekt jetzt aus launchd entfernen: Die App, die es hinzugefügt hat, ist nicht mehr installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quítalo de launchd ahora: la app que lo añadió ya no está instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer maintenant cet élément de launchd : l’app qui l’a ajouté n’est plus installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toglilo ora da launchd: l’app che l’ha aggiunto non è più installata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリは現在はインストールされていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거하십시오. 이 항목을 추가한 앱이 더 이상 설치되어 있지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haal het nu uit launchd: de app die het heeft toegevoegd, is niet meer geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń teraz tę rzecz z launchd: aplikacja, która ją dodała, nie jest już zainstalowana."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirar este item do launchd agora: o app que o adicionou não está mais instalado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scoateți‑l acum din launchd: aplicația care l‑a adăugat nu mai este instalată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убрать его из launchd сейчас: приложение, которое его добавило, больше не установлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort det ur launchd nu: appen som lade till det är inte längre installerad."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkar: onu ekleyen uygulama artık yüklü değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити його з launchd зараз: програму, яка його додала, більше не інстальовано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除：添加它的App已不再安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除：加入它的App已不再安裝。"
           }
         }
       }

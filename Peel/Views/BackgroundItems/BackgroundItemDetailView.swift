@@ -35,7 +35,11 @@ struct BackgroundItemDetailView: View {
                     LabeledContent("Added by") {
                         VStack(alignment: .trailing, spacing: 1) {
                             Text(verbatim: item.ownerName ?? library.name(forReference: owner))
-                            if !item.isOwnerInstalled {
+                            if #available(macOS 27, *), item.runsFromTheTrash {
+                                Text("In the Trash")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            } else if !item.isOwnerInstalled {
                                 Text("No longer installed")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
@@ -253,6 +257,13 @@ struct BackgroundItemDetailView: View {
                             detail: Text("The program it starts is gone, and no installed app claims it.")
                         )
                     }
+                    if #available(macOS 27, *), item.runsFromTheTrash {
+                        NoteBadge(
+                            title: Text("Runs from the Trash"), systemImage: "trash", tint: .orange,
+                            name: String(localized: "Runs from the Trash"),
+                            detail: Text("Its app is in the Trash, and macOS starts it from there each time you log in, until you empty the Trash.")
+                        )
+                    }
                     if let unusual = item.unusualCommand {
                         NoteBadge(
                             title: Text("Unusual command"), systemImage: "exclamationmark.magnifyingglass",
@@ -316,7 +327,7 @@ struct BackgroundItemDetailView: View {
                 Button("Remove", systemImage: "xmark.circle") {
                     Task { await backgroundItems.perform(.stop, on: item) }
                 }
-                .help(Text("Take it out of launchd now: the app that added it is gone, and so is what it ran."))
+                .help(removeHelp)
             } else {
                 // No Start or Stop for a job Peel sees only while it is loaded: once stopped it would leave the list,
                 // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
@@ -332,6 +343,16 @@ struct BackgroundItemDetailView: View {
             }
         }
         .disabled(isBusy || item.requiresPrivileges && !helper.canAct)
+    }
+
+    /// Why Remove is offered, as far as Peel knows where the job's program is.
+    private var removeHelp: Text {
+        if item.runsFromTheTrash {
+            return Text("Take it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash.")
+        }
+        return item.isOrphan
+            ? Text("Take it out of launchd now: the app that added it is gone, and so is what it ran.")
+            : Text("Take it out of launchd now: the app that added it is no longer installed.")
     }
 
     @ViewBuilder
