@@ -297,6 +297,10 @@ In Settings > General, choose Remove Peel. Peel then:
   when you reset an app;
 - takes its icon out of the Dock, clears its settings, and quits.
 
+If you dragged Peel to the Trash instead, its helper stays registered: System Settings > General > Login Items &
+Extensions still lists Peel among the apps with background activity. Put Peel back from the Trash in Finder, open it,
+and choose Remove Peel.
+
 What Peel changed for you stays as it is: tweaks, Terminal's theme and its options, the shell and ssh settings,
 `~/.hushlogin`, Git's settings, the build folders you left out of Time Machine, and the background items you
 disabled. Peel leaves the shell and ssh settings in its folder, in `Terminal`, where the line you added to
