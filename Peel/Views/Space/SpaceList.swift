@@ -119,6 +119,18 @@ struct SpaceList: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            if #available(macOS 27, *), let size = AppleIntelligence.onThisMac {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Apple Intelligence can keep up to \(size.byteCount) on this Mac, by Apple’s figure.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Link(destination: Links.appleIntelligenceGuide) {
+                        Text("Turn Off Apple Intelligence Features")
+                            .minimumTarget()
+                    }
+                    .font(.caption)
+                }
+            }
         }
         .padding(.vertical, 6)
     }

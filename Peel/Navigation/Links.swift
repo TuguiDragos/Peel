@@ -9,6 +9,7 @@ enum Links {
     static let argumentParser = URL(string: "https://github.com/apple/swift-argument-parser")!
     static let blobatar = URL(string: "https://github.com/Alain00/blobatar")!
     static let sparkle = URL(string: "https://github.com/sparkle-project/Sparkle")!
+    static let appleIntelligenceGuide = URL(string: "https://support.apple.com/guide/mac-help/mchlb2e44f94/mac")!
 
     /// A vulnerability's page on OSV.dev, which shows every record its API returns, under any of its identifiers.
     static func vulnerability(_ identifier: String) -> URL {
