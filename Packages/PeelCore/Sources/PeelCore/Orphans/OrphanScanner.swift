@@ -87,12 +87,16 @@ public struct OrphanScanner: Sendable {
 
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
-            // A browser's manifest is an app's only through the program it names (`servesAProgram`). Safari's web app
-            // container is another app's container, which macOS asks about, and is read only for one of its web apps.
-            let skipped: Set<SearchLocation.Kind> = [.nativeMessagingHosts, .safariWebApps]
-            for location in environment.locations where !skipped.contains(location.kind) {
+            // Safari's web app container is another app's container, which macOS asks about, and is read only for one
+            // of its web apps.
+            for location in environment.locations where location.kind != .safariWebApps {
                 _ = group.addTaskUnlessCancelled { [exclusions, nestedFolderLimit, walk] in
-                    (location, await Self.scan(
+                    // A browser's manifest is an app's only through the program it names (`servesAProgram`).
+                    guard location.kind != .nativeMessagingHosts else {
+                        let found = await Self.manifests(in: location, home: home, exclusions: exclusions, walk: walk)
+                        return (location, found)
+                    }
+                    return (location, await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
                         goneNames: goneNames, goneFolders: goneFolders, home: home, exclusions: exclusions,
                         nestedFolderLimit: nestedFolderLimit, walk: walk
@@ -181,9 +185,46 @@ public struct OrphanScanner: Sendable {
     /// Whether `url` is a manifest in a folder browsers read native messaging manifests from that still serves its
     /// program: one that is there, or that can't be told. Whatever it is named for, it is no orphan then.
     static func servesAProgram(_ url: URL, in folders: Set<String>) -> Bool {
-        guard folders.contains(PathPattern.comparablePath(of: url.deletingLastPathComponent())) else { return false }
-        guard let program = NativeMessagingManifest.program(at: url) else { return true }
-        return FileManager.default.fileExists(atPath: program)
+        folders.contains(PathPattern.comparablePath(of: url.deletingLastPathComponent()))
+            && !NativeMessagingManifest.startsNothing(at: url)
+    }
+
+    /// The manifests in a folder browsers read native messaging manifests from that start nothing, each under its own
+    /// name, which is the name of the host it starts.
+    private static func manifests(
+        in location: SearchLocation,
+        home: String,
+        exclusions: Exclusions,
+        walk: @escaping LeftoverScanner.Measure
+    ) async -> LocationResult {
+        let entries: [String]
+        do {
+            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
+                .sorted()
+        } catch CocoaError.fileReadNoSuchFile {
+            return .found([], cutShort: nil, unreadable: [])
+        } catch {
+            return .unreadable(location)
+        }
+        let parent = ParentAccess(location.url)
+        var found: [(identifier: String, item: OrphanItem)] = []
+        for name in entries {
+            let url = location.url.appending(path: name)
+            let host = (name as NSString).deletingPathExtension
+            guard NativeMessagingManifest.startsNothing(at: url), !ProtectedData.isApplesName(host),
+                  !FileAccess.cannotBeRemoved(url), !ProtectedData.refuses(url.path(percentEncoded: false), home: home),
+                  !exclusions.excludes(url)
+            else { continue }
+            let contents = await walk(url)
+            found.append((host, OrphanItem(
+                url: url,
+                kind: location.kind,
+                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+                modificationDate: contents?.newestChange,
+                requiresPrivileges: parent.requiresPrivileges(toRemove: url)
+            )))
+        }
+        return .found(found, cutShort: nil, unreadable: [])
     }
 
     /// The apps installed now, with those `remembered` holds that are only out of sight, and the remembered apps
@@ -217,7 +258,9 @@ public struct OrphanScanner: Sendable {
         let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
         var kept: [OrphanItem] = []
         for item in items where !Self.servesAProgram(item.url, in: folders) {
-            let isStillOrphaned = if item.productFolder != nil {
+            let isStillOrphaned = if item.kind == .nativeMessagingHosts {
+                NativeMessagingManifest.startsNothing(at: item.url)
+            } else if item.productFolder != nil {
                 Self.goneApp(owningFolder: item.url, kind: item.kind, among: goneFolders, ownership: ownership) != nil
             } else if let app = item.namedAfter {
                 await Self.goneApp(

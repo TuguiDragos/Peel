@@ -180,6 +180,38 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned([item], installedApps: installed + [back], remembered: [editor]).isEmpty)
     }
 
+    @Test func listsABrowsersManifestThatStartsNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let hosts = "root/Library/Google/Chrome/NativeMessagingHosts"
+        let program = try directory.file("programs/host")
+        let manifest = { (name: String, program: String) in
+            _ = try directory.file("\(hosts)/\(name).json", contents: Data(#"{"name": "\#(name)", "path": "\#(program)"}"#.utf8))
+        }
+        try manifest("org.example.gone.host", "/Library/PrivilegedHelperTools/Gone.app/Contents/MacOS/host")
+        try manifest("org.example.here.host", program.path(percentEncoded: false))
+        let link = { (name: String, target: URL) in
+            try FileManager.default.createSymbolicLink(
+                at: directory.url.appending(path: "\(hosts)/\(name).json"), withDestinationURL: target
+            )
+        }
+        try link("org.example.nowhere.host", directory.url.appending(path: "root/Applications/Gone.app/host.json"))
+        try link("org.example.somewhere.host", directory.url.appending(path: "\(hosts)/org.example.here.host.json"))
+        try link("com.apple.example.host", directory.url.appending(path: "root/System/host.json"))
+
+        let scanner = scanner(in: directory)
+        let scan = await scanner.scan(installedApps: installed)
+        let groups = Dictionary(scan.groups.map { ($0.identifier, $0) }, uniquingKeysWith: { first, _ in first })
+        let items = scan.groups.flatMap(\.items)
+
+        #expect(Set(groups.keys) == ["org.example.gone.host", "org.example.nowhere.host"])
+        let startsNothing = OrphanConfidence(level: .certain, reasons: [.startsAProgramThatIsGone])
+        #expect(groups.values.allSatisfy { $0.confidence == startsNothing })
+        #expect(await scanner.stillOrphaned(items, installedApps: installed, remembered: []).count == 2)
+        try directory.file("root/Applications/Gone.app/host.json")
+        let still = await scanner.stillOrphaned(items, installedApps: installed, remembered: [])
+        #expect(still.map { $0.url.lastPathComponent } == ["org.example.gone.host.json"])
+    }
+
     @Test func listsAFileTwoPlacesReachOnce() async throws {
         let directory = try TemporaryDirectory()
         let recents = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"

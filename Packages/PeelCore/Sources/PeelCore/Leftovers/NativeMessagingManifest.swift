@@ -11,4 +11,15 @@ enum NativeMessagingManifest {
         else { return nil }
         return program
     }
+
+    /// Whether the manifest at `url` starts nothing: a link that leads nowhere, or a manifest naming a program that is
+    /// not there, on a disk that is connected.
+    static func startsNothing(at url: URL) -> Bool {
+        let path = url.path(percentEncoded: false)
+        if (try? FileManager.default.destinationOfSymbolicLink(atPath: path)) != nil {
+            return !FileManager.default.fileExists(atPath: path)
+        }
+        guard let program = program(at: url) else { return false }
+        return !FileManager.default.fileExists(atPath: program) && !URL(filePath: program).isOnADiskNotConnected
+    }
 }

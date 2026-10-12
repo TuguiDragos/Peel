@@ -381,6 +381,8 @@ extension OrphanConfidence {
             Text("No installed app claims these")
         case .installedForAnAppThatIsGone(let name):
             Text("macOS installed these for \(name), which is gone")
+        case .startsAProgramThatIsGone:
+            Text("These start a program that is no longer there")
         }
     }
 

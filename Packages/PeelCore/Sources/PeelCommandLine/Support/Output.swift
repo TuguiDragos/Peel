@@ -385,6 +385,7 @@ extension OrphanConfidence {
         case .untouched(let months): "\(months) months since anything wrote here"
         case .nothingClaimsIt, nil: "nothing installed claims these"
         case .installedForAnAppThatIsGone(let name): "macOS installed these for \(Output.plain(name)), which is gone"
+        case .startsAProgramThatIsGone: "these start a program that is no longer there"
         }
     }
 

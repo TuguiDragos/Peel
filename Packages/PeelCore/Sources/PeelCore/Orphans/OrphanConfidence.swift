@@ -12,8 +12,9 @@ public struct OrphanConfidence: Sendable, Hashable {
         /// Nothing installed claims it.
         case likely
         /// Nothing claims it, and Peel knows why: it saw the app go and nothing wrote here after, nothing has
-        /// written here in months, the files are links into an app that is gone, or they are system extension
-        /// copies of an app that is gone, which macOS removes at the next restart.
+        /// written here in months, the files are links into an app that is gone or browser manifests that start a
+        /// program that is gone, or they are system extension copies of an app that is gone, which macOS removes at
+        /// the next restart.
         case certain
 
         public static func < (one: Level, other: Level) -> Bool { one.rawValue < other.rawValue }
@@ -41,6 +42,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         case nothingClaimsIt
         /// macOS's record of these system extension copies names the app they were installed for, which is gone.
         case installedForAnAppThatIsGone(name: String)
+        /// Browser manifests whose program is gone, so they start nothing.
+        case startsAProgramThatIsGone
     }
 
     /// A write this recent means something may still be running. A week covers a Mac left unused over a weekend.
@@ -70,6 +73,10 @@ public struct OrphanConfidence: Sendable, Hashable {
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
         if group.items.allSatisfy(\.kind.isForLinks) {
             return OrphanConfidence(level: .certain, reasons: [.leadsIntoAnAppThatIsGone])
+        }
+        // Only a browser's manifest that starts nothing is listed from the folders browsers read them from.
+        if group.items.allSatisfy({ $0.kind == .nativeMessagingHosts }) {
+            return OrphanConfidence(level: .certain, reasons: [.startsAProgramThatIsGone])
         }
         // macOS's own record of a system extension says which app it was installed for. macOS may still run a copy
         // it keeps turned on, so only copies it removes at the next restart are surely unused.
