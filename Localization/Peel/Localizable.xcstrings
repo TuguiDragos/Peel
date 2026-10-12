@@ -148979,6 +148979,112 @@
         }
       }
     },
+    "Take it out of launchd now: the app that added it is gone, and so is what it ran." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebrat úlohu z launchd: aplikace, která ji přidala, už tu není a není tu ani to, co spouštěla."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Objekt jetzt aus launchd entfernen: Die App, die es hinzugefügt hat, ist nicht mehr vorhanden, und das, was es ausgeführt hat, auch nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quítalo de launchd ahora: la app que lo añadió ya no está, y lo que ejecutaba tampoco."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer maintenant cet élément de launchd : l’app qui l’a ajouté a disparu, tout comme ce qu’il exécutait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toglilo ora da launchd: l’app che l’ha aggiunto non c’è più, e nemmeno ciò che eseguiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはなくなっていて、実行対象もありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거하십시오. 이 항목을 추가한 앱도, 이 항목이 실행하던 프로그램도 사라졌습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haal het nu uit launchd: de app die het heeft toegevoegd, is er niet meer, en wat het uitvoerde ook niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń teraz tę rzecz z launchd: aplikacji, która ją dodała, już nie ma, podobnie jak tego, co ta rzecz uruchamiała."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirar este item do launchd agora: o app que o adicionou não existe mais, nem o que ele executava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scoateți‑l acum din launchd: aplicația care l‑a adăugat nu mai există, la fel și ceea ce rula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убрать его из launchd сейчас: приложения, которое его добавило, больше нет, как и того, что он запускал."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort det ur launchd nu: appen som lade till det är borta, liksom det som det körde."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkar: onu ekleyen uygulama da çalıştırdığı şey de artık yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити його з launchd зараз: програми, яка його додала, уже немає, як і того, що він запускав."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除：添加它的App已不存在，它运行的程序也已不存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除：加入它的App已不存在，它所執行的程式也已不存在。"
+          }
+        }
+      }
+    },
     "Taken before a macOS update" : {
       "localizations" : {
         "cs" : {

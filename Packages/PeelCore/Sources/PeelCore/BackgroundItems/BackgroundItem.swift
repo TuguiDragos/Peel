@@ -53,6 +53,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
+    /// True for a job an app submitted that is still loaded after the app went, with nothing left to run: the app
+    /// that would unregister it is gone, so only taking it out of launchd removes it.
+    public var isLeftByAGoneApp: Bool { source == .app && !isOwnerInstalled && isOrphan }
+
     /// Includes the file's path, because two files can declare one label (a per-user copy beside the
     /// system-wide one), and each file needs a row of its own.
     public var id: String { "\(kind.rawValue)/\(label)/\(plistURL?.path(percentEncoded: false) ?? "")" }

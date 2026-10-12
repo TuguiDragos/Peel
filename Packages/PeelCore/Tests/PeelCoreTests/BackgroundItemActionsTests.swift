@@ -26,6 +26,22 @@ struct BackgroundItemActionsTests {
         #expect(try !#require(JobDefinition(["Label": "a"])).loadsOnlyInTheBackground)
     }
 
+    @Test func knowsAJobItsGoneAppLeftLoadedWithNothingToRun() {
+        let job = { (source: BackgroundItem.Source, owner: URL?, isOrphan: Bool) in
+            BackgroundItem(
+                label: "org.example.helper", kind: .agent, source: source, plistURL: nil, program: nil,
+                runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: "org.example.app", ownerName: "Example",
+                ownerURL: owner, isOrphan: isOrphan, state: .loaded, isDisabled: false
+            )
+        }
+        let installed = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
+
+        #expect(job(.app, nil, true).isLeftByAGoneApp)
+        #expect(!job(.app, installed, false).isLeftByAGoneApp)
+        #expect(!job(.app, nil, false).isLeftByAGoneApp)
+        #expect(!job(.userLibrary, nil, true).isLeftByAGoneApp)
+    }
+
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let disabled = BackgroundItem(

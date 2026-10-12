@@ -311,16 +311,24 @@ struct BackgroundItemDetailView: View {
 
     private var ownControls: some View {
         Group {
-            // No Start or Stop for a job Peel sees only while it is loaded: once stopped it would leave the list,
-            // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
-            if !item.isSeenOnlyWhileLoaded {
-                let isRunning = if case .running = item.state { true } else { false }
-                Button(isRunning ? "Stop" : "Start", systemImage: isRunning ? "stop.fill" : "play.fill") {
-                    Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }
+            // Stopping takes the job out of launchd, and nothing else removes one whose app is gone.
+            if #available(macOS 27, *), item.isLeftByAGoneApp {
+                Button("Remove", systemImage: "xmark.circle") {
+                    Task { await backgroundItems.perform(.stop, on: item) }
                 }
-            }
-            Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
-                Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                .help(Text("Take it out of launchd now: the app that added it is gone, and so is what it ran."))
+            } else {
+                // No Start or Stop for a job Peel sees only while it is loaded: once stopped it would leave the list,
+                // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
+                if !item.isSeenOnlyWhileLoaded {
+                    let isRunning = if case .running = item.state { true } else { false }
+                    Button(isRunning ? "Stop" : "Start", systemImage: isRunning ? "stop.fill" : "play.fill") {
+                        Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }
+                    }
+                }
+                Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
+                    Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                }
             }
         }
         .disabled(isBusy || item.requiresPrivileges && !helper.canAct)
