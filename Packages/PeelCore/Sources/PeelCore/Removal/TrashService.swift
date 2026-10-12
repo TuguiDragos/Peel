@@ -418,6 +418,8 @@ public struct TrashService: Sendable {
                 moved.add(path)
                 MoveCount.current?.add(1)
             } catch {
+                // Nothing was there to move: like an item inside a folder that moved, neither moved nor a failure.
+                if Self.foundNothing(error), url.isMissing { continue }
                 let reason = Self.reason(for: error)
                 let isLocked = reason == .notPermitted && FileAccess.isLockedInFinder(url)
                 result.failures.append(TrashFailure(url: url, reason: isLocked ? .locked : reason))
@@ -739,6 +741,15 @@ public struct TrashService: Sendable {
             .map(\.code)
         if codes.contains(Int(EPERM)) || codes.contains(Int(EACCES)) { return .notPermitted }
         return .failed(error.localizedDescription)
+    }
+
+    /// Whether a move failed because nothing was at the item's path.
+    static func foundNothing(_ error: any Error) -> Bool {
+        let error = error as NSError
+        return ([error] + error.underlyingErrors.map { $0 as NSError }).contains {
+            ($0.domain == NSPOSIXErrorDomain && $0.code == Int(ENOENT))
+                || ($0.domain == NSCocoaErrorDomain && $0.code == NSFileNoSuchFileError)
+        }
     }
 
     /// The item moved, but macOS did not say where and Peel could not find it.

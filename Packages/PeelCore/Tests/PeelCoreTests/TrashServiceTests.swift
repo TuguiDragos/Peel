@@ -1121,4 +1121,52 @@ struct TrashServiceTests {
         #expect(result.trashed.first?.trashedURL.lastPathComponent == "moved 12.34.56.db")
         #expect(result.failures.map(\.url) == [stayed])
     }
+
+    @Test func anItemAlreadyGoneIsNeitherMovedNorAFailure() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let removalGuard = RemovalGuard(environment: environment)
+        let service = TrashService(environment: environment) {
+            try TrashService.moveToSystemTrash($0, refusal: removalGuard.refusal(of:))
+        }
+        let gone = try directory.directory("home/Library/Caches").appending(path: "org.example.gone")
+
+        let result = await service.trash([gone])
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.isEmpty)
+    }
+
+    @Test func movesTheRestWhenOneItemIsAlreadyGone() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let first = try directory.file("home/Library/Caches/org.example.first/first.db")
+        let last = try directory.file("home/Library/Caches/org.example.last/last.db")
+        let gone = directory.url.appending(path: "home/Library/Caches/org.example.gone")
+
+        let result = await service.trash([first, gone, last])
+
+        #expect(result.trashed.map(\.originalURL) == [first, last])
+        #expect(result.failures.isEmpty)
+    }
+
+    @Test func dropsTheHelpersFailureForAnItemThatWasNeverThere() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let gone = directory.url.appending(path: "root/Library/Application Support/Vendor/gone.db")
+        let stayed = try directory.file("root/Library/Application Support/Vendor/stayed.db")
+        let links = [gone: FileIdentity.Link.of(gone), stayed: FileIdentity.Link.of(stayed)]
+        let reply = HelperTrashReply(
+            moved: [:],
+            failed: [gone.path(percentEncoded: false): "No such file or directory", stayed.path(percentEncoded: false): "x"]
+        )
+
+        let result = PrivilegedHelper.result(for: [gone, stayed], reply: reply, links: links, trash: trash)
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.url) == [stayed])
+    }
 }

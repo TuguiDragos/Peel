@@ -218,6 +218,9 @@ public enum PrivilegedHelper {
                 result.trashed.append(
                     TrashedItem(originalURL: url, trashedURL: found, date: .now, identity: .init(ofItemAt: found))
                 )
+            } else if (links[url] ?? nil) == nil, url.isMissing {
+                // Nothing was there when the request went, nor is now: neither moved nor a failure.
+                continue
             } else {
                 result.failures.append(TrashFailure(url: url, reason: .failed(reply?.failed[path] ?? Self.unavailable)))
             }
