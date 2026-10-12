@@ -491,8 +491,8 @@ public enum Installers {
         for url in files(in: caches) where url.isRealFolder {
             let name = url.lastPathComponent
             guard !developers.contains("library/caches/" + name.lowercased()) else { continue }
-            if name.hasSuffix(".ShipIt") {
-                let identifier = String(name.dropLast(".ShipIt".count))
+            if name.hasSuffix(Squirrel.folderSuffix) {
+                let identifier = String(name.dropLast(Squirrel.folderSuffix.count))
                 found.append((url, identifier, installed(identifier)))
             }
             let sparkle = url.appending(path: "org.sparkle-project.Sparkle", directoryHint: .isDirectory)

@@ -224,8 +224,8 @@ public enum SpaceRemoval {
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle
     /// identifier, its last part, and the bundle's file name, since many cache and log folders carry the app's
-    /// name rather than its identifier (`Firefox`, `Zed`), and the application groups its signature claims, whose
-    /// group containers it shares with other apps of its maker.
+    /// name rather than its identifier (`Firefox`, `Zed`), the application groups its signature claims, whose
+    /// group containers it shares with other apps of its maker, and the folders its updater fills while it runs.
     static func namesOfRunningApps(_ running: [RunningCopies.Process]) -> [String: String] {
         var names: [String: String] = [:]
         for process in running {
@@ -239,6 +239,7 @@ public enum SpaceRemoval {
                 process.bundleIdentifier?.split(separator: ".").last.map(String.init),
                 bundle,
             ].compactMap(\.self) + (process.bundleURL.map(AppInspector.applicationGroups) ?? [])
+                + updaterFolders(of: process)
             for spelling in spellings where Naming.isSignificant(spelling) {
                 names[Naming.normalized(spelling)] = displayed
             }
@@ -246,4 +247,12 @@ public enum SpaceRemoval {
         return names
     }
 
+    /// Squirrel's folder, named for the app's identifier, and electron-updater's, named in its `app-update.yml`.
+    private static func updaterFolders(of process: RunningCopies.Process) -> [String] {
+        let squirrel = process.bundleIdentifier.map { $0 + Squirrel.folderSuffix }
+        let electron = process.bundleURL
+            .flatMap { ElectronUpdater.configuration(in: $0.appending(path: "Contents", directoryHint: .isDirectory)) }
+            .flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:))
+        return [squirrel, electron].compactMap(\.self)
+    }
 }

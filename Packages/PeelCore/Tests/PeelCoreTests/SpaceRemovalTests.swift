@@ -507,6 +507,26 @@ struct SpaceRemovalTests {
         #expect(plan.appsToQuit == ["Firefox", "Zed"])
     }
 
+    @Test func leavesAloneTheFoldersAnOpenAppsUpdaterFills() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.chat.ShipIt/ShipItState.plist")
+        try directory.file("home/Library/Caches/example-chat-updater/pending/update-info.json")
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+        let configuration = "provider: generic\nurl: https://example.org/updates\nupdaterCacheDirName: example-chat-updater\n"
+        try directory.file("Applications/Chat.app/Contents/Resources/app-update.yml", contents: Data(configuration.utf8))
+        let chat = directory.url.appending(path: "Applications/Chat.app", directoryHint: .isDirectory)
+        let running = [RunningCopies.Process(identifier: 1, bundleIdentifier: "org.example.chat", bundleURL: chat)]
+
+        let plan = await SpaceRemoval.plan(
+            for: item(directory),
+            environment: environment(directory),
+            running: SpaceRemoval.namesOfRunningApps(running)
+        )
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(plan.inUse.map(\.url.lastPathComponent).sorted() == ["example-chat-updater", "org.example.chat.ShipIt"])
+    }
+
     /// One open app can write to several folders, by its name and by its identifier. The note names it once.
     @Test func namesAnOpenAppOnceWhateverItsFoldersAreCalled() async throws {
         let directory = try TemporaryDirectory()
