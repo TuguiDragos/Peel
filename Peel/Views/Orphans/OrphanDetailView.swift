@@ -76,6 +76,14 @@ struct OrphanDetailView: View {
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
+    private var whyNothingMoves: String? {
+        guard group.isLeftAlone else { return nil }
+        guard let reason = group.sharedReason else {
+            return String(localized: "Nothing here can be moved. Each file’s note says why.")
+        }
+        return String(localized: reason.explanation)
+    }
+
     private var header: some View {
         PageHeader(systemImage: "questionmark.folder") {
             Text(verbatim: group.title)
@@ -106,6 +114,18 @@ struct OrphanDetailView: View {
                 Text("No app installed on this Mac claims these files.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
+            }
+            if #available(macOS 27, *), let why = whyNothingMoves {
+                Text(verbatim: why)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                let documents = group.items.filter { $0.leftAlone == .holdsDocuments }.map(\.url)
+                if !documents.isEmpty {
+                    Button("Show in Finder", systemImage: "folder") {
+                        NSWorkspace.shared.activateFileViewerSelecting(documents)
+                    }
+                }
             }
         } trailing: {
             TotalLabel(total: group.movable, caption: Text("to remove"))

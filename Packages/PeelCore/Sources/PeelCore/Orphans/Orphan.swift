@@ -66,6 +66,17 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         return app
     }
 
+    /// True when nothing in the group can be moved, every item being left alone.
+    public var isLeftAlone: Bool {
+        items.allSatisfy { $0.leftAlone != nil }
+    }
+
+    /// The reason every item is left alone for, when they all share one.
+    public var sharedReason: HoldBack? {
+        guard let reason = items.first?.leftAlone, items.allSatisfy({ $0.leftAlone == reason }) else { return nil }
+        return reason
+    }
+
     /// Peel recommends no row it held back, and nothing in a group something may still use: such rows wait to be
     /// chosen by hand, as Review Before Removing does on an app's page.
     public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {

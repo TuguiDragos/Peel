@@ -20,6 +20,25 @@ struct MovableTotalTests {
         #expect(group.movable == SizeTotal(known: 10, isComplete: true))
     }
 
+    @Test func anOrphanGroupKnowsWhyNothingInItCanMove() {
+        let item = { (name: String, heldBack: HoldBack?) in
+            var item = OrphanItem(
+                url: URL(filePath: "/Users/x/Library/Containers/\(name)"), kind: .containers, size: 10,
+                modificationDate: nil, requiresPrivileges: false
+            )
+            item.heldBack = heldBack
+            return item
+        }
+        let group = { (items: [OrphanItem]) in OrphanGroup(identifier: "org.example.gone", items: items) }
+        let documents = group([item("org.example.gone", .holdsDocuments), item("org.example.gone.share", .holdsDocuments)])
+        let mixed = group([item("org.example.gone", .holdsDocuments), item("org.example.gone.share", .holdsALibrary)])
+        let oneMoves = group([item("org.example.gone", .holdsDocuments), item("org.example.gone.share", .notMeasured)])
+
+        #expect(documents.isLeftAlone && documents.sharedReason == .holdsDocuments)
+        #expect(mixed.isLeftAlone && mixed.sharedReason == nil)
+        #expect(!oneMoves.isLeftAlone && oneMoves.sharedReason == nil)
+    }
+
     @Test func aReceiptCountsOnlyWhatCanMove() {
         var tool = PackageReceipt.Item(
             url: URL(filePath: "/usr/local/bin/org.example.tool"), size: 500, requiresPrivileges: true

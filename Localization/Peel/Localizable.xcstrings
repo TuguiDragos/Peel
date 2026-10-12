@@ -93227,6 +93227,112 @@
         }
       }
     },
+    "Nothing here can be moved. Each file’s note says why." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nic z této skupiny nelze přesunout. Důvod uvádí poznámka u každého souboru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts hiervon kann verschoben werden. Der Hinweis zu jeder Datei nennt den Grund."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí no se puede trasladar nada a la papelera. La nota de cada archivo indica por qué."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien ici ne peut être déplacé. La note de chaque fichier indique pourquoi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui non si può spostare nulla. La nota di ogni file spiega perché."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ここにあるものは、どれもゴミ箱に入れられません。理由は各ファイルの説明に示されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 이동할 수 있는 항목이 없습니다. 이유는 각 파일의 설명에서 확인할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets hier kan worden verplaatst. In de toelichting bij elk bestand staat waarom."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niczego tu nie można przenieść do Kosza. Objaśnienie przy każdym pliku podaje powód."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada aqui pode ser movido. A nota de cada arquivo diz por quê."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimic de aici nu poate fi mutat. Informațiile fiecărui fișier explică de ce."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отсюда ничего нельзя переместить в Корзину. Причина указана в пояснении к каждому файлу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget här kan flyttas. Förklaringen vid varje fil anger varför."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buradaki hiçbir şey taşınamaz. Her dosyanın notu nedenini açıklar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут нічого не можна перемістити. Причину вказано в примітці до кожного файлу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此处没有可以移动的内容。每个文件的说明中都注明了原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡沒有可移動的項目。每個檔案的附註都會說明原因。"
+          }
+        }
+      }
+    },
     "Nothing in here can be moved now." : {
       "localizations" : {
         "cs" : {
