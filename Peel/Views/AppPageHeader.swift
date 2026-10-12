@@ -54,8 +54,9 @@ struct AppPageHeader: View {
                     .disabled(plan.isExcluded)
                     .help(plan.isExcluded ? Text(.excludedApp) : Text("Run the maker’s uninstaller first: it knows what Peel can only guess at."))
                 }
-                // Not on Peel's own page: Peel is always open, so the sheet could only ever offer to quit it.
-                if plan.app.bundleIdentifier != Bundle.main.bundleIdentifier {
+                // Not on Peel's own page, where the sheet could only offer to quit Peel, nor for an app in the Trash,
+                // which no longer stays installed: its page offers its files.
+                if plan.app.bundleIdentifier != Bundle.main.bundleIdentifier, !library.isInATrash(plan.app) {
                     Button("Reset\u{2026}") { isShowingReset = true }
                         .buttonStyle(.bordered)
                         .disabled(plan.isExcluded)
@@ -112,7 +113,7 @@ struct AppPageHeader: View {
             Button("Show in Finder") {
                 NSWorkspace.shared.activateFileViewerSelecting([plan.app.url])
             }
-            if PrivacyReset.isAllowed(for: plan.app), !plan.isAppInTheTrash {
+            if PrivacyReset.isAllowed(for: plan.app), !library.isInATrash(plan.app) {
                 Divider()
                 Button("Reset Privacy Permissions\u{2026}") { isConfirmingPrivacyReset = true }
                     .disabled(plan.isExcluded)

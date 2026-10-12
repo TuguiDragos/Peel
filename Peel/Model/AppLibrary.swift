@@ -682,6 +682,10 @@ final class AppLibrary {
         updatePreferences.isIgnored(app)
     }
 
+    func isInATrash(_ app: InstalledApp) -> Bool {
+        appsInATrash.contains(app.id)
+    }
+
     func setIgnored(_ isIgnored: Bool, for app: InstalledApp) {
         var references = ignoredApps
         if isIgnored {
