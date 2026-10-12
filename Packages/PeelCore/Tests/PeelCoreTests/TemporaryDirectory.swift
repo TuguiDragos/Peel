@@ -84,21 +84,29 @@ struct TemporaryDirectory: ~Copyable {
     /// `sleep` is signed ad hoc first. It lives five minutes, longer than the rest of the suite can hold a test back,
     /// and each test ends its own.
     func runningProgram(_ path: String) throws -> Process {
-        let program = url.appending(path: path)
-        try FileManager.default.createDirectory(
-            at: program.deletingLastPathComponent(),
-            withIntermediateDirectories: true
-        )
-        try FileManager.default.copyItem(at: URL(filePath: "/bin/sleep"), to: program)
-        let signing = try Process.run(
-            URL(filePath: "/usr/bin/codesign"),
-            arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
-        )
-        signing.waitUntilExit()
-        guard signing.terminationStatus == 0 else {
-            throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
+        try runningPrograms([path])[0]
+    }
+
+    /// Every copy is made before any starts: once a program inside an app starts, macOS may refuse to write into it.
+    func runningPrograms(_ paths: [String]) throws -> [Process] {
+        let programs = try paths.map { path in
+            let program = url.appending(path: path)
+            try FileManager.default.createDirectory(
+                at: program.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            try FileManager.default.copyItem(at: URL(filePath: "/bin/sleep"), to: program)
+            let signing = try Process.run(
+                URL(filePath: "/usr/bin/codesign"),
+                arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
+            )
+            signing.waitUntilExit()
+            guard signing.terminationStatus == 0 else {
+                throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
+            }
+            return program
         }
-        return try Process.run(program, arguments: ["300"])
+        return try programs.map { try Process.run($0, arguments: ["300"]) }
     }
 
     func setPermissions(_ permissions: Int, of path: String) throws {

@@ -281,10 +281,13 @@ struct SelfRemovalTests {
     @Test func endsOnlyTheExtensionsStillRunningFromTheMovedApp() async throws {
         let directory = try TemporaryDirectory()
         let app = "Applications/Peel.app"
-        let finder = try directory.runningProgram("\(app)/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder")
-        let tool = try directory.runningProgram("\(app)/Contents/Helpers/peel")
-        let other = try directory.runningProgram("Other.app/Contents/PlugIns/Other.appex/Contents/MacOS/Other")
-        defer { [finder, tool, other].forEach { $0.terminate() } }
+        let running = try directory.runningPrograms([
+            "\(app)/Contents/PlugIns/PeelFinder.appex/Contents/MacOS/PeelFinder",
+            "\(app)/Contents/Helpers/peel",
+            "Other.app/Contents/PlugIns/Other.appex/Contents/MacOS/Other",
+        ])
+        let (finder, tool, other) = (running[0], running[1], running[2])
+        defer { running.forEach { $0.terminate() } }
         let moved = try directory.directory("Trash").appending(path: "Peel.app")
         try FileManager.default.moveItem(at: directory.url.appending(path: app), to: moved)
 
