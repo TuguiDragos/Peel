@@ -40,8 +40,16 @@ extension FixedSentence {
     }
 
     /// What PeelCore or the helper sent, in the reader's language when it is one of these, as it came otherwise.
-    static func translated(_ message: String) -> String {
-        FixedSentence(message).map { String(localized: $0.words) } ?? message
+    static func translated(_ message: String, in bundle: Bundle? = nil) -> String {
+        FixedSentence(message).map { $0.words.resolved(in: bundle) } ?? message
+    }
+}
+
+extension LocalizedStringResource {
+    /// The words as Foundation resolves them, or from `bundle` by their key: only for a sentence with no arguments.
+    func resolved(in bundle: Bundle?) -> String {
+        guard let bundle else { return String(localized: self) }
+        return String(localized: String.LocalizationValue(key), table: table, bundle: bundle, locale: locale)
     }
 }
 

@@ -161,30 +161,35 @@ extension GuardRefusal {
 extension TrashFailure.Reason {
     /// What went wrong with one item of a removal, in words for the user who asked to move it.
     var explanation: String {
+        explanation(in: nil)
+    }
+
+    /// The explanation read from `bundle`, or from the main bundle when it is nil.
+    func explanation(in bundle: Bundle?) -> String {
         switch self {
-        case .guarded(let refusal?): String(localized: refusal.explanation)
-        case .guarded(nil): String(localized: "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.")
-        case .changedSinceScan: String(localized: "It changed after Peel looked at it. Scan again to review it.")
-        case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.")
-        case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.")
-        case .notPermitted: String(localized: "macOS didn’t allow it.")
-        case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.")
-        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.")
-        case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.")
-        case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.")
-        case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.")
+        case .guarded(let refusal?): refusal.explanation.resolved(in: bundle)
+        case .guarded(nil): String(localized: "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.", bundle: bundle)
+        case .changedSinceScan: String(localized: "It changed after Peel looked at it. Scan again to review it.", bundle: bundle)
+        case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.", bundle: bundle)
+        case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.", bundle: bundle)
+        case .notPermitted: String(localized: "macOS didn’t allow it.", bundle: bundle)
+        case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.", bundle: bundle)
+        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.", bundle: bundle)
+        case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.", bundle: bundle)
+        case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
+        case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
         case .heldOpen(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.", bundle: bundle)
         case .heldOpen(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items if it has no window, then try again.")
-        case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items if it has no window, then try again.", bundle: bundle)
+        case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.", bundle: bundle)
         case .heldByAnotherAccount(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
         case .heldByAnotherAccount(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.")
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
         case .inUseByMacOS(let processes):
-            String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.")
-        case .failed(let message): FixedSentence.translated(message)
+            String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.", bundle: bundle)
+        case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }
 }

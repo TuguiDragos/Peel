@@ -482,8 +482,11 @@ private struct GeneralSettingsView: View {
         } message: {
             Text(verbatim: selfUninstall.failure ?? "")
         }
-        .alert("Peel is in the Trash, but a few things stayed behind.", isPresented: .constant(selfUninstall.leftBehind != nil)) {
-            Button("Quit Peel") { selfUninstall.quit() }
+        .alert(
+            Text("Peel is in the Trash, but a few things stayed behind.", bundle: selfUninstall.words),
+            isPresented: .constant(selfUninstall.leftBehind != nil)
+        ) {
+            Button { selfUninstall.quit() } label: { Text("Quit Peel", bundle: selfUninstall.words) }
         } message: {
             Text(verbatim: selfUninstall.leftBehind ?? "")
         }

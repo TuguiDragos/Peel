@@ -12,6 +12,9 @@ final class SelfUninstall {
     /// What stayed after the app itself moved to the Trash: files, and a login item. Peel is running from the Trash by
     /// then, so the alert that lists them has a single button, which quits.
     private(set) var leftBehind: String?
+    /// Where Peel's words are read once it is in the Trash: the folder of the language it was using, there, since the
+    /// main bundle still names the place Peel left. Nil reads them from the main bundle.
+    private(set) var words: Bundle?
 
     static var removeCommand: String {
         "sudo rm -f /usr/local/bin/peel"
@@ -87,6 +90,7 @@ final class SelfUninstall {
         // Unregistering a login item that was never registered fails too, so what counts is whether it is still there.
         try? await SMAppService.mainApp.unregister()
         let opensAtLogin = [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
+        let language = Bundle.main.preferredLocalizations.first
 
         let result = await SelfRemoval.move(
             urls,
@@ -103,14 +107,17 @@ final class SelfUninstall {
             return
         }
         SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
+        words = language.flatMap {
+            Bundle(url: moved.trashedURL.appending(path: "Contents/Resources/\($0).lproj", directoryHint: .isDirectory))
+        }
         _ = await DockTiles().takeOut([bundleURL], remembering: false)
         var stayed = result.failures + links.failures
         if case .stayed(let failure) = ledger {
             stayed.append(failure)
         }
-        var lines = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+        var lines = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation(in: words))" }
         if opensAtLogin {
-            lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions."))
+            lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions.", bundle: words))
         }
         guard lines.isEmpty else {
             leftBehind = lines.joined(separator: "\n\n")
