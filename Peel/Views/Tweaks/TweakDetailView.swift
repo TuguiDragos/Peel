@@ -23,6 +23,9 @@ struct TweakDetailContent: View {
                     .padding(.top, 6)
                 }
             }
+            if #available(macOS 27, *), group == .privacy {
+                AppleIntelligenceSection()
+            }
         }
         .formStyle(.grouped)
     }
