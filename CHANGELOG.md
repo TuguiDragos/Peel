@@ -29,6 +29,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Lists in Orphaned Files what a gone app's own product file named, and browser helpers that start nothing.
 - On macOS 27, says in History when an audio driver you put back needs a restart, and when an app shared its storage
   with a copy.
+- On macOS 27, says how to delete a network extension in System Settings, even once its app is gone.
 
 ### Changed
 
