@@ -285,8 +285,8 @@ struct ResetSheet: View {
                         }
                         HStack(spacing: 10) {
                             Button("Put Settings Back") {
+                                isPuttingBack = true
                                 Task {
-                                    isPuttingBack = true
                                     let restored = await plan.putSettingsBack(from: backup)
                                     putBack = restored
                                     if restored != .appIsOpen, restored != .notSaved {
@@ -320,9 +320,11 @@ struct ResetSheet: View {
         .edgeBar(.bottom) {
             HStack {
                 Spacer()
+                // Closed while the settings go back, the sheet would let the page scan again before they are back.
                 Button("Done") { dismiss() }
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
+                    .disabled(isPuttingBack)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
