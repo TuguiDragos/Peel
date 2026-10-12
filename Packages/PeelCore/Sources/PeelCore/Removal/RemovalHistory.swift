@@ -20,6 +20,8 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
     public let stoppedJob: String?
+    /// True when the item shared most of its storage with another copy, so moving it freed only its own part.
+    public let sharedStorage: Bool?
 
     public init(
         id: UUID = UUID(),
@@ -28,7 +30,8 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         size: Int64?,
         source: String,
         sourceKey: String? = nil,
-        tool: String
+        tool: String,
+        sharedStorage: Bool? = nil
     ) {
         self.id = id
         self.batch = batch
@@ -41,6 +44,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         self.sourceKey = sourceKey
         self.tool = tool
         stoppedJob = item.stoppedJob
+        self.sharedStorage = sharedStorage
     }
 
     /// Reads a negative size as zero, since any process of the user can rewrite the History file.
@@ -57,6 +61,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         tool = try container.decode(String.self, forKey: .tool)
         sourceKey = try container.decodeIfPresent(String.self, forKey: .sourceKey)
         stoppedJob = try container.decodeIfPresent(String.self, forKey: .stoppedJob)
+        sharedStorage = try container.decodeIfPresent(Bool.self, forKey: .sharedStorage)
     }
 
     public var trashedItem: TrashedItem {

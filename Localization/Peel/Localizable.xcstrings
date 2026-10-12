@@ -62269,6 +62269,112 @@
         }
       }
     },
+    "It shared most of its storage with another copy, so moving it freed only its own part." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace sdílela většinu svého místa na disku s jinou kopií, takže jejím přesunutím se uvolnila jen ta část, kterou nesdílela."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App teilte sich den Großteil ihres Speicherplatzes mit einer anderen Kopie, daher gab ihr Verschieben nur ihren eigenen Teil frei."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartía la mayor parte de su almacenamiento con otra copia, así que trasladarla solo liberó la parte que no compartía."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette app partageait l’essentiel de son stockage avec une autre copie, si bien que la déplacer n’a libéré que sa propre part."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condivideva la maggior parte del suo spazio su disco con un’altra copia, quindi spostarla ha liberato solo la parte non condivisa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のコピーとストレージの大部分を共有していたため、移動して解放されたのは、共有していなかった部分だけでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 복사본과 저장 공간 대부분을 공유했으므로, 이동해도 공유하지 않은 부분의 공간만 확보되었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app deelde het grootste deel van zijn opslag met een andere kopie, dus bij het verplaatsen kwam alleen zijn eigen deel vrij."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta aplikacja współdzieliła z inną kopią większość zajmowanego miejsca na dysku, więc przeniesienie jej zwolniło tylko jej własną część."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este app compartilhava a maior parte do armazenamento com outra cópia, então movê-lo liberou apenas a parte exclusiva dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația partaja cea mai mare parte a spațiului de stocare cu o altă copie, așa că mutarea ei a eliberat doar partea proprie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Большая часть пространства на диске, занятого приложением, была общей с другой копией, поэтому при перемещении освободилась только его собственная часть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen delade det mesta av sitt lagringsutrymme med en annan kopia, så när den flyttades frigjordes bara dess egen del."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saklama alanının çoğunu başka bir kopyasıyla paylaşıyordu, bu yüzden onu taşımak yalnızca kendine ait kısmı kadar yer boşalttı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма спільно використовувала більшу частину свого сховища з іншою копією, тож її переміщення звільнило лише її власну частину."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它与另一个副本共享了大部分储存空间，因此移动它只释放了它独有的那部分空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App與另一個副本共用大部分儲存空間，因此移動它只釋放了其獨有的部分。"
+          }
+        }
+      }
+    },
     "It still leads to something on this Mac." : {
       "localizations" : {
         "cs" : {

@@ -45,6 +45,31 @@ struct RemovalGroupingTests {
         #expect(before.source == "Duplicates")
     }
 
+    @Test func aRecordSaysItsItemSharedItsStorage() throws {
+        let item = { (name: String) in
+            TrashedItem(
+                originalURL: URL(filePath: "/Applications/\(name).app"),
+                trashedURL: URL(filePath: "/Users/x/.Trash/\(name).app"),
+                date: Date(timeIntervalSince1970: 1_800_000_000)
+            )
+        }
+        let (clone, own) = (item("Clone"), item("Own"))
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: "applications")
+
+        let records = part.records(
+            of: TrashResult(trashed: [clone, own]),
+            sizes: [clone.originalURL: 0, own.originalURL: 10],
+            sharingStorage: [clone.originalURL],
+            batch: UUID()
+        )
+
+        #expect(records.map { $0.sharedStorage } == [true, nil])
+        let copy = try JSONDecoder().decode(RemovalRecord.self, from: JSONEncoder().encode(records[0]))
+        #expect(copy.sharedStorage == true)
+        let plain = try JSONSerialization.jsonObject(with: JSONEncoder().encode(records[1])) as? [String: Any]
+        #expect(plain?["sharedStorage"] == nil)
+    }
+
     @Test func groupsARemovalAndPutsTheNewestFirst() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let older = UUID()

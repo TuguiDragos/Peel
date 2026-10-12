@@ -372,7 +372,7 @@ struct MultipleAppsView: View {
                 ) {
                     home.record(appManagement: state)
                 }
-                await plan.record(result, sizes: request.sizes, in: history)
+                await plan.record(result, sizes: request.sizes, sharingStorage: request.sharingStorage, in: history)
                 return result
             }
         }

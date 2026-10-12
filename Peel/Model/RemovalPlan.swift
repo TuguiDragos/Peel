@@ -85,14 +85,18 @@ final class RemovalPlan {
 
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
     var request: RemovalRequest {
-        RemovalRequest(urls: selectedURLs, sizes: [URL: Int64](measured: selectedURLs.map { url in
-            (
-                url,
-                url == app.url
-                    ? (isAppMeasured ? appSize : nil)
-                    : leftoverSizes[url].flatMap { $0.isMeasured ? $0.size : nil }
-            )
-        }))
+        RemovalRequest(
+            urls: selectedURLs,
+            sizes: [URL: Int64](measured: selectedURLs.map { url in
+                (
+                    url,
+                    url == app.url
+                        ? (isAppMeasured ? appSize : nil)
+                        : leftoverSizes[url].flatMap { $0.isMeasured ? $0.size : nil }
+                )
+            }),
+            sharingStorage: appSharesStorage ? [app.url] : []
+        )
     }
 
     var privilegedURLs: Set<URL> { uninstallation?.privilegedURLs ?? [] }

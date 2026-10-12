@@ -197,13 +197,15 @@ final class RemovalHistoryStore {
         tool: Tool,
         source: String,
         sourceKey: String? = nil,
-        sizes: [URL: Int64]
+        sizes: [URL: Int64],
+        sharingStorage: Set<URL> = []
     ) async {
         var removal = RemovalInProgress()
         await record(
             result,
             part: RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue),
             sizes: sizes,
+            sharingStorage: sharingStorage,
             in: &removal
         )
         finish(removal)
@@ -214,11 +216,12 @@ final class RemovalHistoryStore {
         _ result: TrashResult,
         part: RemovalPart,
         sizes: [URL: Int64],
+        sharingStorage: Set<URL> = [],
         in removal: inout RemovalInProgress
     ) async {
         // History first: it is the way back for what just moved, and nothing that follows may keep it unwritten.
         if !result.trashed.isEmpty {
-            let new = part.records(of: result, sizes: sizes, batch: removal.batch)
+            let new = part.records(of: result, sizes: sizes, sharingStorage: sharingStorage, batch: removal.batch)
             removal.records += new
             await apply(await log.add(new))
         }

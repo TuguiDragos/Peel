@@ -6,10 +6,12 @@ public struct RemovalRequest: Sendable, Equatable {
     public let urls: Set<URL>
     /// The size of each item the scan measured. An item missing here was not measured.
     public let sizes: [URL: Int64]
+    public let sharingStorage: Set<URL>
 
-    public init(urls: Set<URL>, sizes: [URL: Int64]) {
+    public init(urls: Set<URL>, sizes: [URL: Int64], sharingStorage: Set<URL> = []) {
         self.urls = urls
         self.sizes = sizes
+        self.sharingStorage = sharingStorage.intersection(urls)
     }
 
     public var total: SizeTotal {

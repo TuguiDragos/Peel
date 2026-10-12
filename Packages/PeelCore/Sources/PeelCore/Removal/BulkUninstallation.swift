@@ -28,6 +28,8 @@ public struct BulkUninstallation: Sendable {
         public var removedElsewhere: RemovedElsewhere?
         /// An app's bundle already in the Trash. Shown, never selected, never counted.
         public var isInTheTrash = false
+        /// An app's bundle that shares most of its storage with another copy (`Uninstallation.appSharesStorage`).
+        public var sharesStorage = false
         /// The package an app's bundle sits inside (`InstalledApp.enclosingPackage`). Shown, never selected, never
         /// moved.
         public var enclosingPackage: URL?
@@ -276,6 +278,7 @@ public struct BulkUninstallation: Sendable {
                 isBeyondTheHelper: uninstallation.isAppBeyondTheHelper,
                 removedElsewhere: uninstallation.removedElsewhere,
                 isInTheTrash: uninstallation.isAppInTheTrash,
+                sharesStorage: uninstallation.appSharesStorage,
                 enclosingPackage: uninstallation.app.enclosingPackage
             ))
         }

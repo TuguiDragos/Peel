@@ -9,6 +9,7 @@ enum Removals {
         from source: String,
         key sourceKey: String? = nil,
         sizes: [URL: Int64],
+        sharingStorage: Set<URL> = [],
         tool: String,
         in log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
@@ -17,7 +18,8 @@ enum Removals {
         var isRecorded = true
         if !result.trashed.isEmpty {
             let part = RemovalPart(source: source, sourceKey: sourceKey, tool: tool)
-            isRecorded = await log.add(part.records(of: result, sizes: sizes, batch: UUID())).records != nil
+            let records = part.records(of: result, sizes: sizes, sharingStorage: sharingStorage, batch: UUID())
+            isRecorded = await log.add(records).records != nil
         }
         if let problem = await refusals.add(result.failures, source: source, sourceKey: sourceKey, tool: tool) {
             Output.note(problem.summary)

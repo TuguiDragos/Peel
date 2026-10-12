@@ -52,7 +52,11 @@ final class BulkRemovalPlan {
 
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
     var request: RemovalRequest {
-        RemovalRequest(urls: selectedURLs, sizes: [URL: Int64](measured: selectedURLs.map { ($0, measuredSizes[$0]) }))
+        RemovalRequest(
+            urls: selectedURLs,
+            sizes: [URL: Int64](measured: selectedURLs.map { ($0, measuredSizes[$0]) }),
+            sharingStorage: Set(items.filter(\.sharesStorage).map(\.url))
+        )
     }
 
     var total: SizeTotal { bulk?.total ?? SizeTotal(known: 0, isComplete: true) }
@@ -129,7 +133,12 @@ final class BulkRemovalPlan {
     }
 
     /// Records `result` in History, what moved named by the apps it belonged to and what stayed by its own apps.
-    func record(_ result: TrashResult, sizes: [URL: Int64], in history: RemovalHistoryStore) async {
+    func record(
+        _ result: TrashResult,
+        sizes: [URL: Int64],
+        sharingStorage: Set<URL>,
+        in history: RemovalHistoryStore
+    ) async {
         var removal = RemovalInProgress()
         let moved = bulk?.apps(owning: result.trashed.map(\.originalURL)) ?? []
         let stayed = bulk?.apps(owning: result.failures.map(\.url)) ?? []
@@ -140,7 +149,7 @@ final class BulkRemovalPlan {
             (TrashResult(failures: result.failures), part(naming: stayed)),
         ]
         for (result, part) in parts {
-            await history.record(result, part: part, sizes: sizes, in: &removal)
+            await history.record(result, part: part, sizes: sizes, sharingStorage: sharingStorage, in: &removal)
         }
         history.finish(removal)
     }

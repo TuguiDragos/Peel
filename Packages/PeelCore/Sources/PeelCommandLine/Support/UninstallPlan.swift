@@ -22,6 +22,7 @@ struct UninstallPlan {
     let needsReview: Int
     var uninstallsItself = false
     var makersFolderNames: Set<String> = []
+    var appSharesStorage = false
 
     var moving: [Item] { items.filter { $0.refusal == nil } }
     var staying: [Item] { items.filter { $0.refusal != nil } }
@@ -63,7 +64,8 @@ struct UninstallPlan {
             needsAdministrator: rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
             needsReview: rest.count(where: { !$0.match.isRecommended && $0.match.heldBack != .leftToItsUninstaller }),
             uninstallsItself: uninstallation.uninstallsItself != nil,
-            makersFolderNames: uninstallation.makersFolderNames
+            makersFolderNames: uninstallation.makersFolderNames,
+            appSharesStorage: uninstallation.appSharesStorage
         )
     }
 
@@ -82,6 +84,7 @@ struct UninstallPlan {
             result,
             from: source,
             sizes: [URL: Int64](measured: items.map { ($0.url, $0.size) }),
+            sharingStorage: appSharesStorage ? [app] : [],
             tool: "applications",
             in: log,
             refusals: refusals

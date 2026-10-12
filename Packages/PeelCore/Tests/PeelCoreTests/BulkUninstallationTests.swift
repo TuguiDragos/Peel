@@ -32,6 +32,17 @@ struct BulkUninstallationTests {
         )
     }
 
+    @Test func anAppsBundleSaysItSharesItsStorage() {
+        let clone = app("org.example.clone", "Clone")
+        let own = app("org.example.own", "Own")
+        var shared = uninstallation(clone, [])
+        shared.appSharesStorage = true
+
+        let bulk = BulkUninstallation(uninstallations: [shared, uninstallation(own, [])])
+
+        #expect(bulk.items.filter { $0.sharesStorage }.map { $0.url } == [clone.url])
+    }
+
     @Test func aChosenAppsBundleStaysAnAppWhenAnotherChosenAppListsIt() {
         let synth = app("org.example.synth", "Synth")
         let effects = app("org.example.synth-fx", "Synth Effects")

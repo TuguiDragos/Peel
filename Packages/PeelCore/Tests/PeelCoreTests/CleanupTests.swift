@@ -254,6 +254,24 @@ struct CleanupTests {
         #expect(records.count == 3)
     }
 
+    @Test func anUninstallRecordsThatTheAppSharedItsStorage() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Twin.app")
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        var uninstallation = Uninstallation(
+            app: InstalledApp(url: app, bundleIdentifier: "org.example.twin", name: "Twin"),
+            appSize: 0,
+            appRequiresPrivileges: false,
+            scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+        )
+        uninstallation.appSharesStorage = true
+        let plan = UninstallPlan.make(uninstallation, keepLeftovers: true, refusal: { _ in nil })
+
+        #expect(await plan.record(await plan.move(using: try service(in: directory)), from: "Twin", in: log))
+
+        #expect(await RemovalLog(url: log.url).load().records?.map(\.sharedStorage) == [true])
+    }
+
     /// `peel uninstall` writes down what the guard refused before the move beside what moved, as every other
     /// command does, and an app the guard keeps where it is is written down too, though nothing moved.
     @Test func anUninstallWritesDownWhatTheGuardRefusedBeforeTheMove() async throws {

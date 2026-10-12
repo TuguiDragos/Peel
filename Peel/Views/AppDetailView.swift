@@ -491,7 +491,10 @@ struct AppDetailView: View {
                 ) {
                     home.record(appManagement: state)
                 }
-                await history.record(result, tool: .applications, source: plan.app.name, sizes: request.sizes)
+                await history.record(
+                    result, tool: .applications, source: plan.app.name, sizes: request.sizes,
+                    sharingStorage: request.sharingStorage
+                )
                 return result
             }
         }

@@ -94,7 +94,12 @@ public struct RemovalPart: Sendable, Hashable {
 extension RemovalPart {
     /// History's records of what moved from this part, all in `batch`, each with its size in `sizes`, and none
     /// where it was not measured.
-    public func records(of result: TrashResult, sizes: [URL: Int64], batch: UUID) -> [RemovalRecord] {
+    public func records(
+        of result: TrashResult,
+        sizes: [URL: Int64],
+        sharingStorage: Set<URL> = [],
+        batch: UUID
+    ) -> [RemovalRecord] {
         result.trashed.map {
             RemovalRecord(
                 batch: batch,
@@ -102,7 +107,8 @@ extension RemovalPart {
                 size: sizes[$0.originalURL] ?? (result.emptied.contains($0.originalURL) ? 0 : nil),
                 source: source,
                 sourceKey: sourceKey,
-                tool: tool
+                tool: tool,
+                sharedStorage: sharingStorage.contains($0.originalURL) ? true : nil
             )
         }
     }

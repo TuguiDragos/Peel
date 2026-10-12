@@ -261,10 +261,12 @@ private enum RecordPlace {
 }
 
 private enum RecordNote {
+    case sharedStorage
     case loadsAfterARestart
 
     var text: LocalizedStringResource {
         switch self {
+        case .sharedStorage: "It shared most of its storage with another copy, so moving it freed only its own part."
         case .loadsAfterARestart: "Once put back, macOS loads this audio driver only after you restart your Mac."
         }
     }
@@ -318,7 +320,9 @@ private struct HistoryRecordRow: View {
 
     @available(macOS 27, *)
     private var notes: [RecordNote] {
-        place == .inTrash && AudioDrivers.isOne(record.originalURL) ? [.loadsAfterARestart] : []
+        var notes: [RecordNote] = record.sharedStorage == true ? [.sharedStorage] : []
+        if place == .inTrash, AudioDrivers.isOne(record.originalURL) { notes.append(.loadsAfterARestart) }
+        return notes
     }
 
     private var item: some View {
