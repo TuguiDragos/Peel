@@ -472,10 +472,7 @@ public struct LeftoverScanner: Sendable {
 
     /// A browser's native messaging manifest is the app's when the program it names, an absolute path, is inside it.
     private static func runsSomethingInside(_ bundle: String, manifest url: URL) -> LeftoverMatch? {
-        guard url.pathExtension == "json", let data = BoundedRead.data(at: url, maximum: 64 * 1_024),
-              let manifest = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let program = manifest["path"] as? String, program.hasPrefix("/")
-        else { return nil }
+        guard let program = NativeMessagingManifest.program(at: url) else { return nil }
         let path = PathPattern.comparablePath(of: URL(filePath: program))
         guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
         return LeftoverMatch(reason: .nativeMessagingHost, confidence: .certain, sharedWith: [])

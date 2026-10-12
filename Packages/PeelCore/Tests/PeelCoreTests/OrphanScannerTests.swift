@@ -95,6 +95,31 @@ struct OrphanScannerTests {
         #expect(item(going)?.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func aBrowsersManifestIsAnOrphanOnlyOnceItsProgramIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = "home/Library/Application Support/Mozilla/NativeMessagingHosts"
+        let live = try directory.file("programs/host")
+        let gone = directory.url.appending(path: "programs/assist")
+        func manifest(_ name: String, program: URL) throws {
+            let text = #"{"name": "\#(name)", "path": "\#(program.path(percentEncoded: false))", "type": "stdio"}"#
+            try directory.file("\(folder)/\(name).json", contents: Data(text.utf8))
+        }
+        try manifest("org.example.remote", program: live)
+        try manifest("org.example.remote.assist", program: gone)
+        try directory.file("\(folder)/org.example.remote.broken.json", contents: Data("not a manifest".utf8))
+        let remote = RememberedApp(
+            bundleIdentifier: "org.example.remote", name: "Remote", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Remote.app"
+        )
+        let scanner = scanner(in: directory)
+
+        let items = await scanner.scan(installedApps: installed, remembered: [remote]).groups.flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["org.example.remote.assist.json"])
+        try directory.file("programs/assist")
+        #expect(await scanner.stillOrphaned(items, installedApps: installed, remembered: [remote]).isEmpty)
+    }
+
     /// The recent documents list macOS 26 writes (`.sfl4`) belongs to the installed app it is named for.
     @Test func anInstalledAppsRecentDocumentListIsNoOrphan() async throws {
         let directory = try TemporaryDirectory()

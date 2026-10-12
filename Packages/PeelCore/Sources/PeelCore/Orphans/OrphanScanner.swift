@@ -86,8 +86,7 @@ public struct OrphanScanner: Sendable {
 
         let results = await withTaskGroup(of: LocationResult.self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
-            // A browser's manifest is an app's only through the program it names, which an uninstall reads. Here one
-            // is still found by the identifier it is named for, inside Application Support. Safari's web app
+            // A browser's manifest is an app's only through the program it names (`servesAProgram`). Safari's web app
             // container is another app's container, which macOS asks about, and is read only for one of its web apps.
             let skipped: Set<SearchLocation.Kind> = [.nativeMessagingHosts, .safariWebApps]
             for location in environment.locations where !skipped.contains(location.kind) {
@@ -125,10 +124,12 @@ public struct OrphanScanner: Sendable {
             ? Set((await systemExtensions() ?? []).filter { $0.election == .beingRemoved }.compactMap(\.url)
                 .map(PathPattern.comparablePath(of:)))
             : []
+        let folders = manifestFolders
         let kept = found.filter {
             !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url)
                 && !exclusions.excludes(bundleIdentifier: $0.identifier)
                 && !(owners[$0.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false)
+                && !Self.servesAProgram($0.item.url, in: folders)
         }
         .map { entry in
             var item = entry.item
@@ -151,6 +152,19 @@ public struct OrphanScanner: Sendable {
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath)
         )
+    }
+
+    private var manifestFolders: Set<String> {
+        let manifests = environment.locations.filter { $0.kind == .nativeMessagingHosts }
+        return Set(manifests.map { PathPattern.comparablePath(of: $0.url) })
+    }
+
+    /// Whether `url` is a manifest in a folder browsers read native messaging manifests from that still serves its
+    /// program: one that is there, or that can't be told. Whatever it is named for, it is no orphan then.
+    static func servesAProgram(_ url: URL, in folders: Set<String>) -> Bool {
+        guard folders.contains(PathPattern.comparablePath(of: url.deletingLastPathComponent())) else { return false }
+        guard let program = NativeMessagingManifest.program(at: url) else { return true }
+        return FileManager.default.fileExists(atPath: program)
     }
 
     /// The apps installed now, with those `remembered` holds that are only out of sight, and the remembered apps
@@ -180,8 +194,9 @@ public struct OrphanScanner: Sendable {
             isRegisteredApp: isRegisteredApp
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
+        let folders = manifestFolders
         var kept: [OrphanItem] = []
-        for item in items {
+        for item in items where !Self.servesAProgram(item.url, in: folders) {
             let isStillOrphaned = if let app = item.namedAfter {
                 await Self.goneApp(
                     named: item.url,
