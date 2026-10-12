@@ -468,12 +468,19 @@ public struct TrashService: Sendable {
         let filesMoved = Set(more.trashed.map(\.originalURL))
         result.note(stopped.compactMap(\.job).filter { filesMoved.contains($0.plist) })
         await startAgain(stopped, unlessMoved: filesMoved)
-        // Nobody asked for these folders, so one that stays is no failure, and they are not counted with the rest.
+        // Nobody asked for these folders, so one that stays is no failure, and they are not counted with the rest. A
+        // folder goes through the helper when what left it did.
+        let privileged = Set(privilegedURLs.map(PathPattern.comparablePath(of:)))
+        var throughHelper = more.trashed.map { PathPattern.comparablePath(of: $0.originalURL) }
+            .filter(privileged.contains)
         for folder in MakersFolders(environment: environment, names: names).above(more.trashed.map(\.originalURL))
         where MakersFolders.isEmpty(folder) {
+            let path = PathPattern.comparablePath(of: folder)
+            let helper: Set<URL> = throughHelper.contains { PathComponents.isPath($0, inside: path) } ? [folder] : []
             let moved = await MoveCount.$current.withValue(nil) {
-                await trash([folder], usingHelperFor: [], removal: removal, lettingTheirProgramsRun: []).trashed
+                await trash([folder], usingHelperFor: helper, removal: removal, lettingTheirProgramsRun: []).trashed
             }
+            if !helper.isEmpty, !moved.isEmpty { throughHelper.append(path) }
             result.trashed += moved
             result.emptied.formUnion(moved.map(\.originalURL))
         }

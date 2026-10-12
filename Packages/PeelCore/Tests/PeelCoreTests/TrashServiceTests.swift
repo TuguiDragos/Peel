@@ -1169,4 +1169,54 @@ struct TrashServiceTests {
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.url) == [stayed])
     }
+
+    @Test func aMakersFolderEmptiedThroughTheHelperGoesThroughIt() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let root = PathPattern.comparablePath(of: try directory.directory("root"))
+        let app = try directory.directory("Applications/Notes.app")
+        let product = try directory.directory("root/Library/Application Support/Example/Notes")
+        let own = try directory.directory("home/Library/Application Support/Example/Notes")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let move: @Sendable (URL) throws -> URL = { url in
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let throughHelper = Mutex<[URL]>([])
+        let service = TrashService(
+            environment: environment,
+            moveThroughHelper: { urls in
+                throughHelper.withLock { $0 += urls }
+                var result = TrashResult()
+                for url in urls {
+                    guard let trashed = try? move(url) else { continue }
+                    result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashed, date: .now))
+                }
+                return result
+            },
+            moveToTrash: { url in
+                guard !PathComponents.isPath(PathPattern.comparablePath(of: url), inside: root) else {
+                    throw CocoaError(.fileWriteNoPermission)
+                }
+                return try move(url)
+            }
+        )
+        let names = MakersFolders.names(of: [InstalledApp(url: app, bundleIdentifier: "org.example.notes", name: "Notes")])
+
+        let result = await service.trash(
+            apps: [app], thenFiles: { _ in [product, own] }, usingHelperFor: [product], lettingTheirProgramsRun: [],
+            emptiedFoldersNamed: names
+        )
+
+        let makers = [product, own].map { $0.deletingLastPathComponent() }
+        #expect(makers.allSatisfy { $0.isMissing })
+        let emptied = Set(result.emptied.map(PathPattern.comparablePath(of:)))
+        #expect(emptied == Set(makers.map(PathPattern.comparablePath(of:))))
+        #expect(throughHelper.withLock { $0 } == [product, makers[0]])
+        #expect(result.failures.isEmpty)
+    }
 }
