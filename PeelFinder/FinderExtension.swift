@@ -11,7 +11,10 @@ final class FinderExtension: FIFinderSync {
     }
 
     override func menu(for menuKind: FIMenuKind) -> NSMenu? {
-        guard menuKind == .contextualMenuForItems, selectedApplication != nil else { return nil }
+        // Once Peel is moved or deleted this process can run on, with no image to show and no app to open.
+        guard menuKind == .contextualMenuForItems, FileManager.default.fileExists(atPath: Bundle.main.bundlePath),
+              selectedApplication != nil
+        else { return nil }
         let menu = NSMenu(title: "")
         let item = menu.addItem(withTitle: String(localized: "Uninstall with Peel…"), action: #selector(openInPeel(_:)), keyEquivalent: "")
         item.image = NSImage(resource: .peelGlyph)
