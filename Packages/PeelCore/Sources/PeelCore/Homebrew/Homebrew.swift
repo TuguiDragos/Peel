@@ -53,32 +53,51 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public private(set) var packagedApps: [String] = []
     /// An installed cask's folder in Homebrew's Caskroom (`brew --caskroom <token>`), set by `kept(inCaskroom:)`.
     public private(set) var caskroomFolder: URL?
-    /// True for an installed cask whose every app is gone from where Homebrew put it, set by `checkingItsApps()`.
-    public private(set) var isMissingItsApps = false
+    /// True for an installed cask that left nothing on this Mac: every app gone from where Homebrew put it, or, for a
+    /// cask with no app, every package it installed, as their receipts say. Set by `checkingWhatItInstalled`.
+    public private(set) var isMissingWhatItInstalled = false
 
     public var id: String { "\(kind.rawValue)/\(name)" }
 
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
     /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
     public var joinsUpgradeAll: Bool {
-        !isPinned && !upgradeNeedsAnAdministrator && !isMissingItsApps
+        !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled
     }
 
     /// Whether Homebrew offers a newer version that it can install. It upgrades a cask's app where it put it, so it
     /// can't upgrade a cask whose apps are gone.
     public var waitsForAnUpgrade: Bool {
-        isOutdated && !isMissingItsApps
+        isOutdated && !isMissingWhatItInstalled
     }
 
-    /// Returns a copy that notes whether every app the installed cask put on the Mac is gone, asked of the disk now.
-    /// An app on a disk that is not connected is not gone.
-    public func checkingItsApps() -> HomebrewPackage {
+    /// Returns a copy that notes whether what the installed cask put on the Mac is all gone, asked of the disk now: its
+    /// apps, or, with none, the receipts in `receipts` of the packages it installed. An app on a disk that is not
+    /// connected is not gone.
+    public func checkingWhatItInstalled(
+        receipts: URL = URL(filePath: "/private/var/db/receipts", directoryHint: .isDirectory)
+    ) -> HomebrewPackage {
         var checked = self
-        checked.isMissingItsApps = caskroomFolder != nil && !appTargets.isEmpty && appTargets.allSatisfy { target in
-            let app = URL(filePath: target, directoryHint: .isDirectory)
-            return app.isMissing && !app.isOnADiskNotConnected
-        }
+        checked.isMissingWhatItInstalled = caskroomFolder != nil && (appTargets.isEmpty
+            ? Self.packagesAreGone(packageIdentifiers, receipts: receipts)
+            : appTargets.allSatisfy { target in
+                let app = URL(filePath: target, directoryHint: .isDirectory)
+                return app.isMissing && !app.isOnADiskNotConnected
+            })
         return checked
+    }
+
+    /// True when `identifiers` name packages exactly and none of them has a receipt left. Homebrew reads each as a
+    /// pattern (`pkgutil --pkgs=`), and one with more than letters, digits, dots, hyphens and underscores could match
+    /// a package by another name, so it proves nothing.
+    private static func packagesAreGone(_ identifiers: [String], receipts: URL) -> Bool {
+        let isExact = { (identifier: String) in
+            !identifier.hasPrefix(".")
+                && identifier.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "._-".contains($0)) }
+        }
+        return !identifiers.isEmpty && identifiers.allSatisfy { identifier in
+            isExact(identifier) && receipts.appending(path: "\(identifier).plist").isMissing
+        }
     }
 
     /// Returns a copy that notes which `packageIdentifiers` are among `receipts`, the lowercased identifiers of
@@ -531,7 +550,7 @@ public enum Homebrew {
             let apps = await PackageReceipts.apps(
                 installedByPackagesMatching: package.packageIdentifiers, pkgutil: pkgutil
             )
-            return package.noting(receipts: receipts).noting(packagedApps: apps).checkingItsApps()
+            return package.noting(receipts: receipts).noting(packagedApps: apps).checkingWhatItInstalled()
         }
     }
 

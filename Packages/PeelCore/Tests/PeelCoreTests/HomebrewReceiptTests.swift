@@ -37,8 +37,14 @@ struct HomebrewReceiptTests {
             var isFolder: ObjCBool = false
             #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false), isDirectory: &isFolder))
             #expect(isFolder.boolValue, "\(folder.path())")
-            let gone = !cask.appTargets.isEmpty && cask.appTargets.allSatisfy { URL(filePath: $0).isMissing }
-            #expect(cask.isMissingItsApps == gone, "\(cask.name)")
+            let receipts = URL(filePath: "/private/var/db/receipts", directoryHint: .isDirectory)
+            let gone = cask.appTargets.isEmpty
+                ? !cask.packageIdentifiers.isEmpty && cask.packageIdentifiers.allSatisfy { identifier in
+                    identifier.range(of: "^[A-Za-z0-9_-][A-Za-z0-9._-]*$", options: .regularExpression) != nil
+                        && receipts.appending(path: "\(identifier).plist").isMissing
+                }
+                : cask.appTargets.allSatisfy { URL(filePath: $0).isMissing }
+            #expect(cask.isMissingWhatItInstalled == gone, "\(cask.name)")
         }
     }
 
@@ -48,12 +54,31 @@ struct HomebrewReceiptTests {
         let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
         let other = InstalledApp(url: gone, bundleIdentifier: "org.example.gone", name: "Gone")
 
-        #expect(installed.cask(installing: [other]).checkingItsApps().isMissingItsApps)
-        #expect(!installed.cask(installing: [app]).checkingItsApps().isMissingItsApps)
-        #expect(!installed.cask(installing: [app, other]).checkingItsApps().isMissingItsApps)
-        #expect(!installed.cask(installing: []).checkingItsApps().isMissingItsApps)
+        #expect(installed.cask(installing: [other]).checkingWhatItInstalled().isMissingWhatItInstalled)
+        #expect(!installed.cask(installing: [app]).checkingWhatItInstalled().isMissingWhatItInstalled)
+        #expect(!installed.cask(installing: [app, other]).checkingWhatItInstalled().isMissingWhatItInstalled)
+        #expect(!installed.cask(installing: []).checkingWhatItInstalled().isMissingWhatItInstalled)
         let known = HomebrewPackage(name: "example", kind: .cask, appTargets: [PathPattern.comparablePath(of: gone)])
-        #expect(!known.checkingItsApps().isMissingItsApps)
+        #expect(!known.checkingWhatItInstalled().isMissingWhatItInstalled)
+    }
+
+    @Test func aCaskOfPackagesAloneIsGoneOnceEveryReceiptIs() throws {
+        let installed = try Installed()
+        let receipts = try installed.directory.directory("root/private/var/db/receipts")
+        try installed.directory.file("root/private/var/db/receipts/org.example.kept.plist")
+        let cask = { (packages: [String]) in
+            HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0", packageIdentifiers: packages)
+                .kept(inCaskroom: installed.caskroom)
+        }
+        let gone = { (cask: HomebrewPackage) in
+            cask.checkingWhatItInstalled(receipts: receipts).isMissingWhatItInstalled
+        }
+
+        #expect(gone(cask(["org.example.driver", "org.example.app"])))
+        #expect(!gone(cask(["org.example.driver", "org.example.kept"])))
+        #expect(!gone(cask(["org.example.driver.*"])))
+        #expect(!gone(cask([])))
+        #expect(!gone(HomebrewPackage(name: "example", kind: .cask, packageIdentifiers: ["org.example.driver"])))
     }
 
     @Test func anAppOnADiskThatIsNotConnectedIsNotGone() throws {
@@ -63,7 +88,7 @@ struct HomebrewReceiptTests {
             name: "example", kind: .cask, installedVersion: "1.0", appTargets: ["\(disk)/Applications/Example.app"]
         ).kept(inCaskroom: installed.caskroom)
 
-        #expect(!cask.checkingItsApps().isMissingItsApps)
+        #expect(!cask.checkingWhatItInstalled().isMissingWhatItInstalled)
     }
 
     @Test func aCaskMissingItsAppsWaitsForNoUpgrade() throws {
@@ -80,8 +105,8 @@ struct HomebrewReceiptTests {
 
         #expect(cask.waitsForAnUpgrade)
         #expect(cask.joinsUpgradeAll)
-        #expect(!cask.checkingItsApps().waitsForAnUpgrade)
-        #expect(!cask.checkingItsApps().joinsUpgradeAll)
+        #expect(!cask.checkingWhatItInstalled().waitsForAnUpgrade)
+        #expect(!cask.checkingWhatItInstalled().joinsUpgradeAll)
     }
 
     @Test func forgettingACaskTakesItsReceiptAndTheLinksIntoItAndIntoItsApps() async throws {
@@ -89,7 +114,7 @@ struct HomebrewReceiptTests {
         let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
         let cask = HomebrewPackage(
             name: "example", kind: .cask, installedVersion: "1.0", appTargets: [PathPattern.comparablePath(of: gone)]
-        ).kept(inCaskroom: installed.caskroom).checkingItsApps()
+        ).kept(inCaskroom: installed.caskroom).checkingWhatItInstalled()
         let wrapper = try installed.directory.file("root/opt/homebrew/Caskroom/example/1.0/.homebrew-command-wrappers/example")
         let bin = try installed.directory.directory("root/opt/homebrew/bin")
         let completions = try installed.directory.directory("root/opt/homebrew/share/zsh/site-functions")

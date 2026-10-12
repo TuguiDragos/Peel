@@ -157,9 +157,9 @@ lists them.
   or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
   run in Terminal for a cask that asks for an administrator's password. Uninstall and the clean ups delete for good,
   as Homebrew does, and Peel says so before you confirm them. Uninstall is not offered for a cask whose app Peel
-  leaves alone on the app's own page, such as one with a system extension. A cask whose app is already gone, which
-  Homebrew still lists and can't upgrade, is listed apart with Forget, which moves Homebrew's record of it to the
-  Trash so Homebrew stops listing it, and History can put it back.
+  leaves alone on the app's own page, such as one with a system extension. A cask Homebrew still lists after its app
+  is gone, or after its packages are, for a cask with no app, can't be upgraded, and is listed apart with Forget,
+  which moves Homebrew's record of it to the Trash so Homebrew stops listing it, and History can put it back.
 
 ## Fine-tune your Mac
 

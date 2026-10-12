@@ -75,7 +75,13 @@ struct HomebrewDetailView: View {
                 ) {}
             }
 
-            if package.isMissingItsApps {
+            if package.isMissingWhatItInstalled, package.appTargets.isEmpty {
+                Notice(
+                    title: Text("The Packages Are Already Gone"),
+                    detail: Text("Homebrew still lists this cask, but the packages it installed aren’t on this Mac anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    kind: .note
+                ) {}
+            } else if package.isMissingWhatItInstalled {
                 Notice(
                     title: Text("The App Is Already Gone"),
                     detail: Text("Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
@@ -102,7 +108,7 @@ struct HomebrewDetailView: View {
 
             Section {
                 HStack {
-                    if package.isMissingItsApps {
+                    if package.isMissingWhatItInstalled {
                         Button("Forget Cask") { casksToForget = [package] }
                             .buttonStyle(.borderedProminent)
                     } else if package.waitsForAnUpgrade {

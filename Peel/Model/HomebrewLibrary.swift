@@ -151,14 +151,14 @@ final class HomebrewLibrary {
         (packages ?? []).filter(\.waitsForAnUpgrade)
     }
 
-    /// The casks Homebrew still lists whose apps are gone.
-    var missingTheirApps: [HomebrewPackage] {
-        (packages ?? []).filter(\.isMissingItsApps)
+    /// The casks Homebrew still lists that left nothing on this Mac: their apps, or with none, their packages.
+    var alreadyGone: [HomebrewPackage] {
+        (packages ?? []).filter(\.isMissingWhatItInstalled)
     }
 
     /// The packages Homebrew has disabled or deprecated, disabled first, since those can't be installed again.
     var retired: [HomebrewPackage] {
-        let retired = (packages ?? []).filter { $0.retirement != nil && !$0.isMissingItsApps }
+        let retired = (packages ?? []).filter { $0.retirement != nil && !$0.isMissingWhatItInstalled }
         return retired.filter { $0.retirement?.stage == .disabled }
             + retired.filter { $0.retirement?.stage == .deprecated }
     }

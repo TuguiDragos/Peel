@@ -4,10 +4,12 @@ internal import PeelPrivileged
 /// Homebrew's record of an installed cask: its folder in the Caskroom, which keeps Homebrew counting the cask as
 /// installed, and the links in the command and shell completion folders that lead into it or into the cask's apps.
 public enum HomebrewReceipt {
-    /// What goes to the Trash when Peel forgets `cask`, its Caskroom folder first. Nothing while any of its apps is
-    /// still there, since Homebrew then still manages an app on this Mac.
+    /// What goes to the Trash when Peel forgets `cask`, its Caskroom folder first. Nothing while anything it installed
+    /// is still there, an app or a package's receipt, since Homebrew then still manages it on this Mac.
     public static func items(of cask: HomebrewPackage, environment: SearchEnvironment = .current) -> [URL] {
-        guard cask.checkingItsApps().isMissingItsApps, let folder = cask.caskroomFolder,
+        let receipts = environment.rootDirectory.appending(path: "private/var/db/receipts", directoryHint: .isDirectory)
+        guard cask.checkingWhatItInstalled(receipts: receipts).isMissingWhatItInstalled,
+              let folder = cask.caskroomFolder,
               FileAccess.isARealFolder(folder)
         else { return [] }
         let destinations = [PathPattern.comparablePath(of: folder)] + cask.appTargets
@@ -20,8 +22,8 @@ public enum HomebrewReceipt {
         return [folder] + links
     }
 
-    /// Moves the record of each cask whose apps are gone to the Trash, so Homebrew stops listing it and History can
-    /// put it back. `brew uninstall` would delete the same folder for good.
+    /// Moves the record of each cask whose apps or packages are gone to the Trash, so Homebrew stops listing it and
+    /// History can put it back. `brew uninstall` would delete the same folder for good.
     @concurrent
     public static func forget(_ casks: [HomebrewPackage], exclusions: Exclusions) async -> TrashResult {
         await forget(casks, through: TrashService(exclusions: exclusions), environment: .current)

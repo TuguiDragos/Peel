@@ -28,7 +28,7 @@ struct HomebrewList: View {
                 vulnerabilities
                 retired(homebrew.retired)
                 updates(outdated)
-                missingTheirApps(homebrew.missingTheirApps)
+                alreadyGone(homebrew.alreadyGone)
                 empty
             }
             section(Text("Formulae"), packages: byKind[.formula] ?? [])
@@ -428,7 +428,7 @@ struct HomebrewList: View {
     }
 
     @ViewBuilder
-    private func missingTheirApps(_ casks: [HomebrewPackage]) -> some View {
+    private func alreadyGone(_ casks: [HomebrewPackage]) -> some View {
         if !casks.isEmpty {
             Section {
                 ForEach(casks) { cask in
@@ -446,7 +446,7 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading(
                         "Apps Already Gone",
-                        "Homebrew still lists these casks, but their apps aren’t where it put them anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back."
+                        "Homebrew still lists these casks, but what they installed isn’t on this Mac anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back."
                     )
                 } count: {
                     Text("^[\(casks.count) cask](inflect: true)")
@@ -570,7 +570,7 @@ struct HomebrewList: View {
     private var listed: [HomebrewPackage] {
         guard searchText.isEmpty else { return filteredPackages }
         return (homebrew.packages ?? []).filter {
-            !$0.waitsForAnUpgrade && $0.retirement == nil && !$0.isMissingItsApps
+            !$0.waitsForAnUpgrade && $0.retirement == nil && !$0.isMissingWhatItInstalled
         }
     }
 
