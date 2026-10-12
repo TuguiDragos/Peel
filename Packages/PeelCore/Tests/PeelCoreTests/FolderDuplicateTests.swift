@@ -145,6 +145,32 @@ struct FolderDuplicateTests {
         #expect(result.folderGroups.count == 1)
     }
 
+    @Test func filesInsideAChosenFolderOfferedWholeAreNotListedOnTheirOwn() async throws {
+        let directory = try TemporaryDirectory()
+        try trip(in: directory)
+
+        let result = try await scan(directory, folders: ["home/Documents/Trip", "home/Pictures/Trip"])
+
+        #expect(names(result) == [["Documents/Trip", "Pictures/Trip"]])
+        #expect(result.groups.isEmpty)
+    }
+
+    @Test func aChosenFolderInsideAnOfferedOneIsNotWalkedAgain() async throws {
+        let directory = try TemporaryDirectory()
+        try trip(in: directory)
+        let cover = randomData(count: 4_000)
+        try directory.file("home/Documents/Trip/inside/cover.jpg", contents: cover)
+        try directory.file("home/Pictures/Trip/inside/cover.jpg", contents: cover)
+        try directory.file("home/Desktop/cover.jpg", contents: cover)
+
+        let result = try await scan(
+            directory, folders: ["home/Desktop", "home/Documents", "home/Pictures", "home/Pictures/Trip/inside"]
+        )
+
+        #expect(names(result) == [["Documents/Trip", "Pictures/Trip"]])
+        #expect(result.groups.isEmpty)
+    }
+
     /// Folders that differ in one file are not copies, and the files that do match are offered one by one.
     @Test func oneFileApartIsNoCopy() async throws {
         let directory = try TemporaryDirectory()
@@ -511,6 +537,30 @@ struct FolderDuplicateRemovalTests {
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
         #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
+    }
+
+    @Test func movingWhatTheScanSuggestsLeavesTheKeptFolderWhole() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
+        for folder in ["home/Desktop", "home/Documents/Trip", "home/Pictures/Trip"] {
+            try directory.file("\(folder)/photo.jpg", contents: contents)
+        }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let chosen = ["Desktop", "Documents/Trip", "Pictures/Trip"].map {
+            home.appending(path: $0, directoryHint: .isDirectory)
+        }
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: chosen))
+        let kept = try #require(scan.folderGroups.first?.folders.first?.url)
+
+        let result = await DuplicateRemoval.trash(
+            scan.suggestedSelection,
+            folders: scan.suggestedFolderSelection,
+            from: scan,
+            using: try service(in: directory)
+        )
+
+        #expect(result.failures.isEmpty)
+        #expect(FileManager.default.fileExists(atPath: kept.appending(path: "photo.jpg").path(percentEncoded: false)))
     }
 
     @Test func trashesAnUnchangedCopy() async throws {

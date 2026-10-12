@@ -193,8 +193,11 @@ public struct DuplicateFinder: Sendable {
 
         for folder in folders {
             guard !Task.isCancelled else { throw CancellationError() }
+            let root = folder.resolvingSymlinksInPath()
+            // A chosen folder is never an entry of its own walk, so one offered whole, or inside one, is skipped here.
+            guard !spokenFor.contains(Self.path(of: root)), !Self.isInside(spokenFor, root) else { continue }
             guard let enumerator = FileManager.default.enumerator(
-                at: folder.resolvingSymlinksInPath(),
+                at: root,
                 includingPropertiesForKeys: Array(keys),
                 options: [.skipsHiddenFiles, .skipsPackageDescendants],
                 errorHandler: { url, _ in
