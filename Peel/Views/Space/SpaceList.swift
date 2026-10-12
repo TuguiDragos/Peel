@@ -131,8 +131,32 @@ struct SpaceList: View {
                     .font(.caption)
                 }
             }
+            if #available(macOS 27, *), let models = space.models {
+                VStack(alignment: .leading, spacing: 2) {
+                    modelsLine(models)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Button {
+                        Navigator.shared.requestedTool = .developer
+                    } label: {
+                        Text("Open Developer")
+                            .minimumTarget()
+                    }
+                    .buttonStyle(.link)
+                    .font(.caption)
+                }
+            }
         }
         .padding(.vertical, 6)
+    }
+
+    @available(macOS 27, *)
+    private func modelsLine(_ total: SizeTotal) -> Text {
+        switch total.reading {
+        case .exactly(let size): Text("AI models and datasets take \(size.byteCount) on this Mac.")
+        case .atLeast(let size): Text("AI models and datasets take over \(size.byteCount) on this Mac.")
+        case .unknown: Text("Peel couldn’t measure the AI models and datasets on this Mac.")
+        }
     }
 }
 

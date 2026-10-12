@@ -689,6 +689,25 @@ struct DeveloperCachesTests {
         #expect(DeveloperCaches.FoldersLeftToDeveloper(home: directory.url).inside(caches).contains(["stanza"]))
     }
 
+    @Test func measuresOnlyTheModelsAndDatasetsItLists() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            ".ollama/models/blobs/sha256-1", ".ollama/logs/server.log", ".omlx/cache/0/block.safetensors",
+            ".cache/huggingface/hub/models--org--name/blobs/1",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let models = await DeveloperCaches.models(
+            in: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        )
+
+        let home = directory.url.path(percentEncoded: false)
+        let found = Set(models.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) })
+        #expect(found == [".ollama/models", ".cache/huggingface/hub"])
+        #expect(models.allSatisfy { $0.kind == .models && $0.size != nil })
+    }
+
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names
     /// it, for the folders Apple documents nowhere else.
     @Test func everyFolderNamesItsSource() {

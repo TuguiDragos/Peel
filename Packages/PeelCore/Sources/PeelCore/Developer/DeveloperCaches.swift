@@ -1383,6 +1383,26 @@ public enum DeveloperCaches {
         )
     }
 
+    /// The model weights and datasets the table names, found and measured as the Developer page finds them.
+    @concurrent
+    public static func models(
+        in environment: SearchEnvironment = .current, exclusions: Exclusions = .none
+    ) async -> [DeveloperEnvironment.Location] {
+        let models = definitions.compactMap { definition -> Definition? in
+            let folders = definition.folders.filter { $0.kind == .models }
+            guard !folders.isEmpty else { return nil }
+            return Definition(
+                id: definition.id, name: definition.name, systemImage: definition.systemImage,
+                appBundleIdentifiers: definition.appBundleIdentifiers, folders: folders
+            )
+        }
+        return await scan(
+            models, homeDirectory: environment.homeDirectory,
+            userCacheDirectory: environment.userCacheDirectory,
+            userTemporaryDirectory: environment.userTemporaryDirectory, exclusions: exclusions
+        ).flatMap(\.locations)
+    }
+
     /// One definition for each installed Electron app whose session data folder, `Application Support/<its name>` as
     /// Electron's `docs/api/app.md` puts it, holds the `Local State` Electron writes there. It lists only what Electron
     /// and Chromium name as caches, and VS Code's own for an editor built on VS Code, and an app a definition of the

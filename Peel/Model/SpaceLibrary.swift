@@ -17,6 +17,10 @@ final class SpaceLibrary: RowSelection {
     /// The area as it was, and the exclusions' revision, when its plan was made.
     @ObservationIgnored private var plannedFor: [SpaceItem.ID: (item: SpaceItem, exclusions: Int)] = [:]
     @ObservationIgnored private var canUseHelper = false
+    /// What the AI models and datasets the Developer page lists take, measured once the areas show; nil while there
+    /// are none, and before the first measurement.
+    private(set) var models: SizeTotal?
+    @ObservationIgnored private var modelsMeasurement = 0
 
     var selectedItem: SpaceItem? {
         report?.items.first { $0.id == selection }
@@ -138,6 +142,20 @@ final class SpaceLibrary: RowSelection {
         for (item, _, _) in made {
             await measureWhatIsLeftToDeveloper(in: item)
         }
+        if #available(macOS 27, *) {
+            await measureModels()
+        }
+    }
+
+    /// Measures the AI models and datasets after the areas, keeping the newest answer: a measurement that ends after
+    /// a newer one began, or is stopped, changes nothing.
+    @available(macOS 27, *)
+    private func measureModels() async {
+        modelsMeasurement += 1
+        let measurement = modelsMeasurement
+        let found = await DeveloperCaches.models(exclusions: ExclusionsStore.shared.exclusions)
+        guard !Task.isCancelled, measurement == modelsMeasurement else { return }
+        models = found.isEmpty ? nil : SizeTotal(found.map(\.size))
     }
 }
 

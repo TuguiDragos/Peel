@@ -10611,6 +10611,218 @@
         }
       }
     },
+    "AI models and datasets take %@ on this Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modely AI a datové sady zabírají v tomto Macu %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KI-Modelle und Datensätze belegen auf diesem Mac %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los modelos y conjuntos de datos de IA ocupan %@ en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modèles d’IA et les jeux de données occupent %@ sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I modelli e i dataset di IA occupano %@ su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AIモデルとデータセットは、このMacで%@を使用しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 모델 및 데이터 세트가 이 Mac에서 %@의 저장 공간을 차지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI-modellen en datasets nemen %@ in op deze Mac."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modele AI i zbiory danych zajmują %@ na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os modelos e conjuntos de dados de IA ocupam %@ neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelele IA și seturile de date ocupă %@ pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модели ИИ и наборы данных занимают на этом Mac %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI-modeller och datamängder tar upp %@ på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapay zekâ modelleri ve veri kümeleri bu Mac’te %@ yer kaplıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Моделі ШІ та набори даних займають на цьому Mac %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI模型和数据集在这台Mac上占用%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI模型和資料集在這部Mac上佔用%@。"
+          }
+        }
+      }
+    },
+    "AI models and datasets take over %@ on this Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modely AI a datové sady zabírají v tomto Macu přes %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KI-Modelle und Datensätze belegen auf diesem Mac über %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los modelos y conjuntos de datos de IA ocupan más de %@ en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modèles d’IA et les jeux de données occupent plus de %@ sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I modelli e i dataset di IA occupano oltre %@ su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AIモデルとデータセットは、このMacで%@以上を使用しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 모델 및 데이터 세트가 이 Mac에서 %@ 이상의 저장 공간을 차지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI-modellen en datasets nemen meer dan %@ in op deze Mac."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modele AI i zbiory danych zajmują ponad %@ na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os modelos e conjuntos de dados de IA ocupam mais de %@ neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelele IA și seturile de date ocupă peste %@ pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модели ИИ и наборы данных занимают на этом Mac более %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI-modeller och datamängder tar upp över %@ på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapay zekâ modelleri ve veri kümeleri bu Mac’te %@ üzeri yer kaplıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Моделі ШІ та набори даних займають на цьому Mac понад %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI模型和数据集在这台Mac上占用超过%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI模型和資料集在這部Mac上佔用超過%@。"
+          }
+        }
+      }
+    },
     "About Peel" : {
       "localizations" : {
         "cs" : {
@@ -105370,6 +105582,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法確保Homebrew會保留你的排除項目所涵蓋的formulae，因此未執行任何Homebrew指令。設定了HOMEBREW_NO_CLEANUP_FORMULAE的brew.env檔案會取代Peel提供給Homebrew的列表。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t measure the AI models and datasets on this Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl změřit modely AI a datové sady v tomto Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die KI-Modelle und Datensätze auf diesem Mac nicht messen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido medir los modelos y conjuntos de datos de IA que hay en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu mesurer l’espace occupé par les modèles d’IA et les jeux de données sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a misurare i modelli e i dataset di IA su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、このMacにあるAIモデルとデータセットのサイズを計測できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 Mac에 있는 AI 모델 및 데이터 세트의 크기를 측정할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de AI-modellen en datasets op deze Mac niet meten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zmierzyć modeli AI i zbiorów danych na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu medir os modelos e conjuntos de dados de IA neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut măsura modelele IA și seturile de date de pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось определить, сколько места занимают модели ИИ и наборы данных на этом Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte mäta AI-modellerna och datamängderna på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu Mac’teki yapay zekâ modellerini ve veri kümelerini ölçemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося виміряти розмір моделей ШІ та наборів даних на цьому Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能测量AI模型和数据集在这台Mac上占用的空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法測量AI模型和資料集在這部Mac上佔用的空間。"
           }
         }
       }
