@@ -25,6 +25,9 @@ final class CloudLibrary {
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
     private(set) var isFreeing = false
+    /// The downloads the running Remove Downloads has removed so far.
+    let freeing = MoveProgress()
+    @ObservationIgnored private var freeingTask: Task<CloudFreeing, Never>?
     private(set) var refusals: [CloudRefusal] = []
     /// `wasCutShort`: there is more than the list shows. `couldNotRead`: iCloud Drive couldn't be read at all.
     private(set) var wasCutShort = false
@@ -80,16 +83,25 @@ final class CloudLibrary {
         selectedURLs.formIntersection(Set(scan.files.map(\.url)))
     }
 
-    /// Frees the local copies of the selected files and returns the bytes freed: the selection less what was
-    /// refused. Nothing goes to the Trash, since each file stays in iCloud and there is nothing to put back.
+    /// Frees the local copies of the selected files and returns the bytes freed. Nothing goes to the Trash, since
+    /// each file stays in iCloud and there is nothing to put back.
     func freeSelected() async -> Int64 {
         isFreeing = true
         defer { isFreeing = false }
         let chosen = files?.filter { selectedURLs.contains($0.url) } ?? []
-        let refused = await CloudStorage.free(chosen, exclusions: ExclusionsStore.shared.exclusions)
-        let kept = Set(refused.map(\.url))
+        let exclusions = ExclusionsStore.shared.exclusions
+        let task = Task { [freeing] in
+            await freeing.run(toMove: chosen.count) { await CloudStorage.free(chosen, exclusions: exclusions) }
+        }
+        freeingTask = task
+        let done = await task.value
+        freeingTask = nil
         await refresh()
-        refusals = refused
-        return chosen.filter { !kept.contains($0.url) }.map(\.size).cappedSum
+        refusals = done.refused
+        return done.freed.map(\.size).cappedSum
+    }
+
+    func stopFreeing() {
+        freeingTask?.cancel()
     }
 }

@@ -136,17 +136,32 @@ struct CloudView: View {
         }
         .edgeBar(.bottom) {
             if cloud.files?.isEmpty == false {
-                RemovalBar(
-                    selectedSize: cloud.selectedSize,
-                    isScanning: cloud.isScanning,
-                    isWorking: cloud.isFreeing,
-                    scan: cloud.scanRun,
-                    isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
-                    onRemove: { isConfirming = true },
-                    title: "Remove Downloads",
-                    systemImage: "icloud.and.arrow.down",
-                    notice: freed
-                )
+                if #available(macOS 27, *) {
+                    RemovalBar(
+                        selectedSize: cloud.selectedSize,
+                        isScanning: cloud.isScanning,
+                        isWorking: cloud.isFreeing,
+                        scan: cloud.scanRun,
+                        isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
+                        onRemove: { isConfirming = true },
+                        title: "Remove Downloads",
+                        systemImage: "icloud.and.arrow.down",
+                        notice: freed,
+                        removal: (cloud.freeing, cloud.stopFreeing)
+                    )
+                } else {
+                    RemovalBar(
+                        selectedSize: cloud.selectedSize,
+                        isScanning: cloud.isScanning,
+                        isWorking: cloud.isFreeing,
+                        scan: cloud.scanRun,
+                        isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
+                        onRemove: { isConfirming = true },
+                        title: "Remove Downloads",
+                        systemImage: "icloud.and.arrow.down",
+                        notice: freed
+                    )
+                }
             }
         }
         .fadesInColumn(whenRowsChange: cloud.files?.map(\.id))

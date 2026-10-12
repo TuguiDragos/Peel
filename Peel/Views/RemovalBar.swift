@@ -35,6 +35,8 @@ struct RemovalBar: View {
     var progress: MoveProgress?
     /// The apps the page's removal waits for to quit.
     var waitingToQuit: String?
+    /// iCloud Drive's Remove Downloads: on macOS 27 the spinner says how far it got, and the button stops it.
+    var removal: (progress: MoveProgress, stop: () -> Void)?
 
     private enum Purpose {
         /// What the page itself selected, which `onRemove` acts on.
@@ -67,7 +69,8 @@ struct RemovalBar: View {
         systemImage: String = "trash",
         notice: BarNotice? = nil,
         progress: MoveProgress? = nil,
-        waitingToQuit: String? = nil
+        waitingToQuit: String? = nil,
+        removal: (progress: MoveProgress, stop: () -> Void)? = nil
     ) {
         purpose = .own(
             SizeTotal(known: selectedSize, isComplete: isSelectionMeasured),
@@ -82,6 +85,7 @@ struct RemovalBar: View {
         self.notice = notice
         self.progress = progress
         self.waitingToQuit = waitingToQuit
+        self.removal = removal
     }
 
     /// A bar for a page of the storage tools, whose selection travels to the others' pages.
@@ -155,6 +159,10 @@ struct RemovalBar: View {
                                 if isShowingScan {
                                     ReadSoFar(scan: scan)
                                         .foregroundStyle(.secondary)
+                                } else if #available(macOS 27, *), let removal, removal.progress.isMoving {
+                                    Text("Removed \(removal.progress.moved, format: .number) of \(removal.progress.toMove, format: .number)")
+                                        .monospacedDigit()
+                                        .foregroundStyle(.secondary)
                                 }
                             } else if isShowingMove, let moving {
                                 ProgressView()
@@ -197,8 +205,13 @@ struct RemovalBar: View {
                                     .foregroundStyle(.secondary)
                             }
                         } action: {
-                            Button(String(localized: title), systemImage: systemImage, action: reading.remove)
-                                .disabled(!isEnabled)
+                            if #available(macOS 27, *), isShowingWork, let removal, removal.progress.isMoving {
+                                Button("Stop", systemImage: "xmark", action: removal.stop)
+                                    .help(Text("Stop removing downloads"))
+                            } else {
+                                Button(String(localized: title), systemImage: systemImage, action: reading.remove)
+                                    .disabled(!isEnabled)
+                            }
                         }
                         .motion(value: isShowingMove)
                         .motion(value: isShowingWait)

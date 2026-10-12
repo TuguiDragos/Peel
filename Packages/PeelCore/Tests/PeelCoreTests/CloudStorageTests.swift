@@ -70,7 +70,7 @@ struct CloudStorageTests {
         let url = try directory.file("file.bin", bytes: 2_000_000)
         let scanned = CloudFile(url: url, name: "file.bin", container: "iCloud Drive", size: 2_000_000, modified: .distantPast)
 
-        let refused = await CloudStorage.free([scanned], exclusions: .none)
+        let refused = await CloudStorage.free([scanned], exclusions: .none).refused
 
         #expect(refused.map(\.url) == [url])
         #expect(refused.first?.reason == .changedSinceScan)
@@ -85,9 +85,9 @@ struct CloudStorageTests {
         let scanned = CloudFile(url: url, name: "file.bin", container: "iCloud Drive", size: 2_000_000, modified: .distantPast)
         let offline = Exclusions(paths: [directory.url.appending(path: "Offline", directoryHint: .isDirectory)])
 
-        #expect(await CloudStorage.free([scanned], exclusions: offline).map(\.reason) == [.excluded])
-        #expect(await CloudStorage.free([scanned], exclusions: .notYetRead).map(\.reason) == [.excluded])
-        #expect(await CloudStorage.free([scanned], exclusions: .unreadable).map(\.reason) == [.excluded])
+        #expect(await CloudStorage.free([scanned], exclusions: offline).refused.map(\.reason) == [.excluded])
+        #expect(await CloudStorage.free([scanned], exclusions: .notYetRead).refused.map(\.reason) == [.excluded])
+        #expect(await CloudStorage.free([scanned], exclusions: .unreadable).refused.map(\.reason) == [.excluded])
     }
 
     @Test func callsEachFolderWhatTheUserCallsIt() {
@@ -405,13 +405,53 @@ struct CloudStorageTests {
         )
         let scanned = try #require(collector.collected.files.first)
 
-        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true })
+        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
         let later: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(60)]
         try FileManager.default.setAttributes(later, ofItemAtPath: inside.path(percentEncoded: false))
-        let edited = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true })
+        let edited = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
 
         #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
         #expect(edited.map(\.reason) == [.changedSinceScan])
+    }
+
+    @Test func stopsBetweenFilesOnceItsTaskIsCancelled() async throws {
+        let directory = try TemporaryDirectory()
+        let files = try downloads(3, in: directory)
+
+        let done = await Task {
+            await CloudStorage.free(files, exclusions: .none, isSafe: { _ in true }) { _ in
+                withUnsafeCurrentTask { $0?.cancel() }
+            }
+        }.value
+
+        #expect(done.freed.map(\.url) == [files[0].url])
+        #expect(done.refused.isEmpty)
+    }
+
+    @Test func countsEachFileItFrees() async throws {
+        let directory = try TemporaryDirectory()
+        let files = try downloads(3, in: directory)
+        let counted = MoveCount()
+
+        let done = await MoveCount.$current.withValue(counted) {
+            await CloudStorage.free(files, exclusions: .none, isSafe: { _ in true }) { url in
+                if url == files[2].url { throw CocoaError(.fileLocking) }
+            }
+        }
+
+        #expect(done.freed.map(\.url) == [files[0].url, files[1].url])
+        #expect(done.refused.map(\.reason) == [.inUse])
+        #expect(counted.value == 2)
+    }
+
+    private func downloads(_ count: Int, in directory: borrowing TemporaryDirectory) throws -> [CloudFile] {
+        try (1...count).map { index in
+            let url = try directory.file("file\(index).bin", bytes: 2_000_000)
+            let modified = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+            return CloudFile(
+                url: url, name: url.lastPathComponent, container: "iCloud Drive", size: 2_000_000, modified: modified
+            )
+        }
     }
 
     /// A file a program holds, as the desktop picture is held, cannot be locked, and the person is told so.

@@ -54,6 +54,12 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
     public var id: URL { url }
 }
 
+/// What freeing the local copies did.
+public struct CloudFreeing: Sendable {
+    public var freed: [CloudFile] = []
+    public var refused: [CloudRefusal] = []
+}
+
 public enum CloudStorage {
     /// A file that frees less than this isn't worth a row in a list about space.
     public static let minimumSize: Int64 = 1_000_000
@@ -299,23 +305,28 @@ public enum CloudStorage {
         }
     }
 
-    /// Frees the local copies of `files` and returns the ones that were not freed. Each file is checked again
-    /// first, against `exclusions` as they are now as well: the list may have been on screen for hours, and a file
-    /// edited since then may exist in its newest form only on the local disk.
+    /// Frees the local copies of `files`, one at a time. Each file is checked again first, against `exclusions` as
+    /// they are now as well: the list may have been on screen for hours, and a file edited since then may exist in
+    /// its newest form only on the local disk.
     @discardableResult
     @concurrent
-    public static func free(_ files: [CloudFile], exclusions: Exclusions) async -> [CloudRefusal] {
+    public static func free(_ files: [CloudFile], exclusions: Exclusions) async -> CloudFreeing {
         await free(files, exclusions: exclusions, isSafe: isSafeToFree(_:))
     }
 
     @concurrent
     static func free(
-        _ files: [CloudFile], exclusions: Exclusions, isSafe: (URLResourceValues) -> Bool
-    ) async -> [CloudRefusal] {
-        var refused: [CloudRefusal] = []
+        _ files: [CloudFile],
+        exclusions: Exclusions,
+        isSafe: (URLResourceValues) -> Bool,
+        evict: (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) }
+    ) async -> CloudFreeing {
+        var done = CloudFreeing()
         for file in files {
+            // A stop lets the file iCloud is answering for finish, and nothing after it starts.
+            if Task.isCancelled { break }
             guard exclusions.isKnown, !exclusions.excludes(file.url) else {
-                refused.append(CloudRefusal(url: file.url, reason: .excluded))
+                done.refused.append(CloudRefusal(url: file.url, reason: .excluded))
                 continue
             }
             var url = file.url
@@ -328,16 +339,18 @@ public enum CloudStorage {
                     : values.isPackage == true
                         && package(url, values, exclusions: exclusions, unless: { false })?.modified == file.modified
             else {
-                refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
+                done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
                 continue
             }
             do {
-                try FileManager.default.evictUbiquitousItem(at: file.url)
+                try evict(file.url)
+                done.freed.append(file)
+                MoveCount.current?.add(1)
             } catch {
-                refused.append(CloudRefusal(url: file.url, reason: reason(for: error)))
+                done.refused.append(CloudRefusal(url: file.url, reason: reason(for: error)))
             }
         }
-        return refused
+        return done
     }
 
     /// Why freeing a file failed: `NSFileLockingError` when a program holds it, and macOS's own message otherwise.
